@@ -13,6 +13,7 @@ namespace Nabt.Program
 inductive Op where
   | readUtf8 | wordShape | startLearner | observeSource | withdrawSource
   | queryCue | applicationObligations
+  | startText | addText | removeText | queryText | replaceText
   deriving DecidableEq, Repr
 
 def opcode : Op → Nat
@@ -23,6 +24,11 @@ def opcode : Op → Nat
   | .withdrawSource => 12
   | .queryCue => 13
   | .applicationObligations => 20
+  | .startText => 30
+  | .addText => 31
+  | .removeText => 32
+  | .queryText => 33
+  | .replaceText => 34
 
 def decodeOpcode : Nat → Option Op
   | 1 => some .readUtf8
@@ -32,6 +38,11 @@ def decodeOpcode : Nat → Option Op
   | 12 => some .withdrawSource
   | 13 => some .queryCue
   | 20 => some .applicationObligations
+  | 30 => some .startText
+  | 31 => some .addText
+  | 32 => some .removeText
+  | 33 => some .queryText
+  | 34 => some .replaceText
   | _ => none
 
 theorem decode_opcode (op : Op) : decodeOpcode (opcode op) = some op := by
@@ -63,7 +74,7 @@ theorem assemble_injective : Function.Injective assemble := by
   simpa only [disassemble_assemble, Option.some.injEq] using t
 
 inductive Domain where
-  | start | text | learner | shapeResult | obligationsResult
+  | start | text | learner | shapeResult | obligationsResult | textTheory
   deriving DecidableEq, Repr
 
 def step : Domain → Op → Option Domain
@@ -74,6 +85,11 @@ def step : Domain → Op → Option Domain
   | .learner, .withdrawSource => some .learner
   | .learner, .queryCue => some .learner
   | .text, .applicationObligations => some .obligationsResult
+  | .start, .startText => some .textTheory
+  | .textTheory, .addText => some .textTheory
+  | .textTheory, .removeText => some .textTheory
+  | .textTheory, .queryText => some .textTheory
+  | .textTheory, .replaceText => some .textTheory
   | _, _ => none
 
 def run : Domain → List Op → Option Domain
@@ -125,5 +141,40 @@ theorem shape_does_not_enter_learner :
 
 theorem source_cannot_be_observed_before_learner :
     run .start [.observeSource] = none := rfl
+
+/-! The textual theory is a separate execution domain. Domain typing alone
+does not prove that a source was admitted, that a withdrawal names an active
+source, or that a source statement is true. Those are separate contracts. -/
+
+inductive TextEvent where
+  | add | remove | query | replace
+  deriving DecidableEq, Repr
+
+def textEventOp : TextEvent → Op
+  | .add => .addText
+  | .remove => .removeText
+  | .query => .queryText
+  | .replace => .replaceText
+
+theorem text_event_domain_preserved (event : TextEvent) :
+    step .textTheory (textEventOp event) = some .textTheory := by cases event <;> rfl
+
+theorem text_events_domain_preserved (events : List TextEvent) :
+    run .textTheory (events.map textEventOp) = some .textTheory := by
+  induction events with
+  | nil => rfl
+  | cons event events ih => simp [run, text_event_domain_preserved, ih]
+
+def compileText (events : List TextEvent) : List Op := .startText :: events.map textEventOp
+
+theorem compiled_text_typed (events : List TextEvent) :
+    run .start (compileText events) = some .textTheory := by
+  simp [compileText, run, step, text_events_domain_preserved]
+
+theorem text_source_requires_theory : run .start [.addText] = none := rfl
+
+theorem learner_cannot_query_theory : run .learner [.queryText] = none := rfl
+
+theorem theory_cannot_claim_shape : run .textTheory [.wordShape] = none := rfl
 
 end Nabt.Program

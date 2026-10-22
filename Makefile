@@ -3,7 +3,7 @@ LAKE ?= lake
 EVIDENCE_DIR ?= artifacts/local
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: test formal conformance learned-conformance property-conformance source-experiment axioms check benchmark demo
+.PHONY: test formal conformance learned-conformance property-conformance source-experiment text-evaluation axioms check benchmark demo
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -23,10 +23,13 @@ property-conformance:
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
 
+text-evaluation:
+	$(PYTHON) tools/text_inquiry_evaluation.py --output-dir $(EVIDENCE_DIR)/text-regression
+
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance source-experiment axioms
+check: test conformance learned-conformance property-conformance source-experiment text-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:

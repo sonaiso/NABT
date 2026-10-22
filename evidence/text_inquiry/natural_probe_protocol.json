@@ -1,0 +1,13 @@
+{
+  "schema": "nabt-independent-natural-source-probe-protocol-v1",
+  "source_manifest": "real_source_candidates.json",
+  "source_manifest_sha256": "77cf9e1cb3fad8771b822a16db8bb54a15e5ddf03970740dfd7f59f010111b5d",
+  "records": 12,
+  "reader_input": "The exact unmodified UTF-8 bytes in each original source interval. The excerpt is a new parsing source; the manifest separately retains its parent-book byte offsets and full-book SHA-256.",
+  "prohibited_transformations": ["normalization", "diacritic stripping", "markup cleaning", "authored controlled-Arabic restatement", "splitting off and admitting a convenient valid prefix"],
+  "expected_under_frozen_v1_grammar": "Each selected raw passage is outside the complete supported controlled grammar; preserve bytes, identify unsupported material, and reject whole-document semantic admission.",
+  "safety_success": "Original file pin and exact excerpt hashes validate; source restoration is byte-exact; residuals are nonempty; document acceptance is false; kernel admission is false.",
+  "semantic_coverage": "Number of raw excerpts fully admitted with the described source meaning divided by twelve. Expected safe rejection contributes zero coverage, not a correct semantic answer. An accepted parse requires independent semantic review before it counts.",
+  "limitations": "These are purposefully selected passages from books already packaged and visible to builders. They are not unseen sources, a sampled Arabic corpus, or a natural-language accuracy benchmark. Twelve safe rejections cannot establish natural-language comprehension.",
+  "episode_budget_seconds": 5.0
+}

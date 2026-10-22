@@ -1,0 +1,21 @@
+{
+  "task": "text_inquiry",
+  "scope": "research",
+  "events": [
+    {"op": "add", "source_id": "definitions", "text": "تعريف باحث هو شخص و مدقق. علاقة يراجع. إذا ?س هو باحث و ?س يراجع ?ص فإن ?ص هو مفحوص."},
+    {"op": "add", "source_id": "person", "text": "سالم هو شخص."},
+    {"op": "add", "source_id": "qualification", "text": "سالم هو مدقق."},
+    {"op": "add", "source_id": "relation", "text": "سالم يراجع تقرير."},
+    {"op": "query", "query_id": "report", "text": "هل تقرير هو مفحوص؟"},
+    {"op": "remove", "source_id": "qualification"},
+    {"op": "query", "query_id": "report", "text": "هل تقرير هو مفحوص؟"},
+    {"op": "add", "source_id": "qualification", "text": "سالم هو مدقق."},
+    {"op": "query", "query_id": "report", "text": "هل تقرير هو مفحوص؟"},
+    {"op": "add", "source_id": "opposition", "text": "ليس سالم هو مدقق."},
+    {"op": "query", "query_id": "report", "text": "هل تقرير هو مفحوص؟"},
+    {"op": "query", "query_id": "qualification", "text": "هل سالم هو مدقق؟"},
+    {"op": "remove", "source_id": "opposition"},
+    {"op": "add", "source_id": "transfer", "text": "مازن هو شخص. مازن هو مدقق. مازن يراجع بحث."},
+    {"op": "query", "query_id": "transfer", "text": "هل بحث هو مفحوص؟"}
+  ]
+}

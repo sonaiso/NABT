@@ -1,0 +1,123 @@
+{
+  "schema": "nabt-published-text-evaluation-replay-v1",
+  "evaluation_role": "post-publication regression",
+  "passed": true,
+  "data_root": "/workspace/scratch/6e4178bfef09/nabt_integration/NABT/evidence/text_inquiry",
+  "code_freeze": "/workspace/scratch/6e4178bfef09/nabt_integration/NABT/evidence/text_inquiry/code_freeze_reserve20.json",
+  "summaries": {
+    "controlled": {
+      "episodes": 60,
+      "episodes_passed": 60,
+      "query_checkpoints": 126,
+      "query_checkpoints_passed": 126,
+      "elapsed_seconds": 0.12188317999971332,
+      "by_family": {
+        "definitions": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "facts": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "relations": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "revision": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "rules": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "uncertainty": {
+          "episodes": 10,
+          "passed": 10
+        }
+      },
+      "error_classes": {}
+    },
+    "natural": {
+      "raw_book_spans": 12,
+      "safety_passed": 12,
+      "fully_admitted": 0,
+      "semantic_successes_confirmed": 0,
+      "semantic_coverage_denominator": 12,
+      "note": "A safe unsupported result contributes zero semantic coverage. Any unexpected admission needs independent semantic review."
+    },
+    "attacks": {
+      "probes": 37,
+      "passed": 37,
+      "failed_ids": [],
+      "scope": "Public-contract adversarial probes and valid controls; separate from heldout controlled-Arabic accuracy."
+    },
+    "plans": {
+      "reviewer_regression_scenarios": 7,
+      "passed": 7,
+      "plans_replayed": 7,
+      "invalid_returned_plans": 0,
+      "note": "Created after an independent root-review counterexample; not part of the sealed 60-episode language benchmark."
+    },
+    "boundaries": {
+      "probes": 3,
+      "passed": 3,
+      "failed_ids": [],
+      "note": "Caller-created parsed ASTs cannot grant claims or erase residual source material. Added after first40 without seeing hidden reserve cases."
+    },
+    "baseline": {
+      "first40": {
+        "episodes": 40,
+        "status_episode_passed": 20,
+        "checkpoints": 81,
+        "status_checkpoints_passed": 56,
+        "answers": 21,
+        "correct_answers": 21,
+        "sufficient_evidence_queries": 41,
+        "answer_precision": 1.0,
+        "justified_coverage": 0.5121951219512195,
+        "baseline_status_counts": {
+          "UNKNOWN": 52,
+          "SUPPORTED": 15,
+          "REFUTED": 6,
+          "CONFLICT": 8
+        }
+      },
+      "reserve20": {
+        "episodes": 20,
+        "status_episode_passed": 8,
+        "checkpoints": 45,
+        "status_checkpoints_passed": 28,
+        "answers": 8,
+        "correct_answers": 7,
+        "sufficient_evidence_queries": 20,
+        "answer_precision": 0.875,
+        "justified_coverage": 0.35,
+        "baseline_status_counts": {
+          "UNKNOWN": 36,
+          "SUPPORTED": 4,
+          "REFUTED": 4,
+          "CONFLICT": 1
+        }
+      },
+      "all": {
+        "episodes": 60,
+        "status_episode_passed": 28,
+        "checkpoints": 126,
+        "status_checkpoints_passed": 84,
+        "answers": 29,
+        "correct_answers": 28,
+        "sufficient_evidence_queries": 61,
+        "answer_precision": 0.9655172413793104,
+        "justified_coverage": 0.45901639344262296,
+        "baseline_status_counts": {
+          "UNKNOWN": 88,
+          "SUPPORTED": 19,
+          "REFUTED": 10,
+          "CONFLICT": 9
+        }
+      }
+    }
+  }
+}
