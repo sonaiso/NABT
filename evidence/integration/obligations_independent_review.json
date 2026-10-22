@@ -1,0 +1,264 @@
+{
+  "schema": "nabt.independent-obligations-review.v1",
+  "recorded_at_utc": "2026-10-22T21:51:56.131744+00:00",
+  "reviewer_role": "Independent numerical bridge implementation agent; not the obligations author",
+  "review_status": "PASS_AFTER_TWO_FIXES",
+  "file_sha256": {
+    "src/nabt/obligations.py": "18094827e05e492ae8856f9c7f35d37826ba6d7760e35c3e6c65c9a5e70f2f62",
+    "tests/test_obligations.py": "445dd874366c4046719512843a33ec489961d15d20728458c1a05d142d500a29",
+    "formal/Nabt/Obligations.lean": "bf1239754ac0bd97b7a2b7b302a9f414aa88c1b214a8579aa51b563fc3384755",
+    "docs/OBLIGATIONS.md": "950e30545b38ee75e8d5b413b9f22423face7620f1106a05001995dcd9c83752"
+  },
+  "matched_final_hashes_supplied_by_author": true,
+  "files_unchanged_during_targeted_retest": true,
+  "review_method": [
+    "Read actual runtime algorithm, formal statements/proofs, boundary tests and final scope documentation",
+    "Reproduced two concrete defects before fixes",
+    "Independently reran targeted public-boundary witnesses against the recorded final file hashes"
+  ],
+  "findings": [
+    {
+      "id": "COMPILED_FROZEN_FIELDS_NOT_REPLAYED",
+      "state": "FIXED_AND_INDEPENDENTLY_RETESTED",
+      "before_fix": [
+        "Force-changing Atom(A) instructions to TRUE produced LICENSED with the original program_id",
+        "Force-changing relevant_mask to zero changed contradictory A support from CONFLICT to LICENSED",
+        "Force-changing a nested proposition source returned changed source identity under the original registry_id"
+      ],
+      "fix": "evaluate and program as_dict rebuild from a primitive immutable input snapshot, compare all derived public fields, and compute from the rebuilt validated program",
+      "verification": "22 evaluate/as_dict attack consumers rejected with INVALID_COMPILED_OBLIGATIONS; original contradictory-support witness also rejected"
+    },
+    {
+      "id": "REPEATED_PLAN_IDENTITIES_EXPAND_OUTPUT",
+      "state": "FIXED_AND_INDEPENDENTLY_RETESTED",
+      "before_fix": {
+        "registry_atoms": 20,
+        "long_identity_fields_per_atom": 6,
+        "bytes_per_long_field": 8192,
+        "atom_names": "p00 through p19",
+        "formula": "AND of ten pairwise-disjoint two-atom OR clauses",
+        "raw_registry_identity_bytes": 983100,
+        "minimal_plans": 1024,
+        "plan_identity_occurrences": 10240,
+        "minimum_serialized_identity_text_bytes": 503347200,
+        "all_default_search_budgets_satisfied": true
+      },
+      "fix": "Exact compact UTF-8 JSON size preflight, with per-identity size caching, JSON-escape accounting and arithmetic repetition; defaults to 8000000 bytes and checks evaluate plus result as_dict",
+      "verification": "Original ASCII and control-character variants now raise RESOURCE_LIMIT / DEFER before expanded JSON allocation"
+    }
+  ],
+  "targeted_verification": {
+    "consumer_attack_count": 22,
+    "consumer_attack_results": [
+      {
+        "attack": "instructions_replaced_by_true",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "instructions_replaced_by_true",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "relevant_mask_erased",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "relevant_mask_erased",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "boolean_relevant_mask_alias",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "boolean_relevant_mask_alias",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "nested_proposition_source_changed",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "nested_proposition_source_changed",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "nested_registry_id_changed",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "nested_registry_id_changed",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "context_changed",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "context_changed",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "allowed_contexts_changed",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "allowed_contexts_changed",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "limit_changed_to_boolean",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "limit_changed_to_boolean",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "private_snapshot_malformed",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "private_snapshot_malformed",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "registry_replaced_by_none",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "registry_replaced_by_none",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "boolean_instruction_index_alias",
+        "consumer": "evaluate",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      },
+      {
+        "attack": "boolean_instruction_index_alias",
+        "consumer": "as_dict",
+        "code": "INVALID_COMPILED_OBLIGATIONS",
+        "status": "REJECT"
+      }
+    ],
+    "original_contradictory_support_attack": {
+      "positive_mask": 1,
+      "negative_mask": 1,
+      "code": "INVALID_COMPILED_OBLIGATIONS",
+      "status": "REJECT"
+    },
+    "exact_json_size_cases": {
+      "count": 64,
+      "formula": "A OR B, with C an unreferenced registry proposition",
+      "positive_masks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "negative_masks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_characters": [
+        "Arabic",
+        "emoji",
+        "NUL",
+        "newline",
+        "backslash",
+        "double quote"
+      ],
+      "covers_relevant_and_out_of_scope_conflicts": true,
+      "encoding": "json.dumps(..., ensure_ascii=False, sort_keys=True, separators=(comma, colon)).encode(UTF-8)",
+      "all_estimates_equal_actual_bytes": true
+    },
+    "maximum_registry_mask_boundary": {
+      "registry_atoms": 4096,
+      "pending_plan_bit_length": 4096,
+      "exact_compact_json_bytes": 5862,
+      "estimator_matches_actual": true
+    },
+    "large_output_witnesses": [
+      {
+        "identity_fill": "ASCII x",
+        "code": "RESOURCE_LIMIT",
+        "status": "DEFER",
+        "maximum_compact_json_bytes": 8000000,
+        "bytes_at_least_when_preflight_stopped": 8044676,
+        "expanded_large_json_materialized": false
+      },
+      {
+        "identity_fill": "U+0000",
+        "code": "RESOURCE_LIMIT",
+        "status": "DEFER",
+        "maximum_compact_json_bytes": 8000000,
+        "bytes_at_least_when_preflight_stopped": 8265464,
+        "expanded_large_json_materialized": false
+      }
+    ]
+  },
+  "scope": [
+    "The algebra is conditional on the declared finite positive formula and supplied positive/negative support masks",
+    "Plans are inclusion-minimal, not necessarily minimum cardinality; shared atoms and correlated alternatives are preserved",
+    "Equal duplicate plans are removed before strict-containment minimization",
+    "Relevant conflicts precede projection even under absorbing constants; unrelated conflicts remain visible without changing this formula verdict",
+    "Source, occurrence, reading, context, definition and policy are exact opaque identity fields; this module does not authenticate evidence or validate source byte spans",
+    "Context permissions are declared computational permissions, not external linguistic authorization",
+    "Lean statements concern the declared algebra; Python replay, serialization and bounded execution are independently tested runtime boundaries",
+    "This review does not establish source truth, general Arabic grammatical coverage, semantic correctness or a real-world judgment",
+    "No broad optional test sweep was added; this record reruns the reported targeted counterexamples and boundary checks"
+  ],
+  "remaining_review_findings": []
+}

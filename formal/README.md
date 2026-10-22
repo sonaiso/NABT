@@ -14,7 +14,7 @@ lake exe exportTable > generated/law.json
 ```
 
 The default `lake build` also builds both the complete library and the table
-exporter. `Audit.lean` checks that every entry in its 62-theorem manifest is an
+exporter. `Audit.lean` checks that every entry in its declaration manifest is an
 actual compiled theorem, collects its transitive axioms, and fails on an axiom
 outside `propext`, `Classical.choice`, and `Quot.sound`. It additionally checks
 every compiled declaration whose name starts with `Nabt.`. The successful
@@ -32,6 +32,12 @@ the corresponding declaration list.
 | `Nabt.Count` | The recursive count equals the length of a separate specification that enumerates all bounded strings and then filters by weight and final state. The specification is sound, complete within its explicit bound, and duplicate-free for a duplicate-free alphabet. Reference ranking and unranking are inverses; ranks are below the count. |
 | `Nabt.Law` | The external-to-SLGE alphabet permutation is invertible and preserves marks. All 97×116 transitions stay inside the state space. The dead state is absorbing. The local potential inequality holds for every live transition, yielding a general bound on accepted suffix length. Specific correct/incorrect alif cases are checked. |
 | `Nabt.BoundedLaw` | The bound `3*w + pot(q)` covers **every** licensed string of weight `w` from a live state `q`. The resulting enumeration is exact and duplicate-free, and the count is its cardinality. Zero-cost licensed suffixes are included. |
+| `Nabt.Acquisition`, `Nabt.LearnedModel` | Conditional transition-model preservation for all finite sequences, and kernel verification of the specific acquired bit-decision procedure against every primitive transition. |
+| `Nabt.Bridges` | Invertible carrier/mark permutations and sequence/number bridges across the declared Alghanem, Mashru and NABT codecs; explicit little-endian versus big-endian distinction. |
+| `Nabt.RuleLearning` | Version-space elimination, retention of consistent hypotheses, conditional consensus and progress after distinguishing observations. |
+| `Nabt.PropertyEvidence` | Exact replay bindings and readiness, unknown versus false, conflict precedence and per-bit numeric projection of required evidence. |
+| `Nabt.Obligations` | Named identity isolation, monotonic positive formulas, inclusion-minimal completion families, soundness/completeness, no-completion characterization and conflict-before-projection. |
+| `Nabt.Program` | Instruction-number identity and list assembly roundtrip, compositional domain transitions and typing of compiler forms. Operand decoding and Python refinement are not claimed. |
 
 These are theorem statements about specified mathematical objects. The
 manifest count includes supporting lemmas and regression witnesses; it is not
