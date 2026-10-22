@@ -32,23 +32,31 @@ def catalog(snapshots):
         ).strip()
         if head != item["commit"]:
             raise ValueError(f"Snapshot differs from pin: {item['repository']}")
-        files = subprocess.run(
-            ["rg", "--files", "-g", "*.lean"],
-            cwd=root,
-            text=True,
-            capture_output=True,
-            check=False,
+        # Enumerate the committed tree, not the checkout.  HEAD equality does
+        # not exclude modified tracked files, untracked files or symlinks.
+        # NUL separation preserves every legal Git path, including newlines.
+        tree = subprocess.check_output(
+            ["git", "-C", str(root), "ls-tree", "-r", "-z", "--full-tree", head]
         )
-        if files.returncode not in (0, 1):
-            raise ValueError("Cannot enumerate snapshot")
+        files = []
+        for entry in tree.split(b"\0"):
+            if not entry:
+                continue
+            metadata, raw_path = entry.split(b"\t", 1)
+            mode, kind, object_id = metadata.split(b" ")
+            relative = raw_path.decode("utf-8", "strict")
+            if kind == b"blob" and mode in {b"100644", b"100755"} and relative.endswith(".lean"):
+                files.append((relative, object_id.decode("ascii")))
         entries = []
-        for relative in sorted(files.stdout.splitlines()):
+        for relative, object_id in sorted(files):
             if any(
                 part in {".lake", "vendor", "node_modules"}
                 for part in Path(relative).parts
             ):
                 continue
-            raw = (root / relative).read_bytes()
+            raw = subprocess.check_output(
+                ["git", "-C", str(root), "cat-file", "blob", object_id]
+            )
             code = lean_code_without_comments_or_strings(raw.decode("utf-8", "strict"))
             declarations = [
                 {

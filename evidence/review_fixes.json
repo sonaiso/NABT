@@ -1,0 +1,20 @@
+{
+  "schema": "nabt.review-fixes.v1",
+  "checked_at_utc": "2026-10-22T22:38:30.805654+00:00",
+  "base_commit": "0182987c585edb3cb52959c167d3d2b16ebfd211",
+  "findings": [
+    {
+      "review": "https://github.com/sonaiso/NABT/pull/1#discussion_r4354008001",
+      "fix": "Read regular-file blobs enumerated from the pinned Git tree; ignore working tree edits, untracked files and symlinks.",
+      "verification": "Pinned bytes recovered after tracked modification, tracked deletion and untracked addition; inventory regenerated from all nine Git snapshots exactly matches the published 4231 declarations."
+    },
+    {
+      "review": "https://github.com/sonaiso/NABT/pull/1#discussion_r4354008072",
+      "fix": "Map preliminary source ValueError/KeyError to INSTALLED_CONTRACT_FAILED/DEFER while retaining NabtError classification.",
+      "verification": "CLI error JSON on stderr, DEFER exit 3, and existing REJECT exit 2 exercised."
+    }
+  ],
+  "targeted_test_count": 19,
+  "targeted_tests_passed": true,
+  "kernel_or_language_law_changed": false
+}

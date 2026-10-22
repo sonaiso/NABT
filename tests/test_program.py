@@ -4,6 +4,7 @@ import io
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from nabt.cli import main
@@ -41,6 +42,24 @@ def learning_request():
 
 
 class ProgramTests(unittest.TestCase):
+    def test_pilot_preliminary_source_failure_has_structured_exit(self):
+        for error in (ValueError("digest mismatch"), KeyError("missing context")):
+            with self.subTest(error=type(error).__name__):
+                output = io.StringIO()
+                with patch("nabt.learning.default_pilot", side_effect=error), contextlib.redirect_stderr(output):
+                    code = main(["pilot"])
+                report = json.loads(output.getvalue())
+                self.assertEqual(code, 3)
+                self.assertEqual(report["status"], "DEFER")
+                self.assertEqual(report["code"], "INSTALLED_CONTRACT_FAILED")
+
+    def test_pilot_preserves_existing_nabt_failure_classification(self):
+        output = io.StringIO()
+        with patch("nabt.learning.default_pilot", side_effect=NabtError("TEST_REJECT", "rejected")), contextlib.redirect_stderr(output):
+            code = main(["pilot"])
+        self.assertEqual(code, 2)
+        self.assertEqual(json.loads(output.getvalue())["code"], "TEST_REJECT")
+
     def test_exact_compiler_wire_and_integer_roundtrip(self):
         program = compile_request({"task": "word_shape", "text": "كَتَبَ"})
         # A literal reference packet, not a call to the production serializer.

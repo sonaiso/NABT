@@ -126,7 +126,16 @@ def run(args) -> tuple[dict, int]:
             return report, 0 if report["valid"] else (3 if report["status"] == "DEFER" else 2)
         if command == "pilot":
             from .learning import default_pilot
-            records = default_pilot().observed_records()
+            try:
+                records = default_pilot().observed_records()
+            except NabtError:
+                raise
+            except (ValueError, KeyError) as error:
+                raise NabtError(
+                    "INSTALLED_CONTRACT_FAILED",
+                    "Installed source contract could not be replayed",
+                    status="DEFER",
+                ) from error
             events = [{"op": "observe", "record_id": row.record_id} for row in records]
             events += [{"op": "query", "cue": ["مررت", "ب"], "query_id": "comparison"},
                        {"op": "withdraw", "record_id": records[2].record_id},
