@@ -33,6 +33,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Trusted artifact and source checks
         run: python tools/check_integrity.py
+      - name: Learned artifact matches its deterministic acquisition
+        run: python tools/export_learned_model.py --check
 
   formal:
     runs-on: ubuntu-24.04

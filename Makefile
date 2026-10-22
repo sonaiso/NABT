@@ -2,7 +2,7 @@ PYTHON ?= python3
 LAKE ?= lake
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: test formal conformance axioms check benchmark demo
+.PHONY: test formal conformance learned-conformance axioms check benchmark demo
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -13,10 +13,13 @@ formal:
 conformance:
 	$(PYTHON) tools/check_conformance.py --lake $(LAKE)
 
+learned-conformance:
+	$(PYTHON) tools/export_learned_model.py --check
+
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE)
 
-check: test conformance axioms
+check: test conformance learned-conformance axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:

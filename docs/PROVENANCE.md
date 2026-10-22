@@ -9,6 +9,7 @@ the research definitions consulted, not runtime dependencies.
 | Mashru SLGE | `df6bcc9eb9b536db3684cc8a2eb773c2c9f01136` | 97-state sound-shape law; contextual weight; bounded count and ordering |
 | Alghanem official branch | `cb3947719edb41cff1cad213ce2585fefe09ae5a` | A116 carrier/state identity; operation-preservation contracts; source/rank separation |
 | alghanem-constitution | `f75a43b9f4ed3df059f1feb832f48d96e6f846ba` | Residual restoration and conditional composition boundaries |
+| sonaiso/Taaqol-GPT | `91dad107a7d56e6e05cce4ab54c3d63e5bdf5482` | Identity, bounded operation authority, visible residuals, alternative retention, replay at consumption; audited design input only |
 
 Primary definitions:
 
@@ -26,6 +27,13 @@ The symbolic carriers represent a declared Arabic inventory, not a learned
 classifier over recorded acoustic waveforms. Sukun is a state, not a fourth
 short vowel. Carrier count, cell length, consonant weight, and root arity are
 different quantities.
+
+The Taaqol audit and native NABT foundation are documented in
+`docs/TAAQOL_FOUNDATION.md` and `evidence/taaqol-audit.md`. No Taaqol runtime,
+stage registry, evidence-rank threshold, or integration dependency was imported.
+The bit-decision learner and symbolic forest are new native implementations.
+The learned procedure preserves the existing law; this provenance reference
+does not authorize new linguistic rules or new semantic claims.
 
 The earlier 42-state Alghanem acceptance law is not silently equated to the
 97-state law. In particular, NABT's selected law rejects mismatching alif
