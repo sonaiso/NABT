@@ -1,0 +1,56 @@
+name: NABT proof and runtime gates
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Independent runtime tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -v
+      - name: Trusted artifact and source checks
+        run: python tools/check_integrity.py
+
+  formal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install decompressor
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zstd
+      - name: Install hash-verified Lean 4.34.1
+        run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+      - name: Kernel build and full export conformance
+        run: python tools/check_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Audit theorem assumptions
+        run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
