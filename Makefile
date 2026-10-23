@@ -2,13 +2,15 @@ PYTHON ?= python3
 LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
-TEXT_CODE_FREEZE ?= evidence/discourse/code_freeze_v4.json
+# Change both selectors only after the evaluator registries pin the new freeze.
+RUNTIME_FREEZE_VERSION ?= constructions_v4
+TEXT_CODE_FREEZE ?= evidence/constructions/code_freeze_v4.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms check benchmark demo
+.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms check benchmark demo
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -38,7 +40,7 @@ morphology-conformance:
 	$(PYTHON) tools/check_morphology_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/morphology-conformance.json
 
 morphology-evaluation:
-	$(PYTHON) tools/morphology_evaluation.py --freeze-version discourse_v4 --output $(EVIDENCE_DIR)/morphology-regression.json --allow-documented-boundaries
+	$(PYTHON) tools/morphology_evaluation.py --freeze-version $(RUNTIME_FREEZE_VERSION) --output $(EVIDENCE_DIR)/morphology-regression.json --allow-documented-boundaries
 
 text-evidence-conformance:
 	$(PYTHON) tools/check_text_evidence_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/text-evidence-conformance.json
@@ -73,6 +75,12 @@ discourse-conformance:
 person-conformance:
 	$(PYTHON) tools/check_person_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/person-conformance.json
 
+construction-conformance:
+	$(PYTHON) tools/check_construction_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/construction-conformance.json
+
+construction-evaluation:
+	$(PYTHON) tools/construction_evaluation.py --runtime-root $(CURDIR) --runtime-freeze $(TEXT_CODE_FREEZE) --allow-documented-boundaries --output $(EVIDENCE_DIR)/construction-regression.json
+
 discourse-evaluation:
 	$(PYTHON) tools/fetch_qac_source.py --output $(QAC_SOURCE)
 	$(PYTHON) tools/discourse_evaluation.py --qac $(QAC_SOURCE) --runtime-freeze $(TEXT_CODE_FREEZE) --output $(EVIDENCE_DIR)/discourse-regression.json --allow-documented-boundaries
@@ -90,12 +98,12 @@ governor-evaluation:
 	$(PYTHON) tools/governor_evaluation.py --code-freeze $(TEXT_CODE_FREEZE) --output-dir $(GOVERNOR_EVALUATION_DIR) --require-regression-gates
 
 word-evaluation:
-	$(PYTHON) tools/word_evaluation.py --freeze-version discourse_v4 --output $(EVIDENCE_DIR)/word-regression.json --require-regression-gates
+	$(PYTHON) tools/word_evaluation.py --freeze-version $(RUNTIME_FREEZE_VERSION) --output $(EVIDENCE_DIR)/word-regression.json --require-regression-gates
 
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:

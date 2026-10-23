@@ -1,0 +1,521 @@
+{
+  "schema": "nabt-source-admission-boundary-regressions-v1",
+  "code_freeze": {
+    "schema": "nabt-independent-evaluation-code-freeze-v1",
+    "utc": "2026-10-23T20:49:11.361240+00:00",
+    "repository_head": "83c14b282d7e1e71367682e786453b956bec53e3",
+    "repository_status": " M .github/workflows/ci.yml\n M CHANGELOG.md\n M Makefile\n M README.md\n M docs/CONSTRUCTIONS.md\n M docs/CONSTRUCTIONS_EVALUATION.md\n M formal/Audit.lean\n M formal/ExportConstructionEvidence.lean\n M formal/Nabt/ConstructionEvidence.lean\n M formal/theorems.json\n M pyproject.toml\n M src/nabt/__init__.py\n M src/nabt/construction_complements.py\n M src/nabt/construction_laws.py\n M src/nabt/construction_nominals.py\n M src/nabt/construction_reader.py\n M src/nabt/construction_sources.py\n M src/nabt/data/construction_evidence.json\n M src/nabt/data/source_evidence/construction_policy.json\n M src/nabt/discourse.py\n M src/nabt/discourse_reader.py\n M tests/test_arabic_evaluation.py\n M tests/test_construction_evaluator.py\n M tests/test_construction_laws.py\n M tests/test_construction_reader.py\n M tests/test_discourse_evaluator.py\n M tests/test_discourse_reader.py\n M tools/arabic_syntax_evaluation.py\n M tools/check_construction_conformance.py\n M tools/check_integrity.py\n M tools/construction_evaluation.py\n M tools/discourse_evaluation.py\n M tools/governor_evaluation.py\n M tools/inflection_cli_evaluation.py\n M tools/inflection_evaluation.py\n M tools/morphology_evaluation.py\n M tools/verify_construction_package.py\n M tools/word_evaluation.py\n?? docs/CONSTRUCTIONS_SOURCE_REVIEW_V3.md\n?? evidence/constructions/README_v3_addendum.md\n?? evidence/constructions/agreement_review/\n?? evidence/constructions/alif_template_review/\n?? evidence/constructions/attachment_review/\n?? evidence/constructions/code_freeze_v3.json\n?? evidence/constructions/code_freeze_v3.tar.gz\n?? evidence/constructions/comparison_v3/\n?? evidence/constructions/context_name_review/\n?? evidence/constructions/legacy_discourse_review_v2/\n?? evidence/constructions/operator_dispatch_review/\n?? evidence/constructions/operator_wh_review/\n?? evidence/constructions/predicate_agreement_review/\n?? evidence/constructions/prefix_review/\n?? evidence/constructions/query_agreement_review/\n?? evidence/constructions/review_fixes_v3/\n?? tests/test_construction_attachment_review.py\n?? tests/test_construction_package_verifier.py\n?? tests/test_construction_review.py\n?? tests/test_context_name_agreement.py\n?? tests/test_query_predicate_agreement.py\n",
+    "file_selection": "Authoritative source, configuration, and packaged data; generated .egg-info/.dist-info metadata is excluded.",
+    "package_version": "0.14.0a3",
+    "runtime_selection": "constructions_v4",
+    "language_id": "nabt.arabic-discourse-frames.v4",
+    "reader_version": "nabt.discourse-reader.v4",
+    "independent_gold_opened_by_implementer": true,
+    "measurement_status": "POST_REVIEW_ON_OPENED_MATERIAL",
+    "previous_manifest_sha256": "23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611",
+    "independent_material_freeze_sha256": "5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e",
+    "review_materials": [
+      {
+        "path": "evidence/constructions/agreement_review/material_freeze_v1.json",
+        "bytes": 1433,
+        "sha256": "5087d5c5525c42f6f65aff925aee7943190b522505858576389d22a88eefb957"
+      },
+      {
+        "path": "evidence/constructions/alif_template_review/material_freeze_v1.json",
+        "bytes": 1605,
+        "sha256": "69b3c68be10770ecc6288bdacec64591474e3b8685d53ca2971f568925198c45"
+      },
+      {
+        "path": "evidence/constructions/attachment_review/material_freeze_v1.json",
+        "bytes": 786,
+        "sha256": "2b3b1db96f8af2d344aa9dbfc2d6606eb418a1dc405ebfd372c1f8e81afdfa23"
+      },
+      {
+        "path": "evidence/constructions/context_name_review/material_freeze_v1.json",
+        "bytes": 1304,
+        "sha256": "db70a1ccad6ba0114b4fb1dbdaa93e7561a616c27cfcc5ea18191d0603741a58"
+      },
+      {
+        "path": "evidence/constructions/operator_dispatch_review/material_freeze_v1.json",
+        "bytes": 1180,
+        "sha256": "c54ff94d45dfabc3a598bd0e576dcac49f889a4651e164116e19ecd17d689c8a"
+      },
+      {
+        "path": "evidence/constructions/operator_wh_review/material_freeze_v1.json",
+        "bytes": 780,
+        "sha256": "9a785d2a3346565585664e40d2032768f8275ec763df2c6e9fa87781e68039a7"
+      },
+      {
+        "path": "evidence/constructions/prefix_review/conjunction_supplement/material_freeze_v1.json",
+        "bytes": 837,
+        "sha256": "3c8a92883f68ef4b43074fdf0e0e365493a9bf2d3b54f79d8aa4520b015ac7ce"
+      },
+      {
+        "path": "evidence/constructions/prefix_review/material_freeze_v1.json",
+        "bytes": 833,
+        "sha256": "b8617c47eeab20f51cb624a2e37d934521469c157300fcea2766ce3d44902ffe"
+      },
+      {
+        "path": "evidence/constructions/query_agreement_review/claim_edge_supplement/material_freeze_v1.json",
+        "bytes": 943,
+        "sha256": "c5519dee8842f982b22a1126c8c2c2a48bdf4089c4feed94756fecac69f95298"
+      },
+      {
+        "path": "evidence/constructions/query_agreement_review/material_freeze_v1.json",
+        "bytes": 1418,
+        "sha256": "395f365e0773a0b2530fae9c1bba7f4e1c109b6827c1f175d592700507f287f0"
+      }
+    ],
+    "previous_release_blocker": "Legacy discourse v3 measured 40/86 against v2 57/86. Its gate was not approved. See legacy_discourse_review_v2/comparison_before_gate.json.",
+    "review_scope": [
+      "A context-only personal name may use an explicitly bound singular-person semantic profile without acquiring or overriding lexical noun traits.",
+      "Adjectival person questions preserve typed variable constraints and discharge them only against a uniquely qualified source predication and its reference; a source analysis with distinct claims cannot lend an agreement edge across their time, place or operator scope. Questions remain nonassertive.",
+      "Recognized-but-rejected operator readings cannot fall through to legacy spelling-only frames, including time/place questions.",
+      "Consumed particles and conjunctions preserve explicit contrary vocalization.",
+      "Accusative-carrier witnesses must share a directly equal internal source template and remain bound to the original reading.",
+      "Direct adjective predication checks source gender/number on the selected subject edge under construction law v2; common-gender pronoun reference is recorded separately.",
+      "Temporal/spatial attachment selects the head of the qualified typed claim rather than a relative-clause verb."
+    ],
+    "review_material_note": "Authored adversarial regressions after defects were observed, frozen before their fixes. They are not blind holdout or natural-corpus accuracy and are separate from the unchanged 86-case suite.",
+    "files": [
+      {
+        "path": "pyproject.toml",
+        "bytes": 814,
+        "sha256": "ad3d71132ba97586b912e78365b7b7f79c135c8c0dae83981796ed94ec4464ad"
+      },
+      {
+        "path": "src/nabt/__init__.py",
+        "bytes": 950,
+        "sha256": "e652555aaafe7567da008440796d4fdef0dda1619073cb9fab89ae08651930f0"
+      },
+      {
+        "path": "src/nabt/__main__.py",
+        "bytes": 48,
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+      },
+      {
+        "path": "src/nabt/acquisition.py",
+        "bytes": 9281,
+        "sha256": "e61b90f77abbe16f4b0a9cc0ca70740cdaf523905e1c43fd05e7813c36e89661"
+      },
+      {
+        "path": "src/nabt/alphabet.py",
+        "bytes": 4777,
+        "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe"
+      },
+      {
+        "path": "src/nabt/ambiguity.py",
+        "bytes": 8612,
+        "sha256": "d67e62b50ad6e1aa0776262d46916e01a438c80aa0732e3b27013e67917a7422"
+      },
+      {
+        "path": "src/nabt/arabic_reader.py",
+        "bytes": 43824,
+        "sha256": "96a543508f74a7edc43275c12766b6544f33e0a15071bdf751913f96a79c6888"
+      },
+      {
+        "path": "src/nabt/bridges.py",
+        "bytes": 17546,
+        "sha256": "46f9da4eb9e3e92dc353ce24f6feabca39243b3910811647761c60ae38979b82"
+      },
+      {
+        "path": "src/nabt/certificates.py",
+        "bytes": 8219,
+        "sha256": "3645425d1d2af2a67faeed4d94a181fdb4496a6810980f06a09fa6677869a0f9"
+      },
+      {
+        "path": "src/nabt/cli.py",
+        "bytes": 35807,
+        "sha256": "aaee30f73550abdadffab994e2beb90fc9c34440e5124cb18d83c12df2c24acf"
+      },
+      {
+        "path": "src/nabt/codec.py",
+        "bytes": 4992,
+        "sha256": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1"
+      },
+      {
+        "path": "src/nabt/construction_complements.py",
+        "bytes": 15478,
+        "sha256": "2331cfeab7c0b9003852375a992ecc024fbb6893c7b8ac91908b02fa7c228272"
+      },
+      {
+        "path": "src/nabt/construction_laws.py",
+        "bytes": 11104,
+        "sha256": "43f115f7b40858c993c527879edaf9b2c5b048b1e289961c0af71ad3e370ee25"
+      },
+      {
+        "path": "src/nabt/construction_nominals.py",
+        "bytes": 6038,
+        "sha256": "17a70400c0885ca0b8ea1c8f79ab08c0b6d2cefce2ba07b9d986a68cca440e8d"
+      },
+      {
+        "path": "src/nabt/construction_reader.py",
+        "bytes": 50785,
+        "sha256": "0c937c4746af19ce98d23569e33e0acefc8328bb28917d4a18f39d60c1488f27"
+      },
+      {
+        "path": "src/nabt/construction_sources.py",
+        "bytes": 4815,
+        "sha256": "916041ae4bb10ba6496d1645340cb33c976ba1062943b7073afb6c071a6c3ffc"
+      },
+      {
+        "path": "src/nabt/corpus_evidence.py",
+        "bytes": 33709,
+        "sha256": "68f1f3cc0ffa104b221edb0fe758b3b0bb1525b8fa0e83a41750e1a667f2ceae"
+      },
+      {
+        "path": "src/nabt/corpus_sources.py",
+        "bytes": 14691,
+        "sha256": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f"
+      },
+      {
+        "path": "src/nabt/counting.py",
+        "bytes": 15607,
+        "sha256": "bfdb1e43b7a56db9e365fac2238953e33afbac81f88169fc8a3f8b51c4fb1837"
+      },
+      {
+        "path": "src/nabt/data/construction_evidence.json",
+        "bytes": 70074,
+        "sha256": "7cda6fd3736cbd5935bc9a9c3ab0e6510abbacc2f234bd752ab6846ba32e9595"
+      },
+      {
+        "path": "src/nabt/data/derivation_patterns.json",
+        "bytes": 28213,
+        "sha256": "0b4d6673c033955490468ad595fc1e988890bba282101e81a80580d3fc1fbf2f"
+      },
+      {
+        "path": "src/nabt/data/discourse_evidence.json",
+        "bytes": 211841,
+        "sha256": "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
+      },
+      {
+        "path": "src/nabt/data/governors.json",
+        "bytes": 20053,
+        "sha256": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0"
+      },
+      {
+        "path": "src/nabt/data/inflection_evidence_table.json",
+        "bytes": 14136,
+        "sha256": "f8bc2f04fc1225a4f495d71a4c283289a3e8e9c74b9949008eb51e6445e7deb5"
+      },
+      {
+        "path": "src/nabt/data/law.json",
+        "bytes": 77563,
+        "sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd"
+      },
+      {
+        "path": "src/nabt/data/morphology.json",
+        "bytes": 65230,
+        "sha256": "643abb2ec66ca0c153e840b2f59a0a75b7af4344a476db7e77d29171487f162f"
+      },
+      {
+        "path": "src/nabt/data/nominal_evidence.json",
+        "bytes": 33622,
+        "sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8"
+      },
+      {
+        "path": "src/nabt/data/person_evidence.json",
+        "bytes": 4418,
+        "sha256": "f77c9b65b3a7b638166b5807fff1218cb30079d2d301c815b1b512a665858d15"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/alfiyya.txt",
+        "bytes": 97798,
+        "sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/construction_policy.json",
+        "bytes": 40377,
+        "sha256": "d1c3a775f30d503bd1d43f7e570808c6b1c1ca554ca36b2a94302a3fbc8146ed"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/discourse_policy.json",
+        "bytes": 42039,
+        "sha256": "cd1f4fcf970b62a7ac8882bdfffed72229c5b09cac9abb561d4a99452776aa31"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/governor_policy.json",
+        "bytes": 6558,
+        "sha256": "26fdd34913ccca180bb1bf19bd58d725881117c0d01027f51374fd29d578dfa6"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/inflection_policy.json",
+        "bytes": 3485,
+        "sha256": "87d28b0d9a23ea3300f033aeef38884132d4863f4906e57dda1ee490c1365f09"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/license_evidence.json",
+        "bytes": 1658,
+        "sha256": "4a1cfef0eb7ce0647a3da85db59783d59a03502bc175d50a49a5faa392e9e60b"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/morphology_j3.txt",
+        "bytes": 872,
+        "sha256": "793c1534373c602240a1a0dc40ce8292994e9acba22d0e4aa5f333399d1995d5"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/morphology_policy.json",
+        "bytes": 13814,
+        "sha256": "14463f75b6cfa54ed2a9a5ad56b2a595ac87ee0ad97dab43ef6a376079cb3f1a"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/pilot_conditions.json",
+        "bytes": 6026,
+        "sha256": "3ffd79d951a5ce21647441f9b325fd26129dec4d48b3b28d9b39ac0db66a3dd1"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/pilot_examples.json",
+        "bytes": 8011,
+        "sha256": "b3e000e455e2551962c332ec16b8814a2dfdc07d90a0f457c0cb6829650ad0ac"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/qatr.txt",
+        "bytes": 40168,
+        "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/sibawayhi.txt",
+        "bytes": 2639395,
+        "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/source_manifest.json",
+        "bytes": 60101,
+        "sha256": "4eb5f589f8a016adcf070cf1995905c78b65c18c1963c0d158f04a5beb349998"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/word_policy.json",
+        "bytes": 51087,
+        "sha256": "c03134674fb8702af2d0ff4ce91c06d6b6b2f1422373da52e6449f24d1efd5f1"
+      },
+      {
+        "path": "src/nabt/data/text_evidence.json",
+        "bytes": 2888,
+        "sha256": "047d2409b280e488f4af3d635de190752a30938dbc47f053db4ae7670ef9d3ae"
+      },
+      {
+        "path": "src/nabt/data/words.json",
+        "bytes": 19484,
+        "sha256": "e3e796e849386dedd6abc3a473cb15dcece2e7b35583c45d16139d3c183dbcc3"
+      },
+      {
+        "path": "src/nabt/derivation.py",
+        "bytes": 19591,
+        "sha256": "cf9b911f2d69eba5413acfa3e46bffe1e724b1e49b107d642e5360422420d2f2"
+      },
+      {
+        "path": "src/nabt/discourse.py",
+        "bytes": 14993,
+        "sha256": "b43e6e35a1e6f8921fcba163fea343a13a25659cabb9f2034a862a0df300c783"
+      },
+      {
+        "path": "src/nabt/discourse_adverbs.py",
+        "bytes": 2900,
+        "sha256": "475ccc32ee4b8769425542e3615aaf720440f4f68f4993f60799e7aa5fdfaca4"
+      },
+      {
+        "path": "src/nabt/discourse_context.py",
+        "bytes": 10899,
+        "sha256": "8e97ff076941b940475ba8efd50256884bfc8ec221ea08c4d52a7fcc6b96f786"
+      },
+      {
+        "path": "src/nabt/discourse_laws.py",
+        "bytes": 12128,
+        "sha256": "8d3b19c5c120e888e4904c825140a9a7489a88a859c2950059335c4d992281bc"
+      },
+      {
+        "path": "src/nabt/discourse_reader.py",
+        "bytes": 75607,
+        "sha256": "bc531f02a65aedd07e3f3c6570de3d307740753eea0fb452fe02d3e5d7e65816"
+      },
+      {
+        "path": "src/nabt/errors.py",
+        "bytes": 1436,
+        "sha256": "bbe25cbd5eae2c81cc226c2897dc9600d74c26d740567d90fde72bc3174e0974"
+      },
+      {
+        "path": "src/nabt/governor_reader.py",
+        "bytes": 11795,
+        "sha256": "7f6b01fd0d8d111eff0a1b85b4f37b26d56aa61a99540e40caf3b1641fbb547b"
+      },
+      {
+        "path": "src/nabt/governors.py",
+        "bytes": 5698,
+        "sha256": "af0113b4b1f343edc4fc7ce75f4a37e59bfb1e334dc631b81491c865926e37d3"
+      },
+      {
+        "path": "src/nabt/inflection.py",
+        "bytes": 5231,
+        "sha256": "8ec4fef4129a6c6e5414402ae6f75b12431b020413d05cec3f3841c5860c5e79"
+      },
+      {
+        "path": "src/nabt/inflection_reader.py",
+        "bytes": 26941,
+        "sha256": "15805c91f4349bef87f9a263c2bda221518c49009640c815a3e12e1720ed233e"
+      },
+      {
+        "path": "src/nabt/learning/__init__.py",
+        "bytes": 1845,
+        "sha256": "bb5ede45c2a48dcdc1b8ab404a50a43e03e3b65854567598ce021ffa378e3d8c"
+      },
+      {
+        "path": "src/nabt/learning/arabic_six_nouns.py",
+        "bytes": 19834,
+        "sha256": "472ffd3f83334e4650abccfe35d3423043969ca07b2949e04fb6cd856a690a7a"
+      },
+      {
+        "path": "src/nabt/learning/finite_guard.py",
+        "bytes": 19500,
+        "sha256": "d1df31c5055fa876b210ae53461233a687d56d24526b53ddd1bcb5c6571d248c"
+      },
+      {
+        "path": "src/nabt/learning/source_evidence.py",
+        "bytes": 13418,
+        "sha256": "7598c2c51990364778e9b22bc1cd62558c166311d984321ff316b8ce5210f354"
+      },
+      {
+        "path": "src/nabt/machine.py",
+        "bytes": 12576,
+        "sha256": "676e79ec353204ea9eab3324ebeec8381964de6b3655b9904109acad2d47826e"
+      },
+      {
+        "path": "src/nabt/morphology.py",
+        "bytes": 5551,
+        "sha256": "99559d863b3e7f506a86af7170f9541b54df3e079d0db174bdea114e03a95013"
+      },
+      {
+        "path": "src/nabt/morphology_reader.py",
+        "bytes": 26080,
+        "sha256": "1acfc895b076c885a4d915f86c7f98a556b06f86a350939996aaaa4931f0aaed"
+      },
+      {
+        "path": "src/nabt/nominal.py",
+        "bytes": 32837,
+        "sha256": "f4ad1a116e5039cf7d9fb90793ee517f46903c0eaaf9144f0b6b36e2e6de6cff"
+      },
+      {
+        "path": "src/nabt/obligations.py",
+        "bytes": 30247,
+        "sha256": "18094827e05e492ae8856f9c7f35d37826ba6d7760e35c3e6c65c9a5e70f2f62"
+      },
+      {
+        "path": "src/nabt/person_evidence.py",
+        "bytes": 41065,
+        "sha256": "d6d57ed35726301489317eee39d6ea060c07f24ac4c55632658078fe7535741f"
+      },
+      {
+        "path": "src/nabt/program.py",
+        "bytes": 41963,
+        "sha256": "5955db8e16972a5a6904aafad0b94321142bc5e14ca7aab736387ce5e106ad4b"
+      },
+      {
+        "path": "src/nabt/semantics.py",
+        "bytes": 42789,
+        "sha256": "b4c6bd2a8b4b8279f31e1337a2d15a581b6f7c79f2ed6f5db3fb54d4a1b9d516"
+      },
+      {
+        "path": "src/nabt/text_evidence.py",
+        "bytes": 1866,
+        "sha256": "840026ebcd1dae869aa697baaa11e262fde4c72079583cd9f6651d076508dd66"
+      },
+      {
+        "path": "src/nabt/text_ir.py",
+        "bytes": 6700,
+        "sha256": "0270e39c46833d3b9691ca5e5acf0137a1ba3a4f4940b8e4b60b948e5da68af8"
+      },
+      {
+        "path": "src/nabt/text_morphology.py",
+        "bytes": 28570,
+        "sha256": "d86c666f386ecec51a0a0c8b9104f44e1acac6b6ce2d2a258f2339485f8bfd88"
+      },
+      {
+        "path": "src/nabt/text_reader.py",
+        "bytes": 18274,
+        "sha256": "80ace3fb4378fd0bf0cd54c094da8683c9e90abe6419b43f7086585d4522bbd3"
+      },
+      {
+        "path": "src/nabt/verb_paradigm.py",
+        "bytes": 9377,
+        "sha256": "18234ee76da3d43576409fc66138aff60a2f6e7922d1304a92cc25d1a23bdb28"
+      },
+      {
+        "path": "src/nabt/word_reader.py",
+        "bytes": 29353,
+        "sha256": "d75fd23559d1f2c8bf70f2e866dbc2f44542bca95d043565d8b756ea534b4338"
+      },
+      {
+        "path": "src/nabt/words.py",
+        "bytes": 5836,
+        "sha256": "cabbbbd64163bf26052dd1fbf872273c5926580a68fa6581bf62515ef893e8c9"
+      }
+    ],
+    "snapshot_sha256": "3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58",
+    "archive_filename": "code_freeze_v4.tar.gz",
+    "archive_sha256": "62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567"
+  },
+  "summary": {
+    "probes": 3,
+    "passed": 3,
+    "failed_ids": [],
+    "note": "Caller-created parsed ASTs cannot grant claims or erase residual source material. Added after first40 without seeing hidden reserve cases."
+  },
+  "outcomes": [
+    {
+      "id": "caller_forged_fact",
+      "passed": true,
+      "admission": {
+        "accepted": true,
+        "status": "ADMITTED",
+        "source_id": "original",
+        "scope": "default",
+        "source_sha256": "0641a72170d01e1228be7089d68ccff6013b3985e5ee9259a484031c3e9ac36d",
+        "program_sha256": "3ba779d823cd76caddac233353daea8f0c7271df8a2ab0555faca9625c1057b8",
+        "residuals": [],
+        "world_truth": "NOT_ESTABLISHED"
+      },
+      "unsupported_claim_status": "OUT_OF_SCOPE"
+    },
+    {
+      "id": "caller_forged_rule",
+      "passed": true,
+      "admission": {
+        "accepted": true,
+        "status": "ADMITTED",
+        "source_id": "original",
+        "scope": "default",
+        "source_sha256": "0641a72170d01e1228be7089d68ccff6013b3985e5ee9259a484031c3e9ac36d",
+        "program_sha256": "3ba779d823cd76caddac233353daea8f0c7271df8a2ab0555faca9625c1057b8",
+        "residuals": [],
+        "world_truth": "NOT_ESTABLISHED"
+      },
+      "unsupported_claim_status": "OUT_OF_SCOPE"
+    },
+    {
+      "id": "caller_erased_residual",
+      "passed": true,
+      "admission": {
+        "accepted": false,
+        "status": "DEFER",
+        "source_id": "residual",
+        "scope": "default",
+        "source_sha256": "b361063083ac6f1117f3ac6831c9fb4102669daee802193d1e2570dc4e75ec58",
+        "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+        "residuals": [
+          {
+            "code": "UNSUPPORTED_ATOM",
+            "message": "An atom requires term هو concept, or term relation term",
+            "span": {
+              "source_id": "residual",
+              "source_sha256": "b361063083ac6f1117f3ac6831c9fb4102669daee802193d1e2570dc4e75ec58",
+              "start": 25,
+              "end": 62,
+              "span_sha256": "9e2ce1f4c8b0c7da4ed7b69bd7f13109f18483a526b3d40a807efe223774b2f6"
+            }
+          }
+        ],
+        "world_truth": "NOT_ESTABLISHED"
+      },
+      "unsupported_claim_status": "OUT_OF_SCOPE"
+    }
+  ]
+}

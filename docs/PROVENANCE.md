@@ -4,6 +4,43 @@ NABT was created at the owner's request as a standalone implementation. It
 does not import or mutate the previous experiments. References below identify
 the research definitions consulted, not runtime dependencies.
 
+## Construction development `0.14.0a1`
+
+The current source audit refreshes all owner repositories in the two authorized
+accounts: 41 repositories (24 public and 17 private), 40 complete default-branch
+trees and one independently confirmed empty repository. Private repository
+names and paths are not published. The refreshed record obtains each root tree
+from its Git commit before retrieving the recursive tree. The earlier response
+SHA labeling error and its original record are preserved explicitly; see
+[CONSTRUCTIONS_SOURCE_AUDIT.md](CONSTRUCTIONS_SOURCE_AUDIT.md).
+
+The external Lean byte inventory covers 292 files: Mashru 120, Alghanem 165,
+Salehan19-6-67 six, and alghanem-constitution one. Git blob identities are checked,
+not merely filename presence. Current public heads are respectively
+`e4c801ffe9171dadedcc3aae23051ea0953ae361`,
+`9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`,
+`2118e15ce8d21ecf9a125ebf1555145d03f9553a`, and
+`f75a43b9f4ed3df059f1feb832f48d96e6f846ba`.
+This is a source audit, not a claim that every upstream project was rebuilt.
+NABT remains the only implementation destination and gains no external runtime
+imports, symlinks, submodules or release dependencies.
+
+The executable construction policy replays 17 pinned passages from Qatr al-Nada,
+Alfiyya and Sibawayh. The earlier 13-passage draft is retained separately.
+Conditional Lean laws cover four operator families, roles/cases, agreement,
+construct constraints, identity and scope. They do not acquire a word's gender,
+a verb's intended sense, dependency attachment or a real-world referent by
+assuming these inputs. QAC and MASAQ supply separately audited annotation
+formats; their tags are neither a Lean parser nor an answer key for new input.
+
+`examples/construction_training.tsv` and the separate independent evaluation's
+training file are authored QAC-format data. They are labeled accordingly and
+contain no CASE/MOOD, dependency-role or answer labels. The independently
+frozen 86-case material is not natural-corpus accuracy. The implementation's
+pre-opening v1 and post-review v2 snapshots, the original failed adapter runs,
+the corrected paired measurements and the future-operator fix remain distinct.
+See [CONSTRUCTIONS_EVALUATION.md](CONSTRUCTIONS_EVALUATION.md).
+
 ## Discourse development `0.13.0a1`
 
 The person/reference review reuses the pinned Mashru

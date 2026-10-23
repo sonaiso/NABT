@@ -22,10 +22,16 @@ _FIELDS = ("predicate", "predicate_kind", "voice", "args", "positive", "tense", 
 def discourse_catalog():
     from .governors import installed_table
     from .person_evidence import person_catalog
+    from .construction_laws import installed_registry as construction_registry
+    from .construction_reader import operator_catalog
+    from .construction_sources import replay_construction_policy
     governors = installed_table()
     return {"law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
             "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
             "law": installed_registry(), "grammar_sources": replay_discourse_policy(),
+            "constructions": {"law": construction_registry(),
+                "grammar_sources": replay_construction_policy(), "operators": operator_catalog(),
+                "scope": "SOURCE_WITNESSED_BOUNDED_COMPOSITION_WITH_PRESERVED_OPERATOR_SCOPE"},
             "person": person_catalog(), "governors": {"entries": [asdict(e) for e in governors.entries],
                 "classes": [asdict(c) for c in governors.classes.values()]},
             "operator_candidates": [{"form": form, "rule": row[0], "interpretation": row[1]}
@@ -45,6 +51,13 @@ def _status(supports, refutations):
     return "CONFLICT" if supports and refutations else "SUPPORTED" if supports else "REFUTED" if refutations else "UNKNOWN"
 
 
+def _constrained_person(value):
+    """The one declared typed query domain; arbitrary dictionaries are not variables."""
+    return (type(value) is dict and set(value) == {"kind", "name", "gender", "number"} and
+            value["kind"] == "question_variable" and value["name"] == "?person" and
+            value["gender"] in ("masculine", "feminine") and value["number"] == "singular")
+
+
 def _match(pattern, claim, entities):
     """Instantiate explicit question variables, then compare every claim field."""
     instantiated, bindings = deepcopy(pattern), {}
@@ -53,12 +66,25 @@ def _match(pattern, claim, entities):
         if len(left) != len(right):
             return None
         for index, (wanted, actual) in enumerate(zip(left, right)):
+            if _constrained_person(wanted):
+                entity = entities.get(actual, {}) if type(actual) is str else {}
+                if (field != "args" or entity.get("kind") != "person" or
+                        any(entity.get(axis) != wanted[axis] for axis in ("gender", "number"))):
+                    return None
+                variable = wanted["name"]
+                if variable in bindings and bindings[variable] != actual:
+                    return None
+                bindings[variable] = actual
+                instantiated[field][index] = actual
+                continue
             if type(wanted) is str and wanted.startswith("?"):
                 if wanted in bindings and bindings[wanted] != actual:
                     return None
-                if wanted == "?person" and entities.get(actual, {}).get("kind") != "person":
+                if wanted == "?person" and (type(actual) is not str or
+                        entities.get(actual, {}).get("kind") != "person"):
                     return None
-                if wanted == "?place" and entities.get(actual, {}).get("kind") != "place":
+                if wanted == "?place" and (type(actual) is not str or
+                        entities.get(actual, {}).get("kind") != "place"):
                     return None
                 bindings[wanted] = actual
                 instantiated[field][index] = actual
@@ -71,6 +97,64 @@ def _match(pattern, claim, entities):
         place_equal=instantiated["place"] == claim["place"],
         restriction_equal=instantiated["restriction"] == claim["restriction"])
     return bindings if allowed else None
+
+
+def _query_agreement_witnesses(pattern, claim, bindings, document):
+    """Discharge typed person constraints on that claim's own licensed edges.
+
+    Context compatibility alone cannot turn an ordinary noun predicate or a
+    different source analysis into evidence of adjectival agreement. A
+    witness must belong to this exact claim and its selected subject edge.
+    """
+    constraints = [(i, value) for i, value in enumerate(pattern["args"]) if _constrained_person(value)]
+    if not constraints:
+        return []
+    if pattern["predicate_kind"] != "property" or len(pattern["args"]) != 1:
+        return None
+    analyses = {(c["clause_id"], a["analysis_id"]): a for c in document["clauses"]
+                if c["status"] == "LICENSED" for a in c["analyses"]}
+    receipts = []
+    for index, constraint in constraints:
+        entity_id = bindings[constraint["name"]]
+        required = {axis: constraint[axis] for axis in ("gender", "number")}
+        witnesses = []
+        for proof in claim["proofs"]:
+            analysis = analyses.get((proof["clause_id"], proof["analysis_id"]))
+            if (analysis is None or analysis["rejected_candidate"] or not analysis["licensed_syntax"] or
+                    not analysis["references_complete"] or not analysis["assertion_allowed"] or
+                    not any(all(row[k] == claim[k] for k in _FIELDS) for row in analysis["claims"])):
+                continue
+            # A composed analysis can contain differently qualified claims
+            # and scoped internal predicates. Its agreement edges do not yet
+            # carry a general claim-edge identity. Require one semantic claim
+            # shape before attributing an edge; even a different outer lemma
+            # can conceal a matching adjective in another operator's scope.
+            if any(any(row[k] != claim[k] for k in _FIELDS) for row in analysis["claims"]):
+                continue
+            for relation in analysis["relations"]:
+                if (relation.get("kind") != "predicate_agreement" or relation.get("status") != "confirmed" or
+                        relation.get("predicate_lemma") != claim["predicate"] or
+                        any(relation.get("subject_profile", {}).get(axis) != value
+                            for axis, value in required.items()) or
+                        any(relation.get("predicate_profile", {}).get(axis) != value
+                            for axis, value in required.items())):
+                    continue
+                for reference in analysis["references"]:
+                    if (reference.get("status") == "RESOLVED" and reference["bound_entity_id"] == entity_id and
+                            reference["span"] == relation["head_span"] and
+                            reference["reference_id"] in relation["subject_reference_ids"]):
+                        witness = {"clause_id": proof["clause_id"], "analysis_id": proof["analysis_id"],
+                            "head_reading_id": relation["head_reading_id"],
+                            "dependent_reading_id": relation["dependent_reading_id"],
+                            "reference_id": reference["reference_id"]}
+                        if witness not in witnesses:
+                            witnesses.append(witness)
+        if not witnesses:
+            return None
+        receipts.append({"argument_index": index, "variable": constraint["name"], "entity_id": entity_id,
+            "required_profile": required, "context_sha256": document["context"]["sha256"],
+            "source_witnesses": witnesses})
+    return receipts
 
 
 def ask_discourse(text, question, *, lexical_model=None, context=None,
@@ -116,10 +200,15 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
                 bindings = _match(desired, claim, entities)
                 if bindings is None:
                     continue
+                agreement = _query_agreement_witnesses(desired, claim, bindings, document)
+                if agreement is None:
+                    continue
                 proof = {"claim_id": claim["claim_id"], "document_report_id": document["report_id"],
                          "question_report_id": inquiry["report_id"], "bindings": bindings,
                          "source_proofs": deepcopy(claim["proofs"]),
                          "rule": "EXACT_SIGNED_QUALIFIED_CLAIM_WITH_EXPLICIT_VARIABLE_SUBSTITUTION"}
+                if agreement:
+                    proof["predicate_agreement_bindings"] = agreement
                 target.append(proof)
                 key = wire(bindings)
                 grouped.setdefault(key, {"values": bindings, "proofs": [], "counterproofs": []})[sign].append(proof)

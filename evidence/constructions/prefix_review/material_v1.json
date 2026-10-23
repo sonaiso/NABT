@@ -1,0 +1,96 @@
+{
+  "schema": "nabt.constructions.consumed-particle-review-material.v1",
+  "cases": [
+    {
+      "id": "PF01",
+      "text": "سَوْفَ يكتبُ زيدٌ.",
+      "question": "هل سَوْفَ يكتبُ زيدٌ؟",
+      "reason": "canonical future particle with ordinary verb",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_status": "SUPPORTED",
+        "document_activated_roles_allowed": true,
+        "inquiry_activated_roles_allowed": true
+      },
+      "source_sha256": "2672849795e568156eb7806aad00443a7fc48067b30a1ff8aed618d0dc46d542",
+      "question_sha256": "64ef04ef832d8fbb70b9e06ab0580f4ede9b2ee91c1a84e72464a64e279b5085"
+    },
+    {
+      "id": "PF02",
+      "text": "سُوفَ يكتبُ زيدٌ.",
+      "question": "هل سَوْفَ يكتبُ زيدٌ؟",
+      "reason": "explicit contrary initial vowel on future particle outside copula route",
+      "expected": {
+        "document_status": "DEFER",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_status": "DEFER",
+        "document_activated_roles_allowed": false,
+        "inquiry_activated_roles_allowed": true
+      },
+      "source_sha256": "0bbc2713baf05597395997fb12cbda538d26fe72f213bd9444c6788c947354a3",
+      "question_sha256": "64ef04ef832d8fbb70b9e06ab0580f4ede9b2ee91c1a84e72464a64e279b5085"
+    },
+    {
+      "id": "PF03",
+      "text": "كان زيدٌ حكيمًا.",
+      "question": "هَلْ كان زيدٌ حكيمًا؟",
+      "reason": "canonical polar particle",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_status": "SUPPORTED",
+        "document_activated_roles_allowed": true,
+        "inquiry_activated_roles_allowed": true
+      },
+      "source_sha256": "bdf30273615c91b5ecd11d31e488cab9c6d17238aac8f4e36c7071e67f715b14",
+      "question_sha256": "93a933fc5fd9988c736630e112ddcf3ef9e10300b72941f0ab7c6b957d9e12d7"
+    },
+    {
+      "id": "PF04",
+      "text": "كان زيدٌ حكيمًا.",
+      "question": "هُلْ كان زيدٌ حكيمًا؟",
+      "reason": "explicit contrary initial vowel on consumed polar particle",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "DEFER",
+        "answer_status": "DEFER",
+        "document_activated_roles_allowed": true,
+        "inquiry_activated_roles_allowed": false
+      },
+      "source_sha256": "bdf30273615c91b5ecd11d31e488cab9c6d17238aac8f4e36c7071e67f715b14",
+      "question_sha256": "b270ab036e09af1890b407f9c22234d3d060818b476e4b0507a6a4d07ddf1d6f"
+    },
+    {
+      "id": "PF05",
+      "text": "ليس زيدٌ إِلَّا حكيمًا.",
+      "question": "هل ليس زيدٌ إِلَّا حكيمًا؟",
+      "reason": "canonical negation/exception predicate restriction",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_status": "SUPPORTED",
+        "document_activated_roles_allowed": true,
+        "inquiry_activated_roles_allowed": true
+      },
+      "source_sha256": "acb8845750a7e6d178ce333a7f6e3592bf981f86455fd8446cd45e61b1ff6caa",
+      "question_sha256": "2c490cce0248d246911bd0c86a02705b638103952fb386f708883d49624f5385"
+    },
+    {
+      "id": "PF06",
+      "text": "ليس زيدٌ إِلُّا حكيمًا.",
+      "question": "هل ليس زيدٌ إِلَّا حكيمًا؟",
+      "reason": "contrary lam vowel must not license exception or flip negation",
+      "expected": {
+        "document_status": "DEFER",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_status": "DEFER",
+        "document_activated_roles_allowed": false,
+        "inquiry_activated_roles_allowed": true
+      },
+      "source_sha256": "2591c17e4135f50105db09b2b32491fbe0782c1be2119d823a58769425cb49f3",
+      "question_sha256": "2c490cce0248d246911bd0c86a02705b638103952fb386f708883d49624f5385"
+    }
+  ],
+  "scope": "Six authored consumed-particle regressions; canonical forms plus explicit contradictory marks on sawfa, hal and illa. No held-out language-coverage claim; unmarked text is not a contradictory mark."
+}

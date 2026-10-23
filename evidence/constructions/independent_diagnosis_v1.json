@@ -1,0 +1,487 @@
+{
+  "comparative_status": "Valid second pair, preserved before the final answer-completeness validator review and identical-adapter three-way rerun.",
+  "false_accept_metric_scope": "This counts the frozen forbidden claims/bindings/activation checks, not every possible incorrect interpretation. K06 is a wrong positive interpretation caught by role/claim obligations despite zero forbidden-check false accepts.",
+  "gate_recommendation": "No boundary waiver for K06. After the post-disclosure v2 repair is measured, remaining exactly identified coverage/premise/retention misses may be documented as partial-regression boundaries. Strict_pass must remain false and every unexpected miss, false accept, execution error or incomplete raw record must block.",
+  "gold_changed": false,
+  "gold_freeze_sha256": "5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e",
+  "newly_passing": [
+    "CON-K01",
+    "CON-K02",
+    "CON-K03",
+    "CON-K04",
+    "CON-K05",
+    "CON-K07",
+    "CON-K12",
+    "CON-I01",
+    "CON-I02",
+    "CON-I03",
+    "CON-I04",
+    "CON-I05",
+    "CON-Z01",
+    "CON-Z03",
+    "CON-Z04",
+    "CON-A01",
+    "CON-A02",
+    "CON-A03",
+    "CON-A04",
+    "CON-A05",
+    "CON-A06",
+    "CON-A08",
+    "CON-A09",
+    "CON-D02",
+    "CON-N03",
+    "CON-H01",
+    "CON-H02",
+    "CON-H03"
+  ],
+  "question_metric_scope": "Outcome counts alone do not prove the intended interpretation. Full-case success also requires roles, attachments, qualified claim/scope and correlation in one accepted analysis.",
+  "recorded_at_utc": "2026-10-23T19:39:09.225315+00:00",
+  "regressions": [],
+  "remaining": [
+    {
+      "accepted_claims": [
+        {
+          "args": [
+            "samir"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "كَانَ",
+          "predicate_kind": "event",
+          "restriction": [
+            {
+              "kind": "hal",
+              "owner": "samir",
+              "predicate": "شُجَاع",
+              "scope": "event_occurrence"
+            }
+          ],
+          "tense": "future",
+          "time": [],
+          "voice": "active"
+        }
+      ],
+      "candidate_frames": [
+        "event_with_hal"
+      ],
+      "category": "incorrect_positive_interpretation",
+      "failed_checks": [
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "claim:0",
+        "coherent_analysis"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-K06",
+      "interpretation": "Future kana was routed through the event-plus-hal path. All source roles and the qualified claim differ from the frozen future-property requirement. Exact-question SUPPORTED does not rescue the failed full analysis. Runtime v2 is a post-disclosure correction.",
+      "mode": "positive",
+      "obligations": [],
+      "report_status": "LICENSED_DISCOURSE",
+      "text": "سَوْفَ يَكُونُ سَامِرٌ شُجَاعًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [
+        "zanna_two_object_construction"
+      ],
+      "category": "sense_evidence_boundary",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "role:2",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "scope:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-Z02",
+      "interpretation": "The finite operator candidate exists but a polysemy/sense gate prevents activation. Lexical POS/lemma/aspect and two accusatives do not constitute a separately supplied sense claim. The authored cognitive expectation remains an unmet positive.",
+      "mode": "positive",
+      "obligations": [
+        "CONSTRUCTION_LAW_GATE",
+        "POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT"
+      ],
+      "report_status": "DEFER",
+      "text": "حَسِبَ سَامِرٌ بَاسِمًا شُجَاعًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [
+        "zanna_two_object_construction"
+      ],
+      "category": "sense_evidence_boundary",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "role:2",
+        "roles_same_analysis",
+        "scope:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-Z07",
+      "interpretation": "A certainty-attributed operator candidate is retained but POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT prevents activation. No unscoped embedded fact is admitted.",
+      "mode": "positive",
+      "obligations": [
+        "CONSTRUCTION_LAW_GATE",
+        "POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT"
+      ],
+      "report_status": "DEFER",
+      "text": "عَلِمَ سَامِرٌ بَاسِمًا شُجَاعًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "composition_coverage_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "role:2",
+        "roles_same_analysis",
+        "scope:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-Z10",
+      "interpretation": "Negation plus the two-object cognitive construction has no complete supported clause analysis; the negated matrix proposition is not acquired.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "مَا ظَنَّ سَامِرٌ بَاسِمًا شُجَاعًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "operator_coverage_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "scope:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-A07",
+      "interpretation": "The witnessed form sharaa and following imperfect are read lexically, but this onset lexical member produces no complete construction reading.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "شَرَعَ سَامِرٌ يَكْتُبُ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "composition_coverage_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relation:1",
+        "relations_same_analysis",
+        "coherent_analysis",
+        "question:0"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-D03",
+      "interpretation": "A verbal clause plus a locative preposition whose object is an idafa is not composed. Individual lexical readings exist; no attachment is asserted.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "يَكْتُبُ سَامِرٌ فِي بَابِ الْبَيْتِ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [
+        "composed_verbal_predication"
+      ],
+      "category": "declared_matching_profile_boundary",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-N01",
+      "interpretation": "The explicit shadda in the observed teacher noun is absent from its frozen declared context name. The published asymmetric name profile yields NO_CANDIDATE; the noun/adjective construction candidate remains ungrounded. Gold is unchanged.",
+      "mode": "positive",
+      "obligations": [
+        "REFERENCE_NOT_UNIQUELY_LICENSED"
+      ],
+      "report_status": "DEFER",
+      "text": "جَاءَ الْمُعَلِّمُ الْحَاضِرُ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "composition_coverage_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-N02",
+      "interpretation": "A locative PP inside the verbal clause cannot compose with an adjective modifying its noun.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "يَكْتُبُ سَامِرٌ فِي الْبَيْتِ الْجَدِيدِ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "composition_coverage_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-H05",
+      "interpretation": "The witnessed circumstantial modifier and an independently recognizable yesterday adverb do not compose in the same complete event analysis.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "جَاءَ سَامِرٌ مُبْتَسِمًا أَمْسِ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "semantic_frame_acquisition_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-M01",
+      "interpretation": "No nisba-tamyiz construction is acquired for increase-plus-activity from the supplied lexical-only source. The frozen source deliberately supplies no expected role, ratio frame or attachment label.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "ازْدَادَ سَامِرٌ نَشَاطًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "semantic_frame_acquisition_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-M02",
+      "interpretation": "No nisba-tamyiz construction is acquired for taba-plus-nafs from lexical-only premises. Case/POS alone are insufficient to authorize this relation.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "طَابَ سَامِرٌ نَفْسًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [
+        "event_with_tamyiz"
+      ],
+      "category": "semantic_frame_acquisition_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0",
+        "question:1"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-M03",
+      "interpretation": "A tamyiz candidate exists but explicitly defers with TAMYIZ_VERSUS_OTHER_NOMINAL_USE_REQUIRES_SOURCE_FRAME. Its lexical noun witness does not license the semantic relation.",
+      "mode": "positive",
+      "obligations": [
+        "TAMYIZ_VERSUS_OTHER_NOMINAL_USE_REQUIRES_SOURCE_FRAME"
+      ],
+      "report_status": "DEFER",
+      "text": "امْتَلَأَتْ الْكَأْسُ لَبَنًا."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "ambiguity_candidate_coverage_gap",
+      "failed_checks": [
+        "relation_candidates"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-B01",
+      "interpretation": "The expected badal/bayan alternatives are not emitted. The system correctly avoids merging the teacher and named-person context identities; no complete reading or relation candidate is produced.",
+      "mode": "ambiguity",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "جَاءَ الْمُعَلِّمُ سَامِرٌ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "ambiguity_candidate_coverage_gap",
+      "failed_checks": [
+        "relation_candidates"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-B02",
+      "interpretation": "The part-substitution relation candidate is missing. The source is deferred and no whole-book event is falsely inferred.",
+      "mode": "ambiguity",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "قَرَأَ سَامِرٌ الْكِتَابَ نِصْفَهُ."
+    },
+    {
+      "accepted_claims": [
+        {
+          "args": [
+            "samir"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "جَاءَ",
+          "predicate_kind": "event",
+          "restriction": [],
+          "tense": "past",
+          "time": [],
+          "voice": "active"
+        }
+      ],
+      "candidate_frames": [
+        "composed_verbal_predication"
+      ],
+      "category": "qualification_retention_gap",
+      "failed_checks": [
+        "qualification:0",
+        "coherent_analysis"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-W01",
+      "interpretation": "The emphasis role, inherited case and same-person return are licensed, and the exact question is answered; however the accepted event claim omits the required emphasis qualifier, so the complete-case expectation still fails.",
+      "mode": "positive",
+      "obligations": [],
+      "report_status": "LICENSED_DISCOURSE",
+      "text": "جَاءَ سَامِرٌ نَفْسُهُ."
+    },
+    {
+      "accepted_claims": [],
+      "candidate_frames": [],
+      "category": "composition_coverage_gap",
+      "failed_checks": [
+        "complete_construction",
+        "role:0",
+        "role:1",
+        "roles_same_analysis",
+        "relation:0",
+        "relations_same_analysis",
+        "qualification:0",
+        "coherent_analysis",
+        "question:0"
+      ],
+      "false_accept_checks": [],
+      "id": "CON-W02",
+      "interpretation": "The verbal clause with an attached preposition and a following genitive emphasis term is not composed into a complete reading.",
+      "mode": "positive",
+      "obligations": [
+        "COMPLETE_SUPPORTED_CLAUSE_READING"
+      ],
+      "report_status": "DEFER",
+      "text": "مَرَّ بَاسِمٌ بِسَامِرٍ نَفْسِهِ."
+    }
+  ],
+  "runs": [
+    {
+      "measurement_valid": true,
+      "passed": 42,
+      "path": "evidence/constructions/independent_runs/baseline_v4_adapter_v2.json",
+      "sha256": "4478e1743049e772e9fe658f12dd798c78ef0baddb0521aae0e143dd36f276da",
+      "strict_pass": false,
+      "total": 86
+    },
+    {
+      "measurement_valid": true,
+      "passed": 70,
+      "path": "evidence/constructions/independent_runs/target_v1_adapter_v2.json",
+      "sha256": "cb90f228d0030a159735acb5dd2c41a58b102b328641f964d68e4c63beb558f6",
+      "strict_pass": false,
+      "total": 86
+    }
+  ],
+  "schema": "nabt.constructions.independent-diagnosis.v1"
+}

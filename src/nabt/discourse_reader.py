@@ -22,9 +22,13 @@ from .inflection import relation_candidate, sign_candidates
 from .inflection_reader import _read_run, _surface_accepts, replay_inflection_policy
 from .text_ir import span_dict
 from .word_reader import _scan, _source, _span
+from .construction_sources import replay_construction_policy
+from .construction_laws import (LAW_ID as CONSTRUCTION_LAW_ID,
+    EXPECTED_TABLE_SHA256 as CONSTRUCTION_TABLE_SHA256, ROLES as CONSTRUCTION_ROLES,
+    role_case as construction_role_case, predicate_agreement_status)
 
-LANGUAGE_ID = "nabt.arabic-discourse-frames.v1"
-READER_VERSION = "nabt.discourse-reader.v1"
+LANGUAGE_ID = "nabt.arabic-discourse-frames.v4"
+READER_VERSION = "nabt.discourse-reader.v4"
 MAX_ANALYSES = 128
 MAX_CLAUSES = 32
 _UNSET = object()
@@ -139,6 +143,7 @@ class _Reader:
         self.context = read_context(context)
         self.index, self.model_summary = ({}, None) if lexical_model is None else lexical_index(lexical_model)
         self.policy, self.inflection_policy = replay_discourse_policy(), replay_inflection_policy()
+        self.construction_policy = replay_construction_policy()
         self.cache, self.mentions, self.derived = {}, [], {}
         self.entities = {e["id"]: e for e in self.context["value"]["entities"]}
         self.analysis_count = 0
@@ -222,6 +227,9 @@ class _Reader:
                                             "field": "entities.name"}]
                 readings.append(row)
         unique = {}
+        from .construction_nominals import qualify_attested_alif
+        readings = qualify_attested_alif(readings, token=token, source=self.source,
+                                         index=self.index, policy=self.construction_policy)
         for row in readings:
             unique.setdefault(row["reading_id"], row)
         if len(unique) > MAX_ANALYSES:
@@ -229,8 +237,12 @@ class _Reader:
         self.cache[token["token_id"]] = list(unique.values())
         return self.cache[token["token_id"]]
 
-    def assignment(self, token, reading, role, *, head=None, idhafa=False):
-        if role in ("nominal_subject", "nominal_predicate", "time_adverb", "place_adverb", "imperfect_indicative"):
+    def assignment(self, token, reading, role, *, head=None, idhafa=False, inherited_case=None):
+        if role in CONSTRUCTION_ROLES:
+            case = construction_role_case(role, inherited_case)
+            if case is None:
+                raise NabtError("MISSING_INHERITED_CASE", "A dependent role needs its independently assigned head case")
+        elif role in ("nominal_subject", "nominal_predicate", "imperfect_indicative"):
             case = role_case(role)
         else:
             case = relation_candidate(role, kind=reading["kind"], construction=reading["construction"])["case"]
@@ -239,7 +251,8 @@ class _Reader:
         construction = reading["construction"]
         signs = sign_candidates(reading["class_candidates"], cases=(case,),
                                  al=reading.get("al_evidence", 0), idhafa=1 if idhafa else 2)
-        signs = [s for s in signs if _surface_accepts(s, reading["stem_surface"], reading)]
+        case_surface = reading.get("nominal_case_carrier", {}).get("base_surface", reading["stem_surface"])
+        signs = [s for s in signs if _surface_accepts(s, case_surface, reading)]
         if "possible_cases" in reading and case not in reading["possible_cases"]:
             signs = []
         # Missing short vowels do not license deletion of an orthographic
@@ -298,9 +311,15 @@ class _Reader:
                 origin = "relative_return"
             else:
                 origin = "named"
-            reference = self.reference(token["surface"], origin=origin, profile=profile,
+            carrier = row.get("nominal_case_carrier") if origin == "named" else None
+            reference_surface = carrier["base_surface"] if carrier else token["surface"]
+            reference = self.reference(reference_surface, origin=origin, profile=profile,
                                           context=self.context, mentions=self.mentions, span=token["span"],
                                           scope=self.scope, return_entity=return_entity)
+            if carrier:
+                reference["written_surface"] = token["surface"]
+                reference["nominal_carrier_reading_id"] = row["reading_id"]
+                reference["reference_id"] = identity({k: v for k, v in reference.items() if k != "reference_id"})
             assignment = self.assignment(token, row, role, head=head)
             result.append({"reading": row, "reference": reference, "assignment": assignment,
                            "entity": reference["bound_entity_id"]})
@@ -318,6 +337,142 @@ class _Reader:
                 r["lexical_features"].get("lemma") and not r.get("annotation_only") and
                 r.get("segmentation", {}).get("licensed", False) and "person_evidence" in r]
 
+    def predicate_agreement(self, readings, assignments, refs, *, force):
+        """Replay direct adjective agreement at the selected predication edge.
+
+        This is separate from naat: case and definiteness do not have to
+        agree. A source-declared ordinary noun predicate is outside this
+        adjective rule. Nonhuman plural regimes, unknown source features and
+        an unbound subject edge remain unproved rather than being guessed.
+        """
+        pairs = {"nominal_predicate": "nominal_subject", "kana_predicate": "kana_subject",
+                 "inna_predicate": "inna_subject", "zanna_object2": "zanna_object1"}
+        by_id = {r["reading_id"]: r for r in readings}
+        obligations, relations, supports = [], [], []
+        for predicate in assignments:
+            role = predicate["role"]
+            reading = by_id.get(predicate["reading_id"])
+            if role not in pairs or reading is None or reading["lexical_features"].get("pos") != "ADJ":
+                continue
+            candidates = [a for a in assignments if a["role"] == pairs[role] and
+                ((role == "nominal_predicate" and predicate["head_span"] == a["span"]) or
+                 (role != "nominal_predicate" and predicate["head_span"] is not None and
+                  predicate["head_span"] == a["head_span"]))]
+            candidates = list({identity([a["span"], a["reading_id"]]): a for a in candidates}.values())
+            if len(candidates) != 1 or candidates[0]["reading_id"] not in by_id:
+                obligations.append("PREDICATE_SUBJECT_BINDING_EVIDENCE_REQUIRED")
+                continue
+            subject = candidates[0]
+            subject_reading = by_id[subject["reading_id"]]
+            left, right = _profile(subject_reading), _profile(reading)
+            subject_refs = [r for r in refs if r["span"] == subject["span"]]
+            entity_ids = {r["bound_entity_id"] for r in subject_refs}
+            # A question variable has no acquired subject gender/number.
+            # Preserve the selected adjective's requirements as a typed
+            # query constraint; only substitution against an independently
+            # licensed source predication can discharge it. This bounded
+            # singular-person query is not a general agreement law for من.
+            if (force == "QUESTION" and role == "nominal_predicate" and
+                    subject_reading["lexical_features"].get("pos") == "INTG" and
+                    subject_reading.get("support_records") == [{"kind": "grammar", "rule": "wh_subject"}] and
+                    template_matches(subject_reading["stem_surface"], "مَنْ", mutable_last=False) and
+                    len(subject_refs) == 1 and subject_refs[0].get("origin") == "question_variable" and
+                    subject_refs[0].get("status") == "VARIABLE" and
+                    subject_refs[0].get("bound_entity_id") == "?person" and
+                    right.get("gender") in ("masculine", "feminine") and right.get("number") == "singular"):
+                relations.append({"kind": "predicate_agreement", "head_span": subject["span"],
+                    "dependent_span": predicate["span"], "head_reading_id": subject["reading_id"],
+                    "dependent_reading_id": predicate["reading_id"], "subject_role": subject["role"],
+                    "predicate_role": role, "regime": "constrained_singular_person_query",
+                    "regime_licensed": False, "status": "pending_substitution",
+                    "question_variable": "?person", "subject_profile": deepcopy(left),
+                    "predicate_profile": deepcopy(right),
+                    "predicate_lemma": reading["lexical_features"].get("lemma"),
+                    "subject_reference_ids": [subject_refs[0]["reference_id"]],
+                    "law_id": CONSTRUCTION_LAW_ID, "law_sha256": CONSTRUCTION_TABLE_SHA256,
+                    "case_and_definiteness_equalities_required": False,
+                    "authority": "QUERY_CONSTRAINT_REQUIRING_AN_INDEPENDENT_SOURCE_BINDING"})
+                continue
+            gender_basis = {"kind": "selected_lexical_or_grammatical_profile"}
+            # A context-only personal name is an explicit naming premise,
+            # not an acquired lexical noun. Its uniquely named individual
+            # can supply a *semantic* singular-person agreement profile.
+            # Never fill the stored reading or override an independent
+            # source N/PN reading, even when that source profile is unknown.
+            named_premise = (
+                subject_reading["lexical_features"].get("pos") == "PN" and
+                subject_reading.get("construction") is None and
+                subject_reading.get("variant") == "declared_grammatical_paradigm" and
+                subject_reading.get("segmentation", {}).get("licensed") and
+                subject_reading.get("support_records") == [{"kind": "explicit_context",
+                    "sha256": self.context["sha256"], "field": "entities.name"}] and
+                len(subject_refs) == 1 and subject_refs[0].get("origin") == "named" and
+                subject_refs[0].get("status") == "RESOLVED")
+            if named_premise:
+                entity_id = subject_refs[0]["bound_entity_id"]
+                entity = self.entities.get(entity_id, {})
+                if (entity.get("kind") == "person" and entity.get("number") == "singular" and
+                        entity.get("gender") in ("masculine", "feminine")):
+                    left = {"person": 3, "gender": entity["gender"], "number": entity["number"]}
+                    gender_basis = {"kind": "explicit_named_person_semantic_profile",
+                        "entity_id": entity_id, "context_sha256": self.context["sha256"],
+                        "reference_ids": [subject_refs[0]["reference_id"]],
+                        "source_fields": ["entities.name", "entities.kind", "entities.gender", "entities.number"],
+                        "lexical_profile_acquired": False}
+            # A common-gender pronoun (e.g. أنا) is not an unseen noun whose
+            # lexical gender may be supplied by a name. Its separately
+            # resolved discourse referent can license semantic agreement.
+            # Preserve the source profile unchanged and record this premise.
+            common_pronoun = False
+            if (subject_reading["lexical_features"].get("pos") == "PRON" and left.get("gender") is None and
+                    subject_reading.get("segmentation", {}).get("licensed")):
+                from .person_evidence import installed_registry as person_registry, EXPECTED_TABLE_SHA256 as person_sha
+                common_pronoun = any(p["gender"] == 2 and p["person"] == left.get("person") and
+                    ("singular", "dual", "plural")[p["number"]] == left.get("number") and
+                    template_matches(subject_reading["stem_surface"], p["surface"], mutable_last=False)
+                    for p in person_registry()["separate_pronouns"])
+            if (common_pronoun and
+                    len(entity_ids) == 1 and any(r.get("status") == "RESOLVED" for r in subject_refs)):
+                entity_id = next(iter(entity_ids))
+                gender = self.entities.get(entity_id, {}).get("gender")
+                if gender in ("masculine", "feminine"):
+                    left = {**left, "gender": gender}
+                    gender_basis = {"kind": "resolved_common_gender_pronoun", "entity_id": entity_id,
+                                    "context_sha256": self.context["sha256"],
+                                    "person_law_sha256": person_sha,
+                                    "reference_ids": sorted({r["reference_id"] for r in subject_refs
+                                                             if r.get("status") == "RESOLVED"})}
+            human = (len(entity_ids) == 1 and
+                     self.entities.get(next(iter(entity_ids)), {}).get("kind") == "person")
+            regime = (left.get("number") == "singular" or
+                      left.get("number") in ("dual", "plural") and human)
+            axes = {axis: ("possible" if left.get(axis) in (None, "unknown") or
+                    right.get(axis) in (None, "unknown") else
+                    "confirmed" if left[axis] == right[axis] else "conflict")
+                    for axis in ("gender", "number")}
+            state = predicate_agreement_status(regime_licensed=regime, **axes)
+            if state != "confirmed":
+                obligations.append("CONSTRUCTION_CONFLICT" if state == "conflict" else
+                                   "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED")
+            relations.append({"kind": "predicate_agreement", "head_span": subject["span"],
+                "dependent_span": predicate["span"], "head_reading_id": subject["reading_id"],
+                "dependent_reading_id": predicate["reading_id"], "subject_role": subject["role"],
+                "predicate_role": role, "regime": "source_declared_direct_adjective",
+                "regime_licensed": regime, "axes": axes, "status": state,
+                "subject_gender_basis": gender_basis,
+                "subject_profile": deepcopy(left), "predicate_profile": deepcopy(right),
+                "predicate_lemma": reading["lexical_features"].get("lemma"),
+                "subject_reference_ids": sorted({r["reference_id"] for r in subject_refs}),
+                "law_id": CONSTRUCTION_LAW_ID, "law_sha256": CONSTRUCTION_TABLE_SHA256,
+                "case_and_definiteness_equalities_required": False})
+        if relations:
+            rule = "predicate_adjectival_agreement"
+            supports.append({"kind": "source_construction_grammar", "rule": rule,
+                "law_id": CONSTRUCTION_LAW_ID, "law_sha256": CONSTRUCTION_TABLE_SHA256,
+                "policy_sha256": self.construction_policy["policy_sha256"],
+                "passage": self.construction_policy["rules"][rule]})
+        return obligations, relations, supports
+
     def analysis(self, tokens, *, frame, force, refs, assignments, readings, claims,
                  obligations=(), supports=(), relations=()):
         self.analysis_count += 1
@@ -325,6 +480,28 @@ class _Reader:
             raise resource_limit("Discourse composition budget exceeded")
         for reading in readings:
             self.derived[reading["reading_id"]] = reading
+        agreement_obligations, agreement_relations, agreement_supports = self.predicate_agreement(
+            readings, assignments, refs, force=force)
+        # Rebuilds recompute the check; an existing relation is not authority.
+        obligations = list(obligations) + agreement_obligations
+        relations = [r for r in relations if r.get("kind") != "predicate_agreement"] + agreement_relations
+        supports = list(supports) + [s for s in agreement_supports if s not in supports]
+        claims = deepcopy(claims)
+        for relation in agreement_relations:
+            if relation["status"] != "pending_substitution":
+                continue
+            variable = relation["question_variable"]
+            profile = relation["predicate_profile"]
+            constraint = {"kind": "question_variable", "name": variable,
+                          "gender": profile["gender"], "number": profile["number"]}
+            matched = False
+            for claim in claims:
+                if (claim["predicate_kind"] == "property" and claim["predicate"] == relation["predicate_lemma"] and
+                        (claim["args"] == [variable] or claim["args"] == [constraint])):
+                    claim["args"] = [deepcopy(constraint)]
+                    matched = True
+            if not matched:
+                obligations.append("QUESTION_AGREEMENT_CONSTRAINT_BINDING_REQUIRED")
         missing = list(obligations)
         if any(r["bound_entity_id"] is None for r in refs):
             missing.append("REFERENCE_NOT_UNIQUELY_LICENSED")
@@ -332,7 +509,7 @@ class _Reader:
             missing.append("OBSERVED_FORM_CONFLICTS_WITH_REQUIRED_CASE")
         missing.extend(o for a in assignments for o in a.get("obligations", []))
         rejected = (any(not a["compatible"] for a in assignments) or
-                    any(o in ("PERSON_AGREEMENT_CONFLICT", "OVERT_SUBJECT_PERSON_CONFLICT") for o in obligations) or
+                    any(o in ("PERSON_AGREEMENT_CONFLICT", "OVERT_SUBJECT_PERSON_CONFLICT", "CONSTRUCTION_CONFLICT") for o in obligations) or
                     any(r.get("candidates") and all(c["compatibility"] == "conflict" for c in r["candidates"])
                         for r in refs))
         syntax_complete = (not obligations and not any(a.get("obligations") for a in assignments)
@@ -511,8 +688,10 @@ class _Reader:
                                 refs=refs + [obj["reference"]], assignments=assignments + [obj["assignment"]],
                                 readings=readings + [obj["reading"]], claims=[claim], obligations=extra,
                                 supports=[self.support("active_subject"), {"kind": "valency_source", "witnesses": witnesses}]))
-                        if objects:
-                            continue
+                        # With no object reading this production has not
+                        # consumed its third token. It is not a complete
+                        # competing analysis of a newly supported modifier.
+                        continue
                     claim = self.claim(features["lemma"], args, positive, vtense, time, place, restriction)
                     claim.update(predicate_kind="event", voice=voice)
                     result.append(self.analysis(tokens, frame="verbal_predication", force=local_force,
@@ -699,10 +878,15 @@ class _Reader:
         extra, supports = [], []
         first = lookup_key(body[0]["surface"])
         if first in ("هل", "أ"):
+            if not template_matches(body[0]["surface"], {"هل": "هَلْ", "أ": "أَ"}[first], mutable_last=False):
+                return []
             force = "QUESTION"
             supports.append(self.support("polar_interrogative"))
             body = body[1:]
         elif first in ("من", "ماذا", "أين", "متى", "كيف") and question:
+            template = {"من": "مَنْ", "ماذا": "مَاذَا", "أين": "أَيْنَ", "متى": "مَتَى", "كيف": "كَيْفَ"}[first]
+            if not template_matches(body[0]["surface"], template, mutable_last=False):
+                return []
             if first == "من" and template_matches(body[0]["surface"], "مَنْ", mutable_last=False):
                 wh, force = "subject", "QUESTION"
             elif first == "ماذا":
@@ -716,25 +900,28 @@ class _Reader:
             supports.append(self.support("wh_subject"))
         if not body:
             return []
+        construction_body = list(body)
+        from .construction_reader import operator_frames
+        operator_rows = operator_frames(self, body, force=force, wh=wh, depth=depth)
+        if operator_rows is not None:
+            results = []
+            for row in operator_rows:
+                rebuilt = self.analysis(original, frame=row["frame"], force=row["force"],
+                    refs=row["references"], assignments=row["assignments"],
+                    readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
+                    claims=row["claims"], obligations=row["obligations"],
+                    supports=row["supports"] + supports, relations=row["relations"])
+                rebuilt["question_kind"] = row.get("question_kind")
+                rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
+                results.append(rebuilt)
+            return results
         key = lookup_key(body[0]["surface"])
-        if key in ("إن", "كان", "ليس", "ليت", "لعل", "يا", "لا", "لن", "لم", "سوف"):
+        if key in ("يا", "لا", "لن", "لم", "سوف"):
             head, body = body[0], body[1:]
-            if key == "إن":
-                clusters = lookup_clusters(head["surface"])
-                if "ّ" not in clusters[-1][1]:
-                    extra.append("INNA_DISTINCT_FROM_CONDITIONAL_IN_REQUIRES_SHADDA")
-                subject_role, predicate_role = "inna_subject", "inna_predicate"
-                supports.append(self.support("inna_case"))
-            elif key in ("كان", "ليس"):
-                subject_role, predicate_role = "kana_subject", "kana_predicate"
-                tense = "past" if key == "كان" else "unspecified"
-                positive = key != "ليس"
-                supports.append(self.support("kana_case" if key == "كان" else "laysa_negation"))
-            elif key in ("ليت", "لعل"):
-                force = "WISH" if key == "ليت" else "HOPE"
-                subject_role, predicate_role = "inna_subject", "inna_predicate"
-                supports.append(self.support("force_nonassertive"))
-            elif key == "يا":
+            template = {"يا": "يَا", "لا": "لَا", "لن": "لَنْ", "لم": "لَمْ", "سوف": "سَوْفَ"}[key]
+            if not template_matches(head["surface"], template, mutable_last=False):
+                return []
+            if key == "يا":
                 force = "VOCATIVE"
                 extra.append("VOCATIVE_CLAUSE_OUTSIDE_ASSERTIVE_FRAMES")
             elif key == "لا":
@@ -752,11 +939,6 @@ class _Reader:
                 supports.append(self.support("deictic_adverbs"))
         if not body:
             return []
-        if not positive and len(body) == 3 and lookup_key(body[1]["surface"]) == "إلا" and key == "ليس":
-            body = [body[0], body[2]]
-            positive = True
-            restriction = ["negation_exception_predicate"]
-            supports.append(self.support("restriction"))
         results = []
         for complement in self.complements(body):
             reduced = complement["tokens"]
@@ -789,6 +971,23 @@ class _Reader:
                 rebuilt["question_kind"] = wh or "polar" if rebuilt["force"] == "QUESTION" else None
                 rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
                 results.append(rebuilt)
+        if wh is None:
+            from .construction_reader import nominal_frames, verbal_frames, event_modifiers
+            from .construction_complements import adverbial_frames, quantified_frames
+            extensions = (nominal_frames(self, construction_body, force=force) +
+                          verbal_frames(self, construction_body, force=force) +
+                          event_modifiers(self, construction_body, force=force, depth=depth) +
+                          adverbial_frames(self, construction_body, force=force, depth=depth) +
+                          quantified_frames(self, construction_body, force=force))
+            for row in extensions:
+                rebuilt = self.analysis(original, frame=row["frame"], force=row["force"],
+                    refs=row["references"], assignments=row["assignments"],
+                    readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
+                    claims=row["claims"], obligations=row["obligations"], supports=row["supports"] + supports,
+                    relations=row["relations"])
+                rebuilt["question_kind"] = "polar" if rebuilt["force"] == "QUESTION" else None
+                rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
+                results.append(rebuilt)
         if len(results) > MAX_ANALYSES:
             raise resource_limit("Discourse alternatives exceed the per-clause budget", maximum=MAX_ANALYSES)
         # Complete positive clauses may share a conjunction. Scope under
@@ -799,6 +998,8 @@ class _Reader:
                 clusters = lookup_clusters(token["surface"])
                 key_at = lookup_key(token["surface"])
                 if key_at == "و":
+                    if not template_matches(token["surface"], "وَ", mutable_last=False):
+                        continue
                     left, right = original[:i], original[i + 1:]
                     connector_span = token["span"]
                 elif key_at and key_at.startswith("و") and len(clusters) > 1 and clusters[0][1] <= set("َ"):
@@ -921,6 +1122,9 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
     result = {"schema": "nabt.discourse-report.v1", "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
               "law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
               "policy_sha256": engine.policy["policy_sha256"],
+              "construction_law_id": CONSTRUCTION_LAW_ID,
+              "construction_law_sha256": CONSTRUCTION_TABLE_SHA256,
+              "construction_policy_sha256": engine.construction_policy["policy_sha256"],
               "source_id": source.source_id, "source_sha256": source.sha256,
               "source_text": source.raw_bytes.decode("utf-8"), "scope": scope,
               "context": engine.context, "lexical_model": engine.model_summary,

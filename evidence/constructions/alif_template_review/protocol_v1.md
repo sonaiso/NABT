@@ -1,0 +1,11 @@
+# Accusative-alif source-template review
+
+This is an authored regression after read-only implementation review at `83c14b2`, frozen before the corrective implementation. It is not a natural corpus, a blind holdout, or new independent lexical-acquisition accuracy. The historical construction and discourse gold and their results are unchanged.
+
+The narrow source-binding requirement is that the attested complete carrier form and the independently paired base belong to a compatible internal written template. An unmarked new input may match each source template separately; that does not make the two templates compatible with each other. CASE/MOOD, dependency, role, and answer labels are absent from every source. The deliberate conflicting lexical descriptions are adversarial source material, not claimed Arabic attestations. Their exact bytes and locators are preserved.
+
+There are 12 cases: four compatible controls; six contradictory internal-vowel controls, including both directions and marked/unmarked input; two missing-witness controls. Only the four complete compatible sources should license the carrier, a past property claim, the corresponding kana roles, and the matching polar answer. Contradictory or absent source premises must remain incomplete and supply no claim or supported answer. Source identity and context are fixed independently of case expectations.
+
+The runner must select a fresh subprocess for each runtime, verify the approved freeze manifest, archive and complete authoritative inventory before and after the run, and check imported module origins. Baseline must use an extraction of the v2 archive, never a changing checkout. No caller-provided manifest hash establishes approval. A later v3 pin may be added outside the semantic scorer, preserving the baseline runner bytes.
+
+Save full document/answer reports in a canonical JSON-lines journal. After closure, read every line back, compare write-time hashes, case identity/order and report identities with the scored results. Only then publish the result JSON. Record runner/helper/material/source/runtime hashes and archive the exact runner used. Never overwrite an existing result or journal. Report all failed expectations; no waivers for source-template conflicts, no gold edits to fit a correction.

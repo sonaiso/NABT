@@ -1,0 +1,112 @@
+{
+  "adapter_domain_limit": "Current frozen cases use entity IDs/variables and unresolved candidate nulls. The evaluator does not implement the wider quantified_nominal dict argument domain; there are no positive quantified-subject cases here. This is not a general validator for every public discourse term.",
+  "adapter_tests": {
+    "passed": 26,
+    "total": 26
+  },
+  "comparison_protocol": "Rerun baseline v4, construction v1 and construction v2 using these identical tool/test bytes, each in a fresh process and separately extracted approved runtime. Preserve all earlier attempts.",
+  "correction": {
+    "fix": "Require both overall report statuses to be LICENSED_DISCOURSE whenever proofs, counterproofs or bindings are returned. Separate mutation tests cover each report.",
+    "reproduction": "Change a unit document or inquiry overall status to DEFER, then rehash report and answer links. The earlier answer validator admitted SUPPORTED with claim evidence."
+  },
+  "gold_changed": false,
+  "gold_freeze_sha256": "5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e",
+  "new_code": [
+    {
+      "path": "tools/construction_evaluation.py",
+      "sha256": "810a8de5357de089ab3978dfca3230ac033be5483947243a3f6ac594320b72b3"
+    },
+    {
+      "path": "tests/test_construction_evaluator.py",
+      "sha256": "7bb18f0d39abb4a84a1b461ff9afc8ed7805c0c4ba2160e01b753048c88422a5"
+    }
+  ],
+  "next_runs": [
+    "independent_runs/baseline_v4_adapter_v3.json",
+    "independent_runs/target_v1_adapter_v3.json",
+    "independent_runs/target_v2_adapter_v3.json"
+  ],
+  "old_adapter_sha256": "0ba5b268b0022e20253758003d2fbcdd3de61fae8c5c3a95faae8c9a9e574c9a",
+  "old_tests_sha256": "6c1bfc527753b82883440e64538ab5ffd7bc3187d49bd15d94d91629ecbf6e98",
+  "recorded_at_utc": "2026-10-23T19:37:14.680181+00:00",
+  "retained_completed_attempts": [
+    {
+      "artifact_inventory": [
+        {
+          "bytes": 981319,
+          "path": "evidence/constructions/independent_runs/baseline_v4_adapter_v2.code.tar.gz",
+          "sha256": "597bd8c8ad8764c0465d6a02dfad206d3eceacd1ec8006430accdab8745fba07"
+        },
+        {
+          "bytes": 186009,
+          "path": "evidence/constructions/independent_runs/baseline_v4_adapter_v2.json",
+          "sha256": "4478e1743049e772e9fe658f12dd798c78ef0baddb0521aae0e143dd36f276da"
+        },
+        {
+          "bytes": 755901,
+          "path": "evidence/constructions/independent_runs/baseline_v4_adapter_v2.raw.jsonl.gz",
+          "sha256": "3d911f0d37bfa4e3c689aea64e2dc02ca621a43a441b2c01c2a7d69885b5f70e"
+        },
+        {
+          "bytes": 0,
+          "path": "evidence/constructions/independent_runs/baseline_v4_adapter_v2.stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 10751,
+          "path": "evidence/constructions/independent_runs/baseline_v4_adapter_v2.stdout.jsonl",
+          "sha256": "f35b40f0f58a5b8610efe9330785bc0c6f4967538ba9eb3c0820ec4329ed17b5"
+        }
+      ],
+      "label": "baseline_v4_adapter_v2",
+      "measurement_valid": true,
+      "passed": 42,
+      "raw_reopened_verified": true,
+      "strict_pass": false,
+      "total": 86
+    },
+    {
+      "artifact_inventory": [
+        {
+          "bytes": 1017826,
+          "path": "evidence/constructions/independent_runs/target_v1_adapter_v2.code.tar.gz",
+          "sha256": "d2c525ff7f5dda98acb3c535c26f4d97371c9a785abefc70ce56a3b81c083ed0"
+        },
+        {
+          "bytes": 157819,
+          "path": "evidence/constructions/independent_runs/target_v1_adapter_v2.json",
+          "sha256": "cb90f228d0030a159735acb5dd2c41a58b102b328641f964d68e4c63beb558f6"
+        },
+        {
+          "bytes": 1164769,
+          "path": "evidence/constructions/independent_runs/target_v1_adapter_v2.raw.jsonl.gz",
+          "sha256": "5a357338371d3167a1435cc9fd51f6efe6d1e235a5411ad36a2940caa282a4b1"
+        },
+        {
+          "bytes": 0,
+          "path": "evidence/constructions/independent_runs/target_v1_adapter_v2.stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 6772,
+          "path": "evidence/constructions/independent_runs/target_v1_adapter_v2.stdout.jsonl",
+          "sha256": "f69451d38002b8d18768fe0bac7b2071435f7cd3e13a5be8659f2562e6f70587"
+        }
+      ],
+      "label": "target_v1_adapter_v2",
+      "measurement_valid": true,
+      "passed": 70,
+      "raw_reopened_verified": true,
+      "strict_pass": false,
+      "total": 86
+    }
+  ],
+  "review_origin": "Independent reviewer examined evaluator and unit fixtures only; did not open frozen independent cases.",
+  "runtime_changed_by_reviewer": false,
+  "runtime_pin_addition": {
+    "default": "code_freeze_v2.json",
+    "manifest_sha256": "5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1",
+    "snapshot_sha256": "1e9d906428ec3824c4ecbff8ef8fb3adc88d6cb6c9dbfa1819c53655b3206c7c"
+  },
+  "schema": "nabt.constructions.adapter-review.v2"
+}

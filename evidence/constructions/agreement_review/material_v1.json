@@ -1,0 +1,229 @@
+{
+  "schema": "nabt.constructions.predicate-agreement-review-material.v1",
+  "scope": "Eleven authored source-qualified singular human direct adjective-predicate checks, including ordinary noun and unknown-feature boundaries. Not an unrestricted agreement law or held-out language accuracy score.",
+  "unknown_source_change": "Only the FS atom on the three Hakiymap adjective rows is omitted. This removes lexical gender/number evidence, supplies no negative evidence, and does not replace a lexical feature with a presumed shape class.",
+  "context": "context.json",
+  "cases": [
+    {
+      "id": "AG01",
+      "text": "كان زيدٌ حكيمًا.",
+      "question": "هل كان زيدٌ حكيمًا؟",
+      "training": "training.tsv",
+      "reason": "canonical masculine adjective",
+      "expected": {
+        "kind": "positive_control",
+        "document_statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true,
+        "predicate_gender": "masculine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "bdf30273615c91b5ecd11d31e488cab9c6d17238aac8f4e36c7071e67f715b14",
+      "question_sha256": "49b5cf50e6a95d8035497e12fd10fdd59c8f057711572b5df5de16fdcf8784a6"
+    },
+    {
+      "id": "AG02",
+      "text": "كان زيدٌ حكيمةً.",
+      "question": "هل كان زيدٌ حكيمةً؟",
+      "training": "training.tsv",
+      "reason": "known singular human masculine subject versus feminine adjective",
+      "expected": {
+        "kind": "known_conflict",
+        "document_statuses": [
+          "DEFER"
+        ],
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false,
+        "predicate_gender": "feminine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "1c3534ebba2cf933babd44207a2b7482cd55454b8f89741efd59690e0c7fd963",
+      "question_sha256": "04d3f7fce18ca90a8c6e87cf96317cded42d477449141ddfde5c120f47eb059c"
+    },
+    {
+      "id": "AG03",
+      "text": "إنَّ زيدًا حكيمٌ.",
+      "question": "هل إنَّ زيدًا حكيمٌ؟",
+      "training": "training.tsv",
+      "reason": "canonical inna masculine adjective",
+      "expected": {
+        "kind": "positive_control",
+        "document_statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true,
+        "predicate_gender": "masculine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "c9ce8296cc7062b3a7fb3e03fd87aa16363b436f6421cf65a1b6ba8241699605",
+      "question_sha256": "8fc9d43b0dbc021d71531095f8d7ee26514427b7b70c28856e4516bb308be4df"
+    },
+    {
+      "id": "AG04",
+      "text": "إنَّ زيدًا حكيمةٌ.",
+      "question": "هل إنَّ زيدًا حكيمةٌ؟",
+      "training": "training.tsv",
+      "reason": "inna known subject/predicate gender conflict",
+      "expected": {
+        "kind": "known_conflict",
+        "document_statuses": [
+          "DEFER"
+        ],
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false,
+        "predicate_gender": "feminine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "51c20a08d516fbd48da9a41237ed15e4a5b28f1bd69d32eb0d1101905f4691e6",
+      "question_sha256": "2b5db8f036014256511b98d4b5390f1441a3ffb3721549e5e1466f88e3f0082f"
+    },
+    {
+      "id": "AG05",
+      "text": "ظن زيدٌ سالمًا حكيمًا.",
+      "question": "هل ظن زيدٌ سالمًا حكيمًا؟",
+      "training": "training.tsv",
+      "reason": "canonical zanna object1/object2 adjective agreement",
+      "expected": {
+        "kind": "positive_control",
+        "document_statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true,
+        "predicate_gender": "masculine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "f87cce8d893b29023b9c4960e342f0fa9c7009ead01f6caea2293330d015471d",
+      "question_sha256": "14258e88c0992f8a9d0823b78166cdc2ded9dea0513fc8d384de7c0401f7a195"
+    },
+    {
+      "id": "AG06",
+      "text": "ظن زيدٌ سالمًا حكيمةً.",
+      "question": "هل ظن زيدٌ سالمًا حكيمةً؟",
+      "training": "training.tsv",
+      "reason": "zanna known object1/object2 adjective gender conflict",
+      "expected": {
+        "kind": "known_conflict",
+        "document_statuses": [
+          "DEFER"
+        ],
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false,
+        "predicate_gender": "feminine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "e2f2f4795d4629bd47f64472eb044691668b40c93a3c06aa12ea4f9a5c2f26a8",
+      "question_sha256": "cb73da621b4b13e95b9513e6a8fa93b55750b22c59191393728e359b33290c24"
+    },
+    {
+      "id": "AG07",
+      "text": "إنَّ هندًا حكيمةٌ.",
+      "question": "هل إنَّ هندًا حكيمةٌ؟",
+      "training": "training.tsv",
+      "reason": "canonical feminine singular human subject and adjective",
+      "expected": {
+        "kind": "positive_control",
+        "document_statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true,
+        "predicate_gender": "feminine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "4e491b0726b424aad92ad361fe885a13bb2c38908309641ba8171e4466b26fcc",
+      "question_sha256": "31e3927c5ea0626e38e7dd6affb082ddf7c15fecaf3a65690e30e628ce827186"
+    },
+    {
+      "id": "AG08",
+      "text": "زيدٌ حكيمةٌ.",
+      "question": "هل زيدٌ حكيمةٌ؟",
+      "training": "training.tsv",
+      "reason": "known conflict through earlier simple nominal integration",
+      "expected": {
+        "kind": "known_conflict",
+        "document_statuses": [
+          "DEFER"
+        ],
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false,
+        "predicate_gender": "feminine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "b27ff97254c2e7164b923866619c2abd7d564120c069009fbbded1b82669daf8",
+      "question_sha256": "8aec375576ecc67b03baef8ab7cc162ca1a217294303e79118692be3e0c36cd2"
+    },
+    {
+      "id": "AG09",
+      "text": "زيدٌ حكيمٌ.",
+      "question": "هل زيدٌ حكيمٌ؟",
+      "training": "training.tsv",
+      "reason": "canonical earlier simple nominal integration",
+      "expected": {
+        "kind": "positive_control",
+        "document_statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true,
+        "predicate_gender": "masculine",
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "d351c23921bb16afe4542d5284d8251eb1a9be0fe61046a61025ad3a30906349",
+      "question_sha256": "d0edb747dfcef0c2dafab5773ff4532c4c12a00b87e7502306aa3d4c2e5bc8c5"
+    },
+    {
+      "id": "AG10",
+      "text": "كان زيدٌ نفسًا.",
+      "question": "هل كان زيدٌ نفسًا؟",
+      "training": "training.tsv",
+      "reason": "ordinary noun predicate N is not governed by the ADJ gender restriction",
+      "expected": {
+        "kind": "positive_control",
+        "document_statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true,
+        "predicate_gender": "feminine",
+        "predicate_pos": "N"
+      },
+      "source_sha256": "cb53e686c82a9e4ff752803d34c24243daf8f356f4f5e1e358839b96f23e3fb9",
+      "question_sha256": "40f4893e8a687e1f00b3383e40b96dc5a9bd650fb0f3a4f1dbfd32a77632cfce"
+    },
+    {
+      "id": "AG11",
+      "text": "كان زيدٌ حكيمةً.",
+      "question": "هل كان زيدٌ حكيمةً؟",
+      "training": "training_unknown_gender.tsv",
+      "reason": "absent lexical FS remains unknown; written feminine shape is not supplied gender evidence",
+      "expected": {
+        "kind": "unknown_gender_boundary",
+        "document_statuses": [
+          "LICENSED_DISCOURSE",
+          "DEFER"
+        ],
+        "claim_count": null,
+        "answer_status": null,
+        "activated_roles_allowed": true,
+        "predicate_gender": null,
+        "predicate_pos": "ADJ"
+      },
+      "source_sha256": "1c3534ebba2cf933babd44207a2b7482cd55454b8f89741efd59690e0c7fd963",
+      "question_sha256": "04d3f7fce18ca90a8c6e87cf96317cded42d477449141ddfde5c120f47eb059c"
+    }
+  ]
+}

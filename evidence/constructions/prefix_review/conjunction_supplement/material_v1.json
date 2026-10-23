@@ -1,0 +1,35 @@
+{
+  "schema": "nabt.constructions.standalone-conjunction-review-material.v1",
+  "scope": "Two authored regressions for the standalone consumed conjunction; explicit contrary damma versus canonical fatha. Uses the same authored source as the preceding operator review. Not a held-out language score.",
+  "context": "context.json",
+  "cases": [
+    {
+      "id": "CW01",
+      "text": "زيدٌ حكيمٌ وَ سالمٌ حكيمٌ.",
+      "question": "هل زيدٌ حكيمٌ؟",
+      "reason": "Canonical standalone coordinating waw",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "claim_count": 2,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true
+      },
+      "source_sha256": "505292561f6cc501c405e8e384f555a8c19ac667afaa9fe78fd62aa6421d16e5",
+      "question_sha256": "d0edb747dfcef0c2dafab5773ff4532c4c12a00b87e7502306aa3d4c2e5bc8c5"
+    },
+    {
+      "id": "CW02",
+      "text": "زيدٌ حكيمٌ وُ سالمٌ حكيمٌ.",
+      "question": "هل زيدٌ حكيمٌ؟",
+      "reason": "Explicit damma cannot be consumed as the coordinating waw fatḥa paradigm",
+      "expected": {
+        "document_status": "DEFER",
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false
+      },
+      "source_sha256": "36c39947ed3c65cf6e25f0ae93fd16222f61feb1052937a4c1f77e7eb13b0a40",
+      "question_sha256": "d0edb747dfcef0c2dafab5773ff4532c4c12a00b87e7502306aa3d4c2e5bc8c5"
+    }
+  ]
+}

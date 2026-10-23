@@ -1,0 +1,276 @@
+{
+  "cases": [
+    {
+      "description": "Matching full and paired base templates; unmarked input.",
+      "expected": {
+        "activated_roles": {
+          "kana_predicate": "nasb",
+          "kana_subject": "raf"
+        },
+        "answer_status": "SUPPORTED",
+        "carrier_licensed": true,
+        "claim": {
+          "args": [
+            "z"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "عَلَم",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "past",
+          "time": [],
+          "voice": null
+        },
+        "claim_count": 1,
+        "document_status": "LICENSED_DISCOURSE"
+      },
+      "id": "ALIF-P01",
+      "question": "هل كان زيد علما؟",
+      "source": "sources/compatible_a.tsv",
+      "target_surface": "علما",
+      "text": "كان زيد علما."
+    },
+    {
+      "description": "Matching full and paired base templates; marked input.",
+      "expected": {
+        "activated_roles": {
+          "kana_predicate": "nasb",
+          "kana_subject": "raf"
+        },
+        "answer_status": "SUPPORTED",
+        "carrier_licensed": true,
+        "claim": {
+          "args": [
+            "z"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "عَلَم",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "past",
+          "time": [],
+          "voice": null
+        },
+        "claim_count": 1,
+        "document_status": "LICENSED_DISCOURSE"
+      },
+      "id": "ALIF-P02",
+      "question": "هل كان زيد عَلَمًا؟",
+      "source": "sources/compatible_a.tsv",
+      "target_surface": "عَلَمًا",
+      "text": "كان زيد عَلَمًا."
+    },
+    {
+      "description": "Second matching internal template; unmarked input.",
+      "expected": {
+        "activated_roles": {
+          "kana_predicate": "nasb",
+          "kana_subject": "raf"
+        },
+        "answer_status": "SUPPORTED",
+        "carrier_licensed": true,
+        "claim": {
+          "args": [
+            "z"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "عِلْم",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "past",
+          "time": [],
+          "voice": null
+        },
+        "claim_count": 1,
+        "document_status": "LICENSED_DISCOURSE"
+      },
+      "id": "ALIF-P03",
+      "question": "هل كان زيد علما؟",
+      "source": "sources/compatible_i.tsv",
+      "target_surface": "علما",
+      "text": "كان زيد علما."
+    },
+    {
+      "description": "Second matching internal template; marked input.",
+      "expected": {
+        "activated_roles": {
+          "kana_predicate": "nasb",
+          "kana_subject": "raf"
+        },
+        "answer_status": "SUPPORTED",
+        "carrier_licensed": true,
+        "claim": {
+          "args": [
+            "z"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "عِلْم",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "past",
+          "time": [],
+          "voice": null
+        },
+        "claim_count": 1,
+        "document_status": "LICENSED_DISCOURSE"
+      },
+      "id": "ALIF-P04",
+      "question": "هل كان زيد عِلْمًا؟",
+      "source": "sources/compatible_i.tsv",
+      "target_surface": "عِلْمًا",
+      "text": "كان زيد عِلْمًا."
+    },
+    {
+      "description": "Incompatible source internal vowels cannot be bridged through unmarked input.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B01",
+      "question": "هل كان زيد علما؟",
+      "source": "sources/conflict_a_i.tsv",
+      "target_surface": "علما",
+      "text": "كان زيد علما."
+    },
+    {
+      "description": "Input follows full witness but conflicts with independently paired base.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B02",
+      "question": "هل كان زيد عِلْمًا؟",
+      "source": "sources/conflict_a_i.tsv",
+      "target_surface": "عِلْمًا",
+      "text": "كان زيد عِلْمًا."
+    },
+    {
+      "description": "Input follows paired base but conflicts with full witness.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B03",
+      "question": "هل كان زيد عَلَمًا؟",
+      "source": "sources/conflict_a_i.tsv",
+      "target_surface": "عَلَمًا",
+      "text": "كان زيد عَلَمًا."
+    },
+    {
+      "description": "Reverse internal vowel mismatch cannot be bridged through unmarked input.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B04",
+      "question": "هل كان زيد علما؟",
+      "source": "sources/conflict_i_a.tsv",
+      "target_surface": "علما",
+      "text": "كان زيد علما."
+    },
+    {
+      "description": "Reverse mismatch; input follows full witness.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B05",
+      "question": "هل كان زيد عَلَمًا؟",
+      "source": "sources/conflict_i_a.tsv",
+      "target_surface": "عَلَمًا",
+      "text": "كان زيد عَلَمًا."
+    },
+    {
+      "description": "Reverse mismatch; input follows paired base.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B06",
+      "question": "هل كان زيد عِلْمًا؟",
+      "source": "sources/conflict_i_a.tsv",
+      "target_surface": "عِلْمًا",
+      "text": "كان زيد عِلْمًا."
+    },
+    {
+      "description": "Full form alone supplies no independent paired base.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B07",
+      "question": "هل كان زيد علما؟",
+      "source": "sources/full_only.tsv",
+      "target_surface": "علما",
+      "text": "كان زيد علما."
+    },
+    {
+      "description": "Paired base alone supplies no independent complete carrier form.",
+      "expected": {
+        "answer_status": "DEFER",
+        "carrier_licensed": false,
+        "claim_count": 0,
+        "document_status": "DEFER"
+      },
+      "id": "ALIF-B08",
+      "question": "هل كان زيد علما؟",
+      "source": "sources/base_only.tsv",
+      "target_surface": "علما",
+      "text": "كان زيد علما."
+    }
+  ],
+  "classification": "AUTHORED_POST_REVIEW_SOURCE_CONSISTENCY_REGRESSION",
+  "context": "context.json",
+  "origin": "Read-only implementation review at commit 83c14b2; frozen before corrective implementation. Not a blind holdout or natural-corpus sample.",
+  "schema": "nabt.alif-template-review.material.v1",
+  "sources": [
+    {
+      "bytes": 349,
+      "path": "sources/compatible_a.tsv",
+      "sha256": "ee4f1b79b8c7cccb345f0cdb9870802b8c3b8de1857801a802d0868eab203b3d"
+    },
+    {
+      "bytes": 349,
+      "path": "sources/compatible_i.tsv",
+      "sha256": "b610aa28203e0a08c61d602b882024c3dd65a8fa70cda70f0616b143e812b58a"
+    },
+    {
+      "bytes": 349,
+      "path": "sources/conflict_a_i.tsv",
+      "sha256": "a1c8485c3e4f6afd101427f2b1c1550983697dec4c313ee2f8fc7c1fae3eb052"
+    },
+    {
+      "bytes": 349,
+      "path": "sources/conflict_i_a.tsv",
+      "sha256": "92e4ad3039330cc137c3c158d97a67860074f64e668632bdf6e2d1102b255d7e"
+    },
+    {
+      "bytes": 245,
+      "path": "sources/full_only.tsv",
+      "sha256": "0a44f56f2edbe8929a5e4c473354f10d1866b8c777adeb3c48b32e3f62376a37"
+    },
+    {
+      "bytes": 296,
+      "path": "sources/base_only.tsv",
+      "sha256": "0d9de72a4aa830e4265022181205205525109ae4224124f3ba0b5d9c3a423d9f"
+    }
+  ]
+}

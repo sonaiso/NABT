@@ -1,0 +1,9 @@
+# Adverb head and claim-scope review
+
+Frozen before corrective implementation after the read-only review at 83c14b2. This is an authored regression using the unchanged teaching lexicon and context, not a blind holdout. No historical construction/discourse gold is edited.
+
+The six cases cover spatial and temporal attachments on simple nominal predication and the corresponding predication containing a relative clause, plus VSO/SVO event controls. The displayed adverb relation/assignment must attach to the head of the proposition receiving the qualification. A relative-clause verb may not be selected merely because it is the first verb in the analysis. Each expected UTF-8 byte span is computed directly from the authored source text and preserved in the material. The check applies to every complete, nonrejected analysis contributing the licensed clause; successful hashes alone cannot repair a mismatched semantic owner.
+
+Every case should remain supported under its complete, exact source-qualified frame. The relational span of the modifier, its actual case and its semantic qualification must coexist in the same analysis. A runtime with insufficient evidence should defer rather than claim an arbitrary head; such deferral remains a coverage miss under these explicitly complete controls, not a false semantic success.
+
+Baseline uses the approved v2 archive extracted into an isolated root. The runner verifies manifest, archive, authoritative file inventory and module origins before/after each process. Save complete raw reports and answers, replay statuses, runner bytes, material/source archive, and a canonical journal. Re-read every journal line after closure and compare hashes, ordered case IDs and scores before finalizing results. Preserve all attempts. Only approved runtime pins may be appended; compare v2 and v3 with identical final runner bytes.

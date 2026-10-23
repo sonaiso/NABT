@@ -1,0 +1,348 @@
+{
+  "adapter_changes": [
+    "Exact temporal_relation time-object representation preserves relation and unresolved object without reducing it to a display string.",
+    "Temporal relation validated through matching occurrence/reading, time-adverb edge, genitive assignment and idafa edge, complement reference, actual predicate head, and prohibition of asserted ownership. An unresolved object cannot authorize assertion.",
+    "Closed gzip raw journal is checked against write-time bytes/hashes and scheduled ordered case/variant/profile identities before the final result is written."
+  ],
+  "case_score_differences_v4_to_v2": [
+    {
+      "after": {
+        "accepted_claim_count": 0,
+        "checks": [
+          {
+            "check": "report_integrity",
+            "passed": true
+          },
+          {
+            "check": "original_report_replay",
+            "passed": true
+          },
+          {
+            "check": "required_claim:0",
+            "passed": false
+          },
+          {
+            "check": "reading:0",
+            "passed": true
+          },
+          {
+            "check": "question_integrity:0",
+            "passed": true
+          },
+          {
+            "check": "answer_replay:0",
+            "passed": true
+          },
+          {
+            "check": "question:0",
+            "passed": false
+          }
+        ],
+        "failures": [
+          {
+            "check": "required_claim:0",
+            "details": {
+              "args": [
+                "b"
+              ],
+              "place": [],
+              "positive": true,
+              "predicate": "جَمِيل",
+              "predicate_kind": "property",
+              "restriction": [],
+              "tense": "unspecified",
+              "time": [],
+              "voice": null
+            }
+          },
+          {
+            "check": "question:0",
+            "details": {
+              "actual": "DEFER",
+              "expected": "SUPPORTED"
+            }
+          }
+        ],
+        "false_accepts": [],
+        "id": "DSC-P26",
+        "passed": false,
+        "report_status": "DEFER",
+        "track": "positive_idafa"
+      },
+      "before": {
+        "accepted_claim_count": 1,
+        "checks": [
+          {
+            "check": "report_integrity",
+            "passed": true
+          },
+          {
+            "check": "original_report_replay",
+            "passed": true
+          },
+          {
+            "check": "required_claim:0",
+            "passed": false
+          },
+          {
+            "check": "reading:0",
+            "passed": true
+          },
+          {
+            "check": "question_integrity:0",
+            "passed": true
+          },
+          {
+            "check": "answer_replay:0",
+            "passed": true
+          },
+          {
+            "check": "question:0",
+            "passed": true
+          }
+        ],
+        "failures": [
+          {
+            "check": "required_claim:0",
+            "details": {
+              "args": [
+                "b"
+              ],
+              "place": [],
+              "positive": true,
+              "predicate": "جَمِيل",
+              "predicate_kind": "property",
+              "restriction": [],
+              "tense": "unspecified",
+              "time": [],
+              "voice": null
+            }
+          }
+        ],
+        "false_accepts": [],
+        "id": "DSC-P26",
+        "passed": false,
+        "report_status": "LICENSED_DISCOURSE",
+        "track": "positive_idafa"
+      },
+      "id": "DSC-P26"
+    }
+  ],
+  "created_at_utc": "2026-10-23T19:45:13.678913+00:00",
+  "evaluator_before_gate": {
+    "bytes": 79161,
+    "path": "evidence/constructions/legacy_discourse_review_v1/source_before_gate/discourse_evaluation.py",
+    "sha256": "d26c0de674affda44f0e4aed5380fc60bccbd1c66f9b9dea3435ad4b05e255f2"
+  },
+  "finding_b22": {
+    "explanation": "A source-attested time-adverb + idafa candidate has temporal_relation with unresolved object. It remains a nonasserted candidate; the 50 analyses in the preserved v1 reproduction yield no grounded claim. No rule grants ownership or reference from adjacency.",
+    "kind": "adapter_representation_gap_corrected_without_waiver",
+    "status": "report_integrity passes under the same corrected adapter for all three frozen runtimes"
+  },
+  "finding_p26": {
+    "explanation": "The context establishes identity for the name but not its lexical construction. An additional unrejected composed nominal analysis requires construction evidence; retained uncertainty prevents closure/ground assertion. No competitor was deleted and no gold changed. The earlier required_claim:0 miss remains unchanged.",
+    "kind": "actual_coverage_loss",
+    "only_new_failed_check": "question:0",
+    "runtime_constructions_question": "DEFER",
+    "runtime_v4_question": "SUPPORTED"
+  },
+  "invalid_first_attempt": {
+    "artifacts": [
+      {
+        "bytes": 117859,
+        "path": "evidence/constructions/legacy_discourse_review_v1/invalid_first_attempt/legacy-discourse-first.json",
+        "sha256": "936468343df93df343a6d7730816804964a8e0e358825ec418f2df2286d843d1"
+      },
+      {
+        "bytes": 367383,
+        "path": "evidence/constructions/legacy_discourse_review_v1/invalid_first_attempt/legacy-discourse-first.raw.jsonl.gz",
+        "sha256": "dc91be092dbaa3dfc20e12f9994eb2f7a21df124beb560dcdce7de0a339cab71"
+      },
+      {
+        "bytes": 1014119,
+        "path": "evidence/constructions/legacy_discourse_review_v1/invalid_first_attempt/legacy-discourse-first.code.tar.gz",
+        "sha256": "e3363aeb3abecd01993ed491dc9398c52e36e291eac682f66da0bdefce8a8372"
+      }
+    ],
+    "compressed_hash_matches_summary": true,
+    "decompression_error": {
+      "message": "Compressed file ended before the end-of-stream marker was reached",
+      "type": "EOFError"
+    },
+    "disposition": "Preserved unchanged. Incomplete gzip/raw journal makes this attempt invalid as a complete measurement. Cause of truncation is not established; no environment attribution is made.",
+    "measurement_valid": false
+  },
+  "not_claimed": [
+    "No natural-corpus accuracy estimate.",
+    "No new gold or modified historical gold.",
+    "No increase in successful legacy cases: all three score 57/86.",
+    "No conversion of 29 no-support answers into successful positive understanding.",
+    "No waiver of source, replay, reference, raw-journal, false-accept or execution failures."
+  ],
+  "runs": {
+    "constructions_v1": {
+      "code_archive": {
+        "bytes": 1018166,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v1.code.tar.gz",
+        "sha256": "b82b6952abcb7238aac999d1c8cce22cc32138fb15217013c4c78e078569624a"
+      },
+      "execution": {
+        "bytes": 1740,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v1.exit.json",
+        "sha256": "2d7ea9387919bdc30ae4c362d93e4239d2ac563458b7e33ca2f6ee1272d0e548"
+      },
+      "execution_error_count": 0,
+      "false_accept_count": 0,
+      "gold_freeze_sha256": "3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5",
+      "measurement_valid": true,
+      "no_support_questions": {
+        "passed": 29,
+        "total": 29
+      },
+      "passed": 57,
+      "positive_cases": {
+        "passed": 12,
+        "total": 30
+      },
+      "question_execution_error_count": 0,
+      "questions_all": {
+        "passed": 52,
+        "total": 74
+      },
+      "questions_requiring_support": {
+        "passed": 23,
+        "total": 45
+      },
+      "raw_case_count": 86,
+      "raw_log": {
+        "bytes": 912850,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v1.raw.jsonl.gz",
+        "sha256": "fc4499e975f653ebf700e018a995bc6e7524211647abdc52e98a2da33ae1afe9"
+      },
+      "raw_profile_count": 2,
+      "raw_records": 90,
+      "raw_variant_count": 2,
+      "result": {
+        "bytes": 136768,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v1.json",
+        "sha256": "0963c16f6625c32e68eefebda15a3869c0c02030e005e0c70a91379144ddc366"
+      },
+      "runtime_freeze_sha256": "96ffa98008bf1b6a6d1f5ab6b79a330fe4b8a9329887d9ac3f8ff9d31eb12e1e",
+      "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+      "strict_pass": false,
+      "total": 86
+    },
+    "constructions_v2": {
+      "code_archive": {
+        "bytes": 1018533,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v2.code.tar.gz",
+        "sha256": "837c517c79154771417dcd7017a253c2d108505ee75622c8301e2ea699ffb87c"
+      },
+      "execution": {
+        "bytes": 1744,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v2.exit.json",
+        "sha256": "b9345f7963dc4f1e3536cd2449e8dec788eee5b4604c3851e6dd067a69b99ab9"
+      },
+      "execution_error_count": 0,
+      "false_accept_count": 0,
+      "gold_freeze_sha256": "3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5",
+      "measurement_valid": true,
+      "no_support_questions": {
+        "passed": 29,
+        "total": 29
+      },
+      "passed": 57,
+      "positive_cases": {
+        "passed": 12,
+        "total": 30
+      },
+      "question_execution_error_count": 0,
+      "questions_all": {
+        "passed": 52,
+        "total": 74
+      },
+      "questions_requiring_support": {
+        "passed": 23,
+        "total": 45
+      },
+      "raw_case_count": 86,
+      "raw_log": {
+        "bytes": 912855,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v2.raw.jsonl.gz",
+        "sha256": "860e68dafe4c6b7b20190fa212d117e2ee7e4d5fa281892c0f2c6f2b8a523d45"
+      },
+      "raw_profile_count": 2,
+      "raw_records": 90,
+      "raw_variant_count": 2,
+      "result": {
+        "bytes": 136935,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/constructions_v2.json",
+        "sha256": "2ba58260771511df6c1f5b8dba073e244992252c368da60f4188732a5b51c1fa"
+      },
+      "runtime_freeze_sha256": "5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1",
+      "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+      "strict_pass": false,
+      "total": 86
+    },
+    "discourse_v4": {
+      "code_archive": {
+        "bytes": 981661,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/discourse_v4.code.tar.gz",
+        "sha256": "20b8ab8085037052eb922478dc28e16cd5ce7d7e78025f0a1af760761d85af26"
+      },
+      "execution": {
+        "bytes": 1721,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/discourse_v4.exit.json",
+        "sha256": "3547ebaef67511811d364df88894c32331a98b705aa428cf957069b0ac032ab5"
+      },
+      "execution_error_count": 0,
+      "false_accept_count": 0,
+      "gold_freeze_sha256": "3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5",
+      "measurement_valid": true,
+      "no_support_questions": {
+        "passed": 29,
+        "total": 29
+      },
+      "passed": 57,
+      "positive_cases": {
+        "passed": 12,
+        "total": 30
+      },
+      "question_execution_error_count": 0,
+      "questions_all": {
+        "passed": 53,
+        "total": 74
+      },
+      "questions_requiring_support": {
+        "passed": 24,
+        "total": 45
+      },
+      "raw_case_count": 86,
+      "raw_log": {
+        "bytes": 855224,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/discourse_v4.raw.jsonl.gz",
+        "sha256": "08b0b7f6c635c01d0d38e8f68998099d79f19ab3b67375df8b22f77967224ea9"
+      },
+      "raw_profile_count": 2,
+      "raw_records": 90,
+      "raw_variant_count": 2,
+      "result": {
+        "bytes": 135313,
+        "path": "evidence/constructions/legacy_discourse_review_v1/runs/discourse_v4.json",
+        "sha256": "e7ae1a8736e0e7261878ea406e93afe4b2379bf85d79d49b4fcdb946ce47f8ce"
+      },
+      "runtime_freeze_sha256": "f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519",
+      "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+      "strict_pass": false,
+      "total": 86
+    }
+  },
+  "schema": "nabt.constructions.legacy-discourse-adapter-review.v1",
+  "scope": "Same frozen legacy 86 cases and 74 questions; one evaluator and identical QAC bytes across all three frozen runtimes. No new construction gold is used here. Scores remain strict; gate approval is separate.",
+  "tests_before_gate": {
+    "bytes": 33528,
+    "path": "evidence/constructions/legacy_discourse_review_v1/source_before_gate/test_discourse_evaluator.py",
+    "sha256": "17e492bef3007d4277ed9d2b821cf26333e653a3b05c01b4e48478136d0ae583"
+  },
+  "v1_v2_case_scores_equal_excluding_seconds": true
+}
