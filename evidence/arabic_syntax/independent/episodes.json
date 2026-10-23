@@ -1,0 +1,1697 @@
+{
+  "schema": "nabt.arabic-syntax.independent.v1",
+  "created_date": "2026-10-23",
+  "authorship": "Independent evaluator, before accessing new reader or runtime implementation",
+  "scope": "Hand-authored bounded Arabic challenge; not a random or comprehensive language sample. Semantic statuses are relative to text, not external truth.",
+  "cases": [
+    {
+      "id": "p01",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "نديم يقظ.",
+          "gold_facts": [
+            {
+              "predicate": "يقظ",
+              "args": [
+                "نديم"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل نديم يقظ؟",
+          "gold_atom": {
+            "predicate": "يقظ",
+            "args": [
+              "نديم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "A simple nominal predication; the personal name denotes a local individual."
+    },
+    {
+      "id": "p02",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "راشد أمين وصبور.",
+          "gold_facts": [
+            {
+              "predicate": "أمين",
+              "args": [
+                "راشد"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "صبور",
+              "args": [
+                "راشد"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل راشد صبور؟",
+          "gold_atom": {
+            "predicate": "صبور",
+            "args": [
+              "راشد"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Attached waw connects predicates of the same subject, not a fresh predicate named وصبور."
+    },
+    {
+      "id": "p03",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "مها دقيقة ولامعة.",
+          "gold_facts": [
+            {
+              "predicate": "دقيقة",
+              "args": [
+                "مها"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "لامعة",
+              "args": [
+                "مها"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل مها دقيقة؟",
+          "gold_atom": {
+            "predicate": "دقيقة",
+            "args": [
+              "مها"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل مها لامعة؟",
+          "gold_atom": {
+            "predicate": "لامعة",
+            "args": [
+              "مها"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Two unary predicates remain separate; no gender normalization is requested."
+    },
+    {
+      "id": "p04",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "هالة ماهرة. عاصم ماهر.",
+          "gold_facts": [
+            {
+              "predicate": "ماهرة",
+              "args": [
+                "هالة"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "ماهر",
+              "args": [
+                "عاصم"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عاصم ماهرة؟",
+          "gold_atom": {
+            "predicate": "ماهرة",
+            "args": [
+              "عاصم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "No transfer of a property from another subject, and no undocumented equivalence of gendered labels."
+    },
+    {
+      "id": "p05",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "سليم مجتهد وناجح وموثوق.",
+          "gold_facts": [
+            {
+              "predicate": "مجتهد",
+              "args": [
+                "سليم"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "ناجح",
+              "args": [
+                "سليم"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "موثوق",
+              "args": [
+                "سليم"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل سليم موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "سليم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "A coordinated list has three predications, with the final member included."
+    },
+    {
+      "id": "p06",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "نبيل حاضر وخالد مسافر.",
+          "gold_facts": [
+            {
+              "predicate": "حاضر",
+              "args": [
+                "نبيل"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "مسافر",
+              "args": [
+                "خالد"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل خالد مسافر؟",
+          "gold_atom": {
+            "predicate": "مسافر",
+            "args": [
+              "خالد"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل نبيل مسافر؟",
+          "gold_atom": {
+            "predicate": "مسافر",
+            "args": [
+              "نبيل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "Full clauses share a conjunction but not their subjects."
+    },
+    {
+      "id": "p07",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "عادل يحاور مريم.",
+          "gold_facts": [
+            {
+              "predicate": "يحاور",
+              "args": [
+                "عادل",
+                "مريم"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عادل يحاور مريم؟",
+          "gold_atom": {
+            "predicate": "يحاور",
+            "args": [
+              "عادل",
+              "مريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل مريم تحاور عادل؟",
+          "gold_atom": {
+            "predicate": "تحاور",
+            "args": [
+              "مريم",
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN",
+            "OUT_OF_SCOPE"
+          ]
+        }
+      ],
+      "interpretation_note": "SVO direction is preserved; neither symmetry nor inflectional equivalence is invented."
+    },
+    {
+      "id": "p08",
+      "stratum": "predication_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل مجتهد ناجح.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "مجتهد",
+                  "args": [
+                    "?x"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "ناجح",
+                "args": [
+                  "?x"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فارس مجتهد.",
+          "gold_facts": [
+            {
+              "predicate": "مجتهد",
+              "args": [
+                "فارس"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل فارس ناجح؟",
+          "gold_atom": {
+            "predicate": "ناجح",
+            "args": [
+              "فارس"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Bare universally quantified predication supplies a one-way implication, not existence or converse."
+    },
+    {
+      "id": "n01",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ليست مريم غائبة.",
+          "gold_facts": [
+            {
+              "predicate": "غائبة",
+              "args": [
+                "مريم"
+              ],
+              "positive": false
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل مريم غائبة؟",
+          "gold_atom": {
+            "predicate": "غائبة",
+            "args": [
+              "مريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "REFUTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Feminine ليست explicitly negates the predication; no absent-fact negation."
+    },
+    {
+      "id": "n02",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "مريم حاضرة. ليست مريم حاضرة.",
+          "gold_facts": [
+            {
+              "predicate": "حاضرة",
+              "args": [
+                "مريم"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "حاضرة",
+              "args": [
+                "مريم"
+              ],
+              "positive": false
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل مريم حاضرة؟",
+          "gold_atom": {
+            "predicate": "حاضرة",
+            "args": [
+              "مريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "CONFLICT"
+          ]
+        }
+      ],
+      "interpretation_note": "Both signs are retained, so positive-only selection must not hide conflict."
+    },
+    {
+      "id": "n03",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "إذا كان عادل علامة فإن عادل موثوق.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "علامة",
+                  "args": [
+                    "عادل"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "موثوق",
+                "args": [
+                  "عادل"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "عادل علامة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "عادل"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عادل موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "علامة is a grammatically inflection-neutral written predicate here; the conditional conclusion requires its premise."
+    },
+    {
+      "id": "n04",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "إذا كان عادل علامة فإن عادل موثوق.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "علامة",
+                  "args": [
+                    "عادل"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "موثوق",
+                "args": [
+                  "عادل"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عادل موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "A conditional is not a fact asserting its consequent."
+    },
+    {
+      "id": "n05",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "إذا كان عادل علامة فإن عادل موثوق.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "علامة",
+                  "args": [
+                    "عادل"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "موثوق",
+                "args": [
+                  "عادل"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ليس عادل علامة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "عادل"
+              ],
+              "positive": false
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عادل موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "Explicit negative evidence fails a positive premise; it does not refute the consequent."
+    },
+    {
+      "id": "n06",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "إذا كان عادل علامة ومريم حاضرة فإن عادل موثوق.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "علامة",
+                  "args": [
+                    "عادل"
+                  ],
+                  "positive": true
+                },
+                {
+                  "predicate": "حاضرة",
+                  "args": [
+                    "مريم"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "موثوق",
+                "args": [
+                  "عادل"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "عادل علامة. مريم حاضرة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "عادل"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "حاضرة",
+              "args": [
+                "مريم"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عادل موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Both coordinated premise clauses must be supplied, preserving their different subjects."
+    },
+    {
+      "id": "n07",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "إذا لم يكن عادل علامة فإن عادل مجهول.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "علامة",
+                  "args": [
+                    "عادل"
+                  ],
+                  "positive": false
+                }
+              ],
+              "head": {
+                "predicate": "مجهول",
+                "args": [
+                  "عادل"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ليس عادل علامة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "عادل"
+              ],
+              "positive": false
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عادل مجهول؟",
+          "gold_atom": {
+            "predicate": "مجهول",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Negative conditional requires explicit negative evidence; لم يكن may remain outside the declared release scope."
+    },
+    {
+      "id": "n08",
+      "stratum": "negation_condition",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل طبيبة متعلمة.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "طبيبة",
+                  "args": [
+                    "?x"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "متعلمة",
+                "args": [
+                  "?x"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "مريم طبيبة. ليست سلمى طبيبة.",
+          "gold_facts": [
+            {
+              "predicate": "طبيبة",
+              "args": [
+                "مريم"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "طبيبة",
+              "args": [
+                "سلمى"
+              ],
+              "positive": false
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل مريم متعلمة؟",
+          "gold_atom": {
+            "predicate": "متعلمة",
+            "args": [
+              "مريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل سلمى متعلمة؟",
+          "gold_atom": {
+            "predicate": "متعلمة",
+            "args": [
+              "سلمى"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "Rule application matches the subject and sign, without converting a negative premise into a negative conclusion."
+    },
+    {
+      "id": "d01",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "هل نديم يقظ؟",
+          "gold_facts": [],
+          "gold_mode": "question",
+          "gold_query": {
+            "predicate": "يقظ",
+            "args": [
+              "نديم"
+            ],
+            "positive": true
+          }
+        }
+      ],
+      "interpretation_note": "Question content is not asserted.",
+      "must_not_assert": [
+        {
+          "predicate": "يقظ",
+          "args": [
+            "نديم"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "يقظ",
+          "args": [
+            "نديم"
+          ],
+          "positive": false
+        }
+      ]
+    },
+    {
+      "id": "d02",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "أحاضر عادل؟",
+          "gold_facts": [],
+          "gold_mode": "question",
+          "gold_query": {
+            "predicate": "حاضر",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          }
+        }
+      ],
+      "interpretation_note": "Hamza of interrogation and inverted predication must not produce a factual relation.",
+      "must_not_assert": [
+        {
+          "predicate": "حاضر",
+          "args": [
+            "عادل"
+          ],
+          "positive": true
+        }
+      ]
+    },
+    {
+      "id": "d03",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "اكتب التقرير.",
+          "gold_facts": [],
+          "gold_mode": "command"
+        }
+      ],
+      "interpretation_note": "A directive is not the nominal fact التقرير(اكتب), nor an event known to have happened.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "d04",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "لا تكذب.",
+          "gold_facts": [],
+          "gold_mode": "prohibition"
+        }
+      ],
+      "interpretation_note": "Prohibiting an act does not establish that an unspecified subject did not perform it.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "d05",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "يا مريم.",
+          "gold_facts": [],
+          "gold_mode": "vocative"
+        }
+      ],
+      "interpretation_note": "A vocative is not a unary property of يا.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "d06",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ليت مريم حاضرة.",
+          "gold_facts": [],
+          "gold_mode": "wish"
+        }
+      ],
+      "interpretation_note": "Wish content does not become an asserted fact.",
+      "must_not_assert": [
+        {
+          "predicate": "حاضرة",
+          "args": [
+            "مريم"
+          ],
+          "positive": true
+        }
+      ],
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "d07",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "لعل عادل موثوق.",
+          "gold_facts": [],
+          "gold_mode": "hope"
+        }
+      ],
+      "interpretation_note": "Possibility or hope is not unqualified factual support.",
+      "must_not_assert": [
+        {
+          "predicate": "موثوق",
+          "args": [
+            "عادل"
+          ],
+          "positive": true
+        }
+      ],
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "d08",
+      "stratum": "nonassertive",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "هل عادل علامة؟ عادل علامة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "عادل"
+              ],
+              "positive": true
+            }
+          ],
+          "gold_query": {
+            "predicate": "علامة",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "op": "query",
+          "text": "هل عادل علامة؟",
+          "gold_atom": {
+            "predicate": "علامة",
+            "args": [
+              "عادل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "The later explicit assertion licenses the fact; the question does not supply a second independent fact witness."
+    },
+    {
+      "id": "a01",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "رأيت الرجل بالمنظار.",
+          "gold_facts": [],
+          "gold_mode": "ambiguous",
+          "ambiguity": "prepositional_attachment"
+        }
+      ],
+      "interpretation_note": "The instrument/attachment ambiguity requires a named residual or preserved alternatives, not a fabricated three-token relation.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "a02",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "سليم قابل ماهرا ثم هو مسافر.",
+          "gold_facts": [],
+          "gold_mode": "ambiguous",
+          "ambiguity": "pronoun_antecedent"
+        }
+      ],
+      "interpretation_note": "The antecedent of هو is unresolved between mentioned persons; the whole source may defer.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "a03",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "خالد طبيب ماهر.",
+          "gold_facts": [],
+          "gold_mode": "ambiguous",
+          "ambiguity": "predicate_attribute_boundary"
+        }
+      ],
+      "interpretation_note": "No three-token SVO hallucination; the nominal phrase may have structured predication/attribute readings.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "a04",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ما أكرم زيدا.",
+          "gold_facts": [],
+          "gold_mode": "ambiguous",
+          "ambiguity": "negation_exclamation"
+        }
+      ],
+      "interpretation_note": "Unvocalized ما أكرم supports competing negation/exclamation interpretations; period alone is insufficient.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "a05",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "لا طالب حاضر.",
+          "gold_facts": [],
+          "gold_mode": "scope_required",
+          "ambiguity": "negation_of_genus"
+        }
+      ],
+      "interpretation_note": "Negation of a class is not a negative unary fact about an individual literally named طالب.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "a06",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "إنما سليم شاعر.",
+          "gold_facts": [
+            {
+              "predicate": "شاعر",
+              "args": [
+                "سليم"
+              ],
+              "positive": true
+            }
+          ],
+          "gold_mode": "scope_required",
+          "ambiguity": "restriction_scope"
+        }
+      ],
+      "interpretation_note": "Positive predication can be common to restrictive readings, but scope/domain needed for excluding other predicates; no unrelated negations.",
+      "allowed_partial_facts": [
+        {
+          "predicate": "شاعر",
+          "args": [
+            "سليم"
+          ],
+          "positive": true
+        }
+      ]
+    },
+    {
+      "id": "a07",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "حضر الطلاب إلا عادل.",
+          "gold_facts": [],
+          "gold_mode": "scope_required",
+          "ambiguity": "exception_domain"
+        }
+      ],
+      "interpretation_note": "An exception over a plural class is not a finite named-person table or an arbitrary relation chain.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "a08",
+      "stratum": "ambiguity",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "هو حاضر.",
+          "gold_facts": [],
+          "gold_mode": "unresolved",
+          "ambiguity": "unbound_pronoun"
+        }
+      ],
+      "interpretation_note": "The pronoun has no antecedent or supplied deixis; it must not become an individual literally named هو.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "r01",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل طبيبة متعلمة."
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "لمى طبيبة."
+        },
+        {
+          "op": "query",
+          "text": "هل لمى متعلمة؟",
+          "gold_atom": {
+            "predicate": "متعلمة",
+            "args": [
+              "لمى"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "remove",
+          "source_id": "a"
+        },
+        {
+          "op": "query",
+          "text": "هل لمى متعلمة؟",
+          "gold_atom": {
+            "predicate": "متعلمة",
+            "args": [
+              "لمى"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "Withdrawing the sole premise removes its consequence while the rule still declares the target."
+    },
+    {
+      "id": "r02",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل طبيبة متعلمة."
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "لمى طبيبة."
+        },
+        {
+          "op": "query",
+          "text": "هل لمى متعلمة؟",
+          "gold_atom": {
+            "predicate": "متعلمة",
+            "args": [
+              "لمى"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "replace",
+          "source_id": "a",
+          "text": "لمى مهندسة."
+        },
+        {
+          "op": "query",
+          "text": "هل لمى متعلمة؟",
+          "gold_atom": {
+            "predicate": "متعلمة",
+            "args": [
+              "لمى"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل لمى مهندسة؟",
+          "gold_atom": {
+            "predicate": "مهندسة",
+            "args": [
+              "لمى"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Replacing one source updates its facts atomically, without retaining the withdrawn classification."
+    },
+    {
+      "id": "r03",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل باحث دقيق."
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "عمار باحث."
+        },
+        {
+          "op": "query",
+          "text": "هل عمار دقيق؟",
+          "gold_atom": {
+            "predicate": "دقيق",
+            "args": [
+              "عمار"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "replace",
+          "source_id": "r",
+          "text": "كل باحث مثابر."
+        },
+        {
+          "op": "query",
+          "text": "هل عمار دقيق؟",
+          "gold_atom": {
+            "predicate": "دقيق",
+            "args": [
+              "عمار"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN",
+            "OUT_OF_SCOPE"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عمار مثابر؟",
+          "gold_atom": {
+            "predicate": "مثابر",
+            "args": [
+              "عمار"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Replacing a rule invalidates its old consequence and enables the newly licensed one."
+    },
+    {
+      "id": "r04",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "مالك حاضر."
+        },
+        {
+          "op": "add",
+          "source_id": "b",
+          "text": "مالك حاضر."
+        },
+        {
+          "op": "query",
+          "text": "هل مالك حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "مالك"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "remove",
+          "source_id": "a"
+        },
+        {
+          "op": "query",
+          "text": "هل مالك حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "مالك"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "remove",
+          "source_id": "b"
+        },
+        {
+          "op": "query",
+          "text": "هل مالك حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "مالك"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN",
+            "OUT_OF_SCOPE"
+          ]
+        }
+      ],
+      "interpretation_note": "One remaining independent source still suffices; removal of both must erase support."
+    },
+    {
+      "id": "r05",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ريم حاضرة."
+        },
+        {
+          "op": "add",
+          "source_id": "b",
+          "text": "ليست ريم حاضرة."
+        },
+        {
+          "op": "query",
+          "text": "هل ريم حاضرة؟",
+          "gold_atom": {
+            "predicate": "حاضرة",
+            "args": [
+              "ريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "CONFLICT"
+          ]
+        },
+        {
+          "op": "remove",
+          "source_id": "b"
+        },
+        {
+          "op": "query",
+          "text": "هل ريم حاضرة؟",
+          "gold_atom": {
+            "predicate": "حاضرة",
+            "args": [
+              "ريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Removing explicit negative evidence repairs a source-level conflict."
+    },
+    {
+      "id": "r06",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ريم حاضرة."
+        },
+        {
+          "op": "query",
+          "text": "هل ريم حاضرة؟",
+          "gold_atom": {
+            "predicate": "حاضرة",
+            "args": [
+              "ريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "replace",
+          "source_id": "a",
+          "text": "ليست ريم حاضرة."
+        },
+        {
+          "op": "query",
+          "text": "هل ريم حاضرة؟",
+          "gold_atom": {
+            "predicate": "حاضرة",
+            "args": [
+              "ريم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "REFUTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Replacement reverses polarity; there must be no stale positive certificate or artificial conflict."
+    },
+    {
+      "id": "r07",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل محلل دقيق."
+        },
+        {
+          "op": "add",
+          "source_id": "bridge",
+          "text": "كل دقيق موثوق."
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "نبيل محلل."
+        },
+        {
+          "op": "query",
+          "text": "هل نبيل موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "نبيل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "remove",
+          "source_id": "bridge"
+        },
+        {
+          "op": "query",
+          "text": "هل نبيل موثوق؟",
+          "gold_atom": {
+            "predicate": "موثوق",
+            "args": [
+              "نبيل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN",
+            "OUT_OF_SCOPE"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل نبيل دقيق؟",
+          "gold_atom": {
+            "predicate": "دقيق",
+            "args": [
+              "نبيل"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Only descendants of the withdrawn inference edge lose support; upstream evidence survives."
+    },
+    {
+      "id": "r08",
+      "stratum": "revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل باحثة متأنية."
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "زهراء باحثة."
+        },
+        {
+          "op": "query",
+          "text": "هل زهراء متأنية؟",
+          "gold_atom": {
+            "predicate": "متأنية",
+            "args": [
+              "زهراء"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "unrelated",
+          "text": "أروى حاضرة."
+        },
+        {
+          "op": "query",
+          "text": "هل زهراء متأنية؟",
+          "gold_atom": {
+            "predicate": "متأنية",
+            "args": [
+              "زهراء"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "replace",
+          "source_id": "a",
+          "text": "ليست زهراء باحثة."
+        },
+        {
+          "op": "query",
+          "text": "هل زهراء باحثة؟",
+          "gold_atom": {
+            "predicate": "باحثة",
+            "args": [
+              "زهراء"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "REFUTED"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل زهراء متأنية؟",
+          "gold_atom": {
+            "predicate": "متأنية",
+            "args": [
+              "زهراء"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "Unrelated additions preserve a proof; changing its actual premise retracts its descendants without contraposition."
+    }
+  ]
+}

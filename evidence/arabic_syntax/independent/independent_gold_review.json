@@ -1,0 +1,62 @@
+{
+  "schema": "nabt.arabic-syntax.independent-gold-review.v1",
+  "reviewer_role": "Evaluator-side reviewer, separate from corpus author and runtime builders",
+  "stage": "Before new runtime exposure or execution by this reviewer",
+  "scope": "Reviewed episodes.json, scope_episodes.json, manual_oracle.json and gold_review.json only. No new NABT implementation, tests, runtime outputs or builder material inspected.",
+  "original_files_modified": false,
+  "findings": [
+    {
+      "id": "G01",
+      "priority": "required-gold-qualification",
+      "case_id": "d04",
+      "issue": "The unvocalized text لا تكذب can be a prohibition or a negative declarative clause. The file's single gold_mode=prohibition is too restrictive.",
+      "required_action": "Preserve prohibition/negation alternatives or a named ambiguity result. Without a disambiguating cue, do not authorize an unconditional grounded negative fact or claim the prohibition reading is uniquely established.",
+      "impact": "No unconditional factual promotion remains the right safety expectation; ambiguous-mode recognition must not be scored as an error merely because it is not labeled prohibition."
+    },
+    {
+      "id": "G02",
+      "priority": "required-reporting-qualification",
+      "case_id": "p04",
+      "issue": "The query هل عاصم ماهرة؟ mixes a surface-label identity probe with a gender-agreement anomaly under the intended male-name reading. UNKNOWN is appropriate for a deliberately opaque symbol model, but a named grammatical suspension can also be safe.",
+      "required_action": "Describe this checkpoint as a literal-label diagnostic, not a positive example of standard natural Arabic. Keep correct grammatical suspension separate from a safety failure and from semantic interpretation accuracy.",
+      "impact": "The source assertions can retain their current manual meanings. No forced answer should be required from a parser that detects the agreement issue."
+    },
+    {
+      "id": "G03",
+      "priority": "required-provenance-wording",
+      "case_id": "r04",
+      "issue": "Two source IDs containing the same assertion establish two active source records, not epistemically independent testimony or independent observation.",
+      "required_action": "Replace claims of independent sources with distinct source records in reporting. Keeping support while one record remains and dropping it when both are removed is still the correct dependency-management expectation.",
+      "impact": "No change to expected query statuses. This case does not test or establish independence of transmitted evidence."
+    },
+    {
+      "id": "G04",
+      "priority": "required-gold-qualification",
+      "case_id": "a05",
+      "issue": "The self-review permits a universal negative rule for لا طالب حاضر without recording the selected reading of لا. Unvocalized لا may require distinguishing negation of genus from other uses or scopes.",
+      "required_action": "Keep the universal negative conditional as a candidate under an explicitly licensed negation-of-genus reading. Do not treat this candidate as an unconditional common consequence of every unresolved reading.",
+      "impact": "Suspension or multiple readings remain safe. A statement about an individual literally named طالب remains unwarranted under the intended generic reading."
+    }
+  ],
+  "additional_reporting_caveats": [
+    {
+      "case_ids": ["a01", "a02"],
+      "note": "These ambiguous sentences contain assertive material common to some plausible readings. The corpus's forbid_all_assertions flag should be understood as the bounded all-or-nothing admission policy, not as a theorem that no structured or existential common consequence could ever be extracted by a richer reader. A future parser that represents the common prefix with valid source and scope should be adjudicated on that representation."
+    },
+    {
+      "case_ids": ["p07"],
+      "note": "The reverse query changes both argument direction and the surface verb from يحاور to تحاور. This measures the declared exact-label convention as well as direction; it cannot alone isolate argument-order competence or establish a general policy for Arabic inflection."
+    },
+    {
+      "case_ids": ["s07"],
+      "note": "The supplement's conditional is a deliberately declared profile notation. Report the supplement as bounded-language competence, not independent evidence that this phrasing is the universally accepted analysis of an ordinary Arabic conditional."
+    }
+  ],
+  "overall": "The source-revision statuses and the core distinctions among asserted facts, questions, conditionals and explicit negative support are consistent with the stated bounded source-relative model. Apply the four qualifications above transparently, preserve the original frozen data, and retain coverage separately from safe suspension.",
+  "not_claimed": [
+    "An authoritative adjudication of all linguistic interpretations",
+    "Full Arabic grammaticality of every diagnostic question",
+    "A proof of real-world truth or independence of sources",
+    "Any result from executing the new reader"
+  ]
+}

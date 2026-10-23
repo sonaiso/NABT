@@ -1,9 +1,12 @@
 PYTHON ?= python3
 LAKE ?= lake
-EVIDENCE_DIR ?= artifacts/local
+LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
+EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
+TEXT_CODE_FREEZE ?= evidence/arabic_syntax/code_freeze_first.json
+ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: test formal conformance learned-conformance property-conformance source-experiment text-evaluation axioms check benchmark demo
+.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance source-experiment text-evaluation arabic-evaluation axioms check benchmark demo
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -20,16 +23,22 @@ learned-conformance:
 property-conformance:
 	$(PYTHON) tools/check_property_evidence_table.py --lake $(LAKE) --output $(EVIDENCE_DIR)/property-conformance.json
 
+arabic-conformance:
+	$(PYTHON) tools/check_arabic_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/arabic-conformance.json
+
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
 
 text-evaluation:
-	$(PYTHON) tools/text_inquiry_evaluation.py --output-dir $(EVIDENCE_DIR)/text-regression
+	$(PYTHON) tools/text_inquiry_evaluation.py --code-freeze $(TEXT_CODE_FREEZE) --output-dir $(EVIDENCE_DIR)/text-regression
+
+arabic-evaluation:
+	$(PYTHON) tools/arabic_syntax_evaluation.py --code-freeze $(TEXT_CODE_FREEZE) --output-dir $(ARABIC_EVALUATION_DIR)
 
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance source-experiment text-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance source-experiment text-evaluation arabic-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:

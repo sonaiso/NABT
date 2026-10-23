@@ -14,6 +14,7 @@ inductive Op where
   | readUtf8 | wordShape | startLearner | observeSource | withdrawSource
   | queryCue | applicationObligations
   | startText | addText | removeText | queryText | replaceText
+  | startArabic
   deriving DecidableEq, Repr
 
 def opcode : Op → Nat
@@ -29,6 +30,7 @@ def opcode : Op → Nat
   | .removeText => 32
   | .queryText => 33
   | .replaceText => 34
+  | .startArabic => 35
 
 def decodeOpcode : Nat → Option Op
   | 1 => some .readUtf8
@@ -43,6 +45,7 @@ def decodeOpcode : Nat → Option Op
   | 32 => some .removeText
   | 33 => some .queryText
   | 34 => some .replaceText
+  | 35 => some .startArabic
   | _ => none
 
 theorem decode_opcode (op : Op) : decodeOpcode (opcode op) = some op := by
@@ -86,6 +89,7 @@ def step : Domain → Op → Option Domain
   | .learner, .queryCue => some .learner
   | .text, .applicationObligations => some .obligationsResult
   | .start, .startText => some .textTheory
+  | .start, .startArabic => some .textTheory
   | .textTheory, .addText => some .textTheory
   | .textTheory, .removeText => some .textTheory
   | .textTheory, .queryText => some .textTheory
@@ -176,5 +180,62 @@ theorem text_source_requires_theory : run .start [.addText] = none := rfl
 theorem learner_cannot_query_theory : run .learner [.queryText] = none := rfl
 
 theorem theory_cannot_claim_shape : run .textTheory [.wordShape] = none := rfl
+
+/-! Two distinct entry opcodes share the existing text-theory continuation.
+The language selection is exposed explicitly here. Persistent profile state,
+raw-source replay and the Python reader implementation remain runtime
+contracts, not consequences of this domain-only machine. -/
+
+inductive TextProfile where
+  | controlledArabic | arabicSyntax
+  deriving DecidableEq, Repr
+
+def TextProfile.languageId : TextProfile → String
+  | .controlledArabic => "nabt.controlled-arabic.v1"
+  | .arabicSyntax => "nabt.arabic-syntax.v1"
+
+def TextProfile.startOp : TextProfile → Op
+  | .controlledArabic => .startText
+  | .arabicSyntax => .startArabic
+
+def profileOfStart : Op → Option TextProfile
+  | .startText => some .controlledArabic
+  | .startArabic => some .arabicSyntax
+  | _ => none
+
+theorem arabic_start_opcode :
+    opcode .startArabic = 35 ∧ decodeOpcode 35 = some .startArabic := ⟨rfl, rfl⟩
+
+theorem text_start_profiles_distinct :
+    opcode TextProfile.controlledArabic.startOp ≠ opcode TextProfile.arabicSyntax.startOp ∧
+    TextProfile.controlledArabic.languageId ≠ TextProfile.arabicSyntax.languageId := by decide
+
+theorem start_profile_roundtrip (profile : TextProfile) :
+    profileOfStart profile.startOp = some profile := by cases profile <;> rfl
+
+def compileTextProfile (profile : TextProfile) (events : List TextEvent) : List Op :=
+  profile.startOp :: events.map textEventOp
+
+theorem compiled_text_profile_typed (profile : TextProfile) (events : List TextEvent) :
+    run .start (compileTextProfile profile events) = some .textTheory := by
+  cases profile <;> simp [compileTextProfile, TextProfile.startOp, run, step, text_events_domain_preserved]
+
+theorem controlled_profile_preserves_compiler (events : List TextEvent) :
+    compileTextProfile .controlledArabic events = compileText events := rfl
+
+theorem compiled_profiles_distinguishable (events other : List TextEvent) :
+    compileTextProfile .controlledArabic events ≠ compileTextProfile .arabicSyntax other := by
+  simp [compileTextProfile, TextProfile.startOp]
+
+theorem followup_does_not_select_profile (event : TextEvent) :
+    profileOfStart (textEventOp event) = none := by cases event <;> rfl
+
+theorem arabic_start_cannot_reset_theory_or_learner :
+    step .textTheory .startArabic = none ∧ step .learner .startArabic = none := ⟨rfl, rfl⟩
+
+theorem arabic_theory_cannot_observe_learner_source (events : List TextEvent) :
+    run .start (compileTextProfile .arabicSyntax events ++ [.observeSource]) = none := by
+  rw [run_append, compiled_text_profile_typed]
+  rfl
 
 end Nabt.Program

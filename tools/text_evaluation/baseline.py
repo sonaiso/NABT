@@ -6,6 +6,7 @@ from collections import Counter
 from pathlib import Path
 
 from .controlled import EXPECTED_SHA,DATASET,ROOT,question_oracle,expected_literal
+from .integrity import require_output, verify_code_freeze, verify_published_inputs, write_report
 
 
 def main():
@@ -13,10 +14,10 @@ def main():
     ap.add_argument('--output',required=True,type=Path)
     ap.add_argument('--code-freeze',required=True,type=Path)
     args=ap.parse_args()
+    require_output(args.output, data=DATASET.parent, freeze=args.code_freeze)
+    verify_published_inputs(DATASET.parent)
     assert hashlib.sha256(DATASET.read_bytes()).hexdigest()==EXPECTED_SHA
-    freeze=json.loads(args.code_freeze.read_text())
-    for item in freeze['files']:
-        assert hashlib.sha256((ROOT/item['path']).read_bytes()).hexdigest()==item['sha256']
+    freeze=verify_code_freeze(args.code_freeze)
     from nabt.text_reader import parse_document
     data=json.loads(DATASET.read_text())
     results=[]
@@ -60,7 +61,7 @@ def main():
             'method':'Uses the same reader on the same source bytes and scope/update sequence. It retrieves only explicitly asserted signed facts, never applies definition, universal, or conditional rules. Both signs conflict; a single sign supports/refutes; no matching direct assertion stays UNKNOWN. It has no learned parameters and does not stand for a language-model baseline.',
             'metric_scope':'Status-only comparisons are shown for both the baseline and kernel; the main kernel benchmark additionally checks proof replay, named missing premises, conditional-world-truth labels, and result schema.',
             'summary':summary,'results':results}
-    args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+    write_report(args.output, report, data=DATASET.parent, freeze=args.code_freeze)
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 
 

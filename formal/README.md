@@ -39,6 +39,13 @@ the corresponding declaration list.
 | `Nabt.Obligations` | Named identity isolation, monotonic positive formulas, inclusion-minimal completion families, soundness/completeness, no-completion characterization and conflict-before-projection. |
 | `Nabt.Program` | Instruction-number identity and list assembly roundtrip, compositional domain transitions and typing of compiler forms. Operand decoding and Python refinement are not claimed. |
 | `Nabt.SemanticInference` | Sound replay of source-bound signed ground inference, conditional model soundness, active dependency checks and withdrawal rejection; preservation of signed derivations under extensions, scoped identity, nonexplosion witness and the judgment table. Parsing, variable grounding and clean-closure completeness are not claimed. |
+| `Nabt.ArabicReading` | Nonassertive reading does not issue facts/rules; source-preserving conjunction projection; a lone conditional/disjunction does not derive its parties; unique complete reading gate; derivation soundness conditional on reading interpretation; inverse and injectivity of the mood/cell envelope. This does not prove the Python Arabic reader or identify UTF-8 packets with cell envelopes. |
+
+The current audit contains **258 declarations**. `Program` distinguishes the
+controlled-Arabic entry (30) from the syntax entry (35) while retaining the
+shared text event domain. `ExportArabicReading.lean` exports eight mood tags,
+two entry profiles and 48 finite cell-envelope examples for comparison by
+`tools/check_arabic_conformance.py`. The manifest count is not a coverage score.
 
 These are theorem statements about specified mathematical objects. The
 manifest count includes supporting lemmas and regression witnesses; it is not

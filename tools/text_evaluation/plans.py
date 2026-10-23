@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from .integrity import require_output, verify_code_freeze, write_report
+
 ROOT=Path(__file__).resolve().parents[2]
 SCENARIOS=[
     ('explicit_complementary_body','إذا ?س هو قويم و ليس ?س هو قويم فإن ?س هو مقبول','هل ركين هو مقبول؟'),
@@ -21,9 +23,8 @@ def main():
     ap.add_argument('--output',required=True,type=Path)
     ap.add_argument('--code-freeze',required=True,type=Path)
     args=ap.parse_args()
-    freeze=json.loads(args.code_freeze.read_text())
-    for f in freeze['files']:
-        assert hashlib.sha256((ROOT/f['path']).read_bytes()).hexdigest()==f['sha256']
+    require_output(args.output, freeze=args.code_freeze)
+    freeze=verify_code_freeze(args.code_freeze)
     from nabt.text_reader import parse_document,parse_query
     from nabt.semantics import SemanticKernel
     def load(text):
@@ -56,7 +57,7 @@ def main():
     summary={'reviewer_regression_scenarios':len(results),'passed':sum(r['passed'] for r in results),
              'plans_replayed':sum(len(r['plans']) for r in results),'invalid_returned_plans':sum(not p['passed'] for r in results for p in r['plans']),
              'note':'Created after an independent root-review counterexample; not part of the sealed 60-episode language benchmark.'}
-    args.output.write_text(json.dumps({'schema':'nabt-missing-plan-counterfactual-regressions-v1','code_freeze':freeze,'summary':summary,'results':results},ensure_ascii=False,indent=2)+'\n')
+    write_report(args.output, {'schema':'nabt-missing-plan-counterfactual-regressions-v1','code_freeze':freeze,'summary':summary,'results':results}, freeze=args.code_freeze)
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 
 

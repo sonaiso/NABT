@@ -239,15 +239,29 @@ class _Proof:
     binding: tuple[tuple[str, str], ...] = ()
 
 
-def _parse(raw: str | bytes, source_id: str, scope: str) -> ParsedDocument:
-    from .text_reader import parse_document
-    return parse_document(raw, source_id=source_id, scope=scope)
+def _reader(language_id: str):
+    """Dispatch only installed reading laws; callers cannot inject a parser."""
+    if type(language_id) is not str:
+        raise NabtError("UNSUPPORTED_TEXT_LANGUAGE", "Select an installed exact language identifier")
+    if language_id == LANGUAGE_ID:
+        from . import text_reader
+        return text_reader
+    from . import arabic_reader
+    if language_id == arabic_reader.LANGUAGE_ID:
+        return arabic_reader
+    raise NabtError("UNSUPPORTED_TEXT_LANGUAGE", "No installed reader has this language identifier")
 
 
-def _compile(sources: dict[str, tuple[bytes, str]], budget: SemanticBudget) -> _Program:
+def _parse(raw: str | bytes, source_id: str, scope: str, language_id: str = LANGUAGE_ID) -> ParsedDocument:
+    return _reader(language_id).parse_document(raw, source_id=source_id, scope=scope)
+
+
+def _compile(sources: dict[str, tuple[bytes, str]], budget: SemanticBudget,
+             language_id: str = LANGUAGE_ID) -> _Program:
+    _reader(language_id)
     if len(sources) > budget.max_sources or sum(len(raw) for raw, _ in sources.values()) > budget.max_total_source_bytes:
         raise resource_limit("Active source inventory exceeds its budget")
-    documents = tuple(_parse(raw, source_id, scope) for source_id, (raw, scope) in sorted(sources.items()))
+    documents = tuple(_parse(raw, source_id, scope, language_id) for source_id, (raw, scope) in sorted(sources.items()))
     signatures: dict[tuple[str, str], int] = {}
     constants: dict[str, set[str]] = {}
     facts, rules = [], []
@@ -299,7 +313,7 @@ def _compile(sources: dict[str, tuple[bytes, str]], budget: SemanticBudget) -> _
             (facts if type(record) is Fact else rules).append(clause)
     if len(facts) > budget.max_facts or len(rules) > budget.max_rules:
         raise resource_limit("Active facts or rules exceed the semantic inventory budget")
-    digest = content_id({"version": SEMANTIC_VERSION, "language": LANGUAGE_ID,
+    digest = content_id({"version": SEMANTIC_VERSION, "language": language_id,
                          "sources": [[d.source.source_id, d.source.sha256, d.scope] for d in documents]})
     return _Program(documents, tuple(facts), tuple(rules), signatures,
                     {scope: frozenset(items) for scope, items in constants.items()}, digest)
@@ -567,7 +581,9 @@ class SemanticKernel:
     atomic. The public snapshot is inert data, never an authority-bearing image.
     """
 
-    def __init__(self, *, budget: SemanticBudget | None = None) -> None:
+    def __init__(self, *, budget: SemanticBudget | None = None, language_id: str = LANGUAGE_ID) -> None:
+        _reader(language_id)
+        self._language_id = language_id
         self.budget = budget or SemanticBudget()
         if type(self.budget) is not SemanticBudget:
             raise NabtError("INVALID_BUDGET", "Use the installed semantic budget record")
@@ -575,14 +591,18 @@ class SemanticKernel:
         self._sources: dict[str, tuple[bytes, str]] = {}
         self._known_programs: set[str] = {self._program().sha256}
 
+    @property
+    def language_id(self) -> str:
+        return self._language_id
+
     def _program(self) -> _Program:
-        return _compile(dict(self._sources), self.budget)
+        return _compile(dict(self._sources), self.budget, self.language_id)
 
     def _admit(self, document: ParsedDocument, *, replacing: bool = False) -> AdmissionReport:
         if type(document) is not ParsedDocument:
             raise NabtError("INVALID_DOCUMENT", "Admission requires a parsed document with original bytes")
         # Ignore the supplied facts, rules, residual flags, source hash, and reader version.
-        doc = _parse(document.source.raw_bytes, document.source.source_id, document.scope)
+        doc = _parse(document.source.raw_bytes, document.source.source_id, document.scope, self.language_id)
         before = self._program()
         if doc.source.source_id in self._sources and not replacing:
             return AdmissionReport(False, "REJECT", doc.source.source_id, doc.scope, doc.source.sha256,
@@ -593,7 +613,7 @@ class SemanticKernel:
                                    before.sha256, tuple(r.as_dict() for r in doc.residuals))
         candidate = {**self._sources, doc.source.source_id: (doc.source.raw_bytes, doc.scope)}
         try:
-            after = _compile(candidate, self.budget)
+            after = _compile(candidate, self.budget, self.language_id)
         except NabtError as exc:
             return AdmissionReport(False, exc.status, doc.source.source_id, doc.scope, doc.source.sha256,
                                    before.sha256, (exc.as_dict(),))
@@ -605,7 +625,7 @@ class SemanticKernel:
         return self._admit(document)
 
     def add_source(self, raw: str | bytes, *, source_id: str = "text", scope: str = "default") -> AdmissionReport:
-        return self._admit(_parse(raw, source_id, scope))
+        return self._admit(_parse(raw, source_id, scope, self.language_id))
 
     def _removed(self, before: _Program, after: _Program, scopes: set[str]) -> tuple[dict, ...]:
         lost = []
@@ -622,7 +642,7 @@ class SemanticKernel:
                                   residuals=({"code": "UNKNOWN_SOURCE", "message": "No active source has that identity"},))
         scope = self._sources[source_id][1]
         candidate = {key: val for key, val in self._sources.items() if key != source_id}
-        after = _compile(candidate, self.budget)
+        after = _compile(candidate, self.budget, self.language_id)
         # Removal itself always succeeds. A bounded change report may be incomplete.
         residuals = ()
         try:
@@ -639,7 +659,8 @@ class SemanticKernel:
             return RevisionReport(False, "REJECT", source_id, before.sha256, before.sha256,
                                   residuals=({"code": "UNKNOWN_SOURCE", "message": "Replace requires an active source"},))
         previous_scope = self._sources[source_id][1]
-        report = self._admit(_parse(raw, source_id, previous_scope if scope is None else scope), replacing=True)
+        report = self._admit(_parse(raw, source_id, previous_scope if scope is None else scope,
+                                   self.language_id), replacing=True)
         if not report.accepted:
             return RevisionReport(False, report.status, source_id, before.sha256, before.sha256,
                                   residuals=report.residuals)
@@ -654,10 +675,23 @@ class SemanticKernel:
     def query_text(self, text: str | bytes, *, scope: str = "default") -> QueryResult:
         return self.query(text, scope=scope)
 
+    def read_query(self, text: str | bytes, *, scope: str = "default") -> Query:
+        reader = _reader(self.language_id)
+        if self.language_id == LANGUAGE_ID:
+            return reader.parse_query(text, scope=scope)
+        # A query can reuse subject identities witnessed in its active theory.
+        # This licenses a target reading only, never a fact or source admission.
+        program = self._program()
+        subjects = set()
+        for doc in program.documents:
+            if doc.scope == scope:
+                subjects.update(d.name for d in doc.declarations if d.kind == "individual")
+                subjects.update(f.atom.args[0] for f in doc.facts)
+        return reader.parse_query(text, scope=scope, known_individuals=frozenset(subjects))
+
     def query(self, query: Query | Atom | str | bytes, *, scope: str | None = None) -> QueryResult:
-        from .text_reader import parse_query
         if type(query) in (str, bytes):
-            query = parse_query(query, scope="default" if scope is None else scope)
+            query = self.read_query(query, scope="default" if scope is None else scope)
         if type(query) is Query:
             if scope is not None and scope != query.scope:
                 raise NabtError("QUERY_SCOPE_MISMATCH", "A parsed query cannot silently move to another scope")
@@ -779,7 +813,7 @@ class SemanticKernel:
 
     def snapshot(self) -> dict:
         program = self._program()
-        result = {"semantic_version": SEMANTIC_VERSION, "language_id": LANGUAGE_ID,
+        result = {"semantic_version": SEMANTIC_VERSION, "language_id": self.language_id,
                 "program_sha256": program.sha256, "world_truth": "NOT_ESTABLISHED",
                 "sources": [{"source_id": d.source.source_id, "source_sha256": d.source.sha256,
                              "scope": d.scope, "raw_utf8_hex": d.source.raw_bytes.hex()}

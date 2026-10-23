@@ -12,3 +12,4 @@ import Nabt.PropertyEvidence
 import Nabt.Obligations
 import Nabt.Program
 import Nabt.SemanticInference
+import Nabt.ArabicReading

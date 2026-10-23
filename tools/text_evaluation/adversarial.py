@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from .integrity import require_output, verify_code_freeze, write_report
+
 ROOT=Path(__file__).resolve().parents[2]
 SEED='''مفهوم فريد
 مفهوم ناعم
@@ -22,9 +24,8 @@ def main():
     ap.add_argument('--output',required=True,type=Path)
     ap.add_argument('--code-freeze',required=True,type=Path)
     args=ap.parse_args()
-    freeze=json.loads(args.code_freeze.read_text())
-    for f in freeze['files']:
-        assert hashlib.sha256((ROOT/f['path']).read_bytes()).hexdigest()==f['sha256']
+    require_output(args.output, freeze=args.code_freeze)
+    freeze=verify_code_freeze(args.code_freeze)
     from nabt.text_reader import parse_document,parse_query
     from nabt.semantics import SemanticKernel
     from nabt.errors import NabtError
@@ -121,7 +122,7 @@ def main():
             record(ident,status=='DEFER' and code=='RESOURCE_LIMIT',{'exception':type(exc).__name__,'status':status,'code':code,'message':str(exc)})
     summary={'probes':len(outcomes),'passed':sum(o['passed'] for o in outcomes),'failed_ids':[o['id'] for o in outcomes if not o['passed']],
              'scope':'Public-contract adversarial probes and valid controls; separate from heldout controlled-Arabic accuracy.'}
-    args.output.write_text(json.dumps({'schema':'nabt-independent-adversarial-probes-v1','code_freeze':freeze,'summary':summary,'outcomes':outcomes},ensure_ascii=False,indent=2)+'\n')
+    write_report(args.output, {'schema':'nabt-independent-adversarial-probes-v1','code_freeze':freeze,'summary':summary,'outcomes':outcomes}, freeze=args.code_freeze)
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 
 
