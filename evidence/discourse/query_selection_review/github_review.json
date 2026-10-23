@@ -1,0 +1,17 @@
+{
+  "schema": "nabt.discourse.query-selection.github-review.v1",
+  "repository": "sonaiso/NABT",
+  "pr": 11,
+  "reviewed_head": "b558d662a6865161a6f637592c1e9f145e2b1106",
+  "comments": [
+    {
+      "url": "https://github.com/sonaiso/NABT/pull/11#discussion_r4362499811",
+      "body": "A licensed clause can still contain rejected alternatives: `read_discourse` filters those alternatives when deciding the clause status but retains them in `analyses`. Selecting element zero here can therefore build the query from a rejected reading instead of the licensed question. For example, placing a rejected `args=[None]` reading before the licensed `args=['hind']` reading produces `UNKNOWN`; reversing the same alternatives produces `SUPPORTED`. Filter for non-rejected, syntax-licensed, reference-complete analyses before checking the claim count and selecting the query.",
+      "id": 4362499811,
+      "created_at": "2026-10-23T17:40:11Z",
+      "path": "src/nabt/discourse.py",
+      "line": 103
+    }
+  ],
+  "scope": "External review hypothesis; independently reproduced before implementation change."
+}

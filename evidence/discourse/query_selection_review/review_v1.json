@@ -1,0 +1,48 @@
+{
+  "schema": "nabt.discourse-query-selection-review.v1",
+  "created_utc": "2026-10-23T17:44:26.135277+00:00",
+  "material_freeze": {
+    "path": "evidence/discourse/query_selection_review/material_freeze_v1.json",
+    "bytes": 1464,
+    "sha256": "5268b4a3ac0b6634d08fa5353b94fb258f51902fab95d658cb0dabf409ada520"
+  },
+  "baseline": {
+    "path": "evidence/discourse/query_selection_review/results_baseline_v3.json",
+    "bytes": 36822,
+    "sha256": "1ed39769b30d49e7b2702c33d28ef3d0a2f8627ba48c778175e802f296c99b6f"
+  },
+  "after": {
+    "path": "evidence/discourse/query_selection_review/results_after_v4.json",
+    "bytes": 31015,
+    "sha256": "cd6f27ba57c31168ae8565420da114fd31ccb6df3de3bf3814ccb2e629e4ca49"
+  },
+  "runtime_v4": {
+    "path": "evidence/discourse/code_freeze_v4.json",
+    "bytes": 12026,
+    "sha256": "f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519"
+  },
+  "runtime_v4_matches_before_and_after": true,
+  "unchanged_material": true,
+  "baseline_counts": {
+    "passed": 2,
+    "total": 6,
+    "errors": 0
+  },
+  "after_counts": {
+    "passed": 6,
+    "total": 6,
+    "errors": 0
+  },
+  "remote_observation": {
+    "path": "evidence/discourse/query_selection_review/remote_review_observation.json",
+    "bytes": 2313,
+    "sha256": "8a667b2cd8930648ced485592baf4a18f5247293a9a11d8f256640ac11438163"
+  },
+  "fix_scope": "Query consumer filters non-rejected, syntax-licensed, reference-complete alternatives before checking every surviving claim count and selecting kind/query. Reader source analyses remain unchanged; the existing clause license requires semantic agreement among all complete viable alternatives.",
+  "runtime_changed_paths": [
+    "pyproject.toml",
+    "src/nabt/__init__.py",
+    "src/nabt/discourse.py"
+  ],
+  "remaining_claim_boundary": "Six targeted authored regression cases, including two real end-to-end cases and four isolated consumer-contract cases. No claim of new independent-corpus accuracy or complete release-gate success."
+}

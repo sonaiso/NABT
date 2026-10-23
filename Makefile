@@ -2,7 +2,7 @@ PYTHON ?= python3
 LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
-TEXT_CODE_FREEZE ?= evidence/discourse/code_freeze_v3.json
+TEXT_CODE_FREEZE ?= evidence/discourse/code_freeze_v4.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -38,7 +38,7 @@ morphology-conformance:
 	$(PYTHON) tools/check_morphology_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/morphology-conformance.json
 
 morphology-evaluation:
-	$(PYTHON) tools/morphology_evaluation.py --freeze-version discourse_v3 --output $(EVIDENCE_DIR)/morphology-regression.json --allow-documented-boundaries
+	$(PYTHON) tools/morphology_evaluation.py --freeze-version discourse_v4 --output $(EVIDENCE_DIR)/morphology-regression.json --allow-documented-boundaries
 
 text-evidence-conformance:
 	$(PYTHON) tools/check_text_evidence_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/text-evidence-conformance.json
@@ -90,7 +90,7 @@ governor-evaluation:
 	$(PYTHON) tools/governor_evaluation.py --code-freeze $(TEXT_CODE_FREEZE) --output-dir $(GOVERNOR_EVALUATION_DIR) --require-regression-gates
 
 word-evaluation:
-	$(PYTHON) tools/word_evaluation.py --freeze-version discourse_v3 --output $(EVIDENCE_DIR)/word-regression.json --require-regression-gates
+	$(PYTHON) tools/word_evaluation.py --freeze-version discourse_v4 --output $(EVIDENCE_DIR)/word-regression.json --require-regression-gates
 
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json

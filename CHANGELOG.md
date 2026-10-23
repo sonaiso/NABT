@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.13.0a2 — 2026-10-23
+
+- Finalize installed-package command evidence once after all commands, retain
+  separate command records, and verify every command/log before the manifest.
+  Preserve the first a2 attempt with its detected post-run log hash mismatch;
+  its cause is not established and it is not the final release package.
+- Select a question only from non-rejected, syntax-licensed,
+  reference-complete analyses retained by the reader. Rejected alternatives
+  no longer control the question's claim count, query or kind.
+- Preserve the reviewed a1 snapshot and measurements, and add a separate
+  pre-fix frozen regression for a naturally ambiguous pronoun and alternative
+  ordering. The original discourse material remains unchanged.
+
 ## 0.13.0a1 — 2026-10-23
 
 - Add source-qualified person and complete-host pronoun/nun evidence, with

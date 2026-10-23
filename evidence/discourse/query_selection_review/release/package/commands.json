@@ -1,0 +1,480 @@
+[
+  {
+    "name": "build-wheel",
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "pip",
+      "wheel",
+      "/workspace/scratch/93a907621097/NABT",
+      "--no-deps",
+      "--no-build-isolation",
+      "--no-index",
+      "--wheel-dir",
+      "/workspace/scratch/93a907621097/NABT/artifacts/local/discourse-package-a2-final/wheel"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/build-wheel.stdout",
+      "bytes": 680,
+      "sha256": "efcb3c0ca6d45a3f19ae9d7e99b7ef52d17084fbf6d4dfe0799ddbab07b9ca70"
+    },
+    "stderr": {
+      "path": "logs/build-wheel.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "create-venv",
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "venv",
+      "/tmp/nabt-discourse-package-4z_xo247/venv"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/create-venv.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "logs/create-venv.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "install-wheel",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--no-deps",
+      "/workspace/scratch/93a907621097/NABT/artifacts/local/discourse-package-a2-final/wheel/nabt_machine-0.13.0a2-py3-none-any.whl"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/install-wheel.stdout",
+      "bytes": 225,
+      "sha256": "ea3efc7e6e729dbcd002f8047ded82f94f06922128e23c7ff9affd196cad7812"
+    },
+    "stderr": {
+      "path": "logs/install-wheel.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "inspect-install",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/python",
+      "-I",
+      "/tmp/nabt-discourse-package-4z_xo247/inspect_install.py"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/inspect-install.stdout",
+      "bytes": 15762,
+      "sha256": "7b445119de3057715f3ddba70f6619af5d66650b39b4e58dfb2efebd41f847f4"
+    },
+    "stderr": {
+      "path": "logs/inspect-install.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "version",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "--version"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/version.stdout",
+      "bytes": 9,
+      "sha256": "536f5dd140743872dfabccc95cd14bfa2f3f413a533be62a8f39e54d3ef94d4e"
+    },
+    "stderr": {
+      "path": "logs/version.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "discourse-catalog",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "discourse-catalog"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/discourse-catalog.stdout",
+      "bytes": 405492,
+      "sha256": "4186161eb82c13e94bbb355b6c756347de2a0a190614ad68912e14de53fd1aa3"
+    },
+    "stderr": {
+      "path": "logs/discourse-catalog.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "person-catalog",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "person-catalog"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/person-catalog.stdout",
+      "bytes": 8754,
+      "sha256": "1eee49d6789cbd0980dfbe1e04fe92785b49a82439de28b917e35bc9c0c1af5f"
+    },
+    "stderr": {
+      "path": "logs/person-catalog.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "audit-corpus",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "audit-corpus",
+      "discourse_training.tsv",
+      "--format",
+      "qac"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/audit-corpus.stdout",
+      "bytes": 558,
+      "sha256": "b6d3a9afc8ae289eb251791310fd00d42166eea8f768ac5d41ce4bdf930acc5f"
+    },
+    "stderr": {
+      "path": "logs/audit-corpus.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "learn-qac-lexicon",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "learn-qac-lexicon",
+      "discourse_training.tsv"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/learn-qac-lexicon.stdout",
+      "bytes": 849,
+      "sha256": "ccf47e108fea0c9094b0fcb1eaf3e2bbc3b49aa44c6b5e5aaa17b619f0cc9666"
+    },
+    "stderr": {
+      "path": "logs/learn-qac-lexicon.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-person",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "read-person",
+      "تكتب",
+      "--qac",
+      "discourse_training.tsv"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-person.stdout",
+      "bytes": 5160,
+      "sha256": "b472f381e59825b306870e11a234f5fb351f532e9b70c73d606a9b608b32bfca"
+    },
+    "stderr": {
+      "path": "logs/read-person.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "person-without-qac",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "read-person",
+      "تكتب"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 3,
+    "exit_code": 3,
+    "stdout": {
+      "path": "logs/person-without-qac.stdout",
+      "bytes": 137,
+      "sha256": "5ee4d45e3b05f542ea6697a313197a8fcec5fe835a131bde9bea4fefd85ae261"
+    },
+    "stderr": {
+      "path": "logs/person-without-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-discourse",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "read-discourse",
+      "discourse.txt",
+      "--qac",
+      "discourse_training.tsv",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-discourse.stdout",
+      "bytes": 122026,
+      "sha256": "71940a2bc4e06a80a2913b666b988c8823bb850ec4eb5f2c4e62e869d0791bbe"
+    },
+    "stderr": {
+      "path": "logs/read-discourse.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "verify-discourse",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "verify-discourse",
+      "report.json",
+      "--source",
+      "discourse.txt",
+      "--qac",
+      "discourse_training.tsv",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/verify-discourse.stdout",
+      "bytes": 189,
+      "sha256": "6263cf48544c361f354c54531f5a8d0ebe3fafc8c5dd490e16666f69612d7ef1"
+    },
+    "stderr": {
+      "path": "logs/verify-discourse.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-report-qac",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "verify-discourse",
+      "report.json",
+      "--source",
+      "discourse.txt",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-report-qac.stdout",
+      "bytes": 82,
+      "sha256": "0ab86863ab69211d556b65aafaa7529ad5ea771ed0b13d943da030a123d28039"
+    },
+    "stderr": {
+      "path": "logs/withdraw-report-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-report-context",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "verify-discourse",
+      "report.json",
+      "--source",
+      "discourse.txt",
+      "--qac",
+      "discourse_training.tsv"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-report-context.stdout",
+      "bytes": 82,
+      "sha256": "0ab86863ab69211d556b65aafaa7529ad5ea771ed0b13d943da030a123d28039"
+    },
+    "stderr": {
+      "path": "logs/withdraw-report-context.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "ask-discourse",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "ask-discourse",
+      "discourse.txt",
+      "هل زيد عالم؟",
+      "--qac",
+      "discourse_training.tsv",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/ask-discourse.stdout",
+      "bytes": 3807,
+      "sha256": "a14d2d8e19816c4c5921dfefddf0b1cc0357dfff5d7733c3a693944f846accb5"
+    },
+    "stderr": {
+      "path": "logs/ask-discourse.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "verify-discourse-answer",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "verify-discourse-answer",
+      "answer.json",
+      "--source",
+      "discourse.txt",
+      "--question",
+      "هل زيد عالم؟",
+      "--qac",
+      "discourse_training.tsv",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/verify-discourse-answer.stdout",
+      "bytes": 194,
+      "sha256": "8737173a661d4751ac2e45541c637740e3fa595d91882b6933c9e877247e4598"
+    },
+    "stderr": {
+      "path": "logs/verify-discourse-answer.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-answer-qac",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "verify-discourse-answer",
+      "answer.json",
+      "--source",
+      "discourse.txt",
+      "--question",
+      "هل زيد عالم؟",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-answer-qac.stdout",
+      "bytes": 89,
+      "sha256": "b09ebc6bfdc830166728be1739453afa0132df713f13c924085e2e3216e2a3b5"
+    },
+    "stderr": {
+      "path": "logs/withdraw-answer-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-answer-context",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "verify-discourse-answer",
+      "answer.json",
+      "--source",
+      "discourse.txt",
+      "--question",
+      "هل زيد عالم؟",
+      "--qac",
+      "discourse_training.tsv"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-answer-context.stdout",
+      "bytes": 89,
+      "sha256": "b09ebc6bfdc830166728be1739453afa0132df713f13c924085e2e3216e2a3b5"
+    },
+    "stderr": {
+      "path": "logs/withdraw-answer-context.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-without-qac",
+    "argv": [
+      "/tmp/nabt-discourse-package-4z_xo247/venv/bin/nabt",
+      "read-discourse",
+      "discourse.txt",
+      "--context",
+      "discourse_context.json"
+    ],
+    "cwd": "/tmp/nabt-discourse-package-4z_xo247/smoke",
+    "expected_exit_code": 3,
+    "exit_code": 3,
+    "stdout": {
+      "path": "logs/read-without-qac.stdout",
+      "bytes": 36545,
+      "sha256": "4014047b2e19854cbd88daa3f706caef7511754fecee6d57a329610c60d9fea9"
+    },
+    "stderr": {
+      "path": "logs/read-without-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+]

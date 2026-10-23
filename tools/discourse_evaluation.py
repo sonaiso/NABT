@@ -44,8 +44,13 @@ PINS = {
         'archive_sha256': '4fbcadee8997087223cbf8ffc365dd7a1b6cac4eb0990350e8925098ec557b51',
         'file_count': 67,
     },
+    'f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519': {
+        'snapshot_sha256': '2d79ea2227dda5169413eb314b9b65b5bc04fcacb447d00066ef56d3c7b69108',
+        'archive_sha256': 'af7b88818f8d46a4d810927df39f1eb839c28dd7862f3919c3ac52f66abdbf8e',
+        'file_count': 67,
+    },
 }
-DOCUMENTED_BOUNDARY_RUNTIME = 'c74b029c986fa3e1bb6a6ab3c5cbd423f77c902733626105ec95f5e366b71018'
+DOCUMENTED_BOUNDARY_RUNTIME = 'f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519'
 # These are observed coverage/representation misses, not waived safety checks.
 # A new failed check even in a listed case must receive a new review.
 DOCUMENTED_BOUNDARIES = {
@@ -1137,7 +1142,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=FOLDER / 'code_freeze_v3.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=FOLDER / 'code_freeze_v4.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')

@@ -1,5 +1,7 @@
 # Discourse evaluation: independent material and post-review comparison
 
+> **Release update — 0.13.0a2 / snapshot v4:** the query-selection consumer fix preserves the independent profile at **57/86**, with **zero observed false acceptances**. The existing v1–v3 record below is retained. The new [v3/v4 comparison and direct regression scope](#query-selection-review--snapshot-v4--0130a2) are appended at the end.
+
 ## Result and its scope
 
 The final discourse snapshot v3 completes **57/86 independent authored episodes**, including **12/30 designated positive episodes** and **2/4 withheld terminal-realization transfers**. It has **0 observed false acceptances** in this material. The strict suite remains incomplete. The allowed-boundary CI mode is an explicit regression gate for this bounded release; it does not turn the remaining positive misses into successes.
@@ -166,3 +168,35 @@ The [v3 opt-in rerun](../evidence/discourse/independent_runs/independent_v3_gate
 The release rerun of the older Arabic interface preserves **0/40** complete broad episodes, **8/12** declared-scope episodes, and **0/8** excerpt semantic reads. Its questions are respectively 0/43 and 9/11 where the earlier matrix defines them. The controlled text interface preserves **60/60** episodes and **126/126** question checkpoints. The earlier inflection profile remains 72/74 with its two explicitly documented premise boundaries, post-review 22/22, and CLI 32/32.
 
 Those are published regression materials with different interfaces and premises. They are not held-out discourse results, and comparing 0/40 with 12/30 as one numerical improvement rate would mix denominators. The new evidence is the explicit bounded discourse successes and their current-source proof/answer loops; the broader reading gap remains visible.
+
+## Query-selection review — snapshot v4 / 0.13.0a2
+
+A further pre-merge review found that `ask_discourse` consumed `analyses[0]` even when that analysis was rejected, while clause licensing correctly considered viable alternatives. A licensed question could consequently be answered from an unbound argument belonging to a rejected reading. Snapshot v4 filters eligible analyses before examining claim count, selecting question kind, or constructing the query. The viable alternatives already have to agree for the reader to license the clause.
+
+The independently authored [six-case query-selection review](../evidence/discourse/query_selection_review/review_v1.md) was frozen after the defect report and before the fix. It improves from **2/6 on v3 to 6/6 on v4**, with no execution errors. Two cases use the real reader end to end: an unvocalized question and its vocalized control. Four are consumer-contract probes that reorder real report alternatives or vary the rejected alternative's claim count. Those four probes do not claim that their synthetic report variants occur naturally. All six are targeted post-review material, separate from the original 86-case gold and the previous 26-case and six-case regressions.
+
+### Unchanged independent profile, identical comparison adapter
+
+The evaluator adds only the approved v4 pin, the CLI default snapshot and v4's eligibility for the existing partial gate. Every measurement and semantic-scoring function is AST-identical to its preceding version; the exact **29-case-and-failed-check** boundary list is unchanged. The evaluator tests remain unchanged at **27/27**. V3 is loaded from its verified archived 67-file runtime and v4 from the live root matching its 67-file freeze. Both fresh processes use identical evaluator/test bytes.
+
+| Measure | Archived v3 | v4 / 0.13.0a2 |
+|---|---:|---:|
+| Complete independent episodes | 57/86 | 57/86 |
+| Positive episodes | 12/30 | 12/30 |
+| Withheld terminal-realization transfer | 2/4 | 2/4 |
+| Boundary episodes | 24/32 | 24/32 |
+| Lexical/acquisition controls | 7/8 | 7/8 |
+| Replay/invalid context | 12/12 | 12/12 |
+| Substantive questions | 24/45 | 24/45 |
+| No-support question controls | 29/29 | 29/29 |
+| Required correlated readings | 33/44 | 33/44 |
+| Required qualified claims | 30/53 | 30/53 |
+| Observed false acceptances | 0 | 0 |
+
+The 90 raw log rows—86 case records, two model-profile records and two source-annotation variants—match exactly across these two runs after ignoring only `score.seconds`. All per-case failures and check totals also match. The 74 historical inquiries contain **no** rejected-first analysis with a viable alternative, so this unchanged score is regression evidence. The direct evidence of the reported fix is the separate six-case matrix; an unchanged historical score does not demonstrate new general comprehension coverage.
+
+The archived-v3 run uses strict gate mode and exits 1 because coverage remains incomplete. The v4 run explicitly requests the documented-boundary release gate and exits 0 while retaining `strict_pass:false` and `coverage_complete:false`. It has the same 29 documented incomplete cases, no unexpected failed checks and zero false accepts. Gate mode changes only the release decision, not the episode/query or integrity checks. Earlier v3 gate approvals and all historical results remain preserved.
+
+The new [comparison ledger](../evidence/discourse/independent_query_selection_review_v1/comparison.json), [adapter pin record](../evidence/discourse/independent_query_selection_review_v1/adapter_pin_update.json), [v3 result](../evidence/discourse/independent_query_selection_review_v1/v3_comparison.json), and [v4 result](../evidence/discourse/independent_query_selection_review_v1/v4_comparison.json) include exact runtime, evaluator, raw-log and code-archive hashes. No previous `independent_review` record or retention manifest is rewritten. The runtime differences from v3 are confined to `discourse.py` and the two package-version files.
+
+For the current release, use `--runtime-freeze evidence/discourse/code_freeze_v4.json` in the reproduction command above; the CLI default is now v4. Add `--allow-documented-boundaries` only to request the explicitly partial regression gate. The v4 manifest SHA-256 is `f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519`, its snapshot is `2d79ea2227dda5169413eb314b9b65b5bc04fcacb447d00066ef56d3c7b69108`, and its archive is `af7b88818f8d46a4d810927df39f1eb839c28dd7862f3919c3ac52f66abdbf8e`.

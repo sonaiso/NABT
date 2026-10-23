@@ -1,0 +1,730 @@
+{
+  "schema": "nabt.discourse.query-selection-release-validation.v1",
+  "recorded_at_utc": "2026-10-23T17:53:48.129563+00:00",
+  "package_version": "0.13.0a2",
+  "status": "BOUNDED_VALIDATION_PASS_WITH_EXPLICIT_COVERAGE_REGRESSION",
+  "repository_base_commit": "ab490a872d8c9b760efb90e698c0ee597d8f0f03",
+  "correction_base_commit": "b558d662a6865161a6f637592c1e9f145e2b1106",
+  "release_commit": null,
+  "release_commit_note": "This record is included in the following commit. Exact runtime and verification bytes avoid a recursive self-hash.",
+  "previous_release_record": {
+    "path": "evidence/discourse/release/validation.json",
+    "bytes": 23091,
+    "sha256": "1528c164774d216e53bfc59b96fa062c63f988049869a8a7cff08ac5ab4725b2"
+  },
+  "runtime": {
+    "manifest": {
+      "path": "evidence/discourse/code_freeze_v4.json",
+      "bytes": 12026,
+      "sha256": "f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519"
+    },
+    "snapshot_sha256": "2d79ea2227dda5169413eb314b9b65b5bc04fcacb447d00066ef56d3c7b69108",
+    "archive": {
+      "path": "evidence/discourse/code_freeze_v4.tar.gz",
+      "bytes": 959304,
+      "sha256": "af7b88818f8d46a4d810927df39f1eb839c28dd7862f3919c3ac52f66abdbf8e"
+    },
+    "file_count": 67,
+    "current_bytes_match_frozen_inventory": true,
+    "historical_runtime_snapshots_preserved": [
+      "v1",
+      "v2",
+      "v3",
+      "v4"
+    ],
+    "runtime_differences_from_v3": [
+      "pyproject.toml",
+      "src/nabt/__init__.py",
+      "src/nabt/discourse.py"
+    ]
+  },
+  "verification_sources": {
+    "path": "evidence/discourse/query_selection_review/release/verification-source-manifest.json",
+    "bytes": 49087,
+    "sha256": "33f9636080f03fa8f8316a188b7abbf2400eeef1b506b4c83cc68766c2d275d1"
+  },
+  "full_check": {
+    "outcome": "PASS",
+    "runner_observed_exit_code": 0,
+    "tests_run": 812,
+    "test_seconds": 25.55,
+    "failures": 0,
+    "command": [
+      "make",
+      "check",
+      "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/discourse-release-a2",
+      "TEXT_CODE_FREEZE=evidence/discourse/code_freeze_v4.json",
+      "QAC_SOURCE=artifacts/local/inflection-evaluation/quranic-corpus-morphology-0.4.txt.gz",
+      "ARABIC_EVALUATION_DIR=artifacts/local/discourse-release-a2/arabic-regression"
+    ],
+    "log": {
+      "path": "evidence/discourse/query_selection_review/release/make-check.log",
+      "bytes": 180313,
+      "sha256": "769544c6b50e2938c412bc722868086a6ce8a675f1bdeb6d9d13ef990f1e610f"
+    },
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    },
+    "relocated_unchanged_artifacts_from": "artifacts/local/discourse-release-a2",
+    "relocated_unchanged_artifacts_to": "evidence/discourse/query_selection_review/release/checks"
+  },
+  "formal_audit": {
+    "report": {
+      "path": "evidence/discourse/query_selection_review/release/checks/axioms.json",
+      "bytes": 47935,
+      "sha256": "f02543e878e1df42ba062d49001d1c08664faaa788b326c55e6717c9320b863c"
+    },
+    "theorem_count": 625,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true,
+    "new_person_declarations_since_base": 24,
+    "new_discourse_declarations_since_base": 40,
+    "formal_changes_since_v3": false,
+    "whole_runtime_parser_verified_in_lean": false
+  },
+  "conformance": {
+    "person": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/person-conformance.json",
+        "bytes": 563,
+        "sha256": "f1a184c52877db6bdd11cc0a6a27ab5ea888005fb0de935fa8184c681ac89a53"
+      },
+      "result": {
+        "ok": true,
+        "law_id": "nabt.person-evidence.v1",
+        "packaged_sha256": "f77c9b65b3a7b638166b5807fff1218cb30079d2d301c815b1b512a665858d15",
+        "fresh_full_json_matches_packaged": true,
+        "type_sensitive_comparison": true,
+        "counts": {
+          "correlated_profiles": 14,
+          "family_prefix_rows": 20,
+          "separate_pronouns": 14,
+          "attached_allomorphs": 20
+        },
+        "runtime_registry_correspondence": true,
+        "runtime_source_reader_verified": false,
+        "scope": "Finite conditional person/shape registry, not source truth, acquisition, reference, case or role."
+      }
+    },
+    "discourse": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/discourse-conformance.json",
+        "bytes": 884,
+        "sha256": "a724080bd0d2c50728c52c8f1692155013b5e5b73b1160214c8eb114bc0d7fc3"
+      },
+      "result": {
+        "ok": true,
+        "law_id": "nabt.discourse-evidence.v1",
+        "packaged_sha256": "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325",
+        "fresh_full_json_matches_packaged": true,
+        "type_sensitive_comparison": true,
+        "runtime_table_adapters_checked": true,
+        "runtime_reader_checked": false,
+        "counts": {
+          "role_rows": 5,
+          "feature_rows": 25,
+          "combine_rows": 9,
+          "reference_rows": 2304,
+          "selection_rows": 12,
+          "assertion_rows": 576,
+          "negation_rows": 2,
+          "truth_rows": 16,
+          "coordination_rows": 8,
+          "claim_projection_rows": 128,
+          "causal_rows": 16
+        },
+        "source_policy_sha256": "cd1f4fcf970b62a7ac8882bdfffed72229c5b09cac9abb561d4a99452776aa31",
+        "source_passages_replayed": 22,
+        "scope": "Conditional algebra correspondence and exact source windows; not acquisition, external reference, free-text correctness or external truth."
+      }
+    },
+    "inflection": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/inflection-conformance.json",
+        "bytes": 896,
+        "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d"
+      },
+      "result": {
+        "ok": true,
+        "law_id": "nabt.inflection-evidence.v1",
+        "packaged_sha256": "f8bc2f04fc1225a4f495d71a4c283289a3e8e9c74b9949008eb51e6445e7deb5",
+        "fresh_full_json_matches_packaged": true,
+        "type_sensitive_comparison": true,
+        "counts": {
+          "sign_rows": 45,
+          "conditional_surface_inverse_checks": 165,
+          "diptote_contexts": 16,
+          "nun_kinds": 7,
+          "relation_requirements": 11,
+          "receipt_masks": 256,
+          "construction_domains": 2
+        },
+        "runtime_correspondence": {
+          "sign_contexts": 16,
+          "class_case_projections": 60,
+          "caller_order_checks": 1,
+          "empty_domain_checks": 2,
+          "relation_kind_construction_combinations": 66,
+          "receipt_masks": 256
+        },
+        "runtime_table_adapters_checked": true,
+        "runtime_reader_checked": false,
+        "scope": "Finite conditional law correspondence; not class/segmentation/relation acquisition, source truth or unrestricted Arabic."
+      }
+    }
+  },
+  "source_audit": {
+    "report": {
+      "path": "evidence/discourse/source_audit.json",
+      "bytes": 213571,
+      "sha256": "bc3462d599f7a7e265a2cd8c1b7692e43997fea3051d6a4e82d72f31d7b846f6"
+    },
+    "coverage": {
+      "path": "evidence/discourse/source_coverage.json",
+      "bytes": 5764,
+      "sha256": "33a825e48a6f0761afa8a5f992fc979a9508b77f87e4d7f82f43cc8a0564bf2a"
+    },
+    "head_verification": {
+      "path": "evidence/discourse/source_head_verification.json",
+      "bytes": 3058,
+      "sha256": "2e9b723a22824f11b1a323a6c1350828cae2f617812da23277e2b5e63ac945ce"
+    },
+    "local_repository_snapshots": 34,
+    "local_lean_files": 302,
+    "full_upstream_lean_build_claimed": false
+  },
+  "query_selection_review": {
+    "review": {
+      "path": "evidence/discourse/query_selection_review/review_v1.json",
+      "bytes": 2001,
+      "sha256": "7d52552cd4bb2712542676b2346ef39cb1ed2635924cf8452c9a59efe93b897e"
+    },
+    "material_freeze": {
+      "path": "evidence/discourse/query_selection_review/material_freeze_v1.json",
+      "bytes": 1464,
+      "sha256": "5268b4a3ac0b6634d08fa5353b94fb258f51902fab95d658cb0dabf409ada520"
+    },
+    "before": {
+      "path": "evidence/discourse/query_selection_review/results_baseline_v3.json",
+      "bytes": 36822,
+      "sha256": "1ed39769b30d49e7b2702c33d28ef3d0a2f8627ba48c778175e802f296c99b6f"
+    },
+    "after": {
+      "path": "evidence/discourse/query_selection_review/results_after_v4.json",
+      "bytes": 31015,
+      "sha256": "cd6f27ba57c31168ae8565420da114fd31ccb6df3de3bf3814ccb2e629e4ca49"
+    },
+    "remote_review_observation": {
+      "path": "evidence/discourse/query_selection_review/remote_review_observation.json",
+      "bytes": 2313,
+      "sha256": "8a667b2cd8930648ced485592baf4a18f5247293a9a11d8f256640ac11438163"
+    },
+    "before_passed": 2,
+    "after_passed": 6,
+    "total": 6,
+    "end_to_end_cases": 2,
+    "consumer_contract_cases": 4,
+    "authored_after_defect_discovery_and_before_fix": true,
+    "not_added_to_independent_denominator": true
+  },
+  "independent_evaluation": {
+    "material_freeze": {
+      "path": "evidence/discourse/independent_freeze_v1.json",
+      "bytes": 1305,
+      "sha256": "3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5"
+    },
+    "previous_three_way_comparison": {
+      "path": "evidence/discourse/independent_comparison_v1.json",
+      "bytes": 20785,
+      "sha256": "c3747c62309c020feab79674cd694a1925e45b3b33bea1efc1ef846e22c37f6e"
+    },
+    "new_same_adapter_comparison": {
+      "path": "evidence/discourse/independent_query_selection_review_v1/comparison.json",
+      "bytes": 27205,
+      "sha256": "42692bc0b36e880369632c6f66aa5c303b7b1104fcde08a44406428a1b84dd23"
+    },
+    "retention_manifest": {
+      "path": "evidence/discourse/independent_query_selection_review_v1/retention_manifest.json",
+      "bytes": 2898,
+      "sha256": "de3436fecd03488d3eab294d70cfb81ed26bf7cf6d75eb53b1ff4a447a3a67de"
+    },
+    "release_report": {
+      "path": "evidence/discourse/query_selection_review/release/checks/discourse-regression.json",
+      "bytes": 116061,
+      "sha256": "b5ec6fdf88c75552978c080b621b4398b4658bd68db1ec2e99924cd250465e6e"
+    },
+    "v3_v4_raw_rows_equal_except_score_seconds": true,
+    "case_count": 86,
+    "passed": 57,
+    "false_accept_count": 0,
+    "final_by_group": {
+      "B": {
+        "passed": 24,
+        "total": 32
+      },
+      "L": {
+        "passed": 7,
+        "total": 8
+      },
+      "P": {
+        "passed": 12,
+        "total": 30
+      },
+      "T": {
+        "passed": 2,
+        "total": 4
+      },
+      "V": {
+        "passed": 12,
+        "total": 12
+      }
+    },
+    "final_by_check": {
+      "answer_replay": {
+        "passed": 74,
+        "total": 74
+      },
+      "changed_input_replay_rejected": {
+        "passed": 7,
+        "total": 7
+      },
+      "forbidden_claim": {
+        "passed": 27,
+        "total": 27
+      },
+      "force_preserved": {
+        "passed": 2,
+        "total": 5
+      },
+      "no_final_t_person_promotion": {
+        "passed": 1,
+        "total": 1
+      },
+      "no_grounded_claims": {
+        "passed": 27,
+        "total": 27
+      },
+      "no_material_implication": {
+        "passed": 1,
+        "total": 1
+      },
+      "no_root_predicate_promotion": {
+        "passed": 1,
+        "total": 1
+      },
+      "no_shape_only_nominal_construction": {
+        "passed": 1,
+        "total": 1
+      },
+      "nonleakage": {
+        "passed": 2,
+        "total": 2
+      },
+      "original_report_replay": {
+        "passed": 81,
+        "total": 81
+      },
+      "question": {
+        "passed": 53,
+        "total": 74
+      },
+      "question_integrity": {
+        "passed": 74,
+        "total": 74
+      },
+      "reading": {
+        "passed": 33,
+        "total": 44
+      },
+      "report_integrity": {
+        "passed": 81,
+        "total": 81
+      },
+      "required_claim": {
+        "passed": 30,
+        "total": 53
+      },
+      "restriction_preserved": {
+        "passed": 1,
+        "total": 1
+      },
+      "structured_invalid_input": {
+        "passed": 5,
+        "total": 5
+      }
+    },
+    "final_by_question_outcome": {
+      "BINDINGS": {
+        "passed": 2,
+        "total": 8
+      },
+      "CONFLICT": {
+        "passed": 0,
+        "total": 1
+      },
+      "NO_GROUNDED_SUPPORT": {
+        "passed": 29,
+        "total": 29
+      },
+      "REFUTED": {
+        "passed": 0,
+        "total": 2
+      },
+      "SUPPORTED": {
+        "passed": 22,
+        "total": 34
+      }
+    },
+    "substantive_questions": {
+      "passed": 24,
+      "total": 45
+    },
+    "no_support_question_controls": {
+      "passed": 29,
+      "total": 29
+    },
+    "strict_pass": false,
+    "coverage_complete": false,
+    "documented_boundaries_gate_pass": true,
+    "remaining_incomplete_case_count": 29,
+    "natural_corpus_accuracy_claimed": false,
+    "post_review_is_fresh_heldout_claimed": false
+  },
+  "historical_regressions": {
+    "word-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/word-regression.json",
+        "bytes": 375337,
+        "sha256": "b67e90facfff0aec8a9a090ebb79c81c5f6451497975238ee3ae21a0cf080a9a"
+      },
+      "summary": {
+        "cases": 30,
+        "passed": 27,
+        "positive_capability_passed": 12,
+        "positive_capability_cases": 15,
+        "all_cases_passed": false,
+        "full_coverage_goal_passed": false,
+        "release_regression_gates_passed": true
+      }
+    },
+    "morphology-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/morphology-regression.json",
+        "bytes": 218061,
+        "sha256": "52042efe2d20d27c9d18ec01920e7355dbe4cbf7d3a0f793f21c6b150e8b9fd3"
+      },
+      "summary": {
+        "passed": 39,
+        "total": 43,
+        "groups": {
+          "property_inference": {
+            "passed": 16,
+            "total": 16
+          },
+          "missing_information": {
+            "passed": 6,
+            "total": 6
+          },
+          "scope_boundary": {
+            "passed": 1,
+            "total": 5
+          },
+          "contradiction": {
+            "passed": 3,
+            "total": 3
+          },
+          "reading_isolation": {
+            "passed": 2,
+            "total": 2
+          },
+          "malformed_input": {
+            "passed": 1,
+            "total": 1
+          },
+          "unseen_identifier_transfer": {
+            "passed": 2,
+            "total": 2
+          },
+          "source_retraction": {
+            "passed": 2,
+            "total": 2
+          },
+          "certificate_integrity": {
+            "passed": 5,
+            "total": 5
+          },
+          "source_semantic_counterexample": {
+            "passed": 1,
+            "total": 1
+          }
+        },
+        "failed_ids": [
+          "m12",
+          "m13",
+          "m32",
+          "m33"
+        ],
+        "documented_boundary_ids": [
+          "m12",
+          "m13",
+          "m32",
+          "m33"
+        ],
+        "regression_gate_with_declared_boundaries": true
+      }
+    },
+    "text-morphology-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/text-morphology-regression.json",
+        "bytes": 219893,
+        "sha256": "50b3e6746c744f302ccb6ff5688fc83d08f927cb8756189c16a96787515eef7e"
+      },
+      "raw_score": {
+        "passed": 40,
+        "total": 40
+      },
+      "passed": true
+    },
+    "derivation-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/derivation-regression.json",
+        "bytes": 149445,
+        "sha256": "2ddf4d0236823ecbce786ca0bcc0878af25c5f3ba44cc4f4be28dbba99df58c9"
+      },
+      "raw_score": {
+        "passed": 96,
+        "total": 96
+      },
+      "passed": true
+    },
+    "nominal-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/nominal-regression.json",
+        "bytes": 546709,
+        "sha256": "c4da2441093d33b2c2997a4a10eafafddb60fdc85191b98822cbbe27bbc420ed"
+      },
+      "raw_score": {
+        "passed": 184,
+        "total": 184
+      },
+      "passed": true
+    },
+    "inflection-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/inflection-regression.json",
+        "bytes": 354815,
+        "sha256": "e88dfb85eee58165a97ff9a626cb1a34e6dae0da962096ed3e78347c2b36c12c"
+      },
+      "summary": {
+        "total": 74,
+        "passed": 72,
+        "coverage_miss_cases": 2,
+        "false_accept_cases": 0,
+        "execution_error_cases": 0,
+        "adapter_error_cases": 0
+      },
+      "strict_pass": false,
+      "gate_pass": true,
+      "conditional_law_score": [
+        60,
+        60
+      ]
+    },
+    "inflection-post-review-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/inflection-post-review-regression.json",
+        "bytes": 111066,
+        "sha256": "10a8a3ad5c4c8035b24e10fcdcfe098b858172554da4d29bc6550fd7cefcdd07"
+      },
+      "passed": 22,
+      "gate_pass": true
+    },
+    "inflection-cli-regression.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/inflection-cli-regression.json",
+        "bytes": 215532,
+        "sha256": "34907ee25155883c4e6ddb5f369e0c2d002ecc600a4d54cdfba0519c29f06d78"
+      },
+      "passed": 32,
+      "gate_pass": true
+    },
+    "text-regression/summary.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/text-regression/summary.json",
+        "bytes": 5601,
+        "sha256": "376a0f11aa488282cd81dba53181e1fe119cb8208b7c50a192ebb42360b3be24"
+      },
+      "passed": true
+    },
+    "arabic-regression/results.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/arabic-regression/results.json",
+        "bytes": 686832,
+        "sha256": "26cfc2687f74eae5771ff941a17469b68d3df22e2f5d5c82ac0763a6c7d17562"
+      },
+      "summary": {
+        "standalone": {
+          "episodes": 40,
+          "complete_episodes": 0,
+          "queries": 43,
+          "raw_query_matches": 0,
+          "covered_query_matches": 0,
+          "source_restoration_episodes": 40,
+          "licensed_claim_episodes": 40,
+          "source_admission_and_projection_complete": 1,
+          "budget_pass": 40
+        },
+        "declared_scope": {
+          "episodes": 12,
+          "complete_episodes": 8,
+          "queries": 11,
+          "raw_query_matches": 9,
+          "covered_query_matches": 9,
+          "source_restoration_episodes": 12,
+          "licensed_claim_episodes": 12,
+          "source_admission_and_projection_complete": 8,
+          "budget_pass": 12
+        },
+        "real_excerpts": {
+          "total": 8,
+          "semantic_read": 0,
+          "source_restored": 8,
+          "licensed_claims": 8
+        }
+      }
+    },
+    "governor-regression/results.json": {
+      "report": {
+        "path": "evidence/discourse/query_selection_review/release/checks/governor-regression/results.json",
+        "bytes": 3169514,
+        "sha256": "2bfec34237a2040dc50d6d770c7479b42b19bcfd68385c619ccb9bf45d336c82"
+      },
+      "summary": {
+        "declared_scope": {
+          "episodes": 12,
+          "complete_episodes": 0,
+          "required_sources": 16,
+          "complete_source_readings": 1,
+          "queries": 20,
+          "query_matches": 3,
+          "source_restoration_episodes": 12,
+          "licensed_claim_episodes": 12,
+          "certificate_count": 1,
+          "governor_cue_reports": 14,
+          "complete_governor_cue_reports": 14,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 12,
+          "numeric_program_roundtrips": 12,
+          "production_receipt_replays": 12
+        },
+        "beyond_declared_scope": {
+          "episodes": 4,
+          "complete_episodes": 0,
+          "required_sources": 0,
+          "complete_source_readings": 0,
+          "queries": 0,
+          "query_matches": 0,
+          "source_restoration_episodes": 4,
+          "licensed_claim_episodes": 4,
+          "certificate_count": 0,
+          "governor_cue_reports": 1,
+          "complete_governor_cue_reports": 1,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 4,
+          "numeric_program_roundtrips": 4,
+          "production_receipt_replays": 4
+        },
+        "safety_control": {
+          "episodes": 16,
+          "complete_episodes": 0,
+          "required_sources": 0,
+          "complete_source_readings": 0,
+          "queries": 0,
+          "query_matches": 0,
+          "source_restoration_episodes": 16,
+          "licensed_claim_episodes": 16,
+          "certificate_count": 0,
+          "governor_cue_reports": 0,
+          "complete_governor_cue_reports": 0,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 16,
+          "numeric_program_roundtrips": 16,
+          "production_receipt_replays": 16
+        },
+        "identity_supplement": {
+          "episodes": 6,
+          "complete_episodes": 4,
+          "required_sources": 6,
+          "complete_source_readings": 4,
+          "queries": 8,
+          "query_matches": 6,
+          "source_restoration_episodes": 6,
+          "licensed_claim_episodes": 6,
+          "certificate_count": 4,
+          "governor_cue_reports": 7,
+          "complete_governor_cue_reports": 5,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 6,
+          "numeric_program_roundtrips": 6,
+          "production_receipt_replays": 6
+        },
+        "original_excerpts": {
+          "total": 6,
+          "semantic_read": 0,
+          "source_restored": 6,
+          "licensed_claims": 6
+        }
+      }
+    }
+  },
+  "historical_tracked_evidence_unchanged_except_indexes": true,
+  "package": {
+    "report": {
+      "path": "evidence/discourse/query_selection_review/release/package/validation.json",
+      "bytes": 11003,
+      "sha256": "a12b8deb56d8e7bab0a3d3a58dae356af6a2c52fbffaf49238d07e9618b4ca07"
+    },
+    "manifest": {
+      "path": "evidence/discourse/query_selection_review/release/package/manifest.json",
+      "bytes": 12122,
+      "sha256": "40a74c4e70755ea8bf3d745d269ea2e0c80706338eaea980d39cafe6b0816783"
+    },
+    "wheel": {
+      "path": "evidence/discourse/query_selection_review/release/package/wheel/nabt_machine-0.13.0a2-py3-none-any.whl",
+      "bytes": 1045147,
+      "sha256": "8f7f4cea3db2eebafc9ea611889131e0edf7b0893bec4d3acc9d55ad1e00eaa9"
+    },
+    "smoke_checks_passed": 15,
+    "smoke_checks_total": 15,
+    "command_count": 20,
+    "manifest_verified_files": 74,
+    "all_manifest_file_bytes_independently_rechecked": true,
+    "previous_attempt_review": {
+      "path": "evidence/discourse/query_selection_review/release/packaging_attempt1_review.json",
+      "bytes": 1566,
+      "sha256": "3087ae4ff6565531b420ca9a0f3e28c75a21ccd2deb6f86138e8472912102cd9"
+    },
+    "previous_attempt_accepted_as_final": false,
+    "installed_outside_checkout": true
+  },
+  "remote_ci": {
+    "status_at_local_record": "CORRECTION_NOT_YET_PUSHED",
+    "scope": "The earlier PR head passed CI before review discovered this defect. Corrected-head remote CI must be checked after publication."
+  },
+  "claim_limits": [
+    "Context identities and optional traits are supplied premises, not learned world facts.",
+    "QAC labels other than masked CASE/MOOD remain supervised source evidence.",
+    "Finite Lean laws and export conformance do not prove the full Python parser.",
+    "Safe deferral and certificate replay are separate from positive comprehension.",
+    "The coverage drop is retained; the general Arabic gap remains open.",
+    "Existing 86-case material lacks the rejected-first query trigger; the six new cases directly test this correction."
+  ]
+}

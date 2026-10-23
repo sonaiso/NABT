@@ -40,23 +40,23 @@ jobs:
       - name: Replay the published text-inquiry corpus and source-boundary probes
         env:
           PYTHONPATH: src
-        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/discourse/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-text-regression"
+        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/discourse/code_freeze_v4.json --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Preserve independently measured Arabic coverage and safe deferrals
         env:
           PYTHONPATH: src
-        run: python tools/arabic_syntax_evaluation.py --code-freeze evidence/discourse/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-arabic-regression"
+        run: python tools/arabic_syntax_evaluation.py --code-freeze evidence/discourse/code_freeze_v4.json --output-dir "${{ runner.temp }}/nabt-arabic-regression"
       - name: Replay published governor cues, certificates and bounded coverage
         env:
           PYTHONPATH: src
-        run: python tools/governor_evaluation.py --code-freeze evidence/discourse/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
+        run: python tools/governor_evaluation.py --code-freeze evidence/discourse/code_freeze_v4.json --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
       - name: Preserve word-boundary checks and disclose the remaining positive coverage gap
         env:
           PYTHONPATH: src
-        run: python tools/word_evaluation.py --freeze-version discourse_v3 --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
+        run: python tools/word_evaluation.py --freeze-version discourse_v4 --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
       - name: Replay source-qualified morphology with explicit conservative boundary debts
         env:
           PYTHONPATH: src
-        run: python tools/morphology_evaluation.py --freeze-version discourse_v3 --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
+        run: python tools/morphology_evaluation.py --freeze-version discourse_v4 --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
       - name: Acquire text cues with independent positive and boundary cases
         env:
           PYTHONPATH: src
@@ -74,19 +74,19 @@ jobs:
           PYTHONPATH: src
         run: |
           python tools/fetch_qac_source.py --output "${{ runner.temp }}/nabt-qac-original.txt.gz"
-          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
+          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
       - name: Preserve the separately frozen post-review source and nun regressions
         env:
           PYTHONPATH: src
-        run: python tools/inflection_evaluation.py --post-review --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
+        run: python tools/inflection_evaluation.py --post-review --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
       - name: Preserve structured compression failures and bounded source-file reads
         env:
           PYTHONPATH: src
-        run: python tools/inflection_cli_evaluation.py --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
+        run: python tools/inflection_cli_evaluation.py --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
       - name: Replay frozen discourse with explicit coverage debts and unconditional integrity gates
         env:
           PYTHONPATH: src
-        run: python tools/discourse_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-discourse-regression.json" --allow-documented-boundaries
+        run: python tools/discourse_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-discourse-regression.json" --allow-documented-boundaries
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .

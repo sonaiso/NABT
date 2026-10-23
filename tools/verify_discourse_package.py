@@ -29,22 +29,30 @@ from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.13.0a1"
+VERSION = "0.13.0a2"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/discourse/code_freeze_v3.json"
-# Historical v2 remains explicitly selectable. Selecting it still requires
-# every current source byte to match v2; this is not a source-integrity bypass.
+DEFAULT_FREEZE = "evidence/discourse/code_freeze_v4.json"
+# Historical v2/v3 remain selectable with their a1 package version. Every
+# current source byte must match the selected freeze; there is no bypass.
 CODE_FREEZE_PINS = {
     "22350accf750741680f351b34cf97f95bf146b7389765cd74d937a8aa4291ae4": {
         "selection": "discourse_v2",
+        "version": "0.13.0a1",
         "snapshot_sha256": "e82b9d72b45d8cbcd667708140b9f5b91a967822002a54a76bc87b097912a2f9",
         "archive_sha256": "0085bb7482ef89d20f0f8667ca015f0cf198ab283d9e439ecc814b9167b13775",
     },
     "c74b029c986fa3e1bb6a6ab3c5cbd423f77c902733626105ec95f5e366b71018": {
         "selection": "discourse_v3",
+        "version": "0.13.0a1",
         "snapshot_sha256": "6b78f1c8e36058d350d1e572bf20737c3517d38a8498fc4a50ece6bf6725fd30",
         "archive_sha256": "4fbcadee8997087223cbf8ffc365dd7a1b6cac4eb0990350e8925098ec557b51",
+    },
+    "f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519": {
+        "selection": "discourse_v4",
+        "version": VERSION,
+        "snapshot_sha256": "2d79ea2227dda5169413eb314b9b65b5bc04fcacb447d00066ef56d3c7b69108",
+        "archive_sha256": "af7b88818f8d46a4d810927df39f1eb839c28dd7862f3919c3ac52f66abdbf8e",
     },
 }
 PERSON_LAW_ID = "nabt.person-evidence.v1"
@@ -76,6 +84,11 @@ def digest(raw):
 
 def write_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def write_json_once(path, value):
+    with path.open("x", encoding="utf-8") as stream:
+        stream.write(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
 def require(condition, message):
@@ -140,6 +153,7 @@ print(json.dumps({"distribution_version": distribution.version, "module_version"
 class Commands:
     def __init__(self, output, cwd):
         self.output, self.cwd, self.rows = output, cwd, []
+        self.finalized = False
         self.env = dict(os.environ)
         for name in ("PYTHONPATH", "PYTHONHOME"):
             self.env.pop(name, None)
@@ -147,6 +161,10 @@ class Commands:
                         PIP_DISABLE_PIP_VERSION_CHECK="1")
 
     def run(self, name, argv, expected=0):
+        require(not self.finalized, "Command journal is already finalized")
+        require(re.fullmatch(r"[a-z][a-z0-9-]*", name)
+                and all(row["name"] != name for row in self.rows),
+                "Invalid or repeated command name")
         command = [str(arg) for arg in argv]
         result = subprocess.run(command, cwd=self.cwd, env=self.env,
                                 capture_output=True, timeout=300)
@@ -155,13 +173,38 @@ class Commands:
         for stream in ("stdout", "stderr"):
             raw = getattr(result, stream)
             path = self.output / "logs" / (name + "." + stream)
-            path.write_bytes(raw)
+            with path.open("xb") as record:
+                record.write(raw)
             row[stream] = file_record(path, self.output)
+        write_json_once(self.output / "logs" / (name + ".command.json"), row)
         self.rows.append(row)
-        write_json(self.output / "commands.json", self.rows)
         require(result.returncode == expected,
                 f"{name}: exit {result.returncode}, expected {expected}; inspect saved logs")
         return result
+
+
+    def finalize(self, expected_names):
+        require(not self.finalized, "Command journal is already finalized")
+        require([row["name"] for row in self.rows] == expected_names
+                and len(expected_names) == len(set(expected_names)) == 20,
+                "Incomplete or unexpected final command inventory")
+        for row in self.rows:
+            path = self.output / "logs" / (row["name"] + ".command.json")
+            expected = (json.dumps(row, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+            require(path.read_bytes() == expected, "Immutable command record differs: " + row["name"])
+            require(type(row["exit_code"]) is int and row["exit_code"] == row["expected_exit_code"],
+                    "Command exit differs from its expected outcome: " + row["name"])
+            for stream in ("stdout", "stderr"):
+                require(file_record(self.output / row[stream]["path"], self.output) == row[stream],
+                        "Recorded command output differs: " + row["name"] + "." + stream)
+        path = self.output / "commands.json"
+        write_json_once(path, self.rows)
+        require(path.read_bytes() == (json.dumps(self.rows, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),
+                "Final command inventory differs after writing")
+        self.finalized = True
+        return {"command_count": len(self.rows), "immutable_command_records": len(self.rows),
+                "names": expected_names, "all_command_records_and_log_hashes_match": True,
+                "commands_sha256": digest(path.read_bytes())}
 
 
 def validate(output, freeze_path):
@@ -169,6 +212,7 @@ def validate(output, freeze_path):
     freeze_sha256 = digest(freeze_raw)
     require(freeze_sha256 in CODE_FREEZE_PINS, "Unapproved discourse runtime freeze")
     freeze_pin = CODE_FREEZE_PINS[freeze_sha256]
+    expected_version = freeze_pin["version"]
     freeze = json.loads(freeze_raw)
     require(freeze["schema"] == "nabt-independent-evaluation-code-freeze-v1", "Wrong freeze schema")
     require(all(freeze[key] == freeze_pin[key] for key in ("snapshot_sha256", "archive_sha256")),
@@ -224,7 +268,7 @@ def validate(output, freeze_path):
                     "Archive member differs: " + member.name)
 
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
-    require(project["name"] == "nabt-machine" and project["version"] == VERSION, "Unexpected project identity")
+    require(project["name"] == "nabt-machine" and project["version"] == expected_version, "Unexpected project identity")
     require(project["readme"] == "README.md" and project["scripts"] == {"nabt": "nabt.cli:main"},
             "Unexpected README or console entry point")
     build_environment = {"python": sys.version, "executable": sys.executable,
@@ -253,9 +297,9 @@ def validate(output, freeze_path):
     commands.run("build-wheel", [sys.executable, "-m", "pip", "wheel", ROOT,
                                  "--no-deps", "--no-build-isolation", "--no-index", "--wheel-dir", output / "wheel"])
     wheels = list((output / "wheel").glob("*.whl"))
-    require(len(wheels) == 1 and wheels[0].name == f"nabt_machine-{VERSION}-py3-none-any.whl", "Unexpected wheel inventory")
+    require(len(wheels) == 1 and wheels[0].name == f"nabt_machine-{expected_version}-py3-none-any.whl", "Unexpected wheel inventory")
     wheel = wheels[0]
-    dist = f"nabt_machine-{VERSION}.dist-info/"
+    dist = f"nabt_machine-{expected_version}.dist-info/"
     with ZipFile(wheel) as archive:
         names = archive.namelist()
         require(len(names) == len(set(names)), "Wheel contains duplicate entries")
@@ -270,7 +314,7 @@ def validate(output, freeze_path):
         metadata_raw = archive.read(dist + "METADATA")
         metadata = BytesParser().parsebytes(metadata_raw)
         require(metadata_raw.partition(b"\n\n")[2] == extras["README.md"], "Wheel description differs from captured README bytes")
-        for key, value in (("Name", project["name"]), ("Version", VERSION), ("Requires-Python", project["requires-python"])):
+        for key, value in (("Name", project["name"]), ("Version", expected_version), ("Requires-Python", project["requires-python"])):
             require(metadata[key] == value, "Wheel metadata differs: " + key)
         require(metadata.get_all("Requires-Dist", []) == project["dependencies"], "Wheel dependency metadata differs")
         entrypoints = configparser.ConfigParser(interpolation=None)
@@ -284,7 +328,7 @@ def validate(output, freeze_path):
     inspect_path = work / "inspect_install.py"
     inspect_path.write_text(INSPECT_INSTALL, encoding="utf-8")
     installed = json.loads(commands.run("inspect-install", [python, "-I", inspect_path]).stdout)
-    require(installed["distribution_version"] == VERSION and installed["module_version"] == VERSION, "Installed version differs")
+    require(installed["distribution_version"] == expected_version and installed["module_version"] == expected_version, "Installed version differs")
     require(Path(installed["module_origin"]).is_relative_to(venv)
             and Path(installed["prefix"]) == venv, "Python imported the checkout instead of the isolated wheel")
     require(installed["nabt_module_origins"] and
@@ -329,7 +373,7 @@ def validate(output, freeze_path):
         return payload, result.stdout
 
     version = commands.run("version", [nabt, "--version"])
-    require(version.stdout.decode().strip() == VERSION and not version.stderr, "CLI version differs")
+    require(version.stdout.decode().strip() == expected_version and not version.stderr, "CLI version differs")
     catalog, _ = smoke("discourse-catalog", ["discourse-catalog"])
     require(catalog["law_id"] == LAW_ID and catalog["law_sha256"] == TABLE_SHA256
             and catalog["law"]["law_id"] == LAW_ID, "Installed discourse catalog law differs")
@@ -408,9 +452,13 @@ def validate(output, freeze_path):
     require(all((ROOT / "src" / name).read_bytes() == raw for name, raw in documents.items()),
             "Non-runtime package documents changed during packaging")
     require(all((ROOT / "examples" / name).read_bytes() == raw for name, raw in examples.items()), "Smoke inputs changed during packaging")
+    require(len(smokes) == 15, "Incomplete authored CLI smoke inventory")
+    command_recording = commands.finalize(
+        ["build-wheel", "create-venv", "install-wheel", "inspect-install", "version"]
+        + [row["name"] for row in smokes])
     validation = {
         "schema": "nabt.discourse.package-validation.v1", "ok": True,
-        "utc": datetime.now(timezone.utc).isoformat(), "version": VERSION,
+        "utc": datetime.now(timezone.utc).isoformat(), "version": expected_version,
         "freeze": {"path": str(freeze_path), "sha256": freeze_sha256,
                    "selection": freeze_pin["selection"],
                    "snapshot_sha256": freeze["snapshot_sha256"], "archive_sha256": freeze["archive_sha256"],
@@ -437,6 +485,7 @@ def validate(output, freeze_path):
                       "pythonhome_removed": True, "inspection_isolated_mode": True, "src_tree_copied": False,
                       "all_imported_nabt_modules_inside_venv": True},
         "input_files": [file_record(p, output) for p in sorted((output / "inputs").rglob("*")) if p.is_file()],
+        "command_recording": command_recording,
         "cli_version_checked": True, "smoke_check_count": len(smokes), "smoke_checks": smokes,
         "scope": ["Installed package correspondence and fifteen authored CLI smoke checks only.",
                   "Frozen runtime files and separately pinned package documents have distinct inventories.",
@@ -454,7 +503,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True, help="New directory for wheel, logs and validation")
     parser.add_argument("--code-freeze", type=Path, default=Path(DEFAULT_FREEZE),
-                        help="Approved v2/v3 freeze manifest (default v3); relative paths are resolved from the repository")
+                        help="Approved v2/v3/v4 freeze manifest (default v4); relative paths are resolved from the repository")
     args = parser.parse_args()
     output = args.output_dir.resolve()
     freeze_path = args.code_freeze if args.code_freeze.is_absolute() else ROOT / args.code_freeze
@@ -463,7 +512,7 @@ def main():
         output.mkdir(parents=True, exist_ok=False)
         created = True
         validation = validate(output, freeze_path.resolve())
-        print(json.dumps({"ok": True, "version": VERSION, "source_files": 67,
+        print(json.dumps({"ok": True, "version": validation["version"], "source_files": 67,
                           "frozen_runtime_package_files": validation["correspondence"]["frozen_runtime_package_files"],
                           "nonruntime_package_document_files": validation["correspondence"]["nonruntime_package_document_files"],
                           "package_files": validation["correspondence"]["wheel_package_files"],

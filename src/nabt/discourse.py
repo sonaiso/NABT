@@ -95,10 +95,15 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
         result["missing_premises"].append("ONE_COMPLETE_QUESTION_READING")
     else:
         clause = inquiry["clauses"][0]
-        if clause["force"] != "QUESTION" or not clause["analyses"] or len(clause["analyses"][0]["claims"]) != 1:
+        # The source report retains rejected alternatives for audit. A licensed
+        # clause gets its semantics only from the complete, viable analyses.
+        analyses = [analysis for analysis in clause["analyses"]
+                    if not analysis["rejected_candidate"] and analysis["licensed_syntax"]
+                    and analysis["references_complete"]]
+        if clause["force"] != "QUESTION" or not analyses or any(len(analysis["claims"]) != 1 for analysis in analyses):
             result["missing_premises"].append("EXPLICIT_SINGLE_QUESTION_FORCE")
         else:
-            analysis = clause["analyses"][0]
+            analysis = analyses[0]
             result["kind"] = analysis.get("question_kind") or "polar"
             result["query"] = deepcopy(analysis["claims"][0])
     if not result["missing_premises"]:
