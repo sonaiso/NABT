@@ -1,0 +1,2314 @@
+{
+  "schema": "nabt-independent-controlled-text-benchmark-v1",
+  "authoring": "Separate evaluation agent using agreed grammar and manually specified gold; no forthcoming parser or kernel code read before freeze.",
+  "baseline_repository_commit": "0182987c585edb3cb52959c167d3d2b16ebfd211",
+  "scope": "Controlled Arabic only; the source materials are authored for this evaluation, not quotations from books or a natural-language corpus.",
+  "grammar": "Concept/relation/entity declarations; exact unary and binary signed facts; explicit biconditional definitions; safe signed Horn rules with conjunction; universal unary implication; ground signed questions; guillemet-quoted exact labels; ?-prefixed rule variables.",
+  "semantics": "Signed closure first. Both signs conflict. Clean closure excludes globally conflicted heads/premises. Clean query proof supports/refutes; only tainted proof defers with CONTESTED_PREMISES; absent proof is unknown. No CWA, contraposition, existence from definitions, symmetry, or world-truth inference.",
+  "episode_budget_seconds": 5.0,
+  "whole_run_budget_seconds": 180.0,
+  "builder_exposure": "Builders see grammar and API contract only; no case text or gold before first complete frozen run.",
+  "partition_policy": "First40 is opened first. Reserve20 remains sealed until a separate implementation snapshot is frozen. A fix after seeing first40 feedback is a disclosed adaptation; no first40 rerun is described as heldout.",
+  "questions": 126,
+  "episodes": [
+    {
+      "id": "definition_01",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Conjoined members imply a previously unknown defined predicate.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم زهري\nمفهوم صقيل\nمفهوم مستدير\nفرد رنيم\nتعريف زهري هو صقيل و مستدير\nرنيم هو صقيل\nرنيم هو مستدير\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل رنيم هو زهري؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل رنيم هو صقيل؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "definition_02",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A defined predicate projects both defining members.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم نضيري\nمفهوم بارد\nمفهوم مخطط\nفرد سديم\nتعريف نضيري هو بارد و مخطط\nسديم هو نضيري\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل سديم هو بارد؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل سديم هو مخطط؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "definition_03",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "One definition member does not suffice; no closed-world negation.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم رويمي\nمفهوم خفيف\nمفهوم أملس\nفرد نوار\nتعريف رويمي هو خفيف و أملس\nنوار هو خفيف\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل نوار هو رويمي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل نوار هو أملس؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "definition_04",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "An explicit negative member does not license contraposition.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم شذري\nمفهوم هادئ\nمفهوم قصير\nفرد تليد\nتعريف شذري هو هادئ و قصير\nتليد هو هادئ\nليس تليد هو قصير\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل تليد هو شذري؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل تليد هو قصير؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "definition_05",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Nested new definitions compose without a special lexical case.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "تعريف رواز هو مرن و نواف\nتعريف نواف هو رقيق و جاف\nشمير هو مرن\nشمير هو رقيق\nشمير هو جاف\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل شمير هو نواف؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل شمير هو رواز؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "definition_06",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Definitions alone do not create an instance.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "تعريف غزيري هو صاف و براق\nفرد لبيب\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل لبيب هو غزيري؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل لبيب هو صاف؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "definition_07",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Definition members must belong to the same entity.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "تعريف لمذي هو متين و ناعم\nنديم هو متين\nشادن هو ناعم\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل نديم هو لمذي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل شادن هو لمذي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "definition_08",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Quoted delimiter words are exact lexical content.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "تعريف «أزرق و ناعم» هو «سمة أولى» و «سمة ثانية»\n«لوح فإن صغير» هو «سمة أولى»\n«لوح فإن صغير» هو «سمة ثانية»\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل «لوح فإن صغير» هو «أزرق و ناعم»؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "definition_09",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A definitional cycle without facts cannot create evidence.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "تعريف سالمي هو راومي\nتعريف راومي هو سالمي\nفرد وسيم\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل وسيم هو سالمي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل وسيم هو راومي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "definition_10",
+      "family": "definitions",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A novel definition transfers through a relation to a different argument.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "تعريف ناهلي هو عريض و نقي\nإذا ?س هو ناهلي و ?س يصاحب ?ص فإن ?ص هو موصول\nساهي هو عريض\nساهي هو نقي\nساهي يصاحب رامد\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل رامد هو موصول؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ساهي هو موصول؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "fact_01",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Known predicate with a new entity remains unknown.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم لامع\nفرد داهر\nداهر هو لامع\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل داهر هو لامع؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل مهيب هو لامع؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_02",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Explicit negative evidence and signed-question polarity.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "ليس نهاد هو ضيق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل نهاد هو ضيق؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ليس نهاد هو ضيق؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_03",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A negative property is not a negative judgment about other properties.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم ناضر\nليس رفيف هو ناضر\nمفهوم مبلل\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل رفيف هو ناضر؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل رفيف هو مبلل؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_04",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Both signs are retained; question polarity does not erase contradiction.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "أروم هو مزهر\nليس أروم هو مزهر\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل أروم هو مزهر؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ليس أروم هو مزهر؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_05",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Repeated identical textual facts do not create new subject support.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم وافر\nدلام هو وافر\nدلام هو وافر\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل دلام هو وافر؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل رزين هو وافر؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_06",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Quoted reserved words retain their exact spelling and internal spaces.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "«إذا و فإن» هو «و هو»\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل «إذا و فإن» هو «و هو»؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل «إذا فإن» هو «و هو»؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_07",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A diacritic is preserved in entity identity.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم دافئ\nفرد سمير\nفرد سَمير\nسمير هو دافئ\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل سمير هو دافئ؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل سَمير هو دافئ؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "fact_08",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Precomposed and decomposed hamza labels are distinct source strings.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم مستقر\n«أمان» هو مستقر\nفرد «أمان»\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل «أمان» هو مستقر؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل «أمان» هو مستقر؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "fact_09",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Declared entities and relations do not assert a relation fact.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "علاقة يجاور\nفرد تروان\nفرد مشير\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل تروان يجاور مشير؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل مشير يجاور تروان؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "fact_10",
+      "family": "facts",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A name declaration does not assert any of the declared unary concepts.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مفهوم مفرد\nمفهوم مستطيل\nمفهوم ظاهر\nفرد راشد\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل راشد هو مفرد؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل راشد هو مستطيل؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل راشد هو ظاهر؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "relation_01",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Binary relation direction is not silently symmetrized.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "نمار يلامس غدير\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل نمار يلامس غدير؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل غدير يلامس نمار؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_02",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Subject and object evidence cannot be transferred between occurrences.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "ناهد يربط رمال\nزاهي يربط أسيل\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل ناهد يربط أسيل؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل زاهي يربط رمال؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_03",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Explicit relation negation retains argument order.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "ليس وهير يجاوب سهار\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل وهير يجاوب سهار؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل سهار يجاوب وهير؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_04",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "One conflicting relation fact cannot contaminate an unrelated fact.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مكير يضم قنار\nليس مكير يضم قنار\nهزار يضم دارم\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل مكير يضم قنار؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل هزار يضم دارم؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_05",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A source-written inverse rule changes argument order exactly once.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س يعين ?ص فإن ?ص يستعين ?س\nلؤيم يعين شهاب\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل شهاب يستعين لؤيم؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل لؤيم يستعين شهاب؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_06",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A two-edge path is composed with a shared middle variable.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س يواصل ?ص و ?ص يواصل ?ع فإن ?س يصل_عبر ?ع\nرويم يواصل قطيف\nقطيف يواصل مران\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل رويم يصل_عبر مران؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل مران يصل_عبر رويم؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_07",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A nonmatching middle argument must not produce a false join.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س يسند ?ص و ?ص يتبع ?ع فإن ?س يثبت ?ع\nوسام يسند رنان\nحسام يتبع لمار\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل وسام يثبت لمار؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "relation_08",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A repeated variable requires equality, not merely a binary fact.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س يراجع ?س فإن ?س هو ذاتي\nمهيار يراجع مروان\nبهيج يراجع بهيج\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل مهيار هو ذاتي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل بهيج هو ذاتي؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "relation_09",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A relation name is a scoped exact label, not a synonym guess.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "علاقة يسبق\nعلاقة يلحق\nدارين يسبق أريج\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل دارين يسبق أريج؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل دارين يلحق أريج؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "relation_10",
+      "family": "relations",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Quoted relation labels do not split conditional or conjunction syntax.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "علاقة «يصل فإن»\nعلاقة «يتبع و يسبق»\nإذا ?س «يصل فإن» ?ص فإن ?ص «يتبع و يسبق» ?س\n«بيت و شجر» «يصل فإن» «نقطة إذا»\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل «نقطة إذا» «يتبع و يسبق» «بيت و شجر»؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "rule_01",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Universal implication applies to a new entity.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "كل جارف هو مرصود\nدوسر هو جارف\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل دوسر هو مرصود؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "rule_02",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Three learned textual implications compose.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "كل شائق هو مثمر\nكل مثمر هو محفوظ\nكل محفوظ هو منظور\nمنير هو شائق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل منير هو منظور؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل منير هو محفوظ؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "rule_03",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Both conjuncts support a shared subject.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س هو ثابت و ?س هو نافع فإن ?س هو مكين\nلامر هو ثابت\nلامر هو نافع\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل لامر هو مكين؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "rule_04",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Negative premises require explicit negative support.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س هو زائر و ليس ?س هو متأخر فإن ?س هو حاضر\nفارس هو زائر\nليس فارس هو متأخر\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل فارس هو حاضر؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "rule_05",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A rule may derive a negative head with signed query semantics.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س هو متشقق فإن ليس ?س هو محكم\nرواس هو متشقق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل رواس هو محكم؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ليس رواس هو محكم؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "rule_06",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A ground head constant is not replaced with the body variable.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س هو مراسل فإن شذوان هو مخبر\nحيان هو مراسل\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل شذوان هو مخبر؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل حيان هو مخبر؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "rule_07",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Implication plus a negative consequent does not grant contraposition.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "كل ندي هو ساطع\nليس زمران هو ساطع\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل زمران هو ندي؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل زمران هو ساطع؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "rule_08",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A failed route does not suppress a separate sufficient route.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "كل صامد هو موقر\nكل باسق هو موقر\nليس سهيل هو صامد\nسهيل هو باسق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل سهيل هو موقر؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل سهيل هو صامد؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "rule_09",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Recursive cycles require a seed and propagate only seeded support.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "كل حالم هو هائم\nكل هائم هو حالم\nفرد قمير\nأزور هو حالم\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل قمير هو حالم؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل قمير هو هائم؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل أزور هو هائم؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "rule_10",
+      "family": "rules",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A relational inference transfers into a differently ordered second relation.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س يزور ?ص و ?ص هو مرشد فإن ?س هو مسترشد\nإذا ?س هو مسترشد و ?ع يرافق ?س فإن ?ع هو مرافق_مرشد\nهزيل يزور نوران\nنوران هو مرشد\nإيلاف يرافق هزيل\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل إيلاف هو مرافق_مرشد؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل هزيل هو مرافق_مرشد؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "uncertainty_01",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "One missing direct conjunct must be named.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س هو غارس و ?س هو ساق فإن ?س هو مزارع\nوديع هو غارس\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل وديع هو مزارع؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED",
+            "missing_contains": [
+              {
+                "predicate": "ساق",
+                "arguments": [
+                  "وديع"
+                ],
+                "positive": true
+              }
+            ]
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_02",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "An absent explicit negative premise is named with its sign.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "إذا ?س هو ضيف و ليس ?س هو نائم فإن ?س هو مستقبل\nنهار هو ضيف\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل نهار هو مستقبل؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED",
+            "missing_contains": [
+              {
+                "predicate": "نائم",
+                "arguments": [
+                  "نهار"
+                ],
+                "positive": false
+              }
+            ]
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_03",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Unrelated inconsistency does not explode or globally suspend answers.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "باسل هو منتظم\nليس باسل هو منتظم\nدليل هو ناصح\nكل ناصح هو مأمون\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل باسل هو منتظم؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل دليل هو مأمون؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_04",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A downstream conclusion with only a contested proof defers.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "أثيل هو فائح\nليس أثيل هو فائح\nكل فائح هو معطر\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل أثيل هو فائح؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل أثيل هو معطر؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_05",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "An independent clean direct witness preserves a downstream answer.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "برهان هو واثق\nليس برهان هو واثق\nكل واثق هو معتمد\nبرهان هو معتمد\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل برهان هو واثق؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل برهان هو معتمد؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_06",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Opposite derived heads conflict even if their original premises are clean.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "كل نام هو وارث\nإذا ?س هو زائل فإن ليس ?س هو وارث\nروهان هو نام\nروهان هو زائل\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل روهان هو وارث؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_07",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A conflicted negative premise taints a conclusion just as a positive one does.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "ثمير هو مزدحم\nليس ثمير هو مزدحم\nإذا ليس ?س هو مزدحم فإن ?س هو متاح\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل ثمير هو متاح؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "uncertainty_08",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Contested dependence persists across multiple derivation steps.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "مهاد هو لامع\nليس مهاد هو لامع\nكل لامع هو ظاهر\nكل ظاهر هو مشهور\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل مهاد هو ظاهر؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل مهاد هو مشهور؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "uncertainty_09",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A conflict created later in signed closure invalidates an earlier-looking route.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "ظافر هو متقن\nإذا ?س هو متقن فإن ليس ?س هو متقن\nكل متقن هو مأجور\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل ظافر هو متقن؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ظافر هو مأجور؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "uncertainty_10",
+      "family": "uncertainty",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A separate clean derived proof survives removal of conflicted routes.",
+      "sources": [
+        {
+          "source_id": "main",
+          "scope": "default",
+          "text": "أشهب هو مظلل\nليس أشهب هو مظلل\nأشهب هو محروس\nكل مظلل هو آمن\nكل محروس هو آمن\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل أشهب هو آمن؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل أشهب هو مظلل؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "revision_01",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Withdrawing a supporting fact removes its dependent conclusion.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم رائق\nمفهوم مصون\nفرد غدون\n"
+        },
+        {
+          "source_id": "rule",
+          "scope": "default",
+          "text": "كل رائق هو مصون\n"
+        },
+        {
+          "source_id": "fact",
+          "scope": "default",
+          "text": "غدون هو رائق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل غدون هو مصون؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "fact"
+        },
+        {
+          "operation": "query",
+          "text": "هل غدون هو مصون؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل غدون هو رائق؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_02",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Withdrawing a rule removes only its derived conclusion.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم مضيء\nمفهوم منير\n"
+        },
+        {
+          "source_id": "rule",
+          "scope": "default",
+          "text": "كل مضيء هو منير\n"
+        },
+        {
+          "source_id": "fact",
+          "scope": "default",
+          "text": "ديمة هو مضيء\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل ديمة هو منير؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "rule"
+        },
+        {
+          "operation": "query",
+          "text": "هل ديمة هو منير؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ديمة هو مضيء؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_03",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Independent same-content sources preserve support until both are withdrawn.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم ساكن\n"
+        },
+        {
+          "source_id": "first",
+          "scope": "default",
+          "text": "شاهر هو ساكن\n"
+        },
+        {
+          "source_id": "second",
+          "scope": "default",
+          "text": "شاهر هو ساكن\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل شاهر هو ساكن؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "first"
+        },
+        {
+          "operation": "query",
+          "text": "هل شاهر هو ساكن؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "second"
+        },
+        {
+          "operation": "query",
+          "text": "هل شاهر هو ساكن؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_04",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Removing a conflicting negative witness restores the clean dependent proof.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم ناصع\nمفهوم مكشوف\n"
+        },
+        {
+          "source_id": "rule",
+          "scope": "default",
+          "text": "كل ناصع هو مكشوف\n"
+        },
+        {
+          "source_id": "positive",
+          "scope": "default",
+          "text": "وافي هو ناصع\n"
+        },
+        {
+          "source_id": "negative",
+          "scope": "default",
+          "text": "ليس وافي هو ناصع\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل وافي هو ناصع؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل وافي هو مكشوف؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "negative"
+        },
+        {
+          "operation": "query",
+          "text": "هل وافي هو ناصع؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل وافي هو مكشوف؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_05",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Removing positive evidence leaves negative-only support and retracts its consequences.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم شفيف\nمفهوم شفاف\n"
+        },
+        {
+          "source_id": "rule",
+          "scope": "default",
+          "text": "كل شفيف هو شفاف\n"
+        },
+        {
+          "source_id": "positive",
+          "scope": "default",
+          "text": "نهير هو شفيف\n"
+        },
+        {
+          "source_id": "negative",
+          "scope": "default",
+          "text": "ليس نهير هو شفيف\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل نهير هو شفيف؟",
+          "scope": "default",
+          "expected": {
+            "status": "CONFLICT",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل نهير هو شفاف؟",
+          "scope": "default",
+          "expected": {
+            "status": "DEFER",
+            "world_truth": "NOT_ESTABLISHED",
+            "reason": "CONTESTED_PREMISES"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "positive"
+        },
+        {
+          "operation": "query",
+          "text": "هل نهير هو شفيف؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل نهير هو شفاف؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_06",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Explicit source replacement supersedes its old positive assertion.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم طليق\nمفهوم منساب\n"
+        },
+        {
+          "source_id": "rule",
+          "scope": "default",
+          "text": "كل طليق هو منساب\n"
+        },
+        {
+          "source_id": "fact",
+          "scope": "default",
+          "text": "ياسم هو طليق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل ياسم هو طليق؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "replace_source",
+          "source": {
+            "source_id": "fact",
+            "scope": "default",
+            "text": "ليس ياسم هو طليق\n"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ياسم هو طليق؟",
+          "scope": "default",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل ياسم هو منساب؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_07",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "A changed definition forces recomputation instead of retaining an old sense.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم وزيري\nمفهوم متصل\nمفهوم مسنن\nمفهوم رشيق\n"
+        },
+        {
+          "source_id": "definition",
+          "scope": "default",
+          "text": "تعريف وزيري هو متصل و مسنن\n"
+        },
+        {
+          "source_id": "facts",
+          "scope": "default",
+          "text": "لامين هو متصل\nلامين هو مسنن\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل لامين هو وزيري؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "replace_source",
+          "source": {
+            "source_id": "definition",
+            "scope": "default",
+            "text": "تعريف وزيري هو متصل و رشيق\n"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل لامين هو وزيري؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل لامين هو متصل؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "first40"
+    },
+    {
+      "id": "revision_08",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Identical labels have separate scoped theories and withdrawal stays local.",
+      "sources": [
+        {
+          "source_id": "north_schema",
+          "scope": "north",
+          "text": "مفهوم نير\n"
+        },
+        {
+          "source_id": "south_schema",
+          "scope": "south",
+          "text": "مفهوم نير\n"
+        },
+        {
+          "source_id": "north_fact",
+          "scope": "north",
+          "text": "زاهور هو نير\n"
+        },
+        {
+          "source_id": "south_fact",
+          "scope": "south",
+          "text": "ليس زاهور هو نير\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل زاهور هو نير؟",
+          "scope": "north",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل زاهور هو نير؟",
+          "scope": "south",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "north_fact"
+        },
+        {
+          "operation": "query",
+          "text": "هل زاهور هو نير؟",
+          "scope": "north",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل زاهور هو نير؟",
+          "scope": "south",
+          "expected": {
+            "status": "REFUTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "revision_09",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Recomputing affected results preserves independent results.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم نابت\nمفهوم سامق\nمفهوم مغلق\nمفهوم مستور\n"
+        },
+        {
+          "source_id": "rules",
+          "scope": "default",
+          "text": "كل نابت هو سامق\nكل مغلق هو مستور\n"
+        },
+        {
+          "source_id": "left",
+          "scope": "default",
+          "text": "شمسان هو نابت\n"
+        },
+        {
+          "source_id": "right",
+          "scope": "default",
+          "text": "رغيد هو مغلق\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل شمسان هو سامق؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل رغيد هو مستور؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "left"
+        },
+        {
+          "operation": "query",
+          "text": "هل شمسان هو سامق؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل رغيد هو مستور؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    },
+    {
+      "id": "revision_10",
+      "family": "revision",
+      "material_type": "independently_authored_controlled_arabic",
+      "note": "Withdrawing and replaying a source restores the same justified result.",
+      "sources": [
+        {
+          "source_id": "schema",
+          "scope": "default",
+          "text": "مفهوم دائب\nمفهوم متقدم\n"
+        },
+        {
+          "source_id": "rule",
+          "scope": "default",
+          "text": "كل دائب هو متقدم\n"
+        },
+        {
+          "source_id": "seed",
+          "scope": "default",
+          "text": "رهان هو دائب\n"
+        }
+      ],
+      "steps": [
+        {
+          "operation": "query",
+          "text": "هل رهان هو متقدم؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "remove_source",
+          "source_id": "seed"
+        },
+        {
+          "operation": "query",
+          "text": "هل رهان هو متقدم؟",
+          "scope": "default",
+          "expected": {
+            "status": "UNKNOWN",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        },
+        {
+          "operation": "add_source",
+          "source": {
+            "source_id": "seed",
+            "scope": "default",
+            "text": "رهان هو دائب\n"
+          }
+        },
+        {
+          "operation": "query",
+          "text": "هل رهان هو متقدم؟",
+          "scope": "default",
+          "expected": {
+            "status": "SUPPORTED",
+            "world_truth": "NOT_ESTABLISHED"
+          }
+        }
+      ],
+      "partition": "reserve20"
+    }
+  ]
+}

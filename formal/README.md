@@ -38,6 +38,7 @@ the corresponding declaration list.
 | `Nabt.PropertyEvidence` | Exact replay bindings and readiness, unknown versus false, conflict precedence and per-bit numeric projection of required evidence. |
 | `Nabt.Obligations` | Named identity isolation, monotonic positive formulas, inclusion-minimal completion families, soundness/completeness, no-completion characterization and conflict-before-projection. |
 | `Nabt.Program` | Instruction-number identity and list assembly roundtrip, compositional domain transitions and typing of compiler forms. Operand decoding and Python refinement are not claimed. |
+| `Nabt.SemanticInference` | Sound replay of source-bound signed ground inference, conditional model soundness, active dependency checks and withdrawal rejection; preservation of signed derivations under extensions, scoped identity, nonexplosion witness and the judgment table. Parsing, variable grounding and clean-closure completeness are not claimed. |
 
 These are theorem statements about specified mathematical objects. The
 manifest count includes supporting lemmas and regression witnesses; it is not

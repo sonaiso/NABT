@@ -45,6 +45,11 @@ class Opcode(IntEnum):
     WITHDRAW_SOURCE = 12
     QUERY_CUE = 13
     APPLICATION_OBLIGATIONS = 20
+    START_TEXT = 30
+    ADD_TEXT = 31
+    REMOVE_TEXT = 32
+    QUERY_TEXT = 33
+    REPLACE_TEXT = 34
 
 
 CONTRACTS = {
@@ -55,6 +60,11 @@ CONTRACTS = {
     Opcode.WITHDRAW_SOURCE: "recompute from the complete declared language",
     Opcode.QUERY_CUE: "all surviving rules and missing-feature completions",
     Opcode.APPLICATION_OBLIGATIONS: "source-defined prerequisites; no supplied evidence bits",
+    Opcode.START_TEXT: "versioned controlled-Arabic theory; exact scope; no world-truth promotion",
+    Opcode.ADD_TEXT: "reparse complete new source; exact spans; atomic conditional premise admission",
+    Opcode.REMOVE_TEXT: "withdraw source and rebuild all dependent conditional consequences",
+    Opcode.QUERY_TEXT: "parse a new ground question; signed support and conflict-clean proof gate",
+    Opcode.REPLACE_TEXT: "explicit source revision; preserve old source unless replacement is admitted",
 }
 
 
@@ -173,6 +183,30 @@ class Instruction:
             for part in args[0]:
                 _text(part, "cue_part", maximum=128)
             _name(args[1], "query_id")
+        elif self.opcode == Opcode.START_TEXT:
+            if len(args) != 1:
+                raise NabtError("INVALID_INSTRUCTION", "START_TEXT expects an exact scope")
+            from .text_ir import require_name
+
+            require_name(_name(args[0], "scope"), "scope")
+        elif self.opcode in {Opcode.ADD_TEXT, Opcode.REPLACE_TEXT}:
+            if len(args) != 2:
+                raise NabtError("INVALID_INSTRUCTION", "Text admission expects source ID and exact bytes")
+            source_id = _name(args[0], "source_id")
+            if re.fullmatch(r"[a-z][a-z0-9_]*", source_id) is None:
+                raise NabtError("INVALID_SOURCE_ID", "Source ID must be a bounded lowercase identifier")
+            _raw_hex(args[1])
+        elif self.opcode == Opcode.REMOVE_TEXT:
+            if len(args) != 1:
+                raise NabtError("INVALID_INSTRUCTION", "REMOVE_TEXT expects a source ID")
+            source_id = _name(args[0], "source_id")
+            if re.fullmatch(r"[a-z][a-z0-9_]*", source_id) is None:
+                raise NabtError("INVALID_SOURCE_ID", "Source ID must be a bounded lowercase identifier")
+        elif self.opcode == Opcode.QUERY_TEXT:
+            if len(args) != 2:
+                raise NabtError("INVALID_INSTRUCTION", "QUERY_TEXT expects question bytes and a query ID")
+            _raw_hex(args[0])
+            _name(args[1], "query_id")
         elif args:
             raise NabtError(
                 "INVALID_INSTRUCTION",
@@ -247,6 +281,26 @@ class Program:
                         "PROGRAM_TYPE_ERROR",
                         "Learner programs accept only evidence and literal queries",
                     )
+        elif first == Opcode.START_TEXT:
+            active_sources: set[str] = set()
+            text_queries: dict[str, str] = {}
+            for step in self.instructions[1:]:
+                if step.opcode == Opcode.ADD_TEXT:
+                    if step.operands[0] in active_sources:
+                        raise NabtError("SOURCE_ID_REUSED", "Replace an active source explicitly")
+                    active_sources.add(step.operands[0])
+                elif step.opcode in {Opcode.REMOVE_TEXT, Opcode.REPLACE_TEXT}:
+                    if step.operands[0] not in active_sources:
+                        raise NabtError("INACTIVE_TEXT_SOURCE", "Text source has not been admitted by this program")
+                    if step.opcode == Opcode.REMOVE_TEXT:
+                        active_sources.remove(step.operands[0])
+                elif step.opcode == Opcode.QUERY_TEXT:
+                    raw, query_id = step.operands
+                    if query_id in text_queries and text_queries[query_id] != raw:
+                        raise NabtError("QUERY_ID_REUSED", "Changed question needs a new query identity")
+                    text_queries[query_id] = raw
+                else:
+                    raise NabtError("PROGRAM_TYPE_ERROR", "Text theories accept only text events")
         else:
             raise NabtError(
                 "PROGRAM_TYPE_ERROR", "A program must establish its input domain first"
@@ -358,7 +412,7 @@ class Program:
 
 
 def compile_request(request: dict) -> Program:
-    """Compile three explicitly scoped tasks; source assertions are never operands."""
+    """Compile scoped tasks; new text is interpreted, never supplied as trusted IR."""
     if type(request) is not dict or type(request.get("task")) is not str:
         raise NabtError("INVALID_REQUEST", "A request needs a declared task")
     task = request["task"]
@@ -376,6 +430,32 @@ def compile_request(request: dict) -> Program:
                 consumer,
             )
         )
+    if task == "text_inquiry":
+        _keys(request, {"task", "events"}, {"scope"})
+        if type(request["events"]) is not list:
+            raise NabtError("INVALID_REQUEST", "Text events must be an array")
+        if len(request["events"]) >= MAX_INSTRUCTIONS:
+            raise resource_limit("Too many text events")
+        steps = [Instruction(int(Opcode.START_TEXT), (request.get("scope", "default"),))]
+        for event in request["events"]:
+            if type(event) is not dict or type(event.get("op")) is not str:
+                raise NabtError("INVALID_REQUEST", "Each text event needs an operation")
+            op = event["op"]
+            if op in {"add", "replace"}:
+                _keys(event, {"op", "source_id", "text"})
+                raw = _text(event["text"], "source text").encode("utf-8").hex()
+                steps.append(Instruction(int(Opcode.ADD_TEXT if op == "add" else Opcode.REPLACE_TEXT),
+                                         (event["source_id"], raw)))
+            elif op == "remove":
+                _keys(event, {"op", "source_id"})
+                steps.append(Instruction(int(Opcode.REMOVE_TEXT), (event["source_id"],)))
+            elif op == "query":
+                _keys(event, {"op", "text", "query_id"})
+                raw = _text(event["text"], "question text").encode("utf-8").hex()
+                steps.append(Instruction(int(Opcode.QUERY_TEXT), (raw, event["query_id"])))
+            else:
+                raise NabtError("UNSUPPORTED_TEXT_EVENT", "Only add, replace, remove and query are installed")
+        return Program(tuple(steps))
     if task != "source_learning":
         raise NabtError(
             "UNSUPPORTED_TASK", "The requested interpreter is not installed"
@@ -499,12 +579,14 @@ def execute_program(program: Program) -> dict:
     program = Program.from_bytes(program.to_bytes())  # Revalidate at consumption.
     state: dict = {"stage": "start"}
     trace: list[dict] = []
-    pilot = session = None
+    pilot = session = theory = None
+    theory_scope = "default"
     active: dict = {}
     observed_ids: set[str] = set()
     text = ""
     stopped = False
     for pc, instruction in enumerate(program.instructions):
+        previous_state = state
         before = _digest(state)
         op, args = instruction.opcode, instruction.operands
         try:
@@ -593,6 +675,36 @@ def execute_program(program: Program) -> dict:
                     "record_id": args[0],
                     "source_was_not_declared_false": True,
                 }
+            elif op == Opcode.START_TEXT:
+                from .semantics import SemanticKernel
+                from .text_ir import LANGUAGE_ID, READER_VERSION
+
+                theory = SemanticKernel()
+                theory_scope = args[0]
+                result = {"status": "READY", "scope": theory_scope,
+                          "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
+                          "world_truth": "NOT_ESTABLISHED"}
+            elif op in {Opcode.ADD_TEXT, Opcode.REPLACE_TEXT}:
+                raw = _raw_hex(args[1])
+                if op == Opcode.ADD_TEXT:
+                    admission = theory.add_source(raw, source_id=args[0], scope=theory_scope)
+                else:
+                    admission = theory.replace_source(raw, source_id=args[0], scope=theory_scope)
+                result = admission.as_dict()
+                if not result.get("accepted", False):
+                    result.setdefault("status", "DEFER")
+                    stopped = True
+            elif op == Opcode.REMOVE_TEXT:
+                result = theory.remove_source(args[0]).as_dict()
+            elif op == Opcode.QUERY_TEXT:
+                raw = _raw_hex(args[0])
+                try:
+                    question = raw.decode("utf-8", "strict")
+                except UnicodeError as exc:
+                    raise NabtError("INVALID_UTF8", "Question is not strict UTF-8") from exc
+                result = theory.query(question, scope=theory_scope).as_dict()
+                result["query_id"] = args[1]
+                result["query_source_sha256"] = sha256(raw).hexdigest()
             else:
                 from .learning.arabic_six_nouns import (
                     observation_schema,
@@ -638,9 +750,12 @@ def execute_program(program: Program) -> dict:
                     "pending_evidence": list(session.pending),
                 }
                 result["learning_state"] = state
+            if theory is not None:
+                state = {"stage": "text_theory", "scope": theory_scope,
+                         "theory": theory.snapshot()}
         except NabtError as exc:
             result = exc.as_dict()
-            state = {"stage": "stopped", "reason": result}
+            state = {**previous_state, "stage": "stopped", "reason": result}
             stopped = True
         except (ValueError, KeyError) as exc:
             # A source or definition mismatch is a failed contract, never a new
@@ -650,8 +765,23 @@ def execute_program(program: Program) -> dict:
                 "code": "INSTALLED_CONTRACT_FAILED",
                 "message": str(exc),
             }
-            state = {"stage": "stopped", "reason": result}
+            state = {**previous_state, "stage": "stopped", "reason": result}
             stopped = True
+        if stopped and theory is not None:
+            # Preserve the current theory on failed input; a failed replacement
+            # must not make its already admitted sources disappear from the
+            # receipt. If reporting itself exceeds a bound, retain the last
+            # completed state and label it explicitly as historical.
+            state = {**state, "stage": "stopped", "scope": theory_scope, "reason": result}
+            try:
+                state["theory"] = theory.snapshot()
+                state["snapshot_status"] = "CURRENT"
+            except (NabtError, ValueError, KeyError) as snapshot_error:
+                state["snapshot_status"] = "LAST_COMPLETED_INSTRUCTION"
+                state["snapshot_error"] = (
+                    snapshot_error.as_dict() if isinstance(snapshot_error, NabtError)
+                    else {"status": "DEFER", "code": "INSTALLED_CONTRACT_FAILED"}
+                )
         trace.append(
             {
                 "pc": pc,
@@ -663,6 +793,9 @@ def execute_program(program: Program) -> dict:
                 "result": result,
             }
         )
+        if sum(len(_canonical(item)) for item in trace) > MAX_RECEIPT_BYTES // 2:
+            raise resource_limit("Execution trace exceeds its replay budget",
+                                 maximum_bytes=MAX_RECEIPT_BYTES)
         if stopped:
             break
     from .learning.arabic_six_nouns import (
@@ -687,6 +820,16 @@ def execute_program(program: Program) -> dict:
         "result": trace[-1]["result"],
         "semantic_or_real_world_judgment": "NOT_ESTABLISHED",
     }
+    if theory is not None:
+        from importlib.resources import files
+        from .text_ir import LANGUAGE_ID, READER_VERSION
+
+        receipt["installed_contracts"]["text_language"] = LANGUAGE_ID
+        receipt["installed_contracts"]["text_reader"] = READER_VERSION
+        receipt["installed_contracts"]["text_implementation_sha256"] = {
+            name: sha256(files("nabt").joinpath(name).read_bytes()).hexdigest()
+            for name in ("text_ir.py", "text_reader.py", "semantics.py")
+        }
     # Return inert JSON types; CLI and API share the same representation and
     # a receipt emitted by the CLI always fits its verification input budget.
     result = json.loads(_canonical(receipt))

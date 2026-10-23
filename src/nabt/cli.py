@@ -97,6 +97,12 @@ def parser() -> Parser:
     transcode.add_argument("--from-codec", required=True)
     transcode.add_argument("--to-codec", required=True)
     sub.add_parser("pilot")
+    for name in ("read-text", "ask-text"):
+        command = sub.add_parser(name)
+        command.add_argument("document", type=Path)
+        command.add_argument("--scope", default="default")
+        if name == "ask-text":
+            command.add_argument("question", help="One question in the declared Arabic text language")
     append = sub.add_parser("append")
     append.add_argument("left")
     append.add_argument("right")
@@ -118,6 +124,31 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"read-text", "ask-text"}:
+        from .program import MAX_LITERAL_BYTES, compile_request, execute_program
+        with args.document.open("rb") as handle:
+            raw = handle.read(MAX_LITERAL_BYTES + 1)
+        if len(raw) > MAX_LITERAL_BYTES:
+            raise resource_limit("Text input exceeds the installed source budget")
+        try:
+            text = raw.decode("utf-8", "strict")
+        except UnicodeError as error:
+            raise NabtError("INVALID_UTF8", "Text source must be strict UTF-8") from error
+        if command == "read-text":
+            from .text_reader import parse_document
+            document = parse_document(raw, source_id="input", scope=args.scope)
+            report = document.as_dict()
+            report["status"] = "INTERPRETED" if document.accepted else "DEFER"
+            report["world_truth"] = "NOT_ESTABLISHED"
+            return report, 0 if document.accepted else 3
+        program = compile_request({"task": "text_inquiry", "scope": args.scope,
+                                   "events": [
+                                       {"op": "add", "source_id": "input", "text": text},
+                                       {"op": "query", "query_id": "question", "text": args.question},
+                                   ]})
+        receipt = execute_program(program)
+        return receipt, (0 if receipt["run_status"] == "COMPLETED" else
+                         3 if receipt["result"].get("status") == "DEFER" else 2)
     if command in {"compile", "run", "execute", "verify-run", "pilot"}:
         from .program import Program, compile_request, execute_program, verify_execution
         if command == "verify-run":

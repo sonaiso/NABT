@@ -37,12 +37,22 @@ jobs:
         run: python tools/export_learned_model.py --check
       - name: Replay actual Arabic sources and evidence revision
         run: python tools/source_learning_experiment.py --output "${{ runner.temp }}/nabt-source-learning.json"
+      - name: Replay the published text-inquiry corpus and source-boundary probes
+        env:
+          PYTHONPATH: src
+        run: python tools/text_inquiry_evaluation.py --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
+          cp examples/text_theory.txt "${{ runner.temp }}/nabt-text-theory.txt"
+          cp examples/text_inquiry_revision.json "${{ runner.temp }}/nabt-text-revision.json"
           cd "${{ runner.temp }}"
           nabt pilot > nabt-pilot-receipt.json
           nabt verify-run nabt-pilot-receipt.json
+          nabt ask-text nabt-text-theory.txt 'هل تقرير هو مفحوص؟' > nabt-text-receipt.json
+          nabt verify-run nabt-text-receipt.json
+          nabt run nabt-text-revision.json > nabt-text-revision-receipt.json
+          nabt verify-run nabt-text-revision-receipt.json
 
   formal:
     runs-on: ubuntu-24.04

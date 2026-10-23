@@ -3,3 +3,13 @@
 *.lean text eol=lf
 *.py text eol=lf
 src/nabt/data/source_evidence/*.txt -text -whitespace
+
+# Keep reproducible machine reports available while focusing review on code,
+# handwritten gold, original source excerpts, and contracts.
+evidence/text_inquiry/results_*.json linguist-generated=true
+evidence/text_inquiry/release/** linguist-generated=true
+evidence/text_inquiry/code_freeze*.json linguist-generated=true
+evidence/text_inquiry/code_freeze*.tar.gz linguist-generated=true
+evidence/text_inquiry/summary_metrics.json linguist-generated=true
+evidence/text_inquiry/artifact_manifest.json linguist-generated=true
+evidence/text_inquiry/published_replay_summary.json linguist-generated=true

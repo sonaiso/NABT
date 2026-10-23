@@ -1,0 +1,224 @@
+{
+  "schema": "nabt-text-evaluation-portability-review-v1",
+  "finding": "Historical runtime manifests also pinned four generated egg-info files, preventing replay from a fresh checkout and potentially failing after package metadata regeneration.",
+  "fix": "Default to a derived manifest that excludes only those four entries and preserves all 29authoritative file records unchanged; future snapshot capture excludes generated packaging metadata.",
+  "validation": {
+    "fresh_copy_method": "git ls-files --cached --others --exclude-standard, copied without .git or packaging metadata",
+    "files_copied": 195,
+    "fresh_path": "/tmp/nabt-text-portable-fresh-46c5hkep",
+    "metadata_directories": [],
+    "exit_code": 0,
+    "result_directory": "/tmp/nabt-text-portable-results-l0pumr8x",
+    "full_replay": {
+      "schema": "nabt-published-text-evaluation-replay-v1",
+      "evaluation_role": "post-publication regression",
+      "passed": true,
+      "data_root": "/tmp/nabt-text-portable-fresh-46c5hkep/evidence/text_inquiry",
+      "code_freeze": "/tmp/nabt-text-portable-fresh-46c5hkep/evidence/text_inquiry/code_freeze_reserve20_portable.json",
+      "summaries": {
+        "controlled": {
+          "episodes": 60,
+          "episodes_passed": 60,
+          "query_checkpoints": 126,
+          "query_checkpoints_passed": 126,
+          "elapsed_seconds": 0.11730717799946433,
+          "by_family": {
+            "definitions": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "facts": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "relations": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "revision": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "rules": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "uncertainty": {
+              "episodes": 10,
+              "passed": 10
+            }
+          },
+          "error_classes": {}
+        },
+        "natural": {
+          "raw_book_spans": 12,
+          "safety_passed": 12,
+          "fully_admitted": 0,
+          "semantic_successes_confirmed": 0,
+          "semantic_coverage_denominator": 12,
+          "note": "A safe unsupported result contributes zero semantic coverage. Any unexpected admission needs independent semantic review."
+        },
+        "attacks": {
+          "probes": 37,
+          "passed": 37,
+          "failed_ids": [],
+          "scope": "Public-contract adversarial probes and valid controls; separate from heldout controlled-Arabic accuracy."
+        },
+        "plans": {
+          "reviewer_regression_scenarios": 7,
+          "passed": 7,
+          "plans_replayed": 7,
+          "invalid_returned_plans": 0,
+          "note": "Created after an independent root-review counterexample; not part of the sealed 60-episode language benchmark."
+        },
+        "boundaries": {
+          "probes": 3,
+          "passed": 3,
+          "failed_ids": [],
+          "note": "Caller-created parsed ASTs cannot grant claims or erase residual source material. Added after first40 without seeing hidden reserve cases."
+        },
+        "baseline": {
+          "first40": {
+            "episodes": 40,
+            "status_episode_passed": 20,
+            "checkpoints": 81,
+            "status_checkpoints_passed": 56,
+            "answers": 21,
+            "correct_answers": 21,
+            "sufficient_evidence_queries": 41,
+            "answer_precision": 1.0,
+            "justified_coverage": 0.5121951219512195,
+            "baseline_status_counts": {
+              "UNKNOWN": 52,
+              "SUPPORTED": 15,
+              "REFUTED": 6,
+              "CONFLICT": 8
+            }
+          },
+          "reserve20": {
+            "episodes": 20,
+            "status_episode_passed": 8,
+            "checkpoints": 45,
+            "status_checkpoints_passed": 28,
+            "answers": 8,
+            "correct_answers": 7,
+            "sufficient_evidence_queries": 20,
+            "answer_precision": 0.875,
+            "justified_coverage": 0.35,
+            "baseline_status_counts": {
+              "UNKNOWN": 36,
+              "SUPPORTED": 4,
+              "REFUTED": 4,
+              "CONFLICT": 1
+            }
+          },
+          "all": {
+            "episodes": 60,
+            "status_episode_passed": 28,
+            "checkpoints": 126,
+            "status_checkpoints_passed": 84,
+            "answers": 29,
+            "correct_answers": 28,
+            "sufficient_evidence_queries": 61,
+            "answer_precision": 0.9655172413793104,
+            "justified_coverage": 0.45901639344262296,
+            "baseline_status_counts": {
+              "UNKNOWN": 88,
+              "SUPPORTED": 19,
+              "REFUTED": 10,
+              "CONFLICT": 9
+            }
+          }
+        }
+      }
+    }
+  },
+  "historical_evidence": "Original 33file manifests, runtime archives, first-run results, frozen corpus, and manual gold were not edited.",
+  "runtime_changes": false,
+  "gold_changes": false,
+  "portable_manifest": {
+    "filename": "code_freeze_reserve20_portable.json",
+    "sha256": "3b7d83b91121bb21d2beb505fd87cf580dbcd90e05a3a40ab5553c10a635ee7a",
+    "snapshot_sha256": "28f5f1a224a8896eeec3f0de4f920a543428000a154a3d3ed6b75fc7e005cfc9",
+    "origin": {
+      "manifest_filename": "code_freeze_reserve20.json",
+      "manifest_sha256": "e5f72e2a253a5c0c5ad977326fe75c9216c42f429b5498357f363ba80c8466a4",
+      "snapshot_sha256": "215e3c72501c2b9f124b3d1e0f9e72323a85c49d6acfcb362c0b06bccc9006cc",
+      "recorded_file_count": 33,
+      "archive_filename": "code_freeze_reserve20.tar.gz",
+      "archive_sha256": "d49d338e3c749779b685aeb164dc7cd30f5573f5d4e0f223b6bfd4bf488ad8c5"
+    },
+    "excluded_generated_metadata": [
+      {
+        "path": "src/nabt_machine.egg-info/SOURCES.txt",
+        "sha256": "d742ed9857a8eabb5894b2b2da9ff04e7d30ef6e14f1a299400ec9566a4829e7",
+        "bytes": 1331
+      },
+      {
+        "path": "src/nabt_machine.egg-info/dependency_links.txt",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "bytes": 1
+      },
+      {
+        "path": "src/nabt_machine.egg-info/entry_points.txt",
+        "sha256": "45d968a04e90d9f1030d958a9a90b291a46b5881aab3437dfcbaeda84951cf11",
+        "bytes": 39
+      },
+      {
+        "path": "src/nabt_machine.egg-info/top_level.txt",
+        "sha256": "2a35f4bf4e636600a9f091409bbf95c372b53c927c95964c2d1acd2b13437c35",
+        "bytes": 5
+      }
+    ],
+    "authoritative_file_count": 29
+  },
+  "prospective_snapshot_validation": {
+    "files": 29,
+    "snapshot_sha256": "28f5f1a224a8896eeec3f0de4f920a543428000a154a3d3ed6b75fc7e005cfc9",
+    "matches_portable_authoritative_records": true,
+    "excluded_build_metadata": [
+      "src/nabt_machine.egg-info/SOURCES.txt",
+      "src/nabt_machine.egg-info/dependency_links.txt",
+      "src/nabt_machine.egg-info/entry_points.txt",
+      "src/nabt_machine.egg-info/top_level.txt"
+    ]
+  },
+  "independent_read_only_audit": {
+    "reviewer": "nabt_semantic_foundations",
+    "passed": true,
+    "checks": [
+      "Exactly four specified generated metadata entries excluded",
+      "All 29 retained records identical in order, hash, and size",
+      "All 29 current authoritative files match",
+      "Frozen controlled corpus and raw-source manifest hashes unchanged",
+      "Historical result, manifest, and archive checksums preserved",
+      "Origin manifest, snapshot, archive, and portable digest ties independently recomputed"
+    ],
+    "files_modified_by_auditor": false,
+    "suites_run_by_auditor": false
+  },
+  "historical_artifacts_verified_unchanged": [
+    "code_freeze_first40.json",
+    "code_freeze_first40_reconstructed.tar.gz",
+    "code_freeze_first40_reconstruction.json",
+    "code_freeze_reserve20.json",
+    "code_freeze_reserve20.tar.gz",
+    "controlled_text_benchmark.json",
+    "evaluation_authoring_scripts.tar.gz",
+    "natural_probe_protocol.json",
+    "published_replay_summary.json",
+    "real_source_candidates.json",
+    "results_adversarial_final.json",
+    "results_adversarial_original.json",
+    "results_document_boundary.json",
+    "results_fact_baseline.json",
+    "results_final_published_replay.json",
+    "results_first40_original.json",
+    "results_first40_regression.json",
+    "results_natural_final.json",
+    "results_natural_original.json",
+    "results_plan_regressions.json",
+    "results_reserve20_original.json",
+    "summary_metrics.json"
+  ]
+}
