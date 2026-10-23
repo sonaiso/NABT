@@ -123,6 +123,25 @@ def parser() -> Parser:
     text_morphology_verifier.add_argument("--source", type=Path, required=True)
     text_morphology_verifier.add_argument("--scope", default="default")
     text_morphology_verifier.add_argument("--lexical-source", type=Path)
+    sub.add_parser("derivation-catalog")
+    derivation_generator = sub.add_parser("generate-derivation")
+    derivation_generator.add_argument("root")
+    derivation_generator.add_argument("pattern")
+    derivation_generator.add_argument("--ending", default="")
+    for name in ("read-derivation", "read-verb-paradigm"):
+        command = sub.add_parser(name)
+        command.add_argument("document", type=Path)
+        command.add_argument("--scope", default="default")
+        if name == "read-derivation":
+            command.add_argument("--profile", choices=("stem_exact_v1", "surface_v1"), default="surface_v1")
+            command.add_argument("--with-number", action="store_true")
+    for name in ("verify-derivation", "verify-verb-paradigm"):
+        command = sub.add_parser(name)
+        command.add_argument("report", type=Path)
+        command.add_argument("--source", type=Path, required=True)
+        command.add_argument("--scope", default="default")
+        if name == "verify-derivation":
+            command.add_argument("--profile", choices=("stem_exact_v1", "surface_v1"), default="surface_v1")
     for name in ("read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"):
         command = sub.add_parser(name)
         command.add_argument("document", type=Path)
@@ -152,6 +171,37 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command == "derivation-catalog":
+        from .derivation import pattern_catalog
+        return pattern_catalog(), 0
+    if command == "generate-derivation":
+        from .derivation import generate_derivation
+        return generate_derivation(args.root, args.pattern, ending=args.ending), 0
+    if command in {"read-derivation", "verify-derivation", "read-verb-paradigm", "verify-verb-paradigm"}:
+        from .derivation import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
+                                 read_derivation, verify_derivation, derivation_number)
+        from .verb_paradigm import read_verb_paradigm, verify_verb_paradigm
+        verifying = command.startswith("verify-")
+        path = args.source if verifying else args.document
+        with path.open("rb") as handle:
+            raw = handle.read(MAX_SOURCE_BYTES + 1)
+        if len(raw) > MAX_SOURCE_BYTES:
+            raise resource_limit("Derivation source exceeds its byte budget")
+        options = {"source_id": "input", "scope": args.scope}
+        if command.endswith("derivation"):
+            options["profile"] = args.profile
+            reader, verifier = read_derivation, verify_derivation
+        else:
+            reader, verifier = read_verb_paradigm, verify_verb_paradigm
+        if verifying:
+            result = verifier(read_certificate(args.report, MAX_REPORT_BYTES), text=raw, **options)
+            return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
+        report = reader(raw, **options)
+        code = 0 if report["status"] == "READ" else 3 if report["status"] == "DEFER" else 2
+        if getattr(args, "with_number", False):
+            return {"report": report, "encoding": {"domain": NUMBER_DOMAIN,
+                    "number_hex": hex(derivation_number(report)), "authority": "ENCODING_ONLY"}}, code
+        return report, code
     if command in {"read-text-morphology", "verify-text-morphology"}:
         from .text_morphology import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
                                       read_text_morphology, verify_text_morphology, text_morphology_number)

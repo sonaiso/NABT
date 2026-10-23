@@ -1,0 +1,2818 @@
+{
+  "schema": "nabt.derivation.independent-cases.v1",
+  "created_date_utc": "2026-10-23",
+  "independence": {
+    "authored_by": "independent review agent /root/text_cue_review",
+    "new_derivation_runtime_read": false,
+    "source_lean_read": true,
+    "source_python_read_for_audit": true,
+    "api_contract_communication_read": true,
+    "external_untouched_corpus": false,
+    "claim": "Authored source-informed cases frozen before this reviewer opened any new derivation implementation; not a statistically representative corpus."
+  },
+  "common_invariants": {
+    "raw_source_preserved": true,
+    "normalization": "NONE",
+    "parse_answer_inputs_forbidden": [
+      "root",
+      "pattern_id",
+      "word_class",
+      "semantic_class",
+      "productivity_answer"
+    ],
+    "generation_input_distinction": "Root and template are explicit construction operands; using them does not constitute root discovery.",
+    "forbidden_promotions": [
+      "lexically_attested_root",
+      "activated_word_class",
+      "semantic_jamid_or_mushtaq",
+      "actual_syntactic_role",
+      "actual_case",
+      "universal_productivity",
+      "world_truth"
+    ],
+    "candidate_comparison": "Expected candidates are required subsets; only named exclusions are forbidden. Do not erase genuine collisions by requiring singleton equality.",
+    "paradigm_condition": "jamid/partial/full names mean only 1/2/3 available forms under explicit source assertions; unknown is not negative; source classification is not an acquired linguistic fact."
+  },
+  "source_template_inventory": [
+    {
+      "pattern_id": "past.I.a",
+      "template": "1َ2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.I.i",
+      "template": "1َ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.I.u",
+      "template": "1َ2ُ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.II",
+      "template": "1َ2َّ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.III",
+      "template": "1َا2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.IV",
+      "template": "ءَ1ْ2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.V",
+      "template": "تَ1َ2َّ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.VI",
+      "template": "تَ1َا2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.VII",
+      "template": "انْ1َ2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.VIII",
+      "template": "ا1ْتَ2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "past.X",
+      "template": "اسْتَ1ْ2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.I",
+      "template": "1ُ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.II",
+      "template": "1ُ2ِّ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.III",
+      "template": "1ُو2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.IV",
+      "template": "ءُ1ْ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.V",
+      "template": "تُ1ُ2ِّ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.VI",
+      "template": "تُ1ُو2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.VII",
+      "template": "انْ1ُ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.VIII",
+      "template": "ا1ْتُ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "passive.X",
+      "template": "اسْتُ1ْ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.I.a",
+      "template": "ا1ْ2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.I.i",
+      "template": "ا1ْ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.I.u",
+      "template": "ا1ْ2ُ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.II",
+      "template": "1َ2ِّ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.III",
+      "template": "1َا2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.IV",
+      "template": "ءَ1ْ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.V",
+      "template": "تَ1َ2َّ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.VI",
+      "template": "تَ1َا2َ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.VII",
+      "template": "انْ1َ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.VIII",
+      "template": "ا1ْتَ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "imperative.X",
+      "template": "اسْتَ1ْ2ِ3",
+      "basis": "ISHTIQAQ_31_EXACT"
+    },
+    {
+      "pattern_id": "nominal.faail",
+      "template": "1َا2ِ3",
+      "basis": "DECLARED_NOMINAL_PROFILE"
+    },
+    {
+      "pattern_id": "nominal.mafool",
+      "template": "مَ1ْ2ُو3",
+      "basis": "DECLARED_NOMINAL_PROFILE"
+    },
+    {
+      "pattern_id": "imperfect.I.a",
+      "template": "يَ1ْ2َ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.I.i",
+      "template": "يَ1ْ2ِ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.I.u",
+      "template": "يَ1ْ2ُ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.II",
+      "template": "يُ1َ2ِّ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.III",
+      "template": "يُ1َا2ِ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.IV",
+      "template": "يُ1ْ2ِ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.V",
+      "template": "يَتَ1َ2َّ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.VI",
+      "template": "يَتَ1َا2َ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.VII",
+      "template": "يَنْ1َ2ِ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.VIII",
+      "template": "يَ1ْتَ2ِ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    },
+    {
+      "pattern_id": "imperfect.X",
+      "template": "يَسْتَ1ْ2ِ3",
+      "basis": "NEW_SOUND_PROJECTION"
+    }
+  ],
+  "cases": [
+    {
+      "id": "DER-GP-01",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "كَتَب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "past.I.a",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "كَتَب",
+        "occurrences": [
+          {
+            "surface": "كَتَب",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.I.a",
+                "root": "كتب",
+                "stem": "كَتَب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-02",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "شَرِب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "شرب",
+        "pattern_id": "past.I.i",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "شَرِب",
+        "occurrences": [
+          {
+            "surface": "شَرِب",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.I.i",
+                "root": "شرب",
+                "stem": "شَرِب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-03",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "كَرُم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كرم",
+        "pattern_id": "past.I.u",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "كَرُم",
+        "occurrences": [
+          {
+            "surface": "كَرُم",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.I.u",
+                "root": "كرم",
+                "stem": "كَرُم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-04",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "عَلَّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "past.II",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "عَلَّم",
+        "occurrences": [
+          {
+            "surface": "عَلَّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.II",
+                "root": "علم",
+                "stem": "عَلَّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-05",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "قَاتَل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "past.III",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "قَاتَل",
+        "occurrences": [
+          {
+            "surface": "قَاتَل",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.III",
+                "root": "قتل",
+                "stem": "قَاتَل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-06",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "ءَحْسَن",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "حسن",
+        "pattern_id": "past.IV",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "ءَحْسَن",
+        "occurrences": [
+          {
+            "surface": "ءَحْسَن",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.IV",
+                "root": "حسن",
+                "stem": "ءَحْسَن",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-07",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "تَعَلَّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "past.V",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "تَعَلَّم",
+        "occurrences": [
+          {
+            "surface": "تَعَلَّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.V",
+                "root": "علم",
+                "stem": "تَعَلَّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-08",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "تَقَاتَل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "past.VI",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "تَقَاتَل",
+        "occurrences": [
+          {
+            "surface": "تَقَاتَل",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.VI",
+                "root": "قتل",
+                "stem": "تَقَاتَل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-09",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "انْكَسَر",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كسر",
+        "pattern_id": "past.VII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "انْكَسَر",
+        "occurrences": [
+          {
+            "surface": "انْكَسَر",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.VII",
+                "root": "كسر",
+                "stem": "انْكَسَر",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-10",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اجْتَمَع",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "جمع",
+        "pattern_id": "past.VIII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اجْتَمَع",
+        "occurrences": [
+          {
+            "surface": "اجْتَمَع",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.VIII",
+                "root": "جمع",
+                "stem": "اجْتَمَع",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-11",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اسْتَخْرَج",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "خرج",
+        "pattern_id": "past.X",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اسْتَخْرَج",
+        "occurrences": [
+          {
+            "surface": "اسْتَخْرَج",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.X",
+                "root": "خرج",
+                "stem": "اسْتَخْرَج",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-12",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "كُتِب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "passive.I",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "كُتِب",
+        "occurrences": [
+          {
+            "surface": "كُتِب",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.I",
+                "root": "كتب",
+                "stem": "كُتِب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-13",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "عُلِّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "passive.II",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "عُلِّم",
+        "occurrences": [
+          {
+            "surface": "عُلِّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.II",
+                "root": "علم",
+                "stem": "عُلِّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-14",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "قُوتِل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "passive.III",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "قُوتِل",
+        "occurrences": [
+          {
+            "surface": "قُوتِل",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.III",
+                "root": "قتل",
+                "stem": "قُوتِل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-15",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "ءُحْسِن",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "حسن",
+        "pattern_id": "passive.IV",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "ءُحْسِن",
+        "occurrences": [
+          {
+            "surface": "ءُحْسِن",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.IV",
+                "root": "حسن",
+                "stem": "ءُحْسِن",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-16",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "تُعُلِّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "passive.V",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "تُعُلِّم",
+        "occurrences": [
+          {
+            "surface": "تُعُلِّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.V",
+                "root": "علم",
+                "stem": "تُعُلِّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-17",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "تُقُوتِل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "passive.VI",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "تُقُوتِل",
+        "occurrences": [
+          {
+            "surface": "تُقُوتِل",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.VI",
+                "root": "قتل",
+                "stem": "تُقُوتِل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-18",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "انْكُسِر",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كسر",
+        "pattern_id": "passive.VII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "انْكُسِر",
+        "occurrences": [
+          {
+            "surface": "انْكُسِر",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.VII",
+                "root": "كسر",
+                "stem": "انْكُسِر",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-19",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اجْتُمِع",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "جمع",
+        "pattern_id": "passive.VIII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اجْتُمِع",
+        "occurrences": [
+          {
+            "surface": "اجْتُمِع",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.VIII",
+                "root": "جمع",
+                "stem": "اجْتُمِع",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-20",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اسْتُخْرِج",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "خرج",
+        "pattern_id": "passive.X",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اسْتُخْرِج",
+        "occurrences": [
+          {
+            "surface": "اسْتُخْرِج",
+            "candidate_contains": [
+              {
+                "pattern_id": "passive.X",
+                "root": "خرج",
+                "stem": "اسْتُخْرِج",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-21",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اذْهَب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "ذهب",
+        "pattern_id": "imperative.I.a",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اذْهَب",
+        "occurrences": [
+          {
+            "surface": "اذْهَب",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.I.a",
+                "root": "ذهب",
+                "stem": "اذْهَب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-22",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اضْرِب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "ضرب",
+        "pattern_id": "imperative.I.i",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اضْرِب",
+        "occurrences": [
+          {
+            "surface": "اضْرِب",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.I.i",
+                "root": "ضرب",
+                "stem": "اضْرِب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-23",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اكْتُب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "imperative.I.u",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اكْتُب",
+        "occurrences": [
+          {
+            "surface": "اكْتُب",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.I.u",
+                "root": "كتب",
+                "stem": "اكْتُب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-24",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "عَلِّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "imperative.II",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "عَلِّم",
+        "occurrences": [
+          {
+            "surface": "عَلِّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.II",
+                "root": "علم",
+                "stem": "عَلِّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-25",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "قَاتِل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "imperative.III",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "قَاتِل",
+        "occurrences": [
+          {
+            "surface": "قَاتِل",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.III",
+                "root": "قتل",
+                "stem": "قَاتِل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-26",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "ءَحْسِن",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "حسن",
+        "pattern_id": "imperative.IV",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "ءَحْسِن",
+        "occurrences": [
+          {
+            "surface": "ءَحْسِن",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.IV",
+                "root": "حسن",
+                "stem": "ءَحْسِن",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-27",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "تَعَلَّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "imperative.V",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "تَعَلَّم",
+        "occurrences": [
+          {
+            "surface": "تَعَلَّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.V",
+                "root": "علم",
+                "stem": "تَعَلَّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-28",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "تَقَاتَل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "imperative.VI",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "تَقَاتَل",
+        "occurrences": [
+          {
+            "surface": "تَقَاتَل",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.VI",
+                "root": "قتل",
+                "stem": "تَقَاتَل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-29",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "انْكَسِر",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كسر",
+        "pattern_id": "imperative.VII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "انْكَسِر",
+        "occurrences": [
+          {
+            "surface": "انْكَسِر",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.VII",
+                "root": "كسر",
+                "stem": "انْكَسِر",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-30",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اجْتَمِع",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "جمع",
+        "pattern_id": "imperative.VIII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اجْتَمِع",
+        "occurrences": [
+          {
+            "surface": "اجْتَمِع",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.VIII",
+                "root": "جمع",
+                "stem": "اجْتَمِع",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-31",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "ISHTIQAQ_31_EXACT",
+      "read_request": {
+        "text": "اسْتَخْرِج",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "خرج",
+        "pattern_id": "imperative.X",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "اسْتَخْرِج",
+        "occurrences": [
+          {
+            "surface": "اسْتَخْرِج",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperative.X",
+                "root": "خرج",
+                "stem": "اسْتَخْرِج",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-32",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "DECLARED_NOMINAL_PROFILE",
+      "read_request": {
+        "text": "كَاتِب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "nominal.faail",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "كَاتِب",
+        "occurrences": [
+          {
+            "surface": "كَاتِب",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب",
+                "stem": "كَاتِب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-33",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "DECLARED_NOMINAL_PROFILE",
+      "read_request": {
+        "text": "مَكْتُوب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "nominal.mafool",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "مَكْتُوب",
+        "occurrences": [
+          {
+            "surface": "مَكْتُوب",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.mafool",
+                "root": "كتب",
+                "stem": "مَكْتُوب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-34",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَذْهَب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "ذهب",
+        "pattern_id": "imperfect.I.a",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَذْهَب",
+        "occurrences": [
+          {
+            "surface": "يَذْهَب",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.I.a",
+                "root": "ذهب",
+                "stem": "يَذْهَب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-35",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَضْرِب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "ضرب",
+        "pattern_id": "imperfect.I.i",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَضْرِب",
+        "occurrences": [
+          {
+            "surface": "يَضْرِب",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.I.i",
+                "root": "ضرب",
+                "stem": "يَضْرِب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-36",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَكْتُب",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "imperfect.I.u",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَكْتُب",
+        "occurrences": [
+          {
+            "surface": "يَكْتُب",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.I.u",
+                "root": "كتب",
+                "stem": "يَكْتُب",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-37",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يُعَلِّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "imperfect.II",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يُعَلِّم",
+        "occurrences": [
+          {
+            "surface": "يُعَلِّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.II",
+                "root": "علم",
+                "stem": "يُعَلِّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-38",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يُقَاتِل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "imperfect.III",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يُقَاتِل",
+        "occurrences": [
+          {
+            "surface": "يُقَاتِل",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.III",
+                "root": "قتل",
+                "stem": "يُقَاتِل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-39",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يُحْسِن",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "حسن",
+        "pattern_id": "imperfect.IV",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يُحْسِن",
+        "occurrences": [
+          {
+            "surface": "يُحْسِن",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.IV",
+                "root": "حسن",
+                "stem": "يُحْسِن",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-40",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَتَعَلَّم",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "علم",
+        "pattern_id": "imperfect.V",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَتَعَلَّم",
+        "occurrences": [
+          {
+            "surface": "يَتَعَلَّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.V",
+                "root": "علم",
+                "stem": "يَتَعَلَّم",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-41",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَتَقَاتَل",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "قتل",
+        "pattern_id": "imperfect.VI",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَتَقَاتَل",
+        "occurrences": [
+          {
+            "surface": "يَتَقَاتَل",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.VI",
+                "root": "قتل",
+                "stem": "يَتَقَاتَل",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-42",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَنْكَسِر",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "كسر",
+        "pattern_id": "imperfect.VII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَنْكَسِر",
+        "occurrences": [
+          {
+            "surface": "يَنْكَسِر",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.VII",
+                "root": "كسر",
+                "stem": "يَنْكَسِر",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-43",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَجْتَمِع",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "جمع",
+        "pattern_id": "imperfect.VIII",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَجْتَمِع",
+        "occurrences": [
+          {
+            "surface": "يَجْتَمِع",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.VIII",
+                "root": "جمع",
+                "stem": "يَجْتَمِع",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-GP-44",
+      "group": "source_template_positive",
+      "mode": "derivation_roundtrip",
+      "source_basis": "NEW_SOUND_PROJECTION",
+      "read_request": {
+        "text": "يَسْتَخْرِج",
+        "profile": "stem_exact_v1"
+      },
+      "generation_request": {
+        "root": "خرج",
+        "pattern_id": "imperfect.X",
+        "ending": ""
+      },
+      "expect": {
+        "generated_surface": "يَسْتَخْرِج",
+        "occurrences": [
+          {
+            "surface": "يَسْتَخْرِج",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.X",
+                "root": "خرج",
+                "stem": "يَسْتَخْرِج",
+                "boundary": ""
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Both construction from a declared root and inverse candidate inclusion are required; neither result licenses a lexeme or semantic class."
+    },
+    {
+      "id": "DER-B01",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كَاتِبٌ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَاتِبٌ",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب",
+                "stem": "كَاتِب",
+                "boundary": "ٌ"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "One terminal tanwin remains an explicit boundary; no case conclusion."
+    },
+    {
+      "id": "DER-B02",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "مَكْتُوبٍ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "مَكْتُوبٍ",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.mafool",
+                "root": "كتب",
+                "stem": "مَكْتُوب",
+                "boundary": "ٍ"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Kasr tanwin is preserved without inferring syntactic genitive."
+    },
+    {
+      "id": "DER-B03",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كَتَبَ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَتَبَ",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.I.a",
+                "root": "كتب",
+                "stem": "كَتَب",
+                "boundary": "َ"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Surface profile accepts an explicitly allowed final past vowel."
+    },
+    {
+      "id": "DER-B04",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كَتَبَ",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَتَبَ",
+            "no_candidates": true
+          }
+        ]
+      },
+      "purpose": "Stem-exact profile must not silently remove an unconsumed ending."
+    },
+    {
+      "id": "DER-B05",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كَاتِبٌَ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَاتِبٌَ",
+            "candidate_excludes": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب"
+              }
+            ]
+          }
+        ],
+        "allowed_rejections": [
+          "REJECT"
+        ]
+      },
+      "purpose": "Two terminal vocalic marks cannot be consumed as a single licensed boundary."
+    },
+    {
+      "id": "DER-B06",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "بَكْتُوب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "بَكْتُوب",
+            "candidate_excludes": [
+              {
+                "pattern_id": "nominal.mafool",
+                "root": "كتب"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Literal impostor: the initial miim in mafool is not a free slot."
+    },
+    {
+      "id": "DER-B07",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "مُكْتُوب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "مُكْتُوب",
+            "candidate_excludes": [
+              {
+                "pattern_id": "nominal.mafool",
+                "root": "كتب"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Literal vowel mismatch must be checked, not skipped by extract."
+    },
+    {
+      "id": "DER-B08",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كَاتِبز",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَاتِبز",
+            "candidate_excludes": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Trailing Arabic material cannot be discarded to obtain a successful match."
+    },
+    {
+      "id": "DER-B09",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "وَكَاتِب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "وَكَاتِب",
+            "candidate_excludes": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "This profile does not strip an apparent waw prefix."
+    },
+    {
+      "id": "DER-B10",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "الْكَاتِب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "الْكَاتِب",
+            "candidate_excludes": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "This profile does not strip al by spelling."
+    },
+    {
+      "id": "DER-B11",
+      "group": "ambiguity_positive",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "انْتَبَر",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "انْتَبَر",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.VII",
+                "root": "تبر"
+              },
+              {
+                "pattern_id": "past.VIII",
+                "root": "نبر"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "The proven VII/VIII collision must retain both roots."
+    },
+    {
+      "id": "DER-B12",
+      "group": "ambiguity_positive",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "تَعَلَّم",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "تَعَلَّم",
+            "candidate_contains": [
+              {
+                "pattern_id": "past.V",
+                "root": "علم"
+              },
+              {
+                "pattern_id": "imperative.V",
+                "root": "علم"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Past V and imperative V are identical stems in the exact source profile."
+    },
+    {
+      "id": "DER-B13",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "أَكْرَم",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَكْرَم",
+            "candidate_excludes": [
+              {
+                "pattern_id": "past.IV",
+                "root": "كرم"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Seated hamza is not silently replaced by the source standalone hamza."
+    },
+    {
+      "id": "DER-B14",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "أَكْرَم",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَكْرَم",
+            "candidate_excludes": [
+              {
+                "pattern_id": "past.IV",
+                "root": "كرم"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Decomposed hamza seating is not normalized into the source spelling."
+    },
+    {
+      "id": "DER-B15",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "عَلَّم",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "عَلَّم",
+            "candidate_excludes": [
+              {
+                "pattern_id": "past.II",
+                "root": "علم"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Combining-mark canonical equivalence does not authorize byte reordering."
+    },
+    {
+      "id": "DER-B16",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "يُعَلْلِم",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "يُعَلْلِم",
+            "candidate_excludes": [
+              {
+                "pattern_id": "imperfect.II",
+                "root": "علم"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Raw repeated-cell spelling is outside the declared compressed imperfect projection."
+    },
+    {
+      "id": "DER-B17",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "يُقَاْتِل",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "يُقَاْتِل",
+            "candidate_excludes": [
+              {
+                "pattern_id": "imperfect.III",
+                "root": "قتل"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Long-alif sukun is not erased implicitly by the imperfect surface projection."
+    },
+    {
+      "id": "DER-B18",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كتب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كتب",
+            "no_candidates": true
+          }
+        ]
+      },
+      "purpose": "Unvocalized input is not assigned a forced root or a default past template."
+    },
+    {
+      "id": "DER-B19",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "قَال",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "قَال",
+            "no_candidates": true
+          }
+        ]
+      },
+      "purpose": "The transformed hollow surface is outside the sound-only profile; do not invent qwl."
+    },
+    {
+      "id": "DER-B20",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "يَقُول",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "يَقُول",
+            "no_candidates": true
+          }
+        ]
+      },
+      "purpose": "The hollow imperfect is not a sound-template inverse."
+    },
+    {
+      "id": "DER-B21",
+      "group": "synthetic_positive",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "غَاثِظ",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "غَاثِظ",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "غثظ"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Synthetic test root: a valid structural fit is not lexical attestation."
+    },
+    {
+      "id": "DER-B22",
+      "group": "synthetic_positive",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "ثَاقِب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "ثَاقِب",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "ثقب"
+              }
+            ]
+          }
+        ]
+      },
+      "purpose": "Synthetic test root: a valid structural fit is not lexical attestation."
+    },
+    {
+      "id": "DER-B23",
+      "group": "context_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "سَوْفَ يَكْتُبُ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "يَكْتُبُ",
+            "candidate_contains": [
+              {
+                "pattern_id": "imperfect.I.u",
+                "root": "كتب",
+                "stem": "يَكْتُب",
+                "boundary": "ُ"
+              }
+            ]
+          }
+        ],
+        "forbidden_pattern_prefixes": [
+          "future."
+        ],
+        "no_marker_in_root": true
+      },
+      "purpose": "Sawfa is a separate occurrence. The verb retains an imperfect pattern; no future weight exists."
+    },
+    {
+      "id": "DER-B24",
+      "group": "boundary_adversarial",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "سَيَكْتُبُ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "سَيَكْتُبُ",
+            "candidate_excludes": [
+              {
+                "pattern_id": "imperfect.I.u",
+                "root": "كتب"
+              }
+            ]
+          }
+        ],
+        "forbidden_pattern_prefixes": [
+          "future."
+        ]
+      },
+      "purpose": "No undeclared sa-prefix stripping to force an imperfect analysis."
+    },
+    {
+      "id": "DER-B25",
+      "group": "context_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "«كَاتِبٌ»،\nمَكْتُوبٌ",
+        "profile": "surface_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَاتِبٌ",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.faail",
+                "root": "كتب"
+              }
+            ]
+          },
+          {
+            "surface": "مَكْتُوبٌ",
+            "candidate_contains": [
+              {
+                "pattern_id": "nominal.mafool",
+                "root": "كتب"
+              }
+            ]
+          }
+        ],
+        "separate_occurrence_evidence": true
+      },
+      "purpose": "Quotes/newlines do not erase form observations or transfer an occurrence property to another occurrence."
+    },
+    {
+      "id": "DER-B26",
+      "group": "requested_category_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "مِفْتَاح",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "مِفْتَاح"
+          }
+        ],
+        "forbidden_semantic_classification": "instrument"
+      },
+      "purpose": "Uninstalled instrument category must remain a named coverage gap, not a guessed answer."
+    },
+    {
+      "id": "DER-B27",
+      "group": "requested_category_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كُلَيْب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كُلَيْب"
+          }
+        ],
+        "forbidden_semantic_classification": "diminutive"
+      },
+      "purpose": "Uninstalled diminutive category must remain a named coverage gap, not a guessed answer."
+    },
+    {
+      "id": "DER-B28",
+      "group": "requested_category_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "كَرِيم",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كَرِيم"
+          }
+        ],
+        "forbidden_semantic_classification": "sifa_mushabbaha"
+      },
+      "purpose": "Uninstalled sifa_mushabbaha category must remain a named coverage gap, not a guessed answer."
+    },
+    {
+      "id": "DER-B29",
+      "group": "requested_category_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "ضَرْب",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "ضَرْب"
+          }
+        ],
+        "forbidden_semantic_classification": "masdar"
+      },
+      "purpose": "Uninstalled masdar category must remain a named coverage gap, not a guessed answer."
+    },
+    {
+      "id": "DER-B30",
+      "group": "requested_category_boundary",
+      "mode": "read_derivation",
+      "read_request": {
+        "text": "أَكْبَر",
+        "profile": "stem_exact_v1"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَكْبَر"
+          }
+        ],
+        "forbidden_semantic_classification": "comparative"
+      },
+      "purpose": "Uninstalled comparative category must remain a named coverage gap, not a guessed answer."
+    },
+    {
+      "id": "DER-GN-01",
+      "group": "generation_boundary",
+      "mode": "generate_derivation",
+      "generation_request": {
+        "root": "كت",
+        "pattern_id": "past.I.a",
+        "ending": ""
+      },
+      "expect": {
+        "must_reject": true,
+        "allowed_error_statuses": [
+          "REJECT",
+          "DEFER"
+        ],
+        "no_generated_shape": true
+      },
+      "purpose": "Reject a two-radical input."
+    },
+    {
+      "id": "DER-GN-02",
+      "group": "generation_boundary",
+      "mode": "generate_derivation",
+      "generation_request": {
+        "root": "دحرج",
+        "pattern_id": "past.I.a",
+        "ending": ""
+      },
+      "expect": {
+        "must_reject": true,
+        "allowed_error_statuses": [
+          "REJECT",
+          "DEFER"
+        ],
+        "no_generated_shape": true
+      },
+      "purpose": "Do not truncate a quadriliteral to three radicals."
+    },
+    {
+      "id": "DER-GN-03",
+      "group": "generation_boundary",
+      "mode": "generate_derivation",
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "nominal.instrument",
+        "ending": ""
+      },
+      "expect": {
+        "must_reject": true,
+        "allowed_error_statuses": [
+          "REJECT",
+          "DEFER"
+        ],
+        "no_generated_shape": true
+      },
+      "purpose": "An uninstalled named pattern is not a successful generation."
+    },
+    {
+      "id": "DER-GN-04",
+      "group": "generation_boundary",
+      "mode": "generate_derivation",
+      "generation_request": {
+        "root": "كتب",
+        "pattern_id": "nominal.faail",
+        "ending": "xy"
+      },
+      "expect": {
+        "must_reject": true,
+        "allowed_error_statuses": [
+          "REJECT",
+          "DEFER"
+        ],
+        "no_generated_shape": true
+      },
+      "purpose": "An arbitrary ending is not licensed by the boundary profile."
+    },
+    {
+      "id": "PAR-01",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "كتب",
+            "category_candidates": [
+              "jamid",
+              "partial",
+              "full"
+            ],
+            "positive": [
+              "past"
+            ],
+            "negative": [],
+            "unknown": [
+              "imperfect",
+              "imperative"
+            ]
+          }
+        ]
+      },
+      "purpose": "A single observed past leaves the other forms unknown, not absent."
+    },
+    {
+      "id": "PAR-02",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ».\nالمضارع مستعمل: «يَكْتُبُ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "كتب",
+            "category_candidates": [
+              "partial",
+              "full"
+            ],
+            "positive": [
+              "past",
+              "imperfect"
+            ],
+            "negative": [],
+            "unknown": [
+              "imperative"
+            ]
+          }
+        ]
+      },
+      "purpose": "Past plus imperfect supports observed partial/full candidates only."
+    },
+    {
+      "id": "PAR-03",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ».\nالأمر مستعمل: «اكْتُبْ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "كتب",
+            "category_candidates": [
+              "partial",
+              "full"
+            ],
+            "positive": [
+              "past",
+              "imperative"
+            ],
+            "negative": [],
+            "unknown": [
+              "imperfect"
+            ]
+          }
+        ]
+      },
+      "purpose": "Missing imperfect remains unknown."
+    },
+    {
+      "id": "PAR-04",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ».\nالمضارع مستعمل: «يَكْتُبُ».\nالأمر مستعمل: «اكْتُبْ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "كتب",
+            "category_candidates": [
+              "full"
+            ],
+            "positive": [
+              "past",
+              "imperfect",
+              "imperative"
+            ],
+            "negative": [],
+            "unknown": []
+          }
+        ],
+        "universal_productivity_licensed": false
+      },
+      "purpose": "Full is conditional on three explicit source claims, not universal linguistic productivity."
+    },
+    {
+      "id": "PAR-05",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «ليس».\nالماضي مستعمل: «لَيْسَ».\nالمضارع غير مستعمل.\nالأمر غير مستعمل."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "ليس",
+            "category_candidates": [
+              "jamid"
+            ],
+            "positive": [
+              "past"
+            ],
+            "negative": [
+              "imperfect",
+              "imperative"
+            ],
+            "unknown": []
+          }
+        ],
+        "world_truth_licensed": false
+      },
+      "purpose": "Jamid follows only inside the bounded model after explicit negative assertions."
+    },
+    {
+      "id": "PAR-06",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «يدع».\nالماضي غير مستعمل.\nالمضارع مستعمل: «يَدَعُ».\nالأمر مستعمل: «دَعْ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "يدع",
+            "category_candidates": [
+              "partial"
+            ],
+            "positive": [
+              "imperfect",
+              "imperative"
+            ],
+            "negative": [
+              "past"
+            ],
+            "unknown": []
+          }
+        ]
+      },
+      "purpose": "Two available forms with an explicit missing form yield partial within the supplied model."
+    },
+    {
+      "id": "PAR-07",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «هَاتِ».\nالماضي غير مستعمل.\nالمضارع غير مستعمل.\nالأمر مستعمل: «هَاتِ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "هَاتِ",
+            "category_candidates": [
+              "jamid"
+            ],
+            "positive": [
+              "imperative"
+            ],
+            "negative": [
+              "past",
+              "imperfect"
+            ],
+            "unknown": []
+          }
+        ]
+      },
+      "purpose": "The finite one-form model does not silently privilege past."
+    },
+    {
+      "id": "PAR-08",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «س».\nالماضي غير مستعمل.\nالمضارع غير مستعمل.\nالأمر غير مستعمل."
+      },
+      "expect": {
+        "out_of_domain": true,
+        "activated_classification": false
+      },
+      "purpose": "Zero explicitly available forms is outside the 1/2/3 availability classification."
+    },
+    {
+      "id": "PAR-09",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\n"
+      },
+      "expect": {
+        "activated_classification": false,
+        "missing_is_not_absent": true,
+        "forbidden_singleton_category": "jamid"
+      },
+      "purpose": "A bare header supplies no negative facts and cannot license jamid."
+    },
+    {
+      "id": "PAR-10",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ».\nالماضي غير مستعمل."
+      },
+      "expect": {
+        "conflict": true,
+        "activated_classification": false
+      },
+      "purpose": "Contradictory source assertions do not pick the favorable branch."
+    },
+    {
+      "id": "PAR-11",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «»."
+      },
+      "expect": {
+        "invalid_or_deferred": true,
+        "activated_classification": false,
+        "allowed_rejections": [
+          "REJECT"
+        ]
+      },
+      "purpose": "Empty quoted positive form is not a witness."
+    },
+    {
+      "id": "PAR-12",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «ليس».\nالماضي مستعمل: «لَيْسَ».\nوهو جامد."
+      },
+      "expect": {
+        "defer": true,
+        "activated_classification": false
+      },
+      "purpose": "A supplied category label is unsupported source syntax and cannot replace explicit absence claims."
+    },
+    {
+      "id": "PAR-13",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «ليس».\nجامد."
+      },
+      "expect": {
+        "defer": true,
+        "activated_classification": false
+      },
+      "purpose": "A lone jamid answer label proves nothing in the parser protocol."
+    },
+    {
+      "id": "PAR-14",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ».\nالفعل «فهم».\nالمضارع مستعمل: «يَفْهَمُ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "كتب",
+            "category_candidates": [
+              "jamid",
+              "partial",
+              "full"
+            ],
+            "positive": [
+              "past"
+            ],
+            "negative": [],
+            "unknown": [
+              "imperfect",
+              "imperative"
+            ]
+          },
+          {
+            "lexeme": "فهم",
+            "category_candidates": [
+              "jamid",
+              "partial",
+              "full"
+            ],
+            "positive": [
+              "imperfect"
+            ],
+            "negative": [],
+            "unknown": [
+              "past",
+              "imperative"
+            ]
+          }
+        ],
+        "separate_lexeme_evidence": true
+      },
+      "purpose": "Availability must not transfer across lexical block identities."
+    },
+    {
+      "id": "PAR-15",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «ليس».\nالماضي مستعمل: «لَيْسَ».\nالمضارع معدوم.\nالأمر غير مستعمل."
+      },
+      "expect": {
+        "defer": true,
+        "activated_classification": false
+      },
+      "purpose": "An unparsed synonym is not silently converted to an absence assertion."
+    },
+    {
+      "id": "PAR-16",
+      "group": "paradigm_source_claims",
+      "mode": "read_verb_paradigm",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ».\nالماضي مستعمل: «كَتَبَ»."
+      },
+      "expect": {
+        "blocks": [
+          {
+            "lexeme": "كتب",
+            "category_candidates": [
+              "jamid",
+              "partial",
+              "full"
+            ],
+            "positive": [
+              "past"
+            ],
+            "negative": [],
+            "unknown": [
+              "imperfect",
+              "imperative"
+            ]
+          }
+        ]
+      },
+      "purpose": "Duplicate positive lines do not count as two distinct available forms."
+    },
+    {
+      "id": "PAR-17",
+      "group": "source_replay",
+      "mode": "verify_verb_paradigm_source_swap",
+      "paradigm_request": {
+        "text": "الفعل «كتب».\nالماضي مستعمل: «كَتَبَ»."
+      },
+      "replacement_text": "الفعل «كتب».\nالماضي مستعمل: «فَهِمَ».",
+      "expect": {
+        "original_source_verifies": true,
+        "replacement_source_verifies": false
+      },
+      "purpose": "Changing the quoted witness invalidates the old report even if the availability pattern is unchanged."
+    },
+    {
+      "id": "DER-R01",
+      "group": "source_replay",
+      "mode": "verify_derivation_source_swap",
+      "read_request": {
+        "text": "كَاتِب",
+        "profile": "stem_exact_v1"
+      },
+      "replacement_text": "حَافِظ",
+      "expect": {
+        "original_source_verifies": true,
+        "replacement_source_verifies": false
+      },
+      "purpose": "A structurally equal template with another root is a different source occurrence."
+    }
+  ]
+}

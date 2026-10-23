@@ -24,7 +24,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-VERSION = "nabt.morphology.independent-evaluator.v1.3"
+VERSION = "nabt.morphology.independent-evaluator.v1.4"
 MATERIAL_SHA256 = {
     "v1": "4425a249fe64b627c36671a39a88fec79ad8ac0c9f3ce710bab726045ccc2f81",
     "v2": "0f17e68a4d7a33d4afa64bb645ba88c55ac1d0e3248de241f1c1028442d37ea4",
@@ -36,12 +36,16 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    "derivation_v1": ("5cdea1a66bd92f3f014cc2f14ab2d502f43f630d03977cb111020e3370907eed",
+                      "e8e31cdaa1cb56e3700befd4d8fb883e11f83cd684e6cd72b45e133410bf3cac",
+                      "fd24793a4fb805425e4bba60219c70a0f1fbb4dda7a89b07d1c6a0ffc6c3b060"),
     "v1": (FREEZE_MANIFEST_SHA256, FROZEN_RUNTIME_SHA256, FROZEN_ARCHIVE_SHA256),
     "text_morphology_v1": ("b15dfab7ed6166aa5aae236c7c0b22ce48f805a6bc0d8f6c3b6f12bae2b951ee",
                            "82a5d9b283d403bf257a95e5c8a1eb9b2ea300a90ca1a2e881de478bf29f7496",
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    "derivation_v1": ROOT / "evidence/derivation/code_freeze_v1.json",
     "v1": ROOT / "evidence/morphology/code_freeze_v1.json",
     "text_morphology_v1": ROOT / "evidence/text_morphology/code_freeze_v1.json",
 }
@@ -119,7 +123,7 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot, version="text_morphology_v1"):
+def verify_runtime_freeze(actual_snapshot, version="derivation_v1"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -402,7 +406,7 @@ def regression_gate(results):
     return all(case["passed"] or documented_boundary(case) for case in results)
 
 
-def evaluate(version="v2", *, freeze_version="text_morphology_v1"):
+def evaluate(version="v2", *, freeze_version="derivation_v1"):
     material = load_material(version)
     before = snapshot()
     freeze = verify_runtime_freeze(before, freeze_version)
@@ -433,7 +437,7 @@ def evaluate(version="v2", *, freeze_version="text_morphology_v1"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="text_morphology_v1")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="derivation_v1")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")

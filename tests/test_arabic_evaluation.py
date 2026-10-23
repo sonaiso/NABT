@@ -64,7 +64,7 @@ class ArabicEvaluationBoundaryTests(unittest.TestCase):
 
     def test_incomplete_runtime_freeze_is_not_an_override(self):
         with tempfile.TemporaryDirectory() as temp:
-            freeze = json.loads((ROOT / "evidence/text_morphology/code_freeze_v1.json").read_text())
+            freeze = json.loads((ROOT / "evidence/derivation/code_freeze_v1.json").read_text())
             freeze["files"] = freeze["files"][:1]
             canonical = json.dumps(freeze["files"], sort_keys=True, separators=(",", ":"))
             freeze["snapshot_sha256"] = hashlib.sha256(canonical.encode()).hexdigest()

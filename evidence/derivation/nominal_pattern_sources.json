@@ -1,0 +1,1423 @@
+{
+  "schema": "nabt.derivation.grammar-pattern-sources.v1",
+  "audit_date_utc": "2026-10-23",
+  "authority": "PRIMARY_GRAMMAR_SOURCE_AND_NEW_EXPLICIT_SHAPES_ONLY",
+  "source_repository": {
+    "repository": "Saleh1967/Alghanem",
+    "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd"
+  },
+  "scope": {
+    "pattern_count": 27,
+    "category_counts": {
+      "masdar": 15,
+      "instrument": 3,
+      "place": 2,
+      "sifa_mushabbaha": 3,
+      "diminutive": 3,
+      "comparative": 1
+    },
+    "existing_upstream_lean_templates": false,
+    "automatic_semantic_classifier": false,
+    "source_code_morphology_build_claim": false,
+    "new_implementation_target": "formal/Nabt/NominalPatterns.lean",
+    "upstream_grammar_rules_conditioned": true,
+    "corpus_is_a_read_only_source_not_a_runtime_dependency": true
+  },
+  "normalization_and_boundary": {
+    "final_inflection": "Stem omits the final inflection mark. Literal ta marbuta remains inside a stem; a boundary mark, if retained, follows it.",
+    "endings_authority": "Declared unsuffixed input boundary profile only. It does not prove case, tanwin licensing, declension, word kind or valid use.",
+    "fathatanwin": "Not in this one-codepoint boundary profile; carrier alif and other orthographic transforms need a separate traced contract.",
+    "unicode": "Exact scalar order, with no silent Unicode normalization, hamza-seat folding, diacritic completion or vowel inference.",
+    "source_vocalization": "Most deposited pattern strings have incomplete vowel marks. The explicit tokens below are a new editorial transcription of the named patterns, their prose vowel rules and their examples; they are not a copied Lean table.",
+    "arity": "Number of independent formal consonant slots. Especially in diminutives it is not proof of the base word length or original radical degree.",
+    "root_domain": "28 named formal radicals; successful filling is not phonological or lexical licensing. Weak/hamza/doubled realization is not implemented here."
+  },
+  "books": [
+    {
+      "id": "ibn_aqil",
+      "title_ar": "شرح ابن عقيل على ألفية ابن مالك",
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "path": "corpora/ibn-aqil/sharh-alfiyya.txt.gz",
+      "git_blob_sha1": "2bf73c7afce01cfa0bef4da7dae148e3fa623cd0",
+      "compressed_sha256": "aa261ccc91d894ee7938a5ba80a6241d6711fbf2c18d9d8759031ecb6d5de3dc",
+      "decompressed_sha256": "661e43ea265eca8c72b9e4ab7a46cd9182b34e834105b595241bc7787b471f09",
+      "decompressed_bytes": 998579,
+      "decompressed_line_count": 10665,
+      "immutable_url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/corpora/ibn-aqil/sharh-alfiyya.txt.gz",
+      "origin_attribution": {
+        "repository": "OpenITI/0775AH",
+        "commit": "61b0c7891699554aeff8dffdb8b1a2a59d2d22ab",
+        "path": "data/0769IbnCaqilBahaDinMisri/0769IbnCaqilBahaDinMisri.SharhCalaAlfiyya/0769IbnCaqilBahaDinMisri.SharhCalaAlfiyya.Shamela0009904-ara1",
+        "independently_fetched_from_origin": false
+      },
+      "upstream_metadata": {
+        "path": "corpora/ibn-aqil/LICENSE.md",
+        "sha256": "34dbc386db0bbee1aee8c2fbb1a00b45cfcee819dae895177ee5014152a5795f",
+        "status_reported": "مختوم",
+        "status_interpretation": "An upstream deposit status; this audit verifies file identities, not owner authority or a new seal."
+      },
+      "license_as_reported": "CC BY-NC-SA 4.0 (OpenITI)",
+      "copyright_scope_note": "Classical grammatical text; retain the digital source attribution. NABT proof/source code does not relabel the corpus distribution license."
+    },
+    {
+      "id": "kitab",
+      "title_ar": "الكتاب لسيبويه",
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "path": "corpora/kitab/0180Sibawayhi.KitabSibawayhi.JK006989-ara1.gz",
+      "git_blob_sha1": "187fe13e69e2bf120a8f5aea657d3de259046882",
+      "compressed_sha256": "08f3b161a9c08725809b5d2a5d2c97411a6312e42f0580f4d03670a3b4b849d4",
+      "decompressed_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+      "decompressed_bytes": 2639395,
+      "decompressed_line_count": 21893,
+      "immutable_url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/corpora/kitab/0180Sibawayhi.KitabSibawayhi.JK006989-ara1.gz",
+      "origin_attribution": {
+        "repository": "OpenITI/0200AH",
+        "commit": "599f22fe249871f602efe2e0ddc801d3742960a3",
+        "path": null,
+        "independently_fetched_from_origin": false,
+        "file_identifier": "0180Sibawayhi.KitabSibawayhi.JK006989-ara1",
+        "path_status": "The local manifest supplies the origin repository, commit and file identifier, but no full remote path; no full origin path is asserted."
+      },
+      "upstream_metadata": {
+        "path": "corpora/kitab/MANIFEST.tsv",
+        "sha256": "ef317ffa190d0bb1373b75b53054134fa6aff6bd545d6e976490ea6e3def18ce",
+        "status_reported": "مختوم",
+        "status_interpretation": "An upstream deposit status; this audit verifies file identities, not owner authority or a new seal."
+      },
+      "license_as_reported": "CC BY-NC-SA 4.0 (OpenITI)",
+      "copyright_scope_note": "Classical grammatical text; retain the digital source attribution. NABT proof/source code does not relabel the corpus distribution license."
+    }
+  ],
+  "source_windows": [
+    {
+      "id": "AQ-MASDAR-BARE",
+      "book_id": "ibn_aqil",
+      "line_start": 5543,
+      "line_end": 5578,
+      "byte_start": 529961,
+      "byte_end": 533145,
+      "sha256": "d738846d518b82ba70f45688b6a6229d706154d9b74b39dc84d174da32c680f5",
+      "text": "### | أبنية المصادر\n# فعل قياس مصدر المعدى ... من ذى ثلاثة ك ردردا\n# الفعل الثلائي المتعدى يجيء مصدره على فعل قياسا مطردا نص على ذلك سيبويه\n~~في مواضع فتقول ردردا وضرب ضربا وفهم فهما وزعم بعضهم أنه لا ينقاس وهو غير\n~~سديد.\n# وفعل اللازم بابه فعل ... كفرح وكجوى وكشلل\n# أي يجيء مصدر فعل اللازم على فعل قياسا كفرح فرحا وجوى جوى وشلت يده\n~~شللا.\n# وفعل اللازم مثل قعدا ... له فعول باطراد كغدا\n# PageV03P123\n# ما لم يكن مستوجبا فعالا ... أو فعلانا فادر أو فعالا\n# فأول لذى امتناع كأبى ... والثان للذي اقتضى تقلبا\n# للدا فعال أو كصوت وشمل ... سيرا وصوتا الفعيل كصهل\n# يأتى مصدر فعل اللازم على فعول قياسا فتقول قعد قعودا وغدا غدوا وبكر\n~~بكورا.\n# PageV03P124\n# وأشار بقوله ما لم يكن مستوجبا فعالا إلى آخره إلى أنه إنما يأتى مصدره\n~~على فعول إذا لم يستحق أن يكون مصدره على فعال أو فعلان أو فعال فالذي\n~~استحق أن يكون مصدره على فعال هو كل فعل دل على امتناع كأبي إباء ونفر\n~~نفارا وشرد شرادا وهذا هو المراد بقوله فأول لذى امتناع.\n# والذي استحق أن يكون مصدره على فعلان هو كل فعل دل على تقلب نحو طاف\n~~طوفانا وجال جولانا ونزا نزوانا وهذا معنى قوله والثان للذي اقتضى تقلبا.\n# والذي استحق أن يكون مصدره على فعال هو كل فعل دل على داء أو صوت فمثال\n~~الأول سعل سعالا وزكم زكاما ومشى بطنه مشاء ومثال الثاني نعب الغراب نعابا\n~~ونعق الراعي ms180 نعاقا وأزت القدر أزازا وهذا هو المراد بقوله للدا فعال أو\n~~لصوت.\n# وأشار بقوله وشمل سيرا وصوتا الفعيل إلى أن فعيلا يأتى مصدرا لما دل على\n~~سير ولما دل على صوت فمثال الأول ذمل ذميلا ورحل رحيلا ومثال الثاني نعب\n~~نعيبا ونعق نعيقا وأزت القدر أزيزا وصهلت الخيل صهيلا.\n# فعولة فعالة لفعلا ... كسهل الأمر وزيد جزلا\n# PageV03P125\n# إذا كان الفعل على فعل ولا يكون إلا لازما يكون مصدره على فعولة أو على\n~~فعالة فمثال الأول سهل سهولة وصعب صعوبة وعذب عذوبة ومثال الثاني جزل جزالة\n~~وفصح فصاحة وضخم ضخامة.\n# وما أتى مخالفا لما مضى ... فبابه النقل كسخط ورضى\n# يعني أن ما سبق ذكره في هذا الباب هو القياس الثابت في مصدر الفعل\n",
+      "supports_ar": "مصادر الثلاثي متعددة، مع شروط التعدي واللزوم والباب والدلالة ثم استثناءات نقلية. لا يولد الجذر وحده مصدرًا واحدًا مستعملًا."
+    },
+    {
+      "id": "AQ-MASDAR-II",
+      "book_id": "ibn_aqil",
+      "line_start": 5588,
+      "line_end": 5599,
+      "byte_start": 533820,
+      "byte_end": 534973,
+      "sha256": "cd132fcd7dd1c7466f1a8c0219dc7d148480124bd84f97633cd0dc1bb7d8d04f",
+      "text": "# ذكر في هذه الأبيات مصادر غير الثلاثي وهي مقيسة كلها فما كان على وزن\n~~فعل فإما أن يكون صحيحا أو معتلا فإن كان صحيحا فمصدره على تفعيل نحو قدس\n~~تقديسا ومنه قوله تعالى: {وكلم الله موسى تكليما} ويأتي أيضا على وزن فعال\n~~كقوله تعالى: {وكذبوا بآياتنا كذابا} ويأتى على فعال بتخفيف العين وقد قرى\n~~وكذبوا بآياتنا كذابا بتخفيف الذال.\n# وإن كان معتلا فمصدره كذلك لكن يحذف ياء التفعيل ويعوض عنها التاء فيصير\n~~مصدره على تفعلة نحو زكى تزكية وندر مجيئه على تفعيل كقوله:\n### | 266 - \n# باتت تنزى دلوها تنزيا ... كما تنزى شهلة صبيا\n# PageV03P128\n# وإن كان مهموزا ولم يذكره المصنف هنا فمصدره على تفعيل وعلى تفعلة نحو\n~~خطأ تخطيئا وتخطئة وجرأ تجزيئا وتجزئة ونبأ تنبيئا وتنبئة.\n",
+      "supports_ar": "تفعيل للصحيح على فعّل، وتفعلة في المعتل، ووجهان في المهموز؛ القالب الجديد يقتصر على شكل تفعيل بلا إعلال."
+    },
+    {
+      "id": "AQ-MASDAR-IV",
+      "book_id": "ibn_aqil",
+      "line_start": 5600,
+      "line_end": 5609,
+      "byte_start": 534973,
+      "byte_end": 535787,
+      "sha256": "c01060c07db1f0fce9726464ec88cebf2c800707ac77fe7c2f44cc1bcdeba555",
+      "text": "# وإن كان على أفعل فقياس مصدره على ms181 إفعال نحو أكرم إكراما وأجمل إجمالا\n~~وأعطى إعطاء هذا إذا لم يكن معتل العين فإن كان معتل العين نقلت حركة عينه\n~~إلى فاء الكلمة وحذفت وعوض عنها تاء التأنيث غالبا نحو أقام إقامة والأصل\n~~إقواما فنقلت حركة الواو إلى القاف وحذفت وعوض عنها تاء التأنيث فصار\n~~إقامة.\n# وهذا هو المراد بقوله ثم أقم إقامة وقوله وغالبا ذا التاء لزم\n# PageV03P129\n# إشارة\n# إلى ما ذكرناه من أن التاء تعوض غالبا وقد جاء حذفها كقوله تعالى: {وإقام\n~~الصلاة} .\n",
+      "supports_ar": "إفعال مصدر أفعل غير المعتل العين؛ إقامة وأمثالها تحتاج عمليات أخرى لا يؤديها ملء القالب."
+    },
+    {
+      "id": "AQ-MASDAR-V",
+      "book_id": "ibn_aqil",
+      "line_start": 5610,
+      "line_end": 5611,
+      "byte_start": 535787,
+      "byte_end": 535949,
+      "sha256": "3dd4db8002e6211279ea828a9120858acf7c1bb581c1427918ee30fe3435a0d1",
+      "text": "# وإن كان على وزن تفعل فقياس مصدره تفعل بضم العين نحو تجمل تجملا وتعلم\n~~تعلما وتكرم تكرما.\n",
+      "supports_ar": "مصدر تفعّل تفعّل بضم العين، نحو تجمّل تجمّلًا."
+    },
+    {
+      "id": "AQ-MASDAR-WASL",
+      "book_id": "ibn_aqil",
+      "line_start": 5612,
+      "line_end": 5619,
+      "byte_start": 535949,
+      "byte_end": 536962,
+      "sha256": "53d41c2d2df58269d5e7a2e113a2a8a78dba26ec992c609bc4bb7df3ad76d97a",
+      "text": "# وإن كان في أوله همزة وصل كسر ثالثه وزيد ألف قبل آخره سواء كان على وزن\n~~انفعل أو افتعل أواستفعل نحو انطلق انطلاقا واصطفى اصطفاء واستخرج استخراجا\n~~وهذا معنى قوله وما يلي الآخر مد وافتحا فإن كان استفعل معتل العين نقلت\n~~حركة عينه إلى فاء الكلمة وحذفت وعوض عنها تاء التأنيث لزوما نحو: استعاذ\n~~استعاذة والأصل استعواذا فنقلت حركة الواو إلى العين وهي فاء الكلمة وحذفت\n~~وعوض عنها التاء فصار استعاذة وهذا معنى قوله واستعذ استعاذة ومعنى قوله\n~~وضم ما يربع في أمثال قد تلملما أنه إن كان الفعل على وزن تفعلل يكون مصدره\n~~على تفعلل بضم رابعه نحو تلملم تلملما وتدحرج تدحرجا.\n",
+      "supports_ar": "انفعال وافتعال واستفعال بكسر الثالث وألف قبل الآخر؛ يذكر النص إعلال الأجوف وتفعلل الرباعي منفصلين."
+    },
+    {
+      "id": "AQ-MASDAR-QUAD",
+      "book_id": "ibn_aqil",
+      "line_start": 5620,
+      "line_end": 5623,
+      "byte_start": 536962,
+      "byte_end": 537285,
+      "sha256": "081b68f18739553f45dff3b81e7c155f8c2590f2f32e84ea4a4ea040c0fc7c85",
+      "text": "# فعلال أو فعللة لفعللا ... واجعل مقيسا ثانيا لا أولا\n# PageV03P130\n# يأتي مصدر فعلل على فعلال كدحرج دحراجا وسرهف سرهافا وعلى فعللة وهو\n~~المقيس فيه نحو دحرج دحرجة وبهرج بهرجة وسرهق سرهفة.\n",
+      "supports_ar": "فعللة هو المقيس في الرباعي، والفعلال بديل مذكور؛ أربعة مواضع صامتة مستقلة."
+    },
+    {
+      "id": "AQ-MASDAR-III",
+      "book_id": "ibn_aqil",
+      "line_start": 5624,
+      "line_end": 5631,
+      "byte_start": 537285,
+      "byte_end": 538102,
+      "sha256": "9770b99c147d48af9a7a8131181b68b3d746c4c0cf3f36ec97f2e722442589a7",
+      "text": "# لفاعل الفعال والمفاعلة ... وغير ما مر السماع عادله\n# كل فعل على وزن فاعل فمصدره الفعال والمفاعلة نحو ضارب ضرابا ومضاربة\n~~وقاتل قتالا ومقاتلة وخاصم خصاما ومخاصمة.\n# وأشار بقوله وغير ما مر إلخ إلى أن ما ورد من مصادر غير الثلاثي على خلاف\n~~ما مر يحفظ ولا يقاس عليه ومعنى قوله عادلة كان السماع له عديلا فلاا يقدم\n~~عليه إلا بثبت كقولهم في مصدر فعل المعتل تفعيلا نحو:\n# باتت تنزى دلوها تنزيا\n# والقياس تنزية وقولهم في ms182 مصدر حوقل قل حيقالا وقياسه حوقلة نحو دحرج\n",
+      "supports_ar": "لفاعل الفعال والمفاعلة؛ ما خالف القواعد يحفظ ولا يقاس."
+    },
+    {
+      "id": "KI-MASDAR-VI",
+      "book_id": "kitab",
+      "line_start": 16711,
+      "line_end": 16716,
+      "byte_start": 1996559,
+      "byte_end": 1997249,
+      "sha256": "8c1250a8029c574bdfad2cc2095c2b20925f55fb1f535947f7ebddb6f0446173",
+      "text": "~~وقد قالوا ماريته مراء وقاتلته قتالا | وجاء فعال على فاعلت كثيرا كأنهم\n~~حذفوا الياء التي جاء بها أولئك في قيتال ونحوها وأما المفاعلة فهي التي\n~~تلزم ولا تنكسر كلزوم الاستفعال استفعلت | وأما تفاعلت فالمصدر التفاعل كما\n~~أن التفعل مصدر تفعلت لأن الزنة وعدة الحروف واحدة وتفاعلت من فاعلت بمنزلة\n~~تفعلت من فعلت وضم العين لئلا يشبه الجمع ولم يفتحوا لأنه ليس في الكلام\n~~تفاعل في الأسماء |\n",
+      "supports_ar": "التفاعل مصدر تفاعلت وضم العين مصرح به؛ يؤيد المصدر التفعّل كذلك."
+    },
+    {
+      "id": "AQ-FAAIL",
+      "book_id": "ibn_aqil",
+      "line_start": 5652,
+      "line_end": 5659,
+      "byte_start": 539550,
+      "byte_end": 540496,
+      "sha256": "13ebed8bd3865c9652805096ec5bbd6473e852f4b4f4ab44a8046e2b1593dbfc",
+      "text": "### | أبنية أسماء الفاعلين والمفعولين (والصفات المشبهات بها)\n# كفاعل صغ اسم فاعل إذا ... من ذى ثلاثة يكون كغذا\n# إذا أريد بناء اسم الفاعل من الفعل الثلاثي جيء به على مثال فاعل وذلك\n~~مقيس في كل فعل كان على وزن فعل بفتح العين متعديا كان أو لازما نحو ضرب\n~~فهو ضارب وذهب فهو ذاهب وغذا فهو غاذ فإن كان الفعل على وزن فعل بكسر العين\n~~فإما أن يكون متعديا أو لازما فإن كان متعديا فقياسه أيضا أن يأتي اسم\n~~فاعله على فاعل نحو ركب فهو راكب وعلم فهو عالم وإن كان لازما أو كان\n~~الثلاثي على فعل بضم العين فلا يقال في اسم الفاعل منهما فاعل إلا سماعا\n",
+      "supports_ar": "فاعل من الثلاثي بشروط الباب والتعدي، وفي بعض الأبواب لا يكون إلا سماعًا."
+    },
+    {
+      "id": "AQ-NONTRI-PARTICIPLES",
+      "book_id": "ibn_aqil",
+      "line_start": 5680,
+      "line_end": 5694,
+      "byte_start": 542314,
+      "byte_end": 543768,
+      "sha256": "378bfb84dfe4da1c154643c01b335f5d095d76047c0445ac26fc7e8bbb67c8f7",
+      "text": "# وزنة المضارع اسم فاعل ... من غير ذي الثلاث كالمواصل\n# مع كسر متلو الأخير مطلقا ... وضم ميم زائد قد سبقا\n# PageV03P136\n# وإن فتحت منه ما كان انكسر ... صار اسم مفعول كمثل المنتظر\n# يقول زنة اسم الفاعل من الفعل الزائد على ثلاثة أحرف زنة المضارع منه بعد\n~~زيادة الميم في أوله مضمومة ويكسر ما قبل آخره مطلقا أي سواء كان مكسورا من\n~~المضارع أو مفتوحا فتقول قاتل يقاتل فهو مقاتل ودحرج يدحرج فهو مدحرج وواصل\n~~يواصل فهو مواصل وتدحرج يتدحرج فهو متدحرج وتعلم يتعلم فهو متعلم.\n# فإن أردت بناء اسم المفعول من الفعل الزائد على ثلاثة أحرف أتيت به على\n~~وزن اسم الفاعل ولكن تفتح منه ما كان مكسورا وهو ما قبل الآخر نحو مضارب\n~~ومقاتل ومنتظر.\n# وفي اسم مفعول الثلاثي أطرد ... زنة مفعول كآت من قصد\n# إذا أريد بناء اسم المفعول من الفعل الثلاثي جيء ms184 به على زنة مفعول قياسا\n# PageV03P137\n# مطردا نحو قصدته فهو مقصود وضربته فهو مضروب ومررت به فهو ممرور به.\n",
+      "supports_ar": "غير الثلاثي على زنة المضارع مع ميم مضمومة وكسر ما قبل الآخر للفاعل وفتحه للمفعول؛ مفعول للثلاثي."
+    },
+    {
+      "id": "AQ-FAIIL-OVERLAP",
+      "book_id": "ibn_aqil",
+      "line_start": 5695,
+      "line_end": 5711,
+      "byte_start": 543768,
+      "byte_end": 545500,
+      "sha256": "b7f4581c7bf030d1bd41991e4c6c6e7529b5c994941430322f0fbf8272b78248",
+      "text": "# وناب نقلا عنه ذو فعيل ... نحو فتاة أو فتى كحيل\n# ينوب فعيل عن مفعول في الدلالة على معناه نحو مررت برجل جريح وامرأة جريح\n~~وفتاة كحيل وفتى كحيل وامرأة قتيل ورجل قتيل فناب جريح وكحيل وقتيل عن\n~~مجروح ومكحول ومقتول.\n# ولا ينقاس ذلك في شيء بل يقتصر فيه على السماع وهذا معنى قوله وناب نقلا\n~~عنه ذو فعيل.\n# وزعم ابن المصنف أن نيابة فعيل عن مفعول كثيرة وليست مقيسة بالإجماع وفي\n~~دعواه الإجماع على ذلك نظر فقد قال والده في التسهيل في باب اسم الفاعل عند\n~~ذكره نيابة فعيل عن مفعول وليس مقيسا خلافا لبعضهم وقال في شرحه وزعم بعضهم\n~~أنه مقيس في كل فعل ليس له فعيل بمعنى فاعل كجريح فإن كان للفعل فعيل بمعنى\n~~فاعل لم يتب قياسا كعليم وقال في باب التذكير والتأنيث وصوغ فعيل بمعنى\n~~مفعول على كثرته غير مقيس فجزم بأصح القولين كما جزم به هنا وهذا لا يقتضي\n~~نفي الخلاف.\n# وقد يعتذر عن ابن المصنف بأنه ادعى الإجماع على أن فعيلا لا ينوب عن\n# PageV03P138\n# مفعول يعني نيابة مطلقة أي من كل فعل وهو كذلك بناء على ما ذكره والده في\n~~شرح التسهيل من أن القائل بقياسه يخصه بالفعل الذي ليس له فعيل بمعنى فاعل.\n",
+      "supports_ar": "فعيل قد ينوب عن مفعول نحو جريح؛ الاستعمال مروي ومحل تفصيل، فلا يلزم من فعيل صفة مشبهة."
+    },
+    {
+      "id": "AQ-SIFA",
+      "book_id": "ibn_aqil",
+      "line_start": 5719,
+      "line_end": 5738,
+      "byte_start": 546087,
+      "byte_end": 548245,
+      "sha256": "3f677c40bc96508408e57859aaf2f268716a89b1e74eaf9e1c0953423640e783",
+      "text": "### | الصفة المشبهة باسم الفاعل\n# صفة استحسن جر فاعل ... معنى بها المشبهة اسم الفاعل\n# قد سبق أن المراد بالصفة ما دل على معنى وذات وهذا يشمل اسم الفاعل واسم\n~~المفعول وأفعل التفضيل ms185 والصفة المشبهة وذكر المصنف أن علامة الصفة المشبهة\n~~استحسان جر فاعلها بها نحو حسن الوجه ومنطلق اللسان وطاهر القلب والأصل حسن\n~~وجهه ومنطلق لسانه وطاهر قلبه فوجهه مرفوع بحسن على الفاعلية ولسانه مرفوع\n~~بمنطلق وقلبه مرفوع بطاهر وهذا لا يجوز في غيرها من الصفات فلا تقول زيد\n~~ضارب الأب عمرا تريد ضارب أبوه عمرا ولا زيد قائم الأب غدا تريد زيد قائم\n~~أبوه غدا وقد تقدم أن اسم المفعول يجوز إضافته إلى مرفوعة فتقول زيد مضروب\n~~الأب وهو حينئذ جار مجرى الصفة المشبهة.\n# PageV03P140\n# وصوغها من لازم لحاضر ... كطاهر القلب جميل الظاهر\n# يعني أن الصفة المشبهة لا تصاغ من فعل متعد فلا تقول زيد قاتل الأب بكرا\n~~تريد قاتل أبوه بكرا بل لا تصاغ إلا من فعل لازم نحو طاهر القلب وجميل\n~~الظاهر ولا تكون إلا للحال وهو المراد بقوله لحاضر فلا تقول زيد حسن الوجه\n~~غدا أو أمس.\n# ونبه بقوله كطاهر القلب جميل الظاهر على أن الصفة المشبهة إذا كانت من\n~~فعل ثلاثي تكون على نوعين أحدهما ما وازن المضارع نحو طاهر القلب وهذا قليل\n~~فيها والثاني ما لم يوازنه وهو الكثير نحو جميل الظاهر وحسن الوجه وكريم\n~~الأب وإن كانت من غير ثلاثي وجب موازنتها المضارع نحو منطلق اللسان.\n",
+      "supports_ar": "صفة المشبهة معنى وذات، ومن لازم لحاضر؛ أمثلة حسن وجميل وطاهر، مع تداخل الفاعل والمفعول في العمل."
+    },
+    {
+      "id": "AQ-TAFDIL",
+      "book_id": "ibn_aqil",
+      "line_start": 6012,
+      "line_end": 6032,
+      "byte_start": 573100,
+      "byte_end": 575176,
+      "sha256": "12af9cb6f7c1ba80fc89ec25073fd2af23f5a4da75571609c2f956d24cc9a5c2",
+      "text": "### | أفعل التفضيل\n# صغ من مصوغ منه للتعجب ... أفعل للتفضيل وأب اللذ أبى\n# يصاغ من الأفعال التي يجوز التعجب منها للدلالة على التفضيل وصف على وزن\n~~أفعل فتقول زيد أفضل من عمرو وأكرم من خالد كما تقول ما أفضل زيدا وما أكرم\n~~خالدا\n# وما امتنع بناء فعل التعجب منه امتنع بناء أفعل التفضيل منه فلا يبنى من\n~~فعل زائد على ثلاثة أحرف كدحرج واستخرج ولا من فعل غير متصرف\n# كنعم وبئس ولا من فعل\n# PageV03P174\n# لا يقبل المفاضلة كمات وفنى ولا من فعل ناقص ككان وأخواتها ولا من فعل\n~~منفى نحو ما عاج بالدواء وما ضرب ولا من فعل يأتى الوصف منه على أفعل نحو\n~~حمر وعور ولا من فعل مبنى للمفعول نحو ضرب وجن وشذ منه قولهم هو أخصر من\n~~كذا فبنوا أفعل التفضيل من اختصر وهو زائد على ثلاثة أحرف ومبني للمفعول\n~~وقالوا أسود من حلك الغراب وأبيض من اللبن فبنوا أفعل التفضيل شذوذا من فعل\n~~الوصف منه على أفعل.\n# وما به إلى تعجب وصل ... لمانع به إلى التفضيل صل\n# تقدم في باب التعجب أنه يتوصل إلى التعجب من الأفعال التي لم تستكمل\n~~الشروط بأشد ونحوها وأشار هنا إلى أنه يتوصل إلى التفضيل من الأفعال التي\n~~لم تستكمل الشروط بما يتوصل به في التعجب فكما تقول ما أشد استخراجه تقول\n~~هو أشد استخراجا من زيد وكما تقول ما أشد حمرته تقول هو أشد حمرة من زيد\n~~لكن المصدر ينتصب في باب التعجب بعد أشد مفعولا وههنا ينتصب تمييزا.\n",
+      "supports_ar": "أفعل التفضيل مشروط بأهلية التعجب مع استثناءات؛ الوزن ليس كافيًا لإثبات التفضيل."
+    },
+    {
+      "id": "AQ-DIMINUTIVE",
+      "book_id": "ibn_aqil",
+      "line_start": 8592,
+      "line_end": 8617,
+      "byte_start": 800518,
+      "byte_end": 802591,
+      "sha256": "015f39ff46c94d1f0e9d468617be2f8e7ae05152359c44c5f277bc949c34e86f",
+      "text": "### | التصغير\n# فعيلا اجعل الثلاثي إذا ... صغرته نحو قذى في قذى\n# فعيعل مع فعيعيل لما ... فاق كجعل درهم دريهما\n# إذا صغر الاسم المتمكن ضم أوله وفتح ثانيه وزيد بعد ثانيه ياء\n# PageV04P139\n# ساكنة ويقتصر على ذلك إن كان الاسم ثلاثيا فتقول في فلس فليس وفي قذى\n~~قذى.\n# وإن كان رباعيا فأكثر فعل به ذلك وكسر ما بعد الياء فتقول في درهم دريهم\n~~وفي عصفور عصيفير.\n# فأمثلة التصغير ثلاثة فعيل وفعيعل وفعيعيل.\n# وما به لمنتهى الجمع وصل ... به ms272 إلى أمثلة التصغير صل\n# أي إذا كان الاسم مما يصغر على فعيعل أو على فعيعيل توصل إلى تصغيره بما\n~~سبق أنه يتوصل به إلى تكسيره على فعالل أو فعاليل من حذف حرف أصلى أو زائد\n~~فتقول في سفرجل وسفيرج كما تقول سفارج وفي مستدع مديع كما تقول مداع فتحذف\n# PageV04P140\n# في التصغير\n# ما حذفت في الجمع وتقول في علندى عليند وإن شئت قلت عليد كماتقول في\n~~الجمع علاند وعلاد.\n# وجائز تعويض يا قبل الطرف ... إن كان بعض الاسم فيهما انحذف\n# أي يجوز أن يعوض مما حذف في التصغير أو التكسير ياء قبل الآخر فتقول في\n~~سفرجل سفيريج وسفاريج وفي حبنطى حبينيط وحبانيط.\n# وحائد عن القياس كل ما ... خالف في البابين حكما رسما\n# PageV04P141\n# أي قد يجيء كل من التصغير والتكسير على غير لفظ واحده فيحفظ ولا يقاس\n~~عليه كقولهم في تصغير مغرب مغيربان وفي عشية عشيشية وقولهم في جمع رهط\n~~أراهط وفي باطل أباطيل.\n",
+      "supports_ar": "فُعَيْل وفُعَيْعِل وفُعَيْعِيل؛ قاعدة من الاسم المتمكن وحذف/تعويض في الأسماء الأطول، لا استخراج جذر عام."
+    },
+    {
+      "id": "AQ-NOMINAL-BASE",
+      "book_id": "ibn_aqil",
+      "line_start": 9037,
+      "line_end": 9056,
+      "byte_start": 840378,
+      "byte_end": 842286,
+      "sha256": "b70b603ada0eaf1395df5a61db9e0983e91a9882e0926b5804208b6e61908449",
+      "text": "# ومنتهى أسم خمس أن تجردا ... وإن يزد فيه فما سبعا عدا\n# الاسم قسمان: مزيد فيه ومجرد عن الزيادة.\n# فالمزيد فيه هو: ما بعض حروفه ساقط وضعا وأكثر ما يبلغ الاسم بالزيادة\n~~سبعة أحرف نحو إحر نجام واشهيباب.\n# والمجرد عن الزيادة هو: ما بعض حروفه ليس ساقطا في أصل الوضع.\n# وهو إما ثلاثي كفلس أو رباعي كجعفر وإما خماسي وهو غايته كسفرجل.\n# PageV04P192\n# وغير آخر الثلاثي افتح وضم ... وأكسر وزد تسكين ثانيه تعم\n# العبرة في وزن الكلمة بما عدا الحرف الأخير منها وحينئذ فالاسم الثلاثي\n~~إما أن يكون مضموم الأول أو مكسورة أو مفتوحة وعلى كل من هذه التقادير إما\n~~أن يكون مضموم الثاني أو مكسوره أو مفتوحة أو ساكنة فيخرج من هذا اثنا ms286 عشر\n~~بناء حاصلة من ضرب ثلاثة في أربعة وذلك نحو قفل وعنق ودئل وصرد ونحو علم\n~~وحبك وإبل وعنب ونحو فلس وفرس وعضد وكبد.\n# وفعل أهمل والعكس يقل ... لقصدهم تخصيص فعل بفعل\n# PageV04P193\n# يعني أن من الأبنية الاثنى عشر بناءين أحدهما مهمل والآخر قليل.\n# فالأول: ما كان على وزن فعل بكسر الأول وضم الثاني وهذا بناء من المصنف\n~~على عدم إثبات حبك.\n# والثاني: ما كان على وزن فعل بضم الأول وكسر الثاني كدئل وإنما قل ذلك في\n~~الأسماء لأنهم قصدوا تخصيص هذا الوزن بفعل ما لم يسم فاعله كضرب وقتل.\n",
+      "supports_ar": "أبنية الاسم المجرد ثلاثية ورباعية وخماسية، والثلاثي ذو اثني عشر توزيعًا نظريًا اثنان منهما مهمل أو قليل. المجرد عن الزيادة ليس تعريف الجامد الدلالي."
+    },
+    {
+      "id": "KI-PLACE",
+      "book_id": "kitab",
+      "line_start": 16782,
+      "line_end": 16820,
+      "byte_start": 2004862,
+      "byte_end": 2009632,
+      "sha256": "2e0793b68c0f9c172783df5e76829e304cbbeba77cee46231c2a9937959825a4",
+      "text": "# | ( هذا باب اشتقاقك الأسماء لمواضع بنات الثلاثة التي ليست فيها زيادة\n~~من لفظها )\n# أما ما كان من فعل يفعل فإن موضع الفعل مفعل وذلك قولك هذا محبسنا\n~~ومضربنا ومجلسنا كأنهم بنوه على بناء يفعل فكسروا العين كما كسروها في يفعل\n~~| فإذا أردت المصدر بنيته على مفعل وذلك قولك إن في ألف درهم لمضربا أي ms710\n~~لضربا قال الله عز وجل @QB@ أين المفر @QE@ يريد أين الفرار فإذا أراد\n~~المكان قال المفر كما قالوا المبيت حين أرادوا المكان PageV04P087 لأنها من\n~~بات يبيت وقال الله عز وجل @QB@ وجعلنا النهار معاشا @QE@ أي جعلناه عيشا |\n~~وقد يجيء المفعل يراد به الحين فإذا كان من فعل يفعل بنيته على مفعل تجعل\n~~الحين الذي فيه الفعل كالمكان وذلك قولك أتت الناقة على مضربها وأتت على\n~~منتجها إنما تريد الحين الذي فيه النتاج والضراب | وربما بنوا المصدر على\n~~المفعل كما بنوا المكان عليه إلا أن تفسير الباب وجملته على القياس كما\n~~ذكرت لك وذلك قولك المرجع قال الله عز وجل @QB@ إلى ربكم مرجعكم @QE@ أي\n~~رجوعكم وقال ^ ( ويسئلونك عن المحيض قل هو أذى فاعتزلوا النساء في المحيض )\n~~^ أي في الحيض | وقالوا المعجز يريدون العجز وقالوا المعجز على القياس\n~~وربما ألحقوا هاء التأنيث فقالوا المعجزة والمعجزة كما قالوا المعيشة |\n~~وكذلك أيضا يدخلون الهاء في المواضع قالوا المزلة أي موضع زلل وقالوا\n~~المعذرة والمعتبة فألحقوا الهاء وفتحوا على القياس PageV04P088 وقالوا\n~~المصيف كما قالوا أتت الناقة على مضربها أي على زمان ضرابها | وقالوا\n~~المشتاة فأنثوا وفتحوا لأنه من يفعل | وقالوا المعصية والمعرفة كقيلهم\n~~المعجزة | وربما استغنوا بمفعلة عن غيرها وذلك قولهم المشيئة والمحمية\n~~وقالوا المزلة | وقال الراعي\n# % بنيت مرافقهن فوق مزلة % لا يستطيع بها القراد مقيلا % % يريد قيلولة |\n~~وأما ما كان يفعل منه مفتوحا فإن اسم المكان يكون مفتوحا كما كان الفعل\n~~مفتوحا وذلك قولك شرب يشرب وتقول للمكان مشرب ولبس يلبس والمكان الملبس\n~~وإذا أردت المصدر فتحته أيضا كما فتحته في يفعل فإذا جاء مفتوحا في المكسور\n~~فهو في المفتوح أجدر أن يفتح | وقد كسر المصدر كما كسر في الأول قالوا علاه\n~~المكبر | ويقولون المذهب للمكان وتقول أردت مذهبا أي ذهابا فتفتح لأنك تقول\n~~يذهب فتفتح PageV04P089 ويقولون محمدة فأنثوا كما أنثوا الأول وكسروا كما\n~~كسروا المكبر | وأما ما كان يفعل منه مضموما فهو بمنزلة ما كان يفعل منه\n~~مفتوحا ولم يبنوه على مثال يفعل لأنه ليس ms711 في الكلام مفعل فلما لم يكن إلى\n~~ذلك سبيل وكان مصيره إلى إحدى الحركتين ألزموه أخفهما وذلك قولك قتل يقتل\n~~وهذا المقتل وقالوا يقوم وهذا المقام وقالوا أكره مقال الناس وملامهم\n~~وقالوا الملامة والمقالة فأنثوا وقالوا المرد والمكر يريدون الرد والكرور\n~~وقالوا المدعاة والمأدبة وإنما يريدون الدعاء إلى الطعام | وقد كسروا\n~~المصدر في هذا كما كسروا في يفعل قالوا أتيتك عند مطلع الشمس أي عند طلوع\n~~الشمس وهذه لغة بني تميم وأما أهل الحجاز فيفتحون | وقد كسروا الأماكن في\n~~هذا أيضا كأنهم أدخلوا الكسر أيضا كما أدخلوا الفتح وذلك المنبت والمطلع\n~~لمكان الطلوع وقالوا البصرة مسقط رأسي للموضع والسقوط المسقط | وأما المسجد\n",
+      "supports_ar": "مَفْعِل ومَفْعَل بحسب باب المضارع، مع اشتراك المصدر والزمان والمكان ولهجات واستثناءات."
+    },
+    {
+      "id": "KI-INSTRUMENT",
+      "book_id": "kitab",
+      "line_start": 16872,
+      "line_end": 16877,
+      "byte_start": 2015826,
+      "byte_end": 2016396,
+      "sha256": "2069121bae162e0be7a2324164d12163182396f176439a268a11f42489c1f10e",
+      "text": "# | ( هذا باب ما عالجت به )\n# أما المقص فالذي يقص به والمقص المكان والمصدر | وكل شيء يعالج به فهو\n~~مكسور الأول كانت فيه هاء التأنيث أو لم تكن وذلك قولك محلب ومنجل ومكسحة\n~~ومسلة والمصفى والمخرز والمخيط PageV04P094 وقد يجيء على مفعال نحو مقراض\n~~ومفتاح ومصباح | وقالوا المفتح كما قالوا المخرز وقالوا المسرجة كما قالوا\n~~المكسحة |\n",
+      "supports_ar": "ما يعالج به مكسور الأول مع هاء أو دونها، وقد يأتي مفعال؛ المقص يقابل المصدر والمكان بتغير الضبط."
+    },
+    {
+      "id": "KI-NONTRI-OVERLAP",
+      "book_id": "kitab",
+      "line_start": 16878,
+      "line_end": 16885,
+      "byte_start": 2016396,
+      "byte_end": 2017306,
+      "sha256": "a4a1ffd7646e3e2a72188867181bd88eb06778df1209b1223fcc47fabd04cc41",
+      "text": "# | ( هذا باب نظائر ما ذكرنا مما جاوز بنات الثلاثة بزيادة أو بغير زيادة\n~~)\n# فالمكان والمصدر يبنى من جميع هذا بناء المفعول وكان بناء المفعول أولى\n~~به لأن المصدر مفعول والمكان مفعول فيه فيضمون أوله كما يضمون المفعول لأنه\n~~قد خرج من بنات الثلاثة فيفعل بأوله ما يفعل بأول مفعوله كما أن أول ما\n~~ذكرت لك من بنات الثلاثة كأول مفعوله مفتوح وإنما منعك أن تجعل قبل آخر حرف\n~~من مفعوله واوا كواو مضروب أن ذلك ليس من كلامهم ولا مما بنوا عليه يقولون\n~~للمكان هذا مخرجنا ومدخلنا ومصباحنا وممسانا وكذلك إذا أردت المصدر قال\n",
+      "supports_ar": "غير الثلاثي للمصدر والمكان على بناء المفعول، وهو شاهد صريح على اشتراك الشكل بين الأصناف."
+    }
+  ],
+  "patterns": [
+    {
+      "id": "grammar.masdar.bare.fa3l",
+      "label": "مصدر ثلاثي: فَعْل",
+      "display": "فَعْل",
+      "arity": 3,
+      "tokens": [
+        0,
+        "َ",
+        1,
+        "ْ",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-BARE",
+      "source_windows": [
+        "AQ-MASDAR-BARE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "التعدي أو الرواية والباب المعجمي مدخل مستقل؛ يصادم هذا الشكل أسماء غير مصادر.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.bare.fa3al",
+      "label": "مصدر ثلاثي: فَعَل",
+      "display": "فَعَل",
+      "arity": 3,
+      "tokens": [
+        0,
+        "َ",
+        1,
+        "َ",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-BARE",
+      "source_windows": [
+        "AQ-MASDAR-BARE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "وزن مصدر فعل اللازم المكسور العين، مع بقاء الباب والاستعمال شاهدين مستقلين.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.bare.fu3ul",
+      "label": "مصدر ثلاثي: فُعُول",
+      "display": "فُعُول",
+      "arity": 3,
+      "tokens": [
+        0,
+        "ُ",
+        1,
+        "ُ",
+        "و",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-BARE",
+      "source_windows": [
+        "AQ-MASDAR-BARE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "المصدرية لا تلزم من الشكل؛ القاعدة لها شروط دلالية وصرفية واستثناءات.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.bare.fa3ala",
+      "label": "مصدر ثلاثي: فَعَالَة",
+      "display": "فَعَالَة",
+      "arity": 3,
+      "tokens": [
+        0,
+        "َ",
+        1,
+        "َ",
+        "ا",
+        2,
+        "َ",
+        "ة"
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-BARE",
+      "source_windows": [
+        "AQ-MASDAR-BARE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "بعض أفعال فَعُل تأتي بهذا المصدر؛ اختيار المصدر لا يستخرج من الجذر وحده.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.bare.fu3ula",
+      "label": "مصدر ثلاثي: فُعُولَة",
+      "display": "فُعُولَة",
+      "arity": 3,
+      "tokens": [
+        0,
+        "ُ",
+        1,
+        "ُ",
+        "و",
+        2,
+        "َ",
+        "ة"
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-BARE",
+      "source_windows": [
+        "AQ-MASDAR-BARE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "بعض أفعال فَعُل تأتي بهذا المصدر؛ لا يثبت هذا مصدرًا مستعملًا لكل ملء ممكن.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.II.taf3il",
+      "label": "مصدر فعّل: تَفْعِيل",
+      "display": "تَفْعِيل",
+      "arity": 3,
+      "tokens": [
+        "ت",
+        "َ",
+        0,
+        "ْ",
+        1,
+        "ِ",
+        "ي",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-II",
+      "source_windows": [
+        "AQ-MASDAR-II"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "صيغة الصحيح؛ تغييرات المعتل والمهموز والبدائل المروية خارج عملية الملء.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.III.mufa3ala",
+      "label": "مصدر فاعل: مُفَاعَلَة",
+      "display": "مُفَاعَلَة",
+      "arity": 3,
+      "tokens": [
+        "م",
+        "ُ",
+        0,
+        "َ",
+        "ا",
+        1,
+        "َ",
+        2,
+        "َ",
+        "ة"
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-III",
+      "source_windows": [
+        "AQ-MASDAR-III"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "صيغة مرتبطة بفاعل إذا ثبتت صلة الاشتقاق؛ ليست دليل وقوع المشاركة.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.III.fi3al",
+      "label": "مصدر فاعل: فِعَال",
+      "display": "فِعَال",
+      "arity": 3,
+      "tokens": [
+        0,
+        "ِ",
+        1,
+        "َ",
+        "ا",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-III",
+      "source_windows": [
+        "AQ-MASDAR-III"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "بديل فاعل المذكور؛ يشارك أوزانًا وقراءات أخرى ولا يختار من المصدرين أحدًا.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.IV.if3al",
+      "label": "مصدر أفعل: إِفْعَال",
+      "display": "إِفْعَال",
+      "arity": 3,
+      "tokens": [
+        "إ",
+        "ِ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        "ا",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-IV",
+      "source_windows": [
+        "AQ-MASDAR-IV"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "تمثيل همزة القطع تحت الألف حرفي؛ إعلال الأجوف كإقامة ليس ملء هذا القالب.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.V.tafa33ul",
+      "label": "مصدر تفعّل: تَفَعُّل",
+      "display": "تَفَعُّل",
+      "arity": 3,
+      "tokens": [
+        "ت",
+        "َ",
+        0,
+        "َ",
+        1,
+        "ّ",
+        "ُ",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-V",
+      "source_windows": [
+        "AQ-MASDAR-V"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "الشدة علامة حرفية والقالب لا يكتسب معنى المطاوعة أو غيره.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.VI.tafa3ul",
+      "label": "مصدر تفاعل: تَفَاعُل",
+      "display": "تَفَاعُل",
+      "arity": 3,
+      "tokens": [
+        "ت",
+        "َ",
+        0,
+        "َ",
+        "ا",
+        1,
+        "ُ",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:KI-MASDAR-VI",
+      "source_windows": [
+        "KI-MASDAR-VI"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "صلة تفاعل وتفاعُل موثقة؛ المشاركة أو وقوع الحدث لا يستنتجان من الشكل.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.VII.infi3al",
+      "label": "مصدر انفعل: اِنْفِعَال",
+      "display": "اِنْفِعَال",
+      "arity": 3,
+      "tokens": [
+        "ا",
+        "ِ",
+        "ن",
+        "ْ",
+        0,
+        "ِ",
+        1,
+        "َ",
+        "ا",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-WASL",
+      "source_windows": [
+        "AQ-MASDAR-WASL"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "كسرة ابتداء همزة الوصل ظاهرة في هذا الملف؛ لا تسوية إملائية خفية.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.VIII.ifti3al",
+      "label": "مصدر افتعل: اِفْتِعَال",
+      "display": "اِفْتِعَال",
+      "arity": 3,
+      "tokens": [
+        "ا",
+        "ِ",
+        0,
+        "ْ",
+        "ت",
+        "ِ",
+        1,
+        "َ",
+        "ا",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-WASL",
+      "source_windows": [
+        "AQ-MASDAR-WASL"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "الإدغام والإبدال في بعض الجذور خارج الملء الحرفي.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.X.istif3al",
+      "label": "مصدر استفعل: اِسْتِفْعَال",
+      "display": "اِسْتِفْعَال",
+      "arity": 3,
+      "tokens": [
+        "ا",
+        "ِ",
+        "س",
+        "ْ",
+        "ت",
+        "ِ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        "ا",
+        2
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "augmented",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-WASL",
+      "source_windows": [
+        "AQ-MASDAR-WASL"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "الأجوف كاستعاذة يحتاج شاهد تحويل مستقل، ولا يلزم معنى الطلب.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.masdar.quad.fa3lala",
+      "label": "مصدر رباعي: فَعْلَلَة",
+      "display": "فَعْلَلَة",
+      "arity": 4,
+      "tokens": [
+        0,
+        "َ",
+        1,
+        "ْ",
+        2,
+        "َ",
+        3,
+        "َ",
+        "ة"
+      ],
+      "family": "masdar",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-MASDAR-QUAD",
+      "source_windows": [
+        "AQ-MASDAR-QUAD"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "الخانة الثالثة والرابعة مستقلتان وإن كرر الميزان لامًا؛ لا يفترض تساويهما.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.instrument.mif3al",
+      "label": "آلة محتملة: مِفْعَل",
+      "display": "مِفْعَل",
+      "arity": 3,
+      "tokens": [
+        "م",
+        "ِ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        2
+      ],
+      "family": "instrument",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:KI-INSTRUMENT",
+      "source_windows": [
+        "KI-INSTRUMENT"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "الاستعمال فيما يعالج به مستقل؛ القالب وحده لا يثبت الآلية.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.instrument.mif3ala",
+      "label": "آلة محتملة: مِفْعَلَة",
+      "display": "مِفْعَلَة",
+      "arity": 3,
+      "tokens": [
+        "م",
+        "ِ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        2,
+        "َ",
+        "ة"
+      ],
+      "family": "instrument",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:KI-INSTRUMENT",
+      "source_windows": [
+        "KI-INSTRUMENT"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "التاء المربوطة حرفيّة، والنهاية الملحقة تأتي بعدها؛ لا توريث تأنيث أو وظيفة.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.instrument.mif3aal",
+      "label": "آلة محتملة: مِفْعَال",
+      "display": "مِفْعَال",
+      "arity": 3,
+      "tokens": [
+        "م",
+        "ِ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        "ا",
+        2
+      ],
+      "family": "instrument",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:KI-INSTRUMENT",
+      "source_windows": [
+        "KI-INSTRUMENT"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "قد يتداخل مع مبالغة اسم الفاعل؛ القراءة الدلالية تحتاج شاهدًا مستقلاً.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.place.maf3al",
+      "label": "مكان محتمل: مَفْعَل",
+      "display": "مَفْعَل",
+      "arity": 3,
+      "tokens": [
+        "م",
+        "َ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        2
+      ],
+      "family": "place",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:KI-PLACE",
+      "source_windows": [
+        "KI-PLACE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "قد يكون مصدرًا أو زمانًا؛ اختيار حركة العين وباب الفعل لا يستنتج من الجذر.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.place.maf3il",
+      "label": "مكان محتمل: مَفْعِل",
+      "display": "مَفْعِل",
+      "arity": 3,
+      "tokens": [
+        "م",
+        "َ",
+        0,
+        "ْ",
+        1,
+        "ِ",
+        2
+      ],
+      "family": "place",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:KI-PLACE",
+      "source_windows": [
+        "KI-PLACE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "يلزم باب ورواية مع اشتراك المصدر والزمان والمكان واستثناءات الاستعمال.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.sifa.fa3al",
+      "label": "صفة مشبهة محتملة: فَعَل",
+      "display": "فَعَل",
+      "arity": 3,
+      "tokens": [
+        0,
+        "َ",
+        1,
+        "َ",
+        2
+      ],
+      "family": "sifa_mushabbaha",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-SIFA",
+      "source_windows": [
+        "AQ-SIFA"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "نموذج حسن الوجه؛ اللزوم والدلالة على الصفة شروط مستقلة، ويتداخل مع المصدر.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.sifa.fa3il",
+      "label": "صفة مشبهة محتملة: فَعِيل",
+      "display": "فَعِيل",
+      "arity": 3,
+      "tokens": [
+        0,
+        "َ",
+        1,
+        "ِ",
+        "ي",
+        2
+      ],
+      "family": "sifa_mushabbaha",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-SIFA+AQ-FAIIL-OVERLAP",
+      "source_windows": [
+        "AQ-SIFA",
+        "AQ-FAIIL-OVERLAP"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "نموذج جميل وكريم؛ فعيل قد يدل على مفعول أو مصدر وغيره فلا يثبت الصنف وحده.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.sifa.faa3il",
+      "label": "صفة مشبهة محتملة: فَاعِل",
+      "display": "فَاعِل",
+      "arity": 3,
+      "tokens": [
+        0,
+        "َ",
+        "ا",
+        1,
+        "ِ",
+        2
+      ],
+      "family": "sifa_mushabbaha",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-SIFA+AQ-FAAIL",
+      "source_windows": [
+        "AQ-SIFA",
+        "AQ-FAAIL"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "نموذج طاهر؛ يشارك فاعل القديم حرفيًا، وتحفظ هوية القراءتين دون اختيار آلي.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.diminutive.fu3ayl",
+      "label": "تصغير محتمل: فُعَيْل",
+      "display": "فُعَيْل",
+      "arity": 3,
+      "tokens": [
+        0,
+        "ُ",
+        1,
+        "َ",
+        "ي",
+        "ْ",
+        2
+      ],
+      "family": "diminutive",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-DIMINUTIVE",
+      "source_windows": [
+        "AQ-DIMINUTIVE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "تصغير اسم متمكن ذي بناء مناسب؛ المطابقة لا تثبت الاسم المكبر أو أصل الجذر.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.diminutive.fu3ay3il",
+      "label": "تصغير محتمل: فُعَيْعِل",
+      "display": "فُعَيْعِل",
+      "arity": 4,
+      "tokens": [
+        0,
+        "ُ",
+        1,
+        "َ",
+        "ي",
+        "ْ",
+        2,
+        "ِ",
+        3
+      ],
+      "family": "diminutive",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-DIMINUTIVE",
+      "source_windows": [
+        "AQ-DIMINUTIVE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "أربع خانات صامتة كما في دريهم؛ حذف الاسم الأطول أو تعيين مكبره غير منفذ.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.diminutive.fu3ay3iil",
+      "label": "تصغير محتمل: فُعَيْعِيل",
+      "display": "فُعَيْعِيل",
+      "arity": 4,
+      "tokens": [
+        0,
+        "ُ",
+        1,
+        "َ",
+        "ي",
+        "ْ",
+        2,
+        "ِ",
+        "ي",
+        3
+      ],
+      "family": "diminutive",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-DIMINUTIVE",
+      "source_windows": [
+        "AQ-DIMINUTIVE"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "أربع خانات صامتة وياء طويلة حرفية؛ عصيفير لا يثبت استعادة عصفور أو جذر خماسي ولا حذف حروف أصلية.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    },
+    {
+      "id": "grammar.comparative.af3al",
+      "label": "تفضيل محتمل: أَفْعَل",
+      "display": "أَفْعَل",
+      "arity": 3,
+      "tokens": [
+        "أ",
+        "َ",
+        0,
+        "ْ",
+        1,
+        "َ",
+        2
+      ],
+      "family": "comparative",
+      "form": "nominal",
+      "voice": "none",
+      "augmentation": "none",
+      "source_kind": "NEW_GRAMMAR_PROJECTION",
+      "origin_type": "NEW_FROM_GRAMMAR",
+      "source_contract": "grammar:AQ-TAFDIL",
+      "source_windows": [
+        "AQ-TAFDIL"
+      ],
+      "root_domain": "radicals28_shape_only",
+      "endings": [
+        "َ",
+        "ُ",
+        "ِ",
+        "ٌ",
+        "ٍ",
+        "ْ"
+      ],
+      "vocalization_status": "NABT_EXPLICIT_TRANSCRIPTION_OF_GRAMMAR_RULE_OR_EXAMPLE",
+      "slot_interpretation": "Independent formal consonant positions; not an attested etymological root or a supplied original-root degree.",
+      "lexical_semantic_premise_ar": "الهمزة ذات المقعد حرفية؛ الوزن يشارك اللون والعيب والفعل، والأهلية والقرينة مستقلتان.",
+      "semantic_projection": "NONE",
+      "implementation_status_at_audit": "NATIVE_LEAN_DEFINED_AND_COMPILED"
+    }
+  ],
+  "deliberate_non_patterns": [
+    {
+      "category": "jamid",
+      "status": "NO_UNIQUE_SHAPE_OR_DEFAULT_CLASSIFIER",
+      "source_windows": [
+        "AQ-NOMINAL-BASE"
+      ],
+      "reason_ar": "الجمود الدلالي أو الاشتقاقي لا يساوي قصر البناء أو مجرديته. لا يمنح فشل المطابقة صنف جامد، ولا يسمى توزيع الحركات تصنيفًا دلاليًا."
+    },
+    {
+      "category": "future",
+      "status": "NO_FOURTH_ROOT_TEMPLATE_TENSE",
+      "reason_ar": "سوف والسين قرائن سياقية للمضارع مع شروط اتصال؛ لا وزن مستقل للمستقبل."
+    },
+    {
+      "category": "masdar_exhaustiveness",
+      "status": "BOUNDED_SAMPLE_NOT_COMPLETE",
+      "reason_ar": "المصادر الثلاثية السماعية والبدائل المزيدة والإعلال ليست مستنفدة بالقوالب الخمسة عشر."
+    },
+    {
+      "category": "nontriliteral_participles_place_masdar",
+      "status": "RULE_DOCUMENTED_NOT_EXPANDED_IN_THIS_MINIMAL_SUPPLEMENT",
+      "source_windows": [
+        "AQ-NONTRI-PARTICIPLES",
+        "KI-NONTRI-OVERLAP"
+      ],
+      "reason_ar": "القاعدة العامة وشواهد التداخل موثقة؛ لا يعلن هذا الملحق توليد جميع صورها."
+    }
+  ],
+  "hash_conventions": {
+    "source_windows": "SHA-256 over exact decompressed UTF-8 bytes, including original line endings; line numbers are one-based inclusive and byte offsets zero-based half-open.",
+    "token_types": "JSON integer is a zero-based independent slot; a one-codepoint string is a literal. Boolean is never a slot."
+  },
+  "native_lean_validation": {
+    "command": "lake build Nabt.NominalPatterns",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "exit_code": 0,
+    "scope": "New local module only, 27 templates and 12 declared theorems. Upstream projects were not rebuilt; this is not the whole NABT release gate.",
+    "theorems": [
+      "Nabt.NominalPatterns.pattern_count",
+      "Nabt.NominalPatterns.pattern_ids_unique",
+      "Nabt.NominalPatterns.patterns_complete",
+      "Nabt.NominalPatterns.pattern_recovery",
+      "Nabt.NominalPatterns.combined_pattern_count",
+      "Nabt.NominalPatterns.combined_pattern_ids_unique",
+      "Nabt.NominalPatterns.sifa_faail_same_shape",
+      "Nabt.NominalPatterns.sifa_faail_same_fill",
+      "Nabt.NominalPatterns.sifa_faail_ids_distinct",
+      "Nabt.NominalPatterns.sifa_masdar_same_shape",
+      "Nabt.NominalPatterns.sifa_masdar_ids_distinct",
+      "Nabt.NominalPatterns.quad_fourth_slot_distinguishes"
+    ]
+  }
+}

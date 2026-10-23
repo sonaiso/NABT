@@ -1,0 +1,696 @@
+{
+  "schema": "nabt.derivation.requested-category-coverage.v1",
+  "audit_date_utc": "2026-10-23",
+  "authority": "SOURCE_COVERAGE_AND_IMPLEMENTED_FORMAL_SHAPE_SCOPE_NOT_SEMANTIC_GOLD",
+  "source_audits": [
+    {
+      "path": "evidence/derivation/source_audit_mashru.json",
+      "sha256": "e23ce25565065e9961828b2f9451a969a8cc3d95938d9f76120838a64fc84e21"
+    },
+    {
+      "path": "evidence/derivation/source_audit_alghanem.json",
+      "sha256": "a3b421bffb8e009247b0a00f7cc39abeba473742520688a0c1d0b65ba5a2b410"
+    },
+    {
+      "path": "evidence/derivation/source_audit_other.json",
+      "sha256": "375fe413fc78b43498c52b720938bd3f60ac8cc157cd527673f7b38016278056"
+    },
+    {
+      "path": "evidence/derivation/nominal_pattern_sources.json",
+      "sha256": "c69929260673c89ebe7deea73e019bba60a670a184fea77ca61b526c39471462"
+    }
+  ],
+  "repositories": [
+    {
+      "name": "Mashru",
+      "owner": "Saleh1967",
+      "public_url": "https://github.com/Saleh1967/Mashru",
+      "commit": "e4c801ffe9171dadedcc3aae23051ea0953ae361",
+      "branch": "main",
+      "observed_remote_head": "e4c801ffe9171dadedcc3aae23051ea0953ae361",
+      "remote_verification": {
+        "method": "public git ls-remote with credential helper disabled and terminal prompts disabled",
+        "ref": "refs/heads/main",
+        "verified_on_utc": "2026-10-23",
+        "exit_code": 0,
+        "observed_stdout": "e4c801ffe9171dadedcc3aae23051ea0953ae361\trefs/heads/main\n",
+        "credential_discovery_performed": false
+      },
+      "local_read_only_checkout": "/workspace/scratch/6e4178bfef09/nabt_coverage_audit_20261022/sources/Mashru",
+      "tracked_worktree_matches_commit": true,
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "license": {
+        "label": "MIT",
+        "path": "LICENSE",
+        "sha256": "c549ec70ed41fce1310830613efdb5db412da95e3245580835b97aa525a0bdb0"
+      }
+    },
+    {
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "latest_main_verification": {
+        "checked_at_utc": "2026-10-23 11:36:07 UTC",
+        "method": "GitHub connector GET branches/main",
+        "url": "https://api.github.com/repos/Saleh1967/Alghanem/branches/main",
+        "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+        "commit_date": "2026-10-22T16:02:28Z",
+        "matches_audited_pin": true
+      }
+    },
+    {
+      "repository": "Saleh1967/alghanem-constitution",
+      "commit": "f75a43b9f4ed3df059f1feb832f48d96e6f846ba",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/Saleh1967/alghanem-constitution",
+        "branch_url": "https://api.github.com/repos/Saleh1967/alghanem-constitution/branches/main",
+        "status": "VERIFIED_MAIN_EQUALS_PIN",
+        "default_branch": "main",
+        "head": "f75a43b9f4ed3df059f1feb832f48d96e6f846ba",
+        "head_equals_pin": true,
+        "interpretation": "Current main was read and equals the audited immutable commit."
+      }
+    },
+    {
+      "repository": "Saleh1967/dal-madlul-constitution",
+      "commit": "0c2ca948de44bd44f1f61c2e44ea01896ff5ad1d",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/Saleh1967/dal-madlul-constitution",
+        "branch_url": "https://api.github.com/repos/Saleh1967/dal-madlul-constitution/branches/main",
+        "status": "VERIFIED_MAIN_EQUALS_PIN",
+        "default_branch": "main",
+        "head": "0c2ca948de44bd44f1f61c2e44ea01896ff5ad1d",
+        "head_equals_pin": true,
+        "interpretation": "Current main was read and equals the audited immutable commit."
+      }
+    },
+    {
+      "repository": "Saleh1967/hamil-constitution",
+      "commit": "3fd531b87fba4f5312cd911c1038db38e3f84618",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/Saleh1967/hamil-constitution",
+        "branch_url": "https://api.github.com/repos/Saleh1967/hamil-constitution/branches/main",
+        "status": "VERIFIED_MAIN_EQUALS_PIN",
+        "default_branch": "main",
+        "head": "3fd531b87fba4f5312cd911c1038db38e3f84618",
+        "head_equals_pin": true,
+        "interpretation": "Current main was read and equals the audited immutable commit."
+      }
+    },
+    {
+      "repository": "Saleh1967/hamil-hala-zaman-program",
+      "commit": "232821b7a19498da4727fd731d2859eb45d14ef9",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/Saleh1967/hamil-hala-zaman-program",
+        "branch_url": "https://api.github.com/repos/Saleh1967/hamil-hala-zaman-program/branches/main",
+        "status": "VERIFIED_MAIN_EQUALS_PIN",
+        "default_branch": "main",
+        "head": "232821b7a19498da4727fd731d2859eb45d14ef9",
+        "head_equals_pin": true,
+        "interpretation": "Current main was read and equals the audited immutable commit."
+      }
+    },
+    {
+      "repository": "sonaiso/Taaqol-GPT",
+      "commit": "91dad107a7d56e6e05cce4ab54c3d63e5bdf5482",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/sonaiso/Taaqol-GPT",
+        "branch_url": "https://api.github.com/repos/sonaiso/Taaqol-GPT/branches/main",
+        "status": "VERIFIED_MAIN_EQUALS_PIN",
+        "default_branch": "main",
+        "head": "91dad107a7d56e6e05cce4ab54c3d63e5bdf5482",
+        "head_equals_pin": true,
+        "interpretation": "Current main was read and equals the audited immutable commit."
+      }
+    },
+    {
+      "repository": "sonaiso/Qeyas",
+      "commit": "f20c1ee1cd7f8f3fb8e1c90c79bb8bf6f1138cc7",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/sonaiso/Qeyas",
+        "branch_url": null,
+        "status": "UNAVAILABLE_HTTP_404",
+        "default_branch": null,
+        "head": null,
+        "head_equals_pin": null,
+        "interpretation": "The connected read returned 404; no assertion of deletion, nonexistence, privacy, or current head is made. Findings concern the local immutable snapshot."
+      }
+    },
+    {
+      "repository": "sonaiso/alasmaa",
+      "commit": "ad4207ce51f621c97d10f689dd35d03db21a2dea",
+      "remote_head_check": {
+        "date_utc": "2026-10-23",
+        "method": "GitHub connector GET repository metadata followed by branches/main when accessible",
+        "repository_url": "https://api.github.com/repos/sonaiso/alasmaa",
+        "branch_url": null,
+        "status": "UNAVAILABLE_HTTP_404",
+        "default_branch": null,
+        "head": null,
+        "head_equals_pin": null,
+        "interpretation": "The connected read returned 404; no assertion of deletion, nonexistence, privacy, or current head is made. Findings concern the local immutable snapshot."
+      }
+    }
+  ],
+  "implementation_snapshot": {
+    "core_catalog": "formal/Nabt/Derivation.lean",
+    "core_count": 44,
+    "source_literal_templates": 31,
+    "new_nominal_projections": 2,
+    "new_sound_imperfect_projections": 11,
+    "supplemental_catalog": "formal/Nabt/NominalPatterns.lean",
+    "new_primary_grammar_projections": 27,
+    "combined_unique_ids": 71,
+    "supplement_local_lean_build_exit_code": 0,
+    "scope": "Formal catalogs and the source audit. End-to-end runtime conformance, wheel validation and release gates are recorded separately by the implementation owner.",
+    "not_an_empirical_accuracy_claim": true,
+    "not_a_complete_arabic_morphology_claim": true
+  },
+  "categories": [
+    {
+      "id": "jamid_noun",
+      "requested_category_ar": "الاسم الجامد",
+      "nabt_status": "DESCRIPTIVE_AXES_ONLY_NO_UNIQUE_FORM_OR_DEFAULT",
+      "pattern_ids": [],
+      "pattern_count": 0,
+      "source_findings_ar": [
+        "Mashru: Dal/AqsamAlism.lean وJisr/TasnifAlism.lean يصنفان خواص دلالية معطاة؛ ليسا قارئ اشتقاق من الرسم.",
+        "Alghanem: RootGrade.sinf وkhumasi_jamid يعتمدان درجة الأصول المعطاة، ولا يستنتجانها من طول الرسم.",
+        "Qeyas/Taaqol/alasmaa: قواعد وبيانات Python مرشحة أو معجمية موصوفة في source_audit_other؛ ليست مبرهنات اكتساب صنف."
+      ],
+      "grammar_source_windows": [
+        "AQ-NOMINAL-BASE"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "لا وزن واحد للجامد، ولا يثبت الجمود بفشل المطابقة أو بكون الاسم مجردًا.",
+        "الجامد الدلالي، أصل الاشتقاق، والفعل الجامد ثلاثة محاور منفصلة.",
+        "تبقى القراءة الوصفية السابقة مستقلة ومسنَدة إلى مصدرها؛ لا تحولها هذه الإضافة إلى استنتاج نصي مستقل."
+      ],
+      "next_separate_contract_ar": "ربط شاهد معجمي أو دلالي مستقل بالقراءة والوقوع، مع تسمية محور الجمود والمذهب التعريفي."
+    },
+    {
+      "id": "masdar",
+      "requested_category_ar": "المصدر",
+      "nabt_status": "NATIVE_NEW_GRAMMAR_SHAPE_CANDIDATES",
+      "pattern_ids": [
+        "grammar.masdar.bare.fa3l",
+        "grammar.masdar.bare.fa3al",
+        "grammar.masdar.bare.fu3ul",
+        "grammar.masdar.bare.fa3ala",
+        "grammar.masdar.bare.fu3ula",
+        "grammar.masdar.II.taf3il",
+        "grammar.masdar.III.mufa3ala",
+        "grammar.masdar.III.fi3al",
+        "grammar.masdar.IV.if3al",
+        "grammar.masdar.V.tafa33ul",
+        "grammar.masdar.VI.tafa3ul",
+        "grammar.masdar.VII.infi3al",
+        "grammar.masdar.VIII.ifti3al",
+        "grammar.masdar.X.istif3al",
+        "grammar.masdar.quad.fa3lala"
+      ],
+      "pattern_count": 15,
+      "source_findings_ar": [
+        "Alghanem: QiraaMadlul.mujamShahid يودع ثلاثة روابط جذر/مصدر، وKhawass.Masdar تعداد دلالي صغير.",
+        "Mashru: SLGE.Wad.amalF وJisr.Mulhaqat.masdarDaraja قواعد عمل بعد إمداد النوع، لا مولد مصادر عام."
+      ],
+      "grammar_source_windows": [
+        "AQ-MASDAR-BARE",
+        "AQ-MASDAR-II",
+        "AQ-MASDAR-IV",
+        "AQ-MASDAR-V",
+        "AQ-MASDAR-WASL",
+        "AQ-MASDAR-QUAD",
+        "AQ-MASDAR-III",
+        "KI-MASDAR-VI"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "خمسة أشكال مصدر ثلاثي وتسعة للمزيد الثلاثي وواحد رباعي؛ لا استنفاد للمسموع.",
+        "باب الفعل والتعدي واللزوم والدلالة واختيار المصدر وشاهد الاشتقاق ليست مكتسبة من الشكل.",
+        "الضعيف والمهموز والبدائل والتحويل إلى المصدر الميمي خارج هذا الملحق."
+      ],
+      "next_separate_contract_ar": "شواهد المصدر المستعمل وروابطه بالفعل، ثم تحويلات إعلال مسندة لا ملء حرفي فقط."
+    },
+    {
+      "id": "active_participle",
+      "requested_category_ar": "اسم الفاعل",
+      "nabt_status": "NATIVE_NOMINAL_PROJECTION",
+      "pattern_ids": [
+        "nominal.faail"
+      ],
+      "pattern_count": 1,
+      "source_findings_ar": [
+        "Alghanem QiraaMadlul.faail، formal/a116/A116/QiraaMadlul.lean:238؛ نقل جديد من تمثيل الخلايا إلى قالب المحارف.",
+        "Mashru يسمي النوع في قوائم العمل ولا يضع قالبًا اسميًا تشغيليًا عامًا."
+      ],
+      "grammar_source_windows": [
+        "AQ-FAAIL",
+        "AQ-NONTRI-PARTICIPLES"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "فاعل الثلاثي فقط في النواة؛ لا إثبات فعلية الجذر أو الوكالة أو الفاعلية النحوية.",
+        "فَاعِل مطابق أيضًا لقراءة الصفة المشبهة؛ القوالب المتطابقة تبقى بهويات منفصلة.",
+        "الفاعل المزيد موثق في القاعدة الأولية لكنه غير موسع إلى جدول مستقل هنا."
+      ],
+      "next_separate_contract_ar": "تحويل مضبوط من المضارع المزيد إلى اسم فاعل، مع شاهد الباب والدلالة والمعجم."
+    },
+    {
+      "id": "passive_participle",
+      "requested_category_ar": "اسم المفعول",
+      "nabt_status": "NATIVE_NOMINAL_PROJECTION",
+      "pattern_ids": [
+        "nominal.mafool"
+      ],
+      "pattern_count": 1,
+      "source_findings_ar": [
+        "Alghanem QiraaMadlul.mafool، formal/a116/A116/QiraaMadlul.lean:240؛ بناء خلايا ثلاثي موجود في المصدر."
+      ],
+      "grammar_source_windows": [
+        "AQ-NONTRI-PARTICIPLES",
+        "AQ-FAIIL-OVERLAP",
+        "KI-NONTRI-OVERLAP"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "مفعول الثلاثي فقط؛ لا إثبات وقوع المفعول أو تعدي الفعل أو إباحة البناء للمجهول.",
+        "اسم المفعول المزيد يشارك المصدر والمكان؛ القاعدة موثقة ولم توسع في هذا الملحق."
+      ],
+      "next_separate_contract_ar": "تحويل المزيد وشواهد التعدي والقراءة الدلالية وتحويلات الضعيف."
+    },
+    {
+      "id": "instrument",
+      "requested_category_ar": "اسم الآلة",
+      "nabt_status": "NATIVE_NEW_GRAMMAR_SHAPE_CANDIDATES",
+      "pattern_ids": [
+        "grammar.instrument.mif3al",
+        "grammar.instrument.mif3ala",
+        "grammar.instrument.mif3aal"
+      ],
+      "pattern_count": 3,
+      "source_findings_ar": [
+        "لم يوجد مولد أو مصنف Lean مسمى للآلة في Mashru/Alghanem ضمن نطاق الملفات المراجعة.",
+        "وردت قوالب Python/CSV في Qeyas/Taaqol/alasmaa؛ حقول التصنيف قد تتصادم، فلا تؤخذ حقيقة دلالية."
+      ],
+      "grammar_source_windows": [
+        "KI-INSTRUMENT"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "مِفْعَل ومِفْعَلَة ومِفْعَال؛ الاستعمال آلة شرط مستقل.",
+        "مِفْعَال قد يشارك صيغة المبالغة؛ لا اختيار تلقائي للمعنى."
+      ],
+      "next_separate_contract_ar": "شاهد استعمال أو وصف مستقل يثبت علاقة الآلة بالفعل."
+    },
+    {
+      "id": "place",
+      "requested_category_ar": "اسم المكان",
+      "nabt_status": "NATIVE_NEW_GRAMMAR_SHAPE_CANDIDATES",
+      "pattern_ids": [
+        "grammar.place.maf3al",
+        "grammar.place.maf3il"
+      ],
+      "pattern_count": 2,
+      "source_findings_ar": [
+        "لا قالب Lean تشغيلي مسمى للمكان في جرد Mashru/Alghanem؛ النوع في قواعد المفعول فيه معطى."
+      ],
+      "grammar_source_windows": [
+        "KI-PLACE",
+        "KI-NONTRI-OVERLAP"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "مَفْعَل ومَفْعِل فقط؛ اشتراك الزمان والمصدر والمكان محفوظ.",
+        "اختيار حركة العين يحتاج باب المضارع ورواية الاستثناء، والمزيد غير مفصل هنا."
+      ],
+      "next_separate_contract_ar": "ربط القراءة بمكان الحدث وباب الفعل، ثم بناء المصدر/المكان المزيد المشترك بشواهده."
+    },
+    {
+      "id": "sifa_mushabbaha",
+      "requested_category_ar": "الصفة المشبهة",
+      "nabt_status": "NATIVE_NEW_GRAMMAR_SHAPE_CANDIDATES",
+      "pattern_ids": [
+        "grammar.sifa.fa3al",
+        "grammar.sifa.fa3il",
+        "grammar.sifa.faa3il"
+      ],
+      "pattern_count": 3,
+      "source_findings_ar": [
+        "Mashru Mulhaqat.sifaMamul يختبر العمل لنوع معطى؛ Alghanem Tasrif.Sifa صفات صوتية للجذر، لا اسم الصفة المشبهة."
+      ],
+      "grammar_source_windows": [
+        "AQ-SIFA",
+        "AQ-FAIIL-OVERLAP",
+        "AQ-FAAIL"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "فَعَل وفَعِيل وفَاعِل أمثلة شكلية محدودة، مع حفظ الاشتراك بالمصدر والفاعل والمفعول.",
+        "اللزوم وقراءة الصفة ودلالة الحال في المصدر لا تثبت من التشكيل."
+      ],
+      "next_separate_contract_ar": "قراءة صفة مسندة إلى شاهد مستقل؛ لا تحويل ملاءمة الوزن إلى حكم دلالي."
+    },
+    {
+      "id": "diminutive",
+      "requested_category_ar": "التصغير",
+      "nabt_status": "NATIVE_NEW_GRAMMAR_SHAPE_CANDIDATES",
+      "pattern_ids": [
+        "grammar.diminutive.fu3ayl",
+        "grammar.diminutive.fu3ay3il",
+        "grammar.diminutive.fu3ay3iil"
+      ],
+      "pattern_count": 3,
+      "source_findings_ar": [
+        "لم يوجد عقد Lean مستقل للتصغير في الجرد؛ Qeyas يضم فروعًا مرشحة في Python."
+      ],
+      "grammar_source_windows": [
+        "AQ-DIMINUTIVE"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "فُعَيْل بثلاث خانات؛ فُعَيْعِل وفُعَيْعِيل بأربع خانات صامتة مستقلة.",
+        "أربع خانات لا تثبت أربعة أصول ولا تستعيد الاسم المكبر؛ حذف الأطول والتعويض غير منفذين.",
+        "النص يجيز صورًا سماعية مخالفة، فلا حصر لغوي بالأشكال الثلاثة."
+      ],
+      "next_separate_contract_ar": "علاقة مسندة بين الاسم المكبر والمصغر، مع تتبع الحذف والإبدال وحفظ البدائل."
+    },
+    {
+      "id": "comparative",
+      "requested_category_ar": "اسم التفضيل",
+      "nabt_status": "NATIVE_NEW_GRAMMAR_SHAPE_CANDIDATES",
+      "pattern_ids": [
+        "grammar.comparative.af3al"
+      ],
+      "pattern_count": 1,
+      "source_findings_ar": [
+        "Alghanem QismAwamil.afal_yashtabih شاهد اشتراك شكل أفعل، لا مصنف تفضيل.",
+        "Mashru Madlul.Hawass.akbar يقارن أعدادًا بوجه مقارنة معطى، ولا يولد الوزن."
+      ],
+      "grammar_source_windows": [
+        "AQ-TAFDIL"
+      ],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "أَفْعَل مع همزة مقعدها حرفية؛ لا تسوية إلى ءَفْعَل.",
+        "أهلية التعجب والتدرج والقيود المعجمية والسياق شروط مستقلة.",
+        "اللون والعيب وبعض الصيغ الفعلية تتداخل في الميزان العام؛ التمثيل الحرفي الدقيق له نطاقه."
+      ],
+      "next_separate_contract_ar": "شاهد مقارنة ووجهها وأهلية الاشتقاق، مع إبقاء اختلاف الرسم صريحًا."
+    },
+    {
+      "id": "past_mujarrad",
+      "requested_category_ar": "الماضي المجرد",
+      "nabt_status": "NATIVE_SOURCE_TEMPLATE_SHAPES",
+      "pattern_ids": [
+        "past.I.a",
+        "past.I.i",
+        "past.I.u"
+      ],
+      "pattern_count": 3,
+      "source_findings_ar": [
+        "Alghanem Ishtiqaq.lean:103–134؛ قوالب من جدول31 الصريح.",
+        "Mashru Root وJisrDal يوفران قيود صوت/حالة، لا قارئًا مكتملًا للأبواب من النص."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "أشكال جذور ثلاثية رسمية؛ حركة الباب والوجود المعجمي والزمن في السياق ليست نتيجة المطابقة.",
+        "IX والرباعي والتحويلات الضعيفة/الإملائية ليست ضمن هذه النواة.",
+        "همزة القطع مصدرها ء حرفيًا في جدول Ishtiqaq؛ لا يدمجها النظام خفية مع أ."
+      ],
+      "next_separate_contract_ar": "استناد المعجم والباب ثم إعلال/إدغام/همز موثق، قبل توسيع التصريف."
+    },
+    {
+      "id": "past_mazid",
+      "requested_category_ar": "الماضي المزيد",
+      "nabt_status": "NATIVE_SOURCE_TEMPLATE_SHAPES",
+      "pattern_ids": [
+        "past.II",
+        "past.III",
+        "past.IV",
+        "past.V",
+        "past.VI",
+        "past.VII",
+        "past.VIII",
+        "past.X"
+      ],
+      "pattern_count": 8,
+      "source_findings_ar": [
+        "Alghanem Ishtiqaq.lean:103–134؛ قوالب من جدول31 الصريح.",
+        "Mashru Root وJisrDal يوفران قيود صوت/حالة، لا قارئًا مكتملًا للأبواب من النص."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "أشكال جذور ثلاثية رسمية؛ حركة الباب والوجود المعجمي والزمن في السياق ليست نتيجة المطابقة.",
+        "IX والرباعي والتحويلات الضعيفة/الإملائية ليست ضمن هذه النواة.",
+        "همزة القطع مصدرها ء حرفيًا في جدول Ishtiqaq؛ لا يدمجها النظام خفية مع أ."
+      ],
+      "next_separate_contract_ar": "استناد المعجم والباب ثم إعلال/إدغام/همز موثق، قبل توسيع التصريف."
+    },
+    {
+      "id": "passive_past_mujarrad",
+      "requested_category_ar": "الماضي المبني للمجهول المجرد",
+      "nabt_status": "NATIVE_SOURCE_TEMPLATE_SHAPES",
+      "pattern_ids": [
+        "passive.I"
+      ],
+      "pattern_count": 1,
+      "source_findings_ar": [
+        "Alghanem Ishtiqaq.lean:136–161؛ تسعة قوالب للماضي المبني للمجهول.",
+        "Mashru JisrDal.majhul يحول خلايا ضمن namat مع madi وSiga معطيين؛ ليس تحليل صوت الفعل من نص حر."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "شكل الماضي غير دليل شرعية الإسناد المبني للمجهول أو دلالة الحدث.",
+        "الضعيف والتحويلات والفاعل المحذوف ودور نائب الفاعل خارج العقد."
+      ],
+      "next_separate_contract_ar": "صلة الفعل والبناء للمجهول وقرائن التركيب، ثم تحويلات ذات شروط موثقة."
+    },
+    {
+      "id": "passive_past_mazid",
+      "requested_category_ar": "الماضي المبني للمجهول المزيد",
+      "nabt_status": "NATIVE_SOURCE_TEMPLATE_SHAPES",
+      "pattern_ids": [
+        "passive.II",
+        "passive.III",
+        "passive.IV",
+        "passive.V",
+        "passive.VI",
+        "passive.VII",
+        "passive.VIII",
+        "passive.X"
+      ],
+      "pattern_count": 8,
+      "source_findings_ar": [
+        "Alghanem Ishtiqaq.lean:136–161؛ تسعة قوالب للماضي المبني للمجهول.",
+        "Mashru JisrDal.majhul يحول خلايا ضمن namat مع madi وSiga معطيين؛ ليس تحليل صوت الفعل من نص حر."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "شكل الماضي غير دليل شرعية الإسناد المبني للمجهول أو دلالة الحدث.",
+        "الضعيف والتحويلات والفاعل المحذوف ودور نائب الفاعل خارج العقد."
+      ],
+      "next_separate_contract_ar": "صلة الفعل والبناء للمجهول وقرائن التركيب، ثم تحويلات ذات شروط موثقة."
+    },
+    {
+      "id": "active_imperfect_mujarrad",
+      "requested_category_ar": "المضارع المعلوم المجرد",
+      "nabt_status": "NATIVE_NEW_SOUND_PROJECTION",
+      "pattern_ids": [
+        "imperfect.I.a",
+        "imperfect.I.i",
+        "imperfect.I.u"
+      ],
+      "pattern_count": 3,
+      "source_findings_ar": [
+        "Alghanem Mudari.Form/body، formal/a116/A116/Mudari.lean:48–92؛ تسعة أشكال، وتوسيع I إلى الحركات الثلاث إسقاط جديد فيNABT."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "بادئة ياء الغائب المفرد فقط، وجذور ثلاثية تستبعد و/ي/ء وتساوي العين واللام في هذا الملف.",
+        "لا إثبات باب معجمي، ولا مرجع زمني حاضر/مستقبل من الصيغة وحدها.",
+        "IX والرباعي والأشخاص واللواحق وبقية التحويلات خارج هذا الإسقاط."
+      ],
+      "next_separate_contract_ar": "توسيع عقد التصريف المصرح بالأشخاص والأبواب مع شواهد التحويلات."
+    },
+    {
+      "id": "active_imperfect_mazid",
+      "requested_category_ar": "المضارع المعلوم المزيد",
+      "nabt_status": "NATIVE_NEW_SOUND_PROJECTION",
+      "pattern_ids": [
+        "imperfect.II",
+        "imperfect.III",
+        "imperfect.IV",
+        "imperfect.V",
+        "imperfect.VI",
+        "imperfect.VII",
+        "imperfect.VIII",
+        "imperfect.X"
+      ],
+      "pattern_count": 8,
+      "source_findings_ar": [
+        "Alghanem Mudari.Form/body، formal/a116/A116/Mudari.lean:48–92؛ تسعة أشكال، وتوسيع I إلى الحركات الثلاث إسقاط جديد فيNABT."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "بادئة ياء الغائب المفرد فقط، وجذور ثلاثية تستبعد و/ي/ء وتساوي العين واللام في هذا الملف.",
+        "لا إثبات باب معجمي، ولا مرجع زمني حاضر/مستقبل من الصيغة وحدها.",
+        "IX والرباعي والأشخاص واللواحق وبقية التحويلات خارج هذا الإسقاط."
+      ],
+      "next_separate_contract_ar": "توسيع عقد التصريف المصرح بالأشخاص والأبواب مع شواهد التحويلات."
+    },
+    {
+      "id": "passive_imperfect_mujarrad",
+      "requested_category_ar": "المضارع المبني للمجهول المجرد",
+      "nabt_status": "SOURCE_CONDITIONAL_TRANSFORM_NOT_TRANSFERRED",
+      "pattern_ids": [],
+      "pattern_count": 0,
+      "source_findings_ar": [
+        "Mashru JisrDal.majhul/namat/majhul_namat توفر تحويلًا مشروطًا حين madi=false وSiga معطى؛ لا قالب مستقل في جدول44."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "المبني للمجهول الموجود في71 يخص الماضي؛ لا توسيع اللفظ إلى المضارع بلا جدول وشاهد.",
+        "مقدمات الحدود والضمائر واللواحق والعلل في Mashru ليست مستنتجة من النص."
+      ],
+      "next_separate_contract_ar": "ملف مستقل للمضارع المبني للمجهول، مع نقل شروط التحويل وبرهان إعادة مطابقته."
+    },
+    {
+      "id": "passive_imperfect_mazid",
+      "requested_category_ar": "المضارع المبني للمجهول المزيد",
+      "nabt_status": "SOURCE_CONDITIONAL_TRANSFORM_NOT_TRANSFERRED",
+      "pattern_ids": [],
+      "pattern_count": 0,
+      "source_findings_ar": [
+        "Mashru JisrDal.majhul/namat/majhul_namat توفر تحويلًا مشروطًا حين madi=false وSiga معطى؛ لا قالب مستقل في جدول44."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "المبني للمجهول الموجود في71 يخص الماضي؛ لا توسيع اللفظ إلى المضارع بلا جدول وشاهد.",
+        "مقدمات الحدود والضمائر واللواحق والعلل في Mashru ليست مستنتجة من النص."
+      ],
+      "next_separate_contract_ar": "ملف مستقل للمضارع المبني للمجهول، مع نقل شروط التحويل وبرهان إعادة مطابقته."
+    },
+    {
+      "id": "imperative_mujarrad",
+      "requested_category_ar": "الأمر المجرد",
+      "nabt_status": "NATIVE_SOURCE_TEMPLATE_SHAPES",
+      "pattern_ids": [
+        "imperative.I.a",
+        "imperative.I.i",
+        "imperative.I.u"
+      ],
+      "pattern_count": 3,
+      "source_findings_ar": [
+        "Alghanem Ishtiqaq.lean:163–194؛11 قالبًا، بينما Mudari/Tasrif يملكان تحويلات أخرى ذات شروط أوسع ومختلفة.",
+        "Mashru Nizam.Talab.Sigha.ifal نوع معطى لا مسار توليد للمحارف."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "صورة مفردة بلا ضمائر متصلة؛ لا تثبت الطلب التداولي أو أهلية اشتقاق الأمر.",
+        "حركة ابتداء الوصل غير مستكملة خفية في قوالب Ishtiqaq، والعلل والمسموع خارج النواة."
+      ],
+      "next_separate_contract_ar": "تحويل المضارع المجزوم إلى الأمر مع قرائن الباب وآثار الحذف والبدائل المسندة."
+    },
+    {
+      "id": "imperative_mazid",
+      "requested_category_ar": "الأمر المزيد",
+      "nabt_status": "NATIVE_SOURCE_TEMPLATE_SHAPES",
+      "pattern_ids": [
+        "imperative.II",
+        "imperative.III",
+        "imperative.IV",
+        "imperative.V",
+        "imperative.VI",
+        "imperative.VII",
+        "imperative.VIII",
+        "imperative.X"
+      ],
+      "pattern_count": 8,
+      "source_findings_ar": [
+        "Alghanem Ishtiqaq.lean:163–194؛11 قالبًا، بينما Mudari/Tasrif يملكان تحويلات أخرى ذات شروط أوسع ومختلفة.",
+        "Mashru Nizam.Talab.Sigha.ifal نوع معطى لا مسار توليد للمحارف."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "صورة مفردة بلا ضمائر متصلة؛ لا تثبت الطلب التداولي أو أهلية اشتقاق الأمر.",
+        "حركة ابتداء الوصل غير مستكملة خفية في قوالب Ishtiqaq، والعلل والمسموع خارج النواة."
+      ],
+      "next_separate_contract_ar": "تحويل المضارع المجزوم إلى الأمر مع قرائن الباب وآثار الحذف والبدائل المسندة."
+    },
+    {
+      "id": "future_mujarrad",
+      "requested_category_ar": "المستقبل مع المجرد",
+      "nabt_status": "CONTEXTUAL_EVIDENCE_SEPARATE_NO_FUTURE_TEMPLATE",
+      "pattern_ids": [],
+      "pattern_count": 0,
+      "source_findings_ar": [
+        "Alghanem Istiqama.Zaman/Juz/awqatFil يستعمل خصائص زمان وحرف معطاة؛ رأس الملف يصرح ISTIQAMA_FEATURES_ARE_INPUT.",
+        "Mashru Aql.Awwaliyyat.ithbat/nafy يستعمل زمنًا معطى؛ المضارع قد يوافق الحاضر والمستقبل."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "لا قالب صرفي رابع مستقل للمستقبل؛ يجب فصل صورة المضارع عن مرجعه الزمني.",
+        "قارئ النص السابق فيNABT يبقي تجاور سوف/لم/لن اقتراح تعلق؛ حرفية العلامة لا تثبت فعلية اللاحق وحدها."
+      ],
+      "next_separate_contract_ar": "قرينة حرفية مع تعلق مسند وقراءة فعل مستقلة، وربط زمني بلا تغيير القالب أو محو البدائل."
+    },
+    {
+      "id": "future_mazid",
+      "requested_category_ar": "المستقبل مع المزيد",
+      "nabt_status": "CONTEXTUAL_EVIDENCE_SEPARATE_NO_FUTURE_TEMPLATE",
+      "pattern_ids": [],
+      "pattern_count": 0,
+      "source_findings_ar": [
+        "Alghanem Istiqama.Zaman/Juz/awqatFil يستعمل خصائص زمان وحرف معطاة؛ رأس الملف يصرح ISTIQAMA_FEATURES_ARE_INPUT.",
+        "Mashru Aql.Awwaliyyat.ithbat/nafy يستعمل زمنًا معطى؛ المضارع قد يوافق الحاضر والمستقبل."
+      ],
+      "grammar_source_windows": [],
+      "semantic_classification_acquired_from_text": false,
+      "scope_and_remaining_premises_ar": [
+        "لا قالب صرفي رابع مستقل للمستقبل؛ يجب فصل صورة المضارع عن مرجعه الزمني.",
+        "قارئ النص السابق فيNABT يبقي تجاور سوف/لم/لن اقتراح تعلق؛ حرفية العلامة لا تثبت فعلية اللاحق وحدها."
+      ],
+      "next_separate_contract_ar": "قرينة حرفية مع تعلق مسند وقراءة فعل مستقلة، وربط زمني بلا تغيير القالب أو محو البدائل."
+    }
+  ],
+  "common_proof_boundaries_ar": [
+    "اكتمال مجموعة المرشحين داخل جرد القوالب المصرح به لا يثبت اكتمال التحليل العربي أو المعجم.",
+    "استرداد جذر رسمي من نص جديد لا يثبت أصلًا اشتقاقيًا مستعملًا. لا توجد قائمة جذور تجيب بدل النص في هذا المسار.",
+    "الاسم المودع للقالب يحدد قراءة شكلية محتملة؛ الصنف الدلالي والعمل والإعراب تحتاج شواهدها المستقلة.",
+    "قواعد الوزن نفسها صريحة ومودعة من المصادر؛ لم تكتسبها الماكينة من مدونة غير مصنفة.",
+    "القوالب الجديدة مؤلفة داخلNABT من المصدر النحوي، ولا تنسب إلى Lean سابق ولا إلى برهان صحة لغوية عامة.",
+    "الجرد يميز قوالب المصدر الموجودة وتعريفات النوع والمبرهنات المشروطة والبيانات والمقترحات، ولا يجمعها تحت اسم دعم كامل."
+  ],
+  "priority_remaining_contracts_ar": [
+    "إثبات صلة سطح الكلمة بالجذر المعجمي وباب التصريف دون تقديم جواب النوع من السياسة.",
+    "الشواهد الدلالية المنفصلة للآلة والمكان والمشبهة والتفضيل والجمود، مع تعدد القراءات.",
+    "مضارع مبني للمجهول، أسماء فاعل/مفعول مزيدة، صرف رباعي كامل، وIX قبل تعميم نطاق الصور.",
+    "عمليات همز ووصل وإعلال وإدغام وحذف مستقلة قابلة للرجوع، بدل تسوية الرسم خفية.",
+    "مصادر ثلاثية ومعان مسموعة، والتصغير من اسم مكبر ذي أصل معلوم مع أثر الحذف والتعويض.",
+    "الفصل بين corpus-derived evidence وstatic source-backed catalog، ثم تقييم على وقوعات مستقلة لا أمثلة مشتقة من القوالب نفسها."
+  ]
+}

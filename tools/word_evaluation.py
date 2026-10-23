@@ -25,12 +25,15 @@ from nabt import NabtError
 from nabt.word_reader import (decode_word_reading, read_word_at, read_words,
                               verify_word_reading, word_reading_number)
 
-VERSION = "nabt.words.independent-evaluator.v1.3"
+VERSION = "nabt.words.independent-evaluator.v1.4"
 CASES_SHA256 = "38dd236c752b7d2d982eb615aa557c0d4b2328d1e415b6ca23c71d8e8852bc78"
 FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc4"
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    "derivation_v1": ("5cdea1a66bd92f3f014cc2f14ab2d502f43f630d03977cb111020e3370907eed",
+                      "e8e31cdaa1cb56e3700befd4d8fb883e11f83cd684e6cd72b45e133410bf3cac",
+                      "fd24793a4fb805425e4bba60219c70a0f1fbb4dda7a89b07d1c6a0ffc6c3b060"),
     "text_morphology_v1": ("b15dfab7ed6166aa5aae236c7c0b22ce48f805a6bc0d8f6c3b6f12bae2b951ee",
                            "82a5d9b283d403bf257a95e5c8a1eb9b2ea300a90ca1a2e881de478bf29f7496",
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
@@ -44,6 +47,7 @@ CODE_FREEZES = {
            "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026"),
 }
 CODE_FREEZE_PATHS = {
+    "derivation_v1": ROOT / "evidence/derivation/code_freeze_v1.json",
     "text_morphology_v1": ROOT / "evidence/text_morphology/code_freeze_v1.json",
     "morphology_v1": ROOT / "evidence/morphology/code_freeze_v1.json",
     "v1": ROOT / "evidence/words/code_freeze_v1.json",
@@ -106,7 +110,7 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="text_morphology_v1"):
+def verify_implementation_freeze(version="derivation_v1"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -413,7 +417,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="text_morphology_v1")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="derivation_v1")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()
