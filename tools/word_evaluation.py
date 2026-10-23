@@ -31,6 +31,15 @@ FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    "inflection_v3": ("46b0bdaa68be83f1b62a1536ee3ad548863e90489e4be7e0cdf91b939b131641",
+                      "cd6984487ea0c87ea97b64aa8f89124ac3d947e77e3cc9fda704d2e3668cfd7d",
+                      "7084f8c407ced8a2189872cd3291e4168e088e439549fb139540c7e527f69215"),
+    "inflection_v2": ("70e56488ae8a99aa0d52d7ebed53c039d10ed7de9a8c457952515e45277db96e",
+                      "818a1a90e0710daf951bc8108b32f37978938361c0f8f92032840872640c52f3",
+                      "59a575c2f10bb07633d54515dad21b08b35ecde37ba3d909e4748eec82f9eb14"),
+    "inflection_v1": ("fe93f8ebebb21078113462244052da93c102f4d5a673c2636c0cab27e0ffa103",
+                      "aaac387085d745b89f0260eb1905d66dade8a710e483034442e7957972243ede",
+                      "31cc7b08586e5c0fa235357d75b36ce23475f486addec6d6d465be4889346c7f"),
     "nominal_v2": ("d904702b8633f8102c6795f3beeff0d5584e908ee7b0d1c605c168103ab87f94",
                    "814ec3f4ea340b09b594ff162e65e49be8e4110088da5feae02fe41eb8a71d6c",
                    "c7ab0b42159ba60d5a39b65b2adb980ed92df6e6e71eb1dc355bbfb43d838071"),
@@ -53,6 +62,9 @@ CODE_FREEZES = {
            "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026"),
 }
 CODE_FREEZE_PATHS = {
+    "inflection_v3": ROOT / "evidence/inflection/code_freeze_v3.json",
+    "inflection_v2": ROOT / "evidence/inflection/code_freeze_v2.json",
+    "inflection_v1": ROOT / "evidence/inflection/code_freeze_v1.json",
     "nominal_v2": ROOT / "evidence/nominal/code_freeze_v2.json",
     "nominal_v1": ROOT / "evidence/nominal/code_freeze_v1.json",
     "derivation_v1": ROOT / "evidence/derivation/code_freeze_v1.json",
@@ -118,7 +130,7 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="nominal_v2"):
+def verify_implementation_freeze(version="inflection_v2"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -425,7 +437,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="nominal_v2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="inflection_v3")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()

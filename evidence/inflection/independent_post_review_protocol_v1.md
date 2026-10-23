@@ -1,0 +1,11 @@
+# Post-review regression protocol, v1
+
+These 22 examples were authored after the first 66/74 independent inflection measurement and its same-runtime corrected-adapter replay. They are **post-review regression material**, not additional untouched holdout data. The reviewer had read the original a1 implementation but had not opened any a2 implementation or outputs when saving this file and the cases.
+
+The contract was supplied by the implementation owner before the a2 changes: source-paired masculine plural letter allomorphs may license their conditional declension paradigm without establishing a singular form; a complete source-attested verbal suffix chain preserves kind and source-qualified nun candidates while leaving construction and classes unresolved; multiple observed nuns keep separate positions and a deleted nun has no fabricated nonempty source span.
+
+Every TSV is an authored miniature source fixture in QAC's four-column syntax, with a distinct `review_fixture` source identity. Its coordinates are fixture positions, not citations to Quran verses. Controlled counterfactual ROOT, lemma, POS, gender and number differences test whether the learner keeps source claims separate. No NOM/ACC/GEN/MOOD or role answers enter training. Only raw text, source identity, scope, and the model learned from that case's exact TSV enter prediction. Expected predicates never enter the reader or learner.
+
+The categories are 3 positive paradigm/variant checks, 9 missing/conflicting paired-premise controls, 3 complete suffix-chain checks, 3 emphasis controls, and 4 nun-position/deletion checks. All raw source and segmentation spans remain subject to the corrected general evidence checker. Positive obligations must hold in correlated readings, negative obligations must hold over every reading, and partial status alone cannot excuse a licensed wrong actual role/case.
+
+Run these only after the a2 runtime freeze is announced. Preserve first outputs and exact code/table/adapter digests; keep any implementation failure and follow-up fix as a separate run. The original 74 cases, original split, first and corrected-adapter a1 results are immutable. An implementation improvement after those cases were opened is a post-open repair, not a new blind measurement.

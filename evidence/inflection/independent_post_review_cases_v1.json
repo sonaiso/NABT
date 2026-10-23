@@ -1,0 +1,682 @@
+{
+  "schema": "nabt.inflection.post-review-cases.v1",
+  "authored_at_utc": "2026-10-23T14:58:08.448427+00:00",
+  "case_count": 22,
+  "new_a2_implementation_read_before_authoring": false,
+  "new_a2_outputs_probed": false,
+  "label": "post-review regression; not held-out acquisition accuracy",
+  "basis": "Parent-provided general a2 contract after the preserved 66/74 first and corrected-adapter a1 runs. All training TSVs are authored miniature source claims, not real QAC passages. No case/mood/role annotations are provided.",
+  "scope": "Paired plural-letter allomorph witnesses, terminal vowel repair, retained suffix-chain kind/evidence with unknown construction, independent radical/inflectional nun positions.",
+  "cases": [
+    {
+      "id": "POST-P01",
+      "track": "paired_plural_lemma",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_p01",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "source_root_contains": [
+          "كتب"
+        ],
+        "class_case_contains": [
+          {
+            "class": "iJamM",
+            "case": "jarr"
+          }
+        ],
+        "actual_case": "jarr",
+        "actual_role": "preposition_object",
+        "singular_witnesses_empty": true,
+        "nominal_semantic_form_not_in": [
+          "sound_masculine_plural",
+          "broken_plural"
+        ]
+      },
+      "reason": "Independent MP -uuna/-iina source forms license a letter paradigm without a singular attestation."
+    },
+    {
+      "id": "POST-P02",
+      "track": "paired_plural_lemma",
+      "action": "read",
+      "input": {
+        "text": "حَارِسُونَ",
+        "source_id": "post_p02",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "حَارِسُونَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tHaArisuwna\tN\tSTEM|POS:N|LEM:HaArisuwn|ROOT:Hrs|MP\n(1:2:1:1)\tHaArisiyna\tN\tSTEM|POS:N|LEM:HaArisuwn|ROOT:Hrs|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "source_root_contains": [
+          "حرس"
+        ],
+        "class_case_contains": [
+          {
+            "class": "iJamM",
+            "case": "raf"
+          }
+        ],
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true,
+        "nominal_semantic_form_not_in": [
+          "sound_masculine_plural",
+          "broken_plural"
+        ]
+      },
+      "reason": "Second lexical family; retain conditional raf without selecting a role."
+    },
+    {
+      "id": "POST-P03",
+      "track": "generated_preceding_vowel",
+      "action": "read",
+      "input": {
+        "text": "مِنْ حَامِلِينَ",
+        "source_id": "post_p03",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "حَامِلِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tHaAmiluwna\tN\tSTEM|POS:N|LEM:HaAmil|ROOT:Hml|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "source_root_contains": [
+          "حمل"
+        ],
+        "class_case_contains": [
+          {
+            "class": "iJamM",
+            "case": "jarr"
+          }
+        ],
+        "actual_case": "jarr",
+        "actual_role": "preposition_object",
+        "singular_witnesses_empty": true,
+        "nominal_semantic_form_not_in": [
+          "sound_masculine_plural",
+          "broken_plural"
+        ]
+      },
+      "reason": "The earlier exact-lemma recomposition route changes u before waw to i before ya in a generated variant."
+    },
+    {
+      "id": "POST-N01",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n01",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "A plural-form lemma and one observed ending are insufficient."
+    },
+    {
+      "id": "POST-N02",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n02",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktm|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Different ROOT values cannot be joined into a paradigm."
+    },
+    {
+      "id": "POST-N03",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n03",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibiyn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Different lemmas cannot be joined."
+    },
+    {
+      "id": "POST-N04",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n04",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tADJ\tSTEM|POS:ADJ|LEM:kaAtibuwn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "N and ADJ source readings remain separate."
+    },
+    {
+      "id": "POST-N05",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n05",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|FP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Masculine and feminine source readings remain separate."
+    },
+    {
+      "id": "POST-N06",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n06",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MD\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Plural and dual source readings remain separate."
+    },
+    {
+      "id": "POST-N07",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n07",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtabuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Internal template vowels differ before the mutable ending cluster."
+    },
+    {
+      "id": "POST-N08",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبِينَ",
+        "source_id": "post_n08",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبِينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibawna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibiyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Fatha before waw cannot witness the required -uuna allomorph."
+    },
+    {
+      "id": "POST-N09",
+      "track": "paired_premise_counterexample",
+      "action": "read",
+      "input": {
+        "text": "مِنْ كَاتِبُينَ",
+        "source_id": "post_n09",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "كَاتِبُينَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tkaAtibuwna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n(1:2:1:1)\tkaAtibuyna\tN\tSTEM|POS:N|LEM:kaAtibuwn|ROOT:ktb|MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "noun"
+        ],
+        "construction_not_licensed": true,
+        "actual_case": null,
+        "actual_role": null,
+        "singular_witnesses_empty": true
+      },
+      "reason": "Damma before ya cannot witness the required -iina allomorph."
+    },
+    {
+      "id": "POST-S01",
+      "track": "source_attested_suffix_chain",
+      "action": "read",
+      "input": {
+        "text": "يَكْتُبْنَهُ",
+        "source_id": "post_s01",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَكْتُبْنَهُ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyakotubo\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|3FP\n(1:1:1:2)\tna\tPRON\tSUFFIX|PRON:3FP\n(1:1:1:3)\thu\tPRON\tSUFFIX|PRON:3MS\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "كتب"
+        ],
+        "construction_not_licensed": true,
+        "class_candidates_empty": true,
+        "actual_case": null,
+        "actual_role": null,
+        "nun_evidence_contains": [
+          "feminine_subject"
+        ],
+        "present_nun_spans_restore_nun": true
+      },
+      "reason": "Retain full-source stem, feminine subject and object suffix with no full-chain construction claim."
+    },
+    {
+      "id": "POST-S02",
+      "track": "suffix_chain_no_activation",
+      "action": "read",
+      "input": {
+        "text": "لَمْ يَكْتُبْنَهُ",
+        "source_id": "post_s02",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَكْتُبْنَهُ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyakotubo\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|3FP\n(1:1:1:2)\tna\tPRON\tSUFFIX|PRON:3FP\n(1:1:1:3)\thu\tPRON\tSUFFIX|PRON:3MS\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "كتب"
+        ],
+        "construction_not_licensed": true,
+        "class_candidates_empty": true,
+        "actual_case": null,
+        "actual_role": null,
+        "nun_evidence_contains": [
+          "feminine_subject"
+        ],
+        "present_nun_spans_restore_nun": true
+      },
+      "reason": "A governor cannot supply the missing construction proof for the complete suffix chain."
+    },
+    {
+      "id": "POST-S03",
+      "track": "source_attested_suffix_chain",
+      "action": "read",
+      "input": {
+        "text": "أَكْرِمْنِي",
+        "source_id": "post_s03",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "أَكْرِمْنِي",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\t>akorimo\tV\tSTEM|POS:V|IMPV|LEM:>akorama|ROOT:krm|2MS\n(1:1:1:2)\tniy\tPRON\tSUFFIX|PRON:1S\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "كرم"
+        ],
+        "construction_not_licensed": true,
+        "class_candidates_empty": true,
+        "actual_case": null,
+        "actual_role": null,
+        "forbidden_nun_evidence": [
+          "inflection_retained",
+          "inflection_deleted"
+        ],
+        "protective_nun_not_acquired": true
+      },
+      "reason": "Retain the imperative kind; the current contract does not acquire protective-nun semantics."
+    },
+    {
+      "id": "POST-E01",
+      "track": "emphasis_without_directness",
+      "action": "read",
+      "input": {
+        "text": "يَكْتُبَنَّ",
+        "source_id": "post_e01",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَكْتُبَنَّ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyakotuba\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|3MS\n(1:1:1:2)\tn~a\tEMPH\tSUFFIX|+n:EMPH\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "كتب"
+        ],
+        "construction_not_licensed": true,
+        "class_candidates_empty": true,
+        "actual_case": null,
+        "actual_role": null,
+        "nun_evidence_contains": [
+          "emphasis"
+        ],
+        "emphasis_tag_alone_not_directness_proof": true,
+        "present_nun_spans_restore_nun": true
+      },
+      "reason": "EMPH preserves a source-qualified candidate without proving directness or construction."
+    },
+    {
+      "id": "POST-E02",
+      "track": "emphasis_no_activation",
+      "action": "read",
+      "input": {
+        "text": "لَمْ يَكْتُبَنَّ",
+        "source_id": "post_e02",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَكْتُبَنَّ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyakotuba\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|3MS\n(1:1:1:2)\tn~a\tEMPH\tSUFFIX|+n:EMPH\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "كتب"
+        ],
+        "construction_not_licensed": true,
+        "class_candidates_empty": true,
+        "actual_case": null,
+        "actual_role": null,
+        "nun_evidence_contains": [
+          "emphasis"
+        ],
+        "emphasis_tag_alone_not_directness_proof": true,
+        "present_nun_spans_restore_nun": true
+      },
+      "reason": "A compatible governor cannot complete the unresolved emphatic construction."
+    },
+    {
+      "id": "POST-E03",
+      "track": "emphasis_without_full_five_base",
+      "action": "read",
+      "input": {
+        "text": "تَكْتُبِنَّ",
+        "source_id": "post_e03",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "تَكْتُبِنَّ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\ttakotubi\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|2FS\n(1:1:1:2)\tn~a\tEMPH\tSUFFIX|+n:EMPH\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "كتب"
+        ],
+        "construction_not_licensed": true,
+        "class_candidates_empty": true,
+        "actual_case": null,
+        "actual_role": null,
+        "nun_evidence_contains": [
+          "emphasis"
+        ],
+        "emphasis_tag_alone_not_directness_proof": true,
+        "present_nun_spans_restore_nun": true
+      },
+      "reason": "2FS plus EMPH does not prove a retained/deleted five-verb nun from an unavailable complete base."
+    },
+    {
+      "id": "POST-R01",
+      "track": "two_nun_positions",
+      "action": "read",
+      "input": {
+        "text": "يَسْكُنُونَ",
+        "source_id": "post_r01",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَسْكُنُونَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyasokunu\tV\tSTEM|POS:V|IMPF|LEM:sakana|ROOT:skn|3MP\n(1:1:1:2)\twna\tPRON\tSUFFIX|PRON:3MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "سكن"
+        ],
+        "class_case_contains": [
+          {
+            "class": "fKhamsaW",
+            "case": "raf"
+          }
+        ],
+        "nun_evidence_contains": [
+          "radical",
+          "inflection_retained"
+        ],
+        "distinct_nun_positions": true,
+        "present_nun_spans_restore_nun": true,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "reason": "One source-grounded reading keeps final radical nun and the later inflectional nun in distinct positions."
+    },
+    {
+      "id": "POST-R02",
+      "track": "deleted_nun_no_invented_span",
+      "action": "read",
+      "input": {
+        "text": "لَمْ يَسْكُنُوا",
+        "source_id": "post_r02",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَسْكُنُوا",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyasokunu\tV\tSTEM|POS:V|IMPF|LEM:sakana|ROOT:skn|3MP\n(1:1:1:2)\twna\tPRON\tSUFFIX|PRON:3MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "سكن"
+        ],
+        "class_case_contains": [
+          {
+            "class": "fKhamsaW",
+            "case": "jazm"
+          }
+        ],
+        "nun_evidence_contains": [
+          "radical",
+          "inflection_deleted"
+        ],
+        "present_nun_spans_restore_nun": true,
+        "deleted_nun_has_no_nonempty_span": true,
+        "deletion_requires_retained_full_base_receipt": true,
+        "actual_case": "jazm",
+        "actual_role": "governed_imperfect"
+      },
+      "reason": "The radical nun remains present; the deleted inflectional nun has a full-base receipt but no invented observed span."
+    },
+    {
+      "id": "POST-R03",
+      "track": "root_nun_source_counterexample",
+      "action": "read",
+      "input": {
+        "text": "يَسْكُنُونَ",
+        "source_id": "post_r03",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَسْكُنُونَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyasokunu\tV\tSTEM|POS:V|IMPF|LEM:sakana|ROOT:skt|3MP\n(1:1:1:2)\twna\tPRON\tSUFFIX|PRON:3MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "nun_evidence_contains": [
+          "inflection_retained"
+        ],
+        "forbidden_nun_evidence": [
+          "radical"
+        ],
+        "actual_case": null,
+        "actual_role": null
+      },
+      "reason": "Counterfactual source ROOT not ending in nun cannot prove a final radical nun; this tests source conditionality, not Arabic truth."
+    },
+    {
+      "id": "POST-R04",
+      "track": "root_without_nun",
+      "action": "read",
+      "input": {
+        "text": "يَقُولُونَ",
+        "source_id": "post_r04",
+        "scope": "post_review_inflection_v1",
+        "model_profile": "synthetic_source_fixture"
+      },
+      "target_surface": "يَقُولُونَ",
+      "source_tsv": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tyaquwlu\tV\tSTEM|POS:V|IMPF|LEM:qaAla|ROOT:qwl|3MP\n(1:1:1:2)\twna\tPRON\tSUFFIX|PRON:3MP\n",
+      "lexical_source_id": "review_fixture",
+      "synthetic_qac_fixture_not_corpus_passage": true,
+      "expected": {
+        "kind_contains": [
+          "verb"
+        ],
+        "source_root_contains": [
+          "قول"
+        ],
+        "nun_evidence_contains": [
+          "inflection_retained"
+        ],
+        "forbidden_nun_evidence": [
+          "radical"
+        ],
+        "actual_case": null,
+        "actual_role": null
+      },
+      "reason": "A normal root without nun does not acquire a radical nun from the plural ending."
+    }
+  ]
+}

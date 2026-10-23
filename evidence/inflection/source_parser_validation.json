@@ -1,0 +1,78 @@
+{
+  "schema": "nabt.corpus-source-validation.v1",
+  "date_utc": "2026-10-23",
+  "status": "PASS",
+  "authority": "Adapter annotation replay and exact byte coverage only; not an acquisition or linguistic-accuracy evaluation.",
+  "runtime_sha256": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+  "tests_sha256": "c90b7d22e208fbf556365dd2d5f6735c5b8dfff151b2fe1f65de8f7af6de9ecb",
+  "authored_boundary_tests_passed": 15,
+  "datasets": [
+    {
+      "format": "qac",
+      "source_path": "Saleh1967/Alghanem/corpora/qac/quranic-corpus-morphology-0.4.txt.gz",
+      "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+      "byte_length": 6309503,
+      "summary": {
+        "record_count": 128219,
+        "valid_count": 128219,
+        "invalid_count": 0,
+        "diagnostic_counts": {},
+        "duplicate_locator_groups": 0,
+        "duplicate_locator_excess_records": 0,
+        "record_bytes": 6307252,
+        "header_bytes": 28,
+        "nonrecord_bytes": 2223,
+        "source_coverage_complete": true
+      },
+      "all_fields_equal_independent_standard_parser": true,
+      "all_source_spans_reconstruct_exactly": true,
+      "replay_verified": true
+    },
+    {
+      "format": "masaq-ar",
+      "source_path": "Saleh1967/Alghanem/corpora/MASAQ.csv",
+      "source_sha256": "d43d2a813afbe0490254bb26623d6041ed352a273d333e731ddbcda3bd0b6f3a",
+      "byte_length": 20302008,
+      "summary": {
+        "record_count": 157677,
+        "valid_count": 157676,
+        "invalid_count": 1,
+        "diagnostic_counts": {
+          "INVALID_ID": 1
+        },
+        "duplicate_locator_groups": 422,
+        "duplicate_locator_excess_records": 422,
+        "record_bytes": 20301776,
+        "header_bytes": 232,
+        "nonrecord_bytes": 0,
+        "source_coverage_complete": true
+      },
+      "all_fields_equal_independent_standard_parser": true,
+      "all_source_spans_reconstruct_exactly": true,
+      "replay_verified": true
+    },
+    {
+      "format": "masaq-en",
+      "source_path": "sonaiso/masaq-eqra/MASAQ.csv",
+      "source_sha256": "542b78ca83ae18f971cfd899cfc391d9ee9c072e6f9fd943be77138f39ea2448",
+      "byte_length": 18650411,
+      "summary": {
+        "record_count": 157676,
+        "valid_count": 157676,
+        "invalid_count": 0,
+        "diagnostic_counts": {},
+        "duplicate_locator_groups": 422,
+        "duplicate_locator_excess_records": 422,
+        "record_bytes": 18650179,
+        "header_bytes": 232,
+        "nonrecord_bytes": 0,
+        "source_coverage_complete": true
+      },
+      "all_fields_equal_independent_standard_parser": true,
+      "all_source_spans_reconstruct_exactly": true,
+      "replay_verified": true
+    }
+  ],
+  "original_corpus_bytes_bundled": false,
+  "boundary_test_command": "PYTHONPATH=src python -m unittest discover -s tests -p test_corpus_sources.py -v"
+}
