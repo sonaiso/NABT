@@ -8,7 +8,10 @@ from __future__ import annotations
 import argparse,hashlib,json,platform,time,sys
 from pathlib import Path
 from collections import Counter
-from .oracle_helpers import atom_key,rule_key,restore_segments,independent_certificate
+from .oracle_helpers import atom_key,rule_key,restore_segments,validate_answer_certificates,program_identity
+from .statement_oracle import ANNOTATION_SHA256,load_statement_oracle
+
+EVALUATOR_VERSION='nabt.arabic-syntax.independent-evaluator.v2'
 
 EXPECTED_HASHES={
 'episodes.json':'5b6c2a56b511065eb0cf1683cf9af63425501def33026b50cfc77b72997e5682',
@@ -66,6 +69,7 @@ def run(data_root,profile):
     for name,digest in EXPECTED_HASHES.items():
         assert hashlib.sha256((data_root/name).read_bytes()).hexdigest()==digest,name
     manual={r['source_text_sha256']:r['expected'] for r in json.loads((data_root/'manual_oracle.json').read_text())['records']}
+    statement_oracle=load_statement_oracle()
     overrides={x['case_id']:x for x in json.loads((data_root/'gold_review.json').read_text())['overrides']}
     results=[]; all_start=time.perf_counter()
     for partition,file in [('standalone','episodes.json'),('declared_scope','scope_episodes.json')]:
@@ -74,7 +78,7 @@ def run(data_root,profile):
         events=[]; active={}; complete=True; claims_safe=True; proofs_ok=True; all_restore=True
         source_read_flags=[]; query_flags=[]; covered_query_flags=[]
         for idx,event in enumerate(case['events']):
-          op=event['op']; row={'index':idx,'op':op}
+          op=event['op']; row={'index':idx,'op':op}; query_returned=False
           try:
             if op in ('add','replace'):
               raw=event['text'].encode(); sid=event['source_id']; gold=manual[hashlib.sha256(raw).hexdigest()]
@@ -96,7 +100,9 @@ def run(data_root,profile):
               if out['accepted']: active.pop(event['source_id'],None)
               complete &= out['accepted']
             elif op=='query':
-              out=k.query(event['text'],scope=scope).as_dict(); row['result']=out
+              answer=k.query(event['text'],scope=scope)
+              query_returned=True
+              out=answer.as_dict(); row['result']=out
               actual_query=out.get('query')
               target_ok=isinstance(actual_query,dict) and atom_key(actual_query)==atom_key(event['gold_atom'])
               correct=target_ok and out['status'] in event['gold_status']
@@ -108,12 +114,9 @@ def run(data_root,profile):
               row['covered_by_admitted_sources']=complete
               query_flags.append(correct); covered_query_flags.append(correct and complete)
               if out.get('world_truth')!='NOT_ESTABLISHED': claims_safe=False
-              cert_checks=[]
-              for name,cert in out.get('proofs',{}).items():
-                if cert is None: continue
-                independent_certificate(cert,active,scope,manual)
-                cert_checks.append({'side':name,'independent_replay':True})
-              row['independent_certificates']=cert_checks
+              row['independent_certificates']=validate_answer_certificates(
+                  out,active,scope,manual,expected_query=event['gold_atom'],
+                  expected_program_sha256=program_identity(active,scope,LANGUAGE_ID),statement_oracle=statement_oracle)
               if out['status'] in ('SUPPORTED','REFUTED') and not correct: claims_safe=False
             else: raise AssertionError(f'Unknown frozen operation {op}')
           except Exception as error:
@@ -124,12 +127,16 @@ def run(data_root,profile):
                 all_restore=False
             if op=='query':
                 if 'status_matches_gold' in row:
+                    query_flags[-1]=False
                     covered_query_flags[-1]=False
                 else:
                     query_flags.append(False); covered_query_flags.append(False)
-            # A normal language or missing-source exception is an uncovered case.
-            # An assertion in the independent checker is a failed safety check.
-            if isinstance(error,AssertionError): claims_safe=False; proofs_ok=False
+                row['failure_stage']='returned_answer_validation' if query_returned else 'query_execution'
+            # Once a query result exists, EVERY validation failure fails replay
+            # and safety, including malformed JSON shapes and unexpected checker
+            # exceptions. Pre-result reader/execution noncoverage stays separate.
+            if query_returned or isinstance(error,AssertionError):
+                claims_safe=False; proofs_ok=False
           events.append(row)
         seconds=time.perf_counter()-start
         full=complete and all(query_flags) and bool(source_read_flags) and all(source_read_flags)
@@ -158,9 +165,10 @@ def run(data_root,profile):
               'licensed_claim_episodes':sum(r['admitted_claims_licensed'] for r in rows),
               'source_admission_and_projection_complete':sum(r['source_admission_and_projection_complete'] for r in rows),
               'budget_pass':sum(r['within_budget'] for r in rows)}
-    return {'schema':'nabt.arabic-syntax.evaluation-results.v1','profile':LANGUAGE_ID,
+    return {'schema':'nabt.arabic-syntax.evaluation-results.v2','evaluator_version':EVALUATOR_VERSION,
+            'statement_oracle_sha256':ANNOTATION_SHA256,'profile':LANGUAGE_ID,
             'runtime':{'python':sys.version,'platform':platform.platform()},'data_hashes':EXPECTED_HASHES,
-            'method':'Manual frozen semantic oracle; complete understanding, safe suspension, literal source restoration and source-relative proof replay are distinct metrics.',
+            'method':'Public regression with the original frozen manual semantic gold and separately pinned post-evaluation statement-role annotations. Not a new blind evaluation. Complete understanding, safe suspension, literal source restoration and query-bound source-relative proof replay are distinct metrics.',
             'seconds':time.perf_counter()-all_start,'summary':{'standalone':summary('standalone'),'declared_scope':summary('declared_scope'),
             'real_excerpts':{'total':len(real_results),'semantic_read':sum(r.get('comparison',{}).get('semantic_read',False) for r in real_results),
                              'source_restored':sum(r.get('source_restored',False) for r in real_results),

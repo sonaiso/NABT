@@ -1,0 +1,112 @@
+{
+  "schema": "nabt.arabic-query-replay-review.release-validation.v1",
+  "utc": "2026-10-23T05:51:54.164602+00:00",
+  "base_commit": "b6ba0c6d960a3627d2841955fa8aeb369d54794c",
+  "branch": "fix/arabic-query-proof-boundaries",
+  "package_version": "0.5.0a2",
+  "reader_version": "nabt.arabic-reader.v2",
+  "evaluator_version": "nabt.arabic-syntax.independent-evaluator.v2",
+  "runtime_snapshot_sha256": "202df9bbc9e450fa110c7e497cffd50b0b70a03b8b3c5017f9d49793ff6ec85f",
+  "command": "make check LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake EVIDENCE_DIR=artifacts/local/pr3-review-release-01 ARABIC_EVALUATION_DIR=artifacts/local/pr3-review-release-01/arabic-regression",
+  "exit_code": 0,
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "unit_tests": {
+    "passed": 321,
+    "skipped": 0,
+    "seconds": 12.379,
+    "new_tests": 50,
+    "independent_review_tests": 19
+  },
+  "formal": {
+    "theorems": 258,
+    "new_theorems_in_this_fix": 0,
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false
+  },
+  "shape_conformance": {
+    "transitions": 11252,
+    "fresh_lean_export": true
+  },
+  "property_conformance": {
+    "states": 4096,
+    "mismatches": 0
+  },
+  "arabic_numeric_conformance": {
+    "moods": 8,
+    "profiles": 2,
+    "cell_envelopes": 48
+  },
+  "old_runtime_with_corrected_evaluator": {
+    "passed": true,
+    "summary": {
+      "standalone": {
+        "episodes": 40,
+        "complete_episodes": 0,
+        "queries": 43,
+        "raw_query_matches": 0,
+        "covered_query_matches": 0,
+        "source_restoration_episodes": 40,
+        "licensed_claim_episodes": 40,
+        "source_admission_and_projection_complete": 1,
+        "budget_pass": 40
+      },
+      "declared_scope": {
+        "episodes": 12,
+        "complete_episodes": 8,
+        "queries": 11,
+        "raw_query_matches": 9,
+        "covered_query_matches": 9,
+        "source_restoration_episodes": 12,
+        "licensed_claim_episodes": 12,
+        "source_admission_and_projection_complete": 8,
+        "budget_pass": 12
+      },
+      "real_excerpts": {
+        "total": 8,
+        "semantic_read": 0,
+        "source_restored": 8,
+        "licensed_claims": 8
+      }
+    }
+  },
+  "new_runtime_with_corrected_evaluator": {
+    "passed": true,
+    "summary": {
+      "standalone": {
+        "episodes": 40,
+        "complete_episodes": 0,
+        "queries": 43,
+        "raw_query_matches": 0,
+        "covered_query_matches": 0,
+        "source_restoration_episodes": 40,
+        "licensed_claim_episodes": 40,
+        "source_admission_and_projection_complete": 1,
+        "budget_pass": 40
+      },
+      "declared_scope": {
+        "episodes": 12,
+        "complete_episodes": 8,
+        "queries": 11,
+        "raw_query_matches": 9,
+        "covered_query_matches": 9,
+        "source_restoration_episodes": 12,
+        "licensed_claim_episodes": 12,
+        "source_admission_and_projection_complete": 8,
+        "budget_pass": 12
+      },
+      "real_excerpts": {
+        "total": 8,
+        "semantic_read": 0,
+        "source_restored": 8,
+        "licensed_claims": 8
+      }
+    }
+  },
+  "historical_artifact_changes": [],
+  "scope": "Public regression and independently authored local correctness cases, not a new held-out measurement or Python-to-Lean refinement proof."
+}

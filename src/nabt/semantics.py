@@ -679,15 +679,18 @@ class SemanticKernel:
         reader = _reader(self.language_id)
         if self.language_id == LANGUAGE_ID:
             return reader.parse_query(text, scope=scope)
-        # A query can reuse subject identities witnessed in its active theory.
+        # A query can reuse subject identities and exact relation declarations
+        # witnessed in its active theory and its requested scope.
         # This licenses a target reading only, never a fact or source admission.
         program = self._program()
-        subjects = set()
+        subjects, relations = set(), set()
         for doc in program.documents:
             if doc.scope == scope:
                 subjects.update(d.name for d in doc.declarations if d.kind == "individual")
+                relations.update(d.name for d in doc.declarations if d.kind == "relation")
                 subjects.update(f.atom.args[0] for f in doc.facts)
-        return reader.parse_query(text, scope=scope, known_individuals=frozenset(subjects))
+        return reader.parse_query(text, scope=scope, known_individuals=frozenset(subjects),
+                                  known_relations=frozenset(relations))
 
     def query(self, query: Query | Atom | str | bytes, *, scope: str | None = None) -> QueryResult:
         if type(query) in (str, bytes):

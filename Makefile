@@ -2,7 +2,7 @@ PYTHON ?= python3
 LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
-TEXT_CODE_FREEZE ?= evidence/arabic_syntax/code_freeze_first.json
+TEXT_CODE_FREEZE ?= evidence/arabic_syntax/review_fixes/code_freeze_v2.json
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 export PYTHONPATH := $(CURDIR)/src
 

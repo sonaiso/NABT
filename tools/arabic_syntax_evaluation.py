@@ -12,7 +12,8 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 
-from arabic_syntax_evaluation_helpers.runner import run
+from arabic_syntax_evaluation_helpers.runner import EVALUATOR_VERSION,run
+from arabic_syntax_evaluation_helpers.statement_oracle import ANNOTATION_PATH,ANNOTATION_SHA256
 from text_evaluation.integrity import (
     prepare_output_directory,
     verify_code_freeze,
@@ -22,7 +23,7 @@ from text_evaluation.integrity import (
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED = ROOT / "evidence/arabic_syntax/independent"
-DEFAULT_FREEZE = ROOT / "evidence/arabic_syntax/code_freeze_first.json"
+DEFAULT_FREEZE = ROOT / "evidence/arabic_syntax/review_fixes/code_freeze_v2.json"
 ARTIFACT_MANIFEST_SHA256 = "d42eab25417d1bac2659337c78769dfc9a299b808379752236bf016cfff50429"
 FIRST_SNAPSHOT = "4662ac75ded649b9f1d5d4d0e152fa292e4b63e72e6ce55ec924bad9b65e6524"
 PREVIOUSLY_COMPLETE = frozenset({"s01", "s02", "s04", "s05", "s06", "s07", "s09", "s12"})
@@ -119,11 +120,15 @@ def main() -> int:
     helpers.append(Path(__file__).resolve())
     helpers.append(ROOT / "tools/text_evaluation/integrity.py")
     receipt = {
-        "schema": "nabt.arabic-syntax.public-regression-receipt.v1",
+        "schema": "nabt.arabic-syntax.public-regression-receipt.v2",
+        "evaluator_version": EVALUATOR_VERSION,
         "evaluation_kind": "public_regression",
         "frozen_inputs": identity,
         "runtime_snapshot": freeze["snapshot_sha256"],
         "runtime_files_checked": len(freeze["files"]),
+        "statement_oracle": {"path": ANNOTATION_PATH.relative_to(ROOT).as_posix(),
+                             "sha256": ANNOTATION_SHA256,
+                             "kind": "post-evaluation public-reference annotation, not new blinded gold"},
         "evaluator_files": [{"path": p.relative_to(ROOT).as_posix(), "sha256": _digest(p)} for p in helpers],
         "gate": gate,
         "summary": result["summary"],
