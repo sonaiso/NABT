@@ -1,0 +1,91 @@
+{
+  "utc": "2026-10-23T09:33:53.487862+00:00",
+  "scope": "Built wheel and read/verify the word example from outside the source checkout",
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pip",
+        "wheel",
+        "--no-cache-dir",
+        "--no-deps",
+        "--no-build-isolation",
+        "--wheel-dir",
+        "/tmp/nabt_word_installed_r77_kn4k/wheels",
+        "."
+      ],
+      "cwd": "/workspace/scratch/6e4178bfef09/nabt_integration/NABT",
+      "exit_code": 0,
+      "stdout": "Processing ./.\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: nabt-machine\n  Building wheel for nabt-machine (pyproject.toml): started\n  Building wheel for nabt-machine (pyproject.toml): finished with status 'done'\n  Created wheel for nabt-machine: filename=nabt_machine-0.7.0a1-py3-none-any.whl size=879273 sha256=252f1acb7b32cf8effbc1ecffc6e397268b091bc8cec9d094552c6808b39e468\n  Stored in directory: /tmp/pip-ephem-wheel-cache-wj3yiq9b/wheels/cf/ad/c8/03678ee8d6d39bd67259dc26743db8eea80f912ea7ced59af4\nSuccessfully built nabt-machine\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-cache-dir",
+        "--no-deps",
+        "--no-index",
+        "--target",
+        "/tmp/nabt_word_installed_r77_kn4k/installed",
+        "/tmp/nabt_word_installed_r77_kn4k/wheels/nabt_machine-0.7.0a1-py3-none-any.whl"
+      ],
+      "cwd": "/workspace/scratch/6e4178bfef09/nabt_integration/NABT",
+      "exit_code": 0,
+      "stdout": "Processing /tmp/nabt_word_installed_r77_kn4k/wheels/nabt_machine-0.7.0a1-py3-none-any.whl\nInstalling collected packages: nabt-machine\nSuccessfully installed nabt-machine-0.7.0a1\n",
+      "stderr": "WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.\n"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-c",
+        "import nabt; print(nabt.__file__)"
+      ],
+      "cwd": "/tmp/nabt_word_installed_r77_kn4k",
+      "exit_code": 0,
+      "stdout": "/tmp/nabt_word_installed_r77_kn4k/installed/nabt/__init__.py\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "read-words",
+        "example.txt"
+      ],
+      "cwd": "/tmp/nabt_word_installed_r77_kn4k",
+      "exit_code": 0,
+      "stdout": "            3\n                  ]\n                ],\n                \"actual_role\": null,\n                \"actual_case\": null,\n                \"referent\": null,\n                \"features\": {\n                  \"lemma\": \"يقوم\",\n                  \"tense\": \"imperfect\",\n                  \"requires_construction\": true,\n                  \"exact_stem_forms_only\": true\n                },\n                \"rule_ids\": [\n                  \"imperfect_signs\",\n                  \"basic_case_endings\",\n                  \"alfiyya_construction\"\n                ],\n                \"evidence_basis\": \"AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE\",\n                \"class_and_template_basis\": \"Class 8 describes the terminal case realization only. يقوم is not claimed to have no internal weak radical: its jussive stem يقم is enumerated from لم يقم, not formed by changing the final vowel of يقوم. No template يقومْ is licensed.\",\n                \"lexical_attestations\": [\n                  {\n                    \"rule_id\": \"imperfect_signs\",\n                    \"base_text\": \"يقوم\"\n                  },\n                  {\n                    \"rule_id\": \"basic_case_endings\",\n                    \"base_text\": \"يقوم\"\n                  },\n                  {\n                    \"rule_id\": \"basic_case_endings\",\n                    \"base_text\": \"يقم\"\n                  }\n                ],\n                \"obligations\": [\n                  \"CONSTRUCTION_READING_EVIDENCE\"\n                ],\n                \"cell_encoding\": {\n                  \"alphabet_id\": \"nabt.a116.v1\",\n                  \"status\": \"ENCODED\",\n                  \"cells\": [\n                    108,\n                    81,\n                    95\n                  ],\n                  \"number_hex\": \"0x1686d8\",\n                  \"authority\": \"ENCODING_ONLY\"\n                },\n                \"authority\": \"PRECOMPOSITION_ANALYSIS_ONLY\"\n              },\n              \"context_id\": \"29edd289a6370a2ca5b0a4b4301deb72f3df236a4b461edb4c5b3cbe4cf5b06a\",\n              \"role\": 2,\n              \"case\": 3,\n              \"class_case_pairs\": [\n                [\n                  8,\n                  3\n                ]\n              ],\n              \"role_case_number\": {\n                \"domain\": \"nabt.governors.role-mark.v1\",\n                \"value\": 11\n              },\n              \"referent\": null\n            }\n          ],\n          \"case_check\": {\n            \"law_id\": \"nabt.governors.v1\",\n            \"class_code\": 5,\n            \"complete\": [\n              [\n                [\n                  2,\n                  3\n                ]\n              ]\n            ],\n            \"viable\": [\n              [\n                [\n                  2,\n                  3\n                ]\n              ]\n            ],\n            \"deficits\": [\n              {\n                \"alternative\": [\n                  [\n                    2,\n                    3\n                  ]\n                ],\n                \"missing\": [],\n                \"conflicts\": []\n              }\n            ],\n            \"authority\": \"CASE_ASSIGNMENT_ONLY\"\n          }\n        }\n      ],\n      \"obligations\": [],\n      \"authority\": \"SYNTAX_ONLY\",\n      \"semantic_projection\": \"NONE\",\n      \"unresolved_alternative_obligations\": [],\n      \"conflicts\": []\n    }\n  ],\n  \"source_restored\": true,\n  \"facts\": [],\n  \"semantic_projection\": \"NONE\",\n  \"world_truth\": \"NOT_ESTABLISHED\",\n  \"interpretation_scope\": \"FINITE_ATTESTED_LEXICAL_PILOT_AND_THREE_COMPLETE_FRAMES\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-words",
+        "reading.json",
+        "--source",
+        "example.txt"
+      ],
+      "cwd": "/tmp/nabt_word_installed_r77_kn4k",
+      "exit_code": 0,
+      "stdout": "{\n  \"valid\": true,\n  \"status\": \"VERIFIED\",\n  \"authority\": \"WORD_READING_REPLAY_ONLY\",\n  \"source_sha256\": \"505197d4d6533effaf91f0e16d3bcd7b61eaab80acd046508b91422f55dda642\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "wheel_sha256": "252f1acb7b32cf8effbc1ecffc6e397268b091bc8cec9d094552c6808b39e468",
+  "ok": true,
+  "module_origin": "/tmp/nabt_word_installed_r77_kn4k/installed/nabt/__init__.py",
+  "reading_status": "READ",
+  "verification": {
+    "valid": true,
+    "status": "VERIFIED",
+    "authority": "WORD_READING_REPLAY_ONLY",
+    "source_sha256": "505197d4d6533effaf91f0e16d3bcd7b61eaab80acd046508b91422f55dda642"
+  }
+}

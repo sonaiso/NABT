@@ -19,9 +19,20 @@ import time
 
 from arabic_syntax_evaluation_helpers import oracle_helpers as oracle
 
-VERSION = 'nabt.governors.independent-evaluator.v1'
+VERSION = 'nabt.governors.published-regression-evaluator.v2'
 CODE_FREEZE_SHA256 = '1d48dd43210fb15b3bedbb0d8dc32b473b691842f89efb1a887d9cc2273b06d8'
 CODE_SNAPSHOT_SHA256 = '5b546537c8398eacc5628d5aad1cd8f6f452578a33e834a299a1f68970fe6996'
+# Explicitly approved snapshots, never a caller-recomputed manifest override.
+# Original material and first-run evidence remain byte-for-byte unchanged.
+APPROVED_CODE_FREEZES = {
+    CODE_FREEZE_SHA256: CODE_SNAPSHOT_SHA256,
+    '493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc4':
+        '96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4',
+    '304fddda0276053f8a6404a7d21ca7fb2019e9a0c0aa98b5718b52684efec2da':
+        '41ad5f8719d838f3b039633ee69175fcbbceb079e4a786b7d34d2c920821c3ee',
+    'b9ffd279e093b30cadbb4c61a23eb3f0b314ae5ae0da1374907ae8b133333434':
+        '33cb00870b810ddfef44d1c9c665c289223faf5164517fb1d0bdc803081a5066',
+}
 PROFILE = 'nabt.arabic-governors.v1'
 BASELINE_PROFILE = 'nabt.arabic-syntax.v1'
 MATERIAL_FREEZE_SHA256 = '78db2dd50ec89b2ff49047cdae5cf3015eabe8b72533c3c8db1925e5c3b32d82'
@@ -60,11 +71,14 @@ def verify_listed_files(directory, manifest, expected):
 
 def verify_code_freeze(root, path):
     root=Path(root);path=Path(path)
-    manifest=load_pinned(path,CODE_FREEZE_SHA256)
+    raw=path.read_bytes()
+    manifest_hash=sha256(raw).hexdigest()
+    require(manifest_hash in APPROVED_CODE_FREEZES, 'Runtime freeze is not an explicitly approved snapshot')
+    manifest=json.loads(raw)
     rows=manifest['files']
     require(type(rows) is list and len(rows)==len({r['path'] for r in rows}), 'Invalid code-freeze inventory')
     digest=sha256(json.dumps(rows,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
-    require(digest==CODE_SNAPSHOT_SHA256==manifest['snapshot_sha256'], 'Different authoritative code snapshot')
+    require(digest==APPROVED_CODE_FREEZES[manifest_hash]==manifest['snapshot_sha256'], 'Different authoritative code snapshot')
     actual={'pyproject.toml'} | {str(p.relative_to(root)) for p in (root/'src'/'nabt').rglob('*')
               if p.is_file() and '__pycache__' not in p.parts and p.suffix in {'.py','.json','.txt'}}
     require(actual=={r['path'] for r in rows}, 'Code snapshot omits or adds authoritative package files')
@@ -629,7 +643,7 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     repository=Path(__file__).resolve().parents[1]
     parser.add_argument('--material-dir',type=Path,default=repository/'evidence/governors/independent')
-    parser.add_argument('--code-freeze',type=Path,default=repository/'evidence/governors/code_freeze_v1.json')
+    parser.add_argument('--code-freeze',type=Path,default=repository/'evidence/words/code_freeze_v3.json')
     parser.add_argument('--output-dir',type=Path,required=True)
     parser.add_argument('--profile',choices=('governor','baseline'),default='governor')
     parser.add_argument('--require-regression-gates',action='store_true',

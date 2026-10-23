@@ -1,0 +1,60 @@
+{
+  "schema": "nabt.words.independent-boundary-findings.v1",
+  "utc": "2026-10-23T09:26:44.313988+00:00",
+  "implementation_archive_sha256": "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d",
+  "implementation_snapshot_sha256": "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4",
+  "observation_method": "Re-executed from a temporary extraction of the pinned v1 archive after fixes had begun in the working tree; no working-tree imports.",
+  "observed": {
+    "reader_sha256": "efab358a7ee11c83d8e430a8b5a3ab914536f5d40dc82d0b72cd036fb52b8c25",
+    "selection": {
+      "input": "ضرب",
+      "parent_status": "DEFER",
+      "parent_occurrence_status": "AMBIGUOUS",
+      "parent_obligations": [
+        "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+      ],
+      "selected_wrapper_keys": [
+        "span",
+        "analyses",
+        "policy_sha256",
+        "authority"
+      ],
+      "selected_wrapper_status": null,
+      "selected_parts": [
+        {
+          "kind": "verb",
+          "obligations": [
+            "CONSTRUCTION_READING_EVIDENCE"
+          ]
+        }
+      ]
+    },
+    "grouping": {
+      "input": "هَلْ (إِنَّ زَيْدًا قَائِمٌ)",
+      "status": "READ",
+      "contexts": [
+        {
+          "status": "CHECKED",
+          "obligations": []
+        }
+      ],
+      "facts": []
+    }
+  },
+  "findings": [
+    {
+      "id": "SELECTED_WORD_DROPS_PARENT_AMBIGUITY",
+      "status": "CONFIRMED_ON_V1",
+      "impact": "A selected lexical alternative loses the source-level missing-reading obligation. No fact admission was observed.",
+      "required_fix": "Selection preserves source/scope and parent alternatives/reading obligations without promoting a candidate to complete reading."
+    },
+    {
+      "id": "GROUPED_SCOPE_PROMOTED_FROM_INNER_FRAME",
+      "status": "CONFIRMED_ON_V1",
+      "impact": "An inner checked frame and a standalone interrogative yielded whole-source READ after punctuation discarded grouping. No fact admission was observed.",
+      "required_fix": "Unsupported grouping retains a named outer-scope obligation and whole-context DEFER."
+    }
+  ],
+  "gold_material_unchanged": true,
+  "production_edited_by_reviewer": false
+}

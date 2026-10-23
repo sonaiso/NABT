@@ -103,6 +103,8 @@ def check(lean_export=None):
     from nabt.machine import EXPECTED_TABLE_SHA256, Machine
     from nabt.governors import EXPECTED_TABLE_SHA256 as GOVERNOR_TABLE_SHA256, installed_table
     from nabt.governor_reader import replay_source_policy
+    from nabt.words import EXPECTED_TABLE_SHA256 as WORD_TABLE_SHA256, installed_table as word_table
+    from nabt.word_reader import EXPECTED_POLICY_SHA256 as WORD_POLICY_SHA256, replay_policy
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -135,11 +137,17 @@ def check(lean_export=None):
     source_count = inspect_lean_sources()
     governor_table = installed_table()
     governor_policy = replay_source_policy()
+    word_classes, word_rows = word_table()
+    word_policy = replay_policy()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
             "governor_inventory_rows": len(governor_table.entries),
             "governor_source_policy_sha256": governor_policy["policy_sha256"],
+            "word_table_sha256": WORD_TABLE_SHA256,
+            "word_declension_classes": len(word_classes), "word_class_case_rows": len(word_rows),
+            "word_source_policy_sha256": WORD_POLICY_SHA256,
+            "word_lexical_entries": len(word_policy["entries"]),
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

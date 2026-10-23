@@ -1,0 +1,60 @@
+{
+  "schema": "nabt.words.independent-review-results.v3",
+  "utc": "2026-10-23T09:32:04.478641+00:00",
+  "implementation_freeze": {
+    "version": "v3",
+    "manifest_sha256": "b9ffd279e093b30cadbb4c61a23eb3f0b314ae5ae0da1374907ae8b133333434",
+    "snapshot_sha256": "33cb00870b810ddfef44d1c9c665c289223faf5164517fb1d0bdc803081a5066",
+    "archive_sha256": "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026",
+    "file_count": 38
+  },
+  "reviewer_test_path": "tests/test_word_reader_review.py",
+  "reviewer_test_sha256": "189cd2d772dd89d87dcaea2bf7cb11d2d95b8fc7dfb6a30a7722057c37917a3a",
+  "evaluator_path": "tools/word_evaluation.py",
+  "evaluator_sha256": "c354ad8d4bf414e7a7a07302570de170282d6702ec3aeadec4a7d15829532645",
+  "final_case_report_sha256": "7c5a2332a6ebfac1b5648564bd98932a623a972a48a27e6a59559def4eee390e",
+  "command": [
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_word_reader_review.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "independent_tests_passed": 19,
+  "test_output": "test_arabic_nested_or_extra_constituents_are_not_a_next_token_assignment (test_word_reader_review.IndependentWordReaderReviewTests.test_arabic_nested_or_extra_constituents_are_not_a_next_token_assignment) ... ok\ntest_attached_pronoun_is_source_bound_and_cannot_be_reused_as_a_free_word (test_word_reader_review.IndependentWordReaderReviewTests.test_attached_pronoun_is_source_bound_and_cannot_be_reused_as_a_free_word) ... ok\ntest_boolean_values_never_enter_numeric_enum_domains (test_word_reader_review.IndependentWordReaderReviewTests.test_boolean_values_never_enter_numeric_enum_domains) ... ok\ntest_canonical_number_rejects_duplicate_keys_whitespace_invalid_utf8_and_oversize (test_word_reader_review.IndependentWordReaderReviewTests.test_canonical_number_rejects_duplicate_keys_whitespace_invalid_utf8_and_oversize) ... ok\ntest_case_conflict_or_unknown_surface_cannot_be_repaired_in_a_certificate (test_word_reader_review.IndependentWordReaderReviewTests.test_case_conflict_or_unknown_surface_cannot_be_repaired_in_a_certificate) ... ok\ntest_cli_binds_report_to_requested_source_and_scope (test_word_reader_review.IndependentWordReaderReviewTests.test_cli_binds_report_to_requested_source_and_scope) ... ok\ntest_cli_malformed_and_oversized_reports_fail_structurally (test_word_reader_review.IndependentWordReaderReviewTests.test_cli_malformed_and_oversized_reports_fail_structurally) ... ok\ntest_evaluator_identity_adapter_is_injective_and_blanket_defer_fails_positive_gold (test_word_reader_review.IndependentWordReaderReviewTests.test_evaluator_identity_adapter_is_injective_and_blanket_defer_fails_positive_gold) ... ok\ntest_identical_text_in_another_span_source_or_scope_does_not_share_authority (test_word_reader_review.IndependentWordReaderReviewTests.test_identical_text_in_another_span_source_or_scope_does_not_share_authority) ... ok\ntest_independent_mutations_of_complete_roles_classes_and_segmentation_fail_replay (test_word_reader_review.IndependentWordReaderReviewTests.test_independent_mutations_of_complete_roles_classes_and_segmentation_fail_replay) ... ok\ntest_malformed_deep_cyclic_and_oversized_reports_are_structured_failures (test_word_reader_review.IndependentWordReaderReviewTests.test_malformed_deep_cyclic_and_oversized_reports_are_structured_failures) ... ok\ntest_missing_mark_stays_distinct_from_contextual_case (test_word_reader_review.IndependentWordReaderReviewTests.test_missing_mark_stays_distinct_from_contextual_case) ... ok\ntest_non_tanwin_noun_forms_do_not_complete_a_frame_without_construction_evidence (test_word_reader_review.IndependentWordReaderReviewTests.test_non_tanwin_noun_forms_do_not_complete_a_frame_without_construction_evidence) ... ok\ntest_parenthesized_subframe_does_not_erase_unresolved_outer_scope (test_word_reader_review.IndependentWordReaderReviewTests.test_parenthesized_subframe_does_not_erase_unresolved_outer_scope) ... ok\ntest_quotation_cannot_activate_an_operator_or_fill_a_complement (test_word_reader_review.IndependentWordReaderReviewTests.test_quotation_cannot_activate_an_operator_or_fill_a_complement) ... ok\ntest_resource_limits_are_deferral_not_a_linguistic_refutation (test_word_reader_review.IndependentWordReaderReviewTests.test_resource_limits_are_deferral_not_a_linguistic_refutation) ... ok\ntest_selected_analysis_must_keep_parent_reading_ambiguity (test_word_reader_review.IndependentWordReaderReviewTests.test_selected_analysis_must_keep_parent_reading_ambiguity) ... ok\ntest_source_mark_order_is_preserved_even_when_lexical_reading_matches (test_word_reader_review.IndependentWordReaderReviewTests.test_source_mark_order_is_preserved_even_when_lexical_reading_matches) ... ok\ntest_valid_utf8_cuts_do_not_strip_a_vowel_or_invent_a_suffix_word (test_word_reader_review.IndependentWordReaderReviewTests.test_valid_utf8_cuts_do_not_strip_a_vowel_or_invent_a_suffix_word) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 0.344s\n\nOK\n",
+  "closed_findings": [
+    "SELECTED_WORD_DROPS_PARENT_AMBIGUITY",
+    "GROUPED_SCOPE_PROMOTED_FROM_INNER_FRAME",
+    "NON_TANWIN_CANDIDATE_PROMOTED_TO_COMPLETE_FRAME"
+  ],
+  "open_findings": [
+    {
+      "id": "PARTIALLY_VOCALIZED_FRAME_COVERAGE",
+      "cases": [
+        "w15",
+        "w16",
+        "w17"
+      ],
+      "status": "OPEN_CAPABILITY_GAP",
+      "expected_status_not_weakened": true,
+      "observed": "All three remain DEFER with lexical-selection/vocalization evidence missing. Lexical candidates exist; complete contextual frames are not claimed."
+    }
+  ],
+  "case_summary": {
+    "cases": 30,
+    "passed": 27,
+    "positive_capability_passed": 12,
+    "positive_capability_cases": 15,
+    "all_cases_passed": false,
+    "full_coverage_goal_passed": false,
+    "release_regression_gates_passed": true
+  },
+  "measurement_erratum": "evaluator_erratum_v1.json preserves the invalid initial ID-domain run and the injective ID adapter correction.",
+  "gold_unchanged": true,
+  "reviewer_production_edits": false,
+  "claim_limit": "Independent boundary review and finite source-attested cases. No general Arabic coverage, world-truth, parser-refinement theorem, or AGI claim."
+}

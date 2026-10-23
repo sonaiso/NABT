@@ -1,0 +1,1053 @@
+{
+  "policy_id": "nabt.word-source-policy.v1",
+  "schema_version": 1,
+  "authority": "AUTHORED_LEXICAL_POLICY_WITH_REPLAYABLE_PRIMARY_SOURCE_SUPPORT",
+  "language_id": "nabt.arabic-words.v1",
+  "byte_span_convention": "UTF-8 zero-based half-open byte intervals; physical source lines are one-based inclusive; original newlines and OpenITI markers are preserved.",
+  "source_bytes_verified_at": {
+    "repository": "sonaiso/NABT",
+    "commit": "6636971edbff6414854a4c72cae4e7bfe4c920e9"
+  },
+  "sources": {
+    "qatr": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+    "alfiyya": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+    "sibawayhi": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625"
+  },
+  "ending_domain": "nabt.word-ending.v1",
+  "ending_codes": {
+    "damma": 0,
+    "fatha": 1,
+    "kasra": 2,
+    "sukun": 3,
+    "waw": 4,
+    "alif": 5,
+    "ya": 6,
+    "ani": 7,
+    "ayni": 8,
+    "una": 9,
+    "ina": 10
+  },
+  "kind_domain": {
+    "noun": 0,
+    "verb": 1,
+    "particle": 2
+  },
+  "class_codes_used": {
+    "ordinary_noun_terminal_behavior": 0,
+    "ordinary_imperfect_terminal_behavior": 8
+  },
+  "matching_contract": {
+    "carriers": "Exact ordered canonical letters, without changing source bytes or silently normalizing a new spelling.",
+    "written_marks": "Every observed mark must be present on the same carrier in a canonical template. Missing marks retain alternatives and do not count as observed case evidence.",
+    "required_marks": "Entry or form required_marks are additional positive observed-mark requirements. In particular bare ضربت must not select the first-person split.",
+    "tanwin": "Tanwin and its corresponding short vowel use the same terminal ending code only after the explicit lexical class. This policy does not infer that class from tanwin alone.",
+    "absence": "No matching installed entry returns DEFER. Absence is not a proof of lexical impossibility or of the particle class.",
+    "segmentation": "Carrier intervals cover the exact written run; every original mark remains attached to its original carrier. An attached fragment has no independent reuse license.",
+    "precomposition": "Lexical kind and capacities are available before composition; actual role, actual case, and referent remain unassigned.",
+    "domain": "This finite inventory is an authored pilot, not a complete Arabic lexicon or an exhaustive list of every sense of a homograph."
+  },
+  "rules": [
+    {
+      "id": "word_kinds",
+      "source_id": "qatr",
+      "start": 1450,
+      "end": 1648,
+      "line_start": 42,
+      "line_end": 44,
+      "text": "# الكلمة: قول مفرد. وهي اسم وفعل وحرف.\n# فأما الاسم فيعرف بأل ك\"الرجل\" وبالتنوين ك\"رجل\" وبالحديث عنه كتاء\n~~\"ضربت\".\n",
+      "sha256": "6ca76264c2378bb4cbd69282edf0d2b703765e2b04b8536a7995d3e3f607b778",
+      "interpretation": "Three word kinds, noun signs, and the attached ta in ضربت. This gives a classification rule, not a complete parser."
+    },
+    {
+      "id": "noun_inflection",
+      "source_id": "qatr",
+      "start": 1679,
+      "end": 2194,
+      "line_start": 47,
+      "line_end": 52,
+      "text": "# معرب وهو ما يتغير أواخره بسبب العوامل الداخلة عليه ك\"زيد\".\n### | 2- \n# ومبني وهو بخلافه، ك\"هؤلاء\" في لزوم الكسر، وكذلك حذام وأمس في لغة\n~~الحجازيين، وك\"أحد عشر\" وأخواته في لزوم الفتح، وكقبل وبعد وأخواتهما في\n~~لزوم الضم إذا حذف المضاف إليه ونوي معناه، وكمن وكم في لزوم السكون وهو\n~~أصل البناء.\n",
+      "sha256": "38364efd84fedba5e72f913b6dfaad221b138ba222f51e5d5c24767f08f31803",
+      "interpretation": "The cited regular inflected noun is زيد. Built nouns have fixed construction; a visible vowel does not alone imply an inflection case."
+    },
+    {
+      "id": "past_signs",
+      "source_id": "qatr",
+      "start": 2251,
+      "end": 2548,
+      "line_start": 55,
+      "line_end": 57,
+      "text": "# ماض: ويعرف بتاء التأنيث الساكنة. وبناؤه على الفتح كضرب، إلا مع واو\n~~الجماعة فيضم ك\"ضربوا\"، والضمير المرفوع المتحرك فيسكن ك\"ضربت\". ومنه نعم\n~~وبئس وعسى وليس في الأصح.\n",
+      "sha256": "a4738a2584681f134d9a593a863e4a423c6b951a5f5bf8e2ea134dfd28902094",
+      "interpretation": "Past verb signs, construction on fatha, and sukun with a moving nominative pronoun. The finite templates below are authored applications."
+    },
+    {
+      "id": "imperfect_signs",
+      "source_id": "qatr",
+      "start": 2955,
+      "end": 3546,
+      "line_start": 65,
+      "line_end": 69,
+      "text": "# ومضارع: ويعرف بلم. وافتتاحه بحرف من نأيت، نحو نقوم وأقوم ويقوم وتقوم.\n~~ويضم أوله إن كان ماضيه رباعيا ك\"يدحرج ويكرم\"، ويفتح في غيره ك\"يضرب\n~~ويستخرج\". ويسكن آخره مع نون النسوة نحو يتربصن وإلا أن يعفون، ويفتح مع\n~~نون التوكيد المباشرة لفظا وتقديرا نحو لينبذن، ويعرب فيما عدا ذلك نحو\n~~يقوم زيد ولا تتبعان لتبلون فإما ترين ولا يصدنك.\n",
+      "sha256": "ec4a557a3bd2ba24622eeba2052b25ffba32b670d45d310881be48a0d4e8aab2",
+      "interpretation": "The exact example يقوم is imperfect. Nun-of-females and direct emphatic-nun exceptions prevent a blanket imperfect-is-inflected rule."
+    },
+    {
+      "id": "particle_kinds",
+      "source_id": "qatr",
+      "start": 3546,
+      "end": 3820,
+      "line_start": 70,
+      "line_end": 72,
+      "text": "# وأما الحرف: فيعرف بأن لا يقبل شيئا من علامات الاسم والفعل، نحو هل وبل.\n~~وليس منه مهما وإذما، بل ما المصدرية ولما الرابطة في الأصح. وجميع الحروف\n~~مبنية.\n",
+      "sha256": "7511a2a1ece6bf92aac081a57594b640ff8300ef119bdd22513d733de61b2f92",
+      "interpretation": "هل and بل are particle examples; all particles are built. Lack of an observed noun or verb sign is not an exhaustive test."
+    },
+    {
+      "id": "minimal_composition",
+      "source_id": "qatr",
+      "start": 3820,
+      "end": 3959,
+      "line_start": 73,
+      "line_end": 74,
+      "text": "# والكلام: لفظ مفيد. وأقل ائتلافه من اسمين ك\"زيد قائم\"، أو فعل واسم\n~~ك\"قام زيد\".\n",
+      "sha256": "2f38c85482b42eaac7fa1fb7f3d4f178018b503a9bc29e22195c3525c469500d",
+      "interpretation": "زيد قائم illustrates two nouns; قام زيد illustrates verb and noun. These lexical attestations do not assign every future occurrence a role."
+    },
+    {
+      "id": "basic_case_endings",
+      "source_id": "qatr",
+      "start": 3959,
+      "end": 4370,
+      "line_start": 75,
+      "line_end": 78,
+      "text": "# فصل: أنواع الإعراب أربعة.\n# (1) رفع (2) ونصب في اسم وفعل نحو \"زيد يقوم\" و \"إن زيدا لن يقوم\"، (3)\n~~وجر في اسم نحو \"بزيد\"، (4) وجزم نحو \"لم يقم\". فيرفع بضمة، وينصب بفتحة،\n~~ويجر بكسرة، ويجزم بحذف حركة، إلا الأسماء الستة، وهي أبوه وأخوه وحموها\n",
+      "sha256": "c92b1a92de3fc298dd777a51b0983c3942ffbd8520d495cc68f5c60436639a8e",
+      "interpretation": "Ordinary short inflection marks with explicit زيد يقوم / إن زيدا لن يقوم / بزيد / لم يقم examples. The exceptional classes must remain separate."
+    },
+    {
+      "id": "lam_activation",
+      "source_id": "qatr",
+      "start": 7941,
+      "end": 8230,
+      "line_start": 112,
+      "line_end": 114,
+      "text": "~~نحو \"لا تدن من الأسد تسلم\"، بخلاف يأكلك ويجزم أيضا بلم نحو \"لم يلد ولم\n~~يولد\"، ولما نحو \"لما يقض\"، وباللام ولا الطلبيتين، نحو \"لينفق، ليقض، لا\n~~تشرك، لا تؤاخذنا\".\n",
+      "sha256": "8df37f202a7708e9dbeecbc2b4d1188853fc307d18cf4a4d769fa05c68e815b7",
+      "interpretation": "لم governs jussive in its cited construction. Reading the particle by itself does not establish that construction."
+    },
+    {
+      "id": "conditional_words",
+      "source_id": "qatr",
+      "start": 8230,
+      "end": 8783,
+      "line_start": 115,
+      "line_end": 120,
+      "text": "# ويجزم فعلين إن وإذ وإذما وأي وأين وأنى وأيان ومتى ومهما ومن وما وحيثما\n~~نحو {إن يشأ يذهبكم} ، {من يعمل سوءا يجز به} ، {ما ننسخ من آية أو\n# PageV01P007\n# ننسها نأت بخير منها} .\n# ويسمى الأول شرطا، والثاني جوابا وجزاء، وإذا لم يصلح لمباشرة الأداة قرن\n~~بالفاء نحو {إن يمسسك بخير فهو على كل شيء قدير} ، أو بإذا الفجائية نحو\n",
+      "sha256": "cfe26816b50142186c9e82d1bd1f87cf108def04c0454d2dada0d0ccc485d9bd",
+      "interpretation": "إن and من occur in the conditional inventory; a condition and response are separate construction obligations."
+    },
+    {
+      "id": "noun_and_pronoun_types",
+      "source_id": "qatr",
+      "start": 8870,
+      "end": 9405,
+      "line_start": 122,
+      "line_end": 126,
+      "text": "# فصل: الاسم ضربان.\n# نكرة، وهو ما شاع في جنس موجود ك\"رجل\" أو مقدر ك\"شمس\"، ومعرفة وهي ستة:\n~~الضمير وهو ما دل على متكلم أو مخاطب أو غائب. وهو إما مستتر كالمقدر وجوبا\n~~في نحو \"أقوم\" و \"تقوم\" أو جوازا فشي نحو \"زيد يقوم\"، أو بارز وهو إما متصل\n~~ك\"تاء\" \"قمت\" وكاف \"أكرمك\" وهاء \"غلامه\"، أو منفصل ك\"أنا وأنت وإياي\". ولا\n",
+      "sha256": "b9884935cdc50e1d28911d3cb72bbe6fa2ff80bd07d19344f86739fd3a8c975f",
+      "interpretation": "رجل is a generic indefinite noun. Pronouns can be attached or separate and denote speaker, addressee or absent referent."
+    },
+    {
+      "id": "zayd_proper_name",
+      "source_id": "qatr",
+      "start": 9558,
+      "end": 9925,
+      "line_start": 129,
+      "line_end": 131,
+      "text": "# ثم العلم وهو: إما شخصي ك \"زيد\" أو جنسي ك \"أسامة\"، وإما اسم كما مثلنا\n~~أو لقب ك\"زين العابدين\" و \"قفة\" أو كنية ك\"أبي عمرو\" و \"أم كلثوم\". ويؤخر\n~~اللقب عن الاسم تابعا له مطلقا، أو مخفوضا بإضافته إن أفرد ك\"سعيد كرز\".\n",
+      "sha256": "70e7f233135f9376c3da1a7a2b861411063e60d89007b0219b21126ae6da0135",
+      "interpretation": "زيد is an example of a personal proper name. Proper-name status alone is not a universal declension classifier."
+    },
+    {
+      "id": "relative_and_interrogative_man",
+      "source_id": "qatr",
+      "start": 10377,
+      "end": 11249,
+      "line_start": 137,
+      "line_end": 143,
+      "text": "# ثم الموصول، وهو الذي والتي، واللذان واللتان بالألف رفعا وبالياء جرا ms03\n~~ونصبا، ولجمع المذكر الذين بالياء مطلقا والألى، ولجمع المؤنث اللائي\n~~واللاتي، وبمعنى الجميع من وما وأي، وأل في وصف صريح لغير تفضيل كالضارب\n~~والمضروب، وذو في لغة طي، وذا بعد ما أو من الاستفهاميتين. وصلة أل الوصف،\n~~وصلة غيرها إما جملة خبرية ذات ضمير طبق للموصول يسمى عائدا، وقد يحذف نحو\n~~{أيهم أشد} ، {وما عملته أيديهم} ، {فاقض ما أنت قاض} ، {ويشرب مما تشربون}\n~~، أو ظرف أو جار ومجرور تامان متعلقان ب\"استقر\" محذوفا.\n",
+      "sha256": "35990fcfd85d06101dc6168bd78c42470a54879a28d276092b7ebba7abc43152",
+      "interpretation": "من is in the relative inventory; line 140 also mentions interrogative من. Its clause and antecedent/reference must be handled separately."
+    },
+    {
+      "id": "inna_activation",
+      "source_id": "qatr",
+      "start": 15482,
+      "end": 16120,
+      "line_start": 187,
+      "line_end": 191,
+      "text": "# الثاني: إن وأن للتأكيد، ولكن للاستدراك، وكأن للتشبيه أو الظن، وليت\n~~للتمني، ولعل للترجي أو الإشفاق أو التعليل. فينصبن المبتدأ اسما لهن،\n~~ويرفعن الخبر خبرا لهن، إن لم تقترن بهن ما الحرفية: نحو {إنما الله إله\n~~واحد} إلا ليت فيجوز الأمران، كإن المكسورة مخففة فأما لكن مخففة فتهمل.\n~~وأما أن فتعمل، ويجب في غير الضرورة حذف اسمها ضمير الشأن، وكون خبرها جملة\n",
+      "sha256": "f0cc7bb0a7147dce8aa590bfe06f3d42cfebaa832cedcaf992e2da69f267ae34",
+      "interpretation": "Emphatic إن and its two nominal terms; ما and weakening affect activation. The canonical shadda is authored vocalization."
+    },
+    {
+      "id": "qama_past_attestation",
+      "source_id": "qatr",
+      "start": 18540,
+      "end": 18832,
+      "line_start": 219,
+      "line_end": 221,
+      "text": "### | باب الفاعل مرفوع:\n# ك\"قام زيد\" و \"مات عمرو\". ولا يتأخر عامله عنه ولا تلحقه علامة تثنية ولا\n~~جمع، بل يقال \"قام رجلان، ورجال، ونساء\" كما يقال \"قام رجل\". وشذ \"يتعاقبون\n",
+      "sha256": "8c250c694a6526e117daa5b659f09aaef99db18153c1eb37a91ed930c3f9632b",
+      "interpretation": "قام زيد is a subject construction. The past classification and canonical vocalization are a bounded authored application paired with past_signs."
+    },
+    {
+      "id": "min_preposition",
+      "source_id": "qatr",
+      "start": 29228,
+      "end": 30173,
+      "line_start": 337,
+      "line_end": 344,
+      "text": "### | باب يخفض الاسم إما بحرف مشترك:\n# وهو من وإلى وعن وعلى وفي واللام والباء للقسم وغيره - أو مختص بالظاهر -\n~~وهو رب ومذ ومنذ والكاف وحتى وواو القسم وتاؤه - أو بإضافة إلى اسم على\n~~معنى اللام ك \"غلام زيد\" أو من ك\"خاتم حديد\" أو في ك \"مكر الليل\" وتسمى\n~~معنوية لأنها للتعريف أو التخصيص، أو بإضافة الوصف إلى معموله ك\"بالغ\n~~الكعبة\" و \"معمور الدار\" و \"حسن الوجه\" وتسمى لفظية لأنها لمجرد التخفيف\n~~ولا تجامع الإضافة تنوينا ولا نونا تالية للإعراب مطلقا، ولا أل إلا في نحو\n~~\"الضاربا زيد، والضاربو زيد، والضارب الرجل، والضارب رأس الرجل، وبالرجل\n",
+      "sha256": "bc39f7efc7b1428f8aee3fd46ca71d8e17ed25704110ee9f1762aed9648c38ee",
+      "interpretation": "من is in the preposition inventory. Case governance requires a licensed attached complement; the string alone cannot supply it."
+    },
+    {
+      "id": "alfiyya_particles",
+      "source_id": "alfiyya",
+      "start": 2199,
+      "end": 2472,
+      "line_start": 53,
+      "line_end": 56,
+      "text": "# بالجر والتنوين والندا وآل ... ومسند للاسم تمييز حصل\n# بتا فعلت وأتت ويا افعلي ...\n# ونون أقبلن فعل ينجلي\n# سواهما الحرف كهل وفي ولم ... فعل مضارع يلي لم كيشم\n",
+      "sha256": "97680178f8ff890d01c70eb763bbc0a1e98e98a88ec52d53bd730e25bdd2b7dc",
+      "interpretation": "Noun and verb signs, with هل / في / لم explicitly identified as particles."
+    },
+    {
+      "id": "alfiyya_construction",
+      "source_id": "alfiyya",
+      "start": 3086,
+      "end": 3811,
+      "line_start": 66,
+      "line_end": 73,
+      "text": "# وفعل أمر ومضي بنيا ... وأعربوا مضارعا إن عريا\n# من نون توكيد مباشر ومن ... نون إناث كيرعن من فتن\n# وكل حرف مستحق للبنا ... والأصل في المبني أن يسكنا\n# ومنه ذو فتح وذو كسر وضم ... كأين أمس حيث والساكن كم\n# والرفع والنصب اجعلن اعرابا ... لاسم وفعل نحو لن أهابا\n# والاسم قد خصص بالجر كما ... قد خصص الفعل بأن ينجزما\n# فارفع بضم وانصبن فتحا وجر ... كسرا كذكر الله عبده يسر\n# واجزم بتسكين وغير ما ذكر ... ينوب نحو جاأخو بني نمر\n",
+      "sha256": "ed4b9ff487c769757489d8c6a6c4d8332a6944cfb4df0dcd0845545d0d9958a8",
+      "interpretation": "Past/imperative construction, exceptions on imperfect, and the distinction between inflection marks and building."
+    },
+    {
+      "id": "alfiyya_pronouns",
+      "source_id": "alfiyya",
+      "start": 6182,
+      "end": 7207,
+      "line_start": 103,
+      "line_end": 114,
+      "text": "# نكرة قابل أل مؤثرا ... أو واقع موقع ما قد ذكرا\n# وغيره معرفة كهم وذي ... وهند وابني والغلام والذي\n# فما لذي غيبة أو حضور ... كأنت وهو سم بالضمير\n# وذو اتصال منه ما لا يبتدا ... ولا يلي إلا اختيارا أبدا\n# كالياء والكاف من ابني أكرمك ... والياء والها من سلييه ما ملك\n# PageV01P012\n# وكل مضمر له البنا يجب ... ولفظ ما جر كلفظ ما نصب\n# للرفع والنصب وجرنا صلح ... كاعرف بنا فإننا نلنا المنح\n# وألف والواو والنون لما ... غاب وغيره كقاما واعلما\n# ومن ضمير الرفع ما يستتر ... كافعل أوافق نغتبط إذ تشكر\n# وذو إرتفاع وانفصال أنا هو ... وأنت الفروع لا تشتبه\n# وذو انتصاب في انفصال جعلا ... إياي والتفريع ليس مشكلا\n",
+      "sha256": "c18149687ccd0db6909080a4a9a8bc377f77922a85e0bce6ea3462424091573a",
+      "interpretation": "هو is explicitly a pronoun and a separated nominative pronoun; every pronoun is built. Referent resolution is outside lexical recognition."
+    },
+    {
+      "id": "sibawayhi_word_kinds",
+      "source_id": "sibawayhi",
+      "start": 9322,
+      "end": 10390,
+      "line_start": 102,
+      "line_end": 110,
+      "text": "# | ( هذا باب علم ما الكلم من العربية )\n# | فالكلم اسم وفعل وحرف جاء لمعنى ليس باسم ولا فعل | فالاسم رجل وفرس\n~~وحائط | وأما الفعل فأمثلة أخذت من لفظ أحداث الأسماء وبنيت لما مضى ولما\n~~يكون ولم يقع وما هو كائن لم ينقطع | فأما بناء ما مضى فذهب وسمع ومكث وحمد ms003\n~~وأما بناء ما لم يقطع فإنه قولك آمرا اذهب واقتل واضرب ، ومخبرا يقتل و\n~~يذهب ويضرب ويقتل ويضرب وكذلك بناء ما لم ينقطع وهو كائن إذا أخبرت | فهذه\n~~الأمثلة التي أخذت من لفظ أحداث الأسماء ولها أبنية كثيرة ستبين إن شاء\n~~الله | والأحداث نحو الضرب والحمد والقتل | وأما ما جاء لمعنى وليس باسم\n~~ولا فعل فنحو ثم وسوف و واو القسم ولام الإضافة ونحوها PageV01P012\n",
+      "sha256": "957c3912c2370990a27a16b779dbd620feb6836ac42f771668c050716d673ef7",
+      "interpretation": "رجل is explicitly a noun, and form/time information is separated from lexical carrier identity."
+    },
+    {
+      "id": "sibawayhi_eight_functions_four_shapes",
+      "source_id": "sibawayhi",
+      "start": 10390,
+      "end": 12253,
+      "line_start": 111,
+      "line_end": 125,
+      "text": "# | ( هذا باب مجارى أواخر الكلم من العربية )\n# | وهي تجري على ثماني مجار على النصب والجر والرفع والجزم والفتح والضم\n~~والكسر والوقف | وهذه المجارى الثمانية يجمعهن في اللفظ أربعة أضرب فالنصب\n~~والفتح في اللفظ ضرب واحد والجر والكسر فيه ضرب واحد وكذلك الرفع والضم\n~~والجزم والوقف | وإنما ذكرت لك ثمانية مجار لأفرق بين ما يدخله ضرب من هذه\n~~الأربعة لما يحدث فيه العامل - وليس شئ منها إلا وهو يزول عنه - وبين ما\n~~يبنى عليه الحرف بناء لا يزول عنه لغير شئ أحدث ذلك فيه من العوامل التي\n~~لكل عامل منها ضرب من اللفظ في الحرف وذلك الحرف حرف الإعراب | فالرفع\n~~والجر والنصب والجزم لحروف الإعراب وحروف الإعراب للأسماء المتمكنة\n~~وللأفعال المضارعة لأسماء الفاعلين التي في أوائلها الزوائد الأربع الهمزة\n~~والتاء والياء والنون وذلك قولك أفعل أنا وتفعل أنت أو هي ويفعل هو ونفعل\n~~نحن PageV01P013 | والنصب في الأسماء رأيت زيدا والجر مررت بزيد والرفع هذا\n~~زيد وليس في الأسماء جزم لتمكنها وللحاق التنوين فإذا ذهب التنوين لم\n~~يجمعوا على الاسم ذهابه وذهاب الحركة | والنصب في المضارع من الأفعال لن\n~~يفعل والرفع سيفعل والجزم لم يفعل وليس في الأفعال المضارعة جر كما أنه ليس\n",
+      "sha256": "8248703dd6335dfad64f13c9906bd3df302cbefa8442d6c95f30424c05fc34e0",
+      "interpretation": "Eight grammatical functions share four visible shapes; زيد appears in nominative, accusative and genitive constructions."
+    },
+    {
+      "id": "sibawayhi_daraba_past",
+      "source_id": "sibawayhi",
+      "start": 14071,
+      "end": 14842,
+      "line_start": 140,
+      "line_end": 145,
+      "text": "~~والوقف نحو من وكم وقط وإذ PageV01P015 | والفتح في الأفعال التي لم تجر\n~~مجرى المضارعة قولهم ضرب وكذلك كل بناء من الفعل كان معناه فعل ولم يسكنوا\n~~آخر فعل لأن فيها بعض ما في المضارعة تقول هذا رجل ضربنا فتصف بها النكرة\n~~وتكون في موضع ضارب إذا قلت هذا رجل ضارب وتقول إن فعل فعلت فيكون في معنى\n~~إن يفعل أفعل فهي فعل كما أن المضارع فعل وقد وقعت موقعها في إن ووقعت موقع\n~~الأسماء في الوصف كما تقع المضارعة في الوصف فلم يسكنوها كما لم يسكيوا من\n",
+      "sha256": "21154f67bafb8953b3a09eed0c6c86c3fcc99c49f264447bb97c3febd0c885ae",
+      "interpretation": "ضرب is explicitly a non-imperfect verb with past-type construction. The source text is not fully vocalized."
+    },
+    {
+      "id": "sibawayhi_particles",
+      "source_id": "sibawayhi",
+      "start": 15484,
+      "end": 15997,
+      "line_start": 151,
+      "line_end": 154,
+      "text": "~~كان معناه افعل | والفتح في الحروف التي ليست إلا لمعنى وليست بأسماء ولا\n~~أفعال قولهم سوف ms005 وثم | والكسر فيها قولهم في باء الإضافة ولامها بزيد ولزيد\n~~| والضم فيها منذ فيمن جر بها لأنها بمنزلة من في الأيام | والوقف فيها\n~~قولهم من وهل وبل وقد | و لا ضم في الفعل لأنه لم يجئ ثالث سوى المضارع\n",
+      "sha256": "010f06cb4a0a67121d31696d374327e2150687d4b9d8b6117eb02dc520e828d8",
+      "interpretation": "من and هل occur among particles with a fixed final shape."
+    },
+    {
+      "id": "sibawayhi_conditional_in",
+      "source_id": "sibawayhi",
+      "start": 313840,
+      "end": 314334,
+      "line_start": 2674,
+      "line_end": 2677,
+      "text": "~~عمرو | يعنى إن مررت بزيد أو مررت بعمرو | واعلم أنه لا ينتصب شئ بعد إن\n~~ولا يرتفع إلا بفعل لأن إن من الحروف التى يبنى عليها الفعل وهى إن\n~~المجازاة وليست من الحروف التى يبتدأ بعدها الأسماء ليبنى عليها الأسماء |\n~~فإنما أراد بقوله إن زيد وإن عمر و إن مررت بزيد أو مررت بعمر و فجرى\n",
+      "sha256": "727e43e9c9b0f770e6c2c31e2a4b0dc96ff065ca08ab6585dd16dc949b6ff2d7",
+      "interpretation": "إن المجازاة is explicitly called a particle that builds a verbal construction."
+    },
+    {
+      "id": "sibawayhi_inna_particle",
+      "source_id": "sibawayhi",
+      "start": 680245,
+      "end": 682689,
+      "line_start": 5756,
+      "line_end": 5774,
+      "text": "# | ( هذا باب الحروف الخمسة التي تعمل فيما بعدها كعمل الفعل فيما بعده )\n# | وهي من الفعل ms242 بمنزلة عشرين من الأسماء التي بمنزلة الفعل لا تصرف تصرف\n~~الأفعال كما ان عشرين لا تصرف تصرف الأسماء التي أخذت من الفعل وكانت\n~~بمنزلته ولكن يقال بمنزلة الأسماء التي أخذت من الأفعال وشبهت بها في هذا\n~~الموضع فنصبت درهما لأنه ليس من نعتها ولا هي مضافة إليه ولم ترد أن تحمل\n~~الدرهم على ما حمل العشرون عليه ولكنه واحد بين به العدد فعملت فيه كعمل\n~~الضارب في زيد إذا قلت هذا ضارب زيدا لأن زيدا ليس من صفة الضارب ولا\n~~محمولا على ما حمل عليه الضارب | وكذلك هذه الحروف منزلتها من الأفعال |\n~~وهي أءن ولكن وليت ولعل وكأن | وذلك قولك إن زيدا منطلق وإن عمرا مسافر وإن\n~~زيدا أخوك | وكذلك أخواتها | وزعم الخليل أنها عملت عملين الرفع والنصب كما\n~~عملت كان الرفع والنصب حين قلت كان أخاك زيد | إلا أنه ليس لك أن تقول كأن\n~~أخوك عبد الله تريد كأن عبد الله أخوك لأنها لا تصرف تصرف الأفعال ولا يضمر\n~~فيها المرفوع كما يضمر في كان | فمن ثم فرقوا بينهما كما فرقوا بين ليس وما\n~~فلم يجروها مجراها ولكن قيل هي بمنزلة الأفعال فيما بعدها وليست بأفعال |\n~~وتقول إن زيدا الظريف منطلق فإن لم يذكر المنطلق صار الظريف PageV02P131 في\n~~موضع الخبر كما قلت كان زيد الظريف ذاهبا فلما لم تجئ بالذاهب قلت كان زيد\n~~الظريف فنصب هذا في كان بمنزلة رفع الأول في أن وأخواتها | وتقول إن فيها\n~~زيدا قائما وإن شئت رفعت على إلغاء فيها وإن شئت قلت إن زيدا فيها قائما\n~~وقائم | وتفسير نصب القائم ههنا ورفعه كتفسيره في الابتداء وعبد الله ينتصب\n",
+      "sha256": "bf2b2cbfee37f6ebde3a870c30a8447fb5267e20e9e6c6ec73f261a3fbc7ab8c",
+      "interpretation": "The source calls the emphatic family particles and gives إن زيدا and قائم/قائما examples; the digitized string أءن is preserved unchanged."
+    }
+  ],
+  "entries": [
+    {
+      "id": "noun_rajul",
+      "forms": [
+        {
+          "text": "رَجُلٌ",
+          "ending": 0,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "رَجُلًا",
+          "ending": 1,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "رَجُلٍ",
+          "ending": 2,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "رَجُلُ",
+          "ending": 0,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "رَجُلَ",
+          "ending": 1,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "رَجُلِ",
+          "ending": 2,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": 0,
+      "construction": "inflected",
+      "features": {
+        "lemma": "رجل",
+        "number": "singular",
+        "definiteness": "indefinite",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_inflection",
+        "basic_case_endings",
+        "alfiyya_construction",
+        "noun_and_pronoun_types",
+        "sibawayhi_word_kinds"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "word_kinds",
+          "base_text": "رجل"
+        },
+        {
+          "rule_id": "noun_and_pronoun_types",
+          "base_text": "رجل"
+        },
+        {
+          "rule_id": "sibawayhi_word_kinds",
+          "base_text": "رجل"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The named noun is attested. Class 0 and the six written templates are a curated application of the ordinary noun case rule, not a class learned from the final letters. Templates without tanwin specify the written short vowel only and do not prove phonetic absence of tanwin."
+    },
+    {
+      "id": "noun_zayd",
+      "forms": [
+        {
+          "text": "زَيْدٌ",
+          "ending": 0,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "زَيْدًا",
+          "ending": 1,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "زَيْدٍ",
+          "ending": 2,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "زَيْدُ",
+          "ending": 0,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "زَيْدَ",
+          "ending": 1,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "زَيْدِ",
+          "ending": 2,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": 0,
+      "construction": "inflected",
+      "features": {
+        "lemma": "زيد",
+        "number": "singular",
+        "proper_name": true,
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_inflection",
+        "basic_case_endings",
+        "alfiyya_construction",
+        "zayd_proper_name",
+        "sibawayhi_eight_functions_four_shapes"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "noun_inflection",
+          "base_text": "زيد"
+        },
+        {
+          "rule_id": "zayd_proper_name",
+          "base_text": "زيد"
+        },
+        {
+          "rule_id": "sibawayhi_eight_functions_four_shapes",
+          "base_text": "زيدا"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The source explicitly uses زيد for the inflected noun and gives its three case contexts. Vocalized templates and class code 0 are authored operational assignments; the lexeme is not a resolved individual identity."
+    },
+    {
+      "id": "noun_qaim",
+      "forms": [
+        {
+          "text": "قَائِمٌ",
+          "ending": 0,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "قَائِمًا",
+          "ending": 1,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "قَائِمٍ",
+          "ending": 2,
+          "canonical_tanwin": true
+        },
+        {
+          "text": "قَائِمُ",
+          "ending": 0,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "قَائِمَ",
+          "ending": 1,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "قَائِمِ",
+          "ending": 2,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": 0,
+      "construction": "inflected",
+      "features": {
+        "lemma": "قائم",
+        "number": "singular",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_inflection",
+        "basic_case_endings",
+        "alfiyya_construction",
+        "minimal_composition",
+        "sibawayhi_inna_particle"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "minimal_composition",
+          "base_text": "قائم"
+        },
+        {
+          "rule_id": "sibawayhi_inna_particle",
+          "base_text": "قائما"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The two-noun example explicitly attests قائم as a noun; the source discusses its raised and accusative uses. Class 0 and the genitive written template are curated applications of the ordinary case rule. Neither derived meaning nor actual predicate role is read from the code."
+    },
+    {
+      "id": "pronoun_huwa",
+      "forms": [
+        {
+          "text": "هُوَ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "هو",
+        "pronoun": true,
+        "person": 3,
+        "gender": "masculine",
+        "number": "singular",
+        "attachment": "separate",
+        "reference_required": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_and_pronoun_types",
+        "alfiyya_pronouns"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "alfiyya_pronouns",
+          "base_text": "هو"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "هو is explicitly a separated nominative pronoun in the source; pronouns are built. Full vocalization and the third-person masculine singular feature bundle are curated lexical application, not recovered by numeral arithmetic. Nominative capacity does not establish a referent."
+    },
+    {
+      "id": "past_daraba",
+      "forms": [
+        {
+          "text": "ضَرَبَ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 1,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "ضرب",
+        "tense": "past",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "past_signs",
+        "alfiyya_construction",
+        "sibawayhi_daraba_past"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "past_signs",
+          "base_text": "ضرب"
+        },
+        {
+          "rule_id": "sibawayhi_daraba_past",
+          "base_text": "ضرب"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "Past classification is text-supported. Canonical vowels are authored, and no actual subject, object or tense-in-world claim is generated."
+    },
+    {
+      "id": "past_qama",
+      "forms": [
+        {
+          "text": "قَامَ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 1,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "قام",
+        "tense": "past",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "past_signs",
+        "qama_past_attestation",
+        "minimal_composition",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "qama_past_attestation",
+          "base_text": "قام"
+        },
+        {
+          "rule_id": "minimal_composition",
+          "base_text": "قام"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The source gives قام زيد. Past classification and canonical vocalization are a curated lexical application of the cited past law. This entry does not infer past time from the alif or final fatha."
+    },
+    {
+      "id": "imperfect_yaqum",
+      "forms": [
+        {
+          "text": "يَقُومُ",
+          "ending": 0,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "يَقُومَ",
+          "ending": 1,
+          "canonical_tanwin": false
+        },
+        {
+          "text": "يَقُمْ",
+          "ending": 3,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 1,
+      "declension_class": 8,
+      "construction": "inflected",
+      "features": {
+        "lemma": "يقوم",
+        "tense": "imperfect",
+        "requires_construction": true,
+        "exact_stem_forms_only": true
+      },
+      "rule_ids": [
+        "imperfect_signs",
+        "basic_case_endings",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "imperfect_signs",
+          "base_text": "يقوم"
+        },
+        {
+          "rule_id": "basic_case_endings",
+          "base_text": "يقوم"
+        },
+        {
+          "rule_id": "basic_case_endings",
+          "base_text": "يقم"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "Class 8 describes the terminal case realization only. يقوم is not claimed to have no internal weak radical: its jussive stem يقم is enumerated from لم يقم, not formed by changing the final vowel of يقوم. No template يقومْ is licensed."
+    },
+    {
+      "id": "particle_inna_emphatic",
+      "forms": [
+        {
+          "text": "إِنَّ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 2,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "إن",
+        "operator": "inna",
+        "sense": "emphatic",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "particle_kinds",
+        "inna_activation",
+        "sibawayhi_inna_particle",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "inna_activation",
+          "base_text": "إن"
+        },
+        {
+          "rule_id": "sibawayhi_inna_particle",
+          "base_text": "إن"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The emphatic use and particle class are source-supported. Canonical shadda and vowels are authored lexical realization. Bare إن preserves alternatives; this entry alone cannot activate the emphatic frame."
+    },
+    {
+      "id": "particle_in_conditional",
+      "forms": [
+        {
+          "text": "إِنْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 2,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "إن",
+        "operator": "in_conditional",
+        "sense": "conditional",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "conditional_words",
+        "sibawayhi_conditional_in",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "conditional_words",
+          "base_text": "إن"
+        },
+        {
+          "rule_id": "sibawayhi_conditional_in",
+          "base_text": "إن"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The conditional particle and its frame are explicitly attested. Canonical vowels are authored. Reading it does not construct the condition/response or a material implication truth table."
+    },
+    {
+      "id": "particle_min_preposition",
+      "forms": [
+        {
+          "text": "مِنْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 2,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "من",
+        "operator": "min",
+        "sense": "preposition",
+        "requires_complement": true,
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "min_preposition",
+        "sibawayhi_particles",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "min_preposition",
+          "base_text": "من"
+        },
+        {
+          "rule_id": "sibawayhi_particles",
+          "base_text": "من"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "Prepositional من is attested separately from nominal من. The written kasra discriminates these curated templates; without it both kinds remain candidates."
+    },
+    {
+      "id": "noun_man_relative",
+      "forms": [
+        {
+          "text": "مَنْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "من",
+        "sense": "relative",
+        "requires_construction": true,
+        "reference_required": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_inflection",
+        "relative_and_interrogative_man"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "relative_and_interrogative_man",
+          "base_text": "من"
+        },
+        {
+          "rule_id": "noun_inflection",
+          "base_text": "من"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The source attests built nominal من and the cited use. This is a distinct lexical alternative sharing the same cells with other nominal uses. Its relation, clause, scope and referent are not guessed from the final sukun."
+    },
+    {
+      "id": "noun_man_conditional",
+      "forms": [
+        {
+          "text": "مَنْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "من",
+        "sense": "conditional",
+        "requires_construction": true,
+        "reference_required": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_inflection",
+        "conditional_words"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "conditional_words",
+          "base_text": "من"
+        },
+        {
+          "rule_id": "noun_inflection",
+          "base_text": "من"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The source attests built nominal من and the cited use. This is a distinct lexical alternative sharing the same cells with other nominal uses. Its relation, clause, scope and referent are not guessed from the final sukun."
+    },
+    {
+      "id": "noun_man_interrogative",
+      "forms": [
+        {
+          "text": "مَنْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 0,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "من",
+        "sense": "interrogative",
+        "requires_construction": true,
+        "reference_required": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "noun_inflection",
+        "relative_and_interrogative_man"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "relative_and_interrogative_man",
+          "base_text": "من"
+        },
+        {
+          "rule_id": "noun_inflection",
+          "base_text": "من"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The source attests built nominal من and the cited use. This is a distinct lexical alternative sharing the same cells with other nominal uses. Its relation, clause, scope and referent are not guessed from the final sukun."
+    },
+    {
+      "id": "particle_lam",
+      "forms": [
+        {
+          "text": "لَمْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 2,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "لم",
+        "operator": "lam",
+        "requires_complement": true,
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "alfiyya_particles",
+        "lam_activation",
+        "basic_case_endings",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "alfiyya_particles",
+          "base_text": "لم"
+        },
+        {
+          "rule_id": "lam_activation",
+          "base_text": "لم"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "لم is explicitly a particle and has a jussive frame. Its exact complement and the observed verbal ending are independent inputs to composition."
+    },
+    {
+      "id": "particle_hal",
+      "forms": [
+        {
+          "text": "هَلْ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 2,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "هل",
+        "operator": "hal",
+        "sense": "interrogative",
+        "requires_construction": true
+      },
+      "rule_ids": [
+        "particle_kinds",
+        "alfiyya_particles",
+        "sibawayhi_particles",
+        "alfiyya_construction"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "particle_kinds",
+          "base_text": "هل"
+        },
+        {
+          "rule_id": "alfiyya_particles",
+          "base_text": "هل"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "هل is explicitly a particle. The interrogative use is an authored bounded interpretation; no question-to-assertion projection is performed."
+    },
+    {
+      "id": "attached_darabtu",
+      "forms": [
+        {
+          "text": "ضَرَبْتُ",
+          "ending": null,
+          "canonical_tanwin": false
+        }
+      ],
+      "kind": 1,
+      "declension_class": null,
+      "construction": "built",
+      "features": {
+        "lemma": "ضرب",
+        "requires_construction": true,
+        "segmented_written_word": true
+      },
+      "rule_ids": [
+        "word_kinds",
+        "past_signs",
+        "noun_and_pronoun_types",
+        "alfiyya_pronouns"
+      ],
+      "lexical_attestations": [
+        {
+          "rule_id": "word_kinds",
+          "base_text": "ضربت"
+        },
+        {
+          "rule_id": "past_signs",
+          "base_text": "ضربت"
+        }
+      ],
+      "analysis_basis": "AUTHORED_BOUNDED_APPLICATION_OF_PINNED_SOURCE",
+      "class_and_template_basis": "The source explicitly uses the ta of ضربت as a noun sign and the moving nominative pronoun as the sukun-building condition. The exact first-person template is curated and requires its disambiguating observed marks; no general suffix split or free pronoun license is inferred.",
+      "required_marks": [
+        {
+          "carrier": 2,
+          "marks": "ْ"
+        },
+        {
+          "carrier": 3,
+          "marks": "ُ"
+        }
+      ],
+      "analysis_scope": "ONE_WRITTEN_RUN_WITH_TWO_GRAMMATICAL_PARTS",
+      "segments": [
+        {
+          "carrier_start": 0,
+          "carrier_end": 3,
+          "kind": 1,
+          "declension_class": null,
+          "construction": "built",
+          "ending": null,
+          "features": {
+            "tense": "past",
+            "pronoun": false,
+            "lexical_reuse": "ATTACHED_TEMPLATE_ONLY",
+            "building_condition": "moving_nominative_pronoun"
+          }
+        },
+        {
+          "carrier_start": 3,
+          "carrier_end": 4,
+          "kind": 0,
+          "declension_class": null,
+          "construction": "built",
+          "ending": null,
+          "features": {
+            "pronoun": true,
+            "person": 1,
+            "number": "singular",
+            "attachment": "suffix",
+            "reference_required": true,
+            "lexical_reuse": "ATTACHED_TEMPLATE_ONLY",
+            "requires_attachment": true
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Canonical vocalization and small lexical feature bundles are authored applications. The primary text commonly has no complete vocalization.",
+    "The policy does not learn a new unrestricted rule, infer properties of an unknown noun from its last letters, or resolve a real-world referent.",
+    "Word signs and source citations do not by themselves certify a full Arabic analysis; the installed replay checker verifies source bytes and the fixed operational contract.",
+    "Only explicit listed stem alternations are allowed; the ending algebra is not a morphology generator.",
+    "Nominal, relative, conditional and interrogative readings of من remain alternatives until an independently supported construction selects one.",
+    "Only the observed first-person ضَرَبْتُ split is enabled. Bare ضربت and other person/gender endings require additional entries and evidence.",
+    "No universal noun/verb/particle classifier follows from the number of constructors in the finite Lean type."
+  ]
+}

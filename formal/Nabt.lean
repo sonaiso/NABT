@@ -14,3 +14,4 @@ import Nabt.Program
 import Nabt.SemanticInference
 import Nabt.ArabicReading
 import Nabt.Governors
+import Nabt.Words

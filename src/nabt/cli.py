@@ -97,6 +97,14 @@ def parser() -> Parser:
     transcode.add_argument("--from-codec", required=True)
     transcode.add_argument("--to-codec", required=True)
     sub.add_parser("pilot")
+    word_reader = sub.add_parser("read-words")
+    word_reader.add_argument("document", type=Path)
+    word_reader.add_argument("--scope", default="default")
+    word_reader.add_argument("--with-number", action="store_true")
+    word_verifier = sub.add_parser("verify-words")
+    word_verifier.add_argument("report", type=Path)
+    word_verifier.add_argument("--source", type=Path, help="Bind replay to these expected source bytes")
+    word_verifier.add_argument("--scope", default=None, help="Bind replay to this expected scope")
     for name in ("read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"):
         command = sub.add_parser(name)
         command.add_argument("document", type=Path)
@@ -126,6 +134,27 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"read-words", "verify-words"}:
+        from .word_reader import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
+                                  read_words, verify_word_reading, word_reading_number)
+        expected = None
+        path = args.document if command == "read-words" else args.source
+        if path is not None:
+            with path.open("rb") as handle:
+                expected = handle.read(MAX_SOURCE_BYTES + 1)
+            if len(expected) > MAX_SOURCE_BYTES:
+                raise resource_limit("Word source exceeds its byte budget")
+        if command == "verify-words":
+            report = verify_word_reading(read_certificate(args.report, MAX_REPORT_BYTES),
+                                         source=expected, scope=args.scope)
+            return report, 0 if report["valid"] else (3 if report["status"] == "DEFER" else 2)
+        report = read_words(expected, source_id="input", scope=args.scope)
+        if args.with_number:
+            # The packet wraps the replayed report; it is not part of that
+            # report and does not grant additional linguistic authority.
+            return {"reading": report, "encoding": {"domain": NUMBER_DOMAIN,
+                    "number_hex": hex(word_reading_number(report)), "authority": "ENCODING_ONLY"}}, (0 if report["status"] == "READ" else 3 if report["status"] == "DEFER" else 2)
+        return report, 0 if report["status"] == "READ" else 3 if report["status"] == "DEFER" else 2
     if command in {"read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"}:
         from .program import MAX_LITERAL_BYTES, compile_request, execute_program
         with args.document.open("rb") as handle:

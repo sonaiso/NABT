@@ -58,6 +58,15 @@ Their native re-proved contracts preserve the original scope and the same
 MIT notice below. Historical source attribution and inventory limits are
 recorded separately in `docs/MASHRU_AWAMIL_AUDIT.md`.
 
+`formal/Nabt/Words.lean` and `src/nabt/data/words.json` adapt the conditional
+single-word classification, ending relation, and candidate-refinement design
+from `Saleh1967/Alghanem`, commit
+`9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`, under `formal/a116/A116/`:
+`Mufrad.lean`, `Qism.lean`, `QismKhanat.lean`, and `QismAwamil.lean`.
+The original MIT copyright is also `(c) 2026 Saleh1967`; the full license below
+applies to these adaptations. No source-correctness or unrestricted Arabic
+parsing claim is transferred by that reuse. See `docs/RELATED_WORD_CONTRACTS.md`.
+
 MIT License
 
 Copyright (c) 2026 Saleh1967

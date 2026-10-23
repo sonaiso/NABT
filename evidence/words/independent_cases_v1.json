@@ -1,0 +1,857 @@
+{
+  "schema": "nabt.words.independent-cases.v1",
+  "dataset_id": "words-independent-cases-v1",
+  "frozen_at_utc": "2026-10-23T09:06:28Z",
+  "author_role": "independent word-boundary reviewer",
+  "read_baseline_commit": "7360985b14765bfdd1e04dcbd0da57684b50d762",
+  "read_new_runtime_before_freeze": false,
+  "purpose": "Independent, source-justified development and boundary cases frozen before the new words implementation was read. This is not a hidden broad-Arabic proficiency benchmark.",
+  "scope_contract": {
+    "precomposition": "Source-bound candidates for noun, verb, particle and grammatical segmentation, without contextual case or semantic admission.",
+    "contextual_frames": [
+      "inna_two_nouns",
+      "min_noun",
+      "lam_imperfect"
+    ],
+    "attached_pronoun": "The source-attested taa of darabtu must remain distinct from the verb in grammatical segmentation while restoring one written run.",
+    "existing_profiles": "This dataset does not authorize changing existing text/governor acceptance.",
+    "new_unknown_words": "Named DEFER or explicitly limited cues; never count as required lexical coverage.",
+    "source_fact_or_atom_admission": false
+  },
+  "sources": [
+    {
+      "id": "qatr",
+      "git_commit": "7360985b14765bfdd1e04dcbd0da57684b50d762",
+      "git_path": "src/nabt/data/source_evidence/qatr.txt",
+      "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+      "passages": [
+        {
+          "id": "word_and_noun",
+          "line_start": 41,
+          "line_end": 44,
+          "byte_start": 1414,
+          "byte_end": 1648,
+          "sha256": "af3887f99dfbdedb9cd03aaf80dcc0d57cefb37619e20863aad645f3de827947",
+          "text": "### | الكلمة وأقسامها\n# الكلمة: قول مفرد. وهي اسم وفعل وحرف.\n# فأما الاسم فيعرف بأل ك\"الرجل\" وبالتنوين ك\"رجل\" وبالحديث عنه كتاء\n~~\"ضربت\".\n"
+        },
+        {
+          "id": "declension_building",
+          "line_start": 45,
+          "line_end": 52,
+          "byte_start": 1648,
+          "byte_end": 2194,
+          "sha256": "7e49378580600d8d8c0fdac8c7eb72d10e49ba12754b0a3f5b9d7984278e5876",
+          "text": "# وهو ضربان:\n### | 1- \n# معرب وهو ما يتغير أواخره بسبب العوامل الداخلة عليه ك\"زيد\".\n### | 2- \n# ومبني وهو بخلافه، ك\"هؤلاء\" في لزوم الكسر، وكذلك حذام وأمس في لغة\n~~الحجازيين، وك\"أحد عشر\" وأخواته في لزوم الفتح، وكقبل وبعد وأخواتهما في\n~~لزوم الضم إذا حذف المضاف إليه ونوي معناه، وكمن وكم في لزوم السكون وهو\n~~أصل البناء.\n"
+        },
+        {
+          "id": "past_and_attached_subject",
+          "line_start": 53,
+          "line_end": 57,
+          "byte_start": 2194,
+          "byte_end": 2548,
+          "sha256": "05a7b5f59a9d68365303ef257bc66c8830d28aafb5a6bc6b0ea73fd5a6659e1d",
+          "text": "# وأما الفعل فثلاثة أقسام:\n### | 1- \n# ماض: ويعرف بتاء التأنيث الساكنة. وبناؤه على الفتح كضرب، إلا مع واو\n~~الجماعة فيضم ك\"ضربوا\"، والضمير المرفوع المتحرك فيسكن ك\"ضربت\". ومنه نعم\n~~وبئس وعسى وليس في الأصح.\n"
+        },
+        {
+          "id": "imperfect",
+          "line_start": 64,
+          "line_end": 69,
+          "byte_start": 2945,
+          "byte_end": 3546,
+          "sha256": "f50b02b64fd8cd350cecbafdc2f1312c079336ccfb24aa3d407ef758af9ef4a7",
+          "text": "### | 3- \n# ومضارع: ويعرف بلم. وافتتاحه بحرف من نأيت، نحو نقوم وأقوم ويقوم وتقوم.\n~~ويضم أوله إن كان ماضيه رباعيا ك\"يدحرج ويكرم\"، ويفتح في غيره ك\"يضرب\n~~ويستخرج\". ويسكن آخره مع نون النسوة نحو يتربصن وإلا أن يعفون، ويفتح مع\n~~نون التوكيد المباشرة لفظا وتقديرا نحو لينبذن، ويعرب فيما عدا ذلك نحو\n~~يقوم زيد ولا تتبعان لتبلون فإما ترين ولا يصدنك.\n"
+        },
+        {
+          "id": "particle",
+          "line_start": 70,
+          "line_end": 72,
+          "byte_start": 3546,
+          "byte_end": 3820,
+          "sha256": "7511a2a1ece6bf92aac081a57594b640ff8300ef119bdd22513d733de61b2f92",
+          "text": "# وأما الحرف: فيعرف بأن لا يقبل شيئا من علامات الاسم والفعل، نحو هل وبل.\n~~وليس منه مهما وإذما، بل ما المصدرية ولما الرابطة في الأصح. وجميع الحروف\n~~مبنية.\n"
+        },
+        {
+          "id": "minimal_clause",
+          "line_start": 73,
+          "line_end": 74,
+          "byte_start": 3820,
+          "byte_end": 3959,
+          "sha256": "2f38c85482b42eaac7fa1fb7f3d4f178018b503a9bc29e22195c3525c469500d",
+          "text": "# والكلام: لفظ مفيد. وأقل ائتلافه من اسمين ك\"زيد قائم\"، أو فعل واسم\n~~ك\"قام زيد\".\n"
+        },
+        {
+          "id": "case_and_jussive_example",
+          "line_start": 75,
+          "line_end": 79,
+          "byte_start": 3959,
+          "byte_end": 4494,
+          "sha256": "9f7941ee9cd9f55840fdd3f40715b9c42596bfa991a406e51625f9fd00801359",
+          "text": "# فصل: أنواع الإعراب أربعة.\n# (1) رفع (2) ونصب في اسم وفعل نحو \"زيد يقوم\" و \"إن زيدا لن يقوم\"، (3)\n~~وجر في اسم نحو \"بزيد\"، (4) وجزم نحو \"لم يقم\". فيرفع بضمة، وينصب بفتحة،\n~~ويجر بكسرة، ويجزم بحذف حركة، إلا الأسماء الستة، وهي أبوه وأخوه وحموها\n~~وهنوه وفوه وذو مال، فترفع بالواو وتنصب بالألف وتجر بالياء. والأفصح\n"
+        },
+        {
+          "id": "noun_reference_and_pronoun",
+          "line_start": 122,
+          "line_end": 130,
+          "byte_start": 8870,
+          "byte_end": 9799,
+          "sha256": "65837db4af47469ef763260c13ec30a23a575ab00dd623153659d5f9ad8d7774",
+          "text": "# فصل: الاسم ضربان.\n# نكرة، وهو ما شاع في جنس موجود ك\"رجل\" أو مقدر ك\"شمس\"، ومعرفة وهي ستة:\n~~الضمير وهو ما دل على متكلم أو مخاطب أو غائب. وهو إما مستتر كالمقدر وجوبا\n~~في نحو \"أقوم\" و \"تقوم\" أو جوازا فشي نحو \"زيد يقوم\"، أو بارز وهو إما متصل\n~~ك\"تاء\" \"قمت\" وكاف \"أكرمك\" وهاء \"غلامه\"، أو منفصل ك\"أنا وأنت وإياي\". ولا\n~~فصل مع إمكان الوصل، إلا في نحو الهاء من \"سلنيه\" بمرجوحية، و \"ظننتكه\" و\n~~\"كنته\" برجحان.\n# ثم العلم وهو: إما شخصي ك \"زيد\" أو جنسي ك \"أسامة\"، وإما اسم كما مثلنا\n~~أو لقب ك\"زين العابدين\" و \"قفة\" أو كنية ك\"أبي عمرو\" و \"أم كلثوم\". ويؤخر\n"
+        },
+        {
+          "id": "explicit_huwa",
+          "line_start": 157,
+          "line_end": 158,
+          "byte_start": 12267,
+          "byte_end": 12501,
+          "sha256": "261c7f1ba9da0b163691bd33c90747a16af98d93d1259519a15cee963028e749",
+          "text": "# والخبر جملة لها رابط ك \"زيد أبوه قائم\" و {ولباس التقوى ذلك خير} و\n~~{الحاقة ما الحاقة} و \"زيد نعم الرجل\"، إلا في نحو: {قل هو الله أحد} ،\n"
+        },
+        {
+          "id": "inna_roles_blocker",
+          "line_start": 187,
+          "line_end": 190,
+          "byte_start": 15482,
+          "byte_end": 15986,
+          "sha256": "a72b28bffeed9a4fa9e9df1ea20e36b795442213dca9ca236a2c79993e8a8cba",
+          "text": "# الثاني: إن وأن للتأكيد، ولكن للاستدراك، وكأن للتشبيه أو الظن، وليت\n~~للتمني، ولعل للترجي أو الإشفاق أو التعليل. فينصبن المبتدأ اسما لهن،\n~~ويرفعن الخبر خبرا لهن، إن لم تقترن بهن ما الحرفية: نحو {إنما الله إله\n~~واحد} إلا ليت فيجوز الأمران، كإن المكسورة مخففة فأما لكن مخففة فتهمل.\n"
+        },
+        {
+          "id": "preposition",
+          "line_start": 337,
+          "line_end": 340,
+          "byte_start": 29228,
+          "byte_end": 29659,
+          "sha256": "eef29830facf3049cbccfffffec98c0f3269b02c3b8f9b7866746a743aaa0407",
+          "text": "### | باب يخفض الاسم إما بحرف مشترك:\n# وهو من وإلى وعن وعلى وفي واللام والباء للقسم وغيره - أو مختص بالظاهر -\n~~وهو رب ومذ ومنذ والكاف وحتى وواو القسم وتاؤه - أو بإضافة إلى اسم على\n~~معنى اللام ك \"غلام زيد\" أو من ك\"خاتم حديد\" أو في ك \"مكر الليل\" وتسمى\n"
+        }
+      ]
+    }
+  ],
+  "source_usage_notes": [
+    "Source snippets are exact pinned bytes. Case input vocalization is an independent annotation where the pinned source is unvocalized; it is not presented as an exact quotation.",
+    "w15 and w16 compose attested lexical items with attested narrow rules; they are constructed cases, not claimed source sentences.",
+    "w17 uses the explicit lam yaqom/yaqum exception form attested as لم يقم; requiring that fixed form does not require a general weak-verb inflector.",
+    "Grammatical noun-kind and a lexical evidence witness do not establish a real-world referent, lexical meaning truth, or a proposition."
+  ],
+  "universal_expected_properties": {
+    "preserve_all_input_bytes": true,
+    "bind_evidence_to_source_span_and_reading": true,
+    "do_not_admit_atoms_or_facts": true,
+    "do_not_claim_world_truth": true,
+    "do_not_merge_alternatives_from_different_readings": true,
+    "do_not_treat_numeric_roundtrip_as_lexical_license": true
+  },
+  "status_family_contract": {
+    "LEXICAL_EVIDENCE": "Required stated lexical/segmentation evidence is present. Overall API status may still defer a later layer; a noun-kind witness must not be confused with referential completeness.",
+    "SYNTACTIC_EVIDENCE": "The complete stated narrow frame has the stated licensed roles and case realization. This never licenses fact or world-truth admission.",
+    "DEFER": "The requested layer is incomplete and must retain a named missing obligation; positive limited observations may coexist.",
+    "DEFER_OR_REJECT": "Any nonaccepting structured result is acceptable, with the named defect. Silent repair or successful licensing is forbidden.",
+    "REPLAY_FAILURE": "Independent replay rejects the transplanted/mutated evidence."
+  },
+  "scoring": {
+    "report_groups_separately": true,
+    "source_attested_positive": "Count required lexical witnesses and complete frames; a blanket DEFER with no required evidence fails these cases.",
+    "ambiguity_control": "Count retained required alternatives and absence of premature unique selection.",
+    "safety_counterexample": "Count prevention of forbidden conclusions and presence of the specified obligation family; these do not measure lexical coverage.",
+    "coverage_boundary": "Count honest named limits; these do not increase positive language-coverage counts.",
+    "certificate_binding": "Count failed cross-source replay without silently replacing the supplied certificate.",
+    "boundary_validation": "Count rejection or structured deferral of ill-formed source spans.",
+    "adapter_policy": "The evaluator may map documented runtime field/status names to these invariant properties. It must not add name-specific exceptions or weaken expected properties after seeing failures. Any scope amendment belongs in a separately versioned file."
+  },
+  "cases": [
+    {
+      "id": "w01",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w01",
+        "text": "رَجُلٌ"
+      },
+      "source_passages": [
+        "word_and_noun",
+        "noun_reference_and_pronoun"
+      ],
+      "rationale": "الاسم والتنوين ممثلان صراحة في النص؛ المدخل مضبوط من المراجع المستقل ولا يدعي وجود رجل معين.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "noun",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "observed_tanwin": true
+      }
+    },
+    {
+      "id": "w02",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w02",
+        "text": "زيد"
+      },
+      "source_passages": [
+        "declension_building",
+        "noun_reference_and_pronoun"
+      ],
+      "rationale": "زيد مثال الاسم المعرب والعلم في المصدر. الاسمية والتسمية لا تثبتان وحدهما إحالة إلى فرد معلوم في سياق جديد.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "noun",
+        "actual_contextual_case": null,
+        "referent_established": false
+      }
+    },
+    {
+      "id": "w03",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w03",
+        "text": "قائم"
+      },
+      "source_passages": [
+        "minimal_clause"
+      ],
+      "rationale": "المصدر يصف زيد قائم بأنه ائتلاف من اسمين؛ يبنى صنف قائم دون إسناده إلى فرد عند عزله.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "noun",
+        "actual_contextual_case": null,
+        "referent_established": false
+      }
+    },
+    {
+      "id": "w04",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w04",
+        "text": "هو"
+      },
+      "source_passages": [
+        "noun_reference_and_pronoun",
+        "explicit_huwa"
+      ],
+      "rationale": "يرد الضمير في باب المعارف وترد هو نصا؛ الصنف الاسمي لا يغني عن سابق أو قرينة للإحالة.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "noun",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "lexical_subtype": "pronoun",
+        "reference_may_require_context": true
+      }
+    },
+    {
+      "id": "w05",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w05",
+        "text": "ضَرَبَ"
+      },
+      "source_passages": [
+        "past_and_attached_subject"
+      ],
+      "rationale": "ضرب مثال الماضي المبني على الفتح. ضبط المدخل يختار القراءة الفعلية ولا يثبت النصب من الفتحة.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "verb",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "lexical_subtype": "past",
+        "surface_final_mark": "َ",
+        "forbidden_contextual_case_inference": "nasb"
+      }
+    },
+    {
+      "id": "w06",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w06",
+        "text": "ضَرَبْتُ"
+      },
+      "source_passages": [
+        "word_and_noun",
+        "past_and_attached_subject",
+        "noun_reference_and_pronoun"
+      ],
+      "rationale": "تاء ضربت شاهد اسم متصل في المصدر. حد الرسم الواحد ليس برهانا على وحدة كلمة نحوية، والضمير المتحرك يسكن الماضي.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_word_kinds": [
+          "verb",
+          "noun"
+        ],
+        "required_grammatical_segments": [
+          {
+            "surface": "ضَرَبْ",
+            "kind": "verb"
+          },
+          {
+            "surface": "تُ",
+            "kind": "noun",
+            "lexical_subtype": "attached_pronoun"
+          }
+        ],
+        "segmentation_must_restore_exact_input": true,
+        "requires_an_orthographic_single_run": true,
+        "referent_established": false
+      }
+    },
+    {
+      "id": "w07",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w07",
+        "text": "قام"
+      },
+      "source_passages": [
+        "minimal_clause"
+      ],
+      "rationale": "قام في المثال فعل واسم قام زيد، دون اشتراط أن تكون الجملة حاضرة في المدخل.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "verb",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "lexical_subtype": "past"
+      }
+    },
+    {
+      "id": "w08",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w08",
+        "text": "يقوم"
+      },
+      "source_passages": [
+        "imperfect",
+        "case_and_jussive_example"
+      ],
+      "rationale": "يقوم منصوص عليه بين أمثلة المضارع. عزل الفعل لا يحدد العامل المستعمل في سياق جديد.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "verb",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "lexical_subtype": "imperfect"
+      }
+    },
+    {
+      "id": "w09",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w09",
+        "text": "مِنْ"
+      },
+      "source_passages": [
+        "preposition"
+      ],
+      "rationale": "من مذكورة ضمن حروف الخفض؛ الكسر والسكون المضافان هنا يحددان القراءة الجارة، ولا يختلقان مجرورا غائبا.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "particle",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "requires_complement_in_context": true
+      }
+    },
+    {
+      "id": "w10",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w10",
+        "text": "لم"
+      },
+      "source_passages": [
+        "imperfect",
+        "case_and_jussive_example"
+      ],
+      "rationale": "لم علامة المضارع وممثلة في شاهد الجزم؛ وجودها منفردة لا يصنع فعلا محذوفا.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "particle",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "requires_complement_in_context": true
+      }
+    },
+    {
+      "id": "w11",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w11",
+        "text": "هل"
+      },
+      "source_passages": [
+        "particle"
+      ],
+      "rationale": "هل مثال صريح للحرف؛ التعرف على صنفها لا يولد سؤالا كامل المحتوى.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "particle",
+        "actual_contextual_case": null,
+        "referent_established": false
+      }
+    },
+    {
+      "id": "w12",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w12",
+        "text": "إنّ"
+      },
+      "source_passages": [
+        "inna_roles_blocker"
+      ],
+      "rationale": "إن ضمن الباب العامل. الشدة المضافة تحدد القراءة المطلوبة، لكن وجود اللفظ منفردا لا يستوفي اسمها وخبرها.",
+      "expected": {
+        "status_family": "LEXICAL_EVIDENCE",
+        "required_kind": "particle",
+        "actual_contextual_case": null,
+        "referent_established": false,
+        "requires_complement_in_context": true
+      }
+    },
+    {
+      "id": "w13",
+      "group": "ambiguity_control",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w13",
+        "text": "من"
+      },
+      "source_passages": [
+        "declension_building",
+        "preposition"
+      ],
+      "rationale": "الرسم غير المضبوط من وارد في الاسم المبني وفي حروف الخفض؛ لا يجوز أن يختار أحدهما بإسقاط الآخر دون قرينة.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_alternative_kinds": [
+          "noun",
+          "particle"
+        ],
+        "required_obligation_families": [
+          "READING_OR_LEXICAL_SENSE"
+        ],
+        "must_not_claim_unique_kind": true
+      }
+    },
+    {
+      "id": "w14",
+      "group": "coverage_boundary",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w14",
+        "text": "حَاسُوبٌ"
+      },
+      "source_passages": [
+        "word_and_noun"
+      ],
+      "rationale": "مثال جديد خارج قائمة الشواهد المحددة؛ يجوز وصف التنوين قرينة شكلية محدودة، لكن لا يحسب اكتسابا معجميا مسندا من المصدر.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "LEXICAL_ATTESTATION_OR_COVERAGE"
+        ],
+        "allow_limited_noun_cue": true,
+        "must_not_claim_lexical_attestation": true
+      }
+    },
+    {
+      "id": "w15",
+      "group": "source_attested_positive",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w15",
+        "text": "إنّ زيدًا قائمٌ"
+      },
+      "source_passages": [
+        "declension_building",
+        "minimal_clause",
+        "inna_roles_blocker"
+      ],
+      "rationale": "تركيب اختباري معلن بألفاظ مشهودة وقاعدة إن المستقلة: اسم منصوب وخبر مرفوع. يقيس البنية التركيبية فقط.",
+      "expected": {
+        "status_family": "SYNTACTIC_EVIDENCE",
+        "required_frame": "inna_two_nouns",
+        "required_bindings": [
+          {
+            "surface": "زيدًا",
+            "kind": "noun",
+            "role": "inna_subject",
+            "case": "nasb"
+          },
+          {
+            "surface": "قائمٌ",
+            "kind": "noun",
+            "role": "inna_predicate",
+            "case": "raf"
+          }
+        ],
+        "referent_established": false
+      }
+    },
+    {
+      "id": "w16",
+      "group": "source_attested_positive",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w16",
+        "text": "مِنْ رجلٍ"
+      },
+      "source_passages": [
+        "word_and_noun",
+        "preposition"
+      ],
+      "rationale": "تركيب اختباري معلن بألفاظ وقاعدة مشهودة؛ يحكم على المجرور داخل حد العبارة دون توليد خبر.",
+      "expected": {
+        "status_family": "SYNTACTIC_EVIDENCE",
+        "required_frame": "min_noun",
+        "required_bindings": [
+          {
+            "surface": "رجلٍ",
+            "kind": "noun",
+            "role": "governed_noun",
+            "case": "jarr"
+          }
+        ],
+        "referent_established": false
+      }
+    },
+    {
+      "id": "w17",
+      "group": "source_attested_positive",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w17",
+        "text": "لم يقمْ"
+      },
+      "source_passages": [
+        "imperfect",
+        "case_and_jussive_example"
+      ],
+      "rationale": "لم يقم مثال صريح في المصدر؛ لا يتطلب اختراع رد صرفي عام. يجوز إدراج صورة يقم كشاهد معجمي محدود ضمن هذه النسخة.",
+      "expected": {
+        "status_family": "SYNTACTIC_EVIDENCE",
+        "required_frame": "lam_imperfect",
+        "required_bindings": [
+          {
+            "surface": "يقمْ",
+            "kind": "verb",
+            "lexical_subtype": "imperfect",
+            "role": "imperfect",
+            "case": "jazm"
+          }
+        ],
+        "must_not_claim_general_weak_verb_morphology": true
+      }
+    },
+    {
+      "id": "w18",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w18",
+        "text": "إنّ زيدٌ قائمٌ"
+      },
+      "source_passages": [
+        "inna_roles_blocker"
+      ],
+      "rationale": "لا تفي الضمة الظاهرة في الاسم بمعادلة إن المحددة، ولا يجوز تبديلها بالفتحة في المصدر لإكمال التركيب.",
+      "expected": {
+        "status_family": "DEFER_OR_REJECT",
+        "required_obligation_families": [
+          "CASE_ROLE_MISMATCH"
+        ],
+        "must_not_claim_complete_frame": true
+      }
+    },
+    {
+      "id": "w19",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w19",
+        "text": "إنّ زيدًا"
+      },
+      "source_passages": [
+        "inna_roles_blocker"
+      ],
+      "rationale": "وجود اسم إن لا يثبت خبرها؛ لا تستعمل الكلمة التالية كخبر بمجرد الموضع ولا تخترع كلمة ناقصة.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "INCOMPLETE_FRAME"
+        ],
+        "must_not_claim_complete_frame": true,
+        "missing_roles": [
+          "inna_predicate"
+        ]
+      }
+    },
+    {
+      "id": "w20",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w20",
+        "text": "إنّ زيدًا قائمٌ رجلٌ"
+      },
+      "source_passages": [
+        "inna_roles_blocker"
+      ],
+      "rationale": "خارج إطار هذه النسخة ذي اسم وخبر مفردين؛ الكلمة الزائدة لا يجوز تجاهلها ولا استعمالها تلقائيا خبرا آخر.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "FRAME_BOUNDARY_OR_SCOPE"
+        ],
+        "must_not_drop_source_suffix": true,
+        "must_not_claim_complete_frame": true
+      }
+    },
+    {
+      "id": "w21",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w21",
+        "text": "مِنْ يقومُ"
+      },
+      "source_passages": [
+        "imperfect",
+        "preposition"
+      ],
+      "rationale": "يقوم مشهود مضارعا، فلا يجعل اسما مجرورا لمجرد مجاورته من في هذه القراءة المحددة.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "CATEGORY_ROLE_MISMATCH"
+        ],
+        "forbidden_binding": {
+          "surface": "يقومُ",
+          "kind": "noun",
+          "case": "jarr"
+        },
+        "must_not_claim_complete_frame": true
+      }
+    },
+    {
+      "id": "w22",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w22",
+        "text": "لم رجلٌ"
+      },
+      "source_passages": [
+        "word_and_noun",
+        "imperfect",
+        "case_and_jussive_example"
+      ],
+      "rationale": "رجل لا يصبح مضارعا من مجاورته لم. فحص الصنف يسبق تطبيق معادلة الجزم.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "CATEGORY_ROLE_MISMATCH"
+        ],
+        "forbidden_binding": {
+          "surface": "رجلٌ",
+          "kind": "verb",
+          "case": "jazm"
+        },
+        "must_not_claim_complete_frame": true
+      }
+    },
+    {
+      "id": "w23",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w23",
+        "text": "لم يقومْ"
+      },
+      "source_passages": [
+        "imperfect",
+        "case_and_jussive_example"
+      ],
+      "rationale": "الشاهد النصي هو لم يقم؛ وضع سكون فوق الصورة يقوم لا يثبت سلامة التصريف. هذه حالة مانعة لقبول علامة النهاية وحدها.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "INFLECTION_REALIZATION_OR_FORM"
+        ],
+        "must_not_claim_complete_frame": true,
+        "forbidden_binding": {
+          "surface": "يقومْ",
+          "case": "jazm",
+          "licensed": true
+        }
+      }
+    },
+    {
+      "id": "w24",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w24",
+        "text": "«إنّ» زيدًا قائمٌ"
+      },
+      "source_passages": [
+        "inna_roles_blocker"
+      ],
+      "rationale": "اللفظ المقتبس ذكر للفظ أو رمز؛ لا يرخص تفعيل أثر إن في هذا الإطار من تطابق الحروف داخل الاقتباس.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "MENTION_USE_OR_FRAME_BOUNDARY"
+        ],
+        "forbidden_active_governor_surface": "«إنّ»",
+        "must_not_claim_complete_frame": true
+      }
+    },
+    {
+      "id": "w25",
+      "group": "coverage_boundary",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w25",
+        "text": "وزيد"
+      },
+      "source_passages": [
+        "word_and_noun",
+        "noun_reference_and_pronoun"
+      ],
+      "rationale": "هذه النسخة لا تعلن محللا عاما لكل الواوات المتصلة. معرفة زيد لا تكفي وحدها لإزالة أول الرسم وإسناد العطف إليه.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "SEGMENTATION_OR_LEXICAL_COVERAGE"
+        ],
+        "must_not_force_waw_split": true,
+        "must_not_destroy_initial_waw": true
+      }
+    },
+    {
+      "id": "w26",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w26",
+        "text": "إنما زيدٌ قائمٌ"
+      },
+      "source_passages": [
+        "inna_roles_blocker"
+      ],
+      "rationale": "المصدر ينص على أثر ما المتصلة. لا يجوز معالجة إنما كإن العامل ذي الاسم والخبر المنصوب والمرفوع من غير فحص المانع.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "GOVERNOR_BLOCKER_OR_OUTSIDE_FRAME"
+        ],
+        "must_not_activate_unblocked_inna": true,
+        "must_not_claim_complete_frame": true
+      }
+    },
+    {
+      "id": "w27",
+      "group": "safety_counterexample",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w27",
+        "text": "زيدَُ"
+      },
+      "source_passages": [
+        "declension_building"
+      ],
+      "rationale": "حركتان متعارضتان على الحامل نفسه لا تحسمان بآخرهما أو أكبر رمز؛ معيار سلامة الرسم مستقل عن الإعراب.",
+      "expected": {
+        "status_family": "DEFER_OR_REJECT",
+        "required_obligation_families": [
+          "CONFLICTING_MARKS"
+        ],
+        "must_not_choose_last_mark": true,
+        "must_not_claim_unique_licensed_reading": true
+      }
+    },
+    {
+      "id": "w28",
+      "group": "certificate_binding",
+      "requested_layer": "replay",
+      "input": {
+        "source_id": "independent-w28",
+        "text": "زيد"
+      },
+      "source_passages": [
+        "declension_building",
+        "noun_reference_and_pronoun"
+      ],
+      "rationale": "تطابق البايتات لا يجعل شهادة المصدر الأول شهادة للمصدر الثاني. اختبار سلطة الوقوع منفصل عن تعرّف الاسم.",
+      "expected": {
+        "status_family": "REPLAY_FAILURE",
+        "must_fail_before_context_admission": true
+      },
+      "operation": {
+        "kind": "transplant_reading_to_other_source",
+        "original_source_id": "word-original",
+        "target_source_id": "word-other",
+        "original_text": "زيد",
+        "target_text": "زيد",
+        "keep_certificate_other_fields_unchanged": true
+      }
+    },
+    {
+      "id": "w29",
+      "group": "boundary_validation",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w29",
+        "text": "زيد"
+      },
+      "source_passages": [
+        "word_and_noun"
+      ],
+      "rationale": "بداية المجال عند البايت 1 تقع داخل تمثيل UTF-8 للزاي؛ لا يصح اختراع كلمة أو قراءة من مجال غير سليم.",
+      "expected": {
+        "status_family": "DEFER_OR_REJECT",
+        "required_obligation_families": [
+          "INVALID_BYTE_BOUNDARY"
+        ],
+        "must_not_emit_licensed_word": true
+      },
+      "explicit_byte_span": {
+        "start": 1,
+        "end": 6
+      }
+    },
+    {
+      "id": "w30",
+      "group": "coverage_boundary",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w30",
+        "text": "س"
+      },
+      "source_passages": [
+        "particle"
+      ],
+      "rationale": "عدم اكتشاف علامات اسم أو فعل لا يثبت الحرفية. قد يكون الرسم حرف تهج أو جزءا أو خارج المعجم المثبت؛ المطلوب تعليق معلل.",
+      "expected": {
+        "status_family": "DEFER",
+        "required_obligation_families": [
+          "LEXICAL_ATTESTATION_OR_COVERAGE"
+        ],
+        "must_not_infer_particle_from_no_positive_marker": true
+      }
+    }
+  ]
+}
