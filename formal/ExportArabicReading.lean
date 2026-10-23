@@ -22,7 +22,8 @@ def main : IO Unit := do
       ("name", toJson name), ("code", toJson mood.code)]).toArray)),
     ("entry_profiles", Json.arr (([
       ("START_TEXT", Nabt.Program.TextProfile.controlledArabic),
-      ("START_ARABIC", Nabt.Program.TextProfile.arabicSyntax)]).map (fun (name, profile) =>
+      ("START_ARABIC", Nabt.Program.TextProfile.arabicSyntax),
+      ("START_GOVERNORS", Nabt.Program.TextProfile.arabicGovernors)]).map (fun (name, profile) =>
         Json.mkObj [("name", toJson name),
           ("opcode", toJson (Nabt.Program.opcode profile.startOp)),
           ("language_id", toJson profile.languageId)])).toArray),

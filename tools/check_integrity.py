@@ -101,6 +101,8 @@ def inspect_lean_sources():
 
 def check(lean_export=None):
     from nabt.machine import EXPECTED_TABLE_SHA256, Machine
+    from nabt.governors import EXPECTED_TABLE_SHA256 as GOVERNOR_TABLE_SHA256, installed_table
+    from nabt.governor_reader import replay_source_policy
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -131,8 +133,13 @@ def check(lean_export=None):
             raise ValueError("Bundled table is not equal to the complete Lean export")
         matched = True
     source_count = inspect_lean_sources()
+    governor_table = installed_table()
+    governor_policy = replay_source_policy()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
+            "governor_table_sha256": GOVERNOR_TABLE_SHA256,
+            "governor_inventory_rows": len(governor_table.entries),
+            "governor_source_policy_sha256": governor_policy["policy_sha256"],
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

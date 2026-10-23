@@ -1,0 +1,85 @@
+{
+  "schema": "nabt.governors.evaluator-independent-review.v1",
+  "recorded_at_utc": "2026-10-23T08:42:44.745479+00:00",
+  "reviewer": "/root/snapshot_pilot_fixes",
+  "review_kind": "Independent agent code review and counterexample replay",
+  "status": "NO_REMAINING_BLOCKING_FINDING_IN_REVIEWED_SCOPE",
+  "reviewed_evaluator": {
+    "path": "tools/governor_evaluation.py",
+    "sha256": "911f63da01a59a54d958311cbc0ec184015cd1c4481802037b4239e71dcbb229"
+  },
+  "scope": [
+    "Numeric execution and receipt replay are required for a complete episode.",
+    "An unexpected independent-checker exception cannot count as a rejected mutation.",
+    "The CLI reports evaluator failure with a nonzero process exit.",
+    "Required-source coverage survives reading failures.",
+    "Claim safety relative to admitted sources is distinct from completion of the intended episode.",
+    "The regression gate rejects suspension of every capability case."
+  ],
+  "counterexamples_replayed_after_correction": [
+    {
+      "id": "NUMERIC_FAILURE_PREVIOUSLY_LEFT_EPISODE_COMPLETE",
+      "method": "Independent synthetic material injected in memory; no held-out material or gold was opened.",
+      "synthetic_source": "فرد زيد.",
+      "synthetic_query": "هل زيد هو مسافر؟",
+      "expected_query_status": "OUT_OF_SCOPE",
+      "control": {
+        "complete_episode": true
+      },
+      "injection": "run_program_case raises RuntimeError(\"synthetic evaluator failure\").",
+      "observed": {
+        "complete_episode": false,
+        "numeric_roundtrip": false,
+        "production_receipt_replay_valid": false
+      },
+      "result": "COUNTEREXAMPLE_CLOSED"
+    },
+    {
+      "id": "CHECKER_RUNTIME_ERROR_PREVIOUSLY_COUNTED_AS_KILLED_MUTATION",
+      "method": "Independent in-memory check_answer failure during mutation_checks.",
+      "injection": "check_answer raises RuntimeError(\"checker implementation bug\").",
+      "observed": {
+        "raised_type": "EvaluatorError",
+        "cause_type": "RuntimeError",
+        "returned_successful_mutation_result": false
+      },
+      "result": "COUNTEREXAMPLE_CLOSED"
+    }
+  ],
+  "cli_process_check": {
+    "method": "Actual child Python process calls evaluator main with baseline profile and a new temporary output directory; run is patched in memory to raise EvaluatorError.",
+    "injection": "EvaluatorError(\"independent child CLI probe\")",
+    "observed": {
+      "process_exit_code": 1,
+      "status": "EVALUATION_FAILURE",
+      "error_type": "EvaluatorError",
+      "coverage_goal_met": false,
+      "failure_json_equals_stderr_json": true
+    },
+    "result": "PASSED"
+  },
+  "read_only_review_findings": [
+    "Required sources are counted before reading; a parser failure does not shrink the denominator.",
+    "Episode completion requires required-source admission and exact projection, source restoration, query matching, independent proof checks, numeric roundtrip, and valid receipt replay.",
+    "A sound answer from admitted sources does not by itself establish the intended full theory or complete its episode.",
+    "The regression gate requires specific successful capability episodes and non-vacuous certificate/mutation evidence, so all-DEFER cannot pass.",
+    "Only ReplayValidationError is accepted as a rejected certificate mutation; unexpected checker errors raise EvaluatorError."
+  ],
+  "review_integrity": {
+    "runtime_edited": false,
+    "evaluator_edited_by_this_review": false,
+    "held_out_material_opened_by_reviewer": false,
+    "gold_opened_by_reviewer": false,
+    "committed_fixtures_modified": false,
+    "new_tests_run_while_writing_this_record": false,
+    "results_describe_prior_completed_checks": true
+  },
+  "limitations": [
+    "REGRESSION_PASS preserves a measured regression floor; it is not a passed Arabic coverage goal or general release approval.",
+    "This review covers the named evaluator defects and related accounting, not the correctness of every runtime behavior.",
+    "The counterexamples are finite executable checks and code review, not Lean theorems or general correctness proofs.",
+    "The CLI probe uses the baseline profile to exercise the shared failure path without opening held-out material.",
+    "Independence is procedural separation between agents, not an external human audit.",
+    "No additional tests or code changes were made while recording this review."
+  ]
+}

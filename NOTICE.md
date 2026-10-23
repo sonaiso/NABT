@@ -50,6 +50,14 @@ pattern from `Saleh1967/Mashru` commit
 The source-relative contracts are reimplemented in native NABT; no upstream
 runtime or source-truth authority is imported. Its MIT notice is retained:
 
+`formal/Nabt/Governors.lean` and the finite inventory in
+`src/nabt/data/governors.json` also adapt the governor equations and table from
+the same pinned repository: `Jisr/Awamil.lean`, `Jisr/AwamilJadwal.lean`,
+`SLGE/Awamil.lean`, `SLGE/AwamilTable.lean`, and `SLGE/Wad.lean`.
+Their native re-proved contracts preserve the original scope and the same
+MIT notice below. Historical source attribution and inventory limits are
+recorded separately in `docs/MASHRU_AWAMIL_AUDIT.md`.
+
 MIT License
 
 Copyright (c) 2026 Saleh1967

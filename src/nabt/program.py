@@ -51,6 +51,7 @@ class Opcode(IntEnum):
     QUERY_TEXT = 33
     REPLACE_TEXT = 34
     START_ARABIC = 35
+    START_GOVERNORS = 36
 
 
 CONTRACTS = {
@@ -67,6 +68,7 @@ CONTRACTS = {
     Opcode.QUERY_TEXT: "parse a new ground question; signed support and conflict-clean proof gate",
     Opcode.REPLACE_TEXT: "explicit source revision; preserve old source unless replacement is admitted",
     Opcode.START_ARABIC: "installed Arabic syntax law; preserve speech force, cues and unresolved readings",
+    Opcode.START_GOVERNORS: "source-built noun/case evidence; finite governor equations; separately bound referents",
 }
 
 
@@ -185,7 +187,7 @@ class Instruction:
             for part in args[0]:
                 _text(part, "cue_part", maximum=128)
             _name(args[1], "query_id")
-        elif self.opcode in {Opcode.START_TEXT, Opcode.START_ARABIC}:
+        elif self.opcode in {Opcode.START_TEXT, Opcode.START_ARABIC, Opcode.START_GOVERNORS}:
             if len(args) != 1:
                 raise NabtError("INVALID_INSTRUCTION", "START_TEXT expects an exact scope")
             from .text_ir import require_name
@@ -283,7 +285,7 @@ class Program:
                         "PROGRAM_TYPE_ERROR",
                         "Learner programs accept only evidence and literal queries",
                     )
-        elif first in {Opcode.START_TEXT, Opcode.START_ARABIC}:
+        elif first in {Opcode.START_TEXT, Opcode.START_ARABIC, Opcode.START_GOVERNORS}:
             active_sources: set[str] = set()
             text_queries: dict[str, str] = {}
             for step in self.instructions[1:]:
@@ -432,13 +434,14 @@ def compile_request(request: dict) -> Program:
                 consumer,
             )
         )
-    if task in {"text_inquiry", "arabic_inquiry"}:
+    if task in {"text_inquiry", "arabic_inquiry", "governor_inquiry"}:
         _keys(request, {"task", "events"}, {"scope"})
         if type(request["events"]) is not list:
             raise NabtError("INVALID_REQUEST", "Text events must be an array")
         if len(request["events"]) >= MAX_INSTRUCTIONS:
             raise resource_limit("Too many text events")
-        starter = Opcode.START_ARABIC if task == "arabic_inquiry" else Opcode.START_TEXT
+        starter = {"text_inquiry": Opcode.START_TEXT, "arabic_inquiry": Opcode.START_ARABIC,
+                   "governor_inquiry": Opcode.START_GOVERNORS}[task]
         steps = [Instruction(int(starter), (request.get("scope", "default"),))]
         for event in request["events"]:
             if type(event) is not dict or type(event.get("op")) is not str:
@@ -678,12 +681,14 @@ def execute_program(program: Program) -> dict:
                     "record_id": args[0],
                     "source_was_not_declared_false": True,
                 }
-            elif op in {Opcode.START_TEXT, Opcode.START_ARABIC}:
+            elif op in {Opcode.START_TEXT, Opcode.START_ARABIC, Opcode.START_GOVERNORS}:
                 from .semantics import SemanticKernel
                 from .text_ir import LANGUAGE_ID, READER_VERSION
 
                 if op == Opcode.START_ARABIC:
                     from .arabic_reader import LANGUAGE_ID, READER_VERSION
+                elif op == Opcode.START_GOVERNORS:
+                    from .governor_reader import LANGUAGE_ID, READER_VERSION
                 theory = SemanticKernel(language_id=LANGUAGE_ID)
                 theory_scope = args[0]
                 result = {"status": "READY", "scope": theory_scope,
@@ -696,9 +701,9 @@ def execute_program(program: Program) -> dict:
                 else:
                     admission = theory.replace_source(raw, source_id=args[0], scope=theory_scope)
                 result = admission.as_dict()
-                if theory.language_id == "nabt.arabic-syntax.v1":
-                    from .arabic_reader import read_arabic
-                    reading = read_arabic(raw, source_id=args[0], scope=theory_scope)
+                if theory.language_id in {"nabt.arabic-syntax.v1", "nabt.arabic-governors.v1"}:
+                    from .semantics import _reader
+                    reading = _reader(theory.language_id).read_arabic(raw, source_id=args[0], scope=theory_scope)
                     result["reading_steps"] = [step.as_dict() for step in reading.steps]
                 if not result.get("accepted", False):
                     result.setdefault("status", "DEFER")
@@ -714,7 +719,7 @@ def execute_program(program: Program) -> dict:
                 result = theory.query(question, scope=theory_scope).as_dict()
                 result["query_id"] = args[1]
                 result["query_source_sha256"] = sha256(raw).hexdigest()
-                if theory.language_id == "nabt.arabic-syntax.v1":
+                if theory.language_id in {"nabt.arabic-syntax.v1", "nabt.arabic-governors.v1"}:
                     from .text_ir import span_dict
                     interpreted = theory.read_query(raw, scope=theory_scope)
                     result["query_reading"] = {"language_id": theory.language_id,
@@ -844,12 +849,19 @@ def execute_program(program: Program) -> dict:
 
         if theory.language_id == "nabt.arabic-syntax.v1":
             from .arabic_reader import READER_VERSION
+        elif theory.language_id == "nabt.arabic-governors.v1":
+            from .governor_reader import READER_VERSION
+        implementation = ("text_ir.py", "text_reader.py", "semantics.py")
+        if theory.language_id in {"nabt.arabic-syntax.v1", "nabt.arabic-governors.v1"}:
+            implementation += ("arabic_reader.py",)
+        if theory.language_id == "nabt.arabic-governors.v1":
+            implementation += ("governor_reader.py", "governors.py", "data/governors.json",
+                               "data/source_evidence/governor_policy.json", "data/source_evidence/qatr.txt")
         receipt["installed_contracts"]["text_language"] = theory.language_id
         receipt["installed_contracts"]["text_reader"] = READER_VERSION
         receipt["installed_contracts"]["text_implementation_sha256"] = {
             name: sha256(files("nabt").joinpath(name).read_bytes()).hexdigest()
-            for name in (("text_ir.py", "text_reader.py", "semantics.py") +
-                         (("arabic_reader.py",) if theory.language_id == "nabt.arabic-syntax.v1" else ()))
+            for name in implementation
         }
     # Return inert JSON types; CLI and API share the same representation and
     # a receipt emitted by the CLI always fits its verification input budget.

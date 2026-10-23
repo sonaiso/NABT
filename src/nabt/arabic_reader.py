@@ -59,6 +59,10 @@ LAWS = {
     12: "text_declared_binary_relation",
     13: "explicit_definition",
     14: "text_declaration",
+    15: "source_built_noun_evidence",
+    16: "governor_position_and_case",
+    17: "source_local_referent_identity",
+    18: "installed_governor_equation",
 }
 
 _MARKS = frozenset("\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652\u0670")
@@ -127,15 +131,19 @@ class ReadingStep:
     fact_count: int = 0
     rule_count: int = 0
     query_count: int = 0
+    governor: dict | None = None
 
     def as_dict(self) -> dict:
-        return {"span": span_dict(self.span), "form": self.form,
+        value = {"span": span_dict(self.span), "form": self.form,
                 "mood": self.mood.name, "mood_code": int(self.mood),
                 "cues": [c.as_dict() for c in self.cues],
                 "alternatives": [a.as_dict() for a in self.alternatives],
                 "obligations": list(self.obligations),
                 "fact_count": self.fact_count, "rule_count": self.rule_count,
                 "query_count": self.query_count}
+        if self.governor is not None:
+            value["governor"] = self.governor
+        return value
 
 
 @dataclass(frozen=True, slots=True)
@@ -148,7 +156,7 @@ class ArabicReading:
         return self.document.accepted
 
     def as_dict(self) -> dict:
-        return {"language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
+        return {"language_id": self.document.language_id, "reader_version": self.document.reader_version,
                 "accepted": self.accepted, "status": "INTERPRETED" if self.accepted else "DEFER",
                 "world_truth": "NOT_ESTABLISHED", "document": self.document.as_dict(),
                 "steps": [s.as_dict() for s in self.steps],
@@ -156,7 +164,7 @@ class ArabicReading:
 
     def packet(self) -> dict:
         raw = _wire(self.as_dict())
-        return {"domain": READING_NUMBER_DOMAIN, "language_id": LANGUAGE_ID,
+        return {"domain": READING_NUMBER_DOMAIN, "language_id": self.document.language_id,
                 "number_hex": hex(int.from_bytes(b"\x01" + raw, "big")),
                 "wire_sha256": sha256(raw).hexdigest(), "authority": "ENCODING_ONLY"}
 
@@ -182,7 +190,11 @@ def decode_reading_number(number: int) -> dict:
         if type(value) is not dict or _wire(value) != raw[1:]:
             raise ValueError("noncanonical reading")
         doc = value["document"]
-        fresh = read_arabic(doc["raw_text"], source_id=doc["source_id"], scope=doc["scope"]).as_dict()
+        from .semantics import _reader
+        reader = _reader(doc["language_id"])
+        if not hasattr(reader, "read_arabic"):
+            raise ValueError("not an Arabic reading profile")
+        fresh = reader.read_arabic(doc["raw_text"], source_id=doc["source_id"], scope=doc["scope"]).as_dict()
         if _wire(fresh) != raw[1:]:
             raise ValueError("source reading mismatch")
         return fresh
@@ -209,10 +221,12 @@ def decode_cell_envelope(number: int) -> tuple[Mood, tuple[int, ...]]:
 
 
 class _Unresolved(Exception):
-    def __init__(self, code: str, message: str, *, alternatives=(), cues=(), mood=Mood.AMBIGUOUS):
+    def __init__(self, code: str, message: str, *, alternatives=(), cues=(), mood=Mood.AMBIGUOUS,
+                 governor=None):
         super().__init__(message)
         self.code, self.message = code, message
         self.alternatives, self.cues, self.mood = tuple(alternatives), tuple(cues), mood
+        self.governor = governor
 
 
 @dataclass
@@ -221,6 +235,10 @@ class _Context:
     individuals: set[str] = field(default_factory=set)
     relations: set[str] = field(default_factory=set)
     lexemes: dict[str, SourceSpan] = field(default_factory=dict)
+    nominals: dict[str, SourceSpan] = field(default_factory=dict)
+    referents: dict[str, SourceSpan] = field(default_factory=dict)
+    governor_mode: bool = False
+    governor_spellings: frozenset[str] = frozenset()
 
     def cue(self, token: v1._Token, law: int, role: str, value: str | None = None) -> Cue:
         surface = token.span.extract(self.source).decode("utf-8")
@@ -276,6 +294,8 @@ def _name(ctx: _Context, t: v1._Token, *, noun: bool = False,
         raise _Unresolved("UNSUPPORTED_REFERENT", "A pronoun or deictic needs an independently bound referent")
     if not t.quoted and _bare(t.value) in _OPERATORS:
         raise _Unresolved("UNSUPPORTED_OPERATOR_SCOPE", "An operator cannot silently become a name")
+    if ctx.governor_mode and not t.quoted and _bare(t.value) in ctx.governor_spellings:
+        raise _Unresolved("UNSUPPORTED_GOVERNOR_SENSE", "A governor spelling needs a lexical sense before use as a name")
     value = v1._name(t)
     cues = []
     # Only a noun role licensed by this construction permits removal of a
@@ -331,12 +351,16 @@ def _atom(ctx: _Context, ts: tuple[v1._Token, ...], *, variables=False,
     if len(ts) == 3 and (_kw(ts[1], "هو") or _kw(ts[1], "هي")):
         subject, c1 = _name(ctx, ts[0], noun=True, case=subject_case, variables=variables)
         predicate, c2 = _name(ctx, ts[2], noun=True, case=predicate_case)
-        return Atom(predicate, (subject,)), (*c1, ctx.cue(ts[1], 1, "predication_marker"), *c2)
+        identity = ((ctx.cue(ts[0], 17, "explicit_subject_identity", subject),)
+                    if ctx.governor_mode and (ts[0].quoted or subject in ctx.referents) else ())
+        return Atom(predicate, (subject,)), (*c1, *identity, ctx.cue(ts[1], 1, "predication_marker"), *c2)
     if len(ts) == 2:
         subject, c1 = _name(ctx, ts[0], noun=True, case=subject_case, variables=variables)
         predicate, c2 = _name(ctx, ts[1], noun=True, case=predicate_case)
         if _role_cue(ctx, ts[0]) and not _role_cue(ctx, ts[1]):
-            return Atom(predicate, (subject,)), (*c1, ctx.cue(ts[0], 2, "subject_role", subject), *c2)
+            identity = ((ctx.cue(ts[0], 17, "explicit_subject_identity", subject),)
+                        if ctx.governor_mode and (ts[0].quoted or subject in ctx.referents) else ())
+            return Atom(predicate, (subject,)), (*c1, *identity, ctx.cue(ts[0], 2, "subject_role", subject), *c2)
         span = v1._span(ctx.source, ts[0].span.start, ts[-1].span.end)
         raise _Unresolved("UNSUPPORTED_NOMINAL_ROLE", "Bare words need a noun-role cue or a text declaration",
                           alternatives=(
@@ -350,7 +374,9 @@ def _atom(ctx: _Context, ts: tuple[v1._Token, ...], *, variables=False,
         if relation in ctx.relations:
             subject, c1 = _name(ctx, ts[0], noun=True, case="nom", variables=variables)
             obj, c2 = _name(ctx, ts[2], noun=True, case="acc", variables=variables)
-            return Atom(relation, (subject, obj)), (*c1, ctx.cue(ts[1], 12, "declared_relation"), *cr, *c2)
+            identity = ((ctx.cue(ts[0], 17, "explicit_subject_identity", subject),)
+                        if ctx.governor_mode and (ts[0].quoted or subject in ctx.referents) else ())
+            return Atom(relation, (subject, obj)), (*c1, *identity, ctx.cue(ts[1], 12, "declared_relation"), *cr, *c2)
     raise _Unresolved("UNSUPPORTED_CLAUSE", "This complete clause has no licensed reading in the installed fragment")
 
 
@@ -474,7 +500,15 @@ def _tokens(text: str, start: int, end: int, offsets: list[int], source: SourceB
 
 def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "default",
                  query_subjects: frozenset[str] = frozenset(),
-                 query_relations: frozenset[str] = frozenset()) -> ArabicReading:
+                 query_relations: frozenset[str] = frozenset(),
+                 use_governors: bool = False) -> ArabicReading:
+    language_id, reader_version, governor_spellings = LANGUAGE_ID, READER_VERSION, frozenset()
+    if use_governors:
+        from .governor_reader import LANGUAGE_ID as language_id, READER_VERSION as reader_version
+        from .governors import installed_table
+        # This is a conservative ambiguity guard, not a lexical activation rule.
+        governor_spellings = frozenset(_bare(e.label) for e in installed_table().entries
+                                      if not any(c.isspace() or c in "()" for c in e.label))
     source = v1._source(raw, source_id, scope)
     text = source.raw_bytes.decode("utf-8")
     offsets = [0]
@@ -486,7 +520,8 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
     # Only parse_query supplies active-theory names. Source admission and
     # reading-number replay always start with an empty local lexical context.
     # Cross-source names do not become local stem-evidence spans.
-    ctx = _Context(source, individuals=set(query_subjects), relations=set(query_relations))
+    ctx = _Context(source, individuals=set(query_subjects), relations=set(query_relations),
+                   governor_mode=use_governors, governor_spellings=governor_spellings)
     facts, rules, queries, declarations, definitions, residuals, segments, steps = [], [], [], [], [], [], [], []
     token_total = 0
 
@@ -500,12 +535,13 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
         before = len(facts), len(rules), len(queries)
         cues, alternatives, obligations = (), (), ()
         mood, form = Mood.ASSERT, "unresolved"
+        governor = None
         # Stage every record per statement; a failed trailing conjunct cannot
         # leave a prefix fact even in the visible candidate projection.
         fs, rs, qs, ds, defs = [], [], [], [], []
 
         def aid(label: str, i: int = 0) -> str:
-            return content_id([LANGUAGE_ID, READER_VERSION, source_id, source.sha256,
+            return content_id([language_id, reader_version, source_id, source.sha256,
                                scope, span.start, span.end, label, i])
 
         try:
@@ -513,6 +549,9 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
             for token in ts:
                 _check_marks(token)
                 _operator_marks(token)
+                if use_governors:
+                    from .governor_reader import _check_tanwin_position
+                    _check_tanwin_position(token)
             token_total += len(ts)
             if token_total > v1.MAX_TOKENS:
                 raise resource_limit("Arabic source exceeds its token budget")
@@ -636,7 +675,11 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
                 cues = (ctx.cue(ts[0], 8, "question"), *cs)
             else:
                 if first == "إن" and "ّ" in ts[0].value:
-                    atom, cs = _atom(ctx, ts[1:], licensed_nominal=True, subject_case="acc")
+                    if use_governors:
+                        from .governor_reader import _emphatic_nominal
+                        atom, cs, governor = _emphatic_nominal(ctx, ts)
+                    else:
+                        atom, cs = _atom(ctx, ts[1:], licensed_nominal=True, subject_case="acc")
                     atoms, cues, form = (atom,), (ctx.cue(ts[0], 9, "emphasis"), *cs), "emphatic_nominal"
                 else:
                     atoms, cues = _conjunction(ctx, ts)
@@ -656,6 +699,10 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
                 cues = tuple(dict.fromkeys((*cues, *exc.cues)))
                 if mood == Mood.ASSERT:
                     mood = exc.mood
+                if exc.governor is not None:
+                    governor = exc.governor
+                if governor is not None:
+                    governor["semantic_projection"] = "DEFER"
             obligations = (exc.code,)
             form = "unresolved"
         else:
@@ -665,17 +712,27 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
                 ctx.lexemes[d.name] = d.component_spans[-1]
                 if d.kind == "individual":
                     ctx.individuals.add(d.name)
+                    ctx.referents[d.name] = d.component_spans[-1]
                 elif d.kind == "relation":
                     ctx.relations.add(d.name)
+                if d.kind in {"individual", "concept"}:
+                    ctx.nominals[d.name] = d.component_spans[-1]
             # A successfully read explicit subject can be reused in this
             # source's subsequent clauses; no cross-source lexical authority.
             for f in fs:
                 ctx.individuals.add(f.atom.args[0])
+            subjects = {f.atom.args[0] for f in fs}
+            for cue in cues:
+                if cue.role == "explicit_subject_identity" and cue.value in subjects:
+                    ctx.referents[cue.value] = cue.span
             # Lexical role/identity evidence is local to the original source.
             # It is rebuilt on every read and never imported from caller IR.
             names = {a.predicate for f in fs for a in (f.atom,)}
             names.update(x for f in fs for x in f.atom.args)
             names.update(a.predicate for r in rs for a in (*r.body, r.head))
+            nominal_names = {x for f in fs for x in f.atom.args}
+            nominal_names.update(f.atom.predicate for f in fs if len(f.atom.args) == 1)
+            nominal_names.update(a.predicate for r in rs for a in (*r.body, r.head) if len(a.args) == 1)
             for token in ts:
                 try:
                     n, _ = _name(ctx, token, noun=True)
@@ -683,13 +740,15 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
                     continue
                 if n in names:
                     ctx.lexemes[n] = token.span
+                if n in nominal_names:
+                    ctx.nominals[n] = token.span
             segments.append(Segment(span, "statement"))
         steps.append(ReadingStep(span, form, mood, tuple(cues), tuple(alternatives), obligations,
-                                 len(facts) - before[0], len(rules) - before[1], len(queries) - before[2]))
+                                 len(facts) - before[0], len(rules) - before[1], len(queries) - before[2], governor))
 
     if not steps:
         residuals.append(Residual("EMPTY_DOCUMENT", "No statement occurs in the source", v1._span(source, 0, len(source.raw_bytes))))
-    doc = ParsedDocument(source=source, scope=scope, language_id=LANGUAGE_ID, reader_version=READER_VERSION,
+    doc = ParsedDocument(source=source, scope=scope, language_id=language_id, reader_version=reader_version,
                          segments=tuple(segments), declarations=tuple(declarations), definitions=tuple(definitions),
                          facts=tuple(facts), rules=tuple(rules), queries=tuple(queries), residuals=tuple(residuals))
     result = ArabicReading(doc, tuple(steps))
@@ -705,9 +764,9 @@ def parse_document(raw: bytes | str, *, source_id: str = "text", scope: str = "d
     return read_arabic(raw, source_id=source_id, scope=scope).document
 
 
-def parse_query(raw: bytes | str, *, source_id: str = "query", scope: str = "default",
+def _parse_query(raw: bytes | str, *, source_id: str = "query", scope: str = "default",
                 known_individuals: frozenset[str] = frozenset(),
-                known_relations: frozenset[str] = frozenset()) -> Query:
+                known_relations: frozenset[str] = frozenset(), use_governors: bool = False) -> Query:
     contexts = (("subject", known_individuals), ("relation", known_relations))
     if any(type(names) is not frozenset for _, names in contexts):
         raise NabtError("INVALID_QUERY_CONTEXT", "Query contexts require exact finite sets of previously read names")
@@ -724,13 +783,21 @@ def parse_query(raw: bytes | str, *, source_id: str = "query", scope: str = "def
             if name.startswith("?"):
                 raise NabtError("INVALID_QUERY_CONTEXT", "A query context cannot declare variable names")
     reading = _read_arabic(raw, source_id=source_id, scope=scope,
-                           query_subjects=known_individuals, query_relations=known_relations)
+                           query_subjects=known_individuals, query_relations=known_relations,
+                           use_governors=use_governors)
     doc = reading.document
     if (not doc.accepted or len(doc.queries) != 1 or doc.facts or doc.rules or doc.declarations or doc.definitions
             or len(reading.steps) != 1):
         raise NabtError("INVALID_QUERY", "An Arabic query requires exactly one complete supported polar question",
                         details={"residuals": [r.as_dict() for r in doc.residuals]})
     return doc.queries[0]
+
+
+def parse_query(raw: bytes | str, *, source_id: str = "query", scope: str = "default",
+                known_individuals: frozenset[str] = frozenset(),
+                known_relations: frozenset[str] = frozenset()) -> Query:
+    return _parse_query(raw, source_id=source_id, scope=scope,
+                        known_individuals=known_individuals, known_relations=known_relations)
 
 
 __all__ = ["LANGUAGE_ID", "READER_VERSION", "Mood", "LAWS", "ArabicReading", "read_arabic",

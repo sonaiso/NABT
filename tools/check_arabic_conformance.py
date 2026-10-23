@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from nabt.arabic_reader import LANGUAGE_ID, Mood, encode_cell_envelope, decode_cell_envelope
 from nabt.program import Opcode
 from nabt.text_ir import LANGUAGE_ID as CONTROLLED_LANGUAGE_ID
+from nabt.governor_reader import LANGUAGE_ID as GOVERNOR_LANGUAGE_ID
 
 
 def check_table(table: dict) -> dict:
@@ -38,6 +39,7 @@ def check_table(table: dict) -> dict:
     profiles = [
         {"name": "START_TEXT", "opcode": int(Opcode.START_TEXT), "language_id": CONTROLLED_LANGUAGE_ID},
         {"name": "START_ARABIC", "opcode": int(Opcode.START_ARABIC), "language_id": LANGUAGE_ID},
+        {"name": "START_GOVERNORS", "opcode": int(Opcode.START_GOVERNORS), "language_id": GOVERNOR_LANGUAGE_ID},
     ]
     if json.dumps(table["entry_profiles"], sort_keys=True) != json.dumps(profiles, sort_keys=True):
         raise ValueError("Python entry opcodes or profiles differ from Lean")

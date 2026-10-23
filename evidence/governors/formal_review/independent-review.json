@@ -1,0 +1,50 @@
+{
+  "review_kind": "independent_current_local_not_historical",
+  "runtime_matches_lean": true,
+  "counterexamples": [
+    {
+      "id": "RUNTIME_DOMAIN_CONSTANT_NOT_COMPARED",
+      "constant": "LAW_ID",
+      "mutated_value": "nabt.governors.UNEXPECTED",
+      "accepted": true
+    },
+    {
+      "id": "RUNTIME_DOMAIN_CONSTANT_NOT_COMPARED",
+      "constant": "ROLE_MARK_DOMAIN",
+      "mutated_value": "nabt.role-mark.UNEXPECTED",
+      "accepted": true
+    },
+    {
+      "id": "PROBE_ORDER_ALLOWS_MISSING_SEMANTIC_CASE",
+      "accepted": true,
+      "reported_count": 197,
+      "actual_unique_assignments": 196,
+      "mutation": "replace last probe with first two-role probe after reversing its assignment entries"
+    }
+  ],
+  "input_sha256": {
+    "src/nabt/governors.py": "af0113b4b1f343edc4fc7ce75f4a37e59bfb1e334dc631b81491c865926e37d3",
+    "tools/check_governor_conformance.py": "6d722dbb895d347868a76f2ecfc384a3620e23912fa341a9fe01c786b993fad1",
+    "formal/Nabt/Governors.lean": "c543c414a406768c0f88e7b0fefd7de8818aa2e62ad6b8e808536d4fcd4953e5",
+    "formal/ExportGovernors.lean": "8535524a8cbdcb6fc5d035eef6dc51af6126d72342696466fba0b59ce626cf62",
+    "src/nabt/data/governors.json": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0"
+  },
+  "extra_role_invariance_checks": 7015,
+  "invalid_input_rejections": {
+    "bool_class": "INVALID_NATURAL",
+    "bool_role": "INVALID_NATURAL",
+    "bool_mark": "INVALID_NATURAL",
+    "unknown_role": "UNKNOWN_GOVERNOR_ROLE",
+    "unknown_class": "UNKNOWN_GOVERNOR_CLASS",
+    "float_class": "INVALID_NATURAL",
+    "string_role": "INVALID_NATURAL",
+    "negative_mark": "INVALID_NATURAL",
+    "large_mark": "OUTSIDE_DOMAIN",
+    "bool_pair_role": "INVALID_NATURAL",
+    "bool_pair_mark": "INVALID_NATURAL",
+    "bool_pair_number": "INVALID_NATURAL",
+    "unused_pair_role": "UNKNOWN_GOVERNOR_ROLE",
+    "beyond_pair_range": "OUTSIDE_DOMAIN"
+  },
+  "category_is_separate": true
+}

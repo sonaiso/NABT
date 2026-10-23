@@ -13,3 +13,4 @@ import Nabt.Obligations
 import Nabt.Program
 import Nabt.SemanticInference
 import Nabt.ArabicReading
+import Nabt.Governors
