@@ -1,0 +1,28 @@
+{
+  "schema": "nabt.governors.evaluator-boundary-correction.v1",
+  "recorded_at_utc": "2026-10-23T08:39:04.733577+00:00",
+  "prior_evaluator_sha256": "f2d3bb90c18409853b14b2fb96830cddd3e24134bbab7d489bf8b4bb8e200d41",
+  "corrected_evaluator_sha256": "911f63da01a59a54d958311cbc0ec184015cd1c4481802037b4239e71dcbb229",
+  "runtime_changed": false,
+  "material_or_expected_answers_changed": false,
+  "corrections": [
+    {
+      "issue": "Unexpected checker exception was counted as rejected mutation",
+      "fix": "Only ReplayValidationError counts as a killed mutation; unexpected checker exceptions raise EvaluatorError, and CLI returns 1."
+    },
+    {
+      "issue": "Complete episode could survive numeric replay failure or source restoration failure",
+      "fix": "Completion requires exact source restoration, numeric roundtrip, and valid replay."
+    },
+    {
+      "issue": "Required-source count was incremented only after successful reading/admission",
+      "fix": "Compute the denominator from frozen events before execution."
+    },
+    {
+      "issue": "Freeze checked repository bytes but imports could resolve to another installed package",
+      "fix": "Before/after run, bind every loaded nabt module __file__ and spec origin to the frozen source tree."
+    }
+  ],
+  "gate_definition": "Post-measurement regression floor for measured h01,h02,h03,h05, safety, source evidence, byte and numeric replay. The original 12-episode goal and five-case constrained capability goal retain their original denominators and remain separately scored.",
+  "tests": "18 independent evaluator review tests passed before the final rerun."
+}

@@ -1,0 +1,67 @@
+{
+  "scope": "independent current local review; no historical-evidence replacement",
+  "base_head": "5195c57bbed8f673be307a464d2746154ea3b96c",
+  "core116": [
+    {
+      "path": "formal/Nabt/Cell.lean",
+      "sha256": "43a0651ccf01136c179d11c79ed41905201e5a78a6b0cd31e34521bb31edbf3d",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "formal/Nabt/Sequence.lean",
+      "sha256": "534ead12aa2b9c5fabb2c026566a05a3883df163c8b843238fcdeb0415bc674a",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "formal/Nabt/Law.lean",
+      "sha256": "08372b61bde5904922948ee8a98d027e682c08259056f4b16b897d5d9322850a",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "formal/Nabt/Transition.lean",
+      "sha256": "a36ccc129c35f1fec7bbad0f68972acbffdf0e364b414394bdcac28ed1a9ed00",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "src/nabt/alphabet.py",
+      "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "src/nabt/codec.py",
+      "sha256": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "src/nabt/machine.py",
+      "sha256": "676e79ec353204ea9eab3324ebeec8381964de6b3655b9904109acad2d47826e",
+      "unchanged_from_head": true
+    },
+    {
+      "path": "src/nabt/data/law.json",
+      "sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+      "unchanged_from_head": true
+    }
+  ],
+  "source_phonology_theorem": {
+    "name": "Jisr.Awamil.majzum_qabl_hamzat_wasl",
+    "pin": "e4c801ffe9171dadedcc3aae23051ea0953ae361",
+    "assumptions": [
+      "h<3",
+      "run 0 l = 1+h",
+      "k<29",
+      "k != maddOf h",
+      "k != 2",
+      "c<29",
+      "c != 2",
+      "m<116",
+      "m % 4 < 3",
+      "m / 4 != 2",
+      "conflict c (m/4)=false"
+    ],
+    "conclusion": "a specified isqatHamza call succeeds with tahrik after changing the final encoded jazm mark",
+    "ported_in_this_change": false,
+    "scope_note": "Universal over arbitrary l/rest satisfying these named machine/carrier/mark constraints; not a theorem that every Arabic surface string has this analysis."
+  },
+  "documentation_assessment": "Current governor docs distinguish finite inventory from universal language coverage, code identity from licensed evidence, and complete constraints from source/world truth. They do not claim a new complete phonology or modification to glyph116. Adding the explicit upstream phonology hypotheses would make its non-transfer boundary easier to review."
+}

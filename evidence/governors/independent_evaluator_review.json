@@ -1,0 +1,33 @@
+{
+  "schema": "nabt.governors.independent-evaluator-review-closure.v1",
+  "recorded_at_utc": "2026-10-23T08:42:27.896140+00:00",
+  "evaluator_sha256": "911f63da01a59a54d958311cbc0ec184015cd1c4481802037b4239e71dcbb229",
+  "tests_sha256": "0a3f94e8caef9988eafe5296f222e55495cb969b1b81c70b240c9dd11c48c4c5",
+  "focused_tests_passed": 18,
+  "independent_reviewer": "snapshot_pilot_fixes",
+  "reviewer_material_access": "No frozen episodes/gold were opened by that reviewer during the evaluator-boundary review. This is procedural shared-filesystem separation.",
+  "reported_checks": [
+    {
+      "probe": "Synthetic source/query episode",
+      "reference_complete": true,
+      "numeric_failure_complete": false,
+      "numeric_roundtrip_on_failure": false,
+      "receipt_valid_on_failure": false
+    },
+    {
+      "probe": "RuntimeError injected in independent certificate checker",
+      "result": "EvaluatorError with RuntimeError cause; not a killed mutation"
+    },
+    {
+      "probe": "Actual subprocess CLI with injected evaluator error",
+      "exit_code": 1,
+      "stderr_matches_failure_json": true,
+      "status": "EVALUATION_FAILURE",
+      "coverage_goal_met": false
+    }
+  ],
+  "remaining_blocking_findings_in_review_scope": [],
+  "runtime_changed_during_corrections": false,
+  "gold_changed_during_corrections": false,
+  "limitations": "Review closure applies to the enumerated defects, not unrestricted correctness or Arabic coverage."
+}

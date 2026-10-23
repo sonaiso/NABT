@@ -97,13 +97,13 @@ def parser() -> Parser:
     transcode.add_argument("--from-codec", required=True)
     transcode.add_argument("--to-codec", required=True)
     sub.add_parser("pilot")
-    for name in ("read-text", "ask-text", "read-arabic", "ask-arabic"):
+    for name in ("read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"):
         command = sub.add_parser(name)
         command.add_argument("document", type=Path)
         command.add_argument("--scope", default="default")
-        if name == "read-arabic":
+        if name in {"read-arabic", "read-governors"}:
             command.add_argument("--with-number", action="store_true", help="Include reversible source-replayed reading number")
-        if name in {"ask-text", "ask-arabic"}:
+        if name in {"ask-text", "ask-arabic", "ask-governors"}:
             command.add_argument("question", help="One question in the declared Arabic text language")
     append = sub.add_parser("append")
     append.add_argument("left")
@@ -126,7 +126,7 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
-    if command in {"read-text", "ask-text", "read-arabic", "ask-arabic"}:
+    if command in {"read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"}:
         from .program import MAX_LITERAL_BYTES, compile_request, execute_program
         with args.document.open("rb") as handle:
             raw = handle.read(MAX_LITERAL_BYTES + 1)
@@ -143,14 +143,18 @@ def run(args) -> tuple[dict, int]:
             report["status"] = "INTERPRETED" if document.accepted else "DEFER"
             report["world_truth"] = "NOT_ESTABLISHED"
             return report, 0 if document.accepted else 3
-        if command == "read-arabic":
-            from .arabic_reader import read_arabic
+        if command in {"read-arabic", "read-governors"}:
+            if command == "read-governors":
+                from .governor_reader import read_arabic
+            else:
+                from .arabic_reader import read_arabic
             reading = read_arabic(raw, source_id="input", scope=args.scope)
             report = reading.as_dict()
             if args.with_number:
                 report["encoding"] = reading.packet()
             return report, 0 if reading.accepted else 3
-        program = compile_request({"task": "arabic_inquiry" if command == "ask-arabic" else "text_inquiry", "scope": args.scope,
+        task = {"ask-text": "text_inquiry", "ask-arabic": "arabic_inquiry", "ask-governors": "governor_inquiry"}[command]
+        program = compile_request({"task": task, "scope": args.scope,
                                    "events": [
                                        {"op": "add", "source_id": "input", "text": text},
                                        {"op": "query", "query_id": "question", "text": args.question},

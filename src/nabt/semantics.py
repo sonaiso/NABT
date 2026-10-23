@@ -249,6 +249,9 @@ def _reader(language_id: str):
     from . import arabic_reader
     if language_id == arabic_reader.LANGUAGE_ID:
         return arabic_reader
+    from . import governor_reader
+    if language_id == governor_reader.LANGUAGE_ID:
+        return governor_reader
     raise NabtError("UNSUPPORTED_TEXT_LANGUAGE", "No installed reader has this language identifier")
 
 
@@ -608,7 +611,9 @@ class SemanticKernel:
             return AdmissionReport(False, "REJECT", doc.source.source_id, doc.scope, doc.source.sha256,
                                    before.sha256, ({"code": "SOURCE_EXISTS", "message": "Use replace_source explicitly"},))
         if doc.residuals:
-            status = "DEFER" if any(r.code.startswith("UNSUPPORTED_") for r in doc.residuals) else "REJECT"
+            deferred = getattr(_reader(self.language_id), "DEFERRED_OBLIGATIONS", frozenset())
+            status = "DEFER" if any(r.code.startswith("UNSUPPORTED_") or r.code in deferred
+                                    for r in doc.residuals) else "REJECT"
             return AdmissionReport(False, status, doc.source.source_id, doc.scope, doc.source.sha256,
                                    before.sha256, tuple(r.as_dict() for r in doc.residuals))
         candidate = {**self._sources, doc.source.source_id: (doc.source.raw_bytes, doc.scope)}
