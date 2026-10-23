@@ -40,7 +40,7 @@ jobs:
       - name: Replay the published text-inquiry corpus and source-boundary probes
         env:
           PYTHONPATH: src
-        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/arabic_syntax/code_freeze_first.json --output-dir "${{ runner.temp }}/nabt-text-regression"
+        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/arabic_syntax/review_fixes/code_freeze_v2.json --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Preserve independently measured Arabic coverage and safe deferrals
         env:
           PYTHONPATH: src
@@ -51,6 +51,7 @@ jobs:
           cp examples/text_theory.txt "${{ runner.temp }}/nabt-text-theory.txt"
           cp examples/text_inquiry_revision.json "${{ runner.temp }}/nabt-text-revision.json"
           cp examples/arabic_syntax_theory.txt "${{ runner.temp }}/nabt-arabic-theory.txt"
+          cp examples/arabic_relation_theory.txt "${{ runner.temp }}/nabt-arabic-relation.txt"
           cp examples/arabic_syntax_revision.json "${{ runner.temp }}/nabt-arabic-revision.json"
           cd "${{ runner.temp }}"
           nabt pilot > nabt-pilot-receipt.json
@@ -61,6 +62,8 @@ jobs:
           nabt verify-run nabt-text-revision-receipt.json
           nabt ask-arabic nabt-arabic-theory.txt 'هل سالمٌ مدققٌ؟' > nabt-arabic-receipt.json
           nabt verify-run nabt-arabic-receipt.json
+          nabt ask-arabic nabt-arabic-relation.txt 'هل سالم يراجع تقرير؟' > nabt-arabic-relation-receipt.json
+          nabt verify-run nabt-arabic-relation-receipt.json
           nabt run nabt-arabic-revision.json > nabt-arabic-revision-receipt.json
           nabt verify-run nabt-arabic-revision-receipt.json
 

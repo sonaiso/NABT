@@ -19,14 +19,16 @@ import unicodedata
 from .errors import NabtError, natural, resource_limit
 from .learning.source_evidence import SourceBlob, SourceSpan
 from .text_ir import (Atom, Declaration, Definition, Fact, ParsedDocument,
-                      Query, Residual, Rule, Segment, content_id, span_dict)
+                      Query, Residual, Rule, Segment, MAX_NAME_CHARS,
+                      content_id, require_name, span_dict)
 from . import text_reader as v1
 
 LANGUAGE_ID = "nabt.arabic-syntax.v1"
-READER_VERSION = "nabt.arabic-reader.v1"
+READER_VERSION = "nabt.arabic-reader.v2"
 READING_NUMBER_DOMAIN = "nabt.arabic-reading.canonical-json-utf8.sentinel256.v1"
 MAX_READING_BYTES = 2 * 1024 * 1024
 MAX_ALTERNATIVES = 8
+MAX_QUERY_CONTEXT_NAMES = 16_384
 
 
 class Mood(IntEnum):
@@ -471,7 +473,8 @@ def _tokens(text: str, start: int, end: int, offsets: list[int], source: SourceB
 
 
 def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "default",
-                 query_subjects: frozenset[str] = frozenset()) -> ArabicReading:
+                 query_subjects: frozenset[str] = frozenset(),
+                 query_relations: frozenset[str] = frozenset()) -> ArabicReading:
     source = v1._source(raw, source_id, scope)
     text = source.raw_bytes.decode("utf-8")
     offsets = [0]
@@ -480,9 +483,10 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
     regions = v1._regions(text)
     if sum(k == "statement" for k, _, _ in regions) > v1.MAX_STATEMENTS:
         raise resource_limit("Arabic source exceeds its statement budget")
-    # Only parse_query supplies active-theory subjects. Source admission and
+    # Only parse_query supplies active-theory names. Source admission and
     # reading-number replay always start with an empty local lexical context.
-    ctx = _Context(source, individuals=set(query_subjects))
+    # Cross-source names do not become local stem-evidence spans.
+    ctx = _Context(source, individuals=set(query_subjects), relations=set(query_relations))
     facts, rules, queries, declarations, definitions, residuals, segments, steps = [], [], [], [], [], [], [], []
     token_total = 0
 
@@ -702,12 +706,25 @@ def parse_document(raw: bytes | str, *, source_id: str = "text", scope: str = "d
 
 
 def parse_query(raw: bytes | str, *, source_id: str = "query", scope: str = "default",
-                known_individuals: frozenset[str] = frozenset()) -> Query:
-    if type(known_individuals) is not frozenset or any(type(x) is not str for x in known_individuals):
-        raise NabtError("INVALID_QUERY_CONTEXT", "A query context is an exact finite set of previously read subject names")
-    if len(known_individuals) > 16_384:
+                known_individuals: frozenset[str] = frozenset(),
+                known_relations: frozenset[str] = frozenset()) -> Query:
+    contexts = (("subject", known_individuals), ("relation", known_relations))
+    if any(type(names) is not frozenset for _, names in contexts):
+        raise NabtError("INVALID_QUERY_CONTEXT", "Query contexts require exact finite sets of previously read names")
+    if sum(len(names) for _, names in contexts) > MAX_QUERY_CONTEXT_NAMES:
         raise resource_limit("Query lexical context exceeds its declared name budget")
-    reading = _read_arabic(raw, source_id=source_id, scope=scope, query_subjects=known_individuals)
+    for role, names in contexts:
+        for name in names:
+            if type(name) is str and len(name) > MAX_NAME_CHARS:
+                raise resource_limit("Query lexical context contains a name beyond its declared length budget")
+            try:
+                require_name(name, role)
+            except NabtError as exc:
+                raise NabtError("INVALID_QUERY_CONTEXT", "Query context names must be exact nonempty ground names") from exc
+            if name.startswith("?"):
+                raise NabtError("INVALID_QUERY_CONTEXT", "A query context cannot declare variable names")
+    reading = _read_arabic(raw, source_id=source_id, scope=scope,
+                           query_subjects=known_individuals, query_relations=known_relations)
     doc = reading.document
     if (not doc.accepted or len(doc.queries) != 1 or doc.facts or doc.rules or doc.declarations or doc.definitions
             or len(reading.steps) != 1):
