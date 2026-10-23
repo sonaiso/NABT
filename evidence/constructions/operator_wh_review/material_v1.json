@@ -1,0 +1,32 @@
+{
+  "schema": "nabt.constructions.operator-wh-review-material.v1",
+  "cases": [
+    {
+      "id": "OW01",
+      "text": "كان زيدٌ حكيمًا أمسِ.",
+      "question": "متى كَانَ زيدٌ حكيمًا؟",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_status": "SUPPORTED",
+        "inquiry_activated_roles_allowed": true
+      },
+      "source_sha256": "b42705ba3057680720e49eb975a0fe739f7a180c78fa937a17588617278c4300",
+      "question_sha256": "cf51eb7f22a30581627bec08667a544b5005934a3258821ebf73de3250393159"
+    },
+    {
+      "id": "OW02",
+      "text": "كان زيدٌ حكيمًا أمسِ.",
+      "question": "متى كَانُ زيدٌ حكيمًا؟",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "DEFER",
+        "answer_status": "DEFER",
+        "inquiry_activated_roles_allowed": false
+      },
+      "source_sha256": "b42705ba3057680720e49eb975a0fe739f7a180c78fa937a17588617278c4300",
+      "question_sha256": "5b323c6e4e4bb2d8cf93a97226215a7e261e59c7c29e3ae9d59cc69552c33c6b"
+    }
+  ],
+  "scope": "Two authored WH dispatch counterexamples. Expectations are frozen after the v2 defect was confirmed, independently of the OD and agreement sets. This is a review regression, not held-out language accuracy."
+}

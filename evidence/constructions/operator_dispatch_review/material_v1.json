@@ -1,0 +1,135 @@
+{
+  "schema": "nabt.constructions.operator-dispatch-review-material.v1",
+  "scope": "Nine authored regressions of explicit grammatical-operator spelling and legacy dispatch. Not a new held-out language metric.",
+  "premises": "Canonical grammatical paradigms are licensed by the installed primary-source policy. Explicit contrary marks do not match those paradigms; absent marks are not contrary marks.",
+  "training": "training.tsv",
+  "context": "context.json",
+  "cases": [
+    {
+      "id": "OD01",
+      "text": "كَانَ زيدٌ حكيمًا.",
+      "question": "هل كَانَ زيدٌ حكيمًا؟",
+      "reason": "positive canonical kana",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true
+      },
+      "source_sha256": "13f956e383f60ed96c46e260744ee3e29e44b86b78b86e6c69d3504c11b5f422",
+      "question_sha256": "39c1278f1cc94f454ccbad780654830b10bca162624d59e1081583db68acd054"
+    },
+    {
+      "id": "OD02",
+      "text": "كَانُ زيدٌ حكيمًا.",
+      "question": "هل كَانَ زيدٌ حكيمًا؟",
+      "reason": "contrary final damma on an unsuffixed perfect kana",
+      "expected": {
+        "document_status": "DEFER",
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false
+      },
+      "source_sha256": "b55d00d6744a2c5565e6dc25bd5362f85a3961a49aaa7092e9828354be1c45c6",
+      "question_sha256": "39c1278f1cc94f454ccbad780654830b10bca162624d59e1081583db68acd054"
+    },
+    {
+      "id": "OD03",
+      "text": "كِانَ زيدٌ حكيمًا.",
+      "question": "هل كَانَ زيدٌ حكيمًا؟",
+      "reason": "contrary explicit internal kasra on canonical kana",
+      "expected": {
+        "document_status": "DEFER",
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false
+      },
+      "source_sha256": "fa5edd42f9d088b9b5cc4a78965bab75a2776ba11b7db6c6d4eb043ea81cafd1",
+      "question_sha256": "39c1278f1cc94f454ccbad780654830b10bca162624d59e1081583db68acd054"
+    },
+    {
+      "id": "OD04",
+      "text": "إِنَّ زيدًا حكيمٌ.",
+      "question": "هل إِنَّ زيدًا حكيمٌ؟",
+      "reason": "positive canonical inna",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true
+      },
+      "source_sha256": "511e77d8f5adc02c97e4701823915449d078ca2693670d1ed622a146f794144a",
+      "question_sha256": "1fc638300534ecefb07ee309ec1040397f57f61f2d98e66d1620e7e816fbe8e9"
+    },
+    {
+      "id": "OD05",
+      "text": "إِنُّ زيدًا حكيمٌ.",
+      "question": "هل إِنَّ زيدًا حكيمٌ؟",
+      "reason": "contrary final damma on inna",
+      "expected": {
+        "document_status": "DEFER",
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false
+      },
+      "source_sha256": "294202a41497fe0b08a43ed96d456f2212b8df1ac65ce22f33fb004cf368db60",
+      "question_sha256": "1fc638300534ecefb07ee309ec1040397f57f61f2d98e66d1620e7e816fbe8e9"
+    },
+    {
+      "id": "OD06",
+      "text": "لَيْسَ زيدٌ حكيمًا.",
+      "question": "هل لَيْسَ زيدٌ حكيمًا؟",
+      "reason": "positive canonical laysa with negative proposition",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true
+      },
+      "source_sha256": "4ee81b9509998979f790813ad7729ade1cdbb4f9845ac69768e2c318f11af0c5",
+      "question_sha256": "513a1f695ea2d980781a554b9484b5921d1b2d3a6288d1bd1c1c17da9a2df9b6"
+    },
+    {
+      "id": "OD07",
+      "text": "لَيْسُ زيدٌ حكيمًا.",
+      "question": "هل لَيْسَ زيدٌ حكيمًا؟",
+      "reason": "contrary final damma on an unsuffixed laysa",
+      "expected": {
+        "document_status": "DEFER",
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false
+      },
+      "source_sha256": "3841f6f662d3498010f501fa6aa6af33b88a79db12d7f65884c1a4ec9672a160",
+      "question_sha256": "513a1f695ea2d980781a554b9484b5921d1b2d3a6288d1bd1c1c17da9a2df9b6"
+    },
+    {
+      "id": "OD08",
+      "text": "كَادَ زيدٌ يكتبُ.",
+      "question": "هل كَادَ زيدٌ يكتبُ؟",
+      "reason": "positive canonical kada scoped proposition",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "claim_count": 1,
+        "answer_status": "SUPPORTED",
+        "activated_roles_allowed": true
+      },
+      "source_sha256": "4d0baf7aa0ec3554ebedfcf51abf580c0e2ae7f5fd5a98f9f6b148b28098f0bb",
+      "question_sha256": "3050780c5fae581d2e29210d87ac6988ff78bfeba7c1f2a6ea16be8cd26bf65a"
+    },
+    {
+      "id": "OD09",
+      "text": "كَادُ زيدٌ يكتبُ.",
+      "question": "هل كَادَ زيدٌ يكتبُ؟",
+      "reason": "contrary final damma on kada without legacy dispatch branch",
+      "expected": {
+        "document_status": "DEFER",
+        "claim_count": 0,
+        "answer_status": "DEFER",
+        "activated_roles_allowed": false
+      },
+      "source_sha256": "2ca594f61e90e44ca115e3a60fee60bc2b4af4e27c6e73d19fa7563ee3d8f427",
+      "question_sha256": "3050780c5fae581d2e29210d87ac6988ff78bfeba7c1f2a6ea16be8cd26bf65a"
+    }
+  ]
+}

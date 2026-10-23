@@ -30,6 +30,16 @@ VERSION = 'nabt.discourse.independent-evaluation.v1'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5': {
+        'snapshot_sha256': '3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58',
+        'archive_sha256': '62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567',
+        'file_count': 74,
+    },
+    '23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611': {
+        'snapshot_sha256': '2c1b6b30e22b5322046109b461f850974e356736f2aedb06c4911be82375188f',
+        'archive_sha256': 'b5363658881c8e265295ad727d346ea8925348e9342b89f50eb014be824a19f1',
+        'file_count': 74,
+    },
     '5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1': {
         'snapshot_sha256': '1e9d906428ec3824c4ecbff8ef8fb3adc88d6cb6c9dbfa1819c53655b3206c7c',
         'archive_sha256': '9d5ec76ec904c3696d0e5a76e46fe435e9189322fe0578133c6816707b2fd2c5',
@@ -106,6 +116,15 @@ CONSTRUCTION_BOUNDARY_RUNTIME = '5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae03
 CONSTRUCTION_BOUNDARIES = {
     **DOCUMENTED_BOUNDARIES,
     'DSC-P26': DOCUMENTED_BOUNDARIES['DSC-P26'] | frozenset({'question:0'}),
+}
+# Separate v4 coverage debt, approved only after the paired strict run and
+# source diagnosis in constructions/legacy_discourse_review_v3. V3's larger
+# regression remains unapproved; no historical policy is changed here.
+CONSTRUCTION_V4_BOUNDARY_RUNTIME = '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5'
+CONSTRUCTION_V4_BOUNDARIES = {
+    **CONSTRUCTION_BOUNDARIES,
+    'DSC-P16': frozenset({'question:0'}),
+    'DSC-P26': CONSTRUCTION_BOUNDARIES['DSC-P26'] | frozenset({'reading:0'}),
 }
 NON_RUNTIME = frozenset({'src/nabt/data/source_evidence/README.md',
                          'src/nabt/data/source_evidence/LICENSE-DATA.md',
@@ -373,6 +392,13 @@ def check_span(span, inputs, surface=None):
     return observed
 
 
+def constrained_person_argument(value):
+    """Recognize the declared typed query schema without erasing its axes."""
+    return (type(value) is dict and set(value) == {'kind', 'name', 'gender', 'number'}
+            and value['kind'] == 'question_variable' and value['name'] == '?person'
+            and value['gender'] in ('masculine', 'feminine') and value['number'] == 'singular')
+
+
 def claim_view(row):
     # Unknown or missing qualification is a malformed result, not a wildcard.
     require(all(k in row for k in CLAIM_FIELDS), 'Claim omits qualification fields')
@@ -380,6 +406,11 @@ def claim_view(row):
             and row['voice'] in (None, 'active', 'passive'), 'Invalid claim domain')
     require(row['tense'] in ('unspecified', 'past', 'nonpast', 'future'), 'Invalid tense')
     require(all(type(row[k]) is list for k in ('args', 'time', 'place', 'restriction')), 'Claim sequences required')
+    require(all(value is None or type(value) is str or constrained_person_argument(value)
+                for value in row['args']), 'Invalid claim argument representation')
+    if any(constrained_person_argument(value) for value in row['args']):
+        require(row['predicate_kind'] == 'property' and row['voice'] is None and len(row['args']) == 1,
+                'Typed person argument escaped its single-subject property domain')
     for value in row['time']:
         if type(value) is dict:
             if value.get('kind') == 'temporal_relation':
@@ -517,6 +548,44 @@ def validate_claim_roles(claim, analysis, rows, ranges):
         return [a for a in assignments if a['role'] in roles]
     def in_reading(span, row):
         return span is not None and span_bounds(span) in ranges[row['reading_id']]
+    def argument_matches(subject, predicate):
+        argument = claim['args'][0]
+        if not constrained_person_argument(argument):
+            return argument in at(subject['span'])
+        # This is a constraint on a question interpretation, not a feature
+        # acquired for the interrogative noun or an already grounded entity.
+        head, dependent = rows[subject['reading_id']], rows[predicate['reading_id']]
+        required = {axis: argument[axis] for axis in ('gender', 'number')}
+        if (analysis['force'] != 'QUESTION' or analysis['assertion_allowed']
+                or subject['role'] != 'nominal_subject' or predicate['role'] != 'nominal_predicate'
+                or head.get('lexical_features', {}).get('pos') != 'INTG'
+                or head.get('support_records') != [{'kind': 'grammar', 'rule': 'wh_subject'}]
+                or dependent.get('lexical_features', {}).get('pos') != 'ADJ'
+                or any(feature(dependent, axis) != value for axis, value in required.items())):
+            return False
+        question_refs = [ref for ref in refs if ref['span'] == subject['span']]
+        if (len(question_refs) != 1 or question_refs[0].get('origin') != 'question_variable'
+                or question_refs[0].get('status') != 'VARIABLE'
+                or question_refs[0].get('bound_entity_id') != argument['name']):
+            return False
+        ref = question_refs[0]
+        return any(
+            relation.get('kind') == 'predicate_agreement'
+            and relation.get('status') == 'pending_substitution'
+            and relation.get('regime_licensed') is False
+            and relation.get('question_variable') == argument['name']
+            and relation.get('predicate_lemma') == claim['predicate']
+            and relation.get('head_reading_id') == subject['reading_id']
+            and relation.get('dependent_reading_id') == predicate['reading_id']
+            and relation.get('head_span') == subject['span']
+            and relation.get('dependent_span') == predicate['span']
+            and relation.get('subject_role') == subject['role']
+            and relation.get('predicate_role') == predicate['role']
+            and relation.get('subject_reference_ids') == [ref.get('reference_id')]
+            and all(relation.get('predicate_profile', {}).get(axis) == value for axis, value in required.items())
+            and all(relation.get('subject_profile', {}).get(axis) in (None, 'unknown')
+                    for axis in ('gender', 'number'))
+            for relation in analysis.get('relations', []))
     if claim['predicate_kind'] in ('property', 'location'):
         subjects = role_arguments({'nominal_subject', 'inna_subject', 'kana_subject'})
         require(len(claim['args']) == 1, 'Property/location claim has an unsupported argument count')
@@ -533,7 +602,7 @@ def validate_claim_roles(claim, analysis, rows, ranges):
                     linked = (predicate.get('head_span') == subject['span'] if predicate['role'] == 'nominal_predicate'
                               else predicate.get('head_span') == subject.get('head_span'))
                     if (subject['role'] == matching_subject[predicate['role']] and linked
-                            and claim['args'][0] in at(subject['span'])):
+                            and argument_matches(subject, predicate)):
                         return
             raise ValueError('Claim argument is not the bound reference of its subject role')
         else:
@@ -748,7 +817,8 @@ def validate_report(report, inputs, audit=None):
                             'Nonassertive/incomplete reading asserted a claim')
     for claim in report['claims']:
         claim_view(claim)
-        require(all(a in entities for a in claim['args']), 'Grounded claim invented an entity')
+        require(all(type(a) is str and a in entities for a in claim['args']),
+                'Grounded claim invented an entity or retained a query variable')
         require(claim['proofs'], 'Accepted claim has no proof')
         for proof in claim['proofs']:
             require(proof['analysis_id'] in analyses, 'Claim proof has a dangling analysis')
@@ -848,17 +918,150 @@ def reading_matches(expected, row, report, inputs, ranges):
     return False
 
 
-def instantiate(pattern, bindings):
+def instantiate(pattern, bindings, *, entities=None):
     result = claim_view(pattern)
     used = set()
     for field in ('args', 'time', 'place'):
         for i, value in enumerate(result[field]):
-            if type(value) is str and value.startswith('?'):
+            if constrained_person_argument(value):
+                require(field == 'args' and value['name'] in bindings, 'Proof omitted a typed query variable')
+                bound = bindings[value['name']]
+                entity = (entities or {}).get(bound, {}) if type(bound) is str else {}
+                require(entity.get('kind') == 'person' and all(
+                    entity.get(axis) == value[axis] for axis in ('gender', 'number')),
+                    'Typed question binding lacks explicit matching person traits')
+                result[field][i] = bound
+                used.add(value['name'])
+            elif type(value) is str and value.startswith('?'):
                 require(value in bindings, 'Proof omitted a query variable')
                 result[field][i] = deepcopy(bindings[value])
                 used.add(value)
     require(used == set(bindings), 'Proof adds an unrequested binding')
     return result
+
+
+def agreement_subject_supported(row, relation, reference, required, context_sha256):
+    """Keep acquired lexical traits separate from explicit semantic premises."""
+    if all(feature(row, axis) == value for axis, value in required.items()):
+        return True
+    basis = relation.get('subject_gender_basis', {})
+    features = row.get('lexical_features', {})
+    common = (features.get('pos') == 'PRON' and feature(row, 'gender') in (None, 'unknown')
+              and feature(row, 'number') == required['number']
+              and basis.get('kind') == 'resolved_common_gender_pronoun'
+              and reference.get('reference_id') in basis.get('reference_ids', [])
+              and row.get('segmentation', {}).get('licensed') is True)
+    named = (features.get('pos') == 'PN' and row.get('construction') is None
+             and row.get('variant') == 'declared_grammatical_paradigm'
+             and row.get('segmentation', {}).get('licensed') is True
+             and row.get('support_records') == [{'kind': 'explicit_context',
+                  'sha256': context_sha256, 'field': 'entities.name'}]
+             and reference.get('origin') == 'named'
+             and basis.get('kind') == 'explicit_named_person_semantic_profile'
+             and basis.get('lexical_profile_acquired') is False
+             and basis.get('source_fields') == ['entities.name', 'entities.kind', 'entities.gender', 'entities.number']
+             and basis.get('reference_ids') == [reference.get('reference_id')]
+             and all(features.get(axis) is None for axis in ('gender', 'number')))
+    return ((common or named) and basis.get('entity_id') == reference.get('bound_entity_id')
+            and basis.get('context_sha256') == context_sha256)
+
+
+def source_agreement_witnesses(claim, required, entity_id, document):
+    """Independently bind a typed answer to the accepted claim's own ADJ edge.
+
+    An N predicate with the same lemma, an unrelated reference, or a second
+    differently qualified claim in the analysis cannot lend an agreement
+    witness. These checks do not infer the lexical profile or parse Arabic.
+    """
+    rows, ranges = reading_rows(document)
+    analyses = {(c['clause_id'], a['analysis_id']): a for c in document['clauses']
+                if c['status'] == 'LICENSED' for a in c['analyses']}
+    pairs = {'nominal_predicate': 'nominal_subject', 'inna_predicate': 'inna_subject',
+             'kana_predicate': 'kana_subject'}
+    witnesses = []
+    for proof in claim['proofs']:
+        analysis = analyses.get((proof['clause_id'], proof['analysis_id']))
+        if (analysis is None or analysis.get('rejected_candidate') is not False
+                or analysis.get('licensed_syntax') is not True or analysis.get('references_complete') is not True
+                or analysis.get('assertion_allowed') is not True or analysis.get('force') != 'ASSERT'
+                or not claim_is_in_analysis(claim, analysis)):
+            continue
+        # Until claims carry their own explicit edge IDs, an analysis with
+        # multiple distinct semantic claims does not select this one edge.
+        if any(claim_key(other) != claim_key(claim) for other in analysis['claims']):
+            continue
+        for relation in analysis.get('relations', []):
+            head_id, dependent_id = relation.get('head_reading_id'), relation.get('dependent_reading_id')
+            head_span, dependent_span = relation.get('head_span'), relation.get('dependent_span')
+            if (relation.get('kind') != 'predicate_agreement' or relation.get('status') != 'confirmed'
+                    or relation.get('regime_licensed') is not True
+                    or relation.get('predicate_lemma') != claim['predicate']
+                    or any(relation.get('axes', {}).get(axis) != 'confirmed' for axis in required)
+                    or any(relation.get(profile, {}).get(axis) != value
+                           for profile in ('subject_profile', 'predicate_profile') for axis, value in required.items())
+                    or head_id not in analysis['reading_ids'] or dependent_id not in analysis['reading_ids']
+                    or head_id not in rows or dependent_id not in rows
+                    or type(head_span) is not dict or type(dependent_span) is not dict
+                    or span_bounds(head_span) not in ranges[head_id]
+                    or span_bounds(dependent_span) not in ranges[dependent_id]):
+                continue
+            head, dependent = rows[head_id], rows[dependent_id]
+            features = dependent.get('lexical_features', {})
+            predicate_role, subject_role = relation.get('predicate_role'), relation.get('subject_role')
+            if (dependent.get('kind') != 'noun' or features.get('pos') != 'ADJ'
+                    or features.get('lemma') != claim['predicate']
+                    or any(feature(dependent, axis) != value for axis, value in required.items())
+                    or predicate_role not in pairs or pairs[predicate_role] != subject_role):
+                continue
+            heads = [a for a in analysis['assignments'] if a['reading_id'] == head_id
+                     and a['role'] == subject_role and a['span'] == head_span]
+            dependents = [a for a in analysis['assignments'] if a['reading_id'] == dependent_id
+                          and a['role'] == predicate_role and a['span'] == dependent_span]
+            if not any(a.get('activated') is True and b.get('activated') is True
+                       and (b.get('head_span') == a['span'] if predicate_role == 'nominal_predicate'
+                            else b.get('head_span') is not None and b.get('head_span') == a.get('head_span'))
+                       for a in heads for b in dependents):
+                continue
+            for reference in analysis['references']:
+                if (reference.get('status') != 'RESOLVED' or reference.get('bound_entity_id') != entity_id
+                        or reference.get('span') != head_span
+                        or reference.get('reference_id') not in relation.get('subject_reference_ids', [])
+                        or reference.get('context_sha256') != document['context']['sha256']
+                        or not agreement_subject_supported(head, relation, reference, required,
+                                                           document['context']['sha256'])):
+                    continue
+                witness = {'clause_id': proof['clause_id'], 'analysis_id': proof['analysis_id'],
+                           'head_reading_id': head_id, 'dependent_reading_id': dependent_id,
+                           'reference_id': reference['reference_id']}
+                if witness not in witnesses:
+                    witnesses.append(witness)
+    return witnesses
+
+
+def validate_agreement_bindings(proof, query, claim, document):
+    constraints = [(i, value) for i, value in enumerate(query['args']) if constrained_person_argument(value)]
+    if not constraints:
+        require('predicate_agreement_bindings' not in proof, 'Untyped query acquired a typed agreement receipt')
+        return
+    receipts = proof.get('predicate_agreement_bindings')
+    require(type(receipts) is list and len(receipts) == len(constraints), 'Typed query lacks its agreement receipt')
+    for receipt, (index, constraint) in zip(receipts, constraints):
+        required = {axis: constraint[axis] for axis in ('gender', 'number')}
+        require(type(receipt) is dict and set(receipt) == {
+            'argument_index', 'variable', 'entity_id', 'required_profile', 'context_sha256', 'source_witnesses'}
+            and type(receipt['argument_index']) is int and receipt['argument_index'] == index
+            and receipt['variable'] == constraint['name'] and receipt['entity_id'] == proof['bindings'][constraint['name']]
+            and receipt['required_profile'] == required and receipt['context_sha256'] == document['context']['sha256'],
+            'Typed agreement receipt changed its argument, profile or context')
+        witnesses = receipt['source_witnesses']
+        require(type(witnesses) is list and witnesses and all(type(w) is dict and set(w) == {
+            'clause_id', 'analysis_id', 'head_reading_id', 'dependent_reading_id', 'reference_id'}
+            and all(type(v) is str for v in w.values()) for w in witnesses),
+            'Typed agreement receipt has an invalid source witness')
+        actual = list(map(wire, witnesses))
+        expected = list(map(wire, source_agreement_witnesses(claim, required, receipt['entity_id'], document)))
+        require(expected and len(actual) == len(set(actual)) and set(actual) == set(expected),
+                'Typed agreement receipt lost its same-claim ADJ edge or explicit subject premise')
 
 
 def validate_answer(answer, document, inquiry, inputs, question):
@@ -886,6 +1089,7 @@ def validate_answer(answer, document, inquiry, inputs, question):
                 'Answer kind differs from the original question reading')
         variables = {value for field in ('args', 'time', 'place') for value in answer['query'][field]
                      if type(value) is str and value.startswith('?')}
+        variables.update(value['name'] for value in answer['query']['args'] if constrained_person_argument(value))
         variable_by_kind = {'polar': set(), 'person': {'?person'}, 'subject': {'?person'}, 'object': {'?object'},
                             'place': {'?place'}, 'time': {'?time'}}
         require(answer['kind'] in variable_by_kind and variables == variable_by_kind[answer['kind']],
@@ -899,7 +1103,7 @@ def validate_answer(answer, document, inquiry, inputs, question):
             claim = accepted[proof['claim_id']]
             require(proof['document_report_id'] == document['report_id'] and proof['question_report_id'] == inquiry['report_id']
                     and proof['source_proofs'] == claim['proofs'], 'Answer proof borrowed another query/source')
-            wanted = instantiate(answer['query'], proof['bindings'])
+            wanted = instantiate(answer['query'], proof['bindings'], entities=entities)
             for variable, value in proof['bindings'].items():
                 if variable in ('?person', '?place'):
                     require(type(value) is str and entities.get(value, {}).get('kind') == variable[1:],
@@ -907,6 +1111,7 @@ def validate_answer(answer, document, inquiry, inputs, question):
             if sign == 'counterproofs':
                 wanted['positive'] = not wanted['positive']
             require(wire(wanted) == claim_key(claim), 'Answer proof dropped or changed a qualified claim field')
+            validate_agreement_bindings(proof, answer['query'], claim, document)
     grouped = {}
     for sign in ('proofs', 'counterproofs'):
         for proof in answer[sign]:
@@ -1087,28 +1292,37 @@ def gate_decision(result, allow_documented_boundaries=False):
     documented = []
     runtime = result['snapshot']['runtime_freeze_sha256']
     construction_policy = runtime == CONSTRUCTION_BOUNDARY_RUNTIME
-    boundaries = CONSTRUCTION_BOUNDARIES if construction_policy else DOCUMENTED_BOUNDARIES
+    construction_v4_policy = runtime == CONSTRUCTION_V4_BOUNDARY_RUNTIME
+    boundaries = (CONSTRUCTION_V4_BOUNDARIES if construction_v4_policy else
+                  CONSTRUCTION_BOUNDARIES if construction_policy else DOCUMENTED_BOUNDARIES)
     for case in result['cases']:
         if case['passed']:
             continue
         failed = {f['check'] for f in case['failures']}
         allowed = boundaries.get(case['id'], frozenset())
-        p26_signature_ok = not (construction_policy and case['id'] == 'DSC-P26') or all(
+        p26_signature_ok = not ((construction_policy or construction_v4_policy) and case['id'] == 'DSC-P26') or all(
             failure['check'] != 'question:0' or failure.get('details') == {
                 'actual': 'DEFER', 'expected': 'SUPPORTED'}
             for failure in case['failures'])
+        v4_signature_ok = not construction_v4_policy or all(
+            (case['id'], failure['check']) not in {
+                ('DSC-P16', 'question:0'), ('DSC-P26', 'reading:0')}
+            or failure.get('details') == ({'actual': [], 'expected': ['h', 's'], 'status': 'DEFER'}
+                if case['id'] == 'DSC-P16' else {'occurrence_index': 0, 'role': 'idafa_complement',
+                                                'span': [13, 27], 'surface': 'حَازِمٍ'})
+            for failure in case['failures'])
         entry = {'id': case['id'], 'failed_checks': sorted(failed)}
-        if failed and failed <= allowed and p26_signature_ok and not case.get('false_accepts'):
+        if failed and failed <= allowed and p26_signature_ok and v4_signature_ok and not case.get('false_accepts'):
             documented.append(entry)
         else:
             unexpected.append(entry)
     safety_ok = (not result['false_accept_count'] and not result['execution_errors']
                  and not result.get('question_execution_errors') and result['total'] == 86
                  and len(result['cases']) == 86)
-    if construction_policy:
+    if construction_policy or construction_v4_policy:
         safety_ok = (safety_ok and result.get('measurement_valid') is True
                      and result.get('raw_log', {}).get('valid') is True)
-    approved = (construction_policy or (DOCUMENTED_BOUNDARY_RUNTIME is not None
+    approved = (construction_policy or construction_v4_policy or (DOCUMENTED_BOUNDARY_RUNTIME is not None
                                         and runtime == DOCUMENTED_BOUNDARY_RUNTIME))
     partial_gate = bool(allow_documented_boundaries and approved and safety_ok and not unexpected)
     return {'gate_mode': 'documented_boundaries' if allow_documented_boundaries else 'strict',
@@ -1117,7 +1331,8 @@ def gate_decision(result, allow_documented_boundaries=False):
             'documented_boundary_failures': documented,
             'unexpected_failures': unexpected,
             'boundary_policy': 'EXACT_CASE_AND_CHECK_ALLOWLIST_NO_FALSE_ACCEPT_OR_REPLAY_EXCEPTION',
-            'boundary_policy_revision': ('constructions_v2' if construction_policy else
+            'boundary_policy_revision': ('constructions_v4' if construction_v4_policy else
+                                         'constructions_v2' if construction_policy else
                                          'discourse_v4' if approved else None),
             'boundary_policy_runtime_approved': approved}
 
@@ -1310,7 +1525,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/constructions/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/constructions/code_freeze_v4.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')

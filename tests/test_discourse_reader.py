@@ -234,7 +234,8 @@ class DiscourseReaderTests(unittest.TestCase):
         self.assertEqual(report["status"], "LICENSED_DISCOURSE")
         self.assertEqual(report["claims"][0]["args"], ["book"])
         self.assertEqual(report["claims"][0]["restriction"], [{"kind": "idafa", "complement": "hind"}])
-        relations = [r for a in accepted_analyses(report) for r in a["relations"]]
+        relations = [r for a in accepted_analyses(report) for r in a["relations"] if r["kind"] == "idafa"]
+        self.assertTrue(relations)
         self.assertTrue(all(not r["ownership_asserted"] for r in relations))
         self.assertEqual(self.ask("كتابك واسع.", "هل كتابك واسع؟")["status"], "SUPPORTED")
 

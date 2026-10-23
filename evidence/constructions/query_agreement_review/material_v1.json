@@ -1,0 +1,282 @@
+{
+  "schema": "nabt.constructions.query-agreement-review-material.v1",
+  "scope": "Eleven authored checks of an explicitly restricted singular person/adjective query language. This does not assert a universal Arabic rule that interrogative man or its masculine predicate fixes the gender of every possible answer.",
+  "construction": "nominal_subject INTG question_variable and singular source ADJ only; the typed query constraint is distinct from the lexical profile of INTG.",
+  "origin": "Authored after the v3 legacy regression diagnosis, frozen before the WH correction and before observing a corrected runtime; no independent evaluation gold was edited or copied.",
+  "teaching_source": "Synthetic QAC-shaped records, with intentionally shared lemmas, source-declared POS/profiles, and two gender readings of the same adjective spelling; not natural corpus annotations.",
+  "expected_binding_authority": "Explicit person kind and gender/number in the context plus a confirmed predicate-agreement edge in the actual source proof of the matched claim; a source N predicate is insufficient.",
+  "unknown_context_boundary": "UNKNOWN or DEFER is allowed when context traits are absent; proofs, counterproofs and bindings must all be empty. No coverage credit from a guessed default.",
+  "cases": [
+    {
+      "id": "WHR01",
+      "text": "زيدٌ حكيمٌ. هندٌ حكيمةٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/main.tsv",
+      "context": "context.json",
+      "reason": "Male query form and female form share one lemma; only the source-confirmed masculine individual satisfies the typed singular query.",
+      "source_sha256": "4d6299811591da744d80f519abb2e8d3753faaae0fe7e37bfa4060522dc2d549",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "SUPPORTED"
+        ],
+        "bound_person_ids": [
+          "zayd"
+        ],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR02",
+      "text": "زيدٌ حكيمٌ. هندٌ حكيمةٌ.",
+      "question": "من حكيمةٌ؟",
+      "source": "sources/main.tsv",
+      "context": "context.json",
+      "reason": "Same lemma as WHR01 with feminine source profile; no collapse of the two agreement requirements.",
+      "source_sha256": "4d6299811591da744d80f519abb2e8d3753faaae0fe7e37bfa4060522dc2d549",
+      "question_sha256": "1084171fa1e1d15b1cdbc85cf2552d4eb7a51af6801c05d8dc51b9ed826b0b39",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "SUPPORTED"
+        ],
+        "bound_person_ids": [
+          "hind"
+        ],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR03",
+      "text": "هندٌ حكيمةٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/main.tsv",
+      "context": "context.json",
+      "reason": "A licensed feminine source claim with the same lemma cannot satisfy the masculine query requirement.",
+      "source_sha256": "650a91344f56bb3004366d37aa68d7da5e8b40b4b04144cb0d74e8305c579620",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "UNKNOWN"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR04",
+      "text": "زيدٌ حكيمٌ.",
+      "question": "من حكيمةٌ؟",
+      "source": "sources/main.tsv",
+      "context": "context.json",
+      "reason": "A licensed masculine source claim with the same lemma cannot satisfy the feminine query requirement.",
+      "source_sha256": "d351c23921bb16afe4542d5284d8251eb1a9be0fe61046a61025ad3a30906349",
+      "question_sha256": "1084171fa1e1d15b1cdbc85cf2552d4eb7a51af6801c05d8dc51b9ed826b0b39",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "UNKNOWN"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR05",
+      "text": "زيدٌ حكيمٌ.",
+      "question": "من صبورٌ؟",
+      "source": "sources/main.tsv",
+      "context": "context.json",
+      "reason": "The same written adjective has independently supplied MS and FS readings under one lemma; their different variable constraints must not be collapsed to the first analysis.",
+      "source_sha256": "d351c23921bb16afe4542d5284d8251eb1a9be0fe61046a61025ad3a30906349",
+      "question_sha256": "f935f82f8617a6915c5e435a5d5c2c2e0e2e8b80d8037b2a7f6127ae282a8301",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "DEFER",
+        "answer_statuses": [
+          "DEFER"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR06",
+      "text": "زيدٌ حكيمٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/main.tsv",
+      "context": "unknown_context.json",
+      "reason": "Source agreement is known but explicit context gender/number are unknown; this first context-qualified query profile must not claim confirmed binding.",
+      "source_sha256": "d351c23921bb16afe4542d5284d8251eb1a9be0fe61046a61025ad3a30906349",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "UNKNOWN",
+          "DEFER"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR07",
+      "text": "هندٌ حكيمةٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/unknown_query_profile.tsv",
+      "context": "context.json",
+      "reason": "The query adjective source omits MS while the asserted feminine source remains complete; spelling must not supply missing query traits.",
+      "source_sha256": "650a91344f56bb3004366d37aa68d7da5e8b40b4b04144cb0d74e8305c579620",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "DEFER",
+        "answer_statuses": [
+          "DEFER"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR08",
+      "text": "هندٌ حكيمٌ.",
+      "question": "من حكيمةٌ؟",
+      "source": "sources/noun_predicate.tsv",
+      "context": "context.json",
+      "reason": "The document predicate is source N, not ADJ, while sharing the query lemma; context agreement alone cannot substitute for a confirmed source predicate-agreement edge.",
+      "source_sha256": "e93dde8006ba083d16dab3715a7dd3d96301021f19bf3288d8b68aeba0cec786",
+      "question_sha256": "1084171fa1e1d15b1cdbc85cf2552d4eb7a51af6801c05d8dc51b9ed826b0b39",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "UNKNOWN"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR09",
+      "text": "هندٌ حكيمٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/main.tsv",
+      "context": "context.json",
+      "reason": "A known source subject/adjective gender conflict cannot be repaired by a question.",
+      "source_sha256": "e93dde8006ba083d16dab3715a7dd3d96301021f19bf3288d8b68aeba0cec786",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "DEFER",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "DEFER"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR10",
+      "text": "زيدٌ حكيمٌ. هندٌ حكيمةٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/context_names_only.tsv",
+      "context": "context.json",
+      "reason": "Synthetic context-only named singular persons can use a separately recorded explicit semantic agreement premise; their lexical profiles remain unknown.",
+      "source_sha256": "4d6299811591da744d80f519abb2e8d3753faaae0fe7e37bfa4060522dc2d549",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "SUPPORTED"
+        ],
+        "bound_person_ids": [
+          "zayd"
+        ],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    },
+    {
+      "id": "WHR11",
+      "text": "هندٌ حكيمٌ.",
+      "question": "من حكيمٌ؟",
+      "source": "sources/context_names_only.tsv",
+      "context": "context.json",
+      "reason": "A synthetic context-only named feminine person still conflicts with the masculine adjective; the naming premise cannot evade agreement.",
+      "source_sha256": "e93dde8006ba083d16dab3715a7dd3d96301021f19bf3288d8b68aeba0cec786",
+      "question_sha256": "de6bef673a7c1011af4037ffcee9def9829067c38d05809b5529b9add2064251",
+      "expected": {
+        "document_status": "DEFER",
+        "inquiry_status": "LICENSED_DISCOURSE",
+        "answer_statuses": [
+          "DEFER"
+        ],
+        "bound_person_ids": [],
+        "question_asserted_claims": 0,
+        "intg_lexical_gender_and_number_unknown": true,
+        "same_source_replay_valid": true,
+        "source_withdrawal_valid": false,
+        "context_withdrawal_valid": false,
+        "changed_source_bytes_valid": false
+      }
+    }
+  ]
+}

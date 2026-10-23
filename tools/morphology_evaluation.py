@@ -36,6 +36,12 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    "constructions_v4": ("42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5",
+                         "3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58",
+                         "62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567"),
+    "constructions_v3": ("23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611",
+                         "2c1b6b30e22b5322046109b461f850974e356736f2aedb06c4911be82375188f",
+                         "b5363658881c8e265295ad727d346ea8925348e9342b89f50eb014be824a19f1"),
     "constructions_v2": ("5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1",
                          "1e9d906428ec3824c4ecbff8ef8fb3adc88d6cb6c9dbfa1819c53655b3206c7c",
                          "9d5ec76ec904c3696d0e5a76e46fe435e9189322fe0578133c6816707b2fd2c5"),
@@ -75,6 +81,8 @@ CODE_FREEZES = {
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    "constructions_v4": ROOT / "evidence/constructions/code_freeze_v4.json",
+    "constructions_v3": ROOT / "evidence/constructions/code_freeze_v3.json",
     "constructions_v2": ROOT / "evidence/constructions/code_freeze_v2.json",
     "constructions_v1": ROOT / "evidence/constructions/code_freeze_v1.json",
     "discourse_v4": ROOT / "evidence/discourse/code_freeze_v4.json",
@@ -163,7 +171,7 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot, version="constructions_v2"):
+def verify_runtime_freeze(actual_snapshot, version="constructions_v4"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -446,7 +454,7 @@ def regression_gate(results):
     return all(case["passed"] or documented_boundary(case) for case in results)
 
 
-def evaluate(version="v2", *, freeze_version="constructions_v2"):
+def evaluate(version="v2", *, freeze_version="constructions_v4"):
     material = load_material(version)
     before = snapshot()
     freeze = verify_runtime_freeze(before, freeze_version)
@@ -477,7 +485,7 @@ def evaluate(version="v2", *, freeze_version="constructions_v2"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="constructions_v2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="constructions_v4")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")

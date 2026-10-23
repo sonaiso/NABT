@@ -8,6 +8,7 @@ case label, dependency or expected answer is accepted as an input premise.
 
 from copy import deepcopy
 from itertools import product
+import json
 
 from .corpus_evidence import lookup_clusters, lookup_key, template_matches
 from .discourse_context import identity, wire, profile_compatibility
@@ -333,6 +334,11 @@ def _build(reader, tokens, *, frame, force, parts, claims, readings=(), assignme
     all_relations = [r for p in parts for r in p["relations"]] + list(relations)
     all_obligations = [o for p in parts for o in p["obligations"]] + list(obligations)
     all_supports = [s for p in parts for s in p["supports"]] + list(supports)
+    agreement_obligations, agreement_relations, agreement_supports = reader.predicate_agreement(
+        all_readings, all_assignments, refs, force=force)
+    all_obligations.extend(agreement_obligations)
+    all_relations.extend(agreement_relations)
+    all_supports.extend(agreement_supports)
     if operator is not None:
         # The operator's own imperfect mood is independent of the cases it
         # requires of its subject and predicate. A future marker never
@@ -430,6 +436,24 @@ def _operator_candidates(reader, token):
     return results
 
 
+def _operator_spelling_proposed(reader, token):
+    """Recognize a route without licensing its vowels, sense, or frame.
+
+    A rejected operator form must not return to a less constrained parser.
+    The lexical inventory also covers witnessed inflected spellings such as
+    an imperfect copula; this lookup never supplies an accepted reading.
+    """
+    lemmas = {lookup_key(form) for form, _, _ in _OPERATOR_ROWS}
+    key = lookup_key(token["surface"])
+    if key in lemmas:
+        return True
+    return any(entry.get("kind") == "verb" and
+               entry.get("aspect") in ("PERF", "IMPF") and
+               lookup_key(entry.get("lemma") or "") in lemmas
+               for encoded in reader.index.get(key, ())
+               for entry in (json.loads(encoded),))
+
+
 def _operator_obligations(reader, operator, token, subject, prefix):
     obligations = []
     family, lemma = operator["family"], operator["lemma"]
@@ -489,16 +513,24 @@ def _operator_relation(operator, token, subject, predicate_span):
             "operator_reading_id": operator["reading"]["reading_id"]}
 
 
-def operator_frames(reader, tokens, *, force, depth=0):
-    """Return None when no operator paradigm is proposed at this position."""
+def operator_frames(reader, tokens, *, force, wh=None, depth=0):
+    """Return None only when this position proposes no operator route.
+
+    An empty result means that an operator spelling was recognized but no
+    complete licensed reading was constructed. Both assertions and questions
+    must keep that outcome instead of retrying a spelling-only legacy rule.
+    """
     prefix, offset = None, 0
     if lookup_key(tokens[0]["surface"]) in ("ما", "لا", "سوف") and len(tokens) > 1:
         prefix, offset = lookup_key(tokens[0]["surface"]), 1
     head = tokens[offset]
     candidates = _operator_candidates(reader, head)
+    proposed = bool(candidates) or _operator_spelling_proposed(reader, head)
+    if not proposed:
+        return None
+    if wh not in (None, "time", "place"):
+        return []
     if prefix == "سوف":
-        if not candidates:
-            return None
         if not template_matches(tokens[0]["surface"], "سَوْفَ", mutable_last=False):
             return []
         # Recognition precedes filtering, so an incompatible perfect cannot
@@ -508,22 +540,25 @@ def operator_frames(reader, tokens, *, force, depth=0):
         if not candidates:
             return []
     elif prefix is not None:
+        template = "مَا" if prefix == "ما" else "لَا"
+        if not template_matches(tokens[0]["surface"], template, mutable_last=False):
+            return []
         candidates = [o for o in candidates if o["scope"] in ("continuation", "duration")]
     if not candidates:
-        return None
+        return []
     body, results = tokens[offset + 1:], []
     for operator in candidates:
         if operator["family"] in ("kana", "inna"):
-            results.extend(_nominal_operator(reader, tokens, body, operator, head, prefix, force))
-        elif operator["family"] == "zanna":
+            results.extend(_nominal_operator(reader, tokens, body, operator, head, prefix, force, wh))
+        elif operator["family"] == "zanna" and wh is None:
             results.extend(_zanna(reader, tokens, body, operator, head, prefix, force))
-        elif operator["family"] == "kada":
+        elif operator["family"] == "kada" and wh is None:
             results.extend(_kada(reader, tokens, body, operator, head, prefix, force))
         _limit(results)
     return results
 
 
-def _nominal_operator(reader, tokens, body, operator, head, prefix, force):
+def _nominal_operator(reader, tokens, body, operator, head, prefix, force, wh=None):
     results = []
     family, lemma = operator["family"], operator["lemma"]
     local_force = ("WISH" if lemma == "ليت" else "HOPE" if lemma == "لعل" else force)
@@ -532,10 +567,14 @@ def _nominal_operator(reader, tokens, body, operator, head, prefix, force):
     positive = lemma != "ليس"
     restriction = []
     if lemma == "ليس" and len(body) == 3 and lookup_key(body[1]["surface"]) == "إلا":
+        if not template_matches(body[1]["surface"], "إِلَّا", mutable_last=False):
+            return []
         body = [body[0], body[2]]
         positive, restriction = True, ["negation_exception_predicate"]
     for complement in reader.complements(body):
         reduced = complement["tokens"]
+        qtime = ["?time"] if wh == "time" else complement["time"]
+        qplace = ["?place"] if wh == "place" else complement["place"]
         if len(reduced) < 2:
             continue
         for subject, predicate in product(noun_phrases(reader, reduced[:-1], family + "_subject", head=head),
@@ -546,11 +585,11 @@ def _nominal_operator(reader, tokens, body, operator, head, prefix, force):
                            _reading_obligations(predicate) + complement["obligations"])
             tense = (operator.get("tense") or ("past" if operator["aspect"] == "PERF" else "nonpast")) if family == "kana" and lemma != "ليس" else "unspecified"
             embedded = reader.claim(predicate["lexical_features"]["lemma"], [subject["entity"]], positive,
-                tense, complement["time"], complement["place"], restriction + subject["restriction"])
+                tense, qtime, qplace, restriction + subject["restriction"])
             claims = [embedded]
             if operator["scope"] not in (None, "wish", "hope"):
                 claims = _scoped(reader, operator, [embedded], [subject["entity"]], tense=tense,
-                                  time=complement["time"], place=complement["place"])
+                                  time=qtime, place=qplace)
             extra_part = {"refs": complement["refs"], "assignments": complement["assignments"],
                 "readings": complement["readings"], "relations": [], "restriction": [],
                 "obligations": [], "supports": complement["supports"]}
@@ -560,7 +599,7 @@ def _nominal_operator(reader, tokens, body, operator, head, prefix, force):
                 relations=[_operator_relation(operator, head, subject, predicate_token["span"])],
                 supports=[_support(reader, family + "_sisters"), _support(reader, "tense_aspect")],
                 operator=operator, operator_head=head)
-            results.append(_with_question(row))
+            results.append(_with_question(row, wh))
             _limit(results)
     return results
 

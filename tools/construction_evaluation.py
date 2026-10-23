@@ -28,6 +28,16 @@ VERSION = 'nabt.constructions.independent-evaluation.v1'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5': {
+        'snapshot_sha256': '3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58',
+        'archive_sha256': '62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567',
+        'file_count': 74, 'version': '0.14.0a3',
+    },
+    '23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611': {
+        'snapshot_sha256': '2c1b6b30e22b5322046109b461f850974e356736f2aedb06c4911be82375188f',
+        'archive_sha256': 'b5363658881c8e265295ad727d346ea8925348e9342b89f50eb014be824a19f1',
+        'file_count': 74, 'version': '0.14.0a2',
+    },
     'f1e035f7d20395abb82c2e87ac42f374630bef6bab71a22490873c7a08e8e519': {
         'snapshot_sha256': '2d79ea2227dda5169413eb314b9b65b5bc04fcacb447d00066ef56d3c7b69108',
         'archive_sha256': 'af7b88818f8d46a4d810927df39f1eb839c28dd7862f3919c3ac52f66abdbf8e',
@@ -90,6 +100,52 @@ DOCUMENTED_FAILURES = {
     'CON-B02': frozenset('relation_candidates'.split()),
     'CON-W01': frozenset('qualification:0 coherent_analysis'.split()),
     'CON-W02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0'.split()),
+}
+
+# Independently reviewed after the frozen v3 comparison; original v2 policy stays unchanged.
+BOUNDARY_RUNTIME_V3_SHA256 = '23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611'
+DOCUMENTED_FAILURES_V3 = {
+    'CON-Z02': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis relation:0 relations_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-Z07': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-Z10': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-A07': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-D03': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relation:1 relations_same_analysis coherent_analysis question:0'.split()),
+    'CON-N01': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-N02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-H05': frozenset('complete_construction role:0 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-M01': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-M02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-M03': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-B01': frozenset('relation_candidates'.split()),
+    'CON-B02': frozenset('relation_candidates'.split()),
+    'CON-W01': frozenset('qualification:0 coherent_analysis'.split()),
+    'CON-W02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0'.split()),
+}
+
+# v4 reviewed separately after complete same-adapter strict replay and raw rescoring.
+BOUNDARY_RUNTIME_V4_SHA256 = '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5'
+DOCUMENTED_FAILURES_V4 = {
+    'CON-Z02': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis relation:0 relations_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-Z07': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-Z10': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-A07': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
+    'CON-D03': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relation:1 relations_same_analysis coherent_analysis question:0'.split()),
+    'CON-N01': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-N02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-H05': frozenset('complete_construction role:0 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-M01': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-M02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-M03': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0 question:1'.split()),
+    'CON-B01': frozenset('relation_candidates'.split()),
+    'CON-B02': frozenset('relation_candidates'.split()),
+    'CON-W01': frozenset('qualification:0 coherent_analysis'.split()),
+    'CON-W02': frozenset('complete_construction role:0 role:1 roles_same_analysis relation:0 relations_same_analysis qualification:0 coherent_analysis question:0'.split()),
+}
+
+DOCUMENTED_BOUNDARY_POLICIES = {
+    BOUNDARY_RUNTIME_SHA256: DOCUMENTED_FAILURES,
+    BOUNDARY_RUNTIME_V3_SHA256: DOCUMENTED_FAILURES_V3,
+    BOUNDARY_RUNTIME_V4_SHA256: DOCUMENTED_FAILURES_V4,
 }
 
 def wire(value):
@@ -1108,13 +1164,15 @@ def gate_decision(result, allow_documented_boundaries=False):
             integrity.append('case_failure_inventory_mismatch:'+case['id'])
         if any(c['check'].startswith('question:') and c.get('details',{}).get('certificate') is not True for c in case['checks']):
             integrity.append('question_certificate_required:'+case['id'])
+    runtime=result['snapshot']['runtime_freeze_sha256']
+    policy=DOCUMENTED_BOUNDARY_POLICIES.get(runtime)
     eligible=(allow_documented_boundaries and result['gold_freeze_sha256']==GOLD_FREEZE_SHA256
-              and result['snapshot']['runtime_freeze_sha256']==BOUNDARY_RUNTIME_SHA256)
+              and policy is not None)
     documented=[];unexpected=[]
     for case in cases:
         for failure in case['failures']:
             item={'id':case['id'],'check':failure['check']}
-            if eligible and failure['check'] in DOCUMENTED_FAILURES.get(case['id'],frozenset()):
+            if eligible and failure['check'] in policy.get(case['id'],frozenset()):
                 documented.append(item)
             else:
                 unexpected.append(item)
@@ -1122,11 +1180,14 @@ def gate_decision(result, allow_documented_boundaries=False):
     if type(result['strict_pass']) is not bool or result['strict_pass']!=strict:
         integrity.append('strict_pass_flag_mismatch')
     return {'gate_pass':not integrity and not unexpected and (strict or eligible),
-            'gate_mode':'documented_partial_coverage_v1' if allow_documented_boundaries else 'strict',
-            'documented_boundary_runtime_sha256':BOUNDARY_RUNTIME_SHA256 if allow_documented_boundaries else None,
+            'gate_mode':('documented_partial_coverage_v3' if runtime==BOUNDARY_RUNTIME_V4_SHA256
+                         else 'documented_partial_coverage_v2' if runtime==BOUNDARY_RUNTIME_V3_SHA256
+                         else 'documented_partial_coverage_v1') if allow_documented_boundaries else 'strict',
+            'documented_boundary_runtime_sha256':runtime if eligible else None,
             'documented_boundary_failures':documented,'unexpected_failures':unexpected,
             'gate_integrity_errors':integrity,
-            'documented_boundary_inventory_sha256':digest({k:sorted(v) for k,v in DOCUMENTED_FAILURES.items()})}
+            'documented_boundary_inventory_sha256':digest({k:sorted(v) for k,v in
+                (policy if policy is not None else DOCUMENTED_FAILURES).items()})}
 
 
 def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False):
@@ -1228,7 +1289,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/constructions/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/constructions/code_freeze_v4.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

@@ -1,0 +1,95 @@
+{
+  "archival_recovery": "archival_recovery_v1.json",
+  "changed_cases": [
+    {
+      "after_failures": [],
+      "after_passed": true,
+      "before_failures": [
+        "claim_attachment_same_scope"
+      ],
+      "before_passed": false,
+      "id": "ATT-B01"
+    },
+    {
+      "after_failures": [],
+      "after_passed": true,
+      "before_failures": [
+        "claim_attachment_same_scope"
+      ],
+      "before_passed": false,
+      "id": "ATT-B02"
+    }
+  ],
+  "classification": "AUTHORED_POST_REVIEW_ATTACHMENT_SCOPE_REGRESSION",
+  "created_at_utc": "2026-10-23T20:56:58.795078+00:00",
+  "earlier_attempts_preserved": true,
+  "gold_unchanged": true,
+  "invalid_prior_attempts": [
+    "artifact_erratum_v4pair_v1.json",
+    "artifact_erratum_v4pair_v2.json"
+  ],
+  "material_freeze_sha256": "2b3b1db96f8af2d344aa9dbfc2d6606eb418a1dc405ebfd372c1f8e81afdfa23",
+  "runs": [
+    {
+      "path": "results_baseline_v2_v4pair_attempt3.json",
+      "raw_evidence": {
+        "authoritative_checkpoint": "results_baseline_v2_v4pair_attempt3.checkpoint.tar.gz",
+        "decoded_sha256": "c6999894bac049e1308750131d797b1f3fb30698ecb066b3d519f0489d894bf3",
+        "original_loose_journal_valid": false,
+        "path": "baseline_v2_v4pair_recovered.raw.jsonl.gz",
+        "recovery_record": "archival_recovery_v1.json"
+      },
+      "raw_records": 6,
+      "raw_rescored_after_finalization": true,
+      "runner_sha256": "eed877817372513876cd164f04273ddb29003194a71810dd1f4f060405ed2cf9",
+      "runtime": {
+        "archive_sha256": "9d5ec76ec904c3696d0e5a76e46fe435e9189322fe0578133c6816707b2fd2c5",
+        "excluded_documentation": [],
+        "file_count": 74,
+        "manifest_path": "/workspace/scratch/93a907621097/NABT/evidence/constructions/code_freeze_v2.json",
+        "manifest_sha256": "5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1",
+        "runtime_root": "/tmp/nabt-construction-target-v2",
+        "snapshot_sha256": "1e9d906428ec3824c4ecbff8ef8fb3adc88d6cb6c9dbfa1819c53655b3206c7c"
+      },
+      "sha256": "ec6eba68958a4ba2e053de7841cfe54c930fab6a78e13fa15d813dd1eee19fa5",
+      "summary": {
+        "errors": 0,
+        "false_accepts": 2,
+        "passed": 4,
+        "strict_pass": false,
+        "total": 6
+      }
+    },
+    {
+      "path": "results_after_v4.json",
+      "raw_evidence": {
+        "original_loose_journal_valid": true,
+        "path": "results_after_v4.raw.jsonl",
+        "sha256": "9a355a3700d3663c5e0f5a162281240b6065ee8115002957232750cef3c4ec55"
+      },
+      "raw_records": 6,
+      "raw_rescored_after_finalization": true,
+      "runner_sha256": "eed877817372513876cd164f04273ddb29003194a71810dd1f4f060405ed2cf9",
+      "runtime": {
+        "archive_sha256": "62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567",
+        "excluded_documentation": [],
+        "file_count": 74,
+        "manifest_path": "/workspace/scratch/93a907621097/NABT/evidence/constructions/code_freeze_v4.json",
+        "manifest_sha256": "42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5",
+        "runtime_root": "/tmp/nabt-construction-target-v4-review",
+        "snapshot_sha256": "3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58"
+      },
+      "sha256": "9a53d3277b41a456bac930749eae7b11bd245a25591255baa4976cd627e43e6b",
+      "summary": {
+        "errors": 0,
+        "false_accepts": 0,
+        "passed": 6,
+        "strict_pass": true,
+        "total": 6
+      }
+    }
+  ],
+  "same_runner_bytes": true,
+  "schema": "nabt.attachment-review.comparison.v1",
+  "semantic_functions_unchanged_from_prior_runner": true
+}

@@ -16,7 +16,7 @@ def constructionEvidenceJson : Json := Json.mkObj [
   ("schema_version", toJson (1 : Nat)),
   ("law_id", toJson lawId),
   ("scope", toJson "CONDITIONAL_LICENSED_CONSTITUENTS_AND_EXACT_SCOPED_PROJECTION_NOT_ACQUISITION_OR_WORLD_TRUTH"),
-  ("source_policy_id", toJson "nabt.construction-grammar-sources.v1"),
+  ("source_policy_id", toJson "nabt.construction-grammar-sources.v2"),
   ("families", toJson (families.map Family.label)),
   ("roles", toJson (roles.map Role.label)),
   ("inherited_cases", toJson (inheritedCases.map caseJson)),
@@ -36,6 +36,12 @@ def constructionEvidenceJson : Json := Json.mkObj [
     compatibilities.flatMap fun g => compatibilities.map fun n => Json.mkObj [
       ("case", toJson c.label), ("definiteness", toJson d.label), ("gender", toJson g.label),
       ("number", toJson n.label), ("status", toJson (agreementStatus c d g n).label)])),
+  ("predicate_agreement_axes", toJson ["gender", "number"]),
+  ("predicate_agreement_rows", toJson ([false, true].flatMap fun regime =>
+    compatibilities.flatMap fun g => compatibilities.map fun n => Json.mkObj [
+      ("regime_licensed", toJson regime), ("gender", toJson g.label),
+      ("number", toJson n.label), ("status", toJson (predicateAgreementStatus regime g n).label)])),
+  ("predicate_agreement_scope", toJson "SOURCE_DECLARED_SIMPLE_DIRECT_ADJECTIVAL_PREDICATION_ONLY;REGIME_NOT_FROM_ADJ_TAG_GENDER_DERIVATION_OR_SHAPE_ALONE;UNKNOWN_REGIME_POSSIBLE;NO_CASE_OR_DEFINITENESS_AGREEMENT;PRESERVE_PREDICATION_REFERENCE_AND_OPERATOR_SCOPE"),
   ("evidence_states", toJson (evidenceStates.map Evidence.label)),
   ("idafa_modes", toJson (idafaModes.map IdafaMode.label)),
   ("idafa_rows", toJson (idafaModes.flatMap fun mode => evidenceStates.flatMap fun t =>

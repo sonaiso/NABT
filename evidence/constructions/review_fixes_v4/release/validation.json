@@ -1,0 +1,383 @@
+{
+  "schema": "nabt.constructions.release-validation.v4",
+  "recorded_at_utc": "2026-10-23T21:05:31.038352+00:00",
+  "package_version": "0.14.0a3",
+  "status": "BOUNDED_VALIDATION_PASS_WITH_EXPLICIT_COVERAGE_GAPS_AND_LEGACY_REGRESSION",
+  "repository_base_commit": "4a0fb927f14307b19ae4751c38cf81a09debc764",
+  "previous_published_head": "83c14b282d7e1e71367682e786453b956bec53e3",
+  "release_commit": null,
+  "release_commit_note": "This record is included in a subsequent commit; Git/PR carry its identity without a recursive self-hash.",
+  "runtime": {
+    "manifest": {
+      "path": "evidence/constructions/code_freeze_v4.json",
+      "bytes": 19183,
+      "sha256": "42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5"
+    },
+    "archive": {
+      "path": "evidence/constructions/code_freeze_v4.tar.gz",
+      "bytes": 1005064,
+      "sha256": "62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567"
+    },
+    "file_count": 74,
+    "snapshot_sha256": "3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58",
+    "current_bytes_match_frozen_inventory": true,
+    "language_id": "nabt.arabic-discourse-frames.v4",
+    "reader_version": "nabt.discourse-reader.v4",
+    "historical_tracked_evidence_unchanged": true,
+    "historical_tracked_evidence_file_count": 1359,
+    "post_review_on_opened_material": true
+  },
+  "verification_sources": {
+    "path": "evidence/constructions/review_fixes_v4/release/verification-source-manifest.json",
+    "bytes": 53760,
+    "sha256": "e9b87acab8c51db0eff3a3d491e5a5505663bb1a463f01d3422a779d27ac11e1"
+  },
+  "construction_evidence": {
+    "path": "evidence/constructions/review_fixes_v4/release/construction-evidence-manifest.json",
+    "bytes": 180585,
+    "sha256": "04a68b9697a8c247d5e68d6379de8fca8b70e0b7a5cb3dcc12aa35cc97ab4246"
+  },
+  "outputs": {
+    "path": "evidence/constructions/review_fixes_v4/release/outputs-manifest.json",
+    "bytes": 59820,
+    "sha256": "6d6fd7db030f2b54fa73bd456cc86c22d970da2f7f107c6afefb0ac5c9a8f464"
+  },
+  "full_check": {
+    "outcome": "PASS",
+    "runner_observed_exit_code": 0,
+    "tests_run": 957,
+    "test_seconds": 48.972,
+    "command": [
+      "make",
+      "check",
+      "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/construction-review-v4-check-a1/checks",
+      "TEXT_CODE_FREEZE=evidence/constructions/code_freeze_v4.json",
+      "RUNTIME_FREEZE_VERSION=constructions_v4",
+      "QAC_SOURCE=artifacts/local/inflection-evaluation/quranic-corpus-morphology-0.4.txt.gz",
+      "ARABIC_EVALUATION_DIR=artifacts/local/construction-review-v4-check-a1/checks/arabic-regression"
+    ],
+    "command_record": {
+      "path": "evidence/constructions/review_fixes_v4/release/make-check-command.json",
+      "bytes": 42368,
+      "sha256": "ab20452a56c425de7c2215e04f5c81706fae51b9ce10a7e9610ff18caf8bb626"
+    },
+    "log": {
+      "path": "evidence/constructions/review_fixes_v4/release/make-check.log",
+      "bytes": 213274,
+      "sha256": "0c99af16e666be6772ea3820630840a4a6786ddb2da25996e08a78ef903cfde0"
+    },
+    "inputs_unchanged_during_run": true,
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    },
+    "relocated_unchanged_artifacts_from": "artifacts/local/construction-review-v4-check-a1/checks",
+    "relocated_unchanged_artifacts_to": "evidence/constructions/review_fixes_v4/release/checks"
+  },
+  "formal": {
+    "report": {
+      "path": "evidence/constructions/review_fixes_v4/release/checks/axioms.json",
+      "bytes": 51323,
+      "sha256": "0242e9cb1d72cf85c704be84e9e18b418e50f4a42f8fb24362d2fbe7fbe87397"
+    },
+    "theorem_count": 663,
+    "construction_theorems": 38,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true,
+    "whole_runtime_parser_verified_in_lean": false,
+    "construction_conformance": {
+      "path": "evidence/constructions/review_fixes_v4/release/checks/construction-conformance.json",
+      "bytes": 738,
+      "sha256": "2a03b9acab326e67b30c0a9f50bad4127c2ad7aa04f66944d61c8bb94cf7c235"
+    },
+    "finite_construction_rows": 794,
+    "primary_grammar_passages_replayed": 18
+  },
+  "preflight": {
+    "manifest": {
+      "path": "evidence/constructions/review_fixes_v4/release/preflight/manifest.json",
+      "bytes": 572,
+      "sha256": "4f15e699c301647b560db7d261348be0741b72032d06c818e87ccb2b3eee3cc5"
+    },
+    "commands": [
+      "make formal"
+    ],
+    "full_conformance_in_make_check": true,
+    "new_performance_measurement_claimed": false
+  },
+  "package": {
+    "validation": {
+      "path": "evidence/constructions/review_fixes_v4/release/package/validation.json",
+      "bytes": 29773,
+      "sha256": "5f8374332f82432c282191a11140d282a7ed41070c8707e71a1deb495c4ea26f"
+    },
+    "manifest": {
+      "path": "evidence/constructions/review_fixes_v4/release/package/manifest.json",
+      "bytes": 34889,
+      "sha256": "4c3c91a3f87b28973fc7b08c5e7703c47358c0597c69932205023aad65574029"
+    },
+    "postcheck": {
+      "path": "evidence/constructions/review_fixes_v4/release/package-postcheck.json",
+      "bytes": 2907,
+      "sha256": "4be59f9207acded82238961013f1d6bb55ab2197cb5c266570c4356e7c4528f9"
+    },
+    "commands": {
+      "path": "evidence/constructions/review_fixes_v4/release/package/commands.json",
+      "bytes": 37759,
+      "sha256": "c8f44a166ef81a01a75d6fe3ede64bcfecf36d31fe16eb1bf699a9995ca87adf"
+    },
+    "wheel": {
+      "path": "evidence/constructions/review_fixes_v4/release/package/wheel/nabt_machine-0.14.0a3-py3-none-any.whl",
+      "bytes": 1097966,
+      "sha256": "3105ffbfc933ca0628db8815bc8c3d506c0a9dbe4d14de964ce585fa770d8b82"
+    },
+    "source_files": 74,
+    "runtime_package_files": 73,
+    "documentation_package_files": 2,
+    "installed_files": 75,
+    "cli_checks": 46,
+    "recorded_commands": 51,
+    "installed_outside_checkout": true,
+    "readme_matches_wheel_metadata": true
+  },
+  "source_audit": {
+    "audit": {
+      "path": "evidence/constructions/source_audit.json",
+      "bytes": 148619,
+      "sha256": "220f110fa90da2ac9174060cdf59c9e2bb99f9508437969f6170a89121614937"
+    },
+    "coverage": {
+      "path": "evidence/constructions/source_coverage.json",
+      "bytes": 13139,
+      "sha256": "e1547c20690964c32919a63ab8f4b7448482449a19452e6195a5977ab7174307"
+    },
+    "authenticated_access": {
+      "path": "evidence/constructions/source_access_refresh_v2.json",
+      "bytes": 70190,
+      "sha256": "03cf177176b1fa5b9d98768faa5c36256f3f2fd78c5cfdce4dfe17679a99fa61"
+    },
+    "authenticated_access_validation": {
+      "path": "evidence/constructions/source_audit_access_validation.json",
+      "bytes": 8804,
+      "sha256": "8082ee2b68b0af75177000d210a28458071c2b4520948d75bfb827709f73e909"
+    },
+    "window_validation": {
+      "path": "evidence/constructions/source_audit_validation.json",
+      "bytes": 1832,
+      "sha256": "a9f53b609be2bb61d0c2833cca5d4fcb5edf8652328f11204218a4c28f11b2bb"
+    },
+    "future_source_supplement": {
+      "path": "evidence/constructions/source_audit_future_v2.json",
+      "bytes": 5148,
+      "sha256": "bc21b17f6959e78bcc452c9f5ee1cc47965c98b87f7c3c6cd3cd6541a928fd22"
+    },
+    "context_source_review": {
+      "path": "docs/CONSTRUCTIONS_CONTEXT_REVIEW_V4.md",
+      "bytes": 12629,
+      "sha256": "15a157b619f36e5dc70f65910653d605e99f868c1770277a53ca51166acf1f64"
+    },
+    "predicate_source_review": {
+      "path": "docs/CONSTRUCTIONS_SOURCE_REVIEW_V3.md",
+      "bytes": 8453,
+      "sha256": "a016466f4897e3dbc6df79c2c8d29a5150857ff0b9a371ca697b82cd741a178d"
+    },
+    "repositories": 41,
+    "public": 24,
+    "private": 17,
+    "complete_default_branch_trees": 40,
+    "confirmed_empty_repositories": 1,
+    "external_lean_blob_files": 292,
+    "private_lean_files": 0,
+    "all_upstream_repositories_rebuilt": false
+  },
+  "query_selection_regression": {
+    "test_file": {
+      "path": "tests/test_discourse_query_selection.py",
+      "bytes": 5764,
+      "sha256": "debf79eaee45abb4e5e78caa566000c00a0d5a9d8f3c8f1037fedcec828c1586"
+    },
+    "historical_material": {
+      "path": "evidence/discourse/query_selection_review/material_freeze_v1.json",
+      "bytes": 1464,
+      "sha256": "5268b4a3ac0b6634d08fa5353b94fb258f51902fab95d658cb0dabf409ada520"
+    },
+    "historical_review": {
+      "path": "evidence/discourse/query_selection_review/review_v1.json",
+      "bytes": 2001,
+      "sha256": "7d52552cd4bb2712542676b2346ef39cb1ed2635924cf8452c9a59efe93b897e"
+    },
+    "cases": 6,
+    "passed_in_full_unit_suite": 6,
+    "behavior": "Only non-rejected, syntax-licensed and reference-complete analyses may choose the query.",
+    "not_added_to_other_denominators": true
+  },
+  "targeted_review": {
+    "aggregate": {
+      "path": "evidence/constructions/review_fixes_v4/aggregate_review.json",
+      "bytes": 15392,
+      "sha256": "3c2bd04c7878875c6ec6b69883beb1ae4fa9eddc9a8f6ad5f6b14600f4656237"
+    },
+    "final_passed": 76,
+    "total": 76,
+    "overall_baseline_score": null,
+    "post_review_authored_material": true
+  },
+  "construction_evaluation": {
+    "comparison": {
+      "path": "evidence/constructions/comparison_v4/comparison.json",
+      "bytes": 9869,
+      "sha256": "4711a0ed5341d570be26cd09d3783169638fca0d09edccffe8beb1cf1973d038"
+    },
+    "material_freeze": {
+      "path": "evidence/constructions/independent_freeze_v1.json",
+      "bytes": 1811,
+      "sha256": "5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e"
+    },
+    "release_report": {
+      "path": "evidence/constructions/review_fixes_v4/release/checks/construction-regression.json",
+      "bytes": 166011,
+      "sha256": "29fc763c996633bd93b5892cd5e296c1469d52bb2e95d1ce1183544a9852e392"
+    },
+    "gate_review": {
+      "path": "evidence/constructions/comparison_v4/gate_review_v1.json",
+      "bytes": 4433,
+      "sha256": "3434b1dfedbe7bbdd8575d71cd82a477cb627e4c4203350f769742d80a8b382a"
+    },
+    "passed": 71,
+    "total": 86,
+    "comprehension": {
+      "passed": 65,
+      "total": 80
+    },
+    "by_mode": {
+      "ambiguity": {
+        "passed": 4,
+        "total": 6
+      },
+      "boundary": {
+        "passed": 31,
+        "total": 31
+      },
+      "positive": {
+        "passed": 30,
+        "total": 43
+      },
+      "replay": {
+        "passed": 6,
+        "total": 6
+      }
+    },
+    "by_question_outcome": {
+      "NO_GROUNDED_SUPPORT": {
+        "passed": 19,
+        "total": 19
+      },
+      "SUPPORTED": {
+        "passed": 30,
+        "total": 42
+      },
+      "UNKNOWN": {
+        "passed": 29,
+        "total": 39
+      }
+    },
+    "replay": {
+      "passed": 6,
+      "total": 6
+    },
+    "strict_pass": false,
+    "coverage_complete": false,
+    "gate_mode": "documented_partial_coverage_v3",
+    "remaining_cases": 15,
+    "forbidden_check_false_accepts": 0,
+    "natural_corpus_accuracy_claimed": false
+  },
+  "legacy_evaluation": {
+    "comparison": {
+      "path": "evidence/constructions/legacy_discourse_review_v3/comparison.json",
+      "bytes": 17539,
+      "sha256": "bc02607999afe1dd848ea0744bee2e9da1cca9668ec7996129e36d2d01ae752c"
+    },
+    "gate_review": {
+      "path": "evidence/constructions/legacy_discourse_review_v3/gate_review.json",
+      "bytes": 10446,
+      "sha256": "2db536b5e84069fe03a9247cf3d500aaa3a7464cfcbb57969fc8861f3b66296a"
+    },
+    "release_report": {
+      "path": "evidence/constructions/review_fixes_v4/release/checks/discourse-regression.json",
+      "bytes": 137631,
+      "sha256": "a12e0b8d57af5528b7776ecfd087029ca5706bc7d4c61cab86276c2a0748cf66"
+    },
+    "before_passed": 57,
+    "passed": 56,
+    "total": 86,
+    "positive_cases": [
+      11,
+      30
+    ],
+    "substantive_questions_before": [
+      23,
+      45
+    ],
+    "substantive_questions_after": [
+      22,
+      45
+    ],
+    "all_questions_before": [
+      52,
+      74
+    ],
+    "all_questions_after": [
+      51,
+      74
+    ],
+    "no_support_controls": [
+      29,
+      29
+    ],
+    "strict_pass": false,
+    "coverage_complete": false,
+    "v3_intermediate_passed": 40,
+    "v3_approved": false,
+    "new_failed_checks": [
+      "DSC-P16/question:0",
+      "DSC-P26/reading:0"
+    ],
+    "false_accept_count": 0,
+    "documented_failed_cases": 30,
+    "documented_failed_checks": 61,
+    "reason": "P16 retains different N/ADJ query constraints; P26 retains unknown source lexical number and therefore cannot activate agreement or syntactic roles despite complete references."
+  },
+  "artifact_recovery": {
+    "record": {
+      "path": "evidence/constructions/attachment_review/archival_recovery_v1.json",
+      "bytes": 2867,
+      "sha256": "0a33eb2b6e2c73c9ca60b5b944e5739d40aeadac055a330931507e24ccfb64ce"
+    },
+    "canonical_journal": {
+      "path": "evidence/constructions/attachment_review/baseline_v2_v4pair_recovered.raw.jsonl.gz",
+      "bytes": 60009,
+      "sha256": "95a0276d38940d39a90d2e8acc44491637ee2e716805b9cf12daf669b11322f3"
+    },
+    "canonical_records": 6,
+    "original_loose_journals_valid": false,
+    "cause_of_difference": "NOT_ESTABLISHED",
+    "no_scores_or_original_files_changed": true
+  },
+  "limits": [
+    "Conditional Lean laws do not prove full source acquisition, the Python reader, unrestricted Arabic or world truth.",
+    "Authored training, lexical source traits and explicit contextual identities are declared premises.",
+    "Typed person queries require one semantic claim shape per selected witness analysis; general claim-to-edge identity remains unimplemented.",
+    "Unknown lexical gender/number, broader agreement regimes, arbitrary broken plurals and weak roots remain open.",
+    "Strict construction and legacy evaluation remain unsuccessful; the opt-in gates allow exact named coverage failures only.",
+    "The boundary, abstention and replay denominators are not positive comprehension accuracy.",
+    "Earlier word 27/30, morphology 39/43, broad Arabic 0/40 and original witness 0/8 measurements retain their original scopes."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "time_utc": "2026-10-23T20:50:48.286309+00:00",
+  "runtime_manifest_sha256": "42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5",
+  "file_count": 74,
+  "checks": [
+    {
+      "name": "arabic",
+      "test_count": 7,
+      "exit_code": 0,
+      "log": "evidence/constructions/legacy_discourse_review_v3/arabic_tests.log",
+      "sha256": "9576f82656a6bcad0347444984270ec147e09667c94b87b69039f220a83fa7c2"
+    },
+    {
+      "name": "discourse_adapter",
+      "test_count": 48,
+      "exit_code": 0,
+      "log": "evidence/constructions/legacy_discourse_review_v3/discourse_adapter_tests.log",
+      "sha256": "af153cf3e189ed2e8b46698f31190c16608bddcf50c7234d3b5d90f26351b892"
+    },
+    {
+      "name": "word",
+      "valid": true
+    },
+    {
+      "name": "morphology",
+      "valid": true
+    },
+    {
+      "name": "governor",
+      "valid": true
+    },
+    {
+      "name": "inflection_evaluation",
+      "valid": true
+    },
+    {
+      "name": "discourse_evaluation",
+      "valid": true
+    },
+    {
+      "name": "word_evaluation_forged",
+      "rejected": true,
+      "reason": "Different implementation freeze"
+    },
+    {
+      "name": "morphology_evaluation_forged",
+      "rejected": true,
+      "reason": "Runtime freeze manifest differs"
+    },
+    {
+      "name": "governor_evaluation_forged",
+      "rejected": true,
+      "reason": "Runtime freeze is not an explicitly approved snapshot"
+    },
+    {
+      "name": "inflection_evaluation_forged",
+      "rejected": true,
+      "reason": "Runtime manifest is not independently pinned"
+    },
+    {
+      "name": "discourse_evaluation_forged",
+      "rejected": true,
+      "reason": "Unapproved runtime manifest"
+    }
+  ],
+  "scope": "Authentication and targeted adapter/Arabic tests only; no full gate or coverage waiver."
+}

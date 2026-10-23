@@ -17,7 +17,11 @@ Unknown construction cannot yield an inflected or local word-case assignment.
 
 The four-axis adjective rule is scoped to a licensed direct-agreement regime
 of the real adjective. Causal adjectives and exceptional agreement regimes
-need other licenses. Hal/tamyiz here are already qualified nominal accusative
+need other licenses. The separate predicate rule uses gender and number only,
+after licensing a simple source-declared direct adjectival predication. Neither
+an ADJ tag, known gender, etymological derivation nor a surface shape licenses
+that regime; unknown or inapplicable regimes stay possible. Case/definiteness
+agreement of naat is not transferred to a predicate. Hal/tamyiz here are already qualified nominal accusative
 constructions; counted nouns remain governed by the separate numeral law.
 
 Idafa checks require explicit negative evidence for tanwin and the *inflection*
@@ -41,7 +45,7 @@ open Morphology (Construction Evidence)
 open TextEvidence (Binding SupportSpan)
 open DiscourseEvidence (Compatibility combineCompatibility)
 
-def lawId : String := "nabt.construction-evidence.v1"
+def lawId : String := "nabt.construction-evidence.v2"
 
 inductive Family where
   | kana | inna | zanna | kada
@@ -142,6 +146,32 @@ theorem unknown_agreement_not_confirmed (c d g : Compatibility) :
   intro h
   have hh := (agreement_confirmed_exact _ _ _ _).mp h
   cases hh.2.2.2
+
+/-- A separately licensed direct descriptive predicate compares only gender
+and number. The regime, actual features and predication/reference edge remain
+source premises; this does not classify jamid or exceptional descriptions. -/
+def predicateAgreementStatus (regimeLicensed : Bool) (gender number : Compatibility) : Compatibility :=
+  if regimeLicensed then combineCompatibility gender number else .possible
+theorem predicate_agreement_confirmed_exact (regime : Bool) (g n : Compatibility) :
+    predicateAgreementStatus regime g n = .confirmed ↔
+      regime = true ∧ g = .confirmed ∧ n = .confirmed := by
+  cases regime <;> cases g <;> cases n <;> decide
+theorem predicate_agreement_conflict_exact (regime : Bool) (g n : Compatibility) :
+    predicateAgreementStatus regime g n = .conflict ↔
+      regime = true ∧ (g = .conflict ∨ n = .conflict) := by
+  cases regime <;> cases g <;> cases n <;> decide
+theorem predicate_agreement_no_regime (g n : Compatibility) :
+    predicateAgreementStatus false g n = .possible := rfl
+theorem predicate_agreement_unknown_no_confirmation (regime : Bool) (g n : Compatibility)
+    (unknown : g = .possible ∨ n = .possible) :
+    predicateAgreementStatus regime g n ≠ .confirmed := by
+  intro h
+  have confirmed := (predicate_agreement_confirmed_exact regime g n).mp h
+  rcases unknown with hg | hn
+  · rw [hg] at confirmed
+    cases confirmed.2.1
+  · rw [hn] at confirmed
+    cases confirmed.2.2
 
 inductive IdafaMode where
   | semantic | verbal

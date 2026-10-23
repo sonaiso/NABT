@@ -35,6 +35,7 @@ OPERATOR_ROLES = {
 INHERITED = (None, 0, 1, 2)
 STATES = ("possible", "confirmed", "conflict")
 AXES = ("case", "definiteness", "gender", "number")
+PREDICATE_AXES = ("gender", "number")
 EVIDENCE = ("unknown", "affirmed", "denied", "conflict")
 IDAFA_MODES = ("semantic", "verbal")
 AN_POLICY = {
@@ -117,6 +118,9 @@ def expected_rows():
                       for role, inherited in product(ROLE_CASES, INHERITED) for case in (ROLE_CASES[role],)],
         "agreement_rows": [{**dict(zip(AXES, values)), "status": agreement_oracle(values)}
                            for values in product(STATES, repeat=4)],
+        "predicate_agreement_rows": [{"regime_licensed": regime, "gender": g, "number": n,
+            "status": agreement_oracle((g, n)) if regime else "possible"}
+            for regime, g, n in product((False, True), STATES, STATES)],
         "idafa_rows": [{"mode": mode, "tanwin": t, "nun": n, "article": a, "article_exception": exception,
                         "status": idafa_oracle(mode, t, n, a, exception)}
                        for mode, t, n, a, exception in product(IDAFA_MODES, EVIDENCE, EVIDENCE, EVIDENCE, (False, True))],
@@ -137,10 +141,11 @@ def check_table(export):
     raw = TABLE.read_bytes()
     equal(export, parse(raw), "Complete fresh Lean export differs from installed JSON")
     require(type(export["schema_version"]) is int and export["schema_version"] == 1, "Wrong schema")
-    require(export["law_id"] == "nabt.construction-evidence.v1", "Wrong law identity")
-    require(export["source_policy_id"] == "nabt.construction-grammar-sources.v1", "Wrong source-policy identity")
+    require(export["law_id"] == "nabt.construction-evidence.v2", "Wrong law identity")
+    require(export["source_policy_id"] == "nabt.construction-grammar-sources.v2", "Wrong source-policy identity")
     for key, values in (("families", FAMILIES), ("roles", tuple(ROLE_CASES)), ("inherited_cases", INHERITED),
                         ("compatibilities", STATES), ("agreement_axes", AXES), ("evidence_states", EVIDENCE),
+                        ("predicate_agreement_axes", PREDICATE_AXES),
                         ("idafa_modes", IDAFA_MODES), ("activation_bits", ACTIVATION_BITS),
                         ("identity_relations", IDENTITIES), ("identity_bits", IDENTITY_BITS),
                         ("scopes", SCOPES), ("scope_bits", SCOPE_BITS), ("scope_metadata", SCOPE_METADATA)):
@@ -159,6 +164,10 @@ def check_table(export):
         equal(laws.role_case(row["label"], row["inherited_case"]), row["case"], "Runtime constituent case differs")
     for row in expected["agreement_rows"]:
         equal(laws.agreement_status(**{key: row[key] for key in AXES}), row["status"], "Runtime agreement differs")
+    for row in expected["predicate_agreement_rows"]:
+        equal(laws.predicate_agreement_status(regime_licensed=row["regime_licensed"],
+                                             gender=row["gender"], number=row["number"]),
+              row["status"], "Runtime licensed predicate agreement differs")
     for row in expected["idafa_rows"]:
         equal(laws.idafa_head_status(row["mode"], row["tanwin"], row["nun"], row["article"],
                                     article_exception=row["article_exception"]), row["status"], "Runtime idafa differs")

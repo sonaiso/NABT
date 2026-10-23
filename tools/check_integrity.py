@@ -202,6 +202,7 @@ def check(lean_export=None):
             "construction_operator_rows": len(construction["operator_rows"]),
             "construction_role_rows": len(construction["role_rows"]),
             "construction_agreement_rows": len(construction["agreement_rows"]),
+            "construction_predicate_agreement_rows": len(construction["predicate_agreement_rows"]),
             "construction_idafa_rows": len(construction["idafa_rows"]),
             "construction_an_rows": len(construction["an_rows"]),
             "construction_activation_rows": len(construction["activation_rows"]),

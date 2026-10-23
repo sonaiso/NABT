@@ -19,18 +19,70 @@ _TENS = frozenset(("عشرون", "ثلاثون", "أربعون", "خمسون", "
 
 
 def _predicate_token(reader, tokens, base):
-    # Prefer the actual verbal head, not the first token of an SVO sentence.
-    for rid in base["reading_ids"]:
-        reading = reader._reading_by_id(rid)
-        if reading is not None and reading["kind"] == "verb":
-            for token in tokens:
-                if (token["span"]["start"] <= reading["stem_span"]["start"] and
-                        reading["stem_span"]["end"] <= token["span"]["end"]):
-                    return token
-    predicate = next((a for a in base["assignments"] if a["role"] == "nominal_predicate"), None)
-    if predicate is not None:
-        return next((t for t in tokens if t["span"] == predicate["span"]), tokens[0])
-    return tokens[0]
+    """Find the head of the proposition that receives the qualification.
+
+    A complete analysis can contain a relative-clause verb or a scoped inner
+    event. Their presence does not make them the head of the outer claim.
+    Resolve through that claim's typed predicate and its established roles;
+    multiple distinct heads remain unresolved instead of choosing by order.
+    """
+    if len(base["claims"]) != 1:
+        return None
+    claim = base["claims"][0]
+    readings = {rid: row for rid in base["reading_ids"]
+                if (row := reader._reading_by_id(rid)) is not None}
+    candidates = []
+
+    def add_span(span):
+        if span is None:
+            return
+        for token in tokens:
+            if token["span"] == span:
+                candidates.append(token)
+                return
+        # An already established predicate constituent can be wider than a
+        # token. Preserve its exact existing span rather than its first word.
+        parts = [t for t in tokens if span["start"] <= t["span"]["start"] and
+                 t["span"]["end"] <= span["end"]]
+        if parts and parts[0]["span"]["start"] == span["start"] and parts[-1]["span"]["end"] == span["end"]:
+            constituent = _clause_token(reader, parts)
+            if constituent["span"] == span:
+                candidates.append(constituent)
+
+    if claim["predicate_kind"] == "property":
+        for assignment in base["assignments"]:
+            reading = readings.get(assignment["reading_id"])
+            if (assignment["role"] in ("nominal_predicate", "inna_predicate", "kana_predicate") and
+                    reading is not None and reading["kind"] == "noun" and
+                    reading["lexical_features"].get("lemma") == claim["predicate"]):
+                add_span(assignment["span"])
+    elif claim["predicate_kind"] == "event":
+        relative_spans = [r["verb_span"] for r in base["relations"] if r.get("kind") == "relative_clause"]
+        for reading in readings.values():
+            features = reading["lexical_features"]
+            if (reading["kind"] == "verb" and features.get("lemma") == claim["predicate"] and
+                    (features.get("voice") or "active") == claim["voice"] and
+                    reading["stem_span"] not in relative_spans):
+                for token in tokens:
+                    if (token["span"]["start"] <= reading["stem_span"]["start"] and
+                            reading["stem_span"]["end"] <= token["span"]["end"]):
+                        add_span(token["span"])
+    elif claim["predicate_kind"] == "scoped":
+        scopes = [q for q in claim["restriction"] if q.get("kind") == "operator_scope"]
+        for relation in base["relations"]:
+            if (relation.get("kind") == "operator" and relation.get("scope_preserved") and
+                    relation.get("operator_reading_id") in readings and
+                    claim["predicate"] == "@operator:" + relation["lemma"] and
+                    any(all(q.get(key) == relation.get(key) for key in ("family", "lemma", "aspect")) for q in scopes)):
+                add_span(relation["head_span"])
+    elif claim["predicate_kind"] == "location":
+        for assignment in base["assignments"]:
+            reading = readings.get(assignment["reading_id"])
+            if (assignment["role"] == "nominal_predicate" and reading is not None and
+                    reading["lexical_features"].get("pos") == "ADVERBIAL_PHRASE"):
+                add_span(assignment["span"])
+    distinct = {(t["span"]["start"], t["span"]["end"]): t for t in candidates}
+    return next(iter(distinct.values())) if len(distinct) == 1 else None
 
 
 def adverbial_frames(reader, tokens, *, force, depth):
@@ -74,13 +126,17 @@ def adverbial_frames(reader, tokens, *, force, depth):
                 assigned = reader.assignment(head, reading, role, head=predicate, idhafa=True)
                 claims = deepcopy(base["claims"])
                 claims[0][field].append(qualification)
-                relations = [_relation(role, predicate, head, complement_span=complement["root"]["span"],
+                relations = ([_relation(role, predicate, head, complement_span=complement["root"]["span"],
                     relation_lemma=source["lemma"], dependent_reading_id=reading["reading_id"],
-                    ownership_asserted=False), _relation("idafa", head, complement["root"],
+                    ownership_asserted=False)] if predicate is not None else [])
+                relations += [_relation("idafa", head, complement["root"],
                     complement_span=complement["root"]["span"], ownership_asserted=False)] + complement["relations"]
+                obligations = list(complement["obligations"])
+                if predicate is None:
+                    obligations.append("PREDICATE_ATTACHMENT_HEAD_REQUIRED")
                 results.append(_extend(reader, tokens, base, readings=[reading] + complement["readings"],
                     assignments=[assigned] + complement["assignments"], refs=complement["refs"],
-                    relations=relations, claims=claims, obligations=complement["obligations"],
+                    relations=relations, claims=claims, obligations=obligations,
                     supports=[_support(reader, "temporal_spatial_attachment"), _support(reader, "idafa_chain")] + complement["supports"],
                     frame="predication_with_" + role))
                 _limit(results)

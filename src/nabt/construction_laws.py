@@ -16,15 +16,16 @@ import json
 
 from .errors import NabtError, natural
 
-LAW_ID = "nabt.construction-evidence.v1"
-EXPECTED_TABLE_SHA256 = "7499b2b3d1179d02b4c9a8990ae45a2e60f047cd4ad47b525975fea752f57263"
-SOURCE_POLICY_ID = "nabt.construction-grammar-sources.v1"
+LAW_ID = "nabt.construction-evidence.v2"
+EXPECTED_TABLE_SHA256 = "7cda6fd3736cbd5935bc9a9c3ab0e6510abbacc2f234bd752ab6846ba32e9595"
+SOURCE_POLICY_ID = "nabt.construction-grammar-sources.v2"
 FAMILIES = ("kana", "inna", "zanna", "kada")
 ROLES = ("kana_subject", "kana_predicate", "inna_subject", "inna_predicate",
          "zanna_subject", "zanna_object1", "zanna_object2", "kada_subject", "kada_predicate",
          "idafa_complement", "naat", "hal", "tamyiz", "badal", "tawkeed", "time_adverb", "place_adverb")
 COMPATIBILITIES = ("possible", "confirmed", "conflict")
 AGREEMENT_AXES = ("case", "definiteness", "gender", "number")
+PREDICATE_AGREEMENT_AXES = ("gender", "number")
 EVIDENCE_STATES = ("unknown", "affirmed", "denied", "conflict")
 IDAFA_MODES = ("semantic", "verbal")
 AN_HEADS = ("كاد", "كرب", "عسى", "أوشك", "حرى", "اخلولق", "inception")
@@ -60,6 +61,7 @@ def _table():
         for key, expected in (("families", FAMILIES), ("roles", ROLES),
                               ("inherited_cases", (None, 0, 1, 2)),
                               ("compatibilities", COMPATIBILITIES), ("agreement_axes", AGREEMENT_AXES),
+                              ("predicate_agreement_axes", PREDICATE_AGREEMENT_AXES),
                               ("evidence_states", EVIDENCE_STATES), ("idafa_modes", IDAFA_MODES),
                               ("activation_bits", ACTIVATION_BITS), ("identity_relations", IDENTITY_RELATIONS),
                               ("identity_bits", IDENTITY_BITS), ("scopes", SCOPES),
@@ -67,6 +69,7 @@ def _table():
             if table[key] != list(expected):
                 raise ValueError("Construction named domain differs: " + key)
         for key, size in (("operator_rows", 4), ("role_rows", 68), ("agreement_rows", 81),
+                          ("predicate_agreement_rows", 18),
                           ("idafa_rows", 256), ("an_rows", 7), ("activation_rows", 256),
                           ("identity_rows", 16), ("scope_rows", 88)):
             if type(table[key]) is not list or len(table[key]) != size:
@@ -89,6 +92,8 @@ def _indexes():
         "operators": {r["family"]: r["slots"] for r in table["operator_rows"]},
         "roles": {(r["label"], r["inherited_case"]): r["case"] for r in table["role_rows"]},
         "agreement": {tuple(r[key] for key in AGREEMENT_AXES): r["status"] for r in table["agreement_rows"]},
+        "predicate_agreement": {(r["regime_licensed"], r["gender"], r["number"]): r["status"]
+                                for r in table["predicate_agreement_rows"]},
         "idafa": {(r["mode"], r["tanwin"], r["nun"], r["article"], r["article_exception"]): r["status"]
                   for r in table["idafa_rows"]},
         "an": {r["label"]: r for r in table["an_rows"]},
@@ -150,6 +155,21 @@ def agreement_status(*, case="possible", definiteness="possible", gender="possib
     for axis, value in zip(AGREEMENT_AXES, values):
         _label(value, COMPATIBILITIES, axis + "_compatibility")
     return _indexes()["agreement"][values]
+
+
+def predicate_agreement_status(*, regime_licensed=False, gender="possible", number="possible"):
+    """Gender/number compatibility of a source-licensed direct predicate.
+
+    A simple direct adjectival reading, its predication/reference edge and
+    its agreement regime must be acquired separately. An ADJ tag, known
+    gender, derivational origin or shape alone does not license the regime.
+    Unlicensed regimes stay possible, including exceptional or jamid readings.
+    Predicate case and definiteness are deliberately not comparison axes.
+    """
+    _boolean(regime_licensed, "predicate_regime_licensed")
+    _label(gender, COMPATIBILITIES, "predicate_gender_compatibility")
+    _label(number, COMPATIBILITIES, "predicate_number_compatibility")
+    return _indexes()["predicate_agreement"][(regime_licensed, gender, number)]
 
 
 def idafa_head_status(mode, tanwin="unknown", nun="unknown", article="unknown", *, article_exception=False):

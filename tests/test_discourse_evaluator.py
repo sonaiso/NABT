@@ -123,6 +123,113 @@ def answer_example(variable=False):
     return inputs, document, inquiry, answer
 
 
+def typed_answer_for(inputs, document, inquiry):
+    """Authored API receipt, independent of the production answer helper."""
+    rehash(document)
+    rehash(inquiry)
+    clause = document['clauses'][0]
+    analysis = clause['analyses'][0]
+    relation = analysis['relations'][0]
+    query = deepcopy(inquiry['clauses'][0]['analyses'][0]['claims'][0])
+    required = {axis: query['args'][0][axis] for axis in ('gender', 'number')}
+    receipt = {'argument_index': 0, 'variable': '?person', 'entity_id': 'h',
+               'required_profile': required, 'context_sha256': document['context']['sha256'],
+               'source_witnesses': [{'clause_id': clause['clause_id'], 'analysis_id': analysis['analysis_id'],
+                    'head_reading_id': relation['head_reading_id'],
+                    'dependent_reading_id': relation['dependent_reading_id'],
+                    'reference_id': analysis['references'][0]['reference_id']}]}
+    proof = {'claim_id': document['claims'][0]['claim_id'], 'document_report_id': document['report_id'],
+             'question_report_id': inquiry['report_id'], 'bindings': {'?person': 'h'},
+             'source_proofs': deepcopy(document['claims'][0]['proofs']),
+             'predicate_agreement_bindings': [receipt]}
+    answer = {'source_text': inputs['text'], 'question_text': inquiry['source_text'], 'scope': inputs['scope'],
+              'source_id': inputs['source_id'], 'source_sha256': document['source_sha256'],
+              'question_sha256': inquiry['source_sha256'], 'document_report_id': document['report_id'],
+              'question_report_id': inquiry['report_id'], 'context_sha256': document['context']['sha256'],
+              'world_truth': 'NOT_ESTABLISHED', 'kind': 'person', 'status': 'SUPPORTED', 'query': query,
+              'proofs': [proof], 'counterproofs': [],
+              'bindings': [{'values': {'?person': 'h'}, 'status': 'SUPPORTED', 'proofs': [deepcopy(proof)],
+                            'counterproofs': []}]}
+    answer['answer_id'] = evaluation.digest(answer)
+    return answer
+
+
+def typed_answer_example(*, contextual_name=False, gender='masculine'):
+    """Two authored source reports; no gold or production parser is invoked."""
+    inputs, document = example()
+    inputs['context']['entities'][0].update(kind='person', gender=gender, number='singular')
+    analysis = document['clauses'][0]['analyses'][0]
+    analysis['references'][0]['status'] = 'RESOLVED'
+    update_context(inputs, document)
+    head, dependent = [o['readings'][0] for o in document['occurrences']]
+    head['lexical_features'].update(gender=gender, number='singular')
+    dependent['lexical_features'].update(pos='ADJ', gender=gender, number='singular')
+    reference = analysis['references'][0]
+    basis = {'kind': 'selected_lexical_or_grammatical_profile'}
+    if contextual_name:
+        head['lexical_features'].update(gender=None, number=None)
+        head['variant'] = 'declared_grammatical_paradigm'
+        head['segmentation']['licensed'] = True
+        head['support_records'] = [{'kind': 'explicit_context', 'sha256': document['context']['sha256'],
+                                    'field': 'entities.name'}]
+        basis = {'kind': 'explicit_named_person_semantic_profile', 'entity_id': 'h',
+                 'context_sha256': document['context']['sha256'], 'reference_ids': [reference['reference_id']],
+                 'source_fields': ['entities.name', 'entities.kind', 'entities.gender', 'entities.number'],
+                 'lexical_profile_acquired': False}
+    profile = {'gender': gender, 'number': 'singular'}
+    analysis['relations'] = [{'kind': 'predicate_agreement', 'status': 'confirmed', 'regime_licensed': True,
+        'axes': {'gender': 'confirmed', 'number': 'confirmed'},
+        'subject_profile': deepcopy(profile), 'predicate_profile': deepcopy(profile),
+        'predicate_lemma': 'حكيم', 'head_reading_id': 'subject', 'dependent_reading_id': 'predicate',
+        'head_span': head['stem_span'], 'dependent_span': dependent['stem_span'],
+        'subject_role': 'nominal_subject', 'predicate_role': 'nominal_predicate',
+        'subject_reference_ids': [reference['reference_id']], 'subject_gender_basis': basis}]
+    rehash(document)
+    inquiry = deepcopy(document)
+    inquiry['claims'] = []
+    inquiry['source_id'], inquiry['source_text'] = 'question', 'من حكيم'
+    inquiry['source_sha256'] = sha256(inquiry['source_text'].encode()).hexdigest()
+    locations = {(0, 8): (0, 4), (8, 9): (4, 5), (9, 17): (5, 13), (0, 17): (0, 13)}
+    def relocate(value):
+        if type(value) is dict:
+            if {'start', 'end', 'source_sha256', 'source_id'} <= set(value):
+                old = (value['start'], value['end'])
+                # Deepcopy retains shared span objects; visit each only once.
+                if value['source_id'] != 'question':
+                    value['start'], value['end'] = locations[old]
+                    value['source_id'], value['source_sha256'] = 'question', inquiry['source_sha256']
+            for child in value.values():
+                relocate(child)
+        elif type(value) is list:
+            for child in value:
+                relocate(child)
+    relocate(inquiry)
+    inquiry['partition'][0]['surface'] = inquiry['occurrences'][0]['surface'] = 'من'
+    question_head = inquiry['occurrences'][0]['readings'][0]
+    question_head.update(stem_surface='من', construction='built',
+                         lexical_features={'lemma': 'من', 'pos': 'INTG', 'gender': None, 'number': None},
+                         support_records=[{'kind': 'grammar', 'rule': 'wh_subject'}])
+    question_head['segmentation']['parts'][0]['surface'] = 'من'
+    query_analysis = inquiry['clauses'][0]['analyses'][0]
+    query_analysis.update(force='QUESTION', assertion_allowed=False, question_kind='person')
+    inquiry['clauses'][0]['force'] = 'QUESTION'
+    query_analysis['assignments'][0]['surface'] = 'من'
+    query_ref = query_analysis['references'][0]
+    query_ref.update(origin='question_variable', status='VARIABLE', surface='من',
+                     candidate_entity_ids=[], bound_entity_id='?person')
+    query_ref['reference_id'] = evaluation.digest({k: v for k, v in query_ref.items() if k != 'reference_id'})
+    query_analysis['claims'][0]['args'] = [{'kind': 'question_variable', 'name': '?person',
+                                         'gender': gender, 'number': 'singular'}]
+    pending = query_analysis['relations'][0]
+    pending.update(status='pending_substitution', regime_licensed=False, question_variable='?person',
+                   subject_profile={'gender': None, 'number': None},
+                   subject_reference_ids=[query_ref['reference_id']])
+    pending.pop('axes')
+    pending.pop('subject_gender_basis')
+    rehash(inquiry)
+    return inputs, document, inquiry, typed_answer_for(inputs, document, inquiry)
+
+
 def relational_time_example(*, resolved=True):
     """Authored API fixture, not a held-out runtime prediction."""
     inputs, report = example()
@@ -429,6 +536,165 @@ class DiscourseReviewTests(unittest.TestCase):
             inputs, document, inquiry, answer = answer_example(variable)
             evaluation.validate_answer(answer, document, inquiry, inputs, inputs['text'])
 
+    def test_typed_question_and_source_receipt_are_correlated(self):
+        for contextual_name in (False, True):
+            inputs, document, inquiry, answer = typed_answer_example(contextual_name=contextual_name)
+            evaluation.validate_report(document, inputs)
+            question_inputs = {**inputs, 'text': inquiry['source_text'], 'source_id': 'question'}
+            evaluation.validate_report(inquiry, question_inputs)
+            evaluation.validate_answer(answer, document, inquiry, inputs, inquiry['source_text'])
+            if contextual_name:
+                source = document['occurrences'][0]['readings'][0]['lexical_features']
+                self.assertIsNone(source['gender'])
+                self.assertIsNone(source['number'])
+
+    def test_typed_argument_schema_preserves_both_constraints(self):
+        _, _, _, answer = typed_answer_example()
+        query = answer['query']
+        different = deepcopy(query)
+        different['args'][0]['gender'] = 'feminine'
+        self.assertNotEqual(evaluation.claim_key(query), evaluation.claim_key(different))
+        for change in ({'number': 'plural'}, {'gender': 'unknown'}, {'name': '?object'},
+                       {'kind': 'entity'}, {'extra': True}, {'number': 1}):
+            broken = deepcopy(query)
+            broken['args'][0].update(change)
+            with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'argument representation'):
+                evaluation.claim_view(broken)
+        broken = {**deepcopy(query), 'predicate_kind': 'event'}
+        with self.assertRaisesRegex(ValueError, 'single-subject property domain'):
+            evaluation.claim_view(broken)
+
+    def test_typed_instantiation_requires_known_person_traits_and_keeps_qualifiers(self):
+        inputs, _, _, answer = typed_answer_example()
+        query = {**deepcopy(answer['query']), 'tense': 'past', 'time': ['أمس'],
+                 'place': ['p'], 'restriction': ['only']}
+        entity = inputs['context']['entities'][0]
+        bound = evaluation.instantiate(query, {'?person': 'h'}, entities={'h': entity})
+        self.assertEqual(bound, {**query, 'args': ['h']})
+        for change in ({'gender': 'unknown'}, {'gender': 'feminine'}, {'number': 'unknown'},
+                       {'number': 'dual'}, {'kind': 'thing'}):
+            with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'explicit matching person traits'):
+                evaluation.instantiate(query, {'?person': 'h'}, entities={'h': {**entity, **change}})
+        with self.assertRaisesRegex(ValueError, 'explicit matching person traits'):
+            evaluation.instantiate(query, {'?person': 'h'})
+
+    def test_typed_question_requires_its_own_pending_adjective_edge(self):
+        for mutation in ('pos', 'gender', 'status', 'reference', 'span', 'subject_profile', 'force'):
+            inputs, _, inquiry, _ = typed_answer_example()
+            analysis = inquiry['clauses'][0]['analyses'][0]
+            relation = analysis['relations'][0]
+            if mutation == 'pos':
+                inquiry['occurrences'][1]['readings'][0]['lexical_features']['pos'] = 'N'
+            elif mutation == 'gender':
+                relation['predicate_profile']['gender'] = 'feminine'
+            elif mutation == 'status':
+                relation['status'] = 'confirmed'
+            elif mutation == 'reference':
+                relation['subject_reference_ids'] = ['unrelated']
+            elif mutation == 'span':
+                relation['dependent_span'] = relation['head_span']
+            elif mutation == 'subject_profile':
+                relation['subject_profile']['gender'] = 'masculine'
+            else:
+                analysis['force'] = 'ASSERT'
+            rehash(inquiry)
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'Claim argument'):
+                evaluation.validate_report(inquiry, {**inputs, 'text': inquiry['source_text'], 'source_id': 'question'})
+
+    def test_typed_query_variable_cannot_become_a_grounded_claim(self):
+        inputs, _, inquiry, _ = typed_answer_example()
+        analysis = inquiry['clauses'][0]['analyses'][0]
+        inquiry['claims'] = [{**deepcopy(analysis['claims'][0]), 'claim_id': 'unbound', 'proofs': []}]
+        rehash(inquiry)
+        with self.assertRaisesRegex(ValueError, 'Grounded claim'):
+            evaluation.validate_report(inquiry, {**inputs, 'text': inquiry['source_text'], 'source_id': 'question'})
+
+    def test_typed_answer_requires_complete_exact_binding_receipt(self):
+        for mutation in ('missing', 'argument', 'context', 'profile', 'reference', 'duplicate', 'extra'):
+            inputs, document, inquiry, answer = typed_answer_example()
+            proof = answer['proofs'][0]
+            receipt = proof['predicate_agreement_bindings'][0]
+            if mutation == 'missing':
+                del proof['predicate_agreement_bindings']
+            elif mutation == 'argument':
+                receipt['argument_index'] = False
+            elif mutation == 'context':
+                receipt['context_sha256'] = '0' * 64
+            elif mutation == 'profile':
+                receipt['required_profile']['gender'] = 'feminine'
+            elif mutation == 'reference':
+                receipt['source_witnesses'][0]['reference_id'] = 'foreign'
+            elif mutation == 'duplicate':
+                receipt['source_witnesses'].append(deepcopy(receipt['source_witnesses'][0]))
+            else:
+                receipt['source_witnesses'][0]['extra'] = True
+            answer['answer_id'] = evaluation.digest({k: v for k, v in answer.items() if k != 'answer_id'})
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'Typed'):
+                evaluation.validate_answer(answer, document, inquiry, inputs, inquiry['source_text'])
+
+    def test_typed_source_witness_cannot_borrow_a_noun_or_different_edge(self):
+        for mutation in ('pos', 'profile', 'lemma', 'head', 'governor', 'reference', 'activation', 'force'):
+            inputs, document, inquiry, _ = typed_answer_example()
+            analysis = document['clauses'][0]['analyses'][0]
+            relation = analysis['relations'][0]
+            if mutation == 'pos':
+                document['occurrences'][1]['readings'][0]['lexical_features']['pos'] = 'N'
+            elif mutation == 'profile':
+                relation['predicate_profile']['number'] = 'plural'
+            elif mutation == 'lemma':
+                relation['predicate_lemma'] = 'آخر'
+            elif mutation == 'head':
+                relation['head_span'] = relation['dependent_span']
+            elif mutation == 'governor':
+                analysis['assignments'][1]['head_span'] = relation['dependent_span']
+            elif mutation == 'reference':
+                relation['subject_reference_ids'] = ['foreign']
+            elif mutation == 'activation':
+                analysis['assignments'][1]['activated'] = False
+            else:
+                analysis['force'] = 'WISH'
+            answer = typed_answer_for(inputs, document, inquiry)
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'same-claim ADJ edge'):
+                evaluation.validate_answer(answer, document, inquiry, inputs, inquiry['source_text'])
+
+    def test_context_profile_cannot_fill_an_acquired_unknown_noun(self):
+        for pos in ('N', 'PN'):
+            inputs, document, inquiry, _ = typed_answer_example(contextual_name=True)
+            head = document['occurrences'][0]['readings'][0]
+            head['lexical_features']['pos'] = pos
+            head['support_records'] = [{'kind': 'authored_lexical_source'}]
+            answer = typed_answer_for(inputs, document, inquiry)
+            with self.subTest(pos=pos), self.assertRaisesRegex(ValueError, 'explicit subject premise'):
+                evaluation.validate_answer(answer, document, inquiry, inputs, inquiry['source_text'])
+
+    def test_typed_receipt_cannot_cross_claim_qualification_or_scope(self):
+        for change in ({'time': ['أمس']}, {'place': ['p']}, {'restriction': ['only']},
+                       {'positive': False}, {'tense': 'past'}, {'predicate': 'آخر'}):
+            inputs, document, inquiry, _ = typed_answer_example()
+            analysis = document['clauses'][0]['analyses'][0]
+            other = {**deepcopy(analysis['claims'][0]), **change}
+            analysis['claims'].append(other)
+            answer = typed_answer_for(inputs, document, inquiry)
+            with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'same-claim ADJ edge'):
+                evaluation.validate_answer(answer, document, inquiry, inputs, inquiry['source_text'])
+
+    def test_an_equal_duplicate_claim_does_not_duplicate_a_binding_witness(self):
+        inputs, document, inquiry, _ = typed_answer_example()
+        analysis = document['clauses'][0]['analyses'][0]
+        analysis['claims'].append(deepcopy(analysis['claims'][0]))
+        analysis['relations'].append(deepcopy(analysis['relations'][0]))
+        answer = typed_answer_for(inputs, document, inquiry)
+        evaluation.validate_answer(answer, document, inquiry, inputs, inquiry['source_text'])
+        witnesses = answer['proofs'][0]['predicate_agreement_bindings'][0]['source_witnesses']
+        self.assertEqual(len(witnesses), 1)
+
+    def test_untyped_historical_query_cannot_claim_a_typed_receipt(self):
+        inputs, document, inquiry, answer = answer_example(True)
+        answer['proofs'][0]['predicate_agreement_bindings'] = []
+        answer['answer_id'] = evaluation.digest({k: v for k, v in answer.items() if k != 'answer_id'})
+        with self.assertRaisesRegex(ValueError, 'Untyped query'):
+            evaluation.validate_answer(answer, document, inquiry, inputs, inputs['text'])
+
     def test_answer_kind_cannot_change_original_question(self):
         inputs, document, inquiry, answer = answer_example()
         answer['kind'] = 'person'
@@ -620,6 +886,60 @@ class DiscourseReviewTests(unittest.TestCase):
             altered = deepcopy(result)
             altered[key] = value
             self.assertFalse(evaluation.gate_decision(altered, True)['gate_pass'])
+
+    def test_v4_boundary_has_its_own_exact_failure_signatures_and_keeps_history(self):
+        cases = [{'id': c['id'], 'passed': True, 'failures': [], 'false_accepts': []}
+                 for c in evaluation.load_material()[1]['cases']]
+        p16 = next(c for c in cases if c['id'] == 'DSC-P16')
+        p26 = next(c for c in cases if c['id'] == 'DSC-P26')
+        p16.update(passed=False, failures=[{'check': 'question:0', 'details': {
+            'actual': [], 'expected': ['h', 's'], 'status': 'DEFER'}}])
+        p26.update(passed=False, failures=[{'check': 'required_claim:0'},
+            {'check': 'question:0', 'details': {'actual': 'DEFER', 'expected': 'SUPPORTED'}},
+            {'check': 'reading:0', 'details': {'occurrence_index': 0, 'role': 'idafa_complement',
+                                             'span': [13, 27], 'surface': 'حَازِمٍ'}}])
+        result = {'cases': cases, 'total': 86, 'strict_pass': False, 'false_accept_count': 0,
+                  'execution_errors': [], 'question_execution_errors': [],
+                  'measurement_valid': True, 'raw_log': {'valid': True},
+                  'snapshot': {'runtime_freeze_sha256': evaluation.CONSTRUCTION_V4_BOUNDARY_RUNTIME}}
+        self.assertNotIn('DSC-P16', evaluation.CONSTRUCTION_BOUNDARIES)
+        self.assertNotIn('reading:0', evaluation.CONSTRUCTION_BOUNDARIES['DSC-P26'])
+        self.assertFalse(evaluation.gate_decision(result)['gate_pass'])
+        permitted = evaluation.gate_decision(result, True)
+        self.assertTrue(permitted['gate_pass'])
+        self.assertEqual(permitted['boundary_policy_revision'], 'constructions_v4')
+        self.assertFalse(permitted['coverage_complete'])
+        self.assertFalse(result['strict_pass'])
+        for old_pin in (evaluation.CONSTRUCTION_BOUNDARY_RUNTIME, evaluation.DOCUMENTED_BOUNDARY_RUNTIME,
+                        '23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611'):
+            changed = deepcopy(result)
+            changed['snapshot']['runtime_freeze_sha256'] = old_pin
+            self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'])
+        for target, index, field, value in (
+                ('DSC-P16', 0, 'actual', ['h']), ('DSC-P16', 0, 'status', 'UNKNOWN'),
+                ('DSC-P16', 0, 'expected', ['h']), ('DSC-P16', 0, 'extra', True),
+                ('DSC-P26', 2, 'role', 'nominal_subject'), ('DSC-P26', 2, 'span', [12, 27]),
+                ('DSC-P26', 2, 'surface', 'آخر'), ('DSC-P26', 1, 'actual', 'REFUTED')):
+            changed = deepcopy(result)
+            case = next(c for c in changed['cases'] if c['id'] == target)
+            case['failures'][index]['details'][field] = value
+            with self.subTest(target=target, field=field, value=value):
+                self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'])
+        for target in ('DSC-P16', 'DSC-P26'):
+            for check in ('reading:1', 'question:1', 'report_integrity', 'question_integrity:0',
+                          'original_report_replay', 'answer_replay:0', 'forbidden_claim:0'):
+                changed = deepcopy(result)
+                case = next(c for c in changed['cases'] if c['id'] == target)
+                case['failures'].append({'check': check})
+                with self.subTest(target=target, check=check):
+                    self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'])
+        for key, value in (('false_accept_count', 1), ('execution_errors', [{'type': 'ValueError'}]),
+                           ('question_execution_errors', [{'type': 'ValueError'}]),
+                           ('measurement_valid', False), ('raw_log', {'valid': False}), ('raw_log', {})):
+            changed = deepcopy(result)
+            changed[key] = value
+            with self.subTest(key=key):
+                self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'])
 
 
 if __name__ == '__main__':

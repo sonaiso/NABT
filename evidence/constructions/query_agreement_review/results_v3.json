@@ -1,0 +1,644 @@
+{
+  "schema": "nabt.constructions.query-agreement-review-result.v1",
+  "utc": "2026-10-23T20:45:14.412479+00:00",
+  "runtime_selection": "constructions_v3",
+  "runtime_manifest_sha256": "23d04d307c3e560c8198ee0700923673af001a8835d8e00d6c11d79534e6d611",
+  "runtime_snapshot_sha256": "2c1b6b30e22b5322046109b461f850974e356736f2aedb06c4911be82375188f",
+  "runtime_files_checked_before_after": 74,
+  "runtime_root": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3",
+  "module_origins": {
+    "nabt.errors": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/errors.py",
+    "nabt.alphabet": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/alphabet.py",
+    "nabt.codec": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/codec.py",
+    "nabt.machine": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/machine.py",
+    "nabt.certificates": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/certificates.py",
+    "nabt": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/__init__.py",
+    "nabt.corpus_evidence": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/corpus_evidence.py",
+    "nabt.discourse_laws": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/discourse_laws.py",
+    "nabt.discourse_context": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/discourse_context.py",
+    "nabt.corpus_sources": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/corpus_sources.py",
+    "nabt.discourse_adverbs": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/discourse_adverbs.py",
+    "nabt.words": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/words.py",
+    "nabt.inflection": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/inflection.py",
+    "nabt.learning.finite_guard": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/learning/finite_guard.py",
+    "nabt.learning.source_evidence": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/learning/source_evidence.py",
+    "nabt.learning.arabic_six_nouns": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/learning/arabic_six_nouns.py",
+    "nabt.learning": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/learning/__init__.py",
+    "nabt.text_ir": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/text_ir.py",
+    "nabt.word_reader": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/word_reader.py",
+    "nabt.derivation": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/derivation.py",
+    "nabt.obligations": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/obligations.py",
+    "nabt.morphology": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/morphology.py",
+    "nabt.morphology_reader": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/morphology_reader.py",
+    "nabt.text_evidence": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/text_evidence.py",
+    "nabt.text_morphology": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/text_morphology.py",
+    "nabt.nominal": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/nominal.py",
+    "nabt.inflection_reader": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/inflection_reader.py",
+    "nabt.construction_sources": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/construction_sources.py",
+    "nabt.construction_laws": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/construction_laws.py",
+    "nabt.discourse_reader": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/discourse_reader.py",
+    "nabt.discourse": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/discourse.py",
+    "nabt.construction_reader": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/construction_reader.py",
+    "nabt.person_evidence": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/person_evidence.py",
+    "nabt.construction_nominals": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/construction_nominals.py",
+    "nabt.construction_complements": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/construction_complements.py",
+    "nabt.governors": "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-review-v3/runtime-v3/src/nabt/governors.py"
+  },
+  "material_freeze_sha256": "395f365e0773a0b2530fae9c1bba7f4e1c109b6827c1f175d592700507f287f0",
+  "adapter_sha256": "40e588b288f9a9429a7e5b7706cecd306793aa41d75d3f21492b88d27e687102",
+  "argv": [
+    "evidence/constructions/query_agreement_review/run_review.py",
+    "--runtime-root",
+    "artifacts/local/construction-review-v3/runtime-v3",
+    "--runtime-freeze",
+    "evidence/constructions/code_freeze_v3.json",
+    "--output-prefix",
+    "evidence/constructions/query_agreement_review/results_v3"
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "passed": 2,
+  "total": 11,
+  "cases": [
+    {
+      "id": "WHR01",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": false,
+        "bound_person_ids": false,
+        "proof_presence": false,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "15f1a0e35cd5b0cca232a5c02d90d4877915a2155d6df6df3649795d24791dee",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR02",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": false,
+        "bound_person_ids": false,
+        "proof_presence": false,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "644415ef6b7cd70bf960bab138a400a355898e31567bc3695bb3b80dfc7ba506",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR03",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": false,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "b063bbf230e8079b9cd0a1140d554518423afc240c08741f6415480631a9e62e",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR04",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": false,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "2d5a6b97e7ed22bb7f528ab1c0b1d0f7f7dd30e3bbd7a6f6f3c91aaa8e73947e",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR05",
+      "passed": true,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": true,
+        "answer_status": true,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "9e0a62848bb2244af118e98eedbdac4d85788b2c8a9f4980b297eaac759673c6",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR06",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": true,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "fe490be3f84b632e495753c350d3cabbbb0d18c1af45bf97d48131d45e27668e",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR07",
+      "passed": true,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": true,
+        "answer_status": true,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "944763669a72dbb449aacf22abcf5ebea2f012bb1b1ccf3da95bc9eeb3749ccf",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR08",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": false,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "LICENSED_DISCOURSE",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "a3de0a85cc3009e82bf940a79a99965acce2afe29179a7d96f0e6ba680df7e6f",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR09",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": true,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "DEFER",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "0ea99c502dc9b784343d1e2e287259a7375b01d47373d5f883b6ec2ab7498545",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR10",
+      "passed": false,
+      "checks": {
+        "document_status": false,
+        "inquiry_status": false,
+        "answer_status": false,
+        "bound_person_ids": false,
+        "proof_presence": false,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "DEFER",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "175900fddd4a684c84eed82b1c79a4b5f99da596ca4cdb309f2a44181d4f3532",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    },
+    {
+      "id": "WHR11",
+      "passed": false,
+      "checks": {
+        "document_status": true,
+        "inquiry_status": false,
+        "answer_status": true,
+        "bound_person_ids": true,
+        "proof_presence": true,
+        "no_counterproofs": true,
+        "question_not_asserted": true,
+        "intg_profile_preserved": true,
+        "document_claims_remain_concrete": true,
+        "source_identity": true,
+        "proof_correlated": true,
+        "same_source_replay": true,
+        "source_withdrawal": true,
+        "context_withdrawal": true,
+        "changed_source_bytes": true
+      },
+      "document_status": "DEFER",
+      "inquiry_status": "DEFER",
+      "answer_status": "DEFER",
+      "bound_person_ids": [],
+      "proof_count": 0,
+      "counterproof_count": 0,
+      "question_claim_count": 0,
+      "intg_readings": 1,
+      "replay": {
+        "same": {
+          "valid": true,
+          "status": "VERIFIED",
+          "answer_id": "e026848423f5e2fde86249759d5ef92889ca44ba61cf760343d4702764769533",
+          "authority": "COMPLETE_SOURCE_CONTEXT_AND_QUESTION_REPLAY_ONLY"
+        },
+        "no_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "no_context": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        },
+        "changed_source": {
+          "valid": false,
+          "status": "REJECT",
+          "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"
+        }
+      }
+    }
+  ],
+  "raw_log": {
+    "path": "results_v3.raw.jsonl.gz",
+    "bytes": 89520,
+    "sha256": "7dcfbe0b85e4aa81d3e889bbf0d800bc2ad6a689a16d498b7f466422bbf9bf7f",
+    "records": 11,
+    "uncompressed_sha256": "3400c78198e329a14a1d90f7ec6a6e9b394b40f8788ee8967bdc4a12e41363b7"
+  },
+  "scope": "Eleven authored checks of an explicitly restricted singular person/adjective query language. This does not assert a universal Arabic rule that interrogative man or its masculine predicate fixes the gender of every possible answer."
+}

@@ -10,13 +10,13 @@ import json
 
 from .errors import NabtError
 
-POLICY_ID = "nabt.construction-grammar-sources.v1"
-EXPECTED_POLICY_SHA256 = "51cd562baefd50a3de493fb88cb39f5b9442c648acdeedd02cdd3a75de378bb4"
+POLICY_ID = "nabt.construction-grammar-sources.v2"
+EXPECTED_POLICY_SHA256 = "d1c3a775f30d503bd1d43f7e570808c6b1c1ca554ca36b2a94302a3fbc8146ed"
 RULES = ("kana_sisters", "inna_sisters", "zanna_sisters", "kada_complement",
          "tense_aspect", "naat_agreement", "hal_attachment", "tamyiz_measure",
          "tamyiz_nisba", "badal_identity", "tawkeed_reference", "idafa_chain",
          "temporal_spatial_attachment", "counted_tens_forms", "counted_tens_specification",
-         "counted_tens_paradigm", "attested_accusative_alif")
+         "counted_tens_paradigm", "attested_accusative_alif", "predicate_adjectival_agreement")
 
 
 def _unique(pairs):

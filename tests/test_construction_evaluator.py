@@ -165,6 +165,74 @@ class ConstructionEvaluatorTests(unittest.TestCase):
         result=partial_gate_example();add_gate_failure(result,'CON-Z02','role:99')
         self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'])
 
+    def test_v3_uses_its_separately_reviewed_policy_and_preserves_strict_failure(self):
+        result=partial_gate_example()
+        result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V3_SHA256
+        self.assertFalse(evaluation.gate_decision(result)['gate_pass'])
+        gate=evaluation.gate_decision(result,True)
+        self.assertTrue(gate['gate_pass'])
+        self.assertFalse(result['strict_pass'])
+        self.assertEqual(gate['gate_mode'],'documented_partial_coverage_v2')
+        self.assertEqual(gate['documented_boundary_runtime_sha256'],evaluation.BOUNDARY_RUNTIME_V3_SHA256)
+        self.assertIsNot(evaluation.DOCUMENTED_FAILURES_V3,evaluation.DOCUMENTED_FAILURES)
+        self.assertEqual(evaluation.DOCUMENTED_FAILURES_V3,evaluation.DOCUMENTED_FAILURES)
+
+    def test_v3_policy_cannot_waive_unreviewed_signature_or_failed_certificate(self):
+        for case_id,check in [('CON-K06','claim:0'),('CON-Z02','role:99'),('CON-Z02','report_replay')]:
+            result=partial_gate_example()
+            result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V3_SHA256
+            add_gate_failure(result,case_id,check)
+            self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'],(case_id,check))
+        result=partial_gate_example()
+        result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V3_SHA256
+        add_gate_failure(result,'CON-Z02','question:0',{'certificate':False})
+        self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'])
+
+    def test_v3_policy_cannot_waive_false_accepts_errors_or_incomplete_raw(self):
+        for mutation in ('false_accept','execution','raw','missing_case'):
+            result=partial_gate_example()
+            result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V3_SHA256
+            if mutation=='false_accept':result['false_accept_count']=1
+            elif mutation=='execution':result['execution_errors'].append({'type':'SyntheticFailure'})
+            elif mutation=='raw':result['raw_log']['complete_gzip_verified']=False
+            else:result['cases'].pop()
+            self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'],mutation)
+
+    def test_v4_uses_its_separately_reviewed_policy_and_preserves_strict_failure(self):
+        result=partial_gate_example()
+        result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V4_SHA256
+        self.assertFalse(evaluation.gate_decision(result)['gate_pass'])
+        gate=evaluation.gate_decision(result,True)
+        self.assertTrue(gate['gate_pass'])
+        self.assertFalse(result['strict_pass'])
+        self.assertEqual(gate['gate_mode'],'documented_partial_coverage_v3')
+        self.assertEqual(gate['documented_boundary_runtime_sha256'],evaluation.BOUNDARY_RUNTIME_V4_SHA256)
+        self.assertIsNot(evaluation.DOCUMENTED_FAILURES_V4,evaluation.DOCUMENTED_FAILURES)
+        self.assertEqual(evaluation.DOCUMENTED_FAILURES_V4,evaluation.DOCUMENTED_FAILURES)
+        self.assertIsNot(evaluation.DOCUMENTED_FAILURES_V4,evaluation.DOCUMENTED_FAILURES_V3)
+        self.assertEqual(sum(map(len,evaluation.DOCUMENTED_FAILURES_V4.values())),120)
+
+    def test_v4_policy_cannot_waive_unreviewed_signature_or_failed_certificate(self):
+        for case_id,check in [('CON-K06','claim:0'),('CON-Z02','role:99'),('CON-Z02','report_replay')]:
+            result=partial_gate_example()
+            result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V4_SHA256
+            add_gate_failure(result,case_id,check)
+            self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'],(case_id,check))
+        result=partial_gate_example()
+        result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V4_SHA256
+        add_gate_failure(result,'CON-Z02','question:0',{'certificate':False})
+        self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'])
+
+    def test_v4_policy_cannot_waive_false_accepts_errors_or_incomplete_raw(self):
+        for mutation in ('false_accept','execution','raw','missing_case'):
+            result=partial_gate_example()
+            result['snapshot']['runtime_freeze_sha256']=evaluation.BOUNDARY_RUNTIME_V4_SHA256
+            if mutation=='false_accept':result['false_accept_count']=1
+            elif mutation=='execution':result['execution_errors'].append({'type':'SyntheticFailure'})
+            elif mutation=='raw':result['raw_log']['complete_gzip_verified']=False
+            else:result['cases'].pop()
+            self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'],mutation)
+
     def test_partial_gate_never_waives_kana_repair_or_replay(self):
         for case_id,check in [('CON-K06','claim:0'),('CON-R01','replay_changed_answer'),('CON-Z02','report_replay')]:
             result=partial_gate_example();add_gate_failure(result,case_id,check)

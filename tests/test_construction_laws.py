@@ -43,6 +43,37 @@ class ConstructionLawsTests(unittest.TestCase):
         self.assertEqual(laws.agreement_status(case="conflict", gender="possible"), "conflict")
         self.assertEqual(laws.agreement_status(**confirmed), "confirmed")
 
+    def test_predicate_regime_is_not_created_by_supplied_feature_states(self):
+        self.assertEqual(laws.predicate_agreement_status(), "possible")
+        for g, n in (("confirmed", "confirmed"), ("conflict", "confirmed"),
+                     ("confirmed", "conflict"), ("conflict", "conflict")):
+            self.assertEqual(laws.predicate_agreement_status(gender=g, number=n), "possible")
+        self.assertEqual(laws.predicate_agreement_status(regime_licensed=True,
+                         gender="confirmed", number="confirmed"), "confirmed")
+
+    def test_predicate_unknown_feature_does_not_confirm_or_hide_known_conflict(self):
+        for g, n in (("possible", "confirmed"), ("confirmed", "possible"),
+                     ("possible", "possible")):
+            self.assertEqual(laws.predicate_agreement_status(regime_licensed=True,
+                             gender=g, number=n), "possible")
+        for g, n in (("conflict", "possible"), ("possible", "conflict"),
+                     ("confirmed", "conflict")):
+            self.assertEqual(laws.predicate_agreement_status(regime_licensed=True,
+                             gender=g, number=n), "conflict")
+
+    def test_predicate_agreement_has_no_case_or_definiteness_axis(self):
+        self.assertEqual(laws.installed_registry()["predicate_agreement_axes"], ["gender", "number"])
+        # Kana's subject and predicate deliberately have different cases.
+        self.assertNotEqual(laws.role_case("kana_subject"), laws.role_case("kana_predicate"))
+        self.assertEqual(laws.predicate_agreement_status(regime_licensed=True,
+                         gender="confirmed", number="confirmed"), "confirmed")
+        for axis in ("case", "definiteness"):
+            with self.assertRaises(TypeError):
+                laws.predicate_agreement_status(**{axis: "confirmed"})
+        for field in ("gender", "number"):
+            with self.assertRaises(NabtError):
+                laws.predicate_agreement_status(**{field: True})
+
     def test_hal_tamyiz_case_does_not_identify_construction(self):
         self.assertEqual(laws.role_case("hal"), laws.role_case("tamyiz"))
         self.assertIn("hal", laws.installed_registry()["roles"])
@@ -103,6 +134,7 @@ class ConstructionLawsTests(unittest.TestCase):
                              lambda: laws.complement_an_allowed("كاد", invalid),
                              lambda: laws.identity_preservation_allowed("tawkeed", identity_licensed=invalid),
                              lambda: laws.scoped_projection_allowed("belief", frame_complete=invalid),
+                             lambda: laws.predicate_agreement_status(regime_licensed=invalid),
                              lambda: laws.idafa_head_status("verbal", article_exception=invalid)):
                     with self.assertRaises(NabtError):
                         call()
@@ -122,7 +154,7 @@ class ConstructionLawsTests(unittest.TestCase):
         laws._indexes.cache_clear()
         try:
             with patch.object(laws, "files") as mocked:
-                mocked.return_value.joinpath.return_value.read_bytes.return_value = b'{"law_id":"nabt.construction-evidence.v1"}'
+                mocked.return_value.joinpath.return_value.read_bytes.return_value = b'{"law_id":"nabt.construction-evidence.v2"}'
                 with self.assertRaises(NabtError) as raised:
                     laws.installed_registry()
                 self.assertEqual(raised.exception.code, "INSTALLED_CONTRACT_FAILED")
