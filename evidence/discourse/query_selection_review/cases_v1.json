@@ -1,0 +1,14 @@
+{
+  "schema": "nabt.discourse-query-selection-authored-review.v1",
+  "authorship": "Post-Copilot targeted regression authored independently of the frozen discourse gold. A manual end-to-end reproduction preceded this material freeze. No natural-corpus or fresh-holdout claim is made.",
+  "text": "هِنْدٌ حَكِيمَةٌ.",
+  "expected": {"status": "SUPPORTED", "kind": "polar", "args": ["hind"]},
+  "cases": [
+    {"id": "QUERY-01", "mode": "end_to_end", "question": "هل أنت حكيمة؟", "rejected_required": true},
+    {"id": "QUERY-02", "mode": "end_to_end", "question": "هل أَنْتِ حَكِيمَةٌ؟", "rejected_required": false},
+    {"id": "QUERY-03", "mode": "consumer_contract", "question": "هل أنت حكيمة؟", "order": "rejected_first", "rejected_claim_count": 1, "rejected_required": true},
+    {"id": "QUERY-04", "mode": "consumer_contract", "question": "هل أنت حكيمة؟", "order": "eligible_first", "rejected_claim_count": 1, "rejected_required": true},
+    {"id": "QUERY-05", "mode": "consumer_contract", "question": "هل أنت حكيمة؟", "order": "rejected_first", "rejected_claim_count": 0, "rejected_required": true},
+    {"id": "QUERY-06", "mode": "consumer_contract", "question": "هل أنت حكيمة؟", "order": "rejected_first", "rejected_claim_count": 2, "rejected_required": true}
+  ]
+}

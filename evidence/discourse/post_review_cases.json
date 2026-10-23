@@ -1,0 +1,388 @@
+{
+  "schema": "nabt.discourse-post-review-cases.v1",
+  "created_at": "2026-10-23T16:35:24Z",
+  "authorship": "source-audit agent; authored after adversarial source/code review; not blind or natural-corpus gold",
+  "scope": "Six reported defects and one independently reviewed orthographic boundary; no broader search or linguistic coverage claim",
+  "frozen_case_count": 26,
+  "cases": [
+    {
+      "id": "question_mark",
+      "risk": "question_force",
+      "api": "read",
+      "context": "base",
+      "text": "زَيْدٌ عَالِمٌ؟",
+      "rationale": "A written question marker must not become an asserted proposition.",
+      "expect": {
+        "statuses": [
+          "DEFER",
+          "LICENSED_DISCOURSE"
+        ],
+        "no_claims": true,
+        "nonassertive": true
+      }
+    },
+    {
+      "id": "question_explicit_control",
+      "risk": "question_force",
+      "api": "read",
+      "context": "base",
+      "text": "هَلْ زَيْدٌ عَالِمٌ؟",
+      "rationale": "An explicitly licensed polar question remains nonassertive.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "no_claims": true,
+        "nonassertive": true
+      }
+    },
+    {
+      "id": "question_assertive_control",
+      "risk": "question_force",
+      "api": "read",
+      "context": "base",
+      "text": "زَيْدٌ عَالِمٌ.",
+      "rationale": "The same nominal clause with assertive punctuation remains readable.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "relative_hollow_jussive",
+      "risk": "relative_mood",
+      "api": "read",
+      "context": "base",
+      "text": "زَيْدٌ الَّذِي يَقُلْ عَالِمٌ.",
+      "rationale": "An ungoverned relative-clause imperfect cannot use this visibly jussive form.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "relative_sound_jussive",
+      "risk": "relative_mood",
+      "api": "read",
+      "context": "base",
+      "text": "زَيْدٌ الَّذِي يَكْتُبْ عَالِمٌ.",
+      "rationale": "An ungoverned relative-clause imperfect cannot use this visibly jussive form.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "relative_hollow_indicative_control",
+      "risk": "relative_mood",
+      "api": "read",
+      "context": "base",
+      "text": "زَيْدٌ الَّذِي يَقُولُ عَالِمٌ.",
+      "rationale": "The corresponding indicative relative-clause verb has a valid control.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "relative_sound_indicative_control",
+      "risk": "relative_mood",
+      "api": "read",
+      "context": "base",
+      "text": "زَيْدٌ الَّذِي يَكْتُبُ عَالِمٌ.",
+      "rationale": "The corresponding indicative relative-clause verb has a valid control.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "time_indefinite_not_today",
+      "risk": "temporal_qualification",
+      "api": "ask",
+      "context": "base",
+      "text": "كَتَبَ زَيْدٌ يَوْمًا.",
+      "question": "هَلْ كَتَبَ زَيْدٌ الْيَوْمَ؟",
+      "rationale": "The lemma shared by an indefinite day and today must not erase their qualification difference.",
+      "expect": {
+        "statuses": [
+          "UNKNOWN",
+          "DEFER"
+        ],
+        "no_support": true
+      }
+    },
+    {
+      "id": "time_indefinite_control",
+      "risk": "temporal_qualification",
+      "api": "ask",
+      "context": "base",
+      "text": "كَتَبَ زَيْدٌ يَوْمًا.",
+      "question": "هَلْ كَتَبَ زَيْدٌ يَوْمًا؟",
+      "rationale": "An exactly repeated indefinite time qualification can support the same qualified question.",
+      "expect": {
+        "statuses": [
+          "SUPPORTED"
+        ],
+        "support": true
+      }
+    },
+    {
+      "id": "time_today_control",
+      "risk": "temporal_qualification",
+      "api": "ask",
+      "context": "base",
+      "text": "كَتَبَ زَيْدٌ الْيَوْمَ.",
+      "question": "هَلْ كَتَبَ زَيْدٌ الْيَوْمَ؟",
+      "rationale": "An exactly repeated definite time qualification can support the same qualified question.",
+      "expect": {
+        "statuses": [
+          "SUPPORTED"
+        ],
+        "support": true
+      }
+    },
+    {
+      "id": "agreement_vso_conflict",
+      "risk": "source_feature_agreement",
+      "api": "read",
+      "context": "unknown_zayd_gender",
+      "text": "تَكْتُبُ زَيْدٌ.",
+      "rationale": "A conflicting grammatical gender cannot be accepted merely because the separate context gender is unknown.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "agreement_svo_conflict",
+      "risk": "source_feature_agreement",
+      "api": "read",
+      "context": "unknown_zayd_gender",
+      "text": "زَيْدٌ تَكْتُبُ.",
+      "rationale": "A conflicting grammatical gender cannot be accepted merely because the separate context gender is unknown.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "agreement_vso_control",
+      "risk": "source_feature_agreement",
+      "api": "read",
+      "context": "unknown_zayd_gender",
+      "text": "يَكْتُبُ زَيْدٌ.",
+      "rationale": "Unknown context gender cannot erase the independently supplied masculine lexical reading of Zayd; keep a matching control.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "agreement_svo_control",
+      "risk": "source_feature_agreement",
+      "api": "read",
+      "context": "unknown_zayd_gender",
+      "text": "زَيْدٌ يَكْتُبُ.",
+      "rationale": "Unknown context gender cannot erase the independently supplied masculine lexical reading of Zayd; keep a matching control.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "agreement_relative_conflict",
+      "risk": "source_feature_agreement",
+      "api": "read",
+      "context": "unknown_zayd_gender",
+      "text": "زَيْدٌ الَّتِي يَكْتُبُ عَالِمٌ.",
+      "rationale": "A conflicting grammatical gender cannot be accepted merely because the separate context gender is unknown.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "agreement_relative_control",
+      "risk": "source_feature_agreement",
+      "api": "read",
+      "context": "unknown_zayd_gender",
+      "text": "زَيْدٌ الَّذِي يَكْتُبُ عَالِمٌ.",
+      "rationale": "Unknown context gender cannot erase the independently supplied masculine lexical reading of Zayd; keep a matching control.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "future_perfect_conflict",
+      "risk": "future_host",
+      "api": "read",
+      "context": "base",
+      "text": "سَوْفَ كَتَبَ زَيْدٌ.",
+      "rationale": "Sawfa requires an imperfect host, not a perfect relabeled as future.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "future_imperfect_control",
+      "risk": "future_host",
+      "api": "read",
+      "context": "base",
+      "text": "سَوْفَ يَكْتُبُ زَيْدٌ.",
+      "rationale": "Sawfa with its qualified imperfect host retains future qualification.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1,
+        "claim_tense": "future"
+      }
+    },
+    {
+      "id": "cli_read_source_budget",
+      "risk": "cli_budget_order",
+      "api": "cli",
+      "scenario": "oversized_source",
+      "command": "read-discourse",
+      "rationale": "A request already outside a local report/context/text budget must be bounded and rejected before optional corpus reading or compilation.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "exit_code": 3,
+        "resource_before_corpus": true
+      }
+    },
+    {
+      "id": "cli_verify_source_budget",
+      "risk": "cli_budget_order",
+      "api": "cli",
+      "scenario": "oversized_source",
+      "command": "verify-discourse",
+      "rationale": "A request already outside a local report/context/text budget must be bounded and rejected before optional corpus reading or compilation.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "exit_code": 3,
+        "resource_before_corpus": true
+      }
+    },
+    {
+      "id": "cli_report_budget",
+      "risk": "cli_budget_order",
+      "api": "cli",
+      "scenario": "oversized_report",
+      "command": "verify-discourse",
+      "rationale": "A request already outside a local report/context/text budget must be bounded and rejected before optional corpus reading or compilation.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "exit_code": 3,
+        "resource_before_corpus": true
+      }
+    },
+    {
+      "id": "cli_context_budget",
+      "risk": "cli_budget_order",
+      "api": "cli",
+      "scenario": "oversized_context",
+      "command": "read-discourse",
+      "rationale": "A request already outside a local report/context/text budget must be bounded and rejected before optional corpus reading or compilation.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "exit_code": 3,
+        "resource_before_corpus": true
+      }
+    },
+    {
+      "id": "cli_valid_read_control",
+      "risk": "cli_budget_order",
+      "api": "cli",
+      "scenario": "valid_read",
+      "command": "read-discourse",
+      "rationale": "Budget guards must preserve a small source-backed successful CLI read.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "exit_code": 0,
+        "minimum_claims": 1
+      }
+    },
+    {
+      "id": "accusative_missing_alif",
+      "risk": "accusative_orthography",
+      "api": "read",
+      "context": "base",
+      "text": "كان زيد عالم.",
+      "rationale": "A known indefinite triptote predicate cannot be licensed accusative by silently inserting the missing written alif.",
+      "expect": {
+        "statuses": [
+          "DEFER"
+        ],
+        "no_claims": true
+      }
+    },
+    {
+      "id": "accusative_explicit_alif_boundary",
+      "risk": "accusative_orthography",
+      "api": "read",
+      "context": "base",
+      "text": "كان زيد عالمًا.",
+      "rationale": "Explicit accusative spelling may be supported after a declared implementation; a documented coverage deferral is also allowed.",
+      "expect": {
+        "statuses": [
+          "DEFER",
+          "LICENSED_DISCOURSE"
+        ],
+        "claims_if_licensed": true,
+        "claim_tense": "past"
+      }
+    },
+    {
+      "id": "accusative_nominative_control",
+      "risk": "accusative_orthography",
+      "api": "read",
+      "context": "base",
+      "text": "زيد عالم.",
+      "rationale": "The orthography guard does not forbid an otherwise licensed unvocalized nominative nominal clause.",
+      "expect": {
+        "statuses": [
+          "LICENSED_DISCOURSE"
+        ],
+        "minimum_claims": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "changes_since_role_hardened_adapter": [
+    "Approve runtime freeze v3 and default to it.",
+    "Independently validate the source_prefix_complete receipt against earlier DEFER clauses; MENTION does not poison the prefix; direct context identities remain independent.",
+    "Add explicit opt-in gate for29 observed coverage case/check signatures, with no false acceptance, source/replay/structural-integrity or exception waiver. Default remains strict; output retains strict_pass and coverage_complete separately from gate_pass."
+  ],
+  "comparison_scope": "Identical final evaluator/test bytes across three approved runtime snapshots; v2/v3 are post-review regressions on unchanged frozen gold.",
+  "created_at_utc": "2026-10-23T17:02:25.175217+00:00",
+  "files": [
+    {
+      "bytes": 69382,
+      "path": "tools/discourse_evaluation.py",
+      "sha256": "def52e02a1e552b03b510323b89a036395f64e8c2ea0c3ac2648a92b1fa6a7b7"
+    },
+    {
+      "bytes": 21989,
+      "path": "tests/test_discourse_evaluator.py",
+      "sha256": "a4cc8e96ad1d14f80b8c69c69e2dd854b1e142bac280b4ecd8941f3db51ec8c6"
+    }
+  ],
+  "focused_tests_passed": 26,
+  "gold_changed": false,
+  "planned_measurements": [
+    "artifacts/local/discourse-evaluation/independent_v1_release_adapter.json",
+    "artifacts/local/discourse-evaluation/independent_v2_release_adapter.json",
+    "artifacts/local/discourse-evaluation/independent_v3_post_review.json"
+  ],
+  "runtime_changed_by_evaluator": false,
+  "schema": "nabt.discourse.independent-adapter-release.v1",
+  "supersedes_adapter_sha256": "655cb114a02767ff87d3523cd4c2f84185e7cb6bcb18edcb655ab0a9c20a5cd2"
+}

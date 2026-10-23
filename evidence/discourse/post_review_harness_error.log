@@ -1,0 +1,19 @@
+setUpClass (test_discourse_review.DiscourseReviewTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_discourse_review.DiscourseReviewTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_review.py", line 40, in setUpClass
+    cls.model = learn_qac_lexicon(cls.training, source_id="authored-post-review")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/93a907621097/NABT/src/nabt/corpus_evidence.py", line 147, in learn_qac_lexicon
+    _validate(raw, excluded_verses, source_id)
+  File "/workspace/scratch/93a907621097/NABT/src/nabt/corpus_evidence.py", line 138, in _validate
+    raise NabtError("INVALID_SOURCE_ID", "Use a bounded ASCII source identity")
+nabt.errors.NabtError: Use a bounded ASCII source identity
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.001s
+
+FAILED (errors=1)

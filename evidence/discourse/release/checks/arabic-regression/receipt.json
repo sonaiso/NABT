@@ -1,0 +1,88 @@
+{
+  "schema": "nabt.arabic-syntax.public-regression-receipt.v2",
+  "evaluator_version": "nabt.arabic-syntax.independent-evaluator.v2",
+  "evaluation_kind": "public_regression",
+  "frozen_inputs": {
+    "manifest_sha256": "d42eab25417d1bac2659337c78769dfc9a299b808379752236bf016cfff50429",
+    "files_checked": 28
+  },
+  "runtime_snapshot": "6b78f1c8e36058d350d1e572bf20737c3517d38a8498fc4a50ece6bf6725fd30",
+  "runtime_files_checked": 67,
+  "statement_oracle": {
+    "path": "evidence/arabic_syntax/review_fixes/statement_oracle_v2.json",
+    "sha256": "73c232127ce3da747b54face3f508273e3730be37a89522dceec4d5446cbd0bd",
+    "kind": "post-evaluation public-reference annotation, not new blinded gold"
+  },
+  "evaluator_files": [
+    {
+      "path": "tools/arabic_syntax_evaluation_helpers/__init__.py",
+      "sha256": "ed95cf1eb1ef675e7d4871a77496a916e754a92fc395e63b23a18da295c7c3e6"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation_helpers/oracle_helpers.py",
+      "sha256": "8fc38058d3f5e456ccaef8187e4e11b900cc25c880c36879b562182410eeac89"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation_helpers/runner.py",
+      "sha256": "4a30b2fe50d89b213ba4525f92442a38d9363b991d66473bbc5cc763a06ae903"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation_helpers/statement_oracle.py",
+      "sha256": "82a0526f4ef4e5612fc4545ea336d40efbe880346eb9637e590e838585e394b1"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation.py",
+      "sha256": "55adbe11b12952acf2b411c4df7308a08f018ac74105846723e9f3b7050cf290"
+    },
+    {
+      "path": "tools/text_evaluation/integrity.py",
+      "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+    }
+  ],
+  "gate": {
+    "passed": true,
+    "scope": "published bounded-profile regression; not the 300-episode coverage gate",
+    "no_incorrect_admitted_claim": true,
+    "all_source_bytes_restored": true,
+    "independent_certificate_checks_pass": true,
+    "previously_complete_cases_preserved": true,
+    "same_frozen_runtime_reproduces_published_counts": true,
+    "exact_published_counts": true,
+    "complete_case_inventory": true,
+    "within_recorded_budgets": true,
+    "standalone_complete": 0,
+    "standalone_total": 40,
+    "original_excerpt_semantic_read": 0,
+    "original_excerpt_total": 8
+  },
+  "summary": {
+    "standalone": {
+      "episodes": 40,
+      "complete_episodes": 0,
+      "queries": 43,
+      "raw_query_matches": 0,
+      "covered_query_matches": 0,
+      "source_restoration_episodes": 40,
+      "licensed_claim_episodes": 40,
+      "source_admission_and_projection_complete": 1,
+      "budget_pass": 40
+    },
+    "declared_scope": {
+      "episodes": 12,
+      "complete_episodes": 8,
+      "queries": 11,
+      "raw_query_matches": 9,
+      "covered_query_matches": 9,
+      "source_restoration_episodes": 12,
+      "licensed_claim_episodes": 12,
+      "source_admission_and_projection_complete": 8,
+      "budget_pass": 12
+    },
+    "real_excerpts": {
+      "total": 8,
+      "semantic_read": 0,
+      "source_restored": 8,
+      "licensed_claims": 8
+    }
+  }
+}

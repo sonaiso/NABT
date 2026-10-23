@@ -22,3 +22,11 @@ lean_exe exportNominalEvidence where
 @[default_target]
 lean_exe exportInflectionEvidence where
   root := `ExportInflectionEvidence
+
+@[default_target]
+lean_exe exportDiscourseEvidence where
+  root := `ExportDiscourseEvidence
+
+@[default_target]
+lean_exe exportPersonEvidence where
+  root := `ExportPersonEvidence

@@ -1,0 +1,31 @@
+{
+  "schema": "nabt.discourse.packaging-attempt-review.v1",
+  "status": "POST_RUN_MANIFEST_VERIFICATION_FAILED",
+  "accepted_as_final_release_package": false,
+  "verifier_exit_code": 0,
+  "reported_smoke_count": 15,
+  "expected_command_count": 20,
+  "observed_command_count": 19,
+  "missing_commands": [
+    "read-without-qac"
+  ],
+  "mismatches": [
+    {
+      "path": "commands.json",
+      "expected_bytes": 13875,
+      "actual_bytes": 13207,
+      "expected_sha256": "624380287548eab72affdc9efee2ab95be1f65ff257a1124cd26642057f4c359",
+      "actual_sha256": "523b1aef1178fb5b3f2e3256957094e86150a4659e544d841723a26e38e74e48"
+    }
+  ],
+  "cause": "NOT_ESTABLISHED",
+  "read_only_reconstruction": "Appending the final command from its original invocation and saved stdout/stderr reproduces the original manifest bytes and SHA exactly; the saved original was not rewritten.",
+  "preserved_byte_exact": true,
+  "preserved_files": 55,
+  "local_original": "artifacts/local/discourse-package-a2",
+  "release_copy": "evidence/discourse/query_selection_review/release/packaging_attempt1",
+  "first_validation_sha256": "e377e840e18b250cd7dbc5f4102461deadbdacd41686b157ba885bdde4585b44",
+  "first_manifest_sha256": "55fd19dc934f9d58c2e98490cb8f8dfc5eac2693f61f088c22c4baffc098ae42",
+  "first_wheel_sha256": "71a92441939fbb9c1e14edfc928132b89000fcf2be58da263ae5ee7ab4400bb2",
+  "tooling_response": "Separate exclusive-create per-command records plus a single final commands.json, with command/log verification before the manifest; runtime and freezes remain unchanged."
+}

@@ -1,0 +1,45 @@
+{
+  "change": {
+    "case": "DSC-P09",
+    "forbidden_checks_not_waived": true,
+    "new_allowed_checks": [
+      "question:0",
+      "reading:0",
+      "required_claim:0"
+    ],
+    "newly_allowed_checks": [
+      "reading:0",
+      "required_claim:0"
+    ],
+    "previous_allowed_checks": [
+      "question:0"
+    ]
+  },
+  "created_at_utc": "2026-10-23T17:12:39.430765+00:00",
+  "gold_changed": false,
+  "new_adapter_sha256": "ac5d26d3ffbe83b86534eee102064381bc89991acebffc40b6148bdcbda6d46e",
+  "new_tests_passed": 27,
+  "new_tests_sha256": "163db3d79545e1d51016a640e85458c02bf9372049b1cba4e19ab102cdff16fe",
+  "new_tests_total": 27,
+  "old_adapter_archive": {
+    "path": "evidence/discourse/independent_runs/independent_v3_post_review.code.tar.gz",
+    "sha256": "770c2d195c118a2d591ae384ff6089f11e0546a553bf6dca1261eb0a9874b34e"
+  },
+  "old_adapter_sha256": "def52e02a1e552b03b510323b89a036395f64e8c2ea0c3ac2648a92b1fa6a7b7",
+  "planned_gate_rerun": {
+    "allow_documented_boundaries": true,
+    "output": "artifacts/local/discourse-evaluation/independent_v3_gate_reviewed.json",
+    "runtime_freeze": "evidence/discourse/code_freeze_v3.json"
+  },
+  "prior_gate_record": {
+    "path": "evidence/discourse/independent_gate_before_p09.json",
+    "sha256": "b09e30ad599b9d7ae3b762a5d80b3892e9b823ca86dda5ef71c48b5d979cb6d0"
+  },
+  "reason": "Reviewed conservative source-prefix coverage loss in DSC-P09; the earlier full v3 result and pre-change opt-in gate rejection remain immutable.",
+  "runtime_changed": false,
+  "same_adapter_three_runtime_comparison_preserved": true,
+  "schema": "nabt.discourse.independent-gate-revision.v1",
+  "semantic_scoring_functions_ast_identical": true,
+  "source_diff": "--- pre_policy_revision\n+++ post_policy_revision\n@@ -52,7 +52,9 @@\n     'DSC-P02': frozenset({'required_claim:0', 'question:0'}),\n     'DSC-P03': frozenset({'required_claim:0', 'question:0'}),\n     'DSC-P08': frozenset({'required_claim:0', 'reading:0', 'question:0'}),\n-    'DSC-P09': frozenset({'question:0'}),\n+    # V3's incomplete-prefix guard also blocks the positive pronoun claim/reference.\n+    # See independent_gate_before_p09.json; this does not waive any false acceptance.\n+    'DSC-P09': frozenset({'required_claim:0', 'reading:0', 'question:0'}),\n     'DSC-P12': frozenset({'required_claim:0', 'question:0'}),\n     'DSC-P13': frozenset({'required_claim:0', 'reading:0', 'question:0'}),\n     'DSC-P14': frozenset({'required_claim:0', 'reading:0', 'question:0'}),\n",
+  "strict_score_changed_by_policy": false
+}

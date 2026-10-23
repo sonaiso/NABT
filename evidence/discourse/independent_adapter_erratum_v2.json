@@ -1,0 +1,72 @@
+{
+  "adapter_development_checks": {
+    "offline_errors": 0,
+    "offline_report_count": 81,
+    "offline_saved_v1_output_review": "artifacts/local/discourse-evaluation/adapter_v2_offline_review_corrected.json",
+    "preliminary_notes": [
+      "Actual question kind subject maps to the ?person variable; the first draft had only person.",
+      "A conjunction contains two separately headed subject/predicate role pairs; the first draft incorrectly required a single global pair."
+    ],
+    "preliminary_offline_attempt_retained": "artifacts/local/discourse-evaluation/adapter_v2_offline_review.json",
+    "unit_tests": 23,
+    "unit_tests_passed": 23
+  },
+  "comparison_scope": "Same original 86 cases and final adapter on both snapshots; v2 improvements are post-review, not a fresh held-out test.",
+  "confirmed_adapter_gaps": [
+    "Claim args could name a context entity different from the subject-role reference.",
+    "A named reference could substitute a differently named context entity after rehash.",
+    "A property predicate could borrow the subject lemma rather than its predicate-role lemma.",
+    "Answer kind could differ from the original question kind.",
+    "A ?person binding could use an entity whose person kind was unknown.",
+    "A binding status could contradict the signs of its own proofs.",
+    "A supported variable answer could omit all binding groups while retaining proofs."
+  ],
+  "corrections": [
+    "Bind each property/event claim to its predicate role or governing verb, and ordered arguments to references of those same roles; preserve separate role links inside conjunctions.",
+    "Check named, speaker, addressee and deictic candidate origins against original context premises.",
+    "Check question kind, explicit variable domains, complete positive binding groups, associated proof/counterproof groups, and each binding status.",
+    "Preserve exact time objects in proof equality and variable substitution; only gold-display matching uses three declared exact correspondences. v2 indefinite day without article never maps to today.",
+    "Approve hard-pinned runtime v2 manifest/snapshot/archive and default to it.",
+    "Expose case-group and question-outcome counts; separately record exceptions raised while processing questions."
+  ],
+  "created_at_utc": "2026-10-23T16:53:13.150660+00:00",
+  "final_measured_files": [
+    {
+      "bytes": 64107,
+      "path": "tools/discourse_evaluation.py",
+      "sha256": "655cb114a02767ff87d3523cd4c2f84185e7cb6bcb18edcb655ab0a9c20a5cd2"
+    },
+    {
+      "bytes": 18592,
+      "path": "tests/test_discourse_evaluator.py",
+      "sha256": "c068f92ca24020593584886a51c49dd0bd0b10d8e0ec57a354415a68d9679ab9"
+    }
+  ],
+  "gold_changed": false,
+  "planned_comparison": [
+    {
+      "output": "artifacts/local/discourse-evaluation/independent_v1_final_adapter.json",
+      "runtime_freeze": "evidence/discourse/code_freeze_v1.json",
+      "runtime_root": "artifacts/local/discourse-runtime-v1"
+    },
+    {
+      "output": "artifacts/local/discourse-evaluation/independent_v2_post_review.json",
+      "runtime_freeze": "evidence/discourse/code_freeze_v2.json",
+      "runtime_root": "."
+    }
+  ],
+  "preserved_previous_measurement": {
+    "adapter_sha256": "d04a1706dfc4f3d36efa6c0c7293251d5e932ff72cbf46261f14116b06c5dcf4",
+    "code_archive_sha256": "2ede16e8ad2b39f9fa25a7117284acde4eaf0114e8ad7555ca3af3bd27ddcf73",
+    "false_accepts": 1,
+    "passed": 68,
+    "path": "artifacts/local/discourse-evaluation/independent_v1_adapter_corrected.json",
+    "sha256": "691d743fc3de94526e4dca174502358deeafffdcea100d24663c078094e0be1e",
+    "test_sha256": "1964d4fa4e3ae9a93fee8f2f979fe129bd657d928849b1a1f7ef190df29f174d",
+    "total": 86
+  },
+  "review_source": "Independent peer mutation review of synthetic evaluator unit fixtures; reviewer did not read frozen gold.",
+  "runtime_changed_by_evaluator": false,
+  "schema": "nabt.discourse.independent-adapter-erratum.v2",
+  "source_split_changed": false
+}

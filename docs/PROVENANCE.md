@@ -4,6 +4,41 @@ NABT was created at the owner's request as a standalone implementation. It
 does not import or mutate the previous experiments. References below identify
 the research definitions consulted, not runtime dependencies.
 
+## Discourse development `0.13.0a1`
+
+The person/reference review reuses the pinned Mashru
+`e4c801ffe9171dadedcc3aae23051ea0953ae361` and Alghanem
+`9d8fa03a51f894416e0abaf3b6821c5ae6441dcd` checkouts. It inventories
+34 local source snapshots and 302 Lean files, and reads selected implementation
+windows without claiming that all upstream projects were rebuilt. The earlier
+authenticated inventory of 41 accessible repositories is cited with its own
+timestamp; it is not relabeled as a new authenticated scan. See
+[DISCOURSE_SOURCE_AUDIT.md](DISCOURSE_SOURCE_AUDIT.md) and its byte-level ledger.
+
+`Maqam`, `IhalaHasr`, `Ihala`, `Mudari`, `Talab`, `Awamil` and the semantic
+modules supply useful conditional definitions. Their referents, candidate
+universe, sentence classification, lexical traits and scope are often inputs.
+NABT does not describe those theorems as automatic discovery of such inputs.
+In particular, a singleton candidate is not a proof that a search universe is
+complete, a fixed spelling-cell list is not a universal built-noun theorem,
+and a truth-functional implication is not causal evidence.
+
+The new implementation combines 22 replayed primary grammar passages with
+independently supplied raw QAC training data and explicit context premises.
+The source grammar authorship and data licenses remain in
+`src/nabt/data/source_evidence/LICENSE-DATA.md`. QAC's documented default
+active voice is decoded only for a qualified verbal record; case and mood
+labels remain withheld from acquisition. MASAQ annotations are source data,
+not a Lean parser or an acquired dependency-head relation.
+
+The teaching file `examples/discourse_training.tsv` is authored test data in
+QAC's tabular format, not a quotation from the corpus. The separate evaluation
+uses pinned original QAC bytes with whole-verse exclusion. Its first runtime,
+later runtime, frozen gold, evaluator errata and results are preserved in
+`evidence/discourse/`. New results do not replace earlier evaluation material.
+
+## Original foundation
+
 | Source | Immutable reference | Reused idea |
 | --- | --- | --- |
 | Mashru SLGE | `df6bcc9eb9b536db3684cc8a2eb773c2c9f01136` | 97-state sound-shape law; contextual weight; bounded count and ordering |

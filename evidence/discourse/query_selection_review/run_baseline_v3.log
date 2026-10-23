@@ -1,0 +1,63 @@
+test_eligible_first_has_the_same_qualified_answer (query_selection_regression.DiscourseQuerySelectionTests.test_eligible_first_has_the_same_qualified_answer) ... ok
+test_explicit_feminine_addressee_remains_supported (query_selection_regression.DiscourseQuerySelectionTests.test_explicit_feminine_addressee_remains_supported) ... ok
+test_multiple_claims_in_rejected_analysis_do_not_block_licensed_query (query_selection_regression.DiscourseQuerySelectionTests.test_multiple_claims_in_rejected_analysis_do_not_block_licensed_query) ... FAIL
+test_rejected_first_does_not_choose_the_query (query_selection_regression.DiscourseQuerySelectionTests.test_rejected_first_does_not_choose_the_query) ... FAIL
+test_unvocalized_addressee_uses_licensed_feminine_reading (query_selection_regression.DiscourseQuerySelectionTests.test_unvocalized_addressee_uses_licensed_feminine_reading) ... FAIL
+test_zero_claims_in_rejected_analysis_do_not_block_licensed_query (query_selection_regression.DiscourseQuerySelectionTests.test_zero_claims_in_rejected_analysis_do_not_block_licensed_query) ... FAIL
+
+======================================================================
+FAIL: test_multiple_claims_in_rejected_analysis_do_not_block_licensed_query (query_selection_regression.DiscourseQuerySelectionTests.test_multiple_claims_in_rejected_analysis_do_not_block_licensed_query)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 111, in test_multiple_claims_in_rejected_analysis_do_not_block_licensed_query
+    self._check("QUERY-06")
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 89, in _check
+    self.assertEqual(answer["status"], MATERIAL["expected"]["status"], observation)
+AssertionError: 'DEFER' != 'SUPPORTED'
+- DEFER
++ SUPPORTED
+ : {'mode': 'consumer_contract', 'document_status': 'LICENSED_DISCOURSE', 'inquiry_status': 'LICENSED_DISCOURSE', 'analysis_order': [{'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 2, 'claim_args': [[None], [None]]}, {'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 2, 'claim_args': [[None], [None]]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}], 'answer_status': 'DEFER', 'answer_kind': None, 'query_args': None, 'proof_count': 0, 'missing_premises': ['EXPLICIT_SINGLE_QUESTION_FORCE']}
+
+======================================================================
+FAIL: test_rejected_first_does_not_choose_the_query (query_selection_regression.DiscourseQuerySelectionTests.test_rejected_first_does_not_choose_the_query)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 102, in test_rejected_first_does_not_choose_the_query
+    self._check("QUERY-03")
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 89, in _check
+    self.assertEqual(answer["status"], MATERIAL["expected"]["status"], observation)
+AssertionError: 'UNKNOWN' != 'SUPPORTED'
+- UNKNOWN
++ SUPPORTED
+ : {'mode': 'consumer_contract', 'document_status': 'LICENSED_DISCOURSE', 'inquiry_status': 'LICENSED_DISCOURSE', 'analysis_order': [{'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 1, 'claim_args': [[None]]}, {'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 1, 'claim_args': [[None]]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}], 'answer_status': 'UNKNOWN', 'answer_kind': 'polar', 'query_args': [None], 'proof_count': 0, 'missing_premises': []}
+
+======================================================================
+FAIL: test_unvocalized_addressee_uses_licensed_feminine_reading (query_selection_regression.DiscourseQuerySelectionTests.test_unvocalized_addressee_uses_licensed_feminine_reading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 96, in test_unvocalized_addressee_uses_licensed_feminine_reading
+    self._check("QUERY-01")
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 89, in _check
+    self.assertEqual(answer["status"], MATERIAL["expected"]["status"], observation)
+AssertionError: 'UNKNOWN' != 'SUPPORTED'
+- UNKNOWN
++ SUPPORTED
+ : {'mode': 'end_to_end', 'document_status': 'LICENSED_DISCOURSE', 'inquiry_status': 'LICENSED_DISCOURSE', 'analysis_order': [{'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 1, 'claim_args': [[None]]}, {'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 1, 'claim_args': [[None]]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}], 'answer_status': 'UNKNOWN', 'answer_kind': 'polar', 'query_args': [None], 'proof_count': 0, 'missing_premises': []}
+
+======================================================================
+FAIL: test_zero_claims_in_rejected_analysis_do_not_block_licensed_query (query_selection_regression.DiscourseQuerySelectionTests.test_zero_claims_in_rejected_analysis_do_not_block_licensed_query)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 108, in test_zero_claims_in_rejected_analysis_do_not_block_licensed_query
+    self._check("QUERY-05")
+  File "/workspace/scratch/93a907621097/NABT/tests/test_discourse_query_selection.py", line 89, in _check
+    self.assertEqual(answer["status"], MATERIAL["expected"]["status"], observation)
+AssertionError: 'DEFER' != 'SUPPORTED'
+- DEFER
++ SUPPORTED
+ : {'mode': 'consumer_contract', 'document_status': 'LICENSED_DISCOURSE', 'inquiry_status': 'LICENSED_DISCOURSE', 'analysis_order': [{'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 0, 'claim_args': []}, {'rejected': True, 'licensed_syntax': False, 'references_complete': False, 'claim_count': 0, 'claim_args': []}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}, {'rejected': False, 'licensed_syntax': True, 'references_complete': True, 'claim_count': 1, 'claim_args': [['hind']]}], 'answer_status': 'DEFER', 'answer_kind': None, 'query_args': None, 'proof_count': 0, 'missing_premises': ['EXPLICIT_SINGLE_QUESTION_FORCE']}
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.478s
+
+FAILED (failures=4)
