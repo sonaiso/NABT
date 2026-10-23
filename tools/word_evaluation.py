@@ -25,12 +25,15 @@ from nabt import NabtError
 from nabt.word_reader import (decode_word_reading, read_word_at, read_words,
                               verify_word_reading, word_reading_number)
 
-VERSION = "nabt.words.independent-evaluator.v1.2"
+VERSION = "nabt.words.independent-evaluator.v1.3"
 CASES_SHA256 = "38dd236c752b7d2d982eb615aa557c0d4b2328d1e415b6ca23c71d8e8852bc78"
 FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc4"
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    "text_morphology_v1": ("b15dfab7ed6166aa5aae236c7c0b22ce48f805a6bc0d8f6c3b6f12bae2b951ee",
+                           "82a5d9b283d403bf257a95e5c8a1eb9b2ea300a90ca1a2e881de478bf29f7496",
+                           "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
     "morphology_v1": ("8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e3437a35b7bffd", "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46", "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"),
     "v1": (FREEZE_SHA256, SNAPSHOT_SHA256, ARCHIVE_SHA256),
     "v2": ("304fddda0276053f8a6404a7d21ca7fb2019e9a0c0aa98b5718b52684efec2da",
@@ -39,6 +42,13 @@ CODE_FREEZES = {
     "v3": ("b9ffd279e093b30cadbb4c61a23eb3f0b314ae5ae0da1374907ae8b133333434",
            "33cb00870b810ddfef44d1c9c665c289223faf5164517fb1d0bdc803081a5066",
            "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026"),
+}
+CODE_FREEZE_PATHS = {
+    "text_morphology_v1": ROOT / "evidence/text_morphology/code_freeze_v1.json",
+    "morphology_v1": ROOT / "evidence/morphology/code_freeze_v1.json",
+    "v1": ROOT / "evidence/words/code_freeze_v1.json",
+    "v2": ROOT / "evidence/words/code_freeze_v2.json",
+    "v3": ROOT / "evidence/words/code_freeze_v3.json",
 }
 DOCUMENTED_POSITIVE_MISSES = {"w15", "w16", "w17"}
 DOCUMENTED_MISSING_PROPERTIES = {"complete_required_frame", "required_source_bound_role_and_case_bindings"}
@@ -96,11 +106,10 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="morphology_v1"):
+def verify_implementation_freeze(version="text_morphology_v1"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
-    path = (ROOT / "evidence/morphology/code_freeze_v1.json" if version == "morphology_v1"
-            else ROOT / "evidence/words" / ("code_freeze_" + version + ".json"))
-    raw = path.read_bytes()
+    manifest_path = CODE_FREEZE_PATHS[version]
+    raw = manifest_path.read_bytes()
     require(sha256(raw).hexdigest() == manifest_sha, "Different implementation freeze")
     freeze = json.loads(raw)
     rows = freeze["files"]
@@ -120,7 +129,7 @@ def verify_implementation_freeze(version="morphology_v1"):
         content = path.read_bytes()
         require(len(content) == row["bytes"] and sha256(content).hexdigest() == row["sha256"],
                 "Implementation changed: " + row["path"])
-    archive = (ROOT / "evidence/morphology" if version == "morphology_v1" else ROOT / "evidence/words") / freeze["archive_filename"]
+    archive = manifest_path.parent / freeze["archive_filename"]
     require(sha256(archive.read_bytes()).hexdigest() == freeze["archive_sha256"] == archive_sha,
             "Different implementation archive")
     with tarfile.open(archive, "r:gz") as bundle:
@@ -404,7 +413,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="morphology_v1")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="text_morphology_v1")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()

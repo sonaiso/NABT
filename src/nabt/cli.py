@@ -113,6 +113,16 @@ def parser() -> Parser:
     morphology_verifier.add_argument("report", type=Path)
     morphology_verifier.add_argument("--source", type=Path, required=True)
     morphology_verifier.add_argument("--scope", default="default")
+    text_morphology = sub.add_parser("read-text-morphology")
+    text_morphology.add_argument("document", type=Path)
+    text_morphology.add_argument("--scope", default="default")
+    text_morphology.add_argument("--lexical-source", type=Path)
+    text_morphology.add_argument("--with-number", action="store_true")
+    text_morphology_verifier = sub.add_parser("verify-text-morphology")
+    text_morphology_verifier.add_argument("report", type=Path)
+    text_morphology_verifier.add_argument("--source", type=Path, required=True)
+    text_morphology_verifier.add_argument("--scope", default="default")
+    text_morphology_verifier.add_argument("--lexical-source", type=Path)
     for name in ("read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"):
         command = sub.add_parser(name)
         command.add_argument("document", type=Path)
@@ -142,6 +152,33 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"read-text-morphology", "verify-text-morphology"}:
+        from .text_morphology import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
+                                      read_text_morphology, verify_text_morphology, text_morphology_number)
+        from .morphology_reader import MAX_SOURCE_BYTES as MAX_LEXICAL_BYTES
+        path = args.document if command == "read-text-morphology" else args.source
+        with path.open("rb") as handle:
+            raw = handle.read(MAX_SOURCE_BYTES + 1)
+        if len(raw) > MAX_SOURCE_BYTES:
+            raise resource_limit("Text morphology source exceeds its byte budget")
+        lexical = None
+        if args.lexical_source is not None:
+            with args.lexical_source.open("rb") as handle:
+                lexical = handle.read(MAX_LEXICAL_BYTES + 1)
+            if len(lexical) > MAX_LEXICAL_BYTES:
+                raise resource_limit("Lexical source exceeds its byte budget")
+        if command == "verify-text-morphology":
+            # Explicit None binds the expected absence of lexical premises.
+            result = verify_text_morphology(read_certificate(args.report, MAX_REPORT_BYTES),
+                text=raw, source_id="input", scope=args.scope, lexical_text=lexical,
+                lexical_source_id="lexical")
+            return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
+        report = read_text_morphology(raw, source_id="input", scope=args.scope, lexical_text=lexical)
+        code = 0 if report["status"] == "READ" else 3 if report["status"] == "DEFER" else 2
+        if args.with_number:
+            return {"reading": report, "encoding": {"domain": NUMBER_DOMAIN,
+                    "number_hex": hex(text_morphology_number(report)), "authority": "ENCODING_ONLY"}}, code
+        return report, code
     if command in {"read-morphology", "verify-morphology"}:
         from .morphology_reader import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
                                         read_morphology, verify_morphology, morphology_number)

@@ -16,3 +16,4 @@ import Nabt.ArabicReading
 import Nabt.Governors
 import Nabt.Words
 import Nabt.Morphology
+import Nabt.TextEvidence
