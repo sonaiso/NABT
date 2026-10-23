@@ -1,0 +1,34 @@
+{
+  "schema": "nabt.inflection.adapter-erratum.v1",
+  "recorded_at_utc": "2026-10-23T14:55:31.561221+00:00",
+  "first_result_sha256": "eaaf29dc7ef824ff18fa31be04cf6b829e471a2aa3ecdc2dfebe4d47a94efbaa",
+  "first_raw_log_sha256": "2f6bd83ae65f73ad6fdc75b49064b41001cff07f404254d7f5c75bbf31f262d0",
+  "first_code_archive_sha256": "680bfdac1fde6591e4a3bedefdcc7223a5ade0636b8799f6ff8fd8f90946b315",
+  "gold_changed": false,
+  "runtime_changed": false,
+  "runtime_snapshot_sha256": "aaac387085d745b89f0260eb1905d66dade8a710e483034442e7957972243ede",
+  "finding": "Read-only independent mutation review showed that an activated relation could carry a wrong case/domain or borrowed head identity/rule while the first adapter still passed its valid reading assignment. This was an evaluator evidence-checking gap; the original predictions are preserved.",
+  "fix": "Validate governor-to-law fields, correlated case domain, head and dependent reading/occurrence/segmentation identities, source bindings and support endpoints. Add negative mutation tests.",
+  "adapter_files": [
+    {
+      "path": "tools/inflection_evaluation.py",
+      "old_sha256": "5b41730642278bce8198176a01b33d7532a66ec4f8ac9ba1e0d00c77e0f7264b",
+      "new_sha256": "64f3bab6235fdb9ef2fcd7cf430f14b90dd1e95757e9bce748ef97ae92386318"
+    },
+    {
+      "path": "tests/test_inflection_review.py",
+      "old_sha256": "6882adde5fd4dd9ef62552b8f6edbaee93677f6f40a75a0075ae0d5bf3495ab7",
+      "new_sha256": "ea7c2a65b42121f58f2cd375afea48db2d54d50ca7c39a616f2c498477083f5e"
+    }
+  ],
+  "first_summary": {
+    "total": 74,
+    "passed": 66,
+    "coverage_miss_cases": 8,
+    "false_accept_cases": 0,
+    "execution_error_cases": 0,
+    "adapter_error_cases": 0
+  },
+  "corrected_replay": "independent_second_run_v1.json",
+  "measurement_claim": "Second run must independently establish the same-runtime score under the corrected adapter. Neither this erratum nor the second run replaces the original report."
+}

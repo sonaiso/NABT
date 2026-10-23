@@ -110,6 +110,8 @@ def check(lean_export=None):
     from nabt.text_evidence import installed_table as text_evidence_table
     from nabt.derivation import installed_registry as derivation_registry
     from nabt.nominal import installed_registry as nominal_registry
+    from nabt.inflection import installed_registry as inflection_registry
+    from nabt.inflection_reader import replay_inflection_policy
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -149,6 +151,8 @@ def check(lean_export=None):
     text_evidence = text_evidence_table()
     derivation = derivation_registry()
     nominal = nominal_registry()
+    inflection = inflection_registry()
+    inflection_policy = replay_inflection_policy()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
@@ -170,6 +174,9 @@ def check(lean_export=None):
             "weak_root_masks": len(nominal["weak_rows"]),
             "manqus_rows": len(nominal["manqus_rows"]),
             "pronoun_projection_rows": len(nominal["pronoun_rows"]),
+            "inflection_sign_rows": len(inflection["rows"]),
+            "inflection_conditional_relations": len(inflection["relation_rows"]),
+            "inflection_grammar_sha256": inflection_policy["policy_sha256"],
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

@@ -143,6 +143,21 @@ def parser() -> Parser:
         if name == "verify-derivation":
             command.add_argument("--profile", choices=("stem_exact_v1", "surface_v1"), default="surface_v1")
     sub.add_parser("nominal-catalog")
+    sub.add_parser("inflection-catalog")
+    corpus_audit = sub.add_parser("audit-corpus")
+    corpus_audit.add_argument("document", type=Path)
+    corpus_audit.add_argument("--format", choices=("qac", "masaq-ar", "masaq-en"), required=True)
+    learn_qac = sub.add_parser("learn-qac-lexicon")
+    learn_qac.add_argument("document", type=Path)
+    learn_qac.add_argument("--exclude-verse", action="append", default=[])
+    for name in ("read-inflection", "verify-inflection"):
+        command = sub.add_parser(name)
+        command.add_argument("document", type=Path)
+        command.add_argument("--qac", type=Path, help="Original QAC TSV (optionally gzip); labels for case/mood are masked")
+        command.add_argument("--exclude-verse", action="append", default=[])
+        command.add_argument("--scope", default="default")
+        if name == "verify-inflection":
+            command.add_argument("--source", type=Path, required=True)
     weak = sub.add_parser("weak-root-profile")
     weak.add_argument("root")
     cardinal = sub.add_parser("number-rule")
@@ -192,6 +207,35 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"inflection-catalog", "audit-corpus", "learn-qac-lexicon", "read-inflection", "verify-inflection"}:
+        from .inflection import inflection_catalog
+        from .corpus_sources import read_corpus
+        from .corpus_evidence import learn_qac_lexicon, MAX_CORPUS_BYTES
+        from .inflection_reader import read_inflection, verify_inflection, MAX_REPORT_BYTES
+        def corpus_bytes(path):
+            import gzip
+            opener = gzip.open if path.suffix == ".gz" else open
+            with opener(path, "rb") as stream:
+                raw = stream.read(MAX_CORPUS_BYTES + 1)
+            if len(raw) > MAX_CORPUS_BYTES:
+                raise resource_limit("Corpus exceeds the declared byte budget")
+            return raw
+        if command == "inflection-catalog":
+            return inflection_catalog(), 0
+        if command == "audit-corpus":
+            result = read_corpus(corpus_bytes(args.document), format=args.format)
+            return {k: result[k] for k in ("schema", "format", "source", "summary", "authority")}, 0
+        if command == "learn-qac-lexicon":
+            return learn_qac_lexicon(corpus_bytes(args.document), excluded_verses=tuple(args.exclude_verse)).summary(), 0
+        if args.exclude_verse and args.qac is None:
+            raise NabtError("INVALID_CORPUS_EXCLUSIONS", "Exclusions require an explicit QAC source")
+        model = None if args.qac is None else learn_qac_lexicon(corpus_bytes(args.qac), excluded_verses=tuple(args.exclude_verse))
+        if command == "verify-inflection":
+            result = verify_inflection(read_certificate(args.document, MAX_REPORT_BYTES),
+                                       text=args.source.read_bytes(), lexical_model=model, scope=args.scope)
+            return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
+        result = read_inflection(args.document.read_bytes(), lexical_model=model, scope=args.scope)
+        return result, 0 if result["status"] == "LICENSED_READINGS" else 3
     if command in {"nominal-catalog", "weak-root-profile", "number-rule"}:
         from .nominal import nominal_catalog, weak_root_profile, number_rule
         if command == "nominal-catalog":

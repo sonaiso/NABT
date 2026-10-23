@@ -1,0 +1,551 @@
+{
+  "schema": "nabt.inflection.independent-prior-gap-audit.v1",
+  "created_at_utc": "2026-10-23T14:11:11.431160+00:00",
+  "repository_base_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+  "status": "PRE_CONTRACT_DESIGN_NOT_NEW_GOLD",
+  "new_inflection_runtime_table_or_formal_read": false,
+  "prior_files": [
+    {
+      "path": "docs/ROADMAP.md",
+      "sha256": "66bb36945913ed672d2334e3b9a50960808377b49f1f61229c3df0e86f1e53d4"
+    },
+    {
+      "path": "docs/WORD_READING.md",
+      "sha256": "07535d6c9efeae76c991d82185a920ee3bd6524eeb4bd980bd49c68bcc769c39"
+    },
+    {
+      "path": "docs/MORPHOLOGY_READING.md",
+      "sha256": "69448d635ca47b1f307ef2a83cc6143754df8a2bcd2a1b2eddc722b2a5739f3c"
+    },
+    {
+      "path": "docs/ARABIC_SYNTAX_EVALUATION.md",
+      "sha256": "dbfeaead68d75047119ff2fec19a8832de11bfc8cb3946d921f22d1f2fdad5bf"
+    },
+    {
+      "path": "evidence/words/independent_cases_v1.json",
+      "sha256": "38dd236c752b7d2d982eb615aa557c0d4b2328d1e415b6ca23c71d8e8852bc78"
+    },
+    {
+      "path": "evidence/words/final_run_v3.json",
+      "sha256": "7c5a2332a6ebfac1b5648564bd98932a623a972a48a27e6a59559def4eee390e"
+    },
+    {
+      "path": "evidence/morphology/independent_cases_v2.json",
+      "sha256": "0f17e68a4d7a33d4afa64bb645ba88c55ac1d0e3248de241f1c1028442d37ea4"
+    },
+    {
+      "path": "evidence/morphology/review_final_v2.json",
+      "sha256": "f8ceab5e0d9a0f422c29048c52a4470e49e858c4ddde0ba9a8f94cc11134bdd4"
+    },
+    {
+      "path": "evidence/arabic_syntax/independent/protocol.json",
+      "sha256": "73fd6b98a950051a5238b638bceec9ecede1a361f98486eb5dd439cae7af57f5"
+    },
+    {
+      "path": "evidence/arabic_syntax/independent/first_results.json",
+      "sha256": "3aec5c2c34532b104b71dbb992fa3137fb13aa8f1c99926bf46bc535a79d0b0f"
+    },
+    {
+      "path": "evidence/arabic_syntax/independent/detailed_counts.json",
+      "sha256": "e8648aaad4429ae667059ab8512cdc69b24c6a7a0862640d8fe91e686ac0ff89"
+    }
+  ],
+  "published_scores": {
+    "words": {
+      "passed": 27,
+      "total": 30,
+      "positive_passed": 12,
+      "positive_total": 15
+    },
+    "morphology_corrected_public_regression": {
+      "passed": 39,
+      "total": 43
+    },
+    "broader_arabic_complete_episodes": {
+      "passed": 0,
+      "total": 40
+    },
+    "broader_arabic_original_excerpts": {
+      "passed": 0,
+      "total": 8
+    }
+  },
+  "word_misses": [
+    {
+      "id": "w15",
+      "text": "إنّ زيدًا قائمٌ",
+      "published_passed": false,
+      "report_status": "DEFER",
+      "context_obligations": [
+        [
+          "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+        ]
+      ],
+      "failed_checks": [
+        {
+          "property": "complete_required_frame",
+          "passed": false,
+          "detail": {
+            "runtime_status": "DEFER",
+            "obligations": [
+              "ATTACHMENT_AND_ACTIVATION_EVIDENCE",
+              "CONSTRUCTION_READING_EVIDENCE",
+              "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+            ]
+          }
+        },
+        {
+          "property": "required_source_bound_role_and_case_bindings",
+          "passed": false
+        }
+      ],
+      "interpretation": "Existing installed lexical templates produced candidates and class-case pairs, but incomplete vocalization/selection prevented full contextual activation. This is not evidence of unseen-lexeme acquisition."
+    },
+    {
+      "id": "w16",
+      "text": "مِنْ رجلٍ",
+      "published_passed": false,
+      "report_status": "DEFER",
+      "context_obligations": [
+        [
+          "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+        ]
+      ],
+      "failed_checks": [
+        {
+          "property": "complete_required_frame",
+          "passed": false,
+          "detail": {
+            "runtime_status": "DEFER",
+            "obligations": [
+              "ATTACHMENT_AND_ACTIVATION_EVIDENCE",
+              "CONSTRUCTION_READING_EVIDENCE",
+              "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+            ]
+          }
+        },
+        {
+          "property": "required_source_bound_role_and_case_bindings",
+          "passed": false
+        }
+      ],
+      "interpretation": "Existing installed lexical templates produced candidates and class-case pairs, but incomplete vocalization/selection prevented full contextual activation. This is not evidence of unseen-lexeme acquisition."
+    },
+    {
+      "id": "w17",
+      "text": "لم يقمْ",
+      "published_passed": false,
+      "report_status": "DEFER",
+      "context_obligations": [
+        [
+          "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+        ]
+      ],
+      "failed_checks": [
+        {
+          "property": "complete_required_frame",
+          "passed": false,
+          "detail": {
+            "runtime_status": "DEFER",
+            "obligations": [
+              "ATTACHMENT_AND_ACTIVATION_EVIDENCE",
+              "CONSTRUCTION_READING_EVIDENCE",
+              "VOCALIZATION_OR_LEXICAL_SELECTION_EVIDENCE"
+            ]
+          }
+        },
+        {
+          "property": "required_source_bound_role_and_case_bindings",
+          "passed": false
+        }
+      ],
+      "interpretation": "Existing installed lexical templates produced candidates and class-case pairs, but incomplete vocalization/selection prevented full contextual activation. This is not evidence of unseen-lexeme acquisition."
+    }
+  ],
+  "morphology_misses": [
+    {
+      "id": "m12",
+      "published_passed": false,
+      "failed_checks": [
+        {
+          "property": "r1:kind",
+          "passed": false,
+          "observed": {
+            "expected": "verb",
+            "status": "DEFER",
+            "candidates": [
+              "verb"
+            ],
+            "missing": [],
+            "conflicts": [],
+            "blocked_by_unparsed_source": true
+          }
+        }
+      ],
+      "preserved_unknown_clause_checks": [
+        {
+          "property": "unknown_clause_retained:آخره نون",
+          "passed": true,
+          "observed": null
+        },
+        {
+          "property": "unknown_clause_blocks_complete_report",
+          "passed": true,
+          "observed": null
+        }
+      ],
+      "interpretation": "The expected kind remains among candidates but source-wide unparsed-clause blocking prevents its licensed status. The intended construction/diptote uncertainty is retained."
+    },
+    {
+      "id": "m13",
+      "published_passed": false,
+      "failed_checks": [
+        {
+          "property": "r1:kind",
+          "passed": false,
+          "observed": {
+            "expected": "noun",
+            "status": "DEFER",
+            "candidates": [
+              "noun"
+            ],
+            "missing": [],
+            "conflicts": [],
+            "blocked_by_unparsed_source": true
+          }
+        }
+      ],
+      "preserved_unknown_clause_checks": [
+        {
+          "property": "unknown_clause_retained:هو اسم معرب",
+          "passed": true,
+          "observed": null
+        },
+        {
+          "property": "unknown_clause_blocks_complete_report",
+          "passed": true,
+          "observed": null
+        }
+      ],
+      "interpretation": "The expected kind remains among candidates but source-wide unparsed-clause blocking prevents its licensed status. The intended construction/diptote uncertainty is retained."
+    },
+    {
+      "id": "m32",
+      "published_passed": false,
+      "failed_checks": [
+        {
+          "property": "r1:kind",
+          "passed": false,
+          "observed": {
+            "expected": "noun",
+            "status": "DEFER",
+            "candidates": [
+              "noun"
+            ],
+            "missing": [],
+            "conflicts": [],
+            "blocked_by_unparsed_source": true
+          }
+        }
+      ],
+      "preserved_unknown_clause_checks": [
+        {
+          "property": "unknown_clause_retained:هو علم",
+          "passed": true,
+          "observed": null
+        },
+        {
+          "property": "unknown_clause_blocks_complete_report",
+          "passed": true,
+          "observed": null
+        }
+      ],
+      "interpretation": "The expected kind remains among candidates but source-wide unparsed-clause blocking prevents its licensed status. The intended construction/diptote uncertainty is retained."
+    },
+    {
+      "id": "m33",
+      "published_passed": false,
+      "failed_checks": [
+        {
+          "property": "r1:kind",
+          "passed": false,
+          "observed": {
+            "expected": "noun",
+            "status": "DEFER",
+            "candidates": [
+              "noun"
+            ],
+            "missing": [],
+            "conflicts": [],
+            "blocked_by_unparsed_source": true
+          }
+        }
+      ],
+      "preserved_unknown_clause_checks": [
+        {
+          "property": "unknown_clause_retained:آخره ألف",
+          "passed": true,
+          "observed": null
+        },
+        {
+          "property": "unknown_clause_blocks_complete_report",
+          "passed": true,
+          "observed": null
+        }
+      ],
+      "interpretation": "The expected kind remains among candidates but source-wide unparsed-clause blocking prevents its licensed status. The intended construction/diptote uncertainty is retained."
+    }
+  ],
+  "broader_per_stratum": {
+    "predication_conjunction": {
+      "episodes": 8,
+      "complete": 0,
+      "queries": 11,
+      "covered": 0
+    },
+    "negation_condition": {
+      "episodes": 8,
+      "complete": 0,
+      "queries": 9,
+      "covered": 0
+    },
+    "nonassertive": {
+      "episodes": 8,
+      "complete": 0,
+      "queries": 1,
+      "covered": 0
+    },
+    "ambiguity": {
+      "episodes": 8,
+      "complete": 0,
+      "queries": 0,
+      "covered": 0
+    },
+    "revision": {
+      "episodes": 8,
+      "complete": 0,
+      "queries": 22,
+      "covered": 0
+    },
+    "scope_explicit_copula": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 1,
+      "covered": 1
+    },
+    "scope_declared_bare": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 1,
+      "covered": 1
+    },
+    "scope_predicate_conjunction": {
+      "episodes": 1,
+      "complete": 0,
+      "queries": 1,
+      "covered": 0
+    },
+    "scope_clause_conjunction": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 2,
+      "covered": 2
+    },
+    "scope_negation": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 1,
+      "covered": 1
+    },
+    "scope_emphasis": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 1,
+      "covered": 1
+    },
+    "scope_conditional": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 1,
+      "covered": 1
+    },
+    "scope_universal": {
+      "episodes": 1,
+      "complete": 0,
+      "queries": 1,
+      "covered": 0
+    },
+    "scope_question": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 0,
+      "covered": 0
+    },
+    "scope_ambiguous_particle": {
+      "episodes": 1,
+      "complete": 0,
+      "queries": 0,
+      "covered": 0
+    },
+    "scope_pronoun": {
+      "episodes": 1,
+      "complete": 0,
+      "queries": 0,
+      "covered": 0
+    },
+    "scope_revision": {
+      "episodes": 1,
+      "complete": 1,
+      "queries": 2,
+      "covered": 2
+    }
+  },
+  "broader_residual_mentions_by_source_event_not_distinct_episodes": {
+    "predication_conjunction": {
+      "UNSUPPORTED_NOMINAL_ROLE": 4,
+      "UNSUPPORTED_CLAUSE": 5,
+      "UNSUPPORTED_QUANTIFIER_READING": 1
+    },
+    "negation_condition": {
+      "UNSUPPORTED_NOMINAL_ROLE": 13,
+      "UNSUPPORTED_CLAUSE": 2,
+      "UNSUPPORTED_QUANTIFIER_READING": 1
+    },
+    "nonassertive": {
+      "UNSUPPORTED_NOMINAL_ROLE": 7,
+      "UNSUPPORTED_OPERATOR_AMBIGUITY": 1
+    },
+    "ambiguity": {
+      "UNSUPPORTED_CLAUSE": 3,
+      "UNSUPPORTED_OPEN_QUESTION": 1,
+      "UNSUPPORTED_OPERATOR_AMBIGUITY": 1,
+      "UNSUPPORTED_TIME_OR_SCOPE": 1,
+      "UNSUPPORTED_EXCEPTION_DOMAIN": 1,
+      "UNSUPPORTED_REFERENT": 1
+    },
+    "revision": {
+      "UNSUPPORTED_QUANTIFIER_READING": 7,
+      "UNSUPPORTED_NOMINAL_ROLE": 14
+    }
+  },
+  "diagnostic_limit": "No new execution of old readers was performed. This audit reads the published original outputs; a new inflection layer cannot be credited with semantic/referral/operator completion from sign decoding alone.",
+  "primary_grammar_passages": [
+    {
+      "source_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+      "path": "src/nabt/data/source_evidence/qatr.txt",
+      "topic": "imperfect_nun_original_substitute_and_estimated_marks",
+      "file_sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+      "line_start": 64,
+      "line_end": 95,
+      "byte_start": 2945,
+      "byte_end": 6128,
+      "passage_sha256": "d1d5b102c1b00e6a9a11213322a9996c43d1aa10bb724abf00c35803a25c1ffb",
+      "text": "### | 3- \n# ومضارع: ويعرف بلم. وافتتاحه بحرف من نأيت، نحو نقوم وأقوم ويقوم وتقوم.\n~~ويضم أوله إن كان ماضيه رباعيا ك\"يدحرج ويكرم\"، ويفتح في غيره ك\"يضرب\n~~ويستخرج\". ويسكن آخره مع نون النسوة نحو يتربصن وإلا أن يعفون، ويفتح مع\n~~نون التوكيد المباشرة لفظا وتقديرا نحو لينبذن، ويعرب فيما عدا ذلك نحو\n~~يقوم زيد ولا تتبعان لتبلون فإما ترين ولا يصدنك.\n# وأما الحرف: فيعرف بأن لا يقبل شيئا من علامات الاسم والفعل، نحو هل وبل.\n~~وليس منه مهما وإذما، بل ما المصدرية ولما الرابطة في الأصح. وجميع الحروف\n~~مبنية.\n# والكلام: لفظ مفيد. وأقل ائتلافه من اسمين ك\"زيد قائم\"، أو فعل واسم\n~~ك\"قام زيد\".\n# فصل: أنواع الإعراب أربعة.\n# (1) رفع (2) ونصب في اسم وفعل نحو \"زيد يقوم\" و \"إن زيدا لن يقوم\"، (3)\n~~وجر في اسم نحو \"بزيد\"، (4) وجزم نحو \"لم يقم\". فيرفع بضمة، وينصب بفتحة،\n~~ويجر بكسرة، ويجزم بحذف حركة، إلا الأسماء الستة، وهي أبوه وأخوه وحموها\n~~وهنوه وفوه وذو مال، فترفع بالواو وتنصب بالألف وتجر بالياء. والأفصح\n~~استعمال هن كغد.\n# PageV01P005\n# والمثنى ms01 كالزيدان فيرفع بالألف، وجمع المذكر السالم كالزيدون فيرفع\n~~بالواو، ويجران وينصبان بالياء. وكلا وكلتا مع الضمير كالمثنى، وكذا اثنان\n~~واثنتان مطلقا وإن ركبا وأولو وعشرون وأخواته وعالمون وأهلون ووابلون\n~~وأرضون وسنون وبابه وبنون وعليون وشبهه كالجمع.\n# وأولات وما جمع بألف وتاء مزيدتين وما سمي به منهما فينصب بالكسرة، نحو\n~~خلق السموات، واصطفى البنات وما لا ينصرف فيجر بالفتحة نحو \"بأفضل منه\"،\n~~إلا مع أل نحو \"بالأفضل\" أو بالإضافة نحو \"بأفضلكم\" والأمثلة الخمسة، وهي\n~~تفعلان وتفعلون بالياء والتاء فيهما، وتفعلين، فترفع بثبوت النون، وتجزم\n~~وتنصب بحذفها، نحو \"فإن لم تفعلوا ولن تفعلوا\" - والفعل المضارع المعتل\n~~الآخر فيجزم بحذف آخره، نحو \"لم يغز ولم يخش ولم يرم\".\n# فصل: تقدر جميع الحركات في نحو \"غلامي والفتى\" ويسمى مقصورا، والضمة\n~~والكسرة في نحو \"القاضي\" ويسمى منقوصا، والضمة والفتحة في نحو \"يخشى\"،\n~~والضمة في نحو \"يدعو ويقضي\". وتظهر الفتحة في نحو \"إن القاضي لن يقضي ولن\n~~يدعو\".\n"
+    },
+    {
+      "source_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+      "path": "src/nabt/data/source_evidence/qatr.txt",
+      "topic": "genitive_idafa_nun_and_tanwin",
+      "file_sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+      "line_start": 336,
+      "line_end": 345,
+      "byte_start": 29214,
+      "byte_end": 30201,
+      "passage_sha256": "af8f4293c9ff8f4a30ff1a3a94a7b2a6de82188a8dd9788813666bd8920fb9a2",
+      "text": "# PageV01P019\n### | باب يخفض الاسم إما بحرف مشترك:\n# وهو من وإلى وعن وعلى وفي واللام والباء للقسم وغيره - أو مختص بالظاهر -\n~~وهو رب ومذ ومنذ والكاف وحتى وواو القسم وتاؤه - أو بإضافة إلى اسم على\n~~معنى اللام ك \"غلام زيد\" أو من ك\"خاتم حديد\" أو في ك \"مكر الليل\" وتسمى\n~~معنوية لأنها للتعريف أو التخصيص، أو بإضافة الوصف إلى معموله ك\"بالغ\n~~الكعبة\" و \"معمور الدار\" و \"حسن الوجه\" وتسمى لفظية لأنها لمجرد التخفيف\n~~ولا تجامع الإضافة تنوينا ولا نونا تالية للإعراب مطلقا، ولا أل إلا في نحو\n~~\"الضاربا زيد، والضاربو زيد، والضارب الرجل، والضارب رأس الرجل، وبالرجل\n~~الضارب غلامه\".\n"
+    },
+    {
+      "source_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+      "path": "src/nabt/data/source_evidence/alfiyya.txt",
+      "topic": "case_signs_and_their_conditions",
+      "file_sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+      "line_start": 61,
+      "line_end": 100,
+      "byte_start": 2699,
+      "byte_end": 6131,
+      "passage_sha256": "45dca8ac360bb555324e37e8fafb4bf014bbceec3b4822571d328edc76a6b15e",
+      "text": "### | المعرب والمبني\n# والاسم منه معرب ومبني ... لشبه من الحروف مدني\n# كالشبه الوضعي في اسمي جئتنا ... والمعنوي في متى وفي هنا\n# وكنيابة عن الفعل بلا ... تأثر وكافتقار أصلا\n# ومعرب الأسماء ما قد سلما ... من شبه الحرف كأرض وسما\n# وفعل أمر ومضي بنيا ... وأعربوا مضارعا إن عريا\n# من نون توكيد مباشر ومن ... نون إناث كيرعن من فتن\n# وكل حرف مستحق للبنا ... والأصل في المبني أن يسكنا\n# ومنه ذو فتح وذو كسر وضم ... كأين أمس حيث والساكن كم\n# والرفع والنصب اجعلن اعرابا ... لاسم وفعل نحو لن أهابا\n# والاسم قد خصص بالجر كما ... قد خصص الفعل بأن ينجزما\n# فارفع بضم وانصبن فتحا وجر ... كسرا كذكر الله عبده يسر\n# واجزم بتسكين وغير ما ذكر ... ينوب نحو جاأخو بني نمر\n# PageV01P010\n# وارفع بواو وانصبن بالألف ... واجرر بياء ما من الأسماء أصف\n# من ذاك ذو إن صحبة أبانا ... والفم حيث الميم منه بانا\n# أب أخ حم كذاك وهن ... والنقص في هذا الأخير أحسن\n# وفي أب وتالييه يندر ... وقصرها من نقصهن أشهر\n# وشرط ذا الاعراب إن يضفن لا ... للياكجا أخو أبيك ذا اعتلا\n# بالألف ارفع المثنى ms01 وكلا ... إذا بمضمر مضافا وصلا\n# كلتا كذاك اثنان واثنتان ... كابنين وابنتين يجريان\n# وتخلف اليا في جميعها الألف ... جرا ونصبا بعد فتح قد ألف\n# وارفع بواو وبيا واجرر وانصب ... سالم جمع عامر ومذنب\n# وشبه ذين وبه عشرونا ... وبابه ألحق والأهلونا\n# أولو وعالمون عليونا ... وأرضون شذ والسنونا\n# وبابه ومثل حين قد يرد ... ذا الباب وهو عند قوم يطرد\n# ونون مجموع وما به ألتحق ... فافتح وقل من بكسره نطق\n# ونون ما ثني والملحق به ... بعكس ذاك استعملوه فانتبه\n# ومابتا وألف قد جمعا ... يكسر في الجر وفي النصب معا\n# كذا أولات والذي اسما قد جعل ... كأذرعات فيه ذا أيضا قبل\n# PageV01P011\n# وجر بالفتحة ما لا ينصرف ... ما لم يضف أو يك بعد أل ردف\n# واجعل لنحو يفعلان النونا ... رفعا وتدعين وتسألونا\n# وحذفها للجزم والنصب سمه ... كلم تكوني لترومي مظلمه\n# وسم معتلا من الأسماء ما ... كالمصطفى والمرتقى مكارما\n# فالأول الإعراب فيه قدرا ... جميعه وهو الذي قد قصرا\n# والثاني منقوص ونصبه ظهر ... ورفعه ينوي كذا أيضا يجر\n# وأي فعل آخر منه ألف ... أو واو او ياء فمعتلا عرف\n# فالألف انوفيه غير الجزم ... وأبد نصب ما كيدعو يرمي\n# والرفع فيهما انوواحذف جازما ... ثلاثهن تقض حكما لازما\n"
+    },
+    {
+      "source_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+      "path": "src/nabt/data/source_evidence/alfiyya.txt",
+      "topic": "attached_pronouns_and_protective_nun",
+      "file_sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+      "line_start": 104,
+      "line_end": 124,
+      "byte_start": 6264,
+      "byte_end": 8070,
+      "passage_sha256": "8b0950eb0da44161d62475400ae9844e666229da4e81e60c42f9c9726c668f97",
+      "text": "# وغيره معرفة كهم وذي ... وهند وابني والغلام والذي\n# فما لذي غيبة أو حضور ... كأنت وهو سم بالضمير\n# وذو اتصال منه ما لا يبتدا ... ولا يلي إلا اختيارا أبدا\n# كالياء والكاف من ابني أكرمك ... والياء والها من سلييه ما ملك\n# PageV01P012\n# وكل مضمر له البنا يجب ... ولفظ ما جر كلفظ ما نصب\n# للرفع والنصب وجرنا صلح ... كاعرف بنا فإننا نلنا المنح\n# وألف والواو والنون لما ... غاب وغيره كقاما واعلما\n# ومن ضمير الرفع ما يستتر ... كافعل أوافق نغتبط إذ تشكر\n# وذو إرتفاع وانفصال أنا هو ... وأنت الفروع لا تشتبه\n# وذو انتصاب في انفصال جعلا ... إياي والتفريع ليس مشكلا\n# وفي اختيار لا يجيء المنفصل ... إذ تأتى أن يجئ المتصل\n# وصل أو افصل هاء سلنيه ms02 وما ... أشبهه في كنته الخلف أنتمي\n# كذاك خلتنيه واتصالا ... أختار غيري اختار الانفصالا\n# وقدم الأخص في اتصال ... وقدمن ما شئت في اتفصال\n# وفي اتحاد الرتبة الزم فصلا ... وقد يبيح الغيب فيه وصلا\n# وقبل يا النفس مع الفعل التزم ... نون وقاية وليسي قد نظم\n# وليتني فشا وليتي ندرا ... ومع لعل اعكس وكن مخيرا\n# في الباقيات واضطرارا خففا ... مني وعني بعض من قد سلفا\n# وفي لدني لدني قل وفي ... قدني وقطني الحذف أيضا قد يفي\n# PageV01P013\n"
+    },
+    {
+      "source_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+      "path": "src/nabt/data/source_evidence/alfiyya.txt",
+      "topic": "construct_state_nun_deletion_and_limits",
+      "file_sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+      "line_start": 506,
+      "line_end": 517,
+      "byte_start": 38154,
+      "byte_end": 39215,
+      "passage_sha256": "99823fd47265331062a9c8c48a4280367165f25914803639444bd5832d79495f",
+      "text": "### | الإضافة\n# نونا تلي الإعراب أو تنوينا ... مما تضيف احذف كطور سينا\n# والثاني اجرر وانو من أو في إذا ... لم يصلح إلا ذاك واللام خذا\n# لما سوى ذينك واخصص أولا ... أو أعطه التعريف بالذي تلا\n# وإن يشابه المضاف يفعل ... وصفا فعن تنكيره لا يعزل\n# كرب راجينا عظيم الأمل ... مروع القلب قليل الحيل\n# وذي الإضافة اسمها لفظية ... وتلك محضة ومعنوية\n# ووصل أل بذا المضاف مغتفر ... إن وصلت بالثاني كالجعد الشعر\n# أو بالذي له أضيف الثاني ... كزيد الضارب رأس الجاني\n# وكانها في الوصف كاف إن وقع ... مثنى أو جمعا سبيله اتبع\n# وربما أكسب ثان أولا ... تأنيثا ان ms13 كان الحذف موهلا\n# ولا يضاف اسم لما به اتحد ... معنى وأول موهما إذا ورد\n"
+    },
+    {
+      "source_commit": "880fad4b1c613813ca02e6288bd87a46de90d1e5",
+      "path": "src/nabt/data/source_evidence/alfiyya.txt",
+      "topic": "emphasis_nun_connection_and_deletion_limits",
+      "file_sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+      "line_start": 834,
+      "line_end": 849,
+      "byte_start": 62689,
+      "byte_end": 64023,
+      "passage_sha256": "f4b68f86fd2d9a6b9a51b79155a32fe3a675066d0f9566efd1fcc37fbe08912a",
+      "text": "### | نونا التوكيد\n# للفعل توكيد بنونين هما ... كنوني اذهبن واقصدنهما\n# يؤكدان افعل ويفعل آتيا ... ذا طلب أو شرطا أما تاليا\n# أو مثبتا في قسم مستقبلا ... وقل بعد ما ولم وبعد لا\n# وغير إما من طوالب الجزا ... وآخر المؤكد افتح كابرزا\n# واشكله قبل مضمر لين بما ... جانس من تحرك قد علما\n# والمضمر احذفنه إلا الألف ... وإن يكن في آخر الفعل ألف\n# فاجعله منه رافعا غير اليا ... والواو ياء كاسعين سعيا\n# واحذفه من رافع هاتين وفي ... وا ويا شكل مجانس قفي\n# PageV01P054\n# نحو اخشين يا هند بالكسر ويا ... قوم اخشون واضمم وقس مسويا\n# ولم تقع خفيفة بعد الألف ... لكن شديدة وكسرها ألف\n# وألفا زد قبلها مؤكدا ... فعلا الى نون الإناث أسندا\n# واحذف خفيفة لساكن ردف ... وبعد غير فتحة إذا تقف\n# واردد إذا حذفتها في الوقف ما ... من أجلها في الوصل كان عدما\n# وأبدلنها بعد فتح ألفا ... وقفا كما تقول في قفن قفا\n"
+    }
+  ],
+  "corpus_input_boundary": {
+    "source_repository": "Saleh1967/Alghanem",
+    "source_commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+    "qac": {
+      "path": "corpora/qac/quranic-corpus-morphology-0.4.txt.gz",
+      "compressed_sha256": "bcfed711c720fdcb27e6deb49484ed6488c71040a292ab2e5322393322108514",
+      "decompressed_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+      "columns_observed": [
+        "LOCATION",
+        "FORM",
+        "TAG",
+        "FEATURES"
+      ],
+      "form_is_already_segment_level": true,
+      "target_annotations_not_raw_evidence": [
+        "TAG",
+        "FEATURES:POS",
+        "FEATURES:ROOT",
+        "FEATURES:LEM",
+        "FEATURES:case",
+        "FEATURES:PREFIX/STEM/SUFFIX",
+        "LOCATION:segment"
+      ]
+    },
+    "masaq": {
+      "path": "corpora/MASAQ.csv",
+      "sha256": "d43d2a813afbe0490254bb26623d6041ed352a273d333e731ddbcda3bd0b6f3a",
+      "raw_word_field": "Word",
+      "target_annotations_not_raw_evidence": [
+        "Segmented_Word",
+        "Morph_tag",
+        "Morph_type",
+        "Invariable_Declinable",
+        "Syntactic_Role",
+        "Possessive_Construct",
+        "Case_Mood",
+        "Case_Mood_Marker",
+        "Phrase",
+        "Phrasal_Function",
+        "Notes"
+      ],
+      "absence_of_explicit_dependency_head_field_in_observed_header": true
+    },
+    "cross_source_leakage_warning": "QAC and MASAQ annotate overlapping Quranic text; a corpus-name split does not create an independent linguistic text holdout. Group parallel verses/tokens and orthographic variants together."
+  }
+}

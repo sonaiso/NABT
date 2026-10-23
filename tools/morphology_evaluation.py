@@ -36,6 +36,12 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    "inflection_v2": ("70e56488ae8a99aa0d52d7ebed53c039d10ed7de9a8c457952515e45277db96e",
+                      "818a1a90e0710daf951bc8108b32f37978938361c0f8f92032840872640c52f3",
+                      "59a575c2f10bb07633d54515dad21b08b35ecde37ba3d909e4748eec82f9eb14"),
+    "inflection_v1": ("fe93f8ebebb21078113462244052da93c102f4d5a673c2636c0cab27e0ffa103",
+                      "aaac387085d745b89f0260eb1905d66dade8a710e483034442e7957972243ede",
+                      "31cc7b08586e5c0fa235357d75b36ce23475f486addec6d6d465be4889346c7f"),
     "nominal_v2": ("d904702b8633f8102c6795f3beeff0d5584e908ee7b0d1c605c168103ab87f94",
                    "814ec3f4ea340b09b594ff162e65e49be8e4110088da5feae02fe41eb8a71d6c",
                    "c7ab0b42159ba60d5a39b65b2adb980ed92df6e6e71eb1dc355bbfb43d838071"),
@@ -51,6 +57,8 @@ CODE_FREEZES = {
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    "inflection_v2": ROOT / "evidence/inflection/code_freeze_v2.json",
+    "inflection_v1": ROOT / "evidence/inflection/code_freeze_v1.json",
     "nominal_v2": ROOT / "evidence/nominal/code_freeze_v2.json",
     "nominal_v1": ROOT / "evidence/nominal/code_freeze_v1.json",
     "derivation_v1": ROOT / "evidence/derivation/code_freeze_v1.json",
@@ -131,7 +139,7 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot, version="nominal_v2"):
+def verify_runtime_freeze(actual_snapshot, version="inflection_v2"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -414,7 +422,7 @@ def regression_gate(results):
     return all(case["passed"] or documented_boundary(case) for case in results)
 
 
-def evaluate(version="v2", *, freeze_version="nominal_v2"):
+def evaluate(version="v2", *, freeze_version="inflection_v2"):
     material = load_material(version)
     before = snapshot()
     freeze = verify_runtime_freeze(before, freeze_version)
@@ -445,7 +453,7 @@ def evaluate(version="v2", *, freeze_version="nominal_v2"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="nominal_v2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="inflection_v2")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")
