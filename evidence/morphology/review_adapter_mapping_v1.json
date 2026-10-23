@@ -1,0 +1,29 @@
+{
+  "schema": "nabt.morphology.evaluator-mapping-erratum.v1",
+  "recorded_utc": "2026-10-23T10:39:39.131588+00:00",
+  "previous_evaluator": {
+    "version": "nabt.morphology.independent-evaluator.v1",
+    "path": "evidence/morphology/review_evaluator_v1.py",
+    "sha256": "cce6280910db763469dcbf9e1dc8e950bcd3169317be8eec394befc9c53e1b53"
+  },
+  "current_evaluator": {
+    "version": "nabt.morphology.independent-evaluator.v1.2",
+    "path": "tools/morphology_evaluation.py",
+    "sha256": "c2a9ef96d0fe32087875a338c900c57700e5bfe0d9d8688c938e167abb53a621"
+  },
+  "change": "The frozen expectation named diptote_intrinsic denotes the qualified cause formula. Runtime review separated that conditional formula into axes.diptote.cause_prediction and restricted the parent diptote class to an established inflected noun. The generic adapter now projects the named intrinsic field from cause_prediction; no case inputs, expected values, or lexical exceptions changed.",
+  "source_reason": "A grammatical cause and its class/domain prerequisites are different claims; conditional genitive sign also does not assert actual genitive government.",
+  "gate_change": "An explicit optional gate permits only m12/m13/m32/m33 failing solely kind approval with DEFER, the correct singleton candidate, and blocked_by_unparsed_source. All original raw failures remain reported.",
+  "case_material_modified": false,
+  "old_actual_outputs_preserved": [
+    "review_first_v1_diagnostic.json",
+    "review_first_v2.json"
+  ],
+  "latest_actual_output": "review_final_v2.json",
+  "freeze_enforcement": {
+    "manifest_sha256": "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e3437a35b7bffd",
+    "runtime_snapshot_sha256": "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46",
+    "archive_sha256": "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a",
+    "verification": "Exact manifest, selected package file inventory and bytes, archive inventory and member bytes, loaded module origins; before/after actual snapshot must agree."
+  }
+}

@@ -105,6 +105,8 @@ def check(lean_export=None):
     from nabt.governor_reader import replay_source_policy
     from nabt.words import EXPECTED_TABLE_SHA256 as WORD_TABLE_SHA256, installed_table as word_table
     from nabt.word_reader import EXPECTED_POLICY_SHA256 as WORD_POLICY_SHA256, replay_policy
+    from nabt.morphology import installed_table as morphology_table
+    from nabt.morphology_reader import replay_policy as morphology_policy
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -139,6 +141,8 @@ def check(lean_export=None):
     governor_policy = replay_source_policy()
     word_classes, word_rows = word_table()
     word_policy = replay_policy()
+    morphology = morphology_table()
+    morphology_source = morphology_policy()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
@@ -148,6 +152,8 @@ def check(lean_export=None):
             "word_declension_classes": len(word_classes), "word_class_case_rows": len(word_rows),
             "word_source_policy_sha256": WORD_POLICY_SHA256,
             "word_lexical_entries": len(word_policy["entries"]),
+            "morphology_qualified_cause_rows": len(morphology["cause_rows"]),
+            "morphology_source_rules": len(morphology_source["rules"]),
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

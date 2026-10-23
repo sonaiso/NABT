@@ -2,12 +2,12 @@ PYTHON ?= python3
 LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
-TEXT_CODE_FREEZE ?= evidence/words/code_freeze_v3.json
+TEXT_CODE_FREEZE ?= evidence/morphology/code_freeze_v1.json
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms check benchmark demo
+.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms check benchmark demo
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -33,6 +33,12 @@ governor-conformance:
 word-conformance:
 	$(PYTHON) tools/check_word_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/word-conformance.json
 
+morphology-conformance:
+	$(PYTHON) tools/check_morphology_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/morphology-conformance.json
+
+morphology-evaluation:
+	$(PYTHON) tools/morphology_evaluation.py --output $(EVIDENCE_DIR)/morphology-regression.json --allow-documented-boundaries
+
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
 
@@ -51,7 +57,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:

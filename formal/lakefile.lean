@@ -2,7 +2,7 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.7.0"
+  version := v!"0.8.0"
 
 @[default_target]
 lean_lib Nabt
