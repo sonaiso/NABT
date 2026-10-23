@@ -12,12 +12,14 @@ import argparse
 import json
 from pathlib import Path
 import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 from nabt.arabic_reader import LANGUAGE_ID, Mood, encode_cell_envelope, decode_cell_envelope
 from nabt.program import Opcode
 from nabt.text_ir import LANGUAGE_ID as CONTROLLED_LANGUAGE_ID
-
-ROOT = Path(__file__).resolve().parents[1]
 
 
 def check_table(table: dict) -> dict:
