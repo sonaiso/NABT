@@ -1,0 +1,211 @@
+{
+  "schema": "nabt.nominal.independent-review-summary.v1",
+  "recorded_at_utc": "2026-10-23T13:04:28.419697+00:00",
+  "base_commit": "d2013d937fae0336f38c9a49ffd5c8b03858f7fc",
+  "first_measurement": {
+    "path": "evidence/nominal/independent_first_run_v1.json",
+    "score": {
+      "passed": 184,
+      "total": 184
+    },
+    "runtime_unchanged_during_evaluation": true,
+    "code_snapshot_sha256": "5a4f204c5b9527608c8057baff317c44d808bf30ecf879d10058a590cf441808",
+    "gold_or_adapter_changes_after_first_measurement": [],
+    "erratum_required": false
+  },
+  "group_scores": {
+    "cardinal_rule": {
+      "passed": 29,
+      "total": 29
+    },
+    "cardinal_rule_boundary": {
+      "passed": 9,
+      "total": 9
+    },
+    "closed_pronoun_projection": {
+      "passed": 14,
+      "total": 14
+    },
+    "count_phrase_boundary": {
+      "passed": 4,
+      "total": 4
+    },
+    "count_phrase_relation": {
+      "passed": 11,
+      "total": 11
+    },
+    "exact_lexical_binding": {
+      "passed": 1,
+      "total": 1
+    },
+    "lexical_base_witness": {
+      "passed": 8,
+      "total": 8
+    },
+    "nominal_manqus": {
+      "passed": 9,
+      "total": 9
+    },
+    "pronoun_projection_boundary": {
+      "passed": 4,
+      "total": 4
+    },
+    "raw_cue_boundary": {
+      "passed": 22,
+      "total": 22
+    },
+    "source_fact_boundaries": {
+      "passed": 11,
+      "total": 11
+    },
+    "source_gender_counterexamples": {
+      "passed": 3,
+      "total": 3
+    },
+    "source_occurrence_count": {
+      "passed": 11,
+      "total": 11
+    },
+    "source_qualified_profiles": {
+      "passed": 22,
+      "total": 22
+    },
+    "source_replay": {
+      "passed": 6,
+      "total": 6
+    },
+    "supplied_weak_root": {
+      "passed": 11,
+      "total": 11
+    },
+    "weak_root_boundary": {
+      "passed": 9,
+      "total": 9
+    }
+  },
+  "task_scores": {
+    "raw_and_linked_nominal_reading": {
+      "passed": 53,
+      "total": 53
+    },
+    "controlled_source_assertions": {
+      "passed": 41,
+      "total": 41
+    },
+    "supplied_weak_root": {
+      "passed": 20,
+      "total": 20
+    },
+    "supplied_cardinal_rule": {
+      "passed": 38,
+      "total": 38
+    },
+    "bounded_count_phrase": {
+      "passed": 15,
+      "total": 15
+    },
+    "source_occurrence_cardinality": {
+      "passed": 11,
+      "total": 11
+    },
+    "source_replacement": {
+      "passed": 6,
+      "total": 6
+    },
+    "source_structure": {
+      "passed": 126,
+      "total": 126
+    },
+    "semantic_restraint": {
+      "passed": 166,
+      "total": 166
+    }
+  },
+  "focused_review_tests": {
+    "command": "PYTHONPATH=src python -m unittest discover -s tests -p test_nominal_review.py -v",
+    "passed": 18,
+    "total": 18,
+    "duration_seconds": 0.527,
+    "test_names": [
+      "test_frozen_pre_open_cases",
+      "test_blanket_deferral_fails_required_positive_profile",
+      "test_accepting_every_class_fails_raw_cue_exclusion",
+      "test_written_occurrence_shift_detected_without_reader_replay",
+      "test_source_assertion_cannot_transfer_between_readings",
+      "test_source_qualification_and_missing_traits_are_not_discarded",
+      "test_lexical_identity_cannot_be_swapped_when_labels_agree",
+      "test_plural_base_gender_cannot_be_borrowed_from_another_reading",
+      "test_unknown_unshaddad_flag_cannot_be_filled_by_mask_edit",
+      "test_quoted_mentions_cannot_become_unquoted_uses",
+      "test_duplicate_unit_reference_cannot_increase_count",
+      "test_digits_cannot_supply_observed_gender",
+      "test_counted_gender_cannot_use_unrelated_origin",
+      "test_counted_case_requirement_cannot_become_actual_case",
+      "test_boolean_numeric_operands_and_root_normalization_are_rejected",
+      "test_raw_reader_has_no_answer_operands",
+      "test_pronoun_candidate_does_not_conflict_with_independent_verb_reading",
+      "test_nominal_number_replays_source_and_all_alternatives"
+    ],
+    "includes_one_frozen_case_loop": true,
+    "additional_post_open_tests": 17,
+    "additional_tests_added_to_independent_denominator": false
+  },
+  "findings": {
+    "pre_measurement_fixes": "See independent_pre_first_run_review_v1.json; all occurred after material freeze but before first execution and no gold changed.",
+    "remaining_contract_failures_observed": [],
+    "production_or_formal_files_edited_by_reviewer": [],
+    "commits_or_remote_actions_by_reviewer": []
+  },
+  "limits": [
+    "Authored source-informed cases, not an untouched natural corpus or unrestricted Arabic accuracy.",
+    "Controlled-source extraction is conditional on source claims, not proof of lexical truth or spontaneous fact acquisition.",
+    "Pronoun scores concern the declared candidate inventory and preserve homograph nonexhaustiveness.",
+    "Root tests classify supplied canonical radicals; shape candidates remain unconfirmed.",
+    "Numeric rule cases include explicit invalid/out-of-domain boundaries; successful rejection is not positive lexical coverage.",
+    "Written-occurrence counts, cardinal requirements, grammatical number and world-object counts remain distinct.",
+    "No actual role or case is established; missing descriptive premises remain unknown.",
+    "Full make check, formal conformance, wheel packaging and release gates are owned by the parent and not duplicated by this focused review."
+  ],
+  "files": [
+    {
+      "path": "evidence/nominal/independent_cases_v1.json",
+      "bytes": 124791,
+      "sha256": "1c865468207b2238118999f157fccda9aee9f260585f2b3c36ca9b556c3b52b9"
+    },
+    {
+      "path": "evidence/nominal/independent_protocol.md",
+      "bytes": 4968,
+      "sha256": "d31c2a612e15f68ada1e7f8377a96998ccb8b3236d9870760492cb64945a9b8a"
+    },
+    {
+      "path": "evidence/nominal/independent_material_freeze_v1.json",
+      "bytes": 1699,
+      "sha256": "fb8caa81febae39762b42613802391c322ef3f0e1afc5c83472a92b964ff9f62"
+    },
+    {
+      "path": "evidence/nominal/independent_pre_first_run_review_v1.json",
+      "bytes": 2415,
+      "sha256": "e8445109627bc241d8306fd2eb7009511d4408541292482cc28573a3379394b8"
+    },
+    {
+      "path": "evidence/nominal/independent_first_run_v1.json",
+      "bytes": 544203,
+      "sha256": "42b1e65fea397dd8e26855fc08dc52eccfd24a409fc270193ea8c41fd635a8f0"
+    },
+    {
+      "path": "evidence/nominal/independent_first_run_v1.code.tar.gz",
+      "bytes": 887168,
+      "sha256": "fbf04ce2f3a60c56a82b99320a74522c38e05156fcffe4ee508ec5d8d181f0a1"
+    },
+    {
+      "path": "tools/nominal_evaluation.py",
+      "bytes": 47918,
+      "sha256": "1f9e93e48ba6a6a4ccd5b4d842eed7f2ed04ab0406375948e0b3afdaf6610e81"
+    },
+    {
+      "path": "tests/test_nominal_review.py",
+      "bytes": 11080,
+      "sha256": "4f661af70341a4dd011d4c9a723676523444a0ed689b81a4c1d9f0b2af8bb753"
+    }
+  ]
+}

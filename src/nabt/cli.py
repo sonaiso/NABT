@@ -142,6 +142,27 @@ def parser() -> Parser:
         command.add_argument("--scope", default="default")
         if name == "verify-derivation":
             command.add_argument("--profile", choices=("stem_exact_v1", "surface_v1"), default="surface_v1")
+    sub.add_parser("nominal-catalog")
+    weak = sub.add_parser("weak-root-profile")
+    weak.add_argument("root")
+    cardinal = sub.add_parser("number-rule")
+    cardinal.add_argument("quantity")
+    cardinal.add_argument("singular_gender", choices=("masculine", "feminine"))
+    for name in ("read-nominal", "read-nominal-facts", "count-source-units", "read-count-phrase"):
+        command = sub.add_parser(name)
+        command.add_argument("document", type=Path)
+        command.add_argument("--scope", default="default")
+        if name in {"read-nominal", "read-count-phrase"}:
+            command.add_argument("--lexical-source", type=Path)
+        if name == "read-nominal":
+            command.add_argument("--with-number", action="store_true")
+    for name in ("verify-nominal", "verify-nominal-facts", "verify-source-count", "verify-count-phrase"):
+        command = sub.add_parser(name)
+        command.add_argument("report", type=Path)
+        command.add_argument("--source", type=Path, required=True)
+        command.add_argument("--scope", default="default")
+        if name in {"verify-nominal", "verify-count-phrase"}:
+            command.add_argument("--lexical-source", type=Path)
     for name in ("read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"):
         command = sub.add_parser(name)
         command.add_argument("document", type=Path)
@@ -171,6 +192,53 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"nominal-catalog", "weak-root-profile", "number-rule"}:
+        from .nominal import nominal_catalog, weak_root_profile, number_rule
+        if command == "nominal-catalog":
+            return nominal_catalog(), 0
+        if command == "weak-root-profile":
+            return weak_root_profile(args.root), 0
+        return number_rule(number(args.quantity), args.singular_gender), 0
+    if command in {"read-nominal", "verify-nominal", "read-nominal-facts", "verify-nominal-facts",
+                   "count-source-units", "verify-source-count", "read-count-phrase", "verify-count-phrase"}:
+        from .nominal import (MAX_REPORT_BYTES, NUMBER_DOMAIN, nominal_number,
+                              read_nominal, verify_nominal, read_nominal_facts, verify_nominal_facts)
+        from .counting import (count_source_units, verify_source_count, read_count_phrase, verify_count_phrase)
+        from .word_reader import MAX_SOURCE_BYTES
+        verifying = command.startswith("verify-")
+        path = args.source if verifying else args.document
+        with path.open("rb") as handle:
+            raw = handle.read(MAX_SOURCE_BYTES + 1)
+        if len(raw) > MAX_SOURCE_BYTES:
+            raise resource_limit("Nominal source exceeds its byte budget")
+        options = {"scope": args.scope}
+        if command in {"read-nominal", "verify-nominal", "read-count-phrase", "verify-count-phrase"}:
+            lexical = None
+            if args.lexical_source is not None:
+                with args.lexical_source.open("rb") as handle:
+                    lexical = handle.read(MAX_SOURCE_BYTES + 1)
+                if len(lexical) > MAX_SOURCE_BYTES:
+                    raise resource_limit("Nominal assertions exceed their byte budget")
+            # Explicit None withdraws a lexical premise, including on verification.
+            options.update(lexical_text=lexical, lexical_source_id="nominal_lexicon")
+        if command in {"read-nominal", "verify-nominal"}:
+            reader, verifier, source_id = read_nominal, verify_nominal, "input"
+        elif command in {"read-nominal-facts", "verify-nominal-facts"}:
+            reader, verifier, source_id = read_nominal_facts, verify_nominal_facts, "nominal_lexicon"
+        elif command in {"count-source-units", "verify-source-count"}:
+            reader, verifier, source_id = count_source_units, verify_source_count, "count"
+        else:
+            reader, verifier, source_id = read_count_phrase, verify_count_phrase, "count_phrase"
+        options["source_id"] = source_id
+        if verifying:
+            result = verifier(read_certificate(args.report, MAX_REPORT_BYTES), text=raw, **options)
+            return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
+        report = reader(raw, **options)
+        code = 0 if report["status"] == "READ" else 3 if report["status"] == "DEFER" else 2
+        if getattr(args, "with_number", False):
+            return {"report": report, "encoding": {"domain": NUMBER_DOMAIN,
+                    "number_hex": hex(nominal_number(report)), "authority": "ENCODING_ONLY"}}, code
+        return report, code
     if command == "derivation-catalog":
         from .derivation import pattern_catalog
         return pattern_catalog(), 0

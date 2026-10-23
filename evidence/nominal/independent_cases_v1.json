@@ -1,0 +1,3984 @@
+{
+  "schema": "nabt.nominal.independent-cases.v1",
+  "created_at_utc": "2026-10-23T12:51:19.752048+00:00",
+  "nabt_base_commit": "d2013d937fae0336f38c9a49ffd5c8b03858f7fc",
+  "independence": {
+    "authored_before_reviewer_opened_new_runtime": true,
+    "new_runtime_generated_table_new_formal_or_implementation_tests_read": false,
+    "prior_inputs": [
+      "Pinned existing primary texts and upstream Lean passages",
+      "Agreed public API and controlled-source grammar",
+      "The planned five-flag manqus correction agreed before freeze"
+    ],
+    "not_claimed": [
+      "Untouched external corpus",
+      "Arabic-wide accuracy",
+      "Natural-language fact acquisition from the controlled descriptions",
+      "Lexical truth of explicit source claims",
+      "World-object counting"
+    ]
+  },
+  "contract": {
+    "public_apis": [
+      "read_nominal",
+      "read_nominal_facts",
+      "number_rule",
+      "weak_root_profile",
+      "count_source_units",
+      "read_count_phrase",
+      "verify_nominal"
+    ],
+    "raw_source_identity": "Exact UTF-8 byte spans and preserved source bytes; adapters use valid lowercase transport identifiers.",
+    "lexical_linkage": "Exact UTF-8 surface, no Unicode normalization or mark stripping; all matching independent readings retained.",
+    "pronouns": "Declared new Unicode projection of the canonical Mashru 14 readings; input marks are subsets of canonical cluster marks; no hamza folding.",
+    "nominal_profiles": "22 complete noun profiles: singular, dual, sound masculine plural, sound feminine plural, broken plural, other plural; two genders and two definiteness values; feminine sound masculine profiles excluded; masculine sound feminine profiles allowed.",
+    "plural_origin": "Declared plural kind can constrain the source-qualified form; an origin link independently requires a unique same-source singular reading with licensed gender.",
+    "manqus_flags": [
+      "noun",
+      "inflected",
+      "necessary_final_yaa",
+      "preceding_kasra",
+      "final_yaa_unshaddad"
+    ],
+    "manqus_correction": "Before gold freeze, add explicit non-geminated/geminated ya source clauses. Raw final-ya shadda is negative observed evidence; absence of a mark is not positive unshaddad evidence.",
+    "weak_root": "Exactly three canonical Arabic radicals; only waw and ya count as weak; alif, alif maqsura and seated/decomposed hamza are not silently folded. Classification is conditional on supplied radicals.",
+    "count_rule_domain": "Strict int 1..99, 100 or 1000; singular gender masculine/feminine; rule requirements are distinct from actual case/role.",
+    "counted_gender": "The singular noun reading or a unique licensed singular-base link; plural-surface agreement gender does not substitute.",
+    "digits": "ASCII and Arabic-Indic cardinal digits express value but no observed numeral gender.",
+    "count_source_units": "Distinct Arabic written runs including quoted child mentions, excluding non-Arabic runs; context and original spans retained.",
+    "verify_sentinel": "Omitted lexical_text replays embedded premises; explicit None withdraws them and must invalidate an old premise-dependent report."
+  },
+  "common_invariants": [
+    "Raw source and every witness span restore the original UTF-8 bytes.",
+    "Different source occurrences and reading identities cannot share authority accidentally.",
+    "No report establishes world-object count, actual case, actual role or external lexical truth.",
+    "A complete supported numeric rule is a requirement, not an observation of its realization.",
+    "Missing facts are unknown; unsupported qualifiers cannot be silently dropped.",
+    "Contradictions within a reading remain distinct from multiple alternative readings.",
+    "A given root is an operand or explicit source claim, never a root discovered by raw shape alone.",
+    "Source-qualified explicit class extraction has its own denominator and is not counted as unprompted lexical acquisition."
+  ],
+  "expectation_semantics": {
+    "axes": "Semantic candidates, independent of eventual output field names; form names are reader-facing abstract labels.",
+    "forbid_licensed_axes": "An observation may exist, but no singleton licensed conclusion may be activated for these axes.",
+    "manqus_not_true": "No activated true manqus conclusion; an independently witnessed false conclusion is allowed.",
+    "has_conflict": "A relevant incompatible source/observation constraint must be reported; the adapter may map its explicit scoped status.",
+    "no_nominal_classification": "Unsupported or insufficient source premises cannot activate nominal trait conclusions.",
+    "must_reject": "Input is outside the typed operand contract and must not return a successful class/rule.",
+    "no_supported_rule": "Reject or explicitly defer/out-of-domain without a licensed nearby rule; no silent coercion.",
+    "no_complete_supported_relation": "Do not report a fully supported bounded count-noun relation by discarding unparsed text.",
+    "number_rule_case": "Expected case requirement only; contextual means no fixed required case for one/two."
+  },
+  "groups": {
+    "cardinal_rule": 29,
+    "cardinal_rule_boundary": 9,
+    "closed_pronoun_projection": 14,
+    "count_phrase_boundary": 4,
+    "count_phrase_relation": 11,
+    "exact_lexical_binding": 1,
+    "lexical_base_witness": 8,
+    "nominal_manqus": 9,
+    "pronoun_projection_boundary": 4,
+    "raw_cue_boundary": 22,
+    "source_fact_boundaries": 11,
+    "source_gender_counterexamples": 3,
+    "source_occurrence_count": 11,
+    "source_qualified_profiles": 22,
+    "source_replay": 6,
+    "supplied_weak_root": 11,
+    "weak_root_boundary": 9
+  },
+  "cases": [
+    {
+      "id": "NOM-R01",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "أَلْوَانٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَلْوَانٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Hamza-bearing colors is not an interpreted definite article."
+    },
+    {
+      "id": "NOM-R02",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "الوان"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "الوان",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "A naive initial al carrier pair cannot decide definiteness."
+    },
+    {
+      "id": "NOM-R03",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "الْتَقَى"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "الْتَقَى",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Initial al-shaped letters do not establish a noun or definiteness."
+    },
+    {
+      "id": "NOM-R04",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "مُحَمَّدٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Tanwin alone does not decide definite versus indefinite."
+    },
+    {
+      "id": "NOM-R05",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "حَمْزَةُ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "حَمْزَةُ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Ta marbuta is not a universal feminine classifier."
+    },
+    {
+      "id": "NOM-R06",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "مُعَاوِيَةُ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "مُعَاوِيَةُ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "A second masculine proper-name counterexample to suffix-only gender."
+    },
+    {
+      "id": "NOM-R07",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "شَمْسٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "شَمْسٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Absence of a feminine suffix is not masculine evidence."
+    },
+    {
+      "id": "NOM-R08",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "عُثْمَانُ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "عُثْمَانُ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Terminal alif/nun is not a dual witness."
+    },
+    {
+      "id": "NOM-R09",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "عُنْوَانٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "عُنْوَانٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "A different stem with alif/nun must remain open."
+    },
+    {
+      "id": "NOM-R10",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "حِينٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "حِينٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Ya/nun can be part of a singular stem."
+    },
+    {
+      "id": "NOM-R11",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "معلمين"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "معلمين",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Unmarked ya/nun cannot select dual versus sound plural."
+    },
+    {
+      "id": "NOM-R12",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "زَيْتُونٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "زَيْتُونٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Waw/nun can be lexical stem material."
+    },
+    {
+      "id": "NOM-R13",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "أَبْيَاتٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَبْيَاتٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Alif/ta does not prove sound feminine plural."
+    },
+    {
+      "id": "NOM-R14",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "أَوْقَاتٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَوْقَاتٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Another broken-plural counterexample to suffix-only classification."
+    },
+    {
+      "id": "NOM-R15",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "رِجَالٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "رِجَالٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Broken-plural lexical identity needs an independent witness."
+    },
+    {
+      "id": "NOM-R16",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "نِسَاءٌ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "نِسَاءٌ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "A feminine broken-plural reading is not licensed from shape alone."
+    },
+    {
+      "id": "NOM-R17",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "الْقَاضِي"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "الْقَاضِي",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Final ya and apparent preceding kasra do not supply all manqus premises."
+    },
+    {
+      "id": "NOM-R18",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "كُرْسِيّ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كُرْسِيّ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Final geminated ya is not the unstressed final ya of manqus."
+    },
+    {
+      "id": "NOM-R19",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "ظَبْي"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "ظَبْي",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "The previous carrier is not an observed kasra."
+    },
+    {
+      "id": "NOM-R20",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "غُلَامِي"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "غُلَامِي",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "Possessive ya cannot be assumed to be a necessary lexical final ya."
+    },
+    {
+      "id": "NOM-R21",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "قَاضٍ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "قَاضٍ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "A dropped lexical ya is not automatically reconstructed."
+    },
+    {
+      "id": "NOM-R22",
+      "group": "raw_cue_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "قَالَ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "قَالَ",
+            "forbid_licensed_axes": [
+              "kind",
+              "gender",
+              "number",
+              "form",
+              "definiteness"
+            ],
+            "manqus_not_true": true
+          }
+        ],
+        "no_attested_root": true
+      },
+      "rationale": "A weak surface cannot choose a lexical root without a witness."
+    },
+    {
+      "id": "NOM-P01",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هو"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هو",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P02",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هُوَ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هُوَ",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P03",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هي"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هي",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P04",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هِيَ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هِيَ",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P05",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هما"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هما",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine",
+                "feminine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": true
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P06",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هُمَا"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هُمَا",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine",
+                "feminine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": true
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P07",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "أنت"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أنت",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine",
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": true
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P08",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "أَنْتَ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَنْتَ",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P09",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "أَنْتِ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَنْتِ",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P10",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "أنتما"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أنتما",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine",
+                "feminine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": true
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P11",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "أنا"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أنا",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine",
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": true
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P12",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "نحن"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "نحن",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine",
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": true
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P13",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هم"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هم",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P14",
+      "group": "closed_pronoun_projection",
+      "api": "read_nominal",
+      "request": {
+        "text": "هن"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هن",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            },
+            "preserve_gender_ambiguity": false
+          }
+        ]
+      },
+      "rationale": "Declared Unicode pronoun projection; a source reading does not establish a sentence role or referent."
+    },
+    {
+      "id": "NOM-P15",
+      "group": "pronoun_projection_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "انت"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "انت",
+            "no_closed_pronoun_license": true
+          }
+        ]
+      },
+      "rationale": "No hamza-seat/decomposition folding, and incompatible explicit vowel marks are not ignored."
+    },
+    {
+      "id": "NOM-P16",
+      "group": "pronoun_projection_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "أنت"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أنت",
+            "no_closed_pronoun_license": true
+          }
+        ]
+      },
+      "rationale": "No hamza-seat/decomposition folding, and incompatible explicit vowel marks are not ignored."
+    },
+    {
+      "id": "NOM-P17",
+      "group": "pronoun_projection_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "هَوَ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "هَوَ",
+            "no_closed_pronoun_license": true
+          }
+        ]
+      },
+      "rationale": "No hamza-seat/decomposition folding, and incompatible explicit vowel marks are not ignored."
+    },
+    {
+      "id": "NOM-P18",
+      "group": "pronoun_projection_boundary",
+      "api": "read_nominal",
+      "request": {
+        "text": "أَنْتُ"
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "أَنْتُ",
+            "no_closed_pronoun_license": true
+          }
+        ]
+      },
+      "rationale": "No hamza-seat/decomposition folding, and incompatible explicit vowel marks are not ignored."
+    },
+    {
+      "id": "NOM-F01",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "رجل",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "form": [
+                "singular"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F02",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "مُحَمَّدٌ",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "form": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F03",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "امرأة",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "form": [
+                "singular"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F04",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «هند»:\nهو اسم.\nهو مؤنث.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "هند",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "form": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F05",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «رجلان»:\nهو اسم.\nهو مذكر.\nيدل على اثنين أو اثنتين.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "رجلان",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "form": [
+                "dual"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F06",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «الرجلان»:\nهو اسم.\nهو مذكر.\nيدل على اثنين أو اثنتين.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "الرجلان",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "form": [
+                "dual"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F07",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «امرأتان»:\nهو اسم.\nهو مؤنث.\nيدل على اثنين أو اثنتين.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "امرأتان",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "form": [
+                "dual"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F08",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «المرأتان»:\nهو اسم.\nهو مؤنث.\nيدل على اثنين أو اثنتين.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "المرأتان",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "dual"
+              ],
+              "form": [
+                "dual"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F09",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «مسلمون»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع مذكر سالم.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "مسلمون",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "sound_masculine_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F10",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «المسلمون»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع مذكر سالم.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "المسلمون",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "sound_masculine_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F11",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «مسلمات»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بألف وتاء زائدتين.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "مسلمات",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "sound_feminine_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F12",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «المسلمات»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بألف وتاء زائدتين.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "المسلمات",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "sound_feminine_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F13",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «طلحات»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بألف وتاء زائدتين.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "طلحات",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "sound_feminine_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F14",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «الطلحات»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بألف وتاء زائدتين.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "الطلحات",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "sound_feminine_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F15",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "رجال",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "broken_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F16",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «الرجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "الرجال",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "broken_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F17",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "نساء",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "broken_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F18",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «النساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "النساء",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "broken_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F19",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «قوم»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع خارج الأنواع المدعومة.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "قوم",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "other_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F20",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «القوم»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع خارج الأنواع المدعومة.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "القوم",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "other_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F21",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «نسوة»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع خارج الأنواع المدعومة.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "نسوة",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "other_plural"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F22",
+      "group": "source_qualified_profiles",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «reading» للفظ «النسوة»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع خارج الأنواع المدعومة.\nأل فيه للتعريف."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "reading",
+            "surface": "النسوة",
+            "axes": {
+              "kind": [
+                "noun"
+              ],
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "plural"
+              ],
+              "form": [
+                "other_plural"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "A declared class condition narrows the finite nominal profile. It does not establish an independent base link, case or world truth."
+    },
+    {
+      "id": "NOM-F23",
+      "group": "source_gender_counterexamples",
+      "api": "read_nominal",
+      "request": {
+        "text": "حمزة",
+        "lexical_text": "قراءة «counter» للفظ «حمزة»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "حمزة",
+            "axes": {
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "Source-qualified gender survives a misleading or absent visible suffix."
+    },
+    {
+      "id": "NOM-F24",
+      "group": "source_gender_counterexamples",
+      "api": "read_nominal",
+      "request": {
+        "text": "معاوية",
+        "lexical_text": "قراءة «counter» للفظ «معاوية»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "معاوية",
+            "axes": {
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "Source-qualified gender survives a misleading or absent visible suffix."
+    },
+    {
+      "id": "NOM-F25",
+      "group": "source_gender_counterexamples",
+      "api": "read_nominal",
+      "request": {
+        "text": "شمس",
+        "lexical_text": "قراءة «counter» للفظ «شمس»:\nهو اسم.\nهو مؤنث.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "شمس",
+            "axes": {
+              "gender": [
+                "feminine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "definite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "Source-qualified gender survives a misleading or absent visible suffix."
+    },
+    {
+      "id": "NOM-C01",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «bare» للفظ «رجل»:\nهو مذكر.\nيدل على واحد.\nهو نكرة."
+      },
+      "expect": {
+        "no_nominal_classification": true
+      },
+      "rationale": "Traits require a noun witness."
+    },
+    {
+      "id": "NOM-C02",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «kind» للفظ «رجل»:\nهو اسم.\nهو فعل.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "has_conflict": true
+      },
+      "rationale": "Noun and verb claims in one reading cannot silently choose a branch."
+    },
+    {
+      "id": "NOM-C03",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «gender» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "has_conflict": true
+      },
+      "rationale": "Explicit gender contradiction within one reading."
+    },
+    {
+      "id": "NOM-C04",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «number» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nيدل على اثنين أو اثنتين."
+      },
+      "expect": {
+        "has_conflict": true
+      },
+      "rationale": "Singular and dual claims cannot become two merged unqualified facts."
+    },
+    {
+      "id": "NOM-C05",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «def» للفظ «رجل»:\nهو اسم.\nهو علم.\nهو نكرة."
+      },
+      "expect": {
+        "has_conflict": true
+      },
+      "rationale": "Proper-name and indefinite claims conflict within one reading."
+    },
+    {
+      "id": "NOM-C06",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «bad» للفظ «مسلمون»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع مذكر سالم."
+      },
+      "expect": {
+        "has_conflict": true
+      },
+      "rationale": "The installed true sound masculine class excludes feminine gender."
+    },
+    {
+      "id": "NOM-C07",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «partial» للفظ «رجل»:\nهو اسم.\nهو مذكر."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "partial",
+            "axes": {
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular",
+                "dual",
+                "plural"
+              ],
+              "definiteness": [
+                "definite",
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "Unstated number or definiteness is not a negative fact."
+    },
+    {
+      "id": "NOM-C08",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «unknown» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو نكرة.\nبشرط شاهد لم يثبت."
+      },
+      "expect": {
+        "no_nominal_classification": true,
+        "defer": true
+      },
+      "rationale": "Unparsed qualification suspends the affected reading."
+    },
+    {
+      "id": "NOM-C09",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قيد عام غير محلل.\nقراءة «qualified» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو نكرة."
+      },
+      "expect": {
+        "no_nominal_classification": true,
+        "defer": true
+      },
+      "rationale": "An unscoped qualification cannot be ignored."
+    },
+    {
+      "id": "NOM-C10",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «duplicate» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nهو مذكر.\nيدل على واحد.\nهو نكرة."
+      },
+      "expect": {
+        "readings": [
+          {
+            "reading_id": "duplicate",
+            "axes": {
+              "gender": [
+                "masculine"
+              ],
+              "number": [
+                "singular"
+              ],
+              "definiteness": [
+                "indefinite"
+              ]
+            }
+          }
+        ]
+      },
+      "rationale": "Duplicate identical claims do not multiply evidence or change the profile."
+    },
+    {
+      "id": "NOM-C11",
+      "group": "source_fact_boundaries",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «first» للفظ «عين»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو نكرة.\nقراءة «second» للفظ «عين»:\nهو اسم.\nهو مؤنث.\nيدل على واحد.\nهو نكرة."
+      },
+      "expect": {
+        "preserve_reading_ids": [
+          "first",
+          "second"
+        ],
+        "not_conflict_across_readings": true
+      },
+      "rationale": "Alternative readings are distinct from within-reading contradiction."
+    },
+    {
+      "id": "NOM-L01",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "men",
+            "base_id": "man",
+            "base_gender": "masculine",
+            "licensed": true
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L02",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "women",
+            "base_id": "woman",
+            "base_gender": "feminine",
+            "licensed": true
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L03",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «smp» للفظ «مسلمون»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع مذكر سالم.\nمفرده القراءة «sm».\nقراءة «sm» للفظ «مسلم»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "smp",
+            "base_id": "sm",
+            "base_gender": "masculine",
+            "licensed": true
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L04",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «sfp» للفظ «مسلمات»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بألف وتاء زائدتين.\nمفرده القراءة «sf».\nقراءة «sf» للفظ «مسلمة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "sfp",
+            "base_id": "sf",
+            "base_gender": "feminine",
+            "licensed": true
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L05",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «missing»."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "men",
+            "licensed": false
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L06",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «base».\nقراءة «base» للفظ «رجل»:\nهو اسم.\nيدل على واحد."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "men",
+            "base_id": "base",
+            "licensed": false
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L07",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «base».\nقراءة «base» للفظ «قوم»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع خارج الأنواع المدعومة."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "men",
+            "base_id": "base",
+            "licensed": false
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L08",
+      "group": "lexical_base_witness",
+      "api": "read_nominal_facts",
+      "request": {
+        "text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده."
+      },
+      "expect": {
+        "base_links": [
+          {
+            "plural_id": "men",
+            "licensed": false
+          }
+        ]
+      },
+      "rationale": "The declared plural form and the independently licensed singular-base link have separate authority."
+    },
+    {
+      "id": "NOM-L09",
+      "group": "exact_lexical_binding",
+      "api": "read_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «bare» للفظ «محمد»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "مُحَمَّدٌ",
+            "forbid_licensed_axes": [
+              "gender",
+              "number",
+              "definiteness"
+            ],
+            "lexical_matches": 0
+          }
+        ]
+      },
+      "rationale": "Lexical linkage is exact UTF-8; pronoun mark projection does not normalize descriptive-source matches."
+    },
+    {
+      "id": "NOM-M01",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "القاضي",
+        "lexical_text": "قراءة «manqus» للفظ «القاضي»:\nهو اسم.\nهو معرب.\nآخره ياء لازمة.\nما قبل الياء مكسور.\nياؤه الأخيرة غير مشددة."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "القاضي",
+            "manqus": [
+              true
+            ]
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M02",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "القاضي",
+        "lexical_text": "قراءة «manqus» للفظ «القاضي»:\nهو اسم.\nهو معرب.\nآخره ياء لازمة.\nما قبل الياء مكسور."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "القاضي",
+            "manqus": [
+              false,
+              true
+            ],
+            "manqus_unlicensed": true
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M03",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "كُرْسِيّ",
+        "lexical_text": "قراءة «manqus» للفظ «كُرْسِيّ»:\nهو اسم.\nهو معرب.\nآخره ياء لازمة.\nما قبل الياء مكسور."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كُرْسِيّ",
+            "manqus": [
+              false
+            ]
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M04",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "كُرْسِيّ",
+        "lexical_text": "قراءة «manqus» للفظ «كُرْسِيّ»:\nهو اسم.\nهو معرب.\nآخره ياء لازمة.\nما قبل الياء مكسور.\nياؤه الأخيرة غير مشددة."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "كُرْسِيّ",
+            "has_conflict": true,
+            "manqus_not_true": true
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M05",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "ظَبْي",
+        "lexical_text": "قراءة «manqus» للفظ «ظَبْي»:\nهو اسم.\nهو معرب.\nآخره ياء لازمة.\nما قبل الياء غير مكسور.\nياؤه الأخيرة غير مشددة."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "ظَبْي",
+            "manqus": [
+              false
+            ]
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M06",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "غلامي",
+        "lexical_text": "قراءة «manqus» للفظ «غلامي»:\nهو اسم.\nهو معرب.\nياؤه الأخيرة غير لازمة.\nما قبل الياء مكسور.\nياؤه الأخيرة غير مشددة."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "غلامي",
+            "manqus": [
+              false
+            ]
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M07",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "يقضي",
+        "lexical_text": "قراءة «manqus» للفظ «يقضي»:\nهو فعل.\nهو معرب.\nآخره ياء لازمة.\nما قبل الياء مكسور.\nياؤه الأخيرة غير مشددة."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "يقضي",
+            "manqus_not_true": true
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M08",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "القاضي",
+        "lexical_text": "قراءة «manqus» للفظ «القاضي»:\nهو اسم.\nهو مبني.\nآخره ياء لازمة.\nما قبل الياء مكسور.\nياؤه الأخيرة غير مشددة."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "القاضي",
+            "manqus": [
+              false
+            ]
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-M09",
+      "group": "nominal_manqus",
+      "api": "read_nominal",
+      "request": {
+        "text": "رمي",
+        "lexical_text": "قراءة «manqus» للفظ «رمي»:\nهو اسم.\nجذره «رمي»."
+      },
+      "expect": {
+        "occurrences": [
+          {
+            "surface": "رمي",
+            "manqus_not_true": true,
+            "weak_profiles": [
+              {
+                "root": "رمي",
+                "class": "naqis",
+                "positions_one_based": [
+                  3
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rationale": "Manqus requires noun, inflected, necessary final ya, preceding kasra and non-geminated final ya. A weak root is an orthogonal claim."
+    },
+    {
+      "id": "NOM-W01",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "كتب"
+      },
+      "expect": {
+        "root": "كتب",
+        "class": "sound",
+        "positions_one_based": [],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W02",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "وعد"
+      },
+      "expect": {
+        "root": "وعد",
+        "class": "mithal",
+        "positions_one_based": [
+          1
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W03",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "قول"
+      },
+      "expect": {
+        "root": "قول",
+        "class": "ajwaf",
+        "positions_one_based": [
+          2
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W04",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "قيل"
+      },
+      "expect": {
+        "root": "قيل",
+        "class": "ajwaf",
+        "positions_one_based": [
+          2
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W05",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "رمي"
+      },
+      "expect": {
+        "root": "رمي",
+        "class": "naqis",
+        "positions_one_based": [
+          3
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W06",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "وقي"
+      },
+      "expect": {
+        "root": "وقي",
+        "class": "lafif_mafruq",
+        "positions_one_based": [
+          1,
+          3
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W07",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "طوي"
+      },
+      "expect": {
+        "root": "طوي",
+        "class": "lafif_maqrun",
+        "positions_one_based": [
+          2,
+          3
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W08",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "حيي"
+      },
+      "expect": {
+        "root": "حيي",
+        "class": "lafif_maqrun",
+        "positions_one_based": [
+          2,
+          3
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W09",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "ويك"
+      },
+      "expect": {
+        "root": "ويك",
+        "class": "initial_adjacent_residual",
+        "positions_one_based": [
+          1,
+          2
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W10",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "ويو"
+      },
+      "expect": {
+        "root": "ويو",
+        "class": "triple_weak_residual",
+        "positions_one_based": [
+          1,
+          2,
+          3
+        ],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W11",
+      "group": "supplied_weak_root",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "ءكل"
+      },
+      "expect": {
+        "root": "ءكل",
+        "class": "sound",
+        "positions_one_based": [],
+        "attested_root": false
+      },
+      "rationale": "Canonical root operands are supplied. Weak positions classify the operand only; residual masks are retained."
+    },
+    {
+      "id": "NOM-W12",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "قال"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W13",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "رمى"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W14",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "أكل"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W15",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "أكل"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W16",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "كَتَب"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W17",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "كت"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W18",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": "دحرج"
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W19",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": ""
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-W20",
+      "group": "weak_root_boundary",
+      "api": "weak_root_profile",
+      "request": {
+        "root": true
+      },
+      "expect": {
+        "must_reject": true
+      },
+      "rationale": "Reject noncanonical, marked, truncated, extended or non-string operands; no alif/seat folding or silent normalization."
+    },
+    {
+      "id": "NOM-N01",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 1,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "contextual",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N02",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 1,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "contextual",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N03",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 2,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "dual",
+        "required_case": "contextual",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N04",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 2,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "dual",
+        "required_case": "contextual",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N05",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 3,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "plural",
+        "required_case": "genitive",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N06",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 3,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "plural",
+        "required_case": "genitive",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N07",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 10,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "plural",
+        "required_case": "genitive",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N08",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 10,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "plural",
+        "required_case": "genitive",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N09",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 11,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": "masculine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N10",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 11,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": "feminine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N11",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 12,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": "masculine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N12",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 12,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": "feminine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N13",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 13,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": "masculine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N14",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 13,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": "feminine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N15",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 19,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": "masculine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N16",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 19,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": "feminine",
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N17",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 20,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N18",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 20,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N19",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 21,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N20",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 22,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N21",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 23,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N22",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 23,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N23",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 90,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N24",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 99,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "feminine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N25",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 99,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "accusative",
+        "unit_gender": "masculine",
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N26",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 100,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "genitive",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N27",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 100,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "genitive",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N28",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 1000,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "genitive",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N29",
+      "group": "cardinal_rule",
+      "api": "number_rule",
+      "request": {
+        "value": 1000,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "counted_number": "singular",
+        "required_case": "genitive",
+        "unit_gender": null,
+        "ten_gender": null,
+        "actual_case": null,
+        "actual_role": null
+      },
+      "rationale": "This is a conditional grammatical requirement for the counted noun, not an observed actual case or a world count."
+    },
+    {
+      "id": "NOM-N30",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": 0,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": false
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N31",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": -1,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": false
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N32",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": 101,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": false
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N33",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": 999,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": false
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N34",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": 1001,
+        "singular_gender": "feminine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": false
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N35",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": true,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": true
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N36",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": 3.0,
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": true
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N37",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": "3",
+        "singular_gender": "masculine"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": true
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-N38",
+      "group": "cardinal_rule_boundary",
+      "api": "number_rule",
+      "request": {
+        "value": 3,
+        "singular_gender": "unknown"
+      },
+      "expect": {
+        "no_supported_rule": true,
+        "must_reject": true
+      },
+      "rationale": "A strict integer and the declared bounded domain are required. Unsupported values cannot be reinterpreted as a nearby supported cardinal."
+    },
+    {
+      "id": "NOM-Q01",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3 رجال",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "counted_surface": "رجال",
+        "singular_gender": "masculine",
+        "counted_number_required": "plural",
+        "required_case": "genitive",
+        "unit_gender_required": "feminine",
+        "digit_gender_not_observed": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q02",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "٣ نساء",
+        "lexical_text": "قراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "counted_surface": "نساء",
+        "singular_gender": "feminine",
+        "counted_number_required": "plural",
+        "required_case": "genitive",
+        "unit_gender_required": "masculine",
+        "digit_gender_not_observed": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q03",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "ثلاثة رجال",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "counted_surface": "رجال",
+        "singular_gender": "masculine",
+        "gender_compatible": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q04",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "ثلاث نساء",
+        "lexical_text": "قراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "counted_surface": "نساء",
+        "singular_gender": "feminine",
+        "gender_compatible": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q05",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "ثلاث رجال",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "counted_surface": "رجال",
+        "singular_gender": "masculine",
+        "gender_compatible": false
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q06",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "ثلاثة نساء",
+        "lexical_text": "قراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "counted_surface": "نساء",
+        "singular_gender": "feminine",
+        "gender_compatible": false
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q07",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "11 رجل",
+        "lexical_text": "قراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 11,
+        "counted_surface": "رجل",
+        "singular_gender": "masculine",
+        "counted_number_required": "singular",
+        "required_case": "accusative",
+        "digit_gender_not_observed": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q08",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "100 امرأة",
+        "lexical_text": "قراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 100,
+        "counted_surface": "امرأة",
+        "singular_gender": "feminine",
+        "counted_number_required": "singular",
+        "required_case": "genitive",
+        "digit_gender_not_observed": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q09",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3 رجال"
+      },
+      "expect": {
+        "value": 3,
+        "no_licensed_singular_gender": true,
+        "no_source_qualified_gender_check": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q10",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3 رجال",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «missing»."
+      },
+      "expect": {
+        "value": 3,
+        "no_licensed_singular_gender": true,
+        "no_source_qualified_gender_check": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q11",
+      "group": "count_phrase_relation",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3 كتب",
+        "lexical_text": "قراءة «books» للفظ «كتب»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «book».\nقراءة «book» للفظ «كتاب»:\nهو اسم.\nهو مذكر.\nيدل على واحد."
+      },
+      "expect": {
+        "value": 3,
+        "singular_gender": "masculine",
+        "unit_gender_required": "feminine",
+        "digit_gender_not_observed": true
+      },
+      "rationale": "The phrase proposes a bounded relation. Plural-surface agreement gender is not substituted for its singular-base gender."
+    },
+    {
+      "id": "NOM-Q12",
+      "group": "count_phrase_boundary",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3 رجال اليوم",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nقراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "no_complete_supported_relation": true
+      },
+      "rationale": "Do not discard extra source material or extend the installed cardinal domain."
+    },
+    {
+      "id": "NOM-Q13",
+      "group": "count_phrase_boundary",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3 رجال 4 نساء",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nقراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "no_complete_supported_relation": true
+      },
+      "rationale": "Do not discard extra source material or extend the installed cardinal domain."
+    },
+    {
+      "id": "NOM-Q14",
+      "group": "count_phrase_boundary",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "101 رجل",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nقراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "no_complete_supported_relation": true
+      },
+      "rationale": "Do not discard extra source material or extend the installed cardinal domain."
+    },
+    {
+      "id": "NOM-Q15",
+      "group": "count_phrase_boundary",
+      "api": "read_count_phrase",
+      "request": {
+        "text": "3.0 رجال",
+        "lexical_text": "قراءة «men» للفظ «رجال»:\nهو اسم.\nهو مذكر.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «man».\nقراءة «man» للفظ «رجل»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nقراءة «women» للفظ «نساء»:\nهو اسم.\nهو مؤنث.\nيدل على أكثر من اثنين.\nهو جمع بتغيير بناء مفرده.\nمفرده القراءة «woman».\nقراءة «woman» للفظ «امرأة»:\nهو اسم.\nهو مؤنث.\nيدل على واحد."
+      },
+      "expect": {
+        "no_complete_supported_relation": true
+      },
+      "rationale": "Do not discard extra source material or extend the installed cardinal domain."
+    },
+    {
+      "id": "NOM-U01",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "رجلان"
+      },
+      "expect": {
+        "count": 1,
+        "contexts_in_order": [
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U02",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "رجل رجل"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "UNQUOTED",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U03",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "3 رجال"
+      },
+      "expect": {
+        "count": 1,
+        "contexts_in_order": [
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U04",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "ثلاثة رجال"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "UNQUOTED",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U05",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "«رجل رجل»"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "MENTION",
+          "MENTION"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U06",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "رجل،رجل"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "UNQUOTED",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U07",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "رجل\nرجل"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "UNQUOTED",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U08",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "123 ٣٤ Latin!"
+      },
+      "expect": {
+        "count": 0,
+        "contexts_in_order": [],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U09",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "English رجل 7 امرأة"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "UNQUOTED",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U10",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "مُحَمَّدٌ مُحَمَّدٌ"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "UNQUOTED",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-U11",
+      "group": "source_occurrence_count",
+      "api": "count_source_units",
+      "request": {
+        "text": "«رجل» رجل"
+      },
+      "expect": {
+        "count": 2,
+        "contexts_in_order": [
+          "MENTION",
+          "UNQUOTED"
+        ],
+        "distinct_occurrence_ids": true,
+        "world_count": null
+      },
+      "rationale": "Count Arabic written-run source occurrences, including mentions. Count neither non-Arabic runs nor world entities."
+    },
+    {
+      "id": "NOM-V01",
+      "group": "source_replay",
+      "api": "verify_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "original_valid": true,
+        "replacement_valid": false
+      },
+      "rationale": "Changed raw witness invalidates the old report.",
+      "replacement": {
+        "text": "مُحَمَّدٌ مُحَمَّدٌ"
+      }
+    },
+    {
+      "id": "NOM-V02",
+      "group": "source_replay",
+      "api": "verify_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "original_valid": true,
+        "replacement_valid": false
+      },
+      "rationale": "Same profile label with changed source bytes is not the same witness.",
+      "replacement": {
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم.\n"
+      }
+    },
+    {
+      "id": "NOM-V03",
+      "group": "source_replay",
+      "api": "verify_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "original_valid": true,
+        "replacement_valid": false
+      },
+      "rationale": "Explicit None withdraws lexical premises; omission remains self-replay.",
+      "replacement": {
+        "lexical_text": null
+      }
+    },
+    {
+      "id": "NOM-V04",
+      "group": "source_replay",
+      "api": "verify_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "original_valid": true,
+        "replacement_valid": false
+      },
+      "rationale": "Scope changes invalidate a source-qualified report.",
+      "replacement": {
+        "scope": "different_scope"
+      }
+    },
+    {
+      "id": "NOM-V05",
+      "group": "source_replay",
+      "api": "verify_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "original_valid": true,
+        "replacement_valid": false
+      },
+      "rationale": "Another source identity cannot reuse the old report.",
+      "replacement": {
+        "source_id": "different_source"
+      }
+    },
+    {
+      "id": "NOM-V06",
+      "group": "source_replay",
+      "api": "verify_nominal",
+      "request": {
+        "text": "مُحَمَّدٌ",
+        "lexical_text": "قراءة «name» للفظ «مُحَمَّدٌ»:\nهو اسم.\nهو مذكر.\nيدل على واحد.\nهو علم."
+      },
+      "expect": {
+        "original_valid": true,
+        "replacement_valid": false
+      },
+      "rationale": "Another lexical source identity cannot reuse the old report.",
+      "replacement": {
+        "lexical_source_id": "different_lexicon"
+      }
+    }
+  ]
+}
