@@ -212,11 +212,16 @@ def run(args) -> tuple[dict, int]:
         from .corpus_sources import read_corpus
         from .corpus_evidence import learn_qac_lexicon, MAX_CORPUS_BYTES
         from .inflection_reader import read_inflection, verify_inflection, MAX_REPORT_BYTES
+        from .word_reader import MAX_SOURCE_BYTES
         def corpus_bytes(path):
             import gzip
+            import zlib
             opener = gzip.open if path.suffix == ".gz" else open
-            with opener(path, "rb") as stream:
-                raw = stream.read(MAX_CORPUS_BYTES + 1)
+            try:
+                with opener(path, "rb") as stream:
+                    raw = stream.read(MAX_CORPUS_BYTES + 1)
+            except (gzip.BadGzipFile, EOFError, zlib.error) as exc:
+                raise NabtError("INVALID_CORPUS_COMPRESSION", "Corpus gzip data is truncated or invalid") from exc
             if len(raw) > MAX_CORPUS_BYTES:
                 raise resource_limit("Corpus exceeds the declared byte budget")
             return raw
@@ -229,12 +234,18 @@ def run(args) -> tuple[dict, int]:
             return learn_qac_lexicon(corpus_bytes(args.document), excluded_verses=tuple(args.exclude_verse)).summary(), 0
         if args.exclude_verse and args.qac is None:
             raise NabtError("INVALID_CORPUS_EXCLUSIONS", "Exclusions require an explicit QAC source")
+        verifying = command == "verify-inflection"
+        report = read_certificate(args.document, MAX_REPORT_BYTES) if verifying else None
+        source_path = args.source if verifying else args.document
+        with source_path.open("rb") as stream:
+            raw = stream.read(MAX_SOURCE_BYTES + 1)
+        if len(raw) > MAX_SOURCE_BYTES:
+            raise resource_limit("Inflection source exceeds its byte budget", maximum_bytes=MAX_SOURCE_BYTES)
         model = None if args.qac is None else learn_qac_lexicon(corpus_bytes(args.qac), excluded_verses=tuple(args.exclude_verse))
-        if command == "verify-inflection":
-            result = verify_inflection(read_certificate(args.document, MAX_REPORT_BYTES),
-                                       text=args.source.read_bytes(), lexical_model=model, scope=args.scope)
+        if verifying:
+            result = verify_inflection(report, text=raw, lexical_model=model, scope=args.scope)
             return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
-        result = read_inflection(args.document.read_bytes(), lexical_model=model, scope=args.scope)
+        result = read_inflection(raw, lexical_model=model, scope=args.scope)
         return result, 0 if result["status"] == "LICENSED_READINGS" else 3
     if command in {"nominal-catalog", "weak-root-profile", "number-rule"}:
         from .nominal import nominal_catalog, weak_root_profile, number_rule

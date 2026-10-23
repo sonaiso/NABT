@@ -1,0 +1,42 @@
+{
+  "schema": "nabt.inflection.cli-review-runner-freeze.v1",
+  "frozen_at_utc": "2026-10-23T15:40:35.608588+00:00",
+  "material_freeze_sha256": "0621a6e6280549d747e4df8983249fd840909f11e91047f06b6d3f589657d5a5",
+  "files": [
+    {
+      "path": "tools/inflection_cli_evaluation.py",
+      "bytes": 19370,
+      "sha256": "db3c3ee71443e3052da149a18d0a35c7d21ca87ea9585efb1e62c05d742d4752"
+    },
+    {
+      "path": "tools/inflection_evaluation.py",
+      "bytes": 56175,
+      "sha256": "3417feab4c108859a2657bde192f0eb52a4d3f954fb7c1826756b2a634837402"
+    },
+    {
+      "path": "tests/test_inflection_review.py",
+      "bytes": 10190,
+      "sha256": "32d151eebb954ff9d9165ac171ef901e9b5e69c622356fc3aa6edadc960a4990"
+    }
+  ],
+  "runtime_manifest_sha256": [
+    "70e56488ae8a99aa0d52d7ebed53c039d10ed7de9a8c457952515e45277db96e",
+    "46b0bdaa68be83f1b62a1536ee3ad548863e90489e4be7e0cdf91b939b131641"
+  ],
+  "no_cli_predictions_before_freeze": true,
+  "new_cli_fix_bytes_read": false,
+  "synthetic_budget_scorer_controls": {
+    "accepted": [
+      "metadata-only refusal",
+      "4096+4096+1",
+      "8193 single request"
+    ],
+    "rejected": [
+      "unbounded full read",
+      "unbounded request even if only8193 returned",
+      "request32781 returning8193",
+      "request8193 returning32781"
+    ]
+  },
+  "general_evaluator_change": "Only explicit v3 manifest/snapshot/archive pin and default; no scoring logic change."
+}

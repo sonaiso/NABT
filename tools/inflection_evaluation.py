@@ -38,6 +38,11 @@ PINNED_RUNTIME_FREEZES = {
         "archive_sha256": "59a575c2f10bb07633d54515dad21b08b35ecde37ba3d909e4748eec82f9eb14",
         "file_count": 58,
     },
+    "46b0bdaa68be83f1b62a1536ee3ad548863e90489e4be7e0cdf91b939b131641": {
+        "snapshot_sha256": "cd6984487ea0c87ea97b64aa8f89124ac3d947e77e3cc9fda704d2e3668cfd7d",
+        "archive_sha256": "7084f8c407ced8a2189872cd3291e4168e088e439549fb139540c7e527f69215",
+        "file_count": 58,
+    },
 }
 POST_REVIEW_FREEZE_SHA256 = "a7b39b6dd8011296ddae9aca3c8992169b6fbe452409a6d7d878266631d91656"
 # Existing documentation/Git metadata omitted by both historical authoritative
@@ -870,7 +875,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qac", type=Path, help="Pinned original QAC .txt or .txt.gz (required for the original 74 cases)")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--runtime-freeze", type=Path, default=FOLDER / "code_freeze_v2.json")
+    parser.add_argument("--runtime-freeze", type=Path, default=FOLDER / "code_freeze_v3.json")
     parser.add_argument("--runtime-root", type=Path, default=ROOT,
                         help="Measured source checkout or extracted pinned archive; verified against the selected freeze")
     parser.add_argument("--allow-documented-boundaries", action="store_true",

@@ -111,10 +111,10 @@ QAC، فلا توصف بأنها مقاطع طبيعية أو نقل محجوب 
 ```sh
 python tools/fetch_qac_source.py --output /tmp/nabt-qac-original.txt.gz
 python tools/inflection_evaluation.py --qac /tmp/nabt-qac-original.txt.gz \
-  --runtime-freeze evidence/inflection/code_freeze_v2.json \
+  --runtime-freeze evidence/inflection/code_freeze_v3.json \
   --output /tmp/nabt-inflection-strict.json
 python tools/inflection_evaluation.py --post-review \
-  --runtime-freeze evidence/inflection/code_freeze_v2.json \
+  --runtime-freeze evidence/inflection/code_freeze_v3.json \
   --output /tmp/nabt-inflection-post-review.json
 ```
 
@@ -161,3 +161,45 @@ python tools/inflection_evaluation.py --post-review \
 و**561 مبرهنة مدققة**؛ يحفظ
 [سجل الإصدار](../evidence/inflection/release/validation.json)
 النتائج والبصمات وإثبات التثبيت المنفصل.
+
+## تصحيح واجهة الملفات في `0.12.0a3`
+
+كشفت مراجعة PR خللين في واجهة الإدخال: تسرب `EOFError` أو
+`zlib.error` عند فساد Gzip، وقراءة ملف النص كاملًا قبل فحص ميزانية
+8,192 بايت. لم تغط فحوص الحزمة السبعة السابقة هاتين الحالتين.
+أصبح فساد الضغط `REJECT / INVALID_CORPUS_COMPRESSION / exit 2`،
+وبقي تعذر فتح الملف `DEFER / IO_ERROR / exit 3`. تقرأ واجهتا
+`read-inflection` و`verify-inflection` من النص 8,193 بايتًا كحد أقصى
+قبل التجميع والتحليل؛ تفحص واجهة التحقق تقريرها بميزانيته أولًا.
+
+جُمّدت [مادة مستقلة من 32 حالة](../evidence/inflection/review_fixes/independent_cli_freeze_v1.json)
+قبل قراءة الإصلاح أو تشغيله، ثم استعملت اللقطتان أداة القياس والمساعد
+المثبتين نفسيهما. يحفظ [البروتوكول](../evidence/inflection/review_fixes/independent_cli_protocol_v1.md)
+طريقة مراقبة الملف الفعلي، ويسمح الرفض من حجمه أو بعد عدة قراءات
+محدودة ضمن الميزانية؛ لا يفرض استدعاء بعينه ولا يقطع الملف نيابةً عن CLI.
+
+| مجموعة حدود الملفات | `a2` | `a3` |
+| --- | ---: | ---: |
+| فساد الضغط عبر أربعة أوامر | 0/12 | 12/12 |
+| ملفات corpus أو النص المفقودة | 6/6 | 6/6 |
+| مدخلات عادية ومضغوطة سليمة | 8/8 | 8/8 |
+| حد 8,192 بايت وما يتجاوزه | 2/6 | 6/6 |
+| المجموع | **16/32** | **32/32** |
+
+تحفظ [المقارنة](../evidence/inflection/review_fixes/independent_cli_comparison_v1.json)
+أول تشغيل لكل لقطة وأرشيف شيفرته ومخرجه الخام؛ لم يتغير الذهب أو
+منطق المقيم بينهما. هذه حالات انحدار مؤلفة بعد المراجعة لواجهة الملفات،
+ولا تضاف إلى الـ74 أو الـ22 ولا تقيس اكتساب العربية.
+
+اجتازت `a3` بوابة `make check` كاملة مع **665 اختبارًا** و**561 مبرهنة**.
+أعيدت **72/74** مع بقاء `strict_pass=false` وإعفاء التغطية المعلن
+للهويتين نفسيهما في CI، و**22/22** و**32/32** بلا إعفاء. بقيت نتائج
+الكلمات والأوصاف والحلقات الأوسع كما هي. يحفظ
+[سجل الإصدار المصحح](../evidence/inflection/review_fixes/release/validation.json)
+النتائج والتثبيت، وتبقى جميع لقطات `a1` و`a2` وسجلاتهما دون تغيير.
+
+```sh
+python tools/inflection_cli_evaluation.py \
+  --runtime-freeze evidence/inflection/code_freeze_v3.json \
+  --output /tmp/nabt-inflection-cli-regression.json
+```

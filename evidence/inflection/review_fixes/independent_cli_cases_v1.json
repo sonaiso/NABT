@@ -1,0 +1,565 @@
+{
+  "schema": "nabt.inflection.cli-review-cases.v1",
+  "authorship": "Independent post-publication review regression; not a new linguistic holdout. Frozen before reading the fix and before any CLI run on either revision.",
+  "baseline_runtime_snapshot_sha256": "818a1a90e0710daf951bc8108b32f37978938361c0f8f92032840872640c52f3",
+  "public_source_byte_limit": 8192,
+  "fixtures": [
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/qac.tsv",
+      "bytes": 131,
+      "sha256": "57f2fe2583cc6a2d4ad88b626923659c53f17d1b4d3f9c6803274a7fa73f7212"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/qac.tsv.gz",
+      "bytes": 99,
+      "sha256": "5eba22a1336f2f8bda89fe7fe4aa8561cbae3bd2857898b49edf5996ca909a8c"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/truncated.gz",
+      "bytes": 91,
+      "sha256": "9d30eadd6f5d46af888793ca4965de4358f8bfa0e742027a0377708e1d5149b4"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/invalid_deflate.gz",
+      "bytes": 19,
+      "sha256": "b94b5dd6de13e7c069ba009c902243d0381a35d7208846acf3d5d3ef4edf9f0f"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/bad_magic.gz",
+      "bytes": 27,
+      "sha256": "2d539ba9839060def3d3c39759373a1c0ed8d9231a2e50aa4285615c5b78fdc9"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/small.txt",
+      "bytes": 21,
+      "sha256": "e80e165ccf458aedd946104b384a4bdbb859093c11f281b38dc48063583e8c2d"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/limit_8192.txt",
+      "bytes": 8192,
+      "sha256": "9c0749afde4022dce367b40a906c8854a14ec1801a142f5632dc3fe52ae4cd02"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/over_8193.txt",
+      "bytes": 8193,
+      "sha256": "3a3cf7fd8915f58ad2dbb77095e38276a8c3abc1ea5d027c8367ccafc2b0f4be"
+    },
+    {
+      "path": "evidence/inflection/review_fixes/fixtures/oversized_32781.txt",
+      "bytes": 32781,
+      "sha256": "2b5744bcfd6c5cf56484e02ed800b3ec416b44e9ab60ce6f83e852b8d8acd6be"
+    }
+  ],
+  "fixture_stdlib_error_check": {
+    "truncated.gz": {
+      "module": "builtins",
+      "type": "EOFError",
+      "message": "Compressed file ended before the end-of-stream marker was reached"
+    },
+    "invalid_deflate.gz": {
+      "module": "zlib",
+      "type": "error",
+      "message": "Error -3 while decompressing data: invalid block type"
+    },
+    "bad_magic.gz": {
+      "module": "gzip",
+      "type": "BadGzipFile",
+      "message": "Not a gzipped file (b'Th')"
+    }
+  },
+  "cases": [
+    {
+      "id": "CLI-G11",
+      "track": "malformed_gzip",
+      "command": "audit-corpus",
+      "corpus_fixture": "truncated.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G12",
+      "track": "malformed_gzip",
+      "command": "learn-qac-lexicon",
+      "corpus_fixture": "truncated.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G13",
+      "track": "malformed_gzip",
+      "command": "read-inflection",
+      "corpus_fixture": "truncated.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G14",
+      "track": "malformed_gzip",
+      "command": "verify-inflection",
+      "corpus_fixture": "truncated.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G21",
+      "track": "malformed_gzip",
+      "command": "audit-corpus",
+      "corpus_fixture": "invalid_deflate.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G22",
+      "track": "malformed_gzip",
+      "command": "learn-qac-lexicon",
+      "corpus_fixture": "invalid_deflate.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G23",
+      "track": "malformed_gzip",
+      "command": "read-inflection",
+      "corpus_fixture": "invalid_deflate.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G24",
+      "track": "malformed_gzip",
+      "command": "verify-inflection",
+      "corpus_fixture": "invalid_deflate.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G31",
+      "track": "malformed_gzip",
+      "command": "audit-corpus",
+      "corpus_fixture": "bad_magic.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G32",
+      "track": "malformed_gzip",
+      "command": "learn-qac-lexicon",
+      "corpus_fixture": "bad_magic.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G33",
+      "track": "malformed_gzip",
+      "command": "read-inflection",
+      "corpus_fixture": "bad_magic.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-G34",
+      "track": "malformed_gzip",
+      "command": "verify-inflection",
+      "corpus_fixture": "bad_magic.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 2,
+        "status": "REJECT",
+        "code_prefix": "INVALID_",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-M01",
+      "track": "missing_corpus",
+      "command": "audit-corpus",
+      "corpus_fixture": "missing.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 3,
+        "status": "DEFER",
+        "code": "IO_ERROR",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-M02",
+      "track": "missing_corpus",
+      "command": "learn-qac-lexicon",
+      "corpus_fixture": "missing.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 3,
+        "status": "DEFER",
+        "code": "IO_ERROR",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-M03",
+      "track": "missing_corpus",
+      "command": "read-inflection",
+      "corpus_fixture": "missing.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 3,
+        "status": "DEFER",
+        "code": "IO_ERROR",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-M04",
+      "track": "missing_corpus",
+      "command": "verify-inflection",
+      "corpus_fixture": "missing.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 3,
+        "status": "DEFER",
+        "code": "IO_ERROR",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-M05",
+      "track": "missing_source",
+      "command": "read-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "missing.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 3,
+        "status": "DEFER",
+        "code": "IO_ERROR",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-M06",
+      "track": "missing_source",
+      "command": "verify-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "missing.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 3,
+        "status": "DEFER",
+        "code": "IO_ERROR",
+        "structured_error": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-P11",
+      "track": "valid_plain_or_gzip",
+      "command": "audit-corpus",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-P12",
+      "track": "valid_plain_or_gzip",
+      "command": "learn-qac-lexicon",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-P13",
+      "track": "valid_plain_or_gzip",
+      "command": "read-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true,
+        "status": "LICENSED_READINGS"
+      }
+    },
+    {
+      "id": "CLI-P14",
+      "track": "valid_plain_or_gzip",
+      "command": "verify-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true,
+        "status": "VERIFIED",
+        "valid": true
+      }
+    },
+    {
+      "id": "CLI-P21",
+      "track": "valid_plain_or_gzip",
+      "command": "audit-corpus",
+      "corpus_fixture": "qac.tsv.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-P22",
+      "track": "valid_plain_or_gzip",
+      "command": "learn-qac-lexicon",
+      "corpus_fixture": "qac.tsv.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true
+      }
+    },
+    {
+      "id": "CLI-P23",
+      "track": "valid_plain_or_gzip",
+      "command": "read-inflection",
+      "corpus_fixture": "qac.tsv.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true,
+        "status": "LICENSED_READINGS"
+      }
+    },
+    {
+      "id": "CLI-P24",
+      "track": "valid_plain_or_gzip",
+      "command": "verify-inflection",
+      "corpus_fixture": "qac.tsv.gz",
+      "source_fixture": "small.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "exit": 0,
+        "json_stdout": true,
+        "no_traceback": true,
+        "status": "VERIFIED",
+        "valid": true
+      }
+    },
+    {
+      "id": "CLI-B11",
+      "track": "source_byte_boundary",
+      "command": "read-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "limit_8192.txt",
+      "report_fixture": "limit_8192.txt",
+      "expected": {
+        "no_traceback": true,
+        "exit": 0,
+        "json_stdout": true,
+        "status": "LICENSED_READINGS"
+      }
+    },
+    {
+      "id": "CLI-B12",
+      "track": "source_byte_boundary",
+      "command": "verify-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "limit_8192.txt",
+      "report_fixture": "limit_8192.txt",
+      "expected": {
+        "no_traceback": true,
+        "exit": 0,
+        "json_stdout": true,
+        "status": "VERIFIED",
+        "valid": true
+      }
+    },
+    {
+      "id": "CLI-B21",
+      "track": "source_byte_boundary",
+      "command": "read-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "over_8193.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "no_traceback": true,
+        "exit": 3,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "structured_error": true,
+        "io_budget": {
+          "maximum_total_returned_bytes": 8193,
+          "maximum_requested_bytes": 8193,
+          "unbounded_requests_allowed": false,
+          "metadata_only_refusal_allowed": true
+        }
+      }
+    },
+    {
+      "id": "CLI-B22",
+      "track": "source_byte_boundary",
+      "command": "verify-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "over_8193.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "no_traceback": true,
+        "exit": 3,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "structured_error": true,
+        "io_budget": {
+          "maximum_total_returned_bytes": 8193,
+          "maximum_requested_bytes": 8193,
+          "unbounded_requests_allowed": false,
+          "metadata_only_refusal_allowed": true
+        }
+      }
+    },
+    {
+      "id": "CLI-B31",
+      "track": "source_byte_boundary",
+      "command": "read-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "oversized_32781.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "no_traceback": true,
+        "exit": 3,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "structured_error": true,
+        "io_budget": {
+          "maximum_total_returned_bytes": 8193,
+          "maximum_requested_bytes": 8193,
+          "unbounded_requests_allowed": false,
+          "metadata_only_refusal_allowed": true
+        }
+      }
+    },
+    {
+      "id": "CLI-B32",
+      "track": "source_byte_boundary",
+      "command": "verify-inflection",
+      "corpus_fixture": "qac.tsv",
+      "source_fixture": "oversized_32781.txt",
+      "report_fixture": "small.txt",
+      "expected": {
+        "no_traceback": true,
+        "exit": 3,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "structured_error": true,
+        "io_budget": {
+          "maximum_total_returned_bytes": 8193,
+          "maximum_requested_bytes": 8193,
+          "unbounded_requests_allowed": false,
+          "metadata_only_refusal_allowed": true
+        }
+      }
+    }
+  ]
+}

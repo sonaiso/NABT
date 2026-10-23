@@ -2,7 +2,7 @@ PYTHON ?= python3
 LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
-TEXT_CODE_FREEZE ?= evidence/inflection/code_freeze_v2.json
+TEXT_CODE_FREEZE ?= evidence/inflection/code_freeze_v3.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -65,6 +65,7 @@ inflection-evaluation:
 	$(PYTHON) tools/fetch_qac_source.py --output $(QAC_SOURCE)
 	$(PYTHON) tools/inflection_evaluation.py --qac $(QAC_SOURCE) --runtime-freeze $(TEXT_CODE_FREEZE) --output $(EVIDENCE_DIR)/inflection-regression.json --allow-documented-boundaries
 	$(PYTHON) tools/inflection_evaluation.py --post-review --runtime-freeze $(TEXT_CODE_FREEZE) --output $(EVIDENCE_DIR)/inflection-post-review-regression.json
+	$(PYTHON) tools/inflection_cli_evaluation.py --runtime-freeze $(TEXT_CODE_FREEZE) --output $(EVIDENCE_DIR)/inflection-cli-regression.json
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json

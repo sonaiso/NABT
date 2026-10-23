@@ -29,10 +29,10 @@ from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.12.0a2"
+VERSION = "0.12.0a3"
 LAW_ID = "nabt.inflection-evidence.v1"
 TABLE_SHA256 = "f8bc2f04fc1225a4f495d71a4c283289a3e8e9c74b9949008eb51e6445e7deb5"
-DEFAULT_FREEZE = "evidence/inflection/code_freeze_v2.json"
+DEFAULT_FREEZE = "evidence/inflection/code_freeze_v3.json"
 # These package documents are outside the authoritative .py/.json/.txt runtime
 # freeze. They have their own explicit byte identities; no arbitrary package
 # extras or source-control files are admitted by this list.

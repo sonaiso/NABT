@@ -36,6 +36,9 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    "inflection_v3": ("46b0bdaa68be83f1b62a1536ee3ad548863e90489e4be7e0cdf91b939b131641",
+                      "cd6984487ea0c87ea97b64aa8f89124ac3d947e77e3cc9fda704d2e3668cfd7d",
+                      "7084f8c407ced8a2189872cd3291e4168e088e439549fb139540c7e527f69215"),
     "inflection_v2": ("70e56488ae8a99aa0d52d7ebed53c039d10ed7de9a8c457952515e45277db96e",
                       "818a1a90e0710daf951bc8108b32f37978938361c0f8f92032840872640c52f3",
                       "59a575c2f10bb07633d54515dad21b08b35ecde37ba3d909e4748eec82f9eb14"),
@@ -57,6 +60,7 @@ CODE_FREEZES = {
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    "inflection_v3": ROOT / "evidence/inflection/code_freeze_v3.json",
     "inflection_v2": ROOT / "evidence/inflection/code_freeze_v2.json",
     "inflection_v1": ROOT / "evidence/inflection/code_freeze_v1.json",
     "nominal_v2": ROOT / "evidence/nominal/code_freeze_v2.json",
@@ -453,7 +457,7 @@ def evaluate(version="v2", *, freeze_version="inflection_v2"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="inflection_v2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="inflection_v3")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")
