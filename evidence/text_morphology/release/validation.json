@@ -1,0 +1,763 @@
+{
+  "schema": "nabt.text-morphology.release-validation.v1",
+  "package_version": "0.9.0a1",
+  "status": "BOUNDED_VALIDATION_PASS",
+  "repository_base_commit": "07d2be22192c8d083d27f0069da10168b9445578",
+  "implementation_commit": "90b733d5af437f3e53b927acba2f2f73e00571a1",
+  "implementation_commit_matches_runtime_and_verification_sources": true,
+  "committed_source_files_checked": 161,
+  "release_commit": null,
+  "release_commit_note": "Assigned after this record; exact runtime and verification sources are bound by the manifests below.",
+  "runtime": {
+    "freeze_version": "text_morphology_v1",
+    "manifest": {
+      "path": "evidence/text_morphology/code_freeze_v1.json",
+      "bytes": 8804,
+      "sha256": "b15dfab7ed6166aa5aae236c7c0b22ce48f805a6bc0d8f6c3b6f12bae2b951ee"
+    },
+    "snapshot_sha256": "82a5d9b283d403bf257a95e5c8a1eb9b2ea300a90ca1a2e881de478bf29f7496",
+    "archive": {
+      "path": "evidence/text_morphology/code_freeze_v1.tar.gz",
+      "bytes": 850505,
+      "sha256": "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"
+    },
+    "file_count": 46,
+    "current_bytes_match_frozen_inventory": true,
+    "inventory_is_exact_authoritative_runtime": true,
+    "archive_members_match_frozen_inventory": true
+  },
+  "verification_sources": {
+    "path": "evidence/text_morphology/release/verification-source-manifest.json",
+    "bytes": 19592,
+    "sha256": "11ca6696758f11c0ff83120f9ba8acd1a2a3fb7ef5eafce9eb9b97cd6370defa",
+    "file_count": 115
+  },
+  "source_provenance": {
+    "upstream_repositories": [
+      {
+        "repository": "Saleh1967/Mashru",
+        "commit": "e4c801ffe9171dadedcc3aae23051ea0953ae361"
+      },
+      {
+        "repository": "Saleh1967/Alghanem",
+        "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd"
+      }
+    ],
+    "upstream_rebuilt_in_this_validation": false,
+    "consulted_source_manifest": {
+      "path": "evidence/morphology/source_passages.json",
+      "bytes": 54352,
+      "sha256": "efb4f3797fb151962324b312e6434eda5c4b636ea550a4ef94574207312be9b9"
+    },
+    "selected_upstream_lean_files": 12,
+    "repository_inventory_count": 9,
+    "packaged_source_and_policy_files": [
+      {
+        "path": "src/nabt/data/source_evidence/alfiyya.txt",
+        "sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+        "bytes": 97798
+      },
+      {
+        "path": "src/nabt/data/source_evidence/governor_policy.json",
+        "sha256": "26fdd34913ccca180bb1bf19bd58d725881117c0d01027f51374fd29d578dfa6",
+        "bytes": 6558
+      },
+      {
+        "path": "src/nabt/data/source_evidence/license_evidence.json",
+        "sha256": "4a1cfef0eb7ce0647a3da85db59783d59a03502bc175d50a49a5faa392e9e60b",
+        "bytes": 1658
+      },
+      {
+        "path": "src/nabt/data/source_evidence/morphology_j3.txt",
+        "sha256": "793c1534373c602240a1a0dc40ce8292994e9acba22d0e4aa5f333399d1995d5",
+        "bytes": 872
+      },
+      {
+        "path": "src/nabt/data/source_evidence/morphology_policy.json",
+        "sha256": "14463f75b6cfa54ed2a9a5ad56b2a595ac87ee0ad97dab43ef6a376079cb3f1a",
+        "bytes": 13814
+      },
+      {
+        "path": "src/nabt/data/source_evidence/pilot_conditions.json",
+        "sha256": "3ffd79d951a5ce21647441f9b325fd26129dec4d48b3b28d9b39ac0db66a3dd1",
+        "bytes": 6026
+      },
+      {
+        "path": "src/nabt/data/source_evidence/pilot_examples.json",
+        "sha256": "b3e000e455e2551962c332ec16b8814a2dfdc07d90a0f457c0cb6829650ad0ac",
+        "bytes": 8011
+      },
+      {
+        "path": "src/nabt/data/source_evidence/qatr.txt",
+        "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+        "bytes": 40168
+      },
+      {
+        "path": "src/nabt/data/source_evidence/sibawayhi.txt",
+        "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+        "bytes": 2639395
+      },
+      {
+        "path": "src/nabt/data/source_evidence/source_manifest.json",
+        "sha256": "4eb5f589f8a016adcf070cf1995905c78b65c18c1963c0d158f04a5beb349998",
+        "bytes": 60101
+      },
+      {
+        "path": "src/nabt/data/source_evidence/word_policy.json",
+        "sha256": "c03134674fb8702af2d0ff4ce91c06d6b6b2f1422373da52e6449f24d1efd5f1",
+        "bytes": 51087
+      }
+    ]
+  },
+  "full_check": {
+    "reproduction_command": "make check LAKE=/absolute/path/to/lake EVIDENCE_DIR=artifacts/local/text-morphology-reproduction/verified ARABIC_EVALUATION_DIR=artifacts/local/text-morphology-reproduction/verified/arabic-regression",
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "runtime_environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    },
+    "first_attempt": {
+      "outcome": "FAILED_AT_TEST_TARGET",
+      "tests_run": 484,
+      "failures": 1,
+      "test_seconds": 19.211,
+      "log": {
+        "archive_member": "make-check-first.log",
+        "bytes": 83017,
+        "sha256": "0ba986a24f3c2fd82a1b1ab50568e071a3864c3b99a35f75cc1f285221a836d9"
+      },
+      "failed_test": "test_arabic_evaluation.ArabicEvaluationBoundaryTests.test_incomplete_runtime_freeze_is_not_an_override",
+      "cause": "A malformed-inventory boundary test loaded the historical morphology freeze. The changed pyproject failed its byte pin before the intended exact-inventory rejection was reached.",
+      "correction": {
+        "file": "tests/test_arabic_evaluation.py",
+        "old_fixture": "evidence/morphology/code_freeze_v1.json",
+        "new_fixture": "evidence/text_morphology/code_freeze_v1.json",
+        "lines_added": 1,
+        "lines_removed": 1,
+        "assertions_and_rejection_behavior_unchanged": true,
+        "runtime_changed_for_this_correction": false
+      }
+    },
+    "final_attempt": {
+      "outcome": "PASS",
+      "runner_observed_exit_code": 0,
+      "tests_run": 484,
+      "failures": 0,
+      "test_seconds": 18.214,
+      "log": {
+        "archive_member": "make-check.log",
+        "bytes": 106825,
+        "sha256": "eac89199eaa8b0f719e5ef4d08d58ce79a991a250c6b255fc63d89d926096a0f"
+      },
+      "last_integrity_gate_passed": true,
+      "scope": "All Makefile check prerequisites and its final integrity check completed."
+    }
+  },
+  "formal_audit": {
+    "report": {
+      "archive_member": "verified/axioms.json",
+      "bytes": 31423,
+      "sha256": "c20b8f08fe12c5c5b1435b5e675b420b87cdaf5d3968bd03c2d733a82d145ee8"
+    },
+    "raw_log": {
+      "archive_member": "verified/axioms.log",
+      "bytes": 30458,
+      "sha256": "41d270348b6d5bea831012ca85dfae86e9aea2639bed6fef8b718a464dbcfdaa"
+    },
+    "theorem_count": 421,
+    "new_text_evidence_theorems": 26,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true,
+    "scope": "Lean kernel verification of the listed conditional contracts; this is not a proof of Python parsing, linguistic cue extraction, or unrestricted Arabic correctness."
+  },
+  "finite_conformance": {
+    "conformance": {
+      "report": {
+        "archive_member": "verified/conformance.json",
+        "bytes": 1005,
+        "sha256": "50471ccb3d96923c03338682bf9c1d91ff7181522136d0144c21f790ef9547bb"
+      },
+      "ok": true,
+      "table_sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+      "primitive_transitions_checked": 11252,
+      "lean_sources_guarded": 30,
+      "fresh_lean_export_compared": true,
+      "governor_table_sha256": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0",
+      "governor_inventory_rows": 100,
+      "governor_source_policy_sha256": "26fdd34913ccca180bb1bf19bd58d725881117c0d01027f51374fd29d578dfa6",
+      "word_table_sha256": "e3e796e849386dedd6abc3a473cb15dcece2e7b35583c45d16139d3c183dbcc3",
+      "word_declension_classes": 15,
+      "word_class_case_rows": 60,
+      "word_source_policy_sha256": "c03134674fb8702af2d0ff4ce91c06d6b6b2f1422373da52e6449f24d1efd5f1",
+      "word_lexical_entries": 16,
+      "morphology_qualified_cause_rows": 2048,
+      "morphology_source_rules": 7,
+      "text_evidence_kind_rows": 8,
+      "text_evidence_activation_rows": 64,
+      "scope": "Lean kernel build and complete table conformance; not a full Python refinement proof",
+      "kernel_build_checked": true
+    },
+    "property-conformance": {
+      "report": {
+        "archive_member": "verified/property-conformance.json",
+        "bytes": 499,
+        "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6"
+      },
+      "scope": "all required/positive/negative masks at width four",
+      "states": 4096,
+      "mismatches": 0,
+      "statuses": {
+        "conflict": 1695,
+        "licensed": 625,
+        "pending": 671,
+        "rejected": 1105
+      },
+      "lean_table_sha256": "4d6454114d2949a02c16fda44dbef2352a68531e6f0f7c6b4debb3a40eee2db6",
+      "formal_scope": "Lean specification theorems; Python checked on this finite domain",
+      "linguistic_accuracy_measured": false,
+      "fresh_lean_export_compared": true,
+      "module_build_checked": true
+    },
+    "arabic-conformance": {
+      "report": {
+        "archive_member": "verified/arabic-conformance.json",
+        "bytes": 180,
+        "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea"
+      },
+      "ok": true,
+      "mood_tags": 8,
+      "entry_profiles": 3,
+      "finite_cell_envelopes": 48,
+      "scope": "fresh Lean tags and finite cell-codec examples; not Python parser refinement"
+    },
+    "governor-conformance": {
+      "report": {
+        "archive_member": "verified/governor-conformance.json",
+        "bytes": 405,
+        "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+      },
+      "ok": true,
+      "law_id": "nabt.governors.v1",
+      "table_sha256": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0",
+      "entries": 100,
+      "distinct_labels": 96,
+      "classes": 13,
+      "numeric_role_mark_pairs": 36,
+      "category_allowed_pairs": 27,
+      "exhaustive_relevant_role_probes": 197,
+      "scope": "finite class algebra/codec conformance; no Python parser refinement or all-Arabic claim"
+    },
+    "word-conformance": {
+      "report": {
+        "archive_member": "verified/word-conformance.json",
+        "bytes": 372,
+        "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77"
+      },
+      "ok": true,
+      "law_id": "nabt.words.v1",
+      "table_sha256": "e3e796e849386dedd6abc3a473cb15dcece2e7b35583c45d16139d3c183dbcc3",
+      "kinds": 3,
+      "declension_classes": 15,
+      "ending_types": 11,
+      "class_case_outcomes": 60,
+      "licensed_pairs": 45,
+      "inverse_images": 165,
+      "scope": "finite conditional algebra and codecs; not parser refinement or Arabic completeness"
+    },
+    "morphology-conformance": {
+      "report": {
+        "archive_member": "verified/morphology-conformance.json",
+        "bytes": 458,
+        "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758"
+      },
+      "ok": true,
+      "law_id": "nabt.morphology.v1",
+      "table_sha256": "643abb2ec66ca0c153e840b2f59a0a75b7af4344a476db7e77d29171487f162f",
+      "verb_rows": 12,
+      "verb_partial": 20,
+      "noun_rows": 2,
+      "noun_partial": 4,
+      "nominal_rows": 4,
+      "nominal_partial": 16,
+      "cause_rows": 2048,
+      "genitive_contexts": 16,
+      "public_reader_partial_projections": 56,
+      "scope": "Finite conditional algebra and reader projections; not unrestricted Arabic understanding"
+    },
+    "text-evidence-conformance": {
+      "report": {
+        "archive_member": "verified/text-evidence-conformance.json",
+        "bytes": 486,
+        "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862"
+      },
+      "ok": true,
+      "law_id": "nabt.text-evidence.v1",
+      "table_sha256": "047d2409b280e488f4af3d635de190752a30938dbc47f053db4ae7670ef9d3ae",
+      "kind_masks": 8,
+      "receipt_masks": 64,
+      "independent_cue_lists": 121,
+      "max_source_list_length": 4,
+      "single_deletion_checks": 426,
+      "duplicate_receipt_checks": 426,
+      "scope": "Complete finite conditional algebra correspondence and bounded list properties; not source-reader refinement, linguistic cue activation or Arabic completeness"
+    }
+  },
+  "new_text_morphology_evaluation": {
+    "report": {
+      "archive_member": "verified/text-morphology-regression.json",
+      "bytes": 216191,
+      "sha256": "491791dc2bbc5b3ecebce909e3b7fdc219f55a6d41dbf450765a05e002dc3def"
+    },
+    "evaluated_at_utc": "2026-10-23T11:04:07.067997+00:00",
+    "material_sha256": "082f66e559f68f0aeaa3a32f93bf179668e3286b0b78e1a18e4eae2fae427a55",
+    "raw_score": {
+      "passed": 40,
+      "total": 40
+    },
+    "positive_score": {
+      "passed": 16,
+      "total": 16
+    },
+    "boundary_score": {
+      "passed": 24,
+      "total": 24
+    },
+    "passed": true,
+    "snapshot_sha256": "7d8ff3fdb65056c46bf6a89e04290e8cdb59327fa9dcaf161dcd0aae075944e4",
+    "snapshot_file_count": 47,
+    "snapshot_scope": "The 46 frozen runtime files plus tools/text_morphology_evaluation.py.",
+    "runtime_projection_matches_release_freeze": true,
+    "evaluator": {
+      "path": "tools/text_morphology_evaluation.py",
+      "bytes": 18505,
+      "sha256": "94d20a7a853a67cb018f48d5a5476d0bdc8a5ee74564dfeba6baf8a7b5b0cfd6"
+    },
+    "scope": "Bounded independent regression/reference cases, not an untouched external corpus, training run, or full Arabic coverage benchmark.",
+    "independence_limit": "Forty authored cases frozen before opening the new implementation, informed by the declared scope and previously available source work; no untouched external natural-text corpus or human-expert benchmark is claimed.",
+    "positive_case_limit": "Positive properties include source restoration, bounded cue receipts and candidate links. A candidate governor attachment is not counted as independent lexical verb evidence.",
+    "post_open_review": {
+      "test_methods": 18,
+      "passed": true,
+      "finding": "TERMINAL_TANWIN_ON_INCOMPATIBLE_ALIF_CARRIER",
+      "fixed_behavior": "Malformed damm/kasr tanwin on an alif carrier is now rejected with INVALID_ALIF_TANWIN before a noun receipt is issued. Both frozen fath-tanwin spellings still pass.",
+      "case_set_unchanged": true,
+      "new_attacks_added_to_frozen_40_case_score": false,
+      "first_raw_score": {
+        "passed": 40,
+        "total": 40
+      },
+      "final_raw_score": {
+        "passed": 40,
+        "total": 40
+      }
+    },
+    "preserved_history": [
+      {
+        "path": "evidence/text_morphology/independent_cases_v1.json",
+        "bytes": 29459,
+        "sha256": "082f66e559f68f0aeaa3a32f93bf179668e3286b0b78e1a18e4eae2fae427a55"
+      },
+      {
+        "path": "evidence/text_morphology/independent_protocol.md",
+        "bytes": 3612,
+        "sha256": "e03fc34e3a3ac5966af5ee8d733c33e068080e3ac578cba61d4ae88b36510a85"
+      },
+      {
+        "path": "evidence/text_morphology/independent_material_freeze_v1.json",
+        "bytes": 449,
+        "sha256": "da71e96e44d923557a180b63f59681fb14e3851dccd230d8ef5becee1033c573"
+      },
+      {
+        "path": "evidence/text_morphology/independent_first_run_v1.json",
+        "bytes": 215893,
+        "sha256": "4aa8a5fa840846f5db761b5d00548bb5184c164e207cc356287a223abd4c72e1"
+      },
+      {
+        "path": "evidence/text_morphology/independent_final_run_v2.json",
+        "bytes": 216353,
+        "sha256": "5d739fbcd3645c208e9c49b950c6bb556ba1aaea5e32a635b69a93db31fd1704"
+      },
+      {
+        "path": "evidence/text_morphology/review_findings_v1.json",
+        "bytes": 2479,
+        "sha256": "54bd3fbe979f9b8acc9d4bb2bd433927963a613a6db1f8413c840ef5cfa7118f"
+      },
+      {
+        "path": "evidence/text_morphology/review_results_v2.json",
+        "bytes": 1490,
+        "sha256": "5d12dea5628a68fddf8a28c76850e8cb7ad4bf173bb63bb4d9f1bb67d39ceb01"
+      },
+      {
+        "path": "evidence/text_morphology/review_assessment.md",
+        "bytes": 3479,
+        "sha256": "f8ce26ecee406fc52f74216640c811a8e45400d2d302c8dfe4c44ce5530f6b55"
+      }
+    ]
+  },
+  "previous_profile_regressions": {
+    "morphology": {
+      "report": {
+        "archive_member": "verified/morphology-regression.json",
+        "bytes": 214365,
+        "sha256": "68618f9469030537b13d124153d3a4f38274e837f973ec08eac39478eb732adb"
+      },
+      "summary": {
+        "passed": 39,
+        "total": 43,
+        "groups": {
+          "property_inference": {
+            "passed": 16,
+            "total": 16
+          },
+          "missing_information": {
+            "passed": 6,
+            "total": 6
+          },
+          "scope_boundary": {
+            "passed": 1,
+            "total": 5
+          },
+          "contradiction": {
+            "passed": 3,
+            "total": 3
+          },
+          "reading_isolation": {
+            "passed": 2,
+            "total": 2
+          },
+          "malformed_input": {
+            "passed": 1,
+            "total": 1
+          },
+          "unseen_identifier_transfer": {
+            "passed": 2,
+            "total": 2
+          },
+          "source_retraction": {
+            "passed": 2,
+            "total": 2
+          },
+          "certificate_integrity": {
+            "passed": 5,
+            "total": 5
+          },
+          "source_semantic_counterexample": {
+            "passed": 1,
+            "total": 1
+          }
+        },
+        "failed_ids": [
+          "m12",
+          "m13",
+          "m32",
+          "m33"
+        ],
+        "documented_boundary_ids": [
+          "m12",
+          "m13",
+          "m32",
+          "m33"
+        ],
+        "regression_gate_with_declared_boundaries": true
+      },
+      "measurement_scope": "V1 was frozen before implementation inspection. Runtime and formal files were subsequently read. V2 is a source-review-corrected regression set created after opening implementation; not an untouched independent holdout. See review_grammar_erratum_v1.json.",
+      "claim_boundary": "Source dossiers are controlled metalinguistic Arabic. The input propositions are conditional premises, not independently verified lexicographic facts. Cases do not claim unrestricted Arabic acquisition, world truth, root identification or general derivation origin."
+    },
+    "words": {
+      "report": {
+        "archive_member": "verified/word-regression.json",
+        "bytes": 375344,
+        "sha256": "5d9b6dbc9acc77701f104ac35c98736b52a9de7ba15d92f8d78c8ddeffbf4218"
+      },
+      "summary": {
+        "cases": 30,
+        "passed": 27,
+        "positive_capability_passed": 12,
+        "positive_capability_cases": 15,
+        "all_cases_passed": false,
+        "full_coverage_goal_passed": false,
+        "release_regression_gates_passed": true
+      },
+      "positive_miss_ids": [
+        "w15",
+        "w16",
+        "w17"
+      ],
+      "gate_contract": {
+        "require_regression_gates": true,
+        "allowed_documented_positive_misses": [
+          "w15",
+          "w16",
+          "w17"
+        ],
+        "allowed_missing_properties": [
+          "complete_required_frame",
+          "required_source_bound_role_and_case_bindings"
+        ],
+        "full_coverage_scope": "The 30 frozen cases only, not all Arabic.",
+        "meaning": "A regression pass preserves the known capability limit; it never changes a failed gold case into a pass."
+      }
+    },
+    "governors": {
+      "report": {
+        "archive_member": "verified/governor-regression/regression_gate.json",
+        "bytes": 787,
+        "sha256": "bde14e2428aa2634c7ec30a7ecd122ee95ce49529f1af5349f3143b5fd78b8aa"
+      },
+      "gate": {
+        "schema": "nabt.governors.published-regression-gate.v1",
+        "status": "REGRESSION_PASS",
+        "purpose": "Preserve the published measured floor; this is not a passed Arabic coverage or release goal.",
+        "successful_constrained_episodes": [
+          "h01",
+          "h02",
+          "h03",
+          "h05"
+        ],
+        "original_scope": {
+          "complete": 0,
+          "total": 12,
+          "baseline_complete": 11
+        },
+        "constrained_scope": {
+          "complete": 4,
+          "total": 5
+        },
+        "original_excerpts": {
+          "semantic_read": 0,
+          "total": 6
+        },
+        "licensed_claim_episodes": 38,
+        "source_restored": 44,
+        "independent_certificates": 5,
+        "rejected_certificate_mutations": 35,
+        "original_scope_goal_met": false,
+        "constrained_scope_goal_met": false,
+        "original_excerpt_goal_met": false,
+        "coverage_goal_met": false
+      }
+    },
+    "arabic_syntax": {
+      "report": {
+        "archive_member": "verified/arabic-regression/receipt.json",
+        "bytes": 3092,
+        "sha256": "8d950a97b1d4b1d76ae17d6db55b4125a822625763ddc16c7820d20deaddb469"
+      },
+      "gate": {
+        "passed": true,
+        "scope": "published bounded-profile regression; not the 300-episode coverage gate",
+        "no_incorrect_admitted_claim": true,
+        "all_source_bytes_restored": true,
+        "independent_certificate_checks_pass": true,
+        "previously_complete_cases_preserved": true,
+        "same_frozen_runtime_reproduces_published_counts": true,
+        "exact_published_counts": true,
+        "complete_case_inventory": true,
+        "within_recorded_budgets": true,
+        "standalone_complete": 0,
+        "standalone_total": 40,
+        "original_excerpt_semantic_read": 0,
+        "original_excerpt_total": 8
+      },
+      "declared_scope_complete": 8,
+      "declared_scope_total": 12
+    },
+    "text_inquiry": {
+      "report": {
+        "archive_member": "verified/text-regression/summary.json",
+        "bytes": 5608,
+        "sha256": "8ba5791e5852dfdda2cb771ff08841e105d0ffbb5c2bd2f4e4ee215384cd39b9"
+      },
+      "passed": true,
+      "scope": "post-publication regression",
+      "summaries": {
+        "controlled": {
+          "episodes": 60,
+          "episodes_passed": 60,
+          "query_checkpoints": 126,
+          "query_checkpoints_passed": 126,
+          "elapsed_seconds": 0.16691490199809778,
+          "by_family": {
+            "definitions": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "facts": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "relations": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "revision": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "rules": {
+              "episodes": 10,
+              "passed": 10
+            },
+            "uncertainty": {
+              "episodes": 10,
+              "passed": 10
+            }
+          },
+          "error_classes": {}
+        },
+        "natural": {
+          "raw_book_spans": 12,
+          "safety_passed": 12,
+          "fully_admitted": 0,
+          "semantic_successes_confirmed": 0,
+          "semantic_coverage_denominator": 12,
+          "note": "A safe unsupported result contributes zero semantic coverage. Any unexpected admission needs independent semantic review."
+        },
+        "attacks": {
+          "probes": 37,
+          "passed": 37,
+          "failed_ids": [],
+          "scope": "Public-contract adversarial probes and valid controls; separate from heldout controlled-Arabic accuracy."
+        },
+        "plans": {
+          "reviewer_regression_scenarios": 7,
+          "passed": 7,
+          "plans_replayed": 7,
+          "invalid_returned_plans": 0,
+          "note": "Created after an independent root-review counterexample; not part of the sealed 60-episode language benchmark."
+        },
+        "boundaries": {
+          "probes": 3,
+          "passed": 3,
+          "failed_ids": [],
+          "note": "Caller-created parsed ASTs cannot grant claims or erase residual source material. Added after first40 without seeing hidden reserve cases."
+        }
+      }
+    }
+  },
+  "source_learning_diagnostic": {
+    "report": {
+      "archive_member": "verified/source-learning.json",
+      "bytes": 32862,
+      "sha256": "407e03a3587b7795800148f1393f8e1409790004a4c338f21d4950063abca159"
+    },
+    "scope": {
+      "prescription_compilation_records": 6,
+      "distinct_prescription_operation_marker_pairs": 3,
+      "actual_observed_examples": 3,
+      "observed_lexemes": 1,
+      "independent_heldout_examples": 0,
+      "generated_forms_counted_as_observations": 0,
+      "target": "observed/selected carrier is waw, within each separately typed schema",
+      "general_arabic_accuracy_measured": false,
+      "source_agreement_implies_independence": false
+    }
+  },
+  "wheel_smoke": {
+    "report": {
+      "archive_member": "wheel-smoke.json",
+      "bytes": 1765,
+      "sha256": "3bd97db3079546c10c4046335fec6919f210cb55f3feba97d4ef31912fba2ea0"
+    },
+    "example_report": {
+      "archive_member": "wheel-example-report.json",
+      "bytes": 128284,
+      "sha256": "55ebac4912fe815fbf1521bf5afb69805cbccb706a90994c2f221a5f47ed6537"
+    },
+    "ok": true,
+    "wheel_file": "nabt_machine-0.9.0a1-py3-none-any.whl",
+    "wheel_sha256": "cbb95fdb62e0e2ab975f99b36df99b62c440c8a47f1bf89bbeea4da71d595b91",
+    "wheel_bytes": 915168,
+    "wheel_binary_included_in_archive": false,
+    "working_directory": "/tmp/nabt-text-morphology-wheel-smoke",
+    "installed_origin": "/tmp/nabt-text-morphology-installed/nabt/__init__.py",
+    "checks": [
+      {
+        "name": "read-new-text",
+        "argv": [
+          "read-text-morphology",
+          "text_morphology.txt",
+          "--lexical-source",
+          "text_morphology_lexical.txt"
+        ],
+        "expected_exit_code": 3,
+        "exit_code": 3,
+        "status": "DEFER",
+        "valid": null,
+        "stderr": ""
+      },
+      {
+        "name": "verify-both-original-sources",
+        "argv": [
+          "verify-text-morphology",
+          "report.json",
+          "--source",
+          "text_morphology.txt",
+          "--lexical-source",
+          "text_morphology_lexical.txt"
+        ],
+        "expected_exit_code": 0,
+        "exit_code": 0,
+        "status": "VERIFIED",
+        "valid": true,
+        "stderr": ""
+      },
+      {
+        "name": "reject-removed-lexical-source",
+        "argv": [
+          "verify-text-morphology",
+          "report.json",
+          "--source",
+          "text_morphology.txt"
+        ],
+        "expected_exit_code": 2,
+        "exit_code": 2,
+        "status": "REJECT",
+        "valid": false,
+        "stderr": ""
+      },
+      {
+        "name": "read-descriptor-regression",
+        "argv": [
+          "read-morphology",
+          "morphology_descriptions.txt"
+        ],
+        "expected_exit_code": 0,
+        "exit_code": 0,
+        "status": "READ",
+        "valid": null,
+        "stderr": ""
+      }
+    ],
+    "law_table_no_cues": [
+      "noun",
+      "verb",
+      "particle"
+    ],
+    "text_occurrence_count": 7
+  },
+  "record_archive": {
+    "path": "evidence/text_morphology/release/verification-records.tar.gz",
+    "bytes": 503358,
+    "sha256": "4a3184202739d867756f1a614f3bacd9302984e9afb2a0cf24a062277f937d36"
+  },
+  "record_manifest": {
+    "path": "evidence/text_morphology/release/verification-records-manifest.json",
+    "bytes": 5997,
+    "sha256": "86d26f6c00a5cfcb21fedf733d4814dffab2621ce5e4a85ca09a3934419a1e71",
+    "member_count": 29
+  },
+  "limits": [
+    "A passing regression gate preserves its recorded bounded behavior; it does not turn documented failed coverage cases into successes.",
+    "Source parsing and linguistic activation remain outside the Lean proof boundary; a finite table match is not a general parser refinement proof.",
+    "Observed prefixes, suffixes, patterns and governor adjacency do not independently establish a lexical word kind.",
+    "A noun-sign receipt does not determine built/inflected status, contextual case, semantic jamid/mushtaq class, derivation origin, or an actual syntactic role.",
+    "The forty new authored cases and eighteen later adversarial methods do not measure general Arabic accuracy, autonomous learning, or full lexical/morphological coverage.",
+    "Upstream sources are pinned provenance references; the present successful build and axiom audit apply to NABT only."
+  ]
+}
