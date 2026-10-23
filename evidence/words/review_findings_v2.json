@@ -1,0 +1,66 @@
+{
+  "schema": "nabt.words.independent-boundary-findings.v2",
+  "utc": "2026-10-23T09:29:50.749591+00:00",
+  "implementation_archive_sha256": "fc01f062954a7153138501695953ea6a9cf8613da11ae78887ca6cd52b8674fd",
+  "implementation_snapshot_sha256": "41ad5f8719d838f3b039633ee69175fcbbceb079e4a786b7d34d2c920821c3ee",
+  "observation_method": "Re-executed from the pinned v2 archive in an isolated temporary directory; no working-tree imports.",
+  "observed": {
+    "reader_sha256": "b3c6a07752a1747de60b317df29122685c5b75def5b720cdaea4d0d231b24e8c",
+    "cases": [
+      {
+        "input": "مِنْ رَجُلِ",
+        "status": "READ",
+        "contexts": [
+          {
+            "status": "CHECKED",
+            "obligations": []
+          }
+        ],
+        "facts": []
+      },
+      {
+        "input": "إِنَّ زَيْدَ قَائِمُ",
+        "status": "READ",
+        "contexts": [
+          {
+            "status": "CHECKED",
+            "obligations": []
+          }
+        ],
+        "facts": []
+      },
+      {
+        "input": "إِنَّ رَجُلَ قَائِمُ",
+        "status": "READ",
+        "contexts": [
+          {
+            "status": "CHECKED",
+            "obligations": []
+          }
+        ],
+        "facts": []
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "NON_TANWIN_CANDIDATE_PROMOTED_TO_COMPLETE_FRAME",
+      "status": "CONFIRMED_ON_V2",
+      "impact": "Plain short-vowel forms of the three curated ordinary nouns can be lexical candidates, but the narrow frames declared completeness without a witness discharging their missing tanwin/construction condition. No fact admission was observed.",
+      "required_fix": "Keep noun candidates and an explicit CONSTRUCT_STATE_OR_TANWIN_EVIDENCE obligation; current finite frames cannot discharge it. This is not a claim that every noun without tanwin is an idafa or is invalid Arabic."
+    }
+  ],
+  "source_basis": {
+    "path": "src/nabt/data/source_evidence/qatr.txt",
+    "source_sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+    "lines": [
+      43,
+      123,
+      337,
+      343
+    ],
+    "inference_limit": "The necessity of a witness follows from the deliberately closed pilot, its ordinary-noun classes, and the absence of licensed idafa/waqf/deletion in its three frames. Source statements about idafa are not contraposed into an automatic classifier of every non-tanwin noun."
+  },
+  "gold_material_unchanged": true,
+  "production_edited_by_reviewer": false
+}

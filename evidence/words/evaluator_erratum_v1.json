@@ -1,0 +1,23 @@
+{
+  "schema": "nabt.words.evaluator-interface-erratum.v1",
+  "utc": "2026-10-23T09:21:49.800724+00:00",
+  "finding": "EVALUATOR_SOURCE_ID_ENCODING",
+  "original_material_sha256": "38dd236c752b7d2d982eb615aa557c0d4b2328d1e415b6ca23c71d8e8852bc78",
+  "original_first_run_sha256": "96bc23e82ba584018e4026bed8205d8c807d525d3d60529a572ddfc98f8eaa82",
+  "original_evaluator_sha256": "6f598239c69102d2c84e0e524cfee6fb7c2ec1d0adc2492773ca66406c79528c",
+  "implementation_opened": true,
+  "runtime_results_seen": true,
+  "cause": "The frozen human source labels contain hyphens. The pre-existing SourceBlob identifier domain only accepts [a-z][a-z0-9_]*. All original first-run cases stopped before lexical analysis with INVALID_WORD_SOURCE.",
+  "change": "The evaluator maps every source label injectively to case_ followed by the UTF-8 hexadecimal of the original label, including both distinct identities in the replay-transplant case. The original material and first_run.json remain byte-exact.",
+  "unchanged": [
+    "Arabic input text",
+    "case count",
+    "source passages",
+    "required or forbidden linguistic properties",
+    "status-family expectations",
+    "source-identity equality/inequality",
+    "production code"
+  ],
+  "validity": "The 0/30 result of the original first_run.json is an invalid linguistic measurement caused by an evaluator precondition failure; it must not be described as zero Arabic capability.",
+  "rerun_output": "evidence/words/validated_run.json"
+}

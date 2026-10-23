@@ -1,0 +1,175 @@
+{
+  "schema": "nabt-published-text-evaluation-replay-v1",
+  "evaluation_role": "post-publication regression",
+  "passed": true,
+  "data_root": "/workspace/scratch/6e4178bfef09/nabt_integration/NABT/evidence/text_inquiry",
+  "code_freeze": "/workspace/scratch/6e4178bfef09/nabt_integration/NABT/evidence/words/code_freeze_v3.json",
+  "code_freeze_sha256": "b9ffd279e093b30cadbb4c61a23eb3f0b314ae5ae0da1374907ae8b133333434",
+  "runtime_snapshot_sha256": "33cb00870b810ddfef44d1c9c665c289223faf5164517fb1d0bdc803081a5066",
+  "published_input_integrity": {
+    "artifact_manifest_sha256": "6d64e66f0f197d8c6bf4399724b74a4203ac56a52a37528d97d66723f38ea9b9",
+    "artifacts_checked": 27
+  },
+  "evaluator_sources": [
+    {
+      "path": "tools/text_evaluation/__init__.py",
+      "sha256": "971c6a903991ec735f46147fe63cb260b0789f0bf7ab3790869f7289c00a3919"
+    },
+    {
+      "path": "tools/text_evaluation/adversarial.py",
+      "sha256": "1702b239fbb151b5acbdb407983ce11575329e193caeb45fbc7a1c1f03f896bd"
+    },
+    {
+      "path": "tools/text_evaluation/baseline.py",
+      "sha256": "98f6ffee7532a300927399b6c7b55501e65372c172e7bf218ecf8be274b6b2b0"
+    },
+    {
+      "path": "tools/text_evaluation/boundaries.py",
+      "sha256": "a2055e7c2a51765cd7cb5bbd633a44edc2298644d3b5ee52af709597094228dc"
+    },
+    {
+      "path": "tools/text_evaluation/controlled.py",
+      "sha256": "1fe42623fb61b7089b3e71515e70731862914954e12f13bd2e2977450dade177"
+    },
+    {
+      "path": "tools/text_evaluation/integrity.py",
+      "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+    },
+    {
+      "path": "tools/text_evaluation/natural.py",
+      "sha256": "d8dd001a4c70447c7c402f4c90bbf0815043dafcdcfc5168144d18edfdc15413"
+    },
+    {
+      "path": "tools/text_evaluation/plans.py",
+      "sha256": "a9960846b2e2716fa9b3415afa7e39617380671362d2ff8248b3110e98e3a650"
+    },
+    {
+      "path": "tools/text_evaluation/snapshot.py",
+      "sha256": "3ffec33f043bd27beef94c22c0b009e6ccfb7df3b46645989285f03ddce73834"
+    },
+    {
+      "path": "tools/text_evaluation/source_oracle.py",
+      "sha256": "23efaffeb90c63990120e5046dc091140659ca9ac7d1234b4d1e630331caed1d"
+    },
+    {
+      "path": "tools/text_inquiry_evaluation.py",
+      "sha256": "e8d1e60f6be7fe7c3d74f088f743a41352e7fd4ba9003e21f99f8d7188855bed"
+    }
+  ],
+  "summaries": {
+    "controlled": {
+      "episodes": 60,
+      "episodes_passed": 60,
+      "query_checkpoints": 126,
+      "query_checkpoints_passed": 126,
+      "elapsed_seconds": 0.155106590998912,
+      "by_family": {
+        "definitions": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "facts": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "relations": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "revision": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "rules": {
+          "episodes": 10,
+          "passed": 10
+        },
+        "uncertainty": {
+          "episodes": 10,
+          "passed": 10
+        }
+      },
+      "error_classes": {}
+    },
+    "natural": {
+      "raw_book_spans": 12,
+      "safety_passed": 12,
+      "fully_admitted": 0,
+      "semantic_successes_confirmed": 0,
+      "semantic_coverage_denominator": 12,
+      "note": "A safe unsupported result contributes zero semantic coverage. Any unexpected admission needs independent semantic review."
+    },
+    "attacks": {
+      "probes": 37,
+      "passed": 37,
+      "failed_ids": [],
+      "scope": "Public-contract adversarial probes and valid controls; separate from heldout controlled-Arabic accuracy."
+    },
+    "plans": {
+      "reviewer_regression_scenarios": 7,
+      "passed": 7,
+      "plans_replayed": 7,
+      "invalid_returned_plans": 0,
+      "note": "Created after an independent root-review counterexample; not part of the sealed 60-episode language benchmark."
+    },
+    "boundaries": {
+      "probes": 3,
+      "passed": 3,
+      "failed_ids": [],
+      "note": "Caller-created parsed ASTs cannot grant claims or erase residual source material. Added after first40 without seeing hidden reserve cases."
+    },
+    "baseline": {
+      "first40": {
+        "episodes": 40,
+        "status_episode_passed": 20,
+        "checkpoints": 81,
+        "status_checkpoints_passed": 56,
+        "answers": 21,
+        "correct_answers": 21,
+        "sufficient_evidence_queries": 41,
+        "answer_precision": 1.0,
+        "justified_coverage": 0.5121951219512195,
+        "baseline_status_counts": {
+          "UNKNOWN": 52,
+          "SUPPORTED": 15,
+          "REFUTED": 6,
+          "CONFLICT": 8
+        }
+      },
+      "reserve20": {
+        "episodes": 20,
+        "status_episode_passed": 8,
+        "checkpoints": 45,
+        "status_checkpoints_passed": 28,
+        "answers": 8,
+        "correct_answers": 7,
+        "sufficient_evidence_queries": 20,
+        "answer_precision": 0.875,
+        "justified_coverage": 0.35,
+        "baseline_status_counts": {
+          "UNKNOWN": 36,
+          "SUPPORTED": 4,
+          "REFUTED": 4,
+          "CONFLICT": 1
+        }
+      },
+      "all": {
+        "episodes": 60,
+        "status_episode_passed": 28,
+        "checkpoints": 126,
+        "status_checkpoints_passed": 84,
+        "answers": 29,
+        "correct_answers": 28,
+        "sufficient_evidence_queries": 61,
+        "answer_precision": 0.9655172413793104,
+        "justified_coverage": 0.45901639344262296,
+        "baseline_status_counts": {
+          "UNKNOWN": 88,
+          "SUPPORTED": 19,
+          "REFUTED": 10,
+          "CONFLICT": 9
+        }
+      }
+    }
+  }
+}

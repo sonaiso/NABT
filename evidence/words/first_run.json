@@ -1,0 +1,1468 @@
+{
+  "evaluator_version": "nabt.words.independent-evaluator.v1",
+  "utc": "2026-10-23T09:20:47.991022+00:00",
+  "evaluator_sha256": "6f598239c69102d2c84e0e524cfee6fb7c2ec1d0adc2492773ca66406c79528c",
+  "material_sha256": "38dd236c752b7d2d982eb615aa557c0d4b2328d1e415b6ca23c71d8e8852bc78",
+  "implementation_freeze": {
+    "manifest_sha256": "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc4",
+    "snapshot_sha256": "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4",
+    "archive_sha256": "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d",
+    "file_count": 38
+  },
+  "loaded_modules": [
+    {
+      "module": "nabt",
+      "path": "src/nabt/__init__.py",
+      "sha256": "58d3726f6ec7f47a04b4a7cd609ee44f0a86ccbcf1b71867a41d4dad7549d4df"
+    },
+    {
+      "module": "nabt.alphabet",
+      "path": "src/nabt/alphabet.py",
+      "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe"
+    },
+    {
+      "module": "nabt.certificates",
+      "path": "src/nabt/certificates.py",
+      "sha256": "3645425d1d2af2a67faeed4d94a181fdb4496a6810980f06a09fa6677869a0f9"
+    },
+    {
+      "module": "nabt.codec",
+      "path": "src/nabt/codec.py",
+      "sha256": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1"
+    },
+    {
+      "module": "nabt.errors",
+      "path": "src/nabt/errors.py",
+      "sha256": "bbe25cbd5eae2c81cc226c2897dc9600d74c26d740567d90fde72bc3174e0974"
+    },
+    {
+      "module": "nabt.learning",
+      "path": "src/nabt/learning/__init__.py",
+      "sha256": "bb5ede45c2a48dcdc1b8ab404a50a43e03e3b65854567598ce021ffa378e3d8c"
+    },
+    {
+      "module": "nabt.learning.arabic_six_nouns",
+      "path": "src/nabt/learning/arabic_six_nouns.py",
+      "sha256": "472ffd3f83334e4650abccfe35d3423043969ca07b2949e04fb6cd856a690a7a"
+    },
+    {
+      "module": "nabt.learning.finite_guard",
+      "path": "src/nabt/learning/finite_guard.py",
+      "sha256": "d1df31c5055fa876b210ae53461233a687d56d24526b53ddd1bcb5c6571d248c"
+    },
+    {
+      "module": "nabt.learning.source_evidence",
+      "path": "src/nabt/learning/source_evidence.py",
+      "sha256": "7598c2c51990364778e9b22bc1cd62558c166311d984321ff316b8ce5210f354"
+    },
+    {
+      "module": "nabt.machine",
+      "path": "src/nabt/machine.py",
+      "sha256": "676e79ec353204ea9eab3324ebeec8381964de6b3655b9904109acad2d47826e"
+    },
+    {
+      "module": "nabt.text_ir",
+      "path": "src/nabt/text_ir.py",
+      "sha256": "0270e39c46833d3b9691ca5e5acf0137a1ba3a4f4940b8e4b60b948e5da68af8"
+    },
+    {
+      "module": "nabt.word_reader",
+      "path": "src/nabt/word_reader.py",
+      "sha256": "efab358a7ee11c83d8e430a8b5a3ab914536f5d40dc82d0b72cd036fb52b8c25"
+    },
+    {
+      "module": "nabt.words",
+      "path": "src/nabt/words.py",
+      "sha256": "cabbbbd64163bf26052dd1fbf872273c5926580a68fa6581bf62515ef893e8c9"
+    }
+  ],
+  "scope": {
+    "precomposition": "Source-bound candidates for noun, verb, particle and grammatical segmentation, without contextual case or semantic admission.",
+    "contextual_frames": [
+      "inna_two_nouns",
+      "min_noun",
+      "lam_imperfect"
+    ],
+    "attached_pronoun": "The source-attested taa of darabtu must remain distinct from the verb in grammatical segmentation while restoring one written run.",
+    "existing_profiles": "This dataset does not authorize changing existing text/governor acceptance.",
+    "new_unknown_words": "Named DEFER or explicitly limited cues; never count as required lexical coverage.",
+    "source_fact_or_atom_admission": false
+  },
+  "claim_limit": "Independent, source-justified development and boundary cases frozen before the new words implementation was read. This is not a hidden broad-Arabic proficiency benchmark.",
+  "groups": {
+    "ambiguity_control": {
+      "cases": 1,
+      "passed": 0,
+      "failed_ids": [
+        "w13"
+      ]
+    },
+    "boundary_validation": {
+      "cases": 1,
+      "passed": 0,
+      "failed_ids": [
+        "w29"
+      ]
+    },
+    "certificate_binding": {
+      "cases": 1,
+      "passed": 0,
+      "failed_ids": [
+        "w28"
+      ]
+    },
+    "coverage_boundary": {
+      "cases": 3,
+      "passed": 0,
+      "failed_ids": [
+        "w14",
+        "w25",
+        "w30"
+      ]
+    },
+    "safety_counterexample": {
+      "cases": 9,
+      "passed": 0,
+      "failed_ids": [
+        "w18",
+        "w19",
+        "w20",
+        "w21",
+        "w22",
+        "w23",
+        "w24",
+        "w26",
+        "w27"
+      ]
+    },
+    "source_attested_positive": {
+      "cases": 15,
+      "passed": 0,
+      "failed_ids": [
+        "w01",
+        "w02",
+        "w03",
+        "w04",
+        "w05",
+        "w06",
+        "w07",
+        "w08",
+        "w09",
+        "w10",
+        "w11",
+        "w12",
+        "w15",
+        "w16",
+        "w17"
+      ]
+    }
+  },
+  "summary": {
+    "cases": 30,
+    "passed": 0,
+    "positive_capability_passed": 0,
+    "positive_capability_cases": 15,
+    "all_cases_passed": false
+  },
+  "named_findings": [
+    "FROZEN_POSITIVE_CAPABILITY_GAP",
+    "FROZEN_BOUNDARY_OR_SAFETY_GAP"
+  ],
+  "failures": [
+    {
+      "id": "w01",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "observed_tanwin_preserved"
+      ]
+    },
+    {
+      "id": "w02",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness"
+      ]
+    },
+    {
+      "id": "w03",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness"
+      ]
+    },
+    {
+      "id": "w04",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "source_licensed_subtype",
+        "reference_obligation_separate_from_kind"
+      ]
+    },
+    {
+      "id": "w05",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "source_licensed_subtype"
+      ]
+    },
+    {
+      "id": "w06",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_grammatical_segmentation",
+        "one_written_run_multiple_grammatical_words"
+      ]
+    },
+    {
+      "id": "w07",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "source_licensed_subtype"
+      ]
+    },
+    {
+      "id": "w08",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "source_licensed_subtype"
+      ]
+    },
+    {
+      "id": "w09",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "isolated_operator_does_not_fill_complement"
+      ]
+    },
+    {
+      "id": "w10",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "isolated_operator_does_not_fill_complement"
+      ]
+    },
+    {
+      "id": "w11",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness"
+      ]
+    },
+    {
+      "id": "w12",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "source_licensed_kind_witness",
+        "isolated_operator_does_not_fill_complement"
+      ]
+    },
+    {
+      "id": "w13",
+      "group": "ambiguity_control",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:READING_OR_LEXICAL_SENSE",
+        "preserved_required_kind_alternatives",
+        "no_premature_unique_kind"
+      ]
+    },
+    {
+      "id": "w14",
+      "group": "coverage_boundary",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:LEXICAL_ATTESTATION_OR_COVERAGE"
+      ]
+    },
+    {
+      "id": "w15",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "complete_required_frame",
+        "required_source_bound_role_and_case_bindings"
+      ]
+    },
+    {
+      "id": "w16",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "complete_required_frame",
+        "required_source_bound_role_and_case_bindings"
+      ]
+    },
+    {
+      "id": "w17",
+      "group": "source_attested_positive",
+      "failed_properties": [
+        "complete_required_frame",
+        "required_source_bound_role_and_case_bindings",
+        "finite_explicit_stem_form_scope"
+      ]
+    },
+    {
+      "id": "w18",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_obligation:CASE_ROLE_MISMATCH"
+      ]
+    },
+    {
+      "id": "w19",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:INCOMPLETE_FRAME"
+      ]
+    },
+    {
+      "id": "w20",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:FRAME_BOUNDARY_OR_SCOPE"
+      ]
+    },
+    {
+      "id": "w21",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:CATEGORY_ROLE_MISMATCH"
+      ]
+    },
+    {
+      "id": "w22",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:CATEGORY_ROLE_MISMATCH"
+      ]
+    },
+    {
+      "id": "w23",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:INFLECTION_REALIZATION_OR_FORM"
+      ]
+    },
+    {
+      "id": "w24",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:MENTION_USE_OR_FRAME_BOUNDARY"
+      ]
+    },
+    {
+      "id": "w25",
+      "group": "coverage_boundary",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:SEGMENTATION_OR_LEXICAL_COVERAGE"
+      ]
+    },
+    {
+      "id": "w26",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:GOVERNOR_BLOCKER_OR_OUTSIDE_FRAME"
+      ]
+    },
+    {
+      "id": "w27",
+      "group": "safety_counterexample",
+      "failed_properties": [
+        "named_obligation:CONFLICTING_MARKS"
+      ]
+    },
+    {
+      "id": "w28",
+      "group": "certificate_binding",
+      "failed_properties": [
+        "cross_source_replay_failed"
+      ]
+    },
+    {
+      "id": "w29",
+      "group": "boundary_validation",
+      "failed_properties": [
+        "named_obligation:INVALID_BYTE_BOUNDARY"
+      ]
+    },
+    {
+      "id": "w30",
+      "group": "coverage_boundary",
+      "failed_properties": [
+        "named_deferral",
+        "named_obligation:LEXICAL_ATTESTATION_OR_COVERAGE"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "w01",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w01",
+        "text": "رَجُلٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "observed_tanwin_preserved",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 0.00016564900215598755
+    },
+    {
+      "id": "w02",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w02",
+        "text": "زيد"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 1.8547998479334638e-05
+    },
+    {
+      "id": "w03",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w03",
+        "text": "قائم"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 1.2368000170681626e-05
+    },
+    {
+      "id": "w04",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w04",
+        "text": "هو"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "source_licensed_subtype",
+          "passed": false
+        },
+        {
+          "property": "reference_obligation_separate_from_kind",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 1.1698000889737159e-05
+    },
+    {
+      "id": "w05",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w05",
+        "text": "ضَرَبَ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "source_licensed_subtype",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 9.313996997661889e-06
+    },
+    {
+      "id": "w06",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w06",
+        "text": "ضَرَبْتُ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_grammatical_segmentation",
+          "passed": false
+        },
+        {
+          "property": "one_written_run_multiple_grammatical_words",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 9.715000487631187e-06
+    },
+    {
+      "id": "w07",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w07",
+        "text": "قام"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "source_licensed_subtype",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.4530001913663e-06
+    },
+    {
+      "id": "w08",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w08",
+        "text": "يقوم"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "source_licensed_subtype",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.811999239493161e-06
+    },
+    {
+      "id": "w09",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w09",
+        "text": "مِنْ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "isolated_operator_does_not_fill_complement",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.300997822312638e-06
+    },
+    {
+      "id": "w10",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w10",
+        "text": "لم"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "isolated_operator_does_not_fill_complement",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.4310009949840605e-06
+    },
+    {
+      "id": "w11",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w11",
+        "text": "هل"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 6.779999239370227e-06
+    },
+    {
+      "id": "w12",
+      "group": "source_attested_positive",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w12",
+        "text": "إنّ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "source_licensed_kind_witness",
+          "passed": false
+        },
+        {
+          "property": "isolated_operator_does_not_fill_complement",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 6.959999154787511e-06
+    },
+    {
+      "id": "w13",
+      "group": "ambiguity_control",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w13",
+        "text": "من"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:READING_OR_LEXICAL_SENSE",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "preserved_required_kind_alternatives",
+          "passed": false
+        },
+        {
+          "property": "no_premature_unique_kind",
+          "passed": false
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 2.4075998226180673e-05
+    },
+    {
+      "id": "w14",
+      "group": "coverage_boundary",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w14",
+        "text": "حَاسُوبٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:LEXICAL_ATTESTATION_OR_COVERAGE",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "unknown_word_not_attested",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 9.072999091586098e-06
+    },
+    {
+      "id": "w15",
+      "group": "source_attested_positive",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w15",
+        "text": "إنّ زيدًا قائمٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "complete_required_frame",
+          "passed": false,
+          "detail": {
+            "runtime_status": "REJECT",
+            "obligations": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "required_source_bound_role_and_case_bindings",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 1.020499985315837e-05
+    },
+    {
+      "id": "w16",
+      "group": "source_attested_positive",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w16",
+        "text": "مِنْ رجلٍ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "complete_required_frame",
+          "passed": false,
+          "detail": {
+            "runtime_status": "REJECT",
+            "obligations": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "required_source_bound_role_and_case_bindings",
+          "passed": false
+        },
+        {
+          "property": "no_invented_referent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.282997441710904e-06
+    },
+    {
+      "id": "w17",
+      "group": "source_attested_positive",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w17",
+        "text": "لم يقمْ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "complete_required_frame",
+          "passed": false,
+          "detail": {
+            "runtime_status": "REJECT",
+            "obligations": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "required_source_bound_role_and_case_bindings",
+          "passed": false
+        },
+        {
+          "property": "finite_explicit_stem_form_scope",
+          "passed": false
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.322000212501734e-06
+    },
+    {
+      "id": "w18",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w18",
+        "text": "إنّ زيدٌ قائمٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "structured_nonacceptance",
+          "passed": true
+        },
+        {
+          "property": "named_obligation:CASE_ROLE_MISMATCH",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.412000170210376e-06
+    },
+    {
+      "id": "w19",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w19",
+        "text": "إنّ زيدًا"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:INCOMPLETE_FRAME",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.822000043233857e-06
+    },
+    {
+      "id": "w20",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w20",
+        "text": "إنّ زيدًا قائمٌ رجلٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:FRAME_BOUNDARY_OR_SCOPE",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 6.7399996623862535e-06
+    },
+    {
+      "id": "w21",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w21",
+        "text": "مِنْ يقومُ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:CATEGORY_ROLE_MISMATCH",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        },
+        {
+          "property": "forbidden_binding_absent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.422997780144215e-06
+    },
+    {
+      "id": "w22",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w22",
+        "text": "لم رجلٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:CATEGORY_ROLE_MISMATCH",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        },
+        {
+          "property": "forbidden_binding_absent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 1.1136999091831967e-05
+    },
+    {
+      "id": "w23",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w23",
+        "text": "لم يقومْ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:INFLECTION_REALIZATION_OR_FORM",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        },
+        {
+          "property": "forbidden_binding_absent",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.742998033994809e-06
+    },
+    {
+      "id": "w24",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w24",
+        "text": "«إنّ» زيدًا قائمٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:MENTION_USE_OR_FRAME_BOUNDARY",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        },
+        {
+          "property": "quoted_mention_not_activated",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.31100226403214e-06
+    },
+    {
+      "id": "w25",
+      "group": "coverage_boundary",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w25",
+        "text": "وزيد"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:SEGMENTATION_OR_LEXICAL_COVERAGE",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_forced_waw_segmentation",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 6.649999704677612e-06
+    },
+    {
+      "id": "w26",
+      "group": "safety_counterexample",
+      "requested_layer": "contextual",
+      "input": {
+        "source_id": "independent-w26",
+        "text": "إنما زيدٌ قائمٌ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:GOVERNOR_BLOCKER_OR_OUTSIDE_FRAME",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "no_unlicensed_complete_frame",
+          "passed": true
+        },
+        {
+          "property": "no_unblocked_inna_activation",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 6.990001566009596e-06
+    },
+    {
+      "id": "w27",
+      "group": "safety_counterexample",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w27",
+        "text": "زيدَُ"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "structured_nonacceptance",
+          "passed": true
+        },
+        {
+          "property": "named_obligation:CONFLICTING_MARKS",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "conflicting_marks_do_not_select_a_template",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.180999091360718e-06
+    },
+    {
+      "id": "w28",
+      "group": "certificate_binding",
+      "requested_layer": "replay",
+      "input": {
+        "source_id": "independent-w28",
+        "text": "زيد"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "cross_source_replay_failed",
+          "passed": false
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.341001037275419e-06
+    },
+    {
+      "id": "w29",
+      "group": "boundary_validation",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w29",
+        "text": "زيد"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "structured_nonacceptance",
+          "passed": true
+        },
+        {
+          "property": "named_obligation:INVALID_BYTE_BOUNDARY",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "invalid_span_not_licensed",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 8.221999451052397e-06
+    },
+    {
+      "id": "w30",
+      "group": "coverage_boundary",
+      "requested_layer": "precomposition",
+      "input": {
+        "source_id": "independent-w30",
+        "text": "س"
+      },
+      "passed": false,
+      "checks": [
+        {
+          "property": "named_deferral",
+          "passed": false
+        },
+        {
+          "property": "named_obligation:LEXICAL_ATTESTATION_OR_COVERAGE",
+          "passed": false,
+          "detail": {
+            "observed": [
+              "INVALID_WORD_SOURCE"
+            ]
+          }
+        },
+        {
+          "property": "absence_of_signs_not_particle_proof",
+          "passed": true
+        }
+      ],
+      "runtime_error": {
+        "status": "REJECT",
+        "code": "INVALID_WORD_SOURCE",
+        "message": "Invalid source identity or UTF-8 source"
+      },
+      "replay_result": null,
+      "report": {},
+      "elapsed_seconds_single_run": 7.061000360408798e-06
+    }
+  ]
+}

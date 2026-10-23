@@ -2,12 +2,12 @@ PYTHON ?= python3
 LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
-TEXT_CODE_FREEZE ?= evidence/governors/code_freeze_v1.json
+TEXT_CODE_FREEZE ?= evidence/words/code_freeze_v3.json
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance governor-conformance source-experiment text-evaluation arabic-evaluation governor-evaluation axioms check benchmark demo
+.PHONY: test formal conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms check benchmark demo
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -30,6 +30,9 @@ arabic-conformance:
 governor-conformance:
 	$(PYTHON) tools/check_governor_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/governor-conformance.json
 
+word-conformance:
+	$(PYTHON) tools/check_word_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/word-conformance.json
+
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
 
@@ -42,10 +45,13 @@ arabic-evaluation:
 governor-evaluation:
 	$(PYTHON) tools/governor_evaluation.py --code-freeze $(TEXT_CODE_FREEZE) --output-dir $(GOVERNOR_EVALUATION_DIR) --require-regression-gates
 
+word-evaluation:
+	$(PYTHON) tools/word_evaluation.py --output $(EVIDENCE_DIR)/word-regression.json --require-regression-gates
+
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance source-experiment text-evaluation arabic-evaluation governor-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:
