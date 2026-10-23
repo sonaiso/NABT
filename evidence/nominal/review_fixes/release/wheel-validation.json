@@ -1,0 +1,311 @@
+{
+  "schema": "nabt.nominal.review-wheel-validation.v1",
+  "ok": true,
+  "utc": "2026-10-23T13:30:10.029019+00:00",
+  "version": "0.11.0a2",
+  "freeze": {
+    "path": "evidence/nominal/code_freeze_v2.json",
+    "sha256": "d904702b8633f8102c6795f3beeff0d5584e908ee7b0d1c605c168103ab87f94",
+    "snapshot_sha256": "814ec3f4ea340b09b594ff162e65e49be8e4110088da5feae02fe41eb8a71d6c",
+    "archive_sha256": "c7ab0b42159ba60d5a39b65b2adb980ed92df6e6e71eb1dc355bbfb43d838071",
+    "baseline_head": "a9efdd7e5a5f9b57aeabce9d3d57fd4bf8a316c2",
+    "file_count": 52
+  },
+  "wheel": {
+    "path": "wheel/nabt_machine-0.11.0a2-py3-none-any.whl",
+    "sha256": "ddc38f26bb7a3c5f4596aeed529c5b955237131e2022a2e68fb90f9b0cda146a",
+    "bytes": 939269
+  },
+  "build_environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "pip": "26.2.1",
+    "setuptools": "84.0.0",
+    "wheel": "0.48.0",
+    "no_build_isolation": true,
+    "no_dependencies": true,
+    "no_index": true,
+    "build_extras": [
+      {
+        "path": "README.md",
+        "bytes": 32881,
+        "sha256": "01055be4a2ef7c3c6b418f5bce4e64836ba81bfb14521c5ed3ceec022362b2e4",
+        "scope": "distribution documentation, outside the 52-file runtime freeze"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 1066,
+        "sha256": "c549ec70ed41fce1310830613efdb5db412da95e3245580835b97aa525a0bdb0",
+        "scope": "distribution documentation, outside the 52-file runtime freeze"
+      }
+    ]
+  },
+  "isolation": {
+    "temporary_root": "/tmp/nabt-nominal-a2-packaging-r_fqygx9",
+    "working_directory": "/tmp/nabt-nominal-a2-packaging-r_fqygx9/smoke",
+    "installed_origin": "/tmp/nabt-nominal-a2-packaging-r_fqygx9/venv/lib/python3.12/site-packages/nabt/__init__.py",
+    "venv": "/tmp/nabt-nominal-a2-packaging-r_fqygx9/venv",
+    "pythonpath_removed": true,
+    "pythonhome_removed": true,
+    "inspection_isolated_mode": true
+  },
+  "correspondence": {
+    "current_frozen_files_before_and_after": 52,
+    "archive_files": 52,
+    "wheel_package_files": 51,
+    "installed_package_files": 51,
+    "all_package_bytes_match_freeze": true,
+    "unexpected_package_files": [],
+    "pyproject": {
+      "installed_as_file": false,
+      "sha256": "7fc0c35a0df9a9b8c3c7835f66b9b2da8870a04ce491cc591142325f38565177",
+      "metadata_checked": [
+        "Name",
+        "Version",
+        "Requires-Python",
+        "Requires-Dist",
+        "console_scripts:nabt"
+      ]
+    },
+    "nominal_table_sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8",
+    "final_readme_sha256": "01055be4a2ef7c3c6b418f5bce4e64836ba81bfb14521c5ed3ceec022362b2e4",
+    "metadata_sha256": "d361b5292a9eca72cefc239a0e7f4bd3473939ca5dc91911245bac2a68b9f563",
+    "wheel_and_installed_readme_match_final_source": true
+  },
+  "example_sources": [
+    {
+      "source": "examples/nominal.txt",
+      "bytes": 121,
+      "sha256": "d1269071b282ebdbb6a9ce23dfc56b9494318200d5701d7577e9924842650213"
+    },
+    {
+      "source": "examples/nominal_assertions.txt",
+      "bytes": 460,
+      "sha256": "2df034d5cc7d12522cb76c9622ae034572478d792661299787a4c779fe7c78cc"
+    },
+    {
+      "source": "examples/count_phrase.txt",
+      "bytes": 20,
+      "sha256": "bbb11e18416ecb34cc2498b2d95f589aad5d42de5f2df4295e5e25d9f87903e4"
+    }
+  ],
+  "smoke_checks": [
+    {
+      "name": "nominal-catalog",
+      "argv": [
+        "nominal-catalog"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": null,
+      "valid": null,
+      "result": "results/nominal-catalog.json"
+    },
+    {
+      "name": "weak-root-profile",
+      "argv": [
+        "weak-root-profile",
+        "روي"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "CONDITIONAL_CLASSIFICATION",
+      "valid": null,
+      "result": "results/weak-root-profile.json"
+    },
+    {
+      "name": "number-rule",
+      "argv": [
+        "number-rule",
+        "3",
+        "masculine"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "CONDITIONAL_RULE",
+      "valid": null,
+      "result": "results/number-rule.json"
+    },
+    {
+      "name": "read-nominal-facts",
+      "argv": [
+        "read-nominal-facts",
+        "nominal_assertions.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "READ",
+      "valid": null,
+      "result": "results/read-nominal-facts.json"
+    },
+    {
+      "name": "verify-nominal-facts",
+      "argv": [
+        "verify-nominal-facts",
+        "read-nominal-facts.json",
+        "--source",
+        "nominal_assertions.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "VERIFIED",
+      "valid": true,
+      "result": "results/verify-nominal-facts.json"
+    },
+    {
+      "name": "read-nominal",
+      "argv": [
+        "read-nominal",
+        "nominal.txt",
+        "--lexical-source",
+        "nominal_assertions.txt"
+      ],
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "DEFER",
+      "valid": null,
+      "result": "results/read-nominal.json"
+    },
+    {
+      "name": "verify-nominal",
+      "argv": [
+        "verify-nominal",
+        "read-nominal.json",
+        "--source",
+        "nominal.txt",
+        "--lexical-source",
+        "nominal_assertions.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "VERIFIED",
+      "valid": true,
+      "result": "results/verify-nominal.json"
+    },
+    {
+      "name": "withdraw-nominal-lexical-source",
+      "argv": [
+        "verify-nominal",
+        "read-nominal.json",
+        "--source",
+        "nominal.txt"
+      ],
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "REJECT",
+      "valid": false,
+      "result": "results/withdraw-nominal-lexical-source.json"
+    },
+    {
+      "name": "count-source-units",
+      "argv": [
+        "count-source-units",
+        "nominal.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "READ",
+      "valid": null,
+      "result": "results/count-source-units.json"
+    },
+    {
+      "name": "verify-source-count",
+      "argv": [
+        "verify-source-count",
+        "count-source-units.json",
+        "--source",
+        "nominal.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "VERIFIED",
+      "valid": true,
+      "result": "results/verify-source-count.json"
+    },
+    {
+      "name": "read-count-phrase",
+      "argv": [
+        "read-count-phrase",
+        "count_phrase.txt",
+        "--lexical-source",
+        "nominal_assertions.txt"
+      ],
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "DEFER",
+      "valid": null,
+      "result": "results/read-count-phrase.json"
+    },
+    {
+      "name": "verify-count-phrase",
+      "argv": [
+        "verify-count-phrase",
+        "read-count-phrase.json",
+        "--source",
+        "count_phrase.txt",
+        "--lexical-source",
+        "nominal_assertions.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "VERIFIED",
+      "valid": true,
+      "result": "results/verify-count-phrase.json"
+    },
+    {
+      "name": "withdraw-counted-lexical-source",
+      "argv": [
+        "verify-count-phrase",
+        "read-count-phrase.json",
+        "--source",
+        "count_phrase.txt"
+      ],
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "REJECT",
+      "valid": false,
+      "result": "results/withdraw-counted-lexical-source.json"
+    },
+    {
+      "name": "number-rule-outside-domain",
+      "argv": [
+        "number-rule",
+        "101",
+        "masculine"
+      ],
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "DEFER",
+      "valid": null,
+      "result": "results/number-rule-outside-domain.json"
+    },
+    {
+      "name": "read-nominal-with-number",
+      "argv": [
+        "read-nominal",
+        "nominal.txt",
+        "--lexical-source",
+        "nominal_assertions.txt",
+        "--with-number"
+      ],
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": null,
+      "valid": null,
+      "result": "results/read-nominal-with-number.json"
+    }
+  ],
+  "smoke_check_count": 15,
+  "cli_version_checked": true,
+  "nominal_number_roundtrip": {
+    "valid": true,
+    "status": "EXACT_ROUNDTRIP",
+    "authority": "ENCODING_ONLY"
+  },
+  "scope": [
+    "Installed-wheel correspondence and bounded CLI examples only.",
+    "Successful replay verifies source-bound report reconstruction, not linguistic or world truth.",
+    "DEFER is expected exit 3; lexical-source withdrawal is expected rejection exit 2.",
+    "The parent release task runs make check separately; no full gate or independent gold was rerun or read here."
+  ]
+}
