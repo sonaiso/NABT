@@ -1,0 +1,115 @@
+{
+  "schema": "nabt-text-evaluation-summary-v1",
+  "dataset_sha256": "1edb63bd0df4e6c35e466b989a9bc4e55d5204d66a4771f6b72f073895419127",
+  "episodes": 60,
+  "query_checkpoints": 126,
+  "gold_status_counts": {
+    "SUPPORTED": 50,
+    "UNKNOWN": 47,
+    "REFUTED": 11,
+    "CONFLICT": 11,
+    "DEFER": 7
+  },
+  "family_checkpoints": {
+    "definitions": 19,
+    "facts": 21,
+    "relations": 18,
+    "revision": 34,
+    "rules": 18,
+    "uncertainty": 16
+  },
+  "metrics": {
+    "initial_hidden_episodes": {
+      "successes": 40,
+      "denominator": 40,
+      "rate": 1.0,
+      "nominal_wilson_95": [
+        0.9123783988027135,
+        1
+      ]
+    },
+    "reserved_hidden_episodes": {
+      "successes": 20,
+      "denominator": 20,
+      "rate": 1.0,
+      "nominal_wilson_95": [
+        0.8388748419471806,
+        1
+      ]
+    },
+    "final_regression_episodes": {
+      "successes": 60,
+      "denominator": 60,
+      "rate": 1.0,
+      "nominal_wilson_95": [
+        0.93982814785791,
+        0.9999999999999998
+      ]
+    },
+    "final_regression_query_status": {
+      "successes": 126,
+      "denominator": 126,
+      "rate": 1.0,
+      "nominal_wilson_95": [
+        0.9704142355178014,
+        0.9999999999999998
+      ]
+    },
+    "kernel_justified_coverage": {
+      "successes": 61,
+      "denominator": 61,
+      "rate": 1.0,
+      "nominal_wilson_95": [
+        0.9407561321018871,
+        1
+      ]
+    },
+    "fact_baseline_justified_coverage": {
+      "successes": 28,
+      "denominator": 61,
+      "rate": 0.45901639344262296,
+      "nominal_wilson_95": [
+        0.3401293229385576,
+        0.5827595186924353
+      ]
+    },
+    "fact_baseline_answer_precision": {
+      "successes": 28,
+      "denominator": 29,
+      "rate": 0.9655172413793104,
+      "nominal_wilson_95": [
+        0.8282447812067973,
+        0.9938867857072374
+      ]
+    },
+    "named_missing_premises": {
+      "successes": 2,
+      "denominator": 2,
+      "rate": 1.0,
+      "nominal_wilson_95": [
+        0.34238022750665303,
+        1
+      ]
+    },
+    "mutated_certificate_acceptances": {
+      "successes": 0,
+      "denominator": 22,
+      "rate": 0.0,
+      "nominal_wilson_95": [
+        0,
+        0.14865487460862087
+      ]
+    },
+    "raw_source_semantic_coverage": {
+      "successes": 0,
+      "denominator": 12,
+      "rate": 0.0,
+      "nominal_wilson_95": [
+        2.7755575615628914e-17,
+        0.24249400665524085
+      ]
+    }
+  },
+  "interval_scope": "Nominal Wilson intervals are descriptive over these item counts. Hand selection, shared templates, multiple checkpoints per episode, and nonrandom sampling prohibit population inference or a general-Arabic accuracy claim. Original and reserve runs used different recorded runtime snapshots.",
+  "interpretation": "Executable source-written rules improve over fact-only retrieval within the declared controlled language. Actual book-span semantic coverage remains zero. No trained model comparison was performed."
+}

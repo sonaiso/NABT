@@ -53,11 +53,11 @@ def unique_keys(pairs):
     return result
 
 
-def read_certificate(path: Path):
+def read_certificate(path: Path, maximum_bytes: int = MAX_JSON_BYTES):
     with path.open("rb") as stream:
-        raw = stream.read(MAX_JSON_BYTES + 1)
-    if len(raw) > MAX_JSON_BYTES:
-        raise resource_limit("Certificate file exceeds the byte budget", maximum_bytes=MAX_JSON_BYTES)
+        raw = stream.read(maximum_bytes + 1)
+    if len(raw) > maximum_bytes:
+        raise resource_limit("JSON document exceeds the byte budget", maximum_bytes=maximum_bytes)
     try:
         return json.loads(raw.decode("utf-8", errors="strict"), object_pairs_hook=unique_keys,
                           parse_constant=lambda value: (_ for _ in ()).throw(
@@ -87,6 +87,24 @@ def parser() -> Parser:
             command.add_argument("--rank", required=True)
     verify = sub.add_parser("verify")
     verify.add_argument("certificate", type=Path)
+    for name in ("compile", "run", "verify-run"):
+        command = sub.add_parser(name)
+        command.add_argument("document", type=Path)
+    execute = sub.add_parser("execute")
+    execute.add_argument("program_number")
+    transcode = sub.add_parser("transcode")
+    transcode.add_argument("number")
+    transcode.add_argument("--from-codec", required=True)
+    transcode.add_argument("--to-codec", required=True)
+    sub.add_parser("pilot")
+    for name in ("read-text", "ask-text", "read-arabic", "ask-arabic"):
+        command = sub.add_parser(name)
+        command.add_argument("document", type=Path)
+        command.add_argument("--scope", default="default")
+        if name == "read-arabic":
+            command.add_argument("--with-number", action="store_true", help="Include reversible source-replayed reading number")
+        if name in {"ask-text", "ask-arabic"}:
+            command.add_argument("question", help="One question in the declared Arabic text language")
     append = sub.add_parser("append")
     append.add_argument("left")
     append.add_argument("right")
@@ -108,6 +126,84 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"read-text", "ask-text", "read-arabic", "ask-arabic"}:
+        from .program import MAX_LITERAL_BYTES, compile_request, execute_program
+        with args.document.open("rb") as handle:
+            raw = handle.read(MAX_LITERAL_BYTES + 1)
+        if len(raw) > MAX_LITERAL_BYTES:
+            raise resource_limit("Text input exceeds the installed source budget")
+        try:
+            text = raw.decode("utf-8", "strict")
+        except UnicodeError as error:
+            raise NabtError("INVALID_UTF8", "Text source must be strict UTF-8") from error
+        if command == "read-text":
+            from .text_reader import parse_document
+            document = parse_document(raw, source_id="input", scope=args.scope)
+            report = document.as_dict()
+            report["status"] = "INTERPRETED" if document.accepted else "DEFER"
+            report["world_truth"] = "NOT_ESTABLISHED"
+            return report, 0 if document.accepted else 3
+        if command == "read-arabic":
+            from .arabic_reader import read_arabic
+            reading = read_arabic(raw, source_id="input", scope=args.scope)
+            report = reading.as_dict()
+            if args.with_number:
+                report["encoding"] = reading.packet()
+            return report, 0 if reading.accepted else 3
+        program = compile_request({"task": "arabic_inquiry" if command == "ask-arabic" else "text_inquiry", "scope": args.scope,
+                                   "events": [
+                                       {"op": "add", "source_id": "input", "text": text},
+                                       {"op": "query", "query_id": "question", "text": args.question},
+                                   ]})
+        receipt = execute_program(program)
+        return receipt, (0 if receipt["run_status"] == "COMPLETED" else
+                         3 if receipt["result"].get("status") == "DEFER" else 2)
+    if command in {"compile", "run", "execute", "verify-run", "pilot"}:
+        from .program import Program, compile_request, execute_program, verify_execution
+        if command == "verify-run":
+            from .program import MAX_RECEIPT_BYTES
+            report = verify_execution(read_certificate(args.document, MAX_RECEIPT_BYTES))
+            return report, 0 if report["valid"] else (3 if report["status"] == "DEFER" else 2)
+        if command == "pilot":
+            from .learning import default_pilot
+            try:
+                records = default_pilot().observed_records()
+            except NabtError:
+                raise
+            except (ValueError, KeyError) as error:
+                raise NabtError(
+                    "INSTALLED_CONTRACT_FAILED",
+                    "Installed source contract could not be replayed",
+                    status="DEFER",
+                ) from error
+            events = [{"op": "observe", "record_id": row.record_id} for row in records]
+            events += [{"op": "query", "cue": ["مررت", "ب"], "query_id": "comparison"},
+                       {"op": "withdraw", "record_id": records[2].record_id},
+                       {"op": "query", "cue": ["مررت", "ب"], "query_id": "comparison"},
+                       {"op": "observe", "record_id": records[2].record_id},
+                       {"op": "query", "cue": ["مررت", "ب"], "query_id": "comparison"},
+                       {"op": "query", "cue": ["إشارة جديدة"], "query_id": "unresolved"}]
+            program = compile_request({"task": "source_learning", "events": events})
+        elif command == "execute":
+            # Program wire permits larger hex than the word-number CLI. Bound
+            # before parsing; decimal program numbers are deliberately excluded.
+            from .program import MAX_PROGRAM_BYTES
+            encoded = args.program_number
+            if len(encoded) > 2 * (MAX_PROGRAM_BYTES + 1) + 2:
+                raise resource_limit("Program number exceeds the wire budget")
+            if not re.fullmatch(r"0x[1-9a-f][0-9a-f]*", encoded):
+                raise NabtError("NONCANONICAL_PROGRAM_NUMBER", "Use canonical lowercase 0x program number")
+            program = Program.from_number(int(encoded[2:], 16))
+        else:
+            program = compile_request(read_certificate(args.document))
+        if command == "compile":
+            return program.packet(), 0
+        receipt = execute_program(program)
+        return receipt, (0 if receipt["run_status"] == "COMPLETED" else
+                         3 if receipt["result"].get("status") == "DEFER" else 2)
+    if command == "transcode":
+        from .bridges import convert_number
+        return convert_number(args.number, args.from_codec, args.to_codec).as_dict(), 0
     if command == "law":
         machine = Machine()
         return {"version": __version__, "alphabet_id": ALPHABET_ID, "law_id": LAW_ID,

@@ -1,0 +1,216 @@
+{
+  "schema": "nabt.text-inquiry.program-review.v1",
+  "reviewer": "independent_text_reader_agent",
+  "status": "PASS_WITH_TWO_FINDINGS_FIXED",
+  "scope": [
+    "numeric text instruction validation",
+    "source activation and replacement",
+    "source and receipt replay",
+    "resource boundaries"
+  ],
+  "hidden_evaluation_accessed": false,
+  "implementation_modified_by_reviewer": false,
+  "remaining_confirmed_findings": [],
+  "findings": [
+    {
+      "id": "VM-SCOPE-001",
+      "severity": "medium",
+      "finding": "START_TEXT accepted control/format characters in scope if no later text operation triggered validation.",
+      "original_reproducer": "Program((Instruction(30, (chr(0),)),)) previously returned READY/COMPLETED and verified replay.",
+      "fix": "Root added semantic require_name validation at START_TEXT instruction construction.",
+      "validated": true
+    },
+    {
+      "id": "VM-STATE-002",
+      "severity": "medium",
+      "finding": "A replacement/query exception erased the active theory snapshot from final_state, hiding preserved sources.",
+      "original_reproducer": "Valid ADD_TEXT s then REPLACE_TEXT(s, ff): stopped state omitted the retained source.",
+      "fix": "Root now preserves the live theory in stopped text states; snapshot exhaustion has an explicit historical fallback.",
+      "validated": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "invalid_scope_0",
+      "passed": true,
+      "details": {
+        "code": "INVALID_SEMANTIC_NAME"
+      }
+    },
+    {
+      "name": "invalid_scope_1",
+      "passed": true,
+      "details": {
+        "code": "INVALID_SEMANTIC_NAME"
+      }
+    },
+    {
+      "name": "invalid_scope_2",
+      "passed": true,
+      "details": {
+        "code": "INVALID_UNICODE"
+      }
+    },
+    {
+      "name": "invalid_utf8_replace_preserves_state",
+      "passed": true,
+      "details": {
+        "code": "INVALID_UTF8",
+        "state_keys": [
+          "reason",
+          "scope",
+          "snapshot_status",
+          "stage",
+          "theory"
+        ]
+      }
+    },
+    {
+      "name": "invalid_utf8_replace_replays",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "invalid_utf8_query_preserves_state",
+      "passed": true,
+      "details": {
+        "code": "INVALID_UTF8",
+        "state_keys": [
+          "reason",
+          "scope",
+          "snapshot_status",
+          "stage",
+          "theory"
+        ]
+      }
+    },
+    {
+      "name": "invalid_utf8_query_replays",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "invalid_query_grammar_preserves_state",
+      "passed": true,
+      "details": {
+        "code": "INVALID_QUERY",
+        "state_keys": [
+          "reason",
+          "scope",
+          "snapshot_status",
+          "stage",
+          "theory"
+        ]
+      }
+    },
+    {
+      "name": "invalid_query_grammar_replays",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "numeric_roundtrip_and_replay",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "world_truth_not_promoted",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reject_trusted",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reject_facts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reject_proof",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "tamper_snapshot",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "tamper_number",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "tamper_scope",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "tamper_implementation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "withdraw_readd_no_old_fact",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "missing_search_budget_deferred",
+      "passed": true,
+      "details": {
+        "status": "DEFER",
+        "reason": "RESOURCE_LIMIT",
+        "run_status": "COMPLETED"
+      }
+    },
+    {
+      "name": "resource_receipt_replays",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "receipt_boundary_1000",
+      "passed": true,
+      "details": {
+        "pretty_bytes": 2016998
+      }
+    },
+    {
+      "name": "receipt_boundary_1100",
+      "passed": true,
+      "details": {
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "message": "Execution receipt exceeds its replay budget",
+        "details": {
+          "maximum_bytes": 2097152
+        }
+      }
+    },
+    {
+      "name": "vm_regressions",
+      "passed": true,
+      "details": {
+        "output": "----------------------------------------------------------------------\nRan 11 tests in 0.196s\n\nOK\n"
+      }
+    }
+  ],
+  "tested_files_sha256": {
+    "src/nabt/program.py": "d692c2c634a84d1bf882ec6d773be9ea5d131ee88848dd38ab5496d7ffc89d59",
+    "src/nabt/cli.py": "5226b1ca2b0a3688b5c860055fa84cee9fb2b5d42f63e889a975ecd7f3d5cc9f",
+    "tests/test_text_program.py": "6b1a46842d5db473bf47dbd98570290ee87b8228ac8a06e7a776ecc6de3c5bbd",
+    "src/nabt/text_reader.py": "80ace3fb4378fd0bf0cd54c094da8683c9e90abe6419b43f7086585d4522bbd3",
+    "src/nabt/text_ir.py": "0270e39c46833d3b9691ca5e5acf0137a1ba3a4f4940b8e4b60b948e5da68af8",
+    "src/nabt/semantics.py": "b3537f9929ca7e8b19701b37f57db471122a453d1cba5aed6b36b6f9525a62a4"
+  },
+  "head_commit": "3cca86d5c06f21e0ee77738141e267d27bf7718f",
+  "limitations": [
+    "Executable adversarial review, not a formal equivalence proof.",
+    "Replay validity is distinct from semantic support and world truth.",
+    "Only public grammar and locally authored counterexamples used."
+  ]
+}

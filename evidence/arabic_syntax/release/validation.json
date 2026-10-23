@@ -1,0 +1,74 @@
+{
+  "schema": "nabt.arabic-syntax.release-validation.v1",
+  "utc": "2026-10-23T05:17:11.479218+00:00",
+  "passed": true,
+  "version": "0.5.0a1",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "base_commit": "a9185480b3cea34e2d02d5686fb3310a31b5002c",
+  "runtime_snapshot_sha256": "4662ac75ded649b9f1d5d4d0e152fa292e4b63e72e6ce55ec924bad9b65e6524",
+  "command": "make check LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake EVIDENCE_DIR=evidence/arabic_syntax/release ARABIC_EVALUATION_DIR=/tmp/nabt-arabic-final-regression",
+  "exit_code": 0,
+  "unittest": {
+    "passed": 271,
+    "skipped": 0,
+    "seconds": 10.91
+  },
+  "lean_theorems": 258,
+  "new_theorems": 33,
+  "standard_axioms_only": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "primitive_transitions_compared": 11252,
+  "property_states_compared": 4096,
+  "arabic_conformance": {
+    "ok": true,
+    "mood_tags": 8,
+    "entry_profiles": 2,
+    "finite_cell_envelopes": 48,
+    "scope": "fresh Lean tags and finite cell-codec examples; not Python parser refinement"
+  },
+  "old_text_public_regression_passed": true,
+  "arabic_public_regression": {
+    "standalone": {
+      "episodes": 40,
+      "complete_episodes": 0,
+      "queries": 43,
+      "raw_query_matches": 0,
+      "covered_query_matches": 0,
+      "source_restoration_episodes": 40,
+      "licensed_claim_episodes": 40,
+      "source_admission_and_projection_complete": 1,
+      "budget_pass": 40
+    },
+    "declared_scope": {
+      "episodes": 12,
+      "complete_episodes": 8,
+      "queries": 11,
+      "raw_query_matches": 9,
+      "covered_query_matches": 9,
+      "source_restoration_episodes": 12,
+      "licensed_claim_episodes": 12,
+      "source_admission_and_projection_complete": 8,
+      "budget_pass": 12
+    },
+    "real_excerpts": {
+      "total": 8,
+      "semantic_read": 0,
+      "source_restored": 8,
+      "licensed_claims": 8
+    }
+  },
+  "independent_evaluation_note": "Separate agent authored and second agent reviewed gold before opening runtime; no human expert review or filesystem ACL isolation.",
+  "wheel_report": "wheel-validation.json",
+  "gate_log_sha256": "371ada8ca32b637816d094b1788da8ad9f30d9f5161c751285ccaeed00eb94bb",
+  "limits": [
+    "No full Python parser refinement proof",
+    "No complete general Arabic reading",
+    "No new relational-rule acquisition from examples",
+    "No external source-truth guarantee",
+    "Public regression is not a fresh heldout evaluation"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "passed": true,
+  "version": "0.4.0a1",
+  "wheel": "nabt_machine-0.4.0a1-py3-none-any.whl",
+  "wheel_sha256": "6c02261a7151a3e502621966bd125a92fe00c89eb368d157e64898875c931181",
+  "installed_module": "/tmp/nabt-text-wheel-9ozl384q/installed/nabt/__init__.py",
+  "execution_directory": "/tmp/nabt-text-wheel-9ozl384q/run",
+  "commands": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pip",
+        "wheel",
+        "--no-deps",
+        "--no-build-isolation",
+        "--wheel-dir",
+        "/tmp/nabt-text-wheel-9ozl384q/dist",
+        "."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "--target",
+        "/tmp/nabt-text-wheel-9ozl384q/installed",
+        "/tmp/nabt-text-wheel-9ozl384q/dist/nabt_machine-0.4.0a1-py3-none-any.whl"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "read-text",
+        "text_theory.txt"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "ask-text",
+        "text_theory.txt",
+        "هل تقرير هو مفحوص؟"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "answer.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "run",
+        "text_inquiry_revision.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "revision.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-c",
+        "import nabt,json; print(json.dumps({\"version\":nabt.__version__,\"path\":nabt.__file__}))"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "read_accepted": true,
+  "answer_status": "SUPPORTED",
+  "answer_replay": true,
+  "revision_statuses": [
+    "SUPPORTED",
+    "UNKNOWN",
+    "SUPPORTED",
+    "DEFER",
+    "CONFLICT",
+    "SUPPORTED"
+  ],
+  "revision_replay": true,
+  "third_party_notice_included": true,
+  "separate_data_license_included": true,
+  "scope": "installed wheel outside source checkout; examples are builder demonstrations, not heldout evaluation"
+}

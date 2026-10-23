@@ -1,0 +1,17 @@
+{
+  "task": "arabic_inquiry",
+  "scope": "arabic_demo",
+  "events": [
+    {"op": "add", "source_id": "law", "text": "فرد سالم. كلُّ باحثٍ مدققٌ."},
+    {"op": "add", "source_id": "observation", "text": "فرد سالم. سالمٌ باحثٌ و صبورٌ."},
+    {"op": "query", "query_id": "derived", "text": "هل سالمٌ مدققٌ؟"},
+    {"op": "remove", "source_id": "observation"},
+    {"op": "query", "query_id": "derived", "text": "هل سالمٌ مدققٌ؟"},
+    {"op": "add", "source_id": "observation", "text": "فرد سالم. سالمٌ باحثٌ و صبورٌ."},
+    {"op": "add", "source_id": "opposite", "text": "مفهوم باحث. ليس سالمٌ هو باحثًا."},
+    {"op": "query", "query_id": "base", "text": "هل سالمٌ باحثٌ؟"},
+    {"op": "query", "query_id": "derived", "text": "هل سالمٌ مدققٌ؟"},
+    {"op": "remove", "source_id": "opposite"},
+    {"op": "query", "query_id": "derived", "text": "هل سالمٌ مدققٌ؟"}
+  ]
+}

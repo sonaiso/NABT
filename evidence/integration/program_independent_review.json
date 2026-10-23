@@ -1,0 +1,204 @@
+{
+  "schema": "nabt.integration.program-independent-review.v1",
+  "checked_at_utc": "2026-10-22T21:49:55.536749+00:00",
+  "reviewer": "independent source-learning integration agent",
+  "source_sha256": {
+    "src/nabt/program.py": "3f9c2b909f12f34fc4ec4371b5f9b122b37e6ce107a57d7122896735d0e6fda6",
+    "src/nabt/cli.py": "ffb507678298f73d45d76c00c4ef1c21708ca94a6e2ac637830d2cb3b8147031"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux"
+  },
+  "scope": "Focused API and CLI counterexamples for replay, source authority, result scope and resource admission; no universal correctness claim.",
+  "timing_scope": "One local diagnostic run per large receipt; not a throughput or latency benchmark.",
+  "original_findings_resolved": [
+    "Valid large execution receipts exceeded the CLI verification input budget.",
+    "An empty program was misclassified as resource exhaustion.",
+    "Receipt extras and oversized or active values were checked only after replay.",
+    "JSON control-character escaping was omitted from the receipt byte budget.",
+    "Pending receipt traversal children were not counted before enqueueing."
+  ],
+  "unresolved_counterexamples_found": [],
+  "limits": [
+    "Re-execution verifies the same installed contracts and input; it does not authenticate an external sender.",
+    "The program transport and Python interpreter are tested, not given a universal Lean refinement proof.",
+    "Source learning remains the three-example literal-cue experiment with authored projection and conditional hypotheses."
+  ],
+  "probe_count": 15,
+  "all_passed": true,
+  "probes": [
+    {
+      "name": "127 duplicate source observations",
+      "passed": true,
+      "instruction_count": 128,
+      "wire_bytes": 3454,
+      "pretty_receipt_bytes_including_newline": 384040,
+      "request_json_limit": 262144,
+      "receipt_limit": 2097152,
+      "direct_replay_valid": true,
+      "cli_exit": 0,
+      "cli_replay_valid": true,
+      "compile_and_execute_seconds": 0.09613471399643458,
+      "direct_replay_seconds": 0.11692958199273562,
+      "surviving_rule_count": 4,
+      "active_source_count": 1
+    },
+    {
+      "name": "127 maximum literal queries",
+      "passed": true,
+      "instruction_count": 128,
+      "wire_bytes": 50825,
+      "pretty_receipt_bytes_including_newline": 544554,
+      "request_json_limit": 262144,
+      "receipt_limit": 2097152,
+      "direct_replay_valid": true,
+      "cli_exit": 0,
+      "cli_replay_valid": true,
+      "compile_and_execute_seconds": 0.030369526000868063,
+      "direct_replay_seconds": 0.076157178998983,
+      "surviving_rule_count": 8,
+      "active_source_count": 0
+    },
+    {
+      "name": "empty canonical code is invalid, not exhausted",
+      "passed": true,
+      "response": {
+        "status": "REJECT",
+        "code": "INVALID_PROGRAM",
+        "message": "A program must contain at least one instruction"
+      }
+    },
+    {
+      "name": "unrecognized receipt field",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "REJECT",
+        "code": "INVALID_PROGRAM_FIELDS",
+        "message": "Required fields are missing or unrecognized fields were supplied"
+      },
+      "replays_before_rejection": 0
+    },
+    {
+      "name": "oversized scalar before replay",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "message": "Receipt exceeds its byte budget"
+      },
+      "replays_before_rejection": 0
+    },
+    {
+      "name": "JSON escape expansion before replay",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "message": "Receipt exceeds its byte budget",
+        "details": {
+          "maximum_bytes": 2097152
+        }
+      },
+      "replays_before_rejection": 0,
+      "canonical_json_bytes": 2404771
+    },
+    {
+      "name": "pending children count before enqueue",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "message": "Receipt exceeds its structural budget"
+      },
+      "replays_before_rejection": 0
+    },
+    {
+      "name": "active or opaque object before replay",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "REJECT",
+        "code": "INVALID_RECEIPT",
+        "message": "Receipt must contain bounded inert JSON values"
+      },
+      "replays_before_rejection": 0
+    },
+    {
+      "name": "source withdrawal recomputes conditional dependent query",
+      "passed": true,
+      "query_outcomes": [
+        [
+          false
+        ],
+        [
+          false,
+          true
+        ],
+        [
+          false
+        ]
+      ],
+      "restored_revision_is_identical": true,
+      "grammar_truth_claimed": false
+    },
+    {
+      "name": "source-policy substitution",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "REJECT",
+        "code": "EXECUTION_REPLAY_MISMATCH"
+      }
+    },
+    {
+      "name": "grammatical-truth promotion",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "REJECT",
+        "code": "EXECUTION_REPLAY_MISMATCH"
+      }
+    },
+    {
+      "name": "program-number substitution",
+      "passed": true,
+      "response": {
+        "valid": false,
+        "status": "REJECT",
+        "code": "EXECUTION_REPLAY_MISMATCH"
+      }
+    },
+    {
+      "name": "caller label cannot train source schema",
+      "passed": true,
+      "response": {
+        "status": "REJECT",
+        "code": "INVALID_PROGRAM_FIELDS",
+        "message": "Required fields are missing or unrecognized fields were supplied"
+      }
+    },
+    {
+      "name": "caller truth bits cannot license noun conditions",
+      "passed": true,
+      "response": {
+        "status": "REJECT",
+        "code": "INVALID_PROGRAM_FIELDS",
+        "message": "Required fields are missing or unrecognized fields were supplied"
+      }
+    },
+    {
+      "name": "prescription schema cannot be substituted for actual examples",
+      "passed": true,
+      "response": {
+        "code": "RECORD_OUTSIDE_OBSERVATION_POLICY",
+        "message": "Only the installed actual-example records train this schema",
+        "status": "REJECT"
+      }
+    }
+  ]
+}

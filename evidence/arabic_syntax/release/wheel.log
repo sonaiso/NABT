@@ -1,0 +1,28 @@
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "pip", "wheel", "--no-deps", "--no-build-isolation", "--wheel-dir", "/tmp/nabt-arabic-wheel-rjqkjtyb/dist", "."]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "pip", "install", "--no-deps", "--target", "/tmp/nabt-arabic-wheel-rjqkjtyb/installed", "/tmp/nabt-arabic-wheel-rjqkjtyb/dist/nabt_machine-0.5.0a1-py3-none-any.whl"]
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-c", "import nabt,json;print(json.dumps({'version':nabt.__version__,'path':nabt.__file__}))"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "read-arabic", "arabic_syntax_theory.txt"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "pilot"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "verify-run", "/tmp/nabt-arabic-wheel-rjqkjtyb/run/pilot.json"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "ask-text", "text_theory.txt", "هل تقرير هو مفحوص؟"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "verify-run", "/tmp/nabt-arabic-wheel-rjqkjtyb/run/old_answer.json"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "run", "text_inquiry_revision.json"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "verify-run", "/tmp/nabt-arabic-wheel-rjqkjtyb/run/old_revision.json"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "ask-arabic", "arabic_syntax_theory.txt", "هل سالمٌ مدققٌ؟"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "verify-run", "/tmp/nabt-arabic-wheel-rjqkjtyb/run/arabic_answer.json"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "run", "arabic_syntax_revision.json"]
+
+["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-m", "nabt", "verify-run", "/tmp/nabt-arabic-wheel-rjqkjtyb/run/arabic_revision.json"]

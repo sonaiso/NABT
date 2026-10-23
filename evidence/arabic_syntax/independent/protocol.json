@@ -1,0 +1,39 @@
+{
+  "schema": "nabt.arabic-syntax.protocol.v1",
+  "frozen_date": "2026-10-23",
+  "episodes_sha256": "5b6c2a56b511065eb0cf1683cf9af63425501def33026b50cfc77b72997e5682",
+  "real_excerpts_sha256": "15cf499465cc37fca126319243e6d9d113aaccb6f633a23b41fa8b500879981f",
+  "counts": {
+    "episodes": 40,
+    "strata": 5,
+    "per_stratum": 8,
+    "real_excerpts": 8
+  },
+  "metrics": [
+    "complete source-byte restoration",
+    "manual atom/rule/query agreement on admitted interpretation",
+    "coverage by stratum, never counting safe suspension as comprehension",
+    "nonassertive/ambiguous input safety",
+    "query statuses on source-relative theory",
+    "dependency invalidation after withdrawal/replacement",
+    "certificate replay where a certificate is produced"
+  ],
+  "release_safety_gates": [
+    "No admitted claim contradicts the manually annotated interpretation.",
+    "All examined source bytes restore exactly.",
+    "No question/command/wish/prohibition or unresolved pronoun supplies an unwarranted assertion.",
+    "Every admitted revision episode updates all tested dependencies correctly."
+  ],
+  "coverage_reporting": "Report raw counts and all failures; compare old v1 and new bridge on same bytes. No whole-Arabic or randomly sampled population claim. Unsupported forms count as unrecognized, not successful understanding.",
+  "budget": {
+    "per_episode_seconds": 5,
+    "total_seconds": 180
+  },
+  "noninterference": "Evaluator has read existing docs and original book bytes only; no new implementation or builder tests read before this dataset freeze. Builder receives only hashes and protocol until runtime freeze.",
+  "gold_limits": [
+    "Natural-language annotations authored by one evaluator; not independently adjudicated linguistic truth.",
+    "Some forms may exceed declared implementation scope and intentionally test safe refusal.",
+    "Status UNKNOWN and OUT_OF_SCOPE are both accepted only where source withdrawal removes the final predicate signature.",
+    "A quoted grammatical example is analyzed as an example; parsing does not claim the example describes the actual world."
+  ]
+}

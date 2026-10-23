@@ -1,0 +1,725 @@
+{
+  "schema": "nabt-independent-adversarial-probes-v1",
+  "code_freeze": {
+    "schema": "nabt-independent-evaluation-code-freeze-v1",
+    "utc": "2026-10-23T05:05:24.333016+00:00",
+    "repository_head": "a9185480b3cea34e2d02d5686fb3310a31b5002c",
+    "repository_status": " M formal/Audit.lean\n M formal/Nabt.lean\n M formal/Nabt/Program.lean\n M formal/lakefile.lean\n M formal/theorems.json\n M pyproject.toml\n M src/nabt/__init__.py\n M src/nabt/cli.py\n M src/nabt/program.py\n M src/nabt/semantics.py\n M tools/text_evaluation/adversarial.py\n M tools/text_evaluation/baseline.py\n M tools/text_evaluation/boundaries.py\n M tools/text_evaluation/controlled.py\n M tools/text_evaluation/natural.py\n M tools/text_evaluation/plans.py\n M tools/text_evaluation/snapshot.py\n M tools/text_inquiry_evaluation.py\n?? docs/ARABIC_READER_REVIEW.md\n?? docs/EVALUATION_REVIEW_FIXES.md\n?? docs/MASHRU_SYNTAX_AUDIT.md\n?? formal/ExportArabicReading.lean\n?? formal/Nabt/ArabicReading.lean\n?? src/nabt/arabic_reader.py\n?? tests/test_arabic_reader_review.py\n?? tests/test_arabic_syntax.py\n?? tests/test_text_evaluation_safety.py\n?? tools/check_arabic_conformance.py\n?? tools/text_evaluation/integrity.py\n?? tools/text_evaluation/source_oracle.py\n",
+    "file_selection": "Authoritative source, configuration, and packaged data; generated .egg-info/.dist-info metadata is excluded.",
+    "excluded_build_metadata": [
+      "src/nabt_machine.egg-info/SOURCES.txt",
+      "src/nabt_machine.egg-info/dependency_links.txt",
+      "src/nabt_machine.egg-info/entry_points.txt",
+      "src/nabt_machine.egg-info/top_level.txt"
+    ],
+    "files": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "61dd5ecf46b09dc08eff3a6735733101e98007e425a42e50c2ceba659633e649",
+        "bytes": 813
+      },
+      {
+        "path": "src/nabt/__init__.py",
+        "sha256": "bbdfd4415fc97ef1b5739c8b377b2c89de5fe3901f6b4f1d5cf3ee3da37f434b",
+        "bytes": 949
+      },
+      {
+        "path": "src/nabt/__main__.py",
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+        "bytes": 48
+      },
+      {
+        "path": "src/nabt/acquisition.py",
+        "sha256": "e61b90f77abbe16f4b0a9cc0ca70740cdaf523905e1c43fd05e7813c36e89661",
+        "bytes": 9281
+      },
+      {
+        "path": "src/nabt/alphabet.py",
+        "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+        "bytes": 4777
+      },
+      {
+        "path": "src/nabt/ambiguity.py",
+        "sha256": "d67e62b50ad6e1aa0776262d46916e01a438c80aa0732e3b27013e67917a7422",
+        "bytes": 8612
+      },
+      {
+        "path": "src/nabt/arabic_reader.py",
+        "sha256": "887351eddc975c3f7afb8f2336ef8c87602ee5e76bd833d6026dd6934e3984ae",
+        "bytes": 38697
+      },
+      {
+        "path": "src/nabt/bridges.py",
+        "sha256": "46f9da4eb9e3e92dc353ce24f6feabca39243b3910811647761c60ae38979b82",
+        "bytes": 17546
+      },
+      {
+        "path": "src/nabt/certificates.py",
+        "sha256": "3645425d1d2af2a67faeed4d94a181fdb4496a6810980f06a09fa6677869a0f9",
+        "bytes": 8219
+      },
+      {
+        "path": "src/nabt/cli.py",
+        "sha256": "54c37830badaff5c17285d7ee31d022e6ca4d5c9eb37bb30dc7939a8ad35d24a",
+        "bytes": 13240
+      },
+      {
+        "path": "src/nabt/codec.py",
+        "sha256": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1",
+        "bytes": 4992
+      },
+      {
+        "path": "src/nabt/data/law.json",
+        "sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+        "bytes": 77563
+      },
+      {
+        "path": "src/nabt/data/source_evidence/alfiyya.txt",
+        "sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+        "bytes": 97798
+      },
+      {
+        "path": "src/nabt/data/source_evidence/license_evidence.json",
+        "sha256": "4a1cfef0eb7ce0647a3da85db59783d59a03502bc175d50a49a5faa392e9e60b",
+        "bytes": 1658
+      },
+      {
+        "path": "src/nabt/data/source_evidence/pilot_conditions.json",
+        "sha256": "3ffd79d951a5ce21647441f9b325fd26129dec4d48b3b28d9b39ac0db66a3dd1",
+        "bytes": 6026
+      },
+      {
+        "path": "src/nabt/data/source_evidence/pilot_examples.json",
+        "sha256": "b3e000e455e2551962c332ec16b8814a2dfdc07d90a0f457c0cb6829650ad0ac",
+        "bytes": 8011
+      },
+      {
+        "path": "src/nabt/data/source_evidence/qatr.txt",
+        "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+        "bytes": 40168
+      },
+      {
+        "path": "src/nabt/data/source_evidence/sibawayhi.txt",
+        "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+        "bytes": 2639395
+      },
+      {
+        "path": "src/nabt/data/source_evidence/source_manifest.json",
+        "sha256": "4eb5f589f8a016adcf070cf1995905c78b65c18c1963c0d158f04a5beb349998",
+        "bytes": 60101
+      },
+      {
+        "path": "src/nabt/errors.py",
+        "sha256": "bbe25cbd5eae2c81cc226c2897dc9600d74c26d740567d90fde72bc3174e0974",
+        "bytes": 1436
+      },
+      {
+        "path": "src/nabt/learning/__init__.py",
+        "sha256": "bb5ede45c2a48dcdc1b8ab404a50a43e03e3b65854567598ce021ffa378e3d8c",
+        "bytes": 1845
+      },
+      {
+        "path": "src/nabt/learning/arabic_six_nouns.py",
+        "sha256": "472ffd3f83334e4650abccfe35d3423043969ca07b2949e04fb6cd856a690a7a",
+        "bytes": 19834
+      },
+      {
+        "path": "src/nabt/learning/finite_guard.py",
+        "sha256": "d1df31c5055fa876b210ae53461233a687d56d24526b53ddd1bcb5c6571d248c",
+        "bytes": 19500
+      },
+      {
+        "path": "src/nabt/learning/source_evidence.py",
+        "sha256": "7598c2c51990364778e9b22bc1cd62558c166311d984321ff316b8ce5210f354",
+        "bytes": 13418
+      },
+      {
+        "path": "src/nabt/machine.py",
+        "sha256": "676e79ec353204ea9eab3324ebeec8381964de6b3655b9904109acad2d47826e",
+        "bytes": 12576
+      },
+      {
+        "path": "src/nabt/obligations.py",
+        "sha256": "18094827e05e492ae8856f9c7f35d37826ba6d7760e35c3e6c65c9a5e70f2f62",
+        "bytes": 30247
+      },
+      {
+        "path": "src/nabt/program.py",
+        "sha256": "e921b072b5b569f9ff6f4b0b190693121487d14366145c4161ed0c7f3ff9d4d9",
+        "bytes": 40996
+      },
+      {
+        "path": "src/nabt/semantics.py",
+        "sha256": "923a3901413333b1f7f462eeaf4cd42ce80fa56c34f63527bcb9b4d4619bd165",
+        "bytes": 42273
+      },
+      {
+        "path": "src/nabt/text_ir.py",
+        "sha256": "0270e39c46833d3b9691ca5e5acf0137a1ba3a4f4940b8e4b60b948e5da68af8",
+        "bytes": 6700
+      },
+      {
+        "path": "src/nabt/text_reader.py",
+        "sha256": "80ace3fb4378fd0bf0cd54c094da8683c9e90abe6419b43f7086585d4522bbd3",
+        "bytes": 18274
+      }
+    ],
+    "snapshot_sha256": "4662ac75ded649b9f1d5d4d0e152fa292e4b63e72e6ce55ec924bad9b65e6524",
+    "archive_filename": "code_freeze_first.tar.gz",
+    "archive_sha256": "b7ac186a9d09391e463c17967f67b8a63e1d45ae0508b98e7063afb9f3dd1062"
+  },
+  "summary": {
+    "probes": 37,
+    "passed": 37,
+    "failed_ids": [],
+    "scope": "Public-contract adversarial probes and valid controls; separate from heldout controlled-Arabic accuracy."
+  },
+  "outcomes": [
+    {
+      "id": "valid_certificate",
+      "passed": true,
+      "details": {
+        "accepted": true,
+        "status": "VERIFIED",
+        "checked_steps": 4,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_query_subject",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 4,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_scope",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_source_id",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_source_hash",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_span_hash",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "misaligned_utf8_span",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "negative_span_bound",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "boolean_span_bound",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_component_span",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_step_predicate",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_fact_argument",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_rule_head",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "omitted_rule_premise",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "wrong_binding",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "omitted_proof_premises",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "self_reference",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "flipped_conclusion_sign",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 3,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "wrong_conclusion_index",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 4,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_version",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_analysis_id",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_clause_id",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "forged_world_truth",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "INVALID_CERTIFICATE",
+        "checked_steps": 0,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "unrelated_source_preserves_proof",
+      "passed": true,
+      "details": {
+        "accepted": true,
+        "status": "VERIFIED",
+        "checked_steps": 4,
+        "program_sha256": "ff263abcad9ef9010d85815f5079fb78496a4fd2155a0547a0626f3b62a4acd0",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "unrelated_withdrawal_preserves_proof",
+      "passed": true,
+      "details": {
+        "accepted": true,
+        "status": "VERIFIED",
+        "checked_steps": 4,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "new_conflict_invalidates_clean_proof",
+      "passed": true,
+      "details": {
+        "verification": {
+          "accepted": false,
+          "status": "REJECT",
+          "reason": "CONTESTED_PREMISES",
+          "checked_steps": 1,
+          "program_sha256": "2e14a32c0428bf2ea7b49e14a9189f6dbd724134af1ecd85423cf943104856c2",
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "query_status": "DEFER",
+        "query_reason": "CONTESTED_PREMISES"
+      }
+    },
+    {
+      "id": "conflict_withdrawal_restores_proof",
+      "passed": true,
+      "details": {
+        "accepted": true,
+        "status": "VERIFIED",
+        "checked_steps": 4,
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "duplicate_source_rejected_atomically",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "source_id": "seed",
+        "scope": "default",
+        "source_sha256": "a0b291c895a9d7e2f1ce0d2114dc41c6c7781d495a26d532585abf670e30d71a",
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "residuals": [
+          {
+            "code": "SOURCE_EXISTS",
+            "message": "Use replace_source explicitly"
+          }
+        ],
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "invalid_replacement_preserves_old_source",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "DEFER",
+        "source_id": "seed",
+        "before_program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "program_sha256": "f4825b11e03acc9857a54a0356c37ff63d11ea00124dc3279bfb673ee4b914ad",
+        "removed_supports": [],
+        "residuals": [
+          {
+            "code": "UNSUPPORTED_ATOM",
+            "message": "An atom requires term هو concept, or term relation term",
+            "span": {
+              "source_id": "seed",
+              "source_sha256": "3623125d8da89559ba6821fbb11b7d4912abbbf6ce9da9f717bc2591e3cb539a",
+              "start": 23,
+              "end": 58,
+              "span_sha256": "3c5e3540234ba3f00738eae1751823e78a4e3851216e23d416196a912ecbe8a6"
+            }
+          }
+        ],
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "withdrawn_dependency_invalidates_proof",
+      "passed": true,
+      "details": {
+        "accepted": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_CLAUSE",
+        "checked_steps": 0,
+        "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "unsupported_suffix_no_prefix_leak",
+      "passed": true,
+      "details": {
+        "admission": {
+          "accepted": false,
+          "status": "DEFER",
+          "source_id": "hostile",
+          "scope": "default",
+          "source_sha256": "ee020f82f2f9964fd5b1f41e822e10a7a8ba3b487dc401fe5db6b64a5a7b5bc9",
+          "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+          "residuals": [
+            {
+              "code": "UNSUPPORTED_ATOM",
+              "message": "An atom requires term هو concept, or term relation term",
+              "span": {
+                "source_id": "hostile",
+                "source_sha256": "ee020f82f2f9964fd5b1f41e822e10a7a8ba3b487dc401fe5db6b64a5a7b5bc9",
+                "start": 27,
+                "end": 62,
+                "span_sha256": "3c5e3540234ba3f00738eae1751823e78a4e3851216e23d416196a912ecbe8a6"
+              }
+            }
+          ],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "query_status": "OUT_OF_SCOPE"
+      }
+    },
+    {
+      "id": "unsafe_unbound_head",
+      "passed": true,
+      "details": {
+        "admission": {
+          "accepted": false,
+          "status": "REJECT",
+          "source_id": "hostile",
+          "scope": "default",
+          "source_sha256": "ccc5cc825698247bfda00c30549b106779882021dd7fbfe7e76edf5a3bd82805",
+          "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+          "residuals": [
+            {
+              "code": "UNBOUND_CONCLUSION_VARIABLE",
+              "message": "Every conclusion variable must occur in a premise",
+              "span": {
+                "source_id": "hostile",
+                "source_sha256": "ccc5cc825698247bfda00c30549b106779882021dd7fbfe7e76edf5a3bd82805",
+                "start": 0,
+                "end": 49,
+                "span_sha256": "ccc5cc825698247bfda00c30549b106779882021dd7fbfe7e76edf5a3bd82805"
+              }
+            }
+          ],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "query_status": "OUT_OF_SCOPE"
+      }
+    },
+    {
+      "id": "variable_fact_rejected",
+      "passed": true,
+      "details": {
+        "admission": {
+          "accepted": false,
+          "status": "REJECT",
+          "source_id": "hostile",
+          "scope": "default",
+          "source_sha256": "a3013054fce0d085e23669db11eb60ceff22eb665d32cc6af9e4054e93d39c5c",
+          "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+          "residuals": [
+            {
+              "code": "VARIABLE_OUTSIDE_RULE",
+              "message": "Facts and questions require ground terms",
+              "span": {
+                "source_id": "hostile",
+                "source_sha256": "a3013054fce0d085e23669db11eb60ceff22eb665d32cc6af9e4054e93d39c5c",
+                "start": 0,
+                "end": 19,
+                "span_sha256": "a3013054fce0d085e23669db11eb60ceff22eb665d32cc6af9e4054e93d39c5c"
+              }
+            }
+          ],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "query_status": "OUT_OF_SCOPE"
+      }
+    },
+    {
+      "id": "unsupported_disjunction",
+      "passed": true,
+      "details": {
+        "admission": {
+          "accepted": false,
+          "status": "DEFER",
+          "source_id": "hostile",
+          "scope": "default",
+          "source_sha256": "5dd2a30aee937401f07a9d48ca8a4bd717556c6bb9440d105ee5aff0dc9a14c6",
+          "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+          "residuals": [
+            {
+              "code": "UNSUPPORTED_ATOM",
+              "message": "An atom requires term هو concept, or term relation term",
+              "span": {
+                "source_id": "hostile",
+                "source_sha256": "5dd2a30aee937401f07a9d48ca8a4bd717556c6bb9440d105ee5aff0dc9a14c6",
+                "start": 0,
+                "end": 70,
+                "span_sha256": "5dd2a30aee937401f07a9d48ca8a4bd717556c6bb9440d105ee5aff0dc9a14c6"
+              }
+            }
+          ],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "query_status": "OUT_OF_SCOPE"
+      }
+    },
+    {
+      "id": "unclosed_quote",
+      "passed": true,
+      "details": {
+        "admission": {
+          "accepted": false,
+          "status": "REJECT",
+          "source_id": "hostile",
+          "scope": "default",
+          "source_sha256": "bf94bfd7581bbf5616c3a62c01d7e6b72e3342519198f12d64c39705fa0ea780",
+          "program_sha256": "218a971025999e52e8cbda497f4f04d32be750640bccb517270f531f1723aa8c",
+          "residuals": [
+            {
+              "code": "UNCLOSED_NAME",
+              "message": "A quoted name requires a closing guillemet",
+              "span": {
+                "source_id": "hostile",
+                "source_sha256": "bf94bfd7581bbf5616c3a62c01d7e6b72e3342519198f12d64c39705fa0ea780",
+                "start": 0,
+                "end": 38,
+                "span_sha256": "bf94bfd7581bbf5616c3a62c01d7e6b72e3342519198f12d64c39705fa0ea780"
+              }
+            }
+          ],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "query_status": "OUT_OF_SCOPE"
+      }
+    },
+    {
+      "id": "source_byte_budget",
+      "passed": true,
+      "details": {
+        "exception": "NabtError",
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "message": "Text exceeds the reader byte budget"
+      }
+    },
+    {
+      "id": "statement_count_budget",
+      "passed": true,
+      "details": {
+        "exception": "NabtError",
+        "status": "DEFER",
+        "code": "RESOURCE_LIMIT",
+        "message": "Text exceeds the statement budget"
+      }
+    }
+  ]
+}
