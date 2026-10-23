@@ -28,3 +28,16 @@ applies share-alike terms to adaptations as specified in the linked legal code.
 No additional permission or assurance about third-party editorial rights is
 created by a file hash, this notice, or a research checker. The repository's
 software license governs its code; it does not replace this source-data license.
+
+## Separately attributed semantic quotations
+
+`morphology_j3.txt` contains only five short, exact quotations from Taqi
+al-Din al-Nabhani's *al-Shakhsiyya al-Islamiyya*, volume 3, as transcribed in
+`Saleh1967/Alghanem@9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`,
+`corpora/nabhani/shakhsiyya_j3.txt.gz`. Their original decompressed byte ranges
+and source hashes are retained in `morphology_policy.json` and the repository's
+`evidence/morphology/source_passages.json`. They are used as attributed research
+quotations for the scoped classification contracts. They are **not** an OpenITI
+source, and neither the OpenITI license above nor NABT's software license is
+claimed as a grant of rights over that book. This exception also applies to
+those quotations embedded in the policy and audit records.

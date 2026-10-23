@@ -1,0 +1,35 @@
+{
+  "schema": "nabt.morphology.grammar-erratum.v1",
+  "recorded_utc": "2026-10-23T10:32:52.143001+00:00",
+  "discovered_by": "source audit relayed by runtime owner before any morphology evaluation run",
+  "source": "Shakhsiyya j3, pinned Alghanem, line373",
+  "defect": "Initial grammar conflated event-time content with time encoded by morphological form. V1 inputs consequently underspecified the intended verb premise.",
+  "original_material_sha256": "4425a249fe64b627c36671a39a88fec79ad8ac0c9f3ce710bab726045ccc2f81",
+  "corrected_material_sha256": "0f17e68a4d7a33d4afa64bb645ba88c55ac1d0e3248de241f1c1028442d37ea4",
+  "v1_preserved": true,
+  "runtime_opened_before_correction": true,
+  "v1_executed_before_correction": false,
+  "reason_no_pre_correction_run": "Installed runtime table and source policy were still placeholders; no successful read could be replayed.",
+  "transformation": {
+    "scope": "input.text and operation.after_text only",
+    "replace": "يدل على حدث مقترن بزمن",
+    "with": "يدل على حدث مقترن بزمن بهيئته",
+    "expected_outcomes_changed": false,
+    "affected_case_ids": [
+      "m02",
+      "m03",
+      "m04",
+      "m05",
+      "m06",
+      "m07",
+      "m11",
+      "m12",
+      "m35",
+      "m37"
+    ]
+  },
+  "new_case_ids": [
+    "m43"
+  ],
+  "measurement_rule": "Keep v1 diagnostic result separately; score v2 only as a source-corrected regression set. Do not call v2 an untouched hidden benchmark."
+}

@@ -31,6 +31,7 @@ FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    "morphology_v1": ("8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e3437a35b7bffd", "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46", "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"),
     "v1": (FREEZE_SHA256, SNAPSHOT_SHA256, ARCHIVE_SHA256),
     "v2": ("304fddda0276053f8a6404a7d21ca7fb2019e9a0c0aa98b5718b52684efec2da",
            "41ad5f8719d838f3b039633ee69175fcbbceb079e4a786b7d34d2c920821c3ee",
@@ -95,9 +96,10 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="v3"):
+def verify_implementation_freeze(version="morphology_v1"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
-    path = ROOT / "evidence/words" / ("code_freeze_" + version + ".json")
+    path = (ROOT / "evidence/morphology/code_freeze_v1.json" if version == "morphology_v1"
+            else ROOT / "evidence/words" / ("code_freeze_" + version + ".json"))
     raw = path.read_bytes()
     require(sha256(raw).hexdigest() == manifest_sha, "Different implementation freeze")
     freeze = json.loads(raw)
@@ -118,7 +120,7 @@ def verify_implementation_freeze(version="v3"):
         content = path.read_bytes()
         require(len(content) == row["bytes"] and sha256(content).hexdigest() == row["sha256"],
                 "Implementation changed: " + row["path"])
-    archive = ROOT / "evidence/words" / freeze["archive_filename"]
+    archive = (ROOT / "evidence/morphology" if version == "morphology_v1" else ROOT / "evidence/words") / freeze["archive_filename"]
     require(sha256(archive.read_bytes()).hexdigest() == freeze["archive_sha256"] == archive_sha,
             "Different implementation archive")
     with tarfile.open(archive, "r:gz") as bundle:
@@ -402,7 +404,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="v3")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="morphology_v1")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()

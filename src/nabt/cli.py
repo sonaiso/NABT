@@ -105,6 +105,14 @@ def parser() -> Parser:
     word_verifier.add_argument("report", type=Path)
     word_verifier.add_argument("--source", type=Path, help="Bind replay to these expected source bytes")
     word_verifier.add_argument("--scope", default=None, help="Bind replay to this expected scope")
+    morphology_reader = sub.add_parser("read-morphology")
+    morphology_reader.add_argument("document", type=Path)
+    morphology_reader.add_argument("--scope", default="default")
+    morphology_reader.add_argument("--with-number", action="store_true")
+    morphology_verifier = sub.add_parser("verify-morphology")
+    morphology_verifier.add_argument("report", type=Path)
+    morphology_verifier.add_argument("--source", type=Path, required=True)
+    morphology_verifier.add_argument("--scope", default="default")
     for name in ("read-text", "ask-text", "read-arabic", "ask-arabic", "read-governors", "ask-governors"):
         command = sub.add_parser(name)
         command.add_argument("document", type=Path)
@@ -134,6 +142,24 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"read-morphology", "verify-morphology"}:
+        from .morphology_reader import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
+                                        read_morphology, verify_morphology, morphology_number)
+        path = args.document if command == "read-morphology" else args.source
+        with path.open("rb") as handle:
+            raw = handle.read(MAX_SOURCE_BYTES + 1)
+        if len(raw) > MAX_SOURCE_BYTES:
+            raise resource_limit("Morphology source exceeds its byte budget")
+        if command == "verify-morphology":
+            report = verify_morphology(read_certificate(args.report, MAX_REPORT_BYTES),
+                                       text=raw, source_id="input", scope=args.scope)
+            return report, 0 if report["valid"] else 3 if report["status"] == "DEFER" else 2
+        report = read_morphology(raw, source_id="input", scope=args.scope)
+        code = 0 if report["status"] == "READ" else 3 if report["status"] == "DEFER" else 2
+        if args.with_number:
+            return {"reading": report, "encoding": {"domain": NUMBER_DOMAIN,
+                    "number_hex": hex(morphology_number(report)), "authority": "ENCODING_ONLY"}}, code
+        return report, code
     if command in {"read-words", "verify-words"}:
         from .word_reader import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
                                   read_words, verify_word_reading, word_reading_number)
