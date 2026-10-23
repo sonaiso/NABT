@@ -40,7 +40,7 @@ jobs:
       - name: Replay the published text-inquiry corpus and source-boundary probes
         env:
           PYTHONPATH: src
-        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/nominal/code_freeze_v1.json --output-dir "${{ runner.temp }}/nabt-text-regression"
+        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/nominal/code_freeze_v2.json --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Preserve independently measured Arabic coverage and safe deferrals
         env:
           PYTHONPATH: src

@@ -7,6 +7,7 @@ on its separately replayed reading and, for plurals, its singular-origin link.
 """
 
 import re
+import unicodedata
 
 from .derivation import _written_runs
 from .errors import NabtError, resource_limit
@@ -106,11 +107,11 @@ def _numeral_prefix(runs):
     if len(words) == 1:
         word = words[0]
         if re.fullmatch(r"[0-9]+|[٠-٩]+", word):
+            if len(word) > 1 and word[0] in ("0", "٠"):
+                raise NabtError("NONCANONICAL_CARDINAL_LITERAL", "Leading zeroes need a separate declared numeric domain")
             if len(word) > 4:
                 return {"status": "DEFER", "missing": ["CARDINAL_OUTSIDE_BOUNDED_RULE"], "parts": runs}
             digits = "".join(str(ord(c) - ord("٠")) if "٠" <= c <= "٩" else c for c in word)
-            if len(digits) > 1 and digits.startswith("0"):
-                raise NabtError("NONCANONICAL_CARDINAL_LITERAL", "Leading zeroes need a separate declared numeric domain")
             value, basis = int(digits), "EXACT_DECIMAL_DIGITS"
         elif word in _UNITS:
             value, unit = _UNITS[word]
@@ -180,8 +181,11 @@ Only the unmarked closed numeral spellings above are acquired in this version.
     internal_spacing = [p for p in partition if p["kind"] == "spacing" and significant
                         and significant[0]["span"]["end"] <= p["span"]["start"]
                         and p["span"]["end"] <= significant[-1]["span"]["start"]]
+    # A single counted sequence admits horizontal gaps only. The shared scanner
+    # also preserves line/page/control separators as spacing, not as relations.
     if (len(significant) < 2 or any(p["kind"] != "written_run" for p in significant)
-            or any(any(c in p["surface"] for c in "\n\r\u2028\u2029") for p in internal_spacing)):
+            or any(any(c != "\t" and unicodedata.category(c) != "Zs" for c in p["surface"])
+                   for p in internal_spacing)):
         missing.append("COMPLETE_SINGLE_CARDINAL_COUNTED_SEQUENCE")
     else:
         numeral = _numeral_prefix(significant[:-1])

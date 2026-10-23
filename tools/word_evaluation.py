@@ -25,12 +25,15 @@ from nabt import NabtError
 from nabt.word_reader import (decode_word_reading, read_word_at, read_words,
                               verify_word_reading, word_reading_number)
 
-VERSION = "nabt.words.independent-evaluator.v1.5"
+VERSION = "nabt.words.independent-evaluator.v1.6"
 CASES_SHA256 = "38dd236c752b7d2d982eb615aa557c0d4b2328d1e415b6ca23c71d8e8852bc78"
 FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc4"
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    "nominal_v2": ("d904702b8633f8102c6795f3beeff0d5584e908ee7b0d1c605c168103ab87f94",
+                   "814ec3f4ea340b09b594ff162e65e49be8e4110088da5feae02fe41eb8a71d6c",
+                   "c7ab0b42159ba60d5a39b65b2adb980ed92df6e6e71eb1dc355bbfb43d838071"),
     "nominal_v1": ("9d9f71eb1b26caac6ea170fe839e7b7f2903eccf827c5bbf7b2c78d3a46a13cd",
                    "c00458629fcd08a6cefb616d0fb1caaec5958996b0532043d0fd1a92d922740a",
                    "6d86c0709c97a89375fc9ff498d1576585c3e432831c7ac17cfc1eb75c2f2724"),
@@ -50,6 +53,7 @@ CODE_FREEZES = {
            "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026"),
 }
 CODE_FREEZE_PATHS = {
+    "nominal_v2": ROOT / "evidence/nominal/code_freeze_v2.json",
     "nominal_v1": ROOT / "evidence/nominal/code_freeze_v1.json",
     "derivation_v1": ROOT / "evidence/derivation/code_freeze_v1.json",
     "text_morphology_v1": ROOT / "evidence/text_morphology/code_freeze_v1.json",
@@ -114,7 +118,7 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="nominal_v1"):
+def verify_implementation_freeze(version="nominal_v2"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -421,7 +425,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="nominal_v1")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="nominal_v2")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()

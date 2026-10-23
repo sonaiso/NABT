@@ -6,7 +6,7 @@ from .codec import OccurrenceIdentity, append_numbers, decode_number, encode_cel
 from .errors import NabtError
 from .machine import Analysis, Effect, Machine, compose_effects
 
-__version__ = "0.11.0a1"
+__version__ = "0.11.0a2"
 __all__ = ["ALPHABET_ID", "LAW_ID", "CARRIERS", "HARAKAT", "cell_id", "cell_parts",
            "parse_word", "render_word", "VerificationReport", "issue_certificate",
            "verify_certificate", "OccurrenceIdentity", "append_numbers", "decode_number",
