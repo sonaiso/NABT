@@ -1,0 +1,473 @@
+{
+  "schema": "nabt.arabic-syntax.scope-supplement.v1",
+  "authorship": "Independent evaluator after declared public scope was provided, before reading the new implementation or its tests. Original 40-case corpus remains unchanged.",
+  "purpose": "Measure announced bounded-profile competence separately from broad standalone-Arabic coverage.",
+  "cases": [
+    {
+      "id": "s01",
+      "stratum": "scope_explicit_copula",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "نورا هي متأهبة.",
+          "gold_facts": [
+            {
+              "predicate": "متأهبة",
+              "args": [
+                "نورا"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل نورا هي متأهبة؟",
+          "gold_atom": {
+            "predicate": "متأهبة",
+            "args": [
+              "نورا"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Explicit feminine copula licensed by the announced profile; exact property label retained."
+    },
+    {
+      "id": "s02",
+      "stratum": "scope_declared_bare",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد أثير. أثير حاضر.",
+          "gold_facts": [
+            {
+              "predicate": "حاضر",
+              "args": [
+                "أثير"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل أثير هو حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "أثير"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Earlier local individual declaration supplies the announced subject cue."
+    },
+    {
+      "id": "s03",
+      "stratum": "scope_predicate_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد هاشم. هاشم منتبه وصبور.",
+          "gold_facts": [
+            {
+              "predicate": "منتبه",
+              "args": [
+                "هاشم"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "صبور",
+              "args": [
+                "هاشم"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل هاشم هو صبور؟",
+          "gold_atom": {
+            "predicate": "صبور",
+            "args": [
+              "هاشم"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Attached waw shares a previously licensed subject."
+    },
+    {
+      "id": "s04",
+      "stratum": "scope_clause_conjunction",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد حمزة. فرد سمير. حمزة يقظ وسمير حاضر.",
+          "gold_facts": [
+            {
+              "predicate": "يقظ",
+              "args": [
+                "حمزة"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "حاضر",
+              "args": [
+                "سمير"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل سمير هو حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "سمير"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل حمزة هو حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "حمزة"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "UNKNOWN"
+          ]
+        }
+      ],
+      "interpretation_note": "Two declared subjects provide explicit evidence for full-clause conjunction rather than shared subject."
+    },
+    {
+      "id": "s05",
+      "stratum": "scope_negation",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد عمار. ليس عمار علامة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "عمار"
+              ],
+              "positive": false
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل عمار هو علامة؟",
+          "gold_atom": {
+            "predicate": "علامة",
+            "args": [
+              "عمار"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "REFUTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Explicit ليس supplies negative support; the written feminine-form predicate is compatible with a male scholar."
+    },
+    {
+      "id": "s06",
+      "stratum": "scope_emphasis",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "إنّ ربيع هو حاضر.",
+          "gold_facts": [
+            {
+              "predicate": "حاضر",
+              "args": [
+                "ربيع"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل ربيع هو حاضر؟",
+          "gold_atom": {
+            "predicate": "حاضر",
+            "args": [
+              "ربيع"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Vocalized إنّ marks emphasis; it is not an extra factual witness or certainty upgrade."
+    },
+    {
+      "id": "s07",
+      "stratum": "scope_conditional",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "إذا ريان هو حاضر فإن ريان هو شاهد.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "حاضر",
+                  "args": [
+                    "ريان"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "شاهد",
+                "args": [
+                  "ريان"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "ريان هو حاضر.",
+          "gold_facts": [
+            {
+              "predicate": "حاضر",
+              "args": [
+                "ريان"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل ريان هو شاهد؟",
+          "gold_atom": {
+            "predicate": "شاهد",
+            "args": [
+              "ريان"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "A complete conditional with explicit copulas uses the announced source-relative implication contract."
+    },
+    {
+      "id": "s08",
+      "stratum": "scope_universal",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "r",
+          "text": "كل قارئ متفحص.",
+          "gold_rules": [
+            {
+              "body": [
+                {
+                  "predicate": "قارئ",
+                  "args": [
+                    "?x"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "متفحص",
+                "args": [
+                  "?x"
+                ],
+                "positive": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "يامن هو قارئ.",
+          "gold_facts": [
+            {
+              "predicate": "قارئ",
+              "args": [
+                "يامن"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل يامن هو متفحص؟",
+          "gold_atom": {
+            "predicate": "متفحص",
+            "args": [
+              "يامن"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        }
+      ],
+      "interpretation_note": "Generic كل introduces a one-way inclusion; the person comes from a separate assertion."
+    },
+    {
+      "id": "s09",
+      "stratum": "scope_question",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد رائف. هل رائف حاضر؟",
+          "gold_facts": [],
+          "gold_mode": "question",
+          "gold_query": {
+            "predicate": "حاضر",
+            "args": [
+              "رائف"
+            ],
+            "positive": true
+          }
+        }
+      ],
+      "interpretation_note": "A declared subject may license a bare question; the requested property remains unasserted.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "s10",
+      "stratum": "scope_ambiguous_particle",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "إن سائر هو حاضر.",
+          "gold_facts": [],
+          "gold_mode": "ambiguous",
+          "ambiguity": "unvocalized_in"
+        }
+      ],
+      "interpretation_note": "The announced profile preserves alternatives or suspension for unvocalized إن.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "s11",
+      "stratum": "scope_pronoun",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد داود. فرد جابر. هو صادق.",
+          "gold_facts": [],
+          "gold_mode": "unresolved",
+          "ambiguity": "unbound_pronoun"
+        }
+      ],
+      "interpretation_note": "Two individual declarations do not bind an anaphoric pronoun.",
+      "forbid_all_assertions": true
+    },
+    {
+      "id": "s12",
+      "stratum": "scope_revision",
+      "events": [
+        {
+          "op": "add",
+          "source_id": "a",
+          "text": "فرد منير. منير علامة.",
+          "gold_facts": [
+            {
+              "predicate": "علامة",
+              "args": [
+                "منير"
+              ],
+              "positive": true
+            }
+          ]
+        },
+        {
+          "op": "query",
+          "text": "هل منير هو علامة؟",
+          "gold_atom": {
+            "predicate": "علامة",
+            "args": [
+              "منير"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "SUPPORTED"
+          ]
+        },
+        {
+          "op": "replace",
+          "source_id": "a",
+          "text": "فرد منير. ليس منير علامة."
+        },
+        {
+          "op": "query",
+          "text": "هل منير هو علامة؟",
+          "gold_atom": {
+            "predicate": "علامة",
+            "args": [
+              "منير"
+            ],
+            "positive": true
+          },
+          "gold_status": [
+            "REFUTED"
+          ]
+        }
+      ],
+      "interpretation_note": "A fully licensed bare assertion is replaced by an explicit negative with the local identity cue retained."
+    }
+  ]
+}

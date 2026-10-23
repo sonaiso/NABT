@@ -50,6 +50,7 @@ class Opcode(IntEnum):
     REMOVE_TEXT = 32
     QUERY_TEXT = 33
     REPLACE_TEXT = 34
+    START_ARABIC = 35
 
 
 CONTRACTS = {
@@ -65,6 +66,7 @@ CONTRACTS = {
     Opcode.REMOVE_TEXT: "withdraw source and rebuild all dependent conditional consequences",
     Opcode.QUERY_TEXT: "parse a new ground question; signed support and conflict-clean proof gate",
     Opcode.REPLACE_TEXT: "explicit source revision; preserve old source unless replacement is admitted",
+    Opcode.START_ARABIC: "installed Arabic syntax law; preserve speech force, cues and unresolved readings",
 }
 
 
@@ -183,7 +185,7 @@ class Instruction:
             for part in args[0]:
                 _text(part, "cue_part", maximum=128)
             _name(args[1], "query_id")
-        elif self.opcode == Opcode.START_TEXT:
+        elif self.opcode in {Opcode.START_TEXT, Opcode.START_ARABIC}:
             if len(args) != 1:
                 raise NabtError("INVALID_INSTRUCTION", "START_TEXT expects an exact scope")
             from .text_ir import require_name
@@ -281,7 +283,7 @@ class Program:
                         "PROGRAM_TYPE_ERROR",
                         "Learner programs accept only evidence and literal queries",
                     )
-        elif first == Opcode.START_TEXT:
+        elif first in {Opcode.START_TEXT, Opcode.START_ARABIC}:
             active_sources: set[str] = set()
             text_queries: dict[str, str] = {}
             for step in self.instructions[1:]:
@@ -430,13 +432,14 @@ def compile_request(request: dict) -> Program:
                 consumer,
             )
         )
-    if task == "text_inquiry":
+    if task in {"text_inquiry", "arabic_inquiry"}:
         _keys(request, {"task", "events"}, {"scope"})
         if type(request["events"]) is not list:
             raise NabtError("INVALID_REQUEST", "Text events must be an array")
         if len(request["events"]) >= MAX_INSTRUCTIONS:
             raise resource_limit("Too many text events")
-        steps = [Instruction(int(Opcode.START_TEXT), (request.get("scope", "default"),))]
+        starter = Opcode.START_ARABIC if task == "arabic_inquiry" else Opcode.START_TEXT
+        steps = [Instruction(int(starter), (request.get("scope", "default"),))]
         for event in request["events"]:
             if type(event) is not dict or type(event.get("op")) is not str:
                 raise NabtError("INVALID_REQUEST", "Each text event needs an operation")
@@ -675,11 +678,13 @@ def execute_program(program: Program) -> dict:
                     "record_id": args[0],
                     "source_was_not_declared_false": True,
                 }
-            elif op == Opcode.START_TEXT:
+            elif op in {Opcode.START_TEXT, Opcode.START_ARABIC}:
                 from .semantics import SemanticKernel
                 from .text_ir import LANGUAGE_ID, READER_VERSION
 
-                theory = SemanticKernel()
+                if op == Opcode.START_ARABIC:
+                    from .arabic_reader import LANGUAGE_ID, READER_VERSION
+                theory = SemanticKernel(language_id=LANGUAGE_ID)
                 theory_scope = args[0]
                 result = {"status": "READY", "scope": theory_scope,
                           "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
@@ -691,6 +696,10 @@ def execute_program(program: Program) -> dict:
                 else:
                     admission = theory.replace_source(raw, source_id=args[0], scope=theory_scope)
                 result = admission.as_dict()
+                if theory.language_id == "nabt.arabic-syntax.v1":
+                    from .arabic_reader import read_arabic
+                    reading = read_arabic(raw, source_id=args[0], scope=theory_scope)
+                    result["reading_steps"] = [step.as_dict() for step in reading.steps]
                 if not result.get("accepted", False):
                     result.setdefault("status", "DEFER")
                     stopped = True
@@ -705,6 +714,15 @@ def execute_program(program: Program) -> dict:
                 result = theory.query(question, scope=theory_scope).as_dict()
                 result["query_id"] = args[1]
                 result["query_source_sha256"] = sha256(raw).hexdigest()
+                if theory.language_id == "nabt.arabic-syntax.v1":
+                    from .text_ir import span_dict
+                    interpreted = theory.read_query(raw, scope=theory_scope)
+                    result["query_reading"] = {"language_id": theory.language_id,
+                        "atom": interpreted.atom.as_dict(), "span": span_dict(interpreted.span),
+                        "analysis_id": interpreted.analysis_id,
+                        "component_spans": [span_dict(s) for s in interpreted.component_spans],
+                        "context_program_sha256": result["program_sha256"],
+                        "authority": "QUESTION_ONLY"}
             else:
                 from .learning.arabic_six_nouns import (
                     observation_schema,
@@ -824,11 +842,14 @@ def execute_program(program: Program) -> dict:
         from importlib.resources import files
         from .text_ir import LANGUAGE_ID, READER_VERSION
 
-        receipt["installed_contracts"]["text_language"] = LANGUAGE_ID
+        if theory.language_id == "nabt.arabic-syntax.v1":
+            from .arabic_reader import READER_VERSION
+        receipt["installed_contracts"]["text_language"] = theory.language_id
         receipt["installed_contracts"]["text_reader"] = READER_VERSION
         receipt["installed_contracts"]["text_implementation_sha256"] = {
             name: sha256(files("nabt").joinpath(name).read_bytes()).hexdigest()
-            for name in ("text_ir.py", "text_reader.py", "semantics.py")
+            for name in (("text_ir.py", "text_reader.py", "semantics.py") +
+                         (("arabic_reader.py",) if theory.language_id == "nabt.arabic-syntax.v1" else ()))
         }
     # Return inert JSON types; CLI and API share the same representation and
     # a receipt emitted by the CLI always fits its verification input budget.

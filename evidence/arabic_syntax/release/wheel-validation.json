@@ -1,0 +1,199 @@
+{
+  "passed": true,
+  "version": "0.5.0a1",
+  "wheel": "nabt_machine-0.5.0a1-py3-none-any.whl",
+  "wheel_sha256": "3d60d6bdf24335ddde188f135b10318524f0e1596021d169065a2c55fb8c5d98",
+  "installed_module": "/tmp/nabt-arabic-wheel-rjqkjtyb/installed/nabt/__init__.py",
+  "execution_directory": "/tmp/nabt-arabic-wheel-rjqkjtyb/run",
+  "commands": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pip",
+        "wheel",
+        "--no-deps",
+        "--no-build-isolation",
+        "--wheel-dir",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/dist",
+        "."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "--target",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/installed",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/dist/nabt_machine-0.5.0a1-py3-none-any.whl"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-c",
+        "import nabt,json;print(json.dumps({'version':nabt.__version__,'path':nabt.__file__}))"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "read-arabic",
+        "arabic_syntax_theory.txt"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "pilot"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/run/pilot.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "ask-text",
+        "text_theory.txt",
+        "هل تقرير هو مفحوص؟"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/run/old_answer.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "run",
+        "text_inquiry_revision.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/run/old_revision.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "ask-arabic",
+        "arabic_syntax_theory.txt",
+        "هل سالمٌ مدققٌ؟"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/run/arabic_answer.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "run",
+        "arabic_syntax_revision.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "nabt",
+        "verify-run",
+        "/tmp/nabt-arabic-wheel-rjqkjtyb/run/arabic_revision.json"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "read_accepted": true,
+  "results": {
+    "pilot": {
+      "verified": true,
+      "query_statuses": []
+    },
+    "old_answer": {
+      "verified": true,
+      "query_statuses": [
+        "SUPPORTED"
+      ]
+    },
+    "old_revision": {
+      "verified": true,
+      "query_statuses": [
+        "SUPPORTED",
+        "UNKNOWN",
+        "SUPPORTED",
+        "DEFER",
+        "CONFLICT",
+        "SUPPORTED"
+      ]
+    },
+    "arabic_answer": {
+      "verified": true,
+      "query_statuses": [
+        "SUPPORTED"
+      ]
+    },
+    "arabic_revision": {
+      "verified": true,
+      "query_statuses": [
+        "SUPPORTED",
+        "UNKNOWN",
+        "CONFLICT",
+        "DEFER",
+        "SUPPORTED"
+      ]
+    }
+  },
+  "third_party_notice_included": true,
+  "separate_data_license_included": true,
+  "scope": "installed wheel outside source checkout; builder examples, not heldout evaluation"
+}
