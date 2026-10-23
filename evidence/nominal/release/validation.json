@@ -1,0 +1,295 @@
+{
+  "schema": "nabt.nominal.release-validation.v1",
+  "recorded_at_utc": "2026-10-23T13:15:02.493841+00:00",
+  "package_version": "0.11.0a1",
+  "status": "BOUNDED_VALIDATION_PASS",
+  "repository_base_commit": "d2013d937fae0336f38c9a49ffd5c8b03858f7fc",
+  "implementation_commit": "3f5706fe8993d514f16ade9fcb9bff1354077740",
+  "release_commit": null,
+  "release_commit_note": "The following evidence-only commit contains this record; runtime and verification sources are pinned without a recursive commit hash.",
+  "runtime": {
+    "freeze_version": "nominal_v1",
+    "manifest": {
+      "path": "evidence/nominal/code_freeze_v1.json",
+      "bytes": 10125,
+      "sha256": "9d9f71eb1b26caac6ea170fe839e7b7f2903eccf827c5bbf7b2c78d3a46a13cd"
+    },
+    "snapshot_sha256": "c00458629fcd08a6cefb616d0fb1caaec5958996b0532043d0fd1a92d922740a",
+    "file_count": 52,
+    "archive": {
+      "path": "evidence/nominal/code_freeze_v1.tar.gz",
+      "bytes": 877177,
+      "sha256": "6d86c0709c97a89375fc9ff498d1576585c3e432831c7ac17cfc1eb75c2f2724"
+    },
+    "current_bytes_match_frozen_inventory": true,
+    "inventory_is_exact_authoritative_runtime": true,
+    "archive_members_match_frozen_inventory": true
+  },
+  "verification_sources": {
+    "path": "evidence/nominal/release/verification-source-manifest.json",
+    "bytes": 20316,
+    "sha256": "8114a50f8398ab4003327edcc2ff39a30eeb35daaa033c3ecb547971b2ed2810",
+    "file_count": 123,
+    "all_match_implementation_commit": true
+  },
+  "full_check": {
+    "outcome": "PASS",
+    "runner_observed_exit_code": 0,
+    "tests_run": 576,
+    "failures": 0,
+    "test_seconds": 19.694,
+    "command": "make check LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake EVIDENCE_DIR=artifacts/local/nominal-release/verified ARABIC_EVALUATION_DIR=artifacts/local/nominal-release/verified/arabic-regression",
+    "log": {
+      "path": "evidence/nominal/release/make-check.log",
+      "bytes": 127073,
+      "sha256": "fbba3e6f00d70b6bc73fb761a2c8aabc9d713d89415f55d41d1aaf1ab5c48f1a"
+    },
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "runtime_environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    }
+  },
+  "formal_audit": {
+    "theorem_count": 520,
+    "new_theorems": 44,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "all_nabt_declarations_scanned": true,
+    "project_axioms_allowed": false,
+    "report": {
+      "path": "evidence/nominal/release/axioms.json",
+      "bytes": 39602,
+      "sha256": "40572aee91a73d1dbe77835cffcca6ed47012c6d74037630e9f2d984b7e3db0d"
+    }
+  },
+  "nominal_conformance": {
+    "report": {
+      "path": "evidence/nominal/release/nominal-conformance.json",
+      "bytes": 901,
+      "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+    },
+    "result": {
+      "ok": true,
+      "law_id": "nabt.nominal-evidence.v1",
+      "table_sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8",
+      "profile_rows": 22,
+      "profile_constraint_subsets": 2048,
+      "bounded_constraint_lists": 133,
+      "max_source_list_length": 2,
+      "single_deletion_checks": 253,
+      "duplicate_constraint_checks": 253,
+      "receipt_masks": 128,
+      "cardinal_rows": 202,
+      "weak_position_masks": 8,
+      "bounded_root_projections": 27,
+      "manqus_complete_models": 32,
+      "pronoun_projection_rows": 14,
+      "canonical_pronoun_reader_checks": 14,
+      "scope": "Complete finite generated-law correspondence; public nominal/cardinal projections; bounded weak-root and canonical-pronoun checks. Receipt and manqus truth tables are checked, not unrestricted source qualification, partial-mark reader correctness, lexical attestation, actual syntactic case, ordinal meaning, or world cardinality."
+    }
+  },
+  "independent_evaluation": {
+    "first_run": {
+      "path": "evidence/nominal/independent_first_run_v1.json",
+      "bytes": 544203,
+      "sha256": "42b1e65fea397dd8e26855fc08dc52eccfd24a409fc270193ea8c41fd635a8f0"
+    },
+    "first_score": {
+      "passed": 184,
+      "total": 184
+    },
+    "first_runtime_differences_from_release": [
+      "src/nabt/nominal.py"
+    ],
+    "difference_reason": "Source identity and written-run segmentation identity were strengthened after the first archived run; gold and evaluator stayed fixed.",
+    "release_report": {
+      "path": "evidence/nominal/release/nominal-regression.json",
+      "bytes": 544041,
+      "sha256": "da12a98d34fcabff7c926dc9697f7b36ec993137167800f02175a7f85f54081e"
+    },
+    "release_score": {
+      "passed": 184,
+      "total": 184
+    },
+    "task_scores": {
+      "raw_and_linked_nominal_reading": {
+        "passed": 53,
+        "total": 53
+      },
+      "controlled_source_assertions": {
+        "passed": 41,
+        "total": 41
+      },
+      "supplied_weak_root": {
+        "passed": 20,
+        "total": 20
+      },
+      "supplied_cardinal_rule": {
+        "passed": 38,
+        "total": 38
+      },
+      "bounded_count_phrase": {
+        "passed": 15,
+        "total": 15
+      },
+      "source_occurrence_cardinality": {
+        "passed": 11,
+        "total": 11
+      },
+      "source_replacement": {
+        "passed": 6,
+        "total": 6
+      },
+      "source_structure": {
+        "passed": 126,
+        "total": 126
+      },
+      "semantic_restraint": {
+        "passed": 166,
+        "total": 166
+      }
+    },
+    "material_sha256": "1c865468207b2238118999f157fccda9aee9f260585f2b3c36ca9b556c3b52b9",
+    "protocol_sha256": "d31c2a612e15f68ada1e7f8377a96998ccb8b3236d9870760492cb64945a9b8a",
+    "authored_source_informed_cases_not_natural_corpus": true,
+    "runtime_unchanged_during_release_evaluation": true
+  },
+  "installed_wheel": {
+    "first_runtime_smoke_report": {
+      "path": "evidence/nominal/release/wheel-validation.json",
+      "bytes": 8618,
+      "sha256": "ac6cbecf099885f2e09e0f55f65fb0edf47497b32fd9baf488a7fd51c737a675"
+    },
+    "final_documentation_rebuild_report": {
+      "path": "evidence/nominal/release/final-wheel-validation.json",
+      "bytes": 4079,
+      "sha256": "1fcac65fbc62d6bf445b538147ebf8c1a0221772c0ef1f6b0ce8a8d87be6a6ed"
+    },
+    "package_files_verified": 51,
+    "source_freeze_files_verified": 52,
+    "first_cli_smoke_checks": 15,
+    "metadata_documentation_rebuilt_after_readme_results_update": true
+  },
+  "older_coverage_preserved": {
+    "word": {
+      "cases": 30,
+      "passed": 27,
+      "positive_capability_passed": 12,
+      "positive_capability_cases": 15,
+      "all_cases_passed": false,
+      "full_coverage_goal_passed": false,
+      "release_regression_gates_passed": true
+    },
+    "morphology": {
+      "passed": 39,
+      "total": 43,
+      "groups": {
+        "property_inference": {
+          "passed": 16,
+          "total": 16
+        },
+        "missing_information": {
+          "passed": 6,
+          "total": 6
+        },
+        "scope_boundary": {
+          "passed": 1,
+          "total": 5
+        },
+        "contradiction": {
+          "passed": 3,
+          "total": 3
+        },
+        "reading_isolation": {
+          "passed": 2,
+          "total": 2
+        },
+        "malformed_input": {
+          "passed": 1,
+          "total": 1
+        },
+        "unseen_identifier_transfer": {
+          "passed": 2,
+          "total": 2
+        },
+        "source_retraction": {
+          "passed": 2,
+          "total": 2
+        },
+        "certificate_integrity": {
+          "passed": 5,
+          "total": 5
+        },
+        "source_semantic_counterexample": {
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "failed_ids": [
+        "m12",
+        "m13",
+        "m32",
+        "m33"
+      ],
+      "documented_boundary_ids": [
+        "m12",
+        "m13",
+        "m32",
+        "m33"
+      ],
+      "regression_gate_with_declared_boundaries": true
+    },
+    "arabic_syntax": {
+      "standalone": {
+        "episodes": 40,
+        "complete_episodes": 0,
+        "queries": 43,
+        "raw_query_matches": 0,
+        "covered_query_matches": 0,
+        "source_restoration_episodes": 40,
+        "licensed_claim_episodes": 40,
+        "source_admission_and_projection_complete": 1,
+        "budget_pass": 40
+      },
+      "declared_scope": {
+        "episodes": 12,
+        "complete_episodes": 8,
+        "queries": 11,
+        "raw_query_matches": 9,
+        "covered_query_matches": 9,
+        "source_restoration_episodes": 12,
+        "licensed_claim_episodes": 12,
+        "source_admission_and_projection_complete": 8,
+        "budget_pass": 12
+      },
+      "real_excerpts": {
+        "total": 8,
+        "semantic_read": 0,
+        "source_restored": 8,
+        "licensed_claims": 8
+      }
+    },
+    "note": "Old bounded deficits remain published. A passing regression gate does not relabel them as full linguistic coverage."
+  },
+  "verification_archive": {
+    "path": "evidence/nominal/release/verification-artifacts.tar.gz",
+    "bytes": 2551139,
+    "sha256": "a18a7331ac9251a0d2d38553f6c75d33e400b49b543306de324cbf3ae86a3577"
+  },
+  "verification_artifact_manifest": {
+    "path": "evidence/nominal/release/verification-artifact-manifest.json",
+    "bytes": 20729,
+    "sha256": "0c77facc8ef2ce0f2092167ce3f1f8d037de7128b633fb65fb44fd5674ab6703"
+  },
+  "limits": [
+    "Conditional source-relative feature laws do not establish lexical or world truth.",
+    "Closed pronoun and unmarked numeral inventories do not exhaust Arabic homographs or numeral spellings.",
+    "The root bridge classifies formal candidates; weak-form realization and attested root recovery remain open.",
+    "Grammatical segmentation, nun type, attachment, actual role and actual case are not inferred by this feature layer.",
+    "The observed upstream source audit is separate from a rebuild of upstream Lean repositories."
+  ]
+}
