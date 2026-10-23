@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
 DATA = ROOT / "evidence/arabic_syntax/independent"
 ENTRYPOINT = TOOLS / "arabic_syntax_evaluation.py"
+CURRENT_FREEZE = ROOT / "evidence/discourse/code_freeze_v3.json"
 
 
 class ArabicEvaluationBoundaryTests(unittest.TestCase):
@@ -24,7 +25,10 @@ class ArabicEvaluationBoundaryTests(unittest.TestCase):
         command = [sys.executable]
         if optimized:
             command.append("-O")
-        command.extend([str(ENTRYPOINT), *map(str, args)])
+        command.append(str(ENTRYPOINT))
+        if "--code-freeze" not in args:
+            command.extend(["--code-freeze", str(CURRENT_FREEZE)])
+        command.extend(map(str, args))
         env = dict(os.environ, PYTHONPATH=str(ROOT / "src"))
         return subprocess.run(command, cwd=ROOT, env=env, text=True,
                               capture_output=True, timeout=20, check=False)
@@ -64,7 +68,7 @@ class ArabicEvaluationBoundaryTests(unittest.TestCase):
 
     def test_incomplete_runtime_freeze_is_not_an_override(self):
         with tempfile.TemporaryDirectory() as temp:
-            freeze = json.loads((ROOT / "evidence/inflection/code_freeze_v3.json").read_text())
+            freeze = json.loads(CURRENT_FREEZE.read_text())
             freeze["files"] = freeze["files"][:1]
             canonical = json.dumps(freeze["files"], sort_keys=True, separators=(",", ":"))
             freeze["snapshot_sha256"] = hashlib.sha256(canonical.encode()).hexdigest()

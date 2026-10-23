@@ -40,23 +40,23 @@ jobs:
       - name: Replay the published text-inquiry corpus and source-boundary probes
         env:
           PYTHONPATH: src
-        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/inflection/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-text-regression"
+        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/discourse/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Preserve independently measured Arabic coverage and safe deferrals
         env:
           PYTHONPATH: src
-        run: python tools/arabic_syntax_evaluation.py --output-dir "${{ runner.temp }}/nabt-arabic-regression"
+        run: python tools/arabic_syntax_evaluation.py --code-freeze evidence/discourse/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-arabic-regression"
       - name: Replay published governor cues, certificates and bounded coverage
         env:
           PYTHONPATH: src
-        run: python tools/governor_evaluation.py --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
+        run: python tools/governor_evaluation.py --code-freeze evidence/discourse/code_freeze_v3.json --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
       - name: Preserve word-boundary checks and disclose the remaining positive coverage gap
         env:
           PYTHONPATH: src
-        run: python tools/word_evaluation.py --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
+        run: python tools/word_evaluation.py --freeze-version discourse_v3 --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
       - name: Replay source-qualified morphology with explicit conservative boundary debts
         env:
           PYTHONPATH: src
-        run: python tools/morphology_evaluation.py --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
+        run: python tools/morphology_evaluation.py --freeze-version discourse_v3 --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
       - name: Acquire text cues with independent positive and boundary cases
         env:
           PYTHONPATH: src
@@ -74,15 +74,19 @@ jobs:
           PYTHONPATH: src
         run: |
           python tools/fetch_qac_source.py --output "${{ runner.temp }}/nabt-qac-original.txt.gz"
-          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
+          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
       - name: Preserve the separately frozen post-review source and nun regressions
         env:
           PYTHONPATH: src
-        run: python tools/inflection_evaluation.py --post-review --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
+        run: python tools/inflection_evaluation.py --post-review --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
       - name: Preserve structured compression failures and bounded source-file reads
         env:
           PYTHONPATH: src
-        run: python tools/inflection_cli_evaluation.py --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
+        run: python tools/inflection_cli_evaluation.py --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
+      - name: Replay frozen discourse with explicit coverage debts and unconditional integrity gates
+        env:
+          PYTHONPATH: src
+        run: python tools/discourse_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v3.json --output "${{ runner.temp }}/nabt-discourse-regression.json" --allow-documented-boundaries
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
@@ -104,6 +108,9 @@ jobs:
           cp examples/nominal_assertions.txt "${{ runner.temp }}/nabt-nominal-assertions.txt"
           cp examples/inflection.txt "${{ runner.temp }}/nabt-inflection.txt"
           cp examples/inflection_training.tsv "${{ runner.temp }}/nabt-inflection-training.tsv"
+          cp examples/discourse.txt "${{ runner.temp }}/nabt-discourse.txt"
+          cp examples/discourse_context.json "${{ runner.temp }}/nabt-discourse-context.json"
+          cp examples/discourse_training.tsv "${{ runner.temp }}/nabt-discourse-training.tsv"
           cp examples/count_phrase.txt "${{ runner.temp }}/nabt-count-phrase.txt"
           cd "${{ runner.temp }}"
           nabt pilot > nabt-pilot-receipt.json
@@ -146,6 +153,13 @@ jobs:
           nabt audit-corpus nabt-inflection-training.tsv --format qac > nabt-corpus-audit.json
           nabt read-inflection nabt-inflection.txt --qac nabt-inflection-training.tsv > nabt-inflection-reading.json
           nabt verify-inflection nabt-inflection-reading.json --source nabt-inflection.txt --qac nabt-inflection-training.tsv
+          nabt person-catalog > nabt-person-catalog.json
+          nabt discourse-catalog > nabt-discourse-catalog.json
+          nabt read-person 'ضَرَبَنِي' --qac nabt-discourse-training.tsv > nabt-person-reading.json
+          nabt read-discourse nabt-discourse.txt --qac nabt-discourse-training.tsv --context nabt-discourse-context.json > nabt-discourse-reading.json
+          nabt verify-discourse nabt-discourse-reading.json --source nabt-discourse.txt --qac nabt-discourse-training.tsv --context nabt-discourse-context.json
+          nabt ask-discourse nabt-discourse.txt 'هل زيد كاتب؟' --qac nabt-discourse-training.tsv --context nabt-discourse-context.json > nabt-discourse-answer.json
+          nabt verify-discourse-answer nabt-discourse-answer.json --source nabt-discourse.txt --question 'هل زيد كاتب؟' --qac nabt-discourse-training.tsv --context nabt-discourse-context.json
           nabt nominal-catalog > nabt-nominal-catalog.json
           nabt weak-root-profile روي > nabt-weak-root.json
           nabt number-rule 13 masculine > nabt-number-rule.json
@@ -197,3 +211,7 @@ jobs:
 
       - name: Original and substitute signs, nun types and source-bound relation receipts
         run: python -I tools/check_inflection_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-inflection-conformance.json"
+      - name: Conditional person profiles, prefix families and pronoun inventories
+        run: python -I tools/check_person_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-person-conformance.json"
+      - name: Reference premises, speech force and complete qualified claims
+        run: python -I tools/check_discourse_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-discourse-conformance.json"

@@ -1,0 +1,47 @@
+{
+  "adapter_defect": {
+    "affected_ids": [
+      "DSC-P21",
+      "DSC-B23",
+      "DSC-L03"
+    ],
+    "new_adapter_sha256": "d04a1706dfc4f3d36efa6c0c7293251d5e932ff72cbf46261f14116b06c5dcf4",
+    "new_behavior": "Only a kind=particle, operator_qualified=True reading may omit lexical stem fields, provided its one operator segment exactly matches the original occurrence. Missing noun/verb stems still fail.",
+    "old_adapter_sha256": "b0122760e4664bb1eeb3e1670e1f9177632c84c7a11fe898bc85f13f23c8b2d0",
+    "old_behavior": "validate_report assumed every reading had stem_span/stem_surface, including established closed particle/operator readings. KeyError stem_span was incorrectly counted as output integrity failure."
+  },
+  "first_measurement": {
+    "code_archive": {
+      "path": "artifacts/local/discourse-evaluation/independent_v1_first.code.tar.gz",
+      "sha256": "52ae283abbe7c8d01927b730acbd7ec891005e0458983c1c32f51c859341e5d1"
+    },
+    "exception": "ValueError: Measured source changed during evaluation",
+    "original_adapter_sha256": "b0122760e4664bb1eeb3e1670e1f9177632c84c7a11fe898bc85f13f23c8b2d0",
+    "original_tests_sha256": "7661442e06f8cd8cb770124a484fb343b1272e8298e45fa4aad12dd59db55a5a",
+    "raw_log": {
+      "path": "artifacts/local/discourse-evaluation/independent_v1_first.raw.jsonl.gz",
+      "sha256": "0509001f2cf4c47dd91fd082adb2fe09a2bf20e642caf8a8a0899606daba5979"
+    },
+    "reason": "All86 raw case outputs were saved; final measured-source recheck failed because another task overwrote tests/test_discourse_review.py while the evaluator was running. The executing evaluator and pinned runtime did not change. No original final JSON was produced.",
+    "recorded_utc": "2026-10-23T16:37:51.052496+00:00",
+    "replacement_tests_sha256": "8c0d99e871a8c28d05f8ec6940a65c783b55c66fad776a0d66be1c2e18d6c214",
+    "restored_original_tests_to": "tests/test_discourse_evaluator.py",
+    "runtime_freeze_sha256": "4e2e6701f989f6e631948dbfb958e07f384ab1294d4c87faf915a6a42853c64b",
+    "schema": "nabt.discourse.independent-run-abort.v1",
+    "status": "ABORTED_FINALIZATION_NOT_AN_ACCEPTED_RELEASE_MEASUREMENT"
+  },
+  "gold_changed": false,
+  "next_measurement": "artifacts/local/discourse-evaluation/independent_v1_adapter_corrected.json",
+  "recorded_utc": "2026-10-23T16:40:15.807110+00:00",
+  "runtime_changed": false,
+  "schema": "nabt.discourse.independent-adapter-erratum.v1",
+  "scope": "Correction of the measurement adapter and disjoint test ownership only. No gold, source split, implementation, or first output is altered.",
+  "source_premise_notice": "Recovered first scores are labelled aborted-finalization and pre-adapter-correction, not final accepted measurements.",
+  "test_ownership_fix": {
+    "new_owned_path": "tests/test_discourse_evaluator.py",
+    "new_sha256": "1964d4fa4e3ae9a93fee8f2f979fe129bd657d928849b1a1f7ef190df29f174d",
+    "old_path": "tests/test_discourse_review.py",
+    "old_sha256": "7661442e06f8cd8cb770124a484fb343b1272e8298e45fa4aad12dd59db55a5a",
+    "tests_passed": 12
+  }
+}

@@ -1,0 +1,956 @@
+"""A bounded Arabic reader joining morphology, reference and qualified claims.
+
+Every result is conditional on the original text, the declared grammar, raw
+lexical training sources and explicit discourse premises. Alternatives stay
+correlated inside whole analyses. This module is not an unrestricted parser,
+and neither a surface suffix nor a context label is a dependency answer.
+"""
+
+from copy import deepcopy
+from dataclasses import asdict
+from itertools import product
+
+from .corpus_evidence import lexical_index, lookup_clusters, lookup_key, template_matches
+from .discourse_adverbs import adverb_candidates
+from .discourse_context import (identity, wire, read_context, resolve_reference,
+                                form_matches, profile_compatibility)
+from .discourse_laws import (LAW_ID, EXPECTED_TABLE_SHA256, assertion_allowed,
+                             coordination_projection, replay_discourse_policy,
+                             role_case)
+from .errors import NabtError, resource_limit
+from .inflection import relation_candidate, sign_candidates
+from .inflection_reader import _read_run, _surface_accepts, replay_inflection_policy
+from .text_ir import span_dict
+from .word_reader import _scan, _source, _span
+
+LANGUAGE_ID = "nabt.arabic-discourse-frames.v1"
+READER_VERSION = "nabt.discourse-reader.v1"
+MAX_ANALYSES = 128
+MAX_CLAUSES = 32
+_UNSET = object()
+_CASE_NAMES = ("nasb", "raf", "jarr", "jazm")
+
+# These are grammatical paradigms anchored in the replayed source policy,
+# not a list of answers about arbitrary content words or their referents.
+_DEMONSTRATIVES = (
+    ("هَذَا", "masculine", "singular", "built", ()),
+    ("هَذِهِ", "feminine", "singular", "built", ()),
+    ("ذَلِكَ", "masculine", "singular", "built", ()),
+    ("تِلْكَ", "feminine", "singular", "built", ()),
+    ("هَؤُلَاءِ", None, "plural", "built", ()),
+    ("أُولَئِكَ", None, "plural", "built", ()),
+    ("هَذَانِ", "masculine", "dual", "inflected", (2,)),
+    ("هَذَيْنِ", "masculine", "dual", "inflected", (2,)),
+    ("هَاتَانِ", "feminine", "dual", "inflected", (2,)),
+    ("هَاتَيْنِ", "feminine", "dual", "inflected", (2,)),
+)
+_RELATIVES = (
+    ("الَّذِي", "masculine", "singular", "built", ()),
+    ("الَّتِي", "feminine", "singular", "built", ()),
+    ("الَّذِينَ", "masculine", "plural", "built", ()),
+    ("اللَّاتِي", "feminine", "plural", "built", ()),
+    ("اللَّائِي", "feminine", "plural", "built", ()),
+    ("اللَّذَانِ", "masculine", "dual", "inflected", (2,)),
+    ("اللَّذَيْنِ", "masculine", "dual", "inflected", (2,)),
+    ("اللَّتَانِ", "feminine", "dual", "inflected", (2,)),
+    ("اللَّتَيْنِ", "feminine", "dual", "inflected", (2,)),
+)
+_OPERATORS = {
+    "هل": ("polar_interrogative", "QUESTION"),
+    "أ": ("polar_interrogative", "QUESTION"),
+    "من": ("wh_subject", "QUESTION_OR_RELATIVE_OR_PREPOSITION"),
+    "ما": ("wh_subject", "QUESTION_OR_NEGATION_OR_RELATIVE"),
+    "ماذا": ("wh_subject", "QUESTION"),
+    "أين": ("place_time_complements", "QUESTION"),
+    "متى": ("place_time_complements", "QUESTION"),
+    "كيف": ("force_nonassertive", "QUESTION"),
+    "إن": ("inna_case", "EMPHASIS_OR_CONDITION"),
+    "أن": ("inna_case", "SUBORDINATION"),
+    "كأن": ("inna_case", "SIMILITUDE"),
+    "لكن": ("clause_conjunction", "ADVERSATIVE"),
+    "كان": ("kana_case", "PAST_COPULA_OR_VERB"),
+    "ليس": ("laysa_negation", "NEGATION"),
+    "لم": ("imperfect_prefix", "NEGATION_JUSSIVE"),
+    "لن": ("imperfect_prefix", "NEGATION_SUBJUNCTIVE"),
+    "لا": ("force_nonassertive", "NEGATION_OR_PROHIBITION"),
+    "ليت": ("force_nonassertive", "WISH"),
+    "لعل": ("force_nonassertive", "HOPE"),
+    "يا": ("force_nonassertive", "VOCATIVE"),
+    "إلا": ("restriction", "RESTRICTION_OR_EXCEPTION"),
+    "إنما": ("restriction", "RESTRICTION_REQUIRES_SCOPE"),
+    "و": ("clause_conjunction", "CONJUNCTION"),
+    "أو": ("clause_conjunction", "DISJUNCTION"),
+    "ف": ("cause", "CONSEQUENCE_OR_CAUSE_OR_COORDINATION"),
+    "لأن": ("cause", "CAUSAL_ATTACHMENT_REQUIRES_WITNESS"),
+    "في": ("place_time_complements", "PREPOSITION"),
+    "سوف": ("imperfect_prefix", "FUTURE"),
+}
+
+
+def _profile(reading):
+    candidate = reading.get("person_evidence")
+    if candidate and candidate.get("person_profile") is not None:
+        p = candidate["person_profile"]
+        return {"person": p["person"], "gender": ("masculine", "feminine", None)[p["gender"]],
+                "number": ("singular", "dual", "plural")[p["number"]]}
+    if candidate is not None:
+        return {"person": 3 if candidate.get("pos") in ("N", "PN", "ADJ") else None,
+                "gender": candidate.get("gender_name"), "number": candidate.get("number_name")}
+    features = reading.get("lexical_features", {})
+    person = features.get("person")
+    return {"person": int(person[0]) if type(person) is str and person[:1] in ("1", "2", "3") else None,
+            "gender": features.get("gender"), "number": features.get("number")}
+
+
+def _token(source, segment):
+    result = deepcopy(segment)
+    result["token_id"] = identity([source.sha256, segment["span"], segment["surface"]])
+    return result
+
+
+def _slice(source, token, start, end, kind):
+    surface = token["surface"]
+    lo = token["span"]["start"] + len(surface[:start].encode("utf-8"))
+    hi = token["span"]["start"] + len(surface[:end].encode("utf-8"))
+    part = {"kind": "written_run", "surface": surface[start:end],
+            "span": span_dict(_span(source, lo, hi)), "parent_span": token["span"],
+            "segmentation_basis": kind}
+    return _token(source, part)
+
+
+def _synthetic_reading(token, *, pos, profile=None, construction="built", classes=(), rule):
+    return {"reading_id": identity([token["token_id"], pos, profile, rule]), "kind": "noun",
+            "construction": construction, "class_candidates": list(classes),
+            "lexical_features": {"pos": pos, "lemma": token["surface"], "root": None,
+                                 "gender": (profile or {}).get("gender"),
+                                 "number": (profile or {}).get("number"), "aspect": None, "person": None},
+            "profile": profile or {}, "support_records": [{"kind": "grammar", "rule": rule}],
+            "stem_surface": token["surface"], "stem_span": token["span"],
+            "variant": "declared_grammatical_paradigm", "al_evidence": 2,
+            "sign_candidates": [], "nun_readings": [], "annotation_only": False,
+            "segmentation": {"licensed": True, "coverage_valid": True,
+                             "parts": [{"kind": pos, "surface": token["surface"], "span": token["span"]}]},
+            "obligations": []}
+
+
+class _Reader:
+    def __init__(self, source, scope, lexical_model, context):
+        self.source, self.scope, self.model = source, scope, lexical_model
+        self.context = read_context(context)
+        self.index, self.model_summary = ({}, None) if lexical_model is None else lexical_index(lexical_model)
+        self.policy, self.inflection_policy = replay_discourse_policy(), replay_inflection_policy()
+        self.cache, self.mentions, self.derived = {}, [], {}
+        self.entities = {e["id"]: e for e in self.context["value"]["entities"]}
+        self.analysis_count = 0
+        self.source_prefix_complete = True
+
+    def support(self, rule):
+        return {"kind": "source_grammar", "rule": rule, "policy_sha256": self.policy["policy_sha256"],
+                "passage": self.policy["rules"][rule]}
+
+    def reference(self, surface, **kwargs):
+        return resolve_reference(surface, source_prefix_complete=self.source_prefix_complete, **kwargs)
+
+    def readings(self, token):
+        if token["token_id"] in self.cache:
+            return self.cache[token["token_id"]]
+        from .person_evidence import person_candidates
+        occurrence = _read_run(self.source, self.scope, token, self.index,
+                               self.model_summary, self.inflection_policy)
+        readings = list(occurrence["readings"])
+        for candidate in person_candidates(token["surface"], lexical_model=self.model):
+            parts = []
+            clusters = lookup_clusters(token["surface"])
+            for spec in candidate.get("parts", []):
+                lo, hi = spec["start_cluster"], spec["end_cluster"]
+                if type(lo) is not int or type(hi) is not int or not 0 <= lo < hi <= len(clusters):
+                    raise NabtError("INVALID_PERSON_PARTITION", "Person evidence must conserve complete clusters")
+                p = _slice(self.source, token, clusters[lo][2], clusters[hi - 1][3], "source_person_partition")
+                parts.append({"kind": spec.get("kind", "person_part"), "surface": p["surface"], "span": p["span"]})
+            if parts and "".join(p["surface"] for p in parts) != token["surface"]:
+                raise NabtError("INVALID_PERSON_PARTITION", "Person partition lost original bytes")
+            kind = "verb" if candidate.get("aspect") in ("PERF", "IMPF", "IMPV") else "noun"
+            row = {"reading_id": identity([token["token_id"], candidate["id"]]), "kind": kind,
+                   "construction": candidate.get("construction"),
+                   "class_candidates": candidate.get("class_candidates", []),
+                   "lexical_features": {k: candidate.get(k) for k in ("pos", "lemma", "root", "aspect", "voice")},
+                   "person_evidence": candidate, "support_records": candidate.get("supports", []),
+                   "stem_surface": token["surface"], "stem_span": token["span"],
+                   "variant": candidate.get("variant", "attested"), "al_evidence": 2,
+                   "sign_candidates": [], "nun_readings": deepcopy(candidate.get("nun_readings", [])),
+                   "annotation_only": False,
+                   "segmentation": {"parts": parts or [{"kind": kind, "surface": token["surface"], "span": token["span"]}],
+                                    "licensed": not candidate.get("obligations"), "coverage_valid": True,
+                                    "basis": "SOURCE_PERSON_EVIDENCE"},
+                   "obligations": candidate.get("obligations", [])}
+            profile = _profile(row)
+            row["profile"] = profile
+            row["lexical_features"].update({"gender": profile["gender"], "number": profile["number"],
+                                              "person": profile["person"]})
+            if kind == "noun" and candidate.get("form_kind") == "separate_pronoun":
+                row["lexical_features"]["pos"] = "PRON"
+                row["construction"] = "built"
+            row["segmentation"]["licensed"] = candidate["segmentation_licensed"]
+            host_end = candidate["host_end_cluster"]
+            if type(host_end) is not int or not 0 < host_end <= len(clusters):
+                raise NabtError("INVALID_PERSON_HOST", "A case host must occupy a complete observed cluster prefix")
+            host = _slice(self.source, token, 0, clusters[host_end - 1][3], "qualified_case_host")
+            row["stem_surface"], row["stem_span"] = host["surface"], host["span"]
+            row["variant"] = candidate["host_variant"]
+            row["possible_cases"] = list(candidate["possible_cases"])
+            for nun in row["nun_readings"]:
+                relative = nun.get("span")
+                if relative is not None:
+                    nun["span"] = span_dict(_span(self.source, token["span"]["start"] + relative["byte_start"],
+                                                  token["span"]["start"] + relative["byte_end"]))
+                nun["reading_id"] = row["reading_id"]
+            readings.append(row)
+        for forms, pos, rule in ((_DEMONSTRATIVES, "DEM", "demonstrative"),
+                                  (_RELATIVES, "REL", "relative_return")):
+            for template, gender, number, construction, classes in forms:
+                if template_matches(token["surface"], template, mutable_last=False):
+                    readings.append(_synthetic_reading(token, pos=pos, construction=construction, classes=classes,
+                                    profile={"person": 3, "gender": gender, "number": number}, rule=rule))
+        # Names are explicit naming premises. Prefer an independent lexical
+        # reading when available; a premise never overrides its contrary mark.
+        if any(form_matches(token["surface"], e["name"]) for e in self.entities.values()):
+            noun_rows = [r for r in readings if r["kind"] == "noun" and not r.get("annotation_only")
+                         and r["lexical_features"].get("pos") not in ("PRON", "DEM", "REL")]
+            if not noun_rows:
+                row = _synthetic_reading(token, pos="PN", construction=None, rule="context_naming_premise")
+                row["support_records"] = [{"kind": "explicit_context", "sha256": self.context["sha256"],
+                                            "field": "entities.name"}]
+                readings.append(row)
+        unique = {}
+        for row in readings:
+            unique.setdefault(row["reading_id"], row)
+        if len(unique) > MAX_ANALYSES:
+            raise resource_limit("Discourse lexical ambiguity exceeds its budget", maximum=MAX_ANALYSES)
+        self.cache[token["token_id"]] = list(unique.values())
+        return self.cache[token["token_id"]]
+
+    def assignment(self, token, reading, role, *, head=None, idhafa=False):
+        if role in ("nominal_subject", "nominal_predicate", "time_adverb", "place_adverb", "imperfect_indicative"):
+            case = role_case(role)
+        else:
+            case = relation_candidate(role, kind=reading["kind"], construction=reading["construction"])["case"]
+        if type(case) is dict:
+            case = case["case"]
+        construction = reading["construction"]
+        signs = sign_candidates(reading["class_candidates"], cases=(case,),
+                                 al=reading.get("al_evidence", 0), idhafa=1 if idhafa else 2)
+        signs = [s for s in signs if _surface_accepts(s, reading["stem_surface"], reading)]
+        if "possible_cases" in reading and case not in reading["possible_cases"]:
+            signs = []
+        # Missing short vowels do not license deletion of an orthographic
+        # carrier. This reader does not generate an unwitnessed accusative
+        # alif. Only the unambiguous ordinary endings below can pass this
+        # conservative guard; other spelling exceptions remain uncovered.
+        key = lookup_key(reading["stem_surface"])
+        orthography_blocked = (case == 0 and reading["kind"] == "noun" and
+            reading.get("al_evidence") != 1 and not idhafa and 0 in reading["class_candidates"] and
+            not (key.endswith(("ا", "ى", "ة")) or key.endswith("اء")))
+        if orthography_blocked:
+            signs = [s for s in signs if s["class"] != 0]
+        compatible = (construction != "inflected" or bool(signs)) and not (
+            orthography_blocked and reading["class_candidates"] == [0])
+        obligations = ["ACCUSATIVE_ORTHOGRAPHY_WITNESS"] if orthography_blocked else []
+        # A lexical noun label does not establish the construction of a new
+        # predicate. In particular, a stem extracted from a source PP must
+        # not become a case-free property merely because no sign rejects it.
+        # Naming premises identify subjects; they do not supply predicates.
+        if role in ("nominal_predicate", "inna_predicate", "kana_predicate") and construction is None:
+            obligations.append("PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED")
+        return {"reading_id": reading["reading_id"], "span": token["span"], "surface": token["surface"],
+                "role": role, "required_case": _CASE_NAMES[case], "compatible": compatible,
+                "inflected_case": _CASE_NAMES[case] if construction == "inflected" and signs else None,
+                "local_case": _CASE_NAMES[case] if construction == "built" else None,
+                "case_domain": "inflected_case" if construction == "inflected" else "local_case" if construction == "built" else None,
+                "sign_candidates": signs, "head_span": None if head is None else head["span"],
+                "obligations": obligations,
+                "status": "LICENSED_IN_DECLARED_FRAME" if compatible and construction else "CONSTRUCTION_EVIDENCE_NEEDED",
+                "authority": "SOURCE_RELATIVE_SYNTACTIC_ASSIGNMENT"}
+
+    def referents(self, token, role, *, head=None, variable=None, return_entity=None):
+        if variable is not None:
+            row = _synthetic_reading(token, pos="INTG", rule="wh_subject")
+            return [{"reading": row, "reference": {"origin": "question_variable", "status": "VARIABLE",
+                     "span": token["span"], "bound_entity_id": variable, "candidate_entity_ids": [],
+                     "reference_id": identity([token["token_id"], variable])},
+                     "assignment": self.assignment(token, row, role, head=head), "entity": variable}]
+        result = []
+        for row in self.readings(token):
+            if row["kind"] != "noun" or row.get("annotation_only"):
+                continue
+            if row.get("person_evidence", {}).get("attached_pronouns"):
+                continue
+            pos = row["lexical_features"].get("pos")
+            profile = row.get("profile", _profile(row))
+            if pos == "PRON":
+                origin = {1: "speaker", 2: "addressee", 3: "antecedent"}.get(profile.get("person"))
+                if origin is None:
+                    continue
+            elif pos == "DEM":
+                origin = "deictic"
+            elif pos == "REL":
+                if return_entity is None:
+                    continue
+                origin = "relative_return"
+            else:
+                origin = "named"
+            reference = self.reference(token["surface"], origin=origin, profile=profile,
+                                          context=self.context, mentions=self.mentions, span=token["span"],
+                                          scope=self.scope, return_entity=return_entity)
+            assignment = self.assignment(token, row, role, head=head)
+            result.append({"reading": row, "reference": reference, "assignment": assignment,
+                           "entity": reference["bound_entity_id"]})
+        return result
+
+    def predicates(self, token):
+        return [r for r in self.readings(token) if r["kind"] == "noun" and
+                r["lexical_features"].get("pos") in ("N", "ADJ") and
+                r["lexical_features"].get("lemma") and not r.get("annotation_only") and
+                not r.get("prefix_relation") and r.get("al_evidence") != 1 and
+                not r.get("person_evidence", {}).get("attached_pronouns")]
+
+    def verbs(self, token):
+        return [r for r in self.readings(token) if r["kind"] == "verb" and
+                r["lexical_features"].get("lemma") and not r.get("annotation_only") and
+                r.get("segmentation", {}).get("licensed", False) and "person_evidence" in r]
+
+    def analysis(self, tokens, *, frame, force, refs, assignments, readings, claims,
+                 obligations=(), supports=(), relations=()):
+        self.analysis_count += 1
+        if self.analysis_count > MAX_ANALYSES * MAX_CLAUSES:
+            raise resource_limit("Discourse composition budget exceeded")
+        for reading in readings:
+            self.derived[reading["reading_id"]] = reading
+        missing = list(obligations)
+        if any(r["bound_entity_id"] is None for r in refs):
+            missing.append("REFERENCE_NOT_UNIQUELY_LICENSED")
+        if any(not a["compatible"] for a in assignments):
+            missing.append("OBSERVED_FORM_CONFLICTS_WITH_REQUIRED_CASE")
+        missing.extend(o for a in assignments for o in a.get("obligations", []))
+        rejected = (any(not a["compatible"] for a in assignments) or
+                    any(o in ("PERSON_AGREEMENT_CONFLICT", "OVERT_SUBJECT_PERSON_CONFLICT") for o in obligations) or
+                    any(r.get("candidates") and all(c["compatibility"] == "conflict" for c in r["candidates"])
+                        for r in refs))
+        syntax_complete = (not obligations and not any(a.get("obligations") for a in assignments)
+                           and all(a["compatible"] for a in assignments))
+        references_complete = all(r["bound_entity_id"] is not None for r in refs)
+        allowed = assertion_allowed(force, licensed_syntax=syntax_complete, scope_complete=True,
+                                    references_complete=references_complete, qualifiers_preserved=True,
+                                    nonquoted=True, source_supported=bool(supports))
+        assignments = deepcopy(assignments)
+        for assigned in assignments:
+            assigned["activated"] = syntax_complete and not rejected
+            assigned["actual_role"] = assigned["role"] if assigned["activated"] else None
+            if not assigned["activated"]:
+                assigned["inflected_case"], assigned["local_case"] = None, None
+                assigned["status"] = "CANDIDATE_IN_UNLICENSED_FRAME"
+        result = {"frame": frame, "force": force, "span": span_dict(_span(self.source,
+                    min(t["span"]["start"] for t in tokens), max(t["span"]["end"] for t in tokens))),
+                  "reading_ids": [r["reading_id"] for r in readings],
+                  "references": deepcopy(refs), "assignments": assignments,
+                  "relations": list(relations), "claims": claims,
+                  "licensed_syntax": syntax_complete, "references_complete": references_complete,
+                  "rejected_candidate": rejected,
+                  "assertion_allowed": allowed, "obligations": sorted(set(missing)),
+                  "supports": list(supports)}
+        result["analysis_id"] = identity(result)
+        return result
+
+    @staticmethod
+    def claim(predicate, args, positive, tense, time, place, restriction):
+        return {"predicate": predicate, "args": args, "positive": positive,
+                "predicate_kind": "property", "voice": None,
+                "tense": tense, "time": time, "place": place, "restriction": restriction}
+
+    def nominal(self, tokens, *, force, subject_role, predicate_role, positive, tense,
+                time, place, restriction, head=None, wh=None):
+        if len(tokens) != 2:
+            return []
+        subjects = self.referents(tokens[0], subject_role, head=head,
+                                  variable="?person" if wh == "subject" else None)
+        result = []
+        for subject, predicate in product(subjects, self.predicates(tokens[1])):
+            assignment = self.assignment(tokens[1], predicate, predicate_role, head=head or tokens[0])
+            claim = self.claim(predicate["lexical_features"]["lemma"], [subject["entity"]],
+                               positive, tense, time, place, restriction)
+            result.append(self.analysis(tokens, frame="nominal_predication", force=force,
+                refs=[subject["reference"]], assignments=[subject["assignment"], assignment],
+                readings=[subject["reading"], predicate], claims=[claim],
+                supports=[self.support("nominal_predication")]))
+        return result
+
+    def _agreement(self, verb, subject, *, before_subject):
+        profile = verb.get("profile", _profile(verb))
+        eid = subject["entity"]
+        if eid is None or eid.startswith("?"):
+            return []
+        subject_profile = subject["reading"].get("profile", _profile(subject["reading"]))
+        expected_person = subject_profile.get("person") or 3
+        if profile.get("person") != expected_person:
+            return ["PERSON_AGREEMENT_NOT_WITNESSED" if profile.get("person") is None else "PERSON_AGREEMENT_CONFLICT"]
+        entity = self.entities[eid]
+        if before_subject:
+            # VSO number agreement is not SVO agreement: in this small profile
+            # a singular third-person verb can precede a plural nominal subject.
+            if profile.get("number") != "singular":
+                return ["OVERT_SUBJECT_PERSON_CONFLICT"]
+            profile = {**profile, "number": None}
+        # A context's missing trait cannot erase the independent lexical
+        # feature of this particular subject reading.
+        compatibilities = [profile_compatibility(profile, subject_profile), profile_compatibility(profile, entity)]
+        return ["PERSON_AGREEMENT_CONFLICT"] if "conflict" in compatibilities else []
+
+    def attached_references(self, token, reading):
+        result = []
+        clusters = lookup_clusters(token["surface"])
+        for suffix in reading.get("person_evidence", {}).get("attached_pronouns", []):
+            if not suffix["licensed"] or suffix["person_profile"] is None:
+                return None
+            relations = suffix["attachment_candidates"]
+            if relations not in (["verbal_object"], ["possessive"]):
+                return None
+            start, end = suffix["start_cluster"], suffix["end_cluster"]
+            part = _slice(self.source, token, clusters[start][2], clusters[end - 1][3], "qualified_attached_pronoun")
+            raw = suffix["person_profile"]
+            profile = {"person": raw["person"], "gender": ("masculine", "feminine", None)[raw["gender"]],
+                       "number": ("singular", "dual", "plural")[raw["number"]]}
+            origin = {1: "speaker", 2: "addressee", 3: "antecedent"}[profile["person"]]
+            reference = self.reference(part["surface"], origin=origin, profile=profile, context=self.context,
+                                           mentions=self.mentions, span=part["span"], scope=self.scope)
+            row = _synthetic_reading(part, pos="PRON", profile=profile, rule="independent_pronouns")
+            row["support_records"] = reading["support_records"]
+            role = "direct_object" if relations == ["verbal_object"] else "idafa_complement"
+            result.append({"reading": row, "reference": reference, "entity": reference["bound_entity_id"],
+                           "assignment": self.assignment(part, row, role, head=token), "relation": relations[0]})
+        return result
+
+    def verbal(self, tokens, *, force, positive, tense, time, place, restriction,
+               head=None, mood=None, wh=None):
+        if not tokens or len(tokens) > 3:
+            return []
+        positions = (0,) if len(tokens) == 1 else (0, 1)
+        result = []
+        for vpos in positions:
+            if vpos >= len(tokens):
+                continue
+            verb_token = tokens[vpos]
+            for verb in self.verbs(verb_token):
+                features = verb["lexical_features"]
+                aspect = features.get("aspect")
+                if aspect not in ("PERF", "IMPF", "IMPV"):
+                    continue
+                profile = verb.get("profile", _profile(verb))
+                voice = features.get("voice")
+                if voice is None:
+                    # QAC's declared default, recorded here rather than editing
+                    # the historical masked lexical index.
+                    voice = "active"
+                local_force = "COMMAND" if aspect == "IMPV" else force
+                vtense = tense if tense != "unspecified" else "past" if aspect == "PERF" else "nonpast"
+                obligations = [o for o in verb.get("obligations", []) if not
+                               (o == "SHORT_HOLLOW_FORM_REQUIRES_EXTERNAL_JUSSIVE_CONTEXT" and mood == "imperfect_jussive")]
+                attached = self.attached_references(verb_token, verb)
+                if attached is None or len(attached) > 1:
+                    obligations.append("ATTACHED_ARGUMENT_REQUIRES_COMPLETE_REFERENCE")
+                    attached = []
+                if mood and aspect != "IMPF":
+                    obligations.append("GOVERNOR_REQUIRES_IMPERFECT")
+                if head is not None and lookup_key(head["surface"]) == "سوف" and aspect != "IMPF":
+                    obligations.append("FUTURE_PARTICLE_REQUIRES_IMPERFECT")
+                vassign = []
+                if mood:
+                    vassign.append(self.assignment(verb_token, verb, mood, head=head))
+                elif aspect == "IMPF":
+                    vassign.append(self.assignment(verb_token, verb, "imperfect_indicative", head=head))
+                role = "passive_subject" if voice == "passive" else "active_subject"
+                if len(tokens) == 1:
+                    origin = {1: "speaker", 2: "addressee", 3: "antecedent"}.get(profile.get("person"))
+                    if origin is None:
+                        continue
+                    reference = self.reference(verb_token["surface"], origin=origin, profile=profile,
+                        context=self.context, mentions=self.mentions, span=verb_token["span"], scope=self.scope)
+                    subject = {"reading": verb, "reference": reference,
+                               "entity": reference["bound_entity_id"], "assignment": None}
+                    subjects = [subject]
+                    spos = None
+                else:
+                    spos = 1 if vpos == 0 else 0
+                    subjects = self.referents(tokens[spos], role, head=verb_token,
+                        variable="?person" if wh == "subject" and spos == 0 else None)
+                for subject in subjects:
+                    extra = list(obligations)
+                    if spos is not None:
+                        extra.extend(self._agreement(verb, subject, before_subject=vpos == 0))
+                        if vpos == 0 and profile.get("person") not in (None, 3):
+                            extra.append("OVERT_SUBJECT_PERSON_CONFLICT")
+                    assignments = vassign + ([subject["assignment"]] if subject["assignment"] else [])
+                    assignments += [p["assignment"] for p in attached]
+                    refs = [subject["reference"]] + [p["reference"] for p in attached]
+                    readings = [verb] + ([subject["reading"]] if spos is not None else []) + [p["reading"] for p in attached]
+                    args = [subject["entity"]] + [p["entity"] for p in attached]
+                    if len(tokens) == 3:
+                        # Only a replayed full host+object-pronoun witness can
+                        # establish this bounded lexical valency premise.
+                        witnesses = verb.get("person_evidence", {}).get("valency_witnesses", [])
+                        if not witnesses or voice != "active" or attached:
+                            extra.append("INDEPENDENT_TRANSITIVE_HOST_WITNESS")
+                            objects = []
+                        else:
+                            objects = self.referents(tokens[2], "direct_object", head=verb_token,
+                                                     variable="?object" if wh == "object" else None)
+                        if not objects:
+                            extra.append("DIRECT_OBJECT_READING")
+                        for obj in objects:
+                            claim = self.claim(features["lemma"], args + [obj["entity"]], positive, vtense, time, place, restriction)
+                            claim.update(predicate_kind="event", voice=voice)
+                            result.append(self.analysis(tokens, frame="active_verb_subject_object", force=local_force,
+                                refs=refs + [obj["reference"]], assignments=assignments + [obj["assignment"]],
+                                readings=readings + [obj["reading"]], claims=[claim], obligations=extra,
+                                supports=[self.support("active_subject"), {"kind": "valency_source", "witnesses": witnesses}]))
+                        if objects:
+                            continue
+                    claim = self.claim(features["lemma"], args, positive, vtense, time, place, restriction)
+                    claim.update(predicate_kind="event", voice=voice)
+                    result.append(self.analysis(tokens, frame="verbal_predication", force=local_force,
+                        refs=refs, assignments=assignments, readings=readings, claims=[claim], obligations=extra,
+                        supports=[self.support("active_subject")]))
+        return result
+
+    def complements(self, tokens):
+        """At most one witnessed time adverb and one literal في+place phrase."""
+        variants = [{"tokens": list(tokens), "time": [], "place": [], "refs": [],
+                     "assignments": [], "readings": [], "supports": [], "obligations": []}]
+        for _ in range(2):
+            expanded = []
+            for variant in variants:
+                body = variant["tokens"]
+                if len(body) >= 3 and lookup_key(body[-2]["surface"]) == "في" and not variant["place"]:
+                    options = self.referents(body[-1], "preposition_object", head=body[-2])
+                    for option in options:
+                        value = deepcopy(variant)
+                        value["tokens"] = body[:-2]
+                        value["place"] = [option["entity"]]
+                        value["refs"].append(option["reference"])
+                        value["assignments"].append(option["assignment"])
+                        value["readings"].append(option["reading"])
+                        value["supports"].append(self.support("place_time_complements"))
+                        if option["entity"] is not None and self.entities[option["entity"]]["kind"] != "place":
+                            value["obligations"].append("LITERAL_PLACE_CONTEXT_WITNESS")
+                        expanded.append(value)
+                    if options:
+                        continue
+                if len(body) >= 2 and not variant["time"]:
+                    adverbs = [r for r in adverb_candidates(body[-1]["surface"], lexical_model=self.model) if r["pos"] == "T"]
+                    for adverb in adverbs:
+                        value = deepcopy(variant)
+                        row = _synthetic_reading(body[-1], pos="T", construction=None,
+                                                 rule="place_time_complements")
+                        row["reading_id"] = identity([body[-1]["token_id"], adverb["id"]])
+                        row["support_records"] = adverb["supports"]
+                        row["lexical_features"]["lemma"] = adverb["lemma"]
+                        value["tokens"] = body[:-1]
+                        value["time"] = [{"lemma": adverb["lemma"], "form": lookup_key(adverb["form"]),
+                                           "source_article": adverb["source_article"]}]
+                        value["assignments"].append(self.assignment(body[-1], row, "time_adverb", head=body[0]))
+                        value["readings"].append(row)
+                        value["supports"].append(self.support("place_time_complements"))
+                        expanded.append(value)
+                    if adverbs:
+                        continue
+                expanded.append(variant)
+            variants = expanded
+        return variants
+
+    def location(self, tokens, *, force, subject_role, positive, tense, time, place,
+                 restriction, head=None, wh=None):
+        if len(tokens) != 1 or not place:
+            return []
+        result = []
+        for subject in self.referents(tokens[0], subject_role, head=head):
+            claim = self.claim("@located", [subject["entity"]], positive, tense, time, place, restriction)
+            claim["predicate_kind"] = "location"
+            result.append(self.analysis(tokens, frame="locative_predication", force=force,
+                refs=[subject["reference"]], assignments=[subject["assignment"]], readings=[subject["reading"]],
+                claims=[claim], supports=[self.support("nominal_predication"), self.support("place_time_complements")]))
+        return result
+
+    def idafa(self, tokens, *, force, subject_role, predicate_role, positive, tense,
+              time, place, restriction, head=None, wh=None):
+        """A definite head noun + named/pronominal complement + predicate.
+
+        The construct relation is grammatical, not a claim of ownership. A
+        head individual must be independently named in the explicit context;
+        an idafa phrase is never an invented entity identifier.
+        """
+        if len(tokens) != 3 or wh is not None:
+            return []
+        result = []
+        for noun in self.predicates(tokens[0]):
+            if noun["stem_surface"][-1:] in ("ٌ", "ٍ", "ً"):
+                continue
+            for complement in self.referents(tokens[1], "idafa_complement", head=tokens[0]):
+                for predicate in self.predicates(tokens[2]):
+                    headref = self.reference(tokens[0]["surface"], origin="named", profile=_profile(noun),
+                        context=self.context, mentions=self.mentions, span=tokens[0]["span"], scope=self.scope)
+                    assignments = [self.assignment(tokens[0], noun, subject_role, head=head, idhafa=True),
+                                   complement["assignment"], self.assignment(tokens[2], predicate, predicate_role, head=tokens[0])]
+                    relation = {"kind": "idafa", "head_span": tokens[0]["span"], "complement_span": tokens[1]["span"],
+                                "complement_reference": complement["reference"]["reference_id"],
+                                "head_referent": headref["bound_entity_id"], "ownership_asserted": False}
+                    claim = self.claim(predicate["lexical_features"]["lemma"], [headref["bound_entity_id"]], positive,
+                        tense, time, place, restriction + [{"kind": "idafa", "complement": complement["entity"]}])
+                    result.append(self.analysis(tokens, frame="idafa_subject_predication", force=force,
+                        refs=[headref, complement["reference"]], assignments=assignments, readings=[noun, complement["reading"], predicate],
+                        claims=[claim], relations=[relation],
+                        supports=[self.support("idafa"), self.support("nominal_predication")]))
+        return result
+
+    def attached_nominal(self, tokens, *, force, subject_role, predicate_role, positive, tense,
+                         time, place, restriction, head=None, wh=None):
+        if len(tokens) != 2 or wh is not None:
+            return []
+        result = []
+        for noun in self.readings(tokens[0]):
+            if noun["kind"] != "noun" or not noun.get("person_evidence", {}).get("attached_pronouns"):
+                continue
+            attached = self.attached_references(tokens[0], noun)
+            if attached is None or len(attached) != 1 or attached[0]["relation"] != "possessive":
+                continue
+            complement = attached[0]
+            headref = self.reference(noun["stem_surface"], origin="named", profile=_profile(noun),
+                context=self.context, mentions=self.mentions, span=noun["stem_span"], scope=self.scope)
+            for predicate in self.predicates(tokens[1]):
+                claim = self.claim(predicate["lexical_features"]["lemma"], [headref["bound_entity_id"]], positive,
+                    tense, time, place, restriction + [{"kind": "idafa", "complement": complement["entity"]}])
+                result.append(self.analysis(tokens, frame="attached_idafa_subject_predication", force=force,
+                    refs=[headref, complement["reference"]], assignments=[
+                        self.assignment(tokens[0], noun, subject_role, head=head, idhafa=True), complement["assignment"],
+                        self.assignment(tokens[1], predicate, predicate_role, head=tokens[0])],
+                    readings=[noun, complement["reading"], predicate], claims=[claim],
+                    relations=[{"kind": "idafa", "head_span": noun["stem_span"],
+                                "complement_span": complement["reference"]["span"], "ownership_asserted": False}],
+                    supports=[self.support("idafa"), self.support("nominal_predication")]))
+        return result
+
+    def relative(self, tokens, *, force, subject_role, predicate_role, positive, tense,
+                 time, place, restriction, head=None, wh=None):
+        """Named/deictic head + relative + qualified singular verb + predicate."""
+        if len(tokens) != 4 or wh is not None:
+            return []
+        result = []
+        for subject in self.referents(tokens[0], subject_role, head=head):
+            for relative in self.readings(tokens[1]):
+                if relative["lexical_features"].get("pos") != "REL":
+                    continue
+                for verb in self.verbs(tokens[2]):
+                    profile = verb.get("profile", _profile(verb))
+                    if (profile.get("person") != 3 or profile.get("number") != "singular" or
+                            verb["lexical_features"].get("aspect") != "IMPF" or
+                            verb.get("person_evidence", {}).get("attached_pronouns")):
+                        continue
+                    ret = self.reference(tokens[2]["surface"], origin="relative_return", profile=profile,
+                        context=self.context, mentions=self.mentions, span=tokens[2]["span"], scope=self.scope,
+                        return_entity=subject["entity"])
+                    relref = self.reference(tokens[1]["surface"], origin="relative_return",
+                        profile=relative.get("profile", _profile(relative)), context=self.context,
+                        mentions=self.mentions, span=tokens[1]["span"], scope=self.scope,
+                        return_entity=subject["entity"])
+                    for predicate in self.predicates(tokens[3]):
+                        relative_profile = relative.get("profile", _profile(relative))
+                        subject_profile = subject["reading"].get("profile", _profile(subject["reading"]))
+                        agreement = [profile_compatibility(relative_profile, subject_profile),
+                                     profile_compatibility(profile, relative_profile),
+                                     profile_compatibility(profile, subject_profile)]
+                        obligations = list(verb.get("obligations", []))
+                        if "conflict" in agreement:
+                            obligations.append("PERSON_AGREEMENT_CONFLICT")
+                        claim = self.claim(predicate["lexical_features"]["lemma"], [subject["entity"]],
+                                           positive, tense, time, place, restriction)
+                        relation = {"kind": "relative_clause", "relative_span": tokens[1]["span"],
+                                    "verb_span": tokens[2]["span"], "antecedent_span": tokens[0]["span"],
+                                    "return_kind": "qualified_implicit_third_singular_subject",
+                                    "return_reference": ret["reference_id"], "separate_world_assertion": False}
+                        result.append(self.analysis(tokens, frame="relative_subject_predication", force=force,
+                            refs=[subject["reference"], relref, ret], assignments=[subject["assignment"],
+                                  self.assignment(tokens[2], verb, "imperfect_indicative"),
+                                  self.assignment(tokens[3], predicate, predicate_role, head=tokens[0])],
+                            readings=[subject["reading"], relative, verb, predicate], claims=[claim], relations=[relation],
+                            obligations=obligations, supports=[self.support("relative_return"),
+                                self.support("imperfect_indicative"), self.support("nominal_predication")]))
+        return result
+
+    def parse(self, tokens, *, question=False, inherited_force=None, depth=0):
+        if depth > 8:
+            raise resource_limit("Discourse attachment depth exceeds its budget")
+        if not tokens or any(t["kind"] != "written_run" for t in tokens):
+            return []
+        original = list(tokens)
+        body = list(tokens)
+        # A written question boundary blocks assertion even without هل. This
+        # is a declared punctuation convention, not a claim about all speech.
+        force = inherited_force or ("QUESTION" if question else "ASSERT")
+        subject_role, predicate_role = "nominal_subject", "nominal_predicate"
+        positive, tense, restriction = True, "unspecified", []
+        head, mood, wh = None, None, None
+        extra, supports = [], []
+        first = lookup_key(body[0]["surface"])
+        if first in ("هل", "أ"):
+            force = "QUESTION"
+            supports.append(self.support("polar_interrogative"))
+            body = body[1:]
+        elif first in ("من", "ماذا", "أين", "متى", "كيف") and question:
+            if first == "من" and template_matches(body[0]["surface"], "مَنْ", mutable_last=False):
+                wh, force = "subject", "QUESTION"
+            elif first == "ماذا":
+                wh, force = "object", "QUESTION"
+                body = body[1:] + body[:1]
+            elif first in ("أين", "متى"):
+                wh, force = ("place" if first == "أين" else "time"), "QUESTION"
+                body = body[1:]
+            else:
+                return []
+            supports.append(self.support("wh_subject"))
+        if not body:
+            return []
+        key = lookup_key(body[0]["surface"])
+        if key in ("إن", "كان", "ليس", "ليت", "لعل", "يا", "لا", "لن", "لم", "سوف"):
+            head, body = body[0], body[1:]
+            if key == "إن":
+                clusters = lookup_clusters(head["surface"])
+                if "ّ" not in clusters[-1][1]:
+                    extra.append("INNA_DISTINCT_FROM_CONDITIONAL_IN_REQUIRES_SHADDA")
+                subject_role, predicate_role = "inna_subject", "inna_predicate"
+                supports.append(self.support("inna_case"))
+            elif key in ("كان", "ليس"):
+                subject_role, predicate_role = "kana_subject", "kana_predicate"
+                tense = "past" if key == "كان" else "unspecified"
+                positive = key != "ليس"
+                supports.append(self.support("kana_case" if key == "كان" else "laysa_negation"))
+            elif key in ("ليت", "لعل"):
+                force = "WISH" if key == "ليت" else "HOPE"
+                subject_role, predicate_role = "inna_subject", "inna_predicate"
+                supports.append(self.support("force_nonassertive"))
+            elif key == "يا":
+                force = "VOCATIVE"
+                extra.append("VOCATIVE_CLAUSE_OUTSIDE_ASSERTIVE_FRAMES")
+            elif key == "لا":
+                force = "AMBIGUOUS"
+                extra.append("LA_NEGATION_PROHIBITION_AND_SCOPE_UNRESOLVED")
+            elif key in ("لم", "لن"):
+                if key == "لم" and "َ" not in lookup_clusters(head["surface"])[0][1]:
+                    extra.append("LAM_NEGATION_VOCALIZATION_EVIDENCE")
+                positive = False
+                tense = "past" if key == "لم" else "future"
+                mood = "imperfect_jussive" if key == "لم" else "imperfect_subjunctive"
+                supports.append(self.support("imperfect_prefix"))
+            elif key == "سوف":
+                tense = "future"
+                supports.append(self.support("deictic_adverbs"))
+        if not body:
+            return []
+        if not positive and len(body) == 3 and lookup_key(body[1]["surface"]) == "إلا" and key == "ليس":
+            body = [body[0], body[2]]
+            positive = True
+            restriction = ["negation_exception_predicate"]
+            supports.append(self.support("restriction"))
+        results = []
+        for complement in self.complements(body):
+            reduced = complement["tokens"]
+            qtime = ["?time"] if wh == "time" else complement["time"]
+            qplace = ["?place"] if wh == "place" else complement["place"]
+            options = dict(force=force, subject_role=subject_role, predicate_role=predicate_role,
+                           positive=positive, tense=tense, time=qtime, place=qplace,
+                           restriction=restriction, head=head, wh=wh)
+            parsed = []
+            if not mood and key != "سوف":
+                parsed.extend(self.nominal(reduced, **options))
+                parsed.extend(self.idafa(reduced, **options))
+                parsed.extend(self.attached_nominal(reduced, **options))
+                parsed.extend(self.relative(reduced, **options))
+                loc_options = {k: v for k, v in options.items() if k != "predicate_role"}
+                parsed.extend(self.location(reduced, **loc_options))
+            if key not in ("إن", "كان", "ليس", "ليت", "لعل", "يا"):
+                voptions = {k: v for k, v in options.items() if k not in ("subject_role", "predicate_role")}
+                parsed.extend(self.verbal(reduced, mood=mood, **voptions))
+            for row in parsed:
+                # Rebuild rather than toggling a successful status. Complements,
+                # operators and all qualification participate in one analysis.
+                readings = [self._reading_by_id(rid) for rid in row["reading_ids"]]
+                readings = [r for r in readings if r is not None] + complement["readings"]
+                rebuilt = self.analysis(original, frame=row["frame"], force=row["force"],
+                    refs=row["references"] + complement["refs"],
+                    assignments=row["assignments"] + complement["assignments"], readings=readings,
+                    claims=row["claims"], obligations=row["obligations"] + extra + complement["obligations"],
+                    supports=row["supports"] + supports + complement["supports"], relations=row["relations"])
+                rebuilt["question_kind"] = wh or "polar" if rebuilt["force"] == "QUESTION" else None
+                rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
+                results.append(rebuilt)
+        if len(results) > MAX_ANALYSES:
+            raise resource_limit("Discourse alternatives exceed the per-clause budget", maximum=MAX_ANALYSES)
+        # Complete positive clauses may share a conjunction. Scope under
+        # negation, a question or a request is never distributed by this rule.
+        if force == "ASSERT" and head is None and wh is None:
+            for i in range(1, len(original) - 1):
+                token = original[i]
+                clusters = lookup_clusters(token["surface"])
+                key_at = lookup_key(token["surface"])
+                if key_at == "و":
+                    left, right = original[:i], original[i + 1:]
+                    connector_span = token["span"]
+                elif key_at and key_at.startswith("و") and len(clusters) > 1 and clusters[0][1] <= set("َ"):
+                    left = original[:i]
+                    right = [_slice(self.source, token, clusters[1][2], len(token["surface"]), "conjunction_prefix")] + original[i + 1:]
+                    connector_span = _slice(self.source, token, 0, clusters[0][3], "conjunction_prefix")["span"]
+                else:
+                    continue
+                lrows, rrows = self.parse(left, depth=depth + 1), self.parse(right, depth=depth + 1)
+                for lrow, rrow in product(lrows, rrows):
+                    if lrow["force"] != "ASSERT" or rrow["force"] != "ASSERT":
+                        continue
+                    permitted = coordination_projection("AND", "positive")
+                    row = self.analysis(original, frame="complete_clause_conjunction", force="ASSERT",
+                        refs=lrow["references"] + rrow["references"],
+                        assignments=lrow["assignments"] + rrow["assignments"],
+                        readings=[r for rid in lrow["reading_ids"] + rrow["reading_ids"]
+                                  if (r := self._reading_by_id(rid)) is not None],
+                        claims=lrow["claims"] + rrow["claims"] if permitted else [],
+                        obligations=lrow["obligations"] + rrow["obligations"],
+                        supports=lrow["supports"] + rrow["supports"] + [self.support("clause_conjunction")],
+                        relations=[{"kind": "AND", "span": connector_span, "scope": "two_complete_clauses"}])
+                    row["question_kind"] = None
+                    row["analysis_id"] = identity({k: v for k, v in row.items() if k != "analysis_id"})
+                    results.append(row)
+                    if len(results) > MAX_ANALYSES:
+                        raise resource_limit("Discourse coordination exceeds the alternative budget")
+        return results
+
+    def _reading_by_id(self, rid):
+        return self.derived.get(rid) or next((r for rows in self.cache.values() for r in rows if r["reading_id"] == rid), None)
+
+
+def _clauses(source, segments):
+    clauses, current = [], []
+    for segment in segments:
+        if segment["kind"] == "spacing":
+            if "\n" in segment["surface"] and current:
+                clauses.append((current, False))
+                current = []
+            continue
+        if segment["kind"] == "punctuation" and segment["surface"] in (".", "؛", "!", "؟", "?"):
+            if current:
+                clauses.append((current, segment["surface"] in ("؟", "?")))
+                current = []
+            continue
+        current.append(_token(source, segment))
+    if current:
+        clauses.append((current, False))
+    if len(clauses) > MAX_CLAUSES:
+        raise resource_limit("Discourse clause budget exceeded", maximum=MAX_CLAUSES)
+    return clauses
+
+
+def _semantic_key(analysis):
+    return wire({"force": analysis["force"], "claims": sorted(analysis["claims"], key=wire),
+                 "question_kind": analysis.get("question_kind")})
+
+
+def read_discourse(text, *, lexical_model=None, context=None, source_id="input", scope="default"):
+    """Read complete bounded clauses, retaining original bytes and alternatives."""
+    source = _source(text, source_id, scope)
+    engine = _Reader(source, scope, lexical_model, context)
+    segments = _scan(source)
+    reports, claims = [], []
+    for tokens, interrogative in _clauses(source, segments):
+        quoted = len(tokens) == 1 and tokens[0]["kind"] == "quotation"
+        analyses = [] if quoted else engine.parse(tokens, question=interrogative)
+        viable = [a for a in analyses if not a["rejected_candidate"]]
+        complete = [a for a in viable if a["licensed_syntax"] and a["references_complete"]]
+        # An unresolved full parse is not discarded merely because another
+        # analysis happens to resolve a convenient entity or case.
+        licensed = bool(complete) and len(complete) == len(viable) and len({_semantic_key(a) for a in complete}) == 1
+        status = "MENTION" if quoted else "LICENSED" if licensed else "DEFER"
+        span = span_dict(_span(source, tokens[0]["span"]["start"], tokens[-1]["span"]["end"]))
+        clause = {"span": span, "status": status, "force": "QUOTED" if quoted else
+                  complete[0]["force"] if licensed else "AMBIGUOUS",
+                  "analyses": analyses, "obligations": [] if licensed or quoted else
+                  sorted({o for a in analyses for o in a["obligations"]}) or ["COMPLETE_SUPPORTED_CLAUSE_READING"]}
+        clause["clause_id"] = identity(clause)
+        if licensed:
+            for analysis in complete:
+                if analysis["assertion_allowed"]:
+                    for claim in analysis["claims"]:
+                        claim_id = identity([source.source_id, source.sha256, scope, engine.context["sha256"], claim])
+                        existing = next((c for c in claims if c["claim_id"] == claim_id), None)
+                        evidence = {"clause_id": clause["clause_id"], "analysis_id": analysis["analysis_id"], "span": span}
+                        if existing is None:
+                            claims.append({"claim_id": claim_id, **deepcopy(claim), "proofs": [evidence]})
+                        else:
+                            existing["proofs"].append(evidence)
+                if analysis["force"] == "ASSERT":
+                    for reference in analysis["references"]:
+                        eid = reference["bound_entity_id"]
+                        if eid is None or eid.startswith("?"):
+                            continue
+                        features = reference.get("profile", {})
+                        mention = {"entity_id": eid, "scope": scope, "quoted": False,
+                                   "span": reference["span"], "reference_id": reference["reference_id"],
+                                   "gender": features.get("gender"), "number": features.get("number")}
+                        if mention not in engine.mentions:
+                            engine.mentions.append(mention)
+        reports.append(clause)
+        if status == "DEFER":
+            engine.source_prefix_complete = False
+    occurrences = []
+    from .governors import lookup
+    for segment in segments:
+        if segment["kind"] not in ("written_run", "quotation"):
+            continue
+        token = _token(source, segment)
+        key = lookup_key(token["surface"])
+        readings = [] if token["kind"] == "quotation" else engine.readings(token)
+        operator = _OPERATORS.get(key)
+        occurrences.append({**token, "readings": deepcopy(readings),
+                            "operator_candidates": [] if operator is None else [{"rule": operator[0], "interpretation": operator[1],
+                                "authority": "GRAMMATICAL_CANDIDATE_REQUIRING_COMPLETE_FRAME"}],
+                            "governor_candidates": [] if key is None or len(key) > 128 else [asdict(e) for e in lookup(key)]})
+    status = "LICENSED_DISCOURSE" if reports and all(c["status"] != "DEFER" for c in reports) else "DEFER"
+    result = {"schema": "nabt.discourse-report.v1", "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
+              "law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
+              "policy_sha256": engine.policy["policy_sha256"],
+              "source_id": source.source_id, "source_sha256": source.sha256,
+              "source_text": source.raw_bytes.decode("utf-8"), "scope": scope,
+              "context": engine.context, "lexical_model": engine.model_summary,
+              "partition": segments, "occurrences": occurrences,
+              "derived_readings": [deepcopy(r) for rid, r in engine.derived.items()
+                                   if not any(rid == existing["reading_id"] for o in occurrences for existing in o["readings"])],
+              "clauses": reports,
+              "claims": claims, "status": status,
+              "authority": "SOURCE_RELATIVE_BOUNDED_DISCOURSE_NOT_WORLD_TRUTH",
+              "world_truth": "NOT_ESTABLISHED"}
+    result["report_id"] = identity(result)
+    wire(result)
+    return result
+
+
+def verify_discourse(report, *, text=_UNSET, lexical_model=None, context=None,
+                     source_id=None, scope=None):
+    """Recompute from original sources; supplied successes and hashes are inert."""
+    try:
+        if type(report) is not dict:
+            return {"valid": False, "status": "REJECT", "code": "INVALID_DISCOURSE_REPORT"}
+        raw = report["source_text"] if text is _UNSET else text
+        fresh = read_discourse(raw, lexical_model=lexical_model, context=context,
+                               source_id=report["source_id"] if source_id is None else source_id,
+                               scope=report["scope"] if scope is None else scope)
+        if wire(report) != wire(fresh):
+            return {"valid": False, "status": "REJECT", "code": "DISCOURSE_REPLAY_MISMATCH"}
+        return {"valid": True, "status": "VERIFIED", "report_id": fresh["report_id"],
+                "authority": "TEXT_CONTEXT_AND_LEXICAL_SOURCE_REPLAY_ONLY"}
+    except (KeyError, TypeError, ValueError, RecursionError) as error:
+        if isinstance(error, NabtError) and error.status == "DEFER":
+            return {"valid": False, "status": "DEFER", "code": error.code}
+        return {"valid": False, "status": "REJECT", "code": "INVALID_DISCOURSE_REPORT"}

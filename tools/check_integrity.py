@@ -112,6 +112,8 @@ def check(lean_export=None):
     from nabt.nominal import installed_registry as nominal_registry
     from nabt.inflection import installed_registry as inflection_registry
     from nabt.inflection_reader import replay_inflection_policy
+    from nabt.person_evidence import installed_registry as person_registry
+    from nabt.discourse_laws import installed_registry as discourse_registry, replay_discourse_policy
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -153,6 +155,9 @@ def check(lean_export=None):
     nominal = nominal_registry()
     inflection = inflection_registry()
     inflection_policy = replay_inflection_policy()
+    person = person_registry()
+    discourse = discourse_registry()
+    discourse_policy = replay_discourse_policy()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
@@ -177,6 +182,12 @@ def check(lean_export=None):
             "inflection_sign_rows": len(inflection["rows"]),
             "inflection_conditional_relations": len(inflection["relation_rows"]),
             "inflection_grammar_sha256": inflection_policy["policy_sha256"],
+            "person_law_id": person["law_id"],
+            "discourse_law_id": discourse["law_id"],
+            "discourse_reference_rows": len(discourse["reference_rows"]),
+            "discourse_assertion_rows": len(discourse["assertion_rows"]),
+            "discourse_grammar_rules": len(discourse_policy["rules"]),
+            "discourse_grammar_sha256": discourse_policy["policy_sha256"],
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

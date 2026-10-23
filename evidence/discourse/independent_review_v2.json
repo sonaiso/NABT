@@ -1,0 +1,549 @@
+{
+  "artifacts": [
+    {
+      "bytes": 103958,
+      "path": "artifacts/local/discourse-evaluation/independent_v1_final_adapter.json",
+      "sha256": "e3acdada2665d313ca538b344d47d2b5141ca57c3c7df22d0e55fb7ff958a6b4"
+    },
+    {
+      "bytes": 862217,
+      "path": "artifacts/local/discourse-evaluation/independent_v1_final_adapter.raw.jsonl.gz",
+      "sha256": "ff7615709f351d87df67f1eb14127f7ccff670c07e8d8dedb89a0cf4440164bc"
+    },
+    {
+      "bytes": 973803,
+      "path": "artifacts/local/discourse-evaluation/independent_v1_final_adapter.code.tar.gz",
+      "sha256": "5664195cd7847ac2205ec8b222a8ded23badd9515142cbbaff7335251367959d"
+    },
+    {
+      "bytes": 113203,
+      "path": "artifacts/local/discourse-evaluation/independent_v2_post_review.json",
+      "sha256": "41ee3e7a07ddccbfe4f0b5604c6c6f116388a1b77534c7ce6acece83384fdd97"
+    },
+    {
+      "bytes": 855367,
+      "path": "artifacts/local/discourse-evaluation/independent_v2_post_review.raw.jsonl.gz",
+      "sha256": "d6a8bba2ecb7b6bc799f6582a4e1137b142e9cdb5a92a40f46d2c343d940d00b"
+    },
+    {
+      "bytes": 974820,
+      "path": "artifacts/local/discourse-evaluation/independent_v2_post_review.code.tar.gz",
+      "sha256": "4f4748812c6f233185da7d899e345c76927efa3aebea6e7d89ba0d8cc7738a36"
+    }
+  ],
+  "causal_diagnosis": "The general predicate-construction guard makes the second clause DEFER because one viable كريم reading has unknown construction. The named سهيل reference is still visible in that clause but is not promoted to the prior-mention index. The following pronoun searches only the first fully licensed clause, sees حازم alone, treats that incomplete search as closed, and asserts حكيم(h). In B05 the dropped competitor has unknown gender/number, so absence of those features cannot license discarding it either.",
+  "created_at_utc": "2026-10-23T17:01:04.059950+00:00",
+  "false_acceptances": [
+    {
+      "accepted_claims": [
+        {
+          "args": [
+            "h"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "جَمِيل",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "unspecified",
+          "time": [],
+          "voice": null
+        },
+        {
+          "args": [
+            "h"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "unspecified",
+          "time": [],
+          "voice": null
+        }
+      ],
+      "clauses": [
+        {
+          "analyses": [
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "حَازِمٌ"
+                }
+              ],
+              "references_complete": true
+            },
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "حَازِمٌ"
+                }
+              ],
+              "references_complete": true
+            }
+          ],
+          "obligations": [],
+          "span": {
+            "end": 29,
+            "source_id": "dsc_b04",
+            "source_sha256": "59c19cd58fc7c008b69b3075219f3a976192e2b87d1182969a9ae4a524b3f7d4",
+            "span_sha256": "ee89c0e5b4ca5b67c2c17b5866c7a6d828eb7c7b02b1a559352587a7f850e02c",
+            "start": 0
+          },
+          "status": "LICENSED"
+        },
+        {
+          "analyses": [
+            {
+              "licensed_syntax": false,
+              "references": [
+                {
+                  "bound_entity_id": "s",
+                  "candidate_entity_ids": [
+                    "s"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "سُهَيْلٌ"
+                }
+              ],
+              "references_complete": true
+            },
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "s",
+                  "candidate_entity_ids": [
+                    "s"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "سُهَيْلٌ"
+                }
+              ],
+              "references_complete": true
+            }
+          ],
+          "obligations": [
+            "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+          ],
+          "span": {
+            "end": 62,
+            "source_id": "dsc_b04",
+            "source_sha256": "59c19cd58fc7c008b69b3075219f3a976192e2b87d1182969a9ae4a524b3f7d4",
+            "span_sha256": "9a7492a10cf34c56e4eb8290dc3fa41ebdd1bbc349d99e9f02b5306366c68222",
+            "start": 31
+          },
+          "status": "DEFER"
+        },
+        {
+          "analyses": [
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "antecedent",
+                  "status": "RESOLVED",
+                  "surface": "هُوَ"
+                }
+              ],
+              "references_complete": true
+            },
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "antecedent",
+                  "status": "RESOLVED",
+                  "surface": "هُوَ"
+                }
+              ],
+              "references_complete": true
+            }
+          ],
+          "obligations": [],
+          "span": {
+            "end": 87,
+            "source_id": "dsc_b04",
+            "source_sha256": "59c19cd58fc7c008b69b3075219f3a976192e2b87d1182969a9ae4a524b3f7d4",
+            "span_sha256": "b7d2516b8e94ead4177e8bc85e87d9415e58f0caf34874051767ae8df98c4f00",
+            "start": 64
+          },
+          "status": "LICENSED"
+        }
+      ],
+      "context": {
+        "closed_reference_scope": true,
+        "deixis": [],
+        "entities": [
+          {
+            "gender": "masculine",
+            "id": "h",
+            "kind": "person",
+            "name": "حازم",
+            "number": "singular"
+          },
+          {
+            "gender": "masculine",
+            "id": "s",
+            "kind": "person",
+            "name": "سهيل",
+            "number": "singular"
+          }
+        ]
+      },
+      "id": "DSC-B04",
+      "text": "حَازِمٌ جَمِيلٌ. سُهَيْلٌ كَرِيمٌ. هُوَ حَكِيمٌ."
+    },
+    {
+      "accepted_claims": [
+        {
+          "args": [
+            "h"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "جَمِيل",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "unspecified",
+          "time": [],
+          "voice": null
+        },
+        {
+          "args": [
+            "h"
+          ],
+          "place": [],
+          "positive": true,
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "restriction": [],
+          "tense": "unspecified",
+          "time": [],
+          "voice": null
+        }
+      ],
+      "clauses": [
+        {
+          "analyses": [
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "حَازِمٌ"
+                }
+              ],
+              "references_complete": true
+            },
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "حَازِمٌ"
+                }
+              ],
+              "references_complete": true
+            }
+          ],
+          "obligations": [],
+          "span": {
+            "end": 29,
+            "source_id": "dsc_b05",
+            "source_sha256": "59c19cd58fc7c008b69b3075219f3a976192e2b87d1182969a9ae4a524b3f7d4",
+            "span_sha256": "ee89c0e5b4ca5b67c2c17b5866c7a6d828eb7c7b02b1a559352587a7f850e02c",
+            "start": 0
+          },
+          "status": "LICENSED"
+        },
+        {
+          "analyses": [
+            {
+              "licensed_syntax": false,
+              "references": [
+                {
+                  "bound_entity_id": "s",
+                  "candidate_entity_ids": [
+                    "s"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "سُهَيْلٌ"
+                }
+              ],
+              "references_complete": true
+            },
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "s",
+                  "candidate_entity_ids": [
+                    "s"
+                  ],
+                  "closed_scope": true,
+                  "origin": "named",
+                  "status": "RESOLVED",
+                  "surface": "سُهَيْلٌ"
+                }
+              ],
+              "references_complete": true
+            }
+          ],
+          "obligations": [
+            "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+          ],
+          "span": {
+            "end": 62,
+            "source_id": "dsc_b05",
+            "source_sha256": "59c19cd58fc7c008b69b3075219f3a976192e2b87d1182969a9ae4a524b3f7d4",
+            "span_sha256": "9a7492a10cf34c56e4eb8290dc3fa41ebdd1bbc349d99e9f02b5306366c68222",
+            "start": 31
+          },
+          "status": "DEFER"
+        },
+        {
+          "analyses": [
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "antecedent",
+                  "status": "RESOLVED",
+                  "surface": "هُوَ"
+                }
+              ],
+              "references_complete": true
+            },
+            {
+              "licensed_syntax": true,
+              "references": [
+                {
+                  "bound_entity_id": "h",
+                  "candidate_entity_ids": [
+                    "h"
+                  ],
+                  "closed_scope": true,
+                  "origin": "antecedent",
+                  "status": "RESOLVED",
+                  "surface": "هُوَ"
+                }
+              ],
+              "references_complete": true
+            }
+          ],
+          "obligations": [],
+          "span": {
+            "end": 87,
+            "source_id": "dsc_b05",
+            "source_sha256": "59c19cd58fc7c008b69b3075219f3a976192e2b87d1182969a9ae4a524b3f7d4",
+            "span_sha256": "b7d2516b8e94ead4177e8bc85e87d9415e58f0caf34874051767ae8df98c4f00",
+            "start": 64
+          },
+          "status": "LICENSED"
+        }
+      ],
+      "context": {
+        "closed_reference_scope": true,
+        "deixis": [],
+        "entities": [
+          {
+            "gender": "masculine",
+            "id": "h",
+            "kind": "person",
+            "name": "حازم",
+            "number": "singular"
+          },
+          {
+            "gender": "unknown",
+            "id": "s",
+            "kind": "person",
+            "name": "سهيل",
+            "number": "unknown"
+          }
+        ]
+      },
+      "id": "DSC-B05",
+      "text": "حَازِمٌ جَمِيلٌ. سُهَيْلٌ كَرِيمٌ. هُوَ حَكِيمٌ."
+    }
+  ],
+  "gold_changed": false,
+  "newly_passing_cases": [
+    "DSC-B21"
+  ],
+  "other_observations": [
+    "B21 false acceptance is prevented by v2; this does not mean the machine has acquired the temporal meaning of أمس from QAC.",
+    "The loss of positive coverage from19/30 to12/30 and terminal transfer4/4 to2/4 is retained as measured.",
+    "V2 still has no outer or question execution errors, and all recorded integrity/replay checks pass.",
+    "L03 retains both correct nun categories and conditional jazm/deletion sign but no activated actual case because reference is unresolved."
+  ],
+  "regressed_cases": [
+    "DSC-P02",
+    "DSC-P03",
+    "DSC-P08",
+    "DSC-P09",
+    "DSC-P12",
+    "DSC-P17",
+    "DSC-P18",
+    "DSC-T02",
+    "DSC-T04",
+    "DSC-B04",
+    "DSC-B05",
+    "DSC-B24"
+  ],
+  "release_recommendation": "BLOCK_V2_FOR_TWO_FALSE_ACCEPTS. Preserve strict scores and do not restore coverage by weakening the predicate-construction guard. Any v3 source-prefix completeness fix is post-review and must be measured separately.",
+  "results": {
+    "v1": {
+      "false_accepts": 1,
+      "groups": {
+        "B": {
+          "passed": 26,
+          "total": 32
+        },
+        "L": {
+          "passed": 7,
+          "total": 8
+        },
+        "P": {
+          "passed": 19,
+          "total": 30
+        },
+        "T": {
+          "passed": 4,
+          "total": 4
+        },
+        "V": {
+          "passed": 12,
+          "total": 12
+        }
+      },
+      "passed": 68,
+      "questions": {
+        "BINDINGS": {
+          "passed": 5,
+          "total": 8
+        },
+        "CONFLICT": {
+          "passed": 1,
+          "total": 1
+        },
+        "NO_GROUNDED_SUPPORT": {
+          "passed": 29,
+          "total": 29
+        },
+        "REFUTED": {
+          "passed": 1,
+          "total": 2
+        },
+        "SUPPORTED": {
+          "passed": 29,
+          "total": 34
+        }
+      },
+      "total": 86
+    },
+    "v2": {
+      "false_accepts": 2,
+      "groups": {
+        "B": {
+          "passed": 24,
+          "total": 32
+        },
+        "L": {
+          "passed": 7,
+          "total": 8
+        },
+        "P": {
+          "passed": 12,
+          "total": 30
+        },
+        "T": {
+          "passed": 2,
+          "total": 4
+        },
+        "V": {
+          "passed": 12,
+          "total": 12
+        }
+      },
+      "passed": 57,
+      "questions": {
+        "BINDINGS": {
+          "passed": 2,
+          "total": 8
+        },
+        "CONFLICT": {
+          "passed": 0,
+          "total": 1
+        },
+        "NO_GROUNDED_SUPPORT": {
+          "passed": 29,
+          "total": 29
+        },
+        "REFUTED": {
+          "passed": 0,
+          "total": 2
+        },
+        "SUPPORTED": {
+          "passed": 22,
+          "total": 34
+        }
+      },
+      "total": 86
+    }
+  },
+  "runtime_changed_by_evaluator": false,
+  "same_adapter_sha256": "655cb114a02767ff87d3523cd4c2f84185e7cb6bcb18edcb655ab0a9c20a5cd2",
+  "same_tests_sha256": "c068f92ca24020593584886a51c49dd0bd0b10d8e0ec57a354415a68d9679ab9",
+  "schema": "nabt.discourse.independent-review.v2"
+}

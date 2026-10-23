@@ -1,0 +1,77 @@
+{
+  "schema": "nabt.discourse-prefix-scope-authored-review.v1",
+  "authorship": "Independent targeted regression material authored after a described completeness defect; no independent gold was read. These are instructional premises, not natural-corpus evaluation cases.",
+  "cases": [
+    {
+      "id": "PREFIX-01",
+      "kind": "deferred_prefix",
+      "incomplete_kind": "unknown_predicate",
+      "text": "سَامِرٌ بَاحِث. بَاسِلٌ مَاهِرٌ. هُوَ حَاضِرٌ.",
+      "deferred_clause_index": 0,
+      "known_clause_index": 1,
+      "known_entity": "basil",
+      "expect_document": "DEFER",
+      "expect_final_clause": "DEFER",
+      "origin": "antecedent"
+    },
+    {
+      "id": "PREFIX-02",
+      "kind": "deferred_prefix",
+      "incomplete_kind": "unknown_predicate",
+      "text": "بَاسِلٌ مَاهِرٌ. سَامِرٌ بَاحِث. هُوَ حَاضِرٌ.",
+      "deferred_clause_index": 1,
+      "known_clause_index": 0,
+      "known_entity": "basil",
+      "expect_document": "DEFER",
+      "expect_final_clause": "DEFER",
+      "origin": "antecedent"
+    },
+    {
+      "id": "PREFIX-03",
+      "kind": "deferred_prefix",
+      "incomplete_kind": "bare_name",
+      "text": "سَامِرٌ. بَاسِلٌ مَاهِرٌ. هُوَ حَاضِرٌ.",
+      "deferred_clause_index": 0,
+      "known_clause_index": 1,
+      "known_entity": "basil",
+      "expect_document": "DEFER",
+      "expect_final_clause": "DEFER",
+      "origin": "antecedent"
+    },
+    {
+      "id": "PREFIX-04",
+      "kind": "deferred_prefix",
+      "incomplete_kind": "bare_name",
+      "text": "بَاسِلٌ مَاهِرٌ. سَامِرٌ. هُوَ حَاضِرٌ.",
+      "deferred_clause_index": 1,
+      "known_clause_index": 0,
+      "known_entity": "basil",
+      "expect_document": "DEFER",
+      "expect_final_clause": "DEFER",
+      "origin": "antecedent"
+    },
+    {
+      "id": "PREFIX-05",
+      "kind": "complete_control",
+      "text": "سَامِرٌ مَاهِرٌ. هُوَ حَاضِرٌ.",
+      "known_clause_index": 0,
+      "known_entity": "samir",
+      "expect_document": "LICENSED_DISCOURSE",
+      "expect_final_clause": "LICENSED",
+      "origin": "antecedent",
+      "expect_binding": "samir"
+    },
+    {
+      "id": "PREFIX-06",
+      "kind": "speaker_control",
+      "incomplete_kind": "unknown_predicate",
+      "text": "سَامِرٌ بَاحِث. أَنَا حَاضِرٌ.",
+      "closed_reference_scope": false,
+      "deferred_clause_index": 0,
+      "expect_document": "DEFER",
+      "expect_final_clause": "LICENSED",
+      "origin": "speaker",
+      "expect_binding": "basil"
+    }
+  ]
+}

@@ -36,6 +36,12 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    "discourse_v3": ("c74b029c986fa3e1bb6a6ab3c5cbd423f77c902733626105ec95f5e366b71018",
+                     "6b78f1c8e36058d350d1e572bf20737c3517d38a8498fc4a50ece6bf6725fd30",
+                     "4fbcadee8997087223cbf8ffc365dd7a1b6cac4eb0990350e8925098ec557b51"),
+    "discourse_v2": ("22350accf750741680f351b34cf97f95bf146b7389765cd74d937a8aa4291ae4",
+                     "e82b9d72b45d8cbcd667708140b9f5b91a967822002a54a76bc87b097912a2f9",
+                     "0085bb7482ef89d20f0f8667ca015f0cf198ab283d9e439ecc814b9167b13775"),
     "inflection_v3": ("46b0bdaa68be83f1b62a1536ee3ad548863e90489e4be7e0cdf91b939b131641",
                       "cd6984487ea0c87ea97b64aa8f89124ac3d947e77e3cc9fda704d2e3668cfd7d",
                       "7084f8c407ced8a2189872cd3291e4168e088e439549fb139540c7e527f69215"),
@@ -60,6 +66,8 @@ CODE_FREEZES = {
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    "discourse_v3": ROOT / "evidence/discourse/code_freeze_v3.json",
+    "discourse_v2": ROOT / "evidence/discourse/code_freeze_v2.json",
     "inflection_v3": ROOT / "evidence/inflection/code_freeze_v3.json",
     "inflection_v2": ROOT / "evidence/inflection/code_freeze_v2.json",
     "inflection_v1": ROOT / "evidence/inflection/code_freeze_v1.json",
@@ -143,7 +151,7 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot, version="inflection_v2"):
+def verify_runtime_freeze(actual_snapshot, version="discourse_v3"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -457,7 +465,7 @@ def evaluate(version="v2", *, freeze_version="inflection_v2"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="inflection_v3")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="discourse_v3")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")

@@ -144,6 +144,25 @@ def parser() -> Parser:
             command.add_argument("--profile", choices=("stem_exact_v1", "surface_v1"), default="surface_v1")
     sub.add_parser("nominal-catalog")
     sub.add_parser("inflection-catalog")
+    sub.add_parser("discourse-catalog")
+    sub.add_parser("person-catalog")
+    for name in ("read-discourse", "ask-discourse", "verify-discourse", "verify-discourse-answer", "read-person"):
+        command = sub.add_parser(name)
+        if name == "read-person":
+            command.add_argument("word")
+        else:
+            command.add_argument("document", type=Path)
+            command.add_argument("--context", type=Path, help="Explicit entity/participant/deixis JSON premises")
+            command.add_argument("--scope", default="default")
+            command.add_argument("--source-id", default="input")
+        command.add_argument("--qac", type=Path, help="Original lexical QAC TSV, optionally gzip")
+        command.add_argument("--exclude-verse", action="append", default=[])
+        if name == "ask-discourse":
+            command.add_argument("question")
+        if name.startswith("verify-"):
+            command.add_argument("--source", type=Path, required=True)
+        if name == "verify-discourse-answer":
+            command.add_argument("--question", required=True)
     corpus_audit = sub.add_parser("audit-corpus")
     corpus_audit.add_argument("document", type=Path)
     corpus_audit.add_argument("--format", choices=("qac", "masaq-ar", "masaq-en"), required=True)
@@ -207,6 +226,69 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"discourse-catalog", "person-catalog", "read-person", "read-discourse", "ask-discourse",
+                   "verify-discourse", "verify-discourse-answer"}:
+        from .corpus_evidence import learn_qac_lexicon, MAX_CORPUS_BYTES
+        from .discourse import (discourse_catalog, read_discourse, ask_discourse,
+                                verify_discourse, verify_discourse_answer)
+        from .discourse_context import MAX_CONTEXT_BYTES, MAX_REPORT_BYTES, read_context
+        from .person_evidence import person_catalog, person_candidates, MAX_SURFACE_BYTES
+        from .word_reader import MAX_SOURCE_BYTES, _source
+        if command == "discourse-catalog":
+            return discourse_catalog(), 0
+        if command == "person-catalog":
+            return person_catalog(), 0
+        if args.exclude_verse and args.qac is None:
+            raise NabtError("INVALID_CORPUS_EXCLUSIONS", "Exclusions require an explicit QAC source")
+        # Reject bounded input/JSON failures before reading or compiling a
+        # potentially much larger training source.
+        if command == "read-person":
+            if len(args.word.encode("utf-8")) > MAX_SURFACE_BYTES:
+                raise resource_limit("Person surface exceeds its byte budget")
+        else:
+            context = None if args.context is None else read_certificate(args.context, MAX_CONTEXT_BYTES)
+            read_context(context)
+            verifying = command.startswith("verify-")
+            report = read_certificate(args.document, MAX_REPORT_BYTES) if verifying else None
+            if verifying and type(report) is not dict:
+                raise NabtError("INVALID_DISCOURSE_REPORT", "Use a discourse report object")
+            path = args.source if verifying else args.document
+            with path.open("rb") as stream:
+                raw = stream.read(MAX_SOURCE_BYTES + 1)
+            if len(raw) > MAX_SOURCE_BYTES:
+                raise resource_limit("Discourse source exceeds the declared byte budget")
+            _source(raw, args.source_id, args.scope)
+            if command in ("ask-discourse", "verify-discourse-answer"):
+                _source(args.question, "question", args.scope)
+        model = None
+        if args.qac is not None:
+            import gzip
+            import zlib
+            opener = gzip.open if args.qac.suffix == ".gz" else open
+            try:
+                with opener(args.qac, "rb") as stream:
+                    original = stream.read(MAX_CORPUS_BYTES + 1)
+            except (gzip.BadGzipFile, EOFError, zlib.error) as error:
+                raise NabtError("INVALID_CORPUS_COMPRESSION", "Corpus gzip data is truncated or invalid") from error
+            if len(original) > MAX_CORPUS_BYTES:
+                raise resource_limit("Corpus exceeds the declared byte budget")
+            model = learn_qac_lexicon(original, excluded_verses=tuple(args.exclude_verse))
+        if command == "read-person":
+            rows = person_candidates(args.word, lexical_model=model)
+            return {"status": "SOURCE_QUALIFIED_ALTERNATIVES" if rows else "DEFER", "surface": args.word,
+                    "readings": rows, "authority": "MORPHOLOGICAL_CANDIDATES_NOT_CASE_ROLE_OR_REFERENCE"}, 0 if rows else 3
+        kwargs = {"lexical_model": model, "context": context, "source_id": args.source_id, "scope": args.scope}
+        if command == "verify-discourse":
+            result = verify_discourse(report, text=raw, **kwargs)
+        elif command == "verify-discourse-answer":
+            result = verify_discourse_answer(report, text=raw, question=args.question, **kwargs)
+        elif command == "ask-discourse":
+            result = ask_discourse(raw, args.question, **kwargs)
+        else:
+            result = read_discourse(raw, **kwargs)
+        if verifying:
+            return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
+        return result, 3 if result["status"] == "DEFER" else 0
     if command in {"inflection-catalog", "audit-corpus", "learn-qac-lexicon", "read-inflection", "verify-inflection"}:
         from .inflection import inflection_catalog
         from .corpus_sources import read_corpus
