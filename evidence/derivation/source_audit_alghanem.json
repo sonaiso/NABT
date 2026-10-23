@@ -1,0 +1,1427 @@
+{
+  "schema": "nabt.derivation.alghanem-source-audit.v1",
+  "repository": "Saleh1967/Alghanem",
+  "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+  "tree": "c3455e03a6c28647daa4c618ca46e9dc0dcf0a53",
+  "latest_main_verification": {
+    "checked_at_utc": "2026-10-23 11:36:07 UTC",
+    "method": "GitHub connector GET branches/main",
+    "url": "https://api.github.com/repos/Saleh1967/Alghanem/branches/main",
+    "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+    "commit_date": "2026-10-22T16:02:28Z",
+    "matches_audited_pin": true
+  },
+  "source_read_method": "git show <full commit>:<path>; older scratch checkout used read-only. Current working-tree edits were not used.",
+  "local_checkout": "/workspace/scratch/6e4178bfef09/strategic_numeric_20261023/sources/Saleh1967/Alghanem",
+  "scope": {
+    "lean_paths_in_formal_tree": 157,
+    "selected_files": 19,
+    "selected_exact_declarations": 69,
+    "upstream_build_run": false,
+    "new_axiom_audit_run": false,
+    "runtime_or_formal_modified": false,
+    "negative_search_limit": "Scoped inspection of the 157 pinned Lean files. No repository-wide claim about Python/corpus capabilities or all Arabic is made.",
+    "source_oracle_limit": "Source declarations and their premises were read; linguistic source quotations in upstream comments were not reverified against whole grammar books in this audit."
+  },
+  "license": {
+    "path": "LICENSE",
+    "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/LICENSE",
+    "sha256": "c549ec70ed41fce1310830613efdb5db412da95e3245580835b97aa525a0bdb0",
+    "text": "MIT License\n\nCopyright (c) 2026 Saleh1967\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+  },
+  "files": [
+    {
+      "path": "formal/a116/A116/Ishtiqaq.lean",
+      "sha256": "67939d2f4d5d0b6fd21ad94d942af6369f080076cfdc79af22f8e047395e43ab",
+      "bytes": 10630,
+      "line_count": 223,
+      "git_blob": "b12fe7ff09692d34e63aef302900f06b764dd5ea",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Ishtiqaq.Sym",
+          "kind": "inductive",
+          "line_start": 26,
+          "line_end": 29,
+          "byte_start": 1819,
+          "byte_end": 1931,
+          "sha256": "cd0678ba4c015fc9c9514ce4432602023e61910f7b088294fc24d167624dec69",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L26",
+          "declaration_excerpt": "inductive Sym (α : Type) where\n  | lit : α → Sym α\n  | slot : Fin 3 → Sym α\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Ishtiqaq.WF",
+          "kind": "def",
+          "line_start": 50,
+          "line_end": 50,
+          "byte_start": 2703,
+          "byte_end": 2769,
+          "sha256": "18d1bfc229984904ec5007402952b0e22c0a86d06e05a46b56655f7fce07faad",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L50",
+          "declaration_excerpt": "def WF {α : Type} (t : Template α) : Prop := slots t = [0, 1, 2]",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Ishtiqaq.extract",
+          "kind": "def",
+          "line_start": 56,
+          "line_end": 60,
+          "byte_start": 2983,
+          "byte_end": 3160,
+          "sha256": "11af61f9cb8d1a7434329ea458b70de6e784e89022c90fe1b94bca4a5c6c63ef",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L56",
+          "declaration_excerpt": "def extract {α : Type} : Template α → List α → List α\n  | [], _ => []\n  | _, [] => []\n  | .lit _ :: t, _ :: w => extract t w\n  | .slot _ :: t, c :: w => c :: extract t w",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Ishtiqaq.extract_fill_wf",
+          "kind": "theorem",
+          "line_start": 71,
+          "line_end": 72,
+          "byte_start": 3474,
+          "byte_end": 3597,
+          "sha256": "957b2792845220d7574982d1d65005a81f539753d1a80e0dcf0110380425bb37",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L71",
+          "declaration_excerpt": "theorem extract_fill_wf {α : Type} {t : Template α} (h : WF t) (r : Root α) :\n    extract t (fill t r) = [r 0, r 1, r 2]",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Ishtiqaq.fill_injective",
+          "kind": "theorem",
+          "line_start": 90,
+          "line_end": 91,
+          "byte_start": 4210,
+          "byte_end": 4330,
+          "sha256": "acb1190b2e64bebde5f1d24816be1284538da80db159bdbc412a5b64601063cd",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L90",
+          "declaration_excerpt": "theorem fill_injective {α : Type} {t : Template α} (h : WF t) {r r' : Root α}\n    (e : fill t r = fill t r') : r = r'",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Ishtiqaq.soundTemplates_length",
+          "kind": "theorem",
+          "line_start": 200,
+          "line_end": 200,
+          "byte_start": 9796,
+          "byte_end": 9854,
+          "sha256": "b0e53c1ea675753def52a501180acd75726ffe1a19c656d606a2e5a205857b0e",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L200",
+          "declaration_excerpt": "theorem soundTemplates_length : soundTemplates.length = 31",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Ishtiqaq.soundTemplates_wf",
+          "kind": "theorem",
+          "line_start": 202,
+          "line_end": 202,
+          "byte_start": 9869,
+          "byte_end": 9927,
+          "sha256": "227f348e6ffc990cd51d34218095359c18ccedf2bc14240844fbe162125cafff",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L202",
+          "declaration_excerpt": "theorem soundTemplates_wf : ∀ t ∈ soundTemplates, WF t",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Ishtiqaq.form_alone_does_not_determine_root",
+          "kind": "theorem",
+          "line_start": 216,
+          "line_end": 217,
+          "byte_start": 10366,
+          "byte_end": 10489,
+          "sha256": "113214a6b6400716acfa4ccc03ce70c5c7b27f62fff5558f317f41340b83430f",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Ishtiqaq.lean#L216",
+          "declaration_excerpt": "theorem form_alone_does_not_determine_root :\n    fill t_past_VII rootTBR = fill t_past_VIII rootNBR ∧ rootTBR ≠ rootNBR",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Wazn.lean",
+      "sha256": "0c9fc94369699b400423c7f111fd0c60e97b9065038ecdc3bfff0ffd580bdc12",
+      "bytes": 18575,
+      "line_count": 363,
+      "git_blob": "efcc29af23d04b98d867c0d89c31bec9ff81cdbd",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Wazn.CSym",
+          "kind": "inductive",
+          "line_start": 53,
+          "line_end": 56,
+          "byte_start": 4385,
+          "byte_end": 4509,
+          "sha256": "ae91f5d4075062189baeb9443d16812897c01791193683b36770b2f063c99f51",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean#L53",
+          "declaration_excerpt": "inductive CSym (n : Nat) where\n  | lit : Cell → CSym n\n  | slot : Fin n → Haraka → CSym n\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Wazn.Root",
+          "kind": "abbrev",
+          "line_start": 59,
+          "line_end": 59,
+          "byte_start": 4565,
+          "byte_end": 4616,
+          "sha256": "bde170548cdff57b9b4ccfb1299c5ca7df523825d26ae0e65f4ae0f1f0384006",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean#L59",
+          "declaration_excerpt": "abbrev Root (n : Nat) := Fin n → Fin carrierCount",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Wazn.WaznC",
+          "kind": "structure",
+          "line_start": 72,
+          "line_end": 76,
+          "byte_start": 5183,
+          "byte_end": 5295,
+          "sha256": "956193b6e22daabc647b3a6b5d1041e545dd13e057c4641cd7b76ff5ac8e7262",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean#L72",
+          "declaration_excerpt": "structure WaznC (n : Nat) where\n  wasl : Bool\n  body : List (CSym n)\n  last : Fin n\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Wazn.fillC_determines_root",
+          "kind": "theorem",
+          "line_start": 92,
+          "line_end": 99,
+          "byte_start": 6074,
+          "byte_end": 6432,
+          "sha256": "96f602036f8ee496705ef02e4d6f076185a6d4371c37e44c1e56ca61bdb89bf3",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean#L92",
+          "declaration_excerpt": "theorem fillC_determines_root {n : Nat} :\n    ∀ (t : List (CSym n)) (r r' : Root n), fillC t r = fillC t r' →\n      ∀ i h, CSym.slot i h ∈ t → r i = r' i\n  | [], _, _, _, _, _, hm => by simp at hm\n  | s :: t, r, r', e, i, h, hm => by\n    simp only [fillC, List.map_cons, List.cons.injEq] at e\n    rcases List.mem_cons.1 hm with rfl | hm\n    · have",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Wazn.realize_determines_root",
+          "kind": "theorem",
+          "line_start": 102,
+          "line_end": 104,
+          "byte_start": 6541,
+          "byte_end": 6815,
+          "sha256": "d4ee178a0bb7e7c94efed0e97ef45075d9a0c420f264e710e1e5371b4bd72773",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean#L102",
+          "declaration_excerpt": "theorem realize_determines_root {n : Nat} (W : WaznC n) (r r' : Root n) (en : Entry) (ex : Exit)\n    (h : Haraka) (e : realize W r en ex h = realize W r' en ex h) (hw : waslH W r = waslH W r') :\n    r W.last = r' W.last ∧ ∀ i h', CSym.slot i h' ∈ W.body → r i = r' i",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Wazn.wasl_lam_conflict",
+          "kind": "theorem",
+          "line_start": 358,
+          "line_end": 360,
+          "byte_start": 18343,
+          "byte_end": 18536,
+          "sha256": "b6e54fba2897e3a947465f674726c2356b440bd8f74be6e45bb75d3f8b45b7b7",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wazn.lean#L358",
+          "declaration_excerpt": "theorem wasl_lam_conflict :\n    ((thulathi[9]?).map fun W => waslH W lqy) = some .fatha ∧\n    ((thulathi[9]?).bind fun W => (W.body[1]?).map fun s => waslVowelVerb (eval lqy s)) = some .kasra",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/RootGrade.lean",
+      "sha256": "c021d12d253a598e029201e679cfb141b5c0cdf2a3d19e76587c6c1c11440870",
+      "bytes": 15789,
+      "line_count": 297,
+      "git_blob": "29969cc53e1bb9949e1f68a89060cdacea784a2f",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/RootGrade.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.RootGrade.table_length",
+          "kind": "theorem",
+          "line_start": 103,
+          "line_end": 103,
+          "byte_start": 6375,
+          "byte_end": 6436,
+          "sha256": "f005845515169c84b589f255151839466935d2bd93d85114a09710573e8af8a3",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/RootGrade.lean#L103",
+          "declaration_excerpt": "theorem table_length : ∀ k : Nat, (table k).length = 28 ^ k",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.RootGrade.num_inj",
+          "kind": "theorem",
+          "line_start": 130,
+          "line_end": 136,
+          "byte_start": 7339,
+          "byte_end": 7600,
+          "sha256": "abbb177718210ea53fc4fb4983a198be04cab5f8810eadea9fe13517fb5a2811",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/RootGrade.lean#L130",
+          "declaration_excerpt": "theorem num_inj : ∀ r s : List (Fin 28), r.length = s.length → num r = num s → r = s\n  | [], [], _, _ => rfl\n  | [], _ :: _, h, _ => by simp at h\n  | _ :: _, [], h, _ => by simp at h\n  | d :: t, d' :: t', hl, hn => by\n    simp only [num] at hn\n    have h1",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.RootGrade.num_unnum",
+          "kind": "theorem",
+          "line_start": 147,
+          "line_end": 150,
+          "byte_start": 8002,
+          "byte_end": 8171,
+          "sha256": "9e8e3b7e0f79afa41e978c594f4fd627ff19f29431347a2f3a3a552e53f8c591",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/RootGrade.lean#L147",
+          "declaration_excerpt": "theorem num_unnum : ∀ k n : Nat, n < 28 ^ k → num (unnum k n) = n\n  | 0, n, h => by simp [unnum, num] at *; omega\n  | k + 1, n, h => by\n    have hk : n / 28 < 28 ^ k",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.RootGrade.sinf",
+          "kind": "def",
+          "line_start": 198,
+          "line_end": 201,
+          "byte_start": 10913,
+          "byte_end": 10996,
+          "sha256": "e3a6ec808269308cbec63428c7695baee12988239d9b7d8f4bb0ed854e4efef2",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/RootGrade.lean#L198",
+          "declaration_excerpt": "def sinf : Nat → Sinf\n  | 3 | 4 => .mutasarrif\n  | 5 => .jamid\n  | _ => .laysaAsl",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.RootGrade.khumasi_jamid",
+          "kind": "theorem",
+          "line_start": 207,
+          "line_end": 207,
+          "byte_start": 11161,
+          "byte_end": 11221,
+          "sha256": "9a0cb897b5ee87d9327d6ad532ea7b158976b6c376d183d07601707c20f58d55",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/RootGrade.lean#L207",
+          "declaration_excerpt": "theorem khumasi_jamid : sinf 5 = .jamid ∧ hasFil 5 = false",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Tasrif.lean",
+      "sha256": "ec9a306e08d61c4c6ae47a3beeb91ffb326174fc32811c6a572cd8278cd5bb93",
+      "bytes": 42032,
+      "line_count": 808,
+      "git_blob": "6ae0b611ab774d1e5719b60715666f6f8be5a27e",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Tasrif.allSifa_length",
+          "kind": "theorem",
+          "line_start": 117,
+          "line_end": 117,
+          "byte_start": 7300,
+          "byte_end": 7345,
+          "sha256": "b2b139091cd91a5fc48be44922adecdc16e0b76f9315f4fc8bc2d915717252a8",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean#L117",
+          "declaration_excerpt": "theorem allSifa_length : allSifa.length = 250",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Tasrif.madi_exhausted",
+          "kind": "theorem",
+          "line_start": 558,
+          "line_end": 561,
+          "byte_start": 27719,
+          "byte_end": 28007,
+          "sha256": "3fbce9a701b341fd48bcbbd7239470214f2359c2260d063af4c2709a483a75c1",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean#L558",
+          "declaration_excerpt": "theorem madi_exhausted (r : Root 3) (hr : NoAlif r) : ∀ a ∈ harakat3,\n    strictB (fillC (madi (sifa r) a .fatha) r) = true ∧\n    strictPauseB (Pause.pause (fillC (madi (sifa r) a .fatha) r)) = true ∧\n    (fillC (madi (sifa r) a .fatha) r).all (Alif.licensable.contains ·) = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Tasrif.mudari_exhausted",
+          "kind": "theorem",
+          "line_start": 569,
+          "line_end": 573,
+          "byte_start": 28267,
+          "byte_end": 28623,
+          "sha256": "be3b926969266459341cfc5326ad2bf73e49d32f8c5dd3617c2639f19c0920f3",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean#L569",
+          "declaration_excerpt": "theorem mudari_exhausted (r : Root 3) (hr : NoAlif r) :\n    ∀ b ∈ babs, ∀ v ∈ harakat3, ∀ p ∈ prefixes, ∀ m ∈ moods,\n      strictB (fillC (mudari (sifa r) b p v m) r) = true ∧\n      strictPauseB (Pause.pause (fillC (mudari (sifa r) b p v m) r)) = true ∧\n      (fillC (mudari (sifa r) b p v m) r).all (Alif.licensable.contains ·) = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Tasrif.amr_exhausted",
+          "kind": "theorem",
+          "line_start": 584,
+          "line_end": 588,
+          "byte_start": 28993,
+          "byte_end": 29279,
+          "sha256": "388c14192665ca62cdaed5d63dd30e56ea21db1d731831c2a01d165df06b1aba",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean#L584",
+          "declaration_excerpt": "theorem amr_exhausted (r : Root 3) (hr : NoAlif r) :\n    ∀ b ∈ babs, ∀ v ∈ harakat3,\n      strictB (fillC (amr (sifa r) b v) r) = true ∧\n      strictPauseB (fillC (amrPause (sifa r) b v) r) = true ∧\n      (fillC (amr (sifa r) b v) r).all (Alif.licensable.contains ·) = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Tasrif.agrees_with_mudari",
+          "kind": "theorem",
+          "line_start": 791,
+          "line_end": 795,
+          "byte_start": 40803,
+          "byte_end": 41145,
+          "sha256": "6e216dc377152c66e3451c9f28a62156a5906ed0c035d65848c498775931f95c",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean#L791",
+          "declaration_excerpt": "theorem agrees_with_mudari :\n    sharedRoots.all (fun r => [Mudari.Form.I, .IV].all fun f => (Mudari.babs r f).all fun b =>\n      (Mudari.anayt.all fun p => [Haraka.damma, .sukun].all fun e =>\n        fillC (mudari (sifa r) (babOf f) p b e) r == Mudari.mudari r f b p e) &&\n      fillC (amr (sifa r) (babOf f) b) r == Mudari.amr r f b) = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Tasrif.hamza_fork",
+          "kind": "theorem",
+          "line_start": 800,
+          "line_end": 805,
+          "byte_start": 41528,
+          "byte_end": 41991,
+          "sha256": "f884172f502febd18e1e3fe4cd5369b1d5dd1913bc2119ddcdce95ffa1cb4129",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Tasrif.lean#L800",
+          "declaration_excerpt": "theorem hamza_fork :\n    fillC (mudari (sifa (r3 'ء' 'م' 'ن')) .mujarrad 'ء' .fatha .damma) (r3 'ء' 'م' 'ن') =\n      [atom 'ء' .fatha, Neutral.alifS, atom 'م' .fatha, atom 'ن' .damma] ∧\n    Mudari.mudari (r3 'ء' 'م' 'ن') .I .fatha 'ء' .damma =\n      [atom 'ء' .fatha, atom 'ء' .sukun, atom 'م' .fatha, atom 'ن' .damma] ∧\n    fillC (amr (sifa (r3 'ء' 'م' 'ن')) .afala .kasra) (r3 'ء' 'م' 'ن') = Mudari.amr (r3 'ء' 'م' 'ن') .IV .kasra",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Mudari.lean",
+      "sha256": "3fa78a20f408ee4a0c1757da1631183a5bf5bb3762976409abaf27972457d331",
+      "bytes": 21100,
+      "line_count": 346,
+      "git_blob": "575ef18591f16d4dde3c597846938d488f9cfe5f",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Mudari.Form",
+          "kind": "inductive",
+          "line_start": 48,
+          "line_end": 50,
+          "byte_start": 4842,
+          "byte_end": 4939,
+          "sha256": "010d53a85201d3c783ead137c32da25a50d0ae69bac504cee0abda953e2c8bb7",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean#L48",
+          "declaration_excerpt": "inductive Form where\n  | I | II | III | IV | V | VI | VII | VIII | X\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Mudari.hadhfFaRoots",
+          "kind": "def",
+          "line_start": 160,
+          "line_end": 160,
+          "byte_start": 10942,
+          "byte_end": 11047,
+          "sha256": "b7483431d2a2814a34d123422cf41c344075266d87b05183eab44c0bf74c3973",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean#L160",
+          "declaration_excerpt": "def hadhfFaRoots : List (Root 3) := [rootOf 'ء' 'خ' 'ذ', rootOf 'ء' 'ك' 'ل', rootOf 'ء' 'م' 'ر']",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Mudari.takhfifRoots",
+          "kind": "def",
+          "line_start": 147,
+          "line_end": 147,
+          "byte_start": 10276,
+          "byte_end": 10335,
+          "sha256": "eb8b157f7c098ab2e12f70faeacc59d49499bb14c8e139c8a6d3ad251c4abfde",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean#L147",
+          "declaration_excerpt": "def takhfifRoots : List (Root 3) := [rootOf 'ر' 'ء' 'ي']",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Mudari.amr_head_vowelled",
+          "kind": "theorem",
+          "line_start": 233,
+          "line_end": 234,
+          "byte_start": 14706,
+          "byte_end": 14838,
+          "sha256": "03bea9ccb145a8128677eb485f7c7a647dac157bf0c81e403bf7271b705ac96c",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean#L233",
+          "declaration_excerpt": "theorem amr_head_vowelled (r : Root 3) (f : Form) (b : Haraka) (c : Cell)\n    (h : (amr r f b).head? = some c) : c.haraka ≠ .sukun",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Mudari.reference_licensed",
+          "kind": "theorem",
+          "line_start": 303,
+          "line_end": 306,
+          "byte_start": 19162,
+          "byte_end": 19393,
+          "sha256": "6dacced3f418828ef7265674629fde842511127b9959853098e5819b7e299e1f",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean#L303",
+          "declaration_excerpt": "theorem reference_licensed :\n    ∀ r ∈ refRoots, ∀ f ∈ Form.all, ∀ b ∈ babs r f,\n      strictB (mudari r f b 'ي' .damma) = true ∧ strictB (amr r f b) = true ∧\n      Hajah.NeedLaw (kindOf (mudari r f b 'ي' .damma))",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Mudari.amr_restores_mudari",
+          "kind": "theorem",
+          "line_start": 339,
+          "line_end": 342,
+          "byte_start": 20800,
+          "byte_end": 20973,
+          "sha256": "058ddcf8790ffee0935d54fcc17d8a2bb1c35aeeb7da0dbdcf03900e511ed139",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Mudari.lean#L339",
+          "declaration_excerpt": "theorem amr_restores_mudari :\n    (refRoots.filter fun r => !(hadhfFaRoots.any (sameRoot r))).all (fun r => Form.all.all fun f =>\n      (babs r f).all fun b =>\n        let m",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Rubai.lean",
+      "sha256": "3dcc9f0b2f5a12e0997e9b791c05fba568c9450082eb48e3552398fbf36abd81",
+      "bytes": 11942,
+      "line_count": 210,
+      "git_blob": "94534ebe9a7217e4acf9c3f1faa095df7bd9c251",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Rubai.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Rubai.abniya",
+          "kind": "def",
+          "line_start": 65,
+          "line_end": 65,
+          "byte_start": 4268,
+          "byte_end": 4355,
+          "sha256": "cc9d8f34c2c57f3cecb8f6736ed689f84044215acceb31ba0a2ef55e3ce6d105",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Rubai.lean#L65",
+          "declaration_excerpt": "def abniya : List Bina := [faalala, fuilila, yufaalilu, tafaalala, ifalalla, tafalillu]",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Rubai.ifanlala_refused",
+          "kind": "theorem",
+          "line_start": 70,
+          "line_end": 70,
+          "byte_start": 4546,
+          "byte_end": 4588,
+          "sha256": "48b3316e0788ec16adab293a4f2fbb0ee833c21cb434157679ed9a34792e503b",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Rubai.lean#L70",
+          "declaration_excerpt": "theorem ifanlala_refused : ifanlala = none",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Rubai.allSifa4_length",
+          "kind": "theorem",
+          "line_start": 97,
+          "line_end": 97,
+          "byte_start": 5329,
+          "byte_end": 5376,
+          "sha256": "003f0171aae938b611f96f7efa30fff0d06a0137a551932b13b05c42fea36d3e",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Rubai.lean#L97",
+          "declaration_excerpt": "theorem allSifa4_length : allSifa4.length = 625",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Rubai.rubai_licensed",
+          "kind": "theorem",
+          "line_start": 128,
+          "line_end": 131,
+          "byte_start": 6508,
+          "byte_end": 6783,
+          "sha256": "41cc49f53833dbdb04300392c32f196757ab5fd4cb03d66d0c3605ff331949bc",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Rubai.lean#L128",
+          "declaration_excerpt": "theorem rubai_licensed (r : Root 4) (hr : NoAlif r) : ∀ B ∈ abniya,\n    strictB (realize B.w r .start .continue B.h) = true ∧\n    strictPauseB (realize B.w r .start .pause B.h) = true ∧\n    (realize B.w r .start .continue B.h).all (Alif.licensable.contains ·) = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Neutral.lean",
+      "sha256": "f20b40ae791e4ebc4166995cced6ce21d918163f15138fb2571960e38a1a2d8e",
+      "bytes": 14025,
+      "line_count": 248,
+      "git_blob": "f0b2549f1bdb7675db4799e012ecae5743682a88",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Neutral.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Neutral.neutral_forgets_weak",
+          "kind": "theorem",
+          "line_start": 171,
+          "line_end": 175,
+          "byte_start": 9818,
+          "byte_end": 10128,
+          "sha256": "a2ee546217e88292adc0df3fdfb93ad373f19b420b3124c70f94bde8df8c7a2d",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Neutral.lean#L171",
+          "declaration_excerpt": "theorem neutral_forgets_weak :\n    (wI.map fun W => realizeN W (rootOf 'ق' 'و' 'ل') .start .continue .fatha) =\n      some [atom 'ق' .fatha, alifS, atom 'ل' .fatha] ∧\n    (wI.map fun W => realizeN W (rootOf 'ق' 'ي' 'ل') .start .continue .fatha) =\n      some [atom 'ق' .fatha, alifS, atom 'ل' .fatha]",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Neutral.neutral_identifies_lit_and_radical",
+          "kind": "theorem",
+          "line_start": 179,
+          "line_end": 183,
+          "byte_start": 10358,
+          "byte_end": 10764,
+          "sha256": "c3ad7b1c5408db1181a4e8ed76bd835935a82814724d961ab7f0176238f50972",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Neutral.lean#L179",
+          "declaration_excerpt": "theorem neutral_identifies_lit_and_radical :\n    ((thulathi[4]?).map fun W => realizeN W (rootOf 'ء' 'م' 'ن') .start .continue .fatha) =\n      ((thulathi[5]?).map fun W => realizeN W (rootOf 'ء' 'م' 'ن') .start .continue .fatha) ∧\n    ((thulathi[5]?).map fun W => realizeN W (rootOf 'ء' 'م' 'ن') .start .continue .fatha) =\n      some [atom 'ء' .fatha, alifS, atom 'م' .fatha, atom 'ن' .fatha]",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Neutral.neutral_restore",
+          "kind": "theorem",
+          "line_start": 187,
+          "line_end": 188,
+          "byte_start": 10917,
+          "byte_end": 11066,
+          "sha256": "fc33c3299451cd30dce7a63782d81ed09ef0c82140fe9d21a1234f5c26c5f425",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Neutral.lean#L187",
+          "declaration_excerpt": "theorem neutral_restore (l r : List Cell) (radical : Cell) :\n    restoreEdit (l ++ ([alifS] ++ r)) ⟨l.length, 1, [radical]⟩ = l ++ [radical] ++ r",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Recovery.lean",
+      "sha256": "6c89e3ad00b3a0189e3df742902245d5601228904a11636eb57b91499b56f403",
+      "bytes": 4599,
+      "line_count": 105,
+      "git_blob": "3c4f199e1710374b08baa4471cb71cd80fe02a3d",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Recovery.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Recovery.edit_roundtrip",
+          "kind": "theorem",
+          "line_start": 26,
+          "line_end": 28,
+          "byte_start": 1266,
+          "byte_end": 1453,
+          "sha256": "950ea04e9b5c97904f69296b54c2e98ecbda81381aed3e8d14087713ff9b7095",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Recovery.lean#L26",
+          "declaration_excerpt": "theorem edit_roundtrip (left removed inserted right : List α) :\n    restoreEdit (left ++ (inserted ++ right))\n      ⟨left.length, inserted.length, removed⟩ = left ++ removed ++ right",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Recovery.restoration_forces_fiber_separation",
+          "kind": "theorem",
+          "line_start": 90,
+          "line_end": 93,
+          "byte_start": 4008,
+          "byte_end": 4238,
+          "sha256": "c4a7f7524d089be735e64ca330b9269e483c79d7f6817365c774606276827b3f",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Recovery.lean#L90",
+          "declaration_excerpt": "theorem restoration_forces_fiber_separation\n    (f : α → β) (residual : α → γ) (decode : β × γ → α)\n    (h : ∀ x, decode (f x, residual x) = x)\n    {x y : α} (hf : f x = f y) (hr : residual x = residual y) : x = y",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/QiraaMadlul.lean",
+      "sha256": "99e951daf20924f3374d7ceed6ea2975dd67cfd429819b85b0e4c4b67a33333d",
+      "bytes": 18432,
+      "line_count": 292,
+      "git_blob": "14b18ad504b8c228be5c7ace295c8751540ee7da",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.QiraaMadlul.Qalib",
+          "kind": "structure",
+          "line_start": 73,
+          "line_end": 76,
+          "byte_start": 5462,
+          "byte_end": 5536,
+          "sha256": "21755c6c83d3d0d367c30e11e14d574bf6270bd200d17dc47ebd1530a029b031",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L73",
+          "declaration_excerpt": "structure Qalib where\n  naw : Naw\n  wazn : WaznC 3\n  akhir : Option Haraka",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.QiraaMadlul.yutabiq",
+          "kind": "def",
+          "line_start": 83,
+          "line_end": 84,
+          "byte_start": 5896,
+          "byte_end": 6025,
+          "sha256": "06c2e96e8c4dad615a2e551a8bbc7f86f9cf49f8dea22a223f6b2714bae36aef",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L83",
+          "declaration_excerpt": "def yutabiq (q : Qalib) (r : String) (w : List Cell) : Bool :=\n  if q.akhir.isSome then surat q r == w else akhirEq (surat q r) w",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.QiraaMadlul.sighaCands_iff",
+          "kind": "theorem",
+          "line_start": 94,
+          "line_end": 96,
+          "byte_start": 6643,
+          "byte_end": 6861,
+          "sha256": "13744a5e415ecc7bab72d0f1e228bf91ebbaa4e32d03e283e6b6c19f95a042a1",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L94",
+          "declaration_excerpt": "theorem sighaCands_iff (qs : List Qalib) (judhur : List String) (w : List Cell) (r : String) (n : Naw) :\n    (r, n) ∈ sighaCands qs judhur w ↔\n      ∃ q ∈ qs, q.naw = n ∧ r ∈ judhur ∧ yutabiq q r w = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.QiraaMadlul.sigha_wad",
+          "kind": "theorem",
+          "line_start": 104,
+          "line_end": 105,
+          "byte_start": 7214,
+          "byte_end": 7372,
+          "sha256": "9955285bb90508ab6a6afd251ccf4d1e99e10721f247006237282592338aefcd",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L104",
+          "declaration_excerpt": "theorem sigha_wad (qs : List Qalib) (judhur : List String) (w : List Cell) (r : String) (n : Naw)\n    (h : sigha qs judhur w = .muayyan (r, n)) : r ∈ judhur",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.QiraaMadlul.faail",
+          "kind": "def",
+          "line_start": 239,
+          "line_end": 242,
+          "byte_start": 14356,
+          "byte_end": 14658,
+          "sha256": "da14a58fe8adf4860ab17d24ec54b230669683317b1ccb7396e68cb0c504c6e8",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L239",
+          "declaration_excerpt": "def faail : WaznC 3 := ⟨false, [.slot 0 .fatha, .lit (cell 'ا' .sukun), .slot 1 .kasra], 2⟩\n/-- اسمُ المفعول من الثلاثيّ: مَفْعُول (س5691). -/\ndef mafool : WaznC 3 :=\n  ⟨false, [.lit (cell 'م' .fatha), .slot 0 .sukun, .slot 1 .damma, .lit (cell 'و' .sukun)], 2⟩",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.QiraaMadlul.mafool",
+          "kind": "def",
+          "line_start": 241,
+          "line_end": 242,
+          "byte_start": 14534,
+          "byte_end": 14658,
+          "sha256": "49e12d4587f389c45a63477ee08946cdeeb6bc26011452ade7f48fa8f5d88dc2",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L241",
+          "declaration_excerpt": "def mafool : WaznC 3 :=\n  ⟨false, [.lit (cell 'م' .fatha), .slot 0 .sukun, .slot 1 .damma, .lit (cell 'و' .sukun)], 2⟩",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.QiraaMadlul.qawalib",
+          "kind": "def",
+          "line_start": 244,
+          "line_end": 247,
+          "byte_start": 14660,
+          "byte_end": 14936,
+          "sha256": "ccb72d874fff11d06703f91ea6d4f9c2d7e408184865918358eb699fe5c7a7db",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L244",
+          "declaration_excerpt": "def qawalib : List Qalib :=\n  [0, 1, 2, 4].filterMap (fun i => (thulathi[i]?).map (⟨.filMaloom, ·, some .fatha⟩)) ++\n  [11, 13].filterMap (fun i => (thulathi[i]?).map (⟨.filMajhul, ·, some .fatha⟩)) ++\n  [⟨.ismFaail, faail, none⟩, ⟨.ismMafool, mafool, none⟩]",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.QiraaMadlul.mujamShahid",
+          "kind": "def",
+          "line_start": 249,
+          "line_end": 258,
+          "byte_start": 14938,
+          "byte_end": 15398,
+          "sha256": "98d11e0eb7ae25c3efd0c693d3f7a1fe93a35f909791eacfe55773c67114510e",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QiraaMadlul.lean#L249",
+          "declaration_excerpt": "def mujamShahid : Mujam where\n  qawalib := qawalib\n  judhur := [\"نطق\", \"خطب\", \"نبح\", \"فهم\"]\n  hayakil := [(\"ءنسان\", [\"ءنس\"]), (\"كلب\", [\"كلب\"]), (\"حجر\", [\"حجر\"]), (\"نمل\", [\"نمل\"])]\n  ajnas := [(\"ءنس\", \"الإنسان\"), (\"كلب\", \"الكلب\"), (\"حجر\", \"الحجر\"), (\"نمل\", \"النمل\")]\n  masdarOf := fun\n    | \"نطق\" => some .nutq\n    | \"خطب\" => some .khitab\n    | \"فهم\" => some .fahm\n    | _ => none",
+          "excerpt_scope": "Exact declaration paragraph"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/QismAwamil.lean",
+      "sha256": "cdd330fcc750bc7430b6239d3fb143a9358d27c58b881e96a4e7ca7a5bbf37b8",
+      "bytes": 8446,
+      "line_count": 164,
+      "git_blob": "c2cadaf80f62e0b9db4b328f302e159da5d39494",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QismAwamil.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.QismAwamil.afal_yashtabih",
+          "kind": "theorem",
+          "line_start": 148,
+          "line_end": 150,
+          "byte_start": 7676,
+          "byte_end": 7848,
+          "sha256": "7efbe1bf081e46c785e0b62191c70947f8268f84f7d49740bf5019ca42113013",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QismAwamil.lean#L148",
+          "declaration_excerpt": "theorem afal_yashtabih :\n    mudariAfal (cell \"ءَعْلَمُ\") = true ∧ mudariAfal (cell \"ءَحْسَنُ\") = true ∧\n    mudariAfal (cell \"ءَكْبَرُ\") = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.QismAwamil.amr_faail_yashtabih",
+          "kind": "theorem",
+          "line_start": 160,
+          "line_end": 161,
+          "byte_start": 8243,
+          "byte_end": 8401,
+          "sha256": "9c25886e03bff009e03143dfa881db5c6d638a92e4e6a8aff0b58261e193b0ff",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QismAwamil.lean#L160",
+          "declaration_excerpt": "theorem amr_faail_yashtabih :\n    faail (cell \"قَاْتِلْ\") = true ∧ faail (cell \"جَاْهِدِ\") = true ∧ faail (cell \"كَاْتِبُ\") = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Qism.lean",
+      "sha256": "0c0968cf131b37cb83b1425e63fdbfd6472cb1711ca5a2cdf97d5e384bec4756",
+      "bytes": 11450,
+      "line_count": 195,
+      "git_blob": "89f087f76d8ffe17f656b0d244601708db97a08c",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Qism.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Qism.Zaman",
+          "kind": "inductive",
+          "line_start": 37,
+          "line_end": 38,
+          "byte_start": 3846,
+          "byte_end": 3912,
+          "sha256": "33d1b37ad728cd92d583b667754fef33d6576b820b3271ce924c5d150b72c345",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Qism.lean#L37",
+          "declaration_excerpt": "inductive Zaman | madi | mudari | amr\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Qism.binaFil",
+          "kind": "def",
+          "line_start": 48,
+          "line_end": 53,
+          "byte_start": 4313,
+          "byte_end": 4488,
+          "sha256": "04a061ed096c9bae49f1be01fbddd3d422e6440a9bd7b2a278556758b2bdab4b",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Qism.lean#L48",
+          "declaration_excerpt": "def binaFil : Zaman → Nun → Bina\n  | .madi, _ => .mabni\n  | .amr, _ => .mabni\n  | .mudari, .tawkidMubashir => .mabni\n  | .mudari, .inath => .mabni\n  | .mudari, _ => .murab",
+          "excerpt_scope": "Exact declaration paragraph"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/QismKhanat.lean",
+      "sha256": "959dc4fc8dd89caf0e386016634cc0a1f7c4773f2bb80d50adde26cffe767aa8",
+      "bytes": 17864,
+      "line_count": 357,
+      "git_blob": "d3a5707f2bebd8b4325eb27c852702bfd927cf0d",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QismKhanat.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.QismKhanat.badLam",
+          "kind": "def",
+          "line_start": 300,
+          "line_end": 302,
+          "byte_start": 14081,
+          "byte_end": 14272,
+          "sha256": "371a01ce4d62a9e2e71f6f14e9581bcc51947cddf29275a3c7189da99886a7e7",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/QismKhanat.lean#L300",
+          "declaration_excerpt": "def badLam : Alama (List Cell × Option (List Cell)) where\n  tutabiq x := x.2 == some (cell \"لَمْ\") || x.2 == some (cell \"لَنْ\") || x.2 == some (cell \"سَوْفَ\")\n  tubqi := [.fil]",
+          "excerpt_scope": "Exact declaration paragraph"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Khawass.lean",
+      "sha256": "afa49669187a506e02054cd66309fa0552f1a61e8641b3373a74df22e0b5ffdf",
+      "bytes": 18047,
+      "line_count": 289,
+      "git_blob": "858b0dba3c86209692d7d582b03107ee4240255d",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Khawass.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Khawass.Masdar",
+          "kind": "inductive",
+          "line_start": 51,
+          "line_end": 52,
+          "byte_start": 4730,
+          "byte_end": 4821,
+          "sha256": "f7d94aca11b224153fd44f212da14e5bead0d4d0b30fd36c62cba98f1ea048d3",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Khawass.lean#L51",
+          "declaration_excerpt": "inductive Masdar | khitab | amr | ikhbar | nutq | fahm | sujud\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Khawass.Naw",
+          "kind": "inductive",
+          "line_start": 152,
+          "line_end": 153,
+          "byte_start": 9318,
+          "byte_end": 9416,
+          "sha256": "ef942b66588b1d973556490c112bfcee0e57b68267820e23e9f01c8960a34ba3",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Khawass.lean#L152",
+          "declaration_excerpt": "inductive Naw | masdar | ismFaail | ismMafool | filMaloom | filMajhul\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Derivation.lean",
+      "sha256": "0841aacb336304f946d448ea539bee0d6f56688aa6bdd518a91ab906d54e820c",
+      "bytes": 4750,
+      "line_count": 102,
+      "git_blob": "9ac6584dfed076b7272da74c35ac7729c8dff4a1",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Derivation.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Derivation.Form",
+          "kind": "inductive",
+          "line_start": 31,
+          "line_end": 33,
+          "byte_start": 1820,
+          "byte_end": 1922,
+          "sha256": "cabfe2c207ec7c974f4e278db6f5803359e350159374a41055f6193fade44083",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Derivation.lean#L31",
+          "declaration_excerpt": "inductive Form where\n  | I | II | III | IV | V | VI | VII | VIII | IX | X\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Derivation.edges",
+          "kind": "def",
+          "line_start": 40,
+          "line_end": 41,
+          "byte_start": 2061,
+          "byte_end": 2185,
+          "sha256": "63cda7986f4cbf36ae23acc633096b0246a163fd84b3b08c851fc31d1c3db1f7",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Derivation.lean#L40",
+          "declaration_excerpt": "def edges : List (Form × Form) :=\n  [(I, II), (I, IV), (II, V), (IV, VII), (I, VIII), (I, III), (III, VI), (I, X), (I, IX)]",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Derivation.stationary_unique",
+          "kind": "theorem",
+          "line_start": 65,
+          "line_end": 66,
+          "byte_start": 3132,
+          "byte_end": 3244,
+          "sha256": "f5766dc5b630da3acfa45f4c89c216ecef734083cad410cc56928f91d044f6be",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Derivation.lean#L65",
+          "declaration_excerpt": "theorem stationary_unique (v : Form → Int) (h : Stationary v) :\n    ∀ b ∈ forms, b ≠ I → 6 * v b = v I",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Wad.lean",
+      "sha256": "82f361cf9cb46b5ff8a16905cf6241cedb00e394bb9837f75c6da53e0f5afe66",
+      "bytes": 7556,
+      "line_count": 145,
+      "git_blob": "3bf1f96aa6b248c1ebabaef8c0eb933e374f04b0",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wad.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Wad.ofStr3",
+          "kind": "def",
+          "line_start": 129,
+          "line_end": 130,
+          "byte_start": 6706,
+          "byte_end": 6819,
+          "sha256": "e7ed9c68f47fe944bcd4dda56be9df06821e44e2d1b07d4f7c42383376488f52",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wad.lean#L129",
+          "declaration_excerpt": "def ofStr3 (s : String) : Root 3 :=\n  Tasrif.r3 (s.toList.getD 0 ' ') (s.toList.getD 1 ' ') (s.toList.getD 2 ' ')",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Wad.deposit_not_function",
+          "kind": "theorem",
+          "line_start": 141,
+          "line_end": 141,
+          "byte_start": 7348,
+          "byte_end": 7412,
+          "sha256": "b6148ce1692de33f77b5a7c0520d1f0b7a82c5dc91f75580b938b69b0b09c531",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Wad.lean#L141",
+          "declaration_excerpt": "theorem deposit_not_function : ¬ ∃ f, Realizes mushtarakRel f",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Zawaid.lean",
+      "sha256": "bb30fbdfd1046f57a25fa501cdc4ebd595933b21c8d3a54cceda8974403549d3",
+      "bytes": 4998,
+      "line_count": 83,
+      "git_blob": "f5a4bbcbc2c5d4a7e79c484a761e75356f58268e",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Zawaid.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Zawaid.peel_returns_root",
+          "kind": "theorem",
+          "line_start": 70,
+          "line_end": 71,
+          "byte_start": 4294,
+          "byte_end": 4411,
+          "sha256": "c7d79c4403dec5c4f63d7afafcac6b692380588e68ea841aa2c96ebda8bfbc86",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Zawaid.lean#L70",
+          "declaration_excerpt": "theorem peel_returns_root {t : Template Char} (h : WF t) (r : Root Char) :\n    extract t (fill t r) = [r 0, r 1, r 2]",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Sawabiq.lean",
+      "sha256": "73d06a38201cb2967fff993eb4aec0b633792523f1ea1db1e190c7577b105106",
+      "bytes": 6371,
+      "line_count": 127,
+      "git_blob": "ed058904ae2da05f3eff13a279b50d2d3431ff36",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Sawabiq.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Sawabiq.candidates_length_le",
+          "kind": "theorem",
+          "line_start": 91,
+          "line_end": 91,
+          "byte_start": 4571,
+          "byte_end": 4646,
+          "sha256": "4aed37a7f2ac37457b02a2dfa2a902b1170c38fd04537e39f879041a1756c74a",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Sawabiq.lean#L91",
+          "declaration_excerpt": "theorem candidates_length_le (w : List Char) : (candidates w).length ≤ 12",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Sawabiq.peel_exact",
+          "kind": "theorem",
+          "line_start": 108,
+          "line_end": 109,
+          "byte_start": 5463,
+          "byte_end": 5615,
+          "sha256": "d938fffe0dfb9cfdedacda80ed53e3303c46adec396fba8ef319b8d7d9739aba",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Sawabiq.lean#L108",
+          "declaration_excerpt": "theorem peel_exact (a b c stem : List Char) (ha : a ∈ slot1) (hb : b ∈ slot2) (hc : c ∈ slot3) :\n    stem ∈ candidates (a ++ (b ++ (c ++ stem)))",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Dalalat.lean",
+      "sha256": "5e9295be2e00e926a956978e7b2acba68dab6e1d92d24770e8c778d52ccf4a2b",
+      "bytes": 14454,
+      "line_count": 235,
+      "git_blob": "22dc5a6636e4f13df167aa4f6b9fcbdd4c96d1f3",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Dalalat.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Dalalat.wazn_la_yuayyin_mutawaa",
+          "kind": "theorem",
+          "line_start": 203,
+          "line_end": 204,
+          "byte_start": 12334,
+          "byte_end": 12446,
+          "sha256": "0fb49ea77c5b5d3622abb8d4e8e66170ccd867173ca2f444146fa711a312c265",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Dalalat.lean#L203",
+          "declaration_excerpt": "theorem wazn_la_yuayyin_mutawaa :\n    ¬ ∃ f : String → Bool, ∀ r ∈ mutawaat, r.mutawi.isSome = f r.wazn",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    },
+    {
+      "path": "formal/a116/A116/Istiqama.lean",
+      "sha256": "c02a4948593649ca9c82d90b0e8a21d3ecf88f3bd26dd4879ed7245772edc42a",
+      "bytes": 11444,
+      "line_count": 211,
+      "git_blob": "d227e7924762b1b69abcefc6254faec4e004a9d8",
+      "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Istiqama.lean",
+      "read_scope": "Definitions and theorem premises read at the pinned Git object; selected exact declarations below.",
+      "declarations": [
+        {
+          "name": "A116.Istiqama.Zaman",
+          "kind": "inductive",
+          "line_start": 37,
+          "line_end": 38,
+          "byte_start": 2728,
+          "byte_end": 2800,
+          "sha256": "454274daf8bb77a4103ad158899f408915e2e32e7b199552519ff45e223e062d",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Istiqama.lean#L37",
+          "declaration_excerpt": "inductive Zaman | madi | mudari | mustaqbal\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Istiqama.Juz",
+          "kind": "inductive",
+          "line_start": 45,
+          "line_end": 51,
+          "byte_start": 3162,
+          "byte_end": 3305,
+          "sha256": "ea65be90e87da0a3d2e1abe21476cb0727eac72b6a048d36fb3430bcbf372936",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Istiqama.lean#L45",
+          "declaration_excerpt": "inductive Juz\n  | fil (z : Zaman)\n  | zarf (w : Waqt)\n  | harfFil (ism : String) (istiqbal : Bool)\n  | ism\n  | atf\n  deriving DecidableEq, Repr",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Istiqama.awqatFil",
+          "kind": "def",
+          "line_start": 65,
+          "line_end": 70,
+          "byte_start": 3795,
+          "byte_end": 4013,
+          "sha256": "f6436603b8f3f7bcf894348b71401ef9af36549ecdb91d4ca29212e6936a92c0",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Istiqama.lean#L65",
+          "declaration_excerpt": "def awqatFil : List Juz → List Int\n  | .harfFil _ true :: .fil .mudari :: t => 1 :: awqatFil t\n  | .fil .madi :: t => -1 :: awqatFil t\n  | .fil .mustaqbal :: t => 1 :: awqatFil t\n  | _ :: t => awqatFil t\n  | [] => []",
+          "excerpt_scope": "Exact declaration paragraph"
+        },
+        {
+          "name": "A116.Istiqama.sawfa_ams",
+          "kind": "theorem",
+          "line_start": 200,
+          "line_end": 200,
+          "byte_start": 10832,
+          "byte_end": 10916,
+          "sha256": "b4ce064fa1a4145cbdaa28c1b1e1113c4831d64b76ea5d820da59f3b040321d3",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Istiqama.lean#L200",
+          "declaration_excerpt": "theorem sawfa_ams : muhalB [.harfFil \"سوف\" true, .fil .mudari, .zarf .ams] = true",
+          "excerpt_scope": "Exact theorem statement without proof"
+        },
+        {
+          "name": "A116.Istiqama.mudari_la_muhal",
+          "kind": "theorem",
+          "line_start": 203,
+          "line_end": 203,
+          "byte_start": 11049,
+          "byte_end": 11124,
+          "sha256": "252bf128d8c1356717909007ab972581ecda9ffd1288388d80c5b9e3c2e9fc86",
+          "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/formal/a116/A116/Istiqama.lean#L203",
+          "declaration_excerpt": "theorem mudari_la_muhal (w : Waqt) : muhalB [.fil .mudari, .zarf w] = false",
+          "excerpt_scope": "Exact theorem statement without proof"
+        }
+      ]
+    }
+  ],
+  "requested_category_inventory": [
+    {
+      "id": "jamid_noun",
+      "arabic": "الاسم الجامد",
+      "status": "conditional_classification_only",
+      "source_declarations": [
+        "A116.RootGrade.sinf",
+        "A116.RootGrade.khumasi_jamid",
+        "A116.Dalalat.Kulli"
+      ],
+      "finding": "RootGrade labels supplied original-radical counts 3/4 as mutasarrif and 5 as jamid by definition. This neither counts original radicals from spelling nor decides nominal semantic jamid/mushtaq."
+    },
+    {
+      "id": "masdar",
+      "arabic": "المصدر",
+      "status": "declared_lexical_mapping_only",
+      "source_declarations": [
+        "A116.Khawass.Masdar",
+        "A116.QiraaMadlul.Mujam.masdarOf",
+        "A116.QiraaMadlul.mujamShahid"
+      ],
+      "finding": "Six named semantic source constructors in Khawass; the QiraaMadlul witness maps three supplied roots to those sources. No general masdar-pattern extractor or unique verb-to-masdar rule is established here."
+    },
+    {
+      "id": "agent_noun",
+      "arabic": "اسم الفاعل",
+      "status": "bounded_template_and_candidate_relation",
+      "source_declarations": [
+        "A116.QiraaMadlul.faail",
+        "A116.QiraaMadlul.sighaCands_iff",
+        "A116.QismAwamil.amr_faail_yashtabih"
+      ],
+      "finding": "One triliteral faail template among eight declared reading templates. Candidate matching over a supplied root list ignores only the final nominal vowel. Template shape is shared with Form III imperative."
+    },
+    {
+      "id": "passive_participle",
+      "arabic": "اسم المفعول",
+      "status": "bounded_template_and_candidate_relation",
+      "source_declarations": [
+        "A116.QiraaMadlul.mafool",
+        "A116.QiraaMadlul.sighaCands_iff"
+      ],
+      "finding": "One triliteral mafool template with declared ismMafool label. This is not a general weak-root or nontriliteral participle derivation procedure, nor an actual object-role assignment."
+    },
+    {
+      "id": "instrument_noun",
+      "arabic": "اسم الآلة",
+      "status": "no_named_operational_contract_located",
+      "source_declarations": [],
+      "finding": "No named class recognizer or generator located in the 157 Lean files at this pin. Corpus occurrences and generic template machinery do not establish this requested class."
+    },
+    {
+      "id": "place_noun",
+      "arabic": "اسم المكان",
+      "status": "no_named_operational_contract_located",
+      "source_declarations": [],
+      "finding": "No named place-noun recognizer or generator located in the reviewed Lean inventory. A new template would need source-supported conditions and explicit overlap handling."
+    },
+    {
+      "id": "sifa_mushabbaha",
+      "arabic": "الصفة المشبهة",
+      "status": "no_named_operational_contract_located",
+      "source_declarations": [
+        "A116.Tasrif.Sifa"
+      ],
+      "finding": "Tasrif.Sifa is a root phonological feature record (waw/ya/hamza/lam/other and doubling), not the semantic category sifa mushabbaha. No dedicated category generator or recognizer located."
+    },
+    {
+      "id": "diminutive",
+      "arabic": "التصغير",
+      "status": "no_named_operational_contract_located",
+      "source_declarations": [],
+      "finding": "No dedicated diminutive contract located in the pinned Lean inventory. The absence claim is scoped to this inventory and search/read audit."
+    },
+    {
+      "id": "comparative",
+      "arabic": "اسم التفضيل",
+      "status": "explicit_shape_ambiguity_boundary",
+      "source_declarations": [
+        "A116.QismAwamil.afal_yashtabih"
+      ],
+      "finding": "The same afal-like shape accepts the first-person imperfect and comparative-shaped examples. The theorem is an ambiguity counterexample, not a general comparative license."
+    },
+    {
+      "id": "bare_past",
+      "arabic": "الماضي المجرد",
+      "status": "conditional_generation",
+      "source_declarations": [
+        "A116.Ishtiqaq.t_past_I_a",
+        "A116.Ishtiqaq.t_past_I_i",
+        "A116.Ishtiqaq.t_past_I_u",
+        "A116.Tasrif.madi_exhausted"
+      ],
+      "finding": "Three declared vowel templates; Tasrif proves cell-law licensing for its rules on every supplied NoAlif triliteral root. It does not establish lexical attestation or acquire the correct lexical bab."
+    },
+    {
+      "id": "augmented_past",
+      "arabic": "الماضي المزيد",
+      "status": "conditional_generation",
+      "source_declarations": [
+        "A116.Ishtiqaq.soundTemplates",
+        "A116.Rubai.abniya"
+      ],
+      "finding": "Eight augmented triliteral past templates II, III, IV, V, VI, VII, VIII, X (IX absent from soundTemplates). Six quadriliteral surface entries are separately defined. Semantic derivation eligibility is external."
+    },
+    {
+      "id": "passive_voice",
+      "arabic": "المبني للمجهول",
+      "status": "bounded_conditional_generation",
+      "source_declarations": [
+        "A116.Ishtiqaq.t_passive_I",
+        "A116.Ishtiqaq.soundTemplates",
+        "A116.Rubai.fuilila",
+        "A116.Neutral.realizeN"
+      ],
+      "finding": "Nine declared triliteral passive past templates and one quadriliteral passive template. Neutral explicitly leaves hollow passive among its named gaps; these are not complete weak-verb voice transformations."
+    },
+    {
+      "id": "imperfect",
+      "arabic": "المضارع",
+      "status": "conditional_generation_with_distinct_scopes",
+      "source_declarations": [
+        "A116.Mudari.Form",
+        "A116.Mudari.reference_licensed",
+        "A116.Tasrif.mudari_exhausted"
+      ],
+      "finding": "Mudari has nine form constructors and a finite reference-root licensing theorem. Tasrif gives all-NoAlif-root cell-law results for two babs (mujarrad, afala), four prefixes, three supplied middle vowels and three endings. Lexical vowel choice remains input."
+    },
+    {
+      "id": "imperative",
+      "arabic": "الأمر",
+      "status": "conditional_generation_with_named_exceptions",
+      "source_declarations": [
+        "A116.Ishtiqaq.soundTemplates",
+        "A116.Mudari.amr_head_vowelled",
+        "A116.Mudari.amr_restores_mudari",
+        "A116.Tasrif.amr_exhausted"
+      ],
+      "finding": "Eleven simple template entries plus transformed-root procedures. The general head-vowel theorem concerns the defined output. The imperfect reconstruction theorem is a finite reference-list check excluding named deleted-hamza roots."
+    },
+    {
+      "id": "future",
+      "arabic": "المستقبل",
+      "status": "conditional_temporal_features_not_pattern_inference",
+      "source_declarations": [
+        "A116.Istiqama.Zaman",
+        "A116.Istiqama.Juz",
+        "A116.Istiqama.awqatFil",
+        "A116.Istiqama.sawfa_ams",
+        "A116.Istiqama.mudari_la_muhal"
+      ],
+      "finding": "A separate temporal layer has supplied mustaqbal tags and a supplied istiqbal flag for particles such as sawfa. Its header explicitly says ISTIQAMA_FEATURES_ARE_INPUT. No extraction of a future meaning from raw text is proved."
+    }
+  ],
+  "candidate_contracts": [
+    {
+      "id": "typed_template_application",
+      "priority": 1,
+      "source_declarations": [
+        "A116.Ishtiqaq.extract_fill_wf",
+        "A116.Ishtiqaq.fill_injective",
+        "A116.Wazn.fillC_determines_root"
+      ],
+      "contract": "Known template and supplied typed root produce a surface. Under slot coverage, equality of applications of the same template determines the represented radicals.",
+      "finite_domain": "The checked Ishtiqaq inventory has 31 templates: 11 past, 9 passive past and 11 imperative; its WF is exactly slots [0,1,2].",
+      "premises": [
+        "Validate root arity and carrier alphabet independently.",
+        "Retain template identity and context/ending parameters.",
+        "Do not extend fixed-template injectivity across different templates or lossy weak-root transforms."
+      ],
+      "transfer": "Reprove this generic contract in NABT; generated shapes carry no lexical/semantic authority."
+    },
+    {
+      "id": "exact_inverse_candidates",
+      "priority": 1,
+      "source_declarations": [
+        "A116.QiraaMadlul.sighaCands_iff",
+        "A116.QiraaMadlul.sigha_wad",
+        "A116.Ishtiqaq.form_alone_does_not_determine_root"
+      ],
+      "contract": "Candidate membership iff an allowed template and candidate root re-render the observed form under the explicitly chosen match relation.",
+      "finite_domain": "Complete relative to the enumerated templates and root candidate domain, not to all attested Arabic words.",
+      "premises": [
+        "Check literals and total length, not extract alone.",
+        "Keep root/template/match-mode identity, with every ambiguity.",
+        "Distinguish a structural root candidate from a lexically attested root.",
+        "Preserve raw source bytes when comparing normalized cells."
+      ],
+      "transfer": "Use a validated inverse or bounded enumerator plus exact forward replay; do not copy QiraaMadlul erasure of template identity or assume its input word classes."
+    },
+    {
+      "id": "conditional_inflection_tables",
+      "priority": 2,
+      "source_declarations": [
+        "A116.Tasrif.madi_exhausted",
+        "A116.Tasrif.mudari_exhausted",
+        "A116.Tasrif.amr_exhausted",
+        "A116.Rubai.rubai_licensed"
+      ],
+      "contract": "The declared transformation rules satisfy the upstream cell/continuation/pause predicates on the stated feature domains.",
+      "finite_domain": "250 triliteral feature states; 625 quadriliteral class states; domains differ between modules.",
+      "premises": [
+        "The root, form, lexical bab, voice, prefix and requested ending are supplied evidence.",
+        "NABT must verify its own sound law; upstream strictB is not automatically NABT validity.",
+        "Preserve the named hamza, weak-passive, pause and unsupported-template boundaries."
+      ],
+      "transfer": "A later bounded transducer with edit receipts and independent linguistic fixtures; do not import broad lexical correctness claims."
+    },
+    {
+      "id": "lossless_transform_receipts",
+      "priority": 1,
+      "source_declarations": [
+        "A116.Recovery.edit_roundtrip",
+        "A116.Recovery.restoration_forces_fiber_separation",
+        "A116.Neutral.neutral_forgets_weak"
+      ],
+      "contract": "A removed-material/position record reverses a chosen edit. Distinct roots collapsing to one normalized form require distinct residual evidence to be recovered.",
+      "finite_domain": "General list theorem; linguistic authorization for each edit remains a separate obligation.",
+      "premises": [
+        "Bind receipts to the source occurrence, reading and operation.",
+        "A reversible edit is not proof that the edit is linguistically licensed."
+      ],
+      "transfer": "Reuse the separation of reversibility and license in the existing NABT receipt model."
+    },
+    {
+      "id": "conditional_future_relation",
+      "priority": 2,
+      "source_declarations": [
+        "A116.Istiqama.awqatFil",
+        "A116.Istiqama.sawfa_ams",
+        "A116.Istiqama.mudari_la_muhal"
+      ],
+      "contract": "Once verbal tense and a contextual future cue are established, compute the relative temporal feature; an unqualified imperfect alone does not fix the before/after-now relation.",
+      "finite_domain": "Supplied temporal tags and particle flags; this is separate from the morphological template inventory.",
+      "premises": [
+        "Independently establish the verb reading and cue scope.",
+        "Do not let bare adjacency create missing lexical kind or tense."
+      ],
+      "transfer": "Separate future cue receipt from an inflection-template label."
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "EXTRACT_IS_NOT_RECOGNITION",
+      "source": [
+        "Ishtiqaq.extract",
+        "Ishtiqaq.extract_fill_wf"
+      ],
+      "finding": "extract skips literal positions without checking their values, tolerates mismatched lengths by returning partial lists, and proves only extraction from a filled template. A recognizer must validate length/literals and replay fill."
+    },
+    {
+      "id": "CROSS_TEMPLATE_COLLISION",
+      "source": [
+        "Ishtiqaq.form_alone_does_not_determine_root"
+      ],
+      "finding": "VII applied to ت ب ر and VIII applied to ن ب ر yield the same supplied template form انْتَبَر. Fixed-template injectivity does not make root inference unique."
+    },
+    {
+      "id": "CATEGORY_SHAPE_COLLISION",
+      "source": [
+        "QismAwamil.afal_yashtabih",
+        "QismAwamil.amr_faail_yashtabih"
+      ],
+      "finding": "أَعْلَمُ/أَحْسَنُ/أَكْبَرُ share the checked afal shape; قَاتِلْ/جَاهِدِ/كَاتِبُ share its faail predicate. A successful shape predicate is not a semantic category decision."
+    },
+    {
+      "id": "WEAK_ROOT_INFORMATION_LOSS",
+      "source": [
+        "Neutral.neutral_forgets_weak",
+        "Neutral.neutral_identifies_lit_and_radical"
+      ],
+      "finding": "The defined neutralization maps قول and قيل to the same قال cells; it also collapses the III/IV applications to ءمن. Root/template provenance cannot be recovered uniquely from those cells."
+    },
+    {
+      "id": "LEXICAL_BAB_NOT_ACQUIRED",
+      "source": [
+        "Tasrif.madi",
+        "Tasrif.mudari",
+        "Tasrif.madi_exhausted",
+        "Tasrif.mudari_exhausted"
+      ],
+      "finding": "The header explicitly distinguishes all nine past/imperfect vowel combinations licensed by the cell law from the six lexical babs. Choosing the correct lexical middle vowel is external evidence."
+    },
+    {
+      "id": "HAMZA_MODULE_FORK",
+      "source": [
+        "Tasrif.sharedRoots",
+        "Tasrif.agrees_with_mudari",
+        "Tasrif.hamza_fork"
+      ],
+      "finding": "The modules agree only on a restricted shared reference set; first/middle-hamza roots are excluded. The code explicitly demonstrates different ءمن outputs, and Mudari has an additional named رأى shortening rule."
+    },
+    {
+      "id": "WASL_LAM_BOUNDARY",
+      "source": [
+        "Wazn.wasl_lam_conflict",
+        "Mudari.amr_lqy"
+      ],
+      "finding": "Wazn uses an article-oriented wasl-vowel rule that opens before root lam; the verb-oriented rule in Mudari closes the imperative of لقي/VIII with kasra. Do not transfer the broad Wazn entry-vowel rule unchanged."
+    },
+    {
+      "id": "NAMED_IRREGULAR_AND_PAUSE_RULES",
+      "source": [
+        "Mudari.takhfifRoots",
+        "Mudari.hadhfFaRoots",
+        "Tasrif.amrKhudh",
+        "Tasrif.amrPause",
+        "Tasrif.taqi_not_syllable_forced"
+      ],
+      "finding": "رأى and أخذ/أكل/أمر are named branches. Some pause behavior is deposited from remaining radical count, not forced by syllable acceptance. Correctness of named linguistic branches is separate from list algebra."
+    },
+    {
+      "id": "INVENTORY_LIMITS",
+      "source": [
+        "Ishtiqaq.soundTemplates",
+        "Rubai.ifanlala_refused",
+        "Neutral.realizeN"
+      ],
+      "finding": "IX is absent from the 31 templates and Mudari.Form. افعنلل is explicitly unavailable in Rubai for lack of a sealed vowel witness. Hollow passive and several transformations remain outside Neutral realization."
+    },
+    {
+      "id": "INPUT_CLASS_AND_ROLE",
+      "source": [
+        "QiraaMadlul.Mujam",
+        "QiraaMadlul.qiraa",
+        "Khawass.Naw",
+        "Istiqama.Juz"
+      ],
+      "finding": "Word class, lexical root list, root-to-masdar mapping, usage, temporal descriptions and frame assumptions remain supplied. Labeling an output ismFaail or filMajhul does not prove a real sentence role."
+    },
+    {
+      "id": "ROOT_STRING_VALIDATION",
+      "source": [
+        "Wad.ofStr3",
+        "QiraaMadlul.surat"
+      ],
+      "finding": "ofStr3 reads the first three characters with defaults. It is a representation helper for declared data, not an admissibility checker for arbitrary input root strings."
+    },
+    {
+      "id": "GRAPH_IS_NOT_DERIVATION_INFERENCE",
+      "source": [
+        "Derivation.edges",
+        "Derivation.stationary_unique"
+      ],
+      "finding": "Derivation is a ten-node, nine-edge authored Markov graph; its exact stationary-vector theorem proves the graph arithmetic, not lexical derivability, template recognition or universal Arabic frequency."
+    },
+    {
+      "id": "SEMANTIC_AXIS_NOT_PATTERN",
+      "source": [
+        "RootGrade.sinf",
+        "Dalalat.wazn_la_yuayyin_mutawaa"
+      ],
+      "finding": "Original-radical degree, conjugating/frozen root families, semantic jamid/mushtaq, and actual lexical derivation are distinct. Dalalat explicitly disproves a pattern-only mutawaa decision on its declared examples."
+    }
+  ],
+  "recommended_first_slice": "Typed slot/literal templates with source-bound root candidates, exact replay, explicit pattern identity and ambiguity, and a transparent inventory of requested categories. Generated template labels must not activate lexical, semantic, tense, voice or syntactic classifications without independent evidence."
+}

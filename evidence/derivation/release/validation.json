@@ -1,0 +1,545 @@
+{
+  "schema": "nabt.derivation.release-validation.v1",
+  "recorded_at_utc": "2026-10-23T12:00:19.535672+00:00",
+  "package_version": "0.10.0a1",
+  "status": "BOUNDED_VALIDATION_PASS",
+  "repository_base_commit": "07d2be22192c8d083d27f0069da10168b9445578",
+  "previous_local_implementation_head": "7cdf364573d376b82fdfe55ca9e5e1161a1567a0",
+  "implementation_commit": "cf239e80c3af331e809d7e1d7f1ba25e7febfeb0",
+  "release_commit": null,
+  "release_commit_note": "The following evidence-only commit contains this record; source and runtime identities are pinned without a recursive commit hash.",
+  "implementation_commit_matches_runtime_and_verification_sources": true,
+  "committed_source_files_checked": 184,
+  "runtime": {
+    "freeze_version": "derivation_v1",
+    "manifest": {
+      "path": "evidence/derivation/code_freeze_v1.json",
+      "bytes": 9795,
+      "sha256": "5cdea1a66bd92f3f014cc2f14ab2d502f43f630d03977cb111020e3370907eed"
+    },
+    "snapshot_sha256": "e8e31cdaa1cb56e3700befd4d8fb883e11f83cd684e6cd72b45e133410bf3cac",
+    "file_count": 49,
+    "archive": {
+      "path": "evidence/derivation/code_freeze_v1.tar.gz",
+      "bytes": 861883,
+      "sha256": "fd24793a4fb805425e4bba60219c70a0f1fbb4dda7a89b07d1c6a0ffc6c3b060"
+    },
+    "current_bytes_match_frozen_inventory": true,
+    "inventory_is_exact_authoritative_runtime": true,
+    "archive_members_match_frozen_inventory": true
+  },
+  "verification_sources": {
+    "path": "evidence/derivation/release/verification-source-manifest.json",
+    "bytes": 22788,
+    "sha256": "95ae2287ac17d7302e409635a4b2e1e441ec3e0c9bad642da4eb6c056e1cce7b",
+    "file_count": 135
+  },
+  "full_check": {
+    "outcome": "PASS",
+    "runner_observed_exit_code": 0,
+    "tests_run": 523,
+    "failures": 0,
+    "test_seconds": 17.739,
+    "reproduction_command": "make check LAKE=/absolute/path/to/lake EVIDENCE_DIR=artifacts/local/derivation-reproduction/verified ARABIC_EVALUATION_DIR=artifacts/local/derivation-reproduction/verified/arabic-regression",
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "log": {
+      "archive_member": "make-check.log",
+      "bytes": 115014,
+      "sha256": "669f073ef6f7b9f1dffa713526bcb0e5b6a9f5616b75ab4214d5e781cd7fd792"
+    },
+    "last_integrity_gate_passed": true,
+    "runtime_environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    }
+  },
+  "formal_audit": {
+    "report": {
+      "archive_member": "verified/axioms.json",
+      "bytes": 35674,
+      "sha256": "9e4dd92ec5561deb2d4c191befa0724e88f1847d8d52d90260bd0f4963bc1a95"
+    },
+    "raw_log": {
+      "archive_member": "verified/axioms.log",
+      "bytes": 34651,
+      "sha256": "35dfe965648a96211b25765402f86166697b8acb687e821cbaa3d6a9717950a3"
+    },
+    "theorem_count": 476,
+    "new_theorems": 55,
+    "new_theorem_groups": {
+      "general_and_core_patterns": 26,
+      "conditional_verb_availability": 17,
+      "nominal_supplement": 12
+    },
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true
+  },
+  "derivation_conformance": {
+    "report": {
+      "archive_member": "verified/derivation-conformance.json",
+      "bytes": 573,
+      "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73"
+    },
+    "ok": true,
+    "law_id": "nabt.derivation-patterns.v1",
+    "table_sha256": "0b4d6673c033955490468ad595fc1e988890bba282101e81a80580d3fc1fbf2f",
+    "patterns": 71,
+    "bounded_preimage_checks": 1980,
+    "literal_and_length_counterexamples": 12951,
+    "root_domain_counterexamples": 213,
+    "repeated_slot_checks": 2,
+    "paradigm_truth_set_rows": 64,
+    "scope": "Fresh Lean registry equality; bounded inverse refinement; complete conditional availability algebra. No unrestricted Arabic reader, lexical classification, weak-form realization, or linguistic completeness claim."
+  },
+  "independent_evaluation": {
+    "report": {
+      "archive_member": "verified/derivation-regression.json",
+      "bytes": 146265,
+      "sha256": "d89945dbf0fa41ea6e71519f6ffac2f4e728bbbf09ef28fd40f59f4489be5329"
+    },
+    "raw_score": {
+      "passed": 96,
+      "total": 96
+    },
+    "task_scores": {
+      "parsing": {
+        "passed": 74,
+        "total": 74
+      },
+      "availability": {
+        "passed": 16,
+        "total": 16
+      },
+      "source_replay": {
+        "passed": 2,
+        "total": 2
+      },
+      "generation": {
+        "passed": 48,
+        "total": 48
+      },
+      "semantic_restraint": {
+        "passed": 74,
+        "total": 74
+      }
+    },
+    "passed": true,
+    "material_sha256": "e2374049ac135a290b4298e4ce0a4eef872a30a5e63fcdbc2c8a638e10059650",
+    "claim_limits": {
+      "raw_source_preserved": true,
+      "normalization": "NONE",
+      "parse_answer_inputs_forbidden": [
+        "root",
+        "pattern_id",
+        "word_class",
+        "semantic_class",
+        "productivity_answer"
+      ],
+      "generation_input_distinction": "Root and template are explicit construction operands; using them does not constitute root discovery.",
+      "forbidden_promotions": [
+        "lexically_attested_root",
+        "activated_word_class",
+        "semantic_jamid_or_mushtaq",
+        "actual_syntactic_role",
+        "actual_case",
+        "universal_productivity",
+        "world_truth"
+      ],
+      "candidate_comparison": "Expected candidates are required subsets; only named exclusions are forbidden. Do not erase genuine collisions by requiring singleton equality.",
+      "paradigm_condition": "jamid/partial/full names mean only 1/2/3 available forms under explicit source assertions; unknown is not negative; source classification is not an acquired linguistic fact."
+    },
+    "history": {
+      "first_run": {
+        "path": "evidence/derivation/independent_first_run_v1.json",
+        "bytes": 86400,
+        "sha256": "abe0db8e133e2819e8289f90c549c69cd33ce10fb23f7cc9c2475df44840c853"
+      },
+      "adapter_erratum": {
+        "path": "evidence/derivation/adapter_erratum_v1.json",
+        "bytes": 2010,
+        "sha256": "092e6e7d43df7374bccfc98b114f48e39c4968afc4ff31713e46ef31782f7d7a"
+      },
+      "second_run": {
+        "path": "evidence/derivation/independent_second_run_v1.json",
+        "bytes": 146428,
+        "sha256": "de7436c489d39a5da879db2146855307a699ba19a1eef398a46d1eb6d7e74821"
+      },
+      "first_raw_score": "6/96; invalid morphology measurement because the adapter used invalid source IDs",
+      "gold_text_or_expected_answers_changed": false,
+      "pre_first_run_quotation_correction": {
+        "path": "evidence/derivation/pre_first_run_review_v1.json",
+        "bytes": 2214,
+        "sha256": "1f581e2beb59469ec6bdd608fa9730bae9e3929190f39016936e3e75b88d38d7"
+      }
+    }
+  },
+  "old_regressions": {
+    "text_morphology": {
+      "report": {
+        "archive_member": "verified/text-morphology-regression.json",
+        "bytes": 216713,
+        "sha256": "b2bbc7167b816b7252eff575e5b6d5348747c56d80bde03ca67aaaa51e559aff"
+      },
+      "raw_score": {
+        "passed": 40,
+        "total": 40
+      },
+      "passed": true
+    },
+    "morphology": {
+      "report": {
+        "archive_member": "verified/morphology-regression.json",
+        "bytes": 214881,
+        "sha256": "32be3d6ebdf046e96e015d05c3e6f9790412257654b18cdcb0e683fad6561f3a"
+      },
+      "summary": {
+        "passed": 39,
+        "total": 43,
+        "groups": {
+          "property_inference": {
+            "passed": 16,
+            "total": 16
+          },
+          "missing_information": {
+            "passed": 6,
+            "total": 6
+          },
+          "scope_boundary": {
+            "passed": 1,
+            "total": 5
+          },
+          "contradiction": {
+            "passed": 3,
+            "total": 3
+          },
+          "reading_isolation": {
+            "passed": 2,
+            "total": 2
+          },
+          "malformed_input": {
+            "passed": 1,
+            "total": 1
+          },
+          "unseen_identifier_transfer": {
+            "passed": 2,
+            "total": 2
+          },
+          "source_retraction": {
+            "passed": 2,
+            "total": 2
+          },
+          "certificate_integrity": {
+            "passed": 5,
+            "total": 5
+          },
+          "source_semantic_counterexample": {
+            "passed": 1,
+            "total": 1
+          }
+        },
+        "failed_ids": [
+          "m12",
+          "m13",
+          "m32",
+          "m33"
+        ],
+        "documented_boundary_ids": [
+          "m12",
+          "m13",
+          "m32",
+          "m33"
+        ],
+        "regression_gate_with_declared_boundaries": true
+      }
+    },
+    "words": {
+      "report": {
+        "archive_member": "verified/word-regression.json",
+        "bytes": 375339,
+        "sha256": "80576ae20bc60b318c19b8d854a56d3adaf76cbbfc2ddce1a012d71e7a4467b3"
+      },
+      "summary": {
+        "cases": 30,
+        "passed": 27,
+        "positive_capability_passed": 12,
+        "positive_capability_cases": 15,
+        "all_cases_passed": false,
+        "full_coverage_goal_passed": false,
+        "release_regression_gates_passed": true
+      }
+    },
+    "governors": {
+      "report": {
+        "archive_member": "verified/governor-regression/summary.json",
+        "bytes": 2132,
+        "sha256": "1c143f55b054595501e02368b0ce6af805c601c7747a1efcda9af5b5f1d7c73f"
+      },
+      "summary": {
+        "declared_scope": {
+          "episodes": 12,
+          "complete_episodes": 0,
+          "required_sources": 16,
+          "complete_source_readings": 1,
+          "queries": 20,
+          "query_matches": 3,
+          "source_restoration_episodes": 12,
+          "licensed_claim_episodes": 12,
+          "certificate_count": 1,
+          "governor_cue_reports": 14,
+          "complete_governor_cue_reports": 14,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 12,
+          "numeric_program_roundtrips": 12,
+          "production_receipt_replays": 12
+        },
+        "beyond_declared_scope": {
+          "episodes": 4,
+          "complete_episodes": 0,
+          "required_sources": 0,
+          "complete_source_readings": 0,
+          "queries": 0,
+          "query_matches": 0,
+          "source_restoration_episodes": 4,
+          "licensed_claim_episodes": 4,
+          "certificate_count": 0,
+          "governor_cue_reports": 1,
+          "complete_governor_cue_reports": 1,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 4,
+          "numeric_program_roundtrips": 4,
+          "production_receipt_replays": 4
+        },
+        "safety_control": {
+          "episodes": 16,
+          "complete_episodes": 0,
+          "required_sources": 0,
+          "complete_source_readings": 0,
+          "queries": 0,
+          "query_matches": 0,
+          "source_restoration_episodes": 16,
+          "licensed_claim_episodes": 16,
+          "certificate_count": 0,
+          "governor_cue_reports": 0,
+          "complete_governor_cue_reports": 0,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 16,
+          "numeric_program_roundtrips": 16,
+          "production_receipt_replays": 16
+        },
+        "identity_supplement": {
+          "episodes": 6,
+          "complete_episodes": 4,
+          "required_sources": 6,
+          "complete_source_readings": 4,
+          "queries": 8,
+          "query_matches": 6,
+          "source_restoration_episodes": 6,
+          "licensed_claim_episodes": 6,
+          "certificate_count": 4,
+          "governor_cue_reports": 7,
+          "complete_governor_cue_reports": 5,
+          "governor_cue_errors": 0,
+          "independent_certificate_episodes": 6,
+          "numeric_program_roundtrips": 6,
+          "production_receipt_replays": 6
+        },
+        "original_excerpts": {
+          "total": 6,
+          "semantic_read": 0,
+          "source_restored": 6,
+          "licensed_claims": 6
+        }
+      }
+    },
+    "arabic_syntax": {
+      "report": {
+        "archive_member": "verified/arabic-regression/receipt.json",
+        "bytes": 3092,
+        "sha256": "bd941c39f85242e844789c7def37981ce2653babcfdc136e294673f696a307bd"
+      },
+      "receipt": {
+        "schema": "nabt.arabic-syntax.public-regression-receipt.v2",
+        "evaluator_version": "nabt.arabic-syntax.independent-evaluator.v2",
+        "evaluation_kind": "public_regression",
+        "frozen_inputs": {
+          "manifest_sha256": "d42eab25417d1bac2659337c78769dfc9a299b808379752236bf016cfff50429",
+          "files_checked": 28
+        },
+        "runtime_snapshot": "e8e31cdaa1cb56e3700befd4d8fb883e11f83cd684e6cd72b45e133410bf3cac",
+        "runtime_files_checked": 49,
+        "statement_oracle": {
+          "path": "evidence/arabic_syntax/review_fixes/statement_oracle_v2.json",
+          "sha256": "73c232127ce3da747b54face3f508273e3730be37a89522dceec4d5446cbd0bd",
+          "kind": "post-evaluation public-reference annotation, not new blinded gold"
+        },
+        "evaluator_files": [
+          {
+            "path": "tools/arabic_syntax_evaluation_helpers/__init__.py",
+            "sha256": "ed95cf1eb1ef675e7d4871a77496a916e754a92fc395e63b23a18da295c7c3e6"
+          },
+          {
+            "path": "tools/arabic_syntax_evaluation_helpers/oracle_helpers.py",
+            "sha256": "8fc38058d3f5e456ccaef8187e4e11b900cc25c880c36879b562182410eeac89"
+          },
+          {
+            "path": "tools/arabic_syntax_evaluation_helpers/runner.py",
+            "sha256": "4a30b2fe50d89b213ba4525f92442a38d9363b991d66473bbc5cc763a06ae903"
+          },
+          {
+            "path": "tools/arabic_syntax_evaluation_helpers/statement_oracle.py",
+            "sha256": "82a0526f4ef4e5612fc4545ea336d40efbe880346eb9637e590e838585e394b1"
+          },
+          {
+            "path": "tools/arabic_syntax_evaluation.py",
+            "sha256": "f1092337030f4cc843571fc5dd0288747ba24daf8b498adaf3605b8969ac0d0e"
+          },
+          {
+            "path": "tools/text_evaluation/integrity.py",
+            "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+          }
+        ],
+        "gate": {
+          "passed": true,
+          "scope": "published bounded-profile regression; not the 300-episode coverage gate",
+          "no_incorrect_admitted_claim": true,
+          "all_source_bytes_restored": true,
+          "independent_certificate_checks_pass": true,
+          "previously_complete_cases_preserved": true,
+          "same_frozen_runtime_reproduces_published_counts": true,
+          "exact_published_counts": true,
+          "complete_case_inventory": true,
+          "within_recorded_budgets": true,
+          "standalone_complete": 0,
+          "standalone_total": 40,
+          "original_excerpt_semantic_read": 0,
+          "original_excerpt_total": 8
+        },
+        "summary": {
+          "standalone": {
+            "episodes": 40,
+            "complete_episodes": 0,
+            "queries": 43,
+            "raw_query_matches": 0,
+            "covered_query_matches": 0,
+            "source_restoration_episodes": 40,
+            "licensed_claim_episodes": 40,
+            "source_admission_and_projection_complete": 1,
+            "budget_pass": 40
+          },
+          "declared_scope": {
+            "episodes": 12,
+            "complete_episodes": 8,
+            "queries": 11,
+            "raw_query_matches": 9,
+            "covered_query_matches": 9,
+            "source_restoration_episodes": 12,
+            "licensed_claim_episodes": 12,
+            "source_admission_and_projection_complete": 8,
+            "budget_pass": 12
+          },
+          "real_excerpts": {
+            "total": 8,
+            "semantic_read": 0,
+            "source_restored": 8,
+            "licensed_claims": 8
+          }
+        }
+      }
+    }
+  },
+  "wheel": {
+    "report": {
+      "archive_member": "wheel-smoke.json",
+      "bytes": 902,
+      "sha256": "140f4a5b5eabc0525cd3a524f423b3ae1a159afcce927261cb54b6fdc43e5aea"
+    },
+    "ok": true,
+    "package_version": "0.10.0a1",
+    "module_origin": "/tmp/nabt-derivation-wheel-check/nabt/__init__.py",
+    "cwd": "/tmp",
+    "python_version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "checks": [
+      "installed_generated_registry",
+      "external_source_replay",
+      "reversible_report_number",
+      "no_class_or_case_promotion",
+      "cross_pattern_roots_preserved",
+      "new_instrument_projection",
+      "forged_case_rejected",
+      "conditional_paradigm_axis",
+      "paradigm_external_replay",
+      "cli_read_exit_is_defer",
+      "cli_external_verify",
+      "cli_catalog",
+      "cli_paradigm",
+      "cli_paradigm_verify"
+    ],
+    "wheel_sha256": "d195b521aa1543590358c2890a857fc14f88c77269f900cfb9a563a51a932c5f",
+    "wheel_bytes": 929207,
+    "source_tree_imported": false,
+    "scope": "Installed package APIs, CLI, packaged law, exact replay, ambiguity and authority boundaries"
+  },
+  "verification_records": {
+    "archive": {
+      "path": "evidence/derivation/release/verification-records.tar.gz",
+      "bytes": 504608,
+      "sha256": "ed545172df053fefd1608e693bdb25466aebb524a6ef9e9a640760c863a14922"
+    },
+    "manifest": {
+      "path": "evidence/derivation/release/verification-records-manifest.json",
+      "bytes": 6320,
+      "sha256": "e61ba4095456cf959fd819e05858df29a53777297051ecef1d6e81c67ecc541f"
+    },
+    "file_count": 34
+  },
+  "source_provenance": {
+    "repositories_reviewed": 9,
+    "upstream_rebuilt": false,
+    "source_audits": [
+      {
+        "path": "evidence/derivation/source_audit_mashru.json",
+        "bytes": 134668,
+        "sha256": "e23ce25565065e9961828b2f9451a969a8cc3d95938d9f76120838a64fc84e21"
+      },
+      {
+        "path": "evidence/derivation/source_audit_alghanem.json",
+        "bytes": 78645,
+        "sha256": "a3b421bffb8e009247b0a00f7cc39abeba473742520688a0c1d0b65ba5a2b410"
+      },
+      {
+        "path": "evidence/derivation/source_audit_other.json",
+        "bytes": 56399,
+        "sha256": "375fe413fc78b43498c52b720938bd3f60ac8cc157cd527673f7b38016278056"
+      }
+    ],
+    "coverage": {
+      "path": "evidence/derivation/requested_category_coverage.json",
+      "bytes": 37558,
+      "sha256": "b73a08cf9d56ef733541bde604358a9b154b71cacc5bc44211840336102585f5"
+    },
+    "nominal_projection_sources": {
+      "path": "evidence/derivation/nominal_pattern_sources.json",
+      "bytes": 77723,
+      "sha256": "c69929260673c89ebe7deea73e019bba60a670a184fea77ca61b526c39471462"
+    }
+  },
+  "publication": {
+    "status": "NOT_PUBLISHED",
+    "branch": "feat/derivation-pattern-evidence",
+    "reason": "No usable GitHub credential is present; the connected installation's selected repositories do not include NABT. User authorization is already granted.",
+    "merge_performed": false
+  },
+  "limits": [
+    "Shape candidates are not attested lexical roots, word kinds, semantic classes, syntactic roles or case.",
+    "The 96-case material has positive pre-implementation coverage of44 core patterns; the27 later nominal patterns have separate authored examples, formal contracts and conformance evidence.",
+    "Verb availability classification is conditional on explicit same-lexeme source assertions; missing corpus forms are not negative evidence.",
+    "The finite profiles do not include general weak/hamza realization, clitic/nun attachment, augmented participles, passive imperfect, complete quadriliteral conjugation, or recovery of the pre-diminutive word.",
+    "Python Unicode parsing, source-span construction and linguistic premise truth have not received a complete Lean refinement proof.",
+    "Previous broad Arabic/governor coverage limits remain unchanged; passing regression gates is not full coverage."
+  ]
+}

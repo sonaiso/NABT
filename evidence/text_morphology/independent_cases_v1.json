@@ -1,0 +1,978 @@
+{
+  "schema": "nabt.text-morphology.independent-cases.v1",
+  "base_commit": "07d2be22192c8d083d27f0069da10168b9445578",
+  "authoring_method": "AUTHORED_BEFORE_OPENING_NEW_TEXT_MORPHOLOGY_IMPLEMENTATION",
+  "authority_limit": "Bounded independent regression/reference cases, not an untouched external corpus, training run, or full Arabic coverage benchmark.",
+  "global_properties": [
+    "exact source and UTF-8 occurrence spans are preserved",
+    "facts remain empty",
+    "world truth is not established",
+    "no actual syntactic role or grammatical case is invented from kind",
+    "replay must reject changed source, scope, lexical evidence or derived output"
+  ],
+  "cases": [
+    {
+      "id": "tm01",
+      "category": "positive_surface",
+      "input": {
+        "text": "رَجُلٌ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "رَجُلٌ",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "رَجُلٌ",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "رَجُلٌ"
+        }
+      ],
+      "rationale": "Terminal nominative tanwin supports noun kind without supplying inflection subclass."
+    },
+    {
+      "id": "tm02",
+      "category": "positive_surface",
+      "input": {
+        "text": "مَرْكَبَةٍ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "مَرْكَبَةٍ",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "مَرْكَبَةٍ",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "مَرْكَبَةٍ"
+        }
+      ],
+      "rationale": "Kasr tanwin on a ta marbuta carrier is still a noun sign."
+    },
+    {
+      "id": "tm03",
+      "category": "positive_surface",
+      "input": {
+        "text": "رَجُلًا",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "رَجُلًا",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "رَجُلًا",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "رَجُلًا"
+        }
+      ],
+      "rationale": "Fath tanwin may precede the orthographic support alif; the source bytes must not be rewritten."
+    },
+    {
+      "id": "tm04",
+      "category": "positive_surface",
+      "input": {
+        "text": "رَجُلاً",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "رَجُلاً",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "رَجُلاً",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "رَجُلاً"
+        }
+      ],
+      "rationale": "Fath tanwin written on the support alif is a separate exact spelling with the same limited noun inference."
+    },
+    {
+      "id": "tm05",
+      "category": "construction_boundary",
+      "input": {
+        "text": "صَهٍ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "صَهٍ",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "صَهٍ",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "صَهٍ"
+        }
+      ],
+      "rationale": "Tanwin includes tanwin of indefiniteness on a built verbal noun; it does not prove tamkin/inflection."
+    },
+    {
+      "id": "tm06",
+      "category": "positive_transfer",
+      "input": {
+        "text": "سُنَبِلٌ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "سُنَبِلٌ",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "سُنَبِلٌ",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "سُنَبِلٌ"
+        }
+      ],
+      "rationale": "A constructed unfamiliar stem tests sign transfer without a lexeme-answer table or a word-attestation claim."
+    },
+    {
+      "id": "tm07",
+      "category": "shape_boundary",
+      "input": {
+        "text": "أَكْبَرُ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "أَكْبَرُ",
+          "axis": "diptote",
+          "value": "diptote"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "أَكْبَرُ"
+        }
+      ],
+      "rationale": "An afal spelling does not establish original adjective status or its qualified feminine condition."
+    },
+    {
+      "id": "tm08",
+      "category": "shape_boundary",
+      "input": {
+        "text": "مَسَاجِدَ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "مَسَاجِدَ",
+          "axis": "diptote",
+          "value": "diptote"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "مَسَاجِدَ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "A plural-looking pattern is not a witnessed lexical plural construction."
+    },
+    {
+      "id": "tm09",
+      "category": "shape_boundary",
+      "input": {
+        "text": "الْتَقَى",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "الْتَقَى",
+          "axis": "kind",
+          "value": "noun"
+        },
+        {
+          "property": "no_licensed_article",
+          "surface": "الْتَقَى"
+        }
+      ],
+      "rationale": "Initial alif-lam may belong to a verbal stem rather than a definite article."
+    },
+    {
+      "id": "tm10",
+      "category": "shape_boundary",
+      "input": {
+        "text": "الْكِتَابُ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "الْكِتَابُ",
+          "axis": "kind",
+          "value": "noun"
+        },
+        {
+          "property": "no_licensed_article",
+          "surface": "الْكِتَابُ"
+        }
+      ],
+      "rationale": "This v1 has no licensed article segmentation; the obvious ordinary reading does not remove that implementation boundary."
+    },
+    {
+      "id": "tm11",
+      "category": "ambiguity",
+      "input": {
+        "text": "من",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_unique_kind",
+          "surface": "من"
+        }
+      ],
+      "rationale": "Unvocalized homography must not force the preposition reading."
+    },
+    {
+      "id": "tm12",
+      "category": "shape_boundary",
+      "input": {
+        "text": "كَتَبَ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "كَتَبَ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "كَتَبَ",
+          "axis": "construction",
+          "value": "built"
+        }
+      ],
+      "rationale": "A form-shaped word absent an independent lexical or diagnostic witness is not automatically a past verb."
+    },
+    {
+      "id": "tm13",
+      "category": "positive_context_candidate",
+      "input": {
+        "text": "لَمْ يَسْتَنْبِتْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "verb_context_candidate",
+          "surface": "يَسْتَنْبِتْ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَسْتَنْبِتْ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "يَسْتَنْبِتْ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَسْتَنْبِتْ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "The marker and adjacent imperfect-compatible spelling support a candidate relation; governor expectation alone cannot supply a lexical class or actual case."
+    },
+    {
+      "id": "tm14",
+      "category": "positive_context_candidate",
+      "input": {
+        "text": "لَنْ تَسْتَنْبِتَ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "verb_context_candidate",
+          "surface": "تَسْتَنْبِتَ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "تَسْتَنْبِتَ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "تَسْتَنْبِتَ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "تَسْتَنْبِتَ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "The marker and adjacent imperfect-compatible spelling support a candidate relation; governor expectation alone cannot supply a lexical class or actual case."
+    },
+    {
+      "id": "tm15",
+      "category": "positive_context_candidate",
+      "input": {
+        "text": "سَوْفَ أَتَعَلَّمُ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "verb_context_candidate",
+          "surface": "أَتَعَلَّمُ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "أَتَعَلَّمُ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "أَتَعَلَّمُ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "أَتَعَلَّمُ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "The marker and adjacent imperfect-compatible spelling support a candidate relation; governor expectation alone cannot supply a lexical class or actual case."
+    },
+    {
+      "id": "tm16",
+      "category": "positive_context_candidate",
+      "input": {
+        "text": "لَمْ يَقُمْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "verb_context_candidate",
+          "surface": "يَقُمْ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَقُمْ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "يَقُمْ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَقُمْ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "The marker and adjacent imperfect-compatible spelling support a candidate relation; governor expectation alone cannot supply a lexical class or actual case."
+    },
+    {
+      "id": "tm17",
+      "category": "positive_context_candidate",
+      "input": {
+        "text": "لَمْ يَكْتُبْنَ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "verb_context_candidate",
+          "surface": "يَكْتُبْنَ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَكْتُبْنَ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "يَكْتُبْنَ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَكْتُبْنَ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "The marker and adjacent imperfect-compatible spelling support a candidate relation; governor expectation alone cannot supply a lexical class or actual case."
+    },
+    {
+      "id": "tm18",
+      "category": "contradiction",
+      "input": {
+        "text": "لَمْ يَكْتُبٌ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَكْتُبٌ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "يَكْتُبٌ"
+        }
+      ],
+      "rationale": "An imperfect-looking token carrying noun tanwin cannot be silently upgraded by the preceding governor."
+    },
+    {
+      "id": "tm19",
+      "category": "contradiction",
+      "input": {
+        "text": "لَمْ رَجُلٌ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "رَجُلٌ",
+          "value": "noun"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "رَجُلٌ",
+          "axis": "kind",
+          "value": "verb"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "رَجُلٌ"
+        }
+      ],
+      "rationale": "Positive noun evidence survives an unsupported governor-to-token attachment."
+    },
+    {
+      "id": "tm20",
+      "category": "boundary",
+      "input": {
+        "text": "لَمْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_edges"
+        }
+      ],
+      "rationale": "A dangling marker has no target occurrence."
+    },
+    {
+      "id": "tm21",
+      "category": "missing_marks",
+      "input": {
+        "text": "لَم يَسْتَنْبِتْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_for",
+          "surface": "يَسْتَنْبِتْ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَسْتَنْبِتْ",
+          "axis": "kind",
+          "value": "verb"
+        }
+      ],
+      "rationale": "The declared marker grammar requires the exact fully vocalized form."
+    },
+    {
+      "id": "tm22",
+      "category": "missing_marks",
+      "input": {
+        "text": "لم يستنبت",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_for",
+          "surface": "يستنبت"
+        },
+        {
+          "property": "not_unique_kind",
+          "surface": "يستنبت"
+        }
+      ],
+      "rationale": "Missing marks are not a unique reading."
+    },
+    {
+      "id": "tm23",
+      "category": "quotation",
+      "input": {
+        "text": "«لَمْ» يَسْتَنْبِتْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_for",
+          "surface": "يَسْتَنْبِتْ"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَسْتَنْبِتْ",
+          "axis": "kind",
+          "value": "verb"
+        }
+      ],
+      "rationale": "Mentioned markers do not activate grammar on the following occurrence."
+    },
+    {
+      "id": "tm24",
+      "category": "quotation",
+      "input": {
+        "text": "لَمْ «يَسْتَنْبِتْ»",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_edges"
+        }
+      ],
+      "rationale": "Quoted targets are mentioned material, not a governed use occurrence."
+    },
+    {
+      "id": "tm25",
+      "category": "punctuation",
+      "input": {
+        "text": "لَمْ، يَسْتَنْبِتْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_for",
+          "surface": "يَسْتَنْبِتْ"
+        }
+      ],
+      "rationale": "The narrow adjacent-frame grammar cannot cross intervening punctuation."
+    },
+    {
+      "id": "tm26",
+      "category": "scope_boundary",
+      "input": {
+        "text": "لَمْ\nيَسْتَنْبِتْ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_context_for",
+          "surface": "يَسْتَنْبِتْ"
+        }
+      ],
+      "rationale": "This v1 treats a newline as a boundary rather than silently joining independent lines."
+    },
+    {
+      "id": "tm27",
+      "category": "quotation",
+      "input": {
+        "text": "«رَجُلٌ»",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_licensed_use"
+        }
+      ],
+      "rationale": "A mentioned noun spelling must not become a use-level noun occurrence or factual premise."
+    },
+    {
+      "id": "tm28",
+      "category": "identity",
+      "input": {
+        "text": "رَجُلٌ رَجُلٌ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "separate_occurrences",
+          "surface": "رَجُلٌ",
+          "count": 2
+        },
+        {
+          "property": "all_occurrences_licensed_kind",
+          "surface": "رَجُلٌ",
+          "value": "noun"
+        }
+      ],
+      "rationale": "Identical spelling does not merge distinct byte occurrences."
+    },
+    {
+      "id": "tm29",
+      "category": "lexical_witness",
+      "input": {
+        "text": "سُنَبِلٌ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سُنَبِلٌ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nلا يمنع تصوره الشركة\nيدل على ذات دون اعتبار صفة"
+      },
+      "expected": [
+        {
+          "property": "licensed_axis",
+          "surface": "سُنَبِلٌ",
+          "axis": "nominal_semantics",
+          "value": "jins_jamid"
+        },
+        {
+          "property": "licensed_axis",
+          "surface": "سُنَبِلٌ",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "سُنَبِلٌ"
+        }
+      ],
+      "rationale": "An exact fresh lexical description supplies semantic genus and the noun construction premise; the lexical symbol is not in policy."
+    },
+    {
+      "id": "tm30",
+      "category": "lexical_witness",
+      "input": {
+        "text": "سُنَبِلٌ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سُنَبِلٌ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nلا يمنع تصوره الشركة\nيدل على ذات باعتبار صفة"
+      },
+      "expected": [
+        {
+          "property": "licensed_axis",
+          "surface": "سُنَبِلٌ",
+          "axis": "nominal_semantics",
+          "value": "mushtaq"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "سُنَبِلٌ"
+        }
+      ],
+      "rationale": "Changing a source property changes semantic denotation without a new answer-table entry or inferred agent role."
+    },
+    {
+      "id": "tm31",
+      "category": "reading_ambiguity",
+      "input": {
+        "text": "سُنَبِلٌ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سُنَبِلٌ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nلا يمنع تصوره الشركة\nيدل على ذات دون اعتبار صفة\nقراءة «r2» للفظ «سُنَبِلٌ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nلا يمنع تصوره الشركة\nيدل على ذات باعتبار صفة"
+      },
+      "expected": [
+        {
+          "property": "retained_lexical_alternatives",
+          "surface": "سُنَبِلٌ",
+          "values": [
+            "jins_jamid",
+            "mushtaq"
+          ],
+          "axis": "nominal_semantics",
+          "reading_count": 2
+        },
+        {
+          "property": "no_unique_aggregate",
+          "surface": "سُنَبِلٌ",
+          "axis": "nominal_semantics"
+        }
+      ],
+      "rationale": "Distinct source readings must remain alternatives rather than be flattened into one contradictory or chosen reading."
+    },
+    {
+      "id": "tm32",
+      "category": "lexical_witness",
+      "input": {
+        "text": "صَهٍ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «صَهٍ»:\nيدل على معنى مستقل غير مقترن بزمن\nيشبه الحرف"
+      },
+      "expected": [
+        {
+          "property": "licensed_axis",
+          "surface": "صَهٍ",
+          "axis": "construction",
+          "value": "built"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "صَهٍ",
+          "axis": "construction",
+          "value": "inflected"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "صَهٍ"
+        }
+      ],
+      "rationale": "A supplied built-noun premise coexists with tanwin; no tanwin-to-inflection shortcut."
+    },
+    {
+      "id": "tm33",
+      "category": "lexical_witness",
+      "input": {
+        "text": "سَنَارِمَ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سَنَارِمَ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nعلى صيغة منتهى الجموع"
+      },
+      "expected": [
+        {
+          "property": "licensed_axis",
+          "surface": "سَنَارِمَ",
+          "axis": "diptote",
+          "value": "diptote"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "سَنَارِمَ"
+        }
+      ],
+      "rationale": "A source-qualified plural construction opens the cause formula without creating a case witness."
+    },
+    {
+      "id": "tm34",
+      "category": "context_isolation",
+      "input": {
+        "text": "سَنَارِمَ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سَنَارِمَ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nعلى صيغة منتهى الجموع\nدخلت عليه أل"
+      },
+      "expected": [
+        {
+          "property": "licensed_axis",
+          "surface": "سَنَارِمَ",
+          "axis": "diptote",
+          "value": "diptote"
+        },
+        {
+          "property": "no_licensed_article",
+          "surface": "سَنَارِمَ"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "سَنَارِمَ"
+        }
+      ],
+      "rationale": "The lexical source described al in its own context; that context is not evidence of al on the new occurrence."
+    },
+    {
+      "id": "tm35",
+      "category": "exact_binding",
+      "input": {
+        "text": "سَنَارِمِ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سَنَارِمَ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nعلى صيغة منتهى الجموع"
+      },
+      "expected": [
+        {
+          "property": "not_licensed_axis",
+          "surface": "سَنَارِمِ",
+          "axis": "diptote",
+          "value": "diptote"
+        },
+        {
+          "property": "no_lexical_match",
+          "surface": "سَنَارِمِ"
+        }
+      ],
+      "rationale": "V1 exact lexical binding must not silently strip or replace a final vowel."
+    },
+    {
+      "id": "tm36",
+      "category": "context_isolation",
+      "input": {
+        "text": "سَنَارِمَ سَنَارِمَ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «سَنَارِمَ»:\nيدل على معنى مستقل غير مقترن بزمن\nيسلم من شبه الحرف\nعلى صيغة منتهى الجموع\nهو مضاف"
+      },
+      "expected": [
+        {
+          "property": "separate_occurrences",
+          "surface": "سَنَارِمَ",
+          "count": 2
+        },
+        {
+          "property": "no_licensed_idafa",
+          "surface": "سَنَارِمَ"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "سَنَارِمَ"
+        }
+      ],
+      "rationale": "Lexical identity can match twice; a source-local idafa relation cannot be copied to either occurrence."
+    },
+    {
+      "id": "tm37",
+      "category": "lexical_witness",
+      "input": {
+        "text": "نَبَتَ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «نَبَتَ»:\nيدل على حدث مقترن بزمن بهيئته\nفعله ماض"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "نَبَتَ",
+          "value": "verb"
+        },
+        {
+          "property": "licensed_axis",
+          "surface": "نَبَتَ",
+          "axis": "construction",
+          "value": "built"
+        },
+        {
+          "property": "no_actual_role_or_case",
+          "surface": "نَبَتَ"
+        }
+      ],
+      "rationale": "Witnessed past tense supports building without inferring the subject or a world event."
+    },
+    {
+      "id": "tm38",
+      "category": "lexical_witness",
+      "input": {
+        "text": "يَكْتُبْنَ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «يَكْتُبْنَ»:\nيدل على حدث مقترن بزمن بهيئته\nفعله مضارع\nتتصل به نون الإناث"
+      },
+      "expected": [
+        {
+          "property": "licensed_kind",
+          "surface": "يَكْتُبْنَ",
+          "value": "verb"
+        },
+        {
+          "property": "licensed_axis",
+          "surface": "يَكْتُبْنَ",
+          "axis": "construction",
+          "value": "built"
+        },
+        {
+          "property": "not_licensed_axis",
+          "surface": "يَكْتُبْنَ",
+          "axis": "construction",
+          "value": "inflected"
+        }
+      ],
+      "rationale": "The nun role is independently described; the imperfect is therefore built under the existing conditional algebra."
+    },
+    {
+      "id": "tm39",
+      "category": "descriptor_conflict",
+      "input": {
+        "text": "لُفْ",
+        "source_id": "input",
+        "scope": "review",
+        "lexical_text": "قراءة «r1» للفظ «لُفْ»:\nيدل على معنى غير مستقل\nفعله ماض\nفعله مضارع"
+      },
+      "expected": [
+        {
+          "property": "not_clean_lexical_reading",
+          "surface": "لُفْ"
+        }
+      ],
+      "rationale": "Categorical contradiction must be detected even when kind takes the particle branch."
+    },
+    {
+      "id": "tm40",
+      "category": "invalid_surface",
+      "input": {
+        "text": "رَجُلٌٌ",
+        "source_id": "input",
+        "scope": "review"
+      },
+      "expected": [
+        {
+          "property": "no_licensed_kind_or_invalid_input",
+          "surface": "رَجُلٌٌ"
+        }
+      ],
+      "rationale": "Repeated haraka marks are malformed input, not a fresh noun certificate."
+    }
+  ]
+}

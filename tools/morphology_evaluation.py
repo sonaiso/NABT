@@ -24,7 +24,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-VERSION = "nabt.morphology.independent-evaluator.v1.2"
+VERSION = "nabt.morphology.independent-evaluator.v1.4"
 MATERIAL_SHA256 = {
     "v1": "4425a249fe64b627c36671a39a88fec79ad8ac0c9f3ce710bab726045ccc2f81",
     "v2": "0f17e68a4d7a33d4afa64bb645ba88c55ac1d0e3248de241f1c1028442d37ea4",
@@ -35,6 +35,20 @@ DOCUMENTED_BOUNDARY_MISSES = {"m12", "m13", "m32", "m33"}
 FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e3437a35b7bffd"
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
+CODE_FREEZES = {
+    "derivation_v1": ("5cdea1a66bd92f3f014cc2f14ab2d502f43f630d03977cb111020e3370907eed",
+                      "e8e31cdaa1cb56e3700befd4d8fb883e11f83cd684e6cd72b45e133410bf3cac",
+                      "fd24793a4fb805425e4bba60219c70a0f1fbb4dda7a89b07d1c6a0ffc6c3b060"),
+    "v1": (FREEZE_MANIFEST_SHA256, FROZEN_RUNTIME_SHA256, FROZEN_ARCHIVE_SHA256),
+    "text_morphology_v1": ("b15dfab7ed6166aa5aae236c7c0b22ce48f805a6bc0d8f6c3b6f12bae2b951ee",
+                           "82a5d9b283d403bf257a95e5c8a1eb9b2ea300a90ca1a2e881de478bf29f7496",
+                           "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
+}
+CODE_FREEZE_PATHS = {
+    "derivation_v1": ROOT / "evidence/derivation/code_freeze_v1.json",
+    "v1": ROOT / "evidence/morphology/code_freeze_v1.json",
+    "text_morphology_v1": ROOT / "evidence/text_morphology/code_freeze_v1.json",
+}
 
 
 def require(condition, message):
@@ -109,18 +123,20 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot):
-    raw = (ROOT / "evidence/morphology/code_freeze_v1.json").read_bytes()
-    require(sha256(raw).hexdigest() == FREEZE_MANIFEST_SHA256, "Runtime freeze manifest differs")
+def verify_runtime_freeze(actual_snapshot, version="derivation_v1"):
+    manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
+    manifest_path = CODE_FREEZE_PATHS[version]
+    raw = manifest_path.read_bytes()
+    require(sha256(raw).hexdigest() == manifest_sha, "Runtime freeze manifest differs")
     freeze = json.loads(raw)
     rows = freeze["files"]
     require(len(rows) == len({r["path"] for r in rows}), "Runtime freeze repeats a path")
-    require(sha256(wire(rows)).hexdigest() == freeze["snapshot_sha256"] == FROZEN_RUNTIME_SHA256,
+    require(sha256(wire(rows)).hexdigest() == freeze["snapshot_sha256"] == snapshot_sha,
             "Runtime freeze inventory differs")
     package_rows = [r for r in actual_snapshot["files"] if not r["path"].startswith("formal/")]
     require(package_rows == rows, "Measured package is not the frozen runtime")
-    archive = ROOT / "evidence/morphology" / freeze["archive_filename"]
-    require(sha256(archive.read_bytes()).hexdigest() == freeze["archive_sha256"] == FROZEN_ARCHIVE_SHA256,
+    archive = manifest_path.parent / freeze["archive_filename"]
+    require(sha256(archive.read_bytes()).hexdigest() == freeze["archive_sha256"] == archive_sha,
             "Runtime archive differs")
     by_name = {r["path"]: r for r in rows}
     with tarfile.open(archive, "r:gz") as bundle:
@@ -133,8 +149,8 @@ def verify_runtime_freeze(actual_snapshot):
             wanted = by_name[member.name]
             require(len(content) == wanted["bytes"] and sha256(content).hexdigest() == wanted["sha256"],
                     "Runtime archive bytes differ: " + member.name)
-    return {"manifest_sha256": FREEZE_MANIFEST_SHA256, "snapshot_sha256": FROZEN_RUNTIME_SHA256,
-            "archive_sha256": FROZEN_ARCHIVE_SHA256, "files": len(rows)}
+    return {"version": version, "manifest_sha256": manifest_sha, "snapshot_sha256": snapshot_sha,
+            "archive_sha256": archive_sha, "files": len(rows)}
 
 
 def structure_checks(report, text, source_id, scope=SCOPE):
@@ -390,10 +406,10 @@ def regression_gate(results):
     return all(case["passed"] or documented_boundary(case) for case in results)
 
 
-def evaluate(version="v2"):
+def evaluate(version="v2", *, freeze_version="derivation_v1"):
     material = load_material(version)
     before = snapshot()
-    freeze = verify_runtime_freeze(before)
+    freeze = verify_runtime_freeze(before, freeze_version)
     started = time.perf_counter()
     results = [run_case(case) for case in material["cases"]]
     elapsed = time.perf_counter() - started
@@ -421,13 +437,14 @@ def evaluate(version="v2"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="derivation_v1")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")
     parser.add_argument("--allow-documented-boundaries", action="store_true",
                         help="Permit only the four named conservative kind-approval coverage misses; raw score is unchanged")
     args = parser.parse_args()
-    result = evaluate(args.material)
+    result = evaluate(args.material, freeze_version=args.freeze_version)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")

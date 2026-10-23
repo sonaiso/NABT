@@ -107,6 +107,8 @@ def check(lean_export=None):
     from nabt.word_reader import EXPECTED_POLICY_SHA256 as WORD_POLICY_SHA256, replay_policy
     from nabt.morphology import installed_table as morphology_table
     from nabt.morphology_reader import replay_policy as morphology_policy
+    from nabt.text_evidence import installed_table as text_evidence_table
+    from nabt.derivation import installed_registry as derivation_registry
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -143,6 +145,8 @@ def check(lean_export=None):
     word_policy = replay_policy()
     morphology = morphology_table()
     morphology_source = morphology_policy()
+    text_evidence = text_evidence_table()
+    derivation = derivation_registry()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
@@ -154,6 +158,10 @@ def check(lean_export=None):
             "word_lexical_entries": len(word_policy["entries"]),
             "morphology_qualified_cause_rows": len(morphology["cause_rows"]),
             "morphology_source_rules": len(morphology_source["rules"]),
+            "text_evidence_kind_rows": len(text_evidence["kind_rows"]),
+            "text_evidence_activation_rows": len(text_evidence["receipt_rows"]),
+            "derivation_patterns": len(derivation["patterns"]),
+            "verb_paradigm_rows": len(derivation["paradigm_rows"]),
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

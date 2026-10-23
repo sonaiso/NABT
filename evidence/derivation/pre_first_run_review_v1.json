@@ -1,0 +1,28 @@
+{
+  "schema": "nabt.derivation.pre-first-run-review.v1",
+  "recorded_at_utc": "2026-10-23T11:55:08.126986+00:00",
+  "phase": "AFTER_MATERIAL_FREEZE_BEFORE_FIRST_RUNTIME_MEASUREMENT",
+  "material_hashes": {
+    "evidence/derivation/independent_cases_v1.json": "e2374049ac135a290b4298e4ce0a4eef872a30a5e63fcdbc2c8a638e10059650",
+    "evidence/derivation/independent_protocol.md": "cfee675e121560761a6fbab87abd9f64d8e57d1191e04a8de4570ad4ee900992",
+    "evidence/derivation/independent_material_freeze_v1.json": "ec494b27442e90e322c8e8d66a85aec05b924bdeafb0404ab2f37b658c680c5e"
+  },
+  "frozen_expectations_changed": false,
+  "case_id": "DER-B25",
+  "finding": "The initial reader scanned only top-level written_run segments. Its quotation segments were opaque, so it would omit the frozen exact-shape observation inside a quotation.",
+  "contract_decision": "Exact written shape observations inside quotation are in scope; they confer no use, word class, role, actual case or temporal attachment.",
+  "implementation_correction": "The implementation owner added quoted inner written runs with original-source UTF-8 byte spans, explicit MENTION context and the containing quotation span. Future proposals consume UNQUOTED occurrences only.",
+  "adapter_correction": "The reviewer adapter now validates all top-level unquoted runs and permits ordered, non-overlapping mentioned runs only inside their original quoted container. This changes schema handling, not the frozen input, required candidate or exclusion.",
+  "old_runtime_snapshot": null,
+  "old_runtime_snapshot_note": "No runtime evaluation had occurred before this static review correction; no old performance result is claimed.",
+  "corrected_runtime": {
+    "path": "src/nabt/derivation.py",
+    "sha256": "cf9b911f2d69eba5413acfa3e46bffe1e724b1e49b107d642e5360422420d2f2"
+  },
+  "installed_table": {
+    "path": "src/nabt/data/derivation_patterns.json",
+    "sha256": "0b4d6673c033955490468ad595fc1e988890bba282101e81a80580d3fc1fbf2f"
+  },
+  "additional_test_scope": "Post-open integrity regression verifies that a quoted shape witness cannot be relabeled an unquoted use; it does not enlarge the 96 frozen cases.",
+  "first_measurement_pending": true
+}

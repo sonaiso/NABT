@@ -1,0 +1,28 @@
+{
+  "schema": "nabt.text-morphology.review-completion.v2",
+  "checked_at_utc": "2026-10-23T11:00:55.027321+00:00",
+  "frozen_case_count": 40,
+  "original_material_preserved": true,
+  "first_raw_score": {
+    "passed": 40,
+    "total": 40
+  },
+  "final_raw_score": {
+    "passed": 40,
+    "total": 40
+  },
+  "first_snapshot_sha256": "8052a92d7cd13676c526c7845e3b31b89ac8c7afc656759d9434b4b18241f73c",
+  "final_snapshot_sha256": "7d8ff3fdb65056c46bf6a89e04290e8cdb59327fa9dcaf161dcd0aae075944e4",
+  "post_open_adversarial_test_methods": 18,
+  "test_command": "PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_text_morphology_review.py' -v",
+  "test_exit_code": 0,
+  "test_result": "Ran 18 tests; OK",
+  "fixed_finding": "TERMINAL_TANWIN_ON_INCOMPATIBLE_ALIF_CARRIER",
+  "fixed_behavior": "Malformed damm/kasr tanwin on an alif carrier is now rejected with INVALID_ALIF_TANWIN before a noun receipt is issued. Both frozen fath-tanwin spellings still pass.",
+  "review_files": {
+    "tools/text_morphology_evaluation.py": "94d20a7a853a67cb018f48d5a5476d0bdc8a5ee74564dfeba6baf8a7b5b0cfd6",
+    "tests/test_text_morphology_review.py": "207d7e8a048331b7185ac9a1e6a5b46f0f8c2b51ea2280984268cb3e06748865",
+    "src/nabt/text_morphology.py": "d86c666f386ecec51a0a0c8b9104f44e1acac6b6ce2d2a258f2339485f8bfd88"
+  },
+  "scope": "Independent authored property cases and post-open attacks. Not unrestricted Arabic coverage, not parser refinement in Lean, not an untouched natural corpus."
+}

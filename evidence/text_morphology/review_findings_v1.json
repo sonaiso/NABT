@@ -1,0 +1,73 @@
+{
+  "schema": "nabt.text-morphology.post-open-review.v1",
+  "observed_at_utc": "2026-10-23T10:58:55.823565+00:00",
+  "implementation_file": "src/nabt/text_morphology.py",
+  "implementation_sha256": "afb6d92ecbb3149b484eda0b2320646d277fc35454035b28e88bac596ba2428a",
+  "fixture_changed": false,
+  "finding": "TERMINAL_TANWIN_ON_INCOMPATIBLE_ALIF_CARRIER",
+  "severity": "orthographic licensing overreach",
+  "scope": "Ordinary non-poetic spelling profile declared by the reader. An alif used as a long/support carrier cannot carry damm/kasr tanwin; valid fath-tanwin notation is a distinct condition.",
+  "observed": [
+    {
+      "input": "اٌ",
+      "observed_status": "DEFER",
+      "observed_kind": {
+        "status": "LICENSED",
+        "candidates": [
+          "noun"
+        ],
+        "support_ids": [
+          "08e820844f1caccb69b931f920705fe9392556986093416933e32a16a0ac3889"
+        ],
+        "missing": []
+      },
+      "source_sha256": "ce0ed6ebbf021ffe6bccbe7baf946278c1c2c42c2de621b7f5891a01c049afcc"
+    },
+    {
+      "input": "رَجُلاٌ",
+      "observed_status": "DEFER",
+      "observed_kind": {
+        "status": "LICENSED",
+        "candidates": [
+          "noun"
+        ],
+        "support_ids": [
+          "d8b28f39d436676850a53131e4089b2b7490481f8eb95c232442c0fad5f86c54"
+        ],
+        "missing": []
+      },
+      "source_sha256": "5d256e0bec3ab15295ab5179c56709945e1cc269a73993e9b4a6ffb77a78fbe6"
+    },
+    {
+      "input": "اٍ",
+      "observed_status": "DEFER",
+      "observed_kind": {
+        "status": "LICENSED",
+        "candidates": [
+          "noun"
+        ],
+        "support_ids": [
+          "66389d481e6edda2a34d2783a3f7b3ea15811bde4ccb687803855c84ee95b3d3"
+        ],
+        "missing": []
+      },
+      "source_sha256": "f0fcb1df5a26a155cdae28fdb8df6e88ee844f9191261a4b73952664d8872f8e"
+    },
+    {
+      "input": "رَجُلاٍ",
+      "observed_status": "DEFER",
+      "observed_kind": {
+        "status": "LICENSED",
+        "candidates": [
+          "noun"
+        ],
+        "support_ids": [
+          "cce2647a978561a7cf8e63c9d047484e9b397b5db0a1eab1611fad64359d6c06"
+        ],
+        "missing": []
+      },
+      "source_sha256": "4af65c292590997c176fa2a98a6d19aa5ef7d691ccd621a1385ad6bc9937eb87"
+    }
+  ],
+  "required_behavior": "Reject malformed orthography, or retain a named unresolved observation without an activated noun-kind receipt. Do not present these inputs as LICENSED noun readings."
+}

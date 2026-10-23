@@ -21,7 +21,10 @@ from .text_ir import span_dict
 from .word_reader import _cell_encoding
 
 LANGUAGE_ID = "nabt.arabic-morphology.v1"
-READER_VERSION = "nabt.morphology-reader.v1"
+# v2 adds reading-local categorical and typed-domain conflict gates. The
+# property-description grammar and the installed conditional Lean law do not
+# change; reports from v1 must be recomputed before they can pass v2 replay.
+READER_VERSION = "nabt.morphology-reader.v2"
 NUMBER_DOMAIN = "nabt.morphology-reading.canonical-json-utf8.sentinel256.v1"
 EXPECTED_POLICY_SHA256 = "14463f75b6cfa54ed2a9a5ad56b2a595ac87ee0ad97dab43ef6a376079cb3f1a"
 MAX_SOURCE_BYTES = 32768
@@ -232,7 +235,35 @@ def _analyse(source, scope, reading, table):
 
     tense = _categorical(evidence, "tense", algebra.TENSES)
     nun = _categorical(evidence, "nun", algebra.NUNS)
-    construction_models, construction_conflicts, construction_missing = [], [], []
+    # Preserve contradictory source assignments even if the kind candidates
+    # do not visit the verb branch. Branch selection cannot erase a witness.
+    categorical_conflicts = [name for name, values in (("tense", tense), ("nun", nun)) if not values]
+    source_conflicts = []
+    for name in categorical_conflicts:
+        item = {"code": "CATEGORICAL_PROPERTY_CONFLICT", "property": name,
+                "values": sorted({e["value"] for e in evidence if e["property"] == name}),
+                "support_ids": sorted(support((name,))), "occurrence_id": occurrence,
+                "reading_id": reading["reading_id"]}
+        item["conflict_id"] = _hash(item)
+        source_conflicts.append(item)
+    # These are consistency guards, not new word-kind classifiers. A tense or
+    # nun description alone leaves the old kind alternatives unchanged. A
+    # positive verbal connection conflicts only with an independently supplied
+    # kind that excludes verbs. Mere absence of nun does not assert verbhood.
+    if kinds and "verb" not in kinds:
+        for name in ("tense", "nun"):
+            witnesses = [e for e in evidence if e["property"] == name
+                         and (name == "tense" or e["value"] != "none")]
+            if witnesses:
+                item = {"code": "PROPERTY_DOMAIN_MISMATCH", "property": name,
+                        "expected_kind": "verb", "candidate_kinds": kinds,
+                        "values": sorted({e["value"] for e in witnesses}),
+                        "support_ids": sorted(set(support(kind_names) +
+                                                   [e["support_id"] for e in witnesses])),
+                        "occurrence_id": occurrence, "reading_id": reading["reading_id"]}
+                item["conflict_id"] = _hash(item)
+                source_conflicts.append(item)
+    construction_models, construction_conflicts, construction_missing = [], list(categorical_conflicts), []
     for candidate in kinds:
         if candidate == "particle":
             construction_models.append({"kind": "particle", "construction": "built"})
@@ -247,7 +278,6 @@ def _analyse(source, scope, reading, table):
                 row = table["verb_rows"][4 * algebra.TENSES.index(t) + algebra.NUNS.index(n)]
                 construction_models.append({"kind": "verb", "tense": t, "nun": n,
                                             "construction": algebra.CONSTRUCTIONS[row["construction"]]})
-            construction_conflicts += [n for n, vals in (("tense", tense), ("nun", nun)) if not vals]
             if len(tense) > 1:
                 construction_missing.append("tense")
             if "imperfect" in tense and len(nun) > 1:
@@ -311,6 +341,20 @@ def _analyse(source, scope, reading, table):
     diptote["genitive"] = genitive
 
     axes = {"kind": kind, "construction": construction, "nominal_semantics": nominal, "diptote": diptote}
+    if source_conflicts:
+        # Keep conditional candidate calculations visible, but no positive
+        # approval may be consumed from this inconsistent reading. Other
+        # readings, including homographs in this document, are independent.
+        conflict_ids = [item["conflict_id"] for item in source_conflicts]
+        for axis in (*axes.values(), genitive, diptote["cause_prediction"]):
+            if axis["status"] == "LICENSED":
+                axis["status"] = "CONFLICT"
+            axis["blocked_by_source_conflict"] = True
+            axis["source_conflict_ids"] = conflict_ids
+        diptote["prerequisites"] = sorted(set(diptote["prerequisites"] +
+            ["CONSISTENT_SOURCE_READING", "LICENSED_INFLECTED_NOUN"]))
+        genitive["prerequisites"] = sorted(set(genitive["prerequisites"] +
+            ["CONSISTENT_SOURCE_READING", "LICENSED_INFLECTED_NOUN", "LICENSED_DIPTOTE_CAUSE"]))
     if unknown:
         for axis in axes.values():
             if axis["status"] == "LICENSED":
@@ -322,11 +366,11 @@ def _analyse(source, scope, reading, table):
         genitive["prerequisites"] = sorted(set(genitive["prerequisites"] +
              ["COMPLETE_SOURCE_INTERPRETATION", "LICENSED_INFLECTED_NOUN", "LICENSED_DIPTOTE_CAUSE"]))
     conflicts = [n for n in BOOL_TRAITS if state(n) == 3] + construction_conflicts
-    status = "CONFLICT" if conflicts else "DEFER" if unknown or any(a["status"] == "DEFER" for a in axes.values()) else "READ"
+    status = "CONFLICT" if conflicts or source_conflicts else "DEFER" if unknown or any(a["status"] == "DEFER" for a in axes.values()) else "READ"
     return {**reading, "occurrence_id": occurrence, "source_id": source.source_id,
             "source_sha256": source.sha256, "scope": scope, "status": status,
             "encoding": _cell_encoding(reading["lexeme"]), "evidence": evidence,
-            "unparsed": unknown, "axes": axes,
+            "unparsed": unknown, "source_conflicts": source_conflicts, "axes": axes,
             "evidence_encoding": {"domain": algebra.EVIDENCE_DOMAIN, "traits": list(BOOL_TRAITS),
                                   "number": algebra.evidence_number(tuple(state(n) for n in BOOL_TRAITS))},
             "unimplemented_axes": ["ETYMOLOGICAL_ROOT_DERIVATION", "VERB_CONJUGATION_JAMID_MUTASARRIF"],

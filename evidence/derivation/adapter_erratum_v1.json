@@ -1,0 +1,33 @@
+{
+  "schema": "nabt.derivation.adapter-erratum.v1",
+  "recorded_at_utc": "2026-10-23T11:55:46.602428+00:00",
+  "first_run": {
+    "path": "evidence/derivation/independent_first_run_v1.json",
+    "sha256": "abe0db8e133e2819e8289f90c549c69cd33ce10fb23f7cc9c2475df44840c853",
+    "raw_score_preserved": {
+      "passed": 6,
+      "total": 96
+    },
+    "code_archive": {
+      "filename": "independent_first_run_v1.code.tar.gz",
+      "sha256": "049043b0e931b4b1f7b0263c398777f7eb6442a21b9df8b089153c774182a9f4"
+    }
+  },
+  "classification": "EVALUATOR_ADAPTER_DEFECT_NOT_MORPHOLOGY_ACCURACY",
+  "diagnosis": "The adapter appended frozen case labels such as DER-GP-01 to source_id. Existing SourceBlob identifiers require [a-z][a-z0-9_]*, so these uppercase/hyphenated transport identities were rejected before text/paradigm parsing.",
+  "observed_effect": "90 failing cases returned INVALID_WORD_SOURCE. No shape report was returned. The 6 raw passes include 4 generation-only rejections and 2 permissive malformed-input cases; they do not make the reader score interpretable. Exact generation operations passed 48/48 independently.",
+  "adapter": {
+    "path": "tools/derivation_evaluation.py",
+    "old_sha256": "ed112afb0c3808c568c8e0bc36a0ac76514393cdffc5e240793b9496ef54d4f1",
+    "new_sha256": "cf913f007a41732e6a8383b5f402d38e854fd45ed7171c51f39f6e3ee0eebab3",
+    "change": "source_id = independent_ + case_id.lower().replace(hyphen, underscore)"
+  },
+  "runtime_modified_for_correction": false,
+  "gold_changed": false,
+  "raw_text_profiles_generation_operands_expectations_unchanged": true,
+  "material_sha256": "e2374049ac135a290b4298e4ce0a4eef872a30a5e63fcdbc2c8a638e10059650",
+  "protocol_sha256": "cfee675e121560761a6fbab87abd9f64d8e57d1191e04a8de4570ad4ee900992",
+  "material_freeze_sha256": "ec494b27442e90e322c8e8d66a85aec05b924bdeafb0404ab2f37b658c680c5e",
+  "subsequent_run_label": "POST_ADAPTER_CORRECTION",
+  "subsequent_result_path": "evidence/derivation/independent_second_run_v1.json"
+}

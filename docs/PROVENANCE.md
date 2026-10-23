@@ -62,3 +62,27 @@ contains 4,231 named declaration occurrences, including copies and historical
 modules; it does not certify them as 4,231 independent mathematical results.
 It performs no kernel build and grants no runtime authority. The actual local
 proof manifest and its axiom audit remain separate.
+
+## Text evidence development `0.9.0a1`
+
+GitHub main heads were checked on 2026-10-23 and still match the Mashru
+`e4c801ffe9171dadedcc3aae23051ea0953ae361` and Alghanem
+`9d8fa03a51f894416e0abaf3b6821c5ae6441dcd` source pins. Selected Lean
+declarations were reread; the upstream projects were not rebuilt. The audit
+of building, inflection, diptotes and nominal genus/quality remains in
+`MORPHOLOGY_SOURCE_AUDIT.md`; its limitations are retained in `TEXT_MORPHOLOGY.md`.
+
+The native `Nabt.TextEvidence` algebra uses identity-bound, externally
+activated cue receipts. Its generated finite table is checked against the
+Python functions. The new text reader reuses exact source windows from the
+installed word/morphology policies, but uses **zero content-word answer
+entries**. Ten closed functional-marker spellings remain authored applications
+of source-attested grammar; they are not claimed as autonomously learned.
+
+Optional lexical descriptions are read from separate caller-supplied bytes,
+not from a per-token answer argument. Exact spelling establishes a candidate
+link, not exhaustive sense identification. Contextual al/idafa properties are
+excluded from transfer. The semantic jamid/mushtaq axis remains distinct from
+etymological derivation and frozen/conjugating verbs. The new independent
+material, first run, later review findings and runtime snapshots are retained
+under `evidence/text_morphology/`; earlier evidence and gold remain unchanged.
