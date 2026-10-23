@@ -1,0 +1,310 @@
+{
+  "schema": "nabt.nominal-evidence.contract-schema.v1",
+  "law_id": "nabt.nominal-evidence.v1",
+  "generated_registry": {
+    "path": "src/nabt/data/nominal_evidence.json",
+    "sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8",
+    "bytes": 33622,
+    "generator": "formal/ExportNominalEvidence.lean"
+  },
+  "profile_rows": {
+    "count": 22,
+    "fields": {
+      "code": "strict integer12*gender+2*form+definiteness",
+      "gender": {
+        "0": "masculine",
+        "1": "feminine"
+      },
+      "form": {
+        "0": "singular",
+        "1": "dual",
+        "2": "sound_masculine_plural",
+        "3": "sound_feminine_plural",
+        "4": "broken_plural",
+        "5": "other_plural"
+      },
+      "definiteness": {
+        "0": "indefinite",
+        "1": "definite"
+      },
+      "number": {
+        "0": "singular",
+        "1": "dual",
+        "2": "plural"
+      },
+      "accepts": "11 strict booleans in constraint-code order"
+    },
+    "admissible_codes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "constraints": {
+      "0": "masculine",
+      "1": "feminine",
+      "2": "singular",
+      "3": "dual",
+      "4": "plural",
+      "5": "sound_masculine_plural",
+      "6": "sound_feminine_plural",
+      "7": "broken_plural",
+      "8": "other_plural",
+      "9": "definite",
+      "10": "indefinite"
+    },
+    "code_bound": 24,
+    "excluded_codes": [
+      16,
+      17
+    ],
+    "boundary": "No raw suffix/article/tanwin admission. The dual form records grammatical number only. Masculine sound-feminine-plural morphology remains admissible."
+  },
+  "receipt_rows": {
+    "count": 128,
+    "fields": {
+      "mask": "strict integer0..127",
+      "activated": "strict boolean"
+    },
+    "bits": [
+      "source_match",
+      "scope_match",
+      "occurrence_match",
+      "reading_match",
+      "active",
+      "blocked",
+      "noun_domain"
+    ],
+    "predicate": "bits0,1,2,3,4,6 are true and bit5 is false",
+    "lean_binding": {
+      "source_match": [
+        "sourceId",
+        "sourceRevision"
+      ],
+      "scope_match": [
+        "scopeId"
+      ],
+      "occurrence_match": [
+        "occurrenceId",
+        "byteStart",
+        "byteEnd",
+        "segmentationId"
+      ],
+      "reading_match": [
+        "readingId"
+      ]
+    },
+    "boundary": "Linguistic source qualification, truth, rule support and parsing are external. These booleans cannot be supplied by the caller as authority. qualifiedCandidates returns no profile without the independently established noun domain."
+  },
+  "numeral_rows": {
+    "count": 202,
+    "order": "quantity outer in1..99,100,1000; singular_gender inner0,1",
+    "fields": {
+      "quantity": "supported strict positive integer",
+      "singular_gender": "0 masculine or1 feminine",
+      "counted_number": "0 singular,1 dual,2 plural",
+      "counted_case": "contextual|genitive|accusative",
+      "unit_gender": "0|1|null",
+      "ten_gender": "0|1|null"
+    },
+    "domain": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      1000
+    ],
+    "boundary": "Conditional cardinal construction requirements only. No ordinal, source extraction, actual parsed case, aggregate entity cardinality, or extension to arbitrary multiples of100."
+  },
+  "weak_rows": {
+    "count": 8,
+    "fields": {
+      "mask": "strict integer0..7",
+      "class": "installed class label"
+    },
+    "bits": [
+      "first_radical_w_or_y",
+      "middle_radical_w_or_y",
+      "last_radical_w_or_y"
+    ],
+    "classes": {
+      "0": "sound",
+      "1": "mithal",
+      "2": "ajwaf",
+      "3": "initial_adjacent_residual",
+      "4": "naqis",
+      "5": "lafif_mafruq",
+      "6": "lafif_maqrun",
+      "7": "triple_weak_residual"
+    },
+    "boundary": "Generic Lean input Fin3→Char. Arabic radical validation is external. sound means no W/Y slots, not a claim of nonhamzated/undoubled salim. Classification does not attest or reconstruct roots."
+  },
+  "manqus_rows": {
+    "count": 32,
+    "fields": {
+      "mask": "strict integer0..31",
+      "accepted": "strict boolean"
+    },
+    "bits": [
+      "noun",
+      "inflected",
+      "necessary_final_yaa",
+      "preceding_kasra",
+      "final_yaa_unshaddad"
+    ],
+    "predicate": "All five flags true, i.e. mask31.",
+    "partial_evidence": "Positive and negative masks are independent qualified premises; absent flags are unknown. Conflicts eliminate models.",
+    "boundary": "Preceding kasra means phonological adjacency. Final gemination blocks the defining complete model (e.g. كرسيّ). No final-yaa suffix alone establishes nounhood or inflection."
+  },
+  "pronoun_rows": {
+    "count": 14,
+    "fields": {
+      "surface": "exact canonical Unicode projection",
+      "person": "1 speaker,2 addressee,3 third person",
+      "gender": "0 masculine,1 feminine,2 unspecified in this projection",
+      "number": "0 singular,1 dual,2 plural"
+    },
+    "source_kind": "NEW_UNICODE_PROJECTION",
+    "source_contract": "Jisr.QiraaSimat.damairKhalaya",
+    "source_pin": "e4c801ffe9171dadedcc3aae23051ea0953ae361",
+    "boundary": "New Unicode projection. Upstream calls gender2 shared. Both هما and أنتما retain two gender readings. No A116 equivalence or nonconflicting-partial-mark parser theorem. Pronoun definiteness requires a separate source-qualified pronoun rule."
+  },
+  "occurrence_count": {
+    "lean": "occurrenceCount(xs)=xs.eraseDups.length",
+    "boundary": "Distinct supplied occurrence IDs within the already established source inventory. This does not prove entity count, semantic grammatical number or ordinal rank."
+  },
+  "public_integer_types": "JSON booleans are never valid integers at the Python API boundary.",
+  "verification": {
+    "new_theorems": 44,
+    "total_manifest_theorems": 520,
+    "build": "lake build succeeded46 jobs",
+    "axiom_report": "artifacts/local/nominal-formal/axioms.json",
+    "axiom_log": "artifacts/local/nominal-formal/axioms.log",
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true,
+    "upstream_build_reexecution": false,
+    "full_runtime_release_gate_claimed": false,
+    "conformance_report": "artifacts/local/nominal-formal/conformance.json",
+    "authored_boundary_tests": 17,
+    "independent_gold_read": false
+  }
+}

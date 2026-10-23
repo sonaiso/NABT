@@ -1,0 +1,332 @@
+{
+  "schema": "nabt.nominal.release-validation.v1",
+  "recorded_at_utc": "2026-10-23T13:32:32.194625+00:00",
+  "package_version": "0.11.0a2",
+  "status": "BOUNDED_VALIDATION_PASS",
+  "repository_base_commit": "d2013d937fae0336f38c9a49ffd5c8b03858f7fc",
+  "implementation_commit": "74f416dca70f0060c7151a36c997480af809b0c1",
+  "release_commit": null,
+  "release_commit_note": "The following evidence-only commit contains this record; runtime and verification sources are pinned without a recursive commit hash.",
+  "runtime": {
+    "freeze_version": "nominal_v2",
+    "manifest": {
+      "path": "evidence/nominal/code_freeze_v2.json",
+      "bytes": 9451,
+      "sha256": "d904702b8633f8102c6795f3beeff0d5584e908ee7b0d1c605c168103ab87f94"
+    },
+    "snapshot_sha256": "814ec3f4ea340b09b594ff162e65e49be8e4110088da5feae02fe41eb8a71d6c",
+    "file_count": 52,
+    "archive": {
+      "path": "evidence/nominal/code_freeze_v2.tar.gz",
+      "bytes": 877285,
+      "sha256": "c7ab0b42159ba60d5a39b65b2adb980ed92df6e6e71eb1dc355bbfb43d838071"
+    },
+    "current_bytes_match_frozen_inventory": true,
+    "inventory_is_exact_authoritative_runtime": true,
+    "archive_members_match_frozen_inventory": true
+  },
+  "verification_sources": {
+    "path": "evidence/nominal/review_fixes/release/verification-source-manifest.json",
+    "bytes": 20486,
+    "sha256": "f61cb1f831c1271e0f8a1d3fb8ac2d7b538248c4ce2e9886eb3b158531e4ce45",
+    "file_count": 124,
+    "all_match_implementation_commit": true
+  },
+  "full_check": {
+    "outcome": "PASS",
+    "runner_observed_exit_code": 0,
+    "tests_run": 578,
+    "failures": 0,
+    "test_seconds": 20.261,
+    "command": [
+      "make",
+      "check",
+      "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/nominal-review-release/verified",
+      "ARABIC_EVALUATION_DIR=artifacts/local/nominal-review-release/verified/arabic-regression"
+    ],
+    "log": {
+      "path": "evidence/nominal/review_fixes/release/make-check.log",
+      "bytes": 127552,
+      "sha256": "180807996485cad4482d89b0c446b481955cf7953c5d4ff625fd580e5697935c"
+    },
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "runtime_environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    }
+  },
+  "formal_audit": {
+    "theorem_count": 520,
+    "new_theorems": 44,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "all_nabt_declarations_scanned": true,
+    "project_axioms_allowed": false,
+    "report": {
+      "path": "evidence/nominal/review_fixes/release/axioms.json",
+      "bytes": 39602,
+      "sha256": "40572aee91a73d1dbe77835cffcca6ed47012c6d74037630e9f2d984b7e3db0d"
+    }
+  },
+  "nominal_conformance": {
+    "report": {
+      "path": "evidence/nominal/review_fixes/release/nominal-conformance.json",
+      "bytes": 901,
+      "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+    },
+    "result": {
+      "ok": true,
+      "law_id": "nabt.nominal-evidence.v1",
+      "table_sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8",
+      "profile_rows": 22,
+      "profile_constraint_subsets": 2048,
+      "bounded_constraint_lists": 133,
+      "max_source_list_length": 2,
+      "single_deletion_checks": 253,
+      "duplicate_constraint_checks": 253,
+      "receipt_masks": 128,
+      "cardinal_rows": 202,
+      "weak_position_masks": 8,
+      "bounded_root_projections": 27,
+      "manqus_complete_models": 32,
+      "pronoun_projection_rows": 14,
+      "canonical_pronoun_reader_checks": 14,
+      "scope": "Complete finite generated-law correspondence; public nominal/cardinal projections; bounded weak-root and canonical-pronoun checks. Receipt and manqus truth tables are checked, not unrestricted source qualification, partial-mark reader correctness, lexical attestation, actual syntactic case, ordinal meaning, or world cardinality."
+    }
+  },
+  "independent_evaluation": {
+    "first_run": {
+      "path": "evidence/nominal/independent_first_run_v1.json",
+      "bytes": 544203,
+      "sha256": "42b1e65fea397dd8e26855fc08dc52eccfd24a409fc270193ea8c41fd635a8f0"
+    },
+    "first_score": {
+      "passed": 184,
+      "total": 184
+    },
+    "first_runtime_differences_from_release": [
+      "pyproject.toml",
+      "src/nabt/__init__.py",
+      "src/nabt/counting.py",
+      "src/nabt/nominal.py"
+    ],
+    "difference_reason": "Source and written-run segmentation identities were strengthened for a1; a2 then corrected decimal canonicality and internal separator guards and advanced the package version. Gold and the nominal evaluator stayed fixed.",
+    "release_report": {
+      "path": "evidence/nominal/review_fixes/release/nominal-regression.json",
+      "bytes": 544041,
+      "sha256": "209a72b29998f71989d03cedbbceb77cb32d9ff7e8e39a369ca5dff056e4b44d"
+    },
+    "release_score": {
+      "passed": 184,
+      "total": 184
+    },
+    "task_scores": {
+      "raw_and_linked_nominal_reading": {
+        "passed": 53,
+        "total": 53
+      },
+      "controlled_source_assertions": {
+        "passed": 41,
+        "total": 41
+      },
+      "supplied_weak_root": {
+        "passed": 20,
+        "total": 20
+      },
+      "supplied_cardinal_rule": {
+        "passed": 38,
+        "total": 38
+      },
+      "bounded_count_phrase": {
+        "passed": 15,
+        "total": 15
+      },
+      "source_occurrence_cardinality": {
+        "passed": 11,
+        "total": 11
+      },
+      "source_replacement": {
+        "passed": 6,
+        "total": 6
+      },
+      "source_structure": {
+        "passed": 126,
+        "total": 126
+      },
+      "semantic_restraint": {
+        "passed": 166,
+        "total": 166
+      }
+    },
+    "material_sha256": "1c865468207b2238118999f157fccda9aee9f260585f2b3c36ca9b556c3b52b9",
+    "protocol_sha256": "d31c2a612e15f68ada1e7f8377a96998ccb8b3236d9870760492cb64945a9b8a",
+    "authored_source_informed_cases_not_natural_corpus": true,
+    "runtime_unchanged_during_release_evaluation": true
+  },
+  "installed_wheel": {
+    "report": {
+      "path": "evidence/nominal/review_fixes/release/wheel-validation.json",
+      "bytes": 8882,
+      "sha256": "1d0b58ddc8ec11cb2c9019d835da04d49631ec0a5f83cf034d8d9bf85e4d4b9f"
+    },
+    "package_files_verified": 51,
+    "source_freeze_files_verified": 52,
+    "cli_smoke_checks": 15,
+    "built_after_final_readme_results_update": true
+  },
+  "review_fixes": {
+    "baseline_commit": "a9efdd7e5a5f9b57aeabce9d3d57fd4bf8a316c2",
+    "comment_urls": [
+      "https://github.com/sonaiso/NABT/pull/9#discussion_r4359983718",
+      "https://github.com/sonaiso/NABT/pull/9#discussion_r4359983758"
+    ],
+    "evidence_directory": "evidence/nominal/review_fixes",
+    "new_regression_cases": 99,
+    "before_score": {
+      "passed": 65,
+      "total": 99
+    },
+    "after_score": {
+      "passed": 99,
+      "total": 99
+    },
+    "before_report": {
+      "path": "evidence/nominal/review_fixes/before_result_v1.json",
+      "bytes": 45658,
+      "sha256": "aad613c364dc21be21614360d47efbf9fd71a6cb1a259523a18fbdaebf135d66"
+    },
+    "after_report": {
+      "path": "evidence/nominal/review_fixes/after_result_v1.json",
+      "bytes": 45289,
+      "sha256": "502e6470fd7b035bb92cdae7d50fef6c1c32c802642ba334736a001fb75db473"
+    },
+    "same_formal_law_and_declared_language": true,
+    "prior_a1_release_preserved": {
+      "path": "evidence/nominal/release/validation.json",
+      "bytes": 9928,
+      "sha256": "180d632774e5c977377c6a056a10e4319fe6eadc196156aa95ee2c001cd9b0ea"
+    }
+  },
+  "older_coverage_preserved": {
+    "word": {
+      "cases": 30,
+      "passed": 27,
+      "positive_capability_passed": 12,
+      "positive_capability_cases": 15,
+      "all_cases_passed": false,
+      "full_coverage_goal_passed": false,
+      "release_regression_gates_passed": true
+    },
+    "morphology": {
+      "passed": 39,
+      "total": 43,
+      "groups": {
+        "property_inference": {
+          "passed": 16,
+          "total": 16
+        },
+        "missing_information": {
+          "passed": 6,
+          "total": 6
+        },
+        "scope_boundary": {
+          "passed": 1,
+          "total": 5
+        },
+        "contradiction": {
+          "passed": 3,
+          "total": 3
+        },
+        "reading_isolation": {
+          "passed": 2,
+          "total": 2
+        },
+        "malformed_input": {
+          "passed": 1,
+          "total": 1
+        },
+        "unseen_identifier_transfer": {
+          "passed": 2,
+          "total": 2
+        },
+        "source_retraction": {
+          "passed": 2,
+          "total": 2
+        },
+        "certificate_integrity": {
+          "passed": 5,
+          "total": 5
+        },
+        "source_semantic_counterexample": {
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "failed_ids": [
+        "m12",
+        "m13",
+        "m32",
+        "m33"
+      ],
+      "documented_boundary_ids": [
+        "m12",
+        "m13",
+        "m32",
+        "m33"
+      ],
+      "regression_gate_with_declared_boundaries": true
+    },
+    "arabic_syntax": {
+      "standalone": {
+        "episodes": 40,
+        "complete_episodes": 0,
+        "queries": 43,
+        "raw_query_matches": 0,
+        "covered_query_matches": 0,
+        "source_restoration_episodes": 40,
+        "licensed_claim_episodes": 40,
+        "source_admission_and_projection_complete": 1,
+        "budget_pass": 40
+      },
+      "declared_scope": {
+        "episodes": 12,
+        "complete_episodes": 8,
+        "queries": 11,
+        "raw_query_matches": 9,
+        "covered_query_matches": 9,
+        "source_restoration_episodes": 12,
+        "licensed_claim_episodes": 12,
+        "source_admission_and_projection_complete": 8,
+        "budget_pass": 12
+      },
+      "real_excerpts": {
+        "total": 8,
+        "semantic_read": 0,
+        "source_restored": 8,
+        "licensed_claims": 8
+      }
+    },
+    "note": "Old bounded deficits remain published. A passing regression gate does not relabel them as full linguistic coverage."
+  },
+  "verification_archive": {
+    "path": "evidence/nominal/review_fixes/release/verification-artifacts.tar.gz",
+    "bytes": 1609883,
+    "sha256": "f1401dab1d05f2cdf9d6a7e38dde379ab7a4f45c7eaa3d638f34c35a25193dbc"
+  },
+  "verification_artifact_manifest": {
+    "path": "evidence/nominal/review_fixes/release/verification-artifact-manifest.json",
+    "bytes": 17801,
+    "sha256": "2d7e22c1dd0bb65ac715e7cf0f510d43c52b5a7b7a5e82314ca18f1c36599f74"
+  },
+  "limits": [
+    "Conditional source-relative feature laws do not establish lexical or world truth.",
+    "Closed pronoun and unmarked numeral inventories do not exhaust Arabic homographs or numeral spellings.",
+    "The root bridge classifies formal candidates; weak-form realization and attested root recovery remain open.",
+    "Grammatical segmentation, nun type, attachment, actual role and actual case are not inferred by this feature layer.",
+    "The observed upstream source audit is separate from a rebuild of upstream Lean repositories."
+  ]
+}

@@ -40,7 +40,7 @@ jobs:
       - name: Replay the published text-inquiry corpus and source-boundary probes
         env:
           PYTHONPATH: src
-        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/derivation/code_freeze_v1.json --output-dir "${{ runner.temp }}/nabt-text-regression"
+        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/nominal/code_freeze_v2.json --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Preserve independently measured Arabic coverage and safe deferrals
         env:
           PYTHONPATH: src
@@ -65,6 +65,10 @@ jobs:
         env:
           PYTHONPATH: src
         run: python tools/derivation_evaluation.py --output "${{ runner.temp }}/nabt-derivation-regression.json"
+      - name: Replay frozen nominal, cardinal, counting and weakness boundaries
+        env:
+          PYTHONPATH: src
+        run: python tools/nominal_evaluation.py --output "${{ runner.temp }}/nabt-nominal-regression.json"
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
@@ -82,6 +86,9 @@ jobs:
           cp examples/derivation.txt "${{ runner.temp }}/nabt-derivation.txt"
           cp examples/derivation_stems.txt "${{ runner.temp }}/nabt-derivation-stems.txt"
           cp examples/verb_paradigm.txt "${{ runner.temp }}/nabt-verb-paradigm.txt"
+          cp examples/nominal.txt "${{ runner.temp }}/nabt-nominal.txt"
+          cp examples/nominal_assertions.txt "${{ runner.temp }}/nabt-nominal-assertions.txt"
+          cp examples/count_phrase.txt "${{ runner.temp }}/nabt-count-phrase.txt"
           cd "${{ runner.temp }}"
           nabt pilot > nabt-pilot-receipt.json
           nabt verify-run nabt-pilot-receipt.json
@@ -119,6 +126,17 @@ jobs:
           nabt verify-derivation nabt-derivation-stem-reading.json --source nabt-derivation-stems.txt --profile stem_exact_v1
           expect_defer nabt read-verb-paradigm nabt-verb-paradigm.txt > nabt-verb-paradigm-reading.json
           nabt verify-verb-paradigm nabt-verb-paradigm-reading.json --source nabt-verb-paradigm.txt
+          nabt nominal-catalog > nabt-nominal-catalog.json
+          nabt weak-root-profile روي > nabt-weak-root.json
+          nabt number-rule 13 masculine > nabt-number-rule.json
+          nabt read-nominal-facts nabt-nominal-assertions.txt > nabt-nominal-facts.json
+          nabt verify-nominal-facts nabt-nominal-facts.json --source nabt-nominal-assertions.txt
+          expect_defer nabt read-nominal nabt-nominal.txt --lexical-source nabt-nominal-assertions.txt > nabt-nominal-reading.json
+          nabt verify-nominal nabt-nominal-reading.json --source nabt-nominal.txt --lexical-source nabt-nominal-assertions.txt
+          nabt count-source-units nabt-nominal.txt > nabt-source-count.json
+          nabt verify-source-count nabt-source-count.json --source nabt-nominal.txt
+          expect_defer nabt read-count-phrase nabt-count-phrase.txt --lexical-source nabt-nominal-assertions.txt > nabt-count-phrase-reading.json
+          nabt verify-count-phrase nabt-count-phrase-reading.json --source nabt-count-phrase.txt --lexical-source nabt-nominal-assertions.txt
 
   formal:
     runs-on: ubuntu-24.04
@@ -154,3 +172,5 @@ jobs:
         run: python -I tools/check_text_evidence_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Exact derivation templates, inverse candidates and conditional paradigm algebra
         run: python -I tools/check_derivation_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-derivation-conformance.json"
+      - name: Source-bound nominal profiles, cardinal rules and weak radical positions
+        run: python -I tools/check_nominal_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-nominal-conformance.json"

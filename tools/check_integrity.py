@@ -109,6 +109,7 @@ def check(lean_export=None):
     from nabt.morphology_reader import replay_policy as morphology_policy
     from nabt.text_evidence import installed_table as text_evidence_table
     from nabt.derivation import installed_registry as derivation_registry
+    from nabt.nominal import installed_registry as nominal_registry
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -147,6 +148,7 @@ def check(lean_export=None):
     morphology_source = morphology_policy()
     text_evidence = text_evidence_table()
     derivation = derivation_registry()
+    nominal = nominal_registry()
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
@@ -162,6 +164,12 @@ def check(lean_export=None):
             "text_evidence_activation_rows": len(text_evidence["receipt_rows"]),
             "derivation_patterns": len(derivation["patterns"]),
             "verb_paradigm_rows": len(derivation["paradigm_rows"]),
+            "nominal_profiles": len(nominal["profile_rows"]),
+            "nominal_receipt_rows": len(nominal["receipt_rows"]),
+            "cardinal_rules": len(nominal["numeral_rows"]),
+            "weak_root_masks": len(nominal["weak_rows"]),
+            "manqus_rows": len(nominal["manqus_rows"]),
+            "pronoun_projection_rows": len(nominal["pronoun_rows"]),
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

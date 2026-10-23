@@ -1,0 +1,868 @@
+{
+  "schema": "nabt.counting.review-fixes.cases.v1",
+  "authored_at_utc": "2026-10-23T13:26:31.960789+00:00",
+  "scope": "Post-review authored regression matrix for PR9 comments; separate from the pre-implementation 184 nominal cases.",
+  "baseline_commit": "a9efdd7e5a5f9b57aeabce9d3d57fd4bf8a316c2",
+  "review_comment_ids": [
+    4359983718,
+    4359983758
+  ],
+  "lexical_text": "\u0642\u0631\u0627\u0621\u0629 \u00abplural\u00bb \u0644\u0644\u0641\u0638 \u00ab\u0631\u062c\u0627\u0644\u00bb:\n\u0647\u0648 \u0627\u0633\u0645.\n\u0647\u0648 \u0645\u0630\u0643\u0631.\n\u064a\u062f\u0644 \u0639\u0644\u0649 \u0623\u0643\u062b\u0631 \u0645\u0646 \u0627\u062b\u0646\u064a\u0646.\n\u0647\u0648 \u062c\u0645\u0639 \u0628\u062a\u063a\u064a\u064a\u0631 \u0628\u0646\u0627\u0621 \u0645\u0641\u0631\u062f\u0647.\n\u0645\u0641\u0631\u062f\u0647 \u0627\u0644\u0642\u0631\u0627\u0621\u0629 \u00absingular\u00bb.\n\u0642\u0631\u0627\u0621\u0629 \u00absingular\u00bb \u0644\u0644\u0641\u0638 \u00ab\u0631\u062c\u0644\u00bb:\n\u0647\u0648 \u0627\u0633\u0645.\n\u0647\u0648 \u0645\u0630\u0643\u0631.\n\u064a\u062f\u0644 \u0639\u0644\u0649 \u0648\u0627\u062d\u062f.",
+  "case_count": 99,
+  "cases": [
+    {
+      "id": "canonicality_ascii_01",
+      "group": "canonicality",
+      "text": "03 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_02",
+      "group": "canonicality",
+      "text": "003 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_03",
+      "group": "canonicality",
+      "text": "0003 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_04",
+      "group": "canonicality",
+      "text": "00003 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_05",
+      "group": "canonicality",
+      "text": "00000000000000000003 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_06",
+      "group": "canonicality",
+      "text": "00 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_07",
+      "group": "canonicality",
+      "text": "0000 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_ascii_08",
+      "group": "canonicality",
+      "text": "00000 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "long_valid_ascii_01",
+      "group": "canonicality",
+      "text": "10000 \u0631\u062c\u0627\u0644",
+      "expect": "defer_long_canonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "long_valid_ascii_02",
+      "group": "canonicality",
+      "text": "12345678901234567890 \u0631\u062c\u0627\u0644",
+      "expect": "defer_long_canonical",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "single_zero_ascii",
+      "group": "canonicality",
+      "text": "0 \u0631\u062c\u0627\u0644",
+      "expect": "defer_zero",
+      "alphabet": "ascii"
+    },
+    {
+      "id": "supported_ascii_3",
+      "group": "canonicality",
+      "text": "3 \u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "alphabet": "ascii"
+    },
+    {
+      "id": "supported_ascii_1000",
+      "group": "canonicality",
+      "text": "1000 \u0631\u062c\u0644",
+      "expect": "supported_digits",
+      "expected_value": 1000,
+      "alphabet": "ascii"
+    },
+    {
+      "id": "canonicality_arabic_indic_01",
+      "group": "canonicality",
+      "text": "\u0660\u0663 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_02",
+      "group": "canonicality",
+      "text": "\u0660\u0660\u0663 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_03",
+      "group": "canonicality",
+      "text": "\u0660\u0660\u0660\u0663 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_04",
+      "group": "canonicality",
+      "text": "\u0660\u0660\u0660\u0660\u0663 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_05",
+      "group": "canonicality",
+      "text": "\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0660\u0663 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_06",
+      "group": "canonicality",
+      "text": "\u0660\u0660 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_07",
+      "group": "canonicality",
+      "text": "\u0660\u0660\u0660\u0660 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "canonicality_arabic_indic_08",
+      "group": "canonicality",
+      "text": "\u0660\u0660\u0660\u0660\u0660 \u0631\u062c\u0627\u0644",
+      "expect": "reject_noncanonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "long_valid_arabic_indic_01",
+      "group": "canonicality",
+      "text": "\u0661\u0660\u0660\u0660\u0660 \u0631\u062c\u0627\u0644",
+      "expect": "defer_long_canonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "long_valid_arabic_indic_02",
+      "group": "canonicality",
+      "text": "\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669\u0660 \u0631\u062c\u0627\u0644",
+      "expect": "defer_long_canonical",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "single_zero_arabic_indic",
+      "group": "canonicality",
+      "text": "\u0660 \u0631\u062c\u0627\u0644",
+      "expect": "defer_zero",
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "supported_arabic_indic_3",
+      "group": "canonicality",
+      "text": "\u0663 \u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "supported_arabic_indic_1000",
+      "group": "canonicality",
+      "text": "\u0661\u0660\u0660\u0660 \u0631\u062c\u0644",
+      "expect": "supported_digits",
+      "expected_value": 1000,
+      "alphabet": "arabic_indic"
+    },
+    {
+      "id": "internal_000a_digits",
+      "group": "spacing",
+      "text": "3\n\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000A",
+      "separator_name": "LINE FEED",
+      "position": "digits"
+    },
+    {
+      "id": "internal_000a_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\n\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000A",
+      "separator_name": "LINE FEED",
+      "position": "words"
+    },
+    {
+      "id": "internal_000a_mixed_gap",
+      "group": "spacing",
+      "text": "3 \n\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000A",
+      "separator_name": "LINE FEED",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_000a_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\n\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000A",
+      "separator_name": "LINE FEED",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_000a",
+      "group": "spacing",
+      "text": "\n3 \u0631\u062c\u0627\u0644\n",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+000A",
+      "separator_name": "LINE FEED",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_000b_digits",
+      "group": "spacing",
+      "text": "3\u000b\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000B",
+      "separator_name": "VERTICAL TABULATION",
+      "position": "digits"
+    },
+    {
+      "id": "internal_000b_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u000b\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000B",
+      "separator_name": "VERTICAL TABULATION",
+      "position": "words"
+    },
+    {
+      "id": "internal_000b_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u000b\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000B",
+      "separator_name": "VERTICAL TABULATION",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_000b_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u000b\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000B",
+      "separator_name": "VERTICAL TABULATION",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_000b",
+      "group": "spacing",
+      "text": "\u000b3 \u0631\u062c\u0627\u0644\u000b",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+000B",
+      "separator_name": "VERTICAL TABULATION",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_000c_digits",
+      "group": "spacing",
+      "text": "3\f\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000C",
+      "separator_name": "FORM FEED",
+      "position": "digits"
+    },
+    {
+      "id": "internal_000c_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\f\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000C",
+      "separator_name": "FORM FEED",
+      "position": "words"
+    },
+    {
+      "id": "internal_000c_mixed_gap",
+      "group": "spacing",
+      "text": "3 \f\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000C",
+      "separator_name": "FORM FEED",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_000c_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\f\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000C",
+      "separator_name": "FORM FEED",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_000c",
+      "group": "spacing",
+      "text": "\f3 \u0631\u062c\u0627\u0644\f",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+000C",
+      "separator_name": "FORM FEED",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_000d_digits",
+      "group": "spacing",
+      "text": "3\r\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000D",
+      "separator_name": "CARRIAGE RETURN",
+      "position": "digits"
+    },
+    {
+      "id": "internal_000d_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\r\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000D",
+      "separator_name": "CARRIAGE RETURN",
+      "position": "words"
+    },
+    {
+      "id": "internal_000d_mixed_gap",
+      "group": "spacing",
+      "text": "3 \r\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000D",
+      "separator_name": "CARRIAGE RETURN",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_000d_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\r\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+000D",
+      "separator_name": "CARRIAGE RETURN",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_000d",
+      "group": "spacing",
+      "text": "\r3 \u0631\u062c\u0627\u0644\r",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+000D",
+      "separator_name": "CARRIAGE RETURN",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_001c_digits",
+      "group": "spacing",
+      "text": "3\u001c\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001C",
+      "separator_name": "FILE SEPARATOR",
+      "position": "digits"
+    },
+    {
+      "id": "internal_001c_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001c\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001C",
+      "separator_name": "FILE SEPARATOR",
+      "position": "words"
+    },
+    {
+      "id": "internal_001c_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u001c\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001C",
+      "separator_name": "FILE SEPARATOR",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_001c_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001c\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001C",
+      "separator_name": "FILE SEPARATOR",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_001c",
+      "group": "spacing",
+      "text": "\u001c3 \u0631\u062c\u0627\u0644\u001c",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+001C",
+      "separator_name": "FILE SEPARATOR",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_001d_digits",
+      "group": "spacing",
+      "text": "3\u001d\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001D",
+      "separator_name": "GROUP SEPARATOR",
+      "position": "digits"
+    },
+    {
+      "id": "internal_001d_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001d\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001D",
+      "separator_name": "GROUP SEPARATOR",
+      "position": "words"
+    },
+    {
+      "id": "internal_001d_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u001d\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001D",
+      "separator_name": "GROUP SEPARATOR",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_001d_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001d\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001D",
+      "separator_name": "GROUP SEPARATOR",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_001d",
+      "group": "spacing",
+      "text": "\u001d3 \u0631\u062c\u0627\u0644\u001d",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+001D",
+      "separator_name": "GROUP SEPARATOR",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_001e_digits",
+      "group": "spacing",
+      "text": "3\u001e\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001E",
+      "separator_name": "RECORD SEPARATOR",
+      "position": "digits"
+    },
+    {
+      "id": "internal_001e_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001e\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001E",
+      "separator_name": "RECORD SEPARATOR",
+      "position": "words"
+    },
+    {
+      "id": "internal_001e_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u001e\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001E",
+      "separator_name": "RECORD SEPARATOR",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_001e_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001e\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001E",
+      "separator_name": "RECORD SEPARATOR",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_001e",
+      "group": "spacing",
+      "text": "\u001e3 \u0631\u062c\u0627\u0644\u001e",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+001E",
+      "separator_name": "RECORD SEPARATOR",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_001f_digits",
+      "group": "spacing",
+      "text": "3\u001f\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001F",
+      "separator_name": "UNIT SEPARATOR",
+      "position": "digits"
+    },
+    {
+      "id": "internal_001f_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001f\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001F",
+      "separator_name": "UNIT SEPARATOR",
+      "position": "words"
+    },
+    {
+      "id": "internal_001f_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u001f\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001F",
+      "separator_name": "UNIT SEPARATOR",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_001f_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u001f\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+001F",
+      "separator_name": "UNIT SEPARATOR",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_001f",
+      "group": "spacing",
+      "text": "\u001f3 \u0631\u062c\u0627\u0644\u001f",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+001F",
+      "separator_name": "UNIT SEPARATOR",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_0085_digits",
+      "group": "spacing",
+      "text": "3\u0085\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+0085",
+      "separator_name": "NEXT LINE",
+      "position": "digits"
+    },
+    {
+      "id": "internal_0085_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u0085\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+0085",
+      "separator_name": "NEXT LINE",
+      "position": "words"
+    },
+    {
+      "id": "internal_0085_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u0085\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+0085",
+      "separator_name": "NEXT LINE",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_0085_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u0085\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+0085",
+      "separator_name": "NEXT LINE",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_0085",
+      "group": "spacing",
+      "text": "\u00853 \u0631\u062c\u0627\u0644\u0085",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+0085",
+      "separator_name": "NEXT LINE",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_2028_digits",
+      "group": "spacing",
+      "text": "3\u2028\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2028",
+      "separator_name": "LINE SEPARATOR",
+      "position": "digits"
+    },
+    {
+      "id": "internal_2028_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u2028\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2028",
+      "separator_name": "LINE SEPARATOR",
+      "position": "words"
+    },
+    {
+      "id": "internal_2028_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u2028\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2028",
+      "separator_name": "LINE SEPARATOR",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_2028_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u2028\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2028",
+      "separator_name": "LINE SEPARATOR",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_2028",
+      "group": "spacing",
+      "text": "\u20283 \u0631\u062c\u0627\u0644\u2028",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2028",
+      "separator_name": "LINE SEPARATOR",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "internal_2029_digits",
+      "group": "spacing",
+      "text": "3\u2029\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2029",
+      "separator_name": "PARAGRAPH SEPARATOR",
+      "position": "digits"
+    },
+    {
+      "id": "internal_2029_words",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u2029\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2029",
+      "separator_name": "PARAGRAPH SEPARATOR",
+      "position": "words"
+    },
+    {
+      "id": "internal_2029_mixed_gap",
+      "group": "spacing",
+      "text": "3 \u2029\t\u0631\u062c\u0627\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2029",
+      "separator_name": "PARAGRAPH SEPARATOR",
+      "position": "mixed_gap"
+    },
+    {
+      "id": "internal_2029_inside_compound",
+      "group": "spacing",
+      "text": "\u062b\u0644\u0627\u062b\u0629\u2029\u0639\u0634\u0631 \u0631\u062c\u0644",
+      "expect": "block_internal_separator",
+      "separator": "U+2029",
+      "separator_name": "PARAGRAPH SEPARATOR",
+      "position": "inside_compound"
+    },
+    {
+      "id": "external_2029",
+      "group": "spacing",
+      "text": "\u20293 \u0631\u062c\u0627\u0644\u2029",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2029",
+      "separator_name": "PARAGRAPH SEPARATOR",
+      "position": "leading_and_trailing"
+    },
+    {
+      "id": "horizontal_0009",
+      "group": "spacing",
+      "text": "3\t\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+0009",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_0020",
+      "group": "spacing",
+      "text": "3 \u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+0020",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_00a0",
+      "group": "spacing",
+      "text": "3\u00a0\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+00A0",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_1680",
+      "group": "spacing",
+      "text": "3\u1680\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+1680",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2000",
+      "group": "spacing",
+      "text": "3\u2000\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2000",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2001",
+      "group": "spacing",
+      "text": "3\u2001\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2001",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2002",
+      "group": "spacing",
+      "text": "3\u2002\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2002",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2003",
+      "group": "spacing",
+      "text": "3\u2003\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2003",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2004",
+      "group": "spacing",
+      "text": "3\u2004\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2004",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2005",
+      "group": "spacing",
+      "text": "3\u2005\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2005",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2006",
+      "group": "spacing",
+      "text": "3\u2006\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2006",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2007",
+      "group": "spacing",
+      "text": "3\u2007\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2007",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2008",
+      "group": "spacing",
+      "text": "3\u2008\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2008",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_2009",
+      "group": "spacing",
+      "text": "3\u2009\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+2009",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_200a",
+      "group": "spacing",
+      "text": "3\u200a\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+200A",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_202f",
+      "group": "spacing",
+      "text": "3\u202f\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+202F",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_205f",
+      "group": "spacing",
+      "text": "3\u205f\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+205F",
+      "position": "internal_horizontal"
+    },
+    {
+      "id": "horizontal_3000",
+      "group": "spacing",
+      "text": "3\u3000\u0631\u062c\u0627\u0644",
+      "expect": "supported_digits",
+      "expected_value": 3,
+      "separator": "U+3000",
+      "position": "internal_horizontal"
+    }
+  ]
+}

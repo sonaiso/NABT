@@ -1,0 +1,50 @@
+{
+  "schema": "nabt.nominal.independent-pre-first-run-review.v1",
+  "recorded_at_utc": "2026-10-23T13:03:00.684804+00:00",
+  "measurement_has_started": false,
+  "gold_sha256": "1c865468207b2238118999f157fccda9aee9f260585f2b3c36ca9b556c3b52b9",
+  "gold_changes": [],
+  "reviews": [
+    {
+      "issue": "Raw terminal tanwin incorrectly activated noun kind in nominal reader despite the frozen candidate-only contract.",
+      "reporter": "independent reviewer",
+      "resolution": "Parent removed nominal kind activation from raw tanwin before first measurement; raw observation retained.",
+      "initial_static_source_hash_captured": false
+    },
+    {
+      "issue": "Generated table existed but runtime still named TO_BE_EXPORTED.",
+      "reporter": "independent reviewer",
+      "resolution": "Parent pinned installed generated table before any execution.",
+      "table_sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8"
+    },
+    {
+      "issue": "Partially marked pronoun spelling could collide with a separately asserted verb reading.",
+      "reporter": "parent requested review; independent reviewer agreed on alternative separation",
+      "resolution": "Parent separated candidate pronoun and descriptive lexical readings and declared nonexhaustiveness. Frozen pronoun expectations concern the specified closed-inventory reading, not exhaustion of Arabic homographs. No case or premise changed."
+    },
+    {
+      "issue": "Count phrase newline guard also blocked trailing file newline.",
+      "reporter": "parent",
+      "resolution": "Parent restricted the guard to internal gaps before first measurement; no frozen input changed."
+    }
+  ],
+  "intermediate_runtime_sha256_after_tanwin_pin_before_pronoun_separation": "2061197bb50e6144edea3e2fecb6200098f1e32f34465809bb0678dc739b3ed3",
+  "pre_measurement_files": [
+    {
+      "path": "src/nabt/nominal.py",
+      "sha256": "67b5f45456b8c072a01e5b5cd98077d77326a2d3e607b558dcb1e1df774bdfab"
+    },
+    {
+      "path": "src/nabt/counting.py",
+      "sha256": "f7afd5be3905257e6694f6f8417842d88fa686fa274beb02521b2b7568d3f3eb"
+    },
+    {
+      "path": "tools/nominal_evaluation.py",
+      "sha256": "1f9e93e48ba6a6a4ccd5b4d842eed7f2ed04ab0406375948e0b3afdaf6610e81"
+    },
+    {
+      "path": "tests/test_nominal_review.py",
+      "sha256": "4f661af70341a4dd011d4c9a723676523444a0ed689b81a4c1d9f0b2af8bb753"
+    }
+  ]
+}
