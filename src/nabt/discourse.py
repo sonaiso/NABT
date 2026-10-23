@@ -22,10 +22,16 @@ _FIELDS = ("predicate", "predicate_kind", "voice", "args", "positive", "tense", 
 def discourse_catalog():
     from .governors import installed_table
     from .person_evidence import person_catalog
+    from .construction_laws import installed_registry as construction_registry
+    from .construction_reader import operator_catalog
+    from .construction_sources import replay_construction_policy
     governors = installed_table()
     return {"law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
             "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
             "law": installed_registry(), "grammar_sources": replay_discourse_policy(),
+            "constructions": {"law": construction_registry(),
+                "grammar_sources": replay_construction_policy(), "operators": operator_catalog(),
+                "scope": "SOURCE_WITNESSED_BOUNDED_COMPOSITION_WITH_PRESERVED_OPERATOR_SCOPE"},
             "person": person_catalog(), "governors": {"entries": [asdict(e) for e in governors.entries],
                 "classes": [asdict(c) for c in governors.classes.values()]},
             "operator_candidates": [{"form": form, "rule": row[0], "interpretation": row[1]}
@@ -56,9 +62,11 @@ def _match(pattern, claim, entities):
             if type(wanted) is str and wanted.startswith("?"):
                 if wanted in bindings and bindings[wanted] != actual:
                     return None
-                if wanted == "?person" and entities.get(actual, {}).get("kind") != "person":
+                if wanted == "?person" and (type(actual) is not str or
+                        entities.get(actual, {}).get("kind") != "person"):
                     return None
-                if wanted == "?place" and entities.get(actual, {}).get("kind") != "place":
+                if wanted == "?place" and (type(actual) is not str or
+                        entities.get(actual, {}).get("kind") != "place"):
                     return None
                 bindings[wanted] = actual
                 instantiated[field][index] = actual

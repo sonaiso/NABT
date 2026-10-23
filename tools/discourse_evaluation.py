@@ -22,6 +22,7 @@ import tarfile
 import time
 import traceback
 import unicodedata
+import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'evidence/discourse'
@@ -29,6 +30,16 @@ VERSION = 'nabt.discourse.independent-evaluation.v1'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    '5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1': {
+        'snapshot_sha256': '1e9d906428ec3824c4ecbff8ef8fb3adc88d6cb6c9dbfa1819c53655b3206c7c',
+        'archive_sha256': '9d5ec76ec904c3696d0e5a76e46fe435e9189322fe0578133c6816707b2fd2c5',
+        'file_count': 74,
+    },
+    '96ffa98008bf1b6a6d1f5ab6b79a330fe4b8a9329887d9ac3f8ff9d31eb12e1e': {
+        'snapshot_sha256': '87c7d5dc6c4aa5f46d42f7cd27a1595e2a2844af50da42a45a0f3b3bc09812b9',
+        'archive_sha256': 'edaff6bb63863e10734993bbaf5101160dab3308b22e763ba188d89fa28e3575',
+        'file_count': 74,
+    },
     '4e2e6701f989f6e631948dbfb958e07f384ab1294d4c87faf915a6a42853c64b': {
         'snapshot_sha256': '688cdaa08abbec8137b9b0456042f5af17e0986b708e4bfe1629dd2a74e48545',
         'archive_sha256': '15beae68fafde0467f22323e75bf21947ea20e7a320fa3ede5fc31eebc66f7ea',
@@ -86,6 +97,16 @@ DOCUMENTED_BOUNDARIES = {
     'DSC-B25': frozenset({'required_claim:0'}),
     'DSC-L03': frozenset({'reading:0'}),
 }
+# Versioned extension approved only after the same-adapter three-runtime review.
+# Preserve the discourse-v4 policy above, including its narrower P26 check set.
+# The construction reader retains an unresolved construction alternative for a
+# context-only name; this loses P26's positive answer rather than proving it false.
+# See evidence/constructions/legacy_discourse_review_v1/comparison.json.
+CONSTRUCTION_BOUNDARY_RUNTIME = '5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1'
+CONSTRUCTION_BOUNDARIES = {
+    **DOCUMENTED_BOUNDARIES,
+    'DSC-P26': DOCUMENTED_BOUNDARIES['DSC-P26'] | frozenset({'question:0'}),
+}
 NON_RUNTIME = frozenset({'src/nabt/data/source_evidence/README.md',
                          'src/nabt/data/source_evidence/LICENSE-DATA.md',
                          'src/nabt/data/source_evidence/.gitattributes'})
@@ -137,6 +158,73 @@ def digest(value):
 def require(condition, message):
     if not condition:
         raise ValueError(message)
+
+
+def raw_record_identity(value):
+    """Identify a journal row without interpreting any linguistic answer."""
+    require(type(value) is dict, 'Raw journal record is not an object')
+    if 'model_profile' in value:
+        require(type(value['model_profile']) is str and 'id' not in value,
+                'Raw journal profile identity is invalid')
+        return {'kind': 'profile', 'profile': value['model_profile']}
+    require(type(value.get('id')) is str, 'Raw journal case identity is invalid')
+    if 'variant' in value:
+        require(type(value['variant']) is str, 'Raw journal variant identity is invalid')
+        return {'kind': 'variant', 'id': value['id'], 'variant': value['variant']}
+    return {'kind': 'case', 'id': value['id']}
+
+
+def verify_raw_journal(path, captured, inventory, scores):
+    """Reopen the closed gzip and compare every recorded byte and row.
+
+    A compressed-file digest alone also hashes a truncated stream. Capture
+    receipts are made at log time, then checked against complete decompression,
+    scheduled case/variant/profile identities and the separately held scores.
+    This must succeed before a final measurement report may be published.
+    """
+    checksum, total_bytes = sha256(), 0
+    observed = []
+    by_id = {row['id']: row for row in scores}
+    require(len(by_id) == len(scores), 'Raw journal scores repeat a case')
+    try:
+        with gzip.open(path, 'rb') as stream:
+            for expected in captured['records']:
+                payload = stream.readline(expected['bytes'] + 1)
+                require(len(payload) == expected['bytes'] and payload.endswith(b'\n')
+                        and sha256(payload).hexdigest() == expected['sha256'],
+                        'Raw journal record bytes differ from log-time capture')
+                value = json.loads(payload.decode('utf-8', 'strict'))
+                identity = raw_record_identity(value)
+                require(identity == expected['identity'], 'Raw journal record identity changed')
+                observed.append(identity)
+                checksum.update(payload)
+                total_bytes += len(payload)
+                if identity['kind'] == 'case':
+                    require(identity['id'] in by_id, 'Raw journal case has no result')
+                    score = {k: v for k, v in by_id[identity['id']].items() if k != 'seconds'}
+                    require(value.get('score') == score, 'Raw journal score differs from result')
+                    if 'report' in value:
+                        require(type(value.get('questions')) is list and len(value['questions'])
+                                == inventory['question_counts'][identity['id']],
+                                'Raw journal question inventory differs')
+            # Reading past the last captured newline verifies the gzip trailer
+            # and rejects extra concatenated records.
+            require(stream.read(1) == b'', 'Raw journal has additional unrecorded data')
+    except (EOFError, OSError, zlib.error, UnicodeError, json.JSONDecodeError) as error:
+        raise ValueError('Invalid raw measurement journal: ' + str(error)) from error
+    require(total_bytes == captured['bytes'] and checksum.hexdigest() == captured['sha256'],
+            'Raw journal content differs from log-time capture')
+    cases = [row['id'] for row in observed if row['kind'] == 'case']
+    variants = [[row['id'], row['variant']] for row in observed if row['kind'] == 'variant']
+    profiles = [row['profile'] for row in observed if row['kind'] == 'profile']
+    require(cases == inventory['case_ids'] == [row['id'] for row in scores],
+            'Raw journal case inventory/order differs')
+    require(variants == inventory['variants'] and profiles == inventory['profiles'],
+            'Raw journal variant/profile inventory differs')
+    return {'valid': True, 'filename': path.name, 'sha256': sha256(path.read_bytes()).hexdigest(),
+            'uncompressed_sha256': checksum.hexdigest(), 'uncompressed_bytes': total_bytes,
+            'record_count': len(observed), 'case_count': len(cases), 'variant_count': len(variants),
+            'profile_count': len(profiles), 'records': captured['records']}
 
 
 def load_material():
@@ -294,9 +382,18 @@ def claim_view(row):
     require(all(type(row[k]) is list for k in ('args', 'time', 'place', 'restriction')), 'Claim sequences required')
     for value in row['time']:
         if type(value) is dict:
-            require(set(value) == {'lemma', 'form', 'source_article'}
-                    and type(value['lemma']) is str and type(value['form']) is str
-                    and type(value['source_article']) is bool, 'Invalid qualified time representation')
+            if value.get('kind') == 'temporal_relation':
+                # An unresolved complement remains None in a candidate claim;
+                # validate_relational_time checks its exact attachment and
+                # prevents that candidate from becoming a grounded assertion.
+                require(set(value) == {'kind', 'relation', 'object'}
+                        and type(value['relation']) is str and bool(value['relation'])
+                        and (value['object'] is None or type(value['object']) is str),
+                        'Invalid relational time representation')
+            else:
+                require(set(value) == {'lemma', 'form', 'source_article'}
+                        and type(value['lemma']) is str and type(value['form']) is str
+                        and type(value['source_article']) is bool, 'Invalid qualified time representation')
         else:
             require(type(value) is str, 'Invalid time representation')
     # Source proof equality keeps every qualification byte. The independent
@@ -471,6 +568,47 @@ def validate_claim_roles(claim, analysis, rows, ranges):
     raise ValueError('Event predicate/arguments do not share their governing verb and references')
 
 
+def validate_relational_time(claim, analysis, rows, ranges):
+    """Check the bounded temporal-idafa representation, never normalize it away."""
+    for value in claim['time']:
+        if type(value) is not dict or value.get('kind') != 'temporal_relation':
+            continue
+        if value['object'] is None:
+            require(not analysis['references_complete'] and not analysis['assertion_allowed'],
+                    'Unresolved temporal object was promoted to a complete assertion')
+        matched = False
+        for relation in analysis.get('relations', []):
+            rid = relation.get('dependent_reading_id')
+            if (relation.get('kind') != 'time_adverb' or relation.get('relation_lemma') != value['relation']
+                    or rid not in analysis['reading_ids'] or rid not in rows):
+                continue
+            row = rows[rid]
+            head, dependent, complement = (relation.get(k) for k in ('head_span', 'dependent_span', 'complement_span'))
+            if (not all(type(span) is dict for span in (head, dependent, complement))
+                    or span_bounds(dependent) not in ranges[rid]
+                    or row.get('kind') != 'noun' or row.get('lexical_features', {}).get('pos') != 'T'
+                    or row.get('lexical_features', {}).get('lemma') != value['relation']
+                    or relation.get('ownership_asserted') is not False):
+                continue
+            governed = any(a['role'] == 'time_adverb' and a['reading_id'] == rid
+                           and a['span'] == dependent and a.get('head_span') == head
+                           for a in analysis['assignments'])
+            attached = any(a['role'] == 'idafa_complement' and a['span'] == complement
+                           and a.get('head_span') == dependent for a in analysis['assignments'])
+            linked = any(r.get('kind') == 'idafa' and r.get('head_span') == dependent
+                         and r.get('dependent_span') == complement
+                         and r.get('complement_span') == complement
+                         and r.get('ownership_asserted') is False for r in analysis.get('relations', []))
+            referred = any(r['span'] == complement and r.get('bound_entity_id') == value['object']
+                           for r in analysis['references'])
+            predicate = any(rows[x].get('lexical_features', {}).get('lemma') == claim['predicate']
+                            and span_bounds(head) in ranges[x] for x in analysis['reading_ids'])
+            if governed and attached and linked and referred and predicate:
+                matched = True
+                break
+        require(matched, 'Temporal qualification lost its lexical head, idafa edge or object reference')
+
+
 def validate_report(report, inputs, audit=None):
     raw = inputs['text'].encode()
     require(report['source_text'] == inputs['text'] and report['source_id'] == inputs['source_id']
@@ -603,6 +741,7 @@ def validate_report(report, inputs, audit=None):
             for claim in analysis['claims']:
                 claim_view(claim)
                 validate_claim_roles(claim, analysis, rows, ranges)
+                validate_relational_time(claim, analysis, rows, ranges)
                 if analysis['assertion_allowed']:
                     require(analysis['force'] == 'ASSERT' and analysis['licensed_syntax']
                             and analysis['references_complete'] and not analysis['rejected_candidate'],
@@ -946,21 +1085,31 @@ def corpus_variant(raw, mode):
 def gate_decision(result, allow_documented_boundaries=False):
     unexpected = []
     documented = []
+    runtime = result['snapshot']['runtime_freeze_sha256']
+    construction_policy = runtime == CONSTRUCTION_BOUNDARY_RUNTIME
+    boundaries = CONSTRUCTION_BOUNDARIES if construction_policy else DOCUMENTED_BOUNDARIES
     for case in result['cases']:
         if case['passed']:
             continue
         failed = {f['check'] for f in case['failures']}
-        allowed = DOCUMENTED_BOUNDARIES.get(case['id'], frozenset())
+        allowed = boundaries.get(case['id'], frozenset())
+        p26_signature_ok = not (construction_policy and case['id'] == 'DSC-P26') or all(
+            failure['check'] != 'question:0' or failure.get('details') == {
+                'actual': 'DEFER', 'expected': 'SUPPORTED'}
+            for failure in case['failures'])
         entry = {'id': case['id'], 'failed_checks': sorted(failed)}
-        if failed and failed <= allowed and not case.get('false_accepts'):
+        if failed and failed <= allowed and p26_signature_ok and not case.get('false_accepts'):
             documented.append(entry)
         else:
             unexpected.append(entry)
     safety_ok = (not result['false_accept_count'] and not result['execution_errors']
                  and not result.get('question_execution_errors') and result['total'] == 86
                  and len(result['cases']) == 86)
-    approved = (DOCUMENTED_BOUNDARY_RUNTIME is not None
-                and result['snapshot']['runtime_freeze_sha256'] == DOCUMENTED_BOUNDARY_RUNTIME)
+    if construction_policy:
+        safety_ok = (safety_ok and result.get('measurement_valid') is True
+                     and result.get('raw_log', {}).get('valid') is True)
+    approved = (construction_policy or (DOCUMENTED_BOUNDARY_RUNTIME is not None
+                                        and runtime == DOCUMENTED_BOUNDARY_RUNTIME))
     partial_gate = bool(allow_documented_boundaries and approved and safety_ok and not unexpected)
     return {'gate_mode': 'documented_boundaries' if allow_documented_boundaries else 'strict',
             'gate_pass': bool(result['strict_pass'] or partial_gate),
@@ -968,6 +1117,8 @@ def gate_decision(result, allow_documented_boundaries=False):
             'documented_boundary_failures': documented,
             'unexpected_failures': unexpected,
             'boundary_policy': 'EXACT_CASE_AND_CHECK_ALLOWLIST_NO_FALSE_ACCEPT_OR_REPLAY_EXCEPTION',
+            'boundary_policy_revision': ('constructions_v2' if construction_policy else
+                                         'discourse_v4' if approved else None),
             'boundary_policy_runtime_approved': approved}
 
 
@@ -997,10 +1148,19 @@ def evaluate(qac_path, output, manifest_path, runtime_root, *, allow_documented_
     verify_import_origins(runtime_root)
     models, audits = {'none': None}, {'none': None}
     started = time.monotonic()
-    with gzip.open(raw_path, 'wt', encoding='utf-8') as raw_log:
+    captured_rows, captured_hash = [], sha256()
+    captured_bytes = 0
+    with gzip.open(raw_path, 'wb') as raw_log:
         def log(value):
-            raw_log.write(wire(value).decode() + '\n')
+            nonlocal captured_bytes
+            payload = wire(value) + b'\n'
+            receipt = {'identity': raw_record_identity(value), 'bytes': len(payload),
+                       'sha256': sha256(payload).hexdigest()}
+            require(raw_log.write(payload) == len(payload), 'Incomplete raw journal write')
             raw_log.flush()
+            captured_rows.append(receipt)
+            captured_hash.update(payload)
+            captured_bytes += len(payload)
         for case in material['cases']:
             inputs, expected = case['input'], case['expected']
             profile = inputs['lexical_profile']
@@ -1026,7 +1186,7 @@ def evaluate(qac_path, output, manifest_path, runtime_root, *, allow_documented_
                              'failures': [] if passed else [{'check': 'structured_invalid_input', 'details': diagnostic}],
                              'false_accepts': [], 'checks': [{'check': 'structured_invalid_input', 'passed': passed}],
                              'diagnostic': diagnostic}
-                    log({'id': case['id'], 'diagnostic': diagnostic})
+                    log({'id': case['id'], 'diagnostic': diagnostic, 'score': entry})
                     entry['seconds'] = round(time.monotonic() - case_started, 6)
                     result['cases'].append(entry)
                     continue
@@ -1034,7 +1194,7 @@ def evaluate(qac_path, output, manifest_path, runtime_root, *, allow_documented_
                     entry = {'id': case['id'], 'track': case['track'], 'passed': False,
                              'failures': [{'check': 'invalid_context_accepted', 'details': report['status']}],
                              'false_accepts': [{'check': 'invalid_context_accepted'}], 'checks': []}
-                    log({'id': case['id'], 'unexpected_report': report})
+                    log({'id': case['id'], 'unexpected_report': report, 'score': entry})
                 else:
                     verification = verify_discourse(report, text=inputs['text'], **kwargs)
                     questions = []
@@ -1092,11 +1252,19 @@ def evaluate(qac_path, output, manifest_path, runtime_root, *, allow_documented_
                 result['execution_errors'].append(failure)
                 entry = {'id': case['id'], 'track': case['track'], 'passed': False,
                          'failures': [{'check': 'execution', 'details': failure}], 'false_accepts': [], 'checks': []}
-                log({'id': case['id'], 'execution_error': failure})
+                log({'id': case['id'], 'execution_error': failure, 'score': entry})
             entry['seconds'] = round(time.monotonic() - case_started, 6)
             result['cases'].append(entry)
             print(json.dumps({'case': case['id'], 'passed': entry['passed'],
                               'failures': [f['check'] for f in entry['failures']]}, ensure_ascii=False), flush=True)
+    journal = verify_raw_journal(raw_path,
+        {'records': captured_rows, 'sha256': captured_hash.hexdigest(), 'bytes': captured_bytes},
+        {'case_ids': [case['id'] for case in material['cases']],
+         'variants': [[case['id'], mode] for case in material['cases']
+                      for mode in case['expected'].get('semantic_invariance', [])],
+         'profiles': list(result['model_profiles']),
+         'question_counts': {case['id']: len(case['expected']['questions']) for case in material['cases']}},
+        result['cases'])
     verify_import_origins(runtime_root)
     # Recheck every authoritative byte after the run, not merely before it.
     require(runtime_snapshot(manifest_path, runtime_root)['measured_snapshot_sha256'] == snapshot['measured_snapshot_sha256'],
@@ -1127,7 +1295,7 @@ def evaluate(qac_path, output, manifest_path, runtime_root, *, allow_documented_
                   by_track=dict(counts), false_accept_count=sum(len(c['false_accepts']) for c in result['cases']),
                   by_group=by_group, by_question_outcome=dict(by_question_outcome),
                   false_accept_case_count=sum(bool(c['false_accepts']) for c in result['cases']),
-                  raw_log={'filename': raw_path.name, 'sha256': sha256(raw_path.read_bytes()).hexdigest()},
+                  raw_log=journal, measurement_valid=True,
                   by_check={name: {'passed': check_counts[(name, 'passed')], 'total': check_counts[(name, 'total')]}
                       for name in sorted({key[0] for key in check_counts})})
     result['strict_pass'] = (result['passed'] == result['total'] == 86 and not result['execution_errors']
@@ -1142,7 +1310,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=FOLDER / 'code_freeze_v4.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/constructions/code_freeze_v2.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')

@@ -1,9 +1,11 @@
 """Independent scorer obligations; these do not run the held-out predictions."""
 from copy import deepcopy
 from hashlib import sha256
+import gzip
 import importlib.util
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -121,6 +123,87 @@ def answer_example(variable=False):
     return inputs, document, inquiry, answer
 
 
+def relational_time_example(*, resolved=True):
+    """Authored API fixture, not a held-out runtime prediction."""
+    inputs, report = example()
+    text = inputs['text'] + ' حين الموعد'
+    checksum = sha256(text.encode()).hexdigest()
+    inputs['text'] = report['source_text'] = text
+    report['source_sha256'] = checksum
+    def rebind(value):
+        if type(value) is dict:
+            if 'source_sha256' in value:
+                value['source_sha256'] = checksum
+            for item in value.values():
+                rebind(item)
+        elif type(value) is list:
+            for item in value:
+                rebind(item)
+    rebind(report)
+    def span(a, b):
+        return {'source_id': inputs['source_id'], 'source_sha256': checksum, 'start': a, 'end': b}
+    whole, adverb, complement = span(0, len(text.encode())), span(18, 24), span(25, 37)
+    report['partition'].extend([
+        {'kind': 'spacing', 'surface': ' ', 'span': span(17, 18)},
+        {'kind': 'written_run', 'surface': 'حين', 'span': adverb},
+        {'kind': 'spacing', 'surface': ' ', 'span': span(24, 25)},
+        {'kind': 'written_run', 'surface': 'الموعد', 'span': complement}])
+    analysis = report['clauses'][0]['analyses'][0]
+    for rid, surface, location, pos in [('time', 'حين', adverb, 'T'), ('date', 'الموعد', complement, 'N')]:
+        reading = {'reading_id': rid, 'kind': 'noun', 'construction': None, 'class_candidates': [],
+                   'stem_span': location, 'stem_surface': surface, 'nun_readings': [],
+                   'lexical_features': {'lemma': surface, 'pos': pos},
+                   'segmentation': {'parts': [{'span': location, 'surface': surface}]}}
+        report['occurrences'].append({'surface': surface, 'span': location, 'readings': [reading]})
+        analysis['reading_ids'].append(rid)
+    predicate = analysis['assignments'][1]['span']
+    for rid, surface, location, role, case, head in [
+        ('time', 'حين', adverb, 'time_adverb', 'nasb', predicate),
+        ('date', 'الموعد', complement, 'idafa_complement', 'jarr', adverb)]:
+        analysis['assignments'].append({'reading_id': rid, 'span': location, 'surface': surface,
+            'role': role, 'required_case': case, 'head_span': head, 'activated': True, 'actual_role': role,
+            'inflected_case': None, 'local_case': None, 'case_domain': None, 'sign_candidates': []})
+    reference = {'origin': 'named', 'surface': 'الموعد', 'span': complement, 'scope': inputs['scope'],
+                 'candidate_entity_ids': ['date'] if resolved else [],
+                 'bound_entity_id': 'date' if resolved else None}
+    analysis['references'].append(reference)
+    if resolved:
+        inputs['context']['entities'].append({'id': 'date', 'name': 'الموعد'})
+    qualification = {'kind': 'temporal_relation', 'relation': 'حين', 'object': reference['bound_entity_id']}
+    analysis['claims'][0]['time'] = [deepcopy(qualification)]
+    report['claims'][0]['time'] = [deepcopy(qualification)]
+    analysis['relations'] = [
+        {'kind': 'time_adverb', 'head_span': predicate, 'dependent_span': adverb,
+         'complement_span': complement, 'relation_lemma': 'حين', 'dependent_reading_id': 'time',
+         'ownership_asserted': False},
+        {'kind': 'idafa', 'head_span': adverb, 'dependent_span': complement,
+         'complement_span': complement, 'ownership_asserted': False}]
+    analysis['span'] = report['clauses'][0]['span'] = whole
+    report['claims'][0]['proofs'][0]['span'] = whole
+    if not resolved:
+        analysis['references_complete'] = analysis['assertion_allowed'] = False
+        report['claims'] = []
+        report['status'] = report['clauses'][0]['status'] = 'DEFER'
+    update_context(inputs, report)
+    return inputs, report
+
+
+def journal_example():
+    score = {'id': 'authored', 'passed': True, 'checks': []}
+    values = [{'model_profile': 'authored_source', 'summary': {}},
+              {'id': 'authored', 'variant': 'mask', 'report': {}},
+              {'id': 'authored', 'report': {}, 'questions': [{}], 'score': score}]
+    lines = [evaluation.wire(value) + b'\n' for value in values]
+    payload = b''.join(lines)
+    captured = {'records': [{'identity': evaluation.raw_record_identity(value),
+                            'bytes': len(line), 'sha256': sha256(line).hexdigest()}
+                           for value, line in zip(values, lines)],
+                'sha256': sha256(payload).hexdigest(), 'bytes': len(payload)}
+    inventory = {'case_ids': ['authored'], 'variants': [['authored', 'mask']],
+                 'profiles': ['authored_source'], 'question_counts': {'authored': 1}}
+    return payload, captured, inventory, [{**score, 'seconds': 0.25}]
+
+
 class DiscourseReviewTests(unittest.TestCase):
     def test_frozen_material_inventory_and_all_predicates_implemented(self):
         freeze, material, inventory = evaluation.load_material()
@@ -131,6 +214,93 @@ class DiscourseReviewTests(unittest.TestCase):
     def test_valid_correlated_report(self):
         inputs, report = example()
         evaluation.validate_report(report, inputs)
+
+    def test_relational_time_preserves_attachment_and_gold_qualification(self):
+        inputs, report = relational_time_example()
+        evaluation.validate_report(report, inputs)
+        claim = report['claims'][0]
+        self.assertEqual(evaluation.gold_time_label(claim['time'][0]), claim['time'][0])
+        unqualified = {**deepcopy(claim), 'time': []}
+        self.assertNotEqual(evaluation.claim_key(claim), evaluation.claim_key(unqualified))
+        self.assertNotEqual(evaluation.gold_claim_key(claim), evaluation.gold_claim_key(unqualified))
+
+    def test_unresolved_temporal_object_remains_a_candidate(self):
+        inputs, report = relational_time_example(resolved=False)
+        evaluation.validate_report(report, inputs)
+        analysis = report['clauses'][0]['analyses'][0]
+        analysis['references_complete'] = True
+        rehash(report)
+        with self.assertRaisesRegex(ValueError, 'Unresolved temporal object'):
+            evaluation.validate_report(report, inputs)
+
+    def test_temporal_relation_cannot_borrow_head_edge_or_entity(self):
+        for mutation in ('head', 'edge', 'entity', 'lemma'):
+            inputs, report = relational_time_example()
+            analysis = report['clauses'][0]['analyses'][0]
+            if mutation == 'head':
+                analysis['relations'][0]['head_span'] = analysis['assignments'][0]['span']
+            elif mutation == 'edge':
+                analysis['relations'].pop()
+            else:
+                field, value = ('object', 'h') if mutation == 'entity' else ('relation', 'آخر')
+                for claim in analysis['claims'] + report['claims']:
+                    claim['time'][0][field] = value
+            rehash(report)
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'Temporal qualification'):
+                evaluation.validate_report(report, inputs)
+
+    def test_relational_time_has_an_exact_typed_schema(self):
+        _, report = relational_time_example()
+        for value in ({'kind': 'temporal_relation', 'relation': 'حين', 'object': True},
+                      {'kind': 'temporal_relation', 'relation': '', 'object': 'date'},
+                      {'kind': 'temporal_relation', 'relation': 'حين', 'object': 'date', 'ignored': 'x'}):
+            claim = {**deepcopy(report['claims'][0]), 'time': [value]}
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'Invalid relational time'):
+                evaluation.claim_view(claim)
+
+    def test_closed_raw_journal_is_verified_against_log_time_capture(self):
+        payload, captured, inventory, scores = journal_example()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'raw.gz'
+            path.write_bytes(gzip.compress(payload, mtime=0))
+            checked = evaluation.verify_raw_journal(path, captured, inventory, scores)
+        self.assertTrue(checked['valid'])
+        self.assertEqual((checked['record_count'], checked['case_count'], checked['variant_count'],
+                          checked['profile_count']), (3, 1, 1, 1))
+
+    def test_a_hashed_truncated_gzip_is_not_a_valid_measurement(self):
+        payload, captured, inventory, scores = journal_example()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'raw.gz'
+            path.write_bytes(gzip.compress(payload, mtime=0)[:-8])
+            self.assertEqual(len(sha256(path.read_bytes()).hexdigest()), 64)
+            with self.assertRaisesRegex(ValueError, 'Invalid raw measurement journal'):
+                evaluation.verify_raw_journal(path, captured, inventory, scores)
+
+    def test_closed_journal_rejects_lost_changed_or_extra_rows(self):
+        payload, captured, inventory, scores = journal_example()
+        lines = payload.splitlines(keepends=True)
+        variants = [b''.join(lines[:-1]), payload.replace(b'authored_source', b'replaced_source'),
+                    payload + lines[-1], b''.join(reversed(lines))]
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'raw.gz'
+            for variant in variants:
+                path.write_bytes(gzip.compress(variant, mtime=0))
+                with self.subTest(variant=variant), self.assertRaisesRegex(ValueError, 'Raw journal'):
+                    evaluation.verify_raw_journal(path, captured, inventory, scores)
+
+    def test_journal_inventory_questions_and_scores_are_independently_held(self):
+        payload, captured, inventory, scores = journal_example()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'raw.gz'
+            path.write_bytes(gzip.compress(payload, mtime=0))
+            for field, value in [('case_ids', ['other']), ('profiles', ['other']),
+                                 ('variants', []), ('question_counts', {'authored': 2})]:
+                changed = {**deepcopy(inventory), field: value}
+                with self.subTest(field=field), self.assertRaisesRegex(ValueError, 'Raw journal'):
+                    evaluation.verify_raw_journal(path, captured, changed, scores)
+            with self.assertRaisesRegex(ValueError, 'Raw journal score'):
+                evaluation.verify_raw_journal(path, captured, inventory, [{**scores[0], 'passed': False}])
 
     def test_closed_operator_reading_uses_its_complete_occurrence_partition(self):
         inputs, report = example()
@@ -396,6 +566,60 @@ class DiscourseReviewTests(unittest.TestCase):
         boundary['false_accepts'] = ['unsupported pronoun binding']
         result['false_accept_count'] = 1
         self.assertFalse(evaluation.gate_decision(result, True)['gate_pass'])
+
+    def test_construction_p26_boundary_is_versioned_and_requires_deferred_signature(self):
+        cases = [{'id': c['id'], 'passed': True, 'failures': [], 'false_accepts': []}
+                 for c in evaluation.load_material()[1]['cases']]
+        boundary = next(c for c in cases if c['id'] == 'DSC-P26')
+        boundary.update(passed=False, failures=[
+            {'check': 'required_claim:0'},
+            {'check': 'question:0', 'details': {'actual': 'DEFER', 'expected': 'SUPPORTED'}},
+        ])
+        result = {'cases': cases, 'total': 86, 'strict_pass': False, 'false_accept_count': 0,
+                  'execution_errors': [], 'question_execution_errors': [],
+                  'measurement_valid': True, 'raw_log': {'valid': True},
+                  'snapshot': {'runtime_freeze_sha256': evaluation.CONSTRUCTION_BOUNDARY_RUNTIME}}
+        self.assertEqual(evaluation.DOCUMENTED_BOUNDARIES['DSC-P26'], {'required_claim:0'})
+        self.assertEqual(set(evaluation.CONSTRUCTION_BOUNDARIES), set(evaluation.DOCUMENTED_BOUNDARIES))
+        self.assertEqual(
+            {key for key in evaluation.DOCUMENTED_BOUNDARIES
+             if evaluation.DOCUMENTED_BOUNDARIES[key] != evaluation.CONSTRUCTION_BOUNDARIES[key]},
+            {'DSC-P26'})
+        self.assertFalse(evaluation.gate_decision(result)['gate_pass'])
+        permitted = evaluation.gate_decision(result, True)
+        self.assertTrue(permitted['gate_pass'])
+        self.assertEqual(permitted['boundary_policy_revision'], 'constructions_v2')
+        self.assertFalse(permitted['coverage_complete'])
+        self.assertFalse(result['strict_pass'])
+        for other_runtime in (evaluation.DOCUMENTED_BOUNDARY_RUNTIME, 'unapproved'):
+            result['snapshot']['runtime_freeze_sha256'] = other_runtime
+            self.assertFalse(evaluation.gate_decision(result, True)['gate_pass'])
+        result['snapshot']['runtime_freeze_sha256'] = evaluation.CONSTRUCTION_BOUNDARY_RUNTIME
+        for actual in ('REFUTED', 'NO_GROUNDED_SUPPORT', 'CONFLICT'):
+            boundary['failures'][1]['details']['actual'] = actual
+            self.assertFalse(evaluation.gate_decision(result, True)['gate_pass'])
+        boundary['failures'][1]['details']['actual'] = 'DEFER'
+        for check in ('report_integrity', 'original_report_replay', 'question_integrity:0',
+                      'answer_replay:0', 'reading:0', 'question:1'):
+            boundary['failures'].append({'check': check})
+            self.assertFalse(evaluation.gate_decision(result, True)['gate_pass'])
+            boundary['failures'].pop()
+
+    def test_construction_boundary_cannot_waive_journal_or_execution_failure(self):
+        cases = [{'id': c['id'], 'passed': True, 'failures': [], 'false_accepts': []}
+                 for c in evaluation.load_material()[1]['cases']]
+        result = {'cases': cases, 'total': 86, 'strict_pass': False, 'false_accept_count': 0,
+                  'execution_errors': [], 'question_execution_errors': [],
+                  'measurement_valid': True, 'raw_log': {'valid': True},
+                  'snapshot': {'runtime_freeze_sha256': evaluation.CONSTRUCTION_BOUNDARY_RUNTIME}}
+        self.assertTrue(evaluation.gate_decision(result, True)['gate_pass'])
+        for key, value in (('false_accept_count', 1), ('execution_errors', [{'type': 'ValueError'}]),
+                           ('question_execution_errors', [{'type': 'ValueError'}]),
+                           ('measurement_valid', False), ('raw_log', {'valid': False}),
+                           ('raw_log', {})):
+            altered = deepcopy(result)
+            altered[key] = value
+            self.assertFalse(evaluation.gate_decision(altered, True)['gate_pass'])
 
 
 if __name__ == '__main__':

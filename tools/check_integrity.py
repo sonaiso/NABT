@@ -114,6 +114,11 @@ def check(lean_export=None):
     from nabt.inflection_reader import replay_inflection_policy
     from nabt.person_evidence import installed_registry as person_registry
     from nabt.discourse_laws import installed_registry as discourse_registry, replay_discourse_policy
+    from nabt.construction_laws import (
+        EXPECTED_TABLE_SHA256 as CONSTRUCTION_TABLE_SHA256,
+        installed_registry as construction_registry,
+    )
+    from nabt.construction_sources import replay_construction_policy
 
     table_path = ROOT / "src" / "nabt" / "data" / "law.json"
     actual_hash = hashlib.sha256(table_path.read_bytes()).hexdigest()
@@ -158,6 +163,10 @@ def check(lean_export=None):
     person = person_registry()
     discourse = discourse_registry()
     discourse_policy = replay_discourse_policy()
+    construction = construction_registry()
+    construction_policy = replay_construction_policy()
+    if construction["source_policy_id"] != construction_policy["policy_id"]:
+        raise ValueError("Construction law and source-policy identities disagree")
     return {"ok": True, "table_sha256": actual_hash, "primitive_transitions_checked": primitive_count,
             "lean_sources_guarded": source_count, "fresh_lean_export_compared": matched,
             "governor_table_sha256": GOVERNOR_TABLE_SHA256,
@@ -188,6 +197,18 @@ def check(lean_export=None):
             "discourse_assertion_rows": len(discourse["assertion_rows"]),
             "discourse_grammar_rules": len(discourse_policy["rules"]),
             "discourse_grammar_sha256": discourse_policy["policy_sha256"],
+            "construction_law_id": construction["law_id"],
+            "construction_table_sha256": CONSTRUCTION_TABLE_SHA256,
+            "construction_operator_rows": len(construction["operator_rows"]),
+            "construction_role_rows": len(construction["role_rows"]),
+            "construction_agreement_rows": len(construction["agreement_rows"]),
+            "construction_idafa_rows": len(construction["idafa_rows"]),
+            "construction_an_rows": len(construction["an_rows"]),
+            "construction_activation_rows": len(construction["activation_rows"]),
+            "construction_identity_rows": len(construction["identity_rows"]),
+            "construction_scope_rows": len(construction["scope_rows"]),
+            "construction_grammar_rules": len(construction_policy["rules"]),
+            "construction_grammar_sha256": construction_policy["policy_sha256"],
             "scope": "artifact integrity and source guard; kernel build is a separate required gate"}
 
 

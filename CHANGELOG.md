@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.14.0a1 — 2026-10-23
+
+- Add source-bound construction frames for kana/inna/zanna/kada families,
+  nested constructs, direct attributes, event-state and specification modifiers,
+  identity-supported apposition/emphasis, and temporal/spatial constructs.
+- Keep operator scope, relative tense, event restrictions and qualified arguments
+  in questions; separate a complement clause's local case from its verb's mood.
+- Add 34 conditional Lean theorems and 776 finite correspondence rows, with a
+  replayed 17-passage grammar policy and exact occurrence/reading/edge bindings.
+- Qualify an attested accusative-alif form only through its independently
+  witnessed base paradigm; preserve the written form and source receipts.
+- Preserve the rejected-analysis query-selection fix and its six regressions.
+  Fix future copulas after independent review without overwriting the first
+  construction freeze or its incorrect K06 interpretation.
+- Record a new authorized 41-repository source inventory and 292 external Lean
+  blob checks. Keep upstream assumptions distinct from acquired input evidence.
+- Preserve independent gold, both runtime freezes, adapter errata and all paired
+  results: positive comprehension 4/43 to 29/43 to 30/43; retain 15 named coverage
+  gaps and strict incomplete status. Report the legacy P26 question regression.
+- Validate complete raw evaluation journals after closing them; retain the first
+  truncated legacy attempt and exclude it from release evidence.
+
 ## 0.13.0a2 — 2026-10-23
 
 - Finalize installed-package command evidence once after all commands, retain

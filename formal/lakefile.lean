@@ -2,7 +2,7 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.12.0"
+  version := v!"0.14.0"
 
 @[default_target]
 lean_lib Nabt
@@ -30,3 +30,7 @@ lean_exe exportDiscourseEvidence where
 @[default_target]
 lean_exe exportPersonEvidence where
   root := `ExportPersonEvidence
+
+@[default_target]
+lean_exe exportConstructionEvidence where
+  root := `ExportConstructionEvidence

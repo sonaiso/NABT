@@ -1,0 +1,11 @@
+# Construction evaluator adapter erratum v1
+
+The first baseline and target attempts are preserved unchanged and are **not valid comparative measurements**. The old baseline reported 37/86 with 12 adapter validation errors; the first construction target reported 62/86 with 3 adapter validation errors. Their compressed logs have now been fully reopened: each contains exactly 87 records, 86 cases and 106 questions, with scores and error inventories matching its JSON result. This completeness check does not repair the original scoring errors.
+
+The corrected adapter handles unresolved arguments in incomplete candidate analyses, follows the published asymmetric explicit-shadda/dagger-alif name profile, and maps the finite operator label pairs belief/knowledge to epistemic and proximity to approximation. It continues to require resolved arguments and complete agreeing alternatives for accepted clauses and grounded claims. Frozen inputs, source, context and expected results are unchanged. In particular, the unmarked context name in N01 is not silently adjusted to make its explicitly marked source name match.
+
+A new finalization guard reads the entire closed gzip stream, checks EOF/CRC and canonical JSON, reconciles source/model, ordered case IDs, every score, question inventory and error inventory, and checks per-line hashes captured during writing. Failure invalidates the measurement and gate while retaining the attempt. The 25 focused evaluator tests pass, including truncated-gzip, missing-case, missing-question and altered-score counterexamples.
+
+The accompanying JSON binds both original result/code/raw archives and every other retained first-attempt artifact by hash, and records the exact corrected tool and test hashes. Both corrected reruns use those same adapter bytes against separately extracted immutable runtimes. No runtime repair is part of this erratum.
+
+K06 also exposed a genuine interpretation issue: the target admitted a future kana event qualified by hal instead of the expected future property with kana subject and predicate. Its input, relevant lexical premises and actual analysis are separately disclosed in `independent_k06_disclosure_v1.json`. The frozen forbidden-claim checks do not exhaust every possible wrong positive interpretation, so a zero count there is never presented as universal semantic correctness.

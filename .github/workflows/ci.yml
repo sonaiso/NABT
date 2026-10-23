@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
 
+# Keep these selectors on an explicitly registered freeze; update them together.
+env:
+  NABT_CODE_FREEZE: evidence/constructions/code_freeze_v2.json
+  NABT_FREEZE_VERSION: constructions_v2
+
 concurrency:
   group: nabt-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -40,23 +45,23 @@ jobs:
       - name: Replay the published text-inquiry corpus and source-boundary probes
         env:
           PYTHONPATH: src
-        run: python tools/text_inquiry_evaluation.py --code-freeze evidence/discourse/code_freeze_v4.json --output-dir "${{ runner.temp }}/nabt-text-regression"
+        run: python tools/text_inquiry_evaluation.py --code-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ runner.temp }}/nabt-text-regression"
       - name: Preserve independently measured Arabic coverage and safe deferrals
         env:
           PYTHONPATH: src
-        run: python tools/arabic_syntax_evaluation.py --code-freeze evidence/discourse/code_freeze_v4.json --output-dir "${{ runner.temp }}/nabt-arabic-regression"
+        run: python tools/arabic_syntax_evaluation.py --code-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ runner.temp }}/nabt-arabic-regression"
       - name: Replay published governor cues, certificates and bounded coverage
         env:
           PYTHONPATH: src
-        run: python tools/governor_evaluation.py --code-freeze evidence/discourse/code_freeze_v4.json --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
+        run: python tools/governor_evaluation.py --code-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
       - name: Preserve word-boundary checks and disclose the remaining positive coverage gap
         env:
           PYTHONPATH: src
-        run: python tools/word_evaluation.py --freeze-version discourse_v4 --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
+        run: python tools/word_evaluation.py --freeze-version "${{ env.NABT_FREEZE_VERSION }}" --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
       - name: Replay source-qualified morphology with explicit conservative boundary debts
         env:
           PYTHONPATH: src
-        run: python tools/morphology_evaluation.py --freeze-version discourse_v4 --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
+        run: python tools/morphology_evaluation.py --freeze-version "${{ env.NABT_FREEZE_VERSION }}" --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
       - name: Acquire text cues with independent positive and boundary cases
         env:
           PYTHONPATH: src
@@ -74,19 +79,23 @@ jobs:
           PYTHONPATH: src
         run: |
           python tools/fetch_qac_source.py --output "${{ runner.temp }}/nabt-qac-original.txt.gz"
-          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
+          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
       - name: Preserve the separately frozen post-review source and nun regressions
         env:
           PYTHONPATH: src
-        run: python tools/inflection_evaluation.py --post-review --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
+        run: python tools/inflection_evaluation.py --post-review --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
       - name: Preserve structured compression failures and bounded source-file reads
         env:
           PYTHONPATH: src
-        run: python tools/inflection_cli_evaluation.py --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
+        run: python tools/inflection_cli_evaluation.py --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
       - name: Replay frozen discourse with explicit coverage debts and unconditional integrity gates
         env:
           PYTHONPATH: src
-        run: python tools/discourse_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze evidence/discourse/code_freeze_v4.json --output "${{ runner.temp }}/nabt-discourse-regression.json" --allow-documented-boundaries
+        run: python tools/discourse_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-discourse-regression.json" --allow-documented-boundaries
+      - name: Preserve source proofs and disclose documented construction coverage gaps
+        env:
+          PYTHONPATH: src
+        run: python tools/construction_evaluation.py --runtime-root "${{ github.workspace }}" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --allow-documented-boundaries --output "${{ runner.temp }}/nabt-construction-regression.json"
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
@@ -171,6 +180,21 @@ jobs:
           nabt verify-source-count nabt-source-count.json --source nabt-nominal.txt
           expect_defer nabt read-count-phrase nabt-count-phrase.txt --lexical-source nabt-nominal-assertions.txt > nabt-count-phrase-reading.json
           nabt verify-count-phrase nabt-count-phrase-reading.json --source nabt-count-phrase.txt --lexical-source nabt-nominal-assertions.txt
+      - name: Replay the installed construction law and primary grammar sources
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import json
+          from nabt.construction_laws import installed_registry
+          from nabt.construction_sources import replay_construction_policy
+          law = installed_registry()
+          policy = replay_construction_policy()
+          assert law["source_policy_id"] == policy["policy_id"]
+          print(json.dumps({"law_id": law["law_id"],
+                            "source_policy_id": policy["policy_id"],
+                            "source_policy_sha256": policy["policy_sha256"],
+                            "source_rules": len(policy["rules"])}))
+          PY
 
   formal:
     runs-on: ubuntu-24.04
@@ -215,3 +239,5 @@ jobs:
         run: python -I tools/check_person_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-person-conformance.json"
       - name: Reference premises, speech force and complete qualified claims
         run: python -I tools/check_discourse_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-discourse-conformance.json"
+      - name: Conditional construction cases, attachment evidence and preserved operator scope
+        run: python -I tools/check_construction_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-construction-conformance.json"

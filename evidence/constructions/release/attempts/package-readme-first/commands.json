@@ -1,0 +1,765 @@
+[
+  {
+    "name": "build-wheel",
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "pip",
+      "wheel",
+      "/workspace/scratch/93a907621097/NABT",
+      "--no-deps",
+      "--no-build-isolation",
+      "--no-index",
+      "--wheel-dir",
+      "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-package-a1/wheel"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/build-wheel.stdout",
+      "bytes": 680,
+      "sha256": "3e4ad4ae875ef5866c205be5e18aed80e5c9ad1b7aee4d5ef6dbf187be7fba8d"
+    },
+    "stderr": {
+      "path": "logs/build-wheel.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "create-venv",
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "venv",
+      "/tmp/nabt-construction-package-uqmbp3ax/venv"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/create-venv.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "logs/create-venv.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "install-wheel",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--no-deps",
+      "/workspace/scratch/93a907621097/NABT/artifacts/local/construction-package-a1/wheel/nabt_machine-0.14.0a1-py3-none-any.whl"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/install-wheel.stdout",
+      "bytes": 222,
+      "sha256": "d3231cad98bbc960e46e43c9adac807c2f4b93c5bf3790c4e79da6bf58aae648"
+    },
+    "stderr": {
+      "path": "logs/install-wheel.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "inspect-install",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/python",
+      "-I",
+      "/tmp/nabt-construction-package-uqmbp3ax/inspect_install.py"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/inspect-install.stdout",
+      "bytes": 17738,
+      "sha256": "bb0877928e98a2c764d47dd04ae3aa35398984ecd243b98b1fef57ff8897c804"
+    },
+    "stderr": {
+      "path": "logs/inspect-install.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "version",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "--version"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/version.stdout",
+      "bytes": 9,
+      "sha256": "301e4cd1c742c7b3844eb04816d8ca729b393f45e9f01597c2021cd5e6a042e7"
+    },
+    "stderr": {
+      "path": "logs/version.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "discourse-catalog",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "discourse-catalog"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/discourse-catalog.stdout",
+      "bytes": 558937,
+      "sha256": "1c8a3cb1153f12f44f9c0a7927df6c917b0c6deb39aefb1bf8a992d40bce20b1"
+    },
+    "stderr": {
+      "path": "logs/discourse-catalog.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "audit-corpus",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "audit-corpus",
+      "construction_training.tsv",
+      "--format",
+      "qac"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/audit-corpus.stdout",
+      "bytes": 558,
+      "sha256": "19fc5a29b350da7cb86c4ea666d652af59d79bdc355c84899421cd62a1149914"
+    },
+    "stderr": {
+      "path": "logs/audit-corpus.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "learn-qac-lexicon",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "learn-qac-lexicon",
+      "construction_training.tsv"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/learn-qac-lexicon.stdout",
+      "bytes": 773,
+      "sha256": "e31a315fcb307885253b46d86c1e07edc3b96b2cda2126fbbde756bfc9bd23c2"
+    },
+    "stderr": {
+      "path": "logs/learn-qac-lexicon.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-kana",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-kana.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-kana.stdout",
+      "bytes": 136028,
+      "sha256": "e0f0e9cd855d5da84c8918105f579a0dfbabf55af0e3bc9dbe41430f7902643f"
+    },
+    "stderr": {
+      "path": "logs/read-kana.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-inna",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-inna.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-inna.stdout",
+      "bytes": 136611,
+      "sha256": "c57f6db5d7c1e8c8d5e369ecacfda13bf0fe23c2edde0f2a6e91701b10b9ba3b"
+    },
+    "stderr": {
+      "path": "logs/read-inna.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-zanna",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-zanna.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-zanna.stdout",
+      "bytes": 307109,
+      "sha256": "61eb2d953c3de963f48cfbc562488e032d25293f099338754627d1a333ffaa84"
+    },
+    "stderr": {
+      "path": "logs/read-zanna.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-kada",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-kada.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-kada.stdout",
+      "bytes": 78688,
+      "sha256": "314be5da77e9d97be0f3622f7609a5ccfe8591ce1efdd5f1dce94fa0a8faf104"
+    },
+    "stderr": {
+      "path": "logs/read-kada.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-kada-an",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-kada-an.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-kada-an.stdout",
+      "bytes": 80107,
+      "sha256": "c924750e8a1b9a0241be257f24c132763a30c6dcc681b6b5ae7257d2c546fc2e"
+    },
+    "stderr": {
+      "path": "logs/read-kada-an.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-naat",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-naat.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-naat.stdout",
+      "bytes": 150488,
+      "sha256": "e22cb9df24cb0726eff11ba10e7d1001e841e09b581451e91a4485b6c2499cdd"
+    },
+    "stderr": {
+      "path": "logs/read-naat.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-idafa",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-idafa.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-idafa.stdout",
+      "bytes": 403105,
+      "sha256": "dc727337372285883e8f068fccbb5933be9a7cff0dd3ad021bcb35af91350218"
+    },
+    "stderr": {
+      "path": "logs/read-idafa.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-hal",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-hal.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-hal.stdout",
+      "bytes": 163321,
+      "sha256": "e18658c540f402c2ff01a78746024986eb79317b4aadc6d2c08fe015e16a02cf"
+    },
+    "stderr": {
+      "path": "logs/read-hal.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-tamyiz",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-tamyiz.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-tamyiz.stdout",
+      "bytes": 94266,
+      "sha256": "e9452840950ed776ca9b169c4d5807d962e4e75ffb49237980901e5985313050"
+    },
+    "stderr": {
+      "path": "logs/read-tamyiz.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-badal",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-badal.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-badal.stdout",
+      "bytes": 92870,
+      "sha256": "966e93cb8dd9f49b07de4cdec3895469e8c830994d61cd720a038204963ea6d4"
+    },
+    "stderr": {
+      "path": "logs/read-badal.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-tawkeed",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-tawkeed.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-tawkeed.stdout",
+      "bytes": 115990,
+      "sha256": "9091e500f9cacf7ab8d688c37323ed9fc2d5f7f9e82d56d259ce9f1139cacd6a"
+    },
+    "stderr": {
+      "path": "logs/read-tawkeed.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-spatial",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-spatial.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-spatial.stdout",
+      "bytes": 71820,
+      "sha256": "fde5528a1a35c2fac0ac4e88fb08f624976c5ec26c8302e584497ea02234bf05"
+    },
+    "stderr": {
+      "path": "logs/read-spatial.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-temporal",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-temporal.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-temporal.stdout",
+      "bytes": 94957,
+      "sha256": "0b2791c5b213cc2a47022e8f5d4005eaca4206009e57b1be3c05dbcf50df1238"
+    },
+    "stderr": {
+      "path": "logs/read-temporal.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-counted-tens",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-counted-tens.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-counted-tens.stdout",
+      "bytes": 207811,
+      "sha256": "6b0580493bf5fb03d3bca15adb2a593c50af9e65d2282791be810ab676548d05"
+    },
+    "stderr": {
+      "path": "logs/read-counted-tens.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-kana-future",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-kana-future.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/read-kana-future.stdout",
+      "bytes": 162031,
+      "sha256": "dfddd7669c3218e3ec256bca9081bf2c7c7a22899e7ada611c063238355d0f9a"
+    },
+    "stderr": {
+      "path": "logs/read-kana-future.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "verify-report",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "verify-discourse",
+      "report.json",
+      "--source",
+      "read-zanna.txt",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/verify-report.stdout",
+      "bytes": 189,
+      "sha256": "6569b815fa078b139eceab1c252535e097df83960289b9a8a21fdc7c9f2fb067"
+    },
+    "stderr": {
+      "path": "logs/verify-report.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-report-qac",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "verify-discourse",
+      "report.json",
+      "--source",
+      "read-zanna.txt",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-report-qac.stdout",
+      "bytes": 82,
+      "sha256": "0ab86863ab69211d556b65aafaa7529ad5ea771ed0b13d943da030a123d28039"
+    },
+    "stderr": {
+      "path": "logs/withdraw-report-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-report-context",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "verify-discourse",
+      "report.json",
+      "--source",
+      "read-zanna.txt",
+      "--qac",
+      "construction_training.tsv"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-report-context.stdout",
+      "bytes": 82,
+      "sha256": "0ab86863ab69211d556b65aafaa7529ad5ea771ed0b13d943da030a123d28039"
+    },
+    "stderr": {
+      "path": "logs/withdraw-report-context.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "ask-scoped",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "ask-discourse",
+      "read-zanna.txt",
+      "هل ظن زيدٌ سالمًا حكيمًا؟",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/ask-scoped.stdout",
+      "bytes": 7369,
+      "sha256": "aa8ab92b48c610c2d818c7bc742d1307c5033e23be0751c48f03306bd55e2cd8"
+    },
+    "stderr": {
+      "path": "logs/ask-scoped.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "verify-answer",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "verify-discourse-answer",
+      "answer.json",
+      "--source",
+      "read-zanna.txt",
+      "--question",
+      "هل ظن زيدٌ سالمًا حكيمًا؟",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/verify-answer.stdout",
+      "bytes": 194,
+      "sha256": "724f7df2d89488dde04cfdd9bc50265055fe9fe28782ce545e9250b04c06a23b"
+    },
+    "stderr": {
+      "path": "logs/verify-answer.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "withdraw-answer-qac",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "verify-discourse-answer",
+      "answer.json",
+      "--source",
+      "read-zanna.txt",
+      "--question",
+      "هل ظن زيدٌ سالمًا حكيمًا؟",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 2,
+    "exit_code": 2,
+    "stdout": {
+      "path": "logs/withdraw-answer-qac.stdout",
+      "bytes": 89,
+      "sha256": "b09ebc6bfdc830166728be1739453afa0132df713f13c924085e2e3216e2a3b5"
+    },
+    "stderr": {
+      "path": "logs/withdraw-answer-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "no-embedded-fact",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "ask-discourse",
+      "read-zanna.txt",
+      "هل سالمٌ حكيمٌ؟",
+      "--qac",
+      "construction_training.tsv",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 0,
+    "exit_code": 0,
+    "stdout": {
+      "path": "logs/no-embedded-fact.stdout",
+      "bytes": 2274,
+      "sha256": "cd73b26f17dfc37457475948fdecc90f1653f05f3ce739f399aab02004aea9b8"
+    },
+    "stderr": {
+      "path": "logs/no-embedded-fact.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "read-without-qac",
+    "argv": [
+      "/tmp/nabt-construction-package-uqmbp3ax/venv/bin/nabt",
+      "read-discourse",
+      "read-zanna.txt",
+      "--context",
+      "construction_context.json"
+    ],
+    "cwd": "/tmp/nabt-construction-package-uqmbp3ax/smoke",
+    "expected_exit_code": 3,
+    "exit_code": 3,
+    "stdout": {
+      "path": "logs/read-without-qac.stdout",
+      "bytes": 11547,
+      "sha256": "75414b4f38315e443242e31b4f986ef59cd5a553578603b7ed3a22f792ed6118"
+    },
+    "stderr": {
+      "path": "logs/read-without-qac.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+]

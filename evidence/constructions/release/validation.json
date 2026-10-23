@@ -1,0 +1,333 @@
+{
+  "schema": "nabt.constructions.release-validation.v1",
+  "recorded_at_utc": "2026-10-23T19:55:35.872149+00:00",
+  "package_version": "0.14.0a1",
+  "status": "BOUNDED_VALIDATION_PASS_WITH_EXPLICIT_COVERAGE_GAPS_AND_LEGACY_QUESTION_REGRESSION",
+  "repository_base_commit": "4a0fb927f14307b19ae4751c38cf81a09debc764",
+  "release_commit": null,
+  "release_commit_note": "This record is included in the subsequent release commit; exact runtime and verification bytes avoid a recursive self-hash.",
+  "runtime": {
+    "manifest": {
+      "path": "evidence/constructions/code_freeze_v2.json",
+      "bytes": 14615,
+      "sha256": "5d4bf3ec6331dab12ebc735f57203cf6bdbc86a563eae0311a66316eb8b820b1"
+    },
+    "archive": {
+      "path": "evidence/constructions/code_freeze_v2.tar.gz",
+      "bytes": 991512,
+      "sha256": "9d5ec76ec904c3696d0e5a76e46fe435e9189322fe0578133c6816707b2fd2c5"
+    },
+    "file_count": 74,
+    "current_bytes_match_frozen_inventory": true,
+    "prior_construction_v1_preserved": true,
+    "historical_tracked_evidence_unchanged": true,
+    "independent_gold_opened_before_v2": true
+  },
+  "verification_sources": {
+    "path": "evidence/constructions/release/verification-source-manifest.json",
+    "bytes": 52539,
+    "sha256": "6272aa61a479442acf92a439e83a1b1b996166093342685ff8dd4c884ba297cc"
+  },
+  "construction_evidence": {
+    "path": "evidence/constructions/release/construction-evidence-manifest.json",
+    "bytes": 23698,
+    "sha256": "3e14a80c6c2f994f733339fb1cf5829cf25674d4fcd1c0c7eaff1800cddb6ede"
+  },
+  "outputs": {
+    "path": "evidence/constructions/release/outputs-manifest.json",
+    "bytes": 66886,
+    "sha256": "48a28385efa58cf5152632dd7951698baefc025f8f90e5bc36e5ed1ad84ed660"
+  },
+  "full_check": {
+    "outcome": "PASS",
+    "runner_observed_exit_code": 0,
+    "tests_run": 887,
+    "test_seconds": 31.89,
+    "command": [
+      "make",
+      "check",
+      "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/construction-release-a2/checks",
+      "TEXT_CODE_FREEZE=evidence/constructions/code_freeze_v2.json",
+      "RUNTIME_FREEZE_VERSION=constructions_v2",
+      "QAC_SOURCE=artifacts/local/inflection-evaluation/quranic-corpus-morphology-0.4.txt.gz",
+      "ARABIC_EVALUATION_DIR=artifacts/local/construction-release-a2/checks/arabic-regression"
+    ],
+    "command_record": {
+      "path": "evidence/constructions/release/make-check-command.json",
+      "bytes": 25277,
+      "sha256": "b8b7f0e54596d95eb63f675384ec60b3ba765ea80a91bcf1fcf0e08089dda723"
+    },
+    "log": {
+      "path": "evidence/constructions/release/make-check.log",
+      "bytes": 202643,
+      "sha256": "d5964e2c71811d4cd17db2356e70b8de5da239e43e5c60160c31b3be88cd15dc"
+    },
+    "inputs_unchanged_during_run": true,
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+    },
+    "relocated_unchanged_artifacts_from": "artifacts/local/construction-release-a2/checks",
+    "relocated_unchanged_artifacts_to": "evidence/constructions/release/checks"
+  },
+  "formal": {
+    "report": {
+      "path": "evidence/constructions/release/checks/axioms.json",
+      "bytes": 50946,
+      "sha256": "c64766114f9c619e11bf593920205b7178d8dfee2dd064df5dcf41a6d0c5623d"
+    },
+    "theorem_count": 659,
+    "new_construction_theorems": 34,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true,
+    "whole_runtime_parser_verified_in_lean": false,
+    "construction_conformance": {
+      "path": "evidence/constructions/release/checks/construction-conformance.json",
+      "bytes": 702,
+      "sha256": "684cbde551b38db030c53f6094afd372966b64a11bce10dda3715355ca6e5e1a"
+    },
+    "finite_construction_rows": 776,
+    "primary_grammar_passages_replayed": 17
+  },
+  "preflight": {
+    "validation": {
+      "path": "evidence/constructions/release/preflight/validation.json",
+      "bytes": 1096,
+      "sha256": "24ba820e27cb8c55e55de69d406ce127aa1614a33f9c5ab2f1f866d1da757656"
+    },
+    "manifest": {
+      "path": "evidence/constructions/release/preflight/manifest.json",
+      "bytes": 2377,
+      "sha256": "240d30fcdf07321af0740f35b80f9ab71ef82c667b6add1e2f378def7aaf1a3c"
+    },
+    "commands": [
+      "make formal",
+      "make conformance",
+      "make benchmark"
+    ],
+    "scope": "Separate formal/build gates and local numerical-kernel timing; not a language-reader performance benchmark."
+  },
+  "package": {
+    "validation": {
+      "path": "evidence/constructions/release/package/validation.json",
+      "bytes": 18111,
+      "sha256": "2874286e859e7b75c404a32c89be14320054b4520aaa3f7980d38be2073d79f2"
+    },
+    "manifest": {
+      "path": "evidence/constructions/release/package/manifest.json",
+      "bytes": 19788,
+      "sha256": "8d1c9381915770177bdcf60b610f2ce921077d236fa65c6edd7a19fc35e3827a"
+    },
+    "postcheck": {
+      "path": "evidence/constructions/release/package-postcheck.json",
+      "bytes": 2074,
+      "sha256": "b30767e787ab9f65b0c46292fa6369d09a5b49d2dca1d10d1d02c65120e316a9"
+    },
+    "commands": {
+      "path": "evidence/constructions/release/package/commands.json",
+      "bytes": 22197,
+      "sha256": "be9d1fd0292d171a3be7a1f225bc47a91d2b4baa3c1db0f5150c781846d5e2ad"
+    },
+    "wheel": {
+      "path": "evidence/constructions/release/package/wheel/nabt_machine-0.14.0a1-py3-none-any.whl",
+      "bytes": 1088885,
+      "sha256": "a2115e0ce6d8eabb7fcd343ba3fac40f5a32ecf82a16c4481bd16621e245f664"
+    },
+    "source_files": 74,
+    "runtime_package_files": 73,
+    "documentation_package_files": 2,
+    "installed_files": 75,
+    "cli_checks": 26,
+    "recorded_commands": 31,
+    "installed_outside_checkout": true,
+    "readme_matches_wheel_metadata": true
+  },
+  "source_audit": {
+    "audit": {
+      "path": "evidence/constructions/source_audit.json",
+      "bytes": 148619,
+      "sha256": "220f110fa90da2ac9174060cdf59c9e2bb99f9508437969f6170a89121614937"
+    },
+    "coverage": {
+      "path": "evidence/constructions/source_coverage.json",
+      "bytes": 13139,
+      "sha256": "e1547c20690964c32919a63ab8f4b7448482449a19452e6195a5977ab7174307"
+    },
+    "authenticated_access": {
+      "path": "evidence/constructions/source_access_refresh_v2.json",
+      "bytes": 70190,
+      "sha256": "03cf177176b1fa5b9d98768faa5c36256f3f2fd78c5cfdce4dfe17679a99fa61"
+    },
+    "authenticated_access_validation": {
+      "path": "evidence/constructions/source_audit_access_validation.json",
+      "bytes": 8804,
+      "sha256": "8082ee2b68b0af75177000d210a28458071c2b4520948d75bfb827709f73e909"
+    },
+    "window_validation": {
+      "path": "evidence/constructions/source_audit_validation.json",
+      "bytes": 1832,
+      "sha256": "a9f53b609be2bb61d0c2833cca5d4fcb5edf8652328f11204218a4c28f11b2bb"
+    },
+    "future_source_supplement": {
+      "path": "evidence/constructions/source_audit_future_v2.json",
+      "bytes": 5148,
+      "sha256": "bc21b17f6959e78bcc452c9f5ee1cc47965c98b87f7c3c6cd3cd6541a928fd22"
+    },
+    "repositories": 41,
+    "public": 24,
+    "private": 17,
+    "complete_default_branch_trees": 40,
+    "confirmed_empty_repositories": 1,
+    "external_lean_blob_files": 292,
+    "private_lean_files": 0,
+    "all_upstream_repositories_rebuilt": false
+  },
+  "query_selection_regression": {
+    "test_file": {
+      "path": "tests/test_discourse_query_selection.py",
+      "bytes": 5764,
+      "sha256": "debf79eaee45abb4e5e78caa566000c00a0d5a9d8f3c8f1037fedcec828c1586"
+    },
+    "historical_material": {
+      "path": "evidence/discourse/query_selection_review/material_freeze_v1.json",
+      "bytes": 1464,
+      "sha256": "5268b4a3ac0b6634d08fa5353b94fb258f51902fab95d658cb0dabf409ada520"
+    },
+    "historical_review": {
+      "path": "evidence/discourse/query_selection_review/review_v1.json",
+      "bytes": 2001,
+      "sha256": "7d52552cd4bb2712542676b2346ef39cb1ed2635924cf8452c9a59efe93b897e"
+    },
+    "cases": 6,
+    "passed_in_full_unit_suite": 6,
+    "behavior": "Only non-rejected, syntax-licensed and reference-complete analyses may choose the query.",
+    "not_added_to_new_independent_denominator": true
+  },
+  "construction_evaluation": {
+    "comparison": {
+      "path": "evidence/constructions/independent_comparison_v2.json",
+      "bytes": 211916,
+      "sha256": "e4bc8907fb761905611dc94ec15dd11c8af6f809d00631e89adda4cebdf69b1a"
+    },
+    "material_freeze": {
+      "path": "evidence/constructions/independent_freeze_v1.json",
+      "bytes": 1811,
+      "sha256": "5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e"
+    },
+    "release_report": {
+      "path": "evidence/constructions/release/checks/construction-regression.json",
+      "bytes": 166000,
+      "sha256": "9cc8ed43217d55722d3cfe9af0b6c16373b4e06803fbb943a31b108f4e0eda4c"
+    },
+    "gate_review": {
+      "path": "evidence/constructions/independent_gate_review_v1.json",
+      "bytes": 4937,
+      "sha256": "8c7304cf3d3ec8973b111f74232cc614db39137c5bbd6c02cf40e676602fdbee"
+    },
+    "passed": 71,
+    "total": 86,
+    "comprehension": {
+      "passed": 65,
+      "total": 80
+    },
+    "by_mode": {
+      "ambiguity": {
+        "passed": 4,
+        "total": 6
+      },
+      "boundary": {
+        "passed": 31,
+        "total": 31
+      },
+      "positive": {
+        "passed": 30,
+        "total": 43
+      },
+      "replay": {
+        "passed": 6,
+        "total": 6
+      }
+    },
+    "by_question_outcome": {
+      "NO_GROUNDED_SUPPORT": {
+        "passed": 19,
+        "total": 19
+      },
+      "SUPPORTED": {
+        "passed": 30,
+        "total": 42
+      },
+      "UNKNOWN": {
+        "passed": 29,
+        "total": 39
+      }
+    },
+    "replay": {
+      "passed": 6,
+      "total": 6
+    },
+    "strict_pass": false,
+    "coverage_complete": false,
+    "gate_mode": "documented_partial_coverage_v1",
+    "remaining_cases": 15,
+    "forbidden_check_false_accepts": 0,
+    "interpretation_error_k06_in_v1_preserved": true,
+    "v2_post_review_on_opened_material": true,
+    "natural_corpus_accuracy_claimed": false
+  },
+  "legacy_evaluation": {
+    "comparison": {
+      "path": "evidence/constructions/legacy_discourse_review_v1/comparison.json",
+      "bytes": 12831,
+      "sha256": "b356df6a0ef1043d239fe891243c62356f942a5b48cbdca3624c87077eb8d49e"
+    },
+    "gate_review": {
+      "path": "evidence/constructions/legacy_discourse_review_v1/gate_review.json",
+      "bytes": 15329,
+      "sha256": "4b0c1125528d5f0bbf7176d84214888cb0caa220879c44a9992546bb15938bf8"
+    },
+    "release_report": {
+      "path": "evidence/constructions/release/checks/discourse-regression.json",
+      "bytes": 137007,
+      "sha256": "4014cf07b09747cf2247e708c0d972bdfeaf91a67deb978e7186884c537d2dbd"
+    },
+    "passed": 57,
+    "total": 86,
+    "positive_cases": [
+      12,
+      30
+    ],
+    "substantive_questions_before": [
+      24,
+      45
+    ],
+    "substantive_questions_after": [
+      23,
+      45
+    ],
+    "no_support_controls": [
+      29,
+      29
+    ],
+    "strict_pass": false,
+    "coverage_complete": false,
+    "regression_case": "DSC-P26 question:0",
+    "reason": "Retained composed-idafa alternative requires construction/class evidence for a context-named token despite complete reference bindings.",
+    "false_accept_count": 0,
+    "invalid_first_truncated_journal_preserved": true
+  },
+  "limits": [
+    "Conditional Lean laws do not prove full source acquisition, the Python parser, unrestricted Arabic or world truth.",
+    "New independent cases and training are authored; source lexical traits and explicit contextual identities are premises.",
+    "The 31 boundary successes and six replay successes are separate from 30 positive comprehension successes.",
+    "The current regression gates explicitly allow named coverage failures, while strict evaluation remains unsuccessful.",
+    "Earlier word 27/30, morphology 39/43, broad Arabic 0/40 and original witness 0/8 measurements are preserved in their original scopes."
+  ]
+}

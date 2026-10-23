@@ -22,9 +22,13 @@ from .inflection import relation_candidate, sign_candidates
 from .inflection_reader import _read_run, _surface_accepts, replay_inflection_policy
 from .text_ir import span_dict
 from .word_reader import _scan, _source, _span
+from .construction_sources import replay_construction_policy
+from .construction_laws import (LAW_ID as CONSTRUCTION_LAW_ID,
+    EXPECTED_TABLE_SHA256 as CONSTRUCTION_TABLE_SHA256, ROLES as CONSTRUCTION_ROLES,
+    role_case as construction_role_case)
 
-LANGUAGE_ID = "nabt.arabic-discourse-frames.v1"
-READER_VERSION = "nabt.discourse-reader.v1"
+LANGUAGE_ID = "nabt.arabic-discourse-frames.v2"
+READER_VERSION = "nabt.discourse-reader.v2"
 MAX_ANALYSES = 128
 MAX_CLAUSES = 32
 _UNSET = object()
@@ -139,6 +143,7 @@ class _Reader:
         self.context = read_context(context)
         self.index, self.model_summary = ({}, None) if lexical_model is None else lexical_index(lexical_model)
         self.policy, self.inflection_policy = replay_discourse_policy(), replay_inflection_policy()
+        self.construction_policy = replay_construction_policy()
         self.cache, self.mentions, self.derived = {}, [], {}
         self.entities = {e["id"]: e for e in self.context["value"]["entities"]}
         self.analysis_count = 0
@@ -222,6 +227,9 @@ class _Reader:
                                             "field": "entities.name"}]
                 readings.append(row)
         unique = {}
+        from .construction_nominals import qualify_attested_alif
+        readings = qualify_attested_alif(readings, token=token, source=self.source,
+                                         index=self.index, policy=self.construction_policy)
         for row in readings:
             unique.setdefault(row["reading_id"], row)
         if len(unique) > MAX_ANALYSES:
@@ -229,8 +237,12 @@ class _Reader:
         self.cache[token["token_id"]] = list(unique.values())
         return self.cache[token["token_id"]]
 
-    def assignment(self, token, reading, role, *, head=None, idhafa=False):
-        if role in ("nominal_subject", "nominal_predicate", "time_adverb", "place_adverb", "imperfect_indicative"):
+    def assignment(self, token, reading, role, *, head=None, idhafa=False, inherited_case=None):
+        if role in CONSTRUCTION_ROLES:
+            case = construction_role_case(role, inherited_case)
+            if case is None:
+                raise NabtError("MISSING_INHERITED_CASE", "A dependent role needs its independently assigned head case")
+        elif role in ("nominal_subject", "nominal_predicate", "imperfect_indicative"):
             case = role_case(role)
         else:
             case = relation_candidate(role, kind=reading["kind"], construction=reading["construction"])["case"]
@@ -239,7 +251,8 @@ class _Reader:
         construction = reading["construction"]
         signs = sign_candidates(reading["class_candidates"], cases=(case,),
                                  al=reading.get("al_evidence", 0), idhafa=1 if idhafa else 2)
-        signs = [s for s in signs if _surface_accepts(s, reading["stem_surface"], reading)]
+        case_surface = reading.get("nominal_case_carrier", {}).get("base_surface", reading["stem_surface"])
+        signs = [s for s in signs if _surface_accepts(s, case_surface, reading)]
         if "possible_cases" in reading and case not in reading["possible_cases"]:
             signs = []
         # Missing short vowels do not license deletion of an orthographic
@@ -298,9 +311,15 @@ class _Reader:
                 origin = "relative_return"
             else:
                 origin = "named"
-            reference = self.reference(token["surface"], origin=origin, profile=profile,
+            carrier = row.get("nominal_case_carrier") if origin == "named" else None
+            reference_surface = carrier["base_surface"] if carrier else token["surface"]
+            reference = self.reference(reference_surface, origin=origin, profile=profile,
                                           context=self.context, mentions=self.mentions, span=token["span"],
                                           scope=self.scope, return_entity=return_entity)
+            if carrier:
+                reference["written_surface"] = token["surface"]
+                reference["nominal_carrier_reading_id"] = row["reading_id"]
+                reference["reference_id"] = identity({k: v for k, v in reference.items() if k != "reference_id"})
             assignment = self.assignment(token, row, role, head=head)
             result.append({"reading": row, "reference": reference, "assignment": assignment,
                            "entity": reference["bound_entity_id"]})
@@ -332,7 +351,7 @@ class _Reader:
             missing.append("OBSERVED_FORM_CONFLICTS_WITH_REQUIRED_CASE")
         missing.extend(o for a in assignments for o in a.get("obligations", []))
         rejected = (any(not a["compatible"] for a in assignments) or
-                    any(o in ("PERSON_AGREEMENT_CONFLICT", "OVERT_SUBJECT_PERSON_CONFLICT") for o in obligations) or
+                    any(o in ("PERSON_AGREEMENT_CONFLICT", "OVERT_SUBJECT_PERSON_CONFLICT", "CONSTRUCTION_CONFLICT") for o in obligations) or
                     any(r.get("candidates") and all(c["compatibility"] == "conflict" for c in r["candidates"])
                         for r in refs))
         syntax_complete = (not obligations and not any(a.get("obligations") for a in assignments)
@@ -511,8 +530,10 @@ class _Reader:
                                 refs=refs + [obj["reference"]], assignments=assignments + [obj["assignment"]],
                                 readings=readings + [obj["reading"]], claims=[claim], obligations=extra,
                                 supports=[self.support("active_subject"), {"kind": "valency_source", "witnesses": witnesses}]))
-                        if objects:
-                            continue
+                        # With no object reading this production has not
+                        # consumed its third token. It is not a complete
+                        # competing analysis of a newly supported modifier.
+                        continue
                     claim = self.claim(features["lemma"], args, positive, vtense, time, place, restriction)
                     claim.update(predicate_kind="event", voice=voice)
                     result.append(self.analysis(tokens, frame="verbal_predication", force=local_force,
@@ -716,6 +737,22 @@ class _Reader:
             supports.append(self.support("wh_subject"))
         if not body:
             return []
+        construction_body = list(body)
+        if wh is None:
+            from .construction_reader import operator_frames
+            operator_rows = operator_frames(self, body, force=force, depth=depth)
+            if operator_rows is not None:
+                results = []
+                for row in operator_rows:
+                    rebuilt = self.analysis(original, frame=row["frame"], force=row["force"],
+                        refs=row["references"], assignments=row["assignments"],
+                        readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
+                        claims=row["claims"], obligations=row["obligations"],
+                        supports=row["supports"] + supports, relations=row["relations"])
+                    rebuilt["question_kind"] = "polar" if rebuilt["force"] == "QUESTION" else None
+                    rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
+                    results.append(rebuilt)
+                return results
         key = lookup_key(body[0]["surface"])
         if key in ("إن", "كان", "ليس", "ليت", "لعل", "يا", "لا", "لن", "لم", "سوف"):
             head, body = body[0], body[1:]
@@ -787,6 +824,23 @@ class _Reader:
                     claims=row["claims"], obligations=row["obligations"] + extra + complement["obligations"],
                     supports=row["supports"] + supports + complement["supports"], relations=row["relations"])
                 rebuilt["question_kind"] = wh or "polar" if rebuilt["force"] == "QUESTION" else None
+                rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
+                results.append(rebuilt)
+        if wh is None:
+            from .construction_reader import nominal_frames, verbal_frames, event_modifiers
+            from .construction_complements import adverbial_frames, quantified_frames
+            extensions = (nominal_frames(self, construction_body, force=force) +
+                          verbal_frames(self, construction_body, force=force) +
+                          event_modifiers(self, construction_body, force=force, depth=depth) +
+                          adverbial_frames(self, construction_body, force=force, depth=depth) +
+                          quantified_frames(self, construction_body, force=force))
+            for row in extensions:
+                rebuilt = self.analysis(original, frame=row["frame"], force=row["force"],
+                    refs=row["references"], assignments=row["assignments"],
+                    readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
+                    claims=row["claims"], obligations=row["obligations"], supports=row["supports"] + supports,
+                    relations=row["relations"])
+                rebuilt["question_kind"] = "polar" if rebuilt["force"] == "QUESTION" else None
                 rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
                 results.append(rebuilt)
         if len(results) > MAX_ANALYSES:
@@ -921,6 +975,9 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
     result = {"schema": "nabt.discourse-report.v1", "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
               "law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
               "policy_sha256": engine.policy["policy_sha256"],
+              "construction_law_id": CONSTRUCTION_LAW_ID,
+              "construction_law_sha256": CONSTRUCTION_TABLE_SHA256,
+              "construction_policy_sha256": engine.construction_policy["policy_sha256"],
               "source_id": source.source_id, "source_sha256": source.sha256,
               "source_text": source.raw_bytes.decode("utf-8"), "scope": scope,
               "context": engine.context, "lexical_model": engine.model_summary,
