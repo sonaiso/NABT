@@ -4,6 +4,8 @@ import json
 import time
 from pathlib import Path
 
+from .integrity import require_output, verify_code_freeze, verify_published_inputs, write_report
+
 ROOT=Path(__file__).resolve().parents[2]
 PRIVATE=ROOT/'evidence/text_inquiry'
 
@@ -17,13 +19,13 @@ def main():
     ap.add_argument('--output',required=True,type=Path)
     ap.add_argument('--code-freeze',required=True,type=Path)
     args=ap.parse_args()
+    require_output(args.output, data=PRIVATE, freeze=args.code_freeze)
+    verify_published_inputs(PRIVATE)
     protocol=json.loads((PRIVATE/'natural_probe_protocol.json').read_text())
     path=PRIVATE/protocol['source_manifest']
     assert sha(path.read_bytes())==protocol['source_manifest_sha256']
     manifest=json.loads(path.read_text())
-    code=json.loads(args.code_freeze.read_text())
-    for entry in code['files']:
-        assert sha((ROOT/entry['path']).read_bytes())==entry['sha256']
+    code=verify_code_freeze(args.code_freeze)
     from nabt.text_reader import parse_document
     from nabt.semantics import SemanticKernel
     results=[]
@@ -64,7 +66,7 @@ def main():
              'semantic_coverage_denominator':len(results),
              'note':'A safe unsupported result contributes zero semantic coverage. Any unexpected admission needs independent semantic review.'}
     output={'schema':'nabt-independent-natural-source-results-v1','protocol':protocol,'code_freeze':code,'summary':summary,'results':results}
-    args.output.write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n')
+    write_report(args.output, output, data=PRIVATE, freeze=args.code_freeze)
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 
 

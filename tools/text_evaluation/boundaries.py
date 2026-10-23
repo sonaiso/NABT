@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from .integrity import require_output, verify_code_freeze, write_report
+
 ROOT=Path(__file__).resolve().parents[2]
 
 
@@ -13,9 +15,8 @@ def main():
     ap.add_argument('--output',required=True,type=Path)
     ap.add_argument('--code-freeze',required=True,type=Path)
     args=ap.parse_args()
-    freeze=json.loads(args.code_freeze.read_text())
-    for item in freeze['files']:
-        assert hashlib.sha256((ROOT/item['path']).read_bytes()).hexdigest()==item['sha256']
+    require_output(args.output, freeze=args.code_freeze)
+    freeze=verify_code_freeze(args.code_freeze)
     from nabt.text_reader import parse_document,parse_query
     from nabt.semantics import SemanticKernel
     original=parse_document('أثير هو معلوم\nكل معلوم هو محفوظ',source_id='original')
@@ -42,7 +43,7 @@ def main():
             outcomes.append({'id':ident,'passed':isinstance(exc,NabtError),'exception':type(exc).__name__,'message':str(exc)})
     summary={'probes':len(outcomes),'passed':sum(o['passed'] for o in outcomes),'failed_ids':[o['id'] for o in outcomes if not o['passed']],
              'note':'Caller-created parsed ASTs cannot grant claims or erase residual source material. Added after first40 without seeing hidden reserve cases.'}
-    args.output.write_text(json.dumps({'schema':'nabt-source-admission-boundary-regressions-v1','code_freeze':freeze,'summary':summary,'outcomes':outcomes},ensure_ascii=False,indent=2)+'\n')
+    write_report(args.output, {'schema':'nabt-source-admission-boundary-regressions-v1','code_freeze':freeze,'summary':summary,'outcomes':outcomes}, freeze=args.code_freeze)
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 
 

@@ -14,6 +14,9 @@ import sys
 import time
 from pathlib import Path
 
+from .integrity import evaluator_identity, require_output, verify_code_freeze, verify_published_inputs, write_report
+from .source_oracle import clause_matches_source
+
 ROOT=Path(__file__).resolve().parents[2]
 PRIVATE=ROOT/'evidence/text_inquiry'
 DATASET=PRIVATE/'controlled_text_benchmark.json'
@@ -53,18 +56,37 @@ def proof_errors(result,question,active_sources):
     This does not establish the truth of a source or interpret arbitrary Arabic;
     the manually authored status oracle is separate from this finite checker.
     """
+    try:
+        return _proof_errors(result, question, active_sources)
+    except (KeyError, TypeError, ValueError, IndexError, AttributeError, UnicodeError) as exc:
+        return ['malformed_independent_replay_input_' + type(exc).__name__]
+
+
+def _proof_literal(raw):
+    if (type(raw) is not dict or set(raw) != {'predicate', 'args', 'positive'}
+            or type(raw['predicate']) is not str or not raw['predicate']
+            or type(raw['positive']) is not bool or type(raw['args']) is not list
+            or len(raw['args']) not in (1, 2)
+            or any(type(arg) is not str or not arg for arg in raw['args'])):
+        raise ValueError('Malformed proof literal')
+    return (raw['predicate'], tuple(raw['args']), raw['positive'])
+
+
+def _proof_errors(result,question,active_sources):
     problems=[]
     target=question_oracle(question)
-    if expected_literal(result.get('query',{}))!=target:
+    if _proof_literal(result.get('query',{}))!=target:
         problems.append('query_literal_differs_from_frozen_question')
     proofs=result.get('proofs',{})
+    if type(proofs) is not dict or not set(proofs) <= {'query', 'opposite'}:
+        raise ValueError('Unrecognized proof slot')
     need={'SUPPORTED':('query',),'REFUTED':('opposite',),'CONFLICT':('query','opposite')}.get(result.get('status'),())
     for slot in need:
         if slot not in proofs:
             problems.append('missing_certificate_'+slot)
     for slot,cert in proofs.items():
         required=target if slot=='query' else (target[0],target[1],not target[2])
-        if expected_literal(cert.get('query',{}))!=required:
+        if _proof_literal(cert.get('query',{}))!=required:
             problems.append('certificate_query_mismatch_'+slot)
         if cert.get('scope')!=result.get('scope'):
             problems.append('certificate_scope_mismatch')
@@ -73,12 +95,18 @@ def proof_errors(result,question,active_sources):
         if result.get('status') in {'SUPPORTED','REFUTED'} and slot in need and cert.get('proof_kind')!='clean':
             problems.append('answered_without_clean_certificate')
         steps=cert.get('steps',[])
+        if type(steps) is not list or len(steps)>8192:
+            raise ValueError('Invalid proof step inventory')
         for index,step in enumerate(steps):
             clause=step['clause']
             src=active_sources.get(clause.get('source_id'))
             if src is None:
                 problems.append('certificate_source_inactive')
                 continue
+            # A byte-valid span alone does not license the supplied atom or
+            # rule. Reconstruct the whole source statement independently.
+            if not clause_matches_source(clause, src):
+                problems.append('certificate_clause_not_licensed_by_source_text')
             raw=src['text'].encode('utf-8')
             full_hash=hashlib.sha256(raw).hexdigest()
             if clause.get('source_sha256')!=full_hash or clause.get('scope')!=src['scope'] or src['scope']!=result.get('scope'):
@@ -99,22 +127,30 @@ def proof_errors(result,question,active_sources):
                 problems.append('certificate_forward_or_invalid_premise')
                 continue
             binding=step.get('binding',{})
+            if (type(binding) is not dict or any(type(k) is not str or not k.startswith('?')
+                    or type(v) is not str or not v or v.startswith('?') for k,v in binding.items())):
+                raise ValueError('Invalid proof binding')
             def instantiate(atom):
-                pred,args,sign=expected_literal(atom)
+                pred,args,sign=_proof_literal(atom)
                 return (pred,tuple(binding.get(a,a) if a.startswith('?') else a for a in args),sign)
-            actual=expected_literal(step['atom'])
+            actual=_proof_literal(step['atom'])
+            if any(arg.startswith('?') for arg in actual[1]):
+                problems.append('certificate_step_not_ground')
             if clause['kind']=='fact':
-                if premise_indices or binding or actual!=expected_literal(clause['atom']):
+                if premise_indices or binding or actual!=_proof_literal(clause['atom']):
                     problems.append('certificate_fact_step_mismatch')
             elif clause['kind']=='rule':
+                variables={arg for atom in clause['body'] for arg in atom['args'] if arg.startswith('?')}
+                if set(binding)!=variables:
+                    problems.append('certificate_binding_not_exact')
                 if actual!=instantiate(clause['head']):
                     problems.append('certificate_rule_head_mismatch')
-                if [instantiate(a) for a in clause['body']]!=[expected_literal(steps[p]['atom']) for p in premise_indices]:
+                if [instantiate(a) for a in clause['body']]!=[_proof_literal(steps[p]['atom']) for p in premise_indices]:
                     problems.append('certificate_rule_premise_mismatch')
             else:
                 problems.append('certificate_unknown_clause_kind')
         end=cert.get('conclusion')
-        if type(end) is not int or not 0<=end<len(steps) or expected_literal(steps[end]['atom'])!=required:
+        if type(end) is not int or not 0<=end<len(steps) or _proof_literal(steps[end]['atom'])!=required:
             problems.append('certificate_conclusion_mismatch')
     return problems
 
@@ -125,12 +161,11 @@ def main():
     ap.add_argument('--output',type=Path,required=True)
     ap.add_argument('--code-freeze',type=Path,required=True)
     args=ap.parse_args()
+    require_output(args.output, data=PRIVATE, freeze=args.code_freeze)
+    verify_published_inputs(PRIVATE)
     if digest(DATASET)!=EXPECTED_SHA:
         raise RuntimeError('Frozen benchmark checksum differs')
-    code_freeze=json.loads(args.code_freeze.read_text())
-    for entry in code_freeze['files']:
-        if digest(ROOT/entry['path'])!=entry['sha256']:
-            raise RuntimeError('Implementation differs from code freeze: '+entry['path'])
+    code_freeze=verify_code_freeze(args.code_freeze)
     from nabt.text_reader import parse_document, parse_query
     from nabt.semantics import SemanticKernel
 
@@ -219,8 +254,9 @@ def main():
         rows=[r for r in results if r['family']==family]
         summary['by_family'][family]={'episodes':len(rows),'passed':sum(r['passed'] for r in rows)}
     output={'schema':'nabt-independent-controlled-text-results-v1','partition':args.partition,'dataset_sha256':EXPECTED_SHA,'code_freeze':code_freeze,
-            'adapter_sha256':digest(Path(__file__)),'environment':{'python':sys.version,'platform':platform.platform()},'summary':summary,'results':results}
-    args.output.write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n')
+            'adapter_sha256':digest(Path(__file__)),'evaluator_sources':evaluator_identity(),
+            'environment':{'python':sys.version,'platform':platform.platform()},'summary':summary,'results':results}
+    write_report(args.output, output, data=PRIVATE, freeze=args.code_freeze)
     # Only aggregate counts are public until the sealed reserve has been run.
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 

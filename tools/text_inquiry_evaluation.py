@@ -15,6 +15,8 @@ import sys
 from pathlib import Path
 
 from text_evaluation import adversarial, baseline, boundaries, controlled, natural, plans
+from text_evaluation.integrity import (digest, evaluator_identity, prepare_output_directory, verify_code_freeze,
+                                      verify_published_inputs, write_report)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,10 +36,13 @@ def main() -> int:
     args = parser.parse_args()
     data = args.data_root.resolve()
     output = args.output_dir.resolve()
-    if output in {data, DEFAULT_DATA.resolve()}:
-        parser.error("Use a separate output directory to preserve the historical evidence.")
-    output.mkdir(parents=True, exist_ok=True)
     freeze = (args.code_freeze or data / "code_freeze_reserve20_portable.json").resolve()
+    try:
+        inputs = verify_published_inputs(data)
+        runtime = verify_code_freeze(freeze)
+        output = prepare_output_directory(output, data=data, freeze=freeze)
+    except (ValueError, OSError, json.JSONDecodeError) as exc:
+        parser.error(str(exc))
     modules = {
         "controlled": controlled,
         "natural": natural,
@@ -85,9 +90,13 @@ def main() -> int:
         "passed": bool(passed),
         "data_root": str(data),
         "code_freeze": str(freeze),
+        "code_freeze_sha256": digest(freeze),
+        "runtime_snapshot_sha256": runtime["snapshot_sha256"],
+        "published_input_integrity": inputs,
+        "evaluator_sources": evaluator_identity(),
         "summaries": summaries,
     }
-    (output / "summary.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_report(output / "summary.json", result, data=data, freeze=freeze)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if passed else 1
 
