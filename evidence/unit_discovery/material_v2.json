@@ -1,0 +1,3108 @@
+{
+  "author_role": "independent_review_agent",
+  "baseline_repository_commit": "a0a069669daced5b3265803e95fbc289e422ab73",
+  "cases": [
+    {
+      "contract_focus": "Independent finite oracle for contiguous partitions; no Bell recurrence or Arabic category inventory.",
+      "expected": {
+        "category_annotations_required": false,
+        "counts": [
+          1,
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        "empty_input_partitions": [
+          []
+        ],
+        "three_atom_cut_sets": [
+          [],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "three_atom_partitions": [
+          [
+            [
+              "a",
+              "b",
+              "c"
+            ]
+          ],
+          [
+            [
+              "a"
+            ],
+            [
+              "b",
+              "c"
+            ]
+          ],
+          [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "c"
+            ]
+          ],
+          [
+            [
+              "a"
+            ],
+            [
+              "b"
+            ],
+            [
+              "c"
+            ]
+          ]
+        ]
+      },
+      "group": "mechanical",
+      "id": "UD-M01",
+      "input": {
+        "examples": [
+          {
+            "atoms": []
+          },
+          {
+            "atoms": [
+              "a"
+            ]
+          },
+          {
+            "atoms": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "atoms": [
+              "a",
+              "b",
+              "c"
+            ]
+          },
+          {
+            "atoms": [
+              "a",
+              "b",
+              "c",
+              "d"
+            ]
+          },
+          {
+            "atoms": [
+              "a",
+              "b",
+              "c",
+              "d",
+              "e"
+            ]
+          }
+        ]
+      },
+      "title_ar": "تعداد القطوع، بما فيه السلسلة الفارغة"
+    },
+    {
+      "contract_focus": "Counts compositions of the ordered position sequence, not equivalence classes of equal symbols.",
+      "expected": {
+        "counts_by_segment_count": [
+          0,
+          1,
+          3,
+          3,
+          1,
+          0
+        ],
+        "two_segment_cut_sets": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "group": "mechanical",
+      "id": "UD-M02",
+      "input": {
+        "atoms": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "segment_counts": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "title_ar": "عدد التقسيمات ذات k مقاطع"
+    },
+    {
+      "contract_focus": "The fifth Bell partition at length three is not an admissible contiguous segmentation.",
+      "expected": {
+        "linguistic_invalidity_claimed": false,
+        "mechanical_status": "REJECTED",
+        "reason": "NONCONTIGUOUS_PART"
+      },
+      "group": "mechanical",
+      "id": "UD-M03",
+      "input": {
+        "atoms": [
+          "a",
+          "b",
+          "c"
+        ],
+        "proposed_position_groups": [
+          [
+            0,
+            2
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "title_ar": "تقسيم Bell غير المتجاور ليس تقطيعًا سطحيًا"
+    },
+    {
+      "contract_focus": "A permutation of parts does not restore the source occurrence order.",
+      "expected": {
+        "mechanical_status": "REJECTED",
+        "reason": "ORDER_NOT_PRESERVED"
+      },
+      "group": "mechanical",
+      "id": "UD-M04",
+      "input": {
+        "atoms": [
+          "a",
+          "b",
+          "c"
+        ],
+        "proposed_position_groups": [
+          [
+            1,
+            2
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "title_ar": "رفض قلب رتبة المقاطع"
+    },
+    {
+      "contract_focus": "Equal values cannot merge different source positions or erase distinct cuts.",
+      "expected": {
+        "merge_equal_position_identities": false,
+        "partition_count": 4,
+        "three_atom_cut_sets": [
+          [],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "group": "mechanical",
+      "id": "UD-M05",
+      "input": {
+        "atoms": [
+          "n",
+          "n",
+          "n"
+        ],
+        "occurrence_positions": [
+          0,
+          1,
+          2
+        ]
+      },
+      "title_ar": "الحروف المتكررة وقوعات مستقلة"
+    },
+    {
+      "contract_focus": "An absent prefix is an absent optional part, not a zero-length surface segment.",
+      "expected": {
+        "mechanical_status": "REJECTED",
+        "reason": "EMPTY_PART"
+      },
+      "group": "mechanical",
+      "id": "UD-M06",
+      "input": {
+        "atoms": [
+          "a",
+          "b"
+        ],
+        "proposed_position_groups": [
+          [
+            0
+          ],
+          [],
+          [
+            1
+          ]
+        ]
+      },
+      "title_ar": "منع المقطع الفارغ"
+    },
+    {
+      "contract_focus": "Coverage, adjacency, non-overlap and endpoint identity are separately necessary.",
+      "expected": {
+        "proposal_statuses": {
+          "gap": "REJECTED",
+          "overlap": "REJECTED"
+        },
+        "source_must_be_covered_once": true
+      },
+      "group": "mechanical",
+      "id": "UD-M07",
+      "input": {
+        "atoms": [
+          "a",
+          "b",
+          "c"
+        ],
+        "proposals": [
+          {
+            "id": "overlap",
+            "position_groups": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "id": "gap",
+            "position_groups": [
+              [
+                0
+              ],
+              [
+                2
+              ]
+            ]
+          }
+        ]
+      },
+      "title_ar": "التداخل والفجوة لا يعيدان الأصل"
+    },
+    {
+      "contract_focus": "The supplied atom boundary excludes a cut between base and mark. This does not prove a general Unicode atomizer.",
+      "expected": {
+        "allowed_internal_byte_cuts": [
+          4,
+          8
+        ],
+        "cross_source_replay_valid": false,
+        "cut_at_byte_2_status": "REJECTED",
+        "normalization_performed": false,
+        "partition_count": 4
+      },
+      "group": "mechanical",
+      "id": "UD-M08",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "كَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "تَ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "بَ"
+          }
+        ],
+        "other_source_same_letters": "كَتَبُ",
+        "proposed_internal_byte_cut": 2,
+        "raw_text": "كَتَبَ",
+        "raw_utf8_sha256": "7ef4234357ba710298a9809ed79cbb0a0a3c450c07765fe3ebe0d72a4c8993ed"
+      },
+      "title_ar": "حدود ذرية مصرح بها تحفظ الحركات والبايتات"
+    },
+    {
+      "contract_focus": "Opaque class names and policy vocabulary are not observations of a linguistic class.",
+      "expected": {
+        "attachment_status": "UNKNOWN",
+        "class_from_name_or_shape": false,
+        "classification_status": "UNKNOWN",
+        "rename_changes_mechanical_partitions": false,
+        "surface_status": "LICENSED"
+      },
+      "group": "evidence_binding",
+      "id": "UD-E01",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "renamed_class_name": "opaque_kappa",
+        "supplied_class_name": "حرف جر",
+        "unit_interval": [
+          0,
+          1
+        ],
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          }
+        ]
+      },
+      "title_ar": "الشكل وتسمية الفئة لا يثبتان الحرفية"
+    },
+    {
+      "contract_focus": "Positive control: the conditional law must succeed when its declared, correctly bound premises are supplied.",
+      "expected": {
+        "acquisition_claim": false,
+        "attachment_status": "LICENSED",
+        "classification_status": "LICENSED",
+        "host_status": "LICENSED",
+        "required_witness_ids": [
+          "w_surface",
+          "w_class",
+          "w_host",
+          "w_attachment"
+        ],
+        "surface_status": "LICENSED"
+      },
+      "group": "evidence_binding",
+      "id": "UD-E02",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "proposal_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "unit_class",
+            "value": "opaque_kappa",
+            "witness_id": "w_class"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "host_compatible",
+            "value": true,
+            "witness_id": "w_host"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "attachment_licensed",
+            "value": true,
+            "witness_id": "w_attachment"
+          }
+        ]
+      },
+      "title_ar": "ترخيص مشروط كامل الإسناد"
+    },
+    {
+      "contract_focus": "Progress is fulfillment of distinct obligations, not a confidence counter or majority of repeated annotations.",
+      "expected": {
+        "attachment_status": "UNKNOWN",
+        "classification_status": "LICENSED",
+        "duplicate_evidence_advances_stage": false,
+        "host_status": "UNKNOWN"
+      },
+      "group": "evidence_binding",
+      "id": "UD-E03",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "duplicate_repetitions": 100,
+        "duplicate_witness_id": "w_class",
+        "proposal_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "unit_class",
+            "value": "opaque_kappa",
+            "witness_id": "w_class"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "attachment_licensed",
+            "value": true,
+            "witness_id": "w_attachment"
+          }
+        ]
+      },
+      "title_ar": "نقص شاهد المضيف لا تعوضه كثرة الشواهد الأخرى"
+    },
+    {
+      "contract_focus": "Reject the conflicting proposal; do not confuse a counter-witness with missing information.",
+      "expected": {
+        "all_arabic_analyses_rejected": false,
+        "attachment_status": "REJECTED",
+        "reason": "EXPLICIT_HOST_CONTRADICTION"
+      },
+      "group": "evidence_binding",
+      "id": "UD-E04",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "proposal_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "unit_class",
+            "value": "opaque_kappa",
+            "witness_id": "w_class"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "host_compatible",
+            "value": false,
+            "witness_id": "w_not_host"
+          }
+        ]
+      },
+      "title_ar": "المخالفة الصريحة ترفض هذا المرشح"
+    },
+    {
+      "contract_focus": "Identical spelling cannot transfer occurrence, scope, host or source revision identity.",
+      "expected": {
+        "certificate_valid": false,
+        "fresh_attachment_status": "UNKNOWN",
+        "wrong_occurrence_witness_usable": false
+      },
+      "group": "evidence_binding",
+      "id": "UD-E05",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "proposal_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "unit_class",
+            "value": "opaque_kappa",
+            "witness_id": "w_class"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o1",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "host_compatible",
+            "value": true,
+            "witness_id": "w_host"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "attachment_licensed",
+            "value": true,
+            "witness_id": "w_attachment"
+          }
+        ]
+      },
+      "title_ar": "شاهد من وقوع آخر لا يملأ المقدمة"
+    },
+    {
+      "contract_focus": "Class in one alternative and host compatibility in another cannot form one licensed alternative.",
+      "expected": {
+        "certificate_valid": false,
+        "cross_reading_feature_merge": false,
+        "fresh_attachment_status": "UNKNOWN"
+      },
+      "group": "evidence_binding",
+      "id": "UD-E06",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "proposal_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "unit_class",
+            "value": "opaque_kappa",
+            "witness_id": "w_class"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r1",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "host_compatible",
+            "value": true,
+            "witness_id": "w_host"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "attachment_licensed",
+            "value": true,
+            "witness_id": "w_attachment"
+          }
+        ]
+      },
+      "title_ar": "منع تركيب قراءة هجينة"
+    },
+    {
+      "contract_focus": "The algebra may combine proved premises; it must not claim to discover them from its conjunction or accept a caller mask as proof.",
+      "expected": {
+        "certificate_valid": false,
+        "fresh_attachment_status": "UNKNOWN",
+        "fresh_classification_status": "UNKNOWN",
+        "law_definition_treated_as_acquisition": false,
+        "rule_identity_substitution_accepted": false
+      },
+      "group": "evidence_binding",
+      "id": "UD-E07",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "caller_assertions": {
+          "FOR": true,
+          "ON": true,
+          "stage": "attachment",
+          "status": "LICENSED"
+        },
+        "proposal_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "second_rule_attempt": {
+          "rule_id": "other_rule_v1",
+          "witness_rule_id": "rule_prefix_host_v1"
+        },
+        "witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          }
+        ]
+      },
+      "title_ar": "قناع ON/FOR أو حكم مخزن ليس شاهد تقدم"
+    },
+    {
+      "contract_focus": "Conditional conclusions track the exact supplied premise set. Replay is not evidence that its source assertions are true.",
+      "expected": {
+        "fresh_attachment_status": "UNKNOWN",
+        "fresh_surface_status": "LICENSED",
+        "initial_attachment_status": "LICENSED",
+        "old_certificate_valid_after_each_operation": false,
+        "source_replay_is_external_truth": false
+      },
+      "group": "evidence_binding",
+      "id": "UD-E08",
+      "input": {
+        "atoms": [
+          "p",
+          "h",
+          "s"
+        ],
+        "initial_binding": {
+          "host_interval": [
+            1,
+            3
+          ],
+          "occurrence_id": "o0",
+          "reading_id": "r0",
+          "rule_id": "rule_prefix_host_v1",
+          "scope": "review",
+          "source_id": "annotation_a",
+          "source_revision": "rev_a",
+          "unit_interval": [
+            0,
+            1
+          ]
+        },
+        "initial_witnesses": [
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "surface_covered",
+            "value": true,
+            "witness_id": "w_surface"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "unit_class",
+            "value": "opaque_kappa",
+            "witness_id": "w_class"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "host_compatible",
+            "value": true,
+            "witness_id": "w_host"
+          },
+          {
+            "binding": {
+              "host_interval": [
+                1,
+                3
+              ],
+              "occurrence_id": "o0",
+              "reading_id": "r0",
+              "rule_id": "rule_prefix_host_v1",
+              "scope": "review",
+              "source_id": "annotation_a",
+              "source_revision": "rev_a",
+              "unit_interval": [
+                0,
+                1
+              ]
+            },
+            "predicate": "attachment_licensed",
+            "value": true,
+            "witness_id": "w_attachment"
+          }
+        ],
+        "operations": [
+          "remove_class_host_attachment_witnesses",
+          "replace_source_revision_with_rev_b"
+        ]
+      },
+      "title_ar": "سحب المصدر يبطل الاعتماد دون محو السطح"
+    },
+    {
+      "contract_focus": "A letter in an affix inventory can be a root slot in a separately supported analysis.",
+      "expected": {
+        "conjunction_from_shape": false,
+        "initial_waw_role_in_this_reading": "RADICAL",
+        "lexical_root_acquired": false,
+        "radical_atom_positions": [
+          0,
+          1,
+          2
+        ],
+        "root_arity": 3
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A01",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "وَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "عَ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "دَ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "و",
+              "ع",
+              "د"
+            ]
+          },
+          {
+            "id": "template",
+            "kind": "declared_template",
+            "value": "R1+a,R2+a,R3+a"
+          },
+          {
+            "id": "reading",
+            "kind": "annotated_full_word",
+            "value": "past_verb"
+          }
+        ],
+        "raw_text": "وَعَدَ",
+        "raw_utf8_sha256": "f338f54fde4e89d677aa76b91bbd82d790f5fe7c8e9ca28d7c48c27592298d4b"
+      },
+      "title_ar": "الواو الأصلية لا تصير سابقة عطف من رسمها"
+    },
+    {
+      "contract_focus": "Four independently indexed slots; traditional repeated weight letters must not identify different radical slots.",
+      "expected": {
+        "force_three_radicals": false,
+        "lexical_attestation_inferred_from_refill": false,
+        "radical_atom_positions": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "root_arity": 4
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A02",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "دَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "حْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "رَ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "جَ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "د",
+              "ح",
+              "ر",
+              "ج"
+            ]
+          },
+          {
+            "id": "template",
+            "kind": "declared_template",
+            "value": "R1+a,R2+sukun,R3+a,R4+a"
+          }
+        ],
+        "raw_text": "دَحْرَجَ",
+        "raw_utf8_sha256": "3a6ee10ce0a2f76b587ecad715da294489be73986db89ad0c8304518f5cd6c9b"
+      },
+      "title_ar": "أربعة أصول لا تختزل إلى ثلاثية قسرًا"
+    },
+    {
+      "contract_focus": "Root extraction, pattern refill and surface partition are different judgments; a matching فاعل shape is not a syntactic subject.",
+      "expected": {
+        "grammatical_role": null,
+        "literal_alif_atom_position": 1,
+        "radical_atom_positions": [
+          0,
+          2,
+          3
+        ],
+        "root_is_contiguous_surface_segment": false,
+        "semantic_derivation_class": null,
+        "template_status": "LICENSED"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A03",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "كَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 6,
+            "byte_start": 4,
+            "text": "ا"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 10,
+            "byte_start": 6,
+            "text": "تِ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 14,
+            "byte_start": 10,
+            "text": "بٌ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "ك",
+              "ت",
+              "ب"
+            ]
+          },
+          {
+            "id": "template",
+            "kind": "declared_template",
+            "value": "R1+a,alif,R2+i,R3+terminal_tanwin"
+          }
+        ],
+        "raw_text": "كَاتِبٌ",
+        "raw_utf8_sha256": "74874b143da91102a52a964abe2a6197ee8539b82afe8903a085688c30015e9f"
+      },
+      "title_ar": "الجذر إسقاط خانات داخل القالب وليس مقطعًا متجاورًا"
+    },
+    {
+      "contract_focus": "A template cannot skip a conflicting internal literal to force its expected root or class.",
+      "expected": {
+        "reason": "INTERNAL_LITERAL_MARK_MISMATCH",
+        "skip_mismatched_mark": false,
+        "template_status": "REJECTED",
+        "word_globally_invalid": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A04",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "كَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 6,
+            "byte_start": 4,
+            "text": "ا"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 10,
+            "byte_start": 6,
+            "text": "تُ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 14,
+            "byte_start": 10,
+            "text": "بٌ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "ك",
+              "ت",
+              "ب"
+            ]
+          },
+          {
+            "id": "template",
+            "kind": "declared_template",
+            "value": "R1+a,alif,R2+i,R3+terminal_tanwin"
+          }
+        ],
+        "raw_text": "كَاتُبٌ",
+        "raw_utf8_sha256": "147ce3f26f2ff17dd2f9aba3c820bc5288c0b43329de307257eeb826958c8e30"
+      },
+      "title_ar": "الحركة الداخلية المخالفة تمنع هذا القالب"
+    },
+    {
+      "contract_focus": "Positive article control is conditional on an explicit class/host/link witness, not on the literal prefix alone.",
+      "expected": {
+        "actual_case": null,
+        "annotated_article_attachment_status": "LICENSED",
+        "article_category_acquired_from_letters": false,
+        "external_reference": null,
+        "source_recomposition_exact": true
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A05",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 2,
+            "byte_start": 0,
+            "text": "ا"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 6,
+            "byte_start": 2,
+            "text": "لْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 10,
+            "byte_start": 6,
+            "text": "كِ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 14,
+            "byte_start": 10,
+            "text": "تَ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 16,
+            "byte_start": 14,
+            "text": "ا"
+          },
+          {
+            "atom_index": 5,
+            "byte_end": 20,
+            "byte_start": 16,
+            "text": "بِ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "atom_interval": [
+              2,
+              6
+            ],
+            "id": "host",
+            "kind": "annotated_host",
+            "value": "noun"
+          },
+          {
+            "atom_interval": [
+              0,
+              2
+            ],
+            "id": "al",
+            "kind": "annotated_unit",
+            "value": "definite_article"
+          },
+          {
+            "host_interval": [
+              2,
+              6
+            ],
+            "id": "link",
+            "kind": "declared_attachment_rule_instance",
+            "rule": "article_noun",
+            "unit_interval": [
+              0,
+              2
+            ]
+          }
+        ],
+        "raw_text": "الْكِتَابِ",
+        "raw_utf8_sha256": "2f0ff4d1eda86917253d5943a30f8f3e65ee7de5f361b2585b7e7bc98eeda3ef"
+      },
+      "title_ar": "أل التعريف بترخيص مستقل للمضيف"
+    },
+    {
+      "contract_focus": "Preserve أ vs ا; literal mismatch rejects only the asserted prefix match.",
+      "expected": {
+        "article_literal_match_status": "REJECTED",
+        "global_word_rejection": false,
+        "hamza_seat_folded": false,
+        "remaining_word_class": "UNKNOWN"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A06",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "أَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "لْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "وَ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 14,
+            "byte_start": 12,
+            "text": "ا"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 18,
+            "byte_start": 14,
+            "text": "نٌ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "proposed_article_literal",
+            "kind": "declared_literal",
+            "value": "ال"
+          }
+        ],
+        "raw_text": "أَلْوَانٌ",
+        "raw_utf8_sha256": "63415dd7fdea3e3ee612fc5ee35a06e5177f248c961aedbc82c1ff3a6823a165"
+      },
+      "title_ar": "همزة ألوان ليست ألف أل بتسوية صامتة"
+    },
+    {
+      "contract_focus": "Whole-lexeme evidence and substring evidence have different subjects; the referent and relative return are additional obligations.",
+      "expected": {
+        "article_attachment_status": "UNKNOWN",
+        "reference_resolution": null,
+        "relative_witness_reused_as_article_witness": false,
+        "whole_relative_reading_status": "LICENSED"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A07",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 2,
+            "byte_start": 0,
+            "text": "ا"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 2,
+            "text": "لَّ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "ذِ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 14,
+            "byte_start": 12,
+            "text": "ي"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "relative",
+            "kind": "annotated_full_word",
+            "value": "relative_pronoun"
+          },
+          {
+            "host_interval": [
+              2,
+              4
+            ],
+            "id": "unproved_article_split",
+            "kind": "proposal",
+            "unit_interval": [
+              0,
+              2
+            ],
+            "value": "article"
+          }
+        ],
+        "raw_text": "الَّذِي",
+        "raw_utf8_sha256": "3b027f8429cc4fbae525dca11a4daff0446ce183868177ad73807ecb17634a05"
+      },
+      "title_ar": "الموصول المشهود لا يمنح شاهد أل منفصلة"
+    },
+    {
+      "contract_focus": "This is a declared grammatical interpretation, not proof that every ال is a particle or that a complete relative relation is acquired.",
+      "expected": {
+        "annotated_relative_al_status": "LICENSED",
+        "force_article_class_for_all_al": false,
+        "other_unwitnessed_al_readings_status": "UNKNOWN",
+        "relative_clause_or_external_reference_from_spelling": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A08",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 2,
+            "byte_start": 0,
+            "text": "ا"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 4,
+            "byte_start": 2,
+            "text": "ل"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 10,
+            "byte_start": 4,
+            "text": "ضَّ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 12,
+            "byte_start": 10,
+            "text": "ا"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "رِ"
+          },
+          {
+            "atom_index": 5,
+            "byte_end": 20,
+            "byte_start": 16,
+            "text": "بُ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "atom_interval": [
+              2,
+              6
+            ],
+            "id": "host",
+            "kind": "annotated_host",
+            "value": "participle"
+          },
+          {
+            "atom_interval": [
+              0,
+              2
+            ],
+            "id": "relative_al",
+            "kind": "annotated_unit_reading",
+            "reading_id": "relative_al_reading",
+            "value": "relative_al"
+          },
+          {
+            "host_interval": [
+              2,
+              6
+            ],
+            "id": "link",
+            "kind": "declared_attachment_rule_instance",
+            "rule": "relative_al_participle",
+            "unit_interval": [
+              0,
+              2
+            ]
+          }
+        ],
+        "raw_text": "الضَّارِبُ",
+        "raw_utf8_sha256": "87c5891244365d4c51048539575b71d9475fd429b36eb079a0e0af014edec0f2"
+      },
+      "title_ar": "قراءة أل الموصولة لها هويتها وشاهدها"
+    },
+    {
+      "contract_focus": "Terminal shape is insufficient to distinguish a radical from a clitic.",
+      "expected": {
+        "final_haa_role_in_this_reading": "RADICAL",
+        "suffix_pronoun_from_terminal_haa": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A09",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "وَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "جْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "هٌ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "و",
+              "ج",
+              "ه"
+            ]
+          },
+          {
+            "id": "shape",
+            "kind": "declared_root_slot_map",
+            "value": [
+              0,
+              1,
+              2
+            ]
+          }
+        ],
+        "raw_text": "وَجْهٌ",
+        "raw_utf8_sha256": "ff10f5a155c8c604d5856aa358a715c8921338fb757a55e1eed5fb2d47270a04"
+      },
+      "title_ar": "الهاء الأصلية في وجه"
+    },
+    {
+      "contract_focus": "A licensed attached form does not identify its referent or assert possession as a world fact.",
+      "expected": {
+        "actual_case": null,
+        "annotated_suffix_attachment_status": "LICENSED",
+        "external_reference": null,
+        "suffix_atom_interval": [
+          4,
+          5
+        ],
+        "world_possession_claim": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A10",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "كِ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "تَ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 10,
+            "byte_start": 8,
+            "text": "ا"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 14,
+            "byte_start": 10,
+            "text": "بُ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 18,
+            "byte_start": 14,
+            "text": "هُ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "atom_interval": [
+              0,
+              4
+            ],
+            "id": "host",
+            "kind": "annotated_host",
+            "value": "noun"
+          },
+          {
+            "atom_interval": [
+              4,
+              5
+            ],
+            "id": "suffix",
+            "kind": "annotated_unit",
+            "value": "third_person_attached_pronoun"
+          },
+          {
+            "host_interval": [
+              0,
+              4
+            ],
+            "id": "link",
+            "kind": "declared_attachment_rule_instance",
+            "rule": "noun_attached_pronoun",
+            "unit_interval": [
+              4,
+              5
+            ]
+          }
+        ],
+        "raw_text": "كِتَابُهُ",
+        "raw_utf8_sha256": "f405fc5607a4164021279d09830a8b6f877fd6a2bb085f0e710b633387ac51e8"
+      },
+      "title_ar": "هاء متصلة بمضيف اسمي دون اختراع مرجع"
+    },
+    {
+      "contract_focus": "Both analyses are supplied alternatives. The test measures preservation, not discovery of their pronunciation or class.",
+      "expected": {
+        "collapse_alternative_features": false,
+        "retained_reading_ids": [
+          "r_subject",
+          "r_feminine"
+        ],
+        "supply_missing_vowels": false,
+        "unique_taa_class": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A11",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 2,
+            "byte_start": 0,
+            "text": "ك"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 4,
+            "byte_start": 2,
+            "text": "ت"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 6,
+            "byte_start": 4,
+            "text": "ب"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 8,
+            "byte_start": 6,
+            "text": "ت"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "host_interval": [
+              0,
+              3
+            ],
+            "id": "r_subject",
+            "kind": "alternative_annotated_reading",
+            "reading_id": "r_subject",
+            "shape_compatibility_declared": true,
+            "unit_class": "subject_taa",
+            "unit_interval": [
+              3,
+              4
+            ]
+          },
+          {
+            "host_interval": [
+              0,
+              3
+            ],
+            "id": "r_feminine",
+            "kind": "alternative_annotated_reading",
+            "reading_id": "r_feminine",
+            "shape_compatibility_declared": true,
+            "unit_class": "feminine_marker_taa",
+            "unit_interval": [
+              3,
+              4
+            ]
+          }
+        ],
+        "raw_text": "كتبت",
+        "raw_utf8_sha256": "880b337b4db541c625606ca2f50e4b74487afeb4638349a1a61c17c7fd983c44"
+      },
+      "title_ar": "التاء غير المشكلة تحتفظ بقراءتين"
+    },
+    {
+      "contract_focus": "A final written ت may be lexical material; suffix inventory membership is not a classification witness.",
+      "expected": {
+        "feminine_marker_from_shape": false,
+        "final_taa_role_in_this_reading": "RADICAL"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A12",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "بَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "يْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "تٌ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "ب",
+              "ي",
+              "ت"
+            ]
+          },
+          {
+            "id": "shape",
+            "kind": "declared_root_slot_map",
+            "value": [
+              0,
+              1,
+              2
+            ]
+          }
+        ],
+        "raw_text": "بَيْتٌ",
+        "raw_utf8_sha256": "59ee1824561aeee8f3fca5811dd3ffa89160abff61d4fead1e54d9e8881205a4"
+      },
+      "title_ar": "التاء في بيت أصل لا علامة تأنيث"
+    },
+    {
+      "contract_focus": "A formal suffix observation cannot overrule the independent lexical-semantic premise.",
+      "expected": {
+        "annotation_contradiction_from_shape": false,
+        "declared_definiteness": "definite",
+        "declared_gender": "masculine",
+        "force_feminine_from_taa_marbuta": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A13",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "حَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "مْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "زَ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "ةُ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "name",
+            "kind": "annotated_full_word",
+            "value": "proper_name"
+          },
+          {
+            "id": "gender",
+            "kind": "annotated_gender",
+            "value": "masculine"
+          }
+        ],
+        "raw_text": "حَمْزَةُ",
+        "raw_utf8_sha256": "e317b01520a26ddfec937dbb157498766c78f9767dc6eec2ce698d68994dc441"
+      },
+      "title_ar": "التاء المربوطة لا تنقض شاهد المذكر والعلمية"
+    },
+    {
+      "contract_focus": "Tanwin, definiteness, construction and actual syntactic case are different axes.",
+      "expected": {
+        "actual_case": null,
+        "declared_definiteness": "definite",
+        "infer_indefinite_from_tanwin": false,
+        "infer_inflected_from_tanwin_alone": false,
+        "tanwin_observed": true
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A14",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "زَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "يْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "دٌ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "name",
+            "kind": "annotated_full_word",
+            "value": "proper_name"
+          },
+          {
+            "id": "tanwin",
+            "kind": "observed_final_mark",
+            "value": "dammatan"
+          }
+        ],
+        "raw_text": "زَيْدٌ",
+        "raw_utf8_sha256": "b7f2fd699dc9d4372caaf8f8e963249b4c83b391030d4c63f0c38213de08e889"
+      },
+      "title_ar": "تنوين زيد لا يوجب النكرة"
+    },
+    {
+      "contract_focus": "The person prefix is licensed within a supplied paradigm; the letter ن does not prove person or verbhood.",
+      "expected": {
+        "initial_nun_kind": "IMPERFECT_PERSON_PREFIX",
+        "initial_nun_radical": false,
+        "kind_status": "LICENSED",
+        "person_acquired_from_nun_alone": false,
+        "speaker_identity": null
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A15",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "نَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "كْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "تُ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "بُ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "ك",
+              "ت",
+              "ب"
+            ]
+          },
+          {
+            "id": "family",
+            "kind": "annotated_paradigm",
+            "value": {
+              "aspect": "imperfect",
+              "number": "plural",
+              "person": 1
+            }
+          },
+          {
+            "host_interval": [
+              1,
+              4
+            ],
+            "id": "map",
+            "kind": "declared_affix_map",
+            "unit_interval": [
+              0,
+              1
+            ],
+            "value": "imperfect_person_prefix"
+          }
+        ],
+        "raw_text": "نَكْتُبُ",
+        "raw_utf8_sha256": "cb0b40370b393f2a1cdc856ff95f9dd8fa8dbe78b079d32efea9d148cb1b3362"
+      },
+      "title_ar": "نون المضارعة في عائلة مصرح بها"
+    },
+    {
+      "contract_focus": "Pronoun, host and occurrence must agree. The conditional category does not run a sentence parser.",
+      "expected": {
+        "actual_role_from_this_contract": null,
+        "five_verb_raising_nun": false,
+        "kind_status": "LICENSED",
+        "nun_atom_interval": [
+          4,
+          5
+        ],
+        "nun_kind": "FEMININE_PLURAL"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A16",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "يَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "كْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "تُ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "بْ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 20,
+            "byte_start": 16,
+            "text": "نَ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "family",
+            "kind": "annotated_paradigm",
+            "value": {
+              "aspect": "imperfect",
+              "gender": "feminine",
+              "number": "plural"
+            }
+          },
+          {
+            "atom_interval": [
+              4,
+              5
+            ],
+            "id": "suffix",
+            "kind": "annotated_suffix",
+            "value": "female_plural_subject_pronoun"
+          },
+          {
+            "host_interval": [
+              0,
+              4
+            ],
+            "id": "link",
+            "kind": "declared_attachment_rule_instance",
+            "rule": "female_plural_subject",
+            "unit_interval": [
+              4,
+              5
+            ]
+          }
+        ],
+        "raw_text": "يَكْتُبْنَ",
+        "raw_utf8_sha256": "9255b2b87e1d939d07206dd4b752807b5eb4ebfc5ea16fe4a6fb7b9fc7ea212d"
+      },
+      "title_ar": "نون النسوة بضمير وعائلة وشاهد اتصال"
+    },
+    {
+      "contract_focus": "A supplied full connection witness licenses directness; shadda is retained on one source cluster.",
+      "expected": {
+        "actual_case": null,
+        "directness": "DIRECT",
+        "invent_second_written_nun_span": false,
+        "kind_status": "LICENSED",
+        "nun_kind": "EMPHATIC",
+        "written_nun_clusters": 1
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A17",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "يَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "كْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "تُ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "بَ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 22,
+            "byte_start": 16,
+            "text": "نَّ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "atom_interval": [
+              0,
+              4
+            ],
+            "id": "host",
+            "kind": "annotated_host",
+            "value": "imperfect_verb"
+          },
+          {
+            "atom_interval": [
+              4,
+              5
+            ],
+            "id": "emph",
+            "kind": "annotated_suffix",
+            "value": "emphatic_nun"
+          },
+          {
+            "id": "link",
+            "kind": "declared_connection_witness",
+            "value": {
+              "direct_connection": true,
+              "full_host_witnessed": true,
+              "intervening_subject_pronoun": false
+            }
+          }
+        ],
+        "raw_text": "يَكْتُبَنَّ",
+        "raw_utf8_sha256": "ba9413b06f03aacf4f7a0254c42092744f6a4d6e7cf0ef42efb2ec09fe4343c1"
+      },
+      "title_ar": "التوكيد المباشر يحتاج شاهدًا زائدًا على الرسم"
+    },
+    {
+      "contract_focus": "Surface adjacency or an annotation label cannot eliminate a possibly unwritten separator in the analysis.",
+      "expected": {
+        "connection_status": "UNKNOWN",
+        "directness": "UNKNOWN",
+        "emph_annotation_retained": true,
+        "inflected_or_built_from_emph_alone": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A18",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 2,
+            "byte_start": 0,
+            "text": "ي"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 4,
+            "byte_start": 2,
+            "text": "ك"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 6,
+            "byte_start": 4,
+            "text": "ت"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 8,
+            "byte_start": 6,
+            "text": "ب"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 10,
+            "byte_start": 8,
+            "text": "ن"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "emph",
+            "kind": "source_annotation",
+            "value": "EMPH"
+          },
+          {
+            "id": "connection",
+            "kind": "missing_premise",
+            "value": "full_host_and_intervening_pronoun"
+          }
+        ],
+        "raw_text": "يكتبن",
+        "raw_utf8_sha256": "d3985b527630cf2883e20aaf9640a756bb69705ad22fa537f4411c65fa9b0211"
+      },
+      "title_ar": "وسم EMPH وحده لا يحسم المباشرة والفصل"
+    },
+    {
+      "contract_focus": "The host and first-person suffix witness the conditional protection analysis; grammatical role needs its own relation.",
+      "expected": {
+        "actual_object_role": null,
+        "female_plural_subject": false,
+        "five_verb_raising_nun": false,
+        "kind_status": "LICENSED",
+        "nun_atom_interval": [
+          3,
+          4
+        ],
+        "nun_kind": "PROTECTION"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A19",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "كَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "تَ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "بَ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "نِ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 18,
+            "byte_start": 16,
+            "text": "ي"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "atom_interval": [
+              0,
+              3
+            ],
+            "id": "host",
+            "kind": "annotated_host",
+            "value": "past_verb"
+          },
+          {
+            "atom_interval": [
+              4,
+              5
+            ],
+            "id": "suffix",
+            "kind": "annotated_suffix",
+            "value": "first_person_yaa"
+          },
+          {
+            "id": "link",
+            "kind": "declared_connection_witness",
+            "value": {
+              "host_interval": [
+                0,
+                3
+              ],
+              "protection_nun_interval": [
+                3,
+                4
+              ],
+              "rule": "verb_protection_before_first_person_yaa",
+              "yaa_interval": [
+                4,
+                5
+              ]
+            }
+          }
+        ],
+        "raw_text": "كَتَبَنِي",
+        "raw_utf8_sha256": "589894b063f1bb0246f6588dc6be6cb5b38a4bc8e09093341f053c2e206c4bf9"
+      },
+      "title_ar": "نون الوقاية ليست نون رفع ولا ضمير نسوة"
+    },
+    {
+      "contract_focus": "Coexisting roles belong to different full clusters inside one reading; one type must not overwrite the other.",
+      "expected": {
+        "actual_case": null,
+        "combine_nuns_from_different_readings": false,
+        "distinct_source_positions": true,
+        "same_reading_nuns": [
+          {
+            "atom_interval": [
+              3,
+              4
+            ],
+            "kind": "RADICAL"
+          },
+          {
+            "atom_interval": [
+              5,
+              6
+            ],
+            "kind": "FIVE_VERB_RAISING"
+          }
+        ]
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A20",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "يَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "حْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "زَ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "نُ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 18,
+            "byte_start": 16,
+            "text": "و"
+          },
+          {
+            "atom_index": 5,
+            "byte_end": 22,
+            "byte_start": 18,
+            "text": "نَ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "root",
+            "kind": "declared_root",
+            "value": [
+              "ح",
+              "ز",
+              "ن"
+            ]
+          },
+          {
+            "id": "root_map",
+            "kind": "declared_root_slot_map",
+            "value": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "id": "family",
+            "kind": "annotated_paradigm",
+            "value": {
+              "aspect": "imperfect",
+              "gender": "masculine",
+              "number": "plural",
+              "person": 3,
+              "retained_nun_base": true
+            }
+          },
+          {
+            "id": "ending",
+            "kind": "declared_affix_map",
+            "value": {
+              "raising_nun_interval": [
+                5,
+                6
+              ],
+              "subject_waw_interval": [
+                4,
+                5
+              ]
+            }
+          }
+        ],
+        "raw_text": "يَحْزَنُونَ",
+        "raw_utf8_sha256": "e87434ba94fa8a2fba58760b9af5c041bd67d1d08daea15f0ac686f2ee66ab4c"
+      },
+      "title_ar": "نون أصلية ونون إعراب في القراءة نفسها"
+    },
+    {
+      "contract_focus": "Same written ون needs different host evidence; a nominative-looking ending does not supply an actual syntactic role.",
+      "expected": {
+        "actual_case": null,
+        "five_verb_raising_nun": false,
+        "nun_atom_interval": [
+          5,
+          6
+        ],
+        "nun_kind": "NOMINAL_NUMBER_NUN",
+        "sound_plural_class_from_letters_alone": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A21",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "مُ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "عَ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 14,
+            "byte_start": 8,
+            "text": "لِّ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 18,
+            "byte_start": 14,
+            "text": "مُ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 20,
+            "byte_start": 18,
+            "text": "و"
+          },
+          {
+            "atom_index": 5,
+            "byte_end": 24,
+            "byte_start": 20,
+            "text": "نَ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "atom_interval": [
+              0,
+              4
+            ],
+            "id": "host",
+            "kind": "annotated_host",
+            "value": "noun"
+          },
+          {
+            "id": "number",
+            "kind": "annotated_paradigm",
+            "value": {
+              "gender": "masculine",
+              "nominal_letter_ending": true,
+              "number": "plural"
+            }
+          },
+          {
+            "id": "ending",
+            "kind": "declared_affix_map",
+            "value": {
+              "nominal_nun_interval": [
+                5,
+                6
+              ],
+              "waw_interval": [
+                4,
+                5
+              ]
+            }
+          }
+        ],
+        "raw_text": "مُعَلِّمُونَ",
+        "raw_utf8_sha256": "1f890b01edd66455f35c776f7ffb7d1b2bb5b0f082d1d621e28a8bb6e74f2cc2"
+      },
+      "title_ar": "نون الجمع الاسمي غير نون الأمثلة الخمسة"
+    },
+    {
+      "contract_focus": "A missing segment is represented in a witnessed correspondence, not as an invented zero-length or nonempty source span.",
+      "expected": {
+        "actual_case_from_this_contract": null,
+        "after_base_withdrawal_deletion_status": "UNKNOWN",
+        "deleted_nun_in_surface_partition": false,
+        "deleted_nun_surface_span": null,
+        "subjunctive_vs_jussive_from_absence_alone": false,
+        "with_full_base_deletion_status": "LICENSED"
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A22",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "لَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "مْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 9,
+            "byte_start": 8,
+            "text": " "
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 13,
+            "byte_start": 9,
+            "text": "يَ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 17,
+            "byte_start": 13,
+            "text": "كْ"
+          },
+          {
+            "atom_index": 5,
+            "byte_end": 21,
+            "byte_start": 17,
+            "text": "تُ"
+          },
+          {
+            "atom_index": 6,
+            "byte_end": 25,
+            "byte_start": 21,
+            "text": "بُ"
+          },
+          {
+            "atom_index": 7,
+            "byte_end": 27,
+            "byte_start": 25,
+            "text": "و"
+          },
+          {
+            "atom_index": 8,
+            "byte_end": 29,
+            "byte_start": 27,
+            "text": "ا"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "base",
+            "kind": "annotated_full_paradigm_base",
+            "value": "يَكْتُبُونَ"
+          },
+          {
+            "id": "map",
+            "kind": "declared_form_correspondence",
+            "value": {
+              "nun_deletion_licensed": true,
+              "same_lexeme_and_person": true,
+              "subject_waw_present": true,
+              "target_atom_interval": [
+                3,
+                9
+              ]
+            }
+          },
+          {
+            "id": "ablation",
+            "kind": "evaluation_operation",
+            "value": "remove_full_paradigm_base"
+          }
+        ],
+        "raw_text": "لَمْ يَكْتُبُوا",
+        "raw_utf8_sha256": "49f1a8f81bfcb80aa364b76e6fbb437d17f883dddcf6601b4544960282231a88"
+      },
+      "title_ar": "غياب النون لا يثبت حذفها إلا بقاعدة تامة"
+    },
+    {
+      "contract_focus": "Preserve the supplied paradigm ambiguity; a prefix inventory is not a person/reference classifier.",
+      "expected": {
+        "choose_addressee_from_initial_taa": false,
+        "retained_reading_ids": [
+          "second_person_masculine_singular",
+          "third_person_feminine_singular"
+        ],
+        "unique_gender": false,
+        "unique_person": false
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A23",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "تَ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "كْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "تُ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "بُ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "r_second",
+            "kind": "alternative_annotated_reading",
+            "reading_id": "second_person_masculine_singular",
+            "value": {
+              "aspect": "imperfect",
+              "gender": "masculine",
+              "number": "singular",
+              "person": 2
+            }
+          },
+          {
+            "id": "r_third",
+            "kind": "alternative_annotated_reading",
+            "reading_id": "third_person_feminine_singular",
+            "value": {
+              "aspect": "imperfect",
+              "gender": "feminine",
+              "number": "singular",
+              "person": 3
+            }
+          }
+        ],
+        "raw_text": "تَكْتُبُ",
+        "raw_utf8_sha256": "887205ffe75e005b87b45d8a08d2c1efcfda7d0be8293202e0ffb2a619476977"
+      },
+      "title_ar": "تاء المضارعة لا تعين المخاطب وحده"
+    },
+    {
+      "contract_focus": "Underlying allomorphy and literal segmentation remain separate. An absent alif gets no fabricated source bytes.",
+      "expected": {
+        "actual_case_from_this_contract": null,
+        "surface_parts_text": [
+          "لِ",
+          "لْ",
+          "كِتَابِ"
+        ],
+        "surface_recomposition_exact": true,
+        "underlying_analysis_is_direct_surface_partition": false,
+        "without_rewrite_witness_underlying_link_status": "UNKNOWN",
+        "written_article_alif_span": null
+      },
+      "group": "annotated_arabic",
+      "id": "UD-A24",
+      "input": {
+        "atomization_is_supplied": true,
+        "atomization_profile": "DECLARED_ARABIC_CLUSTERS_V1_NOT_FULL_UAX",
+        "atoms": [
+          {
+            "atom_index": 0,
+            "byte_end": 4,
+            "byte_start": 0,
+            "text": "لِ"
+          },
+          {
+            "atom_index": 1,
+            "byte_end": 8,
+            "byte_start": 4,
+            "text": "لْ"
+          },
+          {
+            "atom_index": 2,
+            "byte_end": 12,
+            "byte_start": 8,
+            "text": "كِ"
+          },
+          {
+            "atom_index": 3,
+            "byte_end": 16,
+            "byte_start": 12,
+            "text": "تَ"
+          },
+          {
+            "atom_index": 4,
+            "byte_end": 18,
+            "byte_start": 16,
+            "text": "ا"
+          },
+          {
+            "atom_index": 5,
+            "byte_end": 22,
+            "byte_start": 18,
+            "text": "بِ"
+          }
+        ],
+        "premise_origin": "AUTHORED_DECLARED_ANNOTATION_NOT_RAW_TEXT_ACQUISITION",
+        "premises": [
+          {
+            "id": "parts",
+            "kind": "annotated_surface_parts",
+            "value": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                6
+              ]
+            ]
+          },
+          {
+            "id": "analysis",
+            "kind": "declared_underlying_forms",
+            "value": [
+              "ل",
+              "ال",
+              "كتاب"
+            ]
+          },
+          {
+            "id": "rewrite",
+            "kind": "declared_rewrite_witness",
+            "value": "article_alif_not_written_after_lam"
+          }
+        ],
+        "raw_text": "لِلْكِتَابِ",
+        "raw_utf8_sha256": "7bcb9fafccd0d8b9c9cfc6abb521c6087abd2b0dd7d3dcd273571cd6e4bce1cf"
+      },
+      "title_ar": "لام الجر وأل المنكمشة تحفظان السطح دون ألف مخترعة"
+    }
+  ],
+  "classification": "AUTHORED_PRE_IMPLEMENTATION_CONDITIONAL_CONTRACT_CASES_NOT_NATURAL_CORPUS_ACQUISITION",
+  "created_at_utc": "2026-10-24T05:19:53.578375+00:00",
+  "explicit_nonclaims": [
+    "No free-text lexical category, root, person, gender, nun type or attachment acquisition is measured.",
+    "No probability of Arabic correctness is inferred from cut counts or Bell numbers.",
+    "No success is claimed for discovering an ON/FOR rule from a prewritten gate inventory.",
+    "No external corpus, heldout natural text, lexical attestation or complete Unicode tokenizer is supplied.",
+    "Arabic annotations are conditional assumptions; their truth outside this review is not proved by source hashes or Lean."
+  ],
+  "group_counts": {
+    "annotated_arabic": 24,
+    "evidence_binding": 8,
+    "mechanical": 8
+  },
+  "material_revision": {
+    "expected_values_changed": false,
+    "new_implementation_read_before_revision": false,
+    "previous_material_path": "evidence/unit_discovery/material_v1.json",
+    "previous_material_sha256": "dec64690e3cb0c26870c3819d97be2091beca6317e68327555a4ca9d3e4ac506",
+    "reason": "Pre-measurement authored linguistic fixture correction in UD-A13 only: proper name حَمْزَةُ, without tanwin. Intended gender/definiteness expectations are unchanged.",
+    "runtime_measured_before_revision": false
+  },
+  "public_contract": {
+    "arabic_atomization": "manually declared base/marks units retaining exact UTF-8, with explicit separator units where needed; not a complete UAX implementation",
+    "arabic_premises": "explicit authored conditional assumptions, never claimed to have been acquired",
+    "domain": "List alpha with declared ordered atomization",
+    "new_python_reader_required": false,
+    "progress": "fulfilled separately source-bound premises for unit, reading, host and rule; not a score or witness count",
+    "runtime_schema": "not fixed by this material; adapter must map equivalent public semantic judgments without changing expected predicates",
+    "surface_partition": "ordered, contiguous, nonempty parts covering each source position exactly once; empty list has one empty partition",
+    "unit_class": "opaque; spelling and enumeration do not infer its linguistic meaning"
+  },
+  "reference_documents": [
+    {
+      "bytes": 2076,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "AGENTS.md",
+      "sha256": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b"
+    },
+    {
+      "bytes": 22937,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "docs/INFLECTION_READING.md",
+      "sha256": "57852d16b412f041de54e67d00cb42a4b7a09fb6c0e68646f07de9108140560a"
+    },
+    {
+      "bytes": 13629,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "docs/INFLECTION_SOURCE_AUDIT.md",
+      "sha256": "15a025282c62c9bfa3c036bc7835e2f827b491a4a1be93928500bf0d0c57f1dc"
+    },
+    {
+      "bytes": 17092,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "docs/DISCOURSE_SOURCE_AUDIT.md",
+      "sha256": "8b53f8af83ebc328a102d464be5139c9febc7dd5cb74b915fde84c0672af6df2"
+    },
+    {
+      "bytes": 15267,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "docs/DERIVATION.md",
+      "sha256": "b987fa77622a773d8becbdc63f5b33130a27693924bd5852b310c70d87a369ff"
+    },
+    {
+      "bytes": 18619,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "docs/NOMINAL.md",
+      "sha256": "1d9dd942d899a13ab4e0c1e52b2ccbc1e838885d7e407226f66017cfd0a935a3"
+    },
+    {
+      "bytes": 14553,
+      "kind": "EXISTING_PUBLIC_CONTRACT_OR_SOURCE_AUDIT_NOT_NEW_IMPLEMENTATION",
+      "path": "docs/TEXT_MORPHOLOGY.md",
+      "sha256": "8d27153556ac176332d6ad5d16bcfed6916b960e2c1e3b6aabd3efc8dc80d03e"
+    }
+  ],
+  "result_semantics": {
+    "INVALID_CERTIFICATE": "A claimed result fails replay, identity binding or provenance; a fresh linguistic result can still be UNKNOWN.",
+    "LICENSED": "This named conditional judgment has all its declared premises bound to this reading/occurrence/rule; not a general-language or world-truth certificate.",
+    "REJECTED": "This proposed partition, match or conditional analysis contradicts a checked condition; does not reject every Arabic reading.",
+    "RESOURCE_LIMIT": "Separate execution status if used by a future adapter; never translated into linguistic REJECTED.",
+    "UNKNOWN": "Required positive or negative evidence is absent, or unresolved alternatives remain; no default category may fill it."
+  },
+  "schema": "nabt.unit-discovery.independent-material.v2"
+}

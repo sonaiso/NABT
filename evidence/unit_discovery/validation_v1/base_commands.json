@@ -1,0 +1,44 @@
+[
+  {
+    "name": "formal",
+    "command": [
+      "make",
+      "formal",
+      "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake"
+    ],
+    "cwd": "repository_root",
+    "started_utc": "2026-10-24T05:31:36.678217+00:00",
+    "finished_utc": "2026-10-24T05:31:37.154565+00:00",
+    "exit": 0,
+    "log": "evidence/unit_discovery/validation_v1/formal.log",
+    "log_sha256": "09dff5b19519841d56284cb518e79bd38ff06fe017f6a931ea7278ae03dffac1"
+  },
+  {
+    "name": "conformance",
+    "command": [
+      "make",
+      "conformance",
+      "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=evidence/unit_discovery/validation_v1"
+    ],
+    "cwd": "repository_root",
+    "started_utc": "2026-10-24T05:31:37.154823+00:00",
+    "finished_utc": "2026-10-24T05:31:38.440890+00:00",
+    "exit": 0,
+    "log": "evidence/unit_discovery/validation_v1/conformance.log",
+    "log_sha256": "b4806e3918116cb339af4a779a6ee2bd6ff758fa2d589afc3bf52c4ba53b5036"
+  },
+  {
+    "name": "integrity",
+    "command": [
+      "python3",
+      "tools/check_integrity.py"
+    ],
+    "cwd": "repository_root",
+    "started_utc": "2026-10-24T05:31:38.441070+00:00",
+    "finished_utc": "2026-10-24T05:31:38.695808+00:00",
+    "exit": 0,
+    "log": "evidence/unit_discovery/validation_v1/integrity.log",
+    "log_sha256": "1bd79f26a0529499ced772e4d30bd8698d9be0d11eb6f1a6cf9ccc44dce10c6d"
+  }
+]

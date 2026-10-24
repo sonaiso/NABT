@@ -34,3 +34,7 @@ lean_exe exportPersonEvidence where
 @[default_target]
 lean_exe exportConstructionEvidence where
   root := `ExportConstructionEvidence
+
+@[default_target]
+lean_exe unitDiscoveryProbe where
+  root := `UnitDiscoveryProbe

@@ -1,0 +1,2608 @@
+{
+  "build": null,
+  "cases": [
+    {
+      "case_id": "UD-M01",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": false,
+          "evidence_kind": "CATEGORY_FREE_OPERATION_SUCCEEDED",
+          "expected": false,
+          "false_accept": false,
+          "field": "category_annotations_required",
+          "request_ids": [
+            "UD-M01:example_0",
+            "UD-M01:example_1",
+            "UD-M01:example_2",
+            "UD-M01:example_3",
+            "UD-M01:example_4",
+            "UD-M01:example_5"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            1,
+            1,
+            2,
+            4,
+            8,
+            16
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            1,
+            1,
+            2,
+            4,
+            8,
+            16
+          ],
+          "false_accept": false,
+          "field": "counts",
+          "request_ids": [
+            "UD-M01:example_0",
+            "UD-M01:example_1",
+            "UD-M01:example_2",
+            "UD-M01:example_3",
+            "UD-M01:example_4",
+            "UD-M01:example_5"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            []
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            []
+          ],
+          "false_accept": false,
+          "field": "empty_input_partitions",
+          "request_ids": [
+            "UD-M01:example_0"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            [],
+            [
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2
+            ]
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            [],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "false_accept": false,
+          "field": "three_atom_cut_sets",
+          "request_ids": [
+            "UD-M01:example_3"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            [
+              [
+                "a"
+              ],
+              [
+                "b"
+              ],
+              [
+                "c"
+              ]
+            ],
+            [
+              [
+                "a",
+                "b"
+              ],
+              [
+                "c"
+              ]
+            ],
+            [
+              [
+                "a"
+              ],
+              [
+                "b",
+                "c"
+              ]
+            ],
+            [
+              [
+                "a",
+                "b",
+                "c"
+              ]
+            ]
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            [
+              [
+                "a",
+                "b",
+                "c"
+              ]
+            ],
+            [
+              [
+                "a"
+              ],
+              [
+                "b",
+                "c"
+              ]
+            ],
+            [
+              [
+                "a",
+                "b"
+              ],
+              [
+                "c"
+              ]
+            ],
+            [
+              [
+                "a"
+              ],
+              [
+                "b"
+              ],
+              [
+                "c"
+              ]
+            ]
+          ],
+          "false_accept": false,
+          "field": "three_atom_partitions",
+          "request_ids": [
+            "UD-M01:example_3"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "mechanical",
+      "measured_check_count": 5,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-M02",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": [
+            0,
+            1,
+            3,
+            3,
+            1,
+            0
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            0,
+            1,
+            3,
+            3,
+            1,
+            0
+          ],
+          "false_accept": false,
+          "field": "counts_by_segment_count",
+          "request_ids": [
+            "UD-M02:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            [
+              3
+            ],
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          "false_accept": false,
+          "field": "two_segment_cut_sets",
+          "request_ids": [
+            "UD-M02:partitions"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "mechanical",
+      "measured_check_count": 2,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-M03",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "linguistic_invalidity_claimed",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "REJECTED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "REJECTED",
+          "false_accept": false,
+          "field": "mechanical_status",
+          "request_ids": [
+            "UD-M03:inspect"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": "NONCONTIGUOUS_PART",
+          "field": "reason",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "mechanical",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 2
+    },
+    {
+      "case_id": "UD-M04",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": "REJECTED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "REJECTED",
+          "false_accept": false,
+          "field": "mechanical_status",
+          "request_ids": [
+            "UD-M04:inspect"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": "ORDER_NOT_PRESERVED",
+          "field": "reason",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "mechanical",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-M05",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": false,
+          "evidence_kind": "VALIDATED_POSITION_INVENTORY",
+          "expected": false,
+          "false_accept": false,
+          "field": "merge_equal_position_identities",
+          "request_ids": [
+            "UD-M05:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": 4,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": 4,
+          "false_accept": false,
+          "field": "partition_count",
+          "request_ids": [
+            "UD-M05:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            [],
+            [
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2
+            ]
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            [],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "false_accept": false,
+          "field": "three_atom_cut_sets",
+          "request_ids": [
+            "UD-M05:partitions"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "mechanical",
+      "measured_check_count": 3,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-M06",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": "REJECTED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "REJECTED",
+          "false_accept": false,
+          "field": "mechanical_status",
+          "request_ids": [
+            "UD-M06:inspect"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": "EMPTY_PART",
+          "field": "reason",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "mechanical",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-M07",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": {
+            "gap": "REJECTED",
+            "overlap": "REJECTED"
+          },
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": {
+            "gap": "REJECTED",
+            "overlap": "REJECTED"
+          },
+          "false_accept": false,
+          "field": "proposal_statuses",
+          "request_ids": [
+            "UD-M07:overlap",
+            "UD-M07:gap"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": true,
+          "evidence_kind": "DECLARED_COUNTEREXAMPLES",
+          "expected": true,
+          "false_accept": false,
+          "field": "source_must_be_covered_once",
+          "request_ids": [
+            "UD-M07:overlap",
+            "UD-M07:gap"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "mechanical",
+      "measured_check_count": 2,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-M08",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": [
+            4,
+            8
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            4,
+            8
+          ],
+          "false_accept": false,
+          "field": "allowed_internal_byte_cuts",
+          "request_ids": [
+            "UD-M08:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "cross_source_replay_valid",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "REJECTED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "REJECTED",
+          "false_accept": false,
+          "field": "cut_at_byte_2_status",
+          "request_ids": [
+            "UD-M08:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "EXACT_RETURNED_ATOM_BYTES",
+          "expected": false,
+          "false_accept": false,
+          "field": "normalization_performed",
+          "request_ids": [
+            "UD-M08:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": 4,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": 4,
+          "false_accept": false,
+          "field": "partition_count",
+          "request_ids": [
+            "UD-M08:partitions"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "mechanical",
+      "measured_check_count": 4,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-E01",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "attachment_status",
+          "request_ids": [
+            "UD-E01:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "class_from_name_or_shape",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "classification_status",
+          "request_ids": [
+            "UD-E01:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "rename_changes_mechanical_partitions",
+          "request_ids": [
+            "UD-E01:partitions",
+            "UD-E01:renamed_partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "surface_status",
+          "request_ids": [
+            "UD-E01:surface"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "evidence_binding",
+      "measured_check_count": 4,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-E02",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "acquisition_claim",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "attachment_status",
+          "request_ids": [
+            "UD-E02:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "classification_status",
+          "request_ids": [
+            "UD-E02:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "host_status",
+          "request_ids": [
+            "UD-E02:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": [
+            "w_surface",
+            "w_class",
+            "w_host",
+            "w_attachment"
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            "w_surface",
+            "w_class",
+            "w_host",
+            "w_attachment"
+          ],
+          "false_accept": false,
+          "field": "required_witness_ids",
+          "request_ids": [
+            "UD-E02:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "surface_status",
+          "request_ids": [
+            "UD-E02:surface"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "evidence_binding",
+      "measured_check_count": 5,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-E03",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "attachment_status",
+          "request_ids": [
+            "UD-E03:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "classification_status",
+          "request_ids": [
+            "UD-E03:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "duplicate_evidence_advances_stage",
+          "request_ids": [
+            "UD-E03:ledger",
+            "UD-E03:duplicated_ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "host_status",
+          "request_ids": [
+            "UD-E03:ledger"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "evidence_binding",
+      "measured_check_count": 4,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-E04",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "all_arabic_analyses_rejected",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "REJECTED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "REJECTED",
+          "false_accept": false,
+          "field": "attachment_status",
+          "request_ids": [
+            "UD-E04:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": "EXPLICIT_HOST_CONTRADICTION",
+          "field": "reason",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "evidence_binding",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 2
+    },
+    {
+      "case_id": "UD-E05",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "certificate_valid",
+          "request_ids": [
+            "UD-E05:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "fresh_attachment_status",
+          "request_ids": [
+            "UD-E05:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "wrong_occurrence_witness_usable",
+          "request_ids": [
+            "UD-E05:ledger"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "evidence_binding",
+      "measured_check_count": 3,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-E06",
+      "case_status": "MEASURED",
+      "checks": [
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "certificate_valid",
+          "request_ids": [
+            "UD-E06:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "cross_reading_feature_merge",
+          "request_ids": [
+            "UD-E06:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "fresh_attachment_status",
+          "request_ids": [
+            "UD-E06:ledger"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": true,
+      "group": "evidence_binding",
+      "measured_check_count": 3,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 0
+    },
+    {
+      "case_id": "UD-E07",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "certificate_valid",
+          "request_ids": [
+            "UD-E07:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "fresh_attachment_status",
+          "request_ids": [
+            "UD-E07:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "fresh_classification_status",
+          "request_ids": [
+            "UD-E07:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "law_definition_treated_as_acquisition",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "rule_identity_substitution_accepted",
+          "request_ids": [
+            "UD-E07:other_rule"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "evidence_binding",
+      "measured_check_count": 4,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-E08",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "fresh_attachment_status",
+          "request_ids": [
+            "UD-E08:withdrawn"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "fresh_surface_status",
+          "request_ids": [
+            "UD-E08:surface"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "initial_attachment_status",
+          "request_ids": [
+            "UD-E08:ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "old_certificate_valid_after_each_operation",
+          "request_ids": [
+            "UD-E08:withdrawn",
+            "UD-E08:revised"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "source_replay_is_external_truth",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "evidence_binding",
+      "measured_check_count": 4,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-A01",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "conjunction_from_shape",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "RADICAL",
+          "field": "initial_waw_role_in_this_reading",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "lexical_root_acquired",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            0,
+            1,
+            2
+          ],
+          "field": "radical_atom_positions",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": 3,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": 3,
+          "false_accept": false,
+          "field": "root_arity",
+          "request_ids": [
+            "UD-A01:root"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 4
+    },
+    {
+      "case_id": "UD-A02",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "force_three_radicals",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "lexical_attestation_inferred_from_refill",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "field": "radical_atom_positions",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": 4,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": 4,
+          "false_accept": false,
+          "field": "root_arity",
+          "request_ids": [
+            "UD-A02:root"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 3
+    },
+    {
+      "case_id": "UD-A03",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "grammatical_role",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": 1,
+          "field": "literal_alif_atom_position",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            0,
+            2,
+            3
+          ],
+          "field": "radical_atom_positions",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "root_is_contiguous_surface_segment",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": null,
+          "field": "semantic_derivation_class",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "template_status",
+          "request_ids": [
+            "UD-A03:root"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 5
+    },
+    {
+      "case_id": "UD-A04",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": "INTERNAL_LITERAL_MARK_MISMATCH",
+          "field": "reason",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "skip_mismatched_mark",
+          "request_ids": [
+            "UD-A04:root"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "REJECTED",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "REJECTED",
+          "false_accept": false,
+          "field": "template_status",
+          "request_ids": [
+            "UD-A04:root"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "word_globally_invalid",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 2,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 2
+    },
+    {
+      "case_id": "UD-A05",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "SUPPLIED_ANNOTATION_CONDITIONAL_LEDGER",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "annotated_article_attachment_status",
+          "request_ids": [
+            "UD-A05:annotation_ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "article_category_acquired_from_letters",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": null,
+          "field": "external_reference",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": true,
+          "evidence_kind": "VALIDATED_ALL_RETURNED_PARTITIONS",
+          "expected": true,
+          "false_accept": false,
+          "field": "source_recomposition_exact",
+          "request_ids": [
+            "UD-A05:partitions"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 2,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 3
+    },
+    {
+      "case_id": "UD-A06",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": "REJECTED",
+          "field": "article_literal_match_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "global_word_rejection",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "hamza_seat_folded",
+          "request_ids": [
+            "UD-A06:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": "UNKNOWN",
+          "field": "remaining_word_class",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 3
+    },
+    {
+      "case_id": "UD-A07",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": "UNKNOWN",
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": "UNKNOWN",
+          "false_accept": false,
+          "field": "article_attachment_status",
+          "request_ids": [
+            "UD-A07:unproved_article"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": null,
+          "field": "reference_resolution",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "relative_witness_reused_as_article_witness",
+          "request_ids": [
+            "UD-A07:unproved_article"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "SUPPLIED_ANNOTATION_CONDITIONAL_LEDGER",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "whole_relative_reading_status",
+          "request_ids": [
+            "UD-A07:annotation_ledger"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 3,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-A08",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "SUPPLIED_ANNOTATION_CONDITIONAL_LEDGER",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "annotated_relative_al_status",
+          "request_ids": [
+            "UD-A08:annotation_ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "force_article_class_for_all_al",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "UNKNOWN",
+          "field": "other_unwitnessed_al_readings_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "relative_clause_or_external_reference_from_spelling",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 3
+    },
+    {
+      "case_id": "UD-A09",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": "RADICAL",
+          "field": "final_haa_role_in_this_reading",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "suffix_pronoun_from_terminal_haa",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 2
+    },
+    {
+      "case_id": "UD-A10",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "LICENSED",
+          "evidence_kind": "SUPPLIED_ANNOTATION_CONDITIONAL_LEDGER",
+          "expected": "LICENSED",
+          "false_accept": false,
+          "field": "annotated_suffix_attachment_status",
+          "request_ids": [
+            "UD-A10:annotation_ledger"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": null,
+          "field": "external_reference",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            4,
+            5
+          ],
+          "field": "suffix_atom_interval",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "world_possession_claim",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 4
+    },
+    {
+      "case_id": "UD-A11",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "collapse_alternative_features",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            "r_subject",
+            "r_feminine"
+          ],
+          "field": "retained_reading_ids",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "supply_missing_vowels",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "unique_taa_class",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 4
+    },
+    {
+      "case_id": "UD-A12",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "feminine_marker_from_shape",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "RADICAL",
+          "field": "final_taa_role_in_this_reading",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 2
+    },
+    {
+      "case_id": "UD-A13",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "annotation_contradiction_from_shape",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "definite",
+          "field": "declared_definiteness",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": "masculine",
+          "evidence_kind": "SUPPLIED_GENDER_CONSTRAINT",
+          "expected": "masculine",
+          "false_accept": false,
+          "field": "declared_gender",
+          "request_ids": [
+            "UD-A13:nominal"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": false,
+          "field": "force_feminine_from_taa_marbuta",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 3
+    },
+    {
+      "case_id": "UD-A14",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "definite",
+          "field": "declared_definiteness",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "infer_indefinite_from_tanwin",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "infer_inflected_from_tanwin_alone",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": true,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": true,
+          "false_accept": false,
+          "field": "tanwin_observed",
+          "request_ids": [
+            "UD-A14:partitions"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 4
+    },
+    {
+      "case_id": "UD-A15",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": "IMPERFECT_PERSON_PREFIX",
+          "field": "initial_nun_kind",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "initial_nun_radical",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "LICENSED",
+          "field": "kind_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "person_acquired_from_nun_alone",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": null,
+          "field": "speaker_identity",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 5
+    },
+    {
+      "case_id": "UD-A16",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_role_from_this_contract",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "five_verb_raising_nun",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "LICENSED",
+          "field": "kind_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            4,
+            5
+          ],
+          "field": "nun_atom_interval",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "FEMININE_PLURAL",
+          "field": "nun_kind",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 5
+    },
+    {
+      "case_id": "UD-A17",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "DIRECT",
+          "field": "directness",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "invent_second_written_nun_span",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "LICENSED",
+          "field": "kind_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "EMPHATIC",
+          "field": "nun_kind",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": 1,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": 1,
+          "false_accept": false,
+          "field": "written_nun_clusters",
+          "request_ids": [
+            "UD-A17:partitions"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 5
+    },
+    {
+      "case_id": "UD-A18",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": "UNKNOWN",
+          "field": "connection_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "UNKNOWN",
+          "field": "directness",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": true,
+          "field": "emph_annotation_retained",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "inflected_or_built_from_emph_alone",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 4
+    },
+    {
+      "case_id": "UD-A19",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_object_role",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "female_plural_subject",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "five_verb_raising_nun",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "LICENSED",
+          "field": "kind_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            3,
+            4
+          ],
+          "field": "nun_atom_interval",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "PROTECTION",
+          "field": "nun_kind",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 6
+    },
+    {
+      "case_id": "UD-A20",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "combine_nuns_from_different_readings",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": true,
+          "field": "distinct_source_positions",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            {
+              "atom_interval": [
+                3,
+                4
+              ],
+              "kind": "RADICAL"
+            },
+            {
+              "atom_interval": [
+                5,
+                6
+              ],
+              "kind": "FIVE_VERB_RAISING"
+            }
+          ],
+          "field": "same_reading_nuns",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 4
+    },
+    {
+      "case_id": "UD-A21",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "five_verb_raising_nun",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": [
+            5,
+            6
+          ],
+          "field": "nun_atom_interval",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "NOMINAL_NUMBER_NUN",
+          "field": "nun_kind",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "sound_plural_class_from_letters_alone",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 5
+    },
+    {
+      "case_id": "UD-A22",
+      "case_status": "UNMEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case_from_this_contract",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "UNKNOWN",
+          "field": "after_base_withdrawal_deletion_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "deleted_nun_in_surface_partition",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": null,
+          "field": "deleted_nun_surface_span",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "subjunctive_vs_jussive_from_absence_alone",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "LICENSED",
+          "field": "with_full_base_deletion_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 0,
+      "measured_checks_pass": false,
+      "unmeasured_check_count": 6
+    },
+    {
+      "case_id": "UD-A23",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": false,
+          "field": "choose_addressee_from_initial_taa",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": [
+            "second_person_masculine_singular",
+            "third_person_feminine_singular"
+          ],
+          "evidence_kind": "MATCHED_SUPPLIED_ALTERNATIVES_TO_CONDITIONAL_PERSON_LAW",
+          "expected": [
+            "second_person_masculine_singular",
+            "third_person_feminine_singular"
+          ],
+          "false_accept": false,
+          "field": "retained_reading_ids",
+          "request_ids": [
+            "UD-A23:person"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "unique_gender",
+          "request_ids": [
+            "UD-A23:person"
+          ],
+          "status": "PASS"
+        },
+        {
+          "actual": false,
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": false,
+          "false_accept": false,
+          "field": "unique_person",
+          "request_ids": [
+            "UD-A23:person"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 3,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 1
+    },
+    {
+      "case_id": "UD-A24",
+      "case_status": "PARTIALLY_MEASURED",
+      "checks": [
+        {
+          "expected": null,
+          "field": "actual_case_from_this_contract",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "actual": [
+            "لِ",
+            "لْ",
+            "كِتَابِ"
+          ],
+          "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+          "expected": [
+            "لِ",
+            "لْ",
+            "كِتَابِ"
+          ],
+          "false_accept": false,
+          "field": "surface_parts_text",
+          "request_ids": [
+            "UD-A24:partitions"
+          ],
+          "status": "PASS"
+        },
+        {
+          "expected": true,
+          "field": "surface_recomposition_exact",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": false,
+          "field": "underlying_analysis_is_direct_surface_partition",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": "UNKNOWN",
+          "field": "without_rewrite_witness_underlying_link_status",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        },
+        {
+          "expected": null,
+          "field": "written_article_alif_span",
+          "reason": "No independent matching judgment is exposed by these probe operations. A supplied annotation, a missing output field, or an interface scope note is not credited as an acquired Arabic interpretation.",
+          "status": "UNMEASURED"
+        }
+      ],
+      "failed_check_count": 0,
+      "false_accept_count": 0,
+      "fully_passed": false,
+      "group": "annotated_arabic",
+      "measured_check_count": 1,
+      "measured_checks_pass": true,
+      "unmeasured_check_count": 5
+    }
+  ],
+  "classification": "CONDITIONAL_CONTRACT_REVIEW_NOT_LANGUAGE_ACQUISITION",
+  "created_at_utc": "2026-10-24T05:43:28.725846+00:00",
+  "errors": [],
+  "freeze": {
+    "bytes": 1993,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_freeze_v2.json",
+    "sha256": "f0db40442ea8a510064e16714d69e5b8bfccdd83816e3a11722f6e4e24464dbc"
+  },
+  "law_id": "nabt.unit-discovery.v1",
+  "material": {
+    "bytes": 87425,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_v2.json",
+    "sha256": "5ee2c4ec6f47334f8b27f48b995e147611ffd79ef3327ded147069fea2767e26"
+  },
+  "pre_measurement_input_manifest": {
+    "bytes": 10682,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/runs_v2/results_final.inputs.json",
+    "sha256": "755634f02d76358a94d5ea8086bb5a887b838c8597e1ae9f01275e76e8338385"
+  },
+  "probe": {
+    "bytes": 122465488,
+    "path": "/workspace/scratch/93a907621097/NABT/formal/.lake/build/bin/unitDiscoveryProbe",
+    "sha256": "2a9d642acd4a4ec9b330880b821bbf8bd735308c1c7e7b72dae1c135f1510633"
+  },
+  "probe_binary_archived": false,
+  "probe_process": {
+    "returncode": 0,
+    "stderr": ""
+  },
+  "raw": {
+    "bytes": 29798,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/runs_v2/results_final.raw.jsonl.gz",
+    "sha256": "ef0eca1d520fc59d7c945d89c77369d97c87683473a62d100aea7e14dab62687"
+  },
+  "raw_verification": {
+    "complete_gzip_verified": true,
+    "decoded_bytes": 434687,
+    "decoded_sha256": "7ed1d3d1bf657b8f978c173b3f0ec825d5a25aa4c410e902e403e737a42520d1",
+    "records": 94,
+    "request_inventory_matched": true
+  },
+  "requests": {
+    "bytes": 183357,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/runs_v2/results_final.requests.json",
+    "sha256": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060"
+  },
+  "schema": "nabt.unit-discovery.independent-check.v1",
+  "scope": "conditional_on_supplied_interpretations",
+  "snapshot": {
+    "bytes": 52884,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/runs_v2/results_final.snapshot.tar.gz",
+    "sha256": "1f1c95f5300858cffb5b213fc6bbca4d716c94e0678bb8c24640cf143e016be0"
+  },
+  "snapshot_members": {
+    "evidence/unit_discovery/runs_v2/results_final.inputs.json": "755634f02d76358a94d5ea8086bb5a887b838c8597e1ae9f01275e76e8338385",
+    "evidence/unit_discovery/runs_v2/results_final.raw.jsonl.gz": "ef0eca1d520fc59d7c945d89c77369d97c87683473a62d100aea7e14dab62687",
+    "evidence/unit_discovery/runs_v2/results_final.requests.json": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060",
+    "evidence/unit_discovery/runs_v2/results_final.stdio.json": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+  },
+  "source_inputs": [
+    {
+      "bytes": 59915,
+      "path": "/workspace/scratch/93a907621097/NABT/tools/check_unit_discovery.py",
+      "sha256": "b63b644d4c98cb060a73477afb7fb2feca5bc4fb01e2289d748524044de65519"
+    },
+    {
+      "bytes": 17332,
+      "path": "/workspace/scratch/93a907621097/NABT/tests/test_unit_discovery_checker.py",
+      "sha256": "c4f8c90c6329429f72f5a6c6000a9292efa9dba7164f31e897e4029e658ad646"
+    },
+    {
+      "bytes": 87425,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_v2.json",
+      "sha256": "5ee2c4ec6f47334f8b27f48b995e147611ffd79ef3327ded147069fea2767e26"
+    },
+    {
+      "bytes": 11630,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/protocol_v2.md",
+      "sha256": "55dedbab1efdfe0439f21d94439e3e228f464c194e0c56fbd565110b5c70ba0a"
+    },
+    {
+      "bytes": 1993,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_freeze_v2.json",
+      "sha256": "f0db40442ea8a510064e16714d69e5b8bfccdd83816e3a11722f6e4e24464dbc"
+    },
+    {
+      "bytes": 86892,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_v1.json",
+      "sha256": "dec64690e3cb0c26870c3819d97be2091beca6317e68327555a4ca9d3e4ac506"
+    },
+    {
+      "bytes": 10246,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/protocol_v1.md",
+      "sha256": "6ae2dcaaba7946f1d6174799f3dd4e219d84b08207c7e7906a0c8de1a0c2a1a1"
+    },
+    {
+      "bytes": 1672,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_freeze_v1.json",
+      "sha256": "7f8a5c689300c6398de7087f3d62bdfe8ac25479be595cf007b8a9bbc2669553"
+    },
+    {
+      "bytes": 2941,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_erratum_v1.json",
+      "sha256": "11b984bbc85fc870e745a4bbde51f699b8218a5c04e991eda294568196c182ce"
+    },
+    {
+      "bytes": 1456,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/material_erratum_v1.md",
+      "sha256": "9f30fbd0cc0a45e1935bd1219d15d8b49cf5b15fcda1276330847898d0e7ec06"
+    },
+    {
+      "bytes": 102983,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/checker_review_v1/mutations_before.json",
+      "sha256": "54e565d1910eb3b23239ced72bb00110939aeee050466e39b42822e643ab9174"
+    },
+    {
+      "bytes": 26373,
+      "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/checker_review_v1/profile_mutations_before.json",
+      "sha256": "55c8f267fac19a33dacfba88e408330cc265bf022ffb2ae8667bff1a287fd11c"
+    },
+    {
+      "bytes": 34842,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Audit.lean",
+      "sha256": "7e316e1e097b17c61f61d202bfd4dc388d48d28254c06d93477efefb9cc767f1"
+    },
+    {
+      "bytes": 1678,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportArabicReading.lean",
+      "sha256": "7295ac27724dd67cf86de4f4ed76a4ac9d5d5dd997416c601cd8f3b7a0c45e66"
+    },
+    {
+      "bytes": 6096,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportConstructionEvidence.lean",
+      "sha256": "496634359cbbdd1470718ab583f75cab08baf0519b7a1745e54ec6e583de5d5e"
+    },
+    {
+      "bytes": 2080,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportDerivation.lean",
+      "sha256": "55fbed0027125cabfd544c695af197deb86cbb1eaa937bc5c865eae6b376c778"
+    },
+    {
+      "bytes": 4598,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportDiscourseEvidence.lean",
+      "sha256": "04de03a729d9e7487f8299bb3018db2752e63d5be9197cffec7b047199232376"
+    },
+    {
+      "bytes": 3124,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportGovernors.lean",
+      "sha256": "8535524a8cbdcb6fc5d035eef6dc51af6126d72342696466fba0b59ce626cf62"
+    },
+    {
+      "bytes": 2944,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportInflectionEvidence.lean",
+      "sha256": "0e43acf4b8ad08368f69686a07cbc8722690ca5d84f2bc0cf3998c86db2ca152"
+    },
+    {
+      "bytes": 4674,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportMorphology.lean",
+      "sha256": "4f25737995d3c6b7c8e55bdab68e4d2874a244ab9db5e2ad33fc933e0be08c26"
+    },
+    {
+      "bytes": 3303,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportNominalEvidence.lean",
+      "sha256": "5ce37bfa891cc75d4e4fe0448a9eda1c100c6f1d87c58237d826512ead4717f2"
+    },
+    {
+      "bytes": 1540,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportPersonEvidence.lean",
+      "sha256": "a1fb237e76c80f3087bdd4ea7d8e85d359f8cc847837bf9823aa97d783955a21"
+    },
+    {
+      "bytes": 1005,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportTable.lean",
+      "sha256": "212dbf67db902223fd8cc330f76676f5608d5e59ca8f462898e4df21b349a2fc"
+    },
+    {
+      "bytes": 1671,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportTextEvidence.lean",
+      "sha256": "0fa2bb3c4838bc4a3c355589804cd267e194a45671fbbd7ead2ec489830d79d4"
+    },
+    {
+      "bytes": 1749,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/ExportWords.lean",
+      "sha256": "58235582b31357b350903a947bd40e8d34dbcc8a265a1f64f12ea69acd1496e4"
+    },
+    {
+      "bytes": 682,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt.lean",
+      "sha256": "431cf578b24eba35557f716a4826b90ca73f553efe5a6b2d6fbbbafa8c89f1c1"
+    },
+    {
+      "bytes": 756,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/PropertyEvidenceTable.lean",
+      "sha256": "7c786581cf8558869ffaf7cbb17162929977321a97410f338a5150c781c34e30"
+    },
+    {
+      "bytes": 21036,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/UnitDiscoveryProbe.lean",
+      "sha256": "d71871f0817242f869adc19144a64a36d3a385ae76cee1dca1efe5688b3f3e12"
+    },
+    {
+      "bytes": 797,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/lakefile.lean",
+      "sha256": "9175776c3be6ffdeb5236e0993dfe9504073488107fd289bf2cfca31bf59a1bd"
+    },
+    {
+      "bytes": 4998,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Acquisition.lean",
+      "sha256": "ef14cb72bf79ea70daa9e656429b66d6ab8dad0ee8d0289eeb89249b5493cc34"
+    },
+    {
+      "bytes": 11326,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/AffixFunctions.lean",
+      "sha256": "2e9929f28a698509f5c01721a8be396fd704527f2b7095641f725e2a59a5abf1"
+    },
+    {
+      "bytes": 14832,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/ArabicReading.lean",
+      "sha256": "59494b63efcb363865ab0947cef8a5f81bef6b14e71178eff9061240bfef38ed"
+    },
+    {
+      "bytes": 1938,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/BoundedLaw.lean",
+      "sha256": "c1c9629d27f86abc66aa3cdd3c5b3a2995800838cd6f23bfd7891007fd679ac9"
+    },
+    {
+      "bytes": 11193,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Bridges.lean",
+      "sha256": "f0c339a76dcabfef9b2b854a6ea3d5d284c4646506c6028d257dcf772ae203c1"
+    },
+    {
+      "bytes": 2624,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Cell.lean",
+      "sha256": "43a0651ccf01136c179d11c79ed41905201e5a78a6b0cd31e34521bb31edbf3d"
+    },
+    {
+      "bytes": 24329,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/ConstructionEvidence.lean",
+      "sha256": "425223a309307052c3844780b2c0da9122795dce0e4a92240faf4ee3df0d03fc"
+    },
+    {
+      "bytes": 8707,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Count.lean",
+      "sha256": "87566b7bab61536ae48d08cb2121c139dbd3789d647db9e6eb5911f917ceef35"
+    },
+    {
+      "bytes": 40989,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Derivation.lean",
+      "sha256": "31167f71ec53948fd41a58a399f0949720618b6b1822a3975476369da9ccec87"
+    },
+    {
+      "bytes": 16955,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/DiscourseEvidence.lean",
+      "sha256": "90c1427bd235144da38477391a548e8882ed0ed426836b1438868abf983beae8"
+    },
+    {
+      "bytes": 19591,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Governors.lean",
+      "sha256": "c543c414a406768c0f88e7b0fefd7de8818aa2e62ad6b8e808536d4fcd4953e5"
+    },
+    {
+      "bytes": 24164,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/InflectionEvidence.lean",
+      "sha256": "1ce33b7a272a68c55d2a0f398c13d984a7b26567adc86edb214fab22dee82766"
+    },
+    {
+      "bytes": 5829,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Law.lean",
+      "sha256": "08372b61bde5904922948ee8a98d027e682c08259056f4b16b897d5d9322850a"
+    },
+    {
+      "bytes": 3004,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/LearnedModel.lean",
+      "sha256": "b45db110579fa269cc9e513ca5a2af4a98109d736bf2bf114e9b8648eec8eeab"
+    },
+    {
+      "bytes": 74852,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/LearnedModelData.lean",
+      "sha256": "54e32fb88b8918ec6a18d0a18591df957671004bead523bbb1fb7579322042ca"
+    },
+    {
+      "bytes": 26568,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Morphology.lean",
+      "sha256": "4b60ecd33f8c9719cdd35b9bb31364da4810065d3950fdef82f5b8f8d5510fd9"
+    },
+    {
+      "bytes": 21641,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/NominalEvidence.lean",
+      "sha256": "fe7c465f81a5c7d5dbe911c290d4efc4fb8f00aa5b996321720cbd8c2d9ffa90"
+    },
+    {
+      "bytes": 19829,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/NominalPatterns.lean",
+      "sha256": "6112e3d2c5ace37967d76b1d981188c546e4967abdce10503a89c561ce7dbed9"
+    },
+    {
+      "bytes": 16778,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Obligations.lean",
+      "sha256": "bf1239754ac0bd97b7a2b7b302a9f414aa88c1b214a8579aa51b563fc3384755"
+    },
+    {
+      "bytes": 7686,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/PersonEvidence.lean",
+      "sha256": "6d6a6fc8a812c7c311bdad42f9b3bddc246144ec15ec42b09624f332f136de41"
+    },
+    {
+      "bytes": 9918,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Program.lean",
+      "sha256": "8d641b45a1a1be44c51085b8bcaea1aaa95b3817063096a15d236cc7f323e873"
+    },
+    {
+      "bytes": 11642,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/PropertyEvidence.lean",
+      "sha256": "82d26ffce5fedf0750cb6742c84a6631569dd93ca47da10b1ed4a13ff1b96701"
+    },
+    {
+      "bytes": 8955,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/RuleLearning.lean",
+      "sha256": "05dccacb234ed1f33fdda2091f7ea048ed874c69dd84891411e26c6cd15c3d63"
+    },
+    {
+      "bytes": 17067,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/SemanticInference.lean",
+      "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2"
+    },
+    {
+      "bytes": 3640,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Sequence.lean",
+      "sha256": "534ead12aa2b9c5fabb2c026566a05a3883df163c8b843238fcdeb0415bc674a"
+    },
+    {
+      "bytes": 13633,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/TextEvidence.lean",
+      "sha256": "d911c1d513dcae438c0c52b4c3c4c6221b06d59b91d3f4b820fc123a5c96ce87"
+    },
+    {
+      "bytes": 2451,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Transition.lean",
+      "sha256": "a36ccc129c35f1fec7bbad0f68972acbffdf0e364b414394bdcac28ed1a9ed00"
+    },
+    {
+      "bytes": 30623,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/UnitDiscovery.lean",
+      "sha256": "71afe89ac4336ab182f7a511922e3cda6cb5ea078d6a84484566029461f9bd35"
+    },
+    {
+      "bytes": 24027,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/Nabt/Words.lean",
+      "sha256": "03c20226bdf0707a767f909d45b1546331bb37d9fb5127d8297a8dee6c59d5b8"
+    },
+    {
+      "bytes": 25,
+      "path": "/workspace/scratch/93a907621097/NABT/formal/lean-toolchain",
+      "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+    }
+  ],
+  "source_inputs_unchanged": true,
+  "source_snapshot_before_execution": {
+    "bytes": 197700,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/runs_v2/results_final.sources.tar.gz",
+    "sha256": "c8c531d5caaa62f9d2e9d204ca4a6bce865458bc21cfc3b715ed3f78930865f7"
+  },
+  "source_snapshot_members": {
+    "evidence/unit_discovery/checker_review_v1/mutations_before.json": "54e565d1910eb3b23239ced72bb00110939aeee050466e39b42822e643ab9174",
+    "evidence/unit_discovery/checker_review_v1/profile_mutations_before.json": "55c8f267fac19a33dacfba88e408330cc265bf022ffb2ae8667bff1a287fd11c",
+    "evidence/unit_discovery/material_erratum_v1.json": "11b984bbc85fc870e745a4bbde51f699b8218a5c04e991eda294568196c182ce",
+    "evidence/unit_discovery/material_erratum_v1.md": "9f30fbd0cc0a45e1935bd1219d15d8b49cf5b15fcda1276330847898d0e7ec06",
+    "evidence/unit_discovery/material_freeze_v1.json": "7f8a5c689300c6398de7087f3d62bdfe8ac25479be595cf007b8a9bbc2669553",
+    "evidence/unit_discovery/material_freeze_v2.json": "f0db40442ea8a510064e16714d69e5b8bfccdd83816e3a11722f6e4e24464dbc",
+    "evidence/unit_discovery/material_v1.json": "dec64690e3cb0c26870c3819d97be2091beca6317e68327555a4ca9d3e4ac506",
+    "evidence/unit_discovery/material_v2.json": "5ee2c4ec6f47334f8b27f48b995e147611ffd79ef3327ded147069fea2767e26",
+    "evidence/unit_discovery/protocol_v1.md": "6ae2dcaaba7946f1d6174799f3dd4e219d84b08207c7e7906a0c8de1a0c2a1a1",
+    "evidence/unit_discovery/protocol_v2.md": "55dedbab1efdfe0439f21d94439e3e228f464c194e0c56fbd565110b5c70ba0a",
+    "evidence/unit_discovery/runs_v2/results_final.inputs.json": "755634f02d76358a94d5ea8086bb5a887b838c8597e1ae9f01275e76e8338385",
+    "evidence/unit_discovery/runs_v2/results_final.requests.json": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060",
+    "formal/Audit.lean": "7e316e1e097b17c61f61d202bfd4dc388d48d28254c06d93477efefb9cc767f1",
+    "formal/ExportArabicReading.lean": "7295ac27724dd67cf86de4f4ed76a4ac9d5d5dd997416c601cd8f3b7a0c45e66",
+    "formal/ExportConstructionEvidence.lean": "496634359cbbdd1470718ab583f75cab08baf0519b7a1745e54ec6e583de5d5e",
+    "formal/ExportDerivation.lean": "55fbed0027125cabfd544c695af197deb86cbb1eaa937bc5c865eae6b376c778",
+    "formal/ExportDiscourseEvidence.lean": "04de03a729d9e7487f8299bb3018db2752e63d5be9197cffec7b047199232376",
+    "formal/ExportGovernors.lean": "8535524a8cbdcb6fc5d035eef6dc51af6126d72342696466fba0b59ce626cf62",
+    "formal/ExportInflectionEvidence.lean": "0e43acf4b8ad08368f69686a07cbc8722690ca5d84f2bc0cf3998c86db2ca152",
+    "formal/ExportMorphology.lean": "4f25737995d3c6b7c8e55bdab68e4d2874a244ab9db5e2ad33fc933e0be08c26",
+    "formal/ExportNominalEvidence.lean": "5ce37bfa891cc75d4e4fe0448a9eda1c100c6f1d87c58237d826512ead4717f2",
+    "formal/ExportPersonEvidence.lean": "a1fb237e76c80f3087bdd4ea7d8e85d359f8cc847837bf9823aa97d783955a21",
+    "formal/ExportTable.lean": "212dbf67db902223fd8cc330f76676f5608d5e59ca8f462898e4df21b349a2fc",
+    "formal/ExportTextEvidence.lean": "0fa2bb3c4838bc4a3c355589804cd267e194a45671fbbd7ead2ec489830d79d4",
+    "formal/ExportWords.lean": "58235582b31357b350903a947bd40e8d34dbcc8a265a1f64f12ea69acd1496e4",
+    "formal/Nabt.lean": "431cf578b24eba35557f716a4826b90ca73f553efe5a6b2d6fbbbafa8c89f1c1",
+    "formal/Nabt/Acquisition.lean": "ef14cb72bf79ea70daa9e656429b66d6ab8dad0ee8d0289eeb89249b5493cc34",
+    "formal/Nabt/AffixFunctions.lean": "2e9929f28a698509f5c01721a8be396fd704527f2b7095641f725e2a59a5abf1",
+    "formal/Nabt/ArabicReading.lean": "59494b63efcb363865ab0947cef8a5f81bef6b14e71178eff9061240bfef38ed",
+    "formal/Nabt/BoundedLaw.lean": "c1c9629d27f86abc66aa3cdd3c5b3a2995800838cd6f23bfd7891007fd679ac9",
+    "formal/Nabt/Bridges.lean": "f0c339a76dcabfef9b2b854a6ea3d5d284c4646506c6028d257dcf772ae203c1",
+    "formal/Nabt/Cell.lean": "43a0651ccf01136c179d11c79ed41905201e5a78a6b0cd31e34521bb31edbf3d",
+    "formal/Nabt/ConstructionEvidence.lean": "425223a309307052c3844780b2c0da9122795dce0e4a92240faf4ee3df0d03fc",
+    "formal/Nabt/Count.lean": "87566b7bab61536ae48d08cb2121c139dbd3789d647db9e6eb5911f917ceef35",
+    "formal/Nabt/Derivation.lean": "31167f71ec53948fd41a58a399f0949720618b6b1822a3975476369da9ccec87",
+    "formal/Nabt/DiscourseEvidence.lean": "90c1427bd235144da38477391a548e8882ed0ed426836b1438868abf983beae8",
+    "formal/Nabt/Governors.lean": "c543c414a406768c0f88e7b0fefd7de8818aa2e62ad6b8e808536d4fcd4953e5",
+    "formal/Nabt/InflectionEvidence.lean": "1ce33b7a272a68c55d2a0f398c13d984a7b26567adc86edb214fab22dee82766",
+    "formal/Nabt/Law.lean": "08372b61bde5904922948ee8a98d027e682c08259056f4b16b897d5d9322850a",
+    "formal/Nabt/LearnedModel.lean": "b45db110579fa269cc9e513ca5a2af4a98109d736bf2bf114e9b8648eec8eeab",
+    "formal/Nabt/LearnedModelData.lean": "54e32fb88b8918ec6a18d0a18591df957671004bead523bbb1fb7579322042ca",
+    "formal/Nabt/Morphology.lean": "4b60ecd33f8c9719cdd35b9bb31364da4810065d3950fdef82f5b8f8d5510fd9",
+    "formal/Nabt/NominalEvidence.lean": "fe7c465f81a5c7d5dbe911c290d4efc4fb8f00aa5b996321720cbd8c2d9ffa90",
+    "formal/Nabt/NominalPatterns.lean": "6112e3d2c5ace37967d76b1d981188c546e4967abdce10503a89c561ce7dbed9",
+    "formal/Nabt/Obligations.lean": "bf1239754ac0bd97b7a2b7b302a9f414aa88c1b214a8579aa51b563fc3384755",
+    "formal/Nabt/PersonEvidence.lean": "6d6a6fc8a812c7c311bdad42f9b3bddc246144ec15ec42b09624f332f136de41",
+    "formal/Nabt/Program.lean": "8d641b45a1a1be44c51085b8bcaea1aaa95b3817063096a15d236cc7f323e873",
+    "formal/Nabt/PropertyEvidence.lean": "82d26ffce5fedf0750cb6742c84a6631569dd93ca47da10b1ed4a13ff1b96701",
+    "formal/Nabt/RuleLearning.lean": "05dccacb234ed1f33fdda2091f7ea048ed874c69dd84891411e26c6cd15c3d63",
+    "formal/Nabt/SemanticInference.lean": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2",
+    "formal/Nabt/Sequence.lean": "534ead12aa2b9c5fabb2c026566a05a3883df163c8b843238fcdeb0415bc674a",
+    "formal/Nabt/TextEvidence.lean": "d911c1d513dcae438c0c52b4c3c4c6221b06d59b91d3f4b820fc123a5c96ce87",
+    "formal/Nabt/Transition.lean": "a36ccc129c35f1fec7bbad0f68972acbffdf0e364b414394bdcac28ed1a9ed00",
+    "formal/Nabt/UnitDiscovery.lean": "71afe89ac4336ab182f7a511922e3cda6cb5ea078d6a84484566029461f9bd35",
+    "formal/Nabt/Words.lean": "03c20226bdf0707a767f909d45b1546331bb37d9fb5127d8297a8dee6c59d5b8",
+    "formal/PropertyEvidenceTable.lean": "7c786581cf8558869ffaf7cbb17162929977321a97410f338a5150c781c34e30",
+    "formal/UnitDiscoveryProbe.lean": "d71871f0817242f869adc19144a64a36d3a385ae76cee1dca1efe5688b3f3e12",
+    "formal/lakefile.lean": "9175776c3be6ffdeb5236e0993dfe9504073488107fd289bf2cfca31bf59a1bd",
+    "formal/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "tests/test_unit_discovery_checker.py": "c4f8c90c6329429f72f5a6c6000a9292efa9dba7164f31e897e4029e658ad646",
+    "tools/check_unit_discovery.py": "b63b644d4c98cb060a73477afb7fb2feca5bc4fb01e2289d748524044de65519"
+  },
+  "stdio": {
+    "bytes": 144841,
+    "path": "/workspace/scratch/93a907621097/NABT/evidence/unit_discovery/runs_v2/results_final.stdio.json",
+    "sha256": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+  },
+  "summary": {
+    "acquisition_measured": false,
+    "by_group": {
+      "annotated_arabic": {
+        "cases": 24,
+        "failed_checks": 0,
+        "fully_passed": 0,
+        "measured_checks": 20,
+        "unmeasured_checks": 89
+      },
+      "evidence_binding": {
+        "cases": 8,
+        "failed_checks": 0,
+        "fully_passed": 3,
+        "measured_checks": 28,
+        "unmeasured_checks": 6
+      },
+      "mechanical": {
+        "cases": 8,
+        "failed_checks": 0,
+        "fully_passed": 4,
+        "measured_checks": 19,
+        "unmeasured_checks": 5
+      }
+    },
+    "case_statuses": {
+      "MEASURED": 7,
+      "PARTIALLY_MEASURED": 23,
+      "UNMEASURED": 10
+    },
+    "coverage_complete": false,
+    "failed_checks": 0,
+    "false_accept_count": 0,
+    "fully_passed_cases": 7,
+    "gate_pass": true,
+    "gate_scope": "conditional_contract_checks_only",
+    "measured_checks": 67,
+    "measured_contract_gate_pass": true,
+    "required_core_judgments_missing": {},
+    "strict_pass": false,
+    "total_cases": 40,
+    "unmeasured_checks": 100
+  },
+  "tool": {
+    "bytes": 59915,
+    "path": "/workspace/scratch/93a907621097/NABT/tools/check_unit_discovery.py",
+    "sha256": "b63b644d4c98cb060a73477afb7fb2feca5bc4fb01e2289d748524044de65519"
+  }
+}

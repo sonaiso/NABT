@@ -241,3 +241,9 @@ jobs:
         run: python -I tools/check_discourse_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-discourse-conformance.json"
       - name: Conditional construction cases, attachment evidence and preserved operator scope
         run: python -I tools/check_construction_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-construction-conformance.json"
+      - name: Contiguous partitions and conditional unit evidence, with unmeasured Arabic axes explicit
+        run: python -I tools/check_unit_discovery.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-unit-discovery-conformance.json"
+      - name: Reject unpaired JSON surrogates before source identity or template replay
+        env:
+          NABT_UNIT_DISCOVERY_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/unitDiscoveryProbe
+        run: python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v

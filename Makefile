@@ -78,6 +78,11 @@ person-conformance:
 construction-conformance:
 	$(PYTHON) tools/check_construction_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/construction-conformance.json
 
+.PHONY: unit-discovery-conformance
+unit-discovery-conformance:
+	$(PYTHON) tools/check_unit_discovery.py --lake $(LAKE) --output $(EVIDENCE_DIR)/unit-discovery-conformance.json
+	NABT_UNIT_DISCOVERY_PROBE=$(CURDIR)/formal/.lake/build/bin/unitDiscoveryProbe $(PYTHON) -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
+
 construction-evaluation:
 	$(PYTHON) tools/construction_evaluation.py --runtime-root $(CURDIR) --runtime-freeze $(TEXT_CODE_FREEZE) --allow-documented-boundaries --output $(EVIDENCE_DIR)/construction-regression.json
 
@@ -103,7 +108,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:
