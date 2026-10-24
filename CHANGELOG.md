@@ -18,6 +18,10 @@
 - Add the bounded `progressiveUnitProbe`, source audit, separately authored
   34-case material and adversarial integration checks. Keep unsupported rank
   and necessity assertions unmeasured; no natural-Arabic acquisition claim.
+- Fix the source-forest output estimate to count repeated complete tags and
+  requirements. Enforce the actual serialized UTF-8 JSONL response budget,
+  including its newline; preserve the oversized before/after counterexample
+  and the ordinary eight-leaf exhaustive-search control.
 
 ### Earlier unit partition and conditional licensing specification
 

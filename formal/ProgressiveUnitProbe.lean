@@ -297,8 +297,17 @@ def forestAssessOperation (request : Json) : ProbeM Json := do
     ("linguistic_rejection", toJson false)]
   let ctx ← context request
   let skeletons := Nabt.ProsodicUnits.allTrees (List.replicate length Nabt.ProsodicUnits.Slot.c)
-  if skeletons.length * length * (16 * (sourceJson rawSource).compress.toUTF8.size + 2048)
-      > maxOutputBytes then return ← limited "the estimated source forest exceeds 16 MiB"
+  -- Each leaf repeats the complete source and its context; each internal node
+  -- repeats the complete tag, including every potentially large requirement.
+  -- Reserve another tree for `chosen` plus envelope/row overhead. This early
+  -- estimate protects allocation; dispatch also checks the actual JSONL bytes.
+  let sourceBytes := (sourceJson rawSource).compress.toUTF8.size
+  let tagBytes := (tagJson joinTag).compress.toUTF8.size
+  let perTree := length * (4 * sourceBytes + 2 * tagBytes + 2048)
+  let estimatedBytes := (skeletons.length + 2) * perTree +
+    4 * sourceBytes + 4 * tagBytes + 4096
+  if estimatedBytes > maxOutputBytes then
+    return ← limited "the estimated source forest exceeds 16 MiB"
   let candidates := Nabt.BinaryUnitDomain.candidates rawSource joinTag start length
   let chosen := Nabt.BinaryUnitDomain.uniqueWithin ctx candidates
   let rows := candidates.map fun candidate =>
@@ -405,7 +414,7 @@ def alphabetOperation : Json := success "alphabet" [
   ("sukun_cells", toJson Nabt.ProsodicUnits.stillCells.length),
   ("all_cells_are_phonetic_cv", toJson false), ("articulation_classes_acquired", toJson false)]
 
-def dispatch (request : Json) : ProbeM Json := do
+def dispatchOperation (request : Json) : ProbeM Json := do
   match ← str (← field request "op") with
   | "derive" => deriveOperation request
   | "quota" => quotaOperation request
@@ -418,6 +427,15 @@ def dispatch (request : Json) : ProbeM Json := do
   | "compare" => compareOperation request
   | "alphabet" => pure alphabetOperation
   | _ => invalid "unknown operation"
+
+/-- The transport emits compressed UTF-8 JSON followed by one newline. Keep
+the actual response within the declared byte budget independently of every
+operation's conservative allocation estimate. -/
+def dispatch (request : Json) : ProbeM Json := do
+  let result ← dispatchOperation request
+  if result.compress.toUTF8.size + 1 > maxOutputBytes then
+    return ← limited "the serialized response exceeds 16 MiB"
+  return result
 
 end ProgressiveUnitProbe
 

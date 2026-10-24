@@ -155,6 +155,35 @@ class BinaryUnitDomainProbeTests(unittest.TestCase):
         self.assertEqual(response["determination"], "INVALID_SOURCE_CONTEXT")
         self.assertIsNone(response["chosen"])
 
+    def test_repeated_large_tag_cannot_exceed_the_output_budget(self):
+        source = {**SOURCE, "atoms": ["C", "V"] * 4}
+        large_nat = int("9" * 256)
+        tag = {"rule_id": large_nat, "reading_id": large_nat,
+               "class_id": large_nat, "requirements": [large_nat] * 32}
+        request = self.request(source=source, inventory=[source], tag=tag,
+                               length=8, max_atoms=8)
+        encoded = (json.dumps(request, separators=(",", ":")) + "\n").encode()
+        self.assertLess(len(encoded), 1 << 20)  # Valid input below the input cap.
+        run = subprocess.run([str(self.probe)], input=encoded, capture_output=True,
+                             check=True, timeout=20)
+        self.assertEqual(run.stderr, b"")
+        self.assertLessEqual(len(run.stdout), 16 << 20)
+        response = json.loads(run.stdout)
+        self.assertEqual(response["status"], "ERROR")
+        self.assertEqual(response["error"], "RESOURCE_LIMIT")
+        self.assertIs(response["search_complete"], False)
+
+    def test_ordinary_eight_leaf_source_forest_remains_complete(self):
+        source = {**SOURCE, "atoms": ["C", "V"] * 4}
+        response = self.query(self.request(source=source, inventory=[source],
+                                           length=8, max_atoms=8))
+        self.assertEqual(response["status"], "OK")
+        self.assertEqual(response["enumeration"], "COMPLETE")
+        self.assertIs(response["search_complete"], True)
+        self.assertEqual(response["candidate_count"], 429)
+        self.assertEqual(response["pending_count"], 429)
+        self.assertIs(response["necessary_within_domain"], False)
+
 
 if __name__ == "__main__":
     unittest.main()

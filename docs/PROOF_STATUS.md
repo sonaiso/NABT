@@ -28,15 +28,15 @@
 تدقيق النقل وواجهة JSONL واختبارات Python ليست برهانًا عامًا لسلامة
 محلل JSON أو اكتساب اللغة، ولا تغير لقطة قارئ Python المجمدة.
 
-اجتازت [جولة التحقق](../evidence/progressive_units/FINAL_VALIDATION.json)
-`make formal` و`make test` و`make conformance` وفحص التكامل، مع **1050
+اجتازت [جولة التحقق](../evidence/progressive_units/FINAL_VALIDATION_V2.json)
+`make formal` و`make test` و`make conformance` وفحص التكامل، مع **1052
 اختبارًا دون تخطٍّ**. تدقيق المسلمات الكامل في
 [السجل الثاني](../evidence/progressive_units/validation_v2/axioms.json)
 يحوي 829 تصريحًا والمسلمات القياسية الثلاث فقط. السجل الأول محفوظ مع
 تنبيه اصطدام اسم ملف المخرجات؛ السجل الثاني هو مرجع نص التدقيق الكامل.
 
 المادة المستقلة الجديدة 34 حالة و115 حكمًا عبر 40 طلبًا. في
-[النتيجة النهائية](../evidence/progressive_units/runs_v2/results_final.json)
+[النتيجة بعد إصلاح الميزانية](../evidence/progressive_units/runs_v3/results_post_budget.json)
 نجح **105 أحكام مقاسة** وبقي **10 غير مقاسة**؛ 29 حالة كاملة القياس،
 وحالة جزئية، وأربع غير مقاسة. `strict_pass=false` و`coverage_complete=false`
 و`acquisition_measured=false`. لا تُفسَّر الحقول غير المنفذة على أنها
@@ -50,6 +50,14 @@
 كل النسخ والإغلاق على حالة النقض نفسها. بقيت جميع ملفات التشغيل الـ74
 و2136 ملف دليل سابق مطابقة، كما في
 [فحص الحفظ](../evidence/progressive_units/validation_v2/baseline_preservation.json).
+
+أغلقت مراجعة لاحقة تجاوزًا فعليًا لحد تقرير الغابة: أغفل التقدير السابق
+بيانات الوسم المتكررة. يحفظ [الدليل المستقل](../evidence/progressive_units/probe_budget_review_v1/review.md)
+الطلب الصحيح الذي أنتج 27,970,699 بايت، ثم جوابه المصحح `RESOURCE_LIMIT`
+في 260 بايت مع بقاء الغابة العادية ذات 429 مرشحًا. صار التقدير يحسب الوسم
+ومقدماته، ويتحقق المسار الأخير من حجم JSONL الفعلي شاملًا نهاية السطر.
+تغير محول الإخراج؛ ظلت ملفات البراهين المدققة والمقيم والمادة المستقلة
+دون تغيير. السجل النهائي السابق محفوظ مستقلًا عن جولة التحقق الجديدة.
 
 ## امتداد الوحدات: `nabt.unit-discovery.v1`
 
