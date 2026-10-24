@@ -20,9 +20,9 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools import explainable_pilot as pilot
-from tools import verified_reading as ground
 
 CASES = ROOT / "evidence/explainable_pilot/cases.json"
+ATTACK_BINDINGS = (("identity", "other"), ("revision", "2"), ("scope", "other"))
 
 
 def inputs(case):
@@ -34,9 +34,9 @@ def metric(passed, total):
     return {"passed": passed, "total": total, "rate": passed / total if total else None}
 
 
-def attacks(bundle):
+def attack_changes():
     """Executable, named attacks, not arbitrary repetitions inflated to N=3000."""
-    changes = [
+    return [
         ("forged-answer", lambda b: b["answer"].update(status="REFUTED")),
         ("invented-explanation", lambda b: b["answer"].update(text_ar="ثبت صدق المصدر في العالم")),
         ("forged-world-truth", lambda b: b["limits"].update(world_truth_established=True)),
@@ -49,11 +49,14 @@ def attacks(bundle):
         ("fake-checker", lambda b: b["verification"].update(checker_sha256="0" * 64)),
         ("extra-claim", lambda b: b.update(confidence=1.0)),
     ]
-    for name, change in changes:
+
+
+def attacks(bundle):
+    for name, change in attack_changes():
         altered = deepcopy(bundle)
         change(altered)
         yield name, altered, {}
-    for field, value in (("identity", "other"), ("revision", "2"), ("scope", "other")):
+    for field, value in ATTACK_BINDINGS:
         yield "changed-" + field, deepcopy(bundle), {field: value}
 
 
@@ -77,7 +80,7 @@ def evaluate(*, checker=None, repeats=3):
         try:
             for _ in range(repeats):
                 start = time.perf_counter()
-                proposal = ground.propose(raw, query)
+                proposal = pilot.propose_certificate(raw, query)
                 baseline, _fingerprint = pilot.native(raw, query, proposal, "text", "1", "default", binary, 20)
                 baseline_times.append(time.perf_counter() - start)
                 start = time.perf_counter()
@@ -111,8 +114,9 @@ def evaluate(*, checker=None, repeats=3):
                 row.update(rejected=exc.code in {"ANSWER_REJECTED", "CERTIFICATE_REJECTED"}, error=exc.code)
             attack_rows.append(row)
     except pilot.PilotError as exc:
-        # A setup failure must not make an empty attack denominator look successful.
-        attack_rows = [{"id": "attack-setup", "rejected": False, "error": exc.code}]
+        # Preserve every planned attack even when setup prevents execution.
+        names = [name for name, _ in attack_changes()] + ["changed-" + field for field, _ in ATTACK_BINDINGS]
+        attack_rows = [{"id": name, "rejected": False, "error": exc.code, "not_executed": True} for name in names]
     ablation_rows = []
     for case in material["ablations"]:
         row = {"id": case["id"], "expected": case["expected"], "passed": False}

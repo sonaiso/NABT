@@ -1,9 +1,12 @@
 """Contract, source attribution and adversarial replay tests; no LLM calls."""
 from copy import deepcopy
+from contextlib import redirect_stdout
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -27,8 +30,21 @@ class InputContract(unittest.TestCase):
         self.assertEqual(caught.exception.code, code)
 
     def test_duplicate_keys_and_nonfinite_json(self):
-        for raw in (b'{"x":1,"\\u0078":2}', b'{"x":NaN}', b'\xff', b'[' * 1500):
+        for raw in (b'{"x":1,"\\u0078":2}', b'{"x":NaN}', b'{"x":1e400}',
+                    b'{"x":-1e400}', b'{"x":"\\ud800"}', b'\xff', b'[' * 1500):
             self.assert_error("INVALID_INPUT", lambda: pilot.strict_json(raw))
+
+    def test_unsigned_numeric_tokens_are_checked_before_normalization(self):
+        for token in (b'-0', b'-1', b'0.0', b'1.5', b'0e0', b'1E2', b'+0', b'01'):
+            self.assert_error("INVALID_INPUT", lambda: pilot.strict_json(b'{"index":' + token + b'}'))
+        self.assertEqual(pilot.strict_json(b'{"index":0,"count":512}'), {"index": 0, "count": 512})
+
+    def test_invalid_replay_values_fail_before_native_execution(self):
+        for value in (float("inf"), float("nan"), "\ud800", object()):
+            bundle = {"schema": pilot.ANSWER_SCHEMA, "extra": value}
+            self.assert_error("INVALID_INPUT", lambda: pilot.verify(BASE, QUERY, bundle, checker="/missing"))
+        bundle = {"schema": pilot.ANSWER_SCHEMA, "extra": "x" * pilot.MAX_BUNDLE_BYTES}
+        self.assert_error("RESOURCE_LIMIT", lambda: pilot.verify(BASE, QUERY, bundle, checker="/missing"))
 
     def test_bad_inputs_remain_distinct_from_unknown(self):
         for raw, question, code in [(b'\xff', QUERY, "INVALID_INPUT"),
@@ -123,6 +139,24 @@ class NativeAnswerContract(unittest.TestCase):
                 self.answer(certificate=altered)
             self.assertEqual(caught.exception.code, "CERTIFICATE_REJECTED")
 
+    def test_cli_rejects_negative_zero_offsets_and_certificate_indices(self):
+        encoded = pilot.wire(self.answer())
+        with tempfile.TemporaryDirectory() as temp:
+            source, query, bundle = (Path(temp) / name for name in ("source", "query", "answer.json"))
+            source.write_bytes(BASE)
+            query.write_bytes(QUERY)
+            for field in ("byte_start", "index"):
+                altered = encoded.replace('"' + field + '":0', '"' + field + '":-0', 1)
+                self.assertNotEqual(altered, encoded)
+                bundle.write_text(altered, encoding="utf-8")
+                run = subprocess.run([sys.executable, str(ROOT / "tools/explainable_pilot.py"),
+                    "verify", str(source), str(query), str(bundle), "--checker", str(BINARY)],
+                    capture_output=True, text=True, timeout=10)
+                self.assertEqual(run.returncode, 2)
+                result = json.loads(run.stdout)
+                self.assertEqual(result["error"], "INVALID_INPUT")
+                self.assertNotIn("status", result)
+
     def test_resource_exhaustion_is_not_unknown(self):
         with patch.object(pilot.subprocess, "run", side_effect=subprocess.TimeoutExpired("checker", 1)):
             with self.assertRaises(pilot.PilotError) as caught:
@@ -137,6 +171,25 @@ class NativeAnswerContract(unittest.TestCase):
         self.assertEqual(report["metrics"]["source_ablation"], evaluation.metric(4, 4))
         self.assertFalse(report["hidden"])
         self.assertTrue(all(v is None for v in report["unmeasured"].values()))
+
+    def test_proposer_failures_write_reports_with_all_denominators(self):
+        for error, code in ((ValueError("unparseable input"), "OUTSIDE_VERIFIED_LANGUAGE"),
+                            (ValueError("RESOURCE_LIMIT: too many atoms"), "RESOURCE_LIMIT"),
+                            (pilot.NabtError("RESOURCE_LIMIT", "input budget"), "RESOURCE_LIMIT")):
+            with self.subTest(code=code), tempfile.TemporaryDirectory() as temp:
+                output = Path(temp) / "report.json"
+                argv = ["evaluate_explainable_pilot", "--output", str(output),
+                        "--checker", str(BINARY), "--repeats", "1"]
+                with patch.object(pilot.ground, "propose", side_effect=error), \
+                        patch.object(sys, "argv", argv), redirect_stdout(io.StringIO()):
+                    self.assertEqual(evaluation.main(), 1)
+                report = json.loads(output.read_text())
+                self.assertFalse(report["passed"])
+                self.assertEqual(len(report["cases"]), 14)
+                self.assertTrue(all(row["error"] == code for row in report["cases"]))
+                for name, total in (("status_exact", 14), ("tampering_rejected", 14), ("source_ablation", 4)):
+                    self.assertEqual(report["metrics"][name], evaluation.metric(0, total))
+                self.assertTrue(all(row["not_executed"] for row in report["attacks"]))
 
 
 if __name__ == "__main__":

@@ -56,6 +56,7 @@ def file_sha(path):
 
 
 def strict_json(raw):
+    """Decode answer/certificate wire data; numeric fields are unsigned integers."""
     def pairs(items):
         result = {}
         for key, value in items:
@@ -65,15 +66,24 @@ def strict_json(raw):
         return result
 
     def constant(_value):
-        raise ValueError("nonfinite JSON number")
+        raise ValueError("only unsigned decimal integer tokens are allowed")
+
+    def unsigned(token):
+        if not token.isascii() or not token.isdigit():
+            raise ValueError("signed integer token is not canonical")
+        return int(token)
 
     if len(raw) > MAX_BUNDLE_BYTES:
         raise PilotError("RESOURCE_LIMIT", "answer exceeds 4 MiB")
     try:
-        return json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
-                          parse_constant=constant)
+        value = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
+                           parse_int=unsigned, parse_float=constant, parse_constant=constant)
+        # These wire schemas have unsigned integer fields only. Reject numeric
+        # spelling before decoding erases -0; then reject escaped surrogates.
+        wire(value).encode("utf-8")
+        return value
     except (ValueError, RecursionError) as exc:
-        raise PilotError("INVALID_INPUT", "invalid or duplicate-key JSON") from exc
+        raise PilotError("INVALID_INPUT", "invalid, noncanonical or duplicate-key JSON") from exc
 
 
 def read_bounded(path, limit):
@@ -200,16 +210,21 @@ def analysis(certificate, raw):
             "trace_minimality_proved": False, "renderer_formally_proved": False}
 
 
+def propose_certificate(raw, query, identity="text", revision="1", scope="default"):
+    """Untrusted current proposal, with the same failure contract in every caller."""
+    try:
+        return ground.propose(raw, query, identity, revision, scope)
+    except (ValueError, NabtError) as exc:
+        code = "RESOURCE_LIMIT" if (getattr(exc, "code", None) == "RESOURCE_LIMIT" or
+                                   "RESOURCE_LIMIT" in str(exc)) else "OUTSIDE_VERIFIED_LANGUAGE"
+        raise PilotError(code, "current proposer cannot certify this input under the ground-reading law") from exc
+
+
 def answer(raw, query, *, identity="text", revision="1", scope="default",
            certificate=None, checker=None, timeout=20):
     validate_inputs(raw, query, identity, revision, scope, timeout)
     if certificate is None:
-        try:
-            certificate = ground.propose(raw, query, identity, revision, scope)
-        except (ValueError, NabtError) as exc:
-            code = "RESOURCE_LIMIT" if (getattr(exc, "code", None) == "RESOURCE_LIMIT" or
-                                       "RESOURCE_LIMIT" in str(exc)) else "OUTSIDE_VERIFIED_LANGUAGE"
-            raise PilotError(code, "current proposer cannot certify this input under the ground-reading law") from exc
+        certificate = propose_certificate(raw, query, identity, revision, scope)
     receipt, fingerprint = native(raw, query, certificate, identity, revision, scope, checker, timeout)
     try:
         evidence = analysis(certificate, raw)
@@ -243,13 +258,19 @@ def verify(raw, query, bundle, **options):
     if not isinstance(bundle, dict) or bundle.get("schema") != ANSWER_SCHEMA:
         raise PilotError("ANSWER_REJECTED", "unsupported answer schema")
     try:
+        encoded = wire(bundle).encode("utf-8")
+    except (ValueError, TypeError, RecursionError) as exc:
+        raise PilotError("INVALID_INPUT", "answer must be finite UTF-8 JSON") from exc
+    if len(encoded) > MAX_BUNDLE_BYTES:
+        raise PilotError("RESOURCE_LIMIT", "answer exceeds 4 MiB")
+    try:
         certificate = bundle["analysis_certificate"]["kernel_certificate"]
     except (KeyError, TypeError) as exc:
         raise PilotError("ANSWER_REJECTED", "missing analysis certificate") from exc
     if certificate is None:
         raise PilotError("ANSWER_REJECTED", "missing kernel certificate")
     fresh = answer(raw, query, certificate=certificate, **options)
-    if wire(bundle) != wire(fresh):
+    if encoded != wire(fresh).encode("utf-8"):
         raise PilotError("ANSWER_REJECTED", "answer, explanation, binding or checker differs from replay")
     return {"schema": "nabt.answer-replay.v1", "verified": True, "status": fresh["answer"]["status"]}
 

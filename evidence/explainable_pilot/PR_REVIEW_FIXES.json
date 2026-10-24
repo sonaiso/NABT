@@ -1,0 +1,59 @@
+{
+  "schema": "nabt.explainable-pilot-pr-review-fixes.v1",
+  "base_main": "b539221aff0f2378b94d511618dde4835c49e925",
+  "measurement_parent": "26759ce9688e096d0b11679a80f25561584b3ecb",
+  "reviewed_pr": 21,
+  "review_threads": [
+    "https://github.com/sonaiso/NABT/pull/21#discussion_r4368463340",
+    "https://github.com/sonaiso/NABT/pull/21#discussion_r4368463353"
+  ],
+  "findings": [
+    {
+      "id": "baseline-exceptions",
+      "before": "ValueError or NabtError from the baseline proposer aborted evaluation before a report was written.",
+      "after": "A shared untrusted-proposal adapter emits the same structured errors for the baseline and answer paths; every case and every planned attack remains in the report."
+    },
+    {
+      "id": "numeric-wire-tokens",
+      "before": "JSON normalized -0 to 0 and accepted noncanonical numeric spellings; exponent overflow was handled in the preceding follow-up.",
+      "after": "Signed integers, fractions and exponent tokens are rejected before JSON normalization; unsigned decimal integers remain accepted. CLI mutations cover both source offsets and kernel indices."
+    }
+  ],
+  "validation": {
+    "native_contract_tests": 17,
+    "skipped": 0,
+    "pass": true,
+    "before_log": "pr-review-before.log",
+    "after_log": "pr-review-final.log",
+    "simulated_failure_report_checks": {
+      "variants": [
+        "ValueError",
+        "resource-prefixed ValueError",
+        "resource-coded NabtError"
+      ],
+      "case_denominator": 14,
+      "attack_denominator": 14,
+      "ablation_denominator": 4,
+      "exit_code": 1,
+      "report_written": true,
+      "unexecuted_attacks_flagged": true
+    },
+    "baseline": "baseline-after-pr-review.json",
+    "baseline_pass": true
+  },
+  "scope": {
+    "formal_semantics_changed": false,
+    "new_theorems": 0,
+    "new_blind_test": false,
+    "independent_human_review": false
+  },
+  "file_sha256": {
+    "tools/explainable_pilot.py": "dcb8139b0987a81bacf3226ec2de957a18dc7771eb3a5f0a5106593a496aadc8",
+    "tools/evaluate_explainable_pilot.py": "c8a0ffdd991299dec465d43c5dbca770ed6a119519f6b57b18ea1cb0dd6e2b31",
+    "tests/test_explainable_pilot.py": "a2acbc27977541a7924de894204f2983aff23239f236598df9427449639b51eb",
+    "docs/EXPLAINABLE_PILOT.md": "311aef5406c2a0edbad8a5f425e1a84a364cfe889806832640b25eb202869beb",
+    "evidence/explainable_pilot/baseline-after-pr-review.json": "74a7212deea5ae7c41e8c92f63ddb5828a482b56afeacb0a06d5f6bc24c46dfe",
+    "evidence/explainable_pilot/pr-review-before.log": "5d6614fb4c18cb9037708034d1cc35183df5bb4aeb71268a4e774f16f4763a3b",
+    "evidence/explainable_pilot/pr-review-final.log": "d9efd18f4f323565fb8de0a5f662639d7b4ee2e3acde8b9d15cb52a5630dc17b"
+  }
+}
