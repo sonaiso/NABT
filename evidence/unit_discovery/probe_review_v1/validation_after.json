@@ -1,0 +1,62 @@
+{
+  "binary_sha256": "2a9d642acd4a4ec9b330880b821bbf8bd735308c1c7e7b72dae1c135f1510633",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_unit_discovery_probe.py",
+    "-v"
+  ],
+  "environment": {
+    "NABT_UNIT_DISCOVERY_PROBE": "/workspace/scratch/93a907621097/NABT/formal/.lake/build/bin/unitDiscoveryProbe"
+  },
+  "files": [
+    {
+      "bytes": 871,
+      "path": "before_manifest.json",
+      "sha256": "9c915db19efb15e738aebacfdbbf1cfe1d70096dd73c93498cdaf57ddb323335"
+    },
+    {
+      "bytes": 210,
+      "path": "reproducer_after.stdout.jsonl",
+      "sha256": "04779573441283534f97d6bba20eea803688532030d5267464a9de4ea759ec28"
+    },
+    {
+      "bytes": 0,
+      "path": "reproducer_after.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 21036,
+      "path": "probe_after.lean",
+      "sha256": "d71871f0817242f869adc19144a64a36d3a385ae76cee1dca1efe5688b3f3e12"
+    },
+    {
+      "bytes": 1257,
+      "path": "regression_tests.log",
+      "sha256": "29fe86bdc293dbba458b916993955246849cd0465a1ae729fb066d2217dc067d"
+    }
+  ],
+  "prior_manifest_verified": true,
+  "reproducer_after": {
+    "conditional": true,
+    "error": "INVALID_INPUT",
+    "law_id": "nabt.unit-discovery.v1",
+    "message": "invalid Unicode escape or unpaired UTF-16 surrogate",
+    "scope": "conditional_on_supplied_interpretations",
+    "status": "ERROR"
+  },
+  "returncode": 0,
+  "schema": "nabt.unit-discovery.probe-surrogate-validation.v1",
+  "scope": "targeted_JSON_transport_regression_not_language_evaluation",
+  "source_after_sha256": "d71871f0817242f869adc19144a64a36d3a385ae76cee1dca1efe5688b3f3e12",
+  "source_before_sha256": "d03c30c15ad45df6a9f7168d8080c10b79c314b3e40e4143627a7a6a09c8358c",
+  "status": "PASS",
+  "test_source_sha256": "031bf62e6e48fb136ce4cd225dd19190591e7f3e7266783d0d8c96dd76bccf35",
+  "tests_run": 7
+}

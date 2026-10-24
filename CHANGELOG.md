@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased — formal unit partition and conditional licensing specification
+
+- Add `nabt.unit-discovery.v1`: exhaustive contiguous partitions of supplied
+  atoms, general soundness/completeness/uniqueness/count proofs, original source
+  coordinates, whole-hypothesis receipt binding, explicit unknown/conflict, and
+  strict information progress independent of receipt repetition.
+- Reuse complete typed root/template replay for triliteral and quadriliteral
+  shape candidates while preserving correlated alternatives. This is not lexical
+  root acquisition, a Unicode segmenter, or a new natural-Arabic reader.
+- Add a separate declared inventory of 34 Arabic unit functions; the generator
+  neither imports it nor uses its spelling examples as classification gates.
+- Audit the actual ON/FOR experiment and the distinct Lean uses of those names.
+  Preserve source pins, an independently authored 40-case review material, and
+  the transparent pre-measurement correction from material v1 to v2.
+- Add a Lean JSONL probe and an independent limited contract check that reports
+  unmeasured Arabic judgments explicitly. Python remains `0.14.0a3`, and the
+  frozen `constructions_v4` runtime and all prior evidence remain unchanged.
+
 ## 0.14.0a3 — 2026-10-23
 
 - Restore explicitly named singular-person semantic agreement without filling

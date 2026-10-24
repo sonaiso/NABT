@@ -1,0 +1,42 @@
+{
+  "schema": "nabt.unit-discovery.review-closure.v1",
+  "utc": "2026-10-24T05:39:13.984839+00:00",
+  "source_audit": {
+    "path": "evidence/unit_discovery/source_audit_v1.json",
+    "sha256": "2244a26671c96dea4b6374cf27c31f7d972e4644d80e1d2d65fe08ec84cd5875"
+  },
+  "findings": [
+    {
+      "id": "UD-DECL-01",
+      "scope": "declared grammatical vocabulary",
+      "issue": "Relative al requires an explicit non-elative adjectival host within the declared grammar scope.",
+      "resolution": "Added non_elative_host requirement.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "UD-DECL-02",
+      "scope": "declared grammatical vocabulary",
+      "issue": "Nominal tanwin requirements did not name the restriction excluding poetic tarannum/ghali from the declaration.",
+      "resolution": "The label explicitly names the four nominal tanwin kinds.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "UD-JSON-01",
+      "severity": "HIGH",
+      "scope": "JSONL transport before the conditional Lean law",
+      "issue": "Unpaired UTF-16 surrogate escapes were silently replaced by U+FFFD before exact comparisons.",
+      "reviewed_source_sha256": "d03c30c15ad45df6a9f7168d8080c10b79c314b3e40e4143627a7a6a09c8358c",
+      "fixed_source_sha256": "d71871f0817242f869adc19144a64a36d3a385ae76cee1dca1efe5688b3f3e12",
+      "evidence_directory": "evidence/unit_discovery/probe_review_v1",
+      "independent_recheck": {
+        "original_counterexamples": 3,
+        "all_now_invalid_input": true,
+        "valid_surrogate_pair_control": true,
+        "exit": 0,
+        "stderr_empty": true
+      },
+      "status": "CLOSED"
+    }
+  ],
+  "does_not_claim_language_acquisition": true
+}

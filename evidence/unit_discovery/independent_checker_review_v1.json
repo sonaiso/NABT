@@ -1,0 +1,816 @@
+{
+  "findings": [
+    {
+      "case_id": "UD-E05",
+      "fix_required": "Independently correlate accepted receipts, admitted_ids, requirement polarities, stages and final verdict; reject contradictory output.",
+      "id": "UCR-01",
+      "mutated_response": {
+        "admitted_ids": [
+          9,
+          10,
+          13,
+          12
+        ],
+        "conditional": true,
+        "conflict": false,
+        "law_id": "nabt.unit-discovery.v1",
+        "op": "ledger",
+        "per_requirement": [
+          {
+            "negative": false,
+            "positive": true,
+            "requirement": 0,
+            "state": "POSITIVE"
+          },
+          {
+            "negative": false,
+            "positive": true,
+            "requirement": 1,
+            "state": "POSITIVE"
+          },
+          {
+            "negative": false,
+            "positive": true,
+            "requirement": 2,
+            "state": "POSITIVE"
+          },
+          {
+            "negative": false,
+            "positive": true,
+            "requirement": 3,
+            "state": "POSITIVE"
+          }
+        ],
+        "receipt_checks": [
+          {
+            "accepted": true,
+            "reason": "ACCEPTED",
+            "witness_id": 9
+          },
+          {
+            "accepted": true,
+            "reason": "ACCEPTED",
+            "witness_id": 10
+          },
+          {
+            "accepted": false,
+            "reason": "FOREIGN_TARGET",
+            "witness_id": 12
+          },
+          {
+            "accepted": true,
+            "reason": "ACCEPTED",
+            "witness_id": 13
+          }
+        ],
+        "requirements": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "scope": "conditional_on_supplied_interpretations",
+        "stages": [
+          {
+            "conflict": false,
+            "requirements": [
+              0
+            ],
+            "verdict": "LICENSED"
+          },
+          {
+            "conflict": false,
+            "requirements": [
+              0,
+              1
+            ],
+            "verdict": "LICENSED"
+          },
+          {
+            "conflict": false,
+            "requirements": [
+              0,
+              1,
+              2
+            ],
+            "verdict": "LICENSED"
+          },
+          {
+            "conflict": false,
+            "requirements": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "verdict": "LICENSED"
+          }
+        ],
+        "status": "OK",
+        "verdict": "UNKNOWN",
+        "well_formed": true
+      },
+      "request": {
+        "interpreted": [
+          {
+            "positive": true,
+            "requirement": 0,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 8,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 9
+          },
+          {
+            "positive": true,
+            "requirement": 1,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 8,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 10
+          },
+          {
+            "positive": true,
+            "requirement": 2,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 11,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 12
+          },
+          {
+            "positive": true,
+            "requirement": 3,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 8,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 13
+          }
+        ],
+        "inventory": [
+          {
+            "atomization_id": 4,
+            "atoms": [
+              "p",
+              "h",
+              "s"
+            ],
+            "revision": 2,
+            "scope_id": 3,
+            "source_id": 1
+          }
+        ],
+        "offered": [
+          {
+            "positive": true,
+            "requirement": 0,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 8,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 9
+          },
+          {
+            "positive": true,
+            "requirement": 1,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 8,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 10
+          },
+          {
+            "positive": true,
+            "requirement": 2,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 11,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 12
+          },
+          {
+            "positive": true,
+            "requirement": 3,
+            "supports": [
+              {
+                "source": {
+                  "atomization_id": 4,
+                  "atoms": [
+                    "p",
+                    "h",
+                    "s"
+                  ],
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1
+                },
+                "span": {
+                  "atomization_id": 4,
+                  "revision": 2,
+                  "scope_id": 3,
+                  "source_id": 1,
+                  "start": 0,
+                  "stop": 3
+                }
+              }
+            ],
+            "target": {
+              "claim": "attachment",
+              "host": {
+                "atomization_id": 4,
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1,
+                "start": 1,
+                "stop": 3
+              },
+              "occurrence_id": 8,
+              "part_index": 0,
+              "parts": [
+                [
+                  "p"
+                ],
+                [
+                  "h",
+                  "s"
+                ]
+              ],
+              "reading_id": 7,
+              "requirements": [
+                1,
+                2,
+                3
+              ],
+              "rule_id": 6,
+              "source": {
+                "atomization_id": 4,
+                "atoms": [
+                  "p",
+                  "h",
+                  "s"
+                ],
+                "revision": 2,
+                "scope_id": 3,
+                "source_id": 1
+              },
+              "unit_class": 5
+            },
+            "witness_id": 13
+          }
+        ],
+        "op": "ledger",
+        "stage_requirements": [
+          [],
+          [
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "target": {
+          "claim": "attachment",
+          "host": {
+            "atomization_id": 4,
+            "revision": 2,
+            "scope_id": 3,
+            "source_id": 1,
+            "start": 1,
+            "stop": 3
+          },
+          "occurrence_id": 8,
+          "part_index": 0,
+          "parts": [
+            [
+              "p"
+            ],
+            [
+              "h",
+              "s"
+            ]
+          ],
+          "reading_id": 7,
+          "requirements": [
+            1,
+            2,
+            3
+          ],
+          "rule_id": 6,
+          "source": {
+            "atomization_id": 4,
+            "atoms": [
+              "p",
+              "h",
+              "s"
+            ],
+            "revision": 2,
+            "scope_id": 3,
+            "source_id": 1
+          },
+          "unit_class": 5
+        }
+      },
+      "score_after_mutation": {
+        "case_id": "UD-E05",
+        "case_status": "MEASURED",
+        "checks": [
+          {
+            "actual": false,
+            "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+            "expected": false,
+            "false_accept": false,
+            "field": "certificate_valid",
+            "request_ids": [
+              "UD-E05:ledger"
+            ],
+            "status": "PASS"
+          },
+          {
+            "actual": "UNKNOWN",
+            "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+            "expected": "UNKNOWN",
+            "false_accept": false,
+            "field": "fresh_attachment_status",
+            "request_ids": [
+              "UD-E05:ledger"
+            ],
+            "status": "PASS"
+          },
+          {
+            "actual": false,
+            "evidence_kind": "DIRECT_PROBE_JUDGMENT",
+            "expected": false,
+            "false_accept": false,
+            "field": "wrong_occurrence_witness_usable",
+            "request_ids": [
+              "UD-E05:ledger"
+            ],
+            "status": "PASS"
+          }
+        ],
+        "failed_check_count": 0,
+        "false_accept_count": 0,
+        "fully_passed": true,
+        "group": "evidence_binding",
+        "measured_check_count": 3,
+        "measured_checks_pass": true,
+        "unmeasured_check_count": 0
+      },
+      "status": "CONFIRMED",
+      "title": "Foreign admission and licensed stages can be hidden behind UNKNOWN top verdict",
+      "validator_accepted": true
+    },
+    {
+      "case_id": "UD-E02",
+      "current_frozen_material_effect": "None established: current class witnesses match target labels.",
+      "fix_required": "Bind a class-valued witness to its own declared class, or reject a mismatch, rather than converting every non-Boolean value into support for the target class.",
+      "id": "UCR-02",
+      "input_mutation": {
+        "after": "opaque_other",
+        "before": "opaque_kappa",
+        "path": "input.witnesses[1].value"
+      },
+      "requests_remain_byte_identical": true,
+      "status": "CONFIRMED_INPUT_PROJECTION_LOSS",
+      "title": "The declared class value of a unit_class witness is discarded"
+    }
+  ],
+  "nonfindings": [
+    "The planner does not read expected values.",
+    "Missing observations remain UNMEASURED and are not counted as fully passed.",
+    "The partial measured-contract gate is explicitly separate from strict/full coverage.",
+    "The source snapshot is closed before the probe is launched."
+  ],
+  "reviewed_checker_sha256": "87f06ca05c65a65a76b8fa5d7250c6b7ecb055d37cf62c67f14a26edf4b2e162",
+  "reviewed_source_archive": "evidence/unit_discovery/runs_v1/results_first.sources.tar.gz",
+  "schema": "nabt.unit-discovery.independent-checker-review.v1",
+  "scope": "read-only synthetic adapter mutations, not a new language measurement"
+}
