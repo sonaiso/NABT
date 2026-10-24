@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 import random
 import resource
+import shutil
 import subprocess
 import time
 
@@ -228,6 +229,10 @@ def train(source, output, protocol_path):
     output.mkdir(parents=True, exist_ok=False)
     training_head = subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     code_hashes = {str(p.relative_to(ROOT)):sha(p.read_bytes()) for p in sorted(Path(__file__).parent.glob('*.py'))}
+    for name in code_hashes:
+        snapshot=output/'code_snapshot'/name
+        snapshot.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(ROOT/name,snapshot)
     torch.set_num_threads(protocol['threads'])
     torch.set_num_interop_threads(1)
     torch.manual_seed(protocol['seed'])
@@ -245,7 +250,13 @@ def train(source, output, protocol_path):
     split_receipt = {s: [dict(id=e['id'], text_sha256=sha('\n'.join(w['text'] for w in e['words']).encode())) for e in partitions[s]] for s in partitions}
     write_json(output / 'splits.json', split_receipt)
     write_json(output / 'protocol.json', protocol)
-    model = MorphologyModel(vocab)
+    if protocol.get('model_architecture','legacy-char-pool-v1') == 'char-valid-mask-v2':
+        from .model_v2 import MaskedMorphologyModel
+        model = MaskedMorphologyModel(vocab)
+    elif protocol.get('model_architecture','legacy-char-pool-v1') == 'legacy-char-pool-v1':
+        model = MorphologyModel(vocab)
+    else:
+        raise ValueError('unsupported model architecture')
     save_weights(model, output / 'initial_weights.npz')
     optimizer = torch.optim.AdamW(model.parameters(), lr=protocol['learning_rate'], weight_decay=0.01)
     all_affixes = [w['affixes'] for e in partitions['train'] for w in e['words'] if w['affixes'] is not None]
@@ -324,6 +335,8 @@ def train(source, output, protocol_path):
                   test=dict(neural=neural, lexical_baseline=lexical, majority_baseline=majority, initial_network=initial),
                   paired_accuracy_intervals=paired_intervals(neural,lexical),
                   source_sha256=manifest['source_sha256'], model_sha256=sha((output/'weights.npz').read_bytes()),
+                  architecture=protocol.get('model_architecture','legacy-char-pool-v1'),
+                  test_previously_observed=protocol.get('test_previously_observed',False),
                   protocol_sha256=sha(protocol_path.read_bytes()),
                   limits=dict(all_arabic_complete=False, world_truth_established=False,
                               neural_syntactic_or_semantic_training=False, independent_human_review=False,
