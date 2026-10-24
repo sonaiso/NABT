@@ -1,0 +1,33 @@
+{
+  "schema": "nabt.explainable-pilot-json-boundary-review.v1",
+  "parent_commit": "9a3831fc352682954f4945036bbe5029c01b88ad",
+  "finding": "Exponent overflow in JSON was decoded as infinity; replay of an answer with a non-finite extra value raised an unstructured ValueError. No false verified answer was produced.",
+  "fix": "Validate finite UTF-8 JSON after decoding and before programmatic replay; enforce the envelope byte budget before invoking the checker.",
+  "counterexamples": [
+    "1e400",
+    "-1e400",
+    "unpaired surrogate",
+    "non-JSON Python object",
+    "NaN",
+    "oversized programmatic answer"
+  ],
+  "before_log": "json-boundary-before.log",
+  "after_log": "json-boundary-after.log",
+  "targeted_tests": {
+    "run": 14,
+    "skipped": 0,
+    "pass": true
+  },
+  "fresh_baseline": "baseline-after-json-boundary.json",
+  "fresh_baseline_pass": true,
+  "semantics_changed": false,
+  "new_theorems": 0,
+  "initial_validation_preserved": "VALIDATION.json",
+  "file_sha256": {
+    "tools/explainable_pilot.py": "32554fcb1aea85da89b8de4943e2a13a04f3c025f44213d933a513037d58ec76",
+    "tests/test_explainable_pilot.py": "9b0b94485d0f726d22d0284fc972ce7efe0a4b3f4e0794b1efcbb3eda7534353",
+    "evidence/explainable_pilot/baseline-after-json-boundary.json": "46fda7660435dc3d65e723674f4e91fc3dddbdb3f67f9a11db679ad4eb24f6a5",
+    "evidence/explainable_pilot/json-boundary-before.log": "b2f7e867787d6e9c72cb65378e905a9ee1f458e52f64ffd88b1cd074af4b2fa2",
+    "evidence/explainable_pilot/json-boundary-after.log": "0b9f3995bb7a431e3483d3284dab510b7b62b171826059bb99ef017068a135cc"
+  }
+}
