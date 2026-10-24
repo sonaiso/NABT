@@ -27,8 +27,16 @@ class InputContract(unittest.TestCase):
         self.assertEqual(caught.exception.code, code)
 
     def test_duplicate_keys_and_nonfinite_json(self):
-        for raw in (b'{"x":1,"\\u0078":2}', b'{"x":NaN}', b'\xff', b'[' * 1500):
+        for raw in (b'{"x":1,"\\u0078":2}', b'{"x":NaN}', b'{"x":1e400}',
+                    b'{"x":-1e400}', b'{"x":"\\ud800"}', b'\xff', b'[' * 1500):
             self.assert_error("INVALID_INPUT", lambda: pilot.strict_json(raw))
+
+    def test_invalid_replay_values_fail_before_native_execution(self):
+        for value in (float("inf"), float("nan"), "\ud800", object()):
+            bundle = {"schema": pilot.ANSWER_SCHEMA, "extra": value}
+            self.assert_error("INVALID_INPUT", lambda: pilot.verify(BASE, QUERY, bundle, checker="/missing"))
+        bundle = {"schema": pilot.ANSWER_SCHEMA, "extra": "x" * pilot.MAX_BUNDLE_BYTES}
+        self.assert_error("RESOURCE_LIMIT", lambda: pilot.verify(BASE, QUERY, bundle, checker="/missing"))
 
     def test_bad_inputs_remain_distinct_from_unknown(self):
         for raw, question, code in [(b'\xff', QUERY, "INVALID_INPUT"),

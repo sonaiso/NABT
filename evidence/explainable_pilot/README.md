@@ -8,6 +8,9 @@ analysis certificate. It does not train a neural model or expand the accepted la
 - [Executable development cases](cases.json): 14 status cases, 4 source ablations.
 - [Measured current baseline](baseline.json): case denominators, 14 named attacks,
   code/data hashes, native replay and local timing samples.
+- [Latest boundary follow-up](JSON_BOUNDARY_REVIEW.json) and
+  [remeasured baseline](baseline-after-json-boundary.json): finite JSON, Unicode
+  and programmatic replay budgets; 14 native contract tests without skips.
 - [Example answer with embedded analysis certificate](example-answer.json).
 - [Measurable goals and model-scaling rule](goals.json).
 - [Validation record](VALIDATION.json): exact base, builds, tests, separate free

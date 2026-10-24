@@ -70,8 +70,12 @@ def strict_json(raw):
     if len(raw) > MAX_BUNDLE_BYTES:
         raise PilotError("RESOURCE_LIMIT", "answer exceeds 4 MiB")
     try:
-        return json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
-                          parse_constant=constant)
+        value = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
+                           parse_constant=constant)
+        # parse_constant does not catch exponent overflow (1e400), and JSON
+        # escapes may introduce unpaired surrogates despite valid input UTF-8.
+        wire(value).encode("utf-8")
+        return value
     except (ValueError, RecursionError) as exc:
         raise PilotError("INVALID_INPUT", "invalid or duplicate-key JSON") from exc
 
@@ -243,13 +247,19 @@ def verify(raw, query, bundle, **options):
     if not isinstance(bundle, dict) or bundle.get("schema") != ANSWER_SCHEMA:
         raise PilotError("ANSWER_REJECTED", "unsupported answer schema")
     try:
+        encoded = wire(bundle).encode("utf-8")
+    except (ValueError, TypeError, RecursionError) as exc:
+        raise PilotError("INVALID_INPUT", "answer must be finite UTF-8 JSON") from exc
+    if len(encoded) > MAX_BUNDLE_BYTES:
+        raise PilotError("RESOURCE_LIMIT", "answer exceeds 4 MiB")
+    try:
         certificate = bundle["analysis_certificate"]["kernel_certificate"]
     except (KeyError, TypeError) as exc:
         raise PilotError("ANSWER_REJECTED", "missing analysis certificate") from exc
     if certificate is None:
         raise PilotError("ANSWER_REJECTED", "missing kernel certificate")
     fresh = answer(raw, query, certificate=certificate, **options)
-    if wire(bundle) != wire(fresh):
+    if encoded != wire(fresh).encode("utf-8"):
         raise PilotError("ANSWER_REJECTED", "answer, explanation, binding or checker differs from replay")
     return {"schema": "nabt.answer-replay.v1", "verified": True, "status": fresh["answer"]["status"]}
 
