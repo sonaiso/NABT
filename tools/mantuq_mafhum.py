@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+from itertools import product
 import json
 import os
 from pathlib import Path
@@ -26,6 +27,7 @@ from tools import verified_reading as controlled
 CATALOG = ROOT / "evidence/mantuq_mafhum/sources.json"
 INVENTORY = ROOT / "evidence/mantuq_mafhum/awamil_inventory.json"
 LAW_ID = "nabt.mantuq-mafhum-consequence.v1"
+ENUMERATION_LAW_ID = "nabt.reading-enumeration.v1"
 
 
 def attest_sources(*, probe=None):
@@ -112,6 +114,86 @@ def _clause_consequences(clause, binding, *, probe=None):
             "reason": None if accepted else "No common consequence certified; not a linguistic rejection or negation."}
 
 
+def _document_consequences(clauses, binding, *, probe=None):
+    """Propose certificates; Lean independently composes every supplied pool.
+
+    Pools include incomplete alternatives. Cartesian composition is deliberately
+    conservative: it can retain combinations disallowed by as-yet unformalized
+    cross-clause dependencies. Passing that superset is sound relative to the
+    supplied premises; it does not prove the Python pools linguistically complete.
+    """
+    pools, candidates = [], {}
+    for clause in clauses:
+        pool = []
+        for a in clause["analyses"]:
+            if a["rejected_candidate"]:
+                continue
+            ps = [claim_formula(a, c) for c in a["claims"]] if (
+                a["licensed_syntax"] and a["references_complete"]) else None
+            pool.append({"reading_id": a["analysis_id"], "binding": binding, "premises": ps})
+            for f in ps or []:
+                candidates[bridge.wire(f)] = f
+        pools.append(pool)
+    combinations = 1
+    for pool in pools:
+        combinations *= len(pool)
+    result = {"schema": "nabt.reading-enumeration-audit.v1", "law_id": ENUMERATION_LAW_ID,
+              "pool_sizes": [len(p) for p in pools], "combinations": combinations,
+              "reading_ids": [[a["reading_id"] for a in p] for p in pools],
+              "incomplete_alternatives": sum(a["premises"] is None for p in pools for a in p),
+              "pool_completeness_proved": False, "python_projection_proved": False,
+              "supplied_pool_composition_proved": False, "common_consequences": [],
+              "status": "UNMEASURED", "reason": "NO_COMMON_CONSEQUENCE_CERTIFIED"}
+    if not pools or not combinations:
+        return {**result, "reason": "NO_READING"}
+    width = sum(max((len(a["premises"] or []) for a in p), default=0) for p in pools)
+    if (len(pools) > 64 or any(len(p) > 128 for p in pools) or combinations > 4096 or
+            combinations * width > 262144 or len(candidates) > 128):
+        return {**result, "reason": "RESOURCE_LIMIT"}
+    selections = list(product(*pools))
+    requests, proposed = [], []
+    for _, target in sorted(candidates.items()):
+        proofs = []
+        for selection in selections:
+            # A bad or incomplete selection cannot be skipped: emit a failing
+            # proof, and let Lean reject the universal consequence.
+            ps = [f for a in selection for f in (a["premises"] or [])]
+            index = ps.index(target) if target in ps else len(ps)
+            proofs.append({"kind": "premise", "index": index})
+        requests.append({"op": "meaning_enumeration", "expected": binding, "pools": pools,
+                         "conclusion": target, "proofs": proofs})
+        proposed.append({"formula": target, "proofs": proofs})
+    if not requests:
+        return result
+    # Reopen exact target bytes in the native checker; no source string or
+    # caller-supplied coverage bit in the request grants authority.
+    with tempfile.TemporaryDirectory() as temp:
+        path = Path(temp) / "source.txt"
+        path.write_bytes(binding["source"].encode("utf-8"))
+        source = {"local_path": str(path), "source_id": binding["source_id"],
+                  "edition": "free reader input", "revision": "1", "work": "target"}
+        try:
+            outcomes = bridge.native(requests, source=source, probe=probe)
+        except ValueError as exc:
+            if str(exc).startswith("RESOURCE_LIMIT:"):
+                return {**result, "reason": "RESOURCE_LIMIT"}
+            raise
+    accepted = []
+    for proposal, row in zip(proposed, outcomes, strict=True):
+        if (row["enumeration_law_id"] != ENUMERATION_LAW_ID or
+                row["source_text"] != binding["source"] or row["source_id"] != binding["source_id"] or
+                row["combinations"] != combinations or row["pool_sizes"] != result["pool_sizes"]):
+            raise ValueError("ENUMERATION_OR_SOURCE_CHANGED")
+        if row["checked"]:
+            if row["conclusion"] != proposal["formula"]:
+                raise ValueError("CONCLUSION_CHANGED")
+            accepted.append({**proposal, "lean": row})
+    return {**result, "supplied_pool_composition_proved": True, "proposals_checked": len(requests),
+            "common_consequences": accepted,
+            "status": "CHECKED_COMMON_CONSEQUENCE" if accepted else "UNMEASURED",
+            "reason": None if accepted else result["reason"]}
+
+
 def audit_discourse(text, training: bytes, context, *, source_id="input", scope="default", report=None, probe=None):
     model = bridge.learn_qac_lexicon(training)
     fresh = bridge.read_discourse(text, lexical_model=model, context=context, source_id=source_id, scope=scope)
@@ -121,9 +203,10 @@ def audit_discourse(text, training: bytes, context, *, source_id="input", scope=
         raise ValueError("REPLAY_FAILED")
     binding = {"source": fresh["source_text"], "source_id": source_id, "scope": scope,
                "context": bridge.wire(context), "lexicon": training.decode("utf-8")}
-    return {"schema": "nabt.mantuq-mafhum-free-audit.v1", "law_id": LAW_ID, "binding": binding,
+    return {"schema": "nabt.mantuq-mafhum-free-audit.v2", "law_id": LAW_ID, "binding": binding,
             "source_replay_pass": True, "policy_catalog": str(CATALOG.relative_to(ROOT)),
             "clauses": [_clause_consequences(c, binding, probe=probe) for c in fresh["clauses"]],
+            "document": _document_consequences(fresh["clauses"], binding, probe=probe),
             "reader_enumeration_proved": False, "python_projection_proved": False,
             "all_arabic_complete": False, "world_truth_established": False,
             "usuli_subtypes_acquired": False, "acquisition_measured": False,

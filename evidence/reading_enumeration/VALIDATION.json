@@ -1,0 +1,112 @@
+{
+  "schema": "nabt.reading-enumeration-validation.v1",
+  "recorded_at": "2026-10-24T18:31:06.847192+00:00",
+  "base": {
+    "branch": "main",
+    "sha": "2ee6525dedd921aacd30ce556d9fa92665463ce5",
+    "pr": 18,
+    "merged": true
+  },
+  "law_id": "nabt.reading-enumeration.v1",
+  "scope": "Exhaustive composition of finite supplied reading pools and checked consequences in every selection; not completeness of the Arabic candidate pools.",
+  "lean": {
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "direct_build_pass": true,
+    "compiled_modules": 55,
+    "theorems": 1095,
+    "new_theorems": 16,
+    "allowed_axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "kernel_inputs": "kernel_inputs.json",
+    "kernel_log": "kernel.json.gz"
+  },
+  "tests": {
+    "full_suite": {
+      "command": "make test (both semantic native checker paths supplied)",
+      "run": 1357,
+      "skipped": 5,
+      "pass": true,
+      "log": "full-tests.log.gz",
+      "note": "Started before the final late-empty-product regression was added. The final native suite below includes the additional test.",
+      "skipped_groups": [
+        "setUpClass (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests) ... skipped 'Build progressiveUnitProbe before integration tests'",
+        "setUpClass (test_progressive_unit_probe.ProgressiveUnitProbeTests) ... skipped 'Build progressiveUnitProbe before Lean integration tests'",
+        "setUpClass (test_recursive_bridge_probe.RecursiveBridgeProbeTests) ... skipped 'Build recursiveBridgeProbe before Lean integration tests'",
+        "setUpClass (test_recursive_source_bridge.RecursiveSourceLeanTests) ... skipped 'Build recursiveBridgeProbe for Lean adapter integration'",
+        "setUpClass (test_unit_discovery_probe.UnitDiscoveryProbeTests) ... skipped 'Build unitDiscoveryProbe before running Lean transport integration tests'"
+      ]
+    },
+    "final_native_suite": {
+      "run": 62,
+      "skipped": 0,
+      "pass": true,
+      "verified_reading": 13,
+      "source_semantics": 16,
+      "mantuq_mafhum": 16,
+      "reading_enumeration": 17,
+      "log": "native-tests.log",
+      "independent_universal_or_oracle_cases": 64,
+      "accepted_combination_boundary": 4096,
+      "resource_deferred_combinations": 8192,
+      "late_empty_product_positions": [
+        "first",
+        "middle",
+        "last"
+      ]
+    }
+  },
+  "conformance": {
+    "fresh_lean_export_matches": true,
+    "primitive_transitions": 11252,
+    "lean_sources_guarded": 74,
+    "record": "integrity.json"
+  },
+  "lake_local": {
+    "formal_exit_code": 2,
+    "conformance_exit_code": 2,
+    "reason": "could not detect the configuration of the Lake installation",
+    "formal_log": "lake-formal.log",
+    "conformance_log": "lake-conformance.log",
+    "not_reported_as_lake_success": true
+  },
+  "remote_actions": null,
+  "remote_actions_note": "Prepublication local record. The PR description records actual remote run IDs and exact head after publication; no previous head success is substituted.",
+  "claims": {
+    "supplied_pool_composition_proved": true,
+    "reader_enumeration_proved": false,
+    "pool_completeness_proved": false,
+    "python_projection_proved": false,
+    "source_world_truth_established": false,
+    "all_arabic_complete": false,
+    "acquisition_measured": false,
+    "held_out_arabic_discovery_measured": false
+  },
+  "file_sha256": {
+    ".github/workflows/ci.yml": "62704effb4fca35f6aa5624546e46d05abec9a7e2272f5837dae8aade2682743",
+    "Makefile": "fef1b1c58f5fdacd6d8c3ae98c7c71e1834cbf037449ad9b935a2e979f8a4bda",
+    "README.md": "7ae30a5bbdf26c123efc0272c2f7111f0e4a17d6e1df6a5e7fb4ecf7aeaec422",
+    "docs/MANTUQ_MAFHUM.md": "406db1f37f1ce7145741b2f8385dfe5c8791b0b877052137ad7182c323ae6742",
+    "docs/PROOF_STATUS.md": "9ccf1856684c08851ea2b6e2b6b022a806407106fd24cb913779a738bc749800",
+    "docs/READING_ENUMERATION.md": "718faf56e4f5915dcd9e0199c332485416c84a7e2e3550cfda3d1f3ad77def85",
+    "evidence/reading_enumeration/build.log": "02e3808079b573e2b7164dc36e5f85dd8bb32e55e9345d3a8f25b52980f5ba3d",
+    "evidence/reading_enumeration/free_examples.json.gz": "968ceb210c89ee3d790eb3be2ae35e6dd0cde25377fb43b3884d7835b703093b",
+    "evidence/reading_enumeration/full-tests.log.gz": "00648b9d56b66d66976df1653a1308455b5e799d17db0939231f02380a398132",
+    "evidence/reading_enumeration/integrity.json": "ba8dbe33523168c05cd7759c4afac41c4013e3067f620399dbdc2fe5fedb160b",
+    "evidence/reading_enumeration/kernel.json.gz": "2b646c000b337fb7b3dc413953e4112e3cec340d5c574c49821e41c47ab76a47",
+    "evidence/reading_enumeration/kernel_inputs.json": "bf9cf959e238068a975626eebc38d2e511f109f5390bb4e591589c374246f424",
+    "evidence/reading_enumeration/lake-conformance.log": "4cc1c04ebb1444cfa3d3fccf6576b22c41146916969b5cf3c0aa75393ffbe419",
+    "evidence/reading_enumeration/lake-formal.log": "0d4987cd0a4eb69aa747ea64f468b9284a0ddd0b0231080d3f8aa3474bafedf0",
+    "evidence/reading_enumeration/native-tests.log": "a18a00be15b98eee787407e2107eb752af1ad50bfe2a1a320c522a05db43fbdf",
+    "formal/Audit.lean": "0718b78988a095755d4854b1a05723b6fe06be1d7a0945931e7727b5e4d6a87a",
+    "formal/ClassicalSemanticMain.lean": "4822e6eb98b6723b9deefb70cafd8276e9afcf3e133dfa0ea0b86bfe7ae22888",
+    "formal/Nabt.lean": "9f6585c6528a0517402b24479d2e984e452499473d25810056776df1c05c8289",
+    "formal/Nabt/ReadingEnumeration.lean": "856d5fb2774f84c3b827bdaf4fe796b46c30727ce944bc27c034aa97957c5a6c",
+    "formal/theorems.json": "bc4298d72c1637c4c968e7140dd284610ec2676923752dd1304c776689a8fa60",
+    "tests/test_reading_enumeration.py": "a53ea1fb8ea032d492f89438235df5cc209775954b02ceb3559b99b660d2a024",
+    "tools/build_semantic_audit.py": "960407675fbf59e6798bc782f74ecccf15abc845a66e2c7ed8bd421d23320e52",
+    "tools/mantuq_mafhum.py": "9d30c3bd40367e6ddc2a56658bf1d0e46649fc3d4a7a9d01a982da4db0ff6123"
+  }
+}
