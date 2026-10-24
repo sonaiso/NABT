@@ -41,9 +41,19 @@ class SourceSemanticsTests(unittest.TestCase):
         row = self.native([{"op": "rules"}])[0]
         expected = {"noun": {"fatha": ["nasb"], "kasra": ["jarr"], "damma": ["raf"], "sukun": []},
                     "present_verb": {"fatha": ["nasb"], "kasra": [], "damma": ["raf"], "sukun": ["jazm"]}}
-        self.assertEqual(len(row["sibawayhi"]), 8)
+        self.assertEqual(row["sibawayhi_law_id"], "nabt.sibawayhi-selected.v2")
+        self.assertEqual(len(row["sibawayhi"]), 16)
         for law in row["sibawayhi"]:
-            self.assertEqual(law["courses"], expected[law["class"]][law["surface"]])
+            if law["regime"] == "overt_primary":
+                self.assertEqual(law["courses"], expected[law["class"]][law["surface"]])
+            else:
+                self.assertEqual(law["regime"], "unqualified")
+                self.assertEqual(law["courses"], ["raf", "nasb", "jarr"] if law["class"] == "noun"
+                                 else ["raf", "nasb", "jazm"])
+        for mark, case in [("kasra", "nasb"), ("fatha", "jarr")]:
+            # Sound feminine plural nasb and bare diptote jarr are not lost.
+            self.assertIn(case, next(r["courses"] for r in row["sibawayhi"]
+                                    if r["class"] == "noun" and r["regime"] == "unqualified" and r["surface"] == mark))
         self.assertEqual(row["qatr_past"], ["fath", "damm", "waqf"])
         self.assertEqual(row["qatr_present"], [None, "waqf", "fath"])
         self.assertEqual(row["qatr_five_verbs"], [True, False, False])
@@ -155,6 +165,22 @@ class SourceSemanticsTests(unittest.TestCase):
         self.assertTrue(row["unmeasured_references"])
         self.assertTrue(all(r["status"] == "UNMEASURED" for r in row["unmeasured_references"]))
 
+    def test_closed_singleton_with_unknown_compatibility_is_unmeasured(self):
+        context = deepcopy(CONTEXT)
+        next(e for e in context["entities"] if e["id"] == "zayd")["gender"] = "unknown"
+        text = "أنا عالم. هو كاتب."
+        fresh = read_discourse(text, lexical_model=learn_qac_lexicon(TRAINING), context=context)
+        refs = [r for c in fresh["clauses"] for a in c["analyses"] for r in a["references"]
+                if r["origin"] == "antecedent"]
+        self.assertTrue(refs)
+        self.assertTrue(all(r["closed_scope"] and r["candidate_entity_ids"] == ["zayd"] for r in refs))
+        self.assertTrue(all(r["bound_entity_id"] is None for r in refs))
+        audit = bridge.audit_discourse(text, TRAINING, context, probe=self.probe)
+        self.assertTrue(audit["contract_checks_pass"])
+        unmeasured = {r["reference_id"] for r in audit["unmeasured_references"]}
+        self.assertTrue({r["reference_id"] for r in refs} <= unmeasured)
+        self.assertIsNone(audit["clauses"][-1]["lean"]["consensus"])
+
     def test_forged_report_and_changed_context_do_not_supply_authority(self):
         model = learn_qac_lexicon(TRAINING)
         report = read_discourse("أنا عالم.", lexical_model=model, context=CONTEXT)
@@ -184,7 +210,7 @@ class SourceSemanticsTests(unittest.TestCase):
         process = subprocess.run([str(self.probe)], input=payload, capture_output=True, check=True, timeout=20)
         rows = [json.loads(line) for line in process.stdout.splitlines()]
         self.assertEqual([rows[0]["error"], rows[1]["error"]], ["RESOURCE_LIMIT", "INVALID_INPUT"])
-        self.assertEqual(len(rows[2]["sibawayhi"]), 8)
+        self.assertEqual(len(rows[2]["sibawayhi"]), 16)
 
 
 if __name__ == "__main__":

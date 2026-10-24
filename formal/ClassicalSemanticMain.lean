@@ -1,4 +1,5 @@
 import Nabt.SourceSemantics
+import Nabt.MantuqMafhum
 import ProbeJson
 
 /-! Executable adapter. JSON and file IO remain in the computing base.
@@ -61,6 +62,38 @@ def formulaJson : Formula → Json
   | .both l r => Json.mkObj [("kind", toJson "both"), ("left", formulaJson l), ("right", formulaJson r)]
   | .implies l r => Json.mkObj [("kind", toJson "implies"), ("left", formulaJson l), ("right", formulaJson r)]
 
+def meaningProof : Nat → Json → ProbeM Nabt.MantuqMafhum.Proof
+  | 0, _ => limited "meaning proof exceeds depth 32"
+  | fuel + 1, j => do
+    let kind ← str (← field j "kind")
+    if kind == "premise" then
+      keys j ["kind", "index"]
+      return .premise (← nat (← field j "index"))
+    else if kind == "left" || kind == "right" then
+      keys j ["kind", "child"]
+      let p ← meaningProof fuel (← field j "child")
+      return if kind == "left" then .left p else .right p
+    else if kind == "pair" then
+      keys j ["kind", "left", "right"]
+      return .pair (← meaningProof fuel (← field j "left"))
+        (← meaningProof fuel (← field j "right"))
+    else if kind == "apply" then
+      keys j ["kind", "rule", "argument"]
+      return .apply (← meaningProof fuel (← field j "rule"))
+        (← meaningProof fuel (← field j "argument"))
+    else invalid "unknown proof rule"
+
+def meaningReading (j : Json) : ProbeM Nabt.MantuqMafhum.Reading := do
+  keys j ["binding", "premises", "proof"]
+  let premises ← field j "premises"
+  let ps ← if premises == Json.null then pure none else
+    some <$> bounded 128 (formula 32) premises
+  return ⟨← binding (← field j "binding"), ps, ← meaningProof 32 (← field j "proof")⟩
+
+def optionFormula : Option Formula → Json
+  | none => Json.null
+  | some f => formulaJson f
+
 def response (fields : List (String × Json)) : Json := Json.mkObj (
   [("law_id", toJson lawId), ("world_truth_established", toJson false),
    ("all_arabic_complete", toJson false), ("reader_enumeration_proved", toJson false)] ++ fields)
@@ -70,10 +103,13 @@ def errorResponse (e : Failure) : Json := response [
 def ruleTable : Json := Id.run do
   let mut rows : List Json := []
   for (kind, label) in [(Nabt.SibawayhiRules.InflectedClass.noun, "noun"), (.presentVerb, "present_verb")] do
-    for surface in Nabt.ClassicalLanguageEvidence.surfaces do
-      rows := rows ++ [Json.mkObj [("class", toJson label), ("surface", toJson surface.label),
-        ("courses", toJson ((Nabt.SibawayhiRules.readings kind surface).map (·.label)))]]
-  return response [("sibawayhi", toJson rows),
+    for (regime, regimeLabel) in [(Nabt.SibawayhiRules.EndingRegime.unqualified, "unqualified"),
+                                  (.overtPrimary, "overt_primary")] do
+      for surface in Nabt.ClassicalLanguageEvidence.surfaces do
+        rows := rows ++ [Json.mkObj [("class", toJson label), ("regime", toJson regimeLabel),
+          ("surface", toJson surface.label),
+          ("courses", toJson ((Nabt.SibawayhiRules.readings kind regime surface).map (·.label)))]]
+  return response [("sibawayhi", toJson rows), ("sibawayhi_law_id", toJson Nabt.SibawayhiRules.lawId),
     ("qatr_past", toJson ([Nabt.QatrRules.PastAttachment.ordinary, .groupWaw, .movingSubjectPronoun].map
       (fun a => (Nabt.QatrRules.pastEnding a).label))),
     ("qatr_present", toJson ([Nabt.QatrRules.PresentAttachment.ordinary, .feminineNun, .directEmphasisNun].map
@@ -111,6 +147,76 @@ def dispatch (source : Option Nabt.ClassicalLanguageEvidence.Source) (j : Json) 
   if op == "rules" then
     keys j ["op"]
     return ruleTable
+  else if op == "awamil_inventory" then
+    keys j ["op"]
+    return response [("inventory_law_id", toJson Nabt.AwamilInventory.lawId),
+      ("entries", toJson (Nabt.AwamilInventory.entries.map fun e => Json.mkObj [
+        ("id", toJson e.number), ("name", toJson e.name), ("page", toJson e.page),
+        ("group", toJson e.group), ("family", toJson e.family)])),
+      ("full_rule_semantics_complete", toJson false), ("occurrence_license_established", toJson false)]
+  else if op == "meaning_from_source" then
+    keys j ["op", "scope", "proof"]
+    let some s := source | invalid "meaning derivation requires independently opened source"
+    if s.bytes.length > 65536 then return ← limited "controlled source exceeds 64 KiB"
+    let scope ← str (← field j "scope")
+    let target : Nabt.VerifiedReading.Source := ⟨s.sourceId, s.revision, scope, s.bytes⟩
+    let some clauses := Nabt.VerifiedReading.readSource s.bytes | invalid "outside controlled reading grammar"
+    if clauses.length > 128 then return ← limited "too many controlled clauses"
+    if !decide (Nabt.VerifiedReading.Reads target clauses) then
+      return ← invalid "controlled reading does not match exact bytes"
+    let proof ← meaningProof 32 (← field j "proof")
+    let ps := clauses.map (Nabt.MantuqMafhum.clauseFormula scope)
+    let result := Nabt.MantuqMafhum.infer ps proof
+    return response [("meaning_law_id", toJson Nabt.MantuqMafhum.lawId),
+      ("conclusion", optionFormula result), ("checked", toJson result.isSome),
+      ("source_reading_checked", toJson true), ("source_id", toJson s.sourceId),
+      ("source_text", toJson (Nabt.VerifiedReading.render clauses)),
+      ("revision", toJson s.revision), ("scope", toJson scope),
+      ("premise_truth_established", toJson false), ("usuli_subtype_established", toJson false)]
+  else if op == "meaning_infer" then
+    keys j ["op", "premises", "proof"]
+    let ps ← bounded 128 (formula 32) (← field j "premises")
+    let proof ← meaningProof 32 (← field j "proof")
+    let result := Nabt.MantuqMafhum.infer ps proof
+    return response [("meaning_law_id", toJson Nabt.MantuqMafhum.lawId),
+      ("conclusion", optionFormula result), ("checked", toJson result.isSome),
+      ("uses_implication", toJson proof.usesImplication),
+      ("premise_truth_established", toJson false), ("usuli_subtype_established", toJson false)]
+  else if op == "meaning_common" then
+    keys j ["op", "expected", "readings"]
+    let expected ← binding (← field j "expected")
+    let readings ← bounded 128 meaningReading (← field j "readings")
+    let result := Nabt.MantuqMafhum.common expected readings
+    return response [("meaning_law_id", toJson Nabt.MantuqMafhum.lawId),
+      ("conclusion", optionFormula result), ("checked", toJson result.isSome),
+      ("readings_checked", toJson readings.length),
+      ("premise_truth_established", toJson false), ("usuli_subtype_established", toJson false)]
+  else if op == "contrast_policy" then
+    keys j ["op", "kind", "qualified", "overridden", "usual_case"]
+    let name ← str (← field j "kind")
+    let kind ← match name with
+      | "attribute" => pure Nabt.Shakhsiyya3Rules.ContrastKind.attribute
+      | "condition" => pure .condition | "endpoint" => pure .endpoint
+      | "number" => pure .number | "name" => pure .name | "innama" => pure .innama
+      | _ => invalid "unknown contrast category"
+    let allowed := Nabt.Shakhsiyya3Rules.permitsContrast kind
+      (← boolean (← field j "qualified")) (← boolean (← field j "overridden"))
+      (← boolean (← field j "usual_case"))
+    return response [("policy_law_id", toJson Nabt.Shakhsiyya3Rules.lawId),
+      ("conditional_policy_allows", toJson allowed), ("occurrence_license_established", toJson false)]
+  else if op == "method_source" then
+    keys j ["op", "law", "offset", "quote"]
+    let some s := source | invalid "method source requires independently opened source file"
+    let law ← str (← field j "law")
+    let expectedWork ← if law == Nabt.ThinkingRules.lawId then pure Nabt.ClassicalLanguageEvidence.Work.thinking
+      else if law == Nabt.Shakhsiyya1Rules.lawId then pure .shakhsiyyaFirst
+      else if law == Nabt.Shakhsiyya3Rules.lawId then pure .shakhsiyyaThird
+      else invalid "unknown method law"
+    let p : Nabt.ClassicalLanguageEvidence.Passage :=
+      ⟨s, ← nat (← field j "offset"), ← bytes (← field j "quote")⟩
+    return response [("attested", toJson (Nabt.ClassicalLanguageEvidence.attested [s] p)),
+      ("work_matches", toJson (decide (s.work = expectedWork))),
+      ("interpretation_correctness_established", toJson false)]
   else if op == "consensus" then
     keys j ["op", "expected", "readings"]
     let result := consensus (← binding (← field j "expected"))
@@ -161,7 +267,9 @@ def dispatch (source : Option Nabt.ClassicalLanguageEvidence.Source) (j : Json) 
 
 def work : String → Option Nabt.ClassicalLanguageEvidence.Work
   | "sibawayhi" => some .sibawayhi | "qatr" => some .qatr
-  | "maqayis" => some .maqayis | "jurjaniAwamil" => some .jurjaniAwamil | _ => none
+  | "maqayis" => some .maqayis | "jurjaniAwamil" => some .jurjaniAwamil
+  | "thinking" => some .thinking | "shakhsiyyaFirst" => some .shakhsiyyaFirst
+  | "shakhsiyyaThird" => some .shakhsiyyaThird | "target" => some .targetText | _ => none
 
 end ClassicalSemanticMain
 open ClassicalSemanticMain

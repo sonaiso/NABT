@@ -103,7 +103,10 @@ def audit_discourse(text, training: bytes, context, *, source_id="input", scope=
             for ref in a["references"]:
                 # Apply the closed-singleton rule only to this supported
                 # reference shape. Other reference mechanisms stay unmeasured.
-                if ref.get("closed_scope") is True and ref.get("candidate_entity_ids"):
+                survivors = [c for c in ref.get("candidates", []) if c["allowed"]]
+                compatible = (ref.get("origin") != "antecedent" or
+                              all(c["compatibility"] == "confirmed" for c in survivors))
+                if ref.get("closed_scope") is True and ref.get("candidate_entity_ids") and compatible:
                     references.append((ref, {"op": "reference", "closed": True,
                                             "candidates": ref["candidate_entity_ids"]}))
                 else:

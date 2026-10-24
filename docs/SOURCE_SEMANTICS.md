@@ -13,9 +13,9 @@ source files and historical measurement reports are unchanged.
 
 | Lean module | Selected source content | Conditions and exclusions |
 |---|---|---|
-| `SibawayhiRules` | Kitab lines 111–138, 234–239: case domains and the two sides of predication | Noun/present-verb classification is supplied independently; a mark or token count does not establish it. |
+| `SibawayhiRules` | Kitab lines 111–138, 234–239: case domains and the two sides of predication | Version 2 requires independent noun/present-verb AND overt-primary-ending qualification before inverting a mark. Unqualified marks retain every class-appropriate case; substitute and estimated endings are not excluded by the class alone. |
 | `QatrRules` | Matn Qatr al-Nada lines 55–96: past attachments, present building, five-verb nun, diptote genitive exceptions | Direct emphasis is required; an ordinary present verb is not declared built. Diptote and attachment classification are explicit premises. This is the matn, not its commentary. |
-| `AwamilRules` | Retained Dar al-Minhaj 2009 transcription, pp. 40–41: 91/7/2 partition and two ba meanings | Only the excerpt is modeled. A hundred-total is not an enumerated inventory. Attribution, transcription and variant readings are not authenticated by Lean. The two ba senses do not exhaust ba. |
+| `AwamilRules` | Retained Dar al-Minhaj 2009 transcription, pp. 40–41: 91/7/2 partition and two ba meanings | The original rule module models only this excerpt. The later `AwamilInventory` adds 100 numbered entries, without completing their application conditions. Attribution, transcription and variant readings are not authenticated by Lean. The two ba senses do not exhaust ba. |
 | `MaqayisRules` | Entry علم, lines 27039–27065: five selected glosses | The list is partial. A common root does not choose an occurrence's meaning. A selection is bound to source, revision, offset and spelling. |
 
 The native `source_rule` operation verifies the quote against an independently
@@ -75,7 +75,7 @@ native Lean consensus; incomplete rivals are represented by `none`.
 
 The semantic comparison preserves the **entire** claim record: predicate,
 arguments, sign, speech force, tense, time, place, and restrictions. Closed
-reference candidates are independently checked by the native singleton rule.
+reference candidates are checked by the native singleton rule only when the adapter has the stronger reader premises. Antecedents with unconfirmed gender/number compatibility remain `UNMEASURED`, even in a closed singleton set.
 The result reports disagreement instead of rewriting the reader's result.
 The source-rule binding results are reported separately from these target
 reading contracts: no claim is made that the four newly selected rule tables

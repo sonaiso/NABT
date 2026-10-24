@@ -242,6 +242,14 @@ jobs:
           "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build classicalSemanticProbe
           test -x "$NABT_CLASSICAL_SEMANTIC_PROBE"
           python -B -m unittest discover -s tests -p test_source_semantics.py -v
+      - name: Source to meaning, all supplied readings and signed execution
+        # Both native executables are built by the preceding required steps.
+        # Explicit paths make an absent binary a failure rather than a skip.
+        env:
+          PYTHONPATH: src
+          NABT_CLASSICAL_SEMANTIC_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/classicalSemanticProbe
+          NABT_VERIFIED_READING: ${{ github.workspace }}/formal/.lake/build/bin/verifiedReading
+        run: python -B -m unittest discover -s tests -p test_mantuq_mafhum.py -v
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Independent property-evidence table from Lean predicates
