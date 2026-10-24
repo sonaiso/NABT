@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.15.0a1 — unreleased review candidate
+## 0.15.0a1
+
+- State the project's organizing principle explicitly: the rational method
+  organizes claim formation and review; methods are procedures appropriate to
+  the case; Lean formulates and checks declared obligations. Preserve the
+  distinction between a derivation and established correspondence to its target.
 
 - Integrate the rational-inquiry contract with the merged recursive source
   bridge. Bind claims to their formation material, prior information, source
@@ -27,8 +32,8 @@
   `strict_pass=false`. The four books are not completely formalized, the
   hundred Awamil entries are not mapped row by row, and a target reading is not
   acquired by the new standalone tool.
-- Publication remains pending authenticated repository writes and GitHub checks
-  on the exact proposed head. See [candidate release notes](docs/releases/0.15.0a1.md)
+- Release gates require authenticated repository writes and GitHub checks
+  on the exact proposed head. See [release notes and procedure](docs/releases/0.15.0a1.md)
   and [the recorded local validation](evidence/classical_language/full_validation_v1.json).
 
 ### Included recursive algebra and exact source evidence bridge

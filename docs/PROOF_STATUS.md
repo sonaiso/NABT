@@ -54,9 +54,11 @@
 وحُفظ أيضًا خلل حد حجم التقرير وتصحيح تصنيف النقل عن بعض العرب، مع
 أدلة ما قبل الإصلاح وبعده.
 
-حالة هذه الأدلة محلية قابلة للمراجعة والتطبيق. رفض اتصال GitHub إنشاء
-blob للتغيير برسالة `403 Resource not accessible by integration`؛ لم
-ينشأ فرع بعيد أو PR جديد. [إيصال محاولة النشر](../evidence/classical_language/publication_attempt_v1.json).
+سُجلت هذه الأدلة محليًا قبل النشر. رفض اتصال GitHub الأول إنشاء blob
+للتغيير برسالة `403 Resource not accessible by integration`، فلم ينشأ
+مرجع بعيد بتلك المحاولة. يبقى [إيصالها التاريخي](../evidence/classical_language/publication_attempt_v1.json)
+محفوظًا؛ حالة النشر والدمج اللاحقة تثبتها مراجع GitHub وفحوص الإيداع
+و[الإصدار الموسوم](https://github.com/sonaiso/NABT/releases).
 
 ## النواة التراجعية والوصلة إلى المصدر
 
