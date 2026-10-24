@@ -738,6 +738,36 @@ def _nominal_operator(reader, tokens, body, operator, head, prefix, force, wh=No
     return results
 
 
+def _hasiba_sense_witness(reader, operator, head):
+    """An observed lexical vowel, not the expected target role, selects sense.
+
+    Mukhtar al-Sihah distinguishes hasiba (thought) from hasaba (counted).
+    The unvocalized spelling and alima retain their independent obligations.
+    """
+    clusters = lookup_clusters(head["surface"])
+    reading = operator["reading"]
+    profile = operator["profile"]
+    if (operator["lemma"] != "حسب" or operator["family"] != "zanna" or
+            operator["scope"] != "belief" or not clusters or len(clusters) != 3 or
+            reading.get("variant") != "attested" or
+            not any(s.get("record_id") for s in reading.get("support_records", ())) or
+            lookup_key(reading["lexical_features"].get("root") or "") != "حسب" or
+            lookup_key(head["surface"]) != "حسب" or
+            [c[1] & set("ًٌٍَُِْ") for c in clusters] != [{"َ"}, {"ِ"}, {"َ"}] or
+            any(c[1] & set("ّٰ") for c in clusters) or
+            not template_matches(head["surface"], "حَسِبَ", mutable_last=False) or
+            reading["lexical_features"].get("aspect") != "PERF" or
+            reading["lexical_features"].get("voice") == "passive" or
+            profile != {"person": 3, "gender": "masculine", "number": "singular"}):
+        return None
+    return {"kind": "observed_medial_vowel_lexical_sense", "rule": "vocalized_hasiba_sense",
+        "operator_span": deepcopy(head["span"]), "operator_surface": head["surface"],
+        "operator_reading_id": reading["reading_id"], "required_medial_vowel": "ِ",
+        "required_written_active_form": "حَسِبَ",
+        "sense": "belief", "source": _support(reader, "vocalized_hasiba_sense"),
+        "target_role_used_as_sense_evidence": False, "embedded_fact_projection": False}
+
+
 def _zanna(reader, tokens, body, operator, head, prefix, force):
     results = []
     if len(body) < 3:
@@ -751,7 +781,8 @@ def _zanna(reader, tokens, body, operator, head, prefix, force):
         for subject, obj, predicate in product(matrix, objects, reader.predicates(body[-1])):
             assigned = reader.assignment(body[-1], predicate, "zanna_object2", head=head)
             obligations = _operator_obligations(reader, operator, head, subject, prefix) + _reading_obligations(predicate)
-            if operator["lemma"] in ("رأى", "علم", "وجد", "ألفى", "جعل", "ترك", "وهب", "عد", "حسب", "حجا"):
+            sense_witness = _hasiba_sense_witness(reader, operator, head)
+            if operator["lemma"] in ("رأى", "علم", "وجد", "ألفى", "جعل", "ترك", "وهب", "عد", "حسب", "حجا") and sense_witness is None:
                 obligations.append("POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT")
             embedded = reader.claim(predicate["lexical_features"]["lemma"], [obj["entity"]], True,
                 "relative_to_operator", [], [], obj["restriction"])
@@ -764,6 +795,9 @@ def _zanna(reader, tokens, body, operator, head, prefix, force):
                             two_object_sense="nominal_proposition", suspension="absent_in_declared_frame")
             relations = [relation]
             supports = [_support(reader, "zanna_sisters"), _support(reader, "tense_aspect")]
+            if sense_witness is not None:
+                relation["independent_sense_witness"] = sense_witness
+                supports.append(_support(reader, "vocalized_hasiba_sense"))
             if operator.get("matrix_negative"):
                 relations.append(_relation("matrix_negation", tokens[0], head,
                     scope="epistemic_matrix", embedded_polarity_preserved=True,

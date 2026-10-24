@@ -1,0 +1,68 @@
+{
+  "schema": "nabt.inna-fragment-transport-and-wording-review.v1",
+  "authority": "AUDIT_ONLY_NOT_A_LINGUISTIC_CERTIFICATE",
+  "review_scope": "Read-only review of the Lean inna-fragment section of docs/ARABIC_COMPLETION_V3.md and operational transport paths; no independent audit of the other runtime bridges is claimed here.",
+  "files": {
+    "docs/ARABIC_COMPLETION_V3.md": {
+      "bytes": 15807,
+      "sha256": "dee47eaf774825b52b7a15783223e04ff5ee52fd2ffe496ab9b95fc76cf39780"
+    },
+    "formal/Nabt/ArabicInnaFragment.lean": {
+      "bytes": 16710,
+      "sha256": "3088cc79e8caef1e010226848905c6589df0e8b14dc251fd00fcc1dc59c5b5bb"
+    },
+    "formal/ArabicInnaFragmentProbe.lean": {
+      "bytes": 11858,
+      "sha256": "ea966f759cc286171c0081b4afd8d476de3d5c065cbd63a8275bfc397e8c6c13"
+    },
+    "tools/check_arabic_inna_fragment.py": {
+      "bytes": 29489,
+      "sha256": "325555ccd6dd4db4fe44d1a64f419aabdbcb9c57db316efd1f2a3ddb6b3f1acc"
+    },
+    "tests/test_arabic_inna_fragment_probe.py": {
+      "bytes": 14492,
+      "sha256": "08d436d81b996e9638715d6a0fff7d9930741967bdb9b2815f2a7cc9a2ead114"
+    },
+    "evidence/arabic_completion_v3/inna_fragment_transport_v2/report.json": {
+      "bytes": 15721,
+      "sha256": "c6780a32381f3de03ef3b3b1dce7575ed953367a68c783643266735b80c65284"
+    },
+    "evidence/arabic_completion_v3/inna_fragment_transport_with_build_v1/report.json": {
+      "bytes": 22021,
+      "sha256": "51d82650e077090744d546bbd513e106723a6b5ec58b5e2bd42f21b12fd8d9af"
+    }
+  },
+  "wording_review": {
+    "material_overclaim_found": false,
+    "findings": [
+      "The theorem is correctly limited to Reference relative to every supplied finite lexical ledger, and does not certify lexical truth or adequacy.",
+      "The document distinguishes actual execution of the proved Lean function from a general Python or JSON/compiler refinement theorem.",
+      "No-reading is not ordinary Arabic ungrammaticality; pending registered competitors block completion.",
+      "The module does not prove Arabic wordhood, lexical authenticity, gender agreement, semantic interpretation, or world truth."
+    ],
+    "optional_clarification": "When citing transport success, call it 32 authored wire cases and 22 checker tests. The same author implemented the Lean function and these operational checks; the reused lexicon is a preexisting authored instructional fixture, not external acquisition."
+  },
+  "verification": {
+    "unit_tests": {
+      "command": "python -m unittest discover -s tests -p test_arabic_inna_fragment_probe.py -q",
+      "methods": 22,
+      "pass": true,
+      "kind": "ADVERSARIAL_CHECKER_TESTS_NOT_LINGUISTIC_HOLDOUT"
+    },
+    "direct_binary_transport": {
+      "path": "evidence/arabic_completion_v3/inna_fragment_transport_v2/report.json",
+      "pass": true,
+      "cases": 32
+    },
+    "optional_target_build_and_transport": {
+      "path": "evidence/arabic_completion_v3/inna_fragment_transport_with_build_v1/report.json",
+      "build_pass": true,
+      "pass": true,
+      "cases": 32
+    },
+    "program_and_inputs_unchanged": true
+  },
+  "all_arabic_completeness_established": false,
+  "lexical_acquisition_established": false,
+  "world_truth": "NOT_ESTABLISHED"
+}

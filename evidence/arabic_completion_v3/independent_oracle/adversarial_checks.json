@@ -1,0 +1,99 @@
+{
+  "schema": "nabt.predeclared-validator-counterexamples.v1",
+  "authoring_stage": "before new runtime implementation review or predictions",
+  "denominator": "Separate mutation/control obligations; never added to the 24 authored language cases.",
+  "execution_contract": "Use a valid positive certificate obtained after freeze; change one boundary at a time, recompute public content hashes where appropriate, and retain original and mutated bytes. Receipt self-hashes and status labels must not grant authority. Test the independent validator separately from runtime replay.",
+  "checks": [
+    {
+      "id": "V-G01",
+      "mutation": "Apply a context-name receipt to a different occurrence or a different lexical reading with the same letter skeleton.",
+      "expected": "Reject detached evidence; exact lexical identity, source segment and occurrence must match."
+    },
+    {
+      "id": "V-G02",
+      "mutation": "Use the unvocalized-name bridge when the declared name contains an explicit contrary internal vowel or shadda.",
+      "expected": "Reject this bridge; do not erase the supplied distinction."
+    },
+    {
+      "id": "V-G03",
+      "mutation": "Provide a plausible context name but remove the independent learned inflected noun evidence.",
+      "expected": "Do not infer shadda, nominal class or a licensed reading from context alone."
+    },
+    {
+      "id": "V-G04",
+      "mutation": "Keep one of two identical unvocalized context names and discard the other to obtain a unique referent.",
+      "expected": "Reject uniqueness; retain all compatible identity candidates."
+    },
+    {
+      "id": "V-N01",
+      "mutation": "Omit number on a nominal source record and set its output number to singular with no independent source-backed derivation.",
+      "expected": "Reject unsupported inference; F/M or missing S is not itself the stated derivation."
+    },
+    {
+      "id": "V-N02",
+      "mutation": "Transport N/ADJ case evidence and also copy POS, gender, number or sense from the donor reading.",
+      "expected": "Reject the additional transport unless each field has its own independent licensed derivation."
+    },
+    {
+      "id": "V-N03",
+      "mutation": "Borrow an adjective agreement edge from the object, a different conjunct, or a relative clause inner predicate.",
+      "expected": "Reject; the same claim subject and predicate must own the witness."
+    },
+    {
+      "id": "V-N04",
+      "mutation": "Drop an incomplete or semantically disagreeing viable alternative to turn DEFER into consensus.",
+      "expected": "Reject; all viable interpretations and complete signed receipt sets must survive."
+    },
+    {
+      "id": "V-T01",
+      "mutation": "Change a nisba tamyiz owner from the object in T03 to its actor while retaining both argument identities.",
+      "expected": "Reject; membership in claim.args alone is insufficient proof of ownership."
+    },
+    {
+      "id": "V-T02",
+      "mutation": "Move T06 water or self qualifier to the other clause, or take its owner reference from that other clause.",
+      "expected": "Reject; claim, governor, dependent and reference must be linked in one analysis."
+    },
+    {
+      "id": "V-T03",
+      "mutation": "Replace a retained tamyiz qualification by an ordinary direct-object argument while preserving the verb lemma.",
+      "expected": "Reject the changed argument structure."
+    },
+    {
+      "id": "V-T04",
+      "mutation": "Activate tamyiz for the definite or nominative counterexample after ignoring its article or ending.",
+      "expected": "Reject under the declared ordinary nisba-tamyiz scope."
+    },
+    {
+      "id": "V-T05",
+      "control": "A temporal accusative following a compatible event, such as صباحا with independently supplied temporal evidence, is not licensed as tamyiz merely by being a noun in the accusative.",
+      "expected": "Require independent temporal-versus-tamyiz frame evidence; preserve unresolved alternatives rather than selecting the desired label.",
+      "scope": "Control recipe, not an uncounted fixed-status language case."
+    },
+    {
+      "id": "V-P01",
+      "mutation": "Copy the object suffix 3MS profile into the first-person host in P04/P05.",
+      "expected": "Reject participant-feature contamination."
+    },
+    {
+      "id": "V-P02",
+      "mutation": "Create a bare-host certificate from a connected token but omit or overlap its object suffix span.",
+      "expected": "Reject source nonconservation and missing complete host evidence."
+    },
+    {
+      "id": "V-P03",
+      "mutation": "Reuse P04 source/answer proof against P05 speaker context.",
+      "expected": "Reject changed-context replay; a correct answer for one speaker is not evidence for the other."
+    },
+    {
+      "id": "V-P04",
+      "mutation": "Assert the command content of P06 as a completed past event.",
+      "expected": "Reject force and tense promotion."
+    },
+    {
+      "id": "V-P05",
+      "mutation": "Resolve P02 by selecting the nearest prior masculine singular referent or P03 by picking an unmentioned context entity.",
+      "expected": "Reject unsupported reference selection."
+    }
+  ]
+}

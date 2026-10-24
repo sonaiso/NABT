@@ -63,6 +63,33 @@ consensus, newly observed early speech, or evidence of the truth of a new
 sentence's external event. Source acquisition and passage selection occurred
 after baseline evaluation; they do not constitute a new blind test.
 
+## Separately registered Mukhtar al-Sihah witness
+
+`mukhtar_sihah.txt` preserves the complete unchanged bytes of OpenITI's cleaned
+digital *Mukhtar al-Sihah*, attributed to Muhammad ibn Abi Bakr ibn Abd al-Qadir
+al-Razi. The digital header identifies editor Mahmud Khatir and a Beirut 1995
+edition. These are source metadata, not an independent printed-page collation.
+
+- Version URI: `0666IbnAbiBakrZaynDinRazi.MukhtarSihah.JK000107-ara1`
+- Repository: `OpenITI/0675AH@4b1d2886508b435eb0377ccab96e1da96cc8ee0a`
+- Full SHA-256: `e93f4054f3cddb826a7b3fafd01eac8c4b39b25ed2d92ece7ea093b755776691`
+- Registry: `construction_supplementary_sources_v2.json`
+- [Pinned source](https://github.com/OpenITI/0675AH/blob/4b1d2886508b435eb0377ccab96e1da96cc8ee0a/data/0666IbnAbiBakrZaynDinRazi/0666IbnAbiBakrZaynDinRazi.MukhtarSihah/0666IbnAbiBakrZaynDinRazi.MukhtarSihah.JK000107-ara1)
+
+The original header's death date 721 AH differs from the version URI's 0666.
+This unresolved metadata discrepancy is preserved and is not used as a premise
+for the selected lexical distinction. OpenITI's corpus-level CC BY-NC-SA 4.0
+declaration and the attribution terms above apply to this source and its
+derived selections; this notice does not independently authenticate editorial
+rights. Retrieval, metadata, exact passage bytes and source-layer limitations
+are retained in `evidence/arabic_completion_v3/source_review/`.
+
+The selected dictionary passage distinguishes the explicitly vocalized
+belief sense of `حَسِبَ` from the counting sense. Selection followed observation
+of the old benchmark gap. It licenses only the documented lexical-sense rule,
+not a blind accuracy result, every use of the unvocalized spelling, or the truth
+of an embedded proposition in a new target sentence.
+
 ## Separately attributed semantic quotations
 
 `morphology_j3.txt` contains only five short, exact quotations from Taqi

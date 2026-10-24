@@ -19,7 +19,7 @@ from types import MappingProxyType
 
 from .errors import NabtError, resource_limit
 
-LEARNER_VERSION = "nabt.qac-lexical-evidence.v2"
+LEARNER_VERSION = "nabt.qac-lexical-evidence.v3"
 PROJECTION_ID = "qac.extended-buckwalter.unicode.v1"
 LOOKUP_ID = "qac.lookup.wasl-equivalence.v1"
 MASKED_FEATURES = ("NOM", "ACC", "GEN", "MOOD:IND", "MOOD:SUBJ", "MOOD:JUS")
@@ -400,6 +400,9 @@ def _compile(raw, excluded_verses, source_id):
                          "supports": [_receipt(stem, corpus["source"])],
                          "has_article_source": any("Al+" in r["fields"]["FEATURES"].split("|") for r in records[:records.index(stem)]),
                          "form_rule": "source_stem_and_qualified_subject_suffix", "variant": "attested"}
+        if pos in ("N", "ADJ"):
+            lexical_entry["nominal_derivation_features"] = sorted(t for t in tokens
+                if t in ("ACT", "PASS", "PCPL", "VN") or re.fullmatch(r"\([IVX]+\)", t))
         if pos == "V":
             attached = _annotated_verbal_word(stem, suffixes, corpus["source"], lexical_entry)
             if attached is not None:
@@ -449,7 +452,8 @@ def _compile(raw, excluded_verses, source_id):
     plural_letters = defaultdict(dict)
     def nominal_key(entry):
         return (entry["lemma_bw"], entry["root"], lookup_key(entry["form"]),
-                entry["pos"], entry["gender"], entry["number"], entry["template"])
+                entry["pos"], entry["gender"], entry["number"], entry["template"],
+                tuple(entry.get("nominal_derivation_features", ())))
     for entry in entries:
         if entry["kind"] == "noun":
             nominal_groups[nominal_key(entry)].append(entry)
@@ -463,15 +467,16 @@ def _compile(raw, excluded_verses, source_id):
     vowel_families = {"َ": "a", "ً": "a", "ُ": "u", "ٌ": "u", "ِ": "i", "ٍ": "i"}
     nominal_stats = {}
     for key, group in nominal_groups.items():
-        seen_vowels, proofs, has_tanwin = set(), [], False
+        seen_vowels, proofs, tanwin_proofs = set(), [], []
         for entry in group:
             observed = lookup_clusters(entry["form"])[-1][1] & VOWELS
-            has_tanwin = has_tanwin or bool(observed & set("ًٌٍ"))
+            if observed & set("ًٌٍ") and not tanwin_proofs:
+                tanwin_proofs.append(entry)
             family = vowel_families.get(next(iter(observed), None))
             if family is not None and family not in seen_vowels:
                 seen_vowels.add(family)
                 proofs.append(entry)
-        nominal_stats[key] = (has_tanwin, len(seen_vowels) >= 2, proofs)
+        nominal_stats[key] = (bool(tanwin_proofs), len(seen_vowels) >= 2, proofs, tanwin_proofs)
 
     variants = []
     for original in entries:
@@ -487,7 +492,7 @@ def _compile(raw, excluded_verses, source_id):
             variants.append(entry)
             continue
         if entry["kind"] == "noun" and entry["construction"] != "built":
-            tanwin, paired, proofs = nominal_stats[nominal_key(entry)]
+            tanwin, paired, proofs, tanwin_proofs = nominal_stats[nominal_key(entry)]
             lemma_key = lookup_key(entry["lemma"]) if entry["lemma"] else None
             if (lemma_key and lemma_key.endswith("ي") and key == lemma_key[:-1]
                     and entry["root"] and entry["root"].endswith("ي")):
@@ -548,6 +553,10 @@ def _compile(raw, excluded_verses, source_id):
                 # A failed sound-plural recognizer does not prove broken
                 # plural: annexed and unsupported formations remain unknown.
             entry["class_candidates"] = classes
+            if entry["pos"] in ("N", "ADJ") and entry["number"] == "singular" and classes == [0]:
+                # Keep the actual surviving raw witness, not just an inferred
+                # class flag, for a separately scoped nominal-form bridge.
+                entry["nominal_tanwin_supports"] = [s for e in tanwin_proofs for s in e["supports"]]
             if (entry["nun"] is None and entry["root"] and entry["root"].endswith("ن") and key.endswith("ن")
                     and lemma_key == key and (entry["number"] == "singular" or
                                               entry["number"] is None and key == entry["root"])):

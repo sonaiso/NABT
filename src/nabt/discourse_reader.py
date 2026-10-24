@@ -27,8 +27,8 @@ from .construction_laws import (LAW_ID as CONSTRUCTION_LAW_ID,
     EXPECTED_TABLE_SHA256 as CONSTRUCTION_TABLE_SHA256, ROLES as CONSTRUCTION_ROLES,
     role_case as construction_role_case, predicate_agreement_status)
 
-LANGUAGE_ID = "nabt.arabic-discourse-frames.v5"
-READER_VERSION = "nabt.discourse-reader.v5"
+LANGUAGE_ID = "nabt.arabic-discourse-frames.v6"
+READER_VERSION = "nabt.discourse-reader.v6"
 MAX_ANALYSES = 128
 MAX_CLAUSES = 32
 _UNSET = object()
@@ -227,7 +227,8 @@ class _Reader:
                                             "field": "entities.name"}]
                 readings.append(row)
         unique = {}
-        from .construction_nominals import qualify_attested_alif
+        from .construction_nominals import qualify_attested_alif, qualify_same_form_nominal
+        readings = qualify_same_form_nominal(readings, index=self.index, policy=self.construction_policy)
         readings = qualify_attested_alif(readings, token=token, source=self.source,
                                          index=self.index, policy=self.construction_policy)
         for row in readings:
@@ -313,9 +314,16 @@ class _Reader:
                 origin = "named"
             carrier = row.get("nominal_case_carrier") if origin == "named" else None
             reference_surface = carrier["base_surface"] if carrier else token["surface"]
+            name_reading = None
+            if origin == "named" and not carrier:
+                from .context_name_witness import unvocalized_name_matches
+                if any(unvocalized_name_matches(reference_surface, e["name"]) and
+                       not form_matches(reference_surface, e["name"]) for e in self.entities.values()):
+                    name_reading = row
             reference = self.reference(reference_surface, origin=origin, profile=profile,
                                           context=self.context, mentions=self.mentions, span=token["span"],
-                                          scope=self.scope, return_entity=return_entity)
+                                          scope=self.scope, return_entity=return_entity,
+                                          name_reading=name_reading, lexical_model=self.model)
             if carrier:
                 reference["written_surface"] = token["surface"]
                 reference["nominal_carrier_reading_id"] = row["reading_id"]

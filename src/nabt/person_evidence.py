@@ -175,6 +175,8 @@ def _candidate(entry, profile, family):
               "rule_ids": ["QAC_COMPLETE_LEXICAL_FORM"], "obligations": [],
               "mutable_clusters": mutable, "source_person_code": entry["person"],
               "authority": "SOURCE_RELATIVE_MORPHOLOGICAL_CANDIDATE"}
+    if entry.get("lexical_id"):
+        result["source_lexical_id"] = entry["lexical_id"]
     if entry.get("construction_supports"):
         result["supports"] += list(entry["construction_supports"])
     if family:

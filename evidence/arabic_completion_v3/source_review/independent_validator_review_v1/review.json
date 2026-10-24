@@ -1,0 +1,111 @@
+{
+  "schema": "nabt.independent-source-validator-review.v1",
+  "review_date_utc": "2026-10-24",
+  "reviewer": "/root/empirical_audit",
+  "scope": "Read-only review of independent raw-source premises and evaluator integration, plus bounded authored mutations of saved development fixtures. No original 86-case evaluation and no 24-case holdout evaluation.",
+  "provenance": "Shared-workspace non-blind implementation review after source discovery and runtime freeze. The fixtures are development artifacts, not untouched natural-language test material.",
+  "runtime_freeze_manifest_sha256": "eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089",
+  "assessed_implementation": {
+    "helper_sha256": "7639f56d828c090dd14756cea8b8800cf05e76d3dff91ee6acf926e97f377b6a",
+    "source_files": [
+      "tools/source_name_validation.py",
+      "tools/construction_evaluation.py",
+      "tools/discourse_evaluation.py",
+      "src/nabt/corpus_evidence.py",
+      "src/nabt/construction_nominals.py"
+    ]
+  },
+  "findings": [
+    {
+      "id": "NOMINAL_DONOR_TANWIN_SUBSET",
+      "classification": "FALSE_REJECTION_IN_INDEPENDENT_HELPER",
+      "root_cause": "The checker requires the donor's own tanwin receipt to occur in the selected terminal-pair receipts. The compiler selects the first witness of each vowel family and the first tanwin observation separately. A later tanwin is valid evidence for the same directly equal nominal group.",
+      "required_correction": "Remove only receipt-subset membership. Retain independently re-read own tanwin, identical donor/recipient template and lexical traits, opposite POS, two terminal vowel families, and complete transferred pair receipts.",
+      "executed_observation": {
+        "review": "authored first tanwin independent of first terminal-family observations",
+        "raw": "LOCATION\tFORM\tTAG\tFEATURES\n(1:1:1:1)\tnabiylK\tN\tSTEM|POS:N|LEM:nabiyl|ROOT:nbl|MS\n(1:2:1:1)\tnabiylu\tADJ\tSTEM|POS:ADJ|LEM:nabiyl|ROOT:nbl|MS\n(1:3:1:1)\tnabiyli\tADJ\tSTEM|POS:ADJ|LEM:nabiyl|ROOT:nbl|MS\n(1:4:1:1)\tnabiylN\tADJ\tSTEM|POS:ADJ|LEM:nabiyl|ROOT:nbl|MS\n",
+        "raw_sha256": "86fe27881b56bcc3b96f02e779da4f7a5bc21cf6e3dc5391ecd56644e08dbf20",
+        "fixture_base_sha256": "ac84c424906e115a12109536a1b31b4481fdb4c0c850e982a4ffbd31a4aea33d",
+        "raw_observations_valid": true,
+        "tanwin_locators": [
+          [
+            1,
+            4,
+            1,
+            1
+          ]
+        ],
+        "pair_locators": [
+          [
+            1,
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            3,
+            1,
+            1
+          ]
+        ],
+        "validator_sha256": "7639f56d828c090dd14756cea8b8800cf05e76d3dff91ee6acf926e97f377b6a",
+        "observed": {
+          "accepted": false,
+          "reason": "Name correspondence: donor tanwin detached from its own terminal paradigm"
+        }
+      }
+    },
+    {
+      "id": "HASIBA_AMBIGUOUS_RAW_PERSON",
+      "classification": "MISSING_INDEPENDENT_RAW_PREMISE_GUARD",
+      "root_cause": "Membership of 3MS among raw tokens does not rule out a contradictory second person/gender/number profile.",
+      "required_correction": "Extract raw person/gender/number profile tokens and require exactly one 3MS token, preserving all existing vowels/root/lemma/voice/aspect checks.",
+      "executed_observation": {
+        "review": "contradictory or duplicated raw person profiles after all source-receipt hashes rebuilt",
+        "fixture_base_sha256": "83f639092b8f1c32082fae76d6cba2fec6537bb09ebe9559637a7c30c036e014",
+        "validator_sha256": "7639f56d828c090dd14756cea8b8800cf05e76d3dff91ee6acf926e97f377b6a",
+        "results": [
+          {
+            "profiles": "2MS|3MS",
+            "raw_sha256": "05a2970f5efb95ef76d8fb6ba314adc639c26615fa484f7a049c0696edbc0b84",
+            "observed": {
+              "accepted": true
+            }
+          },
+          {
+            "profiles": "3MS|2MS",
+            "raw_sha256": "a57ae68a21a1233b7e7f39e8f3b4daf63b571147a4b790ed9c03a045efe2b6db",
+            "observed": {
+              "accepted": true
+            }
+          },
+          {
+            "profiles": "3MS|3MS",
+            "raw_sha256": "286b754e96b07e177359c6e45c856390d088c027a7c980195a77d80daacd5535",
+            "observed": {
+              "accepted": true
+            }
+          }
+        ]
+      },
+      "scope_limit": "Acceptance is established for validate_sense_witness alone after raw-receipt rebinding. No runtime or complete-evaluator false acceptance is claimed; production replay remains a separate mandatory gate."
+    }
+  ],
+  "review_support": [
+    "The helper imports no production lexical compiler or reader.",
+    "Raw byte spans, source hashes, locators and exclusions are independently replayed.",
+    "Name identity remains conditional on supplied naming premises and the selected attested reading; explicit target shadda must be supported, and homonymous context candidates are retained.",
+    "The nominal correspondence compares direct source templates and derivational traits, known singular number, gender, lemma and root; it does not acquire POS equivalence, target roles or world truth.",
+    "The hasiba witness requires the fully written active form حَسِبَ, the pinned Mukhtar al-Sihah interval and raw lexical support; standalone embedded assertions are forbidden.",
+    "Both evaluators invoke the source helper for exposed new witnesses and separately require runtime replay."
+  ],
+  "limits": [
+    "Full compiled inventory and lexical-ID recomputation are intentionally delegated to the separate runtime replay; the source helper does not constitute independent reimplementation of the entire compiler.",
+    "Policy and law hash strings inside some receipts are checked for shape, while the selected primary passages are fixed independently. This review does not claim those hash strings alone authenticate a rule.",
+    "Pinned text authentication establishes identity of the selected digital transmission, not diplomatic manuscript accuracy or universal linguistic validity.",
+    "No additional runtime source, gold expectation or historical evidence was changed."
+  ],
+  "status": "CHANGES_REQUIRED_IN_HELPER_ONLY_PENDING_OWNER_PATCH",
+  "evidence_preservation": "Original helper bytes are preserved adjacent to this receipt; before/after verification will be recorded separately."
+}

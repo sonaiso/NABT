@@ -2,7 +2,7 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.15.0"
+  version := v!"0.17.0"
 
 @[default_target]
 lean_lib Nabt
@@ -54,3 +54,7 @@ lean_exe exportRationalInquiry where
 
 lean_exe exportClassicalLanguageEvidence where
   root := `ExportClassicalLanguageEvidence
+
+@[default_target]
+lean_exe arabicInnaFragmentProbe where
+  root := `ArabicInnaFragmentProbe

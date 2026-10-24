@@ -51,16 +51,17 @@ class ConstructionSupplementarySourcesTests(unittest.TestCase):
         base = replay_policy()
         self.assertEqual(set(base["sources"]), {"qatr", "alfiyya", "sibawayhi"})
         replay = sources.replay_construction_policy()
-        self.assertEqual(replay["supplementary_source_ids"], ["sabban"])
+        self.assertEqual(set(replay["supplementary_source_ids"]), {"sabban", "mukhtar_sihah"})
         self.assertEqual(replay["supplementary_registry_sha256"], sources.EXPECTED_SUPPLEMENTARY_SHA256)
         for rule in ("inception_sharaa", "tamyiz_taba_nafs"):
             self.assertEqual(replay["rules"][rule]["source_id"], "sabban")
             self.assertEqual(replay["rules"][rule]["selection_phase"], "POST_BASELINE_NOT_BLIND")
         self.assertNotEqual(replay["rules"]["inception_sharaa"]["source_layer"],
                             replay["rules"]["tamyiz_taba_nafs"]["source_layer"])
+        self.assertEqual(replay["rules"]["vocalized_hasiba_sense"]["source_id"], "mukhtar_sihah")
 
     def test_registry_and_full_source_bytes_are_rechecked(self):
-        for filename in (sources.SUPPLEMENTARY_REGISTRY, "sabban.txt"):
+        for filename in (sources.SUPPLEMENTARY_REGISTRY, "sabban.txt", "mukhtar_sihah.txt"):
             with self.subTest(filename=filename):
                 original = (DATA / filename).read_bytes()
                 # The final byte is outside both selected source passages.
