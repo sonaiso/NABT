@@ -255,6 +255,10 @@ jobs:
         run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
       - name: Rational inquiry gates, source dependency and conditional evidence rank
         run: python -I tools/check_rational_inquiry.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-inquiry-conformance.json"
+      - name: Classical source passages and bounded grammar interpretations
+        run: |
+          python -I tools/classical_language_evidence.py audit --output "${{ runner.temp }}/nabt-classical-sources.json"
+          python -I tools/check_classical_language_evidence.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-classical-conformance.json"
       - name: Source-preserving derivations and exhaustive binary-domain selection
         env:
           NABT_PROGRESSIVE_UNIT_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/progressiveUnitProbe

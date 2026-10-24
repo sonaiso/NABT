@@ -51,3 +51,6 @@ lean_exe recursiveBridgeProbe where
 
 lean_exe exportRationalInquiry where
   root := `ExportRationalInquiry
+
+lean_exe exportClassicalLanguageEvidence where
+  root := `ExportClassicalLanguageEvidence

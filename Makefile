@@ -124,7 +124,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms inquiry-conformance
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms inquiry-conformance classical-language-conformance
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:
@@ -134,3 +134,8 @@ demo:
 	$(PYTHON) -m nabt analyse 'كَتَبَ'
 	$(PYTHON) -m nabt count --weight 4 --mode waqf
 	$(PYTHON) -m nabt generate --weight 4 --rank 0 --mode waqf
+
+.PHONY: classical-language-conformance
+classical-language-conformance:
+	$(PYTHON) tools/check_classical_language_evidence.py --lake $(LAKE) --output $(EVIDENCE_DIR)/classical-language-conformance.json
+	$(PYTHON) tools/classical_language_evidence.py audit --output $(EVIDENCE_DIR)/classical-language-sources.json

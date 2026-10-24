@@ -1,0 +1,1180 @@
+{
+  "schema": "nabt.classical-full-validation.v1",
+  "recorded_at_utc": "2026-10-24T10:56:09.315148+00:00",
+  "base_merged_pr": "https://github.com/sonaiso/NABT/pull/15",
+  "base_merged_commit": "80834442dcfe4c1fffd5725c8c4eddf810ec210f",
+  "local_inquiry_integration_commit": "122efaef40e1754890f9161ed756c3d5b6ecd74b",
+  "runtime_version": "0.15.0a1",
+  "process": {
+    "command": [
+      "make",
+      "check",
+      "LAKE=/tmp/nabt-classical-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/classical-language-final-v2",
+      "ARABIC_EVALUATION_DIR=artifacts/local/classical-language-final-v2/arabic-regression"
+    ],
+    "started_at_utc": "2026-10-24T10:47:50.275445+00:00",
+    "completed_at_utc": "2026-10-24T10:55:49.597108+00:00",
+    "exit_code": 0,
+    "input_files": 288,
+    "inputs_unchanged": true,
+    "base_git_commit": "122efaef40e1754890f9161ed756c3d5b6ecd74b",
+    "log_sha256": "c7f926556b9971019a7f4e500dd2536175e061405cbbb634688ed7c06c46e0a4"
+  },
+  "full_runtime_tests": {
+    "tests": 1233,
+    "duration_seconds": 88.153,
+    "result": "OK"
+  },
+  "supplemental_probe_runs": [
+    {
+      "tests": 7,
+      "duration_seconds": 0.435,
+      "result": "OK"
+    },
+    {
+      "tests": 25,
+      "duration_seconds": 1.26,
+      "result": "OK"
+    },
+    {
+      "tests": 12,
+      "duration_seconds": 1.269,
+      "result": "OK"
+    },
+    {
+      "tests": 23,
+      "duration_seconds": 1.392,
+      "result": "OK"
+    },
+    {
+      "tests": 31,
+      "duration_seconds": 3.075,
+      "result": "OK"
+    }
+  ],
+  "formal_build": {
+    "command": [
+      "make",
+      "formal",
+      "LAKE=/tmp/nabt-classical-tools/lean-4.34.1-linux/bin/lake"
+    ],
+    "result": "PASS",
+    "jobs": 99,
+    "log": "formal-build.log"
+  },
+  "runtime_freeze": {
+    "path": "evidence/rational_inquiry/code_freeze_v2.json",
+    "bytes": 14268,
+    "sha256": "49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b",
+    "file_count": 75,
+    "snapshot_sha256": "97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64"
+  },
+  "catalog": {
+    "path": "evidence/classical_language/catalog_v2.json",
+    "bytes": 18908,
+    "sha256": "65c83b8a76c2532604f90949352caa6c2c3f03b2f0c958066a2cb20390edff3f"
+  },
+  "gate_reports": {
+    "conformance.json": {
+      "ok": true,
+      "fresh_lean_export_compared": true,
+      "primitive_transitions_checked": 11252,
+      "lean_sources_guarded": 59
+    },
+    "inquiry-conformance.json": {
+      "ok": true,
+      "rows_compared": 8192
+    },
+    "classical-language-conformance.json": {
+      "ok": true,
+      "rows_compared": 49
+    },
+    "classical-language-sources.json": {
+      "status": "VERIFIED",
+      "sources": [
+        {
+          "author": "أحمد بن فارس بن زكرياء القزويني الرازي، أبو الحسين (ت395هـ)",
+          "bytes": 3768378,
+          "declared_license": "CC-BY-NC-SA-4.0",
+          "edition": {
+            "edition_number": null,
+            "editor": "عبد السلام محمد هارون",
+            "publication_place": null,
+            "publisher": "دار الفكر",
+            "volumes": 6,
+            "year": "1399هـ - 1979م"
+          },
+          "independence": "COMPILATION_WITH_DECLARED_PREDECESSORS_NOT_AN_INDEPENDENT_SAMPLE",
+          "local_path": "evidence/classical_language/sources/maqayis.txt",
+          "metadata_path": "evidence/classical_language/sources/maqayis.metadata.json",
+          "provenance_kind": "PINNED_DIGITAL_EDITION",
+          "sha256": "7f71af0dfe056cb84e7da24657fa13edc6e8061ca1980eed7f6c196bd18b5689",
+          "source_id": "maqayis_shamela_21710",
+          "status": "VERIFIED_BYTES",
+          "title": "معجم مقاييس اللغة",
+          "upstream_commit": "5bb6966d8df2ed22b1bff5cdbe29bb9c24f3ca29",
+          "upstream_url": "https://github.com/OpenITI/0400AH/blob/5bb6966d8df2ed22b1bff5cdbe29bb9c24f3ca29/data/0395IbnFarisQazwini/0395IbnFarisQazwini.MucjamMaqayis/0395IbnFarisQazwini.MucjamMaqayis.Shamela0021710-ara1"
+        },
+        {
+          "author": "عبد القاهر بن عبد الرحمن بن محمد الجرجاني الشافعي",
+          "bytes": 790,
+          "edition": {
+            "edition": "الأولى",
+            "editor_as_printed": "أنور بن أبي بكر الشيخي الداغستاني",
+            "isbn": "978-9953-541-17-4",
+            "place": "جدة؛ بيانات اتصال بيروت أيضا في صفحة الطبع",
+            "publication_page_pdf_page_1_based": 5,
+            "publisher": "دار المنهاج للنشر والتوزيع",
+            "title_page_pdf_page_1_based": 4,
+            "year": "1430هـ / 2009م"
+          },
+          "independence": "GRAMMATICAL_TEXT_NOT_OWNER_SPREADSHEET_AND_NOT_NEW_SPEAKER_MEASUREMENT",
+          "local_path": "evidence/classical_language/sources/awamil_jurjani_excerpt.txt",
+          "metadata_path": "evidence/classical_language/sources/awamil_jurjani_excerpt.metadata.json",
+          "provenance_kind": "MANUALLY_REVIEWED_TRANSCRIPTION",
+          "scan_sha256": "0e589cd1c11d54337ce6db0fff7460540be1cc57ddabbc739d81a0e30fac4c9e",
+          "sha256": "6fb3f23e891199facf6a4e2b7dbebbc75adaf203787583e899fa765a1943e4c7",
+          "source_id": "awamil_jurjani_minhaj_2009_excerpt",
+          "status": "VERIFIED_BYTES",
+          "title": "العوامل المئة",
+          "transcription_policy": {
+            "body_only": true,
+            "claim": "The selected base-letter text was manually compared to the page images. This is a declared transcription, not the original PDF byte stream or a complete edition.",
+            "diacritics_removed": true,
+            "footnote_markers_removed": true,
+            "modern_editor_added_section_headings_excluded": true,
+            "modern_intro_and_footnotes_excluded": true,
+            "spacing_punctuation_and_line_breaks_normalized": true
+          },
+          "upstream_url": "https://archive.org/details/ali95_20161001_1731"
+        },
+        {
+          "author": "جمال الدين ابن هشام",
+          "bytes": 40168,
+          "declared_license": "CC-BY-NC-SA-4.0",
+          "edition": {
+            "edition": "الأولى",
+            "editor": null,
+            "publisher": "دار العصيمي",
+            "year": null
+          },
+          "independence": "LATER_COPIES_OR_MIRRORS_ARE_NOT_NEW_WITNESSES",
+          "local_path": "src/nabt/data/source_evidence/qatr.txt",
+          "metadata_path": "src/nabt/data/source_evidence/source_manifest.json",
+          "provenance_kind": "PINNED_DIGITAL_EDITION",
+          "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+          "source_id": "qatr_shamela_11376",
+          "status": "VERIFIED_BYTES",
+          "title": "متن قطر الندى وبل الصدى",
+          "upstream_commit": "61b0c7891699554aeff8dffdb8b1a2a59d2d22ab",
+          "upstream_url": "https://github.com/OpenITI/0775AH/blob/61b0c7891699554aeff8dffdb8b1a2a59d2d22ab/data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MatnQatrNada/0761JamalDinIbnHisham.MatnQatrNada.Shamela0011376-ara1"
+        },
+        {
+          "author": "أبو البشر عمرو بن عثمان بن قنبر سيبويه",
+          "bytes": 2639395,
+          "declared_license": "CC-BY-NC-SA-4.0",
+          "edition": {
+            "edition": "الأولى",
+            "editor": "عبد السلام محمد هارون",
+            "place": "بيروت",
+            "publisher": "دار الجيل",
+            "year": null
+          },
+          "independence": "LATER_COPIES_OR_MIRRORS_ARE_NOT_NEW_WITNESSES",
+          "local_path": "src/nabt/data/source_evidence/sibawayhi.txt",
+          "metadata_path": "src/nabt/data/source_evidence/source_manifest.json",
+          "provenance_kind": "PINNED_DIGITAL_EDITION",
+          "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+          "source_id": "sibawayhi_jk_6989",
+          "status": "VERIFIED_BYTES",
+          "title": "كتاب سيبويه",
+          "upstream_commit": "599f22fe249871f602efe2e0ddc801d3742960a3",
+          "upstream_url": "https://github.com/OpenITI/0200AH/blob/599f22fe249871f602efe2e0ddc801d3742960a3/data/0180Sibawayhi/0180Sibawayhi.KitabSibawayhi/0180Sibawayhi.KitabSibawayhi.JK006989-ara1"
+        }
+      ],
+      "records": [
+        {
+          "passage": {
+            "end": 3094294,
+            "sha256": "46700922076ed5c102c287568c584786808a57345ab3ff62fd99b24aebcf145d",
+            "source_id": "maqayis_shamela_21710",
+            "start": 3092497,
+            "text": "### | (كتب) \n# الكاف والتاء والباء أصل صحيح واحد يدل على جمع شيء إلى شيء. من ذلك\n~~الكتاب والكتابة. يقال: كتبت الكتاب أكتبه كتبا. ويقولون: كتبت البغلة، إذا\n~~جمعت شفري رحمها بحلقة. قال:\n# لا تأمنن فزاريا حللت به ... على قلوصك واكتبها بأسيار\n# والكتبة: الخرزة، وإنما سميت بذلك لجمعها المخروز. والكتب: الخرز. قال ذو\n~~الرمة:\n# وفراء غرفية أثأى خوارزها ... مشلشل ضيعته بينها الكتب ms0997\n# PageV05P158\n# ومن الباب الكتاب وهو الفرض. قال الله تعالى: {كتب عليكم الصيام}\n~~[البقرة: 183] ، ويقال للحكم: الكتاب. قال رسول الله صلى الله عليه وسلم: \"\n~~«أما لأقضين بينكما بكتاب الله تعالى» \"، أراد بحكمه. وقال تعالى: {يتلو\n~~صحفا مطهرة} [البينة: 2] . {فيها كتب قيمة} [البينة: 3] ، أي أحكام\n~~مستقيمة. ويقال للقدر: الكتاب. قال الجعدي:\n# يا ابنة عمي كتاب الله أخرجني ... عنكم وهل أمنعن الله ما فعلا\n# ومن الباب كتائب الخيل، يقال: تكتبوا. قال:\n# بألف تكتب أو مقنب\n# قال ابن الأعرابي: الكاتب عند العرب: العالم، واحتج بقوله تعالى: {أم\n~~عندهم الغيب فهم يكتبون} [الطور: 41] . والمكاتب: العبد يكاتبه سيده على\n~~نفسه. قالوا: وأصله من الكتاب، يراد بذلك الشرط الذي يكتب بينهما.\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 3094294,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "LEXICAL_ENTRY",
+            "lexical_projection": {
+              "gloss": "أصل صحيح واحد يدل على جمع شيء إلى شيء.",
+              "projection_limit": "EXACT_QUOTED_DESCRIPTION_IN_THIS_ENTRY_NOT_A_CONTEXTUAL_SENSE_ASSIGNMENT",
+              "root": "كتب",
+              "root_token": "(كتب)"
+            },
+            "line_end": 36438,
+            "line_start": 36419,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV05P158"
+            ],
+            "record_id": "maqayis_ktb_entry",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "Claims an etymological organizing principle in this author and edition; does not prove every occurrence of كتب has the same sense.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "maqayis_shamela_21710",
+            "span_sha256": "46700922076ed5c102c287568c584786808a57345ab3ff62fd99b24aebcf145d",
+            "start": 3092497,
+            "title": "مدخل كتب يقرر أصل الجمع ويعرض الكتاب والكتابة والفرض والحكم وأقوالا منسوبة."
+          },
+          "record_id": "maqayis_ktb_entry",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 2293338,
+            "sha256": "829ffe3d3c49d270cf99cd9ccd5b72e5fc8d8b9399b9e71d480133d0b51e3f95",
+            "source_id": "maqayis_shamela_21710",
+            "start": 2291002,
+            "text": "### | (علم) \n# العين واللام والميم أصل صحيح واحد، يدل على أثر بالشيء يتميز به عن\n~~غيره.\n# من ذلك العلامة، وهي معروفة. يقال: علمت على الشيء علامة. ويقال: أعلم\n~~الفارس، إذا كانت له علامة في الحرب. وخرج فلان معلما بكذا. والعلم:\n~~الراية، والجمع أعلام. والعلم: الجبل، وكل شيء يكون معلما: خلاف المجهل.\n~~وجمع العلم أعلام أيضا. قالت الخنساء:\n# وإن صخرا لتأتم الهداة به ... كأنه علم في رأسه نار\n# والعلم: الشق في الشفة العليا، والرجل أعلم. والقياس واحد، لأنه كالعلامة\n# PageV04P109\n# بالإنسان. والعلام فيما يقال: الحناء; وذلك أنه إذا خضب به فذلك\n~~كالعلامة. والعلم: نقيض الجهل، وقياسه قياس العلم والعلامة، والدليل على\n~~أنهما من قياس واحد قراءة بعض القراء: \" وإنه لعلم للساعة \"، قالوا: يراد\n~~به نزول عيسى - عليه السلام -، وإن بذلك يعلم قرب الساعة. وتعلمت الشيء،\n~~إذا أخذت علمه. والعرب تقول: تعلم أنه كان كذا، بمعنى اعلم. قال قيس بن\n~~زهير:\n# تعلم أن خير الناس حيا ... على جفر الهباءة لا يريم\n# والباب كله قياس واحد.\n# ومن الباب العالمون، وذلك أن كل جنس من الخلق فهو في نفسه معلم وعلم.\n~~وقال قوم: العالم سمي لاجتماعه. قال الله - تعالى: {والحمد لله رب\n~~العالمين} [الأنعام: 45] ، قالوا: الخلائق أجمعون. وأنشدوا:\n# ما إن رأيت ولا سمع ... ت بمثلهم في العالمينا\n# وقال في العالم:\n# فخندف هامة هذا العالم\n# PageV04P110\n# والذي قاله القائل في أن في ذلك ما يدل على الجمع والاجتماع فليس ببعيد،\n~~وذلك أنهم يسمون العيلم، فيقال إنه البحر، ويقال إنه البئر الكثيرة الماء.\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 2293338,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "LEXICAL_ENTRY",
+            "lexical_projection": {
+              "gloss": "العلم: نقيض الجهل",
+              "projection_limit": "EXACT_QUOTED_DESCRIPTION_IN_THIS_ENTRY_NOT_A_CONTEXTUAL_SENSE_ASSIGNMENT",
+              "root": "علم",
+              "root_token": "(علم)"
+            },
+            "line_end": 27065,
+            "line_start": 27039,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV04P109",
+              "PageV04P110"
+            ],
+            "record_id": "maqayis_ilm_entry",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "The entry itself contains explanation and alternatives; a root cell does not select a context-specific meaning.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "maqayis_shamela_21710",
+            "span_sha256": "829ffe3d3c49d270cf99cd9ccd5b72e5fc8d8b9399b9e71d480133d0b51e3f95",
+            "start": 2291002,
+            "title": "مدخل علم يبدأ بأثر مميز ويضم العلم نقيض الجهل، ثم يورد قول قوم في العالم والاجتماع ولا يستبعده."
+          },
+          "record_id": "maqayis_ilm_entry",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 446933,
+            "sha256": "6e175f37c099864ab02107bfa4097049ce5f15cff77a389764fb8adb82503035",
+            "source_id": "maqayis_shamela_21710",
+            "start": 445526,
+            "text": "### | [باب ما جاء من كلام العرب على أكثر من ثلاثة أحرف أوله باء]\n# اعلم أن للرباعي والخماسي مذهبا في القياس، يستنبطه النظر الدقيق. وذلك\n~~أن أكثر ما تراه منه منحوت. ومعنى النحت أن تؤخذ كلمتان وتنحت منهما\n# PageV01P328\n# كلمة تكون آخذة منهما جميعا بحظ. والأصل في ذلك ما ذكره الخليل من قولهم:\n~~حيعل الرجل، إذا قال حي على. ومن الشيء الذي كأنه متفق عليه قولهم: عبشمي.\n~~وقوله:\n# تضحك مني شيخة عبشمية\n# فعلى هذا الأصل بنينا ما ذكرناه من مقاييس الرباعي، فنقول: إن ذلك على\n~~ضربين: أحدهما المنحوت الذي ذكرناه، والضرب الآخر [الموضوع] وضعا لا مجال\n~~له في طرق القياس. وسنبين ذلك بعون الله.\n# فمما جاء منحوتا من كلام العرب في الرباعي أوله باء.\n### | (البلعوم) \n# مجرى الطعام في الحلق. وقد يحذف فيقال بلعم. وغير مشكل أن هذا مأخوذ من\n~~بلع، إلا أنه زيد عليه ما زيد لجنس من المبالغة في معناه. وهذا وما أشبهه\n~~توطئة لما بعده.\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 446933,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "LEXICOGRAPHIC_ENTRY_WITH_AUTHOR_INFERENCE",
+            "line_end": 5288,
+            "line_start": 5273,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV01P328"
+            ],
+            "record_id": "maqayis_blum_context",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "A proposed decomposition into two roots can fit letters while disagreeing with the source analysis. The exact bounded observation is the source statement, not universal etymological truth.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "maqayis_shamela_21710",
+            "span_sha256": "6e175f37c099864ab02107bfa4097049ce5f15cff77a389764fb8adb82503035",
+            "start": 445526,
+            "title": "سياق الرباعي يشرح النحت، ثم يذكر البلعوم وبلعم من بلع مع زيادة للمبالغة."
+          },
+          "record_id": "maqayis_blum_context",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 3895,
+            "sha256": "cc6a6756d27ee49e39f6588f7c8c2e38270ca8a548d6590786a4b039c567cd25",
+            "source_id": "maqayis_shamela_21710",
+            "start": 1661,
+            "text": "# قال أحمد: أقول وبالله التوفيق: إن للغة العرب مقاييس صحيحة، وأصولا\n~~تتفرع منها فروع. وقد ألف الناس في جوامع اللغة ما ألفوا، ولم يعربوا في\n~~شيء من ذلك عن مقياس من تلك المقاييس، ولا أصل من الأصول. والذي أومأنا\n~~إليه باب من العلم جليل، وله خطر عظيم. وقد صدرنا كل فصل بأصله الذي يتفرع\n~~منه مسائله، حتى تكون الجملة الموجزة شاملة للتفصيل، ويكون المجيب عما يسأل\n~~عنه مجيبا عن الباب المبسوط بأوجز لفظ وأقربه.\n# وبناء الأمر في سائر ما ذكرناه على كتب مشتهرة عالية، تحوي أكثر اللغة.\n# فأعلاها وأشرفها كتاب أبي عبد الرحمن الخليل بن أحمد، المسمى (كتاب\n~~العين) أخبرنا به علي بن إبراهيم القطان، فيما قرأت عليه،\n# PageV01P003\n# أخبرنا أبو العباس أحمد بن إبراهيم المعداني، عن أبيه إبراهيم بن إسحاق\n~~عن بندار بن لزة الأصفهاني، ومعروف بن حسان عن الليث، عن الخليل.\n# ومنها كتابا أبي عبيد في (غريب الحديث) ، و (مصنف الغريب) حدثنا بهما علي\n~~بن عبد العزيز عن أبي عبيد.\n# PageV01P004\n# ومنها (كتاب المنطق) وأخبرني به فارس بن زكريا عن أبي نصر ابن أخت الليث\n~~بن إدريس، عن الليث، عن ابن السكيت.\n# ومنها كتاب أبي بكر بن دريد المسمى (الجمهرة) ; وأخبرنا به أبو بكر محمد\n~~بن أحمد الأصفهاني، وعلي بن أحمد الساوي عن أبي بكر.\n# فهذه الكتب الخمسة معتمدنا فيما استنبطناه من مقاييس اللغة، وما بعد هذه\n~~الكتب فمحمول عليها، وراجع إليها; حتى إذا وقع الشيء النادر نصصناه إلى\n~~قائله إن شاء الله. فأول ذلك:\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 3895,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "AUTHOR_SOURCE_PROVENANCE",
+            "line_end": 66,
+            "line_start": 45,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV01P003",
+              "PageV01P004",
+              "PageV01P005"
+            ],
+            "record_id": "maqayis_compilation_basis",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "A compilation and its source/mirror are not automatically independent attestations of a linguistic event.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "maqayis_shamela_21710",
+            "span_sha256": "cc6a6756d27ee49e39f6588f7c8c2e38270ca8a548d6590786a4b039c567cd25",
+            "start": 1661,
+            "title": "المقدمة تبين مقاييس تتفرع منها الفروع وتصرح بالاعتماد على خمسة كتب."
+          },
+          "record_id": "maqayis_compilation_basis",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 4524,
+            "sha256": "8dced4c27bdefd9cef349e1209c8113ec06925538a01464a54e81487483365a3",
+            "source_id": "qatr_shamela_11376",
+            "start": 3959,
+            "text": "# فصل: أنواع الإعراب أربعة.\n# (1) رفع (2) ونصب في اسم وفعل نحو \"زيد يقوم\" و \"إن زيدا لن يقوم\"، (3)\n~~وجر في اسم نحو \"بزيد\"، (4) وجزم نحو \"لم يقم\". فيرفع بضمة، وينصب بفتحة،\n~~ويجر بكسرة، ويجزم بحذف حركة، إلا الأسماء الستة، وهي أبوه وأخوه وحموها\n~~وهنوه وفوه وذو مال، فترفع بالواو وتنصب بالألف وتجر بالياء. والأفصح\n~~استعمال هن كغد.\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 4524,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "PRESCRIPTIVE_GRAMMAR_WITH_AUTHORED_EXAMPLES",
+            "line_end": 80,
+            "line_start": 75,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV01P005"
+            ],
+            "record_id": "qatr_six_nouns",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "A grammar rule with authored examples is evidence of the formulation, not a newly observed utterance or unrestricted coverage of all noun uses.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "qatr_shamela_11376",
+            "span_sha256": "8dced4c27bdefd9cef349e1209c8113ec06925538a01464a54e81487483365a3",
+            "start": 3959,
+            "title": "أقسام الإعراب، الحالات والحركات، والأسماء الستة وحروف إعرابها مع قيد هن."
+          },
+          "record_id": "qatr_six_nouns",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 11027,
+            "sha256": "4b0ef94cf748d0298a22e6bdfa51364225d3e19e0459001e6f8cb63e212228e6",
+            "source_id": "qatr_shamela_11376",
+            "start": 10377,
+            "text": "# ثم الموصول، وهو الذي والتي، واللذان واللتان بالألف رفعا وبالياء جرا ms03\n~~ونصبا، ولجمع المذكر الذين بالياء مطلقا والألى، ولجمع المؤنث اللائي\n~~واللاتي، وبمعنى الجميع من وما وأي، وأل في وصف صريح لغير تفضيل كالضارب\n~~والمضروب، وذو في لغة طي، وذا بعد ما أو من الاستفهاميتين. وصلة أل الوصف،\n~~وصلة غيرها إما جملة خبرية ذات ضمير طبق للموصول يسمى عائدا، وقد يحذف نحو\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 11027,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "PRESCRIPTIVE_GRAMMAR_DIALECT_SCOPE",
+            "line_end": 141,
+            "line_start": 137,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV01P008"
+            ],
+            "record_id": "qatr_dhu_relative_tayy",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "Preserves the alternative relative use and dialect scope; does not license every ذو as the six-noun possessive.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "qatr_shamela_11376",
+            "span_sha256": "4b0ef94cf748d0298a22e6bdfa51364225d3e19e0459001e6f8cb63e212228e6",
+            "start": 10377,
+            "title": "سياق الموصول يذكر ذو في لغة طي."
+          },
+          "record_id": "qatr_dhu_relative_tayy",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 297221,
+            "sha256": "6887899523251d34e0abf1d270a6826a982cc7a5c0037b46e4a5a6d0d5518ec9",
+            "source_id": "sibawayhi_jk_6989",
+            "start": 295111,
+            "text": "# | ( وهذا باب من الفعل سمى الفعل فيه بأسماء مضافة )\n# | ليست من أمثلة الفعل الحادث ولكنها بمنزلة الأسماء المفرد التى كانت\n~~للفعل نحو رويد وحيهل ومجراهن واحد وموضعهن من الكلام الأمر والنهى إذا\n~~كانت للمخاطب المأمور والمنهى وإنما استوت ms105 هي ورويد وما أشبه رويد كماى\n~~استوى المفرد والمضاف إذا كانا اسمين نحو عبد الله وزيد مجراهما في العربية\n~~سواء | ومنها ما يتعدى المأمور إلى مأمور به ومنها ما يتعدى المنهى إلى\n~~المنهى عنه ومنها مالا يتعدى المأمور ولا المنهى | PageV01P248 | فأما ما\n~~يتعدى المأمور إلى مأمور به فهو قولك عليك زيدا ودونك زيدا وعندك زيدا\n~~تأمره به | حدثنا بذلك أبو الخطاب | وأما ما تعدى المنهى إلى منهى عنه\n~~فقولك حذرك زيدا وحذارك زيدا سمعناهما من العرب | وأما مالا يتعدى المأمور\n~~ولا المنهى فقولك مكانك و بعدك إذا قلت تأخر أو حذرته شيئا خلفه | وكذلك\n~~عندك إذا كنت تحذره من بين يديه شيئا أو تأمره أن يتقدم | وكذلك فرطك إذا\n~~كنت تحذره من بين يديه شيئا أو تأمره أن يتقدم | ومثلها أمامك إذا كنت\n~~تحذره أو تبصره شيئا | وإليك إذا قلت تنح | ووراءك إذا قلت افطن لما خلفك |\n~~حدثنا أبو الخطاب أنه سمع من العرب من يقال له إليك PageV01P249 فيقول إلى\n~~| كأنه قيل له تنح | فقال أتنحى | ولا يقال إذا قيل لأحدهم دونك دونى ولا\n~~على | هذا النحو إنما سمعناه فى هذا الحرف وحده وليس لها قوة الفعل فتقاس |\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 297221,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "REPORTED_USAGE_WITH_TRANSMISSION_AND_SCOPE_LIMIT",
+            "line_end": 2536,
+            "line_start": 2520,
+            "page_markers_in_or_adjacent_to_span": [
+              "PageV01P248",
+              "PageV01P249"
+            ],
+            "record_id": "sibawayhi_reported_imperative_usage",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "This is a deposited report attributed to speakers through a named transmitter, not an independent present-day observation or proof that every cited event occurred.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "sibawayhi_jk_6989",
+            "span_sha256": "6887899523251d34e0abf1d270a6826a982cc7a5c0037b46e4a5a6d0d5518ec9",
+            "start": 295111,
+            "title": "باب أسماء الفعل يميز أمثلة القول، ما حدث به أبو الخطاب، وما سمعه المؤلف، وينص على قيد عدم التعميم في إليك/إلي."
+          },
+          "record_id": "sibawayhi_reported_imperative_usage",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 298,
+            "sha256": "114e8d4df23975afbb0b310c105413ba9b5e6956009ef7db3e7e028b69112568",
+            "source_id": "awamil_jurjani_minhaj_2009_excerpt",
+            "start": 0,
+            "text": "لفظية ومعنوية.\nفاللفظية منها: تنقسم إلى قسمين:\nسماعية وقياسية.\nفالسماعية منها: أحد وتسعون عاملا.\nوالقياسية منها: سبعة عوامل.\nوالمعنوية منها: عددان.\nفالجملة: مئة عامل.\n"
+          },
+          "record": {
+            "allowed_laws": [
+              "jurjani-awamil-partition-v1"
+            ],
+            "content_kind": "SOURCE_CLASSIFICATION_STATEMENT",
+            "end": 298,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "MANUALLY_REVIEWED_TRANSCRIPTION",
+            "line_end": 7,
+            "line_start": 1,
+            "pdf_page_1_based": 40,
+            "printed_page": 40,
+            "record_id": "awamil_jurjani_partition",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "The count statement is transcribed from printed/PDF page40. No full enumeration or row correspondence with Mashru XLSX is established.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "awamil_jurjani_minhaj_2009_excerpt",
+            "span_sha256": "114e8d4df23975afbb0b310c105413ba9b5e6956009ef7db3e7e028b69112568",
+            "start": 0,
+            "title": "القسمة المصرح بها في المتن: 91 سماعية و7 قياسية و2 معنوية."
+          },
+          "record_id": "awamil_jurjani_partition",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 790,
+            "sha256": "c4a37a31b653a5e2ca9b66c9582fc0bb6a78adaa597bd2e1a7f903b47675bbf5",
+            "source_id": "awamil_jurjani_minhaj_2009_excerpt",
+            "start": 299,
+            "text": "والسماعية منها: تتنوع على ثلاثة عشر نوعا.\nالنوع الأول: حروف تجر الاسم الواحد فقط، وهي سبعة عشر حرفا:\nأحدها: (الباء) من حروف الجر، ولها معان:\nالأول: للإلصاق؛ نحو: مررت بزيد؛ أي: التصق مروري بموضع يقرب منه زيد.\nوالثاني: للاستعانة؛ نحو: كتبت بالقلم؛ أي: استعنت في الكتابة بالقلم.\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "content_kind": "AUTHORED_GRAMMATICAL_EXAMPLES",
+            "end": 790,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "MANUALLY_REVIEWED_TRANSCRIPTION",
+            "line_end": 13,
+            "line_start": 9,
+            "pdf_page_1_based": 41,
+            "printed_page": 41,
+            "record_id": "awamil_jurjani_ba_examples",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "The examples are introduced by نحو and are authored grammatical examples, not observed speaker events. Byte replay verifies the deposited transcription; it does not automatically verify the PDF-to-text transcription.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "awamil_jurjani_minhaj_2009_excerpt",
+            "span_sha256": "c4a37a31b653a5e2ca9b66c9582fc0bb6a78adaa597bd2e1a7f903b47675bbf5",
+            "start": 299,
+            "title": "الباء من حروف الجر؛ مثال للإلصاق مررت بزيد، وللاستعانة كتبت بالقلم."
+          },
+          "record_id": "awamil_jurjani_ba_examples",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 11614,
+            "sha256": "2cf6b4683f96c844b39d7eef28d948843df5c4371eb08da203b9f4b210dc9a1f",
+            "source_id": "sibawayhi_jk_6989",
+            "start": 10390,
+            "text": "# | ( هذا باب مجارى أواخر الكلم من العربية )\n# | وهي تجري على ثماني مجار على النصب والجر والرفع والجزم والفتح والضم\n~~والكسر والوقف | وهذه المجارى الثمانية يجمعهن في اللفظ أربعة أضرب فالنصب\n~~والفتح في اللفظ ضرب واحد والجر والكسر فيه ضرب واحد وكذلك الرفع والضم\n~~والجزم والوقف | وإنما ذكرت لك ثمانية مجار لأفرق بين ما يدخله ضرب من هذه\n~~الأربعة لما يحدث فيه العامل - وليس شئ منها إلا وهو يزول عنه - وبين ما\n~~يبنى عليه الحرف بناء لا يزول عنه لغير شئ أحدث ذلك فيه من العوامل التي\n~~لكل عامل منها ضرب من اللفظ في الحرف وذلك الحرف حرف الإعراب | فالرفع\n~~والجر والنصب والجزم لحروف الإعراب وحروف الإعراب للأسماء المتمكنة\n~~وللأفعال المضارعة لأسماء الفاعلين التي في أوائلها الزوائد الأربع الهمزة\n"
+          },
+          "record": {
+            "allowed_laws": [
+              "sibawayhi-course-v1",
+              "sibawayhi-surface-v1"
+            ],
+            "end": 11614,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "RULE_STATEMENT",
+            "line_end": 120,
+            "line_start": 111,
+            "record_id": "sibawayhi_eight_functions",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "Interpreted table of eight named functions and four visible marks; a surface mark alone does not assign the grammatical function of a new token.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "sibawayhi_jk_6989",
+            "span_sha256": "2cf6b4683f96c844b39d7eef28d948843df5c4371eb08da203b9f4b210dc9a1f",
+            "start": 10390,
+            "title": "مجاري أواخر الكلم ثمانية، وتشترك في أربعة أوجه لفظية"
+          },
+          "record_id": "sibawayhi_eight_functions",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 17197,
+            "sha256": "2a7040e2815263eec490e428effab98fb19c3245b38b5e08dea1906f8435a359",
+            "source_id": "qatr_shamela_11376",
+            "start": 15482,
+            "text": "# الثاني: إن وأن للتأكيد، ولكن للاستدراك، وكأن للتشبيه أو الظن، وليت\n~~للتمني، ولعل للترجي أو الإشفاق أو التعليل. فينصبن المبتدأ اسما لهن،\n~~ويرفعن الخبر خبرا لهن، إن لم تقترن بهن ما الحرفية: نحو {إنما الله إله\n~~واحد} إلا ليت فيجوز الأمران، كإن المكسورة مخففة فأما لكن مخففة فتهمل.\n~~وأما أن فتعمل، ويجب في غير الضرورة حذف اسمها ضمير الشأن، وكون خبرها جملة\n# PageV01P011\n# مفصولة - إن بدئت بفعل متصرف غير دعاء – ب\"قد أو تنفيس أو نفي أو لو\"\n~~وأما كأن فتعمل ويقل ذكر اسمها، ويفصل الفعل منها ب\"لم أو قد\" ولا يتوسط\n~~خبرهن إلا ظرفا أو مجرورا نحو {إن في ذلك لعبرة} ms05 ، {إن لدينا أنكالا} ،\n~~وتكسر إن في الابتداء نحو {إنا أنزلناه في ليلة القدر} ، وبعد القسم نحو\n~~{حم والكتاب المبين إنا أنزلناه} ، والقول نحو {قال إني عبد الله} ، وقبل\n~~اللام نحو {والله يعلم إنك لرسوله} ويجوز دخول اللام على ما تأخر من خبر إن\n~~المكسورة، أو اسمها، أو ما توسط من معمول الخبر، أو الفصل. ويجب مع المخففة\n~~إن أهملت ولم يظهر المعنى.\n# ومثل إن لا النافية للجنس. لكن عملها خاص بالمنكرات المتصلة بها، نحو \"لا\n"
+          },
+          "record": {
+            "allowed_laws": [
+              "qatr-inna-v1"
+            ],
+            "end": 17197,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "RULE_STATEMENT",
+            "line_end": 201,
+            "line_start": 187,
+            "record_id": "qatr_inna_conditions",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "The full-form rule and ma-kaffa exception are formalized; light forms remain explicitly outside the implemented law although this passage discusses them. Target readings are caller-interpreted.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "qatr_shamela_11376",
+            "span_sha256": "2a7040e2815263eec490e428effab98fb19c3245b38b5e08dea1906f8435a359",
+            "start": 15482,
+            "title": "عمل إن وأخواتها وما الكافة والتخفيف"
+          },
+          "record_id": "qatr_inna_conditions",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 28243,
+            "sha256": "4b204e92bcddf0b1eabe0275251be9914c18df4e43e16a7a5aa1e622e8e36972",
+            "source_id": "qatr_shamela_11376",
+            "start": 27130,
+            "text": "# والتمييز: هو اسم فضلة نكرة جامد مفسر لما انبهم من الذوات. وأكثر وقوعه\n~~بعد المقادير ك \"جريب نخلا، وصاع تمرا، ومنوين عسلا\" والعدد نحو \"أحد عشر\n~~كوكبا\" إلى تسع وتسعين، ومنه تمييز كم الاستفهامية نحو \"كم عبدا ملكت؟ \".\n~~فأما تمييز الخبرية فمجرور، مفرد كتمييز المئة وما فوقها، أو مجموع كتمييز\n~~العشرة وما دونها. ولك في تمييز الاستفهامية المجرورة بالحرف جر ونصب،\n~~ويكون التمييز مفسرا للنسبة محولا ك {اشتعل الرأس شيبا} ، {وفجرنا الأرض\n~~عيونا} ، و {أنا أكثر منك مالا} ، أو غير محول نحو \"امتلأ الإناء ماء\" وقد\n~~يؤكدان نحو: {ولا تعثوا في الأرض مفسدين} .\n# وقوله:\n# من خير أديان البرية دينا‘\n# ومنه:\n# بئس الفحل فحلهم فحلا\n# خلافا لسيبويه.\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 28243,
+            "interpretation_authority": "AUTHORED_SELECTION_NOT_AUTOMATIC_EXTRACTION",
+            "kind": "RULE_STATEMENT_WITH_DISAGREEMENT",
+            "line_end": 325,
+            "line_start": 313,
+            "record_id": "qatr_tamyiz_disagreement",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "Preserve the full condition and disagreement; no universal school-independent rule is issued.",
+              "target": "THIS_SOURCE_AND_SELECTED_PASSAGE"
+            },
+            "source_id": "qatr_shamela_11376",
+            "span_sha256": "4b204e92bcddf0b1eabe0275251be9914c18df4e43e16a7a5aa1e622e8e36972",
+            "start": 27130,
+            "title": "شروط التمييز وخلاف سيبويه"
+          },
+          "record_id": "qatr_tamyiz_disagreement",
+          "status": "ATTESTED"
+        },
+        {
+          "passage": {
+            "end": 1460684,
+            "sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a",
+            "source_id": "sibawayhi_jk_6989",
+            "start": 1460416,
+            "text": "~~من العرب من يقول هذا هنوك ورأيت هناك ومررت بهنيك ويقول هنوان فيجريه مجرى\n~~الأب فمن فعل ذا قال هنوات يرده في التثنية والجمع بالتاء وسنة وسنوات وصفة\n"
+          },
+          "record": {
+            "allowed_laws": [],
+            "end": 1460684,
+            "interpretation_authority": "EXACT_EXISTING_SOURCE_CONTEXT",
+            "kind": "REPORTED_USAGE_WITH_UNNAMED_SPEAKERS",
+            "line_end": 12350,
+            "line_start": 12349,
+            "record_id": "sibawayhi_han_examples",
+            "scope": {
+              "domain": "CLASSICAL_ARABIC_TEXTUAL_EVIDENCE",
+              "limit": "Three forms attributed by Sibawayhi to some Arabs. No named speakers or newly observed speech event; no held-out measurement. The source itself begins من العرب من يقول.",
+              "target": "THREE_EXAMPLES_ONE_LEXEME"
+            },
+            "source_id": "sibawayhi_jk_6989",
+            "span_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a",
+            "start": 1460416,
+            "title": "أمثلة هنوك وهناك وهنيك في الإضافة"
+          },
+          "record_id": "sibawayhi_han_examples",
+          "status": "ATTESTED"
+        }
+      ],
+      "catalog_sha256": "65c83b8a76c2532604f90949352caa6c2c3f03b2f0c958066a2cb20390edff3f"
+    },
+    "axioms.json": {
+      "ok": true,
+      "theorem_count": 982,
+      "observed_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "project_axioms_allowed": false,
+      "all_nabt_declarations_scanned": true
+    },
+    "construction-regression.json": {
+      "passed": 71,
+      "total": 86,
+      "strict_pass": false,
+      "gate_pass": true,
+      "measurement_valid": true
+    },
+    "discourse-regression.json": {
+      "passed": 56,
+      "total": 86,
+      "strict_pass": false,
+      "gate_pass": true,
+      "measurement_valid": true,
+      "coverage_complete": false
+    },
+    "inflection-regression.json": {
+      "strict_pass": false,
+      "gate_pass": true,
+      "summary": {
+        "total": 74,
+        "passed": 72,
+        "coverage_miss_cases": 2,
+        "false_accept_cases": 0,
+        "execution_error_cases": 0,
+        "adapter_error_cases": 0
+      }
+    },
+    "inflection-cli-regression.json": {
+      "passed": 32,
+      "total": 32,
+      "gate_pass": true
+    },
+    "unit-discovery-conformance.json": {
+      "summary": {
+        "acquisition_measured": false,
+        "by_group": {
+          "annotated_arabic": {
+            "cases": 24,
+            "failed_checks": 0,
+            "fully_passed": 0,
+            "measured_checks": 20,
+            "unmeasured_checks": 89
+          },
+          "evidence_binding": {
+            "cases": 8,
+            "failed_checks": 0,
+            "fully_passed": 3,
+            "measured_checks": 28,
+            "unmeasured_checks": 6
+          },
+          "mechanical": {
+            "cases": 8,
+            "failed_checks": 0,
+            "fully_passed": 4,
+            "measured_checks": 19,
+            "unmeasured_checks": 5
+          }
+        },
+        "case_statuses": {
+          "MEASURED": 7,
+          "PARTIALLY_MEASURED": 23,
+          "UNMEASURED": 10
+        },
+        "coverage_complete": false,
+        "failed_checks": 0,
+        "false_accept_count": 0,
+        "fully_passed_cases": 7,
+        "gate_pass": true,
+        "gate_scope": "conditional_contract_checks_only",
+        "measured_checks": 67,
+        "measured_contract_gate_pass": true,
+        "required_core_judgments_missing": {},
+        "strict_pass": false,
+        "total_cases": 40,
+        "unmeasured_checks": 100
+      }
+    },
+    "progressive-unit-conformance.json": {},
+    "recursive-bridge-conformance.json": {},
+    "governor-regression/regression_gate.json": {
+      "status": "REGRESSION_PASS"
+    },
+    "word-regression.json": {
+      "summary": {
+        "cases": 30,
+        "passed": 27,
+        "positive_capability_passed": 12,
+        "positive_capability_cases": 15,
+        "all_cases_passed": false,
+        "full_coverage_goal_passed": false,
+        "release_regression_gates_passed": true
+      }
+    }
+  },
+  "focused_tests": {
+    "evidence": "independent_tests_v1.json",
+    "methods": 41,
+    "subtests": 76,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "not_blind_external_review": true
+  },
+  "demonstrations": {
+    "evidence": "demonstration_v1.json",
+    "cases": 10,
+    "passed": 10,
+    "claim_status_counts": {
+      "CONDITIONALLY_CHECKED": 4,
+      "DEFER": 3,
+      "LEXICALLY_ATTESTED": 2,
+      "ATTESTED": 1
+    },
+    "passing_deferral_is_not_a_positive_linguistic_claim": true
+  },
+  "source_audit": {
+    "evidence": "source_audit_v1.json",
+    "sources": 4,
+    "selected_passages": 13,
+    "complete_book_formalization": false
+  },
+  "new_theorems": 48,
+  "prior_failed_gate": {
+    "evidence": "integration_review_v1/receipt_before.json",
+    "error": "PR15 standalone adapter test required the older 74-file freeze after the intentional inquiry runtime integration.",
+    "resolution": "Pin and verify the registered rational_inquiry_v2 exact 75-file inventory; retain the old immutable freeze, original test and failed log.",
+    "focused_after_evidence": "integration_review_v1/receipt_after.json"
+  },
+  "report_budget_review": "report_budget_review_v1/observed_after.json",
+  "classification_review": "catalog_review_v1/classification_correction.json",
+  "publication": {
+    "evidence": "publication_attempt_v1.json",
+    "status": "BLOCKED_BY_GITHUB_INTEGRATION_403",
+    "remote_branch_created": false,
+    "pull_request_created": false
+  },
+  "report_archive": {
+    "path": "evidence/classical_language/full_validation_reports_v1.zip",
+    "bytes": 9422094,
+    "sha256": "78922a224f655277b6f08774a7409607324e213c0bfade43acce3dbc749a4f59"
+  },
+  "report_files": [
+    {
+      "path": "arabic-conformance.json",
+      "bytes": 180,
+      "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea"
+    },
+    {
+      "path": "arabic-regression/receipt.json",
+      "bytes": 3092,
+      "sha256": "4c1666596374c62de34d5116e787c368d43d3d014a45ef66af84be8398043963"
+    },
+    {
+      "path": "arabic-regression/results.json",
+      "bytes": 686821,
+      "sha256": "0df5a58825d3408e5a0abc7fdfaf5ed3d56f53d47b85aa5f8a74a94233c21b01"
+    },
+    {
+      "path": "axioms.json",
+      "bytes": 79528,
+      "sha256": "bcde3356b92276dba6b29174a1d54ba2d51f3ccdd53ed5d314e9ea045fd77995"
+    },
+    {
+      "path": "axioms.log",
+      "bytes": 76903,
+      "sha256": "c7f15382801456749959f3226c6e12fde977bad4671280a8275fe0ae2fff003d"
+    },
+    {
+      "path": "check.log",
+      "bytes": 291645,
+      "sha256": "c7f926556b9971019a7f4e500dd2536175e061405cbbb634688ed7c06c46e0a4"
+    },
+    {
+      "path": "classical-language-conformance.json",
+      "bytes": 2824,
+      "sha256": "806446139cf3dc9c1d0aaeaff4cfae8aaa6c2815eb0f9229452254b486af253b"
+    },
+    {
+      "path": "classical-language-sources.json",
+      "bytes": 35131,
+      "sha256": "a659bdc18ee3301f4d87f2692c7e56d0f9eb18ebe178f69f6ab093e20cab54a4"
+    },
+    {
+      "path": "conformance.json",
+      "bytes": 2309,
+      "sha256": "b4809f6756a48b96277124691abe4ac840c63ab86e5512942750f541a8a0347d"
+    },
+    {
+      "path": "construction-conformance.json",
+      "bytes": 738,
+      "sha256": "2a03b9acab326e67b30c0a9f50bad4127c2ad7aa04f66944d61c8bb94cf7c235"
+    },
+    {
+      "path": "construction-regression.code.tar.gz",
+      "bytes": 1036208,
+      "sha256": "ade99aac66df6a2cdcbbe1df35a7e546defa1489a89d7a213224b9166b654252"
+    },
+    {
+      "path": "construction-regression.json",
+      "bytes": 166189,
+      "sha256": "f94f92cb0eaae012b63b8dfb80d6fccfacb59bcab5ec6d2124a62b6c40b89c00"
+    },
+    {
+      "path": "construction-regression.raw.jsonl.gz",
+      "bytes": 1307697,
+      "sha256": "fd23cd89db50e2e5e47d58c393b06a6aa8087a5e743972131daae4d1ac752983"
+    },
+    {
+      "path": "derivation-conformance.json",
+      "bytes": 573,
+      "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73"
+    },
+    {
+      "path": "derivation-regression.json",
+      "bytes": 150895,
+      "sha256": "f1f03c0d34ddeae387172a563d8a446579606272c2b9120ca45276be46e75bd1"
+    },
+    {
+      "path": "discourse-conformance.json",
+      "bytes": 884,
+      "sha256": "a724080bd0d2c50728c52c8f1692155013b5e5b73b1160214c8eb114bc0d7fc3"
+    },
+    {
+      "path": "discourse-regression.code.tar.gz",
+      "bytes": 939932,
+      "sha256": "96ff81faec4841d9213eec68efddd5eebe74131f166f20a6bb6b7803f555487a"
+    },
+    {
+      "path": "discourse-regression.json",
+      "bytes": 137815,
+      "sha256": "f5199588ad8cca3465a5d9bd8e7a8e5d5ee6a821fba0ecdb0b4c00fcea4418a5"
+    },
+    {
+      "path": "discourse-regression.raw.jsonl.gz",
+      "bytes": 1046125,
+      "sha256": "d437e80c6198ec35876b441ba9dde1cb4e00903ae47a6d255aae6d20aa918254"
+    },
+    {
+      "path": "governor-conformance.json",
+      "bytes": 405,
+      "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+    },
+    {
+      "path": "governor-regression/regression_gate.json",
+      "bytes": 787,
+      "sha256": "bde14e2428aa2634c7ec30a7ecd122ee95ce49529f1af5349f3143b5fd78b8aa"
+    },
+    {
+      "path": "governor-regression/results.json",
+      "bytes": 3169514,
+      "sha256": "5fb3a5fd457c4c9025d94b55d821cd85d2f3c17d534289a86211c60eabe316ad"
+    },
+    {
+      "path": "governor-regression/summary.json",
+      "bytes": 2132,
+      "sha256": "1c143f55b054595501e02368b0ce6af805c601c7747a1efcda9af5b5f1d7c73f"
+    },
+    {
+      "path": "inflection-cli-regression.code.tar.gz",
+      "bytes": 1034254,
+      "sha256": "49e9bb319897423c6222183aa0e8fb00a7cb29ce0798ae426d3d8e1cc4d56224"
+    },
+    {
+      "path": "inflection-cli-regression.json",
+      "bytes": 216999,
+      "sha256": "7ac276beff4f864e60004372f83e1012ccfc3a8ab857a2663b585d631f4fc1f9"
+    },
+    {
+      "path": "inflection-cli-regression.raw.jsonl.gz",
+      "bytes": 60631,
+      "sha256": "6677dd76cde9b1d59e0bf4e2f312d3906cb9f68c51cf4437c20a6fd2682218c6"
+    },
+    {
+      "path": "inflection-conformance.json",
+      "bytes": 896,
+      "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d"
+    },
+    {
+      "path": "inflection-post-review-regression.code.tar.gz",
+      "bytes": 1024239,
+      "sha256": "44dc306f63c3d10e961b1719c8c06c5837114c2ee58dd39bc98b6985f83ddccc"
+    },
+    {
+      "path": "inflection-post-review-regression.json",
+      "bytes": 112533,
+      "sha256": "14955a502cd0a5dfaef5c1cdeb715e59ce2c8160d75c82901b644733f46409fa"
+    },
+    {
+      "path": "inflection-post-review-regression.raw.jsonl.gz",
+      "bytes": 22326,
+      "sha256": "df710bd57593924f837453e43ae2a186f3f17e328cadc76bf252aee387d16ea6"
+    },
+    {
+      "path": "inflection-regression.code.tar.gz",
+      "bytes": 1024227,
+      "sha256": "c4b2fc59998de64155f01d0f207ae0fd1edd80b5c7dd5206112696ec69764b04"
+    },
+    {
+      "path": "inflection-regression.json",
+      "bytes": 356282,
+      "sha256": "035dea3c80f1f742c9076d6bdf6bcbc019b93c365ac74f980f7c19aa5bb737f6"
+    },
+    {
+      "path": "inflection-regression.raw.jsonl.gz",
+      "bytes": 86131,
+      "sha256": "58d777ba5017f82ff004cf7fbf29741739e90000a9f2934ddd352c5b5b870f65"
+    },
+    {
+      "path": "inputs_after.json",
+      "bytes": 45209,
+      "sha256": "85ad929cf37f5db1c97516e69d39e9f05e19668ce3dc67bbec30d21695aa31de"
+    },
+    {
+      "path": "inputs_before.json",
+      "bytes": 45209,
+      "sha256": "85ad929cf37f5db1c97516e69d39e9f05e19668ce3dc67bbec30d21695aa31de"
+    },
+    {
+      "path": "inquiry-conformance.json",
+      "bytes": 2356,
+      "sha256": "66acb1923ee95b4463f1fa5187a4c6779074bd5cf939040dad7d0f65308ed08a"
+    },
+    {
+      "path": "morphology-conformance.json",
+      "bytes": 458,
+      "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758"
+    },
+    {
+      "path": "morphology-regression.json",
+      "bytes": 219518,
+      "sha256": "9e66de57e5b4a5fb6e6b122cb4a0c41d26e3152bbcfa3ec6c3ebb00405b7362c"
+    },
+    {
+      "path": "nominal-conformance.json",
+      "bytes": 901,
+      "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+    },
+    {
+      "path": "nominal-regression.json",
+      "bytes": 548159,
+      "sha256": "cd6b2b542bcc1fd233ce06e2ecda5fcadca5aa23775b3786414a5d7ef71cd928"
+    },
+    {
+      "path": "person-conformance.json",
+      "bytes": 563,
+      "sha256": "f1a184c52877db6bdd11cc0a6a27ab5ea888005fb0de935fa8184c681ac89a53"
+    },
+    {
+      "path": "process.json",
+      "bytes": 598,
+      "sha256": "ffc8b0931a91820763794696d08d42ff6d802b1f916cb8aa0ce41a4140e68956"
+    },
+    {
+      "path": "progressive-unit-conformance.json",
+      "bytes": 45360,
+      "sha256": "b596d2e0e37fe3ff3280b10b0c947f1e9ebc321684d5e7e9284eb5f0a49bf839"
+    },
+    {
+      "path": "progressive-unit-conformance.plan.json",
+      "bytes": 336214,
+      "sha256": "fbc7dd2364b78f9b6127f78955d101fcea58d365af03b20c04101d93b3366205"
+    },
+    {
+      "path": "progressive-unit-conformance.sources.tar.gz",
+      "bytes": 208507,
+      "sha256": "5b5e4cd345695efca4e48cd6961ca68b5021cbde34373594f0d5b6ca529aa9c4"
+    },
+    {
+      "path": "progressive-unit-conformance.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "progressive-unit-conformance.stdin.jsonl",
+      "bytes": 96886,
+      "sha256": "d19d25df3a7b7e18fe18eb97746b9536287d457ba0ab9252b7c614f915ce9c92"
+    },
+    {
+      "path": "progressive-unit-conformance.stdout.jsonl",
+      "bytes": 102648,
+      "sha256": "67e1fa52fed275f47ede2fa8474a0c4951ef4fb997cd048e4a07cadc1a67247a"
+    },
+    {
+      "path": "property-conformance.json",
+      "bytes": 499,
+      "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6"
+    },
+    {
+      "path": "recursive-bridge-conformance.json",
+      "bytes": 460592,
+      "sha256": "bf7bd33c22022d408eeb3efdde9d46bb7a644c66e4a2feae0ee9982145ce76e3"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.code.tar.gz",
+      "bytes": 563661,
+      "sha256": "573f86d707c3cbb2aee62cc11756ee9293681abcfd5530facce384e8f865ad11"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.lean.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.lean.stdin.jsonl",
+      "bytes": 72724,
+      "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.lean.stdout.jsonl",
+      "bytes": 103709,
+      "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.native.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.native.stdin.jsonl",
+      "bytes": 1188,
+      "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.native.stdout.jsonl",
+      "bytes": 90282,
+      "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+    },
+    {
+      "path": "recursive-bridge-conformance.json.plan.json",
+      "bytes": 339625,
+      "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+    },
+    {
+      "path": "source-learning.json",
+      "bytes": 32861,
+      "sha256": "026330049f5d38dc8f2329e29027b1a37238c2390d716af433dc6ddb466e6fa4"
+    },
+    {
+      "path": "text-evidence-conformance.json",
+      "bytes": 486,
+      "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862"
+    },
+    {
+      "path": "text-morphology-regression.json",
+      "bytes": 221343,
+      "sha256": "1cc15a9bcb5e2916a3efdfc9a08959334c713b4f0e7a1565307442f93437bd55"
+    },
+    {
+      "path": "text-regression/attacks_rerun.json",
+      "bytes": 32713,
+      "sha256": "3578254194030d97b63215ca3a82bdd66518e321706c6d702ee1c581d25f7e7f"
+    },
+    {
+      "path": "text-regression/baseline_rerun.json",
+      "bytes": 45983,
+      "sha256": "1ab7d010f81c1c5f3b028607bf9db68b4844a9de68bd38c632017845e49dcab9"
+    },
+    {
+      "path": "text-regression/boundaries_rerun.json",
+      "bytes": 17418,
+      "sha256": "cc3b7d1d879c8732a1ca634ba6327fa7ac9d9b860ea95a61b48f8a9fee75b198"
+    },
+    {
+      "path": "text-regression/controlled_rerun.json",
+      "bytes": 903795,
+      "sha256": "ec3cc98e946e603723b2d206a1b7db072d75331be56de8139a135f4d790b6324"
+    },
+    {
+      "path": "text-regression/natural_rerun.json",
+      "bytes": 50948,
+      "sha256": "39729825d28696ceaf57e97337327f2fb0ca9de03952cf57e1959c1868cf0dde"
+    },
+    {
+      "path": "text-regression/plans_rerun.json",
+      "bytes": 19320,
+      "sha256": "f0bd40a1daef1819d31dadb3ef3a9e68f8d4183fb66c9b1f2d837b3d73399f7f"
+    },
+    {
+      "path": "text-regression/summary.json",
+      "bytes": 5628,
+      "sha256": "e8c5d02e81ec88631c9112144ddbe12a00fb65382a3decaf2a8c394d95c661af"
+    },
+    {
+      "path": "unit-discovery-conformance.inputs.json",
+      "bytes": 13739,
+      "sha256": "c6d3355aa8ca8014f216e6e59a014fec172e9e74964e4de3ed9c32771e6f8c2c"
+    },
+    {
+      "path": "unit-discovery-conformance.json",
+      "bytes": 102791,
+      "sha256": "47e8b0c6a1ea39c58da687c00fb71e6e346288f98e5cdc38a3152582bd900b9f"
+    },
+    {
+      "path": "unit-discovery-conformance.raw.jsonl.gz",
+      "bytes": 29811,
+      "sha256": "16bb032d79aaa43f9dc5273f27015a2d5849795a43bd5203921a72826801b042"
+    },
+    {
+      "path": "unit-discovery-conformance.requests.json",
+      "bytes": 183357,
+      "sha256": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060"
+    },
+    {
+      "path": "unit-discovery-conformance.snapshot.tar.gz",
+      "bytes": 53737,
+      "sha256": "6ac69481f30d2c82725c05b5ba91e3d77d4242cf538c826b38da1750bd4dcb64"
+    },
+    {
+      "path": "unit-discovery-conformance.sources.tar.gz",
+      "bytes": 253641,
+      "sha256": "10fc145ba58183480258666c4bab8955373854f8773013c1f921eea29156dfad"
+    },
+    {
+      "path": "unit-discovery-conformance.stdio.json",
+      "bytes": 144841,
+      "sha256": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+    },
+    {
+      "path": "word-conformance.json",
+      "bytes": 372,
+      "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77"
+    },
+    {
+      "path": "word-regression.json",
+      "bytes": 375338,
+      "sha256": "f45a10eb2aa4856e7fa4bc5932cbf7b0d7ee6b29e9526984064b7734592e30b0"
+    },
+    {
+      "path": "formal-build.log",
+      "bytes": 4594,
+      "sha256": "811bbf466488b9775e705419498641b73bdc9d2f7846bf018d39d8d4f4c409b6"
+    }
+  ],
+  "limitations": [
+    "The 49-row comparison exhausts only the declared finite law inputs; it does not verify the source reader or general Python-to-Lean refinement.",
+    "Book passages are bounded linguistic evidence. Historical attribution, transmission, interpretation and target applicability remain distinct obligations.",
+    "The Awamil source is a declared visually reviewed transcription; only its deposited bytes are replayed automatically.",
+    "The four books are not completely formalized and the Jurjani hundred-item inventory is not mapped row by row.",
+    "No independent target parser or external event observer was installed. application_established remains false.",
+    "Construction 71/86 and discourse 56/86 retain gate_pass=true and strict_pass=false.",
+    "Initial adversarial design preceded the implementation; later tests were refined with implementation access in the shared workspace."
+  ]
+}

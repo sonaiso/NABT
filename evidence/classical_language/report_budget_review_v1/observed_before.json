@@ -1,0 +1,28 @@
+{
+  "issue": "A valid bounded request produced a negative report too large for its own verifier",
+  "tool_path": "/workspace/scratch/6cb2eef8b8ad/nabt-classical/evidence/classical_language/report_budget_review_v1/classical_language_evidence_before.py",
+  "tool_sha256": "57e052f632656d6e2e79dd3b61da5e9cfc126598d11b41747dff0c2905a62f8d",
+  "catalog_sha256": "a6663cc7e94905e117895b1bf86fcc4795781b516717c0a414944c1c63d5a47f",
+  "request_bytes": 524256,
+  "report_bytes": 528238,
+  "request_limit": 524288,
+  "report_limit": 524288,
+  "request_sha256": "0ff39e8ab689c022866df585cbc36257fdbbf3146bf7c4c9f7f0f5df40b174ca",
+  "report_sha256": "129638a113c873ae279c6dcda5a434af45f55f4d37628fec3f0bd6c5a5b9f1fe",
+  "claim_status": "MISMATCH",
+  "source_attested": true,
+  "verification": {
+    "version": "nabt.classical-language-evidence.v1",
+    "valid": false,
+    "status": "REJECT",
+    "claim_status": "MISMATCH",
+    "application_established": false,
+    "external_event_established": false
+  },
+  "expected": {
+    "claim_status": "MISMATCH",
+    "verification_valid": true
+  },
+  "fixed": false,
+  "reproducer_note": "The expected object is deliberately incorrect, so no positive claim is authorized. The test requires an authentic negative report to replay. The payload is regenerated deterministically instead of storing 0.5 MiB of padding."
+}

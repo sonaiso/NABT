@@ -279,14 +279,24 @@ class RecursiveSourceBridgeTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, "RECURSIVE_PROBE_UNAVAILABLE")
         self.assertEqual(caught.exception.status, "DEFER")
 
-    def test_standalone_adapter_keeps_the_historical_runtime_inventory_exact(self):
+    def test_standalone_adapter_keeps_the_registered_runtime_inventory_exact(self):
         spec = importlib.util.spec_from_file_location("nabt_recursive_freeze_boundary",
                                                       ROOT / "tools/text_evaluation/integrity.py")
         integrity = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(integrity)
-        frozen = integrity.verify_code_freeze(ROOT / "evidence/constructions/code_freeze_v4.json", ROOT)
-        self.assertEqual(len(frozen["files"]), 74)
-        self.assertNotIn("tools/recursive_bridge.py", integrity.authoritative_paths(ROOT))
+        # Inquiry is now part of the installed runtime; the recursive bridge
+        # remains a standalone tool outside this approved exact inventory.
+        freeze_path = ROOT / "evidence/rational_inquiry/code_freeze_v2.json"
+        self.assertEqual(sha256(freeze_path.read_bytes()).hexdigest(),
+                         "49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b")
+        frozen = integrity.verify_code_freeze(freeze_path, ROOT)
+        self.assertEqual(frozen["snapshot_sha256"],
+                         "97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64")
+        self.assertEqual(len(frozen["files"]), 75)
+        authoritative = integrity.authoritative_paths(ROOT)
+        self.assertEqual({row["path"] for row in frozen["files"]}, authoritative)
+        self.assertIn("src/nabt/rational_inquiry.py", authoritative)
+        self.assertNotIn("tools/recursive_bridge.py", authoritative)
         self.assertFalse((ROOT / "src/nabt/recursive_bridge.py").exists())
 
     def test_probe_response_requires_matching_domain_operation_and_exact_node(self):

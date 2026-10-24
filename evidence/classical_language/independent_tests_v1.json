@@ -1,0 +1,754 @@
+{
+  "version": "nabt.classical-language-evidence.v1",
+  "evidence_version": "v1",
+  "provenance": {
+    "created_at_utc": "2026-10-24T10:41:16.020095+00:00",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "base_git_commit": "122efaef40e1754890f9161ed756c3d5b6ecd74b",
+    "catalog_path": "evidence/classical_language/catalog_v2.json",
+    "catalog_sha256": "65c83b8a76c2532604f90949352caa6c2c3f03b2f0c958066a2cb20390edff3f",
+    "input_files": [
+      {
+        "path": "tools/classical_language_evidence.py",
+        "bytes": 20974,
+        "sha256": "a2d66c6bcc6ae20eb960b2dcd8ef07f53c347132e9c76cf5069ba4ea62a64193"
+      },
+      {
+        "path": "tools/check_classical_language_evidence.py",
+        "bytes": 9494,
+        "sha256": "c5d6f086bb0ce4695568f0a79b82d7d37ba065980a3d790b18721ca6ec17d706"
+      },
+      {
+        "path": "tools/evaluate_classical_language_evidence.py",
+        "bytes": 16146,
+        "sha256": "ea4b5fa0783898eab125cbcede18e49d5db9611cbec752d19f730507f33d989e"
+      },
+      {
+        "path": "tests/test_classical_language_evidence.py",
+        "bytes": 29032,
+        "sha256": "23a06db4b6dabd758855bbadac79703f0be34f7de724df26daa24d3676b5606d"
+      },
+      {
+        "path": "formal/lean-toolchain",
+        "bytes": 25,
+        "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+      },
+      {
+        "path": "formal/Nabt/ClassicalLanguageEvidence.lean",
+        "bytes": 22267,
+        "sha256": "94a12f6bc63c8163947a234d61ba9e8f8d3030fc81df28c2f04a6d632f9b1b30"
+      },
+      {
+        "path": "formal/ExportClassicalLanguageEvidence.lean",
+        "bytes": 1594,
+        "sha256": "aa0440d8a5fd45f6baf0ff8e23edfb732058fc9708e3cc5756ca347ca4929ea5"
+      },
+      {
+        "path": "evidence/classical_language/independent_case_matrix_v1.json",
+        "bytes": 18511,
+        "sha256": "3516e8359ed4fcd05f3355b6a52fa9708b9011c4ca4e54aeaa1686e2c685c66a"
+      },
+      {
+        "path": "evidence/classical_language/catalog_v2.json",
+        "bytes": 18908,
+        "sha256": "65c83b8a76c2532604f90949352caa6c2c3f03b2f0c958066a2cb20390edff3f"
+      },
+      {
+        "path": "evidence/classical_language/report_budget_review_v1/reproduce.py",
+        "bytes": 3294,
+        "sha256": "965a6f108ae0e117a59ce2fce90c5f6992d2cf7c39d33049d5a8126e3fd54fa0"
+      },
+      {
+        "path": "evidence/classical_language/report_budget_review_v1/classical_language_evidence_before.py",
+        "bytes": 19953,
+        "sha256": "57e052f632656d6e2e79dd3b61da5e9cfc126598d11b41747dff0c2905a62f8d"
+      },
+      {
+        "path": "evidence/classical_language/report_budget_review_v1/observed_before.json",
+        "bytes": 1349,
+        "sha256": "f637cd5949fb533cc2ffa2166568be39f71892fd39d75a3ad63a6de90181dacd"
+      },
+      {
+        "path": "evidence/classical_language/report_budget_review_v1/observed_after.json",
+        "bytes": 1297,
+        "sha256": "c4f69bdfa61b96268a856103504df568e69c7ff3848c969e2a04c54e72d67eae"
+      },
+      {
+        "path": "examples/classical_language/awamil_partition.json",
+        "bytes": 321,
+        "sha256": "c70ad0c5d661e375601347d955838c3f714b423a91a7eabe92ca347d038bb2a2"
+      },
+      {
+        "path": "examples/classical_language/external_event.json",
+        "bytes": 282,
+        "sha256": "c9b5ada8f3f4805303c62c8099a61b37d8962045f0b3319515e33bd03f44dceb"
+      },
+      {
+        "path": "examples/classical_language/maqayis_ilm.json",
+        "bytes": 221,
+        "sha256": "ca4bf9ecbb5920405ad0ddf7a5e69fe17ff02270156eb258607e278ab150da5a"
+      },
+      {
+        "path": "examples/classical_language/maqayis_ktb.json",
+        "bytes": 257,
+        "sha256": "8edd9e6002aa79000af45578fb98b8c1f5962fff680daa0aa8f8ff67360b2cc3"
+      },
+      {
+        "path": "examples/classical_language/maqayis_universal.json",
+        "bytes": 284,
+        "sha256": "d3d37991e82b0e80e32b7ca3c6515da8c37ecc09ae7cdb00c01f83e423d13e98"
+      },
+      {
+        "path": "examples/classical_language/qatr_inna.json",
+        "bytes": 392,
+        "sha256": "b62d78e6f22a68d1153879140f9239d679ff226bac96e4088bde19059338ed15"
+      },
+      {
+        "path": "examples/classical_language/qatr_layta_ma.json",
+        "bytes": 365,
+        "sha256": "64214b97185db66b541f4c42613edee9feffbb960dfa5b7b3e3d8a83ed8173a8"
+      },
+      {
+        "path": "examples/classical_language/qatr_unknown_ma.json",
+        "bytes": 369,
+        "sha256": "ec03be63739a687b2f2accbc460fd53d9610283118d177b07f48640c70b9c0eb"
+      },
+      {
+        "path": "examples/classical_language/sibawayhi_reported_usage.json",
+        "bytes": 2312,
+        "sha256": "b28421fc8c2ce3fbd21428b9176288a6593a46f4df304f205dd5c27cd11d918c"
+      },
+      {
+        "path": "examples/classical_language/sibawayhi_surface.json",
+        "bytes": 327,
+        "sha256": "b0fa5d3e88a9cabd603e1adb846ec40931a31c0ed41d870d98f1644503b10bbd"
+      },
+      {
+        "path": "evidence/classical_language/sources/maqayis.txt",
+        "bytes": 3768378,
+        "sha256": "7f71af0dfe056cb84e7da24657fa13edc6e8061ca1980eed7f6c196bd18b5689"
+      },
+      {
+        "path": "evidence/classical_language/sources/awamil_jurjani_excerpt.txt",
+        "bytes": 790,
+        "sha256": "6fb3f23e891199facf6a4e2b7dbebbc75adaf203787583e899fa765a1943e4c7"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/qatr.txt",
+        "bytes": 40168,
+        "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d"
+      },
+      {
+        "path": "src/nabt/data/source_evidence/sibawayhi.txt",
+        "bytes": 2639395,
+        "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625"
+      }
+    ],
+    "reproduction": {
+      "argv": [
+        "python",
+        "tools/evaluate_classical_language_evidence.py",
+        "--evidence-version",
+        "v1",
+        "--output-dir",
+        "<new-output-directory>"
+      ],
+      "working_directory": "repository root"
+    },
+    "input_files_unchanged_during_execution": true,
+    "source_audit": {
+      "status": "VERIFIED",
+      "sources_reopened": 4,
+      "passages_reopened": 13,
+      "raw_source_authentication_only": true
+    }
+  },
+  "authorship": {
+    "author": "Separate evaluation agent in the shared implementation workspace",
+    "initial_matrix": {
+      "path": "evidence/classical_language/independent_case_matrix_v1.json",
+      "bytes": 18511,
+      "sha256": "3516e8359ed4fcd05f3355b6a52fa9708b9011c4ca4e54aeaa1686e2c685c66a",
+      "semantic_scenarios": 29,
+      "selected_source_windows": 7,
+      "execution_status": "Design artifact, not 29 executed measurements"
+    },
+    "independence": "The initial matrix was recorded before the adapter implementation. The later executable tests and ten examples were authored with source and implementation access; defects were shared and repaired during review. This is not blind, held out, or external expert review.",
+    "oracle": "Selected raw byte windows, explicit source statements and declared authority boundaries. Checker mutation cases exercise format and tamper detection; fresh finite Lean correspondence is reported separately.",
+    "gold_boundary": "Existing construction/discourse gold is not a source for these examples and its scores are not changed by this evaluation.",
+    "source_boundary": "Pins authenticate the deposited digital edition or reviewed transcript. Passage selection and interpretation are authored. No historical speaker, manuscript chain, or external event is authenticated here.",
+    "review_history": "The immutable initial matrix and catalog v1 predate a correction of the han example's kind to reported usage by unnamed speakers in catalog v2. A real valid-request/report-budget replay defect was preserved with pre-fix code and observations, then tested again after a separate report budget. These corrections are not hidden as blind successes."
+  },
+  "application_established": false,
+  "external_event_established": false,
+  "universal_language_certified": false,
+  "strict_pass": true,
+  "test_methods_run": 41,
+  "subtests_run": 76,
+  "failure_count": 0,
+  "error_count": 0,
+  "skipped_count": 0,
+  "expected_failure_count": 0,
+  "unexpected_success_count": 0,
+  "test_discovery_pattern": "test_classical_language_evidence.py",
+  "methods_by_class": {
+    "ClassicalConformanceCheckerTests": 4,
+    "ClassicalEvidenceCliTests": 3,
+    "ConditionalGrammarTests": 9,
+    "LexicalAttestationTests": 5,
+    "SourceAttestationTests": 7,
+    "SourceIntegrityAndReplayTests": 7,
+    "StrictInputAndBudgetTests": 6
+  },
+  "methods": [
+    {
+      "test_id": "test_classical_language_evidence.ClassicalConformanceCheckerTests.test_boolean_cannot_impersonate_a_source_partition_count",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalConformanceCheckerTests.test_duplicate_json_key_is_rejected",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalConformanceCheckerTests.test_forged_well_typed_law_output_is_not_accepted",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalConformanceCheckerTests.test_incomplete_or_duplicate_domain_is_rejected",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalEvidenceCliTests.test_cli_preserves_mismatch_deferral_and_exact_verification",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalEvidenceCliTests.test_duplicate_json_keys_are_invalid_input",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalEvidenceCliTests.test_large_negative_report_roundtrips_through_actual_cli_files",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_changing_expected_does_not_change_the_computed_law",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_jurjani_partition_is_a_source_model_not_a_new_100_row_inventory",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_law_cannot_be_borrowed_from_an_unrelated_attested_record",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_layta_with_ma_retains_both_explicit_source_options",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_light_or_unknown_conditions_defer_instead_of_certifying_empty_options",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_observed_surface_does_not_select_between_irab_and_bina_courses",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_target_text_is_replay_bound_but_not_silently_parsed",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_compilation_provenance_is_not_itself_a_lexical_entry",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_gloss_from_one_entry_cannot_be_transferred_to_another_root",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_parenthetical_or_inferred_lexeme_does_not_become_a_registered_root_heading",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_root_entry_does_not_attest_every_derived_form_or_contextual_meaning",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_two_root_entry_quotes_are_attested_with_their_distinct_glosses",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_catalog_reopens_all_four_sources_and_thirteen_selected_passages",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_changed_letter_or_punctuation_refutes_only_the_bounded_correspondence",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_han_passage_preserves_the_preimplementation_span_and_restricted_attribution",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_jurjani_is_labeled_as_reviewed_transcription_not_original_pdf_bytes",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_omitted_blocker_or_disagreement_is_not_the_registered_full_passage",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_changed_valid_span_metadata_does_not_retarget_a_fixed_record",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_receipt_cannot_transfer_between_claims_or_claim_kinds",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_recomputed_caller_catalog_hash_does_not_replace_the_installed_pin",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_same_source_pin_cannot_survive_a_changed_byte",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_source_revocation_or_escape_is_unavailability_not_linguistic_negation",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_verified_mismatch_or_deferral_is_not_verification_of_the_claim",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_code_shaped_target_is_inert_and_still_not_parsed",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_extra_flags_invalid_identity_and_unknown_versions_are_not_authority",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_interpreted_inputs_are_strict_not_truthy_or_guessed",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_large_valid_negative_report_replays_under_separate_report_budget",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_unknown_installed_record_stays_unresolved",
+      "outcome": "PASS"
+    }
+  ],
+  "subtests": [
+    {
+      "test_id": "test_classical_language_evidence.ClassicalEvidenceCliTests.test_cli_preserves_mismatch_deferral_and_exact_verification",
+      "parameters": "_OrderedChainMap({'status': 'CONDITIONALLY_CHECKED'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalEvidenceCliTests.test_cli_preserves_mismatch_deferral_and_exact_verification",
+      "parameters": "_OrderedChainMap({'status': 'MISMATCH'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ClassicalEvidenceCliTests.test_cli_preserves_mismatch_deferral_and_exact_verification",
+      "parameters": "_OrderedChainMap({'status': 'DEFER'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'nasb'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'jarr'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'raf'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'jazm'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'fath'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'damm'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'kasr'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces",
+      "parameters": "_OrderedChainMap({'course': 'waqf'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'inna', 'ma': 'absent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'inna', 'ma': 'kaffa'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'anna', 'ma': 'absent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'anna', 'ma': 'kaffa'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'kaanna', 'ma': 'absent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'kaanna', 'ma': 'kaffa'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'lakinna', 'ma': 'absent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'lakinna', 'ma': 'kaffa'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'laalla', 'ma': 'absent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa",
+      "parameters": "_OrderedChainMap({'operator': 'laalla', 'ma': 'kaffa'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_law_cannot_be_borrowed_from_an_unrelated_attested_record",
+      "parameters": "_OrderedChainMap({'identity': 'sibawayhi_han_examples'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_law_cannot_be_borrowed_from_an_unrelated_attested_record",
+      "parameters": "_OrderedChainMap({'identity': 'maqayis_ktb_entry'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_law_cannot_be_borrowed_from_an_unrelated_attested_record",
+      "parameters": "_OrderedChainMap({'identity': 'qatr_tamyiz_disagreement'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_layta_with_ma_retains_both_explicit_source_options",
+      "parameters": "_OrderedChainMap({'chosen': ['governed']})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_layta_with_ma_retains_both_explicit_source_options",
+      "parameters": "_OrderedChainMap({'chosen': ['blocked']})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_light_or_unknown_conditions_defer_instead_of_certifying_empty_options",
+      "parameters": "_OrderedChainMap({'form': 'light', 'ma': 'absent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_light_or_unknown_conditions_defer_instead_of_certifying_empty_options",
+      "parameters": "_OrderedChainMap({'form': 'light', 'ma': 'kaffa'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.ConditionalGrammarTests.test_light_or_unknown_conditions_defer_instead_of_certifying_empty_options",
+      "parameters": "_OrderedChainMap({'form': 'full', 'ma': 'unknown'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_root_entry_does_not_attest_every_derived_form_or_contextual_meaning",
+      "parameters": "_OrderedChainMap({'value': {'root': 'كاتب', 'gloss': 'أصل صحيح واحد يدل على جمع شيء إلى شيء.'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_root_entry_does_not_attest_every_derived_form_or_contextual_meaning",
+      "parameters": "_OrderedChainMap({'value': {'root': 'كتب', 'gloss': 'كل كاتب في كل سياق هو جامع الأشياء'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_two_root_entry_quotes_are_attested_with_their_distinct_glosses",
+      "parameters": "_OrderedChainMap({'root': 'كتب'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.LexicalAttestationTests.test_two_root_entry_quotes_are_attested_with_their_distinct_glosses",
+      "parameters": "_OrderedChainMap({'root': 'علم'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'maqayis_ktb_entry'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'maqayis_ilm_entry'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'maqayis_blum_context'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'maqayis_compilation_basis'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'qatr_six_nouns'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'qatr_dhu_relative_tayy'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'sibawayhi_reported_imperative_usage'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'awamil_jurjani_partition'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'awamil_jurjani_ba_examples'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'sibawayhi_eight_functions'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'qatr_inna_conditions'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'qatr_tamyiz_disagreement'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes",
+      "parameters": "_OrderedChainMap({'record': 'sibawayhi_han_examples'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_omitted_blocker_or_disagreement_is_not_the_registered_full_passage",
+      "parameters": "_OrderedChainMap({'record': 'qatr_inna_conditions'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_omitted_blocker_or_disagreement_is_not_the_registered_full_passage",
+      "parameters": "_OrderedChainMap({'record': 'qatr_tamyiz_disagreement'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "parameters": "_OrderedChainMap({'record': 'qatr_six_nouns', 'kind': 'UNIVERSAL_LANGUAGE'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "parameters": "_OrderedChainMap({'record': 'qatr_six_nouns', 'kind': 'EXTERNAL_EVENT'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "parameters": "_OrderedChainMap({'record': 'sibawayhi_reported_imperative_usage', 'kind': 'UNIVERSAL_LANGUAGE'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "parameters": "_OrderedChainMap({'record': 'sibawayhi_reported_imperative_usage', 'kind': 'EXTERNAL_EVENT'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "parameters": "_OrderedChainMap({'record': 'awamil_jurjani_ba_examples', 'kind': 'UNIVERSAL_LANGUAGE'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events",
+      "parameters": "_OrderedChainMap({'record': 'awamil_jurjani_ba_examples', 'kind': 'EXTERNAL_EVENT'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "parameters": "_OrderedChainMap({'changes': {'external_event_established': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "parameters": "_OrderedChainMap({'changes': {'universal_language_certified': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "parameters": "_OrderedChainMap({'changes': {'source_attested': 1}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "parameters": "_OrderedChainMap({'changes': {'application_established': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "parameters": "_OrderedChainMap({'changes': {'RealityWitness': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report",
+      "parameters": "_OrderedChainMap({'changes': {'passage': None}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_receipt_cannot_transfer_between_claims_or_claim_kinds",
+      "parameters": "_OrderedChainMap({'kind': 'PASSAGE_ATTESTATION'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_receipt_cannot_transfer_between_claims_or_claim_kinds",
+      "parameters": "_OrderedChainMap({'kind': 'EXTERNAL_EVENT'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_verified_mismatch_or_deferral_is_not_verification_of_the_claim",
+      "parameters": "_OrderedChainMap({'proposed': {'operator': 'inna', 'form': 'full', 'ma': 'absent'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.SourceIntegrityAndReplayTests.test_verified_mismatch_or_deferral_is_not_verification_of_the_claim",
+      "parameters": "_OrderedChainMap({'proposed': {'operator': 'inna', 'form': 'light', 'ma': 'absent'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_extra_flags_invalid_identity_and_unknown_versions_are_not_authority",
+      "parameters": "_OrderedChainMap({'change': {'trusted': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_extra_flags_invalid_identity_and_unknown_versions_are_not_authority",
+      "parameters": "_OrderedChainMap({'change': {'version': 'uninstalled'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_extra_flags_invalid_identity_and_unknown_versions_are_not_authority",
+      "parameters": "_OrderedChainMap({'change': {'record_id': '../../qatr'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_extra_flags_invalid_identity_and_unknown_versions_are_not_authority",
+      "parameters": "_OrderedChainMap({'change': {'claim_kind': 'WORLD_TRUE'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_interpreted_inputs_are_strict_not_truthy_or_guessed",
+      "parameters": "_OrderedChainMap({'field': 'form'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_interpreted_inputs_are_strict_not_truthy_or_guessed",
+      "parameters": "_OrderedChainMap({'field': 'ma'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_interpreted_inputs_are_strict_not_truthy_or_guessed",
+      "parameters": "_OrderedChainMap({'field': 'operator'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence",
+      "parameters": "_OrderedChainMap({'type': 'float'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence",
+      "parameters": "_OrderedChainMap({'type': 'float'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence",
+      "parameters": "_OrderedChainMap({'type': 'object'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence",
+      "parameters": "_OrderedChainMap({'type': 'str'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence",
+      "parameters": "_OrderedChainMap({'type': 'str'})",
+      "outcome": "PASS"
+    }
+  ],
+  "log": "test_boolean_cannot_impersonate_a_source_partition_count (test_classical_language_evidence.ClassicalConformanceCheckerTests.test_boolean_cannot_impersonate_a_source_partition_count) ... ok\ntest_duplicate_json_key_is_rejected (test_classical_language_evidence.ClassicalConformanceCheckerTests.test_duplicate_json_key_is_rejected) ... ok\ntest_forged_well_typed_law_output_is_not_accepted (test_classical_language_evidence.ClassicalConformanceCheckerTests.test_forged_well_typed_law_output_is_not_accepted) ... ok\ntest_incomplete_or_duplicate_domain_is_rejected (test_classical_language_evidence.ClassicalConformanceCheckerTests.test_incomplete_or_duplicate_domain_is_rejected) ... ok\ntest_cli_preserves_mismatch_deferral_and_exact_verification (test_classical_language_evidence.ClassicalEvidenceCliTests.test_cli_preserves_mismatch_deferral_and_exact_verification) ... ok\ntest_duplicate_json_keys_are_invalid_input (test_classical_language_evidence.ClassicalEvidenceCliTests.test_duplicate_json_keys_are_invalid_input) ... ok\ntest_large_negative_report_roundtrips_through_actual_cli_files (test_classical_language_evidence.ClassicalEvidenceCliTests.test_large_negative_report_roundtrips_through_actual_cli_files) ... ok\ntest_changing_expected_does_not_change_the_computed_law (test_classical_language_evidence.ConditionalGrammarTests.test_changing_expected_does_not_change_the_computed_law) ... ok\ntest_eight_supplied_courses_have_the_four_stated_surfaces (test_classical_language_evidence.ConditionalGrammarTests.test_eight_supplied_courses_have_the_four_stated_surfaces) ... ok\ntest_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa (test_classical_language_evidence.ConditionalGrammarTests.test_full_inna_operates_with_absent_ma_and_is_blocked_by_kaffa) ... ok\ntest_jurjani_partition_is_a_source_model_not_a_new_100_row_inventory (test_classical_language_evidence.ConditionalGrammarTests.test_jurjani_partition_is_a_source_model_not_a_new_100_row_inventory) ... ok\ntest_law_cannot_be_borrowed_from_an_unrelated_attested_record (test_classical_language_evidence.ConditionalGrammarTests.test_law_cannot_be_borrowed_from_an_unrelated_attested_record) ... ok\ntest_layta_with_ma_retains_both_explicit_source_options (test_classical_language_evidence.ConditionalGrammarTests.test_layta_with_ma_retains_both_explicit_source_options) ... ok\ntest_light_or_unknown_conditions_defer_instead_of_certifying_empty_options (test_classical_language_evidence.ConditionalGrammarTests.test_light_or_unknown_conditions_defer_instead_of_certifying_empty_options) ... ok\ntest_observed_surface_does_not_select_between_irab_and_bina_courses (test_classical_language_evidence.ConditionalGrammarTests.test_observed_surface_does_not_select_between_irab_and_bina_courses) ... ok\ntest_target_text_is_replay_bound_but_not_silently_parsed (test_classical_language_evidence.ConditionalGrammarTests.test_target_text_is_replay_bound_but_not_silently_parsed) ... ok\ntest_compilation_provenance_is_not_itself_a_lexical_entry (test_classical_language_evidence.LexicalAttestationTests.test_compilation_provenance_is_not_itself_a_lexical_entry) ... ok\ntest_gloss_from_one_entry_cannot_be_transferred_to_another_root (test_classical_language_evidence.LexicalAttestationTests.test_gloss_from_one_entry_cannot_be_transferred_to_another_root) ... ok\ntest_parenthetical_or_inferred_lexeme_does_not_become_a_registered_root_heading (test_classical_language_evidence.LexicalAttestationTests.test_parenthetical_or_inferred_lexeme_does_not_become_a_registered_root_heading) ... ok\ntest_root_entry_does_not_attest_every_derived_form_or_contextual_meaning (test_classical_language_evidence.LexicalAttestationTests.test_root_entry_does_not_attest_every_derived_form_or_contextual_meaning) ... ok\ntest_two_root_entry_quotes_are_attested_with_their_distinct_glosses (test_classical_language_evidence.LexicalAttestationTests.test_two_root_entry_quotes_are_attested_with_their_distinct_glosses) ... ok\ntest_catalog_reopens_all_four_sources_and_thirteen_selected_passages (test_classical_language_evidence.SourceAttestationTests.test_catalog_reopens_all_four_sources_and_thirteen_selected_passages) ... ok\ntest_changed_letter_or_punctuation_refutes_only_the_bounded_correspondence (test_classical_language_evidence.SourceAttestationTests.test_changed_letter_or_punctuation_refutes_only_the_bounded_correspondence) ... ok\ntest_each_selected_passage_matches_independently_sliced_source_bytes (test_classical_language_evidence.SourceAttestationTests.test_each_selected_passage_matches_independently_sliced_source_bytes) ... ok\ntest_han_passage_preserves_the_preimplementation_span_and_restricted_attribution (test_classical_language_evidence.SourceAttestationTests.test_han_passage_preserves_the_preimplementation_span_and_restricted_attribution) ... ok\ntest_jurjani_is_labeled_as_reviewed_transcription_not_original_pdf_bytes (test_classical_language_evidence.SourceAttestationTests.test_jurjani_is_labeled_as_reviewed_transcription_not_original_pdf_bytes) ... ok\ntest_omitted_blocker_or_disagreement_is_not_the_registered_full_passage (test_classical_language_evidence.SourceAttestationTests.test_omitted_blocker_or_disagreement_is_not_the_registered_full_passage) ... ok\ntest_prescription_and_reported_usage_are_not_promoted_to_new_events (test_classical_language_evidence.SourceAttestationTests.test_prescription_and_reported_usage_are_not_promoted_to_new_events) ... ok\ntest_changed_valid_span_metadata_does_not_retarget_a_fixed_record (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_changed_valid_span_metadata_does_not_retarget_a_fixed_record) ... ok\ntest_claimant_status_truth_or_integer_boolean_cannot_forge_a_report (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_claimant_status_truth_or_integer_boolean_cannot_forge_a_report) ... ok\ntest_receipt_cannot_transfer_between_claims_or_claim_kinds (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_receipt_cannot_transfer_between_claims_or_claim_kinds) ... ok\ntest_recomputed_caller_catalog_hash_does_not_replace_the_installed_pin (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_recomputed_caller_catalog_hash_does_not_replace_the_installed_pin) ... ok\ntest_same_source_pin_cannot_survive_a_changed_byte (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_same_source_pin_cannot_survive_a_changed_byte) ... ok\ntest_source_revocation_or_escape_is_unavailability_not_linguistic_negation (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_source_revocation_or_escape_is_unavailability_not_linguistic_negation) ... ok\ntest_verified_mismatch_or_deferral_is_not_verification_of_the_claim (test_classical_language_evidence.SourceIntegrityAndReplayTests.test_verified_mismatch_or_deferral_is_not_verification_of_the_claim) ... ok\ntest_code_shaped_target_is_inert_and_still_not_parsed (test_classical_language_evidence.StrictInputAndBudgetTests.test_code_shaped_target_is_inert_and_still_not_parsed) ... ok\ntest_extra_flags_invalid_identity_and_unknown_versions_are_not_authority (test_classical_language_evidence.StrictInputAndBudgetTests.test_extra_flags_invalid_identity_and_unknown_versions_are_not_authority) ... ok\ntest_interpreted_inputs_are_strict_not_truthy_or_guessed (test_classical_language_evidence.StrictInputAndBudgetTests.test_interpreted_inputs_are_strict_not_truthy_or_guessed) ... ok\ntest_large_valid_negative_report_replays_under_separate_report_budget (test_classical_language_evidence.StrictInputAndBudgetTests.test_large_valid_negative_report_replays_under_separate_report_budget) ... ok\ntest_malformed_nonfinite_and_unbounded_values_do_not_become_evidence (test_classical_language_evidence.StrictInputAndBudgetTests.test_malformed_nonfinite_and_unbounded_values_do_not_become_evidence) ... ok\ntest_unknown_installed_record_stays_unresolved (test_classical_language_evidence.StrictInputAndBudgetTests.test_unknown_installed_record_stays_unresolved) ... ok\n\n----------------------------------------------------------------------\nRan 41 tests in 1.381s\n\nOK\n",
+  "denominator": "Authored unittest methods with separately enumerated subcases. Methods and subcases are not added together as independent observations. Checker mutation cases test the conformance checker, not natural grammar."
+}

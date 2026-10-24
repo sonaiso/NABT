@@ -1,0 +1,80 @@
+{
+  "recorded_at_utc": "2026-10-24T10:48:05.859403+00:00",
+  "strict_pass": true,
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_recursive_source_bridge.py",
+    "-v"
+  ],
+  "returncode": 0,
+  "test_methods_run": 31,
+  "full_make_check_run_by_this_replay": false,
+  "compiled_probe_reused_without_build": true,
+  "environment": {
+    "PYTHONPATH": "src:.",
+    "NABT_RECURSIVE_BRIDGE_PROBE": "/workspace/scratch/6cb2eef8b8ad/nabt-classical/formal/.lake/build/bin/recursiveBridgeProbe"
+  },
+  "input_files": [
+    {
+      "path": "tests/test_recursive_source_bridge.py",
+      "bytes": 24991,
+      "sha256": "ae70384da86859939f9d2d1c884e93a67f1ab06231d3874593b6ec2568b94b17"
+    },
+    {
+      "path": "tools/recursive_bridge.py",
+      "bytes": 32975,
+      "sha256": "ffe8b1de6905d0eb4dfaac5c9e5185f901815369aa694205bde96e9b3c95801a"
+    },
+    {
+      "path": "tools/text_evaluation/integrity.py",
+      "bytes": 6196,
+      "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+    },
+    {
+      "path": "tools/word_evaluation.py",
+      "bytes": 32771,
+      "sha256": "ce3342d35dd051f37f1e504e7b466204f894aaf24ef07d5832c7e4a3747e9c8f"
+    },
+    {
+      "path": "tests/test_rational_inquiry_freeze.py",
+      "bytes": 4181,
+      "sha256": "7cab3275befd1179a0efca245b0310b5f9da8ddd5e63ca7b4db24fe33dcdf019"
+    },
+    {
+      "path": "evidence/constructions/code_freeze_v4.json",
+      "bytes": 19183,
+      "sha256": "42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5"
+    },
+    {
+      "path": "evidence/rational_inquiry/code_freeze_v2.json",
+      "bytes": 14268,
+      "sha256": "49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b"
+    },
+    {
+      "path": "evidence/classical_language/integration_review_v1/reproduce.py",
+      "bytes": 6194,
+      "sha256": "66362d750db3cb69af0e87541d6741d48b1e8d821eef9a5deb6852f2513b1992"
+    },
+    {
+      "path": "formal/.lake/build/bin/recursiveBridgeProbe",
+      "bytes": 122509976,
+      "sha256": "1f5c3a85323576b7649b87028ede3540220835640f5cf84a01320c094ec612f1"
+    }
+  ],
+  "input_files_unchanged_during_execution": true,
+  "runtime_inventory_verified_before_and_after": 75,
+  "runtime_snapshot_sha256": "97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64",
+  "historical_freeze_unchanged": true,
+  "runtime_files_modified": false,
+  "fix": "The standalone adapter test now pins the registered inquiry v2 manifest and snapshot and verifies its complete 75-file inventory, including rational_inquiry.py. The recursive bridge remains excluded from runtime and absent from src/nabt.",
+  "historical_rejection_coverage": "Existing test_rational_inquiry_freeze.py already verifies that the historical freeze cannot authorize the current runtime; this integration fix does not duplicate or weaken those checks.",
+  "log_sha256": "44c9f2a0b11abebcbf491bf86900b7462c296a584cb678561fda9578210bbf4f",
+  "patch_sha256": "bb48face0071fb2ab2a3649cebd0c28ba8555ba4c6441f81838cf21754fd5e27"
+}
