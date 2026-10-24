@@ -142,7 +142,7 @@ def check_table(export):
     equal(export, parse(raw), "Complete fresh Lean export differs from installed JSON")
     require(type(export["schema_version"]) is int and export["schema_version"] == 1, "Wrong schema")
     require(export["law_id"] == "nabt.construction-evidence.v3", "Wrong law identity")
-    require(export["source_policy_id"] == "nabt.construction-grammar-sources.v3", "Wrong source-policy identity")
+    require(export["source_policy_id"] == "nabt.construction-grammar-sources.v4", "Wrong source-policy identity")
     for key, values in (("families", FAMILIES), ("roles", tuple(ROLE_CASES)), ("inherited_cases", INHERITED),
                         ("compatibilities", STATES), ("agreement_axes", AXES), ("evidence_states", EVIDENCE),
                         ("predicate_agreement_axes", PREDICATE_AXES),

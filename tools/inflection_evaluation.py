@@ -28,6 +28,11 @@ VERSION = "nabt.inflection.independent-evaluation.v1"
 FREEZE_SHA256 = "25b8b89e48c2403b1fa47055045d2bdd4d738dc86493398369da5749131d23db"
 RUNTIME_FREEZE_SHA256 = "fe93f8ebebb21078113462244052da93c102f4d5a673c2636c0cab27e0ffa103"
 PINNED_RUNTIME_FREEZES = {
+    'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089': {
+        'snapshot_sha256': 'fb14e51c7f7d751b13307ecf65573c1863c7f579252aa402231586aeda11412f',
+        'archive_sha256': '8576765bdd5b9dbb93db76ec11b485634fa2f34691113a45d59dbf49238c0c87',
+        'file_count': 80,
+    },
     '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c': {
         'snapshot_sha256': '46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851',
         'archive_sha256': '8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163',
@@ -930,7 +935,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qac", type=Path, help="Pinned original QAC .txt or .txt.gz (required for the original 74 cases)")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/arabic_coverage/code_freeze_v2.json")
+    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/arabic_completion_v3/code_freeze_v1.json")
     parser.add_argument("--runtime-root", type=Path, default=ROOT,
                         help="Measured source checkout or extracted pinned archive; verified against the selected freeze")
     parser.add_argument("--allow-documented-boundaries", action="store_true",

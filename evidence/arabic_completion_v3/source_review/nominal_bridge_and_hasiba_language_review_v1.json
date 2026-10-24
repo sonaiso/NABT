@@ -1,0 +1,79 @@
+{
+  "schema": "nabt.arabic-completion.language-review.v1",
+  "created_utc": "2026-10-24T15:42:13.678344+00:00",
+  "method": "Read-only independent linguistic and contract review; no tests, inference runs or runtime mutations by this reviewer.",
+  "reviewed_input_identities": [
+    {
+      "path": "src/nabt/construction_nominals.py",
+      "bytes": 10767,
+      "sha256": "be702926f94ffe9a1204f32371b704f48b41f5bb5838fcb5f451633103b62ffb"
+    },
+    {
+      "path": "src/nabt/construction_reader.py",
+      "bytes": 66662,
+      "sha256": "1dd0fde7211d66abc23340db1c49ecd641fa2347477e91846a13198338357ac0"
+    },
+    {
+      "path": "src/nabt/corpus_evidence.py",
+      "bytes": 34411,
+      "sha256": "9ca29f8537f2c105562b17e9ea08c2404e6d8bee2d0b950903e7e99beafd6e77"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/construction_policy.json",
+      "bytes": 56009,
+      "sha256": "2faa90be033475c458eeabe61cda472c7856a0342803325bef6474c6c88b13f5"
+    },
+    {
+      "path": "tests/test_source_bound_nominal_bridges.py",
+      "bytes": 8089,
+      "sha256": "2d85402e55ac61ee1efed9b144ba0c35c77053e30f83a2d1ada5913455f27217"
+    },
+    {
+      "path": "tests/test_vocalized_operator_sense.py",
+      "bytes": 4100,
+      "sha256": "ca48d33c6553adf898cff18923ef560097d532dd2f31c9e1dbe96badc6119136"
+    }
+  ],
+  "nominal_bridge": {
+    "status": "ACCEPTABLE_AS_DECLARED_BOUNDED_MORPHOLOGICAL_INFERENCE_NOT_TARGET_CASE_PROOF",
+    "conclusion_ar": "الشروط الحالية تبرر الاستدلال على قابلية اللفظ للتصريف الاسمي العادي في هذا المجال المصدرّي. لا تعيّن إعراب وقوع الهدف، ولا تنقل وظيفة الصفة أو معنى N إلى ADJ أو بالعكس.",
+    "what_was_checked": [
+      "Exact lemma/root/internal vocalized template including shadda, derivation, gender and known singular number on both source groups.",
+      "Each group independently has its own surviving raw tanwin witness and class_candidates=[0]; the flags are not counted as independent additional observations beyond those records.",
+      "The donor has two independently retained terminal vowel-family witnesses under the same source paradigm; the recipient is unresolved, not known built or in conflict.",
+      "The recipient original lexical identity is rebound to the source index; context-only PN, unknown number, incompatible derivation and special/unknown declension are outside the bridge.",
+      "Only construction and its paired receipts are supplied. Existing POS, meaning, reference, gender, number, class and target role stay unchanged.",
+      "The target assignment remains separately responsible for governing role/case, observed ending compatibility, attachment and reference."
+    ],
+    "primary_basis": [
+      "Sibawayhi216–229: tamkin/tanwin and ordinary noun inflection, with explicit scope differences.",
+      "Sibawayhi10510–10538: nominal versus adjectival afal can differ in declension; this rules out unrestricted POS collapse.",
+      "Qatr41–52 and75–95: noun recognition, mutable endings and named exceptional classes.",
+      "Official QAC morphological-feature and adjective documentation: N/ADJ are distinct nominal annotations; no semantic identity follows from sharing a paradigm."
+    ],
+    "linguistic_caution": "The sentence that adjectives are nouns does not by itself prove transfer. The independent class-0 evidence on each side is essential. Even matching features do not prove identical senses or referents; preserving both analyses is required.",
+    "authority_limit": "A declared source-relative generalization from explicit nominal evidence. It is not a Lean proof of acquisition correctness, a theorem that all Arabic homographs share declension, or a direct statement in Sibawayhi about Python keys.",
+    "specific_examples": "Karim and basir may benefit if their own surviving witnesses satisfy all conditions. Radiya fails current template/unknown-number conditions and is not licensed by this bridge."
+  },
+  "hasiba": {
+    "status": "SOURCE_SUPPORTED_WITH_FULLY_WRITTEN_ACTIVE_FORM_AND_EXISTING_FRAME_GATES",
+    "positive_source": "hasiba_openiti_source_review_v1.json; Mukhtar al-Sihah entry2723–2730 explicitly distinguishes counting from hasibtuhu salihan bil-kasr=zanantuhu.",
+    "conclusion_ar": "الحركة الصريحة شاهد معجمي مستقل عن جواب gold وعن تعيين المفعولين. مع القراءة المصدرية والفعل الماضي المعلوم المحدد وبقية مقدمات الإطار، يجوز رفع دين تعدد المعنى المحدود لهذا الفرع دون تعميمه على علم.",
+    "review_finding_and_resolution": "An earlier medial-kasra-only check allowed an unmarked first vowel via template compatibility; kasra alone does not distinguish active hasiba from passive husiba. The reviewed current code now requires all three written vowel sets [fatha,kasra,fatha], a source-attested reading, root match and no shadda/derived shape. This boundary is confirmed by code inspection, not by a newly executed test in this review.",
+    "retained_boundaries": [
+      "Bare or partially vocalized forms do not receive this new license.",
+      "Explicit passive, conflicting vowels, wrong person, unattested reading and attached/derived forms remain outside the acquired rule.",
+      "Alima retains its independent ambiguity; Sibawayhi398–418 explicitly admits the arafa use.",
+      "The matrix is cognitive source-relative content; embedded fact projection remains false. The belief label must not be presented as a measured probability or proof that the proposition is false.",
+      "This is a bounded lexical-model sense discriminator, not an exhaustive catalogue of every historical use of the root."
+    ]
+  },
+  "tamyiz_decision": {
+    "source_report": "tamyiz_frame_source_review_v1.json",
+    "status": "RESEARCH_PROPOSALS_ONLY_NOT_RUNTIME_LICENSES",
+    "reason": "The source pairs are independently attested, but the role/owner application bridge for each target has not yet been established. Parent explicitly retains these as proposals for this release."
+  },
+  "independence_disclosure": "Reviewer worked in shared workspace after seeing residual categories. Source authors and raw records predate NABT, but source selection and implementation review are not blind external validation.",
+  "runtime_changed_by_reviewer": false,
+  "gold_changed": false
+}

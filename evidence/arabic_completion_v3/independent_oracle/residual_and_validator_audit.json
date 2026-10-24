@@ -1,0 +1,319 @@
+{
+  "schema": "nabt.arabic-completion-independent-residual-audit.v1",
+  "stage": "static pre-change review before new implementation exposure",
+  "baseline_commit": "d791fd7730cde2256dfac8a27687010b392876b3",
+  "runtime_imported": false,
+  "runtime_or_validators_or_old_gold_edited": false,
+  "original_metrics": {
+    "construction": {
+      "passed": 80,
+      "total": 86
+    },
+    "discourse": {
+      "passed": 63,
+      "total": 86
+    }
+  },
+  "source_artifacts": [
+    {
+      "path": "evidence/arabic_coverage/construction_residual_review_v2/review.json",
+      "bytes": 54346,
+      "sha256": "216580368a7b0f36d62057fe4d5e08cf80bf80fddaed64029b7720c85da7f226"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_residual_review_v2/review.json",
+      "bytes": 22322,
+      "sha256": "9a6d041af2e7f0d26039f6d3f865dcb6b2d730cab551ae9b4f7b128b462b3221"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_residual_review_v1/residual_matrix_v1.json",
+      "bytes": 43954,
+      "sha256": "8286a5fb67f6acfa15fc92ba253d5e3e7827a49ac9e85c51d7f412f92bbdc51e"
+    },
+    {
+      "path": "evidence/arabic_coverage/oracle_audit_v1/question_input_audit.json",
+      "bytes": 12992,
+      "sha256": "3df9470fcc980ad8a719f2af1a66bf837f0a027c8a83d242c582d96b5cbe29ae"
+    }
+  ],
+  "construction_residuals": [
+    {
+      "id": "CON-Z02",
+      "old_diagnosis": {
+        "explanation": "حسب has qualified lexical candidates but its cognitive two-object sense is not independently established in this occurrence. The context names the people; it does not supply that sense.",
+        "kind": "UNACQUIRED_OCCURRENCE_SENSE",
+        "observed_obligation": "POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT"
+      },
+      "old_obligations": [
+        "CONSTRUCTION_LAW_GATE",
+        "POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT"
+      ],
+      "review_class": "preserved_prior_diagnosis_requiring_independent_discharge_not_a_new_prediction"
+    },
+    {
+      "id": "CON-Z07",
+      "old_diagnosis": {
+        "explanation": "علم has qualified lexical candidates but the cognitive two-object sense is not independently established. The grammar family and lemma do not discharge the occurrence-level sense premise.",
+        "kind": "UNACQUIRED_OCCURRENCE_SENSE",
+        "observed_obligation": "POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT"
+      },
+      "old_obligations": [
+        "CONSTRUCTION_LAW_GATE",
+        "POLYSEMOUS_OPERATOR_SENSE_REQUIRES_INDEPENDENT_CONTEXT"
+      ],
+      "review_class": "preserved_prior_diagnosis_requiring_independent_discharge_not_a_new_prediction"
+    },
+    {
+      "id": "CON-Z10",
+      "old_diagnosis": {
+        "explanation": "The negative matrix statement is complete and retains one scoped claim; only the frozen hal+ma question fails. Its inquiry carries NEGATIVE_POLAR_QUESTION_REQUIRES_LICENSE and the answer safely defers. The question-source audit records the selected classical norm and the inference applying it here. The original question and expected result remain unchanged.",
+        "kind": "FROZEN_QUESTION_OUTSIDE_DECLARED_CLASSICAL_NORM",
+        "observed_question_obligation": "NEGATIVE_POLAR_QUESTION_REQUIRES_LICENSE",
+        "source_audit": "evidence/arabic_coverage/oracle_audit_v1/question_input_audit.json"
+      },
+      "old_obligations": [],
+      "review_class": "confirmed_old_oracle_defect_under_selected_norm"
+    },
+    {
+      "id": "CON-N01",
+      "old_diagnosis": {
+        "explanation": "The input الْمُعَلِّمُ contains an explicit shadda, while the frozen context name المعلم does not witness it. Syntax roles and the naat relation pass, but the conservative exact-name reference has NO_CANDIDATE. No alias or identity premise is invented.",
+        "kind": "UNACQUIRED_EXACT_NAME_REFERENCE",
+        "observed_obligation": "REFERENCE_NOT_UNIQUELY_LICENSED"
+      },
+      "old_obligations": [
+        "REFERENCE_NOT_UNIQUELY_LICENSED"
+      ],
+      "review_class": "preserved_prior_diagnosis_requiring_independent_discharge_not_a_new_prediction"
+    },
+    {
+      "id": "CON-M01",
+      "old_diagnosis": {
+        "explanation": "ازداد/نشاطا has no acquired nisba frame in the installed policy. The raw report has no viable analysis; therefore this is a code/source inspection diagnosis, not an emitted tamyiz obligation. A noun label or expected role does not supply the semantic use.",
+        "kind": "UNACQUIRED_SEMANTIC_USE_FRAME",
+        "observation_caveat": "No viable analysis; no emitted frame-specific obligation."
+      },
+      "old_obligations": [],
+      "review_class": "preserved_prior_diagnosis_requiring_independent_discharge_not_a_new_prediction"
+    },
+    {
+      "id": "CON-M03",
+      "old_diagnosis": {
+        "explanation": "The replayed امتلأ example witnesses ماء. The target لبنا needs an independent frame or a justified semantic generalization, which has not been acquired. The existing candidate remains pending instead of treating any noun as tamyiz.",
+        "kind": "UNACQUIRED_UNIT_GENERALIZATION",
+        "observed_obligation": "TAMYIZ_VERSUS_OTHER_NOMINAL_USE_REQUIRES_SOURCE_FRAME"
+      },
+      "old_obligations": [
+        "TAMYIZ_VERSUS_OTHER_NOMINAL_USE_REQUIRES_SOURCE_FRAME"
+      ],
+      "review_class": "preserved_prior_diagnosis_requiring_independent_discharge_not_a_new_prediction"
+    }
+  ],
+  "discourse_residual_ids": [
+    "DSC-P02",
+    "DSC-P03",
+    "DSC-P08",
+    "DSC-P09",
+    "DSC-P12",
+    "DSC-P13",
+    "DSC-P14",
+    "DSC-P15",
+    "DSC-P17",
+    "DSC-P18",
+    "DSC-P25",
+    "DSC-P26",
+    "DSC-P27",
+    "DSC-P28",
+    "DSC-T02",
+    "DSC-T04",
+    "DSC-B04",
+    "DSC-B05",
+    "DSC-B14",
+    "DSC-B15",
+    "DSC-B16",
+    "DSC-B19",
+    "DSC-B24"
+  ],
+  "discourse_prior_cause_groups": {
+    "karim_unresolved_noun": {
+      "cases": [
+        "DSC-P02",
+        "DSC-P18",
+        "DSC-P25",
+        "DSC-T02",
+        "DSC-B04",
+        "DSC-B05"
+      ],
+      "observed": "تحمل كريم قراءة N ذات construction=null والتزام CONSTRUCTION_EVIDENCE، إلى جانب ADJ معربة مكتملة. يحفظ التقرير البديل غير المكتمل فيتوقف قبول الجملة أو الوثيقة.",
+      "unknown": "لم يثبت هذا الفحص أن قراءة N خطأ في المصدر، ولا أنه يجوز حذفها أو نقل شاهد إعراب ADJ إليها. لم تراجع الدلالة العربية الكاملة لكل سياق.",
+      "needed": "شاهد مستقل لاكتمال القراءة الاسمية أو لحسم مجال انطباق البدائل؛ مع إبقاء إحالة الضمير والصفة مربوطتين بصاحبهما."
+    },
+    "radiya_features_and_construction": {
+      "cases": [
+        "DSC-P03",
+        "DSC-P08",
+        "DSC-P09",
+        "DSC-P12"
+      ],
+      "observed": "راضية لها N معربة وADJ construction=null؛ number=null في القراءتين. يظهر PREDICATE_AGREEMENT_EVIDENCE_REQUIRED مع PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED في البديل الوصفي.",
+      "unknown": "لا تمنح علامة F وحدها قاعدة missing-number=>singular. لم يثبت أن وجود N مكتملة يلغي ADJ الناقصة أو يحسم كل معنى للسياق.",
+      "needed": "اكتساب مستقل لعدد الصفة وبنائها/إعرابها أو لتقييد بدائلها؛ ثم إعادة تقييم الإحالات اللاحقة من المصدر الكامل."
+    },
+    "unacquired_accusative_name": {
+      "cases": [
+        "DSC-P13",
+        "DSC-B15",
+        "DSC-B16"
+      ],
+      "observed": "لإِنّ/ليت/لعلّ مرشح عامل في occurrence، لكن حازمًا بلا قراءة مكتسبة في السجل، ولا ينتج تحليل جملة. فشل force_preserved في B15/B16 هو فقد WISH/HOPE المتوقعين، مع استمرار منع الادعاء.",
+      "unknown": "لم تختبر هذه المراجعة جميع أسباب غياب القراءة، ولا تثبت أن حذف ألف النصب أو افتراض تصريف كل اسم في context مسموح.",
+      "needed": "شاهد مستقل يربط الاسم في السياق بصورة النصب وحاملها ونوع تصريفه. لا يستبدل الاسم أو gold لرفع الدرجة."
+    },
+    "context_name_declension": {
+      "cases": [
+        "DSC-P14",
+        "DSC-P15",
+        "DSC-P17",
+        "DSC-B24"
+      ],
+      "observed": "حازم معروف المرجع لكن construction=null. تحليل كان/ليس ظاهر، references_complete=true، إلا أن CONSTRUCTION_EVIDENCE_REQUIRED وCONSTRUCTION_LAW_GATE يمنعان اكتماله.",
+      "unknown": "كون المرجع معلومًا لا يثبت تصريف الصورة الاسمية. لا تفصل هذه المراجعة في جميع القواعد اللغوية الممكنة لتوريث المعلومات من context.",
+      "needed": "شاهد اسم/تصريف مستقل ضمن عقد قراءة الاسم؛ ثم يبقى الزمن والنفي محصورين في العامل ولا يسقطان عند السؤال."
+    },
+    "idafa_two_distinct_debts": {
+      "cases": [
+        "DSC-P26"
+      ],
+      "observed": "بيت معرب ذو gender=masculine وnumber=null؛ جميل ADJ مفردة. يظهر التزام اتفاق الخبر. القراءة المركبة تحمل أيضًا CONSTRUCTION_EVIDENCE_REQUIRED للاسم المضاف إليه حازم؛ توجد إحالتا البيت وحازم ولا تكفيان لتفعيل الإعراب.",
+      "unknown": "لا يثبت جنس M وحده العدد S. ولم يثبت أن عدد كيان البيت في context يمكنه أن يعوض عدد القراءة المعجمية. هذه ديون متميزة لا عيب إحالة واحد.",
+      "needed": "مصدر عدد الكلمة وشاهد تصريف المضاف إليه، مع الحفاظ على الإضافة وعدم نقل صفة البيت إلى مالكه."
+    },
+    "akrama_host_argument_bridge": {
+      "cases": [
+        "DSC-P27",
+        "DSC-P28"
+      ],
+      "observed": "P27 لديه stem معجمي لأكرم لكن لا person_evidence مؤهلة لفعل كامل/valency في التقرير؛ سهيلًا بلا قراءة. P28 لا يملك قراءة أكْرمه في occurrence. التشخيص السابق حفظ موضعي QAC للشاهدين المتصلين في السورة89.",
+      "unknown": "لم يثبت أن الجذر/الlemma يجيزان فك المضيف الكامل من شاهد متصل. سؤال من في P27 له مسألة دور نحوي إضافية لا يحسمها الجواب المتوقع.",
+      "needed": "جسر مستقل للمضيف والضمير والتعدية وحامل نصب اسم المفعول؛ ودليل دور/حالة لسؤال من أو إبقاء بدائله.",
+      "prior_review": "evidence/arabic_coverage/discourse_runtime_boundaries_v1.json"
+    },
+    "basir_heldout_adjective": {
+      "cases": [
+        "DSC-T04"
+      ],
+      "observed": "في نموذج الحجب المحدد لهذه الحالة، بصير لها ADJ construction=null مقابل N معربة مكتملة؛ الالتزام الظاهر هو PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED.",
+      "unknown": "هذا وصف لمخرجات النموذج المحجوب المعين، وليس حكمًا بأن بصير لا تعرف في العربية أو بأن جميع الشواهد البديلة غائبة.",
+      "needed": "تعميم مرخص من شاهد مستقل ضمن حدود الحجب نفسه؛ لا إعادة صورة الاختبار إلى التدريب أو إسقاط البديل الناقص."
+    },
+    "connected_isolated_imperative": {
+      "cases": [
+        "DSC-B14"
+      ],
+      "observed": "اُدْخُلْ بلا قراءة أو تحليل في التقرير، فتغيب قوة الأمر المتوقعة. التشخيص السابق ربط الفجوة باختلاف صورة المصدر المتصلة عن الهدف المفرد.",
+      "unknown": "لا يكفي جذر دخل أو وسم IMPV لنقل همزة الوصل وحركة الوصل/الوقف. لم يحصر الفحص جميع التحويلات الممكنة.",
+      "needed": "قانون موثق لنطاق الوصل/الوقف وصوره، مع حفظ المصدر وعدم استنتاج وقوع الامتثال من صيغة الأمر.",
+      "prior_review": "evidence/arabic_coverage/discourse_runtime_boundaries_v1.json"
+    },
+    "negative_coordination_scope": {
+      "cases": [
+        "DSC-B19"
+      ],
+      "observed": "ليس حازم حكيمًا وسهيل كريم بلا تحليل جملة في السجل؛ السؤال موجب ويعود DEFER بدل REFUTED المتوقع. المسار المنفذ لا يركب هذا العطف تحت النفي؛ وتوجد أيضًا فجوتا حازم/كريم المعجميتان.",
+      "unknown": "لم يثبت هذا الفحص ما إذا كان النفي في كل استعمال مشابه يضيق إلى الجملة الأولى أو يتسع. لا يجوز استنتاج أن الواو وحدها تنهي نطاق النفي.",
+      "needed": "تركيب موثق للنطاق وحدود الجمل مع إبقاء القراءات ذات الصلة؛ ثم اكتمال الأسماء والصفات. هذه الحالة ليست طلبًا لاعتماد توزيع آلي للنفي."
+    }
+  },
+  "confirmed_oracle_findings": [
+    {
+      "id": "O01",
+      "case": "CON-Z10",
+      "finding": "The frozen هل + explicit matrix ما-negation question conflicts with the selected Ibn Hisham norm already documented in the pinned earlier audit. Original expected SUPPORTED remains unchanged.",
+      "limit": "A defect under that declared source norm; no claim about every modern usage or every هل ما sequence."
+    },
+    {
+      "id": "O02",
+      "scope": "questions dropping naat/tamyiz/time or other qualification",
+      "finding": "Expected UNKNOWN records NABT exact qualified-claim matching. It cannot be described as a proof that ordinary Arabic has no weaker entailment.",
+      "classification": "product_semantics_boundary_not_an_oracle_edit"
+    },
+    {
+      "id": "O03",
+      "scope": "CON-Z02/CON-Z07",
+      "finding": "The earlier sense-premise deficit is preserved as a diagnosis. Fully marked phonology and a complete syntactic frame may themselves be useful independent disambiguating evidence; this review has not yet proved them sufficient or insufficient for these two uses.",
+      "classification": "open_source_adjudication_not_automatically_missing_user_context"
+    },
+    {
+      "id": "O04",
+      "scope": "DSC-P27 question من أكرم حازمٌ",
+      "finding": "The explicitly nominative named participant is relevant evidence for an object question. A source-based question-role audit should not treat the text as unvocalized or demand that the answer label supply its role.",
+      "classification": "review_obligation_not_confirmed_gold_defect"
+    }
+  ],
+  "static_validator_review": [
+    {
+      "id": "C01",
+      "path": "tools/construction_evaluation.py",
+      "function": "qualification_matches",
+      "finding": "The tamyiz branch presently requires the expected owner to occur in claim.args, but does not itself join that owner to the same relation target reference. relation_matches separately checks target anchors. Extension to transitive nisba requires a shared relation/claim/ref proof, not just those independent existentials.",
+      "confidence": "static insufficiency concern for an expanded domain; no full validator bypass demonstrated before freeze",
+      "tests": [
+        "T03",
+        "T06",
+        "V-T01",
+        "V-T02"
+      ]
+    },
+    {
+      "id": "C02",
+      "path": "tools/construction_evaluation.py",
+      "function": "relation_matches",
+      "finding": "When a target span is absent, the existing adapter infers the target from an active/passive subject assignment. That adapter covers its old intransitive nisba fixtures; it must not silently impose a universal subject-owned tamyiz law on an object-related frame.",
+      "confidence": "bounded adapter scope confirmed by source read; not a reason to waive full validation",
+      "tests": [
+        "T03",
+        "V-T01"
+      ]
+    },
+    {
+      "id": "C03",
+      "path": "tools/discourse_evaluation.py",
+      "function": "validate_claim_roles",
+      "finding": "Ordered source verb/subject/object identity checks are present. Future connected-host evidence must still separately establish host features, suffix partition and each reference; matching a lemma and entity IDs is not that proof.",
+      "tests": [
+        "P01",
+        "P04",
+        "P05",
+        "P06",
+        "V-P01",
+        "V-P02"
+      ]
+    },
+    {
+      "id": "C04",
+      "path": "tools/question_answer_validation.py",
+      "function": "validate_interpretations",
+      "finding": "The current helper explicitly enumerates viable inquiry analyses, signed matches and consensus. New lexical bridges must not shrink the viable set outside that check or borrow agreement from another claim/relative predicate.",
+      "tests": [
+        "N06",
+        "V-N03",
+        "V-N04"
+      ]
+    },
+    {
+      "id": "C05",
+      "scope": "Source replay and independent structural checking",
+      "finding": "Runtime replay, independently checked source support, and semantic oracle comparison are separate obligations. A report hash and a passed replay are not a proof that every grammar candidate was enumerated."
+    }
+  ],
+  "missing_authority_classes": [
+    "lexical form/declension witness",
+    "independent nominal number",
+    "whole connected-host person/aspect/voice and valency",
+    "same-analysis reference and owner linkage",
+    "occurrence-level sense/frame selection",
+    "scope and force composition",
+    "question input/oracle validity"
+  ],
+  "limits": "No new false acceptance is alleged without a preserved reproducer. No old gold, denominator or partial gate is changed. The 24 directed cases and mutation recipes are additional evidence only."
+}

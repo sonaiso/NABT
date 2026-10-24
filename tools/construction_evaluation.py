@@ -32,11 +32,24 @@ _GATE_SPEC = importlib.util.spec_from_file_location(
     'reviewed_arabic_coverage_gate', Path(__file__).with_name('arabic_coverage_gate.py'))
 coverage_gate = importlib.util.module_from_spec(_GATE_SPEC)
 _GATE_SPEC.loader.exec_module(coverage_gate)
+_COMPLETION_SPEC = importlib.util.spec_from_file_location(
+    'reviewed_arabic_completion_gate', Path(__file__).with_name('arabic_completion_gate.py'))
+completion_gate = importlib.util.module_from_spec(_COMPLETION_SPEC)
+_COMPLETION_SPEC.loader.exec_module(completion_gate)
+_SOURCE_SPEC = importlib.util.spec_from_file_location(
+    'independent_source_witness_validation', Path(__file__).with_name('source_name_validation.py'))
+source_validation = importlib.util.module_from_spec(_SOURCE_SPEC)
+_SOURCE_SPEC.loader.exec_module(source_validation)
 FOLDER = ROOT / 'evidence/constructions'
-VERSION = 'nabt.constructions.independent-evaluation.v2'
+VERSION = 'nabt.constructions.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089': {
+        'snapshot_sha256': 'fb14e51c7f7d751b13307ecf65573c1863c7f579252aa402231586aeda11412f',
+        'archive_sha256': '8576765bdd5b9dbb93db76ec11b485634fa2f34691113a45d59dbf49238c0c87',
+        'file_count': 80, 'version': '0.17.0a1',
+    },
     '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c': {
         'snapshot_sha256': '46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851',
         'archive_sha256': '8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163',
@@ -394,12 +407,18 @@ def context_form_compatible(surface, declared):
         return False
     return True
 
-def validate_reference_origin(ref, inputs, entities):
+def validate_reference_origin(ref, inputs, entities, *, analysis=None, rows=None, audit=None, model_summary=None):
     origin, ids = ref['origin'], set(ref.get('candidate_entity_ids', []))
     context = inputs.get('context') or {}
+    correspondence = ref.get('name_correspondence')
+    if correspondence is not None:
+        source_validation.validate_name_correspondence(ref, inputs, entities, analysis=analysis,
+            rows=rows, audit=audit, model_summary=model_summary)
     if origin == 'named':
         possible = {eid for eid, entity in entities.items()
-                    if context_form_compatible(ref['surface'], entity['name'])}
+                    if context_form_compatible(ref['surface'], entity['name']) or
+                    correspondence is not None and source_validation.unvocalized_label_compatible(
+                        ref['surface'], entity['name'])}
     elif origin in ('speaker', 'addressee'):
         possible = {context[origin]} if origin in context else set()
     elif origin == 'deictic':
@@ -746,6 +765,15 @@ def validate_claim_roles(claim, analysis, rows, ranges, *, embedded_family=None)
     raise ValueError('Event predicate and arguments do not share their governing source readings')
 
 
+def validate_new_sense_receipts(analysis, rows, inputs, audit):
+    for relation in analysis.get('relations', []):
+        if 'independent_sense_witness' in relation:
+            source_validation.validate_sense_witness(relation, analysis, rows, inputs, audit)
+        elif (relation.get('kind') == 'operator' and relation.get('family') == 'zanna'
+              and relation.get('lemma') == 'حسب' and analysis.get('licensed_syntax')):
+            require(False, 'Licensed hasiba sense omitted its independent raw/source witness')
+
+
 def validate_report(report, inputs, audit=None):
     raw = inputs['text'].encode()
     require(report['source_text'] == inputs['text'] and report['source_id'] == inputs['source_id']
@@ -774,6 +802,8 @@ def validate_report(report, inputs, audit=None):
         else:require(row.get('kind')=='particle' and row.get('operator_qualified') is True,'Lexical reading has no source stem')
         for part in row.get('segmentation',{}).get('parts',[]):check_span(part['span'],inputs,part['surface'])
         validate_carrier(row,inputs,audit)
+        if 'nominal_paradigm_correspondence' in row or row.get('construction_basis') == 'same_form_nominal_independent_pair':
+            source_validation.validate_nominal_correspondence(row, inputs, audit)
         for nun in row.get('nun_readings',[]):
             if nun.get('realization')=='deleted':require(nun.get('span') is None,'Deleted nun fabricated a span')
             if nun.get('realization')=='present':require(nun_span_valid(nun,inputs),'Visible nun lost complete cluster identity')
@@ -807,7 +837,8 @@ def validate_report(report, inputs, audit=None):
                     require(ref['scope']==inputs['scope'] and ref['context_sha256']==report['context']['sha256'],'Reference scope/context mismatch')
                     require(bound is None or ids==[bound],'Bound reference is not the sole candidate')
                     require(ref['reference_id']==digest({k:v for k,v in ref.items() if k!='reference_id'}),'Reference hash mismatch')
-                    validate_reference_origin(ref,inputs,entities);validate_reference_prefix(ref,previous,supplied)
+                    validate_reference_origin(ref, inputs, entities, analysis=analysis, rows=rows, audit=audit,
+                        model_summary=report.get('lexical_model'));validate_reference_prefix(ref,previous,supplied)
             for assigned in analysis['assignments']:
                 rid=assigned['reading_id'];require(rid in analysis['reading_ids'],'Assignment borrowed another reading')
                 row=rows[rid];wanted=assignment_case(assigned,analysis)
@@ -834,6 +865,7 @@ def validate_report(report, inputs, audit=None):
                     require(type(sign['case']) is int and 0<=sign['case']<4 and CASE_VALUES[sign['case']]==wanted,'Sign belongs to another case')
                     require(type(sign['sign']) is int and 0<=sign['sign']<len(SIGNS) and SIGNS[sign['sign']]==sign['sign_name'],'Sign code/name mismatch')
             validate_relations(analysis,rows,inputs)
+            validate_new_sense_receipts(analysis, rows, inputs, audit)
             for claim in analysis['claims']:
                 claim_view(claim);validate_claim_roles(claim,analysis,rows,ranges)
                 if analysis['assertion_allowed']:
@@ -1284,7 +1316,10 @@ def runtime_snapshot(manifest_path,runtime_root):
     for path in (Path(__file__),Path(__file__).with_name('question_answer_validation.py'),
                  ROOT/'tests/test_construction_evaluator.py',ROOT/'tests/test_question_interpretation_validation.py',
                  Path(__file__).with_name('arabic_coverage_gate.py'), coverage_gate.POLICY_PATH,
-                 ROOT/'tests/test_arabic_coverage_gate.py'):
+                 ROOT/'tests/test_arabic_coverage_gate.py', Path(__file__).with_name('source_name_validation.py'),
+                 ROOT/'tests/test_source_witness_validation.py', *source_validation.fixture_paths(),
+                 Path(__file__).with_name('arabic_completion_gate.py'), completion_gate.POLICY_PATH,
+                 ROOT/'tests/test_arabic_completion_gate.py'):
         data=path.read_bytes();files.append({'path':str(path.relative_to(ROOT)),'bytes':len(data),'sha256':sha256(data).hexdigest()})
     return {'runtime_root':str(runtime_root),'runtime_freeze':str(manifest_path.relative_to(ROOT)),
         'runtime_freeze_sha256':checksum,'runtime_snapshot_sha256':pin['snapshot_sha256'],'runtime_archive_sha256':pin['archive_sha256'],
@@ -1294,6 +1329,8 @@ def runtime_snapshot(manifest_path,runtime_root):
 
 def gate_decision(result, allow_documented_boundaries=False):
     """Optional regression acceptance; never relabel a failed linguistic check."""
+    if result['snapshot']['runtime_freeze_sha256'] == completion_gate.RUNTIME_SHA256:
+        return completion_gate.gate_decision('construction', result, allow_documented_boundaries)
     if result['snapshot']['runtime_freeze_sha256'] == coverage_gate.RUNTIME_SHA256:
         return coverage_gate.gate_decision('construction', result, allow_documented_boundaries)
     cases=result['cases'];raw=result['raw_log'];integrity=[]
@@ -1443,7 +1480,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/arabic_coverage/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/arabic_completion_v3/code_freeze_v1.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

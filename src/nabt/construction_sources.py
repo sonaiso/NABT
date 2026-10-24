@@ -10,19 +10,21 @@ import json
 
 from .errors import NabtError
 
-POLICY_ID = "nabt.construction-grammar-sources.v3"
-EXPECTED_POLICY_SHA256 = "4b68eed56aa8015daabc804329a297edcc6da3bf6725a64ad314c9b7b05969b3"
-SUPPLEMENTARY_REGISTRY = "construction_supplementary_sources_v1.json"
+POLICY_ID = "nabt.construction-grammar-sources.v4"
+EXPECTED_POLICY_SHA256 = "2faa90be033475c458eeabe61cda472c7856a0342803325bef6474c6c88b13f5"
+SUPPLEMENTARY_REGISTRY = "construction_supplementary_sources_v2.json"
 SUPPLEMENTARY_SCHEMA = "nabt.construction-supplementary-sources.v1"
-EXPECTED_SUPPLEMENTARY_SHA256 = "816e3a89aa80138b31f88b8dd33752160468c17b84927623b43fa41def39fdf0"
-SUPPLEMENTARY_RULES = {"sabban": ("inception_sharaa", "tamyiz_taba_nafs")}
+EXPECTED_SUPPLEMENTARY_SHA256 = "96f505a0e34964e6b7fc65ed7dfaa6c0f5430c75a51766760495c25295ab1fe7"
+SUPPLEMENTARY_RULES = {"sabban": ("inception_sharaa", "tamyiz_taba_nafs"),
+                       "mukhtar_sihah": ("vocalized_hasiba_sense",)}
 RULES = ("kana_sisters", "inna_sisters", "zanna_sisters", "kada_complement",
          "tense_aspect", "naat_agreement", "hal_attachment", "tamyiz_measure",
          "tamyiz_nisba", "badal_identity", "tawkeed_reference", "idafa_chain",
          "temporal_spatial_attachment", "counted_tens_forms", "counted_tens_specification",
          "counted_tens_paradigm", "attested_accusative_alif", "predicate_adjectival_agreement",
          "matrix_ma_negation", "explanatory_apposition", "prepositional_attachment",
-         "inception_sharaa", "tamyiz_taba_nafs")
+         "inception_sharaa", "tamyiz_taba_nafs", "same_form_nominal_inflection",
+         "vocalized_hasiba_sense")
 
 
 def _unique(pairs):

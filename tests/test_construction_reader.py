@@ -279,9 +279,9 @@ class ConstructionReaderTests(unittest.TestCase):
 
     def test_catalog_exposes_conditional_law_and_source_scope(self):
         catalog = discourse_catalog()
-        self.assertEqual(catalog["language_id"], "nabt.arabic-discourse-frames.v5")
+        self.assertEqual(catalog["language_id"], "nabt.arabic-discourse-frames.v6")
         self.assertEqual(catalog["constructions"]["law"]["law_id"], "nabt.construction-evidence.v3")
-        self.assertEqual(len(catalog["constructions"]["grammar_sources"]["rules"]), 23)
+        self.assertEqual(len(catalog["constructions"]["grammar_sources"]["rules"]), 25)
         self.assertEqual({o["family"] for o in catalog["constructions"]["operators"]},
                          {"kana", "inna", "zanna", "kada"})
 

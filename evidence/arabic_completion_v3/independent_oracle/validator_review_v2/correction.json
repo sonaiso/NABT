@@ -1,0 +1,33 @@
+{
+  "schema": "nabt.independent-witness-correction.v2",
+  "completed_utc": "2026-10-24T15:53:45.344008+00:00",
+  "files": [
+    {
+      "path": "tools/source_name_validation.py",
+      "sha256": "194f53164b9a1e3991340d53e0877dffb2f9b5c4c295cb6457d7abb517ff463e",
+      "bytes": 27915
+    },
+    {
+      "path": "tools/construction_evaluation.py",
+      "sha256": "65a426b3bad82f766b38fdd80088f7ca3489d016268c43860082e54b27bf33af",
+      "bytes": 106803
+    },
+    {
+      "path": "tools/discourse_evaluation.py",
+      "sha256": "0fdcedddfd502a5ddee5e4a72ae188e2e5eaa9e92743b26aa65e7e3a0cb9e197",
+      "bytes": 101569
+    },
+    {
+      "path": "tests/test_source_witness_validation.py",
+      "sha256": "4c745fc43f819240ce292d12d1617fac4a1b8b07c0e9e634e0f123c045f37ff2",
+      "bytes": 17072
+    }
+  ],
+  "test_command": "PYTHONPATH=src python -m unittest tests.test_source_witness_validation tests.test_construction_evaluator tests.test_discourse_evaluator tests.test_question_interpretation_validation",
+  "test_log": "...............................................................................................................................................\n----------------------------------------------------------------------\nRan 143 tests in 1.154s\n\nOK\n",
+  "test_log_sha256": "56f10fa520ada5efd2ed142dc75bd2f456b8a8ea1aa3bdddb15081e8f274d1e0",
+  "old_predictions_preserved": true,
+  "runtime_unchanged": true,
+  "material_unchanged": true,
+  "scope": "Two independently diagnosed checker changes only: remove unjustified occurrence-subset condition for same-profile donor tanwin, and reject conflicting/duplicated hasiba raw person profiles. No old score or gold modification."
+}

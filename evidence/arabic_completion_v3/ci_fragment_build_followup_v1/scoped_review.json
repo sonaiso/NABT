@@ -1,0 +1,91 @@
+{
+  "schema": "nabt.ci-inna-target-build.scoped-review.v1",
+  "authority": "INDEPENDENT_READ_ONLY_INTEGRATION_REVIEW_NOT_A_CI_PASS",
+  "status": "PROPOSED_CHANGE_REVIEWED_NOT_APPLIED",
+  "live_ci_unchanged": true,
+  "current_ci": {
+    "path": ".github/workflows/ci.yml",
+    "bytes": 21891,
+    "sha256": "62f10e3a802ebf6383d19a3c500177d4df54d0cf4ae8b40756b8f2115ec5ac88"
+  },
+  "proposed_ci": {
+    "path": "artifacts/local/arabic-completion-publication-audit/ci_fragment_build_review_v1/ci.proposed.yml",
+    "bytes": 21957,
+    "sha256": "2e63f750292df7e6db317fc6620ca84694df40cb3513bbec43333e7675347b24"
+  },
+  "patch": {
+    "path": "artifacts/local/arabic-completion-publication-audit/ci_fragment_build_review_v1/ci_argument.patch",
+    "bytes": 917,
+    "sha256": "ecce457c91919e2586d17c0575e09c829474c43ed8fe281712d8c7f4d23b5353"
+  },
+  "read_inputs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 21891,
+      "sha256": "62f10e3a802ebf6383d19a3c500177d4df54d0cf4ae8b40756b8f2115ec5ac88"
+    },
+    {
+      "path": "tools/check_conformance.py",
+      "bytes": 1651,
+      "sha256": "618d98abfae7f91dc63f3780c750a75f002a28f81cda3de5daf12746929449d2"
+    },
+    {
+      "path": "tools/check_arabic_inna_fragment.py",
+      "bytes": 29489,
+      "sha256": "325555ccd6dd4db4fe44d1a64f419aabdbcb9c57db316efd1f2a3ddb6b3f1acc"
+    },
+    {
+      "path": "formal/lakefile.lean",
+      "bytes": 1246,
+      "sha256": "5b8df9fc722c0df65e4a1fa17457dce4140ea929f856d473de82382e2bb32146"
+    },
+    {
+      "path": "formal/lean-toolchain",
+      "bytes": 25,
+      "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+    }
+  ],
+  "defect": {
+    "observed": true,
+    "cause": "The preceding conformance step builds only Nabt and exportTable. A new CI checkout therefore has no guarantee of the arabicInnaFragmentProbe executable. The fragment step currently does not request its build.",
+    "not_a_runtime_or_grammar_change": true
+  },
+  "proposal": {
+    "changed_file": ".github/workflows/ci.yml",
+    "changed_logical_lines": 1,
+    "added_argument": "--lake \"${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake\"",
+    "same_pinned_toolchain_path_as_preceding_steps": true,
+    "no_probe_override_present": true,
+    "actual_tool_behavior": "Without --probe, a supplied --lake invokes lake build arabicInnaFragmentProbe, verifies unchanged build inputs, and then executes the resulting binary on the frozen 32 wire cases.",
+    "new_code_or_grammar_needed": false
+  },
+  "prior_focused_evidence": {
+    "report": {
+      "path": "evidence/arabic_completion_v3/inna_fragment_transport_with_build_v1/report.json",
+      "bytes": 22021,
+      "sha256": "51d82650e077090744d546bbd513e106723a6b5ec58b5e2bd42f21b12fd8d9af"
+    },
+    "actual_target_build_pass": true,
+    "transport_cases_passed": 32,
+    "tool_bytes_equal_current": true,
+    "limited_scope": "Earlier local executable evidence supports the same build path. It is not remote CI or a claim that the final workflow has already passed."
+  },
+  "required_sequence": [
+    "Do not change any captured input until the current local full gate finishes and its existing finalizer succeeds against unchanged bytes.",
+    "Preserve the original full validation report, ZIP, executable-input manifest, and old CI bytes without replacement.",
+    "Apply exactly the reviewed one-line CI argument change and record old/new CI SHA256 values.",
+    "Compare complete before/after captured path inventories as well as hashes; allow only this exact CI difference. Do not silently omit additions, deletions, or changed captured documentation.",
+    "Run the actual pinned --lake target build and 32 transport checks in a new output directory, recording tool/program/request/response identities. This is focused verification of the integration argument, not a rerun of unchanged runtime tests.",
+    "Require all relevant CI jobs at the final branch head and on the merge commit. Preserve their exact commit/run identities; a local incremental build does not stand in for the clean remote job.",
+    "Label the original local full gate as validation of the prior exact workflow bytes, and publish a separate CI-only delta receipt plus final-head/merge CI results."
+  ],
+  "material_objection_to_proposed_chain": null,
+  "qualifications": [
+    "This reviewer authored the fragment/checker earlier; this is a separate read-only review of the workflow integration, not an independent authorship claim for the grammar proof.",
+    "README.md and some evidence documentation are captured by the full-run inventory. If any such file changes afterward, the exception is no longer CI-only and must be separately classified and recorded; do not state every other captured input is unchanged.",
+    "There has been no execution or source edit by this review. The current full-gate success and remote CI outcomes remain pending."
+  ],
+  "all_arabic_completeness_established": false,
+  "remote_ci_pass_claimed": false,
+  "captured_release_inputs_modified": false
+}

@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= arabic_coverage_v2
-TEXT_CODE_FREEZE ?= evidence/arabic_coverage/code_freeze_v2.json
+RUNTIME_FREEZE_VERSION ?= arabic_completion_v3
+TEXT_CODE_FREEZE ?= evidence/arabic_completion_v3/code_freeze_v1.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -99,6 +99,11 @@ recursive-bridge-conformance:
 inquiry-conformance:
 	$(PYTHON) tools/check_rational_inquiry.py --lake $(LAKE) --output $(EVIDENCE_DIR)/inquiry-conformance.json
 
+.PHONY: arabic-inna-fragment-conformance
+arabic-inna-fragment-conformance:
+	cd formal && $(LAKE) build arabicInnaFragmentProbe
+	$(PYTHON) tools/check_arabic_inna_fragment.py --output-dir $(EVIDENCE_DIR)/arabic-inna-fragment
+
 construction-evaluation:
 	$(PYTHON) tools/construction_evaluation.py --runtime-root $(CURDIR) --runtime-freeze $(TEXT_CODE_FREEZE) --allow-documented-boundaries --output $(EVIDENCE_DIR)/construction-regression.json
 
@@ -109,7 +114,12 @@ discourse-evaluation:
 .PHONY: arabic-coverage-holdout
 arabic-coverage-holdout:
 	$(PYTHON) tools/arabic_coverage_holdout_v2.py --output $(EVIDENCE_DIR)/arabic-holdout.json; holdout_status=$$?; test "$$holdout_status" -eq 0 -o "$$holdout_status" -eq 1
-	$(PYTHON) tools/arabic_coverage_postreview_v2.py --result $(EVIDENCE_DIR)/arabic-holdout.json --raw $(EVIDENCE_DIR)/arabic-holdout.raw.jsonl --runtime-freeze $(TEXT_CODE_FREEZE) --output-dir $(EVIDENCE_DIR)/arabic-holdout-postreview
+	$(PYTHON) tools/arabic_coverage_postreview_v3.py --result $(EVIDENCE_DIR)/arabic-holdout.json --raw $(EVIDENCE_DIR)/arabic-holdout.raw.jsonl --runtime-freeze $(TEXT_CODE_FREEZE) --output-dir $(EVIDENCE_DIR)/arabic-holdout-postreview
+
+.PHONY: arabic-completion-oracle
+arabic-completion-oracle:
+	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle -p 'test_*.py' -v
+	$(PYTHON) evidence/arabic_completion_v3/independent_oracle/run_regression_v2.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
@@ -129,7 +139,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation arabic-coverage-holdout source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms inquiry-conformance classical-language-conformance
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation arabic-coverage-holdout arabic-completion-oracle source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms inquiry-conformance classical-language-conformance arabic-inna-fragment-conformance
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:
