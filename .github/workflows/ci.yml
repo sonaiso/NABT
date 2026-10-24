@@ -248,6 +248,14 @@ jobs:
           test -x "$NABT_VERIFIED_READING"
           python -B -m unittest discover -s tests -p test_explainable_pilot.py -v
           python tools/evaluate_explainable_pilot.py --output artifacts/local/ci/explainable-pilot.json
+      - name: Train and audit bounded CPU certificate proposals
+        env:
+          PYTHONPATH: src
+          NABT_VERIFIED_READING: ${{ github.workspace }}/formal/.lake/build/bin/verifiedReading
+        run: |
+          test -x "$NABT_VERIFIED_READING"
+          python -B -m unittest discover -s tests -p test_training_readiness.py -v
+          python tools/train_certificate_ranker.py --output-dir artifacts/local/ci/certificate-training
       - name: Classical source bindings and free reader semantic contracts
         env:
           PYTHONPATH: src

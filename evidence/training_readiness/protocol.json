@@ -1,0 +1,12 @@
+{
+  "schema": "nabt.certificate-training-protocol.v1",
+  "scope": "CPU proposal ranking on existing public development cases; all candidate certificates verified independently against the original source and question",
+  "validation_case_ids": ["multipremise", "remove-one-conjunct", "relation-order", "negative-question"],
+  "split_note": "Relation/multipremise cases and their ablation stay together. Train and validation share vocabulary and broader grammar. This is public development validation, not independent Arabic evaluation or joint root/template OOD.",
+  "candidate_kinds": ["changed_source", "changed_query", "changed_identity", "extra_clause", "original"],
+  "optimizer": {"epochs": 120, "learning_rate": 0.1, "seed": 19},
+  "acceptance": "All 90 attempts measured; 18 original certificates accepted with authored statuses; 72 altered certificates rejected; exact source splits disjoint. Training failures retained; no accuracy target or claim of superiority to the current proposer.",
+  "promotion": "Never promote a rank score to a semantic judgment. Never discard readings. Never treat UNKNOWN/DEFER semantic status as a bad certificate. Resource/setup failures yield null labels, not negative rewards.",
+  "linguistic_data": "36 published coverage cases enter a review queue only. No right-to-train or independent human gold is inferred from kernel acceptance or a repository license.",
+  "first_run": "Output directory must not exist. Preserve failed and successful runs separately; changing the protocol creates a new experiment."
+}

@@ -192,3 +192,7 @@ explainable-pilot: explainable-pilot-conformance
 	$(PYTHON) tools/evaluate_explainable_pilot.py --output $(EVIDENCE_DIR)/explainable-pilot.json
 
 check: explainable-pilot-conformance
+
+.PHONY: certificate-training
+certificate-training:
+	$(PYTHON) tools/train_certificate_ranker.py --output-dir $(EVIDENCE_DIR)/certificate-training
