@@ -234,6 +234,14 @@ jobs:
           "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build verifiedReading
           test -x "$NABT_VERIFIED_READING"
           python -B -m unittest discover -s tests -p test_verified_reading.py -v
+      - name: Classical source bindings and free reader semantic contracts
+        env:
+          PYTHONPATH: src
+          NABT_CLASSICAL_SEMANTIC_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/classicalSemanticProbe
+        run: |
+          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build classicalSemanticProbe
+          test -x "$NABT_CLASSICAL_SEMANTIC_PROBE"
+          python -B -m unittest discover -s tests -p test_source_semantics.py -v
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Independent property-evidence table from Lean predicates

@@ -136,7 +136,7 @@ def emit (dispatch : Json → ProbeM Json) (errorResponse : Failure → Json) (o
 /-- Bounded streaming, including discard-to-newline after an oversized line.
 The following JSONL request is still processed independently. -/
 partial def readLoop (dispatch : Json → ProbeM Json) (errorResponse : Failure → Json) (input output : IO.FS.Stream)
-    (pending : ByteArray := ByteArray.empty) (overflow : Bool := false) : IO Unit := do
+    (pending : ByteArray := ByteArray.emptyWithCapacity 0) (overflow : Bool := false) : IO Unit := do
   -- `Stream.read n` may wait for n bytes through buffered stdio. A one-byte
   -- request lets a complete line receive its response before stdin reaches EOF.
   let chunk ← input.read 1
@@ -148,12 +148,12 @@ partial def readLoop (dispatch : Json → ProbeM Json) (errorResponse : Failure 
     for byte in chunk do
       if byte == 10 then
         emit dispatch errorResponse output pending overflow
-        pending := ByteArray.empty
+        pending := ByteArray.emptyWithCapacity 0
         overflow := false
       else if !overflow then
         if pending.size < maxLineBytes then pending := pending.push byte
         else
-          pending := ByteArray.empty
+          pending := ByteArray.emptyWithCapacity 0
           overflow := true
     readLoop dispatch errorResponse input output pending overflow
 

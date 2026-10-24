@@ -152,3 +152,11 @@ verified-reading-conformance:
 	NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_verified_reading.py -v
 
 check: verified-reading-conformance
+
+.PHONY: source-semantics-conformance
+source-semantics-conformance:
+	cd formal && $(LAKE) build classicalSemanticProbe
+	test -x $(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe
+	NABT_CLASSICAL_SEMANTIC_PROBE=$(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe $(PYTHON) -B -m unittest discover -s tests -p test_source_semantics.py -v
+
+check: source-semantics-conformance

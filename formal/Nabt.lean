@@ -37,3 +37,4 @@ import Nabt.RationalInquiry
 import Nabt.ClassicalLanguageEvidence
 import Nabt.ArabicCoverage
 import Nabt.VerifiedReading
+import Nabt.SourceSemantics
