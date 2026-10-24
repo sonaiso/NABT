@@ -1,0 +1,164 @@
+[
+  {
+    "id": "repository-example",
+    "source_utf8": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "3579e83c7fe074bc6f134388864903f83ace5f186aab22191ce7eaae766105fc",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "direct",
+    "source_utf8": "سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "68acf14232cbb8dea38b7ac91597c18632f7d00afd8a9d164be09e1d5305b251",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "refuted",
+    "source_utf8": "ليس سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "f20bdcfe5ae6d0d1265790c03809cff66b1ae0b7d4395c03210eb2e27396ba97",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "REFUTED"
+  },
+  {
+    "id": "conflict",
+    "source_utf8": "سالم هو عالم.\nليس سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "997878071b7bed1d416012377d42b599000711ee5573a93395098a7ab6ccff6e",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "CONFLICT"
+  },
+  {
+    "id": "unknown",
+    "source_utf8": "سالم هو حكيم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "9abe6579ec945e2fecdf92b9c502795a240e93a7e73c6e02e852719d25afa067",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "UNKNOWN"
+  },
+  {
+    "id": "conflict-propagation",
+    "source_utf8": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nليس سالم هو حكيم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "6972ade96a7575146ebdcff36e5190840c9ebf1d11a6ec2bb7d24bd062839c10",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "DEFER"
+  },
+  {
+    "id": "clean-alternative",
+    "source_utf8": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nليس سالم هو حكيم.\nسالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "e70e334ba3b0c529dc24ee546b863280cdd8a6b7a2a307fd039bef57be220e25",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "multipremise",
+    "source_utf8": "سالم يحب سهيل.\nسالم هو حكيم.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\n",
+    "query_utf8": "هل سهيل هو عالم؟\n",
+    "source_sha256": "f54cdad2eba1d2dc626086fc156ee6c425d8c40db77c7f31117da9455410c1ed",
+    "query_sha256": "311cdba3d860bee3bc964e4f5741b82a7483e11590b2ea9dfac790979edf87ac",
+    "split": "validation",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "relation-order",
+    "source_utf8": "سالم يحب سهيل.\n",
+    "query_utf8": "هل سهيل يحب سالم؟\n",
+    "source_sha256": "0d4bfbacc3534a09b3937f7b536cc8527ba2657fb1e9269147081c39e0b77f5c",
+    "query_sha256": "a9f139f3f2a0ba86f3fbb8e1219d5c8c1d2a9eb9eea6aeedb56672d91cf11f68",
+    "split": "validation",
+    "authored_expected_status": "UNKNOWN"
+  },
+  {
+    "id": "negative-question",
+    "source_utf8": "سالم يحب سهيل.\n",
+    "query_utf8": "هل ليس سالم يحب سهيل؟\n",
+    "source_sha256": "0d4bfbacc3534a09b3937f7b536cc8527ba2657fb1e9269147081c39e0b77f5c",
+    "query_sha256": "9969b781f5d645637e3b38f00e9468b6d2d2672262b6172c24395f505a99a184",
+    "split": "validation",
+    "authored_expected_status": "REFUTED"
+  },
+  {
+    "id": "cycle",
+    "source_utf8": "إذا سالم هو حكيم فإن سالم هو عالم.\nإذا سالم هو عالم فإن سالم هو حكيم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "8b6ce4b71dc02ea0f5578d7c586762aa90825b758c4cb8c3e0caec13c7bcb84e",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "UNKNOWN"
+  },
+  {
+    "id": "byte-spans",
+    "source_utf8": "سَالِم هو حَكِيم.\nإذا سَالِم هو حَكِيم فإن سَالِم هو عَالِم.\n",
+    "query_utf8": "هل سَالِم هو عَالِم؟\n",
+    "source_sha256": "4627f923ca5c04dc8f5898578741b316bfac2ceb9a65e311dee3bcfcda7b514d",
+    "query_sha256": "ac45902182c6c4e5a7ee3b666de69c47c350400c8f40d80a9fcacbab4dc9bb6a",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "duplicate-facts",
+    "source_utf8": "سالم هو حكيم.\nسالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "4839bcf708c3cd03c96610e2f265129d712280564225c28e4d9c81c828dffb24",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "separate-proof",
+    "source_utf8": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nسالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "cade4212c8a8c47f182e56682e6311e8425c6d006050027a3f8ad9cb5cc100b6",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  },
+  {
+    "id": "remove-required-fact",
+    "source_utf8": "إذا سالم هو حكيم فإن سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "9ce36e3cd0e6677d4df06cb27ee8c9c16918bf7cb5bfca4e47f5b21615d5f597",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "UNKNOWN"
+  },
+  {
+    "id": "remove-required-rule",
+    "source_utf8": "سالم هو حكيم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "9abe6579ec945e2fecdf92b9c502795a240e93a7e73c6e02e852719d25afa067",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "UNKNOWN"
+  },
+  {
+    "id": "remove-one-conjunct",
+    "source_utf8": "سالم يحب سهيل.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\n",
+    "query_utf8": "هل سهيل هو عالم؟\n",
+    "source_sha256": "932419805fd9185e325855208c586d597b18a776bea809619e722f4e66b0e82a",
+    "query_sha256": "311cdba3d860bee3bc964e4f5741b82a7483e11590b2ea9dfac790979edf87ac",
+    "split": "validation",
+    "authored_expected_status": "UNKNOWN"
+  },
+  {
+    "id": "keep-independent-proof",
+    "source_utf8": "سالم هو عالم.\n",
+    "query_utf8": "هل سالم هو عالم؟\n",
+    "source_sha256": "68acf14232cbb8dea38b7ac91597c18632f7d00afd8a9d164be09e1d5305b251",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "split": "train",
+    "authored_expected_status": "SUPPORTED"
+  }
+]

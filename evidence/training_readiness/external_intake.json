@@ -1,0 +1,89 @@
+{
+  "schema": "nabt.external-training-intake.v1",
+  "records": [
+    {
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "path": "corpora/MASAQ.csv",
+      "git_blob": "0f589ce1c2639d3af52152c0bb28e91a08411ca6",
+      "bytes": 20302008,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    },
+    {
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "path": "corpora/qac/quranic-corpus-morphology-0.4.txt.gz",
+      "git_blob": "c8463be46ac3e6785212cc5430e3a242078e4b27",
+      "bytes": 1088566,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    },
+    {
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "path": "corpora/tashkeela-fadel-test.txt",
+      "git_blob": "661716fb133292e84d180f5e9097e5f80aeb7eda",
+      "bytes": 1747544,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    },
+    {
+      "repository": "Saleh1967/Alghanem",
+      "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+      "path": "corpora/kitab/0761JamalDinIbnHisham.MatnQatrNada.Shamela0011376-ara1.gz",
+      "git_blob": "42bc27a9003ad3836b623087d5d534b85203aca0",
+      "bytes": 13288,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    },
+    {
+      "repository": "sonaiso/masaq-eqra",
+      "commit": "6d10eb9e6867fda8361e238c0efa88eeded2b74d",
+      "path": "MASAQ.csv",
+      "git_blob": "658d0faec8507c9ef6eda61935e5fd69b15b349a",
+      "bytes": 18650411,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    },
+    {
+      "repository": "sonaiso/Eqratech_Hussein_Hiyassat_Project",
+      "commit": "7829b478a4a057d85c55b6fd1b93de25597a600f",
+      "path": "data/quran/train.jsonl",
+      "git_blob": "89fbc528901901c6e23db2b5478d821bbb8504bb",
+      "bytes": 1222517,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    },
+    {
+      "repository": "sonaiso/Eqratech_Hussein_Hiyassat_Project",
+      "commit": "7829b478a4a057d85c55b6fd1b93de25597a600f",
+      "path": "data/corpus/gold_corpus_v1.json",
+      "git_blob": "cb40dfd68131ba5d89049c48724568aa8874add9",
+      "bytes": 9222,
+      "observation": "Git tree metadata; bytes not imported into NABT training",
+      "training_eligible": false
+    }
+  ],
+  "quality_findings": [
+    {
+      "repository": "sonaiso/Eqratech_Hussein_Hiyassat_Project",
+      "path": "data/corpus/gold_corpus_v1.json",
+      "git_blob": "cb40dfd68131ba5d89049c48724568aa8874add9",
+      "finding": "Full UTF-8 file returned by GitHub fetch_file fails JSON.parse at position 1: literal backslash-n outside strings. No automatic repair or gold-label admission.",
+      "independent_gold": false
+    },
+    {
+      "repository": "Saleh1967/Alghanem",
+      "finding": "Pinned recursive tree contains MASAQ.csv despite README saying it is absent; file availability must be read from tree/bytes, not stale prose."
+    },
+    {
+      "repository": "Saleh1967/Mashru",
+      "finding": "Madlul/Hawass.lean separates lexical matching and sealed observations. Its distinct-witness relation is not itself an empirical test of causal independence; transfer requires scoped identity and observation review."
+    },
+    {
+      "repository": "sonaiso/Taaqol-GPT",
+      "finding": "Golden origins dataset explicitly test/calibration only; do not silently turn it into independent linguistic gold."
+    }
+  ]
+}

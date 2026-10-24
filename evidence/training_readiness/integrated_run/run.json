@@ -1,0 +1,581 @@
+{
+  "schema": "nabt.training-run.v1",
+  "created_utc": "2026-10-24T21:40:03.127782+00:00",
+  "experiment": "public-development-certificate-ranking",
+  "base_head": "0fe5129c736631821f98b0370eb6680acd26aa6a",
+  "protocol_sha256": "2aee468db23e4ebd486e011e2be5cfdb6bbc89549c0698253566157be4f37bf6",
+  "cases_sha256": "7e1a2a58658d3a54a85446f02d3ff778e5bd8fca5d99d944fe94de94451dcaef",
+  "code_sha256": {
+    "tools/train_certificate_ranker.py": "33c2437ea08e886619537f9abfe2fd3898f0cdde586d95ca40e8feb0d53744dd",
+    "tools/training_readiness.py": "4b2774ad55d026230e16156fa7083f4bd4f1f9694d3fc2f46ea76a5959e9b90f",
+    "tools/verified_reading.py": "80ddaf9c352ee030e27a45ae4c53c1bf3ae377c11037f3f41dbae6b6944ef62c",
+    "tools/explainable_pilot.py": "5a1525389aec55c2c03f6ff9d26d18491ceeb399bc63ede993ef985afa27690c"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "architecture": "x86_64",
+    "logical_cpus": 9,
+    "cpu_max_raw": "800000 100000",
+    "cpu_quota_cores": 8.0,
+    "memory_max_raw": "8589934592",
+    "memory_quota_bytes": 8589934592,
+    "nvidia_smi_exposed": false,
+    "nvidia_devices_exposed": [],
+    "packages": {
+      "torch": false,
+      "transformers": false,
+      "peft": false,
+      "trl": false,
+      "datasets": false,
+      "safetensors": false
+    },
+    "gpu_training_measurement": null,
+    "remote_gpu_availability": "UNMEASURED"
+  },
+  "timing": {
+    "training_seconds": 0.17171213100664318,
+    "native_attempt_p50_seconds": 0.0514816150025581,
+    "native_attempt_p95_seconds": 0.06910936100030085,
+    "planned_attempts": 90
+  },
+  "planned_examples": 90,
+  "planned_source_cases": 18,
+  "measurements": {
+    "MEASURED": 90
+  },
+  "labels": {
+    "0": 72,
+    "1": 18
+  },
+  "original_status_matches_authored_expectations": true,
+  "exact_source_overlap": [],
+  "metrics": {
+    "train": {
+      "trained": {
+        "planned_groups": 14,
+        "measured_groups": 14,
+        "unmeasured_groups": 0,
+        "top1_accepted": 14,
+        "top1_rate": 1.0,
+        "mean_first_accepted_rank": 1.0,
+        "groups": [
+          {
+            "case_id": "repository-example",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "direct",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "refuted",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "conflict",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "unknown",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "conflict-propagation",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "clean-alternative",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "cycle",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "byte-spans",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "duplicate-facts",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "separate-proof",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "remove-required-fact",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "remove-required-rule",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "keep-independent-proof",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          }
+        ]
+      },
+      "fixed_input_order": {
+        "planned_groups": 14,
+        "measured_groups": 14,
+        "unmeasured_groups": 0,
+        "top1_accepted": 0,
+        "top1_rate": 0.0,
+        "mean_first_accepted_rank": 5.0,
+        "groups": [
+          {
+            "case_id": "repository-example",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "direct",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "refuted",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "conflict",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "unknown",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "conflict-propagation",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "clean-alternative",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "cycle",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "byte-spans",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "duplicate-facts",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "separate-proof",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "remove-required-fact",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "remove-required-rule",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "keep-independent-proof",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          }
+        ]
+      }
+    },
+    "validation": {
+      "trained": {
+        "planned_groups": 4,
+        "measured_groups": 4,
+        "unmeasured_groups": 0,
+        "top1_accepted": 4,
+        "top1_rate": 1.0,
+        "mean_first_accepted_rank": 1.0,
+        "groups": [
+          {
+            "case_id": "multipremise",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "relation-order",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "negative-question",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          },
+          {
+            "case_id": "remove-one-conjunct",
+            "candidate_order": [
+              "original",
+              "changed_source",
+              "changed_identity",
+              "changed_query",
+              "extra_clause"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 1,
+            "top1_accepted": true
+          }
+        ]
+      },
+      "fixed_input_order": {
+        "planned_groups": 4,
+        "measured_groups": 4,
+        "unmeasured_groups": 0,
+        "top1_accepted": 0,
+        "top1_rate": 0.0,
+        "mean_first_accepted_rank": 5.0,
+        "groups": [
+          {
+            "case_id": "multipremise",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "relation-order",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "negative-question",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          },
+          {
+            "case_id": "remove-one-conjunct",
+            "candidate_order": [
+              "changed_source",
+              "changed_query",
+              "changed_identity",
+              "extra_clause",
+              "original"
+            ],
+            "measurement": "MEASURED",
+            "first_accepted_rank": 5,
+            "top1_accepted": false
+          }
+        ]
+      }
+    }
+  },
+  "training_executed": true,
+  "passed": true,
+  "limits": {
+    "all_arabic_complete": false,
+    "world_truth_established": false,
+    "arabic_acquisition_measured": false,
+    "independent_held_out_measured": false,
+    "root_ood_measured": false,
+    "template_ood_measured": false,
+    "lora_executed": false,
+    "rlvr_executed": false,
+    "neural_model_measured": false,
+    "improvement_over_current_proposer_measured": false
+  },
+  "current_proposer_baseline": "One already valid proposal per case; ranking an adversarial pool cannot establish an improvement over this proposer."
+}
