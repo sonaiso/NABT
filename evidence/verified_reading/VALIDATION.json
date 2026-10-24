@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-24T15:40:11.609673+00:00",
+  "base_commit": "d791fd7730cde2256dfac8a27687010b392876b3",
+  "law_id": "nabt.verified-ground-reading.v1",
+  "scope": "canonical ground signed unary/binary Horn source entailment; explicit names and exact bytes",
+  "local_verification": {
+    "lean_version": "4.34.1",
+    "lean_commit": "5045d0056413266e57c625dcd7c365b10e377c52",
+    "official_archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+    "kernel_check": {
+      "status": "PASS",
+      "initial_dependency_modules": 41,
+      "strategy": "full dependency build followed by changed module, Nabt, and Audit recheck",
+      "final_audited_theorems": 1003,
+      "new_theorems": 13,
+      "allowed_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "project_axioms": false
+    },
+    "native_execution": {
+      "status": "PASS",
+      "compiler": "GCC 13.3.0",
+      "lean_generated_c": true,
+      "binary_sha256": "79cc1b4f6ae38b0cc865f7e049fc192bb787740809dc4d7a468c8990a3cace07"
+    },
+    "make_test": {
+      "status": "PASS",
+      "tests_run": 1309,
+      "skipped": 5,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 184.526,
+      "python": "3.12.14",
+      "skip_scope": "existing unrelated optional Lean-probe groups; new verifier integration executed"
+    },
+    "targeted_tests": {
+      "status": "PASS",
+      "test_methods": 13,
+      "skipped": 0,
+      "independent_model_oracle_programs": 31,
+      "independent_model_oracle_queries": 93
+    },
+    "fresh_table_conformance": {
+      "status": "PASS",
+      "primitive_transitions_checked": 11252,
+      "fresh_lean_export_compared": true,
+      "lean_sources_guarded": 62
+    },
+    "normal_make_formal": {
+      "status": "BLOCKED_ENVIRONMENT",
+      "exit_code": 2,
+      "reason": "stock Lake cannot detect installation; explicit-path official library driver used for direct checks"
+    },
+    "normal_make_conformance": {
+      "status": "BLOCKED_ENVIRONMENT",
+      "exit_code": 2,
+      "alternative": "fresh official Lean export compared by unchanged check_integrity.py"
+    },
+    "make_check_release_gate": "NOT_RUN"
+  },
+  "publication": {
+    "published": false,
+    "pull_request": null,
+    "github_actions_for_change": "NOT_RUN",
+    "blocked_by": "GitHub create_blob returned HTTP 403 Resource not accessible by integration"
+  },
+  "claims": {
+    "controlled_per_execution_source_entailment_checked": true,
+    "arbitrary_arabic_reader_refinement_proven": false,
+    "all_arabic_complete": false,
+    "source_world_truth_established": false,
+    "python_proposer_complete_proven": false,
+    "general_pr17_proof_path_closed": false,
+    "release_ready_claimed": false
+  },
+  "changed_inputs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 21704,
+      "sha256": "77a800834b630c7d4064c13540668d7fe210dc740ce71b50f330883069caee89"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 9099,
+      "sha256": "a0da624d6ed058d6db7c03f0980446d8abcdaa02382af346df9e128912a166b1"
+    },
+    {
+      "path": "docs/VERIFIED_READING.md",
+      "bytes": 8399,
+      "sha256": "9e1ce1496f6050e26ccfdee07c3c9f5cd53787269901bfb4000f3a6d48b87420"
+    },
+    {
+      "path": "docs/PROOF_STATUS.md",
+      "bytes": 94812,
+      "sha256": "2cbb321543ee08184bfa0a64c91a1b3fb18264af6804ffbe4c6766432f131310"
+    },
+    {
+      "path": "formal/Nabt.lean",
+      "bytes": 985,
+      "sha256": "c3b77bcdaa18af287c196ce0a73e06be2a6ea99f0df5e1662213d689962fbd2d"
+    },
+    {
+      "path": "formal/Nabt/VerifiedReading.lean",
+      "bytes": 15021,
+      "sha256": "73c1399223313071ed7fc5da8526d06671b509355174ea75f0194b1be9ddb364"
+    },
+    {
+      "path": "formal/VerifiedReadingMain.lean",
+      "bytes": 6190,
+      "sha256": "de33fa204a6d97396566f1a06b3523cd785b1622e59435cf7d459d39a8b124bd"
+    },
+    {
+      "path": "formal/Audit.lean",
+      "bytes": 50841,
+      "sha256": "42bb17428a349c0b83d1032ff4dc7ef1e95c24ecfe41fc0286035314f05bf817"
+    },
+    {
+      "path": "formal/theorems.json",
+      "bytes": 51456,
+      "sha256": "48227dafc393341efb8a865da97127c308847d55b62fdb2751c08a1fb90e5704"
+    },
+    {
+      "path": "formal/lakefile.lean",
+      "bytes": 1234,
+      "sha256": "37fe03f0d7b9465e82458f6b4edede1e250d998706c94e8c42d70f2ef89a47b7"
+    },
+    {
+      "path": "tools/verified_reading.py",
+      "bytes": 5843,
+      "sha256": "80ddaf9c352ee030e27a45ae4c53c1bf3ae377c11037f3f41dbae6b6944ef62c"
+    },
+    {
+      "path": "tests/test_verified_reading.py",
+      "bytes": 10648,
+      "sha256": "51b3f75d6c11aca2708b0dd47c5f213d6e8f55d40fb84393afefef053d7ea40f"
+    },
+    {
+      "path": "examples/verified_reading/source.txt",
+      "bytes": 85,
+      "sha256": "3579e83c7fe074bc6f134388864903f83ace5f186aab22191ce7eaae766105fc"
+    },
+    {
+      "path": "examples/verified_reading/query.txt",
+      "bytes": 30,
+      "sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": "evidence/verified_reading/axioms.log.gz",
+      "bytes": 10120,
+      "sha256": "7cda119609166a8fb2bbcd62c0929c0f53d7c0e020afdc9437b0d8967fdb37d5"
+    },
+    {
+      "path": "evidence/verified_reading/conformance.json",
+      "bytes": 2270,
+      "sha256": "39dd85fe507f4c813a6dac887e0530b3146ad466eb9d7230340b9af75ddaa8aa"
+    },
+    {
+      "path": "evidence/verified_reading/environment/README.md",
+      "bytes": 1716,
+      "sha256": "1eaeb9b14e659cb5fa8a9b95706c9c8b4db07e7836b1fba6ea2e27f375faf753"
+    },
+    {
+      "path": "evidence/verified_reading/environment/build_formal.py",
+      "bytes": 1010,
+      "sha256": "eb7c4c605ddaf46da1da3466175ad5cf494db5fd0a5efeddb59a5e0055ecac99"
+    },
+    {
+      "path": "evidence/verified_reading/environment/main.c",
+      "bytes": 2138,
+      "sha256": "14e5c1413878f846e0cfa2e4cba6c25b67a98e33023b33aa256a346956546af8"
+    },
+    {
+      "path": "evidence/verified_reading/environment/toolchain-sha256.txt",
+      "bytes": 254,
+      "sha256": "4d9b3b99f2755d272e9f374eb6d533acd7dd4bbec222fc9ecf95102afc2bbc6d"
+    },
+    {
+      "path": "evidence/verified_reading/example-certificate.json",
+      "bytes": 1010,
+      "sha256": "f405f2063db4fe43e944eff5894f9e72d8337bd34ffad064f13023339dc8d9cc"
+    },
+    {
+      "path": "evidence/verified_reading/example-result.json",
+      "bytes": 536,
+      "sha256": "b31b765a40badd84975627a488e4d0385ec0669b426dabad5431f05a1a8296a7"
+    },
+    {
+      "path": "evidence/verified_reading/initial-dependency-build.json.gz",
+      "bytes": 10497,
+      "sha256": "fc915d74620a5cb383a0193ae2d3b0cd14a79a13ddd64c392f3836dd50824385"
+    },
+    {
+      "path": "evidence/verified_reading/make-conformance-environment-failure.log",
+      "bytes": 427,
+      "sha256": "d7cfdbdddee4aed282d58ed6ad73278c89eb69cb11db2e9a07eeeebd65bfe895"
+    },
+    {
+      "path": "evidence/verified_reading/make-formal-environment-failure.log",
+      "bytes": 179,
+      "sha256": "0d4987cd0a4eb69aa747ea64f468b9284a0ddd0b0231080d3f8aa3474bafedf0"
+    },
+    {
+      "path": "evidence/verified_reading/new-theorem-axioms.json",
+      "bytes": 1359,
+      "sha256": "5c1a33c1e09dd231e23c58835c44930789b0833d976cd214686823facc2df994"
+    },
+    {
+      "path": "evidence/verified_reading/runtime-tests.log.gz",
+      "bytes": 35535,
+      "sha256": "d3773aae2836b1591576f36bb265f15328cf9af5fecb4f7864667d5d57cceb89"
+    },
+    {
+      "path": "evidence/verified_reading/targeted-tests.log.gz",
+      "bytes": 460,
+      "sha256": "9974a55af8ae861664ad698109dc679f7c5d19254d8d15919198fbdb154f7bdf"
+    }
+  ]
+}

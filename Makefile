@@ -144,3 +144,11 @@ demo:
 classical-language-conformance:
 	$(PYTHON) tools/check_classical_language_evidence.py --lake $(LAKE) --output $(EVIDENCE_DIR)/classical-language-conformance.json
 	$(PYTHON) tools/classical_language_evidence.py audit --output $(EVIDENCE_DIR)/classical-language-sources.json
+
+.PHONY: verified-reading-conformance
+verified-reading-conformance:
+	cd formal && $(LAKE) build verifiedReading
+	test -x $(CURDIR)/formal/.lake/build/bin/verifiedReading
+	NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_verified_reading.py -v
+
+check: verified-reading-conformance

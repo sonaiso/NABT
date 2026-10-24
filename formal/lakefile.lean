@@ -54,3 +54,7 @@ lean_exe exportRationalInquiry where
 
 lean_exe exportClassicalLanguageEvidence where
   root := `ExportClassicalLanguageEvidence
+
+@[default_target]
+lean_exe verifiedReading where
+  root := `VerifiedReadingMain
