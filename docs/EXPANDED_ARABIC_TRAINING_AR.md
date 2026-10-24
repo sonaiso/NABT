@@ -8,6 +8,9 @@
 والتقسيم محفوظة في [run_01](../evidence/source_morphology_training/run_01).
 النسخة المصححة المستخدمة افتراضيًا هي [run_02](../evidence/source_morphology_training/run_02)،
 وبروتوكولها مثبت في `130bf651712f2c06f667de9d213e81cac8cd233a`.
+بعد مراجعة Copilot صار أمر التدريب يختار `protocol_v2.json` افتراضيًا،
+مع اختبار يمنع العودة الصامتة إلى حشو النسخة القديمة أو إخفاء سبق الاطلاع
+على الاختبار. يبقى البروتوكول الأول خيارًا صريحًا لإعادة تشغيل التجربة التاريخية.
 
 **القرار:** يصلح هذا العمل لتجربة صرفية قابلة لإعادة التشغيل، ولا يستوفي بوابة
 اعتماد قارئ عربي شامل. تحسنت دقة المهام الثلاث على السور المحجوزة، لكن متوسط
@@ -172,13 +175,13 @@ F1 للفئات الصرفية واللواصق تراجعا عن خط الحف�
 لا تتغير تبعيات NABT القياسية. المكتبة العصبية اختيارية في بيئة مستقلة:
 
 ```bash
-python -m venv .venv-neural
-.venv-neural/bin/python -m pip install numpy==2.3.5
-.venv-neural/bin/python -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+python -m venv artifacts/local/neural-env
+artifacts/local/neural-env/bin/python -m pip install numpy==2.3.5
+artifacts/local/neural-env/bin/python -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
 python tools/fetch_masaq_training_source.py --output artifacts/local/MASAQ.csv
-.venv-neural/bin/python tools/train_arabic_morphology.py --source artifacts/local/MASAQ.csv --protocol evidence/source_morphology_training/protocol_v2.json --output-dir artifacts/local/new-training-run
-.venv-neural/bin/python tools/replay_neural_morphology.py --source artifacts/local/MASAQ.csv --model-dir evidence/source_morphology_training/run_02 --output artifacts/local/replay.json
-.venv-neural/bin/python tools/propose_arabic_morphology.py --text-file examples/neural_morphology_input.txt --output artifacts/local/proposals.json
+artifacts/local/neural-env/bin/python tools/train_arabic_morphology.py --source artifacts/local/MASAQ.csv --output-dir artifacts/local/new-training-run
+artifacts/local/neural-env/bin/python tools/replay_neural_morphology.py --source artifacts/local/MASAQ.csv --model-dir evidence/source_morphology_training/run_02 --output artifacts/local/replay.json
+artifacts/local/neural-env/bin/python tools/propose_arabic_morphology.py --text-file examples/neural_morphology_input.txt --output artifacts/local/proposals.json
 ```
 
 كل تشغيل جديد يرفض استبدال مجلد نتيجة قديمة. الأوزان مصفوفات NPZ؛ لا
