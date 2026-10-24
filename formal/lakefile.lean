@@ -44,3 +44,7 @@ lean_lib ProbeJson
 @[default_target]
 lean_exe progressiveUnitProbe where
   root := `ProgressiveUnitProbe
+
+@[default_target]
+lean_exe recursiveBridgeProbe where
+  root := `RecursiveBridgeProbe

@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased — recursive algebra and exact source evidence bridge
+
+- Import the supplied 32-theorem recursive algebra with only its namespace
+  changed; preserve the original kernel, report, archive and verification logs.
+- Add 41 bridge theorems for exact typed morphology/alignment, full-node
+  witness binding, retained source reconstruction, explicit PR14/Grammar
+  certification, and a proved closed arithmetic implementation with bit bounds.
+- Keep noncontiguous and repeated radicals inside a complete contiguous source
+  host. Preserve catalog identities, correlated alternatives, roles, case
+  domains, child order and source evidence without weakening join adjacency.
+- Add a bounded recursive Lean probe and a fresh-source Python transport as
+  an independently pinned tool outside the unchanged frozen runtime package.
+  Complete assessment envelopes preserve the upstream report, evidence-number
+  namespace, typed projection and response, and can replay the entire path.
+- Reject Boolean/integer/float aliasing in response identity checks. Defer
+  oversized source projections before expanding their scalar spines.
+- Rebuild and audit the three pinned source projects from the supplied report;
+  retain failed attempts and distinguish suspended sources from active laws.
+- Keep independent contract measurements, authored development regressions,
+  unresolved interfaces and Arabic acquisition claims separate. Preserve the
+  old runtime freeze and every earlier evidence snapshot.
+
 ## Unreleased — progressive construction algebra and conditional unit laws
 
 - Add atomic/join/wrap/substitute/lift derivations with exact-target premises,

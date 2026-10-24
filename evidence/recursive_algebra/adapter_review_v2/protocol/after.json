@@ -1,0 +1,103 @@
+{
+  "schema": "nabt.recursive-duplicate-key-review.v1",
+  "phase": "after_fix",
+  "probe_sha256": "10ee3786c7381280f36e8f0013f376c3f23c0f05dc9100408e95fb3ae4a18679",
+  "results": [
+    {
+      "case": "duplicate_op",
+      "request_sha256": "54ac6e541ed9844d1eb283abe80d6253e300ffde084f29252cc5aa6e46a58a27",
+      "response": {
+        "acquisition_measured": false,
+        "conditional": true,
+        "error": "INVALID_INPUT",
+        "grammar_certified": false,
+        "law_id": "nabt.recursive-source-bridge.v1",
+        "linguistic_rejection": false,
+        "message": "duplicate JSON object key",
+        "scope": "structural_source_binding_and_conditional_interpretations",
+        "search_complete": false,
+        "status": "ERROR"
+      },
+      "returncode": 0
+    },
+    {
+      "case": "duplicate_source_id",
+      "request_sha256": "316853e450315d8e05fdb873ff922a21716a6e3ac4c58fc498b522d4a8c05d8a",
+      "response": {
+        "acquisition_measured": false,
+        "conditional": true,
+        "error": "INVALID_INPUT",
+        "grammar_certified": false,
+        "law_id": "nabt.recursive-source-bridge.v1",
+        "linguistic_rejection": false,
+        "message": "duplicate JSON object key",
+        "scope": "structural_source_binding_and_conditional_interpretations",
+        "search_complete": false,
+        "status": "ERROR"
+      },
+      "returncode": 0
+    },
+    {
+      "case": "duplicate_evidence_ids",
+      "request_sha256": "2adb48d3b594c2f0f3d5195271edfa123c5f398c041ebd7d297837dd74f777c1",
+      "response": {
+        "acquisition_measured": false,
+        "conditional": true,
+        "error": "INVALID_INPUT",
+        "grammar_certified": false,
+        "law_id": "nabt.recursive-source-bridge.v1",
+        "linguistic_rejection": false,
+        "message": "duplicate JSON object key",
+        "scope": "structural_source_binding_and_conditional_interpretations",
+        "search_complete": false,
+        "status": "ERROR"
+      },
+      "returncode": 0
+    },
+    {
+      "case": "escaped_duplicate_op",
+      "request_sha256": "c4127eb1b85fa4f6362c86efa17f09da9474cca1228382b1a49589f6f0ccfa90",
+      "response": {
+        "acquisition_measured": false,
+        "conditional": true,
+        "error": "INVALID_INPUT",
+        "grammar_certified": false,
+        "law_id": "nabt.recursive-source-bridge.v1",
+        "linguistic_rejection": false,
+        "message": "duplicate JSON object key",
+        "scope": "structural_source_binding_and_conditional_interpretations",
+        "search_complete": false,
+        "status": "ERROR"
+      },
+      "returncode": 0
+    }
+  ],
+  "following_line_control": {
+    "invalid_rejected": true,
+    "valid_source_bound": true,
+    "valid_verdict": "SOURCE_ONLY"
+  },
+  "many_distinct_keys_control": {
+    "unknown_keys": 40000,
+    "input_bytes": 709005,
+    "elapsed_seconds": 0.19412,
+    "response": {
+      "acquisition_measured": false,
+      "conditional": true,
+      "error": "INVALID_INPUT",
+      "grammar_certified": false,
+      "law_id": "nabt.recursive-source-bridge.v1",
+      "linguistic_rejection": false,
+      "message": "an object contains an undeclared field",
+      "scope": "structural_source_binding_and_conditional_interpretations",
+      "search_complete": false,
+      "status": "ERROR"
+    }
+  },
+  "changed_files": [
+    "formal/RecursiveBridgeProbe.lean",
+    "tests/test_recursive_bridge_probe.py"
+  ],
+  "semantic_proofs_changed": false,
+  "shared_ProbeJson_changed": false
+}

@@ -255,3 +255,11 @@ jobs:
         run: |
           python -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v
           python -B -m unittest discover -s tests -p test_binary_unit_domain_probe.py -v
+      - name: Recursive kernel and exact source bridge contract measurements
+        run: python -I tools/check_recursive_bridge.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-recursive-bridge-conformance.json"
+      - name: Root alignment, retained evidence and recursive source replay
+        env:
+          NABT_RECURSIVE_BRIDGE_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/recursiveBridgeProbe
+        run: |
+          python -B -m unittest discover -s tests -p test_recursive_bridge_probe.py -v
+          python -B -m unittest discover -s tests -p test_recursive_source_bridge.py -v

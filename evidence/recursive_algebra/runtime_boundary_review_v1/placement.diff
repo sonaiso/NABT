@@ -1,0 +1,38 @@
+--- src/nabt/recursive_bridge.py
++++ tools/recursive_bridge.py
+@@ -19,10 +19,13 @@
+ import subprocess
+ import sys
+ 
+-from .derivation import (ALPHABET_ID, EXPECTED_TABLE_SHA256, installed_registry,
+-                         read_derivation)
+-from .discourse_reader import read_discourse
+-from .errors import NabtError, natural, resource_limit
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / "src"))
++
++from nabt.derivation import (ALPHABET_ID, EXPECTED_TABLE_SHA256, installed_registry,
++                            read_derivation)
++from nabt.discourse_reader import read_discourse
++from nabt.errors import NabtError, natural, resource_limit
+ 
+ 
+ LAW_ID = "nabt.recursive-source-transport.v1"
+@@ -480,7 +483,7 @@
+ def check_with_lean(request, *, probe=None):
+     """Execute the bounded repository probe; no shell or external runtime import."""
+     executable = Path(probe or os.environ.get("NABT_RECURSIVE_BRIDGE_PROBE", "") or
+-                      Path(__file__).resolve().parents[2] / "formal/.lake/build/bin/recursiveBridgeProbe")
++                      ROOT / "formal/.lake/build/bin/recursiveBridgeProbe")
+     if not executable.is_file():
+         raise NabtError("RECURSIVE_PROBE_UNAVAILABLE", "Build recursiveBridgeProbe or supply its exact path", status="DEFER")
+     encoded = wire(request) + b"\n"
+@@ -569,7 +572,7 @@
+         text = raw.decode("utf-8")
+         model = None
+         if args.qac:
+-            from .corpus_evidence import MAX_CORPUS_BYTES, learn_qac_lexicon
++            from nabt.corpus_evidence import MAX_CORPUS_BYTES, learn_qac_lexicon
+             model = learn_qac_lexicon(_read_bounded(args.qac, MAX_CORPUS_BYTES))
+         context = _load_json(args.context) if args.context else None
+         options = dict(source_id=args.source_id, scope=args.scope, profile=args.profile,

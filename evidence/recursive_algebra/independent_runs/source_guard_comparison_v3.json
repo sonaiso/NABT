@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-10-24T08:31:03.956197+00:00",
+  "input_only_plans_equal": true,
+  "material_sha256_equal": true,
+  "measurement_equal": true,
+  "new_probe_sha256": "1f5c3a85323576b7649b87028ede3540220835640f5cf84a01320c094ec612f1",
+  "old_probe_sha256": "10ee3786c7381280f36e8f0013f376c3f23c0f05dc9100408e95fb3ae4a18679",
+  "raw_backend_comparison": {
+    "lean": {
+      "stderr": {
+        "byte_identical": true,
+        "v2_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "v3_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdin": {
+        "byte_identical": true,
+        "v2_sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1",
+        "v3_sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      "stdout": {
+        "byte_identical": true,
+        "v2_sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48",
+        "v3_sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      }
+    },
+    "native": {
+      "stderr": {
+        "byte_identical": true,
+        "v2_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "v3_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdin": {
+        "byte_identical": true,
+        "v2_sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703",
+        "v3_sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      "stdout": {
+        "byte_identical": true,
+        "v2_sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700",
+        "v3_sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      }
+    }
+  },
+  "reason": "The unchanged repository source-integrity lexer misread three valid Lean double-quote character literals in the raw duplicate-key scanner. Replacing those literals with the named jsonQuote : Char := Char.ofNat 34 preserves their values while satisfying the existing guard.",
+  "schema": "nabt.recursive-bridge.source-guard-comparison.v3",
+  "source_files_added": [],
+  "source_files_changed": [
+    "formal/RecursiveBridgeProbe.lean"
+  ],
+  "source_files_removed": [],
+  "sources_stable_in_each_run": true,
+  "summary": {
+    "acquisition_measured": false,
+    "assertions": {
+      "FAIL": 0,
+      "PASS": 65,
+      "UNMEASURED": 41
+    },
+    "case_count": 40,
+    "cases_by_status": {
+      "FAIL": 0,
+      "PARTIALLY_MEASURED": 8,
+      "PASS": 19,
+      "UNMEASURED": 13
+    },
+    "held_out_arabic_discovery_measured": false,
+    "measured_contract_gate": true,
+    "response_integrity_errors": 0,
+    "strict_complete_pass": false
+  }
+}
