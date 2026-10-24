@@ -1,0 +1,40 @@
+{
+  "schema": "nabt.explainable-pilot-goals.v1",
+  "program_duration_weeks": 12,
+  "clock_starts_when": ["team_available", "licensed_data_available", "hardware_available"],
+  "phases": [
+    {"weeks":[1,2],"deliverable":"contracts, frozen evaluation protocol, current-model baseline"},
+    {"weeks":[3,4],"deliverable":"model proposal adapter connected to native checker"},
+    {"weeks":[5,6,7,8],"deliverable":"controlled retrieval, constrained generation and small-training ablations"},
+    {"weeks":[9,10,11,12],"deliverable":"hidden test and independent review"}
+  ],
+  "current_regression_gates": {
+    "source_byte_roundtrip_min":1.0,
+    "native_replay_min":1.0,
+    "status_exact_min":1.0,
+    "tampering_acceptances_max":0,
+    "scope":"public development cases only; not a statistical language capability claim"
+  },
+  "proposed_hidden_test_gates": {
+    "status_exact_min":0.9,
+    "decisive_precision_min":0.99,
+    "decisive_coverage_min":0.8,
+    "independent_negative_examples_min":3000,
+    "unsupported_acceptances_max":0,
+    "independent_explanation_fidelity_min":0.98,
+    "confidence_level":0.95,
+    "latency_p95_ratio_max":1.5,
+    "cost_ratio_max":1.0,
+    "status":"proposed; requires independently frozen data, designated reviewers and agreed hardware"
+  },
+  "model_scaling_decision": {
+    "comparison":"paired, source-separated validation set with fixed search budget and hardware",
+    "minimum_coverage_gain_percentage_points":2,
+    "at_precision_at_least":0.99,
+    "paired_95_percent_confidence_interval_lower_bound_must_exceed":0,
+    "safety_gates_must_remain_passed":true,
+    "budget_measured_before_scaling":true,
+    "hidden_test_used_for_tuning":false,
+    "current_decision":"no neural model size or training budget selected from public regression results"
+  }
+}

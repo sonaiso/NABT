@@ -1,0 +1,28 @@
+{
+  "schema": "nabt.pilot-cases.v1",
+  "split": "public_development_regression",
+  "hidden": false,
+  "provenance": "Existing verified_reading examples and test_verified_reading.py cases, plus authored display and ablation counterexamples. All visible during implementation; no held-out accuracy claim.",
+  "cases": [
+    {"id":"repository-example","source_path":"examples/verified_reading/source.txt","query_path":"examples/verified_reading/query.txt","expected":"SUPPORTED"},
+    {"id":"direct","source":"سالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"SUPPORTED"},
+    {"id":"refuted","source":"ليس سالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"REFUTED"},
+    {"id":"conflict","source":"سالم هو عالم.\nليس سالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"CONFLICT"},
+    {"id":"unknown","source":"سالم هو حكيم.\n","query":"هل سالم هو عالم؟\n","expected":"UNKNOWN"},
+    {"id":"conflict-propagation","source":"سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nليس سالم هو حكيم.\n","query":"هل سالم هو عالم؟\n","expected":"DEFER"},
+    {"id":"clean-alternative","source":"سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nليس سالم هو حكيم.\nسالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"SUPPORTED"},
+    {"id":"multipremise","source":"سالم يحب سهيل.\nسالم هو حكيم.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\n","query":"هل سهيل هو عالم؟\n","expected":"SUPPORTED"},
+    {"id":"relation-order","source":"سالم يحب سهيل.\n","query":"هل سهيل يحب سالم؟\n","expected":"UNKNOWN"},
+    {"id":"negative-question","source":"سالم يحب سهيل.\n","query":"هل ليس سالم يحب سهيل؟\n","expected":"REFUTED"},
+    {"id":"cycle","source":"إذا سالم هو حكيم فإن سالم هو عالم.\nإذا سالم هو عالم فإن سالم هو حكيم.\n","query":"هل سالم هو عالم؟\n","expected":"UNKNOWN"},
+    {"id":"byte-spans","source":"سَالِم هو حَكِيم.\nإذا سَالِم هو حَكِيم فإن سَالِم هو عَالِم.\n","query":"هل سَالِم هو عَالِم؟\n","expected":"SUPPORTED"},
+    {"id":"duplicate-facts","source":"سالم هو حكيم.\nسالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"SUPPORTED"},
+    {"id":"separate-proof","source":"سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nسالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"SUPPORTED"}
+  ],
+  "ablations": [
+    {"id":"remove-required-fact","source":"إذا سالم هو حكيم فإن سالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"UNKNOWN"},
+    {"id":"remove-required-rule","source":"سالم هو حكيم.\n","query":"هل سالم هو عالم؟\n","expected":"UNKNOWN"},
+    {"id":"remove-one-conjunct","source":"سالم يحب سهيل.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\n","query":"هل سهيل هو عالم؟\n","expected":"UNKNOWN"},
+    {"id":"keep-independent-proof","source":"سالم هو عالم.\n","query":"هل سالم هو عالم؟\n","expected":"SUPPORTED"}
+  ]
+}

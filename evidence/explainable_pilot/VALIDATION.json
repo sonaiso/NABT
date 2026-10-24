@@ -1,0 +1,332 @@
+{
+  "schema": "nabt.explainable-pilot-validation.v1",
+  "recorded_utc": "2026-10-24T20:35:10.085866+00:00",
+  "base_commit": "3747ddb2e45736c4d460532b40635079fbbefd80",
+  "scope": "Additive answer/analysis contract on the existing proposer; no changed language semantics, frozen data or neural training.",
+  "code_sha256": {
+    "tools/explainable_pilot.py": "5a1525389aec55c2c03f6ff9d26d18491ceeb399bc63ede993ef985afa27690c",
+    "tools/evaluate_explainable_pilot.py": "f97e59d6bf359ca0af5763a15b2d0bdce90c11703ea309633fa4862e8352a76e",
+    "tests/test_explainable_pilot.py": "9655a697745d1b9f16a101b8cb1307c9f109814feac7b24d7a8cfafc1ae4758c",
+    ".github/workflows/ci.yml": "f869baf158f3f2c98051339f719ad21644a3a0ba570ace139db1c8074d840c99",
+    "Makefile": "1bfe65e6e01ed5b8e78a723d0f0c5d5cde7e27fda8fd67639dfa63740b530090",
+    "docs/EXPLAINABLE_PILOT.md": "ba25d6803420c050de3e4c5a2747dd5b725078eb0e7a7dd6895c151d1835d88b",
+    "docs/PROOF_STATUS.md": "fa95215b4124434e99577e0761658767f0960cc3114c794a422cca592353ba29",
+    "README.md": "46587a139204f152a9685d9fdc4adc5dff75bd7be254b71728c02141d86f9b4e",
+    "evidence/explainable_pilot/cases.json": "7e1a2a58658d3a54a85446f02d3ff778e5bd8fca5d99d944fe94de94451dcaef",
+    "evidence/explainable_pilot/goals.json": "56526dab92c7af38c28608a7df335e8f9fb132f09ae28e66a0e59101c192f09e",
+    "evidence/explainable_pilot/baseline.json": "4159a0c0167cfa1c360e1b52f6cc30a7ef81576f689a0c9ee620952cdee654e9",
+    "evidence/explainable_pilot/example-answer.json": "3618f0b57e6435d894f9c55f8c3059fe4425940e6900bcb141e6bcf105c3e7fc"
+  },
+  "local_lean": {
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "official_archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+    "direct_official_library_build_pass": true,
+    "modules": 57,
+    "lake_make_formal_exit": 2,
+    "lake_error": "could not detect the configuration of the Lake installation",
+    "standard_lake_success_claimed": false,
+    "kernel_changes": false,
+    "new_theorems": 0,
+    "fresh_export_conformance_pass": true,
+    "primitive_transitions_checked": 11252
+  },
+  "tests": {
+    "full_suite": {
+      "run": 1488,
+      "seconds": 208.195,
+      "skipped": 5,
+      "pass": true,
+      "log": "pilot-full-tests.log"
+    },
+    "new_contract_native": {
+      "run": 13,
+      "seconds": 7.087,
+      "skipped": 0,
+      "pass": true,
+      "log": "pilot-native-tests.log"
+    },
+    "current_inna_native": {
+      "pass": true,
+      "cases": 32,
+      "report": "pilot-inna/report.json"
+    },
+    "full_suite_note": "Explicit verifiedReading and classicalSemanticProbe from a previous local build were supplied. Their source modules are unchanged between 5e5f1fde and the current base; the complete current kernel was also rebuilt and the new contract rerun against that fresh binary. Other unavailable probe groups are listed as skips, not passes."
+  },
+  "answer_metrics": {
+    "status_exact": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "independent_native_replay": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "source_byte_roundtrip": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "decisive_precision": {
+      "passed": 9,
+      "total": 9,
+      "rate": 1.0
+    },
+    "decisive_coverage": {
+      "passed": 9,
+      "total": 14,
+      "rate": 0.6428571428571429
+    },
+    "tampering_rejected": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "source_ablation": {
+      "passed": 4,
+      "total": 4,
+      "rate": 1.0
+    }
+  },
+  "legacy_arabic_regression": {
+    "original_score": {
+      "passed": 35,
+      "total": 36
+    },
+    "original_strict_pass": false,
+    "original_unsafe_markers": [
+      {
+        "case_id": "H18",
+        "name": "question:2:no_grounded_evidence",
+        "pass": false,
+        "unsafe_acceptance": true
+      }
+    ],
+    "postreview_score": {
+      "passed": 36,
+      "total": 36
+    },
+    "postreview_gate_pass": true,
+    "replayed_certificates": 103,
+    "reviewer": "existing repository postreview_v4 executable, not a new human review",
+    "new_hidden_test": false
+  },
+  "directed_arabic_regression": {
+    "fixed_cases": {
+      "total": 22,
+      "passed": 14,
+      "failed": 8
+    },
+    "questions": {
+      "total": 29,
+      "observed": 29,
+      "status_matches": 19,
+      "independently_validated": 29
+    },
+    "conditional_provenance": {
+      "total": 2,
+      "outcomes": {
+        "N03": "correct_abstention",
+        "N06": "unresolved_independent_review"
+      },
+      "not_counted_as_language_coverage": true
+    },
+    "source_counterexamples": {
+      "total": 6,
+      "positive_controls": 2,
+      "negative_cases": 4,
+      "passed": 6,
+      "questions": 4,
+      "status_matches": 4,
+      "independently_validated": 4,
+      "unsafe_check_failures": [],
+      "independent_integrity_failures": [],
+      "gate_pass": true,
+      "not_added_to_historical_denominators": true
+    },
+    "strict_pass": false,
+    "regression_gate_pass": true,
+    "not_a_new_blind_experiment": true
+  },
+  "remote_ci": null,
+  "remote_ci_note": "Not run: publishing was blocked by GitHub integration permissions. No prior CI result is substituted.",
+  "claims": {
+    "trained_llm": false,
+    "new_blind_test": false,
+    "independent_human_review": false,
+    "general_arabic_complete": false,
+    "world_truth_established": false,
+    "python_renderer_formally_proved": false,
+    "internal_model_causality_proved": false
+  },
+  "archive": {
+    "path": "run-evidence.zip",
+    "sha256": "459148d76318b50a66f183a2e4a64d5d225b838f5e5b749f011a9d1cffb77062",
+    "bytes": 1993941,
+    "members": {
+      "pilot-build/build.log": {
+        "sha256": "b81bbbd550908a26c774192820965f4e551a3b7fc9446bfbd8683ba8b511e111",
+        "bytes": 1291
+      },
+      "pilot-build/kernel.json": {
+        "sha256": "f8d275f9d68eec33f3a50da173d6f68422ebd1fec339897814dc3301626d3516",
+        "bytes": 100965
+      },
+      "pilot-build/law-export.json": {
+        "sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+        "bytes": 77563
+      },
+      "pilot-build/main.c": {
+        "sha256": "0f0b8fbdd44614074f014f472d5446d7df53653e05c595b974519c28144a09ee",
+        "bytes": 2155
+      },
+      "pilot-conformance.json": {
+        "sha256": "58060b70542c214e44f112b0e707153d37d49b40b44846e806ee2b462432423b",
+        "bytes": 2270
+      },
+      "pilot-directed/regression.json": {
+        "sha256": "a44ddaab17ce2f8aa3341c43f9d5cb574ed8b8553797576a7f42a9284b2021d8",
+        "bytes": 3050
+      },
+      "pilot-directed/review/review.json": {
+        "sha256": "4ba7279e4f431acd878ed22381e63aa8929a8705a8b81e1680cc2a07629aade6",
+        "bytes": 58456
+      },
+      "pilot-directed/source_counterexamples/raw.jsonl.gz": {
+        "sha256": "6965b97551f580dbc8f72072d772fd74959d74167ce9e8827d41d6a4bbcdf33c",
+        "bytes": 243533,
+        "jsonl_records": 40
+      },
+      "pilot-directed/source_counterexamples/result.json": {
+        "sha256": "4e12cbb2fe3dac4358fd40687908b8f57d2660fd1e3dc6b417a85d28527047d3",
+        "bytes": 79707
+      },
+      "pilot-directed/source_counterexamples/review.json": {
+        "sha256": "d0679d7ed09bcf2fd3abb21e341363fd82b073cbf07cc76fd56dbac21568e5a8",
+        "bytes": 10490
+      },
+      "pilot-directed/source_counterexamples.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "pilot-directed/source_counterexamples.stdout.log": {
+        "sha256": "2f878f4f2589006b013b2b1fb4c46635b7f9bf6b59e41b29f39129eed0ec8837",
+        "bytes": 180
+      },
+      "pilot-directed/strict/raw.jsonl.gz": {
+        "sha256": "09ceb6b8c1b783986e5ac776219e8d29ad11896ea84e7dd3d489716bb85db24f",
+        "bytes": 1118039,
+        "jsonl_records": 214
+      },
+      "pilot-directed/strict/result.json": {
+        "sha256": "687f0baf85565c48592a9af72a0c77ca97aede34e94c556adecf19a61b966046",
+        "bytes": 295280
+      },
+      "pilot-directed/strict.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "pilot-directed/strict.stdout.log": {
+        "sha256": "3d6b490967791db016df404f7b454e86981593325dfac779964fc10c96c7758a",
+        "bytes": 2885
+      },
+      "pilot-directed.log": {
+        "sha256": "cd574fac21e4d9cb5458b84e3b641b93321d95e07bc8ac3a4b349fbdb7cfd5c9",
+        "bytes": 2740
+      },
+      "pilot-free-reader.json": {
+        "sha256": "2396f08b0b25645244afbfeacf550d69bd75b7486b68ac6924c7a72ff3c34aeb",
+        "bytes": 135894
+      },
+      "pilot-free-reader.log": {
+        "sha256": "1e3586fc6e3c842108ced9d19f8479b3be4d77bd198a29b30bbd6528919d05f6",
+        "bytes": 1909
+      },
+      "pilot-free-review/original_raw.jsonl.gz": {
+        "sha256": "81ab067040f8166a644efecbe894d9bceee360dd1a0a59cf960d91f8c24e3ec2",
+        "bytes": 404759,
+        "jsonl_records": 203
+      },
+      "pilot-free-review/original_result.json": {
+        "sha256": "2396f08b0b25645244afbfeacf550d69bd75b7486b68ac6924c7a72ff3c34aeb",
+        "bytes": 135894
+      },
+      "pilot-free-review/question_report.json": {
+        "sha256": "f328c569df36a981514eeaaebf5a9c65d1b4b932ff7f591e1fde6130f36dddd4",
+        "bytes": 51564
+      },
+      "pilot-free-review/review.json": {
+        "sha256": "c238e85af9d3ee73c759c10fbfc7c5cfaea3b017d8f15b158e46ddd126f68177",
+        "bytes": 7796
+      },
+      "pilot-free-review/review_code.tar.gz": {
+        "sha256": "bb982b8d4858e1cf61caa66465d53c1e0fea6c066724259802ff519423c6a26e",
+        "bytes": 97054
+      },
+      "pilot-free-review/verification_replay.json": {
+        "sha256": "13226cea1da64824613e26202614f2ba6880cfc43a1fa8f8fb572e1a3958fd4e",
+        "bytes": 31317
+      },
+      "pilot-free-review.log": {
+        "sha256": "58409c5f61d2c0de98ec6d7d7026999419c4fe0f0b16ffdca5ea86bd7a3b0db6",
+        "bytes": 269
+      },
+      "pilot-full-tests.log": {
+        "sha256": "47a108d22f8b418947b7c6682c0764c28a45859952276edc524fc67820581853",
+        "bytes": 259505
+      },
+      "pilot-inna/expectations.json": {
+        "sha256": "4b5e3d58e92abf425d509817f7fb60a57381d6abe4632d58018d8f6a4a28233a",
+        "bytes": 7032
+      },
+      "pilot-inna/lexical_material.json": {
+        "sha256": "157778d62ffc0309d079a2db8e1291bfe52b367df5b6d5a8e11098e5af17a8f7",
+        "bytes": 5684
+      },
+      "pilot-inna/report.json": {
+        "sha256": "8199ed82bcc50cbcdcac6aec0679d7a4c28a1c8a39ef31e13ea26057cca6dc6d",
+        "bytes": 15579
+      },
+      "pilot-inna/requests.jsonl": {
+        "sha256": "21a8a4250c082d413f3cdd0f780b882358cb21036be7913475fd07f3f5877952",
+        "bytes": 111581
+      },
+      "pilot-inna/responses.jsonl": {
+        "sha256": "2fa6d319a37b2431197e8ba773354b1b42a84509e06e3f3a3f57b7a3c2df23ce",
+        "bytes": 44623
+      },
+      "pilot-inna/stderr.bin": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "pilot-inna.log": {
+        "sha256": "8199ed82bcc50cbcdcac6aec0679d7a4c28a1c8a39ef31e13ea26057cca6dc6d",
+        "bytes": 15579
+      },
+      "pilot-integrity.json": {
+        "sha256": "9a99be881c26e7148725eb00dbd87bccffa0777194b76f4314832699a80cf055",
+        "bytes": 2271
+      },
+      "pilot-lake-formal.log": {
+        "sha256": "e09e0a76d46e9cd9c4ad94049a2e5fd627b86e5918f520a6bac412eaab91256f",
+        "bytes": 196
+      },
+      "pilot-native-tests.log": {
+        "sha256": "231c7b1ec9c30a469d2c8ff147a23e745f550e6e753a07d2ac03305912558a24",
+        "bytes": 1731
+      }
+    },
+    "all_members_reopened_and_hashed": true,
+    "code_snapshot_archives_excluded": "Duplicated result.code.tar.gz files; base and source inventories identify their code."
+  },
+  "publication": {
+    "status": "blocked",
+    "github_action": "create_blob",
+    "http_status": 403,
+    "github_error": "Resource not accessible by integration",
+    "git_dry_run": "No configured GitHub username/credential; terminal prompts disabled",
+    "remote_branch_created": false,
+    "pull_request_created": false
+  }
+}
