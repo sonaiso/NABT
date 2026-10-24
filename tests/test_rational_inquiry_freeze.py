@@ -18,12 +18,16 @@ try:
 finally:
     sys.path.remove(str(ROOT / 'tools'))
 
-CURRENT = ROOT / 'evidence/arabic_coverage/code_freeze_v2.json'
+CURRENT = ROOT / 'evidence/arabic_completion_v3/code_freeze_v2.json'
+PRE_CORRECTION = ROOT / 'evidence/arabic_completion_v3/code_freeze_v1.json'
+COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v2.json'
 PUBLISHED = ROOT / 'evidence/rational_inquiry/code_freeze_v2.json'
 FIRST_COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v1.json'
 PRE_FIX = ROOT / 'evidence/rational_inquiry/code_freeze_v1.json'
 HISTORICAL = ROOT / 'evidence/constructions/code_freeze_v4.json'
-MANIFEST_SHA256 = '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c'
+MANIFEST_SHA256 = '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd'
+PRE_CORRECTION_SHA256 = 'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089'
+COVERAGE_SHA256 = '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c'
 PUBLISHED_SHA256 = '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b'
 FIRST_COVERAGE_SHA256 = 'a7194b9b52ab8a6db0c92d65c7dae76dc23c1f1c8777b4e10b2fb71efa01c89f'
 PRE_FIX_SHA256 = 'cefe19d399b19e30175579e427272b790d24eab0e07b54b152e0cd3a45dc5dc4'
@@ -33,6 +37,8 @@ HISTORICAL_SHA256 = '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0
 class InquiryRuntimeFreezeTests(unittest.TestCase):
     def test_current_inventory_includes_public_module_and_preserves_old_package(self):
         self.assertEqual(sha256(CURRENT.read_bytes()).hexdigest(), MANIFEST_SHA256)
+        self.assertEqual(sha256(PRE_CORRECTION.read_bytes()).hexdigest(), PRE_CORRECTION_SHA256)
+        self.assertEqual(sha256(COVERAGE.read_bytes()).hexdigest(), COVERAGE_SHA256)
         self.assertEqual(sha256(PUBLISHED.read_bytes()).hexdigest(), PUBLISHED_SHA256)
         self.assertEqual(sha256(FIRST_COVERAGE.read_bytes()).hexdigest(), FIRST_COVERAGE_SHA256)
         self.assertEqual(sha256(PRE_FIX.read_bytes()).hexdigest(), PRE_FIX_SHA256)
@@ -45,7 +51,7 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
         self.assertEqual(set(old) - set(new), set())
         self.assertEqual({path for path in old if old[path] != new[path]},
                          {'pyproject.toml', 'src/nabt/__init__.py', 'src/nabt/cli.py'})
-        coverage = {row['path']: row for row in json.loads(CURRENT.read_text())['files']}
+        coverage = {row['path']: row for row in json.loads(COVERAGE.read_text())['files']}
         self.assertEqual(set(coverage) - set(new), {
             'src/nabt/data/source_evidence/construction_supplementary_sources_v1.json',
             'src/nabt/data/source_evidence/sabban.txt'})
@@ -58,12 +64,22 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
             'src/nabt/data/source_evidence/discourse_policy.json', 'src/nabt/discourse.py',
             'src/nabt/discourse_adverbs.py', 'src/nabt/discourse_laws.py',
             'src/nabt/discourse_reader.py'})
+        completion = {row['path']: row for row in json.loads(CURRENT.read_text())['files']}
+        self.assertEqual(set(completion) - set(coverage), {
+            'src/nabt/context_name_witness.py',
+            'src/nabt/data/source_evidence/construction_supplementary_sources_v2.json',
+            'src/nabt/data/source_evidence/mukhtar_sihah.txt'})
+        self.assertEqual(set(coverage) - set(completion), set())
+        pre_correction = {row['path']: row for row in json.loads(PRE_CORRECTION.read_text())['files']}
+        self.assertEqual(set(pre_correction), set(completion))
+        self.assertEqual({path for path in completion if completion[path] != pre_correction[path]},
+                         {'src/nabt/construction_reader.py'})
         verify_code_freeze(CURRENT, ROOT)
 
     def test_all_registered_evaluators_verify_current_bytes_and_archive(self):
-        word_evaluation.verify_implementation_freeze('arabic_coverage_v2')
+        word_evaluation.verify_implementation_freeze('arabic_completion_v3_review2')
         morphology_evaluation.verify_runtime_freeze(
-            morphology_evaluation.snapshot(), 'arabic_coverage_v2')
+            morphology_evaluation.snapshot(), 'arabic_completion_v3_review2')
         inflection_evaluation.runtime_snapshot(CURRENT, ROOT)
         discourse_evaluation.runtime_snapshot(CURRENT, ROOT)
         construction_evaluation.runtime_snapshot(CURRENT, ROOT)
@@ -71,6 +87,16 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
 
     def test_old_freeze_does_not_authorize_the_new_current_inventory(self):
         checks = (
+            lambda: verify_code_freeze(PRE_CORRECTION, ROOT),
+            lambda: word_evaluation.verify_implementation_freeze('arabic_completion_v3'),
+            lambda: morphology_evaluation.verify_runtime_freeze(
+                morphology_evaluation.snapshot(), 'arabic_completion_v3'),
+            lambda: inflection_evaluation.runtime_snapshot(PRE_CORRECTION, ROOT),
+            lambda: discourse_evaluation.runtime_snapshot(PRE_CORRECTION, ROOT),
+            lambda: construction_evaluation.runtime_snapshot(PRE_CORRECTION, ROOT),
+            lambda: verify_code_freeze(COVERAGE, ROOT),
+            lambda: construction_evaluation.runtime_snapshot(COVERAGE, ROOT),
+            lambda: discourse_evaluation.runtime_snapshot(COVERAGE, ROOT),
             lambda: verify_code_freeze(HISTORICAL, ROOT),
             lambda: word_evaluation.verify_implementation_freeze('constructions_v4'),
             lambda: morphology_evaluation.verify_runtime_freeze(
@@ -100,7 +126,7 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
             with self.subTest(check=check):
                 with self.assertRaises(ValueError):
                     check()
-        for path in (HISTORICAL, PRE_FIX, PUBLISHED, FIRST_COVERAGE):
+        for path in (HISTORICAL, PRE_FIX, PUBLISHED, FIRST_COVERAGE, COVERAGE, PRE_CORRECTION):
             with self.subTest(governor_freeze=path.name):
                 with self.assertRaises(governor_evaluation.oracle.ReplayValidationError):
                     governor_evaluation.verify_code_freeze(ROOT, path)

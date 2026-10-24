@@ -10,8 +10,8 @@ permissions:
 
 # Keep these selectors on an explicitly registered freeze; update them together.
 env:
-  NABT_CODE_FREEZE: evidence/arabic_coverage/code_freeze_v2.json
-  NABT_FREEZE_VERSION: arabic_coverage_v2
+  NABT_CODE_FREEZE: evidence/arabic_completion_v3/code_freeze_v2.json
+  NABT_FREEZE_VERSION: arabic_completion_v3_review2
 
 concurrency:
   group: nabt-${{ github.workflow }}-${{ github.ref }}
@@ -103,7 +103,13 @@ jobs:
           holdout_status=0
           python tools/arabic_coverage_holdout_v2.py --output "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" || holdout_status=$?
           if [ "$holdout_status" -gt 1 ]; then exit "$holdout_status"; fi
-          python tools/arabic_coverage_postreview_v2.py --result "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" --raw "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.raw.jsonl" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-holdout-postreview"
+          python tools/arabic_coverage_postreview_v4.py --result "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" --raw "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.raw.jsonl" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-holdout-postreview"
+      - name: Reproduce the new directed oracle and preserve every documented coverage failure
+        env:
+          PYTHONPATH: src
+        run: |
+          python -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
+          python evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_regression_v3.py --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-completion-oracle"
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
@@ -252,8 +258,11 @@ jobs:
         run: |
           python -B -m unittest discover -s tests -p test_mantuq_mafhum.py -v
           python -B -m unittest discover -s tests -p test_reading_enumeration.py -v
+          python -B -m unittest discover -s tests -p test_completion_semantic_integration.py -v
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Executable inna fragment, written case witnesses and explicit completeness scope
+        run: python -I tools/check_arabic_inna_fragment.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output-dir "${{ runner.temp }}/nabt-arabic-inna-fragment"
       - name: Independent property-evidence table from Lean predicates
         run: python tools/check_property_evidence_table.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Arabic speech-force tags, entry profiles and numerical cell envelopes

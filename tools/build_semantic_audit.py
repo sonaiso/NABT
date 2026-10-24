@@ -27,7 +27,9 @@ cmodules = {"Nabt.ClassicalLanguageEvidence", "Nabt.SemanticInference", "Nabt.Ve
             "Nabt.SibawayhiRules", "Nabt.QatrRules", "Nabt.AwamilRules", "Nabt.MaqayisRules",
             "Nabt.SourceSemantics", "Nabt.RationalInquiry", "Nabt.ArabicCoverage",
             "Nabt.ThinkingRules", "Nabt.Shakhsiyya1Rules", "Nabt.Shakhsiyya3Rules",
-            "Nabt.MantuqMafhum", "Nabt.ReadingEnumeration", "Nabt.AwamilInventory", "ProbeJson", "ClassicalSemanticMain", "VerifiedReadingMain"}
+            "Nabt.MantuqMafhum", "Nabt.ReadingEnumeration", "Nabt.AwamilInventory",
+            "Nabt.ArabicInnaFragment", "ArabicInnaFragmentProbe", "ProbeJson",
+            "ClassicalSemanticMain", "VerifiedReadingMain"}
 
 
 def build_module(name):
@@ -60,16 +62,19 @@ def build_module(name):
     done.add(name)
 
 
-for module in ["Nabt", "Audit", "ClassicalSemanticMain", "VerifiedReadingMain"]:
+for module in ["Nabt", "Audit", "ClassicalSemanticMain", "VerifiedReadingMain", "ArabicInnaFragmentProbe"]:
     build_module(module)
 common = [build / "Nabt/SemanticInference.c", build / "Nabt/VerifiedReading.c", build / "ProbeJson.c"]
 extra = [build / "Nabt" / (name + ".c") for name in
          ["ClassicalLanguageEvidence", "SibawayhiRules", "QatrRules", "AwamilRules", "MaqayisRules", "SourceSemantics",
           "RationalInquiry", "ArabicCoverage", "ThinkingRules", "Shakhsiyya1Rules", "Shakhsiyya3Rules", "MantuqMafhum", "ReadingEnumeration", "AwamilInventory"]]
-for executable, main, more in [("classicalSemanticProbe", "ClassicalSemanticMain", extra),
-                               ("verifiedReading", "VerifiedReadingMain", [])]:
+for executable, main, sources in [
+        ("classicalSemanticProbe", "ClassicalSemanticMain", common + extra),
+        ("verifiedReading", "VerifiedReadingMain", common),
+        ("arabicInnaFragmentProbe", "ArabicInnaFragmentProbe",
+         [build / "Nabt/ArabicCoverage.c", build / "Nabt/ArabicInnaFragment.c", build / "ProbeJson.c"])]:
     command = ["gcc", "-O2", "-I" + str(a.toolchain / "include"),
-               *map(str, common + more + [build / (main + ".c")]),
+               *map(str, sources + [build / (main + ".c")]),
                "-L" + str(a.toolchain / "lib/lean"),
                "-Wl,-rpath," + str(a.toolchain / "lib/lean"), "-lleanshared", "-o", str(build / executable)]
     subprocess.run(command, check=True)

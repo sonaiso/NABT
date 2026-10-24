@@ -1,0 +1,1306 @@
+{
+  "schema": "nabt.arabic-completion-independent-oracle.v1",
+  "baseline_commit": "d791fd7730cde2256dfac8a27687010b392876b3",
+  "scope": "arabic_completion_v3_independent_oracle_v1",
+  "case_count": 24,
+  "cases": [
+    {
+      "id": "G01",
+      "family": "geminated_nominal_identity",
+      "category": "positive",
+      "input": {
+        "text": "جَاءَ الْمُدَرِّسُ الْمَاهِرُ.",
+        "source_id": "g01",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ جَاءَ الْمُدَرِّسُ الْمَاهِرُ؟",
+            "expected_status": "SUPPORTED",
+            "reason": "complete event and adjective"
+          },
+          {
+            "text": "هَلْ جَاءَ الْمُدَرِّسُ؟",
+            "expected_status": "UNKNOWN",
+            "reason": "published exact qualified-claim policy"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "جَاءَ",
+            "args": [
+              "teacher"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "teacher"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "SAME_READING_GEMINATION",
+          "NO_CONTEXT_MORPHOLOGY"
+        ],
+        "relations": [
+          {
+            "kind": "naat",
+            "head": "الْمُدَرِّسُ",
+            "dependent": "الْمَاهِرُ",
+            "owner": "teacher"
+          }
+        ],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_CASE",
+        "QATR_SUBJECT",
+        "QATR_NAAT"
+      ],
+      "authored_rationale": "The authored noun paradigms independently preserve internal shadda. The entirely unvocalized contextual label supplies an identity, not that morphology."
+    },
+    {
+      "id": "G02",
+      "family": "geminated_nominal_identity",
+      "category": "positive",
+      "input": {
+        "text": "إِنَّ الْمُدَرِّسَ مَاهِرٌ.",
+        "source_id": "g02",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ الْمُدَرِّسُ مَاهِرٌ؟",
+            "expected_status": "SUPPORTED",
+            "reason": "inna's assertion keeps the same subject"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "teacher"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "INNA_NASB_RAF",
+          "SAME_READING_GEMINATION",
+          "NO_CONTEXT_MORPHOLOGY"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_CASE",
+        "QATR_INNA",
+        "SIB_DIRECT_ADJECTIVE"
+      ],
+      "authored_rationale": "Changing the external case does not delete the internal gemination or turn context identity into declension evidence."
+    },
+    {
+      "id": "G03",
+      "family": "geminated_nominal_identity",
+      "category": "boundary",
+      "input": {
+        "text": "إِنَّ الْمُدَرِّسُ مَاهِرٌ.",
+        "source_id": "g03",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ الْمُدَرِّسُ مَاهِرٌ؟",
+            "expected_status": "DEFER",
+            "reason": "visible subject-case conflict is not repaired"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_ACTIVATED_WRONG_CASE",
+          "NO_SILENT_SOURCE_REPAIR"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_INNA"
+      ],
+      "authored_rationale": "Within the explicitly heavy-inna, overt-subject fragment, the nominative subject conflicts with the required accusative. No quotation, ellipsis or correction reading is supplied."
+    },
+    {
+      "id": "G04",
+      "family": "geminated_nominal_identity",
+      "category": "boundary",
+      "input": {
+        "text": "الْمُدَرَّسُ مَاهِرٌ.",
+        "source_id": "g04",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "explicit_active_name",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ الْمُدَرِّسُ مَاهِرٌ؟",
+            "expected_status": "DEFER",
+            "reason": "explicit contradictory internal vowel cannot be erased"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_VOCALIZED_CONTEXT_ALIAS",
+          "NO_LEXEME_COLLAPSE"
+        ],
+        "relations": [],
+        "references": [
+          {
+            "surface": "الْمُدَرَّسُ",
+            "forbidden_bound": [
+              "teacher"
+            ]
+          }
+        ],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_CASE",
+        "ALFIYYA_IDGHAM"
+      ],
+      "authored_rationale": "Both active and passive nominal paradigms are independently supplied. The only teacher label explicitly says مُدَرِّس; it does not identify the distinct vocalized مُدَرَّس reading. This is a declared-name identity test, not a ban on the latter Arabic word."
+    },
+    {
+      "id": "G05",
+      "family": "geminated_nominal_identity",
+      "category": "ambiguity",
+      "input": {
+        "text": "الْمُدَرِّسُ مَاهِرٌ.",
+        "source_id": "g05",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "duplicate_teacher",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "مَنْ مَاهِرٌ؟",
+            "expected_status": "DEFER",
+            "reason": "two indistinguishable declared names cannot be selected arbitrarily"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "PRESERVE_ALL_REFERENCE_CANDIDATES"
+        ],
+        "relations": [],
+        "references": [
+          {
+            "surface": "الْمُدَرِّسُ",
+            "required_candidates": [
+              "teacher",
+              "teacher_other"
+            ],
+            "bound": null
+          }
+        ],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_CASE"
+      ],
+      "authored_rationale": "An independently licensed shadda does not disambiguate two identities with the same entirely unvocalized label."
+    },
+    {
+      "id": "G06",
+      "family": "geminated_nominal_identity",
+      "category": "missing_context",
+      "input": {
+        "text": "الْمُدَرِّسُ مَاهِرٌ.",
+        "source_id": "g06",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "no_teacher",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ الْمُدَرِّسُ مَاهِرٌ؟",
+            "expected_status": "DEFER",
+            "reason": "lexical evidence does not create a contextual person"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_INVENTED_ENTITY",
+          "LEXICAL_COMPLETENESS_DISTINCT_FROM_REFERENCE"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_CASE"
+      ],
+      "authored_rationale": "The same complete lexical paradigms are available as in G01. The missing referent is a separate obligation from recognizing a geminated noun."
+    },
+    {
+      "id": "N01",
+      "family": "nominal_number_evidence",
+      "category": "positive",
+      "input": {
+        "text": "هِنْدٌ مَاهِرَةٌ.",
+        "source_id": "n01",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ هِنْدٌ مَاهِرَةٌ؟",
+            "expected_status": "SUPPORTED",
+            "reason": "independently explicit feminine singular adjective"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِرَة",
+            "args": [
+              "hind"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "AGREEMENT_SAME_READING_AND_SUBJECT"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_CASE",
+        "SIB_DIRECT_ADJECTIVE",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "The adjective's FS profile and the subject identity are independently supplied; their roles must be linked in the same predication."
+    },
+    {
+      "id": "N02",
+      "family": "nominal_number_evidence",
+      "category": "boundary",
+      "input": {
+        "text": "هِنْدٌ مَاهِرَتَانِ.",
+        "source_id": "n02",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ هِنْدٌ مَاهِرَةٌ؟",
+            "expected_status": "DEFER",
+            "reason": "dual adjective is not silently singularized"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_ACTIVATED_DIRECT_NUMBER_CONFLICT"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "SIB_DIRECT_ADJECTIVE",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "The supplied direct human adjectival regime has an explicit singular subject and dual predicate. Exceptional invariant predicates and quoted names are excluded from this declared fragment."
+    },
+    {
+      "id": "N03",
+      "family": "nominal_number_evidence",
+      "category": "provenance_probe",
+      "input": {
+        "text": "هِنْدٌ مَاهِرَةٌ.",
+        "source_id": "n03",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "mahira_number_omitted"
+      },
+      "expected": {
+        "document_status": null,
+        "questions": [],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_MISSING_NUMBER_DEFAULT",
+          "INDEPENDENT_NUMBER_DERIVATION_OR_ABSTENTION",
+          "NO_CONTEXT_MORPHOLOGY"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": []
+      },
+      "source_rules": [
+        "QAC_FEATURES",
+        "SIB_DIRECT_ADJECTIVE"
+      ],
+      "authored_rationale": "The only difference from N01 is omission of S in all matching adjective source records. No fixed final status is imposed: a new separately justified morphological law may infer number, but absence alone, context traits, or the desired answer cannot be its evidence. This is a provenance test, not an extra coverage success for deferral."
+    },
+    {
+      "id": "N04",
+      "family": "nominal_number_evidence",
+      "category": "coverage_challenge",
+      "input": {
+        "text": "الْمُدَرِّسُونَ مَاهِرُونَ.",
+        "source_id": "n04",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ الْمُدَرِّسُونَ مَاهِرُونَ؟",
+            "expected_status": "SUPPORTED",
+            "reason": "explicit human plural profiles are preserved"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "teachers"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_PLURAL_TO_SINGULAR_DEFAULT",
+          "AGREEMENT_SAME_READING_AND_SUBJECT"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_CASE",
+        "SIB_DIRECT_ADJECTIVE",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "The source explicitly supplies MP and sound-plural forms for both nouns. This challenges the published singular-human acquisition boundary without treating all Arabic plural agreement as identical."
+    },
+    {
+      "id": "N05",
+      "family": "nominal_number_evidence",
+      "category": "ambiguity",
+      "input": {
+        "text": "خَالِدٌ مَاهِرٌ. مَالِكٌ مَاهِرٌ. هُوَ حَاضِرٌ.",
+        "source_id": "n05",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "unknown_malik_traits",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "مَنْ حَاضِرٌ؟",
+            "expected_status": "DEFER",
+            "reason": "unknown contextual features do not eliminate a prior referent"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "khalid"
+            ],
+            "positive": true
+          },
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "malik"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "حَاضِر",
+            "args": [
+              "khalid"
+            ],
+            "positive": true
+          },
+          {
+            "predicate_kind": "property",
+            "predicate": "حَاضِر",
+            "args": [
+              "malik"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "PRESERVE_POSSIBLE_UNKNOWN_FEATURE_CANDIDATES"
+        ],
+        "relations": [],
+        "references": [
+          {
+            "surface": "هُوَ",
+            "required_candidates": [
+              "khalid",
+              "malik"
+            ],
+            "bound": null
+          }
+        ],
+        "clause_forces": []
+      },
+      "source_rules": [
+        "QATR_PRONOUN",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "Two named persons are established by preceding clauses. Unknown context traits for one person do not mean contradiction. Neither identity is selected by proximity or completeness of its context row."
+    },
+    {
+      "id": "N06",
+      "family": "nominal_number_evidence",
+      "category": "provenance_probe",
+      "input": {
+        "text": "خَالِدٌ كَرِيمٌ.",
+        "source_id": "n06",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "kariym_cross_pos"
+      },
+      "expected": {
+        "document_status": null,
+        "questions": [],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "PRESERVE_N_AND_ADJ_READINGS",
+          "NO_CROSS_READING_TRAIT_COPY",
+          "MORPHOLOGY_BRIDGE_DOES_NOT_GRANT_SENSE"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": []
+      },
+      "source_rules": [
+        "QATR_CASE",
+        "QAC_FEATURES",
+        "SIB_DIRECT_ADJECTIVE"
+      ],
+      "authored_rationale": "Two independent nominal paradigms share the written form and lemma: N has only M while ADJ has MS. A case-pattern bridge may be justified, but it must not retag N as ADJ, fill its number from the other reading, import an adjectival meaning, or discard a viable incomplete alternative. A separately justified number derivation remains possible and must be identified."
+    },
+    {
+      "id": "T01",
+      "family": "tamyiz_scope_and_owner",
+      "category": "positive",
+      "input": {
+        "text": "امْتَلَأَ الْإِنَاءُ مَاءً.",
+        "source_id": "t01",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ مَاءً؟",
+            "expected_status": "SUPPORTED",
+            "reason": "primary exemplified nisba frame"
+          },
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ؟",
+            "expected_status": "UNKNOWN",
+            "reason": "published exact qualification policy, not a general entailment claim"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "امْتَلَأَ",
+            "args": [
+              "vessel"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "TAMYIZ_QUALIFIER_SAME_CLAIM_OWNER",
+          "NO_TAMYIZ_AS_DIRECT_OBJECT"
+        ],
+        "relations": [
+          {
+            "kind": "tamyiz",
+            "dependent": "مَاءً",
+            "governor": "امْتَلَأَ",
+            "target": "الْإِنَاءُ",
+            "owner": "vessel"
+          }
+        ],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_TAMYIZ",
+        "SIB_TAMYIZ"
+      ],
+      "authored_rationale": "The primary text expressly gives امتلأ الإناء ماء. Water specifies the filling relation; it is not introduced as a separate grounded object identity."
+    },
+    {
+      "id": "T02",
+      "family": "tamyiz_scope_and_owner",
+      "category": "coverage_challenge",
+      "input": {
+        "text": "امْتَلَأَ الْإِنَاءُ عَسَلًا.",
+        "source_id": "t02",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ عَسَلًا؟",
+            "expected_status": "SUPPORTED",
+            "reason": "authored literal filling-content composition"
+          },
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ مَاءً؟",
+            "expected_status": "UNKNOWN",
+            "reason": "content unit is not replaced by a familiar exemplar"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "امْتَلَأَ",
+            "args": [
+              "vessel"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "INDEPENDENT_TAMYIZ_FRAME_NOT_ANY_ACCUSATIVE_NOUN",
+          "TAMYIZ_QUALIFIER_SAME_CLAIM_OWNER"
+        ],
+        "relations": [
+          {
+            "kind": "tamyiz",
+            "dependent": "عَسَلًا",
+            "governor": "امْتَلَأَ",
+            "target": "الْإِنَاءُ",
+            "owner": "vessel"
+          }
+        ],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_TAMYIZ",
+        "SIB_TAMYIZ"
+      ],
+      "authored_rationale": "This is an authored extension, not a quoted primary example. Honey is used literally as the filling material; the primary general definition and exemplar motivate the interpretation. The public lexical/context input has no content-medium ontology field, so an acquisition or input-contract debt must be reported if the runtime cannot establish this use independently."
+    },
+    {
+      "id": "T03",
+      "family": "tamyiz_scope_and_owner",
+      "category": "coverage_challenge",
+      "input": {
+        "text": "فَجَّرَ خَالِدٌ الْأَرْضَ عُيُونًا.",
+        "source_id": "t03",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ فَجَّرَ خَالِدٌ الْأَرْضَ عُيُونًا؟",
+            "expected_status": "SUPPORTED",
+            "reason": "object-related tamyiz keeps its own target"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "فَجَّرَ",
+            "args": [
+              "khalid",
+              "earth"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "TAMYIZ_OBJECT_OWNER_NOT_SUBJECT_DEFAULT",
+          "TAMYIZ_QUALIFIER_SAME_CLAIM_OWNER"
+        ],
+        "relations": [
+          {
+            "kind": "tamyiz",
+            "dependent": "عُيُونًا",
+            "governor": "فَجَّرَ",
+            "target": "الْأَرْضَ",
+            "owner": "earth"
+          }
+        ],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 1
+      },
+      "source_rules": [
+        "QATR_TAMYIZ",
+        "QATR_SUBJECT"
+      ],
+      "authored_rationale": "The source explicitly cites وفجرنا الأرض عيونا as transformed nisba tamyiz. Replacing the source's first-person plural actor by the independently supplied name is authored composition. The target is the earth, not whichever claim argument comes first."
+    },
+    {
+      "id": "T04",
+      "family": "tamyiz_scope_and_owner",
+      "category": "boundary",
+      "input": {
+        "text": "امْتَلَأَ الْإِنَاءُ الْمَاءَ.",
+        "source_id": "t04",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ مَاءً؟",
+            "expected_status": "DEFER",
+            "reason": "definite noun is not silently made indefinite tamyiz"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_ACTIVATED_UNLICENSED_TAMYIZ",
+          "NO_SILENT_SOURCE_REPAIR"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_TAMYIZ",
+        "SIB_TAMYIZ"
+      ],
+      "authored_rationale": "The bounded ordinary nisba-tamyiz analysis requires an indefinite noun. Sibawayhi expressly excludes the corresponding definite-object behavior. Exceptional marked constructions, quotation and corrective ellipsis are outside this probe."
+    },
+    {
+      "id": "T05",
+      "family": "tamyiz_scope_and_owner",
+      "category": "boundary",
+      "input": {
+        "text": "امْتَلَأَ الْإِنَاءُ مَاءٌ.",
+        "source_id": "t05",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ مَاءً؟",
+            "expected_status": "DEFER",
+            "reason": "visible nominative cannot license the proposed accusative role"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_ACTIVATED_UNLICENSED_TAMYIZ",
+          "NO_ACTIVATED_WRONG_CASE"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_TAMYIZ",
+        "QATR_CASE"
+      ],
+      "authored_rationale": "The visible ending conflicts with the proposed local tamyiz. No second clause boundary, replacement or unexpressed predication is supplied in the declared fragment."
+    },
+    {
+      "id": "T06",
+      "family": "tamyiz_scope_and_owner",
+      "category": "positive",
+      "input": {
+        "text": "امْتَلَأَ الْإِنَاءُ مَاءً. طَابَ خَالِدٌ نَفْسًا.",
+        "source_id": "t06",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ امْتَلَأَ الْإِنَاءُ مَاءً؟",
+            "expected_status": "SUPPORTED",
+            "reason": "first clause qualifier"
+          },
+          {
+            "text": "هَلْ طَابَ خَالِدٌ نَفْسًا؟",
+            "expected_status": "SUPPORTED",
+            "reason": "second clause qualifier"
+          },
+          {
+            "text": "هَلْ طَابَ مَالِكٌ نَفْسًا؟",
+            "expected_status": "UNKNOWN",
+            "reason": "known but uninvolved identity is not the owner"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "امْتَلَأَ",
+            "args": [
+              "vessel"
+            ],
+            "positive": true
+          },
+          {
+            "predicate_kind": "event",
+            "predicate": "طَابَ",
+            "args": [
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_CROSS_CLAUSE_QUALIFIER_BORROWING",
+          "TAMYIZ_QUALIFIER_SAME_CLAIM_OWNER"
+        ],
+        "relations": [
+          {
+            "kind": "tamyiz",
+            "dependent": "مَاءً",
+            "governor": "امْتَلَأَ",
+            "target": "الْإِنَاءُ",
+            "owner": "vessel"
+          },
+          {
+            "kind": "tamyiz",
+            "dependent": "نَفْسًا",
+            "governor": "طَابَ",
+            "target": "خَالِدٌ",
+            "owner": "khalid"
+          }
+        ],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 2
+      },
+      "source_rules": [
+        "QATR_TAMYIZ",
+        "SIB_TAMYIZ",
+        "ALFIYYA_TAMYIZ"
+      ],
+      "authored_rationale": "Two independently supported frame families coexist. Neither the tamyiz label nor membership of an entity in the context licenses moving a qualifier or owner to the other clause."
+    },
+    {
+      "id": "P01",
+      "family": "attached_verb_participants",
+      "category": "positive",
+      "input": {
+        "text": "خَالِدٌ مَاهِرٌ. أَكْرَمَهُ مَالِكٌ.",
+        "source_id": "p01",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ أَكْرَمَ مَالِكٌ خَالِدًا؟",
+            "expected_status": "SUPPORTED",
+            "reason": "actor and attached object are independently bound"
+          },
+          {
+            "text": "هَلْ أَكْرَمَ خَالِدٌ مَالِكًا؟",
+            "expected_status": "UNKNOWN",
+            "reason": "participant order is not reversible"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "khalid"
+            ],
+            "positive": true
+          },
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "malik",
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "khalid",
+              "malik"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "CONNECTED_HOST_SOURCE_CONSERVATION",
+          "SUBJECT_FEATURES_NOT_OBJECT_FEATURES"
+        ],
+        "relations": [],
+        "references": [
+          {
+            "surface": "هُ",
+            "within": "أَكْرَمَهُ",
+            "required_candidates": [
+              "khalid"
+            ],
+            "bound": "khalid"
+          }
+        ],
+        "clause_forces": [],
+        "claims_min": 2
+      },
+      "source_rules": [
+        "QATR_PRONOUN",
+        "QATR_SUBJECT",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "The teaching input contains only connected أكرم hosts, not bare occurrences of that verb. The attached third-person object refers to the sole earlier compatible mention under the declared closed-prefix policy; the later explicit subject has a different role."
+    },
+    {
+      "id": "P02",
+      "family": "attached_verb_participants",
+      "category": "ambiguity",
+      "input": {
+        "text": "خَالِدٌ مَاهِرٌ. مَالِكٌ مَاهِرٌ. أَكْرَمَهُ سَعِيدٌ.",
+        "source_id": "p02",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ أَكْرَمَ سَعِيدٌ خَالِدًا؟",
+            "expected_status": "DEFER",
+            "reason": "two earlier compatible object referents remain"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "khalid"
+            ],
+            "positive": true
+          },
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "malik"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "said",
+              "khalid"
+            ],
+            "positive": true
+          },
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "said",
+              "malik"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "PRESERVE_ALL_REFERENCE_CANDIDATES",
+          "NO_NEAREST_ANTECEDENT_DEFAULT"
+        ],
+        "relations": [],
+        "references": [
+          {
+            "surface": "هُ",
+            "within": "أَكْرَمَهُ",
+            "required_candidates": [
+              "khalid",
+              "malik"
+            ],
+            "bound": null
+          }
+        ],
+        "clause_forces": []
+      },
+      "source_rules": [
+        "QATR_PRONOUN",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "Correct segmentation does not identify the intended antecedent when two prior masculine singular identities survive."
+    },
+    {
+      "id": "P03",
+      "family": "attached_verb_participants",
+      "category": "missing_context",
+      "input": {
+        "text": "أَكْرَمَهُ مَالِكٌ.",
+        "source_id": "p03",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "base",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "DEFER",
+        "questions": [
+          {
+            "text": "هَلْ أَكْرَمَ مَالِكٌ خَالِدًا؟",
+            "expected_status": "DEFER",
+            "reason": "context's name catalogue is not an antecedent assertion"
+          }
+        ],
+        "required_claims": [],
+        "forbidden_claims": [],
+        "obligations": [
+          "NO_INVENTED_ANTECEDENT",
+          "CONNECTED_HOST_SOURCE_CONSERVATION"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_max": 0
+      },
+      "source_rules": [
+        "QATR_PRONOUN",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "Entities exist in the context, but no prior mention, deictic field or external object binding identifies ه. The first sentence's direct object cannot be filled from a convenient answer."
+    },
+    {
+      "id": "P04",
+      "family": "attached_verb_participants",
+      "category": "positive",
+      "input": {
+        "text": "خَالِدٌ مَاهِرٌ. أَكْرَمْتُهُ.",
+        "source_id": "p04",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "speaker_malik",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ أَكْرَمَ مَالِكٌ خَالِدًا؟",
+            "expected_status": "SUPPORTED",
+            "reason": "first-person host follows the supplied speaker"
+          },
+          {
+            "text": "هَلْ أَكْرَمَ خَالِدٌ مَالِكًا؟",
+            "expected_status": "UNKNOWN",
+            "reason": "suffix person must not replace host person"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "malik",
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "khalid",
+              "malik"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "SUBJECT_FEATURES_NOT_OBJECT_FEATURES",
+          "SPEAKER_CONTEXT_BOUND_REPLAY",
+          "CONNECTED_HOST_SOURCE_CONSERVATION"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 2
+      },
+      "source_rules": [
+        "QATR_PRONOUN",
+        "QATR_PAST",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "The independently annotated host is first person singular while the suffix is third person masculine singular. They are different participants and require different reference premises."
+    },
+    {
+      "id": "P05",
+      "family": "attached_verb_participants",
+      "category": "positive",
+      "input": {
+        "text": "خَالِدٌ مَاهِرٌ. أَكْرَمْتُهُ.",
+        "source_id": "p05",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "speaker_hind",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ أَكْرَمَتْ هِنْدٌ خَالِدًا؟",
+            "expected_status": "SUPPORTED",
+            "reason": "same first-person text with a different explicitly supplied speaker"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "hind",
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "malik",
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "SUBJECT_FEATURES_NOT_OBJECT_FEATURES",
+          "SPEAKER_CONTEXT_BOUND_REPLAY",
+          "CONNECTED_HOST_SOURCE_CONSERVATION"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [],
+        "claims_min": 2
+      },
+      "source_rules": [
+        "QATR_PRONOUN",
+        "QATR_PAST",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "First-person singular morphology does not specify speaker gender or identity. Exactly the same utterance bytes as P04 have another valid actor under a different explicit context."
+    },
+    {
+      "id": "P06",
+      "family": "attached_verb_participants",
+      "category": "force_boundary",
+      "input": {
+        "text": "خَالِدٌ مَاهِرٌ. أَكْرِمْهُ.",
+        "source_id": "p06",
+        "scope": "arabic_completion_v3_independent_oracle_v1",
+        "context_id": "addressee_malik",
+        "lexical_profile": "base"
+      },
+      "expected": {
+        "document_status": "LICENSED_DISCOURSE",
+        "questions": [
+          {
+            "text": "هَلْ أَكْرَمَ مَالِكٌ خَالِدًا؟",
+            "expected_status": "UNKNOWN",
+            "reason": "an imperative does not establish compliance"
+          }
+        ],
+        "required_claims": [
+          {
+            "predicate_kind": "property",
+            "predicate": "مَاهِر",
+            "args": [
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "forbidden_claims": [
+          {
+            "predicate_kind": "event",
+            "predicate": "أَكْرَمَ",
+            "args": [
+              "malik",
+              "khalid"
+            ],
+            "positive": true
+          }
+        ],
+        "obligations": [
+          "IMPERATIVE_IS_NOT_ASSERTION",
+          "CONNECTED_HOST_SOURCE_CONSERVATION"
+        ],
+        "relations": [],
+        "references": [],
+        "clause_forces": [
+          "ASSERT",
+          "COMMAND"
+        ],
+        "claims_min": 1,
+        "claims_max": 1
+      },
+      "source_rules": [
+        "QATR_IMPERATIVE",
+        "QATR_PRONOUN",
+        "QAC_FEATURES"
+      ],
+      "authored_rationale": "A complete imperative with an attached object must preserve command force and its addressee without projecting a past event. Failure to parse is not a successful force-boundary result."
+    }
+  ],
+  "cross_case_checks": [
+    {
+      "id": "X01",
+      "cases": [
+        "G01",
+        "G05",
+        "G06"
+      ],
+      "kind": "lexical_evidence_does_not_create_or_choose_identity"
+    },
+    {
+      "id": "X02",
+      "cases": [
+        "N01",
+        "N03"
+      ],
+      "kind": "number_annotation_withdrawal_changes_proof_obligation"
+    },
+    {
+      "id": "X03",
+      "cases": [
+        "P04",
+        "P05"
+      ],
+      "kind": "identical_text_different_speaker",
+      "source_text": "خَالِدٌ مَاهِرٌ. أَكْرَمْتُهُ.",
+      "required_actors": {
+        "P04": "malik",
+        "P05": "hind"
+      },
+      "require_context_changed_certificate_rejection": true
+    }
+  ],
+  "universal_obligations": [
+    "EXACT_SOURCE_RESTORATION",
+    "PINNED_MODEL_AND_CONTEXT",
+    "PRESERVE_ALL_VIABLE_READINGS",
+    "NO_BORROWED_OCCURRENCE_OR_CLAUSE",
+    "NO_WORLD_TRUTH_PROMOTION",
+    "ERROR_IS_NOT_DEFER"
+  ],
+  "scope_note": "Directed, manually authored 24-case evidence suite. Two provenance probes have conditional evidence obligations rather than a prescribed final status. No statistical blind-test, universal-completeness, or replacement-of-old-gold claim."
+}

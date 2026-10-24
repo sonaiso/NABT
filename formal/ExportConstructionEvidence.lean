@@ -16,7 +16,7 @@ def constructionEvidenceJson : Json := Json.mkObj [
   ("schema_version", toJson (1 : Nat)),
   ("law_id", toJson lawId),
   ("scope", toJson "CONDITIONAL_LICENSED_CONSTITUENTS_AND_EXACT_SCOPED_PROJECTION_NOT_ACQUISITION_OR_WORLD_TRUTH"),
-  ("source_policy_id", toJson "nabt.construction-grammar-sources.v3"),
+  ("source_policy_id", toJson "nabt.construction-grammar-sources.v4"),
   ("families", toJson (families.map Family.label)),
   ("roles", toJson (roles.map Role.label)),
   ("inherited_cases", toJson (inheritedCases.map caseJson)),

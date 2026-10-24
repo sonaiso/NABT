@@ -1,0 +1,97 @@
+{
+  "schema": "nabt.independent-source-validator-postreview.v1",
+  "helper_before_sha256": "194f53164b9a1e3991340d53e0877dffb2f9b5c4c295cb6457d7abb517ff463e",
+  "helper_after_sha256": "194f53164b9a1e3991340d53e0877dffb2f9b5c4c295cb6457d7abb517ff463e",
+  "fixture_sha256": {
+    "name_v2": "96f806bd7fa613959d6ec91044060071d77f588c52942273d07a450fabe782cc",
+    "nominal_v1": "ac84c424906e115a12109536a1b31b4481fdb4c0c850e982a4ffbd31a4aea33d",
+    "nominal_unmarked_v1": "4d388cf03c1bdd519ac86c3908dc749876d8005869a3e16c1208c270ce626033",
+    "sense_v1": "83f639092b8f1c32082fae76d6cba2fec6537bb09ebe9559637a7c30c036e014"
+  },
+  "tests_module_sha256": "4c745fc43f819240ce292d12d1617fac4a1b8b07c0e9e634e0f123c045f37ff2",
+  "checks": [
+    {
+      "name": "positive_name_nabt.constructions.independent-evaluation.v3",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "positive_name_nabt.discourse.independent-evaluation.v3",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "positive_nominal_v1_0",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "positive_nominal_unmarked_v1_0",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "positive_nominal_unmarked_v1_1",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "positive_hasiba",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "separate_first_donor_tanwin",
+      "expected_accepted": true,
+      "accepted": true,
+      "passed": true,
+      "reason": null
+    },
+    {
+      "name": "hasiba_profile_2MS|3MS",
+      "expected_accepted": false,
+      "accepted": false,
+      "passed": true,
+      "reason": "Name correspondence: raw lexical receipt does not independently witness active form-I hasiba"
+    },
+    {
+      "name": "hasiba_profile_3MS|2MS",
+      "expected_accepted": false,
+      "accepted": false,
+      "passed": true,
+      "reason": "Name correspondence: raw lexical receipt does not independently witness active form-I hasiba"
+    },
+    {
+      "name": "hasiba_profile_3MS|3MS",
+      "expected_accepted": false,
+      "accepted": false,
+      "passed": true,
+      "reason": "Name correspondence: raw lexical receipt does not independently witness active form-I hasiba"
+    }
+  ],
+  "passed": 10,
+  "total": 10,
+  "all_passed": true,
+  "scope": "Authored helper-only controls and review counterexamples. No original 86-case or new 24-case evaluation; no runtime or evaluator edits.",
+  "reviewer": "/root/empirical_audit",
+  "review_date_utc": "2026-10-24",
+  "prior_review": "review.json",
+  "review_status": "TWO_IDENTIFIED_HELPER_FINDINGS_CLOSED",
+  "patch_review": "The only helper diff removes the donor tanwin receipt-subset constraint while keeping direct raw equality, and requires exactly one 3MS raw profile for hasiba. No other helper semantic change was observed.",
+  "execution": {
+    "exit_code": 0,
+    "wall_time_seconds": 0.08801428
+  }
+}

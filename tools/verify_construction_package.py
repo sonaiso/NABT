@@ -29,13 +29,22 @@ from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.16.0a1"
+VERSION = "0.17.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/arabic_coverage/code_freeze_v2.json"
+DEFAULT_FREEZE = "evidence/arabic_completion_v3/code_freeze_v2.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
+    "045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd": {
+        "selection": "arabic_completion_v3_review2",
+        "version": "0.17.0a1",
+        "profile": "arabic_completion_v3",
+        "source_file_count": 80,
+        "future_operator_support": True,
+        "snapshot_sha256": "adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f",
+        "archive_sha256": "c1056d20779c557fd060787d5018c503128778712b81eb669881c89e4e7a0e84",
+    },
     "96ffa98008bf1b6a6d1f5ab6b79a330fe4b8a9329887d9ac3f8ff9d31eb12e1e": {
         "selection": "constructions_v1",
         "version": "0.14.0a1",
@@ -89,6 +98,15 @@ CODE_FREEZE_PINS = {
         "future_operator_support": True,
         "snapshot_sha256": "46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851",
         "archive_sha256": "8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163",
+    },
+    "eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089": {
+        "selection": "arabic_completion_v3",
+        "version": "0.17.0a1",
+        "profile": "arabic_completion_v3",
+        "source_file_count": 80,
+        "future_operator_support": True,
+        "snapshot_sha256": "fb14e51c7f7d751b13307ecf65573c1863c7f579252aa402231586aeda11412f",
+        "archive_sha256": "8576765bdd5b9dbb93db76ec11b485634fa2f34691113a45d59dbf49238c0c87",
     },
 }
 PERSON_LAW_ID = "nabt.person-evidence.v1"
@@ -164,6 +182,43 @@ RELEASE_PROFILES = {
         "package_documents": {
             "nabt/data/source_evidence/LICENSE-DATA.md": {
                 "bytes": 4907, "sha256": "84be04f10610a80e7929f3d912f7739ba5bfce610275898745c432795d4feb79"},
+            "nabt/data/source_evidence/README.md": {
+                "bytes": 9864, "sha256": "83b0d8c4c2d8a3efebbed921c3675517b662ac7e386a1973354714bafdc8ee27"},
+        },
+    },
+    "arabic_completion_v3": {
+        "language_id": "nabt.arabic-discourse-frames.v6",
+        "reader_version": "nabt.discourse-reader.v6",
+        "law_id": "nabt.construction-evidence.v3",
+        "table_sha256": "0d846cea228391001dfb9667dbd7358e994b012ee80fd35835ba85c2af8cd9ad",
+        "policy_id": "nabt.construction-grammar-sources.v4",
+        "policy_sha256": "2faa90be033475c458eeabe61cda472c7856a0342803325bef6474c6c88b13f5",
+        "rules": CONSTRUCTION_RULES_V1 | {"predicate_adjectival_agreement", "matrix_ma_negation",
+            "explanatory_apposition", "prepositional_attachment", "inception_sharaa", "tamyiz_taba_nafs",
+            "same_form_nominal_inflection", "vocalized_hasiba_sense"},
+        "table_rows": {**CONSTRUCTION_TABLE_ROWS_V1, "predicate_agreement_rows": 18},
+        "discourse_policy_id": "nabt.discourse-grammar-sources.v2",
+        "discourse_policy_sha256": "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7",
+        "discourse_source_rules": 24,
+        "review_fix_smokes": True,
+        "query_agreement_smokes": True,
+        "query_consensus_smokes": True,
+        "coverage_smokes": True,
+        "supplementary_registry_file": "nabt/data/source_evidence/construction_supplementary_sources_v2.json",
+        "supplementary_registry_sha256": "96f505a0e34964e6b7fc65ed7dfaa6c0f5430c75a51766760495c25295ab1fe7",
+        "supplementary_source_ids": ["mukhtar_sihah", "sabban"],
+        "supplementary_source_files": {
+            "nabt/data/source_evidence/sabban.txt": "8b9e86da786cf65e7b32498b2524ee48a8dcf9f61b59e1bbc32b99ce7db5b396",
+            "nabt/data/source_evidence/mukhtar_sihah.txt": "e93f4054f3cddb826a7b3fafd01eac8c4b39b25ed2d92ece7ea093b755776691",
+        },
+        "extra_package_files": {
+            "nabt/rational_inquiry.py", "nabt/context_name_witness.py",
+            "nabt/data/source_evidence/sabban.txt", "nabt/data/source_evidence/mukhtar_sihah.txt",
+            "nabt/data/source_evidence/construction_supplementary_sources_v1.json",
+            "nabt/data/source_evidence/construction_supplementary_sources_v2.json"},
+        "package_documents": {
+            "nabt/data/source_evidence/LICENSE-DATA.md": {
+                "bytes": 6680, "sha256": "cf8bd516bbd21906b59dd7ebb33beb64c4a7368ec836e87e72bb78b477aee51e"},
             "nabt/data/source_evidence/README.md": {
                 "bytes": 9864, "sha256": "83b0d8c4c2d8a3efebbed921c3675517b662ac7e386a1973354714bafdc8ee27"},
         },
@@ -314,6 +369,32 @@ def query_smoke_names(profile):
         index = names.index("reject-ambiguous-person-query")
         names[index:index + 1] = ["agree-ambiguous-person-query", "verify-consensus-answer"]
     return names
+
+
+def supplementary_file_hashes(profile):
+    """Keep each release's exact registry and full-text identities separate."""
+    if not profile.get("supplementary_registry_sha256"):
+        return {}
+    registry = profile.get("supplementary_registry_file",
+        "nabt/data/source_evidence/construction_supplementary_sources_v1.json")
+    sources = profile.get("supplementary_source_files")
+    if sources is None:
+        sources = {"nabt/data/source_evidence/sabban.txt": profile["supplementary_source_sha256"]}
+    return {registry: profile["supplementary_registry_sha256"], **sources}
+
+
+def inspect_supplementary_files(profile, package_rows):
+    for name, expected in supplementary_file_hashes(profile).items():
+        require(name in package_rows and package_rows[name]["sha256"] == expected,
+                "Frozen supplementary registry or full source differs: " + name)
+
+
+def inspect_supplementary_replay(profile, grammar_sources):
+    if profile.get("supplementary_registry_sha256"):
+        require(grammar_sources["supplementary_registry_sha256"] ==
+                profile["supplementary_registry_sha256"] and
+                grammar_sources["supplementary_source_ids"] == profile.get("supplementary_source_ids", ["sabban"]),
+                "Installed supplementary source registry did not replay")
 
 
 def file_record(path, relative_to):
@@ -699,11 +780,7 @@ def validate(output, freeze_path):
             "Frozen construction law table differs")
     require(package_rows["nabt/data/source_evidence/construction_policy.json"]["sha256"] == profile["policy_sha256"],
             "Frozen construction grammar policy differs")
-    if profile.get("supplementary_registry_sha256"):
-        require(package_rows["nabt/data/source_evidence/construction_supplementary_sources_v1.json"]["sha256"] ==
-                profile["supplementary_registry_sha256"] and
-                package_rows["nabt/data/source_evidence/sabban.txt"]["sha256"] == profile["supplementary_source_sha256"],
-                "Frozen supplementary registry or full source differs")
+    inspect_supplementary_files(profile, package_rows)
     check_source(rows)
     documents = {}
     for name, row in document_rows.items():
@@ -862,11 +939,7 @@ def validate(output, freeze_path):
             and set(construction["grammar_sources"]["rules"]) == profile["rules"]
             and {row["family"] for row in construction["operators"]} == {"kana", "inna", "zanna", "kada"},
             "Installed construction source policy or family inventory differs")
-    if profile.get("supplementary_registry_sha256"):
-        require(construction["grammar_sources"]["supplementary_registry_sha256"] ==
-                profile["supplementary_registry_sha256"] and
-                construction["grammar_sources"]["supplementary_source_ids"] == ["sabban"],
-                "Installed supplementary source registry did not replay")
+    inspect_supplementary_replay(profile, construction["grammar_sources"])
     audit, _ = smoke("audit-corpus", ["audit-corpus", "construction_training.tsv", "--format", "qac"])
     require(audit["format"] == "qac" and audit["summary"]["record_count"] > 0
             and audit["summary"]["invalid_count"] == 0 and audit["summary"]["source_coverage_complete"] is True,
@@ -1139,7 +1212,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True, help="New directory for wheel, logs and validation")
     parser.add_argument("--code-freeze", type=Path, default=Path(DEFAULT_FREEZE),
-                        help="Approved construction v1/v2/v3/v4 or Arabic coverage v1/v2 freeze (default Arabic coverage v2); relative paths are resolved from the repository")
+                        help="Approved construction v1/v2/v3/v4, Arabic coverage v1/v2, or Arabic completion v3 freeze (default completion v3); relative paths are resolved from the repository")
     args = parser.parse_args()
     output = args.output_dir.resolve()
     freeze_path = args.code_freeze if args.code_freeze.is_absolute() else ROOT / args.code_freeze

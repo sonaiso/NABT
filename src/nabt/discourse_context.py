@@ -131,7 +131,8 @@ def profile_compatibility(profile, entity):
 
 
 def resolve_reference(surface, *, origin, profile, context, mentions, span,
-                      scope, return_entity=None, source_prefix_complete=True):
+                      scope, return_entity=None, source_prefix_complete=True,
+                      name_reading=None, lexical_model=None):
     """Enumerate candidates, retain unknown competitors, then apply Lean gates.
 
     Antecedents here are earlier mentions in this one unquoted text scope.
@@ -143,8 +144,19 @@ def resolve_reference(surface, *, origin, profile, context, mentions, span,
     value = context["value"]
     entities = {entity["id"]: entity for entity in value["entities"]}
     selected, bases = set(), {}
+    name_correspondence = None
     if origin == "named":
         selected.update(e["id"] for e in entities.values() if form_matches(surface, e["name"]))
+        if name_reading is not None and lexical_model is not None:
+            from .corpus_evidence import lexical_index
+            from .context_name_witness import lexical_name_witness
+            index, summary = lexical_index(lexical_model)
+            name_correspondence = lexical_name_witness({"surface": surface, "span": span},
+                name_reading, index=index, model_summary=summary)
+        if name_correspondence is not None:
+            from .context_name_witness import unvocalized_name_matches
+            selected.update(e["id"] for e in entities.values()
+                            if unvocalized_name_matches(surface, e["name"]))
     elif origin in ("speaker", "addressee"):
         if origin in value:
             selected.add(value[origin])
@@ -200,5 +212,7 @@ def resolve_reference(surface, *, origin, profile, context, mentions, span,
               "bound_entity_id": bound, "closed_scope": closed, "status": status,
               "source_prefix_complete": source_prefix_complete,
               "authority": "CONDITIONAL_REFERENCE_WITHIN_DECLARED_SOURCE_SCOPE"}
+    if origin == "named" and name_correspondence is not None:
+        record["name_correspondence"] = deepcopy(name_correspondence)
     record["reference_id"] = identity(record)
     return record

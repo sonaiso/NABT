@@ -1,0 +1,15 @@
+{
+  "schema": "nabt.completion-oracle-adapter-erratum.v2",
+  "material_unchanged": true,
+  "runtime_unchanged": true,
+  "first_result_preserved": "first_run_v1/result.json",
+  "first_result_sha256": "3a8fe4d22da4ab2c0ab3e26060d5b1a9c3ba5c488b049363473f920f8a8a0159",
+  "first_raw_sha256": "d401000ab9334c094064d3845abd6df659cdd2db8268a249ea9b67e5699d5ac0",
+  "defect": "The v1 attached-word scorer assumed every report reading exposes identity.span. The six source-person derived readings instead occur inside the public occurrences array and have no identity object. KeyError('identity') became a false integrity alarm before any partition check.",
+  "affected_cases": ["P01", "P02", "P03", "P04", "P05", "P06"],
+  "affected_check": "connected_partition_and_profiles",
+  "correction": "Require exactly one enclosing occurrence entry with the same reading_id and canonical type-sensitive exact row; validate source ID/hash/full span/surface, stem containment and full person-evidence surface, then retain the existing contiguous whole-word partition and licensed-profile checks.",
+  "not_waived": ["unknown or duplicate occurrence", "row borrowed from another occurrence", "incorrect source or span", "missing/overlapping suffix", "unsupported licensed host/suffix", "every other oracle coverage or integrity check"],
+  "measurement": "Rescore the immutable saved calls, not a new prediction experiment. No positive DEFER is changed into understanding. N06 remains unresolved independent review and is outside the 22 fixed cases.",
+  "known_unexercised_limit": "All six attached candidates have licensed=false. The licensed-suffix branch still expects a standalone profile token, whereas this authored QAC-format input uses PRON:3MS. That unexercised adapter branch is recorded separately and is not silently repaired or claimed as validated by this occurrence correction."
+}

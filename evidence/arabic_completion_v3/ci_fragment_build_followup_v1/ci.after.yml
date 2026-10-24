@@ -1,0 +1,292 @@
+name: NABT proof and runtime gates
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Keep these selectors on an explicitly registered freeze; update them together.
+env:
+  NABT_CODE_FREEZE: evidence/arabic_completion_v3/code_freeze_v1.json
+  NABT_FREEZE_VERSION: arabic_completion_v3
+
+concurrency:
+  group: nabt-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Independent runtime tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -v
+      - name: Trusted artifact and source checks
+        run: python tools/check_integrity.py
+      - name: Learned artifact matches its deterministic acquisition
+        run: python tools/export_learned_model.py --check
+      - name: Replay actual Arabic sources and evidence revision
+        run: python tools/source_learning_experiment.py --output "${{ runner.temp }}/nabt-source-learning.json"
+      - name: Replay the published text-inquiry corpus and source-boundary probes
+        env:
+          PYTHONPATH: src
+        run: python tools/text_inquiry_evaluation.py --code-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ runner.temp }}/nabt-text-regression"
+      - name: Preserve independently measured Arabic coverage and safe deferrals
+        env:
+          PYTHONPATH: src
+        run: python tools/arabic_syntax_evaluation.py --code-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ runner.temp }}/nabt-arabic-regression"
+      - name: Replay published governor cues, certificates and bounded coverage
+        env:
+          PYTHONPATH: src
+        run: python tools/governor_evaluation.py --code-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ runner.temp }}/nabt-governor-regression" --require-regression-gates
+      - name: Preserve word-boundary checks and disclose the remaining positive coverage gap
+        env:
+          PYTHONPATH: src
+        run: python tools/word_evaluation.py --freeze-version "${{ env.NABT_FREEZE_VERSION }}" --output "${{ runner.temp }}/nabt-word-regression.json" --require-regression-gates
+      - name: Replay source-qualified morphology with explicit conservative boundary debts
+        env:
+          PYTHONPATH: src
+        run: python tools/morphology_evaluation.py --freeze-version "${{ env.NABT_FREEZE_VERSION }}" --output "${{ runner.temp }}/nabt-morphology-regression.json" --allow-documented-boundaries
+      - name: Acquire text cues with independent positive and boundary cases
+        env:
+          PYTHONPATH: src
+        run: python tools/text_morphology_evaluation.py --output "${{ runner.temp }}/nabt-text-morphology-regression.json"
+      - name: Replay independently frozen derivation and conditional paradigm cases
+        env:
+          PYTHONPATH: src
+        run: python tools/derivation_evaluation.py --output "${{ runner.temp }}/nabt-derivation-regression.json"
+      - name: Replay frozen nominal, cardinal, counting and weakness boundaries
+        env:
+          PYTHONPATH: src
+        run: python tools/nominal_evaluation.py --output "${{ runner.temp }}/nabt-nominal-regression.json"
+      - name: Fetch pinned external QAC and replay independently frozen inflection cases
+        env:
+          PYTHONPATH: src
+        run: |
+          python tools/fetch_qac_source.py --output "${{ runner.temp }}/nabt-qac-original.txt.gz"
+          python tools/inflection_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-inflection-regression.json" --allow-documented-boundaries
+      - name: Preserve the separately frozen post-review source and nun regressions
+        env:
+          PYTHONPATH: src
+        run: python tools/inflection_evaluation.py --post-review --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-inflection-post-review-regression.json"
+      - name: Preserve structured compression failures and bounded source-file reads
+        env:
+          PYTHONPATH: src
+        run: python tools/inflection_cli_evaluation.py --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-inflection-cli-regression.json"
+      - name: Replay frozen discourse with explicit coverage debts and unconditional integrity gates
+        env:
+          PYTHONPATH: src
+        run: python tools/discourse_evaluation.py --qac "${{ runner.temp }}/nabt-qac-original.txt.gz" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output "${{ runner.temp }}/nabt-discourse-regression.json" --allow-documented-boundaries
+      - name: Preserve source proofs and disclose documented construction coverage gaps
+        env:
+          PYTHONPATH: src
+        run: python tools/construction_evaluation.py --runtime-root "${{ github.workspace }}" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --allow-documented-boundaries --output "${{ runner.temp }}/nabt-construction-regression.json"
+      - name: Replay the frozen Arabic holdout and independently review its exact checker erratum
+        env:
+          PYTHONPATH: src
+        run: |
+          holdout_status=0
+          python tools/arabic_coverage_holdout_v2.py --output "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" || holdout_status=$?
+          if [ "$holdout_status" -gt 1 ]; then exit "$holdout_status"; fi
+          python tools/arabic_coverage_postreview_v3.py --result "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" --raw "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.raw.jsonl" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-holdout-postreview"
+      - name: Reproduce the new directed oracle and preserve every documented coverage failure
+        env:
+          PYTHONPATH: src
+        run: |
+          python -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle -p 'test_*.py' -v
+          python evidence/arabic_completion_v3/independent_oracle/run_regression_v2.py --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-completion-oracle"
+      - name: Install and run independently of the source checkout
+        run: |
+          python -m pip install .
+          cp examples/text_theory.txt "${{ runner.temp }}/nabt-text-theory.txt"
+          cp examples/text_inquiry_revision.json "${{ runner.temp }}/nabt-text-revision.json"
+          cp examples/arabic_syntax_theory.txt "${{ runner.temp }}/nabt-arabic-theory.txt"
+          cp examples/arabic_relation_theory.txt "${{ runner.temp }}/nabt-arabic-relation.txt"
+          cp examples/arabic_syntax_revision.json "${{ runner.temp }}/nabt-arabic-revision.json"
+          cp examples/governor_theory.txt "${{ runner.temp }}/nabt-governor-theory.txt"
+          cp examples/governor_revision.json "${{ runner.temp }}/nabt-governor-revision.json"
+          cp examples/word_boundaries.txt "${{ runner.temp }}/nabt-word-boundaries.txt"
+          cp examples/morphology_descriptions.txt "${{ runner.temp }}/nabt-morphology-descriptions.txt"
+          cp examples/text_morphology.txt "${{ runner.temp }}/nabt-text-morphology.txt"
+          cp examples/text_morphology_lexical.txt "${{ runner.temp }}/nabt-text-morphology-lexical.txt"
+          cp examples/derivation.txt "${{ runner.temp }}/nabt-derivation.txt"
+          cp examples/derivation_stems.txt "${{ runner.temp }}/nabt-derivation-stems.txt"
+          cp examples/verb_paradigm.txt "${{ runner.temp }}/nabt-verb-paradigm.txt"
+          cp examples/nominal.txt "${{ runner.temp }}/nabt-nominal.txt"
+          cp examples/nominal_assertions.txt "${{ runner.temp }}/nabt-nominal-assertions.txt"
+          cp examples/inflection.txt "${{ runner.temp }}/nabt-inflection.txt"
+          cp examples/inflection_training.tsv "${{ runner.temp }}/nabt-inflection-training.tsv"
+          cp examples/discourse.txt "${{ runner.temp }}/nabt-discourse.txt"
+          cp examples/discourse_context.json "${{ runner.temp }}/nabt-discourse-context.json"
+          cp examples/discourse_training.tsv "${{ runner.temp }}/nabt-discourse-training.tsv"
+          cp examples/count_phrase.txt "${{ runner.temp }}/nabt-count-phrase.txt"
+          cp examples/rational_inquiry/plan.json "${{ runner.temp }}/nabt-inquiry-plan.json"
+          cp examples/rational_inquiry/sources.json "${{ runner.temp }}/nabt-inquiry-sources.json"
+          cd "${{ runner.temp }}"
+          env -u PYTHONPATH nabt inquire nabt-inquiry-plan.json --sources nabt-inquiry-sources.json > nabt-inquiry-report.json
+          env -u PYTHONPATH nabt verify-inquiry nabt-inquiry-report.json --plan nabt-inquiry-plan.json --sources nabt-inquiry-sources.json
+          nabt pilot > nabt-pilot-receipt.json
+          nabt verify-run nabt-pilot-receipt.json
+          nabt ask-text nabt-text-theory.txt 'هل تقرير هو مفحوص؟' > nabt-text-receipt.json
+          nabt verify-run nabt-text-receipt.json
+          nabt run nabt-text-revision.json > nabt-text-revision-receipt.json
+          nabt verify-run nabt-text-revision-receipt.json
+          nabt ask-arabic nabt-arabic-theory.txt 'هل سالمٌ مدققٌ؟' > nabt-arabic-receipt.json
+          nabt verify-run nabt-arabic-receipt.json
+          nabt ask-arabic nabt-arabic-relation.txt 'هل سالم يراجع تقرير؟' > nabt-arabic-relation-receipt.json
+          nabt verify-run nabt-arabic-relation-receipt.json
+          nabt run nabt-arabic-revision.json > nabt-arabic-revision-receipt.json
+          nabt verify-run nabt-arabic-revision-receipt.json
+          nabt read-governors nabt-governor-theory.txt --with-number > nabt-governor-reading.json
+          nabt ask-governors nabt-governor-theory.txt 'هل خالد هو متأهب؟' > nabt-governor-receipt.json
+          nabt verify-run nabt-governor-receipt.json
+          nabt run nabt-governor-revision.json > nabt-governor-revision-receipt.json
+          nabt verify-run nabt-governor-revision-receipt.json
+          nabt read-words nabt-word-boundaries.txt > nabt-word-reading.json
+          nabt verify-words nabt-word-reading.json --source nabt-word-boundaries.txt
+          nabt read-morphology nabt-morphology-descriptions.txt > nabt-morphology-reading.json
+          nabt verify-morphology nabt-morphology-reading.json --source nabt-morphology-descriptions.txt
+          nabt read-text-morphology nabt-text-morphology.txt --lexical-source nabt-text-morphology-lexical.txt > nabt-text-morphology-reading.json || test "$?" -eq 3
+          nabt verify-text-morphology nabt-text-morphology-reading.json --source nabt-text-morphology.txt --lexical-source nabt-text-morphology-lexical.txt
+          expect_defer() {
+            local command_status=0
+            "$@" || command_status=$?
+            test "$command_status" -eq 3
+          }
+          nabt derivation-catalog > nabt-derivation-catalog.json
+          nabt generate-derivation كتب nominal.mafool --ending 'ٌ' > nabt-derivation-generated.json
+          expect_defer nabt read-derivation nabt-derivation.txt > nabt-derivation-reading.json
+          nabt verify-derivation nabt-derivation-reading.json --source nabt-derivation.txt
+          expect_defer nabt read-derivation nabt-derivation-stems.txt --profile stem_exact_v1 > nabt-derivation-stem-reading.json
+          nabt verify-derivation nabt-derivation-stem-reading.json --source nabt-derivation-stems.txt --profile stem_exact_v1
+          expect_defer nabt read-verb-paradigm nabt-verb-paradigm.txt > nabt-verb-paradigm-reading.json
+          nabt verify-verb-paradigm nabt-verb-paradigm-reading.json --source nabt-verb-paradigm.txt
+          nabt inflection-catalog > nabt-inflection-catalog.json
+          nabt audit-corpus nabt-inflection-training.tsv --format qac > nabt-corpus-audit.json
+          nabt read-inflection nabt-inflection.txt --qac nabt-inflection-training.tsv > nabt-inflection-reading.json
+          nabt verify-inflection nabt-inflection-reading.json --source nabt-inflection.txt --qac nabt-inflection-training.tsv
+          nabt person-catalog > nabt-person-catalog.json
+          nabt discourse-catalog > nabt-discourse-catalog.json
+          nabt read-person 'ضَرَبَنِي' --qac nabt-discourse-training.tsv > nabt-person-reading.json
+          nabt read-discourse nabt-discourse.txt --qac nabt-discourse-training.tsv --context nabt-discourse-context.json > nabt-discourse-reading.json
+          nabt verify-discourse nabt-discourse-reading.json --source nabt-discourse.txt --qac nabt-discourse-training.tsv --context nabt-discourse-context.json
+          nabt ask-discourse nabt-discourse.txt 'هل زيد كاتب؟' --qac nabt-discourse-training.tsv --context nabt-discourse-context.json > nabt-discourse-answer.json
+          nabt verify-discourse-answer nabt-discourse-answer.json --source nabt-discourse.txt --question 'هل زيد كاتب؟' --qac nabt-discourse-training.tsv --context nabt-discourse-context.json
+          nabt nominal-catalog > nabt-nominal-catalog.json
+          nabt weak-root-profile روي > nabt-weak-root.json
+          nabt number-rule 13 masculine > nabt-number-rule.json
+          nabt read-nominal-facts nabt-nominal-assertions.txt > nabt-nominal-facts.json
+          nabt verify-nominal-facts nabt-nominal-facts.json --source nabt-nominal-assertions.txt
+          expect_defer nabt read-nominal nabt-nominal.txt --lexical-source nabt-nominal-assertions.txt > nabt-nominal-reading.json
+          nabt verify-nominal nabt-nominal-reading.json --source nabt-nominal.txt --lexical-source nabt-nominal-assertions.txt
+          nabt count-source-units nabt-nominal.txt > nabt-source-count.json
+          nabt verify-source-count nabt-source-count.json --source nabt-nominal.txt
+          expect_defer nabt read-count-phrase nabt-count-phrase.txt --lexical-source nabt-nominal-assertions.txt > nabt-count-phrase-reading.json
+          nabt verify-count-phrase nabt-count-phrase-reading.json --source nabt-count-phrase.txt --lexical-source nabt-nominal-assertions.txt
+      - name: Replay the installed construction law and primary grammar sources
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import json
+          from nabt.construction_laws import installed_registry
+          from nabt.construction_sources import replay_construction_policy
+          law = installed_registry()
+          policy = replay_construction_policy()
+          assert law["source_policy_id"] == policy["policy_id"]
+          print(json.dumps({"law_id": law["law_id"],
+                            "source_policy_id": policy["policy_id"],
+                            "source_policy_sha256": policy["policy_sha256"],
+                            "source_rules": len(policy["rules"])}))
+          PY
+
+  formal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install decompressor
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zstd
+      - name: Install hash-verified Lean 4.34.1
+        run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+      - name: Kernel build and full export conformance
+        run: python tools/check_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Audit theorem assumptions
+        run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Executable inna fragment, written case witnesses and explicit completeness scope
+        run: python -I tools/check_arabic_inna_fragment.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output-dir "${{ runner.temp }}/nabt-arabic-inna-fragment"
+      - name: Independent property-evidence table from Lean predicates
+        run: python tools/check_property_evidence_table.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Arabic speech-force tags, entry profiles and numerical cell envelopes
+        run: python -I tools/check_arabic_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Governor inventory, role-case numbers and all relevant partial assignments
+        run: python -I tools/check_governor_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Word kinds, correlated class/case readings, and preserved source identities
+        run: python -I tools/check_word_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Qualified morphology causes, partial evidence and contextual residuals
+        run: python -I tools/check_morphology_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Identity-bound text cues and independently checked activation algebra
+        run: python -I tools/check_text_evidence_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Exact derivation templates, inverse candidates and conditional paradigm algebra
+        run: python -I tools/check_derivation_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-derivation-conformance.json"
+      - name: Source-bound nominal profiles, cardinal rules and weak radical positions
+        run: python -I tools/check_nominal_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-nominal-conformance.json"
+
+      - name: Original and substitute signs, nun types and source-bound relation receipts
+        run: python -I tools/check_inflection_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-inflection-conformance.json"
+      - name: Conditional person profiles, prefix families and pronoun inventories
+        run: python -I tools/check_person_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-person-conformance.json"
+      - name: Reference premises, speech force and complete qualified claims
+        run: python -I tools/check_discourse_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-discourse-conformance.json"
+      - name: Conditional construction cases, attachment evidence and preserved operator scope
+        run: python -I tools/check_construction_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-construction-conformance.json"
+      - name: Contiguous partitions and conditional unit evidence, with unmeasured Arabic axes explicit
+        run: python -I tools/check_unit_discovery.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-unit-discovery-conformance.json"
+      - name: Reject unpaired JSON surrogates before source identity or template replay
+        env:
+          NABT_UNIT_DISCOVERY_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/unitDiscoveryProbe
+        run: python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
+      - name: Progressive constructions and independently authored partial contract measurements
+        run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
+      - name: Rational inquiry gates, source dependency and conditional evidence rank
+        run: python -I tools/check_rational_inquiry.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-inquiry-conformance.json"
+      - name: Classical source passages and bounded grammar interpretations
+        run: |
+          python -I tools/classical_language_evidence.py audit --output "${{ runner.temp }}/nabt-classical-sources.json"
+          python -I tools/check_classical_language_evidence.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-classical-conformance.json"
+      - name: Source-preserving derivations and exhaustive binary-domain selection
+        env:
+          NABT_PROGRESSIVE_UNIT_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/progressiveUnitProbe
+        run: |
+          python -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v
+          python -B -m unittest discover -s tests -p test_binary_unit_domain_probe.py -v
+      - name: Recursive kernel and exact source bridge contract measurements
+        run: python -I tools/check_recursive_bridge.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-recursive-bridge-conformance.json"
+      - name: Root alignment, retained evidence and recursive source replay
+        env:
+          PYTHONPATH: src
+          NABT_RECURSIVE_BRIDGE_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/recursiveBridgeProbe
+        run: |
+          python -B -m unittest discover -s tests -p test_recursive_bridge_probe.py -v
+          python -B -m unittest discover -s tests -p test_recursive_source_bridge.py -v

@@ -34,11 +34,29 @@ _GATE_SPEC = importlib.util.spec_from_file_location(
     'reviewed_arabic_coverage_gate', Path(__file__).with_name('arabic_coverage_gate.py'))
 coverage_gate = importlib.util.module_from_spec(_GATE_SPEC)
 _GATE_SPEC.loader.exec_module(coverage_gate)
+_COMPLETION_SPEC = importlib.util.spec_from_file_location(
+    'reviewed_arabic_completion_gate', Path(__file__).with_name('arabic_completion_gate.py'))
+completion_gate = importlib.util.module_from_spec(_COMPLETION_SPEC)
+_COMPLETION_SPEC.loader.exec_module(completion_gate)
+_SOURCE_SPEC = importlib.util.spec_from_file_location(
+    'independent_source_witness_validation', Path(__file__).with_name('source_name_validation.py'))
+source_validation = importlib.util.module_from_spec(_SOURCE_SPEC)
+_SOURCE_SPEC.loader.exec_module(source_validation)
 FOLDER = ROOT / 'evidence/discourse'
-VERSION = 'nabt.discourse.independent-evaluation.v2'
+VERSION = 'nabt.discourse.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd': {
+        'snapshot_sha256': 'adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f',
+        'archive_sha256': 'c1056d20779c557fd060787d5018c503128778712b81eb669881c89e4e7a0e84',
+        'file_count': 80, 'version': '0.17.0a1',
+    },
+    'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089': {
+        'snapshot_sha256': 'fb14e51c7f7d751b13307ecf65573c1863c7f579252aa402231586aeda11412f',
+        'archive_sha256': '8576765bdd5b9dbb93db76ec11b485634fa2f34691113a45d59dbf49238c0c87',
+        'file_count': 80, 'version': '0.17.0a1',
+    },
     '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c': {
         'snapshot_sha256': '46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851',
         'archive_sha256': '8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163',
@@ -340,7 +358,10 @@ def runtime_snapshot(manifest_path, runtime_root):
     for path in (Path(__file__), Path(__file__).with_name('question_answer_validation.py'),
                  ROOT / 'tests/test_discourse_evaluator.py', ROOT / 'tests/test_question_interpretation_validation.py',
                  Path(__file__).with_name('arabic_coverage_gate.py'), coverage_gate.POLICY_PATH,
-                 ROOT / 'tests/test_arabic_coverage_gate.py'):
+                 ROOT / 'tests/test_arabic_coverage_gate.py', Path(__file__).with_name('source_name_validation.py'),
+                 ROOT / 'tests/test_source_witness_validation.py', *source_validation.fixture_paths(),
+                 Path(__file__).with_name('arabic_completion_gate.py'), completion_gate.POLICY_PATH,
+                 ROOT/'tests/test_arabic_completion_gate.py'):
         data = path.read_bytes()
         files.append({'path': str(path.relative_to(ROOT)), 'bytes': len(data), 'sha256': sha256(data).hexdigest()})
     return {'runtime_root': str(runtime_root), 'runtime_freeze': str(manifest_path.relative_to(ROOT)),
@@ -539,15 +560,25 @@ def context_form_compatible(surface, declared):
         lm, rm = left & vowels, right & vowels
         if lm and rm and lm != rm:
             return False
+        if ('ّ' in left and 'ّ' not in right) or ('ٰ' in left and 'ٰ' not in right):
+            return False
+    if ('ّ' in observed[-1][1] and 'ّ' not in named[-1][1]) or ('ٰ' in observed[-1][1] and 'ٰ' not in named[-1][1]):
+        return False
     return True
 
 
-def validate_reference_origin(ref, inputs, entities):
+def validate_reference_origin(ref, inputs, entities, *, analysis=None, rows=None, audit=None, model_summary=None):
     origin, ids = ref['origin'], set(ref.get('candidate_entity_ids', []))
     context = inputs.get('context') or {}
+    correspondence = ref.get('name_correspondence')
+    if correspondence is not None:
+        source_validation.validate_name_correspondence(ref, inputs, entities, analysis=analysis,
+            rows=rows, audit=audit, model_summary=model_summary)
     if origin == 'named':
         possible = {eid for eid, entity in entities.items()
-                    if context_form_compatible(ref['surface'], entity['name'])}
+                    if context_form_compatible(ref['surface'], entity['name']) or
+                    correspondence is not None and source_validation.unvocalized_label_compatible(
+                        ref['surface'], entity['name'])}
     elif origin in ('speaker', 'addressee'):
         possible = {context[origin]} if origin in context else set()
     elif origin == 'deictic':
@@ -719,6 +750,15 @@ def validate_relational_time(claim, analysis, rows, ranges):
         require(matched, 'Temporal qualification lost its lexical head, idafa edge or object reference')
 
 
+def validate_new_sense_receipts(analysis, rows, inputs, audit):
+    for relation in analysis.get('relations', []):
+        if 'independent_sense_witness' in relation:
+            source_validation.validate_sense_witness(relation, analysis, rows, inputs, audit)
+        elif (relation.get('kind') == 'operator' and relation.get('family') == 'zanna'
+              and relation.get('lemma') == 'حسب' and analysis.get('licensed_syntax')):
+            require(False, 'Licensed hasiba sense omitted its independent raw/source witness')
+
+
 def validate_report(report, inputs, audit=None):
     raw = inputs['text'].encode()
     require(report['source_text'] == inputs['text'] and report['source_id'] == inputs['source_id']
@@ -769,6 +809,8 @@ def validate_report(report, inputs, audit=None):
                     'Closed operator reading lacks its exact occurrence span')
         for part in row.get('segmentation', {}).get('parts', []):
             check_span(part['span'], inputs, part['surface'])
+        if 'nominal_paradigm_correspondence' in row or row.get('construction_basis') == 'same_form_nominal_independent_pair':
+            source_validation.validate_nominal_correspondence(row, inputs, audit)
         for nun in row.get('nun_readings', []):
             if nun.get('realization') == 'deleted':
                 require(nun.get('span') is None, 'Deleted nun has a fabricated observed span')
@@ -803,7 +845,8 @@ def validate_report(report, inputs, audit=None):
                     require(bound is None or ids == [bound], 'Bound reference is not the sole candidate')
                     require(ref['reference_id'] == digest({k: v for k, v in ref.items() if k != 'reference_id'}),
                             'Reference identity mismatch')
-                    validate_reference_origin(ref, inputs, entities)
+                    validate_reference_origin(ref, inputs, entities, analysis=analysis, rows=rows, audit=audit,
+                        model_summary=report.get('lexical_model'))
                     validate_reference_prefix(ref, previous_clauses, supplied)
             for assignment in analysis['assignments']:
                 rid, role = assignment['reading_id'], assignment['role']
@@ -848,6 +891,7 @@ def validate_report(report, inputs, audit=None):
                 for sign in assignment['sign_candidates']:
                     require(type(sign['case']) is int and CASE_VALUES[sign['case']] == ROLE_CASE[role],
                             'Sign candidate belongs to another case')
+            validate_new_sense_receipts(analysis, rows, inputs, audit)
             for claim in analysis['claims']:
                 claim_view(claim)
                 validate_claim_roles(claim, analysis, rows, ranges)
@@ -1337,6 +1381,8 @@ def corpus_variant(raw, mode):
 
 
 def gate_decision(result, allow_documented_boundaries=False):
+    if result['snapshot']['runtime_freeze_sha256'] == completion_gate.RUNTIME_SHA256:
+        return completion_gate.gate_decision('discourse', result, allow_documented_boundaries)
     if result['snapshot']['runtime_freeze_sha256'] == coverage_gate.RUNTIME_SHA256:
         return coverage_gate.gate_decision('discourse', result, allow_documented_boundaries)
     unexpected = []
@@ -1576,7 +1622,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/arabic_coverage/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/arabic_completion_v3/code_freeze_v2.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')

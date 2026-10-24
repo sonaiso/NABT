@@ -1,0 +1,131 @@
+{
+  "schema": "nabt.arabic-completion-formal-scope-review.v1",
+  "created_utc": "2026-10-24T15:34:49.521081+00:00",
+  "baseline_commit": "d791fd7730cde2256dfac8a27687010b392876b3",
+  "reviewer": "formal_boundary; author of the new fragment implementation, not an independent external adjudicator",
+  "selected_step": "Execute the proved Lean recognizer for all case assignments relative to an explicitly delimited inna fragment and supplied lexical ledger.",
+  "reference_relation": "Nabt.ArabicInnaFragment.Reference",
+  "implementation": "Nabt.ArabicInnaFragment.recognize",
+  "central_theorem": "Nabt.ArabicInnaFragment.recognize_iff_reference",
+  "declaration_inventory": [
+    "Nabt.ArabicInnaFragment.written_nasb_iff",
+    "Nabt.ArabicInnaFragment.written_raf_iff",
+    "Nabt.ArabicInnaFragment.written_jarr_iff",
+    "Nabt.ArabicInnaFragment.name_allowed_iff",
+    "Nabt.ArabicInnaFragment.predicate_allowed_iff",
+    "Nabt.ArabicInnaFragment.candidate_membership",
+    "Nabt.ArabicInnaFragment.reference_iff",
+    "Nabt.ArabicInnaFragment.recognize_iff_reference",
+    "Nabt.ArabicInnaFragment.recognize_sound",
+    "Nabt.ArabicInnaFragment.recognize_complete",
+    "Nabt.ArabicInnaFragment.exact_executable_recognizer",
+    "Nabt.ArabicInnaFragment.recognized_restores_whole_source",
+    "Nabt.ArabicInnaFragment.recognized_written_case_pair",
+    "Nabt.ArabicInnaFragment.missing_written_nasb_blocks_reading",
+    "Nabt.ArabicInnaFragment.missing_written_raf_blocks_reading",
+    "Nabt.ArabicInnaFragment.preserves_every_licensed_alternative",
+    "Nabt.ArabicInnaFragment.no_reading_iff_no_reference",
+    "Nabt.ArabicInnaFragment.pending_membership",
+    "Nabt.ArabicInnaFragment.pending_blocks_completion",
+    "Nabt.ArabicInnaFragment.completion_has_no_pending",
+    "Nabt.ArabicInnaFragment.completion_has_reading"
+  ],
+  "independence_boundary": {
+    "grammar_relation_defined_as_parser_output": false,
+    "source_acquisition_established": false,
+    "lexicon_exhaustiveness_established": false,
+    "ordinary_arabic_completeness_established": false,
+    "world_truth": "NOT_ESTABLISHED",
+    "compiler_and_json_refinement_proved": false,
+    "general_python_reader_refinement_proved": false
+  },
+  "transport": {
+    "request_schema": "nabt.arabic-inna-case-fragment.request.v1",
+    "response_schema": "nabt.arabic-inna-case-fragment.response.v1",
+    "authority": "CONDITIONAL_ON_SUPPLIED_LEXICAL_PREMISES",
+    "canonical_sorted_compact_json_required": true,
+    "max_request_bytes": 65536,
+    "max_output_bytes_including_newline": 2097152,
+    "max_source_bytes": 2048,
+    "max_surface_bytes": 256,
+    "max_lexical_readings": 32
+  },
+  "falsifiers": [
+    "An analysis returned without a reference derivation, or a reference derivation omitted for identical source and lexical ledger.",
+    "A COMPLETE response while a registered compatible unresolved lexical pair is present.",
+    "A supplied nasb tag overriding an explicitly nominative surface ending.",
+    "A source, lexical ledger or program changed without invalidating a bound execution receipt.",
+    "An ordinary-language completeness claim made from this conditional case-analysis result."
+  ],
+  "current_change_scope": [
+    "formal/Nabt/ArabicInnaFragment.lean",
+    "formal/ArabicInnaFragmentProbe.lean",
+    "formal/evidence/arabic_inna_fragment_v1",
+    "evidence/arabic_completion_v3/formal_scope_review"
+  ],
+  "independent_measurement_status": "NOT_RUN_BY_THIS_REVIEW",
+  "full_gate_status": "NOT_ASSESSED_BY_THIS_REVIEW",
+  "documentation": "evidence/arabic_completion_v3/formal_scope_review/SCOPE_REVIEW.md",
+  "evidence_snapshots": [
+    {
+      "path": "formal/Nabt/ArabicInnaFragment.lean",
+      "bytes": 16710,
+      "sha256": "3088cc79e8caef1e010226848905c6589df0e8b14dc251fd00fcc1dc59c5b5bb"
+    },
+    {
+      "path": "formal/ArabicInnaFragmentProbe.lean",
+      "bytes": 11858,
+      "sha256": "ea966f759cc286171c0081b4afd8d476de3d5c065cbd63a8275bfc397e8c6c13"
+    },
+    {
+      "path": "formal/Nabt/ArabicCoverage.lean",
+      "bytes": 6383,
+      "sha256": "ba551342d2cb843eded26d116222519924b6324a2caf9d6f4fb5782206665238"
+    },
+    {
+      "path": "formal/Nabt/RecursiveLicensedAlgebra.lean",
+      "bytes": 18723,
+      "sha256": "5182bf4b99e5abf26eacd014a736ce5581fd93fc8cdb0e7e12b6e3729fdbdd85"
+    },
+    {
+      "path": "formal/Nabt/SemanticInference.lean",
+      "bytes": 17067,
+      "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2"
+    },
+    {
+      "path": "src/nabt/text_reader.py",
+      "bytes": 18274,
+      "sha256": "80ace3fb4378fd0bf0cd54c094da8683c9e90abe6419b43f7086585d4522bbd3"
+    },
+    {
+      "path": "src/nabt/semantics.py",
+      "bytes": 42789,
+      "sha256": "b4c6bd2a8b4b8279f31e1337a2d15a581b6f7c79f2ed6f5db3fb54d4a1b9d516"
+    },
+    {
+      "path": "src/nabt/corpus_evidence.py",
+      "bytes": 34411,
+      "sha256": "9ca29f8537f2c105562b17e9ea08c2404e6d8bee2d0b950903e7e99beafd6e77"
+    },
+    {
+      "path": "src/nabt/discourse_reader.py",
+      "bytes": 88725,
+      "sha256": "e2bc45ca7df345b92cede164355e8e8f918c72f0d8dfb403b6f5991a2460b40a"
+    },
+    {
+      "path": "docs/TEXT_READER.md",
+      "bytes": 16267,
+      "sha256": "4883df712a4d485914377245326906111e5ac453ef751d86923f48321601ff65"
+    },
+    {
+      "path": "docs/SEMANTICS.md",
+      "bytes": 17844,
+      "sha256": "3f18b516ca5d73be2441d1b15fbdd4b555a7c317856d8b129fe163908c448a31"
+    },
+    {
+      "path": "evidence/arabic_completion_v3/independent_oracle/source_premises.json",
+      "bytes": 30909,
+      "sha256": "08dbcad4f3b4c129f737e8792807b517ece2d12aa023cbd9295a26bda880c75a"
+    }
+  ]
+}

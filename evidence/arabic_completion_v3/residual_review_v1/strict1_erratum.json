@@ -1,0 +1,107 @@
+{
+  "after_review": "evidence/arabic_completion_v3/source_review/independent_validator_review_v1/postreview.json",
+  "before_review": "evidence/arabic_completion_v3/source_review/independent_validator_review_v1/review.json",
+  "classification": "CHECKER_FALSE_REJECTION_NOT_A_NEW_RUNTIME_UNSAFE_ACCEPTANCE",
+  "explanation_ar": "اشترط المدقق خطأً أن يكون شاهد التنوين ضمن أول شاهدَي عائلة حركة. أثر ذلك في DSC-T02 في التقرير والسؤال؛ لم تعدل درجات المحاولة الأولى. إصلاح التناقض في raw3MS تقوية إضافية للمدقق، لا تعديل runtime أو gold.",
+  "preserved_attempt": {
+    "bytes": 2026,
+    "path": "evidence/arabic_completion_v3/strict_attempt_v1/attempt.json",
+    "sha256": "40f7e994feeb4f7d6295c1ce9d7834064c884269fcd744142e06ea11e078ad08"
+  },
+  "runtime_changed_between_attempts": false,
+  "schema": "nabt.arabic-completion.strict1-checker-erratum.review.v1",
+  "suites": {
+    "construction": {
+      "all_document_report_payloads_identical": true,
+      "changed_nonruntime_measured_files": [
+        "tests/test_source_witness_validation.py",
+        "tools/source_name_validation.py"
+      ],
+      "changed_stored_answer_cases": [],
+      "current_passed": 82,
+      "current_report": {
+        "bytes": 153132,
+        "path": "evidence/arabic_completion_v3/strict_review_v2/construction.json",
+        "sha256": "574874d2cad0e7ff476b5845a584c2ee1010d8c9ecdb5b622ceffb157aef4569"
+      },
+      "first_false_accept_count_as_recorded": 0,
+      "first_passed": 82,
+      "first_question_execution_errors": [],
+      "first_raw_integrity": {
+        "all_canonical_jsonl_record_receipts_verified": true,
+        "all_raw_substantive_scores_equal_to_saved_report": true,
+        "case_count": 86,
+        "complete_gzip_crc_eof_verified": true,
+        "decoded_bytes": 17023159,
+        "decoded_sha256": "b0fc5b3184cb23edc873f8f821896e420ab1178f265e07c0b0f10f4b807f8e0d",
+        "excluded_score_timing_metadata": [],
+        "file": {
+          "bytes": 1440011,
+          "path": "evidence/arabic_completion_v3/strict_attempt_v1/construction.raw.jsonl.gz",
+          "sha256": "cf17ca0a7dbd02e7482bb8db7fbff141368294114ecc62e78700126f2db34d3f"
+        },
+        "ordered_raw_identities_equal_to_pr17_policy": true,
+        "question_count": 106,
+        "record_count": 87
+      },
+      "first_report": {
+        "bytes": 153137,
+        "path": "evidence/arabic_completion_v3/strict_attempt_v1/construction.json",
+        "sha256": "8f5f8b77cb7e0eb7113bbc7900483ca78dbde86f66781517d68bbdb020ebe532"
+      },
+      "runtime_snapshot_identical": true
+    },
+    "discourse": {
+      "all_document_report_payloads_identical": true,
+      "changed_nonruntime_measured_files": [
+        "tests/test_source_witness_validation.py",
+        "tools/source_name_validation.py"
+      ],
+      "changed_stored_answer_cases": [
+        "DSC-T02"
+      ],
+      "current_passed": 68,
+      "current_report": {
+        "bytes": 132444,
+        "path": "evidence/arabic_completion_v3/strict_review_v2/discourse.json",
+        "sha256": "e7c2f1b5f91684d5f62c5848ce151e7319ce2f5a6369bb63c8d56ec594bd42bd"
+      },
+      "first_false_accept_count_as_recorded": 1,
+      "first_passed": 67,
+      "first_question_execution_errors": [
+        {
+          "id": "DSC-T02",
+          "message": "Name correspondence: donor tanwin detached from its own terminal paradigm",
+          "question_index": 0,
+          "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/discourse_evaluation.py\", line 1505, in evaluate\n    validate_report(inquiry, inquiry_inputs, audit)\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/discourse_evaluation.py\", line 802, in validate_report\n    source_validation.validate_nominal_correspondence(row, inputs, audit)\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/source_name_validation.py\", line 377, in validate_nominal_correspondence\n    require(all(p in donor['paired_terminal_supports'] for p in donor['tanwin_supports']),\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/source_name_validation.py\", line 32, in require\n    raise ValueError('Name correspondence: ' + message)\nValueError: Name correspondence: donor tanwin detached from its own terminal paradigm\n",
+          "type": "ValueError"
+        }
+      ],
+      "first_raw_integrity": {
+        "all_canonical_jsonl_record_receipts_verified": true,
+        "all_raw_substantive_scores_equal_to_saved_report": true,
+        "case_count": 86,
+        "complete_gzip_crc_eof_verified": true,
+        "decoded_bytes": 12824906,
+        "decoded_sha256": "a3ab5b083e5108a9806fd267b570810b2c670f31b0437a435696f34dfb50fe02",
+        "excluded_score_timing_metadata": [
+          "seconds"
+        ],
+        "file": {
+          "bytes": 1138518,
+          "path": "evidence/arabic_completion_v3/strict_attempt_v1/discourse.raw.jsonl.gz",
+          "sha256": "e0a8e98b7dffb0a193da7169e055a3e71ce4cd3b1982d8d629ce49fc862958d4"
+        },
+        "ordered_raw_identities_equal_to_pr17_policy": true,
+        "question_count": 74,
+        "record_count": 90
+      },
+      "first_report": {
+        "bytes": 134929,
+        "path": "evidence/arabic_completion_v3/strict_attempt_v1/discourse.json",
+        "sha256": "9703ba27a36f18836fb621ec51314f9b4831d2cef25fefaa1b4dd3e9ec307e0f"
+      },
+      "runtime_snapshot_identical": true
+    }
+  }
+}

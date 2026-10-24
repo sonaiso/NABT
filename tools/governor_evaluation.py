@@ -25,6 +25,10 @@ CODE_SNAPSHOT_SHA256 = '5b546537c8398eacc5628d5aad1cd8f6f452578a33e834a299a1f689
 # Explicitly approved snapshots, never a caller-recomputed manifest override.
 # Original material and first-run evidence remain byte-for-byte unchanged.
 APPROVED_CODE_FREEZES = {
+    '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd':
+        'adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f',
+    'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089':
+        'fb14e51c7f7d751b13307ecf65573c1863c7f579252aa402231586aeda11412f',
     '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c':
         '46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851',
     'a7194b9b52ab8a6db0c92d65c7dae76dc23c1f1c8777b4e10b2fb71efa01c89f':
@@ -680,7 +684,7 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     repository=Path(__file__).resolve().parents[1]
     parser.add_argument('--material-dir',type=Path,default=repository/'evidence/governors/independent')
-    parser.add_argument('--code-freeze',type=Path,default=repository/'evidence/arabic_coverage/code_freeze_v2.json')
+    parser.add_argument('--code-freeze',type=Path,default=repository/'evidence/arabic_completion_v3/code_freeze_v2.json')
     parser.add_argument('--output-dir',type=Path,required=True)
     parser.add_argument('--profile',choices=('governor','baseline'),default='governor')
     parser.add_argument('--require-regression-gates',action='store_true',
