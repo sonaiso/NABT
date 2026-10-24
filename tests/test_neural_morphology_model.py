@@ -21,6 +21,20 @@ class NeuralMorphologyModelTests(unittest.TestCase):
         self.example=dict(id='1:1',sura=1,split='train',words=[dict(text='كَتَبَ',labels=dict(tag='PV',declension='مبني',case_mood='مبني'),affixes=[])])
         self.receipt=dict(files={'weights.npz':'example-only'})
 
+    def test_training_cli_defaults_to_corrected_observed_test_protocol(self):
+        from unittest.mock import patch
+        from tools.train_arabic_morphology import main,ROOT
+        with patch('sys.argv',['train_arabic_morphology','--source','corpus.csv','--output-dir','new-run']), patch('tools.arabic_training.experiment.train') as train:
+            main()
+        selected=train.call_args.args[2]
+        protocol=json.loads(selected.read_text())
+        self.assertEqual(protocol['model_architecture'],'char-valid-mask-v2')
+        self.assertTrue(protocol['test_previously_observed'])
+        legacy=ROOT/'evidence/source_morphology_training/protocol.json'
+        with patch('sys.argv',['train_arabic_morphology','--source','corpus.csv','--output-dir','legacy-replay','--protocol',str(legacy)]), patch('tools.arabic_training.experiment.train') as train:
+            main()
+        self.assertEqual(train.call_args.args[2],legacy)
+
     def test_weight_roundtrip_and_invalid_shape_rejected(self):
         import numpy as np
         import torch

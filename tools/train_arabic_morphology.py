@@ -10,7 +10,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--source', required=True, type=Path)
     p.add_argument('--output-dir', required=True, type=Path)
-    p.add_argument('--protocol', type=Path, default=ROOT/'evidence/source_morphology_training/protocol.json')
+    p.add_argument('--protocol', type=Path, default=ROOT/'evidence/source_morphology_training/protocol_v2.json')
     args = p.parse_args()
     from tools.arabic_training.experiment import train
     train(args.source, args.output_dir, args.protocol)
