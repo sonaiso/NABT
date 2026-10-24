@@ -1,0 +1,104 @@
+test_bad_inputs_remain_distinct_from_unknown (test_explainable_pilot.InputContract.test_bad_inputs_remain_distinct_from_unknown) ... ok
+test_cli_error_has_no_semantic_status (test_explainable_pilot.InputContract.test_cli_error_has_no_semantic_status) ... ok
+test_duplicate_keys_and_nonfinite_json (test_explainable_pilot.InputContract.test_duplicate_keys_and_nonfinite_json) ... ok
+test_invalid_replay_values_fail_before_native_execution (test_explainable_pilot.InputContract.test_invalid_replay_values_fail_before_native_execution) ... ok
+test_missing_certificate_is_not_reproposed (test_explainable_pilot.InputContract.test_missing_certificate_is_not_reproposed) ... ok
+test_no_checker_never_grants_authority (test_explainable_pilot.InputContract.test_no_checker_never_grants_authority) ... ok
+test_unsigned_numeric_tokens_are_checked_before_normalization (test_explainable_pilot.InputContract.test_unsigned_numeric_tokens_are_checked_before_normalization) ... FAIL
+test_adversarial_replay (test_explainable_pilot.NativeAnswerContract.test_adversarial_replay) ... ok
+test_evaluation_denominators (test_explainable_pilot.NativeAnswerContract.test_evaluation_denominators) ... ok
+test_external_proposal_must_verify (test_explainable_pilot.NativeAnswerContract.test_external_proposal_must_verify) ... ok
+test_filtered_indices_map_back_to_original_source (test_explainable_pilot.NativeAnswerContract.test_filtered_indices_map_back_to_original_source) ... ok
+test_human_authored_trace_oracle (test_explainable_pilot.NativeAnswerContract.test_human_authored_trace_oracle) ... ok
+test_negative_question_roots_are_relative_to_query (test_explainable_pilot.NativeAnswerContract.test_negative_question_roots_are_relative_to_query) ... ok
+test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) ... 
+  test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) (code='OUTSIDE_VERIFIED_LANGUAGE') ... ERROR
+  test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) (code='RESOURCE_LIMIT') ... ERROR
+  test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) (code='RESOURCE_LIMIT') ... ERROR
+test_repository_matrix (test_explainable_pilot.NativeAnswerContract.test_repository_matrix) ... ok
+test_resource_exhaustion_is_not_unknown (test_explainable_pilot.NativeAnswerContract.test_resource_exhaustion_is_not_unknown) ... ok
+
+======================================================================
+ERROR: test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) (code='OUTSIDE_VERIFIED_LANGUAGE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_explainable_pilot.py", line 167, in test_proposer_failures_write_reports_with_all_denominators
+    self.assertEqual(evaluation.main(), 1)
+                     ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/evaluate_explainable_pilot.py", line 162, in main
+    result = evaluate(checker=args.checker, repeats=args.repeats)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/evaluate_explainable_pilot.py", line 80, in evaluate
+    proposal = ground.propose(raw, query)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+ValueError: unparseable input
+
+======================================================================
+ERROR: test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) (code='RESOURCE_LIMIT')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_explainable_pilot.py", line 167, in test_proposer_failures_write_reports_with_all_denominators
+    self.assertEqual(evaluation.main(), 1)
+                     ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/evaluate_explainable_pilot.py", line 162, in main
+    result = evaluate(checker=args.checker, repeats=args.repeats)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/evaluate_explainable_pilot.py", line 80, in evaluate
+    proposal = ground.propose(raw, query)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+ValueError: RESOURCE_LIMIT: too many atoms
+
+======================================================================
+ERROR: test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) (code='RESOURCE_LIMIT')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_explainable_pilot.py", line 167, in test_proposer_failures_write_reports_with_all_denominators
+    self.assertEqual(evaluation.main(), 1)
+                     ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/evaluate_explainable_pilot.py", line 162, in main
+    result = evaluate(checker=args.checker, repeats=args.repeats)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/evaluate_explainable_pilot.py", line 80, in evaluate
+    proposal = ground.propose(raw, query)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+nabt.errors.NabtError: input budget
+
+======================================================================
+FAIL: test_unsigned_numeric_tokens_are_checked_before_normalization (test_explainable_pilot.InputContract.test_unsigned_numeric_tokens_are_checked_before_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_explainable_pilot.py", line 39, in test_unsigned_numeric_tokens_are_checked_before_normalization
+    self.assert_error("INVALID_INPUT", lambda: pilot.strict_json(b'{"index":' + token + b'}'))
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_explainable_pilot.py", line 28, in assert_error
+    with self.assertRaises(pilot.PilotError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PilotError not raised
+
+----------------------------------------------------------------------
+Ran 16 tests in 6.826s
+
+FAILED (failures=1, errors=3)

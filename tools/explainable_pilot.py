@@ -56,6 +56,7 @@ def file_sha(path):
 
 
 def strict_json(raw):
+    """Decode answer/certificate wire data; numeric fields are unsigned integers."""
     def pairs(items):
         result = {}
         for key, value in items:

@@ -139,6 +139,24 @@ class NativeAnswerContract(unittest.TestCase):
                 self.answer(certificate=altered)
             self.assertEqual(caught.exception.code, "CERTIFICATE_REJECTED")
 
+    def test_cli_rejects_negative_zero_offsets_and_certificate_indices(self):
+        encoded = pilot.wire(self.answer())
+        with tempfile.TemporaryDirectory() as temp:
+            source, query, bundle = (Path(temp) / name for name in ("source", "query", "answer.json"))
+            source.write_bytes(BASE)
+            query.write_bytes(QUERY)
+            for field in ("byte_start", "index"):
+                altered = encoded.replace('"' + field + '":0', '"' + field + '":-0', 1)
+                self.assertNotEqual(altered, encoded)
+                bundle.write_text(altered, encoding="utf-8")
+                run = subprocess.run([sys.executable, str(ROOT / "tools/explainable_pilot.py"),
+                    "verify", str(source), str(query), str(bundle), "--checker", str(BINARY)],
+                    capture_output=True, text=True, timeout=10)
+                self.assertEqual(run.returncode, 2)
+                result = json.loads(run.stdout)
+                self.assertEqual(result["error"], "INVALID_INPUT")
+                self.assertNotIn("status", result)
+
     def test_resource_exhaustion_is_not_unknown(self):
         with patch.object(pilot.subprocess, "run", side_effect=subprocess.TimeoutExpired("checker", 1)):
             with self.assertRaises(pilot.PilotError) as caught:
