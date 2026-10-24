@@ -192,3 +192,12 @@ explainable-pilot: explainable-pilot-conformance
 	$(PYTHON) tools/evaluate_explainable_pilot.py --output $(EVIDENCE_DIR)/explainable-pilot.json
 
 check: explainable-pilot-conformance
+
+.PHONY: licensed-decoding licensed-decoding-conformance
+licensed-decoding-conformance: explainable-pilot-conformance
+	NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation -v
+
+licensed-decoding: licensed-decoding-conformance
+	$(PYTHON) tools/evaluate_licensed_decoding.py --output $(EVIDENCE_DIR)/licensed-decoding.json
+
+check: licensed-decoding-conformance

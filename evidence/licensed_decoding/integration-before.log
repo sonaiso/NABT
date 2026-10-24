@@ -1,0 +1,63 @@
+ERROR: test_all_registered_evaluators_verify_current_bytes_and_archive (test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_all_registered_evaluators_verify_current_bytes_and_archive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_rational_inquiry_freeze.py", line 80, in test_all_registered_evaluators_verify_current_bytes_and_archive
+    word_evaluation.verify_implementation_freeze('arabic_completion_v3_review2')
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/word_evaluation.py", line 201, in verify_implementation_freeze
+    require(actual == {r["path"] for r in rows}, "Authoritative package files added or omitted")
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/word_evaluation.py", line 155, in require
+    raise ValueError(message)
+ValueError: Authoritative package files added or omitted
+
+======================================================================
+ERROR: test_current_inventory_includes_public_module_and_preserves_old_package (test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_current_inventory_includes_public_module_and_preserves_old_package)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_rational_inquiry_freeze.py", line 77, in test_current_inventory_includes_public_module_and_preserves_old_package
+    verify_code_freeze(CURRENT, ROOT)
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/text_evaluation/integrity.py", line 93, in verify_code_freeze
+    raise ValueError("Runtime freeze does not cover exactly the authoritative source/configuration/data inventory")
+ValueError: Runtime freeze does not cover exactly the authoritative source/configuration/data inventory
+
+======================================================================
+ERROR: test_standalone_adapter_keeps_the_registered_runtime_inventory_exact (test_recursive_source_bridge.RecursiveSourceBridgeTests.test_standalone_adapter_keeps_the_registered_runtime_inventory_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_recursive_source_bridge.py", line 292, in test_standalone_adapter_keeps_the_registered_runtime_inventory_exact
+    frozen = integrity.verify_code_freeze(freeze_path, ROOT)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/text_evaluation/integrity.py", line 93, in verify_code_freeze
+    raise ValueError("Runtime freeze does not cover exactly the authoritative source/configuration/data inventory")
+ValueError: Runtime freeze does not cover exactly the authoritative source/configuration/data inventory
+
+======================================================================
+FAIL: test_history_and_existing_outputs_are_not_overwritten (test_arabic_evaluation.ArabicEvaluationBoundaryTests.test_history_and_existing_outputs_are_not_overwritten)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_arabic_evaluation.py", line 88, in test_history_and_existing_outputs_are_not_overwritten
+    self.assertIn("source or published history", result.stderr)
+AssertionError: 'source or published history' not found in 'Traceback (most recent call last):\n  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/arabic_syntax_evaluation.py", line 143, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/arabic_syntax_evaluation.py", line 109, in main\n    freeze = verify_code_freeze(freeze_path, ROOT)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/text_evaluation/integrity.py", line 93, in verify_code_freeze\n    raise ValueError("Runtime freeze does not cover exactly the authoritative source/configuration/data inventory")\nValueError: Runtime freeze does not cover exactly the authoritative source/configuration/data inventory\n'
+
+======================================================================
+FAIL: test_public_replay_preserves_the_visible_failure_denominators (test_arabic_evaluation.ArabicEvaluationBoundaryTests.test_public_replay_preserves_the_visible_failure_denominators)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tests/test_arabic_evaluation.py", line 40, in test_public_replay_preserves_the_visible_failure_denominators
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/arabic_syntax_evaluation.py", line 143, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/arabic_syntax_evaluation.py", line 109, in main
+    freeze = verify_code_freeze(freeze_path, ROOT)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2e57f7c9c29a/nabt-current/tools/text_evaluation/integrity.py", line 93, in verify_code_freeze
+    raise ValueError("Runtime freeze does not cover exactly the authoritative source/configuration/data inventory")
+ValueError: Runtime freeze does not cover exactly the authoritative source/configuration/data inventory
+
+
+----------------------------------------------------------------------
+Ran 1460 tests in 192.778s
+
+FAILED (failures=2, errors=3, skipped=10)
+make: *** [Makefile:16: test] Error 1
