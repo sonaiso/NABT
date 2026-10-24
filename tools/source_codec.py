@@ -9,9 +9,9 @@ import hashlib
 import json
 import re
 
-from .alphabet import ALPHABET_ID, CARRIERS, HARAKAT, parse_word
-from .codec import encode_cells, pack_cells
-from .errors import NabtError, resource_limit
+from nabt.alphabet import ALPHABET_ID, CARRIERS, HARAKAT, parse_word
+from nabt.codec import encode_cells, pack_cells
+from nabt.errors import NabtError, resource_limit
 
 SCHEMA = "nabt.source-envelope.v1"
 WORD_SCHEMA = "nabt.a116-word-view.v1"

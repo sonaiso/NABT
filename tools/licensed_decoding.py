@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 from nabt.errors import NabtError
-from nabt.source_codec import encode_source, verify_source, word_view
+from tools.source_codec import encode_source, verify_source, word_view
 from tools import explainable_pilot as pilot
 
 SCHEMA = "nabt.bounded-decoding.v1"

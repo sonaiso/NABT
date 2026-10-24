@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT))
 from tools import licensed_decoding as decoding
 from tools import explainable_pilot as pilot
 from tools import evaluate_explainable_pilot as previous
-from nabt.source_codec import verify_source
+from tools.source_codec import verify_source
 from nabt.errors import NabtError
 
 PROTOCOL = ROOT / "evidence/licensed_decoding/protocol.json"
@@ -117,7 +117,7 @@ def evaluate(*, checker=None):
              "fault_first_rejected", "fault_pass_within_2")
     files = [PROTOCOL, previous.CASES, ROOT / "tools/evaluate_licensed_decoding.py",
              ROOT / "tools/licensed_decoding.py", ROOT / "tools/explainable_pilot.py",
-             ROOT / "tools/verified_reading.py", ROOT / "src/nabt/source_codec.py",
+             ROOT / "tools/verified_reading.py", ROOT / "tools/source_codec.py",
              ROOT / "src/nabt/alphabet.py", ROOT / "src/nabt/codec.py"]
     return {"schema": "nabt.decoding-measurement.v1", "created_utc": datetime.now(timezone.utc).isoformat(),
             "protocol": protocol, "hidden": False, "cases": rows, "metrics": metrics,

@@ -4,7 +4,7 @@ import json
 import unittest
 
 from nabt.errors import NabtError
-from nabt.source_codec import encode_source, restore_source, verify_source, word_view
+from tools.source_codec import encode_source, restore_source, verify_source, word_view
 from nabt.codec import decode_number, unpack_cells
 
 

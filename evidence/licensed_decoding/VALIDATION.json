@@ -2,20 +2,12 @@
   "schema": "nabt.decoding-validation.v1",
   "date_amman": "2026-10-25",
   "base_head": "c0b60d4f10d5934d3463fed97f45930c076dceec",
-  "native_targeted_tests": {
-    "command": "NABT_VERIFIED_READING=<built verifiedReading> PYTHONPATH=src python -B -m unittest tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation tests.test_explainable_pilot -v",
-    "passed": 43,
-    "skipped": 0,
-    "new_tests": 26,
-    "prior_contract_tests": 17,
-    "log_sha256": "8746aeff24daf7ec870638ea9c9374ddd91a853317ebef887326330c420e2d41"
-  },
   "native_checker_sha256": "d1a8e9172c593138e8a0401e9398174b0e3fadcc50e949326f8dffb35ba9ea55",
   "source_sha256": {
-    "src/nabt/source_codec.py": "f12f4d7518f2c687fd27cc5bc18db16d07450b73ee2e978449bc0acaacb7b797",
-    "tools/licensed_decoding.py": "4d2830833b5fcc3ce14da2ebe1006f969b38067adecf14217b40395c388f9255",
-    "tools/evaluate_licensed_decoding.py": "89b9eacdd249f25fc520065eb9f74c298bba458032be5356f04a0587a82b3351",
-    "tests/test_source_codec.py": "2e1a7899f9ee71a023d61c975a42a41bbc870fa45d44c4edaeba5032912fac6d",
+    "tools/source_codec.py": "03b65d18fdde9dcba5775e3bf6518bb789ef65909688699622a3849f81cd7203",
+    "tools/licensed_decoding.py": "356b12d93872368214bb3b39ee3c64b0373485ea0af3ed2ef296f670fba7f32f",
+    "tools/evaluate_licensed_decoding.py": "944acdd5265b30fa853092b6cc4dd55fede26c0e400ca3c277cfb7aca3cb2e41",
+    "tests/test_source_codec.py": "ead7f2454e37322ef8eb0641ccb9e96207dcb7051f222172874934d11b590882",
     "tests/test_licensed_decoding.py": "4dbd77de6bda0283a5b20a02907d14ddea1bac2769a5c3f7cff5ae12d907b028",
     "tests/test_decoding_evaluation.py": "819bdcdf596ed2006678c1d5f2e835d2200dfc59e70d83f7d082b171ca647298",
     "evidence/licensed_decoding/protocol.json": "21a55e8a1a5b3c660645cb047f3df12ea1ae6c681d3beba9091b321b4d812c87"
@@ -53,6 +45,30 @@
   "formal_scope": "No Lean change or new theorem. Reuses the pinned native ground-reading verifier. Python adapter is tested, not formally refined.",
   "model_training": false,
   "hidden_test": false,
-  "full_regression": "A local make test run is ongoing; final-head CI is reported in the PR, not asserted complete by this snapshot.",
-  "timing_limit": "Local full regression was active concurrently; no hardware latency claim."
+  "full_regression": "First local run: 1460 tests, 2 failures and 3 errors due to changed inventory, 10 skipped probe groups. After the adapter move, the 79-test integration suite passes with one skip; full make test is being rerun. Exact final-head CI is linked in the PR.",
+  "timing_limit": "Latest baseline run collected with no concurrently launched local test process; earlier snapshots were under test load. No dedicated-hardware SLA claim.",
+  "pre_inventory_move_targeted_tests": {
+    "command": "NABT_VERIFIED_READING=<built verifiedReading> PYTHONPATH=src python -B -m unittest tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation tests.test_explainable_pilot -v",
+    "passed": 43,
+    "skipped": 0,
+    "new_tests": 26,
+    "prior_contract_tests": 17,
+    "log_sha256": "8746aeff24daf7ec870638ea9c9374ddd91a853317ebef887326330c420e2d41"
+  },
+  "post_inventory_move_tests": {
+    "command": "NABT_VERIFIED_READING=<built verifiedReading> PYTHONPATH=src python -B -m unittest tests.test_rational_inquiry_freeze tests.test_recursive_source_bridge tests.test_arabic_evaluation tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation tests.test_explainable_pilot -v",
+    "tests": 79,
+    "passed": 78,
+    "skipped": 1,
+    "skipped_reason": "Native recursiveBridgeProbe not built locally; required build/test remains in formal CI",
+    "new_tests_passed": 26,
+    "prior_answer_contract_tests_passed": 17,
+    "log_sha256": "a77412fa3c8096adacce23c38bf829720d2661314a3587f062c8b86d85a3d060"
+  },
+  "integration_correction": {
+    "cause": "New adapter was initially placed inside the exactly frozen runtime package inventory",
+    "change": "Move to tools/source_codec.py; no freeze, registered evaluator, runtime law or source-data edits",
+    "before_log_sha256": "bc0211c934ad49e38127398efa2ba5bcfe270189c5ea19cfa0116bf1edaa8270",
+    "after_log_sha256": "a77412fa3c8096adacce23c38bf829720d2661314a3587f062c8b86d85a3d060"
+  }
 }
