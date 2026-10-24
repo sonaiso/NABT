@@ -1,0 +1,95 @@
+{
+  "schema": "nabt.mantuq-mafhum-controlled-audit.v1",
+  "law_id": "nabt.mantuq-mafhum-consequence.v1",
+  "execution": {
+    "all_arabic_complete": false,
+    "clean_negative": false,
+    "clean_positive": true,
+    "law_id": "nabt.verified-ground-reading.v1",
+    "negative": false,
+    "positive": true,
+    "query_text": "هل سالم هو عالم؟\n",
+    "revision": "1",
+    "scope": "canonical_ground_source_entailment",
+    "source_id": "text",
+    "source_scope": "default",
+    "source_text": "سالم يحب سهيل.\nسالم هو حكيم.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\nإذا سهيل هو عالم فإن سالم هو عالم.\n",
+    "status": "SUPPORTED",
+    "verified": true,
+    "world_truth_established": false
+  },
+  "signed_consequences": [
+    {
+      "atom": {
+        "predicate": "عالم",
+        "arguments": [
+          "سالم"
+        ],
+        "positive": true
+      },
+      "proof": {
+        "kind": "apply",
+        "rule": {
+          "kind": "premise",
+          "index": 3
+        },
+        "argument": {
+          "kind": "apply",
+          "rule": {
+            "kind": "premise",
+            "index": 2
+          },
+          "argument": {
+            "kind": "pair",
+            "left": {
+              "kind": "premise",
+              "index": 0
+            },
+            "right": {
+              "kind": "premise",
+              "index": 1
+            }
+          }
+        }
+      },
+      "lean": {
+        "all_arabic_complete": false,
+        "checked": true,
+        "conclusion": {
+          "args": [
+            {
+              "kind": "name",
+              "value": "default"
+            },
+            {
+              "kind": "name",
+              "value": "positive"
+            },
+            {
+              "kind": "name",
+              "value": "سالم"
+            }
+          ],
+          "concept": "عالم",
+          "kind": "atom"
+        },
+        "law_id": "nabt.source-semantics.v1",
+        "meaning_law_id": "nabt.mantuq-mafhum-consequence.v1",
+        "premise_truth_established": false,
+        "reader_enumeration_proved": false,
+        "revision": "1",
+        "scope": "default",
+        "source_id": "text",
+        "source_reading_checked": true,
+        "source_text": "سالم يحب سهيل.\nسالم هو حكيم.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\nإذا سهيل هو عالم فإن سالم هو عالم.\n",
+        "usuli_subtype_established": false,
+        "world_truth_established": false
+      }
+    }
+  ],
+  "policy_catalog": "evidence/mantuq_mafhum/sources.json",
+  "source_sha256": "ac2fbeca5396c85fef7c77dd72fb56e146ad6892a8afaa2636a8fad74e2d736e",
+  "all_arabic_complete": false,
+  "world_truth_established": false,
+  "usuli_subtypes_acquired": false
+}

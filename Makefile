@@ -144,3 +144,28 @@ demo:
 classical-language-conformance:
 	$(PYTHON) tools/check_classical_language_evidence.py --lake $(LAKE) --output $(EVIDENCE_DIR)/classical-language-conformance.json
 	$(PYTHON) tools/classical_language_evidence.py audit --output $(EVIDENCE_DIR)/classical-language-sources.json
+
+.PHONY: verified-reading-conformance
+verified-reading-conformance:
+	cd formal && $(LAKE) build verifiedReading
+	test -x $(CURDIR)/formal/.lake/build/bin/verifiedReading
+	NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_verified_reading.py -v
+
+check: verified-reading-conformance
+
+.PHONY: source-semantics-conformance
+source-semantics-conformance:
+	cd formal && $(LAKE) build classicalSemanticProbe
+	test -x $(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe
+	NABT_CLASSICAL_SEMANTIC_PROBE=$(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe $(PYTHON) -B -m unittest discover -s tests -p test_source_semantics.py -v
+
+check: source-semantics-conformance
+
+.PHONY: mantuq-mafhum-conformance
+mantuq-mafhum-conformance:
+	cd formal && $(LAKE) build classicalSemanticProbe verifiedReading
+	test -x $(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe
+	test -x $(CURDIR)/formal/.lake/build/bin/verifiedReading
+	NABT_CLASSICAL_SEMANTIC_PROBE=$(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_mantuq_mafhum.py -v
+
+check: mantuq-mafhum-conformance
