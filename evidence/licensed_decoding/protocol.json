@@ -1,0 +1,33 @@
+{
+  "schema": "nabt.decoding-experiment.v1",
+  "split": "public_development_regression",
+  "hidden": false,
+  "candidate_law": "nabt.verified-ground-reading.v1",
+  "case_file": "evidence/explainable_pilot/cases.json",
+  "expected_cases": 14,
+  "baseline": "Current deterministic proposer, native verifier and answer renderer",
+  "candidate_system": "Same deterministic proposer, source envelopes and bounded proposal verifier",
+  "comparison_k": 1,
+  "verification_seconds": 20,
+  "repeats_per_case": 3,
+  "timing_order": "Alternate baseline-first and candidate-first per case and repeat; include fresh proposal construction in both",
+  "fault_injection": {
+    "k": 2,
+    "first_candidate": "Correctly shaped proposal with a changed query_text binding",
+    "second_candidate": "Original valid proposal",
+    "interpretation": "Synthetic robustness test; not a trained model, quality gain or search comparison"
+  },
+  "metric_definitions": {
+    "pass_at_1": "Fraction of all cases where the first supplied proposal is natively accepted and matches the independent expected status",
+    "pass_within_k": "Fraction of all cases with at least one accepted correct proposal among the first k fixed ordered slots; missing slots are failures",
+    "pass_estimator_limit": "Observed ordered-prefix success only, not the unbiased estimator for random independent model samples",
+    "latency": "Local end-to-end observations for already configured systems; no LLM network time, GPU cost or statistical SLA",
+    "identity": "Exact UTF-8 restoration and independent binding; not linguistic admissibility"
+  },
+  "promotion": {
+    "current_contract_gate": "All 14 paired statuses, independent answer replays, source restorations and injected-binding rejections must pass",
+    "neural_scale_gate": "Use evidence/explainable_pilot/goals.json on new independent development selection data; never select on the hidden test",
+    "hidden_test_owner": "Independent reviewer; not supplied or run in this experiment",
+    "new_linguistic_corpus": "Authorized fully vocalized standard fusha; Quranic orthography remains an independent track"
+  }
+}

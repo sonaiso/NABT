@@ -1,0 +1,58 @@
+{
+  "schema": "nabt.decoding-validation.v1",
+  "date_amman": "2026-10-25",
+  "base_head": "c0b60d4f10d5934d3463fed97f45930c076dceec",
+  "native_targeted_tests": {
+    "command": "NABT_VERIFIED_READING=<built verifiedReading> PYTHONPATH=src python -B -m unittest tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation tests.test_explainable_pilot -v",
+    "passed": 43,
+    "skipped": 0,
+    "new_tests": 26,
+    "prior_contract_tests": 17,
+    "log_sha256": "8746aeff24daf7ec870638ea9c9374ddd91a853317ebef887326330c420e2d41"
+  },
+  "native_checker_sha256": "d1a8e9172c593138e8a0401e9398174b0e3fadcc50e949326f8dffb35ba9ea55",
+  "source_sha256": {
+    "src/nabt/source_codec.py": "f12f4d7518f2c687fd27cc5bc18db16d07450b73ee2e978449bc0acaacb7b797",
+    "tools/licensed_decoding.py": "4d2830833b5fcc3ce14da2ebe1006f969b38067adecf14217b40395c388f9255",
+    "tools/evaluate_licensed_decoding.py": "89b9eacdd249f25fc520065eb9f74c298bba458032be5356f04a0587a82b3351",
+    "tests/test_source_codec.py": "2e1a7899f9ee71a023d61c975a42a41bbc870fa45d44c4edaeba5032912fac6d",
+    "tests/test_licensed_decoding.py": "4dbd77de6bda0283a5b20a02907d14ddea1bac2769a5c3f7cff5ae12d907b028",
+    "tests/test_decoding_evaluation.py": "819bdcdf596ed2006678c1d5f2e835d2200dfc59e70d83f7d082b171ca647298",
+    "evidence/licensed_decoding/protocol.json": "21a55e8a1a5b3c660645cb047f3df12ea1ae6c681d3beba9091b321b4d812c87"
+  },
+  "proposal_inputs": [
+    {
+      "filename": "2438e0b459f57d0f1f4fa71a2bfbc67501558b114130ea9e8a3131b59b5e0107.1.jpg",
+      "bytes": 574719,
+      "sha256": "1d8f980e9e950c5b35c8d7a45e02ebc4566fb5d151a30b916dbb14cdb733efbc"
+    },
+    {
+      "filename": "67dd41ffbb37c9cca8b70a630da9f8bc5d63ca3f885c60ea3aa56f4c82178e6b.1.jpg",
+      "bytes": 53147,
+      "sha256": "ecb271f10bd6d49a276f7cf7e7ae887df6f9511e4610b5db0aae4c95dbcd44bb"
+    },
+    {
+      "filename": "94fc0a3f5803baf457c1e4c7cae13743d35979737aead379ecbe08882c5dd551.1.jpg",
+      "bytes": 166228,
+      "sha256": "4b50588d5f54fe988f37f506357148f196d9909a29f81176b9c5469b1ca71292"
+    },
+    {
+      "filename": "ccf228c3825a35f0b3401ed1777c8846e89fdd506c01795c537caab691303f21.1.jpg",
+      "bytes": 120194,
+      "sha256": "bebbcc33c70c613412849cea4e861bcf04cd9b449393b3bc6a247c88cb8e7ebc"
+    }
+  ],
+  "proposal_readability": {
+    "individual_pages": [
+      1,
+      2,
+      5
+    ],
+    "contact_sheet": "Overview of 11 pages; fine table text was not treated as a reliable transcription"
+  },
+  "formal_scope": "No Lean change or new theorem. Reuses the pinned native ground-reading verifier. Python adapter is tested, not formally refined.",
+  "model_training": false,
+  "hidden_test": false,
+  "full_regression": "A local make test run is ongoing; final-head CI is reported in the PR, not asserted complete by this snapshot.",
+  "timing_limit": "Local full regression was active concurrently; no hardware latency claim."
+}

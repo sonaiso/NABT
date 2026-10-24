@@ -248,6 +248,14 @@ jobs:
           test -x "$NABT_VERIFIED_READING"
           python -B -m unittest discover -s tests -p test_explainable_pilot.py -v
           python tools/evaluate_explainable_pilot.py --output artifacts/local/ci/explainable-pilot.json
+      - name: Preserve source identities and verify bounded external proposals
+        env:
+          PYTHONPATH: src
+          NABT_VERIFIED_READING: ${{ github.workspace }}/formal/.lake/build/bin/verifiedReading
+        run: |
+          test -x "$NABT_VERIFIED_READING"
+          python -B -m unittest tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation -v
+          python tools/evaluate_licensed_decoding.py --output artifacts/local/ci/licensed-decoding.json
       - name: Classical source bindings and free reader semantic contracts
         env:
           PYTHONPATH: src

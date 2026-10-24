@@ -1,0 +1,820 @@
+{
+  "schema": "nabt.decoding-measurement.v1",
+  "created_utc": "2026-10-24T21:13:54.932650+00:00",
+  "protocol": {
+    "schema": "nabt.decoding-experiment.v1",
+    "split": "public_development_regression",
+    "hidden": false,
+    "candidate_law": "nabt.verified-ground-reading.v1",
+    "case_file": "evidence/explainable_pilot/cases.json",
+    "expected_cases": 14,
+    "baseline": "Current deterministic proposer, native verifier and answer renderer",
+    "candidate_system": "Same deterministic proposer, source envelopes and bounded proposal verifier",
+    "comparison_k": 1,
+    "verification_seconds": 20,
+    "repeats_per_case": 3,
+    "timing_order": "Alternate baseline-first and candidate-first per case and repeat; include fresh proposal construction in both",
+    "fault_injection": {
+      "k": 2,
+      "first_candidate": "Correctly shaped proposal with a changed query_text binding",
+      "second_candidate": "Original valid proposal",
+      "interpretation": "Synthetic robustness test; not a trained model, quality gain or search comparison"
+    },
+    "metric_definitions": {
+      "pass_at_1": "Fraction of all cases where the first supplied proposal is natively accepted and matches the independent expected status",
+      "pass_within_k": "Fraction of all cases with at least one accepted correct proposal among the first k fixed ordered slots; missing slots are failures",
+      "pass_estimator_limit": "Observed ordered-prefix success only, not the unbiased estimator for random independent model samples",
+      "latency": "Local end-to-end observations for already configured systems; no LLM network time, GPU cost or statistical SLA",
+      "identity": "Exact UTF-8 restoration and independent binding; not linguistic admissibility"
+    },
+    "promotion": {
+      "current_contract_gate": "All 14 paired statuses, independent answer replays, source restorations and injected-binding rejections must pass",
+      "neural_scale_gate": "Use evidence/explainable_pilot/goals.json on new independent development selection data; never select on the hidden test",
+      "hidden_test_owner": "Independent reviewer; not supplied or run in this experiment",
+      "new_linguistic_corpus": "Authorized fully vocalized standard fusha; Quranic orthography remains an independent track"
+    }
+  },
+  "hidden": false,
+  "cases": [
+    {
+      "id": "repository-example",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.053331902003264986,
+        0.050745729997288436,
+        0.04472621800232446
+      ],
+      "candidate_seconds": [
+        0.05398233199957758,
+        0.046108206995995715,
+        0.053997529998014215
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "26cc9e833864249ebf812a7722e614ba8022c0d9604450dd9d7920279893db78",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.05802158000005875
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "9ad5739800f3820d1615eae7deac944f2dc0f4341c165a53ca1630f84d0f42a7",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "bc4dc6b6c62d88c177f93199477a7f72dab8b01b97e82caf5864a980b4a17122",
+          "elapsed_seconds": 0.04808728100033477
+        }
+      ],
+      "source_sha256": "3579e83c7fe074bc6f134388864903f83ace5f186aab22191ce7eaae766105fc",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "direct",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.05225368499668548,
+        0.04854199799592607,
+        0.05753180800093105
+      ],
+      "candidate_seconds": [
+        0.04444204999890644,
+        0.06217588300205534,
+        0.05895143499947153
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "60cfba9fff665cd13b19cd74933c569ba95da06359fe4e4b6ce9216c99b8751a",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.05507229499926325
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "3ec074daeeddc8054e90044558612e8aaab33e68a2404ca047a35ec79adeb4e7",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "a0d854d282b4006a79c55549afe60cdda7e1764a90cf54cb596f4e9e7ba93805",
+          "elapsed_seconds": 0.05423052399419248
+        }
+      ],
+      "source_sha256": "68acf14232cbb8dea38b7ac91597c18632f7d00afd8a9d164be09e1d5305b251",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "refuted",
+      "expected": "REFUTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.059909089002758265,
+        0.061064504996465985,
+        0.07348294900293695
+      ],
+      "candidate_seconds": [
+        0.06342011599917896,
+        0.10446447299909778,
+        0.07816784599708626
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "af11754820489a573dd46642879179d9df17f3d68bbf31408ed8ba63ea35c106",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.046883939001418184
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "68780677511efdd0ab8dd6d0cf6dea2fa60224f5c73fb5e7c003689db969197f",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "REFUTED",
+          "answer_sha256": "df306e106d7c16caa5094b8d85ca74913204102ebe049a1de42ec8a0508c6690",
+          "elapsed_seconds": 0.055955551004444715
+        }
+      ],
+      "source_sha256": "f20bdcfe5ae6d0d1265790c03809cff66b1ae0b7d4395c03210eb2e27396ba97",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "conflict",
+      "expected": "CONFLICT",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.056189101000200026,
+        0.05073102800088236,
+        0.07407304200023646
+      ],
+      "candidate_seconds": [
+        0.05465117099811323,
+        0.06136734699975932,
+        0.06599346500297543
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "cc2d6d8f92104007257bd5fe857e10d4edcfdfbd7f7a0ebc7545e98df65359e6",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.07696406899776775
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "08bffcb920742c8488abdc2e3676355dfdbd6b997f6c6d9276bcc4ebfe48c942",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "CONFLICT",
+          "answer_sha256": "a4f9f826e1dac27e486b586c8df4fb3ed2bfc82b6e3fb196582f82536f82f875",
+          "elapsed_seconds": 0.08061537900357507
+        }
+      ],
+      "source_sha256": "997878071b7bed1d416012377d42b599000711ee5573a93395098a7ab6ccff6e",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "unknown",
+      "expected": "UNKNOWN",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.06287690300086979,
+        0.06548585400014417,
+        0.04773073300020769
+      ],
+      "candidate_seconds": [
+        0.05534434099536156,
+        0.05089881500316551,
+        0.04736644199874718
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "f5954ffc52325689638dc0f86138f02dc291379d80955703defdc809cd92e2da",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.0500674130016705
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "a061757a2102c6d397126580bf177cb83ef7465f2af052de330c377f8577d0e0",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "UNKNOWN",
+          "answer_sha256": "355fa7a3ff5061e7b182c12731d1405c03f598cad0c799676ff5335e77179c8d",
+          "elapsed_seconds": 0.047033367001859006
+        }
+      ],
+      "source_sha256": "9abe6579ec945e2fecdf92b9c502795a240e93a7e73c6e02e852719d25afa067",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "conflict-propagation",
+      "expected": "DEFER",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.052206915999704506,
+        0.055395709998265374,
+        0.04930635300115682
+      ],
+      "candidate_seconds": [
+        0.057014019999769516,
+        0.07972492299450096,
+        0.04964165500132367
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "7626b291ad5a520db051b8f7d7416a14ce159f13e80b8ab18500776b9e37cd5b",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.04650452899659285
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "cdae976b1bf276a930809d46222d8258b1c6e4fc68b6d69d5b322ef83b1c9691",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "DEFER",
+          "answer_sha256": "9bd9d791ef891b6df9aabd1df773d6df5388f3a3d4100e45ed826f3bee176a62",
+          "elapsed_seconds": 0.05131599299784284
+        }
+      ],
+      "source_sha256": "6972ade96a7575146ebdcff36e5190840c9ebf1d11a6ec2bb7d24bd062839c10",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "clean-alternative",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.04577944400080014,
+        0.051302968997333664,
+        0.05183830999885686
+      ],
+      "candidate_seconds": [
+        0.05136258000129601,
+        0.049011327006155625,
+        0.0473090739978943
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "6c48ef37b1e1a670a7d49eab4e9320d82e2527ffd918e53f2056c4c375889800",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.045720846006588545
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "1a709b9eff3ed9570cdfb607be4a288da1c205f9613149f05fed0136ce94f265",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "bd659acef8915500323299fa7347d8ec0f844a93d10e9c16fd4fe9bd9c8c0cea",
+          "elapsed_seconds": 0.05202932099928148
+        }
+      ],
+      "source_sha256": "e70e334ba3b0c529dc24ee546b863280cdd8a6b7a2a307fd039bef57be220e25",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "multipremise",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.049208883006940596,
+        0.055428836996725295,
+        0.06344054999499349
+      ],
+      "candidate_seconds": [
+        0.04834611299884273,
+        0.06627231799939182,
+        0.07268608699814649
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "298205793b220ffde6211731e89970b9eec2ce17f0e7f8feb78e4d237a3240c6",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.06547504300397122
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "deb5ba30ba55b4c42387336658bc2e1aa5e697b611cf65203c129f5b1acee47c",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "edc4aa855f759b5663293c81c3376c41238ce4757bd266a140f18712951a51f2",
+          "elapsed_seconds": 0.07071171399729792
+        }
+      ],
+      "source_sha256": "f54cdad2eba1d2dc626086fc156ee6c425d8c40db77c7f31117da9455410c1ed",
+      "query_sha256": "311cdba3d860bee3bc964e4f5741b82a7483e11590b2ea9dfac790979edf87ac"
+    },
+    {
+      "id": "relation-order",
+      "expected": "UNKNOWN",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.06704728399927262,
+        0.06308293499751016,
+        0.04902300699905027
+      ],
+      "candidate_seconds": [
+        0.06691101100295782,
+        0.06466961999831256,
+        0.0517399359960109
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "105fb324fe6cddf6500df367f6b3900bd5f965ff196665255ae178ab01a7183b",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.05182791999686742
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "3793a28d6bfa0034d0bf074a6e6535e3cf8191ad3ddb0e3cb8a58fbd762cc9fe",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "UNKNOWN",
+          "answer_sha256": "9e518cfae431cc651dee01a9c02b0756090f5568aa03ff1013d353b2639e1d53",
+          "elapsed_seconds": 0.04993906199524645
+        }
+      ],
+      "source_sha256": "0d4bfbacc3534a09b3937f7b536cc8527ba2657fb1e9269147081c39e0b77f5c",
+      "query_sha256": "a9f139f3f2a0ba86f3fbb8e1219d5c8c1d2a9eb9eea6aeedb56672d91cf11f68"
+    },
+    {
+      "id": "negative-question",
+      "expected": "REFUTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.07015895799850114,
+        0.04702319700299995,
+        0.17957798200222896
+      ],
+      "candidate_seconds": [
+        0.05936365600064164,
+        0.050688871000602376,
+        0.04907919900142588
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "979a8362eb66264f925871a2a0bf71e972eb51928d79eca9431f53bbcc8f3d16",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.07189972999913152
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "2aca46995e2398082d219cc526b1b987a2af2206ec885857745f818bf7eabb5f",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "REFUTED",
+          "answer_sha256": "538f647ebeae20e8847079517ae396886803e068ece6c10f720a43042df5daa8",
+          "elapsed_seconds": 0.05044024000380887
+        }
+      ],
+      "source_sha256": "0d4bfbacc3534a09b3937f7b536cc8527ba2657fb1e9269147081c39e0b77f5c",
+      "query_sha256": "9969b781f5d645637e3b38f00e9468b6d2d2672262b6172c24395f505a99a184"
+    },
+    {
+      "id": "cycle",
+      "expected": "UNKNOWN",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.0498772490027477,
+        0.04441137400135631,
+        0.05081734000123106
+      ],
+      "candidate_seconds": [
+        0.049024071005987935,
+        0.05206143699615495,
+        0.05282222900132183
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "9beefa7b1089f86bd192e723e9d1f16fa5b454681489e3f7d84dfe91f3c74e69",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.04671902200061595
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "be2121497683bd61b806305920dd5cacedef4ff619bef70ef2f8a40db14a9565",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "UNKNOWN",
+          "answer_sha256": "e3bcdeb426c99e1aaebdf26d8294ca228edfe86ccc6d5487d220ae393b245b87",
+          "elapsed_seconds": 0.05289862300560344
+        }
+      ],
+      "source_sha256": "8b6ce4b71dc02ea0f5578d7c586762aa90825b758c4cb8c3e0caec13c7bcb84e",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "byte-spans",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.048393858000054024,
+        0.04857041899958858,
+        0.06879973299510311
+      ],
+      "candidate_seconds": [
+        0.05788603000110015,
+        0.05453061099979095,
+        0.05594723499962129
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "5dd275d58936596ff086b5118dc31617677559e337122343614f0d7c9d9533ca",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.048004896998463664
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "b248e02ddd8b853b5311842e9cac79ea7472b5d45576c1a2bea8315f036348c5",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "7bab964e7381c6d357bd21adfe64fd00c7b78c46237499e678c5099498660034",
+          "elapsed_seconds": 0.05739567399723455
+        }
+      ],
+      "source_sha256": "4627f923ca5c04dc8f5898578741b316bfac2ceb9a65e311dee3bcfcda7b514d",
+      "query_sha256": "ac45902182c6c4e5a7ee3b666de69c47c350400c8f40d80a9fcacbab4dc9bb6a"
+    },
+    {
+      "id": "duplicate-facts",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.491553252999438,
+        0.06455884400202194,
+        0.12570171100378502
+      ],
+      "candidate_seconds": [
+        0.07332486700033769,
+        0.05936137100070482,
+        0.05595349700161023
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "0329b1ffee1f00f7ed21d3ad24cdcd3e17ae241c9d52df79895b1eca55a1fb04",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.0749138929968467
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "0624a98a9bcb59042b5d030ccb7f4f756c53f27347b9b8d337c9bdf63faaa0ed",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "c8b3781d9919d59f590a55c8350d14eb38039c3ec1603d9ece8c36903e39b7cf",
+          "elapsed_seconds": 0.06817754100484308
+        }
+      ],
+      "source_sha256": "4839bcf708c3cd03c96610e2f265129d712280564225c28e4d9c81c828dffb24",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    },
+    {
+      "id": "separate-proof",
+      "expected": "SUPPORTED",
+      "paired_status": true,
+      "source_roundtrip": true,
+      "native_replay": true,
+      "pass_at_1": true,
+      "fault_first_rejected": true,
+      "fault_pass_at_1": false,
+      "fault_pass_within_2": true,
+      "baseline_seconds": [
+        0.08656098200299311,
+        0.06653548200119985,
+        0.06325441799708642
+      ],
+      "candidate_seconds": [
+        0.08325387199874967,
+        0.09398421899823006,
+        0.06155408700578846
+      ],
+      "fault_attempts": [
+        {
+          "index": 0,
+          "candidate_sha256": "8f0ab4311adc7cfc41e416b437a8ca2d94be1ab663de8450c1d6904b0ea8c84d",
+          "accepted": false,
+          "executed": true,
+          "answer_status": null,
+          "answer_sha256": null,
+          "error": "CERTIFICATE_REJECTED",
+          "elapsed_seconds": 0.05605247199855512
+        },
+        {
+          "index": 1,
+          "candidate_sha256": "315c5dc3d673e8f842654cb4569f6e4b763f948cf11ea26a9cef5ce044a215fc",
+          "accepted": true,
+          "executed": true,
+          "answer_status": "SUPPORTED",
+          "answer_sha256": "3dd865f2ae2c732ecb32dafb0d5bc8c842cf3aece1616a54627d10ac88888526",
+          "elapsed_seconds": 0.0729823670044425
+        }
+      ],
+      "source_sha256": "cade4212c8a8c47f182e56682e6311e8425c6d006050027a3f8ad9cb5cc100b6",
+      "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258"
+    }
+  ],
+  "metrics": {
+    "paired_status": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "source_roundtrip": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "native_replay": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "pass_at_1": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "fault_first_rejected": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    },
+    "fault_pass_at_1": {
+      "passed": 0,
+      "total": 14,
+      "rate": 0.0
+    },
+    "fault_pass_within_2": {
+      "passed": 14,
+      "total": 14,
+      "rate": 1.0
+    }
+  },
+  "provenance": {
+    "evidence/licensed_decoding/protocol.json": "21a55e8a1a5b3c660645cb047f3df12ea1ae6c681d3beba9091b321b4d812c87",
+    "evidence/explainable_pilot/cases.json": "7e1a2a58658d3a54a85446f02d3ff778e5bd8fca5d99d944fe94de94451dcaef",
+    "tools/evaluate_licensed_decoding.py": "89b9eacdd249f25fc520065eb9f74c298bba458032be5356f04a0587a82b3351",
+    "tools/licensed_decoding.py": "4d2830833b5fcc3ce14da2ebe1006f969b38067adecf14217b40395c388f9255",
+    "tools/explainable_pilot.py": "dcb8139b0987a81bacf3226ec2de957a18dc7771eb3a5f0a5106593a496aadc8",
+    "tools/verified_reading.py": "80ddaf9c352ee030e27a45ae4c53c1bf3ae377c11037f3f41dbae6b6944ef62c",
+    "src/nabt/source_codec.py": "f12f4d7518f2c687fd27cc5bc18db16d07450b73ee2e978449bc0acaacb7b797",
+    "src/nabt/alphabet.py": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+    "src/nabt/codec.py": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1"
+  },
+  "git_parent_head": "c0b60d4f10d5934d3463fed97f45930c076dceec",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "checker_sha256": "d1a8e9172c593138e8a0401e9398174b0e3fadcc50e949326f8dffb35ba9ea55"
+  },
+  "timing": {
+    "baseline": {
+      "samples_seconds": [
+        0.053331902003264986,
+        0.050745729997288436,
+        0.04472621800232446,
+        0.05225368499668548,
+        0.04854199799592607,
+        0.05753180800093105,
+        0.059909089002758265,
+        0.061064504996465985,
+        0.07348294900293695,
+        0.056189101000200026,
+        0.05073102800088236,
+        0.07407304200023646,
+        0.06287690300086979,
+        0.06548585400014417,
+        0.04773073300020769,
+        0.052206915999704506,
+        0.055395709998265374,
+        0.04930635300115682,
+        0.04577944400080014,
+        0.051302968997333664,
+        0.05183830999885686,
+        0.049208883006940596,
+        0.055428836996725295,
+        0.06344054999499349,
+        0.06704728399927262,
+        0.06308293499751016,
+        0.04902300699905027,
+        0.07015895799850114,
+        0.04702319700299995,
+        0.17957798200222896,
+        0.0498772490027477,
+        0.04441137400135631,
+        0.05081734000123106,
+        0.048393858000054024,
+        0.04857041899958858,
+        0.06879973299510311,
+        0.491553252999438,
+        0.06455884400202194,
+        0.12570171100378502,
+        0.08656098200299311,
+        0.06653548200119985,
+        0.06325441799708642
+      ],
+      "n": 42,
+      "p95_seconds": 0.12570171100378502,
+      "estimator": "nearest rank of local samples; no population confidence claim"
+    },
+    "candidate": {
+      "samples_seconds": [
+        0.05398233199957758,
+        0.046108206995995715,
+        0.053997529998014215,
+        0.04444204999890644,
+        0.06217588300205534,
+        0.05895143499947153,
+        0.06342011599917896,
+        0.10446447299909778,
+        0.07816784599708626,
+        0.05465117099811323,
+        0.06136734699975932,
+        0.06599346500297543,
+        0.05534434099536156,
+        0.05089881500316551,
+        0.04736644199874718,
+        0.057014019999769516,
+        0.07972492299450096,
+        0.04964165500132367,
+        0.05136258000129601,
+        0.049011327006155625,
+        0.0473090739978943,
+        0.04834611299884273,
+        0.06627231799939182,
+        0.07268608699814649,
+        0.06691101100295782,
+        0.06466961999831256,
+        0.0517399359960109,
+        0.05936365600064164,
+        0.050688871000602376,
+        0.04907919900142588,
+        0.049024071005987935,
+        0.05206143699615495,
+        0.05282222900132183,
+        0.05788603000110015,
+        0.05453061099979095,
+        0.05594723499962129,
+        0.07332486700033769,
+        0.05936137100070482,
+        0.05595349700161023,
+        0.08325387199874967,
+        0.09398421899823006,
+        0.06155408700578846
+      ],
+      "n": 42,
+      "p95_seconds": 0.08325387199874967,
+      "estimator": "nearest rank of local samples; no population confidence claim"
+    }
+  },
+  "unmeasured": {
+    "hidden_accuracy": null,
+    "neural_quality_gain": null,
+    "llm_token_cost": null,
+    "gpu_memory": null,
+    "human_explanation_fidelity": null,
+    "model_internal_causality": null,
+    "grammar_masking_gain": null
+  },
+  "passed": true
+}
