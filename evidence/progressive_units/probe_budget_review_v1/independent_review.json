@@ -1,0 +1,49 @@
+{
+  "comparison": {
+    "bytes": 2445,
+    "path": "evidence/progressive_units/runs_v3/comparison_post_budget.json",
+    "sha256": "7a35a5449d84bb8888bb72055968bcd98b32fac3cc6ae7548500fbd3a554abc0"
+  },
+  "confirmed_remaining_blocker": false,
+  "findings": [
+    {
+      "assessment": "Includes full source plus complete tag bytes at each repeated leaf/internal-node budget, including large Nat requirement lists. The length bound is8 and additional tree/envelope reserves cover chosen and row overhead.",
+      "item": "Allocation estimate"
+    },
+    {
+      "assessment": "dispatch checks result.compress.toUTF8.size+1. ProbeJson.emit serializes the same pure result.compress and appends one LF. The check therefore counts UTF8 multibyte data, JSON escaping and the newline, not character count.",
+      "item": "Exact byte accounting"
+    },
+    {
+      "assessment": "Oversized success becomes RESOURCE_LIMIT with search_complete=false through the error envelope; it does not become linguistic rejection or exhausted-domain proof.",
+      "item": "Outcome meaning"
+    },
+    {
+      "assessment": "Errors bypass dispatch result serialization check. Current explicit limit messages and pinned Lean JSON getter errors are bounded fixed messages; this review found no error-path counterexample. The new hard cap applies directly to successful operation results.",
+      "item": "Error envelope path"
+    },
+    {
+      "assessment": "40 request bytes and response bytes are unchanged against runs_v2;105 measured assertions pass and10 remain UNMEASURED. No acquisition claim.",
+      "item": "Ordinary contract preservation"
+    }
+  ],
+  "probe_source": {
+    "bytes": 23642,
+    "path": "formal/ProgressiveUnitProbe.lean",
+    "sha256": "764ed72e99b75df827bd99c257080c2c7f4cd0db2e44919d583b64cd9e8c4cb3"
+  },
+  "regression_tests": {
+    "bytes": 9594,
+    "path": "tests/test_binary_unit_domain_probe.py",
+    "sha256": "240b2850e493f00d50fa22007db77ceb244436574b0f6c324ba8fcaee1652086"
+  },
+  "reviewer": "licensed_derivation subagent",
+  "schema": "nabt.progressive-units.probe-budget.independent-review.v1",
+  "scope": "Read-only independent inspection of the source patch, JSONL transport and focused regression definitions; unchanged frozen34 measurement rerun and replay. No production edits.",
+  "transport_source": {
+    "bytes": 6892,
+    "path": "formal/ProbeJson.lean",
+    "sha256": "f6a0d4cea9c12f5064b8e4f278d0f5c103f2182ef05a3a5439b4093d11249547"
+  },
+  "verification_limit": "Conservative estimate reviewed algebraically, not a new Lean theorem of memory/time bounds; maximum serialized-success response is enforced at execution."
+}

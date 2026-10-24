@@ -1,0 +1,87 @@
+{
+  "schema": "nabt.progressive-units.post-budget-validation.v1",
+  "python": "3.12.14",
+  "sources_before": {
+    "formal/ProbeJson.lean": "f6a0d4cea9c12f5064b8e4f278d0f5c103f2182ef05a3a5439b4093d11249547",
+    "formal/ProgressiveUnitProbe.lean": "764ed72e99b75df827bd99c257080c2c7f4cd0db2e44919d583b64cd9e8c4cb3",
+    "formal/Nabt/LicensedDerivation.lean": "20fbc4e8c8be84cd7506585dd2da7b09dc427110a36ea61265e4845f4611376b",
+    "formal/Nabt/ProsodicUnits.lean": "c1165219ea4efde6a081717cfdb418a04b814e12d49fd2f3378dad36b884fc2d",
+    "formal/Nabt/UnitCarrier.lean": "e351739574c94c252579aed510fdd5375adcc77475e9d5f45c00ac02be8c78c0",
+    "formal/Nabt/BinaryUnitDomain.lean": "270f643d7e7f871018646f233cec00d5c68c4d298517228286387706ca44aebc",
+    "formal/.lake/build/bin/progressiveUnitProbe": "9331c6a636bd2a621dac4802fcd0cbb34ec42e6ff5e1a3684593052cfb7ecb38",
+    "src/nabt/data/law.json": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+    "tests/test_binary_unit_domain_probe.py": "240b2850e493f00d50fa22007db77ceb244436574b0f6c324ba8fcaee1652086",
+    "tests/test_progressive_unit_probe.py": "2d4fd0143521bac3f81fdd2c2ab6a16f985deadbb0cc81d0e74e5ce8f5909b64",
+    "tests/test_progressive_unit_checker.py": "63afc6ba3a7aa3e1990eeb5b4d8ef9900e3b66cf4ed0357b43f69ed1a766970c",
+    "tools/check_progressive_units.py": "aebfdb916483e70e8e91c57d1c18f97b36b09adce70f15d3e2d38b67432df153"
+  },
+  "sources_after": {
+    "formal/ProbeJson.lean": "f6a0d4cea9c12f5064b8e4f278d0f5c103f2182ef05a3a5439b4093d11249547",
+    "formal/ProgressiveUnitProbe.lean": "764ed72e99b75df827bd99c257080c2c7f4cd0db2e44919d583b64cd9e8c4cb3",
+    "formal/Nabt/LicensedDerivation.lean": "20fbc4e8c8be84cd7506585dd2da7b09dc427110a36ea61265e4845f4611376b",
+    "formal/Nabt/ProsodicUnits.lean": "c1165219ea4efde6a081717cfdb418a04b814e12d49fd2f3378dad36b884fc2d",
+    "formal/Nabt/UnitCarrier.lean": "e351739574c94c252579aed510fdd5375adcc77475e9d5f45c00ac02be8c78c0",
+    "formal/Nabt/BinaryUnitDomain.lean": "270f643d7e7f871018646f233cec00d5c68c4d298517228286387706ca44aebc",
+    "formal/.lake/build/bin/progressiveUnitProbe": "9331c6a636bd2a621dac4802fcd0cbb34ec42e6ff5e1a3684593052cfb7ecb38",
+    "src/nabt/data/law.json": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+    "tests/test_binary_unit_domain_probe.py": "240b2850e493f00d50fa22007db77ceb244436574b0f6c324ba8fcaee1652086",
+    "tests/test_progressive_unit_probe.py": "2d4fd0143521bac3f81fdd2c2ab6a16f985deadbb0cc81d0e74e5ce8f5909b64",
+    "tests/test_progressive_unit_checker.py": "63afc6ba3a7aa3e1990eeb5b4d8ef9900e3b66cf4ed0357b43f69ed1a766970c",
+    "tools/check_progressive_units.py": "aebfdb916483e70e8e91c57d1c18f97b36b09adce70f15d3e2d38b67432df153"
+  },
+  "source_stable": true,
+  "commands": [
+    {
+      "name": "formal",
+      "command": [
+        "make",
+        "formal",
+        "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake"
+      ],
+      "started_utc": "2026-10-24T07:14:37.396666+00:00",
+      "seconds": 0.516,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v3/formal.stdout.log",
+      "log_sha256": "9e1be38ec34d02cc685652b256d4bd4b124ddc4c8647a7eb6582f8f92c72453c"
+    },
+    {
+      "name": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "started_utc": "2026-10-24T07:14:37.913194+00:00",
+      "seconds": 52.982,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v3/test.stdout.log",
+      "log_sha256": "e67acec137df4fc7704a1587010fe7d36da749e6c434bd76ee9848b6b90cbc96"
+    },
+    {
+      "name": "conformance",
+      "command": [
+        "make",
+        "conformance",
+        "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+        "EVIDENCE_DIR=evidence/progressive_units/validation_v3"
+      ],
+      "started_utc": "2026-10-24T07:15:30.895523+00:00",
+      "seconds": 1.374,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v3/conformance.stdout.log",
+      "log_sha256": "12a92e656815be07a34c1900d4c742ab86854dbf29ca5ac7bd5dc6d74fa2e7b2"
+    },
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "tools/check_integrity.py"
+      ],
+      "started_utc": "2026-10-24T07:15:32.269853+00:00",
+      "seconds": 0.315,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v3/integrity.stdout.log",
+      "log_sha256": "3672195a49052acf7d559d62d6676f1b259f1c82f3e6a4cfd1bd3652a3fed280"
+    }
+  ],
+  "ok": true
+}

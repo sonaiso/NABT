@@ -1,0 +1,1174 @@
+{
+  "schema": "nabt.progressive-units.independent-cases.v1",
+  "created_utc": "2026-10-24T06:42:36.632997+00:00",
+  "authorship": "Separately authored by the source/review agent before reading either new implementation module or its probe. Authored contract tests, not held-out natural-Arabic evaluation.",
+  "baseline_commit": "748bcfc3352b8f9ec58ced1f9bcda020fd622c02",
+  "scope": "Finite proposal arithmetic, source/evidence/operation contracts and the existing declared A116 sound law. No new category learning or raw-source interpretation is assumed.",
+  "execution_rule": "Only explicit measured fields may pass. Unsupported operations or fields must be UNMEASURED. An adapter may translate input but must not use expected fields to construct probe requests, witnesses or source data. Conditional fixtures supply their evidence explicitly; their success is not evidence acquisition.",
+  "state_terms": {
+    "unknown": "no decisive evidence; not accepted or linguistically rejected",
+    "conflict": "qualified positive and negative support; not accepted",
+    "invalid_input": "bad shape/coordinate/rank/representation",
+    "exhausted": "search budget reached; does not prove linguistic impossibility"
+  },
+  "case_count": 34,
+  "cases": [
+    {
+      "id": "P01",
+      "group": "finite_proposals",
+      "operation": "alphabet",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "carriers": 29,
+        "states": [
+          "fatha",
+          "damma",
+          "kasra",
+          "sukun"
+        ]
+      },
+      "expected": {
+        "cells": 116,
+        "non_sukun_cells": 87,
+        "sukun_cells": 29,
+        "all_cells_are_phonetic_cv": false
+      },
+      "rationale": "Representation cardinality is arithmetic, not universal pronunciation or occurrence licensing."
+    },
+    {
+      "id": "P02",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 2,
+        "v": 1,
+        "max_atoms": 6,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "complete",
+        "shapes_set": [
+          "CCV",
+          "CVC",
+          "VCC"
+        ],
+        "count": 3,
+        "duplicates": false,
+        "linguistic_license_inferred": false
+      },
+      "rationale": "Explicit unordered membership oracle for an ordered string language; no linguistic filter is supplied."
+    },
+    {
+      "id": "P03",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 2,
+        "v": 2,
+        "max_atoms": 6,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "complete",
+        "shapes_set": [
+          "CCVV",
+          "CVCV",
+          "CVVC",
+          "VCCV",
+          "VCVC",
+          "VVCC"
+        ],
+        "count": 6,
+        "duplicates": false,
+        "linguistic_license_inferred": false
+      },
+      "rationale": "Explicit unordered membership oracle for an ordered string language; no linguistic filter is supplied."
+    },
+    {
+      "id": "P04",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 3,
+        "v": 1,
+        "max_atoms": 6,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "complete",
+        "shapes_set": [
+          "CCCV",
+          "CCVC",
+          "CVCC",
+          "VCCC"
+        ],
+        "count": 4,
+        "duplicates": false,
+        "linguistic_license_inferred": false
+      },
+      "rationale": "Explicit unordered membership oracle for an ordered string language; no linguistic filter is supplied."
+    },
+    {
+      "id": "P05",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 3,
+        "v": 2,
+        "max_atoms": 6,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "complete",
+        "count": 10,
+        "contains": [
+          "CVCVC",
+          "CVVCC",
+          "CCVVC"
+        ],
+        "duplicates": false,
+        "all_have_quota": [
+          3,
+          2
+        ]
+      },
+      "rationale": "Choose two of five positions for V; different orders remain distinct."
+    },
+    {
+      "id": "P06",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 3,
+        "v": 3,
+        "max_atoms": 6,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "complete",
+        "count": 20,
+        "contains": [
+          "CVCVCV",
+          "CCCVVV",
+          "VVVCCC"
+        ],
+        "duplicates": false,
+        "all_have_quota": [
+          3,
+          3
+        ]
+      },
+      "rationale": "Choose three of six positions for V; consonant/vowel counts do not determine order."
+    },
+    {
+      "id": "P07",
+      "group": "finite_proposals",
+      "operation": "concatenate",
+      "input": {
+        "left": "CV",
+        "right": "CV",
+        "comparison": "CVVC"
+      },
+      "expected": {
+        "shape": "CVCV",
+        "same_counts": true,
+        "same_order": false,
+        "same_content_key": false
+      },
+      "rationale": "CV+CV is CVCV; 2C+2V is only a multiset count and cannot identify CVVC."
+    },
+    {
+      "id": "P08",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 3,
+        "v": 2,
+        "max_atoms": 4,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "exhausted",
+        "complete": false,
+        "linguistically_rejected": false
+      },
+      "rationale": "A declared atom budget cannot prove absence in a larger search space."
+    },
+    {
+      "id": "P09",
+      "group": "finite_proposals",
+      "operation": "ordered_quota",
+      "input": {
+        "c": 0,
+        "v": 0,
+        "max_atoms": 0,
+        "onset_filter": false
+      },
+      "expected": {
+        "status": "complete",
+        "shapes_set": [
+          ""
+        ],
+        "count": 1,
+        "empty_occurrence_licensed": false
+      },
+      "rationale": "The combinatorial identity element is not a nonempty source occurrence."
+    },
+    {
+      "id": "D01",
+      "group": "licensed_derivations",
+      "operation": "atom",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "position": 1,
+        "atom": "V",
+        "evidence": "exact_positive"
+      },
+      "expected": {
+        "admitted": true,
+        "extent": [
+          1,
+          2
+        ],
+        "reconstruction": [
+          "C",
+          "V",
+          "C",
+          "V"
+        ],
+        "rank": 0
+      },
+      "rationale": "An atomic occurrence is anchored to the exact source position, not just its symbol."
+    },
+    {
+      "id": "D02",
+      "group": "licensed_derivations",
+      "operation": "atom",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "position": 4,
+        "atom": "V",
+        "evidence": "exact_positive"
+      },
+      "expected": {
+        "admitted": false,
+        "invalid_input": true
+      },
+      "rationale": "The exclusive stop is source length; index4 is out of range."
+    },
+    {
+      "id": "D03",
+      "group": "licensed_derivations",
+      "operation": "join",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "children": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": true,
+        "extent": [
+          0,
+          4
+        ],
+        "shape": "CVCV",
+        "source_preserved": true,
+        "reconstruction": [
+          "C",
+          "V",
+          "C",
+          "V"
+        ]
+      },
+      "rationale": "Joining adjacent licensed children consumes each original occurrence once."
+    },
+    {
+      "id": "D04",
+      "group": "licensed_derivations",
+      "operation": "join",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "children": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": false,
+        "gap_must_not_be_erased": true
+      },
+      "rationale": "The missing position1 is a real source gap, even if filtered atoms happen to concatenate."
+    },
+    {
+      "id": "D05",
+      "group": "licensed_derivations",
+      "operation": "join",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "children": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "right_revision": 2,
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": false,
+        "foreign_source_binding": true
+      },
+      "rationale": "Same characters and coordinates from a different revision cannot be one occurrence."
+    },
+    {
+      "id": "D06",
+      "group": "licensed_derivations",
+      "operation": "join",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "children": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "evidence": "none"
+      },
+      "expected": {
+        "admitted": false,
+        "licensed": false,
+        "status": "unknown",
+        "linguistically_rejected": false
+      },
+      "rationale": "A structurally reversible grouping is not licensed by flattening alone."
+    },
+    {
+      "id": "D07",
+      "group": "licensed_derivations",
+      "operation": "join",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "children": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "evidence": "positive_for_wrap_only"
+      },
+      "expected": {
+        "admitted": false,
+        "licensed": false,
+        "operation_evidence_reused": false
+      },
+      "rationale": "A receipt for wrap cannot license join when its target operation differs."
+    },
+    {
+      "id": "D08",
+      "group": "licensed_derivations",
+      "operation": "join",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "children": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "evidence": "exact_positive_and_exact_negative"
+      },
+      "expected": {
+        "admitted": false,
+        "licensed": false,
+        "conflict": true
+      },
+      "rationale": "Positive and negative support must not be silently collapsed into acceptance."
+    },
+    {
+      "id": "D09",
+      "group": "licensed_derivations",
+      "operation": "wrap",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "left": [
+          0,
+          1
+        ],
+        "middle": [
+          1,
+          3
+        ],
+        "right": [
+          3,
+          4
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": true,
+        "extent": [
+          0,
+          4
+        ],
+        "shape": "CVCV",
+        "reconstruction": [
+          "C",
+          "V",
+          "C",
+          "V"
+        ]
+      },
+      "rationale": "A wrap preserves the core and both boundary pieces in source order."
+    },
+    {
+      "id": "D10",
+      "group": "licensed_derivations",
+      "operation": "substitute",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "extent": [
+          0,
+          4
+        ],
+        "start": 1,
+        "removed": [
+          "V"
+        ],
+        "inserted": [
+          "V",
+          "V"
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": true,
+        "surface": [
+          "C",
+          "V",
+          "V",
+          "C",
+          "V"
+        ],
+        "residual_removed": [
+          "V"
+        ],
+        "reconstruction": [
+          "C",
+          "V",
+          "C",
+          "V"
+        ]
+      },
+      "rationale": "An edit record preserves removed material and exact local coordinates; the rule is supplied, not learned."
+    },
+    {
+      "id": "D11",
+      "group": "licensed_derivations",
+      "operation": "substitute",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "extent": [
+          0,
+          4
+        ],
+        "start": 1,
+        "removed": [
+          "V"
+        ],
+        "inserted": [],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": true,
+        "surface": [
+          "C",
+          "C",
+          "V"
+        ],
+        "residual_removed": [
+          "V"
+        ],
+        "reconstruction": [
+          "C",
+          "V",
+          "C",
+          "V"
+        ]
+      },
+      "rationale": "Deletion requires a stored residue; its transformed extent need not equal source extent."
+    },
+    {
+      "id": "D12",
+      "group": "licensed_derivations",
+      "operation": "substitute",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "extent": [
+          0,
+          4
+        ],
+        "start": 1,
+        "removed": [
+          "C"
+        ],
+        "inserted": [],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": false,
+        "reconstruction_valid": false
+      },
+      "rationale": "A false removed symbol cannot reconstruct the input even with a positive assertion."
+    },
+    {
+      "id": "D13",
+      "group": "licensed_derivations",
+      "operation": "lift",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "child_rank": 1,
+        "output_rank": 2,
+        "extent": [
+          0,
+          4
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": true,
+        "reconstruction": [
+          "C",
+          "V",
+          "C",
+          "V"
+        ],
+        "strict_rank_increase": true
+      },
+      "rationale": "A lifted unit preserves its yield and source while recording a higher derivation layer."
+    },
+    {
+      "id": "D14",
+      "group": "licensed_derivations",
+      "operation": "lift",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "child_rank": 1,
+        "output_rank": 1,
+        "extent": [
+          0,
+          4
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "admitted": false,
+        "rank_invalid": true
+      },
+      "rationale": "Equal-rank self wrapping cannot masquerade as a progressive acyclic step."
+    },
+    {
+      "id": "D15",
+      "group": "licensed_derivations",
+      "operation": "alternative_trees",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "trees": [
+          [
+            "join",
+            [
+              "join",
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          [
+            "join",
+            [
+              0,
+              1
+            ],
+            [
+              "join",
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                4
+              ]
+            ]
+          ]
+        ],
+        "evidence": "all_exact_positive"
+      },
+      "expected": {
+        "same_yield": true,
+        "same_source_extent": true,
+        "different_derivation": true,
+        "retained_alternatives": 2,
+        "unique_derivation": false
+      },
+      "rationale": "Associativity of the yield does not prove equality or necessity of grouping trees."
+    },
+    {
+      "id": "D16",
+      "group": "licensed_derivations",
+      "operation": "withdraw_premise",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "tree": [
+          "lift",
+          [
+            "join",
+            [
+              0,
+              2
+            ],
+            [
+              2,
+              4
+            ]
+          ]
+        ],
+        "remove_support_for": [
+          0,
+          2
+        ]
+      },
+      "expected": {
+        "descendant_licensed": false,
+        "stale_license_reused": false
+      },
+      "rationale": "A parent certificate must depend on the entire surviving premise chain."
+    },
+    {
+      "id": "D17",
+      "group": "licensed_derivations",
+      "operation": "necessity",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "candidates": [
+          "join",
+          "wrap"
+        ],
+        "admitted": [
+          "join"
+        ],
+        "refuted": [],
+        "search_complete": false
+      },
+      "expected": {
+        "necessary": false,
+        "globally_unique": false
+      },
+      "rationale": "One admitted path and incomplete search do not prove that a constructor was necessary."
+    },
+    {
+      "id": "D18",
+      "group": "licensed_derivations",
+      "operation": "necessity",
+      "input": {
+        "source": {
+          "source_id": 31,
+          "revision": 1,
+          "scope_id": 7,
+          "atomization_id": 2,
+          "atoms": [
+            "C",
+            "V",
+            "C",
+            "V"
+          ]
+        },
+        "reading": 11,
+        "rule": 41,
+        "class": 73,
+        "candidates": [
+          "join",
+          "wrap"
+        ],
+        "admitted": [
+          "join"
+        ],
+        "refuted": [
+          "wrap"
+        ],
+        "search_complete": true,
+        "bound": {
+          "rank": 2
+        }
+      },
+      "expected": {
+        "unique_within_supplied_bound": true,
+        "globally_unique": false
+      },
+      "rationale": "Finite elimination supports uniqueness only in the stated complete alternative domain."
+    },
+    {
+      "id": "D19",
+      "group": "licensed_derivations",
+      "operation": "occurrence_identity",
+      "input": {
+        "left": {
+          "source": {
+            "source_id": 31,
+            "revision": 1,
+            "scope_id": 7,
+            "atomization_id": 2,
+            "atoms": [
+              "C",
+              "V",
+              "C",
+              "V"
+            ]
+          },
+          "reading": 11,
+          "rule": 41,
+          "class": 73,
+          "extent": [
+            0,
+            2
+          ]
+        },
+        "right": {
+          "source": {
+            "source_id": 31,
+            "revision": 1,
+            "scope_id": 7,
+            "atomization_id": 2,
+            "atoms": [
+              "C",
+              "V",
+              "C",
+              "V"
+            ]
+          },
+          "reading": 11,
+          "rule": 41,
+          "class": 73,
+          "extent": [
+            2,
+            4
+          ]
+        }
+      },
+      "expected": {
+        "same_shape": true,
+        "same_occurrence": false
+      },
+      "rationale": "Repeated CV in one source remains two source occurrences."
+    },
+    {
+      "id": "C01",
+      "group": "declared_sound_law",
+      "operation": "sound_law",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "law": "nabt-sound-shape-v1",
+        "start_state": 0,
+        "atoms": [
+          68,
+          55,
+          39
+        ],
+        "label": "asr_pause"
+      },
+      "expected": {
+        "wasl_licensed": false,
+        "waqf_licensed": true,
+        "lexical_attestation_inferred": false
+      },
+      "rationale": "CVCC at the endpoint distinguishes the declared pause and continuation final predicates."
+    },
+    {
+      "id": "C02",
+      "group": "declared_sound_law",
+      "operation": "sound_law",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "law": "nabt-sound-shape-v1",
+        "start_state": 0,
+        "atoms": [
+          8,
+          3,
+          95,
+          95
+        ],
+        "label": "tamm_pause"
+      },
+      "expected": {
+        "wasl_licensed": false,
+        "waqf_licensed": true,
+        "lexical_attestation_inferred": false
+      },
+      "rationale": "CVVCC is also sensitive to the declared endpoint mode."
+    },
+    {
+      "id": "C03",
+      "group": "declared_sound_law",
+      "operation": "sound_law",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "law": "nabt-sound-shape-v1",
+        "start_state": 0,
+        "atoms": [
+          20,
+          3,
+          19,
+          16
+        ],
+        "label": "hajja"
+      },
+      "expected": {
+        "wasl_licensed": true,
+        "waqf_licensed": true,
+        "lexical_attestation_inferred": false
+      },
+      "rationale": "After a long vowel plus closer, the next moving carrier matches the closer."
+    },
+    {
+      "id": "C04",
+      "group": "declared_sound_law",
+      "operation": "sound_law",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "law": "nabt-sound-shape-v1",
+        "start_state": 0,
+        "atoms": [
+          80,
+          3,
+          91,
+          9
+        ],
+        "label": "qaaltu"
+      },
+      "expected": {
+        "wasl_licensed": false,
+        "waqf_licensed": false,
+        "lexical_attestation_inferred": false
+      },
+      "rationale": "The same abstract CVVC+CV shape fails the matching-carrier requirement."
+    },
+    {
+      "id": "C05",
+      "group": "declared_sound_law",
+      "operation": "sound_law",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "law": "nabt-sound-shape-v1",
+        "start_state": 0,
+        "atoms": [
+          87
+        ],
+        "label": "initial_sukun"
+      },
+      "expected": {
+        "wasl_licensed": false,
+        "waqf_licensed": false,
+        "lexical_attestation_inferred": false
+      },
+      "rationale": "A representable sukun cell is not allowed at the initial state."
+    },
+    {
+      "id": "C06",
+      "group": "declared_sound_law",
+      "operation": "sound_law",
+      "input": {
+        "alphabet": "nabt.a116.v1",
+        "law": "nabt-sound-shape-v1",
+        "start_state": 0,
+        "atoms": [
+          0
+        ],
+        "label": "moving_alif"
+      },
+      "expected": {
+        "wasl_licensed": false,
+        "waqf_licensed": false,
+        "lexical_attestation_inferred": false
+      },
+      "rationale": "Representation cardinality does not make moving alif an allowed occurrence."
+    }
+  ]
+}

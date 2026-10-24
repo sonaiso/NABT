@@ -247,3 +247,11 @@ jobs:
         env:
           NABT_UNIT_DISCOVERY_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/unitDiscoveryProbe
         run: python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
+      - name: Progressive constructions and independently authored partial contract measurements
+        run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
+      - name: Source-preserving derivations and exhaustive binary-domain selection
+        env:
+          NABT_PROGRESSIVE_UNIT_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/progressiveUnitProbe
+        run: |
+          python -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v
+          python -B -m unittest discover -s tests -p test_binary_unit_domain_probe.py -v

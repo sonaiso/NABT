@@ -83,6 +83,12 @@ unit-discovery-conformance:
 	$(PYTHON) tools/check_unit_discovery.py --lake $(LAKE) --output $(EVIDENCE_DIR)/unit-discovery-conformance.json
 	NABT_UNIT_DISCOVERY_PROBE=$(CURDIR)/formal/.lake/build/bin/unitDiscoveryProbe $(PYTHON) -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
 
+.PHONY: progressive-unit-conformance
+progressive-unit-conformance:
+	$(PYTHON) tools/check_progressive_units.py --lake $(LAKE) --output $(EVIDENCE_DIR)/progressive-unit-conformance.json
+	NABT_PROGRESSIVE_UNIT_PROBE=$(CURDIR)/formal/.lake/build/bin/progressiveUnitProbe $(PYTHON) -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v
+	NABT_PROGRESSIVE_UNIT_PROBE=$(CURDIR)/formal/.lake/build/bin/progressiveUnitProbe $(PYTHON) -B -m unittest discover -s tests -p test_binary_unit_domain_probe.py -v
+
 construction-evaluation:
 	$(PYTHON) tools/construction_evaluation.py --runtime-root $(CURDIR) --runtime-freeze $(TEXT_CODE_FREEZE) --allow-documented-boundaries --output $(EVIDENCE_DIR)/construction-regression.json
 
@@ -108,7 +114,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:
