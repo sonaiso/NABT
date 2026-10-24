@@ -240,6 +240,14 @@ jobs:
           "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build verifiedReading
           test -x "$NABT_VERIFIED_READING"
           python -B -m unittest discover -s tests -p test_verified_reading.py -v
+      - name: Replay explainable answers and record current-proposer baseline
+        env:
+          PYTHONPATH: src
+          NABT_VERIFIED_READING: ${{ github.workspace }}/formal/.lake/build/bin/verifiedReading
+        run: |
+          test -x "$NABT_VERIFIED_READING"
+          python -B -m unittest discover -s tests -p test_explainable_pilot.py -v
+          python tools/evaluate_explainable_pilot.py --output artifacts/local/ci/explainable-pilot.json
       - name: Classical source bindings and free reader semantic contracts
         env:
           PYTHONPATH: src
