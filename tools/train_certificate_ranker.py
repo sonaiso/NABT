@@ -173,6 +173,39 @@ def ranked_indices(weights, vectors):
     return sorted(range(len(vectors)), key=lambda i: (-scores[i], i))
 
 
+def rank_and_check(raw, query, proposals, model, checker):
+    """Reusable inference boundary: learned order, fresh native decisions.
+
+    This pool contains competing certificates for ONE canonical reading. It
+    does not stand for the free reader's linguistic alternatives. An unavailable
+    measurement blocks selection; no ranked score is an entailment receipt.
+    """
+    if type(proposals) is not list or not 1 <= len(proposals) <= 16:
+        raise ValueError('expected 1..16 certificate proposals')
+    if type(model) is not dict or model.get('schema') != 'nabt.certificate-ranker.v1' or model.get('features') != FEATURES or model.get('authority') != 'proposal-order-only':
+        raise ValueError('unsupported ranker contract')
+    weights = model.get('weights')
+    if type(weights) is not list or len(weights) != len(FEATURES) or any(type(w) not in (int, float) or not math.isfinite(w) for w in weights):
+        raise ValueError('invalid weights')
+    vectors = []
+    for certificate in proposals:
+        try:
+            vectors.append(features(raw, query, certificate))
+        except (KeyError, TypeError, AttributeError, UnicodeError):
+            vectors.append([0.0] * len(FEATURES))
+    order = ranked_indices(weights, vectors)
+    attempts = [{'original_index': index, **check(raw, query, proposals[index], checker)} for index in order]
+    accepted = [a for a in attempts if a['label'] == 1]
+    complete = all(a['measurement'] == 'MEASURED' for a in attempts)
+    statuses = {a['semantic_status'] for a in accepted}
+    selected = accepted[0]['original_index'] if complete and accepted and len(statuses) == 1 else None
+    return {'schema': 'nabt.ranked-certificate-replay.v1', 'attempts': attempts,
+            'selected_original_index': selected,
+            'semantic_status': accepted[0]['semantic_status'] if selected is not None else None,
+            'all_attempts_measured': complete, 'linguistic_reading_completeness': False,
+            'world_truth_established': False}
+
+
 def summarize(rows, weights):
     groups = {}
     for row in rows:
@@ -199,6 +232,8 @@ def execute(output, checker):
     # Refuse replacement *before* any compute, preserving first-run evidence.
     output.mkdir(parents=True, exist_ok=False)
     protocol = json.loads(PROTOCOL.read_bytes())
+    if protocol['candidate_kinds'] != list(KINDS):
+        raise ValueError('candidate protocol differs from implementation')
     material = json.loads(CASES.read_bytes())
     definitions = material['cases'] + material['ablations']
     if set(protocol['validation_case_ids']) - {c['id'] for c in definitions}:
@@ -240,6 +275,7 @@ def execute(output, checker):
     learning = []
     timings = {'training_seconds': None}
     summaries = None
+    inference_replays = []
     if setup_passed and status_match:
         start = time.perf_counter()
         weights, learning = fit(training, **protocol['optimizer'])
@@ -250,6 +286,12 @@ def execute(output, checker):
         summaries = {split: {'trained': summarize(part, weights),
                              'fixed_input_order': summarize(part, [0.0] * len(FEATURES))}
                      for split, part in [('train', training), ('validation', validation)]}
+        for item in inputs:
+            if item['split'] != 'validation':
+                continue
+            proposals = [r['certificate'] for r in validation if r['case_id'] == item['id']]
+            replay = rank_and_check(item['source_utf8'].encode(), item['query_utf8'].encode(), proposals, model, checker)
+            inference_replays.append({'case_id': item['id'], **replay})
     times = sorted(r['elapsed_seconds'] for r in rows)
     timings.update(native_attempt_p50_seconds=times[(len(times)-1)//2],
                    native_attempt_p95_seconds=times[math.ceil(0.95*len(times))-1],
@@ -266,7 +308,10 @@ def execute(output, checker):
               'labels': dict(Counter(str(r['label']) for r in rows)),
               'original_status_matches_authored_expectations': status_match,
               'exact_source_overlap': sorted(overlap), 'metrics': summaries,
-              'training_executed': model is not None, 'passed': setup_passed and status_match,
+              'training_executed': model is not None,
+              'passed': setup_passed and status_match and all(
+                  r['all_attempts_measured'] and r['selected_original_index'] == len(KINDS)-1 and
+                  r['semantic_status'] == expected[r['case_id']] for r in inference_replays),
               'limits': {'all_arabic_complete': False, 'world_truth_established': False,
                          'arabic_acquisition_measured': False, 'independent_held_out_measured': False,
                          'root_ood_measured': False, 'template_ood_measured': False,
@@ -274,7 +319,8 @@ def execute(output, checker):
                          'improvement_over_current_proposer_measured': False},
               'current_proposer_baseline': 'One already valid proposal per case; ranking an adversarial pool cannot establish an improvement over this proposer.'}
     for name, value in [('run.json', result), ('inputs.json', inputs), ('model.json', model),
-                        ('learning_curve.json', learning), ('intake_queue.json', intake())]:
+                        ('learning_curve.json', learning), ('intake_queue.json', intake()),
+                        ('inference_replay.json', inference_replays)]:
         (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n', encoding='utf-8')
     return result
 

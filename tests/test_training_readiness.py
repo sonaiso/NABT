@@ -133,3 +133,21 @@ class NativeTrainingContracts(unittest.TestCase):
             self.assertEqual(result['measurements'], {'UNMEASURED': 90})
             self.assertFalse(result['training_executed'])
             self.assertFalse(result['passed'])
+
+    def test_ranker_false_positive_cannot_authorize_a_forged_proof(self):
+        forged = deepcopy(self.cert)
+        forged['known'][0]['predicate'] = 'مخترع'
+        self.assertEqual(training.features(self.raw, self.query, forged),
+                         training.features(self.raw, self.query, self.cert))
+        model = dict(schema='nabt.certificate-ranker.v1', features=training.FEATURES,
+                     weights=[1.0] * len(training.FEATURES), authority='proposal-order-only')
+        result = training.rank_and_check(self.raw, self.query, [forged, self.cert], model, self.checker)
+        self.assertEqual([a['label'] for a in result['attempts']], [0, 1])
+        self.assertEqual(result['selected_original_index'], 1)
+        self.assertEqual(result['semantic_status'], 'UNKNOWN')
+        unavailable = training.rank_and_check(self.raw, self.query, [self.cert], model, Path('/nonexistent/checker'))
+        self.assertIsNone(unavailable['selected_original_index'])
+        self.assertIsNone(unavailable['semantic_status'])
+        for value in (True, float('nan')):
+            with self.assertRaises(ValueError):
+                training.rank_and_check(self.raw, self.query, [self.cert], {**model, 'weights': [value] * len(training.FEATURES)}, self.checker)
