@@ -1,6 +1,25 @@
 # Changelog
 
-## Unreleased — formal unit partition and conditional licensing specification
+## Unreleased — progressive construction algebra and conditional unit laws
+
+- Add atomic/join/wrap/substitute/lift derivations with exact-target premises,
+  inductive source/boundary/remainder preservation, strict ranks, and exact
+  inverse replay. Known interpreted negatives cannot be hidden by dropping them
+  from the offered ledger; every child remains a licensing dependency.
+- Exhaust ordered C/V quotas, contiguous decompositions and all binary trees
+  with separate content/occurrence/derivation identities. A116 has 116 declared
+  carrier/mark cells; this is not 116 context-free spoken CV syllables.
+- Reify nonempty A116 payloads by an injective number and their complete
+  entry-dependent state/weight effect. Standalone acceptance does not imply
+  acceptance after concatenation.
+- Prove an independent fixed-source/fixed-interval/fixed-tag atom/join grammar
+  equivalent to its candidate generator. Select a necessary derivation only
+  inside that generated domain after every rival is explicitly rejected.
+- Add the bounded `progressiveUnitProbe`, source audit, separately authored
+  34-case material and adversarial integration checks. Keep unsupported rank
+  and necessity assertions unmeasured; no natural-Arabic acquisition claim.
+
+### Earlier unit partition and conditional licensing specification
 
 - Add `nabt.unit-discovery.v1`: exhaustive contiguous partitions of supplied
   atoms, general soundness/completeness/uniqueness/count proofs, original source

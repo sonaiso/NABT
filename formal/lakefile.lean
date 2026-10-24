@@ -38,3 +38,9 @@ lean_exe exportConstructionEvidence where
 @[default_target]
 lean_exe unitDiscoveryProbe where
   root := `UnitDiscoveryProbe
+
+lean_lib ProbeJson
+
+@[default_target]
+lean_exe progressiveUnitProbe where
+  root := `ProgressiveUnitProbe

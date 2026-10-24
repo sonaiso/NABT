@@ -1,0 +1,27 @@
+{
+  "schema": "nabt.progressive-units.checker-review.v1",
+  "issue_id": "PC-01",
+  "status": "identified_before_fix",
+  "kind": "checker_domain_mismatch",
+  "first_result": {
+    "path": "evidence/progressive_units/runs_v1/results_first.json",
+    "sha256": "e14b73898e61b63fd5797cbad2481eb93ca3e3b1c023f1b2a51e9cf082845264"
+  },
+  "first_checker_sha256": "0ecf8b5a4a66a93a9ec8d551031db092c4c5dff857384442a0b1dbd992b94f2f",
+  "affected_cases": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06"
+  ],
+  "affected_assertions": 18,
+  "consistency_errors": 12,
+  "cause": "Validator equated the input atomic-cell alphabet nabt.a116.v1 with the output compound-number domain nabt.a116-sequence.v1. UnitCarrier.lean explicitly declares the latter for compound addresses.",
+  "planned_fix": "Validate alphabet_id=nabt.a116-sequence.v1 and sub_law_id=nabt.unit-carrier.v1; retain the sound-law and exact input-cell checks. Add regression rejecting the wrong output-number domain.",
+  "material_change": false,
+  "expected_change": false,
+  "request_change": false,
+  "validation_plan": "Replay the preserved first raw stdout through the fixed checker before any new probe execution."
+}

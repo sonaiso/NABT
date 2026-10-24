@@ -1,0 +1,69 @@
+{
+  "schema": "nabt.progressive-units.proof-validation.v1",
+  "baseline_commit": "748bcfc3352b8f9ec58ced1f9bcda020fd622c02",
+  "proof_sources_before": {
+    "formal/Nabt.lean": "461ea1f45f793e8123ca657edc9d57d14e98397815d70922c30da27e25993e1e",
+    "formal/Audit.lean": "75cdf54493eb02c8c6316e11e7ced469e527acef3b87c2d1e469975041d1ae07",
+    "formal/theorems.json": "b05c7443196a323f774d995be2ca0515f520a39a018779072314f97c5744bdcc",
+    "formal/Nabt/LicensedDerivation.lean": "20fbc4e8c8be84cd7506585dd2da7b09dc427110a36ea61265e4845f4611376b",
+    "formal/Nabt/ProsodicUnits.lean": "c1165219ea4efde6a081717cfdb418a04b814e12d49fd2f3378dad36b884fc2d",
+    "formal/Nabt/UnitCarrier.lean": "e351739574c94c252579aed510fdd5375adcc77475e9d5f45c00ac02be8c78c0",
+    "formal/Nabt/BinaryUnitDomain.lean": "270f643d7e7f871018646f233cec00d5c68c4d298517228286387706ca44aebc"
+  },
+  "proof_sources_after": {
+    "formal/Nabt.lean": "461ea1f45f793e8123ca657edc9d57d14e98397815d70922c30da27e25993e1e",
+    "formal/Audit.lean": "75cdf54493eb02c8c6316e11e7ced469e527acef3b87c2d1e469975041d1ae07",
+    "formal/theorems.json": "b05c7443196a323f774d995be2ca0515f520a39a018779072314f97c5744bdcc",
+    "formal/Nabt/LicensedDerivation.lean": "20fbc4e8c8be84cd7506585dd2da7b09dc427110a36ea61265e4845f4611376b",
+    "formal/Nabt/ProsodicUnits.lean": "c1165219ea4efde6a081717cfdb418a04b814e12d49fd2f3378dad36b884fc2d",
+    "formal/Nabt/UnitCarrier.lean": "e351739574c94c252579aed510fdd5375adcc77475e9d5f45c00ac02be8c78c0",
+    "formal/Nabt/BinaryUnitDomain.lean": "270f643d7e7f871018646f233cec00d5c68c4d298517228286387706ca44aebc"
+  },
+  "source_stable": true,
+  "commands": [
+    {
+      "name": "formal",
+      "command": [
+        "make",
+        "formal",
+        "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake"
+      ],
+      "started_utc": "2026-10-24T06:55:55.287463+00:00",
+      "seconds": 0.601,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v1/formal.log",
+      "log_sha256": "9e1be38ec34d02cc685652b256d4bd4b124ddc4c8647a7eb6582f8f92c72453c"
+    },
+    {
+      "name": "axioms",
+      "command": [
+        "python3",
+        "tools/check_axioms.py",
+        "--lake",
+        "/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+        "--output",
+        "/workspace/scratch/93a907621097/NABT/evidence/progressive_units/validation_v1/axioms.json"
+      ],
+      "started_utc": "2026-10-24T06:55:55.889093+00:00",
+      "seconds": 2.209,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v1/axioms.log",
+      "log_sha256": "f75ca5166a8f1ccbf915d9e82f9602b352a0c3120e65a9e9909c7d3c84a7a0d3"
+    },
+    {
+      "name": "conformance",
+      "command": [
+        "make",
+        "conformance",
+        "LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+        "EVIDENCE_DIR=/workspace/scratch/93a907621097/NABT/evidence/progressive_units/validation_v1"
+      ],
+      "started_utc": "2026-10-24T06:55:58.098036+00:00",
+      "seconds": 1.306,
+      "exit_code": 0,
+      "log": "evidence/progressive_units/validation_v1/conformance.log",
+      "log_sha256": "b42672a377630bef3e50cc8cf5858ee6487391b63c5784d32a79a67729ed89dc"
+    }
+  ],
+  "ok": true
+}
