@@ -1,0 +1,1223 @@
+{
+  "schema": "nabt.independent-arabic-holdout.v1",
+  "baseline_commit": "f0064f0a4baab3cc816087a322aabc0c8fbb2d19",
+  "authoring": "independent agent; no pending runtime inspection or prediction probes before freeze",
+  "cases": [
+    {
+      "id": "H01",
+      "category": "positive",
+      "focus": "independent lexical control",
+      "text": "نَاصِرٌ حَكِيمٌ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The explicit noun predicate belongs to the named subject only.",
+      "source_rules": [
+        "nominal_predication",
+        "predicate_adjectival_agreement"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "named owner"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "unrelated identity"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H02",
+      "category": "positive",
+      "focus": "ordered subject and object",
+      "text": "ضَرَبَ نَاصِرٌ زَيْدًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "An active event assigns different subject and object positions; reversing them is unsupported.",
+      "source_rules": [
+        "active_subject"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ ضَرَبَ نَاصِرٌ زَيْدًا؟",
+          "expected_status": "SUPPORTED",
+          "label": "ordered arguments"
+        },
+        {
+          "text": "هَلْ ضَرَبَ زَيْدٌ نَاصِرًا؟",
+          "expected_status": "UNKNOWN",
+          "label": "argument reversal"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "ضَرَبَ",
+          "predicate_kind": "event",
+          "args": [
+            "nasser",
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [
+        {
+          "predicate": "ضَرَبَ",
+          "predicate_kind": "event",
+          "args": [
+            "zayd",
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H03",
+      "category": "positive",
+      "focus": "PP with idafa",
+      "text": "كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The preposition governs the head, idafa governs its dependent, and the complete place restriction is retained.",
+      "source_rules": [
+        "idafa_chain",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ؟",
+          "expected_status": "SUPPORTED",
+          "label": "complete PP and idafa"
+        },
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "place qualification retained"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H04",
+      "category": "positive",
+      "focus": "PP idafa adjective on head",
+      "text": "كَتَبَ نَاصِرٌ فِي دَارِ زَيْدٍ الكَبِيرَةِ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "In the declared direct adjective regime, feminine singular الكبيرة agrees with دار and not masculine زيد.",
+      "source_rules": [
+        "idafa_chain",
+        "naat_agreement",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي دَارِ زَيْدٍ الكَبِيرَةِ؟",
+          "expected_status": "SUPPORTED",
+          "label": "gender identifies adjective head"
+        },
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي دَارِ زَيْدٍ؟",
+          "expected_status": "UNKNOWN",
+          "label": "adjective qualification retained"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H05",
+      "category": "positive",
+      "focus": "PP idafa adjective on dependent",
+      "text": "كَتَبَ نَاصِرٌ فِي دَارِ زَيْدٍ الكَرِيمِ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The masculine genitive adjective can describe زيد; it cannot describe the feminine دار or nominative ناصر in this direct regime.",
+      "source_rules": [
+        "idafa_chain",
+        "naat_agreement",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي دَارِ زَيْدٍ الكَرِيمِ؟",
+          "expected_status": "SUPPORTED",
+          "label": "masculine dependent adjective"
+        },
+        {
+          "text": "هَلْ نَاصِرٌ كَرِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no subject contamination"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "كَرِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H06",
+      "category": "ambiguity",
+      "focus": "PP idafa ambiguous adjective",
+      "text": "كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ الكَبِيرِ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "Both بيت and زيد are masculine singular genitives and definite in the idafa. No context field licenses choosing the adjective attachment.",
+      "source_rules": [
+        "idafa_chain",
+        "naat_agreement"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ الكَبِيرِ؟",
+          "expected_status": "DEFER",
+          "label": "unresolved attachment"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H07",
+      "category": "boundary",
+      "focus": "PP overt case conflict",
+      "text": "كَتَبَ نَاصِرٌ فِي بَيْتُ زَيْدٍ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "The visible nominative head conflicts with the direct preposition-governed reading; no alternate corrective premise is supplied.",
+      "source_rules": [
+        "idafa_chain"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ؟",
+          "expected_status": "DEFER",
+          "label": "no silent vowel repair"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H08",
+      "category": "boundary",
+      "focus": "PP idafa tanwin conflict",
+      "text": "كَتَبَ نَاصِرٌ فِي بَيْتٍ زَيْدٍ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "An overtly nunated semantic-idafa head cannot be accepted by treating visible tanwin as absent.",
+      "source_rules": [
+        "idafa_chain"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ؟",
+          "expected_status": "DEFER",
+          "label": "no tanwin deletion"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H09",
+      "category": "positive",
+      "focus": "hal and time",
+      "text": "جَاءَ نَاصِرٌ رَاكِبًا اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The circumstantial rider description is tied to the arrival event and its temporal restriction.",
+      "source_rules": [
+        "hal_attachment",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ جَاءَ نَاصِرٌ رَاكِبًا اليَوْمَ؟",
+          "expected_status": "SUPPORTED",
+          "label": "event circumstance and time"
+        },
+        {
+          "text": "هَلْ نَاصِرٌ رَاكِبٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no enduring unqualified property"
+        },
+        {
+          "text": "هَلْ جَاءَ نَاصِرٌ رَاكِبًا أَمْسِ؟",
+          "expected_status": "UNKNOWN",
+          "label": "different time"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "رَاكِب",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true,
+          "time": [],
+          "place": [],
+          "restriction": []
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H10",
+      "category": "positive",
+      "focus": "hal subject disambiguated",
+      "text": "ضَرَبَ نَاصِرٌ هِنْدًا رَاكِبًا اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The masculine hal agrees with the male subject, while the female object is excluded by explicit gender evidence.",
+      "source_rules": [
+        "active_subject",
+        "hal_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ ضَرَبَ نَاصِرٌ هِنْدًا رَاكِبًا اليَوْمَ؟",
+          "expected_status": "SUPPORTED",
+          "label": "masculine subject owns hal"
+        },
+        {
+          "text": "هَلْ هِنْدٌ رَاكِبَةٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no hal on feminine object"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "رَاكِبَة",
+          "predicate_kind": "property",
+          "args": [
+            "hind"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H11",
+      "category": "positive",
+      "focus": "hal object disambiguated",
+      "text": "ضَرَبَتْ هِنْدٌ نَاصِرًا رَاكِبًا اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The male object is the compatible owner of the masculine hal; linear proximity to the verb does not make the female subject its owner.",
+      "source_rules": [
+        "active_subject",
+        "hal_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ ضَرَبَتْ هِنْدٌ نَاصِرًا رَاكِبًا اليَوْمَ؟",
+          "expected_status": "SUPPORTED",
+          "label": "masculine object owns hal"
+        },
+        {
+          "text": "هَلْ هِنْدٌ رَاكِبَةٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no subject promotion"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "رَاكِبَة",
+          "predicate_kind": "property",
+          "args": [
+            "hind"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H12",
+      "category": "ambiguity",
+      "focus": "hal competing owners",
+      "text": "ضَرَبَ نَاصِرٌ زَيْدًا رَاكِبًا اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "Both named male participants can own the singular masculine hal. The context supplies no attachment choice.",
+      "source_rules": [
+        "active_subject",
+        "hal_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ ضَرَبَ نَاصِرٌ زَيْدًا رَاكِبًا اليَوْمَ؟",
+          "expected_status": "DEFER",
+          "label": "same gender does not choose an owner"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H13",
+      "category": "positive",
+      "focus": "semantic emphasis plus time",
+      "text": "جَاءَ نَاصِرٌ نَفْسُهُ اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "Nafs carries an attached masculine singular pronoun matching the emphasized named subject; the event keeps its time.",
+      "source_rules": [
+        "tawkeed_reference",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ جَاءَ نَاصِرٌ نَفْسُهُ اليَوْمَ؟",
+          "expected_status": "SUPPORTED",
+          "label": "own matching emphatic pronoun"
+        },
+        {
+          "text": "هَلْ جَاءَ نَاصِرٌ نَفْسُهُ أَمْسِ؟",
+          "expected_status": "UNKNOWN",
+          "label": "emphasis does not erase time"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H14",
+      "category": "positive",
+      "focus": "literal repetition plus time",
+      "text": "جَاءَ نَاصِرٌ نَاصِرٌ أَمْسِ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "Literal emphatic repetition is restricted to the same independently resolved person and event.",
+      "source_rules": [
+        "tawkeed_reference",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ جَاءَ نَاصِرٌ نَاصِرٌ أَمْسِ؟",
+          "expected_status": "SUPPORTED",
+          "label": "same reference repetition"
+        },
+        {
+          "text": "هَلْ جَاءَ زَيْدٌ زَيْدٌ أَمْسِ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no identity substitution"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H15",
+      "category": "boundary",
+      "focus": "mismatching emphatic suffix",
+      "text": "جَاءَ نَاصِرٌ نَفْسُهَا اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "The feminine attached pronoun is not a matching emphasis witness for the male subject.",
+      "source_rules": [
+        "tawkeed_reference"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ جَاءَ نَاصِرٌ نَفْسُهُ اليَوْمَ؟",
+          "expected_status": "DEFER",
+          "label": "no suffix repair"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H16",
+      "category": "positive",
+      "focus": "epistemic embedding",
+      "text": "ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The belief is attributed to ناصر. Neither the positive nor the negative unqualified embedded property is established.",
+      "source_rules": [
+        "zanna_sisters"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا؟",
+          "expected_status": "SUPPORTED",
+          "label": "attributed belief"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no embedded assertion"
+        },
+        {
+          "text": "هَلْ لَيْسَ زَيْدٌ حَكِيمًا؟",
+          "expected_status": "UNKNOWN",
+          "label": "no embedded negation"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": false
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H17",
+      "category": "coverage_challenge",
+      "focus": "matrix negation of belief",
+      "text": "مَا ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "This deliberately requests a broader coverage frame: matrix ما-negation denies the attributed belief and does not move negation into its content. Scope is an authored semantic premise, not a theorem extracted from one cited line.",
+      "source_rules": [
+        "zanna_sisters",
+        "laysa_negation"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ مَا ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا؟",
+          "expected_status": "SUPPORTED",
+          "label": "negative matrix claim"
+        },
+        {
+          "text": "هَلْ ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا؟",
+          "expected_status": "REFUTED",
+          "label": "opposite matrix polarity"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "negated belief is not positive embedded truth"
+        },
+        {
+          "text": "هَلْ لَيْسَ زَيْدٌ حَكِيمًا؟",
+          "expected_status": "UNKNOWN",
+          "label": "negated belief is not belief in negation"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": false
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H18",
+      "category": "positive",
+      "focus": "signed negative property",
+      "text": "لَيْسَ نَاصِرٌ حَكِيمًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "A negative property can refute its exact polar opposite, while a variable question still lacks a positive witness.",
+      "source_rules": [
+        "laysa_negation",
+        "wh_subject"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ لَيْسَ نَاصِرٌ حَكِيمًا؟",
+          "expected_status": "SUPPORTED",
+          "label": "negative claim"
+        },
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "REFUTED",
+          "label": "explicit opposite"
+        },
+        {
+          "text": "مَنْ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "variable needs positive evidence"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": false
+        }
+      ],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H19",
+      "category": "positive",
+      "focus": "approximation with time",
+      "text": "كَادَ نَاصِرٌ يَكْتُبُ اليَوْمَ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The approximation frame retains its embedded event and time without affirming that writing occurs.",
+      "source_rules": [
+        "kada_complement",
+        "temporal_spatial_attachment"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَادَ نَاصِرٌ يَكْتُبُ اليَوْمَ؟",
+          "expected_status": "SUPPORTED",
+          "label": "near event remains scoped"
+        },
+        {
+          "text": "هَلْ يَكْتُبُ نَاصِرٌ اليَوْمَ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no realized embedded event"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "كَتَبَ",
+          "predicate_kind": "event",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 1
+    },
+    {
+      "id": "H20",
+      "category": "positive",
+      "focus": "future qualification",
+      "text": "سَوْفَ يَكُونُ نَاصِرٌ حَكِيمًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "An explicit future operator is retained; it is not a current unqualified property assertion.",
+      "source_rules": [
+        "kana_sisters",
+        "tense_aspect"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ سَوْفَ يَكُونُ نَاصِرٌ حَكِيمًا؟",
+          "expected_status": "SUPPORTED",
+          "label": "future property"
+        },
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no future to present erasure"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H21",
+      "category": "positive",
+      "focus": "same utterance different speaker",
+      "text": "أَنَا حَكِيمٌ.",
+      "context": "speaker_nasser",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "Identical utterance bytes denote a different owner when the independently supplied speaker identity changes.",
+      "source_rules": [
+        "independent_pronouns",
+        "predicate_adjectival_agreement"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "explicit speaker"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "other person not substituted"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H22",
+      "category": "positive",
+      "focus": "same utterance different speaker",
+      "text": "أَنَا حَكِيمٌ.",
+      "context": "speaker_zayd",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "Identical utterance bytes denote a different owner when the independently supplied speaker identity changes.",
+      "source_rules": [
+        "independent_pronouns",
+        "predicate_adjectival_agreement"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "explicit speaker"
+        },
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "other person not substituted"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [],
+      "claims_min": 1
+    },
+    {
+      "id": "H23",
+      "category": "ambiguity",
+      "focus": "speaker absent",
+      "text": "أَنَا حَكِيمٌ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "Neither the pronoun form nor a list of compatible people establishes who is speaking.",
+      "source_rules": [
+        "independent_pronouns"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "DEFER",
+          "label": "speaker cannot be guessed"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H24",
+      "category": "positive",
+      "focus": "one closed antecedent",
+      "text": "نَاصِرٌ كَرِيمٌ. هُوَ حَكِيمٌ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The closed domain and complete source prefix leave one licensed masculine singular antecedent.",
+      "source_rules": [
+        "independent_pronouns",
+        "nominal_predication"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "single compatible closed antecedent"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [],
+      "claims_min": 2
+    },
+    {
+      "id": "H25",
+      "category": "ambiguity",
+      "focus": "two closed antecedents",
+      "text": "نَاصِرٌ كَرِيمٌ. زَيْدٌ كَرِيمٌ. هُوَ حَكِيمٌ.",
+      "context": "base",
+      "expected_document_status": "DEFER",
+      "rationale": "Closing the reference domain does not make two compatible antecedents unique. Earlier licensed claims may remain, but no new حكيم claim is grounded.",
+      "source_rules": [
+        "independent_pronouns"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "DEFER",
+          "label": "no first antecedent selection"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "DEFER",
+          "label": "no nearest antecedent selection"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم"
+        }
+      ]
+    },
+    {
+      "id": "H26",
+      "category": "ambiguity",
+      "focus": "open reference domain",
+      "text": "نَاصِرٌ كَرِيمٌ. هُوَ حَكِيمٌ.",
+      "context": "open_reference",
+      "expected_document_status": "DEFER",
+      "rationale": "An explicit open reference scope leaves unobserved referents possible.",
+      "source_rules": [
+        "independent_pronouns"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "DEFER",
+          "label": "one observed antecedent is not a closed domain"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم"
+        }
+      ]
+    },
+    {
+      "id": "H27",
+      "category": "ambiguity",
+      "focus": "duplicate name identities",
+      "text": "نَاصِرٌ حَكِيمٌ.",
+      "context": "duplicate_name",
+      "expected_document_status": "DEFER",
+      "rationale": "Two distinct context identities share the same name and features; string equality does not choose one.",
+      "source_rules": [
+        "nominal_predication"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "DEFER",
+          "label": "a name is not a unique person"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    },
+    {
+      "id": "H28",
+      "category": "positive",
+      "focus": "property does not move from subject to object",
+      "text": "نَاصِرٌ حَكِيمٌ. ضَرَبَ نَاصِرٌ زَيْدًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The event's second participant does not inherit a separate property of the first.",
+      "source_rules": [
+        "nominal_predication",
+        "active_subject"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "original property owner"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "object not contaminated"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 2
+    },
+    {
+      "id": "H29",
+      "category": "positive",
+      "focus": "property does not move from object to subject",
+      "text": "زَيْدٌ حَكِيمٌ. ضَرَبَ نَاصِرٌ زَيْدًا.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The event's first participant does not inherit a separate property of the second.",
+      "source_rules": [
+        "nominal_predication",
+        "active_subject"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "original property owner"
+        },
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "subject not contaminated"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 2
+    },
+    {
+      "id": "H30",
+      "category": "force_boundary",
+      "focus": "explicit question force",
+      "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The public written-language force policy does not promote this nonassertive or quoted content into a factual claim.",
+      "source_rules": [
+        "polar_interrogative"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "nonassertive source gives no fact"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0,
+      "expected_clause_forces": [
+        "QUESTION"
+      ]
+    },
+    {
+      "id": "H31",
+      "category": "force_boundary",
+      "focus": "punctuation question force",
+      "text": "نَاصِرٌ حَكِيمٌ؟",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The public written-language force policy does not promote this nonassertive or quoted content into a factual claim.",
+      "source_rules": [
+        "force_nonassertive"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "nonassertive source gives no fact"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0,
+      "expected_clause_forces": [
+        "QUESTION"
+      ]
+    },
+    {
+      "id": "H32",
+      "category": "force_boundary",
+      "focus": "wish force",
+      "text": "لَيْتَ نَاصِرًا حَكِيمٌ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The public written-language force policy does not promote this nonassertive or quoted content into a factual claim.",
+      "source_rules": [
+        "inna_sisters"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "nonassertive source gives no fact"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0,
+      "expected_clause_forces": [
+        "WISH"
+      ]
+    },
+    {
+      "id": "H33",
+      "category": "force_boundary",
+      "focus": "hope force",
+      "text": "لَعَلَّ نَاصِرًا حَكِيمٌ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The public written-language force policy does not promote this nonassertive or quoted content into a factual claim.",
+      "source_rules": [
+        "inna_sisters"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "nonassertive source gives no fact"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0,
+      "expected_clause_forces": [
+        "HOPE"
+      ]
+    },
+    {
+      "id": "H34",
+      "category": "force_boundary",
+      "focus": "quoted mention",
+      "text": "«نَاصِرٌ حَكِيمٌ».",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "The public written-language force policy does not promote this nonassertive or quoted content into a factual claim.",
+      "source_rules": [
+        "force_nonassertive"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "nonassertive source gives no fact"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0,
+      "expected_clause_forces": [
+        "QUOTED"
+      ]
+    },
+    {
+      "id": "H35",
+      "category": "positive",
+      "focus": "separate coordinated owners",
+      "text": "نَاصِرٌ حَكِيمٌ وَ زَيْدٌ كَرِيمٌ.",
+      "context": "base",
+      "expected_document_status": "LICENSED_DISCOURSE",
+      "rationale": "Independent complete affirmative conjuncts preserve their distinct property owners.",
+      "source_rules": [
+        "clause_conjunction",
+        "nominal_predication"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ نَاصِرٌ حَكِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "first conjunct"
+        },
+        {
+          "text": "هَلْ زَيْدٌ كَرِيمٌ؟",
+          "expected_status": "SUPPORTED",
+          "label": "second conjunct"
+        },
+        {
+          "text": "هَلْ زَيْدٌ حَكِيمٌ؟",
+          "expected_status": "UNKNOWN",
+          "label": "no cross conjunct owner borrowing"
+        }
+      ],
+      "required_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "nasser"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "كَرِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "forbidden_claims": [
+        {
+          "predicate": "حَكِيم",
+          "predicate_kind": "property",
+          "args": [
+            "zayd"
+          ],
+          "positive": true
+        }
+      ],
+      "claims_min": 2
+    },
+    {
+      "id": "H36",
+      "category": "boundary",
+      "focus": "idafa owner identity absent",
+      "text": "كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ.",
+      "context": "no_owner_identity",
+      "expected_document_status": "DEFER",
+      "rationale": "The name's lexical morphology does not create a context identity for the possessor.",
+      "source_rules": [
+        "idafa_chain"
+      ],
+      "questions": [
+        {
+          "text": "هَلْ كَتَبَ نَاصِرٌ فِي بَيْتِ زَيْدٍ؟",
+          "expected_status": "DEFER",
+          "label": "no referent invented from a lexical name"
+        }
+      ],
+      "required_claims": [],
+      "forbidden_claims": [],
+      "claims_max": 0
+    }
+  ],
+  "cross_case_checks": [
+    {
+      "id": "X01",
+      "kind": "same_text_different_speaker",
+      "cases": [
+        "H21",
+        "H22",
+        "H23"
+      ],
+      "text": "أَنَا حَكِيمٌ.",
+      "required_positive_owners": {
+        "H21": "nasser",
+        "H22": "zayd"
+      },
+      "absent_speaker_case": "H23",
+      "argument": "The same bytes plus two permissible speaker contexts yield different referents. A function of these utterance bytes alone cannot recover both intended owners uniquely; absence of context must remain underspecified."
+    }
+  ]
+}

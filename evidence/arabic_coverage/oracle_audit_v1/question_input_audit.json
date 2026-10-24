@@ -1,0 +1,171 @@
+{
+  "schema": "nabt.original-gold-question-input-audit.v1",
+  "created_utc": "2026-10-24T12:19:29.917912+00:00",
+  "audit_mode": "Static question-input/source comparison after independent holdout v2 freeze; no runtime execution.",
+  "holdout_v2_freeze_sha256": "127a5870fcbc8f8823b95f2a9f452cf4cd87de22fcfc62b271efd32bc684c106",
+  "files": [
+    {
+      "suite": "constructions",
+      "path": "evidence/constructions/independent_cases_v1.json",
+      "sha256": "d3265d815023984c8e32c9827728bb20c3e3cd7e24990a02e13714aa07b75448",
+      "baseline_commit": "f0064f0a4baab3cc816087a322aabc0c8fbb2d19",
+      "baseline_sha256": "d3265d815023984c8e32c9827728bb20c3e3cd7e24990a02e13714aa07b75448",
+      "byte_identical_to_baseline": true,
+      "case_count": 86,
+      "question_entries": 106,
+      "question_text_entries": 106
+    },
+    {
+      "suite": "discourse",
+      "path": "evidence/discourse/independent_cases_v1.json",
+      "sha256": "52c73bcd8cba3a500f3dc612b861aff1a174b1a094e412c87bbf919f60ffd0d4",
+      "baseline_commit": "f0064f0a4baab3cc816087a322aabc0c8fbb2d19",
+      "baseline_sha256": "52c73bcd8cba3a500f3dc612b861aff1a174b1a094e412c87bbf919f60ffd0d4",
+      "byte_identical_to_baseline": true,
+      "case_count": 86,
+      "question_entries": 74,
+      "question_text_entries": 74
+    }
+  ],
+  "candidate_scan": "Remove Unicode combining marks ONLY in a temporary scan string; test first tokens hal and one of ma/laysa/lam/lan/la. This scan selects candidates and is not a grammatical verdict. No runtime or original input normalization occurs.",
+  "candidate_count": 2,
+  "confirmed_defect_count": 1,
+  "unresolved_candidate_count": 1,
+  "candidates": [
+    {
+      "suite": "constructions",
+      "case_id": "CON-K07",
+      "question_index_zero_based": 0,
+      "source_text": "مَا زَالَ سَامِرٌ نَشِيطًا.",
+      "question_text": "هَلْ مَا زَالَ سَامِرٌ نَشِيطًا؟",
+      "gold_outcome": "SUPPORTED",
+      "gold_complete_query_required": true,
+      "gold_certificate_required": true,
+      "classification": "UNRESOLVED_NORM_SCOPE_NOT_A_CONFIRMED_DEFECT",
+      "reason": "Ma zala is morphologically negative but denotes continuation. Al-Sabban reports Ibn Hisham distinguishing negative wording from affirmative meaning. That passage concerns predicate preposing and exceptive constructions, not specifically hal; it therefore neither licenses nor prohibits this question by itself.",
+      "source_ids": [
+        "mughni_hal_rule",
+        "sabban_ma_zala_scope"
+      ],
+      "runtime_gap_inferred": false,
+      "original_gold_changed": false,
+      "denominator_adjusted": false
+    },
+    {
+      "suite": "constructions",
+      "case_id": "CON-Z10",
+      "question_index_zero_based": 0,
+      "source_text": "مَا ظَنَّ سَامِرٌ بَاسِمًا شُجَاعًا.",
+      "question_text": "هَلْ مَا ظَنَّ سَامِرٌ بَاسِمًا شُجَاعًا؟",
+      "gold_outcome": "SUPPORTED",
+      "gold_complete_query_required": true,
+      "gold_certificate_required": true,
+      "classification": "CONFIRMED_ORACLE_INPUT_DEFECT_UNDER_DECLARED_CLASSICAL_NORM",
+      "reason": "The question places hal before matrix ma-negation of zanna. Ibn Hisham explicitly restricts hal to ijab and gives hal lam yaqum as prohibited, contrasting interrogative hamza with explicit negation. Applying that stated restriction to matrix ma-negation is the declared inference; the source does not quote this authored sentence.",
+      "source_ids": [
+        "mughni_hal_rule"
+      ],
+      "affected_gold_requirement": "Complete source-licensed interpretation and a SUPPORTED receipt are demanded for an interrogative form incompatible with the selected norm.",
+      "runtime_gap_inferred": false,
+      "original_gold_changed": false,
+      "denominator_adjusted": false
+    }
+  ],
+  "sources": {
+    "mughni_hal_rule": {
+      "repository": "OpenITI/0775AH",
+      "commit": "61b0c7891699554aeff8dffdb8b1a2a59d2d22ab",
+      "path": "data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MughniLabib/0761JamalDinIbnHisham.MughniLabib.Shamela0006972-ara1",
+      "url": "https://github.com/OpenITI/0775AH/blob/61b0c7891699554aeff8dffdb8b1a2a59d2d22ab/data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MughniLabib/0761JamalDinIbnHisham.MughniLabib.Shamela0006972-ara1",
+      "git_blob_sha1": "0d7ac2fae1df36b1c1c123f34be040fa8133c5e6",
+      "source_sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d",
+      "bytes": 1486890,
+      "line_start": 8094,
+      "line_end": 8107,
+      "start": 725106,
+      "end": 726190,
+      "span_sha256": "7137f918baaea30469b1749f7d8ef8f63aac48047dc65f77f7adce3021b8630b",
+      "raw_text": "# هل\n# حرف موضوع لطلب التصديق الإيجابي دون التصور ودون التصديق السلبي فيمتنع\n~~نحو هل زيدا ضربت لأن تقديم الاسم يشعر بحصول التصديق بنفس\n# PageV01P456\n# النسبة ونحو هل زيد قائم أم عمرو إذا أريد بأم المتصلة وهل لم يقم زيد\n~~ونظيرها في الاختصاص بطلب التصديق أم المنقطعة وعكسهما أم المتصلة وجميع\n~~أسماء الاستفهام فإنهن لطلب التصور لا غير وأعم من الجميع الهمزة فإنها\n~~مشتركة بين االطلبين\n# وتفترق هل من الهمزة من عشرة أوجه\n# أحدها اختصاصها بالتصديق\n# والثاني اختصاصها بالإيجاب تقول هل زيد قائم ويمتنع هل لم يقم بخلاف\n~~الهمزة نحو {ألم نشرح} {ألن يكفيكم} {أليس الله بكاف عبده} وقال\n### | 649 - \n# (ألا طعان ألا فرسان عادية ... )\n",
+      "rule_excerpt": {
+        "local_path": "artifacts/local/arabic-coverage-source/mughni.txt",
+        "full_source_sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d",
+        "physical_lines_inclusive": [
+          8094,
+          8107
+        ],
+        "byte_span_half_open": [
+          725106,
+          726190
+        ],
+        "excerpt_sha256": "7137f918baaea30469b1749f7d8ef8f63aac48047dc65f77f7adce3021b8630b",
+        "excerpt_utf8": "# هل\n# حرف موضوع لطلب التصديق الإيجابي دون التصور ودون التصديق السلبي فيمتنع\n~~نحو هل زيدا ضربت لأن تقديم الاسم يشعر بحصول التصديق بنفس\n# PageV01P456\n# النسبة ونحو هل زيد قائم أم عمرو إذا أريد بأم المتصلة وهل لم يقم زيد\n~~ونظيرها في الاختصاص بطلب التصديق أم المنقطعة وعكسهما أم المتصلة وجميع\n~~أسماء الاستفهام فإنهن لطلب التصور لا غير وأعم من الجميع الهمزة فإنها\n~~مشتركة بين االطلبين\n# وتفترق هل من الهمزة من عشرة أوجه\n# أحدها اختصاصها بالتصديق\n# والثاني اختصاصها بالإيجاب تقول هل زيد قائم ويمتنع هل لم يقم بخلاف\n~~الهمزة نحو {ألم نشرح} {ألن يكفيكم} {أليس الله بكاف عبده} وقال\n### | 649 - \n# (ألا طعان ألا فرسان عادية ... )\n"
+      },
+      "rhetorical_negation_excerpt": {
+        "local_path": "artifacts/local/arabic-coverage-source/mughni.txt",
+        "full_source_sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d",
+        "physical_lines_inclusive": [
+          8124,
+          8130
+        ],
+        "byte_span_half_open": [
+          727558,
+          727984
+        ],
+        "excerpt_sha256": "370d47ab699eb5c4ff310c1906c656342d885faf688b8928631ce61c30fdc8e3",
+        "excerpt_utf8": "# التاسع أنه يراد بالاستفهام بها النفي ولذلك دخلت على الخبر بعدها إلا في\n~~نحو {هل جزاء الإحسان إلا الإحسان} والباء في قوله\n### | 65 - \n# ( ... ألا هل أخو عيش لذيذ بدائم)\n# وصح العطف في قوله\n### | 653 - \n# (وإن شفائي عبرة مهراقة ... وهل عند رسم دارس من معول)\n"
+      }
+    },
+    "sabban_ma_zala_scope": {
+      "repository": "OpenITI/1225AH",
+      "commit": "4ec30fc763750fc1233d3774c4416b28c5c8b886",
+      "url": "https://github.com/OpenITI/1225AH/blob/4ec30fc763750fc1233d3774c4416b28c5c8b886/data/1206IbnCaliSabbanShafici/1206IbnCaliSabbanShafici.HashiyaCalaSharhAshmuni/1206IbnCaliSabbanShafici.HashiyaCalaSharhAshmuni.Shamela0011539-ara1",
+      "excerpt": {
+        "local_path": "artifacts/local/arabic-coverage-source/sabban.txt",
+        "full_source_sha256": "8b9e86da786cf65e7b32498b2524ee48a8dcf9f61b59e1bbc32b99ce7db5b396",
+        "physical_lines_inclusive": [
+          12395,
+          12402
+        ],
+        "byte_span_half_open": [
+          1402296,
+          1403295
+        ],
+        "excerpt_sha256": "c809670803f51a8557299cbbe9e553899b1b716f83ee5dc06fc02973b61c8f74",
+        "excerpt_utf8": "# مه عاذلي فهائما لن أبرحا ... بمثل أو أحسن من شمس الضحى<span class\n~~=\"matn-hr\"> </span>قوله: \"لأن نفيها إيجاب\" أي الكلام بدخولها صار إيجابا\n~~لأن مدخولها للنفي وهي للنفي ونفي النفي إيجاب فكأنه لم يكن هناك ما\n~~النافية المستحقة للتصدير. وأجاب ابن هشام عن دليل ابن كيسان بأن نحو ما\n~~زال زيد قائما نفي باعتبار اللفظ إيجاب باعتبار المعنى فمنعوا التقديم نظرا\n~~إلى اللفظ والاستثناء المفرغ نظرا إلى المعنى. ولما كان التقديم أمرا رجعا\n~~إلى اللفظ نظر فيه إلى اللفظ والاستثناء أمرا رجعا إلى المعنى لأنه إخراج\n~~من معنى الأول نظر فيه إلى المعنى. قوله: \"ورج الفتى\" أي الشاب، للخير أي\n"
+      }
+    },
+    "sabban_relative_ma_example": {
+      "same_source_as": "sabban_ma_zala_scope",
+      "excerpt": {
+        "local_path": "artifacts/local/arabic-coverage-source/sabban.txt",
+        "full_source_sha256": "8b9e86da786cf65e7b32498b2524ee48a8dcf9f61b59e1bbc32b99ce7db5b396",
+        "physical_lines_inclusive": [
+          47471,
+          47476
+        ],
+        "byte_span_half_open": [
+          5247446,
+          5248229
+        ],
+        "excerpt_sha256": "c3f8267952dba63ea6e4a8cfc4714dd3150f5553ec40512c6bd44b33c886f473",
+        "excerpt_utf8": "~~التصريح. قوله: \"وأجاز الأخفش إلخ\" قال الرضي نقلا عن الأخفش: إلا أن العرب\n~~لم تتكلم به قال الدماميني, والذي يظهر إجراء ما قاله الأخفش في الاستفهام\n~~أيضا بأن يقدر الكلام خاليا عن الاستفهام ثم أدخلت أدائه على الكلام بأسره\n~~لا على ما قبل حتى خاصة كأن يقول شخص لآخر سرت حتى تدخلها فشككت أنت في صدق\n~~الخبر فتقول: أنت للمخاطب هل سرت حتى تدخلها أي: هل ما أخبرك به هذا الشخص\n~~صحيح ا. ه. قوله: \"على الكلام بأسره\" فيكون التقدير ما سرت فأنا لا أدخلها.\n"
+      }
+    }
+  },
+  "source_scope_limits": [
+    "This records Ibn Hisham's stated grammatical norm, not a universal prohibition across all Arabic registers, periods or speakers.",
+    "The restriction concerns overt negative clause form after hal. It does not prohibit a negative answer, or rhetorical questions whose affirmative form conveys negation; Mughni explicitly discusses the latter.",
+    "Hamza is explicitly contrasted as admitting negative clauses, including a-laysa. Detached hamza in holdout v2 is a declared API token spelling; joined orthography is not silently assumed equivalent.",
+    "The substring hal ma is insufficient evidence: the cited Sabban passage uses ma as a relative expression in an affirmative nominal question.",
+    "The ma zala case remains unresolved for hal; its affirmative interpretation cannot be imported as a license from an unrelated syntactic rule.",
+    "A questionable input affects what a strict fixture score establishes, but does not excuse unrelated runtime shortcomings."
+  ],
+  "metric_policy": {
+    "original_denominators_unchanged": true,
+    "original_expected_outcomes_unchanged": true,
+    "original_gold_bytes_unchanged": true,
+    "strict_fixture_conformance_reported_separately_from_source_validity": true,
+    "no_runtime_failure_diagnosed_without_execution": true,
+    "no_claim_to_exhaustive_oracle_audit": true
+  }
+}

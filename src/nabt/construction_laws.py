@@ -16,9 +16,9 @@ import json
 
 from .errors import NabtError, natural
 
-LAW_ID = "nabt.construction-evidence.v2"
-EXPECTED_TABLE_SHA256 = "7cda6fd3736cbd5935bc9a9c3ab0e6510abbacc2f234bd752ab6846ba32e9595"
-SOURCE_POLICY_ID = "nabt.construction-grammar-sources.v2"
+LAW_ID = "nabt.construction-evidence.v3"
+EXPECTED_TABLE_SHA256 = "8b42ef10b963ea025005c1255abd643a47a37b31b9566af98983adf390b76f88"
+SOURCE_POLICY_ID = "nabt.construction-grammar-sources.v3"
 FAMILIES = ("kana", "inna", "zanna", "kada")
 ROLES = ("kana_subject", "kana_predicate", "inna_subject", "inna_predicate",
          "zanna_subject", "zanna_object1", "zanna_object2", "kada_subject", "kada_predicate",

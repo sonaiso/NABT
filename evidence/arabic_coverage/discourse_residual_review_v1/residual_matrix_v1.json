@@ -1,0 +1,1027 @@
+{
+  "schema": "nabt.discourse-residual-review.v1",
+  "created_utc": "2026-10-24T12:48:33.793342+00:00",
+  "mode": "READ_ONLY_POST_MEASUREMENT_REVIEW",
+  "reviewer_scope": "Independent comparison with preserved baseline/report bytes and inspection of raw analyses; the reviewer participated in runtime implementation, so this is not blind evaluation or a complete linguistic audit.",
+  "runtime_modified": false,
+  "gold_modified": false,
+  "final_v2_measurement_reviewed": false,
+  "inputs": {
+    "baseline_path": "evidence/arabic_coverage/baseline_v1.json",
+    "baseline_sha256": "1853baf28ec91b7c9a733bb13c2b22f120a657f16a07d3400982cfd24771dd25",
+    "baseline_commit": "f0064f0a4baab3cc816087a322aabc0c8fbb2d19",
+    "baseline_report_sha256": "f5199588ad8cca3465a5d9bd8e7a8e5d5ee6a821fba0ecdb0b4c00fcea4418a5",
+    "report_path": "artifacts/local/arabic_coverage_discourse_before_v1.json",
+    "report_sha256": "1a39886859ef5752940c3c73da330e7c3ec5a0682a2f8ed8b66884df0317f242",
+    "runtime_freeze_sha256": "a7194b9b52ab8a6db0c92d65c7dae76dc23c1f1c8777b4e10b2fb71efa01c89f",
+    "raw_journal_sha256": "778a96df983292929ecb8b4723a797c6302ec3fade6122ecb5b0bc302ea3a860",
+    "gold_freeze_sha256": "3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5",
+    "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46"
+  },
+  "measured_comparison": {
+    "baseline_passed": 56,
+    "current_passed": 63,
+    "total": 86,
+    "questions": 74,
+    "baseline_residual_count": 30,
+    "current_residual_count": 23,
+    "recovered_cases": [
+      "DSC-B25",
+      "DSC-L03",
+      "DSC-P16",
+      "DSC-P22",
+      "DSC-P23",
+      "DSC-P24",
+      "DSC-P30"
+    ],
+    "new_failed_cases": [],
+    "new_failed_checks": [],
+    "changed_failure_signatures": [],
+    "false_accept_count": 0,
+    "execution_errors": [],
+    "question_execution_errors": [],
+    "strict_pass": false,
+    "measurement_valid": true,
+    "raw_log_valid": true,
+    "independently_checked_raw_records": 90,
+    "independently_checked_unique_cases": 86,
+    "raw_score_records_match_summary": true
+  },
+  "cause_groups": {
+    "karim_unresolved_noun": {
+      "cases": [
+        "DSC-P02",
+        "DSC-P18",
+        "DSC-P25",
+        "DSC-T02",
+        "DSC-B04",
+        "DSC-B05"
+      ],
+      "observed": "تحمل كريم قراءة N ذات construction=null والتزام CONSTRUCTION_EVIDENCE، إلى جانب ADJ معربة مكتملة. يحفظ التقرير البديل غير المكتمل فيتوقف قبول الجملة أو الوثيقة.",
+      "unknown": "لم يثبت هذا الفحص أن قراءة N خطأ في المصدر، ولا أنه يجوز حذفها أو نقل شاهد إعراب ADJ إليها. لم تراجع الدلالة العربية الكاملة لكل سياق.",
+      "needed": "شاهد مستقل لاكتمال القراءة الاسمية أو لحسم مجال انطباق البدائل؛ مع إبقاء إحالة الضمير والصفة مربوطتين بصاحبهما."
+    },
+    "radiya_features_and_construction": {
+      "cases": [
+        "DSC-P03",
+        "DSC-P08",
+        "DSC-P09",
+        "DSC-P12"
+      ],
+      "observed": "راضية لها N معربة وADJ construction=null؛ number=null في القراءتين. يظهر PREDICATE_AGREEMENT_EVIDENCE_REQUIRED مع PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED في البديل الوصفي.",
+      "unknown": "لا تمنح علامة F وحدها قاعدة missing-number=>singular. لم يثبت أن وجود N مكتملة يلغي ADJ الناقصة أو يحسم كل معنى للسياق.",
+      "needed": "اكتساب مستقل لعدد الصفة وبنائها/إعرابها أو لتقييد بدائلها؛ ثم إعادة تقييم الإحالات اللاحقة من المصدر الكامل."
+    },
+    "unacquired_accusative_name": {
+      "cases": [
+        "DSC-P13",
+        "DSC-B15",
+        "DSC-B16"
+      ],
+      "observed": "لإِنّ/ليت/لعلّ مرشح عامل في occurrence، لكن حازمًا بلا قراءة مكتسبة في السجل، ولا ينتج تحليل جملة. فشل force_preserved في B15/B16 هو فقد WISH/HOPE المتوقعين، مع استمرار منع الادعاء.",
+      "unknown": "لم تختبر هذه المراجعة جميع أسباب غياب القراءة، ولا تثبت أن حذف ألف النصب أو افتراض تصريف كل اسم في context مسموح.",
+      "needed": "شاهد مستقل يربط الاسم في السياق بصورة النصب وحاملها ونوع تصريفه. لا يستبدل الاسم أو gold لرفع الدرجة."
+    },
+    "context_name_declension": {
+      "cases": [
+        "DSC-P14",
+        "DSC-P15",
+        "DSC-P17",
+        "DSC-B24"
+      ],
+      "observed": "حازم معروف المرجع لكن construction=null. تحليل كان/ليس ظاهر، references_complete=true، إلا أن CONSTRUCTION_EVIDENCE_REQUIRED وCONSTRUCTION_LAW_GATE يمنعان اكتماله.",
+      "unknown": "كون المرجع معلومًا لا يثبت تصريف الصورة الاسمية. لا تفصل هذه المراجعة في جميع القواعد اللغوية الممكنة لتوريث المعلومات من context.",
+      "needed": "شاهد اسم/تصريف مستقل ضمن عقد قراءة الاسم؛ ثم يبقى الزمن والنفي محصورين في العامل ولا يسقطان عند السؤال."
+    },
+    "idafa_two_distinct_debts": {
+      "cases": [
+        "DSC-P26"
+      ],
+      "observed": "بيت معرب ذو gender=masculine وnumber=null؛ جميل ADJ مفردة. يظهر التزام اتفاق الخبر. القراءة المركبة تحمل أيضًا CONSTRUCTION_EVIDENCE_REQUIRED للاسم المضاف إليه حازم؛ توجد إحالتا البيت وحازم ولا تكفيان لتفعيل الإعراب.",
+      "unknown": "لا يثبت جنس M وحده العدد S. ولم يثبت أن عدد كيان البيت في context يمكنه أن يعوض عدد القراءة المعجمية. هذه ديون متميزة لا عيب إحالة واحد.",
+      "needed": "مصدر عدد الكلمة وشاهد تصريف المضاف إليه، مع الحفاظ على الإضافة وعدم نقل صفة البيت إلى مالكه."
+    },
+    "akrama_host_argument_bridge": {
+      "cases": [
+        "DSC-P27",
+        "DSC-P28"
+      ],
+      "observed": "P27 لديه stem معجمي لأكرم لكن لا person_evidence مؤهلة لفعل كامل/valency في التقرير؛ سهيلًا بلا قراءة. P28 لا يملك قراءة أكْرمه في occurrence. التشخيص السابق حفظ موضعي QAC للشاهدين المتصلين في السورة89.",
+      "unknown": "لم يثبت أن الجذر/الlemma يجيزان فك المضيف الكامل من شاهد متصل. سؤال من في P27 له مسألة دور نحوي إضافية لا يحسمها الجواب المتوقع.",
+      "needed": "جسر مستقل للمضيف والضمير والتعدية وحامل نصب اسم المفعول؛ ودليل دور/حالة لسؤال من أو إبقاء بدائله.",
+      "prior_review": "evidence/arabic_coverage/discourse_runtime_boundaries_v1.json"
+    },
+    "basir_heldout_adjective": {
+      "cases": [
+        "DSC-T04"
+      ],
+      "observed": "في نموذج الحجب المحدد لهذه الحالة، بصير لها ADJ construction=null مقابل N معربة مكتملة؛ الالتزام الظاهر هو PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED.",
+      "unknown": "هذا وصف لمخرجات النموذج المحجوب المعين، وليس حكمًا بأن بصير لا تعرف في العربية أو بأن جميع الشواهد البديلة غائبة.",
+      "needed": "تعميم مرخص من شاهد مستقل ضمن حدود الحجب نفسه؛ لا إعادة صورة الاختبار إلى التدريب أو إسقاط البديل الناقص."
+    },
+    "connected_isolated_imperative": {
+      "cases": [
+        "DSC-B14"
+      ],
+      "observed": "اُدْخُلْ بلا قراءة أو تحليل في التقرير، فتغيب قوة الأمر المتوقعة. التشخيص السابق ربط الفجوة باختلاف صورة المصدر المتصلة عن الهدف المفرد.",
+      "unknown": "لا يكفي جذر دخل أو وسم IMPV لنقل همزة الوصل وحركة الوصل/الوقف. لم يحصر الفحص جميع التحويلات الممكنة.",
+      "needed": "قانون موثق لنطاق الوصل/الوقف وصوره، مع حفظ المصدر وعدم استنتاج وقوع الامتثال من صيغة الأمر.",
+      "prior_review": "evidence/arabic_coverage/discourse_runtime_boundaries_v1.json"
+    },
+    "negative_coordination_scope": {
+      "cases": [
+        "DSC-B19"
+      ],
+      "observed": "ليس حازم حكيمًا وسهيل كريم بلا تحليل جملة في السجل؛ السؤال موجب ويعود DEFER بدل REFUTED المتوقع. المسار المنفذ لا يركب هذا العطف تحت النفي؛ وتوجد أيضًا فجوتا حازم/كريم المعجميتان.",
+      "unknown": "لم يثبت هذا الفحص ما إذا كان النفي في كل استعمال مشابه يضيق إلى الجملة الأولى أو يتسع. لا يجوز استنتاج أن الواو وحدها تنهي نطاق النفي.",
+      "needed": "تركيب موثق للنطاق وحدود الجمل مع إبقاء القراءات ذات الصلة؛ ثم اكتمال الأسماء والصفات. هذه الحالة ليست طلبًا لاعتماد توزيع آلي للنفي."
+    }
+  },
+  "residual_cases": [
+    {
+      "id": "DSC-P02",
+      "track_label_not_used_as_diagnosis": "positive_person",
+      "input": "أَنْتَ كَرِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "karim_unresolved_noun",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ سُهَيْلٌ كَرِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "8b6d467e6e7c3fbee1819954ef3ab8aee733c29caeb644a600202b6c840c4bee",
+        "bytes": 132065
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P03",
+      "track_label_not_used_as_diagnosis": "positive_person",
+      "input": "أَنْتِ رَاضِيَةٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "radiya_features_and_construction",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED",
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ نَوْفٌ رَاضِيَةٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "621066b5bd6904154921997fe2b8b89990eb7c27c8da77ffc8deb1c871ab6df8",
+        "bytes": 73973
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P08",
+      "track_label_not_used_as_diagnosis": "positive_reference",
+      "input": "نَوْفٌ رَاضِيَةٌ. هِيَ رَاضِيَةٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "radiya_features_and_construction",
+      "case_specific_observation": "بديل راضية الناقص يمنع نشر mention من الجملة الأولى؛ هي في التالية تبقى بلا مرجع مرخص.",
+      "observed_viable_obligations": [
+        "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED",
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED",
+        "REFERENCE_NOT_UNIQUELY_LICENSED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "مَنْ رَاضِيَةٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "1b0a5a16b40a34d3644f88388c69277bbd48fd1bdeb902dd748569fab6f00ca1",
+        "bytes": 154299
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P09",
+      "track_label_not_used_as_diagnosis": "positive_reference",
+      "input": "حَازِمٌ جَمِيلٌ. نَوْفٌ رَاضِيَةٌ. هُوَ حَكِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "radiya_features_and_construction",
+      "case_specific_observation": "حازم مسجل كمرشح للضمير، لكن الجملة الوسطى غير مكتملة؛ source_prefix_complete=false يمنع اختيار هذا المرشح وحده.",
+      "observed_viable_obligations": [
+        "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED",
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED",
+        "REFERENCE_NOT_UNIQUELY_LICENSED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "مَنْ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "8ccdbb410c907b8285b124d283f56b9f8214ed4df5f689aff62641c0743ae3b9",
+        "bytes": 279130
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P12",
+      "track_label_not_used_as_diagnosis": "positive_deixis",
+      "input": "هَذِهِ رَاضِيَةٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "radiya_features_and_construction",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED",
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "مَنْ رَاضِيَةٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "bfed66a7c8d990deb7a238836f90e6d616c7defa56f5e8ec73611d44ea511f14",
+        "bytes": 162751
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P13",
+      "track_label_not_used_as_diagnosis": "positive_operator",
+      "input": "إِنَّ حَازِمًا حَكِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "unacquired_accusative_name",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "570bebe81b5da55006dadfd0a32f705348f71f18644bccb91b605d5cebdc0964",
+        "bytes": 87117
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P14",
+      "track_label_not_used_as_diagnosis": "positive_operator",
+      "input": "كَانَ حَازِمٌ حَكِيمًا.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "context_name_declension",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "CONSTRUCTION_EVIDENCE_REQUIRED",
+        "CONSTRUCTION_LAW_GATE"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ كَانَ حَازِمٌ حَكِيمًا؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "8837d8d900c8c8434f469ed41a6f56dd59ab268a875b6b58b00df7b8888c1c25",
+        "bytes": 269062
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P15",
+      "track_label_not_used_as_diagnosis": "positive_operator",
+      "input": "لَيْسَ حَازِمٌ حَكِيمًا.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "context_name_declension",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "CONSTRUCTION_EVIDENCE_REQUIRED",
+        "CONSTRUCTION_LAW_GATE"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "37d2bbafdef291bc245e4f876cbb33e649707b85e64d2f4a977e4d133681f19a",
+        "bytes": 245413
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P17",
+      "track_label_not_used_as_diagnosis": "positive_conflict",
+      "input": "حَازِمٌ حَكِيمٌ. لَيْسَ حَازِمٌ حَكِيمًا.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:1"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "required_claim:1"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "context_name_declension",
+      "case_specific_observation": "الخبر الموجب في الجملة الأولى محفوظ، لكن نفيه ليس مكتملًا؛ منع CONFLICT هنا نقص الشاهد السلبي وليس اختيار الطرف الموجب جوابًا.",
+      "observed_viable_obligations": [
+        "CONSTRUCTION_EVIDENCE_REQUIRED",
+        "CONSTRUCTION_LAW_GATE"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "7a60801212c505d5ee0d28202344bcbcc4f1ba7dc7756fccaa9f226dc0b798f8",
+        "bytes": 295601
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P18",
+      "track_label_not_used_as_diagnosis": "positive_coordination",
+      "input": "حَازِمٌ حَكِيمٌ وَسُهَيْلٌ كَرِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "question:1",
+        "required_claim:0",
+        "required_claim:1"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "question:1",
+        "required_claim:0",
+        "required_claim:1"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "karim_unresolved_noun",
+      "case_specific_observation": "تحليل complete_clause_conjunction موجود بالفعل؛ استمرار الفشل لا يدل على غياب مطلق لدعم العطف. بديل كريم غير المكتمل يمنع قبول القراءتين معًا.",
+      "observed_viable_obligations": [
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        },
+        {
+          "text": "هَلْ سُهَيْلٌ كَرِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "fdf00dbcb0a0a21307b40751eb7f44caaa4f260debd222807396e01a6898c8b1",
+        "bytes": 291132
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P25",
+      "track_label_not_used_as_diagnosis": "positive_relative",
+      "input": "حَازِمٌ الَّذِي هُوَ حَكِيمٌ كَرِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "karim_unresolved_noun",
+      "case_specific_observation": "تحليل nominal_relative_subject_predication والعودة إلى نفس حازم موجودان. reading:0 السابق نجح الآن، لكن بديل كريم الخارجي غير المكتمل يبقي الحالة فاشلة.",
+      "observed_viable_obligations": [
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ كَرِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "f12825cfd89f3544f3a24c8363ba173a34a33eaffbf810c6867ffccf042ba68c",
+        "bytes": 558883
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P26",
+      "track_label_not_used_as_diagnosis": "positive_idafa",
+      "input": "بَيْتُ حَازِمٍ جَمِيلٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "idafa_two_distinct_debts",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "CONSTRUCTION_EVIDENCE_REQUIRED",
+        "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ بَيْتُ حَازِمٍ جَمِيلٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "04dae560a596ecf03833d559724b646641c3e3c3a9d8a36d1dd5f03118811817",
+        "bytes": 234738
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P27",
+      "track_label_not_used_as_diagnosis": "positive_valency",
+      "input": "أَكْرَمَ حَازِمٌ سُهَيْلًا.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "akrama_host_argument_bridge",
+      "case_specific_observation": "غياب قراءة سهيلًا عامل إضافي مستقل عن نقص المضيف/valency. لم يختبر هذا التحليل تصحيحًا لأي منهما.",
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "مَنْ أَكْرَمَ حَازِمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "5062ea20ab60a0eb38a58250b60072319461bd2c6541b2906f5d819234cdaff8",
+        "bytes": 94722
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-P28",
+      "track_label_not_used_as_diagnosis": "positive_clitic",
+      "input": "سُهَيْلٌ جَمِيلٌ. أَكْرَمَهُ حَازِمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:1"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "reading:0",
+        "required_claim:1"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "akrama_host_argument_bridge",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "هَلْ أَكْرَمَ حَازِمٌ سُهَيْلًا؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "0f14350139b8b9d43af9688c07873582159bffb22f86bf04215091c30f1fc128",
+        "bytes": 58990
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-T02",
+      "track_label_not_used_as_diagnosis": "heldout_terminal_transfer",
+      "input": "حَازِمٌ كَرِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "karim_unresolved_noun",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ كَرِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "81250f0d525ed46561b952d07f1076c82f4e3cc1595c98c63c63fc1a2bc5344d",
+        "bytes": 86344
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-T04",
+      "track_label_not_used_as_diagnosis": "heldout_terminal_transfer",
+      "input": "حَازِمٌ بَصِيرٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0",
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "basir_heldout_adjective",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ بَصِيرٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING",
+            "ONE_COMPLETE_QUESTION_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "520c2862c6b7c4189822ed20fb5dfad67a3f2d52dc495524ebb431493642aa17",
+        "bytes": 84718
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B04",
+      "track_label_not_used_as_diagnosis": "reference_ambiguity",
+      "input": "حَازِمٌ جَمِيلٌ. سُهَيْلٌ كَرِيمٌ. هُوَ حَكِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "reading:0",
+        "required_claim:1"
+      ],
+      "baseline_failed_checks": [
+        "reading:0",
+        "required_claim:1"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "karim_unresolved_noun",
+      "case_specific_observation": "الضمير يبقى غير مربوط بعد سابقة غير مكتملة؛ لا تسقط قراءة سهيل الناقصة لانتقاء حازم. فشل القراءة يتضمن فقد مجموعة المرشحين المتوقعة وليس إثبات مرجع خاطئ.",
+      "observed_viable_obligations": [
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED",
+        "REFERENCE_NOT_UNIQUELY_LICENSED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "مَنْ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "f3995dce7ba5c306925450fe8caf0404f731a747192bd6db5b0f00c0acc9506c",
+        "bytes": 284968
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B05",
+      "track_label_not_used_as_diagnosis": "reference_ambiguity",
+      "input": "حَازِمٌ جَمِيلٌ. سُهَيْلٌ كَرِيمٌ. هُوَ حَكِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "reading:0"
+      ],
+      "baseline_failed_checks": [
+        "reading:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "karim_unresolved_noun",
+      "case_specific_observation": "context يصرح أن جنس سهيل وعدده unknown. بالإضافة إلى بديل N الناقص، يظهر نقص اتفاق ADJ؛ لا يجوز استنتاج خصائص الشخص من اسم عارٍ.",
+      "observed_viable_obligations": [
+        "PREDICATE_AGREEMENT_EVIDENCE_REQUIRED",
+        "PREDICATE_CONSTRUCTION_EVIDENCE_REQUIRED",
+        "REFERENCE_NOT_UNIQUELY_LICENSED"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "796fdf91ad5c3e1cc81782c5143e4c5964fd816b0d2ed92d79a340dc10124b53",
+        "bytes": 235287
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B14",
+      "track_label_not_used_as_diagnosis": "force_blocker",
+      "input": "اُدْخُلْ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "force_preserved"
+      ],
+      "baseline_failed_checks": [
+        "force_preserved"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "connected_isolated_imperative",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "هَلْ دَخَلَ حَازِمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "c3384e532f3873444ed840ee77bef3e86818cdab615e91971333e15852667e3b",
+        "bytes": 28406
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B15",
+      "track_label_not_used_as_diagnosis": "force_blocker",
+      "input": "لَيْتَ حَازِمًا حَكِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "force_preserved"
+      ],
+      "baseline_failed_checks": [
+        "force_preserved"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "unacquired_accusative_name",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "b5ee06925fdb6a79efdb5819866638d501c4ad86a6b6f6e46c2dc259ef617a9a",
+        "bytes": 86837
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B16",
+      "track_label_not_used_as_diagnosis": "force_blocker",
+      "input": "لَعَلَّ حَازِمًا حَكِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "force_preserved"
+      ],
+      "baseline_failed_checks": [
+        "force_preserved"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "unacquired_accusative_name",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "1df449295b879231dcbcbe7da84204649f217c4c53cc63dc408733cae3b1a58b",
+        "bytes": 86784
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B19",
+      "track_label_not_used_as_diagnosis": "scope_blocker",
+      "input": "لَيْسَ حَازِمٌ حَكِيمًا وَسُهَيْلٌ كَرِيمٌ.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "question:0"
+      ],
+      "baseline_failed_checks": [
+        "question:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "negative_coordination_scope",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "a62c0032edcf071b940b5ab2df6caefb1241258e2cd60d42478b25c2da96aee4",
+        "bytes": 170656
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    },
+    {
+      "id": "DSC-B24",
+      "track_label_not_used_as_diagnosis": "qualification_blocker",
+      "input": "كَانَ حَازِمٌ حَكِيمًا.",
+      "report_status": "DEFER",
+      "failed_checks": [
+        "required_claim:0"
+      ],
+      "baseline_failed_checks": [
+        "required_claim:0"
+      ],
+      "no_new_check": true,
+      "failure_signatures_identical_to_baseline": true,
+      "cause_group": "context_name_declension",
+      "case_specific_observation": null,
+      "observed_viable_obligations": [
+        "CONSTRUCTION_EVIDENCE_REQUIRED",
+        "CONSTRUCTION_LAW_GATE"
+      ],
+      "question_outcomes": [
+        {
+          "text": "هَلْ حَازِمٌ حَكِيمٌ؟",
+          "status": "DEFER",
+          "missing_premises": [
+            "COMPLETE_SOURCE_DISCOURSE_READING"
+          ]
+        }
+      ],
+      "raw_record": {
+        "journal": "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+        "sha256": "10a4f506188080d143fc6cfaf232eba1736051124e5517eb0f24165e82a4d60e",
+        "bytes": 189849
+      },
+      "review_level": "READ_SAVED_ANALYSES_AND_LEXICAL_CANDIDATES; NOT_FULL_LINGUISTIC_ADJUDICATION"
+    }
+  ],
+  "gate_review": {
+    "current_v1_gate_pass": false,
+    "current_v1_unexpected_failures": [
+      {
+        "failed_checks": [
+          "question:0",
+          "reading:0",
+          "required_claim:0"
+        ],
+        "id": "DSC-P26"
+      }
+    ],
+    "explanation": "The saved strict run has no approval pin for its new runtime. Its P26 unexpected marker comes from the older default allowlist; its actual three failure signatures are identical to baseline_v1. This is not a new baseline regression and is not itself a policy approval.",
+    "required_new_policy_conditions": [
+      "Bind a separate revision to the exact final v2 runtime freeze; do not change historical pins.",
+      "Use only observed residual case/check/signatures from the final strict run, each within baseline_v1; baseline membership alone does not excuse a new check.",
+      "Require zero false acceptances, zero source/question execution errors, valid full measurement/raw journal and exact frozen case/question inventory.",
+      "Keep strict_pass and coverage_complete false while any coverage debt remains; gate_pass only permits the declared partial release scope.",
+      "Preserve corrected safety losses and oracle defects with their raw history. Do not rewrite gold, source premises, or old failed receipts.",
+      "Reject a new failed case, new failed check, changed unsafe outcome, missing evidence/replay, or unapproved runtime rather than auto-extending the policy."
+    ],
+    "new_policy_implementation_reviewed": false
+  },
+  "limits": [
+    "A raw obligation establishes the current implementation blocker, not its linguistic necessity or the absence of a valid future rule.",
+    "No acceptance of arbitrary Arabic, no complete source selection proof, no external world claim, no complete audit of every expected sentence.",
+    "No new runtime run or official/holdout score was produced by this review.",
+    "Source-profile and context premises remain explicit; no missing number, name inflection, argument role or negative scope was guessed."
+  ]
+}

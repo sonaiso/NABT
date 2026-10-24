@@ -992,7 +992,15 @@ def theoremManifest : List Name := [
   ``Nabt.ClassicalLanguageEvidence.judgment_supported_iff,
   ``Nabt.ClassicalLanguageEvidence.absence_leaves_unestablished,
   ``Nabt.ClassicalLanguageEvidence.source_only_does_not_license,
-  ``Nabt.ClassicalLanguageEvidence.unread_target_does_not_license
+  ``Nabt.ClassicalLanguageEvidence.unread_target_does_not_license,
+  ``Nabt.ArabicCoverage.exact_iff_sound_and_complete,
+  ``Nabt.ArabicCoverage.exact_restricts_to_subdomain,
+  ``Nabt.ArabicCoverage.exactness_transfers_with_reference_equivalence,
+  ``Nabt.ArabicCoverage.sample_agreement_leaves_untested_point,
+  ``Nabt.ArabicCoverage.every_finite_prefix_has_underdetermined_extension,
+  ``Nabt.ArabicCoverage.no_single_interpreter_of_observation_collision,
+  ``Nabt.ArabicCoverage.completeness_preserves_licensed_alternatives,
+  ``Nabt.ArabicCoverage.unique_choice_incomplete_for_ambiguous_input
 ]
 
 run_cmd do

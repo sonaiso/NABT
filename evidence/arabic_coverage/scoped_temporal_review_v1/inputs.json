@@ -1,0 +1,145 @@
+{
+  "cases": [
+    {
+      "expected": "LICENSED_DISCOURSE",
+      "id": "SCOPED-T01",
+      "model": "teaching_T",
+      "questions": [
+        {
+          "expected": "SUPPORTED",
+          "text": "هل كاد سالمٌ يكتبُ أمسِ؟"
+        },
+        {
+          "expected": "UNKNOWN",
+          "text": "هل كاد سالمٌ يكتبُ؟"
+        },
+        {
+          "expected": "UNKNOWN",
+          "text": "هل يكتبُ سالمٌ أمسِ؟"
+        }
+      ],
+      "scoped": true,
+      "text": "كاد سالمٌ يكتبُ أمسِ."
+    },
+    {
+      "expected": "LICENSED_DISCOURSE",
+      "id": "SCOPED-T02",
+      "model": "teaching_T",
+      "scoped": true,
+      "text": "كاد سالمٌ أن يكتبَ أمسِ."
+    },
+    {
+      "expected": "LICENSED_DISCOURSE",
+      "id": "SCOPED-T03",
+      "model": "teaching_T",
+      "scoped": true,
+      "text": "شرع سالمٌ يكتبُ أمسِ."
+    },
+    {
+      "expected": "NO_ACCEPTED_CLAIM",
+      "id": "SCOPED-T04",
+      "model": "teaching_T",
+      "text": "كاد سالمٌ يكتبَ أمسِ."
+    },
+    {
+      "expected": "NO_ACCEPTED_CLAIM",
+      "id": "SCOPED-T05",
+      "model": "teaching_T",
+      "text": "شرع سالمٌ أن يكتبَ أمسِ."
+    },
+    {
+      "expected": "NO_ACCEPTED_CLAIM",
+      "id": "SCOPED-T06",
+      "model": "teaching_N",
+      "text": "كان زيدٌ حكيمًا أمسِ."
+    },
+    {
+      "expected": "LICENSED_DISCOURSE",
+      "id": "SCOPED-T07",
+      "model": "teaching_N",
+      "text": "كتب زيدٌ أمسِ."
+    }
+  ],
+  "context": {
+    "addressee": "hind",
+    "closed_reference_scope": true,
+    "deixis": [
+      {
+        "entity_ids": [
+          "zayd"
+        ],
+        "form": "هذا"
+      }
+    ],
+    "entities": [
+      {
+        "gender": "masculine",
+        "id": "zayd",
+        "kind": "person",
+        "name": "زيد",
+        "number": "singular"
+      },
+      {
+        "gender": "feminine",
+        "id": "hind",
+        "kind": "person",
+        "name": "هند",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "salim",
+        "kind": "person",
+        "name": "سالم",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "book",
+        "kind": "thing",
+        "name": "كتاب",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "student",
+        "kind": "person",
+        "name": "طالب",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "desk",
+        "kind": "thing",
+        "name": "المكتب",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "vessel",
+        "kind": "thing",
+        "name": "الإناء",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "head",
+        "kind": "thing",
+        "name": "الرأس",
+        "number": "singular"
+      },
+      {
+        "gender": "masculine",
+        "id": "thursday",
+        "kind": "thing",
+        "name": "الخميس",
+        "number": "singular"
+      }
+    ],
+    "speaker": "zayd"
+  },
+  "sources": {
+    "teaching_N": "# Authored teaching lexicon; not Quranic quotations and not an evaluation gold.\n# Only lexical premises. CASE/MOOD labels, dependencies and answers are absent.\nLOCATION\tFORM\tTAG\tFEATURES\n(2:1:1:1)\tzayodN\tPN\tSTEM|POS:PN|LEM:zayod|ROOT:zyd|MS\n(2:2:1:1)\tzayodK\tPN\tSTEM|POS:PN|LEM:zayod|ROOT:zyd|MS\n(2:3:1:1)\tzayodFA\tPN\tSTEM|POS:PN|LEM:zayod|ROOT:zyd|MS\n(2:4:1:1)\thinodN\tPN\tSTEM|POS:PN|LEM:hinod|ROOT:hnd|FS\n(2:5:1:1)\thinodK\tPN\tSTEM|POS:PN|LEM:hinod|ROOT:hnd|FS\n(2:6:1:1)\thinodFA\tPN\tSTEM|POS:PN|LEM:hinod|ROOT:hnd|FS\n(2:7:1:1)\tsaAlimN\tPN\tSTEM|POS:PN|LEM:saAlim|ROOT:slm|MS\n(2:8:1:1)\tsaAlimK\tPN\tSTEM|POS:PN|LEM:saAlim|ROOT:slm|MS\n(2:9:1:1)\tsaAlimFA\tPN\tSTEM|POS:PN|LEM:saAlim|ROOT:slm|MS\n(2:10:1:1)\tHakiymN\tADJ\tSTEM|POS:ADJ|LEM:Hakiym|ROOT:Hkm|MS\n(2:11:1:1)\tHakiymK\tADJ\tSTEM|POS:ADJ|LEM:Hakiym|ROOT:Hkm|MS\n(2:12:1:1)\tHakiymFA\tADJ\tSTEM|POS:ADJ|LEM:Hakiym|ROOT:Hkm|MS\n(2:13:1:1)\tHakiymapN\tADJ\tSTEM|POS:ADJ|LEM:Hakiymap|ROOT:Hkm|FS\n(2:14:1:1)\tHakiymapK\tADJ\tSTEM|POS:ADJ|LEM:Hakiymap|ROOT:Hkm|FS\n(2:15:1:1)\tHakiymapF\tADJ\tSTEM|POS:ADJ|LEM:Hakiymap|ROOT:Hkm|FS\n(2:16:1:1)\tkariymN\tADJ\tSTEM|POS:ADJ|LEM:kariym|ROOT:krm|MS\n(2:17:1:1)\tkariymK\tADJ\tSTEM|POS:ADJ|LEM:kariym|ROOT:krm|MS\n(2:18:1:1)\tkariymFA\tADJ\tSTEM|POS:ADJ|LEM:kariym|ROOT:krm|MS\n(2:19:1:1)\traAkibN\tADJ\tSTEM|POS:ADJ|LEM:raAkib|ROOT:rkb|MS\n(2:20:1:1)\traAkibK\tADJ\tSTEM|POS:ADJ|LEM:raAkib|ROOT:rkb|MS\n(2:21:1:1)\traAkibFA\tADJ\tSTEM|POS:ADJ|LEM:raAkib|ROOT:rkb|MS\n(2:22:1:1)\tqaA}imN\tADJ\tSTEM|POS:ADJ|LEM:qaA}im|ROOT:qwm|MS\n(2:23:1:1)\tqaA}imK\tADJ\tSTEM|POS:ADJ|LEM:qaA}im|ROOT:qwm|MS\n(2:24:1:1)\tqaA}imFA\tADJ\tSTEM|POS:ADJ|LEM:qaA}im|ROOT:qwm|MS\n(2:25:1:1)\tjadiydN\tADJ\tSTEM|POS:ADJ|LEM:jadiyd|ROOT:jdd|MS\n(2:26:1:1)\tjadiydK\tADJ\tSTEM|POS:ADJ|LEM:jadiyd|ROOT:jdd|MS\n(2:27:1:1)\tjadiydFA\tADJ\tSTEM|POS:ADJ|LEM:jadiyd|ROOT:jdd|MS\n(2:28:1:1)\twaAsiEN\tADJ\tSTEM|POS:ADJ|LEM:waAsiE|ROOT:wsE|MS\n(2:29:1:1)\twaAsiEK\tADJ\tSTEM|POS:ADJ|LEM:waAsiE|ROOT:wsE|MS\n(2:30:1:1)\twaAsiEFA\tADJ\tSTEM|POS:ADJ|LEM:waAsiE|ROOT:wsE|MS\n(2:31:1:1)\tkitaAbN\tN\tSTEM|POS:N|LEM:kitaAb|ROOT:ktb|MS\n(2:32:1:1)\tkitaAbK\tN\tSTEM|POS:N|LEM:kitaAb|ROOT:ktb|MS\n(2:33:1:1)\tkitaAbFA\tN\tSTEM|POS:N|LEM:kitaAb|ROOT:ktb|MS\n(2:34:1:1)\tTaAlibN\tN\tSTEM|POS:N|LEM:TaAlib|ROOT:Tlb|MS\n(2:35:1:1)\tTaAlibK\tN\tSTEM|POS:N|LEM:TaAlib|ROOT:Tlb|MS\n(2:36:1:1)\tTaAlibFA\tN\tSTEM|POS:N|LEM:TaAlib|ROOT:Tlb|MS\n(2:37:1:1)\tmakotabN\tN\tSTEM|POS:N|LEM:makotab|ROOT:ktb|MS\n(2:38:1:1)\tmakotabK\tN\tSTEM|POS:N|LEM:makotab|ROOT:ktb|MS\n(2:39:1:1)\tmakotabFA\tN\tSTEM|POS:N|LEM:makotab|ROOT:ktb|MS\n(2:40:1:1)\t<inaA'N\tN\tSTEM|POS:N|LEM:<inaA'|ROOT:'ny|MS\n(2:41:1:1)\t<inaA'K\tN\tSTEM|POS:N|LEM:<inaA'|ROOT:'ny|MS\n(2:42:1:1)\t<inaA'F\tN\tSTEM|POS:N|LEM:<inaA'|ROOT:'ny|MS\n(2:43:1:1)\tmaA'N\tN\tSTEM|POS:N|LEM:maA'|ROOT:mwh|MS\n(2:44:1:1)\tmaA'K\tN\tSTEM|POS:N|LEM:maA'|ROOT:mwh|MS\n(2:45:1:1)\tmaA'F\tN\tSTEM|POS:N|LEM:maA'|ROOT:mwh|MS\n(2:46:1:1)\tra>osN\tN\tSTEM|POS:N|LEM:ra>os|ROOT:r's|MS\n(2:47:1:1)\tra>osK\tN\tSTEM|POS:N|LEM:ra>os|ROOT:r's|MS\n(2:48:1:1)\tra>osFA\tN\tSTEM|POS:N|LEM:ra>os|ROOT:r's|MS\n(2:49:1:1)\t$ayobN\tN\tSTEM|POS:N|LEM:$ayob|ROOT:$yb|MS\n(2:50:1:1)\t$ayobK\tN\tSTEM|POS:N|LEM:$ayob|ROOT:$yb|MS\n(2:51:1:1)\t$ayobFA\tN\tSTEM|POS:N|LEM:$ayob|ROOT:$yb|MS\n(2:52:1:1)\trajulN\tN\tSTEM|POS:N|LEM:rajul|ROOT:rjl|MS\n(2:53:1:1)\trajulK\tN\tSTEM|POS:N|LEM:rajul|ROOT:rjl|MS\n(2:54:1:1)\trajulFA\tN\tSTEM|POS:N|LEM:rajul|ROOT:rjl|MS\n(2:55:1:1)\tnafosN\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:56:1:1)\tnafosK\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:57:1:1)\tnafosFA\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:58:1:1)\tyawomN\tN\tSTEM|POS:N|LEM:yawom|ROOT:ywm|MS\n(2:59:1:1)\tyawomK\tN\tSTEM|POS:N|LEM:yawom|ROOT:ywm|MS\n(2:60:1:1)\tyawomFA\tN\tSTEM|POS:N|LEM:yawom|ROOT:ywm|MS\n(2:61:1:1)\tkataba\tV\tSTEM|POS:V|PERF|LEM:kataba|ROOT:ktb|3MS\n(2:62:1:1)\tyakotubu\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|3MS\n(2:63:1:1)\tjaA'a\tV\tSTEM|POS:V|PERF|LEM:jaA'a|ROOT:jy'|3MS\n(2:64:1:1)\tHaDara\tV\tSTEM|POS:V|PERF|LEM:HaDara|ROOT:HDr|3MS\n(2:65:1:1)\tAmotala>a\tV\tSTEM|POS:V|PERF|LEM:Amotala>a|ROOT:ml'|3MS\n(2:66:1:1)\tA$otaEala\tV\tSTEM|POS:V|PERF|LEM:A$otaEala|ROOT:$El|3MS\n(2:67:1:1)\tEi$oruwna\tN\tSTEM|POS:N|LEM:Ei$oruwn|ROOT:E$r|MP\n(2:68:1:1)\tEi$oriyna\tN\tSTEM|POS:N|LEM:Ei$oruwn|ROOT:E$r|MP\n(2:69:1:1)\tfawoqa\tLOC\tSTEM|POS:LOC|LEM:fawoq|ROOT:fwq|M\n(2:70:1:1)\tEinoda\tLOC\tSTEM|POS:LOC|LEM:Einod|ROOT:End|M\n(2:71:1:1)\tyawoma\tT\tSTEM|POS:T|LEM:yawom|ROOT:ywm|M\n(2:72:1:1)\t>amosi\tN\tSTEM|POS:N|LEM:>amos|ROOT:'ms|MS\n(2:73:1:1)\tnafosu\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:73:1:2)\thu\tPRON\tSUFFIX|PRON:3MS\n(2:74:1:1)\txamiysN\tN\tSTEM|POS:N|LEM:xamiys|ROOT:xms|MS\n(2:75:1:1)\txamiysK\tN\tSTEM|POS:N|LEM:xamiys|ROOT:xms|MS\n(2:76:1:1)\txamiysFA\tN\tSTEM|POS:N|LEM:xamiys|ROOT:xms|MS\n(2:77:1:1)\tyakuwnu\tV\tSTEM|POS:V|IMPF|LEM:kaAna|ROOT:kwn|3MS\n",
+    "teaching_T": "# Authored teaching lexicon; not Quranic quotations and not an evaluation gold.\n# Only lexical premises. CASE/MOOD labels, dependencies and answers are absent.\nLOCATION\tFORM\tTAG\tFEATURES\n(2:1:1:1)\tzayodN\tPN\tSTEM|POS:PN|LEM:zayod|ROOT:zyd|MS\n(2:2:1:1)\tzayodK\tPN\tSTEM|POS:PN|LEM:zayod|ROOT:zyd|MS\n(2:3:1:1)\tzayodFA\tPN\tSTEM|POS:PN|LEM:zayod|ROOT:zyd|MS\n(2:4:1:1)\thinodN\tPN\tSTEM|POS:PN|LEM:hinod|ROOT:hnd|FS\n(2:5:1:1)\thinodK\tPN\tSTEM|POS:PN|LEM:hinod|ROOT:hnd|FS\n(2:6:1:1)\thinodFA\tPN\tSTEM|POS:PN|LEM:hinod|ROOT:hnd|FS\n(2:7:1:1)\tsaAlimN\tPN\tSTEM|POS:PN|LEM:saAlim|ROOT:slm|MS\n(2:8:1:1)\tsaAlimK\tPN\tSTEM|POS:PN|LEM:saAlim|ROOT:slm|MS\n(2:9:1:1)\tsaAlimFA\tPN\tSTEM|POS:PN|LEM:saAlim|ROOT:slm|MS\n(2:10:1:1)\tHakiymN\tADJ\tSTEM|POS:ADJ|LEM:Hakiym|ROOT:Hkm|MS\n(2:11:1:1)\tHakiymK\tADJ\tSTEM|POS:ADJ|LEM:Hakiym|ROOT:Hkm|MS\n(2:12:1:1)\tHakiymFA\tADJ\tSTEM|POS:ADJ|LEM:Hakiym|ROOT:Hkm|MS\n(2:13:1:1)\tHakiymapN\tADJ\tSTEM|POS:ADJ|LEM:Hakiymap|ROOT:Hkm|FS\n(2:14:1:1)\tHakiymapK\tADJ\tSTEM|POS:ADJ|LEM:Hakiymap|ROOT:Hkm|FS\n(2:15:1:1)\tHakiymapF\tADJ\tSTEM|POS:ADJ|LEM:Hakiymap|ROOT:Hkm|FS\n(2:16:1:1)\tkariymN\tADJ\tSTEM|POS:ADJ|LEM:kariym|ROOT:krm|MS\n(2:17:1:1)\tkariymK\tADJ\tSTEM|POS:ADJ|LEM:kariym|ROOT:krm|MS\n(2:18:1:1)\tkariymFA\tADJ\tSTEM|POS:ADJ|LEM:kariym|ROOT:krm|MS\n(2:19:1:1)\traAkibN\tADJ\tSTEM|POS:ADJ|LEM:raAkib|ROOT:rkb|MS\n(2:20:1:1)\traAkibK\tADJ\tSTEM|POS:ADJ|LEM:raAkib|ROOT:rkb|MS\n(2:21:1:1)\traAkibFA\tADJ\tSTEM|POS:ADJ|LEM:raAkib|ROOT:rkb|MS\n(2:22:1:1)\tqaA}imN\tADJ\tSTEM|POS:ADJ|LEM:qaA}im|ROOT:qwm|MS\n(2:23:1:1)\tqaA}imK\tADJ\tSTEM|POS:ADJ|LEM:qaA}im|ROOT:qwm|MS\n(2:24:1:1)\tqaA}imFA\tADJ\tSTEM|POS:ADJ|LEM:qaA}im|ROOT:qwm|MS\n(2:25:1:1)\tjadiydN\tADJ\tSTEM|POS:ADJ|LEM:jadiyd|ROOT:jdd|MS\n(2:26:1:1)\tjadiydK\tADJ\tSTEM|POS:ADJ|LEM:jadiyd|ROOT:jdd|MS\n(2:27:1:1)\tjadiydFA\tADJ\tSTEM|POS:ADJ|LEM:jadiyd|ROOT:jdd|MS\n(2:28:1:1)\twaAsiEN\tADJ\tSTEM|POS:ADJ|LEM:waAsiE|ROOT:wsE|MS\n(2:29:1:1)\twaAsiEK\tADJ\tSTEM|POS:ADJ|LEM:waAsiE|ROOT:wsE|MS\n(2:30:1:1)\twaAsiEFA\tADJ\tSTEM|POS:ADJ|LEM:waAsiE|ROOT:wsE|MS\n(2:31:1:1)\tkitaAbN\tN\tSTEM|POS:N|LEM:kitaAb|ROOT:ktb|MS\n(2:32:1:1)\tkitaAbK\tN\tSTEM|POS:N|LEM:kitaAb|ROOT:ktb|MS\n(2:33:1:1)\tkitaAbFA\tN\tSTEM|POS:N|LEM:kitaAb|ROOT:ktb|MS\n(2:34:1:1)\tTaAlibN\tN\tSTEM|POS:N|LEM:TaAlib|ROOT:Tlb|MS\n(2:35:1:1)\tTaAlibK\tN\tSTEM|POS:N|LEM:TaAlib|ROOT:Tlb|MS\n(2:36:1:1)\tTaAlibFA\tN\tSTEM|POS:N|LEM:TaAlib|ROOT:Tlb|MS\n(2:37:1:1)\tmakotabN\tN\tSTEM|POS:N|LEM:makotab|ROOT:ktb|MS\n(2:38:1:1)\tmakotabK\tN\tSTEM|POS:N|LEM:makotab|ROOT:ktb|MS\n(2:39:1:1)\tmakotabFA\tN\tSTEM|POS:N|LEM:makotab|ROOT:ktb|MS\n(2:40:1:1)\t<inaA'N\tN\tSTEM|POS:N|LEM:<inaA'|ROOT:'ny|MS\n(2:41:1:1)\t<inaA'K\tN\tSTEM|POS:N|LEM:<inaA'|ROOT:'ny|MS\n(2:42:1:1)\t<inaA'F\tN\tSTEM|POS:N|LEM:<inaA'|ROOT:'ny|MS\n(2:43:1:1)\tmaA'N\tN\tSTEM|POS:N|LEM:maA'|ROOT:mwh|MS\n(2:44:1:1)\tmaA'K\tN\tSTEM|POS:N|LEM:maA'|ROOT:mwh|MS\n(2:45:1:1)\tmaA'F\tN\tSTEM|POS:N|LEM:maA'|ROOT:mwh|MS\n(2:46:1:1)\tra>osN\tN\tSTEM|POS:N|LEM:ra>os|ROOT:r's|MS\n(2:47:1:1)\tra>osK\tN\tSTEM|POS:N|LEM:ra>os|ROOT:r's|MS\n(2:48:1:1)\tra>osFA\tN\tSTEM|POS:N|LEM:ra>os|ROOT:r's|MS\n(2:49:1:1)\t$ayobN\tN\tSTEM|POS:N|LEM:$ayob|ROOT:$yb|MS\n(2:50:1:1)\t$ayobK\tN\tSTEM|POS:N|LEM:$ayob|ROOT:$yb|MS\n(2:51:1:1)\t$ayobFA\tN\tSTEM|POS:N|LEM:$ayob|ROOT:$yb|MS\n(2:52:1:1)\trajulN\tN\tSTEM|POS:N|LEM:rajul|ROOT:rjl|MS\n(2:53:1:1)\trajulK\tN\tSTEM|POS:N|LEM:rajul|ROOT:rjl|MS\n(2:54:1:1)\trajulFA\tN\tSTEM|POS:N|LEM:rajul|ROOT:rjl|MS\n(2:55:1:1)\tnafosN\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:56:1:1)\tnafosK\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:57:1:1)\tnafosFA\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:58:1:1)\tyawomN\tN\tSTEM|POS:N|LEM:yawom|ROOT:ywm|MS\n(2:59:1:1)\tyawomK\tN\tSTEM|POS:N|LEM:yawom|ROOT:ywm|MS\n(2:60:1:1)\tyawomFA\tN\tSTEM|POS:N|LEM:yawom|ROOT:ywm|MS\n(2:61:1:1)\tkataba\tV\tSTEM|POS:V|PERF|LEM:kataba|ROOT:ktb|3MS\n(2:62:1:1)\tyakotubu\tV\tSTEM|POS:V|IMPF|LEM:kataba|ROOT:ktb|3MS\n(2:63:1:1)\tjaA'a\tV\tSTEM|POS:V|PERF|LEM:jaA'a|ROOT:jy'|3MS\n(2:64:1:1)\tHaDara\tV\tSTEM|POS:V|PERF|LEM:HaDara|ROOT:HDr|3MS\n(2:65:1:1)\tAmotala>a\tV\tSTEM|POS:V|PERF|LEM:Amotala>a|ROOT:ml'|3MS\n(2:66:1:1)\tA$otaEala\tV\tSTEM|POS:V|PERF|LEM:A$otaEala|ROOT:$El|3MS\n(2:67:1:1)\tEi$oruwna\tN\tSTEM|POS:N|LEM:Ei$oruwn|ROOT:E$r|MP\n(2:68:1:1)\tEi$oriyna\tN\tSTEM|POS:N|LEM:Ei$oruwn|ROOT:E$r|MP\n(2:69:1:1)\tfawoqa\tLOC\tSTEM|POS:LOC|LEM:fawoq|ROOT:fwq|M\n(2:70:1:1)\tEinoda\tLOC\tSTEM|POS:LOC|LEM:Einod|ROOT:End|M\n(2:71:1:1)\tyawoma\tT\tSTEM|POS:T|LEM:yawom|ROOT:ywm|M\n(2:72:1:1)\t>amosi\tT\tSTEM|POS:T|LEM:>amos|ROOT:'ms|M\n(2:73:1:1)\tnafosu\tN\tSTEM|POS:N|LEM:nafos|ROOT:nfs|FS\n(2:73:1:2)\thu\tPRON\tSUFFIX|PRON:3MS\n(2:74:1:1)\txamiysN\tN\tSTEM|POS:N|LEM:xamiys|ROOT:xms|MS\n(2:75:1:1)\txamiysK\tN\tSTEM|POS:N|LEM:xamiys|ROOT:xms|MS\n(2:76:1:1)\txamiysFA\tN\tSTEM|POS:N|LEM:xamiys|ROOT:xms|MS\n(2:77:1:1)\tyakuwnu\tV\tSTEM|POS:V|IMPF|LEM:kaAna|ROOT:kwn|3MS\n"
+  }
+}

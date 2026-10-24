@@ -130,6 +130,83 @@ def scoped_example():
               'positive':True,'embedded':{**deepcopy(child),'tense':'unspecified'}}
     return expected,claim
 
+
+def pp_owner_example():
+    """Authored receipt graph: the event actor and emphasized PP owner differ."""
+    text='مَرَّ زَيْدٌ بِخَالِدٍ نَفْسِهِ.'
+    anchors=evaluation.word_anchors(text)
+    checksum=sha256(text.encode()).hexdigest()
+    def span(a,b):
+        return {'source_id':'authored_pp','source_sha256':checksum,'start':a,'end':b}
+    verb,actor,word,emphasis=[span(*anchor['span']) for anchor in anchors]
+    prefix=span(word['start'],word['start']+len('بِ'.encode()))
+    nominal=span(prefix['end'],word['end'])
+    pronoun=span(emphasis['end']-len('هِ'.encode()),emphasis['end'])
+    noun=span(emphasis['start'],pronoun['start'])
+    whole=span(verb['start'],emphasis['end'])
+    scope='authored_pp_scope';context_sha=evaluation.digest({'entities':['zayd','khalid']})
+    rows={rid:{'reading_id':rid,'kind':kind,'stem_span':location,
+               'segmentation':{'licensed':True},'lexical_features':{'lemma':lemma}}
+          for rid,kind,location,lemma in [('verb','verb',verb,'مَرَّ'),('actor','noun',actor,'زَيْد'),
+                                         ('owner','noun',nominal,'خَالِد'),('emphasis','noun',noun,'نَفْس')]}
+    refs=[]
+    for location,eid in [(actor,'zayd'),(nominal,'khalid'),(pronoun,'khalid')]:
+        ref={'span':location,'status':'RESOLVED','bound_entity_id':eid,'candidate_entity_ids':[eid],
+             'scope':scope,'context_sha256':context_sha}
+        ref['reference_id']=evaluation.digest(ref);refs.append(ref)
+    assignments=[]
+    for rid,role,location,head,case,sign in [('actor','active_subject',actor,verb,'raf','damma'),
+        ('owner','preposition_object',nominal,prefix,'jarr','kasra'),
+        ('emphasis','tawkeed',emphasis,nominal,'jarr','kasra')]:
+        assignments.append({'reading_id':rid,'role':role,'span':location,'head_span':head,
+            'required_case':case,'inflected_case':case,'case_domain':'inflected_case','activated':True,
+            'actual_role':role,'sign_candidates':[{'sign_name':sign,'case':1 if case=='raf' else 2}]})
+    relations=[{'kind':'preposition_object','head_span':prefix,'dependent_span':nominal,
+                'dependent_reading_id':'owner','object_reference':refs[1]['reference_id']},
+               {'kind':'prepositional_attachment','head_span':verb,'dependent_span':prefix,
+                'object_span':nominal,'interpretation':'unspecified'},
+               {'kind':'tawkeed','subtype':'semantic_self','identity_preserved':True,
+                'head_reading_id':'owner','dependent_reading_id':'emphasis',
+                'head_span':nominal,'dependent_span':emphasis,'pronoun_span':pronoun}]
+    claim={'predicate':'مَرَّ','predicate_kind':'event','voice':'active','args':['zayd'],'positive':True,
+           'tense':'past','time':[],'place':[],'restriction':[
+               {'kind':'prepositional','object':'khalid','preposition':'ب','semantic_relation':'unspecified'},
+               {'kind':'tawkeed','owner':'khalid','predicate':'نَفْس','subtype':'semantic_self'}]}
+    analysis={'span':whole,'reading_ids':list(rows),'assignments':assignments,'relations':relations,
+              'references':refs,'claims':[deepcopy(claim)],'licensed_syntax':True,'references_complete':True,
+              'rejected_candidate':False,'assertion_allowed':True,'force':'ASSERT'}
+    analysis['analysis_id']=evaluation.digest(analysis)
+    claim.update(claim_id=evaluation.digest(claim),proofs=[{'analysis_id':analysis['analysis_id'],
+                    'clause_id':'authored_clause','span':whole}])
+    expected={'kind':'tawkeed','owner_id':'khalid','dependent_lemma':'نَفْس',
+              'dependent_word_index':3,'head_word_index':0,'must_belong_to_same_accepted_claim':True}
+    role={'role':'tawkeed','span':anchors[3]['span'],'span_basis':'occurrence_or_licensed_stem',
+          'case':'jarr','case_domain':'inflected','sign':'kasra',
+          'governor':{**anchors[2],'span_basis':'occurrence_or_licensed_stem'}}
+    return {'expected':expected,'role':role,'claim':claim,'analysis':analysis,'rows':rows,'anchors':anchors,
+            'scope':scope,'context_sha256':context_sha,'written_owner_span':word}
+
+
+def pp_owner_refresh(example):
+    """Rehash authored mutations so failures cannot be attributed to old IDs."""
+    analysis,claim=example['analysis'],example['claim']
+    ids={}
+    for ref in analysis['references']:
+        old=ref['reference_id'];ref['reference_id']=evaluation.digest({k:v for k,v in ref.items() if k!='reference_id'})
+        ids[old]=ref['reference_id']
+    for relation in analysis['relations']:
+        if 'object_reference' in relation:
+            relation['object_reference']=ids.get(relation['object_reference'],relation['object_reference'])
+    analysis['claims']=[evaluation.claim_view(claim)]
+    analysis['analysis_id']=evaluation.digest({k:v for k,v in analysis.items() if k!='analysis_id'})
+    claim['proofs'][0]['analysis_id']=analysis['analysis_id']
+
+
+def pp_owner_matches(example):
+    return evaluation.qualification_matches(example['expected'],example['claim'],example['analysis'],
+        example['rows'],example['anchors'],scope=example['scope'],context_sha256=example['context_sha256'])
+
+
 def partial_gate_example():
     _,material,_=evaluation.load_material()
     cases=[{'id':c['id'],'passed':True,'checks':[{'check':'report_replay','passed':True}],
@@ -152,6 +229,89 @@ def add_gate_failure(result,case_id,check,details=None):
 
 
 class ConstructionEvaluatorTests(unittest.TestCase):
+    def test_tawkeed_can_belong_to_its_explicit_same_claim_prepositional_object(self):
+        value=pp_owner_example()
+        self.assertTrue(pp_owner_matches(value))
+        self.assertEqual(value['claim']['args'],['zayd'])
+        self.assertNotIn('khalid',value['claim']['args'])
+
+    def test_pp_owner_requires_direct_qualifiers_of_the_same_accepted_claim(self):
+        for mutation in ('missing_pp','nested_pp','wrong_preposition','wrong_interpretation','wrong_owner','no_owner'):
+            value=pp_owner_example();claim=value['claim']
+            if mutation=='missing_pp':claim['restriction'].pop(0)
+            elif mutation=='nested_pp':claim['restriction'][0]={'kind':'container','nested':claim['restriction'][0]}
+            elif mutation=='wrong_preposition':claim['restriction'][0]['preposition']='من'
+            elif mutation=='wrong_interpretation':claim['restriction'][0]['semantic_relation']='location'
+            elif mutation=='wrong_owner':claim['restriction'][1]['owner']='invented'
+            else:del claim['restriction'][1]['owner']
+            pp_owner_refresh(value)
+            with self.subTest(mutation=mutation):self.assertFalse(pp_owner_matches(value))
+
+    def test_pp_owner_reference_cannot_borrow_scope_context_or_unresolved_identity(self):
+        for mutation in ('scope','context','unresolved','candidates','owner','foreign_source','pronoun_owner'):
+            value=pp_owner_example();ref=value['analysis']['references'][1]
+            if mutation=='scope':ref['scope']='foreign_scope'
+            elif mutation=='context':ref['context_sha256']='foreign_context'
+            elif mutation=='unresolved':ref['status']='DEFER'
+            elif mutation=='candidates':ref['candidate_entity_ids']=['khalid','zayd']
+            elif mutation=='owner':ref.update(bound_entity_id='zayd',candidate_entity_ids=['zayd'])
+            elif mutation=='foreign_source':
+                ref['span']=deepcopy(ref['span']);ref['span']['source_id']='another_clause_source'
+            else:value['analysis']['references'][2].update(bound_entity_id='zayd',candidate_entity_ids=['zayd'])
+            pp_owner_refresh(value)
+            with self.subTest(mutation=mutation):self.assertFalse(pp_owner_matches(value))
+
+    def test_pp_owner_cannot_borrow_a_relation_or_head_from_another_analysis(self):
+        for mutation in ('missing_pp','foreign_reference','foreign_reading','wrong_tawkeed_head','wrong_pp_head','wrong_verb'):
+            value=pp_owner_example();analysis=value['analysis'];pp,attachment,tawkeed=analysis['relations']
+            if mutation=='missing_pp':analysis['relations'].remove(pp)
+            elif mutation=='foreign_reference':pp['object_reference']='foreign_reference'
+            elif mutation=='foreign_reading':
+                value['rows']['foreign_owner']={**deepcopy(value['rows']['owner']),'reading_id':'foreign_owner'}
+                pp['dependent_reading_id']=tawkeed['head_reading_id']='foreign_owner'
+            elif mutation=='wrong_tawkeed_head':tawkeed['head_span']=analysis['assignments'][0]['span']
+            elif mutation=='wrong_pp_head':pp['head_span']=value['rows']['verb']['stem_span']
+            else:attachment['head_span']=analysis['assignments'][0]['span']
+            pp_owner_refresh(value)
+            with self.subTest(mutation=mutation):self.assertFalse(pp_owner_matches(value))
+
+    def test_pp_owner_must_have_an_accepted_claim_proof_for_this_analysis(self):
+        value=pp_owner_example();value['claim']['proofs'][0]['analysis_id']='other_analysis'
+        self.assertFalse(pp_owner_matches(value))
+        value=pp_owner_example();value['analysis']['claims'][0]['time']=['أمس']
+        self.assertFalse(pp_owner_matches(value))
+
+    def test_pp_tawkeed_must_keep_its_activated_genitive_assignment_link(self):
+        for mutation in ('inactive_object','inactive_emphasis','wrong_head','wrong_case','missing_assignment'):
+            value=pp_owner_example();assignments=value['analysis']['assignments']
+            if mutation=='inactive_object':assignments[1]['activated']=False
+            elif mutation=='inactive_emphasis':assignments[2]['activated']=False
+            elif mutation=='wrong_head':assignments[2]['head_span']=assignments[0]['span']
+            elif mutation=='wrong_case':assignments[2]['required_case']='raf'
+            else:assignments.pop(1)
+            pp_owner_refresh(value)
+            with self.subTest(mutation=mutation):self.assertFalse(pp_owner_matches(value))
+
+    def test_governor_occurrence_anchor_requires_its_same_analysis_licensed_stem(self):
+        value=pp_owner_example();analysis=value['analysis'];assigned=analysis['assignments'][2]
+        self.assertTrue(evaluation.role_matches(value['role'],assigned,analysis,value['rows']))
+        for mutation in ('unlicensed','exact_only','foreign_reading','no_head_assignment','wrong_stem'):
+            value=pp_owner_example();analysis=value['analysis'];assigned=analysis['assignments'][2]
+            if mutation=='unlicensed':value['rows']['owner']['segmentation']['licensed']=False
+            elif mutation=='exact_only':value['role']['governor']['span_basis']='exact'
+            elif mutation=='foreign_reading':analysis['reading_ids'].remove('owner')
+            elif mutation=='no_head_assignment':analysis['assignments'].pop(1)
+            else:value['rows']['owner']['stem_span']=value['rows']['actor']['stem_span']
+            with self.subTest(mutation=mutation):
+                self.assertFalse(evaluation.role_matches(value['role'],assigned,analysis,value['rows']))
+
+    def test_inherited_case_guard_still_rejects_full_word_instead_of_its_nominal_head(self):
+        value=pp_owner_example();analysis=value['analysis'];assigned=analysis['assignments'][2]
+        self.assertEqual(evaluation.assignment_case(assigned,analysis),'jarr')
+        assigned['head_span']=value['written_owner_span']
+        with self.assertRaisesRegex(ValueError,'unique same-analysis inherited case'):
+            evaluation.assignment_case(assigned,analysis)
+
     def test_partial_gate_requires_opt_in_and_preserves_strict_failure(self):
         result=partial_gate_example()
         self.assertFalse(evaluation.gate_decision(result)['gate_pass'])

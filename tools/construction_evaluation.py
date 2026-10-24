@@ -12,6 +12,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
 import gzip
+import importlib.util
 import io
 import json
 from pathlib import Path
@@ -23,11 +24,31 @@ import traceback
 import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
+_QUESTION_SPEC = importlib.util.spec_from_file_location(
+    'independent_question_answer_validation', Path(__file__).with_name('question_answer_validation.py'))
+question_validation = importlib.util.module_from_spec(_QUESTION_SPEC)
+_QUESTION_SPEC.loader.exec_module(question_validation)
+_GATE_SPEC = importlib.util.spec_from_file_location(
+    'reviewed_arabic_coverage_gate', Path(__file__).with_name('arabic_coverage_gate.py'))
+coverage_gate = importlib.util.module_from_spec(_GATE_SPEC)
+_GATE_SPEC.loader.exec_module(coverage_gate)
 FOLDER = ROOT / 'evidence/constructions'
-VERSION = 'nabt.constructions.independent-evaluation.v1'
+VERSION = 'nabt.constructions.independent-evaluation.v2'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c': {
+        'snapshot_sha256': '46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851',
+        'archive_sha256': '8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163',
+        'file_count': 77,
+        'version': '0.16.0a1',
+    },
+    'a7194b9b52ab8a6db0c92d65c7dae76dc23c1f1c8777b4e10b2fb71efa01c89f': {
+        'snapshot_sha256': '602fe4a4d81044adbbd01849284f14c699f2104a36595db2bd6f8e80facf7804',
+        'archive_sha256': '54452a9f9375caf4837b00156a98a1be3076b6bd9e4afa2980e8f3d73755e289',
+        'file_count': 77,
+        'version': '0.16.0a1',
+    },
     '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b': {
         'snapshot_sha256': '97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64',
         'archive_sha256': 'fd1ed9ab3cc8b6b5f98c7b1e04f7bd9255cbc2abee0447cbf9a33f234e28a194',
@@ -440,6 +461,9 @@ def validate_answer(answer, document, inquiry, inputs, question):
     require(answer['world_truth'] == 'NOT_ESTABLISHED', 'Answer promoted world truth')
     require(answer['status'] in ('SUPPORTED', 'REFUTED', 'CONFLICT', 'UNKNOWN', 'DEFER', 'OUT_OF_SCOPE'),
             'Unknown answer status')
+    if answer.get('schema') == 'nabt.discourse-answer.v2' or 'question_interpretations' in answer:
+        question_validation.validate_interpretations(answer, document, inquiry, inputs, claim_view=claim_view)
+        return
     if answer['proofs'] or answer['counterproofs'] or answer['bindings']:
         require(document['status'] == 'LICENSED_DISCOURSE' and inquiry['status'] == 'LICENSED_DISCOURSE',
                 'Grounded answer requires complete document and question reports')
@@ -528,7 +552,11 @@ def claim_view(row, *, embedded=False):
     require(all(type(row[k]) is list for k in ('args','time','place','restriction')), 'Claim sequences required')
     # Incomplete analyses retain unresolved argument slots as null. Such slots
     # are never accepted as grounded claims or complete query participants.
-    require(all(a is None or type(a) is str for a in row['args']), 'Claim argument identity required')
+    require(all(a is None or type(a) is str or question_validation.constrained_person_argument(a)
+                for a in row['args']), 'Claim argument identity required')
+    if any(question_validation.constrained_person_argument(a) for a in row['args']):
+        require(row['predicate_kind'] == 'property' and row['voice'] is None and len(row['args']) == 1,
+                'Typed person argument escaped its single-subject property domain')
     for t in row['time']:
         require(type(t) is str or (type(t) is dict and set(t) == {'lemma','form','source_article'}
             and type(t['lemma']) is str and type(t['form']) is str and type(t['source_article']) is bool),
@@ -654,6 +682,10 @@ def validate_relations(analysis, rows, inputs):
 
 def validate_claim_roles(claim, analysis, rows, ranges, *, embedded_family=None):
     assignments, refs = analysis['assignments'], analysis['references']
+    if any(question_validation.constrained_person_argument(value) for value in claim['args']):
+        require(embedded_family is None and question_validation.typed_question_claim_supported(claim, analysis, rows),
+                'Typed question claim lacks its own pending interrogative adjective edge')
+        return
     def at(argument,span):
         if argument is None:
             return (analysis['references_complete'] is False and
@@ -808,7 +840,7 @@ def validate_report(report, inputs, audit=None):
                     require(analysis['force']=='ASSERT' and analysis['licensed_syntax'] and analysis['references_complete']
                             and not analysis['rejected_candidate'],'Nonassertive or incomplete analysis asserted')
     for claim in report['claims']:
-        claim_view(claim);require(all(a in entities for a in claim['args']),'Claim invented an entity')
+        claim_view(claim);require(all(type(a) is str and a in entities for a in claim['args']),'Claim invented an entity')
         require(claim['proofs'],'Grounded claim has no source proof')
         for proof in claim['proofs']:
             require(proof['analysis_id'] in analyses,'Claim proof has a dangling analysis')
@@ -852,12 +884,22 @@ def role_matches(expected, assigned, analysis, rows):
     else:raise ValueError('Unimplemented gold role domain: '+domain)
     if 'governor' in expected:
         heads=[]
-        if assigned.get('head_span') is not None:heads.append(assigned['head_span'])
+        if assigned.get('head_span') is not None:
+            head_span=assigned['head_span']
+            heads.append((head_span,None))
+            # A licensed stem can satisfy the declared occurrence-or-stem
+            # anchor only through this analysis's actual head assignment.
+            heads.extend((head_span,rows[a['reading_id']]) for a in analysis['assignments']
+                         if a['span']==head_span and a.get('activated') is True
+                         and a.get('actual_role')==a['role']
+                         and a['reading_id'] in analysis['reading_ids'] and a['reading_id'] in rows)
         # The public nominal-subject assignment has no governor. Its reciprocal
         # predicate assignment explicitly names this subject, so use that edge.
         if assigned['role']=='nominal_subject':
-            heads.extend(a['span'] for a in analysis['assignments'] if a['role']=='nominal_predicate' and a.get('head_span')==assigned['span'])
-        if not any(anchor_matches(expected['governor'],h) for h in heads):return False
+            heads.extend((a['span'],rows[a['reading_id']]) for a in analysis['assignments']
+                         if a['role']=='nominal_predicate' and a.get('head_span')==assigned['span']
+                         and a['reading_id'] in analysis['reading_ids'] and a['reading_id'] in rows)
+        if not any(anchor_matches(expected['governor'],h,row) for h,row in heads):return False
     return True
 
 
@@ -951,7 +993,86 @@ def walk_qualifiers(value):
         for item in value:yield from walk_qualifiers(item)
 
 
-def qualification_matches(expected, claim, analysis, rows, anchors):
+def prepositional_tawkeed_owner_matches(owner, qualifier, claim, analysis, rows, anchors,
+                                       relations, verbs, *, scope, context_sha256):
+    """Prove the owner is this event's explicitly qualified PP object.
+
+    Event arguments stay unchanged. An arbitrary qualifier, a reference from
+    another clause, or a same-lemma noun elsewhere cannot supply this link.
+    The caller first performs full report validation, including inherited case.
+    """
+    if (type(owner) is not str or type(scope) is not str or type(context_sha256) is not str
+            or claim['predicate_kind']!='event' or qualifier.get('kind')!='tawkeed'
+            or qualifier.get('owner')!=owner or qualifier not in claim['restriction']
+            or analysis.get('rejected_candidate') is not False or analysis.get('licensed_syntax') is not True
+            or analysis.get('references_complete') is not True or analysis.get('assertion_allowed') is not True
+            or analysis.get('force')!='ASSERT' or not claim_is_in_analysis(claim,analysis)
+            or not any(p.get('analysis_id')==analysis['analysis_id'] and p.get('span')==analysis['span']
+                       for p in claim.get('proofs',[]))):
+        return False
+    span=analysis['span'];start,end=span_bounds(span)
+    def local(location):
+        return (type(location) is dict and location.get('source_id')==span.get('source_id')
+                and location.get('source_sha256')==span.get('source_sha256')
+                and start<=location.get('start',-1)<location.get('end',-1)<=end)
+    def resolved(reference,location):
+        return (reference.get('status')=='RESOLVED' and reference.get('bound_entity_id')==owner
+                and reference.get('candidate_entity_ids')==[owner] and reference.get('span')==location
+                and reference.get('scope')==scope and reference.get('context_sha256')==context_sha256
+                and local(location) and reference.get('reference_id')==digest({
+                    k:v for k,v in reference.items() if k!='reference_id'}))
+    def surface(location):
+        if not local(location):return None
+        a,b=span_bounds(location)
+        matches=[anchor['surface'].encode()[a-anchor['span'][0]:b-anchor['span'][0]].decode()
+                 for anchor in anchors if anchor['span'][0]<=a<b<=anchor['span'][1]]
+        return matches[0] if len(matches)==1 else None
+    pp_qualifiers=[q for q in claim['restriction'] if type(q) is dict
+                   and q.get('kind')=='prepositional' and q.get('object')==owner]
+    for relation in relations:
+        if (relation.get('kind')!='tawkeed' or relation.get('identity_preserved') is not True
+                or relation.get('subtype')!=qualifier.get('subtype')):
+            continue
+        head_id,dependent_id=relation.get('head_reading_id'),relation.get('dependent_reading_id')
+        head_span,dependent_span=relation.get('head_span'),relation.get('dependent_span')
+        if (head_id not in analysis['reading_ids'] or dependent_id not in analysis['reading_ids']
+                or head_id not in rows or dependent_id not in rows or not local(head_span) or not local(dependent_span)
+                or rows[head_id].get('kind')!='noun'
+                or rows[dependent_id].get('lexical_features',{}).get('lemma')!=qualifier.get('predicate')):
+            continue
+        if relation.get('subtype')=='semantic_self':
+            pronoun_span=relation.get('pronoun_span')
+            if not any(resolved(ref,pronoun_span) for ref in analysis['references']):continue
+        for pp in analysis.get('relations',[]):
+            if (pp.get('kind')!='preposition_object' or pp.get('dependent_reading_id')!=head_id
+                    or pp.get('dependent_span')!=head_span or not local(pp.get('head_span'))):
+                continue
+            references=[ref for ref in analysis['references'] if ref.get('reference_id')==pp.get('object_reference')]
+            if len(references)!=1 or not resolved(references[0],head_span):continue
+            objects=[a for a in analysis['assignments'] if a['role']=='preposition_object'
+                     and a['reading_id']==head_id and a['span']==head_span and a.get('head_span')==pp['head_span']
+                     and a.get('activated') is True and a.get('actual_role')=='preposition_object'
+                     and a.get('required_case')=='jarr']
+            dependents=[a for a in analysis['assignments'] if a['role']=='tawkeed'
+                        and a['reading_id']==dependent_id and a['span']==dependent_span
+                        and a.get('head_span')==head_span and a.get('activated') is True
+                        and a.get('actual_role')=='tawkeed' and a.get('required_case')=='jarr']
+            if not objects or not dependents:continue
+            prep_surface=surface(pp['head_span'])
+            if prep_surface is None:continue
+            for attachment in analysis.get('relations',[]):
+                if (attachment.get('kind')!='prepositional_attachment'
+                        or attachment.get('dependent_span')!=pp['head_span']
+                        or attachment.get('object_span')!=head_span
+                        or not any(attachment.get('head_span')==verb['stem_span'] for verb in verbs)):
+                    continue
+                if any(type(q.get('preposition')) is str and letters(q['preposition'])==letters(prep_surface)
+                       and q.get('semantic_relation')==attachment.get('interpretation') for q in pp_qualifiers):
+                    return True
+    return False
+
+
+def qualification_matches(expected, claim, analysis, rows, anchors, *, scope=None, context_sha256=None):
     dep=anchors[expected['dependent_word_index']];head=anchors[expected['head_word_index']]
     rels=[r for r in relation_rows(analysis) if r.get('kind')==expected['kind'] and r.get('dependent_span') is not None
           and anchor_matches(dep,r['dependent_span'],rows.get(r.get('dependent_reading_id')))]
@@ -978,7 +1099,10 @@ def qualification_matches(expected, claim, analysis, rows, anchors):
                 if not any(owner in bound_at(analysis,r.get('owner_span')) for r in rels):continue
             elif expected['kind']=='naat':
                 if not any(owner in bound_at(analysis,r.get('head_span')) for r in rels):continue
-            elif expected['kind'] in ('tamyiz','tawkeed') and owner not in claim['args']:continue
+            elif expected['kind']=='tamyiz' and owner not in claim['args']:continue
+            elif expected['kind']=='tawkeed' and owner not in claim['args']:
+                if not prepositional_tawkeed_owner_matches(owner,q,claim,analysis,rows,anchors,rels,verbs,
+                                                           scope=scope,context_sha256=context_sha256):continue
             matched=True
     if expected.get('required_time') is not None and [gold_time(t) for t in claim['time']]!=expected['required_time']:return False
     return matched
@@ -1019,7 +1143,8 @@ def score_case(case, report, questions, verification, audit=None, replay=None):
                 for r in operators for i,a in enumerate(anchors) if tuple(a['span'])==span_bounds(r['head_span']))
         check('scope:'+str(i),any(scope_matches(wanted,c) and any(triggered(c,analyses[p['analysis_id']][1]) for p in c['proofs']) for c in claims))
     for i,wanted in enumerate(expected.get('required_qualifications',[])):
-        check('qualification:'+str(i),any(qualification_matches(wanted,c,analyses[p['analysis_id']][1],rows,anchors) for c in claims for p in c['proofs']))
+        check('qualification:'+str(i),any(qualification_matches(wanted,c,analyses[p['analysis_id']][1],rows,anchors,
+            scope=inputs['scope'],context_sha256=report['context']['sha256']) for c in claims for p in c['proofs']))
     for i,forbidden in enumerate(expected.get('forbidden_claims',[])):
         check('forbidden_claim:'+str(i),not any(semantic_key(forbidden)==semantic_key(c) for c in claims),safety=True)
     if expected.get('no_grounded_claims'):check('no_grounded_claims',not claims,safety=True)
@@ -1030,7 +1155,9 @@ def score_case(case, report, questions, verification, audit=None, replay=None):
                 and all(any(relation_matches(r,t,analysis,rows,anchors) for t in relation_rows(analysis)) for r in expected.get('required_relations',[]))
                 and all(any(semantic_key(w)==semantic_key(c) for c in accepted) for w in expected.get('required_claims',[]))
                 and all(any(scope_matches(w,c) for c in accepted) for w in expected.get('required_scopes',[]))
-                and all(any(qualification_matches(w,c,analysis,rows,anchors) for c in accepted) for w in expected.get('required_qualifications',[])))
+                and all(any(qualification_matches(w,c,analysis,rows,anchors,
+                    scope=inputs['scope'],context_sha256=report['context']['sha256']) for c in accepted)
+                    for w in expected.get('required_qualifications',[])))
         check('coherent_analysis',any(coherent(a) for a in complete))
     if 'required_force' in expected:
         check('force',any(a['force']==expected['required_force'] for a in viable)
@@ -1082,9 +1209,14 @@ def score_case(case, report, questions, verification, audit=None, replay=None):
         if wanted['outcome']=='NO_GROUNDED_SUPPORT':
             ok=answer['status'] in ('UNKNOWN','DEFER','OUT_OF_SCOPE') and not grounded
         else:
-            ok=answer['status']==wanted['outcome'] and answer['query'] is not None and inquiry['status']=='LICENSED_DISCOURSE'
+            query_complete=(bool(answer['question_interpretations']) if 'question_interpretations' in answer
+                            else answer['query'] is not None and inquiry['status']=='LICENSED_DISCOURSE')
+            ok=answer['status']==wanted['outcome'] and query_complete
         check('question:'+str(i),ok and (certificate or not wanted['certificate_required']),
-              {'expected':wanted['outcome'],'status':answer['status'],'query_complete':answer['query'] is not None,'certificate':certificate},
+              {'expected':wanted['outcome'],'status':answer['status'],
+               'query_complete':bool(answer['question_interpretations']) if 'question_interpretations' in answer
+                                else answer['query'] is not None and inquiry['status']=='LICENSED_DISCOURSE',
+               'certificate':certificate},
               safety=wanted['outcome']!='SUPPORTED' and grounded)
     if 'replay' in expected:
         check('replay_original_report',verification.get('valid') is True)
@@ -1149,7 +1281,10 @@ def runtime_snapshot(manifest_path,runtime_root):
             data=saved.extractfile(member).read()
             require(len(data)==by_path[member.name]['bytes'] and sha256(data).hexdigest()==by_path[member.name]['sha256'],'Runtime archive member changed')
     files=list(manifest['files'])
-    for path in (Path(__file__),ROOT/'tests/test_construction_evaluator.py'):
+    for path in (Path(__file__),Path(__file__).with_name('question_answer_validation.py'),
+                 ROOT/'tests/test_construction_evaluator.py',ROOT/'tests/test_question_interpretation_validation.py',
+                 Path(__file__).with_name('arabic_coverage_gate.py'), coverage_gate.POLICY_PATH,
+                 ROOT/'tests/test_arabic_coverage_gate.py'):
         data=path.read_bytes();files.append({'path':str(path.relative_to(ROOT)),'bytes':len(data),'sha256':sha256(data).hexdigest()})
     return {'runtime_root':str(runtime_root),'runtime_freeze':str(manifest_path.relative_to(ROOT)),
         'runtime_freeze_sha256':checksum,'runtime_snapshot_sha256':pin['snapshot_sha256'],'runtime_archive_sha256':pin['archive_sha256'],
@@ -1159,6 +1294,8 @@ def runtime_snapshot(manifest_path,runtime_root):
 
 def gate_decision(result, allow_documented_boundaries=False):
     """Optional regression acceptance; never relabel a failed linguistic check."""
+    if result['snapshot']['runtime_freeze_sha256'] == coverage_gate.RUNTIME_SHA256:
+        return coverage_gate.gate_decision('construction', result, allow_documented_boundaries)
     cases=result['cases'];raw=result['raw_log'];integrity=[]
     if type(result['total']) is not int or result['total']!=86 or len(cases)!=86:
         integrity.append('complete_case_inventory_required')
@@ -1306,7 +1443,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/rational_inquiry/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/arabic_coverage/code_freeze_v2.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

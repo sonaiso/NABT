@@ -1,0 +1,534 @@
+{
+  "schema": "nabt.arabic-coverage-policy-independent-review.v1",
+  "created_utc": "2026-10-24T12:57:54.235163+00:00",
+  "code_path": "tools/arabic_coverage_gate.py",
+  "code_sha256": "eb50aedefe8f38fb41990a8a76b1b39c6faa6a130befaaef05500ab0af7ecc28",
+  "policy_path": "evidence/arabic_coverage/regression_policy_v1.json",
+  "policy_sha256": "cc4a05e19d516b548cc7f935e9506a3cbd85a97c5c0ad9def4dec1c2dbee274a",
+  "runtime_modified": false,
+  "gold_modified": false,
+  "test_scope": "In-memory mutations of saved, finalized strict evaluator receipts only. No Arabic/runtime or holdout evaluation was rerun.",
+  "caller_precondition": "Both evaluator pipelines must verify actual source/runtime/raw bytes first. This helper is a receipt policy decision, not a standalone raw-certificate verifier. Read-only inspection confirmed the new routing is restricted to manifest1818 and historical branches are retained.",
+  "allowlists_match_final_measurements": true,
+  "allowlist_has_no_case_or_check_outside_baseline": true,
+  "approved_residual_inventory": {
+    "discourse": {
+      "cases": 23,
+      "failure_payloads": 50
+    },
+    "construction": {
+      "cases": 6,
+      "failure_payloads": 46
+    }
+  },
+  "checks": [
+    {
+      "name": "reviewed_residuals_explicit_partial",
+      "suite": "discourse",
+      "expected_gate_pass": true,
+      "observed_gate_pass": true,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": []
+    },
+    {
+      "name": "same_receipt_strict_remains_failed",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": []
+    },
+    {
+      "name": "runtime_pin_changed",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "runtime_pin_mismatch:runtime_freeze_sha256"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "runtime_snapshot_changed",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "runtime_pin_mismatch:runtime_snapshot_sha256"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "runtime_count_bool",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "runtime_pin_mismatch:runtime_file_count"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "measurement_invalid",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "valid_measurement_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "global_false_accept",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "false_accepts_are_never_waived"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "false_accept_count_bool",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "false_accepts_are_never_waived"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "source_execution_error",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "no_errors_required:execution_errors"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "question_execution_error",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "no_errors_required:question_execution_errors"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "strict_flag_forged",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "strict_pass_flag_mismatch"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "pass_total_forged",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "pass_total_mismatch"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "case_total_bool",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_ordered_case_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "case_false_accept_with_false_global_zero",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "case_false_acceptance:DSC-P01"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "omitted_case",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_ordered_case_inventory_required",
+        "pass_total_mismatch"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "duplicated_case_identity",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_ordered_case_inventory_required",
+        "complete_typed_check_inventory_required:DSC-P01"
+      ],
+      "unexpected_failures": [
+        {
+          "id": "DSC-P01",
+          "check": "required_claim:0",
+          "signature_sha256": "6b5e058a1607b809caf5cb0040a3d21feaf0b75e04b3ae8ba667233d0e13d6ff"
+        },
+        {
+          "id": "DSC-P01",
+          "check": "question:0",
+          "signature_sha256": "c8138ae7caa24f73eff587e463717a6ab0bf7a3bb38b3d33f41fb5ce16a7ba3a"
+        }
+      ]
+    },
+    {
+      "name": "omitted_check",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_typed_check_inventory_required:DSC-P01",
+        "complete_question_check_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "numeric_check_flag",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_typed_check_inventory_required:DSC-P01"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "changed_allowed_question_failure_payload",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": [
+        {
+          "id": "DSC-P02",
+          "check": "question:0",
+          "signature_sha256": "983b3bce9be2c5df2b9f9cd708be150d6f06c63212e2b305c26e3a370464ce27"
+        }
+      ]
+    },
+    {
+      "name": "raw_identity_substitution_with_rehashed_inventory",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_raw_record_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "raw_finalization_false",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_raw_finalization_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "recovered_P16_cannot_reuse_old_baseline_waiver",
+      "suite": "discourse",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": [
+        {
+          "id": "DSC-P16",
+          "check": "question:0",
+          "signature_sha256": "c4cace6e4ad1164b01e5e0d5691714cd0244f87ad9f8b11c3b02d51911ec1771"
+        }
+      ]
+    },
+    {
+      "name": "reviewed_residuals_explicit_partial",
+      "suite": "construction",
+      "expected_gate_pass": true,
+      "observed_gate_pass": true,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": []
+    },
+    {
+      "name": "same_receipt_strict_remains_failed",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": []
+    },
+    {
+      "name": "runtime_pin_changed",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "runtime_pin_mismatch:runtime_freeze_sha256"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "runtime_snapshot_changed",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "runtime_pin_mismatch:runtime_snapshot_sha256"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "runtime_count_bool",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "runtime_pin_mismatch:runtime_file_count"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "measurement_invalid",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "valid_measurement_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "global_false_accept",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "false_accepts_are_never_waived"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "false_accept_count_bool",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "false_accepts_are_never_waived"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "source_execution_error",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "no_errors_required:execution_errors"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "question_execution_error",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "no_errors_required:question_execution_errors"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "strict_flag_forged",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "strict_pass_flag_mismatch"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "pass_total_forged",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "pass_total_mismatch"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "case_total_bool",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_ordered_case_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "case_false_accept_with_false_global_zero",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "case_false_acceptance:CON-C01"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "omitted_case",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_ordered_case_inventory_required",
+        "pass_total_mismatch",
+        "complete_question_check_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "duplicated_case_identity",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_ordered_case_inventory_required",
+        "complete_typed_check_inventory_required:CON-C01"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "omitted_check",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_typed_check_inventory_required:CON-C01",
+        "complete_question_check_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "numeric_check_flag",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_typed_check_inventory_required:CON-C01"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "changed_allowed_question_failure_payload",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [],
+      "unexpected_failures": [
+        {
+          "id": "CON-Z02",
+          "check": "question:0",
+          "signature_sha256": "ff68a2cc4a4a102c1aa8148d6565b69e0e72dd8a007e35f6b4cd746b341ceba6"
+        }
+      ]
+    },
+    {
+      "name": "raw_identity_substitution_with_rehashed_inventory",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "complete_raw_record_inventory_required"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "construction_finalization_error",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "no_errors_required:finalization_errors"
+      ],
+      "unexpected_failures": []
+    },
+    {
+      "name": "question_certificate_false",
+      "suite": "construction",
+      "expected_gate_pass": false,
+      "observed_gate_pass": false,
+      "coverage_complete": false,
+      "integrity_errors": [
+        "question_certificate_required:CON-C01"
+      ],
+      "unexpected_failures": []
+    }
+  ],
+  "result": "PASS",
+  "universal_soundness_or_complete_Arabic_claim": false
+}

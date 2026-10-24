@@ -139,6 +139,14 @@ def _query_agreement_witnesses(pattern, claim, bindings, document):
                         any(relation.get("predicate_profile", {}).get(axis) != value
                             for axis, value in required.items())):
                     continue
+                if any(scoped.get("kind") == "relative_clause"
+                       and scoped.get("inner_predicate_reading_id") == relation.get("dependent_reading_id")
+                       and scoped.get("inner_predicate_span") == relation.get("dependent_span")
+                       for scoped in analysis["relations"]):
+                    # The resumptive clause is a description inside the
+                    # relative. Its adjective cannot certify the distinct
+                    # outer assertion, even if lemma and individual coincide.
+                    continue
                 for reference in analysis["references"]:
                     if (reference.get("status") == "RESOLVED" and reference["bound_entity_id"] == entity_id and
                             reference["span"] == relation["head_span"] and
@@ -157,13 +165,63 @@ def _query_agreement_witnesses(pattern, claim, bindings, document):
     return receipts
 
 
+def _evaluate_interpretation(interpretation, document, inquiry, entities):
+    """Evaluate one complete question reading against the same full source."""
+    positive, negative, grouped = [], [], {}
+    pattern = interpretation["query"]
+    opposite = {**deepcopy(pattern), "positive": not pattern["positive"]}
+    for claim in document["claims"]:
+        for desired, target, sign in ((pattern, positive, "proofs"), (opposite, negative, "counterproofs")):
+            bindings = _match(desired, claim, entities)
+            if bindings is None:
+                continue
+            agreement = _query_agreement_witnesses(desired, claim, bindings, document)
+            if agreement is None:
+                continue
+            proof = {"claim_id": claim["claim_id"], "document_report_id": document["report_id"],
+                     "question_report_id": inquiry["report_id"],
+                     "question_analysis_id": interpretation["analysis_id"], "bindings": bindings,
+                     "source_proofs": deepcopy(claim["proofs"]),
+                     "rule": "EXACT_SIGNED_QUALIFIED_CLAIM_WITH_EXPLICIT_VARIABLE_SUBSTITUTION"}
+            if agreement:
+                proof["predicate_agreement_bindings"] = agreement
+            target.append(proof)
+            key = wire(bindings)
+            grouped.setdefault(key, {"values": bindings, "proofs": [], "counterproofs": []})[sign].append(proof)
+    interpretation["proofs"], interpretation["counterproofs"] = positive, negative
+    if interpretation["kind"] == "polar":
+        interpretation["status"] = _status(positive, negative)
+    else:
+        interpretation["bindings"] = [
+            {**grouped[key], "status": _status(grouped[key]["proofs"], grouped[key]["counterproofs"])}
+            for key in sorted(grouped) if grouped[key]["proofs"]]
+        interpretation["status"] = (
+            "CONFLICT" if any(b["status"] == "CONFLICT" for b in interpretation["bindings"]) else
+            "SUPPORTED" if interpretation["bindings"] else "UNKNOWN")
+
+
+def _interpretation_outcome(interpretation):
+    """Compare whole outcomes, including the bound signed source-claim sets.
+
+    Agreement is not a union of whichever bindings each reading can prove.
+    Separate typed/untyped proof receipts may justify the same source claim;
+    different source claims or missing opposition remain different outcomes.
+    """
+    return wire({"kind": interpretation["kind"], "status": interpretation["status"],
+        "bindings": sorted(({"values": b["values"], "status": b["status"]}
+                            for b in interpretation["bindings"]), key=wire),
+        "signs": {sign: sorted({wire([p["bindings"], p["claim_id"]]).decode("utf-8")
+                               for p in interpretation[sign]})
+                  for sign in ("proofs", "counterproofs")}})
+
+
 def ask_discourse(text, question, *, lexical_model=None, context=None,
                   source_id="input", scope="default"):
     document = read_discourse(text, lexical_model=lexical_model, context=context,
                               source_id=source_id, scope=scope)
     inquiry = read_discourse(question, lexical_model=lexical_model, context=context,
                              source_id="question", scope=scope)
-    result = {"schema": "nabt.discourse-answer.v1", "law_id": LAW_ID,
+    result = {"schema": "nabt.discourse-answer.v2", "law_id": LAW_ID,
               "law_sha256": EXPECTED_TABLE_SHA256, "language_id": LANGUAGE_ID,
               "reader_version": READER_VERSION, "source_id": source_id, "scope": scope,
               "source_text": document["source_text"], "question_text": inquiry["source_text"],
@@ -171,55 +229,56 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
               "document_report_id": document["report_id"], "question_report_id": inquiry["report_id"],
               "context_sha256": document["context"]["sha256"], "lexical_model": document["lexical_model"],
               "status": "DEFER", "kind": None, "query": None, "bindings": [],
+              "question_interpretations": [], "answer_basis": None,
               "proofs": [], "counterproofs": [], "missing_premises": [],
               "authority": "SOURCE_RELATIVE_ANSWER_REPLAY_NOT_WORLD_TRUTH", "world_truth": "NOT_ESTABLISHED"}
     if document["status"] != "LICENSED_DISCOURSE":
         result["missing_premises"].append("COMPLETE_SOURCE_DISCOURSE_READING")
-    if inquiry["status"] != "LICENSED_DISCOURSE" or len(inquiry["clauses"]) != 1:
+    if len(inquiry["clauses"]) != 1:
         result["missing_premises"].append("ONE_COMPLETE_QUESTION_READING")
     else:
         clause = inquiry["clauses"][0]
-        # The source report retains rejected alternatives for audit. A licensed
-        # clause gets its semantics only from the complete, viable analyses.
-        analyses = [analysis for analysis in clause["analyses"]
-                    if not analysis["rejected_candidate"] and analysis["licensed_syntax"]
-                    and analysis["references_complete"]]
-        if clause["force"] != "QUESTION" or not analyses or any(len(analysis["claims"]) != 1 for analysis in analyses):
+        viable = [a for a in clause["analyses"] if not a["rejected_candidate"]]
+        analyses = [a for a in viable if a["licensed_syntax"] and a["references_complete"]]
+        # A DEFER report may retain several complete semantic readings. Those
+        # can be answered only by evaluating every one; an incomplete viable
+        # alternative still blocks any accepted answer.
+        if not analyses or len(analyses) != len(viable):
+            result["missing_premises"].append("ONE_COMPLETE_QUESTION_READING")
+        elif any(a["force"] != "QUESTION" or len(a["claims"]) != 1 for a in analyses):
             result["missing_premises"].append("EXPLICIT_SINGLE_QUESTION_FORCE")
         else:
-            analysis = analyses[0]
-            result["kind"] = analysis.get("question_kind") or "polar"
-            result["query"] = deepcopy(analysis["claims"][0])
+            result["question_interpretations"] = [
+                {"clause_id": clause["clause_id"], "analysis_id": a["analysis_id"],
+                 "kind": a.get("question_kind") or "polar", "query": deepcopy(a["claims"][0]),
+                 "status": "DEFER", "bindings": [], "proofs": [], "counterproofs": []}
+                for a in analyses]
+            kinds = {a["kind"] for a in result["question_interpretations"]}
+            queries = {wire(a["query"]) for a in result["question_interpretations"]}
+            if len(kinds) == 1:
+                result["kind"] = next(iter(kinds))
+            if len(queries) == 1:
+                result["query"] = deepcopy(result["question_interpretations"][0]["query"])
     if not result["missing_premises"]:
         entities = {e["id"]: e for e in read_context(context)["value"]["entities"]}
-        positive, negative, grouped = [], [], {}
-        pattern = result["query"]
-        opposite = {**deepcopy(pattern), "positive": not pattern["positive"]}
-        for claim in document["claims"]:
-            for desired, target, sign in ((pattern, positive, "proofs"), (opposite, negative, "counterproofs")):
-                bindings = _match(desired, claim, entities)
-                if bindings is None:
-                    continue
-                agreement = _query_agreement_witnesses(desired, claim, bindings, document)
-                if agreement is None:
-                    continue
-                proof = {"claim_id": claim["claim_id"], "document_report_id": document["report_id"],
-                         "question_report_id": inquiry["report_id"], "bindings": bindings,
-                         "source_proofs": deepcopy(claim["proofs"]),
-                         "rule": "EXACT_SIGNED_QUALIFIED_CLAIM_WITH_EXPLICIT_VARIABLE_SUBSTITUTION"}
-                if agreement:
-                    proof["predicate_agreement_bindings"] = agreement
-                target.append(proof)
-                key = wire(bindings)
-                grouped.setdefault(key, {"values": bindings, "proofs": [], "counterproofs": []})[sign].append(proof)
-        result["proofs"], result["counterproofs"] = positive, negative
-        if result["kind"] == "polar":
-            result["status"] = _status(positive, negative)
+        interpretations = result["question_interpretations"]
+        for interpretation in interpretations:
+            _evaluate_interpretation(interpretation, document, inquiry, entities)
+        if len({_interpretation_outcome(a) for a in interpretations}) != 1:
+            result["missing_premises"].append("QUESTION_INTERPRETATION_OUTCOMES_DISAGREE")
         else:
-            result["bindings"] = [{**grouped[key], "status": _status(grouped[key]["proofs"], grouped[key]["counterproofs"])}
-                                  for key in sorted(grouped) if grouped[key]["proofs"]]
-            result["status"] = ("CONFLICT" if any(b["status"] == "CONFLICT" for b in result["bindings"]) else
-                                "SUPPORTED" if result["bindings"] else "UNKNOWN")
+            result["status"] = interpretations[0]["status"]
+            result["answer_basis"] = "ALL_COMPLETE_QUERY_INTERPRETATIONS_AGREE"
+            for sign in ("proofs", "counterproofs"):
+                result[sign] = [deepcopy(proof) for a in interpretations for proof in a[sign]]
+            if result["kind"] != "polar":
+                # The set is already identical in every interpretation. Merge
+                # only its proof receipts, never add a binding from a subset.
+                for binding in interpretations[0]["bindings"]:
+                    merged = {"values": deepcopy(binding["values"]), "status": binding["status"]}
+                    for sign in ("proofs", "counterproofs"):
+                        merged[sign] = [p for p in result[sign] if p["bindings"] == binding["values"]]
+                    result["bindings"].append(merged)
     result["answer_id"] = identity(result)
     wire(result)
     return result

@@ -1,0 +1,84 @@
+{
+  "artifact_comparison": {
+    "all_policy_failure_payloads_exactly_equal_retained_strict_result": true,
+    "allowed_failure_payloads": 46,
+    "no_extra_allowed_failure": true,
+    "ordered_cases": 86,
+    "ordered_checks": 648,
+    "policy_sha256": "cc4a05e19d516b548cc7f935e9506a3cbd85a97c5c0ad9def4dec1c2dbee274a",
+    "questions": 106,
+    "raw_record_identities": 87,
+    "remaining_cases": 6,
+    "strict_result_sha256": "020cf93ac66414ede030474813a6b6643bf7fac79242d72c05378f0de1391acb"
+  },
+  "limits": [
+    "This helper validates finalized evaluator receipts, not arbitrary externally supplied runtime claims. Its validity flags are not authenticated evidence outside that caller contract.",
+    "The policy is post-measurement regression acceptance, not blind validation or proof of linguistic completeness.",
+    "A successful partial-coverage gate leaves strict_pass false, all six construction cases failed, and the reported coverage at80/86.",
+    "Zero false accepts applies only to the declared finite forbidden-claim and safety checks."
+  ],
+  "logic_findings": [
+    "The new policy is selected only for the pinned v2 runtime. The helper additionally checks snapshot digest/count and gold/source pins; historical evaluator branches remain separate.",
+    "Ordered case and check inventories, Boolean check/pass markers, integer totals, case failure/check agreement and raw identities prevent deletion, duplication, reordering and bool/int substitution from hiding coverage debt.",
+    "Failures are admitted only by exact payload equality. A newly failing check, a restored fixed check inside an existing residual case, a changed question status or a changed certificate is not covered by the policy.",
+    "Per-case and aggregate false accepts, replay failures, execution errors, finalization failures and question certificate failure are not waived.",
+    "Shrinking debt is permitted, while each remaining failure must retain its reviewed payload. The helper does not alter scores, checks or strict_pass.",
+    "Caller inspection confirms source/runtime checks and byte-bound raw finalization run before gate_decision. Construction finalization compares raw score payloads with result cases; discourse journal verification receives the final case list.",
+    "Helper/policy/test files are included in both measured snapshots and source archives; later edits are visible in provenance."
+  ],
+  "review_scope": "Read-only policy and code/test review. The artifact comparison below was executed; the test suite and runtime/evaluators were not rerun by this reviewer.",
+  "reviewed_files": [
+    {
+      "bytes": 9287,
+      "path": "tools/arabic_coverage_gate.py",
+      "sha256": "eb50aedefe8f38fb41990a8a76b1b39c6faa6a130befaaef05500ab0af7ecc28"
+    },
+    {
+      "bytes": 96519,
+      "path": "evidence/arabic_coverage/regression_policy_v1.json",
+      "sha256": "cc4a05e19d516b548cc7f935e9506a3cbd85a97c5c0ad9def4dec1c2dbee274a"
+    },
+    {
+      "bytes": 10827,
+      "path": "tests/test_arabic_coverage_gate.py",
+      "sha256": "e5e9b418fc9af9e2f3b46ee0125aee6043cda4ee5b5db8dd4412c470eaa21eb2"
+    },
+    {
+      "bytes": 104662,
+      "path": "tools/construction_evaluation.py",
+      "sha256": "e2ff9c7ba59a5a623efbd4f2bac62ebc61f805cfdcfbe9cd45d804b72305dd51"
+    },
+    {
+      "bytes": 99172,
+      "path": "tools/discourse_evaluation.py",
+      "sha256": "5f4388dd6343112dba201cc1cc110a36ed59c50284ff7c30bba3cdae591146bf"
+    }
+  ],
+  "schema": "nabt.arabic-coverage-gate-independent-review.v1",
+  "status": "NO_BLOCKER_FOUND_WITHIN_FINALIZED_EVALUATOR_RECEIPT_CONTRACT",
+  "tests_reviewed": {
+    "executed_here": false,
+    "method_count": 18,
+    "methods": [
+      "test_narrow_debt_acceptance_preserves_all_scores_and_failed_flags",
+      "test_a_previously_fixed_case_cannot_reenter_the_old_debt_list",
+      "test_a_previously_fixed_check_in_a_residual_case_is_not_waived",
+      "test_changed_failure_status_requires_new_review",
+      "test_inventories_reject_missing_duplicate_reordered_cases",
+      "test_removing_a_check_does_not_improve_coverage",
+      "test_failed_checks_cannot_be_removed_or_relabeled_as_passed",
+      "test_booleans_and_numbers_are_not_interchangeable",
+      "test_false_acceptance_is_never_waived_even_with_zero_summary",
+      "test_errors_and_invalid_measurements_cannot_pass",
+      "test_invalid_or_truncated_raw_journal_cannot_pass",
+      "test_material_and_runtime_pins_cannot_be_substituted",
+      "test_replay_failure_cannot_be_added_to_coverage_debt",
+      "test_construction_question_certificates_remain_unconditional",
+      "test_forged_strict_pass_does_not_bypass_the_gate",
+      "test_debt_can_shrink_without_relabeling_other_failures",
+      "test_policy_byte_changes_are_rejected",
+      "test_malformed_receipt_fails_closed"
+    ]
+  },
+  "utc": "2026-10-24T12:58:51.697416+00:00"
+}

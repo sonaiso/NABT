@@ -1,0 +1,68 @@
+{
+  "schema": "nabt.arabic-coverage-policy-final-review.v1",
+  "created_utc": "2026-10-24T12:58:45.335352+00:00",
+  "prior_independent_review": {
+    "path": "evidence/arabic_coverage/discourse_residual_review_v2/policy_gate_review.json",
+    "sha256": "2274481b1281f63c0bcb9744b16e7905ec4ba5fdcdd10236ad1638119f1ce50d",
+    "in_memory_controls_and_mutations": 44,
+    "result": "PASS"
+  },
+  "gate_code_sha256": "eb50aedefe8f38fb41990a8a76b1b39c6faa6a130befaaef05500ab0af7ecc28",
+  "policy_sha256": "cc4a05e19d516b548cc7f935e9506a3cbd85a97c5c0ad9def4dec1c2dbee274a",
+  "policy_references_now_resolve_to_preserved_exact_bytes": true,
+  "strict_receipts": [
+    {
+      "suite": "construction",
+      "strict_report_path": "evidence/arabic_coverage/construction_residual_review_v2/arabic_coverage_construction_final_strict_v2.json",
+      "strict_report_sha256": "020cf93ac66414ede030474813a6b6643bf7fac79242d72c05378f0de1391acb",
+      "strict_pass": false,
+      "passed": 80,
+      "total": 86,
+      "preserved_auxiliary_files": [
+        {
+          "kind": "raw_log",
+          "path": "evidence/arabic_coverage/construction_residual_review_v2/arabic_coverage_construction_final_strict_v2.raw.jsonl.gz",
+          "bytes": 1425907,
+          "sha256": "64879fe945c00e1101f92fcdd28faaea844638fc40c5dd88b360467cb82cbd3e"
+        },
+        {
+          "kind": "code_archive",
+          "path": "evidence/arabic_coverage/construction_residual_review_v2/arabic_coverage_construction_final_strict_v2.code.tar.gz",
+          "bytes": 2432535,
+          "sha256": "18139e121602235c99d4f907e2d20c0b537709950075846721c09e3bf3fdb401"
+        }
+      ]
+    },
+    {
+      "suite": "discourse",
+      "strict_report_path": "evidence/arabic_coverage/discourse_residual_review_v2/arabic_coverage_discourse_final_strict_v2.json",
+      "strict_report_sha256": "eebbca44bcc599e2a602b09653e9a82af6627b3241e140ad6d47f7d3fd3d09f1",
+      "strict_pass": false,
+      "passed": 63,
+      "total": 86,
+      "preserved_auxiliary_files": [
+        {
+          "kind": "raw_log",
+          "path": "evidence/arabic_coverage/discourse_residual_review_v2/arabic_coverage_discourse_final_strict_v2.raw.jsonl.gz",
+          "bytes": 1111832,
+          "sha256": "c3060fc7ed9b3e7f23edc6a50bada4b1eac12efc66ded3caf36bd3ea10734a0f"
+        },
+        {
+          "kind": "code_archive",
+          "path": "evidence/arabic_coverage/discourse_residual_review_v2/arabic_coverage_discourse_final_strict_v2.code.tar.gz",
+          "bytes": 2432416,
+          "sha256": "96e087223ebff21fd634f16e527c478b83b57fd559f826ebe9e42224b3edad2b"
+        }
+      ]
+    }
+  ],
+  "result": "PASS_WITH_DECLARED_PARTIAL_COVERAGE_SCOPE",
+  "remaining_material_blockers_from_this_review": [],
+  "runtime_or_evaluator_modified": false,
+  "conditions": [
+    "Actual source/runtime/raw-journal validation occurs before the helper is invoked; it is a finalized-receipt decision policy, not a standalone certificate verifier.",
+    "Only the exact v2 manifest and exact residual signatures are approved; new failures, errors or false accepts require a fresh review and currently block.",
+    "Strict coverage remains false for both suites. The partial release gate does not establish complete Arabic coverage or world truth."
+  ],
+  "review_scope": "Saved strict receipts, raw provenance, gate code/callsites, exact baseline/final allowlist comparison, and44 in-memory policy controls. No fresh Arabic runtime or holdout evaluation was performed by this review."
+}
