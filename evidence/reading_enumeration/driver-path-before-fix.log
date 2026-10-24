@@ -1,0 +1,29 @@
+test_driver_paths_resolve_from_invocation_directory (test_semantic_audit_driver.SemanticAuditDriverPathTests.test_driver_paths_resolve_from_invocation_directory) ... 
+  test_driver_paths_resolve_from_invocation_directory (test_semantic_audit_driver.SemanticAuditDriverPathTests.test_driver_paths_resolve_from_invocation_directory) (driver='bin/lean-driver') ... FAIL
+
+======================================================================
+FAIL: test_driver_paths_resolve_from_invocation_directory (test_semantic_audit_driver.SemanticAuditDriverPathTests.test_driver_paths_resolve_from_invocation_directory) (driver='bin/lean-driver')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp9ow77gmf/tests/test_semantic_audit_driver.py", line 38, in test_driver_paths_resolve_from_invocation_directory
+    self.assertTrue(marker.exists(), result.stderr)
+AssertionError: False is not true : Traceback (most recent call last):
+  File "/tmp/tmpy3diqx_y/project/tools/build_semantic_audit.py", line 61, in <module>
+    build_module(module)
+  File "/tmp/tmpy3diqx_y/project/tools/build_semantic_audit.py", line 47, in build_module
+    run = subprocess.run(command, cwd=root / "formal", env=env, capture_output=True, text=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'bin/lean-driver'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.130s
+
+FAILED (failures=1)

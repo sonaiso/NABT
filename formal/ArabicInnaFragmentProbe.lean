@@ -226,7 +226,7 @@ def emit (output : IO.FS.Stream) (bytes : ByteArray) (oversized : Bool) : IO Uni
 
 /-- Bounded JSONL transport, preserving the next request after overflow. -/
 partial def readLoop (input output : IO.FS.Stream)
-    (bytes : ByteArray := ByteArray.empty) (overflow : Bool := false) : IO Unit := do
+    (bytes : ByteArray := ByteArray.emptyWithCapacity 0) (overflow : Bool := false) : IO Unit := do
   let chunk ← input.read 1
   if chunk.isEmpty then
     if !bytes.isEmpty || overflow then emit output bytes overflow
@@ -236,12 +236,12 @@ partial def readLoop (input output : IO.FS.Stream)
     for byte in chunk do
       if byte == 10 then
         emit output bytes overflow
-        bytes := ByteArray.empty
+        bytes := ByteArray.emptyWithCapacity 0
         overflow := false
       else if !overflow then
         if bytes.size < maxRequestBytes then bytes := bytes.push byte
         else
-          bytes := ByteArray.empty
+          bytes := ByteArray.emptyWithCapacity 0
           overflow := true
     readLoop input output bytes overflow
 

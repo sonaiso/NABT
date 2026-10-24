@@ -198,6 +198,7 @@ theorem hundred_does_not_determine_partition :
 
 inductive Work where
   | sibawayhi | qatr | maqayis | ownerAwamil | jurjaniAwamil
+  | thinking | shakhsiyyaFirst | shakhsiyyaThird | targetText
   deriving DecidableEq, Repr
 
 /-- Complete source identity includes its bytes and bibliographic binding. -/

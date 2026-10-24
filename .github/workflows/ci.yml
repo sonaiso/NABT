@@ -232,6 +232,33 @@ jobs:
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Kernel build and full export conformance
         run: python tools/check_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Verify exact source readings and complete signed execution certificates
+        env:
+          PYTHONPATH: src
+          NABT_VERIFIED_READING: ${{ github.workspace }}/formal/.lake/build/bin/verifiedReading
+        run: |
+          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build verifiedReading
+          test -x "$NABT_VERIFIED_READING"
+          python -B -m unittest discover -s tests -p test_verified_reading.py -v
+      - name: Classical source bindings and free reader semantic contracts
+        env:
+          PYTHONPATH: src
+          NABT_CLASSICAL_SEMANTIC_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/classicalSemanticProbe
+        run: |
+          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build classicalSemanticProbe
+          test -x "$NABT_CLASSICAL_SEMANTIC_PROBE"
+          python -B -m unittest discover -s tests -p test_source_semantics.py -v
+      - name: Source to meaning, all supplied readings and signed execution
+        # Both native executables are built by the preceding required steps.
+        # Explicit paths make an absent binary a failure rather than a skip.
+        env:
+          PYTHONPATH: src
+          NABT_CLASSICAL_SEMANTIC_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/classicalSemanticProbe
+          NABT_VERIFIED_READING: ${{ github.workspace }}/formal/.lake/build/bin/verifiedReading
+        run: |
+          python -B -m unittest discover -s tests -p test_mantuq_mafhum.py -v
+          python -B -m unittest discover -s tests -p test_reading_enumeration.py -v
+          python -B -m unittest discover -s tests -p test_completion_semantic_integration.py -v
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Executable inna fragment, written case witnesses and explicit completeness scope

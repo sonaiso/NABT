@@ -58,3 +58,11 @@ lean_exe exportClassicalLanguageEvidence where
 @[default_target]
 lean_exe arabicInnaFragmentProbe where
   root := `ArabicInnaFragmentProbe
+
+@[default_target]
+lean_exe verifiedReading where
+  root := `VerifiedReadingMain
+
+@[default_target]
+lean_exe classicalSemanticProbe where
+  root := `ClassicalSemanticMain
