@@ -50,6 +50,42 @@ class VocalizedOperatorSenseTests(unittest.TestCase):
             report, _ = self.read(records=records)
             self.assertFalse(report["claims"])
 
+    def test_source_form_and_derived_annotations_cannot_borrow_target_vowels(self):
+        records = (
+            HASIBA.replace(b"\tHasiba\t", b"\tHsb\t"),
+            HASIBA.replace(b"\tHasiba\t", b"\tHasib\t"),
+            HASIBA.replace(b"\tHasiba\t", b"\tHsiba\t"),
+            HASIBA.replace(b"|PERF|", b"|PERF|(II)|"),
+            HASIBA.replace(b"|PERF|", b"|PERF|(I)|(II)|"),
+            HASIBA.replace(b"|3MS", b"|3MS|2MS"),
+            HASIBA.replace(b"|3MS", b"|3MS|3MS"),
+        )
+        for raw in records:
+            with self.subTest(record=raw):
+                report, model = self.read(records=raw)
+                self.assertFalse(report["claims"])
+                self.assertFalse(any("independent_sense_witness" in relation
+                    for clause in report["clauses"] for analysis in clause["analyses"]
+                    for relation in analysis["relations"]))
+                answer = ask_discourse("حَسِبَ زيدٌ سالمًا حكيمًا.",
+                    "هل حَسِبَ زيدٌ سالمًا حكيمًا؟", lexical_model=model, context=CONTEXT)
+                # The same missing sense premise blocks acquisition of the
+                # question; UNKNOWN would presuppose an established query.
+                self.assertEqual(answer["status"], "DEFER")
+
+    def test_form_one_and_active_annotations_preserve_the_bounded_license(self):
+        for annotations in (b"(I)|", b"ACT|", b"(I)|ACT|"):
+            with self.subTest(annotations=annotations):
+                report, _ = self.read(records=HASIBA.replace(b"|PERF|", b"|PERF|" + annotations))
+                self.assertEqual(report["status"], "LICENSED_DISCOURSE")
+                self.assertTrue(report["claims"])
+
+    def test_source_exclusion_cannot_be_recovered_from_the_written_target(self):
+        model = learn_qac_lexicon(TRAINING + HASIBA, excluded_verses=("9:80",))
+        report = read_discourse("حَسِبَ زيدٌ سالمًا حكيمًا.", lexical_model=model, context=CONTEXT)
+        self.assertFalse(report["claims"])
+        self.assertTrue(verify_discourse(report, lexical_model=model, context=CONTEXT)["valid"])
+
     def test_alima_keeps_independent_polysemy_obligation(self):
         report, _ = self.read("عَلِمَ زيدٌ سالمًا حكيمًا.", records=ALIMA)
         self.assertFalse(report["claims"])

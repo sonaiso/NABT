@@ -32,10 +32,19 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.17.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/arabic_completion_v3/code_freeze_v1.json"
+DEFAULT_FREEZE = "evidence/arabic_completion_v3/code_freeze_v2.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
+    "045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd": {
+        "selection": "arabic_completion_v3_review2",
+        "version": "0.17.0a1",
+        "profile": "arabic_completion_v3",
+        "source_file_count": 80,
+        "future_operator_support": True,
+        "snapshot_sha256": "adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f",
+        "archive_sha256": "c1056d20779c557fd060787d5018c503128778712b81eb669881c89e4e7a0e84",
+    },
     "96ffa98008bf1b6a6d1f5ab6b79a330fe4b8a9329887d9ac3f8ff9d31eb12e1e": {
         "selection": "constructions_v1",
         "version": "0.14.0a1",

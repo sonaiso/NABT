@@ -39,12 +39,23 @@
 يشرح [تقرير المرحلة](docs/ARABIC_COMPLETION_V3.md) الدعوى والكاشف
 ومصدره ونطاقه، وتحفظ [أدلتها](evidence/arabic_completion_v3/)
 الجولة الأولى وخطأ المدقق المكتشف مستقلًا وتصحيحه وإعادة القياس.
-النتائج الصارمة النهائية محفوظة في
-[التركيبات](evidence/arabic_completion_v3/strict_review_v2/construction.json)
-و[الخطاب](evidence/arabic_completion_v3/strict_review_v2/discourse.json).
+النتائج الصارمة للنسخة المصححة محفوظة في
+[التركيبات](evidence/arabic_completion_v3/strict_review_v3/construction.json)
+و[الخطاب](evidence/arabic_completion_v3/strict_review_v3/discourse.json).
 توجد أيضًا مادة مستقلة مجمدة من 24 حالة و29 سؤالًا؛ يميز عقدها
 22 حالة ذات نتائج مقررة من حالتين لتتبع الأدلة، دون حساب الامتناع
 في التتبع نجاحًا في فهم الحالة.
+
+كشفت مراجعة PR 19 مثالًا مضادًا رغم نجاح CI للمرشح الأول: وجود
+معرف سجل معجمي لم يكن كافيًا لإثبات صورة `حَسِبَ` في المصدر الخام.
+يحفظ [سجل المراجعة](evidence/arabic_completion_v3/postpublication_review_v1/review.md)
+الخطأ ونتائجه على الإيداع القديم. يشترط
+[التصحيح المجمد](evidence/arabic_completion_v3/code_freeze_v2.json)
+الآن ضبط المصدر الكامل وصيغته وشخصه وإيصال كل سجل مستخدم.
+أعطت إعادة القياس 82/86 و68/86 مجددًا؛ وأثبتت
+[مقارنة المخرجات](evidence/arabic_completion_v3/strict_review_v3/raw_continuation.json)
+مطابقة جميع مخرجات القراءة والأسئلة والتحقق، مع فصل اختلاف أزمنة
+القياس عن أحكام اللغة. تظل الجولة الأولى وأدلتها محفوظة دون تعديل.
 
 ## `0.16.0a1`: التغطية وشروط اكتمال فهم العربية
 

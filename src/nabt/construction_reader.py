@@ -7,17 +7,21 @@ case label, dependency or expected answer is accepted as an input premise.
 """
 
 from copy import deepcopy
+from functools import lru_cache
 from itertools import product
 import json
+import re
 
-from .corpus_evidence import lookup_clusters, lookup_key, template_matches
+from .corpus_evidence import (ROOT_BW, _feature, _receipt, buckwalter_to_arabic,
+    lookup_clusters, lookup_key, template_matches)
+from .corpus_sources import read_corpus
 from .discourse_context import identity, wire, profile_compatibility
 from .discourse_reader import _profile, _synthetic_reading, _slice
 from .construction_laws import (LAW_ID, EXPECTED_TABLE_SHA256, role_case,
     construction_allowed, agreement_status, idafa_head_status,
     complement_an_policy, scoped_projection_allowed, identity_preservation_allowed,
     operator_slots)
-from .errors import resource_limit
+from .errors import NabtError, resource_limit
 from .text_ir import span_dict
 from .word_reader import _span
 
@@ -738,6 +742,47 @@ def _nominal_operator(reader, tokens, body, operator, head, prefix, force, wh=No
     return results
 
 
+@lru_cache(maxsize=2)
+def _hasiba_source_receipts(raw, excluded_verses, source_id):
+    """Replay the lexical premises from source bytes, independently of target vowels.
+
+    The immutable cache contains complete source receipts, not caller-proposed
+    record IDs. Missing source vowels and derived-form annotations cannot be
+    repaired by the fully vocalized target. Form I and ACT may be implicit in
+    this QAC profile; contrary annotations, ambiguous features and exclusions
+    never qualify.
+    """
+    corpus = read_corpus(raw, format="qac", source_id=source_id)
+    qualified = set()
+    for record in corpus["records"]:
+        loc = record["locator"]
+        if (not record["valid"] or loc is None or
+                f"{loc[0]}:{loc[1]}" in excluded_verses):
+            continue
+        fields, tokens = record["fields"], record["feature_tokens"]
+        profiles = [t for t in tokens if re.fullmatch(r"[123]?[MF]?[SDP]|[MF]", t)]
+        if (not tokens or tokens[0] != "STEM" or fields["TAG"] != "V" or
+                _feature(tokens, "POS:") != "V" or "PERF" not in tokens or
+                any(t in tokens for t in ("IMPF", "IMPV", "PASS")) or
+                profiles != ["3MS"] or
+                any(re.fullmatch(r"\([IVX]+\)", t) and t != "(I)" for t in tokens)):
+            continue
+        root, lemma_bw = _feature(tokens, "ROOT:"), _feature(tokens, "LEM:")
+        if not root or not lemma_bw:
+            continue
+        try:
+            form = buckwalter_to_arabic(fields["FORM"])
+            lemma = buckwalter_to_arabic(lemma_bw)
+            root = "".join(ROOT_BW[c] for c in root)
+        except (KeyError, NabtError):
+            continue
+        if (root != "حسب" or lookup_key(lemma) != "حسب" or
+                lookup_clusters(form) != lookup_clusters("حَسِبَ")):
+            continue
+        qualified.add((wire(_receipt(record, corpus["source"])), lemma))
+    return frozenset(qualified)
+
+
 def _hasiba_sense_witness(reader, operator, head):
     """An observed lexical vowel, not the expected target role, selects sense.
 
@@ -747,10 +792,13 @@ def _hasiba_sense_witness(reader, operator, head):
     clusters = lookup_clusters(head["surface"])
     reading = operator["reading"]
     profile = operator["profile"]
+    proofs = [s for s in reading.get("support_records", ()) if "record_id" in s]
     if (operator["lemma"] != "حسب" or operator["family"] != "zanna" or
             operator["scope"] != "belief" or not clusters or len(clusters) != 3 or
             reading.get("variant") != "attested" or
-            not any(s.get("record_id") for s in reading.get("support_records", ())) or
+            not proofs or reader.model is None or
+            reading.get("kind") != "verb" or reading.get("annotation_only") or
+            reading["lexical_features"].get("pos") != "V" or
             lookup_key(reading["lexical_features"].get("root") or "") != "حسب" or
             lookup_key(head["surface"]) != "حسب" or
             [c[1] & set("ًٌٍَُِْ") for c in clusters] != [{"َ"}, {"ِ"}, {"َ"}] or
@@ -759,6 +807,11 @@ def _hasiba_sense_witness(reader, operator, head):
             reading["lexical_features"].get("aspect") != "PERF" or
             reading["lexical_features"].get("voice") == "passive" or
             profile != {"person": 3, "gender": "masculine", "number": "singular"}):
+        return None
+    qualified = _hasiba_source_receipts(reader.model.raw, reader.model.excluded_verses,
+                                        reader.model.source_id)
+    lemma = reading["lexical_features"].get("lemma")
+    if any((wire(proof), lemma) not in qualified for proof in proofs):
         return None
     return {"kind": "observed_medial_vowel_lexical_sense", "rule": "vocalized_hasiba_sense",
         "operator_span": deepcopy(head["span"]), "operator_surface": head["surface"],

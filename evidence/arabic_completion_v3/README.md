@@ -6,7 +6,53 @@
 وكاشف خطئها، ومصدر الكاشف، وحدود الحكم. تبقى شهادة فهم كل العربية
 `NOT_ESTABLISHED`.
 
-## النتائج وحدود مقاماتها
+## تصحيح شاهد المصدر وإعادة القياس
+
+كشفت مراجعة PR 19 خللًا فعليًا في المرشح الأول رغم نجاح CI:
+كان شاهد المعنى يقبل مصدر `Hasiba` موسومًا بـ`(II)` أو مصدر `Hsb`
+ناقص الحركات. يحفظ [سجل الإعادة على الإيداع القديم](postpublication_review_v1/review.md)
+المخالفة بين قبول التنفيذ ورفض المدقق المستقل لها.
+
+يثبت [تجميد التنفيذ الثاني](code_freeze_v2.json) تصحيح ملف تنفيذ واحد،
+مع فحص كل إيصال مصدر مختار من بايتاته ولمّته وصيغته وضبطه وشخصه.
+أعطت [الجولة الصارمة الجديدة](strict_review_v3/comparison.json)
+**82/86 و68/86**، دون تراجع أو إخفاق جديد أو تغيير الذهب.
+تحفظ [المقارنة الخام](strict_review_v3/raw_continuation.json)
+أزمنة القياس المختلفة صراحة، ويثبت
+[الفحص الحافظ لأنواع JSON](strict_review_v3/typed_comparison_review_v1.json)
+مطابقة جميع مخرجات القراءة والأسئلة والتحقق.
+
+أعاد [الامتداد المستقل v3](independent_oracle/continuation_v3/first_run_v3/regression.json)
+تنفيذ **171 نداءً عامًا و24 سجل حالة** مع تطابقها بالأصل، واحتفظ
+بنتيجتي **14/22 و19/29**. اجتازت أمثلة المصدر الستة المنفصلة
+**6/6** وأسئلتها **4/4**؛ لا تضاف إلى المقامين السابقين.
+وحفظت [متابعة المجموعة القديمة v4](legacy_holdout_continuation_v4/review.json)
+سجلها الخام ذا **203 سجلات** كاملًا، مع بقاء تصحيح H18 المعروف وحده.
+اجتازت [الحزمة المصححة](package_validation_v2.json) فحوصها الـ**49**؛
+يبين [سجل تهيئة البناء](package_setup_review_v2/review.json) سبب توقف
+محاولة التغليف الأولى وطريقة حفظ مخلفات البناء السابق قبل الإعادة.
+
+## التحقق الحالي على تجميد التنفيذ الثاني
+
+اجتازت المحاولة الثانية `make formal check`، وحُفظت نتيجتها في
+[full_validation_v2.json](full_validation_v2.json) وأدلتها في
+[full_validation_reports_v2.zip](full_validation_reports_v2.zip).
+يثبت التقرير **1478 اختبارًا رئيسيًا** بلا تخطٍّ، وبناء Lean في
+**106 مهام**، وتدقيق **1011 تصريحًا**، ونقل مقطع إنّ **32/32**.
+بقيت المدخلات الـ**766 ملفًا** ثابتة أثناء التنفيذ وإقفال الأدلة؛
+يشمل ذلك إعداد CI المصحح. طوبقت بايتات أعضاء الأرشيف الـ**104**
+وفُحصت تدفقات gzip/JSONL التسعة كاملة. ويحفظ
+[جرد الاستمرار](continuation_preservation_v1.json) بايتات **206 ملفات**
+سابقة دون إعادة كتابة نتائجها.
+
+أكدت الجولة النهائية درجات التغطية والمجموعة المستقلة والحالات
+المصدرية المذكورة أعلاه. تحفظ
+[سياسة الانحدار الثانية](regression_policy_v2.json) هوية المواد
+والمدققين والإخفاقات المتبقية؛ لا توسع قائمة الإخفاقات المقبولة.
+التحقق المحلي لا يقرر حالة الدمج أو نجاح CI البعيد؛ يربط إيصال النشر
+تلك الوقائع بالإيداع الفعلي عند تحققها.
+
+## نتائج الجولة الأولى وحدود مقاماتها
 
 | المقياس | النتيجة | الدلالة |
 | --- | ---: | --- |
@@ -64,20 +110,32 @@
 من جذر المستودع، مع أداة Lean المثبتة في `formal/lean-toolchain`:
 
 ```sh
-python evidence/arabic_completion_v3/run_full_validation_v1.py \
+python evidence/arabic_completion_v3/run_full_validation_v2.py \
   --lake /absolute/path/to/lean-4.34.1-linux/bin/lake \
   --output-dir artifacts/local/arabic-completion-reproduction
 ```
 
 يجب أن يكون مجلد المخرجات جديدًا. المخرجات السابقة لا تستبدل.
 ينفذ البرنامج `make formal check` ويحفظ الجرد قبل التنفيذ وبعده.
-يبقى التقرير التاريخي منسوبًا إلى ملفاته وبصماته الأصلية؛ أي تصحيح
-لاحق لإعداد CI يوثق بإيصال منفصل، ثم يربط بفحوص الإيداع البعيد.
+يبقى التقرير التاريخي منسوبًا إلى ملفاته وبصماته الأصلية. لإعادة الجولة
+الأولى نفسها يلزم الإيداع `d26342bafce26c9e5c1c725682cb49b035450688`
+أو الأرشيف المطابق لها؛ لا يعاد تثبيت بصماتها لتوافق التنفيذ الجديد.
+
+توقفت المحاولة الأولى للبوابة الكاملة v2 عند فحص سجل gzip للمجموعة
+الجديدة. يحفظ [أرشيف المحاولة المرفوضة](failed_full_gate_v2_attempt1/preservation.json)
+ملفاتها الـ78 كما هي، ويبين
+[التشخيص المستقل](failed_full_gate_v2_attempt1/diagnosis.json)
+أن الملف المتاح لا يحوي إلا 194 سجلًا صحيحًا من أصل 214، وأن نهايته
+المفقودة تبلغ 374596 بايتًا. اختلفت بصمته عن البصمة الكاملة المسجلة
+في نتيجة المنتج. بقيت مدخلات التنفيذ الـ761 ثابتة، ولم يثبت سبب
+تغيير ملف الناتج أو فاعله. لم يُصلح الملف، ولم تعتبر النتيجة اعتمادًا
+ناجحًا؛ أعيدت البوابة نفسها إلى مجلد محاولة جديد مع إبقاء شروط
+التحقق والبصمات والمواد كما كانت.
 
 يشغّل هذا الأمر المجموعة الجديدة وحدها، مع إعادة تنفيذ المنتج فعلًا:
 
 ```sh
-python evidence/arabic_completion_v3/independent_oracle/run_regression_v2.py \
+python evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_regression_v3.py \
   --output-dir artifacts/local/arabic-completion-oracle-reproduction
 ```
 
@@ -85,7 +143,7 @@ python evidence/arabic_completion_v3/independent_oracle/run_regression_v2.py \
 
 ```sh
 python tools/verify_construction_package.py \
-  --code-freeze evidence/arabic_completion_v3/code_freeze_v1.json \
+  --code-freeze evidence/arabic_completion_v3/code_freeze_v2.json \
   --output-dir artifacts/local/arabic-completion-package-reproduction
 ```
 

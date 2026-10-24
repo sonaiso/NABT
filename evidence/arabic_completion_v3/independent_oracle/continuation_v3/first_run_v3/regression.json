@@ -1,0 +1,76 @@
+{
+  "schema": "nabt.completion-regression-execution.v3",
+  "completed_utc": "2026-10-24T17:25:02.712953+00:00",
+  "executions": [
+    {
+      "kind": "strict",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_oracle_v3.py",
+        "--output-dir",
+        "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_completion_oracle_continuation_first_v3/strict"
+      ],
+      "exit": 1
+    },
+    {
+      "kind": "source_counterexamples",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_source_counterexamples_v1.py",
+        "--output-dir",
+        "/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic_completion_oracle_continuation_first_v3/source_counterexamples"
+      ],
+      "exit": 0
+    }
+  ],
+  "runtime_freeze_sha256": "045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd",
+  "material_freeze_sha256": "78589ad292f747a27b76cf08c56848377f93fe370b6fa9f0229951fa8f443a3f",
+  "dependency_freeze_sha256": "518b77beed88f8633b09315f3e7b88a58f94b7cb01554cc8b33f28e1956c4de8",
+  "source_material_freeze_sha256": "4364eda40400336c3734b190183b9730dc437e0855df5fdd5a004586d3d1a844",
+  "fresh_runtime_prediction_performed": true,
+  "not_a_new_blind_experiment": true,
+  "historical_material_unchanged": true,
+  "historical_files_repinned": false,
+  "strict_result": "artifacts/local/arabic_completion_oracle_continuation_first_v3/strict/result.json",
+  "review": "artifacts/local/arabic_completion_oracle_continuation_first_v3/review/review.json",
+  "source_counterexample_result": "artifacts/local/arabic_completion_oracle_continuation_first_v3/source_counterexamples/result.json",
+  "source_counterexample_review": "artifacts/local/arabic_completion_oracle_continuation_first_v3/source_counterexamples/review.json",
+  "fixed_cases": {
+    "total": 22,
+    "passed": 14,
+    "failed": 8
+  },
+  "questions": {
+    "total": 29,
+    "observed": 29,
+    "status_matches": 19,
+    "independently_validated": 29
+  },
+  "conditional_provenance": {
+    "total": 2,
+    "outcomes": {
+      "N03": "correct_abstention",
+      "N06": "unresolved_independent_review"
+    },
+    "not_counted_as_language_coverage": true
+  },
+  "exact_historical_public_calls_and_case_records": true,
+  "source_counterexamples": {
+    "total": 6,
+    "positive_controls": 2,
+    "negative_cases": 4,
+    "passed": 6,
+    "questions": 4,
+    "status_matches": 4,
+    "independently_validated": 4,
+    "unsafe_check_failures": [],
+    "independent_integrity_failures": [],
+    "gate_pass": true,
+    "not_added_to_historical_denominators": true
+  },
+  "dependencies_unchanged": true,
+  "errors": [],
+  "strict_pass": false,
+  "regression_gate_pass": true,
+  "scope": "Retain the same partial 24-case/29-question result under an approved guard-only runtime, plus six separate source-premise counterexamples. No failure is waived and no universal Arabic completeness is claimed."
+}

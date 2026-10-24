@@ -45,6 +45,11 @@ VERSION = 'nabt.constructions.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd': {
+        'snapshot_sha256': 'adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f',
+        'archive_sha256': 'c1056d20779c557fd060787d5018c503128778712b81eb669881c89e4e7a0e84',
+        'file_count': 80, 'version': '0.17.0a1',
+    },
     'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089': {
         'snapshot_sha256': 'fb14e51c7f7d751b13307ecf65573c1863c7f579252aa402231586aeda11412f',
         'archive_sha256': '8576765bdd5b9dbb93db76ec11b485634fa2f34691113a45d59dbf49238c0c87',
@@ -1480,7 +1485,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/arabic_completion_v3/code_freeze_v1.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/arabic_completion_v3/code_freeze_v2.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

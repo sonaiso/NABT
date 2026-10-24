@@ -1,0 +1,285 @@
+{
+  "attempt": {
+    "after_sha256": "33bc21b1491fe5206bc9edabbedd19a06747c24120177ed779a9109afd29d58b",
+    "all_required_gates_passed": false,
+    "before_sha256": "33bc21b1491fe5206bc9edabbedd19a06747c24120177ed779a9109afd29d58b",
+    "executable_inputs_unchanged": true,
+    "execution": {
+      "bytes": 2295,
+      "ctime_ns": 1792863781824686447,
+      "ctime_utc": "2026-10-24T17:43:01.824687+00:00",
+      "inode": 1188196,
+      "link_count": 1,
+      "mtime_ns": 1792863781824686447,
+      "mtime_utc": "2026-10-24T17:43:01.824687+00:00",
+      "path": "artifacts/local/arabic-completion-full-validation-v2/execution.json",
+      "sha256": "21eb0eedbd602585d97c5a2e54bef3677e062f6f7b01ef8a84c866bf0f2f43cb",
+      "symlink": false
+    },
+    "exit_code": 2,
+    "input_file_count": 761,
+    "path": "artifacts/local/arabic-completion-full-validation-v2",
+    "seconds": 815.126
+  },
+  "bounded_writer_review": {
+    "actor_or_root_cause_established": false,
+    "confirmed": "The strict producer closes its gzip context before finish_journal decompresses and checks all lines. The wrapper waits for the strict child, then runs a separate source-counterexample child in another output directory. Its strict review reads the raw file. No later strict-raw writer was found in these inspected paths.",
+    "mtime_ctime_observation": "Observed raw ctime is after result.json mtime, while raw mtime is earlier; metadata supports investigating later file changes but does not identify an actor or establish a filesystem/platform failure.",
+    "source_files": [
+      {
+        "bytes": 18822,
+        "ctime_ns": 1792862384102556337,
+        "ctime_utc": "2026-10-24T17:19:44.102556+00:00",
+        "inode": 1183411,
+        "link_count": 1,
+        "mtime_ns": 1792862384102556337,
+        "mtime_utc": "2026-10-24T17:19:44.102556+00:00",
+        "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_oracle_v3.py",
+        "sha256": "e35062972ec1492db23d765c24fe9f9715f69afa0114a3f8c26be16fb480eec4",
+        "symlink": false
+      },
+      {
+        "bytes": 5493,
+        "ctime_ns": 1792862273459098040,
+        "ctime_utc": "2026-10-24T17:17:53.459098+00:00",
+        "inode": 1182687,
+        "link_count": 1,
+        "mtime_ns": 1792862273459098040,
+        "mtime_utc": "2026-10-24T17:17:53.459098+00:00",
+        "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_regression_v3.py",
+        "sha256": "2440d762d19c1048f04002348ae1d828e510f6a0987fe26adbf3bb0e244d7f59",
+        "symlink": false
+      },
+      {
+        "bytes": 14867,
+        "ctime_ns": 1792862384726530715,
+        "ctime_utc": "2026-10-24T17:19:44.726531+00:00",
+        "inode": 1183409,
+        "link_count": 1,
+        "mtime_ns": 1792862384726530715,
+        "mtime_utc": "2026-10-24T17:19:44.726531+00:00",
+        "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/review_continuation_v3.py",
+        "sha256": "147a922950edfaeee3f1804db9b05d16317e99dc1a72a171887a9b071b62e778",
+        "symlink": false
+      },
+      {
+        "bytes": 21683,
+        "ctime_ns": 1792862530736537948,
+        "ctime_utc": "2026-10-24T17:22:10.736538+00:00",
+        "inode": 1179791,
+        "link_count": 1,
+        "mtime_ns": 1792862530736537948,
+        "mtime_utc": "2026-10-24T17:22:10.736538+00:00",
+        "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/run_source_counterexamples_v1.py",
+        "sha256": "36afc4fbb29253588a02b284fb7acd3b6371c5312c4f4a52f292bb4efeedd7c9",
+        "symlink": false
+      },
+      {
+        "bytes": 6472,
+        "ctime_ns": 1792862853831276436,
+        "ctime_utc": "2026-10-24T17:27:33.831276+00:00",
+        "inode": 929306,
+        "link_count": 1,
+        "mtime_ns": 1792862853831276436,
+        "mtime_utc": "2026-10-24T17:27:33.831276+00:00",
+        "path": "evidence/arabic_completion_v3/run_full_validation_v2.py",
+        "sha256": "eea8ed8d914c17bb7ddc08e97cab3532ee2efda32c1e1eead5bc5385a0c497c7",
+        "symlink": false
+      },
+      {
+        "bytes": 9376,
+        "ctime_ns": 1792862202118354363,
+        "ctime_utc": "2026-10-24T17:16:42.118354+00:00",
+        "inode": 658417,
+        "link_count": 1,
+        "mtime_ns": 1792862202118354363,
+        "mtime_utc": "2026-10-24T17:16:42.118354+00:00",
+        "path": "Makefile",
+        "sha256": "85e1c6258352d3475006800565f05832fc18ca2e8e15577568cdc653f14203ed",
+        "symlink": false
+      }
+    ],
+    "write_hash_limitation": "finish_journal reads the compressed file separately for decompression and hashing; this is not an atomic filesystem snapshot, but no competing writer is identified."
+  },
+  "created_utc": "2026-10-24T17:49:30.308671+00:00",
+  "decision": {
+    "code_fix_justified_by_identified_bug": false,
+    "failed_attempt_remains_failed": true,
+    "no_integrity_waiver": true,
+    "raw_current_is_valid_evidence": false,
+    "recommended_next_step": "Preserve the failed output tree and diagnosis without changing historical files; rerun the identical pinned full-validation runner into a new nonexistent output directory. Treat it as a distinct attempt on the same code/runtime version, with finalization only if every unchanged integrity gate passes."
+  },
+  "decompression_errors": {
+    "gzip.GzipFile.read": {
+      "message": "Compressed file ended before the end-of-stream marker was reached",
+      "type": "EOFError"
+    },
+    "gzip.decompress": {
+      "message": "Compressed file ended before the end-of-stream marker was reached",
+      "type": "EOFError"
+    }
+  },
+  "interpreter": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "zlib_runtime_version": "1.3.2",
+    "zlib_version": "1.3.2"
+  },
+  "memory_only_reconstruction": {
+    "full_decoded_bytes": 10801489,
+    "full_decoded_sha256": "1151d8fd6e9599e976162c87b39c3e3a18d1094db6ad7cbe7cabc5cd24ffd50c",
+    "full_records": 214,
+    "matches_current_producer_recorded_sha256": true,
+    "method": "Use the independently preserved successful first-run gzip payload after its first 10 header bytes, with the observed failed-file first 10 header bytes; no output is written or substituted.",
+    "missing_compressed_bytes": 374596,
+    "missing_decoded_bytes": 3575750,
+    "missing_records": 20,
+    "not_a_replacement_measurement_or_repaired_artifact": true,
+    "observed_is_exact_prefix": true,
+    "reconstructed_compressed_bytes": 1118039,
+    "reconstructed_compressed_sha256": "ffe0795051e02e4c8f3bdfb937e0f34694bd32bcf0d3dea0425e584aa7448d5e",
+    "reference": {
+      "bytes": 1118039,
+      "ctime_ns": 1792862763934903194,
+      "ctime_utc": "2026-10-24T17:26:03.934903+00:00",
+      "inode": 1182455,
+      "link_count": 1,
+      "mtime_ns": 1792862763934903194,
+      "mtime_utc": "2026-10-24T17:26:03.934903+00:00",
+      "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/first_run_v3/strict/raw.jsonl.gz",
+      "sha256": "a9e010b307493b79643df2a0db0e1246e5a786452eb0d201107a44e000223c6b",
+      "symlink": false
+    }
+  },
+  "other_gzip_artifacts": [
+    {
+      "bytes": 7633742,
+      "ctime_ns": 1792863729166856324,
+      "ctime_utc": "2026-10-24T17:42:09.166856+00:00",
+      "decoded_bytes": 18247680,
+      "decoded_sha256": "ee5a1139c2040f86876f7cb1ee1a13e84efdbe9ac1a3c6d6f7c2762729eef8ed",
+      "gzip_valid": true,
+      "inode": 1187907,
+      "link_count": 1,
+      "mtime_ns": 1792863729166856324,
+      "mtime_utc": "2026-10-24T17:42:09.166856+00:00",
+      "path": "artifacts/local/arabic-completion-full-validation-v2/arabic-completion-oracle/strict/result.code.tar.gz",
+      "sha256": "430962ebe85cf59cdc319d92115f9b667558c39860b53aa56bc87d13a239ad00",
+      "symlink": false
+    },
+    {
+      "bytes": 7633742,
+      "ctime_ns": 1792863772365078149,
+      "ctime_utc": "2026-10-24T17:42:52.365078+00:00",
+      "decoded_bytes": 18247680,
+      "decoded_sha256": "ee5a1139c2040f86876f7cb1ee1a13e84efdbe9ac1a3c6d6f7c2762729eef8ed",
+      "gzip_valid": true,
+      "inode": 1188158,
+      "link_count": 1,
+      "mtime_ns": 1792863772365078149,
+      "mtime_utc": "2026-10-24T17:42:52.365078+00:00",
+      "path": "artifacts/local/arabic-completion-full-validation-v2/arabic-completion-oracle/source_counterexamples/result.code.tar.gz",
+      "sha256": "7a20fb982148bbd2ef4b0268a04f9791a206e2156e8f27e7b0b902deeaf7f1ac",
+      "symlink": false
+    },
+    {
+      "bytes": 243533,
+      "ctime_ns": 1792863778696815504,
+      "ctime_utc": "2026-10-24T17:42:58.696815+00:00",
+      "decoded_bytes": 4363099,
+      "decoded_sha256": "577e9438cdef61cf0d8faa6050453eae5d3398e957191575a7fd9ea08f8693a6",
+      "gzip_valid": true,
+      "inode": 1188165,
+      "link_count": 1,
+      "mtime_ns": 1792863778696815504,
+      "mtime_utc": "2026-10-24T17:42:58.696815+00:00",
+      "path": "artifacts/local/arabic-completion-full-validation-v2/arabic-completion-oracle/source_counterexamples/raw.jsonl.gz",
+      "sha256": "7da781c749399bfda95f1d36a12da89389a6dab31c1043fedf57f0cf223765ed",
+      "symlink": false
+    },
+    {
+      "bytes": 7633742,
+      "ctime_ns": 1792862763945656094,
+      "ctime_utc": "2026-10-24T17:26:03.945656+00:00",
+      "decoded_bytes": 18247680,
+      "decoded_sha256": "ee5a1139c2040f86876f7cb1ee1a13e84efdbe9ac1a3c6d6f7c2762729eef8ed",
+      "gzip_valid": true,
+      "inode": 1182454,
+      "link_count": 1,
+      "mtime_ns": 1792862763945656094,
+      "mtime_utc": "2026-10-24T17:26:03.945656+00:00",
+      "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/first_run_v3/strict/result.code.tar.gz",
+      "sha256": "c1201e2592a9dc6e0620785d920cfb250f1a3c7967876fb98a496f987104026e",
+      "symlink": false
+    },
+    {
+      "bytes": 1118039,
+      "ctime_ns": 1792862763934903194,
+      "ctime_utc": "2026-10-24T17:26:03.934903+00:00",
+      "decoded_bytes": 10801489,
+      "decoded_sha256": "1151d8fd6e9599e976162c87b39c3e3a18d1094db6ad7cbe7cabc5cd24ffd50c",
+      "gzip_valid": true,
+      "inode": 1182455,
+      "link_count": 1,
+      "mtime_ns": 1792862763934903194,
+      "mtime_utc": "2026-10-24T17:26:03.934903+00:00",
+      "path": "evidence/arabic_completion_v3/independent_oracle/continuation_v3/first_run_v3/strict/raw.jsonl.gz",
+      "sha256": "a9e010b307493b79643df2a0db0e1246e5a786452eb0d201107a44e000223c6b",
+      "symlink": false
+    }
+  ],
+  "partial_stream": {
+    "all_records_match_write_time_inventory": true,
+    "complete_jsonl_records": 194,
+    "decoded_bytes": 7225739,
+    "decoded_sha256": "2577028174253432b48e58ca5c000e17ed987551376a6c953f7a0ce04b7e8338",
+    "ends_with_sync_flush_marker": true,
+    "eof": false,
+    "last_line_complete": true,
+    "last_record": {
+      "call_id": 170,
+      "case_id": "P05",
+      "kind": "public_api_call",
+      "name": "verify_discourse_changed_speaker"
+    },
+    "unconsumed_tail_bytes": 0,
+    "unused_data_bytes": 0
+  },
+  "producer_claimed_journal": {
+    "inventory_sha256": "6db4df71a86b20672d8d806f29ab3e519605d95da6fe9a755dab1f8c6dd530ca",
+    "record_count": 214,
+    "sha256": "ffe0795051e02e4c8f3bdfb937e0f34694bd32bcf0d3dea0425e584aa7448d5e",
+    "uncompressed_sha256": "1151d8fd6e9599e976162c87b39c3e3a18d1094db6ad7cbe7cabc5cd24ffd50c"
+  },
+  "producer_result": {
+    "bytes": 295329,
+    "ctime_ns": 1792863766314438707,
+    "ctime_utc": "2026-10-24T17:42:46.314439+00:00",
+    "inode": 1188154,
+    "link_count": 1,
+    "mtime_ns": 1792863766314438707,
+    "mtime_utc": "2026-10-24T17:42:46.314439+00:00",
+    "path": "artifacts/local/arabic-completion-full-validation-v2/arabic-completion-oracle/strict/result.json",
+    "sha256": "f7be331984796503e4a66161ca18af4e6fdbed3248ce6bc2ef6da3ae293919ba",
+    "symlink": false
+  },
+  "producer_times": {
+    "finished_utc": "2026-10-24T17:42:46.306919+00:00",
+    "started_utc": "2026-10-24T17:42:09.178794+00:00"
+  },
+  "raw_current": {
+    "bytes": 743443,
+    "ctime_ns": 1792863767849264528,
+    "ctime_utc": "2026-10-24T17:42:47.849265+00:00",
+    "inode": 1188160,
+    "link_count": 1,
+    "mtime_ns": 1792863765153376678,
+    "mtime_utc": "2026-10-24T17:42:45.153377+00:00",
+    "path": "artifacts/local/arabic-completion-full-validation-v2/arabic-completion-oracle/strict/raw.jsonl.gz",
+    "sha256": "b6f7a8c38110806739b2252ad7964ad120e4c7f17eae2f8be18cecbec15dce15",
+    "symlink": false
+  },
+  "raw_stable_during_diagnosis": true,
+  "schema": "nabt.arabic-completion.failed-gzip-independent-diagnosis.v1",
+  "scope": "Read-only inspection of failed full-validation v2 artifacts; no new runtime prediction, code edit, raw repair, or integrity waiver."
+}

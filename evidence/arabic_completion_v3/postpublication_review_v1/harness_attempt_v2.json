@@ -1,0 +1,9 @@
+{
+  "schema": "nabt.hasiba-review-harness-attempt.v2",
+  "status": "OBSERVATIONS_COMPLETED_RAW_JOURNAL_NOT_FINALIZED",
+  "cause": "The independent validate_report function returns diagnostic indices containing sets; the harness tried to serialize those internal indices as public JSON. All11 observations printed, but the complete raw journal was not written.",
+  "reproducer_sha256": "9104d5ac95b1d679eab7c3f25bbcea98181cf83108c5377e13f3e6297b44e4a5",
+  "log_sha256": "b62605306b43740bb99802bd7e116d7524d5d999cec744aa55c289fb00c817b6",
+  "original_attempt_preserved": "before_run_v2/",
+  "correction": "Record validator completion/error and internal return type, not its non-JSON diagnostic indices. Repeat exact pre-fix cases in a new directory to preserve complete runtime outputs."
+}

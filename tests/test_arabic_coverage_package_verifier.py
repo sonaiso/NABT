@@ -80,11 +80,11 @@ class ArabicCoveragePackageVerifierTests(unittest.TestCase):
         return profile
 
     def test_completion_profile_matches_80_file_freeze_and_new_source_inventory(self):
-        freeze_path = ROOT / "evidence/arabic_completion_v3/code_freeze_v1.json"
+        freeze_path = ROOT / "evidence/arabic_completion_v3/code_freeze_v2.json"
         profile = self._assert_archive_profile(freeze_path, "0.17.0a1", 80, "v6", 25)
         pin = VERIFIER.CODE_FREEZE_PINS[sha256(freeze_path.read_bytes()).hexdigest()]
-        self.assertEqual((pin["selection"], pin["profile"]), ("arabic_completion_v3", "arabic_completion_v3"))
-        self.assertEqual(VERIFIER.DEFAULT_FREEZE, "evidence/arabic_completion_v3/code_freeze_v1.json")
+        self.assertEqual((pin["selection"], pin["profile"]), ("arabic_completion_v3_review2", "arabic_completion_v3"))
+        self.assertEqual(VERIFIER.DEFAULT_FREEZE, "evidence/arabic_completion_v3/code_freeze_v2.json")
         self.assertEqual(profile["supplementary_source_ids"], ["mukhtar_sihah", "sabban"])
         self.assertEqual(set(VERIFIER.supplementary_file_hashes(profile)), {
             "nabt/data/source_evidence/construction_supplementary_sources_v2.json",
@@ -95,6 +95,12 @@ class ArabicCoveragePackageVerifierTests(unittest.TestCase):
         # The historical document pin remains separate from this new profile.
         self.assertEqual(VERIFIER.PACKAGE_DOCUMENTS["nabt/data/source_evidence/LICENSE-DATA.md"]["sha256"],
                          "ac2d62edd753190b9c0f8bd254beb245f3a199c5774a917c814c69e238360aae")
+
+    def test_pre_correction_completion_profile_still_matches_its_own_archive(self):
+        path = ROOT / "evidence/arabic_completion_v3/code_freeze_v1.json"
+        self._assert_archive_profile(path, "0.17.0a1", 80, "v6", 25)
+        pin = VERIFIER.CODE_FREEZE_PINS[sha256(path.read_bytes()).hexdigest()]
+        self.assertEqual(pin["selection"], "arabic_completion_v3")
 
     def test_missing_or_changed_current_supplementary_source_cannot_pass(self):
         profile = VERIFIER.RELEASE_PROFILES["arabic_completion_v3"]
