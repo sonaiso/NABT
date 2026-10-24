@@ -1,9 +1,12 @@
 """Contract, source attribution and adversarial replay tests; no LLM calls."""
 from copy import deepcopy
+from contextlib import redirect_stdout
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -30,6 +33,11 @@ class InputContract(unittest.TestCase):
         for raw in (b'{"x":1,"\\u0078":2}', b'{"x":NaN}', b'{"x":1e400}',
                     b'{"x":-1e400}', b'{"x":"\\ud800"}', b'\xff', b'[' * 1500):
             self.assert_error("INVALID_INPUT", lambda: pilot.strict_json(raw))
+
+    def test_unsigned_numeric_tokens_are_checked_before_normalization(self):
+        for token in (b'-0', b'-1', b'0.0', b'1.5', b'0e0', b'1E2', b'+0', b'01'):
+            self.assert_error("INVALID_INPUT", lambda: pilot.strict_json(b'{"index":' + token + b'}'))
+        self.assertEqual(pilot.strict_json(b'{"index":0,"count":512}'), {"index": 0, "count": 512})
 
     def test_invalid_replay_values_fail_before_native_execution(self):
         for value in (float("inf"), float("nan"), "\ud800", object()):
@@ -145,6 +153,25 @@ class NativeAnswerContract(unittest.TestCase):
         self.assertEqual(report["metrics"]["source_ablation"], evaluation.metric(4, 4))
         self.assertFalse(report["hidden"])
         self.assertTrue(all(v is None for v in report["unmeasured"].values()))
+
+    def test_proposer_failures_write_reports_with_all_denominators(self):
+        for error, code in ((ValueError("unparseable input"), "OUTSIDE_VERIFIED_LANGUAGE"),
+                            (ValueError("RESOURCE_LIMIT: too many atoms"), "RESOURCE_LIMIT"),
+                            (pilot.NabtError("RESOURCE_LIMIT", "input budget"), "RESOURCE_LIMIT")):
+            with self.subTest(code=code), tempfile.TemporaryDirectory() as temp:
+                output = Path(temp) / "report.json"
+                argv = ["evaluate_explainable_pilot", "--output", str(output),
+                        "--checker", str(BINARY), "--repeats", "1"]
+                with patch.object(pilot.ground, "propose", side_effect=error), \
+                        patch.object(sys, "argv", argv), redirect_stdout(io.StringIO()):
+                    self.assertEqual(evaluation.main(), 1)
+                report = json.loads(output.read_text())
+                self.assertFalse(report["passed"])
+                self.assertEqual(len(report["cases"]), 14)
+                self.assertTrue(all(row["error"] == code for row in report["cases"]))
+                for name, total in (("status_exact", 14), ("tampering_rejected", 14), ("source_ablation", 4)):
+                    self.assertEqual(report["metrics"][name], evaluation.metric(0, total))
+                self.assertTrue(all(row["not_executed"] for row in report["attacks"]))
 
 
 if __name__ == "__main__":
