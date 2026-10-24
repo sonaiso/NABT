@@ -1,0 +1,130 @@
+{
+  "schema": "nabt-rational-inquiry-full-validation-v2",
+  "recorded_at_utc": "2026-10-24T09:44:18.489703+00:00",
+  "runtime_version": "0.15.0a1",
+  "base_commit": "171cfa32a4bad0b5f9e8ff856cd98e23028122c7",
+  "runtime_snapshot_sha256": "97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64",
+  "command": "make check LAKE=/tmp/nabt-tools/lean-4.34.1-linux/bin/lake EVIDENCE_DIR=artifacts/local/rational-inquiry-v2-final",
+  "exit_code": 0,
+  "full_runtime_tests": 1104,
+  "full_runtime_result": "OK",
+  "supplemental_probe_runs": [
+    {
+      "tests": 7,
+      "duration": "0.239s",
+      "result": "OK"
+    },
+    {
+      "tests": 25,
+      "duration": "0.833s",
+      "result": "OK"
+    },
+    {
+      "tests": 12,
+      "duration": "0.760s",
+      "result": "OK"
+    }
+  ],
+  "gate_reports": {
+    "conformance.json": {
+      "ok": true,
+      "primitive_transitions_checked": 11252,
+      "fresh_lean_export_compared": true
+    },
+    "inquiry-conformance.json": {
+      "ok": true,
+      "rows_compared": 8192
+    },
+    "axioms.json": {
+      "ok": true,
+      "theorem_count": 861
+    },
+    "construction-regression.json": {
+      "passed": 71,
+      "total": 86,
+      "strict_pass": false,
+      "gate_pass": true,
+      "measurement_valid": true
+    },
+    "discourse-regression.json": {
+      "passed": 56,
+      "total": 86,
+      "strict_pass": false,
+      "gate_pass": true,
+      "coverage_complete": false,
+      "measurement_valid": true
+    },
+    "word-regression.json": {}
+  },
+  "focused_inquiry_evidence": "independent_tests_v3.json",
+  "focused_methods": 50,
+  "focused_subtests": 52,
+  "demonstrations": "demonstration_v3.json",
+  "demonstrations_passed": 6,
+  "new_theorems": 32,
+  "installed_package_smoke": {
+    "wheel_version": "0.15.0a1",
+    "wheel_sha256": "b186b7475d7c0ca94df58271a78fde98982802521f8a1097b4fbc9f68da6a73c",
+    "isolated_from_source_checkout": true,
+    "inquire_status": "LICENSED",
+    "checks_executed": 4,
+    "verify_status": "VERIFIED"
+  },
+  "report_archive": {
+    "path": "evidence/rational_inquiry/full_validation_reports_v2.zip",
+    "sha256": "7dfe66b280d20ae2d70a628bd0e8ba4380ff9dd64356b43c6fe25d97864ab3d6",
+    "bytes": 114291
+  },
+  "report_files": [
+    {
+      "path": "check.log",
+      "sha256": "f5df63b00242afa077f0e27e8b5d1755d39975eda8cae1d8576fe600577edf5f",
+      "bytes": 247483
+    },
+    {
+      "path": "conformance.json",
+      "sha256": "dd5cd2191a07dc4daa232ebe3bf61ca1aa7a0f4e6e93ce915d909e6236aafc8a",
+      "bytes": 2309
+    },
+    {
+      "path": "inquiry-conformance.json",
+      "sha256": "a96a50e63a4b25c79bd6ba6b1d6406c27cee2114e258ed3d17538967e1acc618",
+      "bytes": 2336
+    },
+    {
+      "path": "axioms.json",
+      "sha256": "74db9e13a14de42e840f6ec5cd9d57c4328ad2c1d4022e0c55eda2d54335106b",
+      "bytes": 68032
+    },
+    {
+      "path": "construction-regression.json",
+      "sha256": "8699df2b4229e844ac945af3d1ba831a26a6e71c8141afeebb4d1caaa3017fde",
+      "bytes": 166199
+    },
+    {
+      "path": "discourse-regression.json",
+      "sha256": "ab623b1f97bf62f487a99eb1afbfe364c683a4d748f19aa4df5b67fe56ad5466",
+      "bytes": 137818
+    },
+    {
+      "path": "word-regression.json",
+      "sha256": "5990c705005a91b914ce3255dad86d1e12ccdfbbc94d4b431556fb1ec7f3b102",
+      "bytes": 375344
+    },
+    {
+      "path": "governor-regression/regression_gate.json",
+      "sha256": "bde14e2428aa2634c7ec30a7ecd122ee95ce49529f1af5349f3143b5fd78b8aa",
+      "bytes": 787
+    }
+  ],
+  "prior_gate_attempt": {
+    "result": "FAILED_GOVERNOR_SNAPSHOT_REGISTRATION",
+    "resolution": "Registered exact existing immutable v1/v2 pins, expanded registration tests, then reran the complete make check successfully; runtime unchanged."
+  },
+  "limitations": [
+    "Existing Arabic coverage gaps remain explicit; gate pass does not mean strict Arabic coverage.",
+    "No external world observer or source-authentication authority was installed.",
+    "Independent development review used a shared workspace; these are not blind external measurements."
+  ],
+  "world_truth": "NOT_ESTABLISHED"
+}

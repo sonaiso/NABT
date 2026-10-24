@@ -238,6 +238,41 @@ class ConstructionEvaluatorTests(unittest.TestCase):
             result=partial_gate_example();add_gate_failure(result,case_id,check)
             self.assertFalse(evaluation.gate_decision(result,True)['gate_pass'],(case_id,check))
 
+    def test_inquiry_runtime_preserves_v4_debt_without_waiving_new_failures(self):
+        for runtime in (evaluation.RATIONAL_INQUIRY_BOUNDARY_RUNTIME_SHA256,
+                        evaluation.RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME_SHA256):
+            with self.subTest(runtime=runtime):
+                self._check_inquiry_boundary_policy(runtime)
+
+    def _check_inquiry_boundary_policy(self, runtime):
+        result = partial_gate_example()
+        result['snapshot']['runtime_freeze_sha256'] = runtime
+        gate = evaluation.gate_decision(result, True)
+        self.assertFalse(evaluation.gate_decision(result)['gate_pass'])
+        self.assertTrue(gate['gate_pass'])
+        self.assertEqual(gate['gate_mode'], 'documented_partial_coverage_v3')
+        self.assertIs(evaluation.DOCUMENTED_BOUNDARY_POLICIES[runtime],
+                      evaluation.DOCUMENTED_FAILURES_V4)
+        for case_id, check in [('CON-K06', 'claim:0'), ('CON-Z02', 'role:99'),
+                               ('CON-Z02', 'report_replay'), ('CON-R01', 'replay_changed_answer')]:
+            changed = deepcopy(result)
+            add_gate_failure(changed, case_id, check)
+            self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'])
+        changed = deepcopy(result)
+        add_gate_failure(changed, 'CON-Z02', 'question:0', {'certificate': False})
+        self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'])
+        for mutation in ('false_accept', 'execution', 'raw', 'missing_case'):
+            changed = deepcopy(result)
+            if mutation == 'false_accept':
+                changed['false_accept_count'] = 1
+            elif mutation == 'execution':
+                changed['execution_errors'].append({'type': 'SyntheticFailure'})
+            elif mutation == 'raw':
+                changed['raw_log']['complete_gzip_verified'] = False
+            else:
+                changed['cases'].pop()
+            self.assertFalse(evaluation.gate_decision(changed, True)['gate_pass'], mutation)
+
     def test_allowed_question_coverage_failure_cannot_hide_bad_certificate(self):
         result=partial_gate_example();add_gate_failure(result,'CON-Z02','question:0',{'certificate':True})
         self.assertTrue(evaluation.gate_decision(result,True)['gate_pass'])

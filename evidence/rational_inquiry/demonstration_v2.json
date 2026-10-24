@@ -1,0 +1,1927 @@
+{
+  "law_id": "nabt.rational-inquiry.v1",
+  "evidence_version": "v2",
+  "provenance": {
+    "created_at_utc": "2026-10-24T09:29:06.309208+00:00",
+    "runtime_version": "0.15.0a1",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "base_git_commit": "171cfa32a4bad0b5f9e8ff856cd98e23028122c7",
+    "runtime_freeze": {
+      "path": "evidence/rational_inquiry/code_freeze_v2.json",
+      "bytes": 14268,
+      "sha256": "49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b"
+    },
+    "runtime_snapshot_sha256": "97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64",
+    "runtime_files_verified": 75,
+    "evaluation_files": [
+      {
+        "path": "tests/test_rational_inquiry.py",
+        "bytes": 31114,
+        "sha256": "904a8c463ef058873508afc3e99c8d575d461581dac07b2375ce94170e6e8047"
+      },
+      {
+        "path": "tests/test_rational_inquiry_freeze.py",
+        "bytes": 3632,
+        "sha256": "5e54fff39a4bd636bbe252e92392d51b9b6037aee7b226c84b03aac0e28c2584"
+      },
+      {
+        "path": "tests/test_rational_inquiry_report_budget.py",
+        "bytes": 5046,
+        "sha256": "980a8dbb4d2897a416f9aa3adef8cf5039326baa0f66faa5dc783862af592216"
+      },
+      {
+        "path": "tools/evaluate_rational_inquiry.py",
+        "bytes": 14155,
+        "sha256": "60b0327c8170f0bcb2738d7d30739e22975178130449fc80f21d268dd009461d"
+      },
+      {
+        "path": "tools/check_rational_inquiry.py",
+        "bytes": 6412,
+        "sha256": "8cd3a03d9950427aa640e7aadea2bf3108699ad8b919a9a407c1bb7d4c330b83"
+      },
+      {
+        "path": "tools/text_evaluation/integrity.py",
+        "bytes": 6196,
+        "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+      },
+      {
+        "path": "examples/rational_inquiry/plan.json",
+        "bytes": 1407,
+        "sha256": "5390517da358d9e7062a08fadfa2f475a0dd52016cb408538ecf87fd244b4c67"
+      },
+      {
+        "path": "examples/rational_inquiry/sources.json",
+        "bytes": 1458,
+        "sha256": "456d46d08ad998439b9acb10bb6ac429553a058e5102fe4ec4c54ff6cb68dcff"
+      }
+    ],
+    "reproduction": {
+      "argv": [
+        "python",
+        "tools/evaluate_rational_inquiry.py",
+        "--freeze",
+        "evidence/rational_inquiry/code_freeze_v2.json",
+        "--evidence-version",
+        "v2",
+        "--output-dir",
+        "<new-output-directory>"
+      ],
+      "environment": {
+        "PYTHONPATH": "src"
+      },
+      "working_directory": "repository root"
+    }
+  },
+  "authorship": {
+    "author": "Separate evaluation and review agents in a shared development workspace",
+    "independence": "Counterexample matrix proposed before reading the implementation; test code written and reviewed while implementation was available. The implementation and tests were revised during shared review. This is not blinded or held-out evaluation and not external human review.",
+    "oracle": "Declared authority boundaries and concrete counterexamples; not a copied production recurrence. The separate finite conformance file compares the gate.",
+    "provenance_boundary": "Source origins, ancestry and active states are declarations. No acquisition identity, historical preregistration, unseen reference or physical observation was authenticated.",
+    "review_history": "Review hardened world-bridge and provenance/scope guards, propagated resource exhaustion, separated context checks from claim checks, and kept contested-premise derivations out of clean refutation. Provisional DEFER/UNREVIEWED oracle labels were aligned with the final explicit law. Subsequent independent review found a real CLI report-size round-trip defect; v1 evidence is retained as pre-fix history. Discovery includes the separately authored report-budget regressions and freeze tests."
+  },
+  "external_truth_certified": false,
+  "strict_pass": true,
+  "cases_run": 6,
+  "cases_passed": 6,
+  "cases": [
+    {
+      "case_id": "bounded_record_match",
+      "expected": {
+        "status": "LICENSED",
+        "authorized_rank": 2,
+        "box_opened": true,
+        "coverage_complete": true
+      },
+      "passed": true,
+      "inputs": {
+        "plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "box_color_text",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "لون الصندوق أزرق.",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "proposal",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+            "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+            "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+            "prior": []
+          },
+          "review": {
+            "depth": "ENLIGHTENED",
+            "context": [
+              {
+                "source_id": "context",
+                "revision": 1,
+                "expected": "المثال مؤلف لمراجعة مساواة نصين."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative_id": "red_text",
+                "candidate": "لون الصندوق أحمر."
+              }
+            ],
+            "conditions": [
+              {
+                "source_id": "condition",
+                "revision": 1,
+                "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+              }
+            ],
+            "limitations": [
+              "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "sources": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-proposal-route",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-reference-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المثال مؤلف لمراجعة مساواة نصين.",
+            "origin": "authored-context-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المرجع لقطة نصية ثابتة في نطاق المثال.",
+            "origin": "authored-condition-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          }
+        ],
+        "max_checks": 128
+      },
+      "actual_report": {
+        "version": "nabt.rational-inquiry.v1",
+        "status": "LICENSED",
+        "authorized_rank": 2,
+        "authority": "SNAPSHOT_COMPARISON",
+        "world_truth": "NOT_ESTABLISHED",
+        "external_truth_certified": false,
+        "box_opened": true,
+        "checks_performed": 4,
+        "checks_expected": 4,
+        "review_complete": true,
+        "coverage_complete": true,
+        "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+        "plan_digest": "fc6bf12de627f015ac5f38476e3d769de823e387e2a5b2fcdcbb1efcfad74c58",
+        "input_digest": "d93a7a39dd35bcc65cabb1c5070e53b7863c2d4c012f3c8c5f2deaa231647f22",
+        "claim": {
+          "claim_id": "box_color_text",
+          "kind": "TEXT_CORRESPONDENCE",
+          "candidate": "لون الصندوق أزرق.",
+          "scope": {
+            "domain": "authored-demo",
+            "referent": "box-1",
+            "time": "snapshot-1",
+            "unit": "exact-text"
+          },
+          "origin_sources": [
+            {
+              "source_id": "proposal",
+              "revision": 1
+            }
+          ]
+        },
+        "formation": {
+          "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+          "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+          "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+          "prior": []
+        },
+        "review": {
+          "depth": "ENLIGHTENED",
+          "context": [
+            {
+              "source_id": "context",
+              "revision": 1,
+              "expected": "المثال مؤلف لمراجعة مساواة نصين."
+            }
+          ],
+          "alternatives": [
+            {
+              "alternative_id": "red_text",
+              "candidate": "لون الصندوق أحمر."
+            }
+          ],
+          "conditions": [
+            {
+              "source_id": "condition",
+              "revision": 1,
+              "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+            }
+          ],
+          "limitations": [
+            "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+          ],
+          "unresolved": []
+        },
+        "gates": {
+          "formed": true,
+          "reviewed": true,
+          "provenance": true,
+          "scopeCovered": true,
+          "supported": true,
+          "counterevidence": false,
+          "requiresWorldBridge": false,
+          "worldBridge": false,
+          "exhausted": false,
+          "requestedRank": 2,
+          "evidenceRank": 2
+        },
+        "checks": [
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "claim",
+            "target": "box_color_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "alternative",
+            "target": "red_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "148f1d28d26d952b1ec0454cb0131f61ef7c625d947c7a700a891757be720927",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "context",
+            "target": "box_color_text",
+            "source_id": "context",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "actual_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "conditions",
+            "target": "box_color_text",
+            "source_id": "condition",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "actual_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          }
+        ],
+        "sources_used": [
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "content_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "record_digest": "b2bea84a00eab2c7e0a3fdc58190aed9658ed6b6e141222744cbc482960e1362",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-condition-route"
+            ]
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "content_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "record_digest": "49c210fe8c1ee576a39659fc69eb3d24fc306724fd9bb5f740671afc61e980ff",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-context-route"
+            ]
+          },
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "a344e802f7ce8a3dd827034218c3755e6c81b4e02048a90f53634a5ea38be0e6",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-proposal-route"
+            ]
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "87ea2f498f9f278e3b319906d38f8a08efc8c7c9e9575ed78b9f54c803aaac9b",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-reference-route"
+            ]
+          }
+        ],
+        "residuals": [],
+        "provenance": {
+          "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+          "candidate_origins": [
+            "authored-proposal-route"
+          ],
+          "reference_origins": {
+            "reference": [
+              "authored-reference-route"
+            ]
+          }
+        },
+        "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+        "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+      },
+      "exact_replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "claim_status": "LICENSED",
+        "authority": "EXACT_INQUIRY_REPLAY",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "case_id": "bounded_record_refutation",
+      "expected": {
+        "status": "REFUTED",
+        "authorized_rank": 0,
+        "box_opened": true,
+        "coverage_complete": true
+      },
+      "passed": true,
+      "inputs": {
+        "plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "box_color_text",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "لون الصندوق أزرق.",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "proposal",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+            "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+            "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+            "prior": []
+          },
+          "review": {
+            "depth": "ENLIGHTENED",
+            "context": [
+              {
+                "source_id": "context",
+                "revision": 1,
+                "expected": "المثال مؤلف لمراجعة مساواة نصين."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative_id": "red_text",
+                "candidate": "لون الصندوق أحمر."
+              }
+            ],
+            "conditions": [
+              {
+                "source_id": "condition",
+                "revision": 1,
+                "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+              }
+            ],
+            "limitations": [
+              "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "sources": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-proposal-route",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أخضر.",
+            "origin": "authored-reference-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المثال مؤلف لمراجعة مساواة نصين.",
+            "origin": "authored-context-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المرجع لقطة نصية ثابتة في نطاق المثال.",
+            "origin": "authored-condition-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          }
+        ],
+        "max_checks": 128
+      },
+      "actual_report": {
+        "version": "nabt.rational-inquiry.v1",
+        "status": "REFUTED",
+        "authorized_rank": 0,
+        "authority": "SNAPSHOT_COMPARISON",
+        "world_truth": "NOT_ESTABLISHED",
+        "external_truth_certified": false,
+        "box_opened": true,
+        "checks_performed": 4,
+        "checks_expected": 4,
+        "review_complete": true,
+        "coverage_complete": true,
+        "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+        "plan_digest": "fc6bf12de627f015ac5f38476e3d769de823e387e2a5b2fcdcbb1efcfad74c58",
+        "input_digest": "18f668f0234869fc6826fec27db76fa7f0dd1f33652255f36624ff9fc583e807",
+        "claim": {
+          "claim_id": "box_color_text",
+          "kind": "TEXT_CORRESPONDENCE",
+          "candidate": "لون الصندوق أزرق.",
+          "scope": {
+            "domain": "authored-demo",
+            "referent": "box-1",
+            "time": "snapshot-1",
+            "unit": "exact-text"
+          },
+          "origin_sources": [
+            {
+              "source_id": "proposal",
+              "revision": 1
+            }
+          ]
+        },
+        "formation": {
+          "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+          "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+          "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+          "prior": []
+        },
+        "review": {
+          "depth": "ENLIGHTENED",
+          "context": [
+            {
+              "source_id": "context",
+              "revision": 1,
+              "expected": "المثال مؤلف لمراجعة مساواة نصين."
+            }
+          ],
+          "alternatives": [
+            {
+              "alternative_id": "red_text",
+              "candidate": "لون الصندوق أحمر."
+            }
+          ],
+          "conditions": [
+            {
+              "source_id": "condition",
+              "revision": 1,
+              "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+            }
+          ],
+          "limitations": [
+            "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+          ],
+          "unresolved": []
+        },
+        "gates": {
+          "formed": true,
+          "reviewed": true,
+          "provenance": true,
+          "scopeCovered": true,
+          "supported": false,
+          "counterevidence": true,
+          "requiresWorldBridge": false,
+          "worldBridge": false,
+          "exhausted": false,
+          "requestedRank": 2,
+          "evidenceRank": 0
+        },
+        "checks": [
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "claim",
+            "target": "box_color_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "actual_sha256": "d4e22cf7c6a6bd94802b7f68af9b8788ab1b3744a6dbde7b30ed999e5faf2a91",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "alternative",
+            "target": "red_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "148f1d28d26d952b1ec0454cb0131f61ef7c625d947c7a700a891757be720927",
+            "actual_sha256": "d4e22cf7c6a6bd94802b7f68af9b8788ab1b3744a6dbde7b30ed999e5faf2a91",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "context",
+            "target": "box_color_text",
+            "source_id": "context",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "actual_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "conditions",
+            "target": "box_color_text",
+            "source_id": "condition",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "actual_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          }
+        ],
+        "sources_used": [
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "content_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "record_digest": "b2bea84a00eab2c7e0a3fdc58190aed9658ed6b6e141222744cbc482960e1362",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-condition-route"
+            ]
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "content_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "record_digest": "49c210fe8c1ee576a39659fc69eb3d24fc306724fd9bb5f740671afc61e980ff",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-context-route"
+            ]
+          },
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "a344e802f7ce8a3dd827034218c3755e6c81b4e02048a90f53634a5ea38be0e6",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-proposal-route"
+            ]
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "content_sha256": "d4e22cf7c6a6bd94802b7f68af9b8788ab1b3744a6dbde7b30ed999e5faf2a91",
+            "record_digest": "39f997198a50ffdbde8940f4b302a5c8d66900a0d9f48407e3188666e76ad548",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-reference-route"
+            ]
+          }
+        ],
+        "residuals": [],
+        "provenance": {
+          "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+          "candidate_origins": [
+            "authored-proposal-route"
+          ],
+          "reference_origins": {
+            "reference": [
+              "authored-reference-route"
+            ]
+          }
+        },
+        "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+        "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+      },
+      "exact_replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "claim_status": "REFUTED",
+        "authority": "EXACT_INQUIRY_REPLAY",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "case_id": "incompatible_declared_records",
+      "expected": {
+        "status": "CONFLICT",
+        "authorized_rank": 0,
+        "box_opened": true,
+        "coverage_complete": true
+      },
+      "passed": true,
+      "inputs": {
+        "plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "box_color_text",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "لون الصندوق أزرق.",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "proposal",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+            "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+            "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+            "prior": []
+          },
+          "review": {
+            "depth": "ENLIGHTENED",
+            "context": [
+              {
+                "source_id": "context",
+                "revision": 1,
+                "expected": "المثال مؤلف لمراجعة مساواة نصين."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative_id": "red_text",
+                "candidate": "لون الصندوق أحمر."
+              }
+            ],
+            "conditions": [
+              {
+                "source_id": "condition",
+                "revision": 1,
+                "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+              }
+            ],
+            "limitations": [
+              "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "sources": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-proposal-route",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-reference-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المثال مؤلف لمراجعة مساواة نصين.",
+            "origin": "authored-context-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المرجع لقطة نصية ثابتة في نطاق المثال.",
+            "origin": "authored-condition-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "opposing-reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أخضر.",
+            "origin": "authored-opposing-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          }
+        ],
+        "max_checks": 128
+      },
+      "actual_report": {
+        "version": "nabt.rational-inquiry.v1",
+        "status": "CONFLICT",
+        "authorized_rank": 0,
+        "authority": "SNAPSHOT_COMPARISON",
+        "world_truth": "NOT_ESTABLISHED",
+        "external_truth_certified": false,
+        "box_opened": true,
+        "checks_performed": 6,
+        "checks_expected": 6,
+        "review_complete": true,
+        "coverage_complete": true,
+        "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+        "plan_digest": "fc6bf12de627f015ac5f38476e3d769de823e387e2a5b2fcdcbb1efcfad74c58",
+        "input_digest": "efc2c42eb8bb5977f7e020afa19e4611f48abb5064d5fa4d49fdc70377ca61dc",
+        "claim": {
+          "claim_id": "box_color_text",
+          "kind": "TEXT_CORRESPONDENCE",
+          "candidate": "لون الصندوق أزرق.",
+          "scope": {
+            "domain": "authored-demo",
+            "referent": "box-1",
+            "time": "snapshot-1",
+            "unit": "exact-text"
+          },
+          "origin_sources": [
+            {
+              "source_id": "proposal",
+              "revision": 1
+            }
+          ]
+        },
+        "formation": {
+          "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+          "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+          "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+          "prior": []
+        },
+        "review": {
+          "depth": "ENLIGHTENED",
+          "context": [
+            {
+              "source_id": "context",
+              "revision": 1,
+              "expected": "المثال مؤلف لمراجعة مساواة نصين."
+            }
+          ],
+          "alternatives": [
+            {
+              "alternative_id": "red_text",
+              "candidate": "لون الصندوق أحمر."
+            }
+          ],
+          "conditions": [
+            {
+              "source_id": "condition",
+              "revision": 1,
+              "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+            }
+          ],
+          "limitations": [
+            "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+          ],
+          "unresolved": []
+        },
+        "gates": {
+          "formed": true,
+          "reviewed": true,
+          "provenance": true,
+          "scopeCovered": true,
+          "supported": true,
+          "counterevidence": true,
+          "requiresWorldBridge": false,
+          "worldBridge": false,
+          "exhausted": false,
+          "requestedRank": 2,
+          "evidenceRank": 2
+        },
+        "checks": [
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "claim",
+            "target": "box_color_text",
+            "source_id": "opposing-reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "actual_sha256": "d4e22cf7c6a6bd94802b7f68af9b8788ab1b3744a6dbde7b30ed999e5faf2a91",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "alternative",
+            "target": "red_text",
+            "source_id": "opposing-reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "148f1d28d26d952b1ec0454cb0131f61ef7c625d947c7a700a891757be720927",
+            "actual_sha256": "d4e22cf7c6a6bd94802b7f68af9b8788ab1b3744a6dbde7b30ed999e5faf2a91",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "claim",
+            "target": "box_color_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "alternative",
+            "target": "red_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "148f1d28d26d952b1ec0454cb0131f61ef7c625d947c7a700a891757be720927",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "context",
+            "target": "box_color_text",
+            "source_id": "context",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "actual_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "conditions",
+            "target": "box_color_text",
+            "source_id": "condition",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "actual_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          }
+        ],
+        "sources_used": [
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "content_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "record_digest": "b2bea84a00eab2c7e0a3fdc58190aed9658ed6b6e141222744cbc482960e1362",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-condition-route"
+            ]
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "content_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "record_digest": "49c210fe8c1ee576a39659fc69eb3d24fc306724fd9bb5f740671afc61e980ff",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-context-route"
+            ]
+          },
+          {
+            "source_id": "opposing-reference",
+            "revision": 1,
+            "content_sha256": "d4e22cf7c6a6bd94802b7f68af9b8788ab1b3744a6dbde7b30ed999e5faf2a91",
+            "record_digest": "143e4b8763a86a50862d5ea6323bd1ecddb87ce99af1860e9ec9cd0bcc472661",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-opposing-route"
+            ]
+          },
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "a344e802f7ce8a3dd827034218c3755e6c81b4e02048a90f53634a5ea38be0e6",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-proposal-route"
+            ]
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "87ea2f498f9f278e3b319906d38f8a08efc8c7c9e9575ed78b9f54c803aaac9b",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-reference-route"
+            ]
+          }
+        ],
+        "residuals": [],
+        "provenance": {
+          "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+          "candidate_origins": [
+            "authored-proposal-route"
+          ],
+          "reference_origins": {
+            "opposing-reference": [
+              "authored-opposing-route"
+            ],
+            "reference": [
+              "authored-reference-route"
+            ]
+          }
+        },
+        "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+        "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+      },
+      "exact_replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "claim_status": "CONFLICT",
+        "authority": "EXACT_INQUIRY_REPLAY",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "case_id": "world_observer_not_installed",
+      "expected": {
+        "status": "DEFER",
+        "authorized_rank": 0,
+        "box_opened": false,
+        "coverage_complete": true
+      },
+      "passed": true,
+      "inputs": {
+        "plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "box_color_text",
+            "kind": "WORLD_CORRESPONDENCE",
+            "candidate": "لون الصندوق أزرق.",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "proposal",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+            "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+            "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+            "prior": []
+          },
+          "review": {
+            "depth": "ENLIGHTENED",
+            "context": [
+              {
+                "source_id": "context",
+                "revision": 1,
+                "expected": "المثال مؤلف لمراجعة مساواة نصين."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative_id": "red_text",
+                "candidate": "لون الصندوق أحمر."
+              }
+            ],
+            "conditions": [
+              {
+                "source_id": "condition",
+                "revision": 1,
+                "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+              }
+            ],
+            "limitations": [
+              "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "sources": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-proposal-route",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-reference-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المثال مؤلف لمراجعة مساواة نصين.",
+            "origin": "authored-context-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المرجع لقطة نصية ثابتة في نطاق المثال.",
+            "origin": "authored-condition-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          }
+        ],
+        "max_checks": 128
+      },
+      "actual_report": {
+        "version": "nabt.rational-inquiry.v1",
+        "status": "DEFER",
+        "authorized_rank": 0,
+        "authority": "WORLD_BRIDGE_REQUIRED",
+        "world_truth": "NOT_ESTABLISHED",
+        "external_truth_certified": false,
+        "box_opened": false,
+        "checks_performed": 4,
+        "checks_expected": 4,
+        "review_complete": true,
+        "coverage_complete": true,
+        "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+        "plan_digest": "fc7f8add07d26213282d4de86c0049fe7b2c02bc37f805d725e235cc2e4f2e76",
+        "input_digest": "9e9352a2b6ac83cfedfb0de8b083e674091e24e8f4b85d51608f093e03ac4c2b",
+        "claim": {
+          "claim_id": "box_color_text",
+          "kind": "WORLD_CORRESPONDENCE",
+          "candidate": "لون الصندوق أزرق.",
+          "scope": {
+            "domain": "authored-demo",
+            "referent": "box-1",
+            "time": "snapshot-1",
+            "unit": "exact-text"
+          },
+          "origin_sources": [
+            {
+              "source_id": "proposal",
+              "revision": 1
+            }
+          ]
+        },
+        "formation": {
+          "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+          "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+          "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+          "prior": []
+        },
+        "review": {
+          "depth": "ENLIGHTENED",
+          "context": [
+            {
+              "source_id": "context",
+              "revision": 1,
+              "expected": "المثال مؤلف لمراجعة مساواة نصين."
+            }
+          ],
+          "alternatives": [
+            {
+              "alternative_id": "red_text",
+              "candidate": "لون الصندوق أحمر."
+            }
+          ],
+          "conditions": [
+            {
+              "source_id": "condition",
+              "revision": 1,
+              "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+            }
+          ],
+          "limitations": [
+            "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+          ],
+          "unresolved": []
+        },
+        "gates": {
+          "formed": true,
+          "reviewed": true,
+          "provenance": true,
+          "scopeCovered": true,
+          "supported": true,
+          "counterevidence": false,
+          "requiresWorldBridge": true,
+          "worldBridge": false,
+          "exhausted": false,
+          "requestedRank": 2,
+          "evidenceRank": 2
+        },
+        "checks": [
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "claim",
+            "target": "box_color_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "alternative",
+            "target": "red_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": false,
+            "expected_sha256": "148f1d28d26d952b1ec0454cb0131f61ef7c625d947c7a700a891757be720927",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "context",
+            "target": "box_color_text",
+            "source_id": "context",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "actual_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          },
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "conditions",
+            "target": "box_color_text",
+            "source_id": "condition",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "actual_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          }
+        ],
+        "sources_used": [
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "content_sha256": "3b06cd6f8bd4687a3198012debbbdb13a001ff2b5b08090591155bf127a6452c",
+            "record_digest": "b2bea84a00eab2c7e0a3fdc58190aed9658ed6b6e141222744cbc482960e1362",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-condition-route"
+            ]
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "content_sha256": "d5f85f3b7784b6df2616ceaec864b0043ea1f9c6228dd8745b7480600b2cb952",
+            "record_digest": "49c210fe8c1ee576a39659fc69eb3d24fc306724fd9bb5f740671afc61e980ff",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-context-route"
+            ]
+          },
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "a344e802f7ce8a3dd827034218c3755e6c81b4e02048a90f53634a5ea38be0e6",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-proposal-route"
+            ]
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "87ea2f498f9f278e3b319906d38f8a08efc8c7c9e9575ed78b9f54c803aaac9b",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-reference-route"
+            ]
+          }
+        ],
+        "residuals": [
+          {
+            "code": "WORLD_BRIDGE_UNAVAILABLE",
+            "detail": "No external observation authority is installed in v1"
+          }
+        ],
+        "provenance": {
+          "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+          "candidate_origins": [
+            "authored-proposal-route"
+          ],
+          "reference_origins": {
+            "reference": [
+              "authored-reference-route"
+            ]
+          }
+        },
+        "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+        "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+      },
+      "exact_replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "claim_status": "DEFER",
+        "authority": "EXACT_INQUIRY_REPLAY",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "case_id": "partial_check_budget",
+      "expected": {
+        "status": "RESOURCE_LIMIT",
+        "authorized_rank": 0,
+        "box_opened": true,
+        "coverage_complete": false
+      },
+      "passed": true,
+      "inputs": {
+        "plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "box_color_text",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "لون الصندوق أزرق.",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "proposal",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+            "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+            "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+            "prior": []
+          },
+          "review": {
+            "depth": "ENLIGHTENED",
+            "context": [
+              {
+                "source_id": "context",
+                "revision": 1,
+                "expected": "المثال مؤلف لمراجعة مساواة نصين."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative_id": "red_text",
+                "candidate": "لون الصندوق أحمر."
+              }
+            ],
+            "conditions": [
+              {
+                "source_id": "condition",
+                "revision": 1,
+                "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+              }
+            ],
+            "limitations": [
+              "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "sources": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-proposal-route",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-reference-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المثال مؤلف لمراجعة مساواة نصين.",
+            "origin": "authored-context-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المرجع لقطة نصية ثابتة في نطاق المثال.",
+            "origin": "authored-condition-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          }
+        ],
+        "max_checks": 1
+      },
+      "actual_report": {
+        "version": "nabt.rational-inquiry.v1",
+        "status": "RESOURCE_LIMIT",
+        "authorized_rank": 0,
+        "authority": "SNAPSHOT_COMPARISON",
+        "world_truth": "NOT_ESTABLISHED",
+        "external_truth_certified": false,
+        "box_opened": true,
+        "checks_performed": 1,
+        "checks_expected": 4,
+        "review_complete": false,
+        "coverage_complete": false,
+        "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+        "plan_digest": "fc6bf12de627f015ac5f38476e3d769de823e387e2a5b2fcdcbb1efcfad74c58",
+        "input_digest": "744beb12a0aff8514e43876a31e81db0c9713956e0b3e1da79096c3add50245e",
+        "claim": {
+          "claim_id": "box_color_text",
+          "kind": "TEXT_CORRESPONDENCE",
+          "candidate": "لون الصندوق أزرق.",
+          "scope": {
+            "domain": "authored-demo",
+            "referent": "box-1",
+            "time": "snapshot-1",
+            "unit": "exact-text"
+          },
+          "origin_sources": [
+            {
+              "source_id": "proposal",
+              "revision": 1
+            }
+          ]
+        },
+        "formation": {
+          "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+          "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+          "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+          "prior": []
+        },
+        "review": {
+          "depth": "ENLIGHTENED",
+          "context": [
+            {
+              "source_id": "context",
+              "revision": 1,
+              "expected": "المثال مؤلف لمراجعة مساواة نصين."
+            }
+          ],
+          "alternatives": [
+            {
+              "alternative_id": "red_text",
+              "candidate": "لون الصندوق أحمر."
+            }
+          ],
+          "conditions": [
+            {
+              "source_id": "condition",
+              "revision": 1,
+              "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+            }
+          ],
+          "limitations": [
+            "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+          ],
+          "unresolved": []
+        },
+        "gates": {
+          "formed": true,
+          "reviewed": false,
+          "provenance": true,
+          "scopeCovered": true,
+          "supported": true,
+          "counterevidence": false,
+          "requiresWorldBridge": false,
+          "worldBridge": false,
+          "exhausted": true,
+          "requestedRank": 2,
+          "evidenceRank": 2
+        },
+        "checks": [
+          {
+            "protocol": "exact-text-v1",
+            "purpose": "claim",
+            "target": "box_color_text",
+            "source_id": "reference",
+            "revision": 1,
+            "passed": true,
+            "expected_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "actual_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "detector": "Unequal exact UTF-8 text in the bound snapshot"
+          }
+        ],
+        "sources_used": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "a344e802f7ce8a3dd827034218c3755e6c81b4e02048a90f53634a5ea38be0e6",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-proposal-route"
+            ]
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "content_sha256": "6d17577097675c8d9cb19e604facd566e97661a594cd64a474e5f9f8b5be469b",
+            "record_digest": "87ea2f498f9f278e3b319906d38f8a08efc8c7c9e9575ed78b9f54c803aaac9b",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "declared_origins": [
+              "authored-reference-route"
+            ]
+          }
+        ],
+        "residuals": [
+          {
+            "code": "REVIEW_CHECK_INCOMPLETE",
+            "detail": "context"
+          },
+          {
+            "code": "REVIEW_CHECK_INCOMPLETE",
+            "detail": "conditions"
+          },
+          {
+            "code": "CHECK_BUDGET_EXHAUSTED",
+            "detail": {
+              "max_checks": 1
+            }
+          }
+        ],
+        "provenance": {
+          "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+          "candidate_origins": [
+            "authored-proposal-route"
+          ],
+          "reference_origins": {
+            "reference": [
+              "authored-reference-route"
+            ]
+          }
+        },
+        "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+        "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+      },
+      "exact_replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "claim_status": "RESOURCE_LIMIT",
+        "authority": "EXACT_INQUIRY_REPLAY",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "case_id": "stale_source_bytes_rejected",
+      "expected": {
+        "valid": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_INQUIRY"
+      },
+      "passed": true,
+      "inputs": {
+        "report_from_case": "bounded_record_match",
+        "expected_plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "box_color_text",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "لون الصندوق أزرق.",
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "proposal",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "مقارنة جملة مولدة بنص مرجعي مؤلف ثابت.",
+            "interpretation": "المطلوب مساواة النص الكامل في هذا المثال.",
+            "inference": "المقارنة الحرفية هي الإجراء المرخص؛ لا يستنتج منها لون صندوق حقيقي.",
+            "prior": []
+          },
+          "review": {
+            "depth": "ENLIGHTENED",
+            "context": [
+              {
+                "source_id": "context",
+                "revision": 1,
+                "expected": "المثال مؤلف لمراجعة مساواة نصين."
+              }
+            ],
+            "alternatives": [
+              {
+                "alternative_id": "red_text",
+                "candidate": "لون الصندوق أحمر."
+              }
+            ],
+            "conditions": [
+              {
+                "source_id": "condition",
+                "revision": 1,
+                "expected": "المرجع لقطة نصية ثابتة في نطاق المثال."
+              }
+            ],
+            "limitations": [
+              "المادة مؤلفة لاختبار العقد، ولم يحدث رصد خارجي."
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "expected_sources": [
+          {
+            "source_id": "proposal",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.",
+            "origin": "authored-proposal-route",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "لون الصندوق أزرق.!",
+            "origin": "authored-reference-route",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          },
+          {
+            "source_id": "context",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المثال مؤلف لمراجعة مساواة نصين.",
+            "origin": "authored-context-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          },
+          {
+            "source_id": "condition",
+            "revision": 1,
+            "scope": {
+              "domain": "authored-demo",
+              "referent": "box-1",
+              "time": "snapshot-1",
+              "unit": "exact-text"
+            },
+            "content": "المرجع لقطة نصية ثابتة في نطاق المثال.",
+            "origin": "authored-condition-route",
+            "parents": [],
+            "role": "CONTEXT",
+            "active": true
+          }
+        ],
+        "max_checks": 128
+      },
+      "actual_verification": {
+        "valid": false,
+        "status": "REJECT",
+        "reason": "STALE_OR_FORGED_INQUIRY",
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    }
+  ],
+  "denominator": "Six authored contract demonstrations, including one replay rejection. These are neither six linguistic holdouts nor six world observations."
+}

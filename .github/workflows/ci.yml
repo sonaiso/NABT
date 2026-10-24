@@ -10,8 +10,8 @@ permissions:
 
 # Keep these selectors on an explicitly registered freeze; update them together.
 env:
-  NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
-  NABT_FREEZE_VERSION: constructions_v4
+  NABT_CODE_FREEZE: evidence/rational_inquiry/code_freeze_v2.json
+  NABT_FREEZE_VERSION: rational_inquiry_v2
 
 concurrency:
   group: nabt-${{ github.workflow }}-${{ github.ref }}
@@ -121,7 +121,11 @@ jobs:
           cp examples/discourse_context.json "${{ runner.temp }}/nabt-discourse-context.json"
           cp examples/discourse_training.tsv "${{ runner.temp }}/nabt-discourse-training.tsv"
           cp examples/count_phrase.txt "${{ runner.temp }}/nabt-count-phrase.txt"
+          cp examples/rational_inquiry/plan.json "${{ runner.temp }}/nabt-inquiry-plan.json"
+          cp examples/rational_inquiry/sources.json "${{ runner.temp }}/nabt-inquiry-sources.json"
           cd "${{ runner.temp }}"
+          env -u PYTHONPATH nabt inquire nabt-inquiry-plan.json --sources nabt-inquiry-sources.json > nabt-inquiry-report.json
+          env -u PYTHONPATH nabt verify-inquiry nabt-inquiry-report.json --plan nabt-inquiry-plan.json --sources nabt-inquiry-sources.json
           nabt pilot > nabt-pilot-receipt.json
           nabt verify-run nabt-pilot-receipt.json
           nabt ask-text nabt-text-theory.txt 'هل تقرير هو مفحوص؟' > nabt-text-receipt.json
@@ -249,6 +253,8 @@ jobs:
         run: python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
       - name: Progressive constructions and independently authored partial contract measurements
         run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
+      - name: Rational inquiry gates, source dependency and conditional evidence rank
+        run: python -I tools/check_rational_inquiry.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-inquiry-conformance.json"
       - name: Source-preserving derivations and exhaustive binary-domain selection
         env:
           NABT_PROGRESSIVE_UNIT_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/progressiveUnitProbe

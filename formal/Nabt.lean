@@ -32,3 +32,5 @@ import Nabt.UnitCarrier
 import Nabt.BinaryUnitDomain
 import Nabt.RecursiveLicensedAlgebra
 import Nabt.RecursiveSourceBridge
+
+import Nabt.RationalInquiry

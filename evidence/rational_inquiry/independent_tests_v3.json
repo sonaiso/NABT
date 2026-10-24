@@ -1,0 +1,557 @@
+{
+  "law_id": "nabt.rational-inquiry.v1",
+  "evidence_version": "v3",
+  "provenance": {
+    "created_at_utc": "2026-10-24T09:36:44.914069+00:00",
+    "runtime_version": "0.15.0a1",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "base_git_commit": "171cfa32a4bad0b5f9e8ff856cd98e23028122c7",
+    "runtime_freeze": {
+      "path": "evidence/rational_inquiry/code_freeze_v2.json",
+      "bytes": 14268,
+      "sha256": "49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b"
+    },
+    "runtime_snapshot_sha256": "97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64",
+    "runtime_files_verified": 75,
+    "evaluation_files": [
+      {
+        "path": "tests/test_rational_inquiry.py",
+        "bytes": 31114,
+        "sha256": "904a8c463ef058873508afc3e99c8d575d461581dac07b2375ce94170e6e8047"
+      },
+      {
+        "path": "tests/test_rational_inquiry_freeze.py",
+        "bytes": 4181,
+        "sha256": "7cab3275befd1179a0efca245b0310b5f9da8ddd5e63ca7b4db24fe33dcdf019"
+      },
+      {
+        "path": "tests/test_rational_inquiry_report_budget.py",
+        "bytes": 5046,
+        "sha256": "980a8dbb4d2897a416f9aa3adef8cf5039326baa0f66faa5dc783862af592216"
+      },
+      {
+        "path": "tools/evaluate_rational_inquiry.py",
+        "bytes": 14155,
+        "sha256": "60b0327c8170f0bcb2738d7d30739e22975178130449fc80f21d268dd009461d"
+      },
+      {
+        "path": "tools/check_rational_inquiry.py",
+        "bytes": 6412,
+        "sha256": "8cd3a03d9950427aa640e7aadea2bf3108699ad8b919a9a407c1bb7d4c330b83"
+      },
+      {
+        "path": "tools/text_evaluation/integrity.py",
+        "bytes": 6196,
+        "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+      },
+      {
+        "path": "examples/rational_inquiry/plan.json",
+        "bytes": 1407,
+        "sha256": "5390517da358d9e7062a08fadfa2f475a0dd52016cb408538ecf87fd244b4c67"
+      },
+      {
+        "path": "examples/rational_inquiry/sources.json",
+        "bytes": 1458,
+        "sha256": "456d46d08ad998439b9acb10bb6ac429553a058e5102fe4ec4c54ff6cb68dcff"
+      }
+    ],
+    "reproduction": {
+      "argv": [
+        "python",
+        "tools/evaluate_rational_inquiry.py",
+        "--freeze",
+        "evidence/rational_inquiry/code_freeze_v2.json",
+        "--evidence-version",
+        "v3",
+        "--output-dir",
+        "<new-output-directory>"
+      ],
+      "environment": {
+        "PYTHONPATH": "src"
+      },
+      "working_directory": "repository root"
+    }
+  },
+  "authorship": {
+    "author": "Separate evaluation and review agents in a shared development workspace",
+    "independence": "Counterexample matrix proposed before reading the implementation; test code written and reviewed while implementation was available. The implementation and tests were revised during shared review. This is not blinded or held-out evaluation and not external human review.",
+    "oracle": "Declared authority boundaries and concrete counterexamples; not a copied production recurrence. The separate finite conformance file compares the gate.",
+    "provenance_boundary": "Source origins, ancestry and active states are declarations. No acquisition identity, historical preregistration, unseen reference or physical observation was authenticated.",
+    "review_history": "Review hardened world-bridge and provenance/scope guards, propagated resource exhaustion, separated context checks from claim checks, and kept contested-premise derivations out of clean refutation. Provisional DEFER/UNREVIEWED oracle labels were aligned with the final explicit law. Subsequent independent review found a real CLI report-size round-trip defect; v1 evidence is retained as pre-fix history. Discovery includes the separately authored report-budget regressions and freeze tests."
+  },
+  "external_truth_certified": false,
+  "strict_pass": true,
+  "test_methods_run": 50,
+  "subtests_run": 52,
+  "failure_count": 0,
+  "error_count": 0,
+  "skipped_count": 0,
+  "test_discovery_pattern": "test_rational_inquiry*.py",
+  "methods": [
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_a_single_differing_character_is_a_record_counterexample",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_both_reference_records_are_checked_and_conflict_is_order_independent",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_each_scope_coordinate_must_match",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_exactly_sufficient_budget_is_not_reported_as_exhausted",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_human_rank_label_does_not_upgrade_evidence",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_record_comparison_executes_and_preserves_authority_boundary",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_world_claim_never_inherits_matching_or_mismatching_record_authority",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_zero_and_partial_budget_never_close_the_check",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ConformanceCheckerTests.test_boolean_input_cannot_impersonate_zero",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ConformanceCheckerTests.test_duplicate_json_key_is_not_silently_overwritten",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ConformanceCheckerTests.test_duplicate_tuple_cannot_replace_a_missing_tuple",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ConformanceCheckerTests.test_forged_export_verdict_is_compared_with_the_runtime_law",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ConformanceCheckerTests.test_incomplete_table_is_not_a_success",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_circular_provenance_is_rejected_including_inactive_rows",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_missing_dependency_cannot_be_silently_omitted_from_coverage",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_missing_or_stale_formation_prevents_formation",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_new_identifier_with_shared_origin_does_not_create_independence",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_partial_negative_inventory_does_not_authorize_refutation",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_reference_descended_from_formation_is_not_independent",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_revoked_support_invalidates_old_report_and_preserves_an_independent_route",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_shared_ancestor_of_two_differently_named_records_is_found",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_stale_reference_ancestor_is_not_live_evidence",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.InquiryCliTests.test_cli_executes_checks_and_verifies_separate_expected_inputs",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.InquiryCliTests.test_cli_preserves_world_deferral_and_record_refutation_exit_codes",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.InquiryCliTests.test_cli_rejects_duplicate_json_keys_and_noninteger_budget",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_asserted_unresolved_issue_blocks_licensing",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_context_for_a_different_time_cannot_complete_review",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_context_only_comparison_does_not_open_the_claim_box",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_enlightened_label_requires_executed_context_and_condition_checks",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_replay_binds_every_target_coordinate_and_review_criterion",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_replay_recomputes_source_bytes_not_applicant_hashes",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_verified_refutation_does_not_verify_the_claim",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.SourceEntailmentTests.test_entailment_conflict_is_retained",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.SourceEntailmentTests.test_entailment_reextracts_text_but_remains_source_relative",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.SourceEntailmentTests.test_negative_derivation_through_contested_premise_does_not_refute",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.SourceEntailmentTests.test_semantic_fact_budget_exhaustion_is_a_resource_result",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.SourceEntailmentTests.test_unknown_alternative_is_unresolved_not_eliminated",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.SourceEntailmentTests.test_unread_reference_blocks_full_coverage_even_when_another_supports",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_booleans_are_not_revision_rank_or_budget_numbers",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_duplicate_live_identity_and_duplicate_parent_are_rejected",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_gate_inputs_are_checked_not_coerced",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_inert_json_surrogates_and_nonfinite_numbers_are_rejected",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_path_shaped_identifiers_and_code_shaped_content_are_inert",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_world_bridge_and_exhaustion_prevent_either_truth_polarity",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_all_registered_evaluators_verify_current_bytes_and_archive",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_current_inventory_includes_public_module_and_preserves_old_package",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_report_budget.InquiryReportBudgetTests.test_large_valid_report_roundtrips_within_wire_budget",
+      "outcome": "PASS"
+    }
+  ],
+  "subtests": [
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_each_scope_coordinate_must_match",
+      "parameters": "_OrderedChainMap({'coordinate': 'domain'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_each_scope_coordinate_must_match",
+      "parameters": "_OrderedChainMap({'coordinate': 'referent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_each_scope_coordinate_must_match",
+      "parameters": "_OrderedChainMap({'coordinate': 'time'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_each_scope_coordinate_must_match",
+      "parameters": "_OrderedChainMap({'coordinate': 'unit'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_world_claim_never_inherits_matching_or_mismatching_record_authority",
+      "parameters": "_OrderedChainMap({'contents': ('عدد السجلات ثلاثة.',)})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_world_claim_never_inherits_matching_or_mismatching_record_authority",
+      "parameters": "_OrderedChainMap({'contents': ('عدد السجلات اثنان.',)})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_world_claim_never_inherits_matching_or_mismatching_record_authority",
+      "parameters": "_OrderedChainMap({'contents': ('عدد السجلات ثلاثة.', 'عدد السجلات اثنان.')})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_zero_and_partial_budget_never_close_the_check",
+      "parameters": "_OrderedChainMap({'budget': 0})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.BoundedComparisonTests.test_zero_and_partial_budget_never_close_the_check",
+      "parameters": "_OrderedChainMap({'budget': 1})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_circular_provenance_is_rejected_including_inactive_rows",
+      "parameters": "_OrderedChainMap({'active': True})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_circular_provenance_is_rejected_including_inactive_rows",
+      "parameters": "_OrderedChainMap({'active': False})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_missing_or_stale_formation_prevents_formation",
+      "parameters": "_OrderedChainMap({'mutation': 'inactive'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_missing_or_stale_formation_prevents_formation",
+      "parameters": "_OrderedChainMap({'mutation': 'revision'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.DeclaredProvenanceTests.test_missing_or_stale_formation_prevents_formation",
+      "parameters": "_OrderedChainMap({'mutation': 'empty'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_replay_binds_every_target_coordinate_and_review_criterion",
+      "parameters": "_OrderedChainMap({'field': 'domain'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_replay_binds_every_target_coordinate_and_review_criterion",
+      "parameters": "_OrderedChainMap({'field': 'referent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_replay_binds_every_target_coordinate_and_review_criterion",
+      "parameters": "_OrderedChainMap({'field': 'time'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_replay_binds_every_target_coordinate_and_review_criterion",
+      "parameters": "_OrderedChainMap({'field': 'unit'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify",
+      "parameters": "_OrderedChainMap({'changes': {'world_truth': 'ESTABLISHED'}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify",
+      "parameters": "_OrderedChainMap({'changes': {'external_truth_certified': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify",
+      "parameters": "_OrderedChainMap({'changes': {'authorized_rank': 3}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify",
+      "parameters": "_OrderedChainMap({'changes': {'checks': []}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify",
+      "parameters": "_OrderedChainMap({'changes': {'RealityWitness': True}})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_booleans_are_not_revision_rank_or_budget_numbers",
+      "parameters": "_OrderedChainMap({'field': 'revision'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_booleans_are_not_revision_rank_or_budget_numbers",
+      "parameters": "_OrderedChainMap({'field': 'rank'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_booleans_are_not_revision_rank_or_budget_numbers",
+      "parameters": "_OrderedChainMap({'field': 'budget'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields",
+      "parameters": "_OrderedChainMap({'place': 'plan', 'field': 'box_opened'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields",
+      "parameters": "_OrderedChainMap({'place': 'claim', 'field': 'world_truth'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields",
+      "parameters": "_OrderedChainMap({'place': 'source', 'field': 'independent'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields",
+      "parameters": "_OrderedChainMap({'place': 'source', 'field': 'sha256'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields",
+      "parameters": "_OrderedChainMap({'place': 'review', 'field': 'complete'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_gate_inputs_are_checked_not_coerced",
+      "parameters": "_OrderedChainMap({'key': 'formed'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_gate_inputs_are_checked_not_coerced",
+      "parameters": "_OrderedChainMap({'key': 'requestedRank'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_gate_inputs_are_checked_not_coerced",
+      "parameters": "_OrderedChainMap({'key': 'evidenceRank'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_inert_json_surrogates_and_nonfinite_numbers_are_rejected",
+      "parameters": "_OrderedChainMap({'kind': 'str'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_inert_json_surrogates_and_nonfinite_numbers_are_rejected",
+      "parameters": "_OrderedChainMap({'kind': 'float'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_inert_json_surrogates_and_nonfinite_numbers_are_rejected",
+      "parameters": "_OrderedChainMap({'kind': 'float'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry.StrictInquiryInputTests.test_inert_json_surrogates_and_nonfinite_numbers_are_rejected",
+      "parameters": "_OrderedChainMap({'kind': 'object'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9bc0>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9b20>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9d00>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9c60>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9940>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9e40>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9da0>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9ee0>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cc9f80>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cca020>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cca0c0>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'check': <function InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory.<locals>.<lambda> at 0x7fbae5cca160>})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'governor_freeze': 'code_freeze_v4.json'})",
+      "outcome": "PASS"
+    },
+    {
+      "test_id": "test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory",
+      "parameters": "_OrderedChainMap({'governor_freeze': 'code_freeze_v1.json'})",
+      "outcome": "PASS"
+    }
+  ],
+  "log": "test_a_single_differing_character_is_a_record_counterexample (test_rational_inquiry.BoundedComparisonTests.test_a_single_differing_character_is_a_record_counterexample) ... ok\ntest_both_reference_records_are_checked_and_conflict_is_order_independent (test_rational_inquiry.BoundedComparisonTests.test_both_reference_records_are_checked_and_conflict_is_order_independent) ... ok\ntest_each_scope_coordinate_must_match (test_rational_inquiry.BoundedComparisonTests.test_each_scope_coordinate_must_match) ... ok\ntest_exactly_sufficient_budget_is_not_reported_as_exhausted (test_rational_inquiry.BoundedComparisonTests.test_exactly_sufficient_budget_is_not_reported_as_exhausted) ... ok\ntest_human_rank_label_does_not_upgrade_evidence (test_rational_inquiry.BoundedComparisonTests.test_human_rank_label_does_not_upgrade_evidence) ... ok\ntest_record_comparison_executes_and_preserves_authority_boundary (test_rational_inquiry.BoundedComparisonTests.test_record_comparison_executes_and_preserves_authority_boundary) ... ok\ntest_world_claim_never_inherits_matching_or_mismatching_record_authority (test_rational_inquiry.BoundedComparisonTests.test_world_claim_never_inherits_matching_or_mismatching_record_authority) ... ok\ntest_zero_and_partial_budget_never_close_the_check (test_rational_inquiry.BoundedComparisonTests.test_zero_and_partial_budget_never_close_the_check) ... ok\ntest_boolean_input_cannot_impersonate_zero (test_rational_inquiry.ConformanceCheckerTests.test_boolean_input_cannot_impersonate_zero) ... ok\ntest_duplicate_json_key_is_not_silently_overwritten (test_rational_inquiry.ConformanceCheckerTests.test_duplicate_json_key_is_not_silently_overwritten) ... ok\ntest_duplicate_tuple_cannot_replace_a_missing_tuple (test_rational_inquiry.ConformanceCheckerTests.test_duplicate_tuple_cannot_replace_a_missing_tuple) ... ok\ntest_forged_export_verdict_is_compared_with_the_runtime_law (test_rational_inquiry.ConformanceCheckerTests.test_forged_export_verdict_is_compared_with_the_runtime_law) ... ok\ntest_incomplete_table_is_not_a_success (test_rational_inquiry.ConformanceCheckerTests.test_incomplete_table_is_not_a_success) ... ok\ntest_circular_provenance_is_rejected_including_inactive_rows (test_rational_inquiry.DeclaredProvenanceTests.test_circular_provenance_is_rejected_including_inactive_rows) ... ok\ntest_missing_dependency_cannot_be_silently_omitted_from_coverage (test_rational_inquiry.DeclaredProvenanceTests.test_missing_dependency_cannot_be_silently_omitted_from_coverage) ... ok\ntest_missing_or_stale_formation_prevents_formation (test_rational_inquiry.DeclaredProvenanceTests.test_missing_or_stale_formation_prevents_formation) ... ok\ntest_new_identifier_with_shared_origin_does_not_create_independence (test_rational_inquiry.DeclaredProvenanceTests.test_new_identifier_with_shared_origin_does_not_create_independence) ... ok\ntest_partial_negative_inventory_does_not_authorize_refutation (test_rational_inquiry.DeclaredProvenanceTests.test_partial_negative_inventory_does_not_authorize_refutation) ... ok\ntest_reference_descended_from_formation_is_not_independent (test_rational_inquiry.DeclaredProvenanceTests.test_reference_descended_from_formation_is_not_independent) ... ok\ntest_revoked_support_invalidates_old_report_and_preserves_an_independent_route (test_rational_inquiry.DeclaredProvenanceTests.test_revoked_support_invalidates_old_report_and_preserves_an_independent_route) ... ok\ntest_shared_ancestor_of_two_differently_named_records_is_found (test_rational_inquiry.DeclaredProvenanceTests.test_shared_ancestor_of_two_differently_named_records_is_found) ... ok\ntest_stale_reference_ancestor_is_not_live_evidence (test_rational_inquiry.DeclaredProvenanceTests.test_stale_reference_ancestor_is_not_live_evidence) ... ok\ntest_cli_executes_checks_and_verifies_separate_expected_inputs (test_rational_inquiry.InquiryCliTests.test_cli_executes_checks_and_verifies_separate_expected_inputs) ... ok\ntest_cli_preserves_world_deferral_and_record_refutation_exit_codes (test_rational_inquiry.InquiryCliTests.test_cli_preserves_world_deferral_and_record_refutation_exit_codes) ... ok\ntest_cli_rejects_duplicate_json_keys_and_noninteger_budget (test_rational_inquiry.InquiryCliTests.test_cli_rejects_duplicate_json_keys_and_noninteger_budget) ... ok\ntest_asserted_unresolved_issue_blocks_licensing (test_rational_inquiry.ReviewAndReplayTests.test_asserted_unresolved_issue_blocks_licensing) ... ok\ntest_context_for_a_different_time_cannot_complete_review (test_rational_inquiry.ReviewAndReplayTests.test_context_for_a_different_time_cannot_complete_review) ... ok\ntest_context_only_comparison_does_not_open_the_claim_box (test_rational_inquiry.ReviewAndReplayTests.test_context_only_comparison_does_not_open_the_claim_box) ... ok\ntest_enlightened_label_requires_executed_context_and_condition_checks (test_rational_inquiry.ReviewAndReplayTests.test_enlightened_label_requires_executed_context_and_condition_checks) ... ok\ntest_replay_binds_every_target_coordinate_and_review_criterion (test_rational_inquiry.ReviewAndReplayTests.test_replay_binds_every_target_coordinate_and_review_criterion) ... ok\ntest_replay_recomputes_source_bytes_not_applicant_hashes (test_rational_inquiry.ReviewAndReplayTests.test_replay_recomputes_source_bytes_not_applicant_hashes) ... ok\ntest_self_declared_world_truth_or_missing_checks_do_not_verify (test_rational_inquiry.ReviewAndReplayTests.test_self_declared_world_truth_or_missing_checks_do_not_verify) ... ok\ntest_verified_refutation_does_not_verify_the_claim (test_rational_inquiry.ReviewAndReplayTests.test_verified_refutation_does_not_verify_the_claim) ... ok\ntest_entailment_conflict_is_retained (test_rational_inquiry.SourceEntailmentTests.test_entailment_conflict_is_retained) ... ok\ntest_entailment_reextracts_text_but_remains_source_relative (test_rational_inquiry.SourceEntailmentTests.test_entailment_reextracts_text_but_remains_source_relative) ... ok\ntest_negative_derivation_through_contested_premise_does_not_refute (test_rational_inquiry.SourceEntailmentTests.test_negative_derivation_through_contested_premise_does_not_refute) ... ok\ntest_semantic_fact_budget_exhaustion_is_a_resource_result (test_rational_inquiry.SourceEntailmentTests.test_semantic_fact_budget_exhaustion_is_a_resource_result) ... ok\ntest_unknown_alternative_is_unresolved_not_eliminated (test_rational_inquiry.SourceEntailmentTests.test_unknown_alternative_is_unresolved_not_eliminated) ... ok\ntest_unread_reference_blocks_full_coverage_even_when_another_supports (test_rational_inquiry.SourceEntailmentTests.test_unread_reference_blocks_full_coverage_even_when_another_supports) ... ok\ntest_booleans_are_not_revision_rank_or_budget_numbers (test_rational_inquiry.StrictInquiryInputTests.test_booleans_are_not_revision_rank_or_budget_numbers) ... ok\ntest_caller_status_booleans_are_not_installed_fields (test_rational_inquiry.StrictInquiryInputTests.test_caller_status_booleans_are_not_installed_fields) ... ok\ntest_duplicate_live_identity_and_duplicate_parent_are_rejected (test_rational_inquiry.StrictInquiryInputTests.test_duplicate_live_identity_and_duplicate_parent_are_rejected) ... ok\ntest_gate_inputs_are_checked_not_coerced (test_rational_inquiry.StrictInquiryInputTests.test_gate_inputs_are_checked_not_coerced) ... ok\ntest_inert_json_surrogates_and_nonfinite_numbers_are_rejected (test_rational_inquiry.StrictInquiryInputTests.test_inert_json_surrogates_and_nonfinite_numbers_are_rejected) ... ok\ntest_path_shaped_identifiers_and_code_shaped_content_are_inert (test_rational_inquiry.StrictInquiryInputTests.test_path_shaped_identifiers_and_code_shaped_content_are_inert) ... ok\ntest_world_bridge_and_exhaustion_prevent_either_truth_polarity (test_rational_inquiry.StrictInquiryInputTests.test_world_bridge_and_exhaustion_prevent_either_truth_polarity) ... ok\ntest_all_registered_evaluators_verify_current_bytes_and_archive (test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_all_registered_evaluators_verify_current_bytes_and_archive) ... ok\ntest_current_inventory_includes_public_module_and_preserves_old_package (test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_current_inventory_includes_public_module_and_preserves_old_package) ... ok\ntest_old_freeze_does_not_authorize_the_new_current_inventory (test_rational_inquiry_freeze.InquiryRuntimeFreezeTests.test_old_freeze_does_not_authorize_the_new_current_inventory) ... ok\ntest_large_valid_report_roundtrips_within_wire_budget (test_rational_inquiry_report_budget.InquiryReportBudgetTests.test_large_valid_report_roundtrips_within_wire_budget) ... ok\n\n----------------------------------------------------------------------\nRan 50 tests in 1.076s\n\nOK\n",
+  "denominator": "Authored unittest methods with explicitly listed subcases. Methods and subcases are not added together or presented as independent observations of natural language or the world."
+}

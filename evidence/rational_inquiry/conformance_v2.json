@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "law_id": "nabt.rational-inquiry.v1",
+  "rows_compared": 8192,
+  "input_domain": {
+    "boolean_flags": [
+      "formed",
+      "reviewed",
+      "provenance",
+      "scopeCovered",
+      "supported",
+      "counterevidence",
+      "requiresWorldBridge",
+      "worldBridge",
+      "exhausted"
+    ],
+    "mask_count": 512,
+    "requested_ranks": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "evidence_ranks": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "verdict_counts": {
+    "UNFORMED": 2048,
+    "DEFER": 1730,
+    "UNREVIEWED": 96,
+    "LICENSED": 30,
+    "REFUTED": 96,
+    "CONFLICT": 96,
+    "RESOURCE_LIMIT": 4096
+  },
+  "duplicate_or_missing_rows": 0,
+  "type_sensitive_comparison": true,
+  "fresh_export_sha256": "79881f3dd74dc7b59157e69e959757a9631ff7ade45963e9d1b12cf7bef61c0e",
+  "source_adapter_formally_verified": false,
+  "external_truth_certified": false,
+  "scope": "Exhaustive finite Python/Lean decision-gate correspondence. Input extraction, declared provenance authenticity, real-world truth and human thinking ranks are not established.",
+  "provenance": {
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "build_command": [
+      "/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "build",
+      "exportRationalInquiry"
+    ],
+    "export_command": [
+      "/tmp/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "env",
+      "lean",
+      "--run",
+      "ExportRationalInquiry.lean"
+    ],
+    "files": [
+      {
+        "path": "formal/lean-toolchain",
+        "bytes": 25,
+        "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+      },
+      {
+        "path": "formal/Nabt/RationalInquiry.lean",
+        "bytes": 15011,
+        "sha256": "01081c4fec11fff797ecfd8f7bab64e3ee8264f6ed0b13c29571153a5a2634b8"
+      },
+      {
+        "path": "formal/ExportRationalInquiry.lean",
+        "bytes": 1372,
+        "sha256": "a145fc27fa89123ad47852d3225eb539bd204454a3cf1cdb79dad0946a22007c"
+      },
+      {
+        "path": "src/nabt/rational_inquiry.py",
+        "bytes": 23749,
+        "sha256": "a00dac231514ad7829b333ec4411cf5c31b97c48706b3a0dc4118acffd82981e"
+      },
+      {
+        "path": "tools/check_rational_inquiry.py",
+        "bytes": 6412,
+        "sha256": "8cd3a03d9950427aa640e7aadea2bf3108699ad8b919a9a407c1bb7d4c330b83"
+      }
+    ]
+  }
+}

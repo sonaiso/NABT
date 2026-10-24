@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= constructions_v4
-TEXT_CODE_FREEZE ?= evidence/constructions/code_freeze_v4.json
+RUNTIME_FREEZE_VERSION ?= rational_inquiry_v2
+TEXT_CODE_FREEZE ?= evidence/rational_inquiry/code_freeze_v2.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -95,6 +95,10 @@ recursive-bridge-conformance:
 	NABT_RECURSIVE_BRIDGE_PROBE=$(CURDIR)/formal/.lake/build/bin/recursiveBridgeProbe $(PYTHON) -B -m unittest discover -s tests -p test_recursive_bridge_probe.py -v
 	NABT_RECURSIVE_BRIDGE_PROBE=$(CURDIR)/formal/.lake/build/bin/recursiveBridgeProbe $(PYTHON) -B -m unittest discover -s tests -p test_recursive_source_bridge.py -v
 
+.PHONY: inquiry-conformance
+inquiry-conformance:
+	$(PYTHON) tools/check_rational_inquiry.py --lake $(LAKE) --output $(EVIDENCE_DIR)/inquiry-conformance.json
+
 construction-evaluation:
 	$(PYTHON) tools/construction_evaluation.py --runtime-root $(CURDIR) --runtime-freeze $(TEXT_CODE_FREEZE) --allow-documented-boundaries --output $(EVIDENCE_DIR)/construction-regression.json
 
@@ -120,7 +124,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms inquiry-conformance
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:
