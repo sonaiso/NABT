@@ -15,6 +15,9 @@ p.add_argument("--driver", type=Path, required=True)
 p.add_argument("--toolchain", type=Path, required=True)
 p.add_argument("--output", type=Path, required=True)
 a = p.parse_args()
+# Compiler subprocesses change cwd to formal/, but CLI paths belong to the
+# invocation directory. Resolve before changing the child process directory.
+a.driver = a.driver.resolve()
 root = Path(__file__).resolve().parents[1]
 build = a.output.resolve()
 build.mkdir(parents=True, exist_ok=True)
