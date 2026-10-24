@@ -1,0 +1,38 @@
+name: NABT optional neural morphology replay
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-neural-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpu-model-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install optional CPU learner without changing NABT runtime dependencies
+        run: |
+          python -m pip install numpy==2.3.5
+          python -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -c "import torch; assert torch.__version__ == '2.5.1+cpu'"
+      - name: Source identity, held-out labels, gradients and non-authoritative proposals
+        run: python -m unittest discover -s tests -p 'test_neural_morphology_*.py' -v
+      - name: Retrieve exact pinned research source
+        run: python tools/fetch_masaq_training_source.py --output artifacts/local/ci/MASAQ.csv
+      - name: Replay all 7705 test words, both baselines and the frozen book probe
+        run: |
+          python tools/replay_neural_morphology.py --source artifacts/local/ci/MASAQ.csv --model-dir evidence/source_morphology_training/run_01 --output artifacts/local/ci/neural-replay.json
+          python tools/replay_neural_morphology.py --source artifacts/local/ci/MASAQ.csv --model-dir evidence/source_morphology_training/run_02 --output artifacts/local/ci/neural-replay-v2.json

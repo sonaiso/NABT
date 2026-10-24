@@ -1,0 +1,23 @@
+{
+  "schema": "nabt.neural-morphology-protocol.v1",
+  "seed": 67,
+  "threads": 4,
+  "batch_size": 24,
+  "epochs": 8,
+  "learning_rate": 0.003,
+  "task_weights": {
+    "tag": 1.0,
+    "declension": 0.5,
+    "case_mood": 0.5,
+    "affixes": 0.5
+  },
+  "selection": "Maximum development mean macro F1 over the three single-label heads; test once after selection. Fixed affix threshold 0.5.",
+  "split": "Whole suras by sha256(nabt-morph-v1:SURA) first 8 hex digits modulo 10: 0 test, 1 dev, others train. All cross-sura duplicate verses after removing combining marks are quarantined before splitting. Original word bytes are unchanged.",
+  "source_sha256": "d43d2a813afbe0490254bb26623d6041ed352a273d333e731ddbcda3bd0b6f3a",
+  "source_repository": "Saleh1967/Alghanem",
+  "source_commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+  "source_path": "corpora/MASAQ.csv",
+  "supervision": "Single-stem fine morphological tag; explicit معرب/مبني annotation; raw case/mood field; explicit prefix/suffix tag set. No syntax/semantics labels. Multiple stems/annotation IDs, missing visible vowel marks, excessive character length and narrow book-constraint conflicts retain their context but receive no supervised labels.",
+  "authority": "Predictions are unverified morphology proposals. No classifier score licenses a reading, statement or rule.",
+  "claims": "Expanded Quranic morphological training only. Not general Arabic completeness, full-book acquisition, semantic/world truth, or an LLM."
+}
