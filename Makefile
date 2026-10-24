@@ -167,5 +167,6 @@ mantuq-mafhum-conformance:
 	test -x $(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe
 	test -x $(CURDIR)/formal/.lake/build/bin/verifiedReading
 	NABT_CLASSICAL_SEMANTIC_PROBE=$(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_mantuq_mafhum.py -v
+	NABT_CLASSICAL_SEMANTIC_PROBE=$(CURDIR)/formal/.lake/build/bin/classicalSemanticProbe $(PYTHON) -B -m unittest discover -s tests -p test_reading_enumeration.py -v
 
 check: mantuq-mafhum-conformance

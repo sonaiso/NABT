@@ -1,5 +1,6 @@
 import Nabt.SourceSemantics
 import Nabt.MantuqMafhum
+import Nabt.ReadingEnumeration
 import ProbeJson
 
 /-! Executable adapter. JSON and file IO remain in the computing base.
@@ -94,6 +95,13 @@ def optionFormula : Option Formula → Json
   | none => Json.null
   | some f => formulaJson f
 
+def alternative (j : Json) : ProbeM Nabt.ReadingEnumeration.Alternative := do
+  keys j ["reading_id", "binding", "premises"]
+  let premises ← field j "premises"
+  let ps ← if premises == Json.null then pure none else
+    some <$> bounded 128 (formula 32) premises
+  return ⟨← str (← field j "reading_id"), ← binding (← field j "binding"), ps⟩
+
 def response (fields : List (String × Json)) : Json := Json.mkObj (
   [("law_id", toJson lawId), ("world_truth_established", toJson false),
    ("all_arabic_complete", toJson false), ("reader_enumeration_proved", toJson false)] ++ fields)
@@ -147,6 +155,32 @@ def dispatch (source : Option Nabt.ClassicalLanguageEvidence.Source) (j : Json) 
   if op == "rules" then
     keys j ["op"]
     return ruleTable
+  else if op == "meaning_enumeration" then
+    keys j ["op", "expected", "pools", "conclusion", "proofs"]
+    let some s := source | invalid "enumeration requires independently opened target source"
+    let expected ← binding (← field j "expected")
+    if expected.source != s.bytes || expected.sourceId != s.sourceId then
+      return ← invalid "enumeration binding differs from opened target source"
+    let pools ← bounded 64 (bounded 128 alternative) (← field j "pools")
+    let combinations := Nabt.ReadingEnumeration.count pools
+    -- Check cost BEFORE allocating the Cartesian product. Additional IO/work
+    -- caps only defer execution; they cannot turn a truncated list into a pass.
+    if combinations > 4096 then return ← limited "more than 4096 reading combinations"
+    let width := (pools.map fun pool => (pool.map fun a => (a.premises.getD []).length).foldl max 0).foldl (· + ·) 0
+    if combinations * width > 262144 then return ← limited "expanded premise budget exceeded"
+    let conclusion ← formula 32 (← field j "conclusion")
+    let proofs ← bounded 4096 (meaningProof 32) (← field j "proofs")
+    let some checked := Nabt.ReadingEnumeration.boundedCheck 4096 expected pools conclusion proofs
+      | limited "reading combination budget exceeded"
+    return response [("enumeration_law_id", toJson Nabt.ReadingEnumeration.lawId),
+      ("meaning_law_id", toJson Nabt.MantuqMafhum.lawId), ("checked", toJson checked),
+      ("conclusion", if checked then formulaJson conclusion else Json.null),
+      ("pool_sizes", toJson (pools.map List.length)), ("combinations", toJson combinations),
+      ("proof_count", toJson proofs.length), ("supplied_pool_composition_proved", toJson true),
+      ("source_bytes_checked", toJson true), ("source_id", toJson s.sourceId),
+      ("source_text", toJson (String.fromUTF8! ⟨s.bytes.toArray⟩)),
+      ("premise_truth_established", toJson false), ("pool_completeness_proved", toJson false),
+      ("python_projection_proved", toJson false)]
   else if op == "awamil_inventory" then
     keys j ["op"]
     return response [("inventory_law_id", toJson Nabt.AwamilInventory.lawId),
@@ -271,6 +305,105 @@ def work : String → Option Nabt.ClassicalLanguageEvidence.Work
   | "thinking" => some .thinking | "shakhsiyyaFirst" => some .shakhsiyyaFirst
   | "shakhsiyyaThird" => some .shakhsiyyaThird | "target" => some .targetText | _ => none
 
+/-! Reject duplicate raw keys before Json.parse erases them. This follows the
+reviewed RecursiveBridgeProbe guard while preserving other probes' frozen
+transport. Escaped and literal spellings compare after JSON string decoding. -/
+
+structure KeyFrame where
+  isObject : Bool
+  expectingKey : Bool
+  keys : Std.TreeSet String := {}
+
+def jsonQuote : Char := Char.ofNat 34
+
+def rejectDuplicateKeys (line : String) : ProbeM Unit := do
+  let mut stack : List KeyFrame := []
+  let mut quoted := false
+  let mut escaped := false
+  let mut captureKey := false
+  let mut keyText : List Char := []
+  for character in line.toList do
+    if quoted then
+      if captureKey then keyText := character :: keyText
+      if escaped then
+        escaped := false
+      else if character == '\\' then
+        escaped := true
+      else if character == jsonQuote then
+        quoted := false
+        if captureKey then
+          let keyJson ← liftParse (Json.parse (String.ofList keyText.reverse))
+          let key ← str keyJson
+          match stack with
+          | frame :: rest =>
+              if frame.keys.contains key then return ← invalid "duplicate JSON object key"
+              stack := { frame with expectingKey := false, keys := frame.keys.insert key } :: rest
+          | [] => return ← invalid "object key has no enclosing object"
+          keyText := []
+        captureKey := false
+    else if character == jsonQuote then
+      quoted := true
+      escaped := false
+      captureKey := match stack with
+        | frame :: _ => frame.isObject && frame.expectingKey
+        | [] => false
+      keyText := if captureKey then [jsonQuote] else []
+    else if character == '{' then
+      stack := ⟨true, true, {}⟩ :: stack
+    else if character == '[' then
+      stack := ⟨false, false, {}⟩ :: stack
+    else if character == '}' || character == ']' then
+      stack := stack.drop 1
+    else if character == ':' then
+      match stack with
+      | frame :: rest => stack := { frame with expectingKey := false } :: rest
+      | [] => pure ()
+    else if character == ',' then
+      match stack with
+      | frame :: rest =>
+          if frame.isObject then stack := { frame with expectingKey := true } :: rest
+      | [] => pure ()
+
+def processSemanticLine (source : Option Nabt.ClassicalLanguageEvidence.Source) (bytes : ByteArray) (oversized : Bool) : Json :=
+  if oversized then errorResponse ⟨"RESOURCE_LIMIT", "input line exceeds 1 MiB"⟩
+  else match String.fromUTF8? bytes with
+    | none => errorResponse ⟨"INVALID_INPUT", "input line is not valid UTF-8"⟩
+    | some line =>
+      match (do
+        ProbeJson.preflight line
+        rejectDuplicateKeys line
+        let request ← liftParse (Json.parse line)
+        dispatch source request : ProbeM Json) with
+      | .ok result => result
+      | .error failure => errorResponse failure
+
+def emitSemantic (source : Option Nabt.ClassicalLanguageEvidence.Source) (output : IO.FS.Stream) (bytes : ByteArray) (oversized : Bool) : IO Unit := do
+  output.putStr ((processSemanticLine source bytes oversized).compress ++ "\n")
+  output.flush
+
+/-- Same bounded streaming and discard-to-newline contract as ProbeJson, with
+the additional raw-key check before the lossy generic JSON object parser. -/
+partial def readSemanticLoop (source : Option Nabt.ClassicalLanguageEvidence.Source) (input output : IO.FS.Stream)
+    (pending : ByteArray := ByteArray.emptyWithCapacity 0) (overflow : Bool := false) : IO Unit := do
+  let chunk ← input.read 1
+  if chunk.isEmpty then
+    if !pending.isEmpty || overflow then emitSemantic source output pending overflow
+  else
+    let mut pending := pending
+    let mut overflow := overflow
+    for byte in chunk do
+      if byte == 10 then
+        emitSemantic source output pending overflow
+        pending := ByteArray.emptyWithCapacity 0
+        overflow := false
+      else if !overflow then
+        if pending.size < ProbeJson.maxLineBytes then pending := pending.push byte
+        else
+          pending := ByteArray.emptyWithCapacity 0
+          overflow := true
+    readSemanticLoop source input output pending overflow
+
+
 end ClassicalSemanticMain
 open ClassicalSemanticMain
 
@@ -290,7 +423,7 @@ def main (args : List String) : IO UInt32 := do
           return 2
         pure (some ⟨identity, w, edition, revision, raw.data.toList⟩)
       | _ => throw (IO.userError "expected no arguments or SOURCE ID EDITION REVISION WORK")
-    ProbeJson.readLoop (dispatch source) errorResponse (← IO.getStdin) out
+    readSemanticLoop source (← IO.getStdin) out
     return 0
   catch e =>
     out.putStrLn (errorResponse ⟨"IO_ERROR", e.toString⟩).compress

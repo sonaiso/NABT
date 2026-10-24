@@ -1,0 +1,12 @@
+{
+  "comment": "https://github.com/sonaiso/NABT/pull/20#discussion_r4368088802",
+  "thread_id": "PRRT_kwDOVT1Zwc6v6qH_",
+  "file": "tools/build_semantic_audit.py",
+  "correction": "Resolve the driver relative to the invocation directory before subprocess cwd changes to formal/.",
+  "test": "tests/test_semantic_audit_driver.py::SemanticAuditDriverPathTests.test_driver_paths_resolve_from_invocation_directory",
+  "before_fix_head": "e9422ed1ef2feb0af66f2745309f26b2d01ce963",
+  "before_fix_result": "expected failure: relative driver raises FileNotFoundError; absolute path invokes stand-in",
+  "after_fix_result": "PASS: both relative and absolute paths invoke stand-in from formal/; deliberate compiler exit 17 is preserved",
+  "real_lean_theorems_changed": false,
+  "thread_resolved_by_this_change": false
+}

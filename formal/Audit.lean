@@ -1089,7 +1089,23 @@ def theoremManifest : List Name := [
   ``Nabt.MantuqMafhum.source_to_meaning_consequence,
   ``Nabt.MantuqMafhum.acquired_inference_grounded,
   ``Nabt.SibawayhiRules.unqualified_preserves_class_cases,
-  ``Nabt.SibawayhiRules.substitute_endings_not_discarded
+  ``Nabt.SibawayhiRules.substitute_endings_not_discarded,
+  ``Nabt.ReadingEnumeration.enumeration_exact,
+  ``Nabt.ReadingEnumeration.enumeration_count,
+  ``Nabt.ReadingEnumeration.incomplete_preserved,
+  ``Nabt.ReadingEnumeration.combined_premises_hold,
+  ``Nabt.ReadingEnumeration.verified_rows_length,
+  ``Nabt.ReadingEnumeration.verified_rows_each,
+  ``Nabt.ReadingEnumeration.checked_selection,
+  ``Nabt.ReadingEnumeration.checked_certificate_count,
+  ``Nabt.ReadingEnumeration.omitted_combination_rejected,
+  ``Nabt.ReadingEnumeration.every_selection_entails,
+  ``Nabt.ReadingEnumeration.incomplete_selection_blocks,
+  ``Nabt.ReadingEnumeration.changed_binding_blocks,
+  ``Nabt.ReadingEnumeration.empty_document_blocks,
+  ``Nabt.ReadingEnumeration.zero_count_blocks,
+  ``Nabt.ReadingEnumeration.bounded_check_exact,
+  ``Nabt.ReadingEnumeration.resource_exhaustion_no_verdict
 ]
 
 run_cmd do
