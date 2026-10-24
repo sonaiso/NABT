@@ -1,0 +1,55 @@
+{
+  "schema": "nabt.postreview-v2-independent-review.v1",
+  "created_utc": "2026-10-24T13:03:53.274171+00:00",
+  "tool": {
+    "path": "tools/arabic_coverage_postreview_v2.py",
+    "bytes": 30499,
+    "sha256": "02ef92d79299943339ce67a7a6d47a6c8c63a87f1aa83159bcc1a494b18a7f01"
+  },
+  "tests": {
+    "path": "tests/test_arabic_coverage_postreview_gate.py",
+    "bytes": 12590,
+    "sha256": "ef6758f08a36fed8d0ea48cf37bb33d8e394aee89459809651d6073a75177fb5"
+  },
+  "unit_test_command": "python -m unittest discover -s tests -p 'test_arabic_coverage_postreview_gate.py' -v",
+  "unit_test_count": 15,
+  "unit_test_returncode": 0,
+  "successful_execution": {
+    "path": "evidence/arabic_coverage/holdout_postreview_v2_final/review.json",
+    "bytes": 5934,
+    "sha256": "29353e644f26f6474e471ba53ad0b0459427e935e025513979b5626a49664fc1"
+  },
+  "peer_review": {
+    "reviewer_task": "/root/formal_boundary",
+    "method": "Read-only independent review, no execution and no file edits.",
+    "initial_code_sha256": "a149de89c17b1df44998d7cf59479df116692aeec10e05dda3210b9cc1b76b32",
+    "amended_code_sha256": "02ef92d79299943339ce67a7a6d47a6c8c63a87f1aa83159bcc1a494b18a7f01",
+    "finding": "No concrete counterexample found for granting the gate with another failure under the pinned-input scope. The amended comparison filters only the explicit metadata names and then requires exact authoritative equality. Imports and policy are captured and checked for stability.",
+    "limits": "This review does not independently adjudicate every Arabic case. Runtime replay covers all certificates; additional independent detailed answer validation is confined to H18."
+  },
+  "original_first_run_result": {
+    "path": "evidence/arabic_coverage/holdout_runs_v1/first_v2.json",
+    "bytes": 134573,
+    "sha256": "da114e1ccedee5a523b599e006ec0da178e04ee38d4235699bd982c9c6e20c4e"
+  },
+  "first_run_postreview": {
+    "path": "evidence/arabic_coverage/holdout_postreview_v1/review.json",
+    "bytes": 12610,
+    "sha256": "e9f42a54c1c1e379d39841b1715521705f0f46873b06ec4117ee4eebc04bc7a2"
+  },
+  "retest_original_result": {
+    "path": "evidence/arabic_coverage/holdout_postreview_v2_final/original_result.json",
+    "bytes": 134730,
+    "sha256": "da1a7719eb49a6ca547cac99aa49e938fa7f0cc48038e4f73c618388508f2a79"
+  },
+  "initial_retest_postreview_refusal": {
+    "path": "evidence/arabic_coverage/holdout_postreview_v2/review.json",
+    "bytes": 1726,
+    "sha256": "ce3986d4d4249302834140af49a72a56109dc143e6c8678f19739506dce7f639"
+  },
+  "protocol": {
+    "path": "evidence/arabic_coverage/holdout_postreview_v2_final/PROTOCOL.md",
+    "bytes": 6285,
+    "sha256": "4c9adb2e9b055b220eb667b734adb4057681dfa01261952a8f54957101693d29"
+  }
+}

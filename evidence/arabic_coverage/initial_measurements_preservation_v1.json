@@ -1,0 +1,79 @@
+{
+  "archive": "evidence/arabic_coverage/initial_measurements_v1.zip",
+  "archive_sha256": "ff99427672ea15e301132e324bbf1088e99e3d6bf2385b1086cb362ac4c89d60",
+  "entries": [
+    {
+      "bytes": 2426850,
+      "name": "arabic_coverage_construction_before_v1.code.tar.gz",
+      "sha256": "88da6c5518318b44d42e0c5860203dabdad700f9541062c4603f507268818e87"
+    },
+    {
+      "bytes": 155484,
+      "name": "arabic_coverage_construction_before_v1.json",
+      "sha256": "96af2e64a5ad9a68f2a435c781e3a90134496fa47eda34dd31822e81a5effca6"
+    },
+    {
+      "bytes": 5401,
+      "name": "arabic_coverage_construction_before_v1.log",
+      "sha256": "00202426ff03bbe0717011a515ab26a14dadf2154211babc611c4abe4c7e4c40"
+    },
+    {
+      "bytes": 1428628,
+      "name": "arabic_coverage_construction_before_v1.raw.jsonl.gz",
+      "sha256": "8f87b8f274037e6f0f089f63fc34ec115ed102e1e47002a9311557ed0d2ece60"
+    },
+    {
+      "bytes": 2430472,
+      "name": "arabic_coverage_discourse_before_v1.code.tar.gz",
+      "sha256": "9d36e1339627f0c3469b073a108b7d2f45d15137c1ce57da07a959efa6d25086"
+    },
+    {
+      "bytes": 134176,
+      "name": "arabic_coverage_discourse_before_v1.json",
+      "sha256": "1a39886859ef5752940c3c73da330e7c3ec5a0682a2f8ed8b66884df0317f242"
+    },
+    {
+      "bytes": 5126,
+      "name": "arabic_coverage_discourse_before_v1.log",
+      "sha256": "d07e9ad7747d02cdf115cb230d345e5a80053bf3ff516882ced94990b311f970"
+    },
+    {
+      "bytes": 1111826,
+      "name": "arabic_coverage_discourse_before_v1.raw.jsonl.gz",
+      "sha256": "778a96df983292929ecb8b4723a797c6302ec3fade6122ecb5b0bc302ea3a860"
+    }
+  ],
+  "reports": {
+    "construction": {
+      "execution_errors": [
+        {
+          "diagnostic": null,
+          "id": "CON-W02",
+          "message": "Dependent role lacks a unique same-analysis inherited case",
+          "stage": "scoring",
+          "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/construction_evaluation.py\", line 1289, in evaluate\n    stage='scoring';entry=score_case(case,report,questions,verification,audit,replay)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/construction_evaluation.py\", line 1018, in score_case\n    rows,ranges,analyses=validate_report(report,inputs,audit)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/construction_evaluation.py\", line 803, in validate_report\n    row=rows[rid];wanted=assignment_case(assigned,analysis)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/construction_evaluation.py\", line 594, in assignment_case\n    require(len(cases) == 1 and next(iter(cases)) in CASE_VALUES, 'Dependent role lacks a unique same-analysis inherited case')\n  File \"/workspace/scratch/6cb2eef8b8ad/nabt-coverage/tools/construction_evaluation.py\", line 185, in require\n    raise ValueError(message)\nValueError: Dependent role lacks a unique same-analysis inherited case\n",
+          "type": "ValueError"
+        }
+      ],
+      "false_accept_count": 0,
+      "measurement_valid": false,
+      "passed": 80,
+      "question_execution_errors": [],
+      "strict_pass": false,
+      "total": 86,
+      "valid_coverage_claim_allowed": false
+    },
+    "discourse": {
+      "execution_errors": [],
+      "false_accept_count": 0,
+      "measurement_valid": true,
+      "passed": 63,
+      "question_execution_errors": [],
+      "strict_pass": false,
+      "total": 86,
+      "valid_coverage_claim_allowed": true
+    }
+  },
+  "schema": "nabt.arabic-coverage.initial-measurements-preservation.v1",
+  "scope": "Historical first strict comparison on runtime v1. Construction measurement is invalid because a real W02 span/head problem caused an evaluator exception; its reported count must not be advertised as valid coverage. Final v2 measurement and independently justified checker changes are preserved separately."
+}

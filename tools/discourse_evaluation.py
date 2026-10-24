@@ -13,6 +13,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 import gzip
 from hashlib import sha256
+import importlib.util
 import io
 import json
 from pathlib import Path
@@ -25,11 +26,29 @@ import unicodedata
 import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
+_QUESTION_SPEC = importlib.util.spec_from_file_location(
+    'independent_question_answer_validation', Path(__file__).with_name('question_answer_validation.py'))
+question_validation = importlib.util.module_from_spec(_QUESTION_SPEC)
+_QUESTION_SPEC.loader.exec_module(question_validation)
+_GATE_SPEC = importlib.util.spec_from_file_location(
+    'reviewed_arabic_coverage_gate', Path(__file__).with_name('arabic_coverage_gate.py'))
+coverage_gate = importlib.util.module_from_spec(_GATE_SPEC)
+_GATE_SPEC.loader.exec_module(coverage_gate)
 FOLDER = ROOT / 'evidence/discourse'
-VERSION = 'nabt.discourse.independent-evaluation.v1'
+VERSION = 'nabt.discourse.independent-evaluation.v2'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c': {
+        'snapshot_sha256': '46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851',
+        'archive_sha256': '8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163',
+        'file_count': 77,
+    },
+    'a7194b9b52ab8a6db0c92d65c7dae76dc23c1f1c8777b4e10b2fb71efa01c89f': {
+        'snapshot_sha256': '602fe4a4d81044adbbd01849284f14c699f2104a36595db2bd6f8e80facf7804',
+        'archive_sha256': '54452a9f9375caf4837b00156a98a1be3076b6bd9e4afa2980e8f3d73755e289',
+        'file_count': 77,
+    },
     '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b': {
         'snapshot_sha256': '97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64',
         'archive_sha256': 'fd1ed9ab3cc8b6b5f98c7b1e04f7bd9255cbc2abee0447cbf9a33f234e28a194',
@@ -318,7 +337,10 @@ def runtime_snapshot(manifest_path, runtime_root):
             require(len(data) == by_path[member.name]['bytes'] and sha256(data).hexdigest() == by_path[member.name]['sha256'],
                     'Frozen archive member changed')
     files = list(manifest['files'])
-    for path in (Path(__file__), ROOT / 'tests/test_discourse_evaluator.py'):
+    for path in (Path(__file__), Path(__file__).with_name('question_answer_validation.py'),
+                 ROOT / 'tests/test_discourse_evaluator.py', ROOT / 'tests/test_question_interpretation_validation.py',
+                 Path(__file__).with_name('arabic_coverage_gate.py'), coverage_gate.POLICY_PATH,
+                 ROOT / 'tests/test_arabic_coverage_gate.py'):
         data = path.read_bytes()
         files.append({'path': str(path.relative_to(ROOT)), 'bytes': len(data), 'sha256': sha256(data).hexdigest()})
     return {'runtime_root': str(runtime_root), 'runtime_freeze': str(manifest_path.relative_to(ROOT)),
@@ -1009,11 +1031,15 @@ def source_agreement_witnesses(claim, required, entity_id, document):
         # multiple distinct semantic claims does not select this one edge.
         if any(claim_key(other) != claim_key(claim) for other in analysis['claims']):
             continue
+        inner_predicates = {(relation.get('inner_predicate_reading_id'), wire(relation.get('inner_predicate_span')))
+                            for relation in analysis.get('relations', [])
+                            if relation.get('kind') == 'relative_clause'}
         for relation in analysis.get('relations', []):
             head_id, dependent_id = relation.get('head_reading_id'), relation.get('dependent_reading_id')
             head_span, dependent_span = relation.get('head_span'), relation.get('dependent_span')
             if (relation.get('kind') != 'predicate_agreement' or relation.get('status') != 'confirmed'
                     or relation.get('regime_licensed') is not True
+                    or (dependent_id, wire(dependent_span)) in inner_predicates
                     or relation.get('predicate_lemma') != claim['predicate']
                     or any(relation.get('axes', {}).get(axis) != 'confirmed' for axis in required)
                     or any(relation.get(profile, {}).get(axis) != value
@@ -1095,6 +1121,9 @@ def validate_answer(answer, document, inquiry, inputs, question):
     require(answer['world_truth'] == 'NOT_ESTABLISHED', 'Answer promoted world truth')
     require(answer['status'] in ('SUPPORTED', 'REFUTED', 'CONFLICT', 'UNKNOWN', 'DEFER', 'OUT_OF_SCOPE'),
             'Unknown answer status')
+    if answer.get('schema') == 'nabt.discourse-answer.v2' or 'question_interpretations' in answer:
+        question_validation.validate_interpretations(answer, document, inquiry, inputs, claim_view=claim_view)
+        return
     accepted = {c['claim_id']: c for c in document['claims']}
     entities = {e['id']: e for e in (inputs.get('context') or {}).get('entities', [])}
     if answer['query'] is not None:
@@ -1248,6 +1277,7 @@ def score_case(case, report, questions, verification, audit=None, replay=None, i
             continue
         answer = observed['answer']
         try:
+            validate_report(observed['inquiry'], {**inputs, 'text': want['text'], 'source_id': 'question'}, audit)
             validate_answer(answer, report, observed['inquiry'], inputs, want['text'])
             check(f'question_integrity:{index}', True)
         except (ValueError, KeyError, TypeError, IndexError) as error:
@@ -1307,6 +1337,8 @@ def corpus_variant(raw, mode):
 
 
 def gate_decision(result, allow_documented_boundaries=False):
+    if result['snapshot']['runtime_freeze_sha256'] == coverage_gate.RUNTIME_SHA256:
+        return coverage_gate.gate_decision('discourse', result, allow_documented_boundaries)
     unexpected = []
     documented = []
     runtime = result['snapshot']['runtime_freeze_sha256']
@@ -1544,7 +1576,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/rational_inquiry/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/arabic_coverage/code_freeze_v2.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')

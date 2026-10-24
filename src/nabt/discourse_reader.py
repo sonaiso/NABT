@@ -27,8 +27,8 @@ from .construction_laws import (LAW_ID as CONSTRUCTION_LAW_ID,
     EXPECTED_TABLE_SHA256 as CONSTRUCTION_TABLE_SHA256, ROLES as CONSTRUCTION_ROLES,
     role_case as construction_role_case, predicate_agreement_status)
 
-LANGUAGE_ID = "nabt.arabic-discourse-frames.v4"
-READER_VERSION = "nabt.discourse-reader.v4"
+LANGUAGE_ID = "nabt.arabic-discourse-frames.v5"
+READER_VERSION = "nabt.discourse-reader.v5"
 MAX_ANALYSES = 128
 MAX_CLAUSES = 32
 _UNSET = object()
@@ -483,7 +483,12 @@ class _Reader:
         agreement_obligations, agreement_relations, agreement_supports = self.predicate_agreement(
             readings, assignments, refs, force=force)
         # Rebuilds recompute the check; an existing relation is not authority.
-        obligations = list(obligations) + agreement_obligations
+        # Reference completeness is derived again from these exact references
+        # below. A composed frame can carry the previous analysis's public
+        # missing-premise list; an unresolved referent in that list is not a
+        # missing syntactic premise. In particular, it must not erase a
+        # witnessed case/mood assignment while still withholding assertion.
+        obligations = [o for o in obligations if o != "REFERENCE_NOT_UNIQUELY_LICENSED"] + agreement_obligations
         relations = [r for r in relations if r.get("kind") != "predicate_agreement"] + agreement_relations
         supports = list(supports) + [s for s in agreement_supports if s not in supports]
         claims = deepcopy(claims)
@@ -702,7 +707,8 @@ class _Reader:
     def complements(self, tokens):
         """At most one witnessed time adverb and one literal في+place phrase."""
         variants = [{"tokens": list(tokens), "time": [], "place": [], "refs": [],
-                     "assignments": [], "readings": [], "supports": [], "obligations": []}]
+                     "assignments": [], "readings": [], "supports": [], "obligations": [],
+                     "requires_event": False}]
         for _ in range(2):
             expanded = []
             for variant in variants:
@@ -723,25 +729,76 @@ class _Reader:
                     if options:
                         continue
                 if len(body) >= 2 and not variant["time"]:
-                    adverbs = [r for r in adverb_candidates(body[-1]["surface"], lexical_model=self.model) if r["pos"] == "T"]
-                    for adverb in adverbs:
-                        value = deepcopy(variant)
-                        row = _synthetic_reading(body[-1], pos="T", construction=None,
-                                                 rule="place_time_complements")
-                        row["reading_id"] = identity([body[-1]["token_id"], adverb["id"]])
-                        row["support_records"] = adverb["supports"]
-                        row["lexical_features"]["lemma"] = adverb["lemma"]
-                        value["tokens"] = body[:-1]
-                        value["time"] = [{"lemma": adverb["lemma"], "form": lookup_key(adverb["form"]),
-                                           "source_article": adverb["source_article"]}]
-                        value["assignments"].append(self.assignment(body[-1], row, "time_adverb", head=body[0]))
-                        value["readings"].append(row)
-                        value["supports"].append(self.support("place_time_complements"))
-                        expanded.append(value)
-                    if adverbs:
-                        continue
+                    indices = [len(body) - 1] + ([1] if len(body) == 3 else [])
+                    for index in dict.fromkeys(indices):
+                        token = body[index]
+                        choices = []
+                        for adverb in adverb_candidates(token["surface"], lexical_model=self.model):
+                            if adverb["pos"] != "T":
+                                continue
+                            row = _synthetic_reading(token, pos="T", construction=None,
+                                                     rule="place_time_complements")
+                            row["reading_id"] = identity([token["token_id"], adverb["id"]])
+                            row["support_records"] = adverb["supports"]
+                            row["lexical_features"]["lemma"] = adverb["lemma"]
+                            choices.append((row, {"lemma": adverb["lemma"], "form": lookup_key(adverb["form"]),
+                                "source_article": adverb["source_article"]}, "place_time_complements", False))
+                        # The primary passage names these two temporal uses
+                        # with verbal events and explicitly retains their
+                        # other noun uses. Keep POS=N and its lexical source;
+                        # do not acquire a general N->T conversion or case.
+                        named_example = {"أمس": "أمس", "غدا": "غد"}.get(lookup_key(token["surface"]))
+                        if named_example is not None and index == len(body) - 1:
+                            for row in self.readings(token):
+                                features = row["lexical_features"]
+                                if (features.get("pos") != "N" or lookup_key(features.get("lemma") or "") != named_example
+                                        or row.get("annotation_only") or not row.get("segmentation", {}).get("licensed")
+                                        or row.get("person_evidence", {}).get("attached_pronouns")
+                                        or not any("byte_start" in s for s in row.get("support_records", []))):
+                                    continue
+                                if (named_example == "أمس" and row["construction"] is None
+                                        and lookup_clusters(token["surface"])[-1][1] == {"ِ"}
+                                        and template_matches(token["surface"], "أَمْسِ", mutable_last=False)):
+                                    # This named Hijazi reading has a built
+                                    # kasra surface and an accusative local
+                                    # function. Refine only this temporal
+                                    # reading; the occurrence's original N
+                                    # readings and other dialects stay intact.
+                                    original_reading = row
+                                    row = deepcopy(original_reading)
+                                    basis = {"rule": "temporal_ams_built", "dialect": "Hijazi",
+                                        "scope": "EXPLICIT_KASRA_TEMPORAL_AMS_IN_A_VERBAL_EVENT",
+                                        "origin_reading_id": original_reading["reading_id"],
+                                        "original_construction": original_reading["construction"],
+                                        "original_class_candidates": original_reading["class_candidates"],
+                                        "surface_realization": "fixed_kasra", "function": "local_accusative",
+                                        "source": self.support("temporal_ams_built")}
+                                    row.update(construction="built", class_candidates=[],
+                                        variant="source_witnessed_hijazi_temporal_ams",
+                                        construction_premise=basis,
+                                        obligations=[o for o in row.get("obligations", []) if o != "CONSTRUCTION_EVIDENCE"])
+                                    row["reading_id"] = identity([original_reading["reading_id"], basis])
+                                choices.append((row, {"lemma": features["lemma"], "form": lookup_key(token["surface"]),
+                                    "source_article": False}, "temporal_noun_examples", True))
+                        for row, temporal, rule, requires_event in choices:
+                            value = deepcopy(variant)
+                            value["tokens"] = body[:index] + body[index + 1:]
+                            value["time"] = [temporal]
+                            value["requires_event"] = requires_event
+                            value["assignments"].append(self.assignment(token, row, "time_adverb", head=body[0]))
+                            value["readings"].append(row)
+                            value["supports"].append(self.support(rule))
+                            if row.get("construction_premise", {}).get("rule") == "temporal_ams_built":
+                                value["supports"].append(self.support("temporal_ams_built"))
+                            expanded.append(value)
+                    # A witnessed T use does not erase a separately acquired
+                    # N/object use of the same token. Retain the unconsumed
+                    # token sequence; only an actual complete grammar
+                    # production may turn it into a competing analysis.
                 expanded.append(variant)
-            variants = expanded
+            # Repeating the bounded attachment pass can rediscover the same
+            # source reading. Only identical variants are coalesced.
+            variants = list({wire(v): v for v in expanded}.values())
         return variants
 
     def location(self, tokens, *, force, subject_role, positive, tense, time, place,
@@ -818,6 +875,10 @@ class _Reader:
     def relative(self, tokens, *, force, subject_role, predicate_role, positive, tense,
                  time, place, restriction, head=None, wh=None):
         """Named/deictic head + relative + qualified singular verb + predicate."""
+        if len(tokens) == 5 and wh is None:
+            return self.nominal_relative(tokens, force=force, subject_role=subject_role,
+                predicate_role=predicate_role, positive=positive, tense=tense, time=time,
+                place=place, restriction=restriction, head=head)
         if len(tokens) != 4 or wh is not None:
             return []
         result = []
@@ -862,7 +923,92 @@ class _Reader:
                                 self.support("imperfect_indicative"), self.support("nominal_predication")]))
         return result
 
+    def nominal_relative(self, tokens, *, force, subject_role, predicate_role, positive,
+                         tense, time, place, restriction, head=None):
+        """Definite head + relative + overt resumptive + predicate + predicate.
+
+        The inner nominal predication must itself be syntactically complete.
+        Its overt third-person pronoun returns to this relative's own head;
+        it is never resolved by recency or promoted to a separate assertion.
+        """
+        result = []
+        for subject in self.referents(tokens[0], subject_role, head=head):
+            subject_row = subject["reading"]
+            if (subject_row["lexical_features"].get("pos") not in ("PN", "PRON", "DEM")
+                    and subject_row.get("al_evidence") != 1):
+                continue
+            for relative in self.readings(tokens[1]):
+                if relative["lexical_features"].get("pos") != "REL":
+                    continue
+                relative_profile = _profile(relative)
+                relref = self.reference(tokens[1]["surface"], origin="relative_return",
+                    profile=relative_profile, context=self.context, mentions=self.mentions,
+                    span=tokens[1]["span"], scope=self.scope, return_entity=subject["entity"])
+                for pronoun in self.readings(tokens[2]):
+                    profile = _profile(pronoun)
+                    if (pronoun["lexical_features"].get("pos") != "PRON" or profile.get("person") != 3
+                            or not pronoun.get("segmentation", {}).get("licensed")
+                            or pronoun.get("person_evidence", {}).get("attached_pronouns")):
+                        continue
+                    returned = self.reference(tokens[2]["surface"], origin="relative_return",
+                        profile=profile, context=self.context, mentions=self.mentions,
+                        span=tokens[2]["span"], scope=self.scope, return_entity=subject["entity"])
+                    compatibility = [profile_compatibility(relative_profile, _profile(subject_row)),
+                                     profile_compatibility(profile, relative_profile),
+                                     profile_compatibility(profile, _profile(subject_row))]
+                    obligations = ["PERSON_AGREEMENT_CONFLICT"] if "conflict" in compatibility else []
+                    for inner, outer in product(self.predicates(tokens[3]), self.predicates(tokens[4])):
+                        claim = self.claim(outer["lexical_features"]["lemma"], [subject["entity"]],
+                                           positive, tense, time, place, restriction)
+                        relation = {"kind": "relative_clause", "relative_span": tokens[1]["span"],
+                            "antecedent_span": tokens[0]["span"], "return_span": tokens[2]["span"],
+                            "inner_predicate_span": tokens[3]["span"],
+                            "inner_predicate_reading_id": inner["reading_id"],
+                            "inner_predicate_lemma": inner["lexical_features"]["lemma"],
+                            "return_kind": "explicit_third_person_nominal_subject",
+                            "return_reference": returned["reference_id"], "separate_world_assertion": False}
+                        result.append(self.analysis(tokens, frame="nominal_relative_subject_predication", force=force,
+                            refs=[subject["reference"], relref, returned],
+                            assignments=[subject["assignment"],
+                                self.assignment(tokens[2], pronoun, "nominal_subject"),
+                                self.assignment(tokens[3], inner, "nominal_predicate", head=tokens[2]),
+                                self.assignment(tokens[4], outer, predicate_role, head=head or tokens[0])],
+                            readings=[subject_row, relative, pronoun, inner, outer], claims=[claim],
+                            relations=[relation], obligations=obligations,
+                            supports=[self.support("relative_return"), self.support("nominal_predication")]))
+        return result
+
     def parse(self, tokens, *, question=False, inherited_force=None, depth=0):
+        """Retain whole-word and witnessed attached-interrogative readings.
+
+        Splitting an initial hamza is a candidate in the declared written
+        question convention. It neither removes a lexical hamza nor chooses
+        between a named whole word and a different named remainder.
+        """
+        results = self._parse_unprefixed(tokens, question=question,
+                                         inherited_force=inherited_force, depth=depth)
+        if (question and tokens and tokens[0]["kind"] == "written_run"
+                and inherited_force in (None, "QUESTION")):
+            token = tokens[0]
+            clusters = lookup_clusters(token["surface"])
+            if (len(clusters) > 1 and clusters[0][0] == "أ"
+                    and clusters[0][1] <= set("َ")):
+                prefix = _slice(self.source, token, 0, clusters[0][3], "interrogative_prefix")
+                remainder = _slice(self.source, token, clusters[1][2], len(token["surface"]),
+                                   "interrogative_prefix")
+                alternatives = self._parse_unprefixed([prefix, remainder] + tokens[1:],
+                    question=True, inherited_force=inherited_force, depth=depth + 1)
+                for row in alternatives:
+                    row["relations"].append({"kind": "interrogative_prefix",
+                        "prefix_span": prefix["span"], "remainder_span": remainder["span"],
+                        "parent_span": token["span"], "scope": "complete_question"})
+                    row["analysis_id"] = identity({k: v for k, v in row.items() if k != "analysis_id"})
+                results.extend(alternatives)
+        if len(results) > MAX_ANALYSES:
+            raise resource_limit("Discourse alternatives exceed the per-clause budget", maximum=MAX_ANALYSES)
+        return results
+
+    def _parse_unprefixed(self, tokens, *, question=False, inherited_force=None, depth=0):
         if depth > 8:
             raise resource_limit("Discourse attachment depth exceeds its budget")
         if not tokens or any(t["kind"] != "written_run" for t in tokens):
@@ -906,10 +1052,26 @@ class _Reader:
         if operator_rows is not None:
             results = []
             for row in operator_rows:
+                obligations = list(row["obligations"])
+                # This bounded question profile has no license for hal over
+                # an overt negative matrix. Recognize the fresh, source-bound
+                # matrix analysis, not the substring "hal ma": relative ma,
+                # interrogative ma and continuative ma-zala are different
+                # constructions. Hamza retains its separate question route.
+                # The classical norm and its scope limits are recorded in
+                # evidence/arabic_coverage/oracle_audit_v1/question_input_audit.json.
+                if (first == "هل" and row["force"] == "QUESTION" and
+                        any(r.get("kind") == "matrix_negation" and
+                            r.get("scope") == "epistemic_matrix" and
+                            r.get("head_span") == body[0]["span"] for r in row["relations"]) and
+                        any(s.get("rule") == "matrix_ma_negation" and
+                            s.get("policy_sha256") == self.construction_policy["policy_sha256"]
+                            for s in row["supports"])):
+                    obligations.append("NEGATIVE_POLAR_QUESTION_REQUIRES_LICENSE")
                 rebuilt = self.analysis(original, frame=row["frame"], force=row["force"],
                     refs=row["references"], assignments=row["assignments"],
                     readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
-                    claims=row["claims"], obligations=row["obligations"],
+                    claims=row["claims"], obligations=obligations,
                     supports=row["supports"] + supports, relations=row["relations"])
                 rebuilt["question_kind"] = row.get("question_kind")
                 rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
@@ -948,7 +1110,7 @@ class _Reader:
                            positive=positive, tense=tense, time=qtime, place=qplace,
                            restriction=restriction, head=head, wh=wh)
             parsed = []
-            if not mood and key != "سوف":
+            if not mood and key != "سوف" and not complement["requires_event"]:
                 parsed.extend(self.nominal(reduced, **options))
                 parsed.extend(self.idafa(reduced, **options))
                 parsed.extend(self.attached_nominal(reduced, **options))

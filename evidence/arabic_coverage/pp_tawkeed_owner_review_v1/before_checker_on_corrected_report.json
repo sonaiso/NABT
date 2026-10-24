@@ -1,0 +1,88 @@
+{
+  "schema": "nabt.pp-tawkeed-owner-before-checker-review.v1",
+  "input_artifact": "evidence/arabic_coverage/prepositional_head_review_v1/after.raw.json",
+  "input_sha256": "e6a31abf762ba6d6e778526fac8d9e273a478d3b7740a5df3cbbc8bc9d1ae5c9",
+  "gold_sha256": "d3265d815023984c8e32c9827728bb20c3e3cd7e24990a02e13714aa07b75448",
+  "checker_sha256": "6f4a84ab586a67bffdb9f4fc0ad068baf4e718fcc9191667f804cf9a2307412a",
+  "full_report_validation_before_scoring": true,
+  "runtime_called": false,
+  "score": {
+    "id": "CON-W02",
+    "group": "tawkeed_genitive",
+    "mode": "positive",
+    "passed": false,
+    "checks": [
+      {
+        "check": "report_replay",
+        "passed": true
+      },
+      {
+        "check": "complete_construction",
+        "passed": true
+      },
+      {
+        "check": "role:0",
+        "passed": true
+      },
+      {
+        "check": "role:1",
+        "passed": false
+      },
+      {
+        "check": "roles_same_analysis",
+        "passed": false
+      },
+      {
+        "check": "relation:0",
+        "passed": true
+      },
+      {
+        "check": "relations_same_analysis",
+        "passed": true
+      },
+      {
+        "check": "qualification:0",
+        "passed": false
+      },
+      {
+        "check": "coherent_analysis",
+        "passed": false
+      },
+      {
+        "check": "question:0",
+        "passed": true,
+        "details": {
+          "expected": "SUPPORTED",
+          "status": "SUPPORTED",
+          "query_complete": true,
+          "certificate": true
+        }
+      }
+    ],
+    "failures": [
+      {
+        "check": "role:1",
+        "passed": false
+      },
+      {
+        "check": "roles_same_analysis",
+        "passed": false
+      },
+      {
+        "check": "qualification:0",
+        "passed": false
+      },
+      {
+        "check": "coherent_analysis",
+        "passed": false
+      }
+    ],
+    "false_accepts": [],
+    "observed": {
+      "report_status": "LICENSED_DISCOURSE",
+      "complete_analyses": 2,
+      "viable_analyses": 2,
+      "claims": 1
+    }
+  }
+}

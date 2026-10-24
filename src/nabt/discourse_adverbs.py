@@ -19,7 +19,7 @@ def _index(raw, exclusions, source_id):
         loc = record["locator"]
         if record["valid"] and loc and f"{loc[0]}:{loc[1]}" not in exclusions:
             groups[tuple(loc[:3])].append(record)
-    result = defaultdict(list)
+    lexemes = {}
     for records in groups.values():
         records.sort(key=lambda row: row["locator"][3])
         if [r["locator"][3] for r in records] != list(range(1, len(records) + 1)):
@@ -47,8 +47,18 @@ def _index(raw, exclusions, source_id):
                "supports": [_receipt(r, corpus["source"]) for r in records],
                "construction": None, "class_candidates": [],
                "authority": "SOURCE_LEXICAL_ADVERB_NOT_ATTACHMENT_OR_CASE"}
+        # Repeated occurrences are independent supports for one identical
+        # lexical possibility, not additional syntactic alternatives. Keep
+        # every source receipt while distinguishing form, lemma and article.
+        key = wire({k: v for k, v in row.items() if k != "supports"})
+        existing = lexemes.setdefault(key, {**row, "supports": []})
+        for support in row["supports"]:
+            if support not in existing["supports"]:
+                existing["supports"].append(support)
+    result = defaultdict(list)
+    for row in lexemes.values():
         row["id"] = identity(row)
-        result[lookup_key(form)].append(wire(row))
+        result[lookup_key(row["form"])].append(wire(row))
     return {k: tuple(v) for k, v in result.items()}
 
 

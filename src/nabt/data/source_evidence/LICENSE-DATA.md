@@ -29,6 +29,40 @@ No additional permission or assurance about third-party editorial rights is
 created by a file hash, this notice, or a research checker. The repository's
 software license governs its code; it does not replace this source-data license.
 
+## Separately registered supplementary OpenITI source
+
+`sabban.txt` preserves the full, unchanged bytes of the **cleaned OpenITI
+digital version** of Abu al-ʿIrfan Muhammad ibn ʿAli al-Ṣabbān al-Shāfiʿī's
+*Ḥāshiya ʿalā Sharḥ al-Ashmūnī li-Alfiyyat Ibn Mālik*. The header identifies
+the author as deceased in 1206 AH, the collection as `Shamela0011539`, and the
+edition as Dār al-Kutub al-ʿIlmiyya, Beirut, first edition, 1417 AH / 1997 CE.
+These are the digital file's edition statements, not an independent
+authentication or diplomatic collation of a printed copy.
+
+- Version URI: `1206IbnCaliSabbanShafici.HashiyaCalaSharhAshmuni.Shamela0011539-ara1`
+- Pinned repository: `OpenITI/1225AH@4ec30fc763750fc1233d3774c4416b28c5c8b886`
+- Full source SHA-256: `8b9e86da786cf65e7b32498b2524ee48a8dcf9f61b59e1bbc32b99ce7db5b396`
+- Registry: `construction_supplementary_sources_v1.json`
+- [Pinned source](https://github.com/OpenITI/1225AH/blob/4ec30fc763750fc1233d3774c4416b28c5c8b886/data/1206IbnCaliSabbanShafici/1206IbnCaliSabbanShafici.HashiyaCalaSharhAshmuni/1206IbnCaliSabbanShafici.HashiyaCalaSharhAshmuni.Shamela0011539-ara1)
+
+The pinned version metadata records OpenITI's 2023 cleanup, including removal
+of paratextual elements by HRH and MGR, and labels the version
+`PRIMARY_VERSION, CLEANED_VERSION`. No local changes were made to those
+received text bytes. This statement does not imply that the upstream file
+retains every printed editorial element. OpenITI's corpus-level
+**CC BY-NC-SA 4.0** declaration was checked again on 2026-10-24. The pinned
+repository has no separate LICENSE or COPYING file; no additional license
+grant is inferred from that absence. The attribution and license review is
+retained in `evidence/arabic_coverage/source_audit_v1/` in the repository.
+
+The supplementary registry preserves the original three-source manifest.
+Passage attribution distinguishes al-Ṣabbān's proposed addition of `شرع`
+from the quoted al-Ashmūnī exposition of `طاب زيد نفسا`. These are grammatical
+expositions and constructed examples. They are not presented as universal
+consensus, newly observed early speech, or evidence of the truth of a new
+sentence's external event. Source acquisition and passage selection occurred
+after baseline evaluation; they do not constitute a new blind test.
+
 ## Separately attributed semantic quotations
 
 `morphology_j3.txt` contains only five short, exact quotations from Taqi

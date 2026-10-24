@@ -1,0 +1,20 @@
+{
+  "schema": "nabt.postreview-inventory-adapter-correction.v1",
+  "created_utc": "2026-10-24T13:00:31.207424+00:00",
+  "failed_attempt_preserved": true,
+  "failed_review_sha256": "ce3986d4d4249302834140af49a72a56109dc143e6c8678f19739506dce7f639",
+  "preserved_original_tool": {
+    "path": "evidence/arabic_coverage/holdout_postreview_v2/rejected_attempt_code.py.gz",
+    "uncompressed_sha256": "a149de89c17b1df44998d7cf59479df116692aeec10e05dda3210b9cc1b76b32",
+    "compressed_sha256": "232749173c9f7c8333a0f67f34159d48e624218a925af04396890abee07f0fb4"
+  },
+  "reconstruction_method": "Reverse the exact subsequent patches; write only after SHA256 equality with the failed review original code digest.",
+  "cause": "Holdout inventory includes three established non-runtime metadata files. The approved code freeze contains 76 authoritative src/nabt files plus pyproject.toml. All 76 authoritative source files matched; the first adapter incorrectly required whole-list equality.",
+  "observed_holdout_source_file_count": 79,
+  "approved_authoritative_source_file_count": 76,
+  "approved_frozen_runtime_file_count": 77,
+  "correction": "Require exact authoritative entry equality; permit only the three explicit metadata names already excluded by both evaluators; preserve complete observed before/after inventory identity and report metadata digests. Every unknown extra file remains rejected.",
+  "additional_dependency_capture": "The amended tool snapshots the imported regression gate helper and its pinned policy, and checks their stability, even though H18 validation does not invoke the regression gate.",
+  "no_prediction_or_gold_change": true,
+  "new_attempt_output": "evidence/arabic_coverage/holdout_postreview_v2_final"
+}

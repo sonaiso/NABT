@@ -18,6 +18,16 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLE = ROOT / "src/nabt/data/discourse_evidence.json"
+SOURCE_POLICY_ID = "nabt.discourse-grammar-sources.v2"
+SOURCE_POLICY_SHA256 = "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7"
+SOURCE_RULES = (
+    "nominal_predication", "kana_case", "inna_case", "laysa_negation", "active_subject",
+    "idafa", "clause_conjunction", "polar_interrogative", "wh_subject", "place_time_complements",
+    "relative_return", "demonstrative", "independent_pronouns", "force_nonassertive",
+    "restriction", "cause", "imperfect_prefix", "deictic_adverbs", "relative_ayy_exception",
+    "five_verb_nun", "built_noun_exceptions", "imperfect_indicative",
+    "temporal_noun_examples", "temporal_ams_built",
+)
 FEATURES = (None, 0, 1, 2, 3)
 STATUSES = ("possible", "confirmed", "conflict")
 ORIGINS = ("named", "antecedent", "speaker", "addressee", "deictic", "relative_return")
@@ -168,12 +178,17 @@ def check_table(export):
     for row in expected["causal_rows"]:
         equal(laws.causal_allowed(**flags(row["mask"], CAUSE_BITS)), row["allowed"], "Runtime causal witness gate differs")
     policy = laws.replay_discourse_policy()
-    require(len(policy["rules"]) == 22, "Source policy inventory differs")
+    equal(policy["policy_id"], SOURCE_POLICY_ID, "Source policy identity differs")
+    equal(policy["policy_sha256"], SOURCE_POLICY_SHA256, "Source policy pin differs")
+    require(type(policy["rules"]) is dict, "Source policy rule mapping differs")
+    equal(sorted(policy["rules"]), sorted(SOURCE_RULES), "Source policy inventory differs")
     return {"ok": True, "law_id": export["law_id"], "packaged_sha256": sha256(packaged_raw).hexdigest(),
             "fresh_full_json_matches_packaged": True, "type_sensitive_comparison": True,
             "runtime_table_adapters_checked": True, "runtime_reader_checked": False,
             "counts": {key: len(rows) for key, rows in expected.items()},
-            "source_policy_sha256": policy["policy_sha256"], "source_passages_replayed": len(policy["rules"]),
+            "source_policy_id": policy["policy_id"], "source_policy_sha256": policy["policy_sha256"],
+            "source_rule_ids": sorted(policy["rules"]), "source_policy_inventory_exact": True,
+            "source_passages_replayed": len(policy["rules"]),
             "scope": "Conditional algebra correspondence and exact source windows; not acquisition, external reference, free-text correctness or external truth."}
 
 

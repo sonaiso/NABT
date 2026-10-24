@@ -1,0 +1,52 @@
+{
+  "schema": "nabt.independent-formal-boundary-review.v1",
+  "reviewed_utc": "2026-10-24T12:10:17.938475+00:00",
+  "file": "formal/Nabt/ArabicCoverage.lean",
+  "sha256": "ba551342d2cb843eded26d116222519924b6324a2caf9d6f4fb5782206665238",
+  "review_kind": "Read-only theorem statement, proof term and claim-scope review; not an independent compiler or axiom audit",
+  "theorem_count": 8,
+  "findings": [],
+  "conclusion": "No wrong assumption or overclaim found in the reviewed module when the comments are read with the stated theorem premises. All eight results are general logical boundary results, not a definition or proof of Arabic completeness.",
+  "theorems": [
+    {
+      "name": "exact_iff_sound_and_complete",
+      "scope": "Definitional equivalence for an arbitrary supplied domain and reference relation; no Arabic adequacy premise is acquired."
+    },
+    {
+      "name": "exact_restricts_to_subdomain",
+      "scope": "Transfers an existing exactness proof to a separately witnessed subdomain; no extension result is asserted."
+    },
+    {
+      "name": "exactness_transfers_with_reference_equivalence",
+      "scope": "Requires both an implementation-to-formal-reference exactness premise and an independently supplied equivalence to the intended reference."
+    },
+    {
+      "name": "sample_agreement_leaves_untested_point",
+      "scope": "Constructs two arbitrary Boolean functions differing at an explicitly supplied untested point, assuming decidable equality. It does not rule out identification within a specially restricted hypothesis class."
+    },
+    {
+      "name": "every_finite_prefix_has_underdetermined_extension",
+      "scope": "Instantiates the preceding result on natural-number prefixes. Nat is an abstract infinite domain, not a definition of Arabic or its meanings."
+    },
+    {
+      "name": "no_single_interpreter_of_observation_collision",
+      "scope": "Conditional impossibility of a universally correct single-valued interpreter when two worlds have equal observations and different intended outcomes. It assumes, rather than discovers, that real observation collision."
+    },
+    {
+      "name": "completeness_preserves_licensed_alternatives",
+      "scope": "A complete relation includes both supplied reference-licensed readings; the theorem neither proves their linguistic licenses nor requires the two readings to be distinct."
+    },
+    {
+      "name": "unique_choice_incomplete_for_ambiguous_input",
+      "scope": "With completeness and two distinct reference-licensed readings, recognition cannot have only one recognized reading. This concerns the defined recognition relation, not every downstream selection policy."
+    }
+  ],
+  "reporting_constraints": [
+    "Do not report sample non-identifiability as impossibility of universal proof from additional structure or assumptions. A finite exhaustive domain, a restricted hypothesis class, or inductive invariants can change the proof obligation.",
+    "Do not report the collision theorem as a proof that any particular Arabic input is ambiguous without independent witnesses for equal observations and distinct intended readings.",
+    "No theorem links recognized to NABT Python, validates the reference relation against Arabic, proves termination or establishes world truth.",
+    "All three semantic predicates are vacuously true on an empty domain. Reporting meaningful coverage still requires declaring the intended domain and its membership, rather than relying on the existence of these definitions.",
+    "A relation that preserves all readings and a decision to defer an answer are compatible. The unique-choice theorem should not be read as forbidding every deterministic API status or every evidence-based disambiguation after new context is supplied."
+  ],
+  "validation_observed": "No sorry/admit/axiom/native_decide/unsafe token outside comments found by textual check; root reports compilation under Lean4.34.1, but this reviewer did not execute that build."
+}

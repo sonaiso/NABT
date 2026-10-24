@@ -98,9 +98,11 @@ class DiscourseLawBoundaries(unittest.TestCase):
 
     def test_primary_source_windows_replay_without_new_word_answers(self):
         policy = law.replay_discourse_policy()
-        self.assertEqual(len(policy["rules"]), 22)
+        self.assertEqual(len(policy["rules"]), 24)
         self.assertIn("relative_ayy_exception", policy["rules"])
         self.assertIn("force_nonassertive", policy["rules"])
+        self.assertIn("temporal_noun_examples", policy["rules"])
+        self.assertIn("temporal_ams_built", policy["rules"])
         self.assertTrue(all("span_sha256" in row for row in policy["rules"].values()))
 
 

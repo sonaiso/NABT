@@ -45,7 +45,7 @@ open Morphology (Construction Evidence)
 open TextEvidence (Binding SupportSpan)
 open DiscourseEvidence (Compatibility combineCompatibility)
 
-def lawId : String := "nabt.construction-evidence.v2"
+def lawId : String := "nabt.construction-evidence.v3"
 
 inductive Family where
   | kana | inna | zanna | kada

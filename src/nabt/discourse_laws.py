@@ -17,7 +17,7 @@ from .errors import NabtError, natural
 
 LAW_ID = "nabt.discourse-evidence.v1"
 EXPECTED_TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-EXPECTED_POLICY_SHA256 = "cd1f4fcf970b62a7ac8882bdfffed72229c5b09cac9abb561d4a99452776aa31"
+EXPECTED_POLICY_SHA256 = "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7"
 COMPATIBILITIES = ("possible", "confirmed", "conflict")
 REFERENCE_ORIGINS = ("named", "antecedent", "speaker", "addressee", "deictic", "relative_return")
 FORCES = ("ASSERT", "QUESTION", "COMMAND", "PROHIBITION", "WISH", "HOPE", "VOCATIVE", "AMBIGUOUS", "QUOTED")
@@ -208,7 +208,7 @@ def replay_discourse_policy():
         if sha256(raw).hexdigest() != EXPECTED_POLICY_SHA256:
             raise ValueError("Discourse policy digest differs")
         policy = json.loads(raw, object_pairs_hook=_unique_object)
-        if policy["policy_id"] != "nabt.discourse-grammar-sources.v1" or policy["schema_version"] != 1:
+        if policy["policy_id"] != "nabt.discourse-grammar-sources.v2" or policy["schema_version"] != 1:
             raise ValueError("Discourse grammar identity differs")
         sources, rules = {}, {}
         for passage in policy["passages"]:

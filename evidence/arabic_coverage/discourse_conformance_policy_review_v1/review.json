@@ -1,0 +1,79 @@
+{
+  "schema": "nabt.discourse-conformance-policy-repair.v1",
+  "created_utc": "2026-10-24T13:10:35.516812+00:00",
+  "cause": "The conformance tool completed its finite-law checks but still expected the historical source-policy rule count22, while the frozen v2 runtime replays24 source rules.",
+  "old_tool": {
+    "path": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/check_discourse_conformance.before.py.gz",
+    "compressed_sha256": "fce29cba04b14954c954c053e2000835f2933c3f8ad00237f36a0938a289ca06",
+    "decompressed_sha256": "18cf1cc1963bbeebe383c03b730b6630a2068b7af97556b673074fbfbad731c6",
+    "decompressed_bytes": 11030
+  },
+  "new_tool": {
+    "path": "tools/check_discourse_conformance.py",
+    "sha256": "59b4602731cb956b4cf773a0c13a468d3e8dbd429dc82c5a0287703845d1d8cf",
+    "bytes": 12097
+  },
+  "old_policy": {
+    "path": "evidence/arabic_coverage/source_policy_before_v1/discourse_policy.json",
+    "policy_id": "nabt.discourse-grammar-sources.v1",
+    "sha256": "cd1f4fcf970b62a7ac8882bdfffed72229c5b09cac9abb561d4a99452776aa31",
+    "rules": 22
+  },
+  "new_policy": {
+    "path": "src/nabt/data/source_evidence/discourse_policy.json",
+    "policy_id": "nabt.discourse-grammar-sources.v2",
+    "sha256": "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7",
+    "rules": 24
+  },
+  "added_rule_sources": [
+    {
+      "rule": "temporal_noun_examples",
+      "source_id": "sibawayhi",
+      "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+      "line_start": 346,
+      "line_end": 351,
+      "start": 38404,
+      "end": 39184,
+      "span_sha256": "034d751ea0c77276fb404b7b5da551607898291b85a2bfc17c835cb76d315318"
+    },
+    {
+      "rule": "temporal_ams_built",
+      "source_id": "qatr",
+      "source_sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+      "line_start": 45,
+      "line_end": 56,
+      "start": 1648,
+      "end": 2502,
+      "span_sha256": "2068a5bc74138202030428f4335a6356bb50229e694c00cec33ef55905974823"
+    }
+  ],
+  "correction": "Check exact source policy ID, pinned digest, mapping type and all24 rule names; preserve every finite Lean/Python relation and adapter check. A24-item inventory with a substituted rule is rejected.",
+  "finite_oracle_and_runtime_adapter_checks_byte_unchanged": true,
+  "lean_invocation_logic_byte_unchanged": true,
+  "runtime_modified": false,
+  "gold_or_historical_receipt_modified": false,
+  "targeted_execution": {
+    "command": "PYTHONPATH=src python tools/check_discourse_conformance.py --lake /tmp/nabt-classical-tools/lean-4.34.1-linux/bin/lake --output artifacts/local/discourse_conformance_policy_v2.json",
+    "exit_code": 0,
+    "toolchain_pin": "leanprover/lean4:v4.34.1",
+    "fresh_Lean_packaged_Python_rows": 3101,
+    "source_windows_replayed": 24,
+    "receipt_path": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/targeted_conformance_v2.json",
+    "receipt_sha256": "40d8d85f46aa9c2ec785b5c1b1c1b930ba6d2f8f987d2a719b12e5c9a2459590",
+    "reader_checked": false
+  },
+  "focused_tests": {
+    "path": "tests/test_discourse_conformance_policy.py",
+    "sha256": "036097a38c94def129f7c9b13477b41182a841ffb2cb7e5e72ddaa20d819fac7",
+    "command": "PYTHONPATH=src python -m unittest discover -s tests -p test_discourse_conformance_policy.py -v",
+    "methods": 4,
+    "result": "PASS",
+    "boundaries": [
+      "old22-rule inventory rejected",
+      "same24-count rule substitution rejected",
+      "old policy identity or wrong digest rejected",
+      "finite law mismatch still rejected"
+    ]
+  },
+  "scope": "Tool/source-policy-version alignment and finite conditional algebra conformance only. Not proof of reader completeness, source interpretation, Arabic completeness or world truth. Fullgate v1 failure remains preserved by the parent run; this receipt is only the targeted repair verification."
+}

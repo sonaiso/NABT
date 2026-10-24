@@ -1,0 +1,393 @@
+{
+  "archive": {
+    "bytes": 7577532,
+    "entry_timestamp": "1980-01-01T00:00:00 (deterministic archive metadata, not execution time)",
+    "file_count": 27,
+    "layout": "Paths are relative to the original attempt directory; regular files only.",
+    "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip",
+    "sha256": "770d6688135e53ad6e39e82613adcfeea0358166e143e11a20325fbce4196968",
+    "uncompressed_bytes": 9577037
+  },
+  "attempt_passed_release_gate": false,
+  "created_utc": "2026-10-24T13:20:15.457442+00:00",
+  "credential_pattern_scan": {
+    "archive_decode_anomalies": [
+      {
+        "compressed_bytes": 91,
+        "compressed_bytes_consumed": 91,
+        "gzip_end_of_stream_reached": false,
+        "intentional_corruption_fixture": true,
+        "partial_decoder_error_type": null,
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-cli-regression.code.tar.gz::evidence/inflection/review_fixes/fixtures/truncated.gz",
+        "recoverable_prefix_bytes_scanned": 131,
+        "recoverable_prefix_sha256": "57f2fe2583cc6a2d4ad88b626923659c53f17d1b4d3f9c6803274a7fa73f7212",
+        "sha256": "9d30eadd6f5d46af888793ca4965de4358f8bfa0e742027a0377708e1d5149b4",
+        "whole_stream_decoding_succeeded": false
+      },
+      {
+        "compressed_bytes": 19,
+        "intentional_corruption_fixture": true,
+        "partial_decoder_error_type": "zlib.error",
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-cli-regression.code.tar.gz::evidence/inflection/review_fixes/fixtures/invalid_deflate.gz",
+        "sha256": "b94b5dd6de13e7c069ba009c902243d0381a35d7208846acf3d5d3ef4edf9f0f",
+        "whole_stream_decoding_succeeded": false
+      },
+      {
+        "compressed_bytes": 27,
+        "intentional_corruption_fixture": true,
+        "partial_decoder_error_type": "zlib.error",
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-cli-regression.code.tar.gz::evidence/inflection/review_fixes/fixtures/bad_magic.gz",
+        "sha256": "2d539ba9839060def3d3c39759373a1c0ed8d9231a2e50aa4285615c5b78fdc9",
+        "whole_stream_decoding_succeeded": false
+      },
+      {
+        "compressed_bytes": 62917,
+        "compressed_bytes_consumed": 62917,
+        "gzip_end_of_stream_reached": false,
+        "intentional_corruption_fixture": false,
+        "partial_decoder_error_type": null,
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-regression.raw.jsonl.gz",
+        "recoverable_prefix_bytes_scanned": 847962,
+        "recoverable_prefix_sha256": "db5ed16e20313f2c90a096134f19a1191757de4204461fe4638e756f0c2fb018",
+        "sha256": "02260d158f939396f5bd9980f1ac12c7ae5e7d4a7a4cee644d4e1a941d0a3891",
+        "whole_stream_decoding_succeeded": false
+      }
+    ],
+    "archive_entries_scanned": 282,
+    "bytes_scanned": 48598385,
+    "cache_paths_in_archive": [],
+    "files_scanned": 1,
+    "findings": [],
+    "limitation": "Bounded recognizable-pattern scan, not a proof that every possible secret encoding is absent.",
+    "maximum_archive_depth": 3,
+    "maximum_member_bytes": 134217728,
+    "maximum_total_scan_bytes": 2147483648,
+    "no_matching_values_or_excerpts_recorded": true,
+    "pattern_types": [
+      "authenticated_url",
+      "aws_access_key",
+      "github_token",
+      "gitlab_token",
+      "google_api_key",
+      "jwt_shape",
+      "literal_bearer_token",
+      "literal_credential_assignment",
+      "openai_key",
+      "private_key_block",
+      "slack_token",
+      "stripe_live_key"
+    ],
+    "recoverable_prefixes_also_scanned": true,
+    "scope": "Only this newly created archive and its decoded nested contents; the prior candidate-file audit was not repeated.",
+    "skipped": [
+      {
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-cli-regression.code.tar.gz::evidence/inflection/review_fixes/fixtures/truncated.gz",
+        "reason": "archive_decode_failed"
+      },
+      {
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-cli-regression.code.tar.gz::evidence/inflection/review_fixes/fixtures/invalid_deflate.gz",
+        "reason": "archive_decode_failed"
+      },
+      {
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-cli-regression.code.tar.gz::evidence/inflection/review_fixes/fixtures/bad_magic.gz",
+        "reason": "archive_decode_failed"
+      },
+      {
+        "path": "evidence/arabic_coverage/full_validation_attempt_v1.zip::inflection-regression.raw.jsonl.gz",
+        "reason": "archive_decode_failed"
+      }
+    ]
+  },
+  "execution_observation": {
+    "command": [
+      "make",
+      "formal",
+      "check",
+      "LAKE=/tmp/nabt-classical-tools/lean-4.34.1-linux/bin/lake",
+      "PYTHON=/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "EVIDENCE_DIR=/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic-coverage-full-validation-v1",
+      "ARABIC_EVALUATION_DIR=/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic-coverage-full-validation-v1/arabic-regression",
+      "GOVERNOR_EVALUATION_DIR=/workspace/scratch/6cb2eef8b8ad/nabt-coverage/artifacts/local/arabic-coverage-full-validation-v1/governor-regression"
+    ],
+    "exit_code": 2,
+    "finished_utc": "2026-10-24T13:05:46.704271+00:00",
+    "first_stopping_target": "discourse-conformance",
+    "later_release_gates_completed_by_this_attempt": false,
+    "recorded_all_required_gates_passed": false,
+    "reported_failure": "Source policy inventory differs",
+    "seconds": 296.077,
+    "started_utc": "2026-10-24T13:00:50.627287+00:00",
+    "unit_tests": {
+      "methods_run": 1364,
+      "result": "OK",
+      "seconds": 167.559
+    }
+  },
+  "failure_scope": {
+    "classification": "STALE_CONFORMANCE_CHECKER_POLICY_INVENTORY_EXPECTATION",
+    "expected_rule_count_in_preserved_checker": 22,
+    "old_checker_archive": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/check_discourse_conformance.before.py.gz",
+    "old_checker_archive_sha256": "fce29cba04b14954c954c053e2000835f2933c3f8ad00237f36a0938a289ca06",
+    "old_checker_matches_attempt_input_hash": true,
+    "old_checker_sha256": "18cf1cc1963bbeebe383c03b730b6630a2068b7af97556b673074fbfbad731c6",
+    "policy_path": "src/nabt/data/source_evidence/discourse_policy.json",
+    "policy_sha256": "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7",
+    "rule_count_in_policy_bound_to_attempt_input_ledger": 24,
+    "scope": "The observed stopping failure is the obsolete 22-rule inventory assertion. Unit success and prior completed stage receipts do not establish successful completion of make check. This receipt neither reruns the gates nor attests that unexecuted later gates would pass.",
+    "separate_correction_review": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/review.json",
+    "separate_correction_review_sha256": "aca540dfae67467b84a394191ffdda10560cc68afa444a5129d2035b7504611b"
+  },
+  "files": [
+    {
+      "archive_path": "arabic-conformance.json",
+      "bytes": 180,
+      "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/arabic-conformance.json",
+      "zip_compressed_bytes": 134,
+      "zip_crc32": "958b9abd"
+    },
+    {
+      "archive_path": "conformance.json",
+      "bytes": 2309,
+      "sha256": "f61606f9d019a67d478299ac417ea0ee791670b813927406d72ee15d935c76f5",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/conformance.json",
+      "zip_compressed_bytes": 1018,
+      "zip_crc32": "69446a83"
+    },
+    {
+      "archive_path": "derivation-conformance.json",
+      "bytes": 573,
+      "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/derivation-conformance.json",
+      "zip_compressed_bytes": 365,
+      "zip_crc32": "08d6c944"
+    },
+    {
+      "archive_path": "derivation-regression.json",
+      "bytes": 151300,
+      "sha256": "64278ed5d3c54cf7aa136dfbda6ad16646a13e6e8af348ccf0496913fb48350e",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/derivation-regression.json",
+      "zip_compressed_bytes": 15815,
+      "zip_crc32": "ec4e477a"
+    },
+    {
+      "archive_path": "execution.json",
+      "bytes": 1512,
+      "sha256": "330da4a09b46a61cdf944e1d1b9403b0cbd9549d80e11bffe3251f58ad3c693a",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/execution.json",
+      "zip_compressed_bytes": 770,
+      "zip_crc32": "15e32feb"
+    },
+    {
+      "archive_path": "governor-conformance.json",
+      "bytes": 405,
+      "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/governor-conformance.json",
+      "zip_compressed_bytes": 269,
+      "zip_crc32": "a06e8ee0"
+    },
+    {
+      "archive_path": "inflection-cli-regression.code.tar.gz",
+      "bytes": 2415740,
+      "sha256": "06e0ff6cc7c4fad0fffb8df9cebe596b4a2687439b8acafd4c2ee97cf30294c0",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-cli-regression.code.tar.gz",
+      "zip_compressed_bytes": 2411888,
+      "zip_crc32": "9b6a9a75"
+    },
+    {
+      "archive_path": "inflection-cli-regression.json",
+      "bytes": 217402,
+      "sha256": "7791bec9e620c9930c1d8f0f6328f8b660866039632141f41dd4c0b3ebd97ab9",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-cli-regression.json",
+      "zip_compressed_bytes": 19279,
+      "zip_crc32": "af599cb5"
+    },
+    {
+      "archive_path": "inflection-cli-regression.raw.jsonl.gz",
+      "bytes": 60612,
+      "sha256": "3425cdb8e9ddf191ba06265bfb0a783b9878e87ea2a68c0e701840947f5f964f",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-cli-regression.raw.jsonl.gz",
+      "zip_compressed_bytes": 59133,
+      "zip_crc32": "ea04c616"
+    },
+    {
+      "archive_path": "inflection-conformance.json",
+      "bytes": 896,
+      "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-conformance.json",
+      "zip_compressed_bytes": 452,
+      "zip_crc32": "ae354a74"
+    },
+    {
+      "archive_path": "inflection-post-review-regression.code.tar.gz",
+      "bytes": 2405369,
+      "sha256": "aca533e1f82fa60ae150fcf87438bb106e882c008f8d45db8508758e11af4e9d",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-post-review-regression.code.tar.gz",
+      "zip_compressed_bytes": 2401744,
+      "zip_crc32": "6fa94aa0"
+    },
+    {
+      "archive_path": "inflection-post-review-regression.json",
+      "bytes": 112936,
+      "sha256": "f310551bccd627e118a8865258370ae76b9969ff7784c4858ddb11196c6e0330",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-post-review-regression.json",
+      "zip_compressed_bytes": 8655,
+      "zip_crc32": "56fce2ba"
+    },
+    {
+      "archive_path": "inflection-post-review-regression.raw.jsonl.gz",
+      "bytes": 22326,
+      "sha256": "fae67cfa737d873a2b8de626109e979536d4e48854014cb71e57bcdb9f4b3cef",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-post-review-regression.raw.jsonl.gz",
+      "zip_compressed_bytes": 22174,
+      "zip_crc32": "65040596"
+    },
+    {
+      "archive_path": "inflection-regression.code.tar.gz",
+      "bytes": 2405357,
+      "sha256": "f7c963accd76d0cc8edaf3aa63ac4f7e72848e2504ced5808c05fa02127dfef0",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-regression.code.tar.gz",
+      "zip_compressed_bytes": 2401732,
+      "zip_crc32": "2c33f5c4"
+    },
+    {
+      "archive_path": "inflection-regression.json",
+      "bytes": 356685,
+      "sha256": "c1787c950d504ae14642b41384395d1f1cb129a19648f1948c503372133981c5",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-regression.json",
+      "zip_compressed_bytes": 18064,
+      "zip_crc32": "10ce672f"
+    },
+    {
+      "archive_path": "inflection-regression.raw.jsonl.gz",
+      "bytes": 62917,
+      "sha256": "02260d158f939396f5bd9980f1ac12c7ae5e7d4a7a4cee644d4e1a941d0a3891",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inflection-regression.raw.jsonl.gz",
+      "zip_compressed_bytes": 61994,
+      "zip_crc32": "32d232fc"
+    },
+    {
+      "archive_path": "inputs_after.json",
+      "bytes": 54937,
+      "sha256": "65846516d336c1e8eabeb25c5803bf6eca041f7efac2068853e224a38fb04b7e",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inputs_after.json",
+      "zip_compressed_bytes": 17316,
+      "zip_crc32": "63136380"
+    },
+    {
+      "archive_path": "inputs_before.json",
+      "bytes": 54937,
+      "sha256": "65846516d336c1e8eabeb25c5803bf6eca041f7efac2068853e224a38fb04b7e",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/inputs_before.json",
+      "zip_compressed_bytes": 17316,
+      "zip_crc32": "63136380"
+    },
+    {
+      "archive_path": "make_check.log",
+      "bytes": 257694,
+      "sha256": "5074ec85fb9d572fb4d0569da0e42a2be08adac7025fb79626cb990f40ca2c9d",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/make_check.log",
+      "zip_compressed_bytes": 41539,
+      "zip_crc32": "01fb64f0"
+    },
+    {
+      "archive_path": "morphology-conformance.json",
+      "bytes": 458,
+      "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/morphology-conformance.json",
+      "zip_compressed_bytes": 266,
+      "zip_crc32": "e6fcab8b"
+    },
+    {
+      "archive_path": "morphology-regression.json",
+      "bytes": 219922,
+      "sha256": "806f20cb61e31bbe195c9ff828ee3d35f66ac57325987f6f29e16a838bca594e",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/morphology-regression.json",
+      "zip_compressed_bytes": 18206,
+      "zip_crc32": "45ce2d6d"
+    },
+    {
+      "archive_path": "nominal-conformance.json",
+      "bytes": 901,
+      "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/nominal-conformance.json",
+      "zip_compressed_bytes": 480,
+      "zip_crc32": "76953992"
+    },
+    {
+      "archive_path": "nominal-regression.json",
+      "bytes": 548564,
+      "sha256": "a9c6f3c40b5a2e7f9d7403c52eed8ce92c2fcc04110700b46604a0b8d79ad139",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/nominal-regression.json",
+      "zip_compressed_bytes": 38378,
+      "zip_crc32": "2ec7c468"
+    },
+    {
+      "archive_path": "property-conformance.json",
+      "bytes": 499,
+      "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/property-conformance.json",
+      "zip_compressed_bytes": 314,
+      "zip_crc32": "795f58ca"
+    },
+    {
+      "archive_path": "text-evidence-conformance.json",
+      "bytes": 486,
+      "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/text-evidence-conformance.json",
+      "zip_compressed_bytes": 309,
+      "zip_crc32": "f0033784"
+    },
+    {
+      "archive_path": "text-morphology-regression.json",
+      "bytes": 221748,
+      "sha256": "63bc7add513237d1c07bad99e899c27bfd730ae561fbadd2440ad6c0a5622f3c",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/text-morphology-regression.json",
+      "zip_compressed_bytes": 16119,
+      "zip_crc32": "3975c6cb"
+    },
+    {
+      "archive_path": "word-conformance.json",
+      "bytes": 372,
+      "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77",
+      "source_path": "artifacts/local/arabic-coverage-full-validation-v1/word-conformance.json",
+      "zip_compressed_bytes": 247,
+      "zip_crc32": "6bf1129c"
+    }
+  ],
+  "input_capture": {
+    "after_file_sha256": "65846516d336c1e8eabeb25c5803bf6eca041f7efac2068853e224a38fb04b7e",
+    "before_and_after_file_lists_equal": true,
+    "before_and_after_json_equal": true,
+    "before_and_after_recorded_aggregate_sha256": "3404772091ba0badca0ba3d6927ed4778f662923639322658d6b1c78b9414e91",
+    "before_file_sha256": "65846516d336c1e8eabeb25c5803bf6eca041f7efac2068853e224a38fb04b7e",
+    "execution_agrees_with_captured_ledgers": true,
+    "file_count": 325,
+    "scope": "Historical before/after captures from this attempt; current files were not substituted for them."
+  },
+  "preservation_script_sha256": "674863b751c1e4137d9bf3342e7516963ea81139908ee52d862d5c04910ebdb2",
+  "raw_artifact_integrity_disclosure": {
+    "all_original_nested_gzip_payloads_complete": false,
+    "diagnostic_path": "evidence/arabic_coverage/inflection_raw_integrity_review_v1.json",
+    "diagnostic_sha256": "055a873bd637b537b1a4673fcceedd750ac2e83e56a64fc8e7d33972fb5abf30",
+    "preserved_byte_exact_without_repair": true,
+    "scope": "ZIP integrity and faithful copying do not imply that every original artifact was valid. The historical inflection raw stream is incomplete; the three malformed CLI fixtures are intentional.",
+    "unintentional_incomplete_payload": "inflection-regression.raw.jsonl.gz"
+  },
+  "scanner_definition_source_sha256": "be08363e909639d122e24d0e476cbec9c13d1c5ca5b0b44a34f4e8d0c0e65bb0",
+  "schema": "nabt.arabic-coverage.full-validation-attempt-preservation.v1",
+  "scope": "Immutable preservation and bounded inspection of one failed local full-gate attempt. No runtime, tools, tests, README, original gold, source data, or remote repository state were modified. No successful release gate, external linguistic completeness, or external-world truth is claimed.",
+  "source_directory": "artifacts/local/arabic-coverage-full-validation-v1",
+  "status": "FAILED_ATTEMPT_PRESERVED",
+  "verification": {
+    "crc_checks_passed": true,
+    "duplicate_entries": 0,
+    "every_entry_byte_equal_to_original": true,
+    "extra_entries": 0,
+    "missing_entries": 0,
+    "ordered_inventory_exact": true,
+    "reopened_archive": true,
+    "source_files_unchanged_during_preservation": true,
+    "written_archive_reopened_and_rechecked": true
+  }
+}

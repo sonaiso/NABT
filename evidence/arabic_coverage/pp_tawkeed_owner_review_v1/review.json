@@ -1,0 +1,151 @@
+{
+  "schema": "nabt.pp-tawkeed-owner-checker-review.v2",
+  "created_utc": "2026-10-24T12:50:41.394525+00:00",
+  "checker_version": "nabt.constructions.independent-evaluation.v2",
+  "runtime_calls_in_this_review": false,
+  "gold": {
+    "path": "evidence/constructions/independent_cases_v1.json",
+    "bytes": 227943,
+    "sha256": "d3265d815023984c8e32c9827728bb20c3e3cd7e24990a02e13714aa07b75448"
+  },
+  "gold_unchanged_sha256": "d3265d815023984c8e32c9827728bb20c3e3cd7e24990a02e13714aa07b75448",
+  "before_runtime_raw": {
+    "path": "evidence/arabic_coverage/prepositional_head_review_v1/before.raw.json",
+    "bytes": 250000,
+    "sha256": "510e9eceb2e9a0fa2caf24c40d07ac27de7df4116a82d862f9fa4b722a315e85"
+  },
+  "corrected_runtime_raw": {
+    "path": "evidence/arabic_coverage/prepositional_head_review_v1/after.raw.json",
+    "bytes": 249723,
+    "sha256": "e6a31abf762ba6d6e778526fac8d9e273a478d3b7740a5df3cbbc8bc9d1ae5c9"
+  },
+  "corrected_raw_full_report_and_answer_validation_before_scoring": true,
+  "original_bad_head_report_still_rejected": true,
+  "original_bad_head_error": "Dependent role lacks a unique same-analysis inherited case",
+  "old_checker_on_corrected_raw": {
+    "path": "evidence/arabic_coverage/pp_tawkeed_owner_review_v1/before_checker_on_corrected_report.json",
+    "bytes": 2048,
+    "sha256": "2b741b20aa101931f4626e76231d82b1632ec1cbe26c9cbd57e2148e0778d059"
+  },
+  "new_checker_score": {
+    "id": "CON-W02",
+    "group": "tawkeed_genitive",
+    "mode": "positive",
+    "passed": true,
+    "checks": [
+      {
+        "check": "report_replay",
+        "passed": true
+      },
+      {
+        "check": "complete_construction",
+        "passed": true
+      },
+      {
+        "check": "role:0",
+        "passed": true
+      },
+      {
+        "check": "role:1",
+        "passed": true
+      },
+      {
+        "check": "roles_same_analysis",
+        "passed": true
+      },
+      {
+        "check": "relation:0",
+        "passed": true
+      },
+      {
+        "check": "relations_same_analysis",
+        "passed": true
+      },
+      {
+        "check": "qualification:0",
+        "passed": true
+      },
+      {
+        "check": "coherent_analysis",
+        "passed": true
+      },
+      {
+        "check": "question:0",
+        "passed": true,
+        "details": {
+          "expected": "SUPPORTED",
+          "status": "SUPPORTED",
+          "query_complete": true,
+          "certificate": true
+        }
+      }
+    ],
+    "failures": [],
+    "false_accepts": [],
+    "observed": {
+      "report_status": "LICENSED_DISCOURSE",
+      "complete_analyses": 2,
+      "viable_analyses": 2,
+      "claims": 1
+    }
+  },
+  "files": [
+    {
+      "path": "tools/construction_evaluation.py",
+      "bytes": 104077,
+      "sha256": "a9999e135980a104ac33c397634f2b8065d03abf01c0cba7405397b8b18baf30"
+    },
+    {
+      "path": "tools/discourse_evaluation.py",
+      "bytes": 98588,
+      "sha256": "d0aa373b78137548d70a56e5aa78eff4ec11c54afd417695282fbadeda7ca92c"
+    },
+    {
+      "path": "tests/test_construction_evaluator.py",
+      "bytes": 44186,
+      "sha256": "57ab6f3295e4572154e5cccfbf3a48f55257643f471fbcfd514656e7a4d75f9f"
+    }
+  ],
+  "test_command": "python -m unittest discover -s tests -p 'test_construction_evaluator.py'",
+  "tests_passed": 46,
+  "new_adversarial_test_methods": 8,
+  "corrections": [
+    {
+      "kind": "owner qualification adapter",
+      "previous_assumption": "Every tawkeed owner must appear in the event main argument list.",
+      "why_too_narrow": "The same accepted event can explicitly preserve a PP object in a prepositional qualifier while preserving its semantic emphasis in another qualifier. This does not promote that object to actor or direct object.",
+      "new_required_chain": [
+        "Exact accepted claim is present in the same licensed ASSERT analysis and has its proof.",
+        "Direct prepositional and tawkeed qualifiers belong to that same claim.",
+        "The preposition_object relation, activated genitive assignment, object reference and tawkeed head use the same nominal reading and span.",
+        "The owner and emphatic return reference are resolved in the supplied source scope and context.",
+        "The PP attachment reaches the actual predicate verb and matches the source preposition and unchanged semantic_relation."
+      ],
+      "unchanged_claim_args": [
+        "basim"
+      ],
+      "bound_qualified_owner": "samir"
+    },
+    {
+      "kind": "governor anchor adapter",
+      "previous_assumption": "The governor must equal the full occurrence span, even when gold explicitly allows its licensed stem.",
+      "new_required_chain": [
+        "The head has its own active assignment and reading within this analysis.",
+        "Its segmentation is licensed and actual head span equals its exact stem span.",
+        "The declared gold span_basis is occurrence_or_licensed_stem and the stem is inside that occurrence."
+      ],
+      "no_unwitnessed_containment": true
+    }
+  ],
+  "unchanged_guards": [
+    "assignment_case exact same-analysis inherited-case link",
+    "validate_report source/span/reference checks",
+    "partial-coverage gate policy",
+    "original gold files and all denominators"
+  ],
+  "limitations": [
+    "Structural report validation here has no optional external SourceAudit instance; the full original-suite evaluation performs that source-byte audit separately.",
+    "This tool revision fixes a checker correspondence, not a new runtime interpretation or new blinded experiment.",
+    "The explicit PP-owner path extends only tawkeed; it does not authorize all arbitrary qualifier owners."
+  ]
+}

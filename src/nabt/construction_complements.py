@@ -3,10 +3,10 @@
 from copy import deepcopy
 from itertools import product
 
-from .corpus_evidence import lookup_key
+from .corpus_evidence import lookup_key, template_matches
 from .discourse_context import identity
 from .discourse_adverbs import adverb_candidates
-from .discourse_reader import _profile, _synthetic_reading
+from .discourse_reader import _profile, _synthetic_reading, _slice
 from .construction_reader import (_support, _relation, _extend, _build, _with_question,
     _limit, _reading_obligations, _definite, _np_atom, noun_phrases, _clause_token)
 
@@ -92,7 +92,10 @@ def adverbial_frames(reader, tokens, *, force, depth):
     claim of ownership, a world coordinate, or a guessed attachment to the
     nearest noun. Multiple qualified parses remain separate alternatives.
     """
-    results = []
+    results = _final_time_frames(reader, tokens, force=force, depth=depth)
+    results += _literal_preposition_frames(reader, tokens, force=force, depth=depth)
+    results += _attached_preposition_frames(reader, tokens, force=force, depth=depth)
+    _limit(results)
     for index in range(1, len(tokens) - 1):
         head = tokens[index]
         key = lookup_key(head["surface"])
@@ -161,6 +164,176 @@ def adverbial_frames(reader, tokens, *, force, depth):
                         supports=[_support(reader, "temporal_spatial_attachment"), _support(reader, "idafa_chain"), reader.support("nominal_predication")])
                     results.append(_with_question(row))
                     _limit(results)
+    return results
+
+
+def _complete_single_claim(base):
+    return (base["licensed_syntax"] and base["references_complete"] and
+            not base["rejected_candidate"] and len(base["claims"]) == 1)
+
+
+def _final_time_frames(reader, tokens, *, force, depth):
+    """Add an exactly witnessed final T token to an already composed clause.
+
+    The lexical source supplies the adverb, not its declension or a world
+    date. As in the simple complement reader, an unknown case construction
+    remains unknown. Existing event/NP restrictions survive unchanged.
+    """
+    if len(tokens) < 4:
+        return []
+    sources = [a for a in adverb_candidates(tokens[-1]["surface"], lexical_model=reader.model)
+               if a["pos"] == "T"]
+    if not sources:
+        return []
+    bases = reader.parse(tokens[:-1], inherited_force=force, depth=depth + 1)
+    results = []
+    for source, base in product(sources, bases):
+        if not _complete_single_claim(base) or base["claims"][0]["time"]:
+            continue
+        predicate = _predicate_token(reader, tokens[:-1], base)
+        if predicate is None:
+            continue
+        token = tokens[-1]
+        reading = _synthetic_reading(token, pos="T", construction=None, rule="place_time_complements")
+        reading["reading_id"] = identity([token["token_id"], source["id"]])
+        reading["support_records"] = source["supports"]
+        reading["lexical_features"]["lemma"] = source["lemma"]
+        claims = deepcopy(base["claims"])
+        claims[0]["time"].append({"lemma": source["lemma"], "form": lookup_key(source["form"]),
+                                  "source_article": source["source_article"]})
+        results.append(_extend(reader, tokens, base, readings=[reading],
+            assignments=[reader.assignment(token, reading, "time_adverb", head=predicate)],
+            relations=[_relation("time_adverb", predicate, token,
+                dependent_reading_id=reading["reading_id"], world_anchor_established=False)],
+            claims=claims, supports=[reader.support("place_time_complements")],
+            frame="composed_predication_with_time"))
+        _limit(results)
+    return results
+
+
+def _literal_preposition_frames(reader, tokens, *, force, depth):
+    """Compose literal fi+place with a qualified, source-licensed NP.
+
+    The place premise comes from the independent reference context. The
+    modifier is retained on the same claim; no bare unmodified location is
+    projected from a restricted place NP. Unknown/metaphorical fi remains
+    outside this literal profile.
+    """
+    results = []
+    for index in range(1, len(tokens) - 1):
+        head = tokens[index]
+        if not template_matches(head["surface"], "فِي", mutable_last=False):
+            continue
+        if len(tokens[index + 1:]) < 2:
+            # The existing atomic complement production already consumes
+            # this PP under its own naming/reference contract. Re-proposing
+            # it as a *composed* NP would add an unrelated construction debt
+            # to the identical reading, not preserve a distinct alternative.
+            continue
+        complements = noun_phrases(reader, tokens[index + 1:], "preposition_object", head=head)
+        if not complements:
+            continue
+        bases = reader.parse(tokens[:index], inherited_force=force, depth=depth + 1)
+        for base, complement in product(bases, complements):
+            if not _complete_single_claim(base) or base["claims"][0]["place"]:
+                continue
+            predicate = _predicate_token(reader, tokens[:index], base)
+            if predicate is None:
+                continue
+            obligations = list(complement["obligations"])
+            entity = complement["entity"]
+            if entity is not None and reader.entities.get(entity, {}).get("kind") != "place":
+                obligations.append("LITERAL_PLACE_CONTEXT_WITNESS")
+            claims = deepcopy(base["claims"])
+            claims[0]["place"].append(entity)
+            claims[0]["restriction"].extend(deepcopy(complement["restriction"]))
+            relations = [_relation("preposition_object", head, complement["root"],
+                dependent_reading_id=complement["reading"]["reading_id"],
+                object_reference=complement["reference"]["reference_id"]),
+                _relation("prepositional_attachment", predicate, head, preposition="في",
+                    object_span=complement["root"]["span"], interpretation="literal_place")]
+            results.append(_extend(reader, tokens, base, readings=complement["readings"],
+                assignments=complement["assignments"], refs=complement["refs"],
+                relations=relations + complement["relations"], claims=claims,
+                obligations=obligations,
+                supports=[reader.support("place_time_complements")] + complement["supports"],
+                frame="composed_predication_with_literal_place"))
+            _limit(results)
+    return results
+
+
+def _attached_preposition_frames(reader, tokens, *, force, depth):
+    """Keep a witnessed b/k/l prefix and the full qualified NP it governs.
+
+    This records a textual PP attached to the uniquely selected predicate.
+    It does not guess whether the preposition expresses instrument, cause,
+    possession, likeness or location, and never erases that qualification.
+    A primary attachment passage is an additional required installed premise.
+    """
+    rule = "prepositional_attachment"
+    if rule not in reader.construction_policy["rules"]:
+        return []
+    results = []
+    for index in range(1, len(tokens)):
+        token = tokens[index]
+        roots = []
+        for reading in reader.readings(token):
+            parts = reading.get("segmentation", {}).get("parts", [])
+            if (reading.get("prefix_relation") != "preposition_object" or
+                    reading.get("annotation_only") or not parts or parts[0]["kind"] != "preposition" or
+                    not reading.get("segmentation", {}).get("licensed") or
+                    reading.get("person_evidence", {}).get("attached_pronouns") or
+                    any(p["kind"] == "contracted_article" for p in parts)):
+                continue
+            prefix_surface = parts[0]["surface"]
+            if lookup_key(prefix_surface) not in ("ب", "ك", "ل"):
+                continue
+            prefix = _slice(reader.source, token, 0, len(prefix_surface), "replayed_preposition_prefix")
+            nominal = _slice(reader.source, token, len(prefix_surface), len(token["surface"]),
+                              "replayed_prepositional_nominal")
+            reference = reader.reference(nominal["surface"], origin="named", profile=_profile(reading),
+                context=reader.context, mentions=reader.mentions, span=nominal["span"], scope=reader.scope)
+            assignment = reader.assignment(nominal, reading, "preposition_object", head=prefix)
+            root = {"root": nominal, "assignment_token": nominal,
+                "reading": reading, "entity": reference["bound_entity_id"],
+                "reference": reference, "assignment": assignment, "refs": [reference],
+                "assignments": [assignment], "readings": [reading], "relations": [], "restriction": [],
+                "obligations": _reading_obligations(reading), "supports": [],
+                "definiteness": _definite(reading)}
+            roots.append((root, prefix))
+        if not roots:
+            continue
+        bases = reader.parse(tokens[:index], inherited_force=force, depth=depth + 1)
+        for root, prefix in roots:
+            # NP dependencies target the nominal substring, not the complete
+            # written token containing its governor. The original reading
+            # and token remain intact for exact source restoration.
+            complements = noun_phrases(reader, [root["root"]] + tokens[index + 1:],
+                                       "preposition_object", head=prefix,
+                                       _root_options=[root])
+            for base, complement in product(bases, complements):
+                if not _complete_single_claim(base):
+                    continue
+                predicate = _predicate_token(reader, tokens[:index], base)
+                if predicate is None:
+                    continue
+                claims = deepcopy(base["claims"])
+                claims[0]["restriction"].append({"kind": "prepositional", "preposition": lookup_key(prefix["surface"]),
+                    "object": complement["entity"], "semantic_relation": "unspecified"})
+                claims[0]["restriction"].extend(deepcopy(complement["restriction"]))
+                relations = [_relation("preposition_object", prefix, complement["root"],
+                    dependent_reading_id=complement["reading"]["reading_id"],
+                    object_reference=complement["reference"]["reference_id"],
+                    written_token_span=token["span"]),
+                    _relation("prepositional_attachment", predicate, prefix,
+                        object_span=complement["root"]["span"], interpretation="unspecified")]
+                results.append(_extend(reader, tokens, base, readings=complement["readings"],
+                    assignments=complement["assignments"], refs=complement["refs"],
+                    relations=relations + complement["relations"], claims=claims,
+                    obligations=complement["obligations"],
+                    supports=[_support(reader, rule)] + complement["supports"],
+                    frame="composed_predication_with_preposition"))
+                _limit(results)
     return results
 
 

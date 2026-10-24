@@ -1,0 +1,42 @@
+{
+  "schema": "nabt.discourse-coverage-boundary-review.v1",
+  "authority": "READ_ONLY_SOURCE_AND_CONTRACT_REVIEW_NOT_A_MEASURED_COVERAGE_RECEIPT",
+  "baseline_commit": "f0064f0a4baab3cc816087a322aabc0c8fbb2d19",
+  "source": {
+    "name": "Quranic Arabic Corpus morphology 0.4",
+    "decoded_bytes": 6309503,
+    "decoded_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "qualification": "Annotated corpus premises, not independently established universal Arabic grammar."
+  },
+  "immutable_case_material": "evidence/discourse/independent_cases_v1.json",
+  "boundaries": [
+    {
+      "case_ids": ["DSC-P27", "DSC-P28"],
+      "phenomenon": "Qualified perfect host and attached object for akrama",
+      "source_locators": [[89, 15, 7, 2], [89, 15, 11, 1]],
+      "observed_source": "The source has perfect akrama stems with following object suffixes. A source lexical stem can be recognized, but the current person/attachment law requires an independently witnessed complete host before qualifying the object attachment and lexical valency.",
+      "runtime_boundary": "No independently qualified complete bare host is acquired by the current full-word filter. The discourse reader must not replace person_evidence by a lexical lemma/root match.",
+      "relevant_code": ["src/nabt/person_evidence.py:_base_variants", "src/nabt/person_evidence.py:_matching_bases", "src/nabt/discourse_reader.py:verbs", "src/nabt/discourse_reader.py:verbal"],
+      "future_requirement": "A separately sourced and versioned host-projection/attachment law with exact source partitions, independent support and counterexamples; unchanged gold remains the evaluation target."
+    },
+    {
+      "case_ids": ["DSC-P27"],
+      "phenomenon": "Fronted man may be a subject or object",
+      "runtime_boundary": "Moving man to an object slot solely to obtain the expected binding would assume its grammatical role. An overt context-only name whose declension is unknown cannot by itself settle the competing subject/object analyses.",
+      "future_requirement": "Retain complete role alternatives and require independent case/frame evidence or unanimous source-relative answers; do not infer a role from the expected answer."
+    },
+    {
+      "case_ids": ["DSC-B14"],
+      "phenomenon": "Connected source form versus isolated imperative udkhul",
+      "source_locators": [[36, 26, 2, 1]],
+      "observed_source": "The singular imperative source stem is spelled with alif al-wasl and a final connecting kasra, whereas the isolated target has initial damma and final sukun.",
+      "runtime_boundary": "The current complete-form person matcher does not license this written/connected-to-isolated transformation. A shared root and imperative annotation are not a transformation certificate.",
+      "future_requirement": "An independently sourced, versioned wasl/waqf transformation with exact domain, retained source bytes and form counterexamples. No assertion of compliance may follow from recognizing an imperative."
+    }
+  ],
+  "claims_not_made": [
+    "These entries are not a complete inventory of remaining discourse failures.",
+    "They do not label the frozen expected Arabic sentences ungrammatical.",
+    "They do not waive failures, change gold, or certify complete Arabic coverage."
+  ]
+}

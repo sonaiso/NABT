@@ -29,10 +29,10 @@ from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.14.0a3"
+VERSION = "0.16.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/constructions/code_freeze_v4.json"
+DEFAULT_FREEZE = "evidence/arabic_coverage/code_freeze_v2.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
@@ -71,6 +71,24 @@ CODE_FREEZE_PINS = {
         "future_operator_support": True,
         "snapshot_sha256": "3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58",
         "archive_sha256": "62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567",
+    },
+    "a7194b9b52ab8a6db0c92d65c7dae76dc23c1f1c8777b4e10b2fb71efa01c89f": {
+        "selection": "arabic_coverage_v1",
+        "version": "0.16.0a1",
+        "profile": "arabic_coverage_v1",
+        "source_file_count": 77,
+        "future_operator_support": True,
+        "snapshot_sha256": "602fe4a4d81044adbbd01849284f14c699f2104a36595db2bd6f8e80facf7804",
+        "archive_sha256": "54452a9f9375caf4837b00156a98a1be3076b6bd9e4afa2980e8f3d73755e289",
+    },
+    "1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c": {
+        "selection": "arabic_coverage_v2",
+        "version": "0.16.0a1",
+        "profile": "arabic_coverage_v1",
+        "source_file_count": 77,
+        "future_operator_support": True,
+        "snapshot_sha256": "46070144ca2e2fe7bcfb73292498fceebf669c6a8756c9ec771c6f4dee528851",
+        "archive_sha256": "8446ae35115ba9eb1b332ea7395a7be9b1d1be9285073918d711a7466237b163",
     },
 }
 PERSON_LAW_ID = "nabt.person-evidence.v1"
@@ -121,6 +139,35 @@ RELEASE_PROFILES = {
         "review_fix_smokes": True,
         "query_agreement_smokes": True,
     },
+    "arabic_coverage_v1": {
+        "language_id": "nabt.arabic-discourse-frames.v5",
+        "reader_version": "nabt.discourse-reader.v5",
+        "law_id": "nabt.construction-evidence.v3",
+        "table_sha256": "8b42ef10b963ea025005c1255abd643a47a37b31b9566af98983adf390b76f88",
+        "policy_id": "nabt.construction-grammar-sources.v3",
+        "policy_sha256": "4b68eed56aa8015daabc804329a297edcc6da3bf6725a64ad314c9b7b05969b3",
+        "rules": CONSTRUCTION_RULES_V1 | {"predicate_adjectival_agreement", "matrix_ma_negation",
+            "explanatory_apposition", "prepositional_attachment", "inception_sharaa", "tamyiz_taba_nafs"},
+        "table_rows": {**CONSTRUCTION_TABLE_ROWS_V1, "predicate_agreement_rows": 18},
+        "discourse_policy_id": "nabt.discourse-grammar-sources.v2",
+        "discourse_policy_sha256": "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7",
+        "discourse_source_rules": 24,
+        "review_fix_smokes": True,
+        "query_agreement_smokes": True,
+        "query_consensus_smokes": True,
+        "coverage_smokes": True,
+        "supplementary_registry_sha256": "816e3a89aa80138b31f88b8dd33752160468c17b84927623b43fa41def39fdf0",
+        "supplementary_source_sha256": "8b9e86da786cf65e7b32498b2524ee48a8dcf9f61b59e1bbc32b99ce7db5b396",
+        "extra_package_files": {
+            "nabt/rational_inquiry.py", "nabt/data/source_evidence/sabban.txt",
+            "nabt/data/source_evidence/construction_supplementary_sources_v1.json"},
+        "package_documents": {
+            "nabt/data/source_evidence/LICENSE-DATA.md": {
+                "bytes": 4907, "sha256": "84be04f10610a80e7929f3d912f7739ba5bfce610275898745c432795d4feb79"},
+            "nabt/data/source_evidence/README.md": {
+                "bytes": 9864, "sha256": "83b0d8c4c2d8a3efebbed921c3675517b662ac7e386a1973354714bafdc8ee27"},
+        },
+    },
 }
 REQUIRED_PACKAGE_FILES = {
     "nabt/person_evidence.py", "nabt/discourse.py", "nabt/discourse_reader.py",
@@ -166,6 +213,12 @@ READ_CASES = (
 )
 FUTURE_READ_CASE = ("read-kana-future", "سوف يكونُ زيدٌ حكيمًا.",
     {"kana_subject": "raf", "kana_predicate": "nasb", "imperfect_indicative": "raf"})
+COVERAGE_READ_CASES = (
+    ("read-sharaa", "شرع سالمٌ يكتبُ.",
+        {"kada_subject": "raf", "kada_predicate": "nasb", "imperfect_indicative": "raf"}),
+    ("read-matrix-negation", "ما ظن زيدٌ سالمًا حكيمًا.",
+        {"zanna_subject": "raf", "zanna_object1": "nasb", "zanna_object2": "nasb"}),
+)
 REVIEW_READ_CASES = (
     ("read-relative-spatial", "زيدٌ الذي يكتبُ حكيمٌ فوق سالمٍ.", {"place_adverb": "nasb"}),
     ("read-conjunction-control", "زيدٌ حكيمٌ وَ سالمٌ حكيمٌ.",
@@ -251,6 +304,16 @@ def query_source(*, names=True, ordinary_noun=False):
             pos = "N"
         rows.append(f"(9:{i}:1:1)\t{form}\t{pos}\tSTEM|POS:{pos}|LEM:{lemma}|ROOT:{root}|{traits}")
     return ("\n".join(rows) + "\n").encode("utf-8")
+
+
+def query_smoke_names(profile):
+    if not profile.get("query_agreement_smokes", False):
+        return []
+    names = list(QUERY_AGREEMENT_NAMES)
+    if profile.get("query_consensus_smokes", False):
+        index = names.index("reject-ambiguous-person-query")
+        names[index:index + 1] = ["agree-ambiguous-person-query", "verify-consensus-answer"]
+    return names
 
 
 def file_record(path, relative_to):
@@ -347,6 +410,40 @@ def inspect_person_answer(name, text, question, answer, profile, lexical_source_
                 name + ": agreement receipt is detached from the selected source proof")
 
 
+def inspect_consensus_unknown_answer(name, text, question, answer, profile, lexical_source_sha256,
+                                     context_sha256):
+    """Both gender readings lack a source predicate; none acquires a binding."""
+    require(answer["source_text"] == text and answer["source_sha256"] == digest(text.encode())
+            and answer["question_text"] == question
+            and answer["question_sha256"] == digest(question.encode())
+            and answer["lexical_model"]["source"]["sha256"] == lexical_source_sha256
+            and answer["context_sha256"] == context_sha256
+            and answer["language_id"] == profile["language_id"]
+            and answer["reader_version"] == profile["reader_version"],
+            name + ": consensus answer identity differs")
+    require(answer["schema"] == "nabt.discourse-answer.v2" and answer["status"] == "UNKNOWN"
+            and answer["kind"] == "subject" and answer["query"] is None
+            and answer["answer_basis"] == "ALL_COMPLETE_QUERY_INTERPRETATIONS_AGREE"
+            and not answer["proofs"] and not answer["counterproofs"] and not answer["bindings"]
+            and not answer["missing_premises"], name + ": consensus status or empty authority differs")
+    interpretations = answer["question_interpretations"]
+    require(len(interpretations) >= 2 and len({i["analysis_id"] for i in interpretations}) == len(interpretations),
+            name + ": consensus lost distinct question interpretations")
+    genders = set()
+    for interpretation in interpretations:
+        require(interpretation["kind"] == "subject" and interpretation["status"] == "UNKNOWN"
+                and not interpretation["bindings"] and not interpretation["proofs"]
+                and not interpretation["counterproofs"], name + ": disagreeing interpretation was hidden")
+        arguments = interpretation["query"]["args"]
+        require(len(arguments) == 1 and type(arguments[0]) is dict
+                and arguments[0].get("kind") == "question_variable"
+                and arguments[0].get("name") == "?person" and arguments[0].get("number") == "singular"
+                and arguments[0].get("gender") in ("masculine", "feminine"),
+                name + ": typed interpretation constraint differs")
+        genders.add(arguments[0]["gender"])
+    require(genders == {"masculine", "feminine"}, name + ": a licensed gender interpretation was omitted")
+
+
 def inspect_read_case(name, text, expected_roles, report, learned, profile):
     """Check a few declared interface outcomes; this is not a language scorer."""
     inspect_report_identity(name, text, report, profile, learned["source"]["sha256"])
@@ -364,8 +461,9 @@ def inspect_read_case(name, text, expected_roles, report, learned, profile):
             matching = [a for a in analysis["assignments"] if a["actual_role"] == role]
             require(matching and all((a["inflected_case"] or a["local_case"]) == case for a in matching),
                     name + ": expected constituent case differs: " + role)
-        if name in ("read-kana", "read-inna", "read-zanna", "read-kada", "read-kada-an", "read-kana-future"):
-            family = name.split("-")[1]
+        if name in ("read-kana", "read-inna", "read-zanna", "read-kada", "read-kada-an", "read-kana-future",
+                    "read-sharaa", "read-matrix-negation"):
+            family = {"read-sharaa": "kada", "read-matrix-negation": "zanna"}.get(name, name.split("-")[1])
             gates = [r for r in analysis["relations"] if r["kind"] == "construction_gate"]
             require(len(gates) == 1 and gates[0]["family"] == family and gates[0]["allowed"] is True
                     and all(value is True for value in gates[0]["premises"].values())
@@ -378,7 +476,7 @@ def inspect_read_case(name, text, expected_roles, report, learned, profile):
                         name + ": future marker lost its original source span")
                 require(not any(r["kind"] == "hal" for r in analysis["relations"]),
                         name + ": future copula fell through to an event with a hal")
-        if name in ("read-kada", "read-kada-an"):
+        if name in ("read-kada", "read-kada-an", "read-sharaa"):
             clause = next(a for a in analysis["assignments"] if a["role"] == "kada_predicate")
             verb = next(a for a in analysis["assignments"] if a["role"].startswith("imperfect_"))
             require((clause["case_domain"], clause["local_case"], clause["inflected_case"]) ==
@@ -416,11 +514,20 @@ def inspect_read_case(name, text, expected_roles, report, learned, profile):
                         and raw[head["start"]:head["end"]].decode("utf-8") == "حكيمٌ"
                         and head["span_sha256"] == digest(raw[head["start"]:head["end"]]),
                         name + ": modifier attached to the relative verb instead of the matrix predicate")
-    if name in ("read-zanna", "read-kada", "read-kada-an"):
+    if name in ("read-zanna", "read-kada", "read-kada-an", "read-sharaa", "read-matrix-negation"):
         require(all(c["predicate_kind"] == "scoped" and any(
             q.get("kind") == "operator_scope" and q.get("embedded_fact_projection") is False
             and q.get("embedded") for q in c["restriction"]) for c in report["claims"]),
             name + ": embedded proposition escaped its operator scope")
+    if name == "read-sharaa":
+        require(all(any(s.get("rule") == "inception_sharaa" and
+                        s.get("passage", {}).get("source_id") == "sabban"
+                        for s in a["supports"]) for a in analyses),
+                name + ": separately attributed inception source was lost")
+    if name == "read-matrix-negation":
+        require(all(c["positive"] is False and all(e["positive"] is True
+                    for q in c["restriction"] if q.get("kind") == "operator_scope" for e in q["embedded"])
+                    for c in report["claims"]), name + ": negation changed the embedded polarity")
     if name in ("read-naat", "read-hal", "read-tamyiz"):
         kind = name.removeprefix("read-")
         require(all(any(q.get("kind") == kind for q in c["restriction"]) for c in report["claims"]),
@@ -545,12 +652,18 @@ def validate(output, freeze_path):
     profile = RELEASE_PROFILES[freeze_pin["profile"]]
     expected_version = freeze_pin["version"]
     expected_source_count = freeze_pin["source_file_count"]
+    discourse_policy_id = profile.get("discourse_policy_id", POLICY_ID)
+    discourse_policy_sha256 = profile.get("discourse_policy_sha256", POLICY_SHA256)
+    document_rows = profile.get("package_documents", PACKAGE_DOCUMENTS)
+    required_package_files = REQUIRED_PACKAGE_FILES | profile.get("extra_package_files", set())
     read_cases = READ_CASES + ((FUTURE_READ_CASE,) if freeze_pin["future_operator_support"] else ())
+    if profile.get("coverage_smokes", False):
+        read_cases += COVERAGE_READ_CASES
     if profile["review_fix_smokes"]:
         read_cases += REVIEW_READ_CASES
     review_names = ([row[0] for row in REVIEW_REJECT_CASES] + REVIEW_FINAL_NAMES
                     if profile["review_fix_smokes"] else [])
-    query_names = QUERY_AGREEMENT_NAMES if profile.get("query_agreement_smokes", False) else []
+    query_names = query_smoke_names(profile)
     smoke_names = INITIAL_SMOKE_NAMES + [row[0] for row in read_cases] + review_names + query_names + FINAL_SMOKE_NAMES
     freeze = json.loads(freeze_raw)
     require(freeze["schema"] == "nabt-independent-evaluation-code-freeze-v1", "Wrong freeze schema")
@@ -575,27 +688,32 @@ def validate(output, freeze_path):
     package_rows = {name.removeprefix("src/"): row for name, row in rows.items() if name.startswith("src/")}
     require(len(package_rows) == expected_source_count - 1 and "pyproject.toml" in rows,
             "Expected frozen package files plus exactly one pyproject configuration")
-    require(REQUIRED_PACKAGE_FILES <= set(package_rows), "Construction/discourse/person modules or packaged witnesses are missing")
+    require(required_package_files <= set(package_rows), "Construction/discourse/person modules or packaged witnesses are missing")
     require(package_rows["nabt/data/discourse_evidence.json"]["sha256"] == TABLE_SHA256,
             "Frozen discourse law table differs")
     require(package_rows["nabt/data/person_evidence.json"]["sha256"] == PERSON_TABLE_SHA256,
             "Frozen person law table differs")
-    require(package_rows["nabt/data/source_evidence/discourse_policy.json"]["sha256"] == POLICY_SHA256,
+    require(package_rows["nabt/data/source_evidence/discourse_policy.json"]["sha256"] == discourse_policy_sha256,
             "Frozen discourse grammar policy differs")
     require(package_rows["nabt/data/construction_evidence.json"]["sha256"] == profile["table_sha256"],
             "Frozen construction law table differs")
     require(package_rows["nabt/data/source_evidence/construction_policy.json"]["sha256"] == profile["policy_sha256"],
             "Frozen construction grammar policy differs")
+    if profile.get("supplementary_registry_sha256"):
+        require(package_rows["nabt/data/source_evidence/construction_supplementary_sources_v1.json"]["sha256"] ==
+                profile["supplementary_registry_sha256"] and
+                package_rows["nabt/data/source_evidence/sabban.txt"]["sha256"] == profile["supplementary_source_sha256"],
+                "Frozen supplementary registry or full source differs")
     check_source(rows)
     documents = {}
-    for name, row in PACKAGE_DOCUMENTS.items():
+    for name, row in document_rows.items():
         path = ROOT / "src" / name
         require(path.resolve().is_relative_to(ROOT), "Package document leaves the repository")
         data = path.read_bytes()
         require(len(data) == row["bytes"] and digest(data) == row["sha256"],
                 "Pinned non-runtime package document differs: " + name)
         documents[name] = data
-    all_package_rows = {**package_rows, **PACKAGE_DOCUMENTS}
+    all_package_rows = {**package_rows, **document_rows}
 
     archive_name = freeze["archive_filename"]
     require(Path(archive_name).name == archive_name, "Archive filename must be a sibling basename")
@@ -724,9 +842,9 @@ def validate(output, freeze_path):
     require(catalog["law_id"] == LAW_ID and catalog["law_sha256"] == TABLE_SHA256
             and catalog["law"]["law_id"] == LAW_ID and catalog["language_id"] == profile["language_id"],
             "Installed discourse catalog law or language differs")
-    require(catalog["grammar_sources"]["policy_id"] == POLICY_ID and
-            catalog["grammar_sources"]["policy_sha256"] == POLICY_SHA256 and
-            len(catalog["grammar_sources"]["rules"]) == 22,
+    require(catalog["grammar_sources"]["policy_id"] == discourse_policy_id and
+            catalog["grammar_sources"]["policy_sha256"] == discourse_policy_sha256 and
+            len(catalog["grammar_sources"]["rules"]) == profile.get("discourse_source_rules", 22),
             "Installed discourse source policy did not replay")
     people = catalog["person"]
     require(people["law_id"] == PERSON_LAW_ID and people["table_sha256"] == PERSON_TABLE_SHA256
@@ -744,6 +862,11 @@ def validate(output, freeze_path):
             and set(construction["grammar_sources"]["rules"]) == profile["rules"]
             and {row["family"] for row in construction["operators"]} == {"kana", "inna", "zanna", "kada"},
             "Installed construction source policy or family inventory differs")
+    if profile.get("supplementary_registry_sha256"):
+        require(construction["grammar_sources"]["supplementary_registry_sha256"] ==
+                profile["supplementary_registry_sha256"] and
+                construction["grammar_sources"]["supplementary_source_ids"] == ["sabban"],
+                "Installed supplementary source registry did not replay")
     audit, _ = smoke("audit-corpus", ["audit-corpus", "construction_training.tsv", "--format", "qac"])
     require(audit["format"] == "qac" and audit["summary"]["record_count"] > 0
             and audit["summary"]["invalid_count"] == 0 and audit["summary"]["source_coverage_complete"] is True,
@@ -866,11 +989,23 @@ def validate(output, freeze_path):
                 person_answer_raw = raw_answer
 
         question = "من صبورٌ؟"
-        query_input("reject-ambiguous-person-query.txt", question.encode())
-        answer, _ = smoke("reject-ambiguous-person-query", ["ask-discourse", "person-source.txt", question,
-            "--qac", "query_main.tsv", *query_context_args], expected=3, status="DEFER")
-        inspect_deferred_answer("reject-ambiguous-person-query", query_text, question, answer,
-                                digest(query_sources["query_main.tsv"]))
+        if profile.get("query_consensus_smokes", False):
+            name = "agree-ambiguous-person-query"
+            query_input(name + ".txt", question.encode())
+            answer, raw_answer = smoke(name, ["ask-discourse", "person-source.txt", question,
+                "--qac", "query_main.tsv", *query_context_args], status="UNKNOWN")
+            inspect_consensus_unknown_answer(name, query_text, question, answer, profile,
+                digest(query_sources["query_main.tsv"]), query_context_sha256)
+            query_input("consensus-answer.json", raw_answer)
+            smoke("verify-consensus-answer", ["verify-discourse-answer", "consensus-answer.json",
+                "--source", "person-source.txt", "--question", question,
+                "--qac", "query_main.tsv", *query_context_args], status="VERIFIED", valid=True)
+        else:
+            query_input("reject-ambiguous-person-query.txt", question.encode())
+            answer, _ = smoke("reject-ambiguous-person-query", ["ask-discourse", "person-source.txt", question,
+                "--qac", "query_main.tsv", *query_context_args], expected=3, status="DEFER")
+            inspect_deferred_answer("reject-ambiguous-person-query", query_text, question, answer,
+                                    digest(query_sources["query_main.tsv"]))
 
         for name, text, question in (
                 ("no-noun-agreement-substitution", "هندٌ حكيمٌ.", "من حكيمةٌ؟"),
@@ -951,9 +1086,9 @@ def validate(output, freeze_path):
         "correspondence": {"current_source_files_before_and_after": expected_source_count,
                            "archive_files": expected_source_count,
                            "frozen_runtime_package_files": len(package_rows),
-                           "nonruntime_package_document_files": len(PACKAGE_DOCUMENTS),
+                           "nonruntime_package_document_files": len(document_rows),
                            "nonruntime_package_documents": [{"path": name, **row}
-                                                            for name, row in PACKAGE_DOCUMENTS.items()],
+                                                            for name, row in document_rows.items()],
                            "wheel_package_files": len(actual), "installed_package_files": len(observed),
                            "all_package_hashes_and_lengths_match": True, "unexpected_package_files": [],
                            "pyproject_installed_as_file": False,
@@ -962,13 +1097,13 @@ def validate(output, freeze_path):
                            "metadata_sha256": digest(metadata_raw), "readme_sha256": digest(extras["README.md"]),
                            "wheel_and_installed_description_equal_captured_readme": True,
                            "law_table_sha256": TABLE_SHA256, "person_table_sha256": PERSON_TABLE_SHA256,
-                           "discourse_policy_sha256": POLICY_SHA256,
+                           "discourse_policy_sha256": discourse_policy_sha256,
                            "construction_table_sha256": profile["table_sha256"],
                            "construction_policy_sha256": profile["policy_sha256"],
                            "construction_law_rows": profile["table_rows"],
                            "construction_source_rules": sorted(profile["rules"]),
                            "language_id": profile["language_id"], "reader_version": profile["reader_version"],
-                           "required_new_package_files": sorted(REQUIRED_PACKAGE_FILES)},
+                           "required_new_package_files": sorted(required_package_files)},
         "build_environment": {**build_environment, "no_build_isolation": True, "no_dependencies": True, "no_index": True},
         "isolation": {"temporary_root": str(work), "cwd": str(cwd), "venv": str(venv),
                       "installed_origin": installed["module_origin"], "pythonpath_removed": True,
@@ -1004,7 +1139,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True, help="New directory for wheel, logs and validation")
     parser.add_argument("--code-freeze", type=Path, default=Path(DEFAULT_FREEZE),
-                        help="Approved construction v1/v2/v3/v4 freeze manifest (default v4); relative paths are resolved from the repository")
+                        help="Approved construction v1/v2/v3/v4 or Arabic coverage v1/v2 freeze (default Arabic coverage v2); relative paths are resolved from the repository")
     args = parser.parse_args()
     output = args.output_dir.resolve()
     freeze_path = args.code_freeze if args.code_freeze.is_absolute() else ROOT / args.code_freeze

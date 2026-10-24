@@ -1,0 +1,67 @@
+{
+  "schema": "nabt.independent-holdout-preexecution-erratum.v1",
+  "identified_utc": "2026-10-24T12:13:17.625205+00:00",
+  "predictions_executed_before_identification": false,
+  "pending_runtime_inspected_before_identification": false,
+  "frozen_v1_changed": false,
+  "frozen_v1_sha256": "1e53a8c970288f77c2703f3d57db9982ea35263b30b2830b79eeee47fde617e5",
+  "defect_kind": "authored question-input grammar; not a runtime finding",
+  "affected_questions": [
+    {
+      "case_id": "H16",
+      "question_index_zero_based": 2,
+      "original_question": "هَلْ لَيْسَ زَيْدٌ حَكِيمًا؟",
+      "original_expected_status": "UNKNOWN",
+      "defect": "هل immediately governs an explicitly negative clause. The frozen API expectation should not be reported as classical grammatical gold.",
+      "proposed_source_licensed_input": "أَ لَيْسَ زَيْدٌ حَكِيمًا؟",
+      "unchanged_semantic_expectation": "UNKNOWN",
+      "proposal_note": "Detached interrogative hamza follows the published NABT token-input convention. A normally joined orthographic variant requires a separately reported input test; no spelling normalization is implicit."
+    },
+    {
+      "case_id": "H17",
+      "question_index_zero_based": 0,
+      "original_question": "هَلْ مَا ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا؟",
+      "original_expected_status": "SUPPORTED",
+      "defect": "هل immediately governs an explicitly negative clause. The frozen API expectation should not be reported as classical grammatical gold.",
+      "proposed_source_licensed_input": "أَ مَا ظَنَّ نَاصِرٌ زَيْدًا حَكِيمًا؟",
+      "unchanged_semantic_expectation": "SUPPORTED",
+      "proposal_note": "Detached interrogative hamza follows the published NABT token-input convention. A normally joined orthographic variant requires a separately reported input test; no spelling normalization is implicit."
+    },
+    {
+      "case_id": "H17",
+      "question_index_zero_based": 3,
+      "original_question": "هَلْ لَيْسَ زَيْدٌ حَكِيمًا؟",
+      "original_expected_status": "UNKNOWN",
+      "defect": "هل immediately governs an explicitly negative clause. The frozen API expectation should not be reported as classical grammatical gold.",
+      "proposed_source_licensed_input": "أَ لَيْسَ زَيْدٌ حَكِيمًا؟",
+      "unchanged_semantic_expectation": "UNKNOWN",
+      "proposal_note": "Detached interrogative hamza follows the published NABT token-input convention. A normally joined orthographic variant requires a separately reported input test; no spelling normalization is implicit."
+    },
+    {
+      "case_id": "H18",
+      "question_index_zero_based": 0,
+      "original_question": "هَلْ لَيْسَ نَاصِرٌ حَكِيمًا؟",
+      "original_expected_status": "SUPPORTED",
+      "defect": "هل immediately governs an explicitly negative clause. The frozen API expectation should not be reported as classical grammatical gold.",
+      "proposed_source_licensed_input": "أَ لَيْسَ نَاصِرٌ حَكِيمًا؟",
+      "unchanged_semantic_expectation": "SUPPORTED",
+      "proposal_note": "Detached interrogative hamza follows the published NABT token-input convention. A normally joined orthographic variant requires a separately reported input test; no spelling normalization is implicit."
+    }
+  ],
+  "primary_source": {
+    "repository": "OpenITI/0775AH",
+    "commit": "61b0c7891699554aeff8dffdb8b1a2a59d2d22ab",
+    "path": "data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MughniLabib/0761JamalDinIbnHisham.MughniLabib.Shamela0006972-ara1",
+    "url": "https://github.com/OpenITI/0775AH/blob/61b0c7891699554aeff8dffdb8b1a2a59d2d22ab/data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MughniLabib/0761JamalDinIbnHisham.MughniLabib.Shamela0006972-ara1",
+    "git_blob_sha1": "0d7ac2fae1df36b1c1c123f34be040fa8133c5e6",
+    "source_sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d",
+    "bytes": 1486890,
+    "line_start": 8094,
+    "line_end": 8107,
+    "start": 725106,
+    "end": 726190,
+    "span_sha256": "7137f918baaea30469b1749f7d8ef8f63aac48047dc65f77f7adce3021b8630b",
+    "raw_text": "# هل\n# حرف موضوع لطلب التصديق الإيجابي دون التصور ودون التصديق السلبي فيمتنع\n~~نحو هل زيدا ضربت لأن تقديم الاسم يشعر بحصول التصديق بنفس\n# PageV01P456\n# النسبة ونحو هل زيد قائم أم عمرو إذا أريد بأم المتصلة وهل لم يقم زيد\n~~ونظيرها في الاختصاص بطلب التصديق أم المنقطعة وعكسهما أم المتصلة وجميع\n~~أسماء الاستفهام فإنهن لطلب التصور لا غير وأعم من الجميع الهمزة فإنها\n~~مشتركة بين االطلبين\n# وتفترق هل من الهمزة من عشرة أوجه\n# أحدها اختصاصها بالتصديق\n# والثاني اختصاصها بالإيجاب تقول هل زيد قائم ويمتنع هل لم يقم بخلاف\n~~الهمزة نحو {ألم نشرح} {ألن يكفيكم} {أليس الله بكاف عبده} وقال\n### | 649 - \n# (ألا طعان ألا فرسان عادية ... )\n"
+  },
+  "reporting_rule": "Do not count v1 success on these four expectations as evidence of unrestricted grammatical understanding. Preserve v1 unchanged; any repaired-question experiment must have a separate pre-execution input freeze and disclose these four deltas. Do not fix expected statuses after looking at runtime results."
+}

@@ -1,0 +1,740 @@
+{
+  "schema": "nabt.claim-obligations-audit.v1",
+  "created_utc": "2026-10-24T13:20:26.690815+00:00",
+  "kind": "AUDIT_ONLY",
+  "runtime_certificate": false,
+  "authority": "NONE",
+  "all_arabic_completeness": "NOT_ESTABLISHED",
+  "purpose": "سجل مراجعة للدعاوى ومجالاتها وكواشف خطئها والالتزامات المتبقية؛ لا يغيّر القانون أو حالة التشغيل ولا يمنح شهادة أو سلطة.",
+  "reviewer": "/root/formal_boundary؛ مشارك سابق في البرهان وإصلاحات التنفيذ، ومراجع للسجلات هنا. ليس محكمًا لغويًا خارجيًا أو مراقبًا أعمى.",
+  "snapshot": {
+    "runtime_freeze_path": "evidence/arabic_coverage/code_freeze_v2.json",
+    "runtime_freeze_sha256": "1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c",
+    "full_validation_status": "NOT_ASSESSED_BY_THIS_LEDGER",
+    "ci_or_release_status": "NOT_ASSESSED_BY_THIS_LEDGER",
+    "mutation_scope": "هذا الملف التدقيقي وحده؛ لا تعديل runtime أو الأدوات أو الاختبارات أو مواد القياس."
+  },
+  "reading_rules": [
+    "كل عدد له مقامه ونسخته؛ لا تجمع الحالات والصفوف والأسئلة وعمليات إعادة التحقق في مقام واحد.",
+    "status يصف قوة الدليل داخل domain، ولا يصادق على صدق جميع المقدمات.",
+    "known_falsifier يميز شرط النقض عن مثال خطأ تاريخي أو حد يمنع دعوى أوسع؛ لا ينسب المثال التاريخي تلقائيًا إلى النسخة الحالية.",
+    "البصمات أدناه تثبت هوية ملفات الدليل عند إعداد السجل، ولا تمنح وثاقة للمصدر أو اكتمالًا للتفسير.",
+    "وثائق الشرح قد تتطور؛ الدرجات المقتبسة مربوطة بالتقارير المحفوظة، ولا يستنتج هذا السجل نجاح أي فحص شامل أو نشر لاحق."
+  ],
+  "claims": [
+    {
+      "id": "C01_METHOD_ORGANIZATION",
+      "claim": "ينظم عقد الاستقصاء المعلن الدعوى ومادتها والمعلومات السابقة والتفسير والمراجعة؛ ويستعمل التجربة والاستدلال وLean بحسب نوع الالتزام.",
+      "domain": {
+        "law_id": "nabt.rational-inquiry.v1",
+        "procedures": [
+          "exact-text-v1",
+          "source-entailment-v1"
+        ],
+        "excluded": "ليس إثباتًا علميًا لنظرية عامة في العقل، ولا إثباتًا لتاريخ تفكير المولد أو لوعي بشري."
+      },
+      "status": "PROCEDURAL_CONTRACT_IMPLEMENTED",
+      "support_evidence_paths": [
+        "docs/RATIONAL_INQUIRY.md",
+        "src/nabt/rational_inquiry.py",
+        "formal/Nabt/RationalInquiry.lean",
+        "evidence/rational_inquiry/independent_tests_v3.json"
+      ],
+      "known_falsifier": {
+        "condition": "حالة مرخصة مع نقص مصدر تكوين لازم أو مراجعة لازمة، أو ارتفاع السلطة بمجرد تغيير اسم العمق أو نوع التفكير، تنقض مطابقة التنفيذ لهذا العقد.",
+        "observed_current_counterexample": false,
+        "limit": "وجود الحقول لا يثبت أن المولد استعمل المعرفة السابقة فعلًا، ولا أن مقدمات الفلسفة المتبناة صارت حقائق علمية."
+      },
+      "source_of_detector": {
+        "basis": "العقد المنهجي المعلن، شروط بوابة Lean، واختبارات حدود مؤلفة تفحص التنفيذ. المعيار المنهجي اختيار مصرح به، وليس نتيجة مستخرجة من نجاح الاختبارات.",
+        "paths": [
+          "formal/Nabt/RationalInquiry.lean",
+          "evidence/rational_inquiry/independent_tests_v3.json"
+        ],
+        "independence_limit": "المصفوفة والاختبارات أعدها مراجع مشارك في الفريق؛ ليست مراجعة بشرية خارجية أو تجربة عمياء."
+      },
+      "remaining_bridge": [
+        "إثبات صحة مواد التكوين والتفسير خارج مساواة السجلات.",
+        "إذا أريدت دعوى عن كيفية إنتاج المولد للحكم، فيلزم دليل مستقل على تلك العملية؛ روابط formation المعلنة لا تكفي."
+      ]
+    },
+    {
+      "id": "C02_BYTES_AND_ACQUISITION",
+      "claim": "يمكن إعادة فتح البايتات والمقاطع المثبتة ومقارنتها بالدعوى؛ هذا يثبت المطابقة للنسخة المسجلة داخل حدودها، ولا يصادق وحده على سلسلة الاكتساب أو أمانة ناقلها.",
+      "domain": {
+        "objects": "المصادر والمقاطع المثبتة في الفهارس والسياسات، وهوية الدعوى والنطاق والمراجعة المعلنة.",
+        "excluded": "توثيق شامل للمؤلف أو الناسخ أو جهاز الرصد، واستقلال الأصول لمجرد اختلاف أسماء الملفات."
+      },
+      "status": "BYTE_REPLAY_SUPPORTED_ACQUISITION_NOT_ESTABLISHED",
+      "support_evidence_paths": [
+        "evidence/classical_language/catalog_v2.json",
+        "evidence/classical_language/SOURCE_AUDIT.md",
+        "evidence/classical_language/sources/awamil_jurjani_excerpt.metadata.json",
+        "evidence/arabic_coverage/discourse_conformance_policy_review_v1/targeted_conformance_v2.json",
+        "evidence/rational_inquiry/demonstration_v3.json"
+      ],
+      "known_falsifier": {
+        "condition": "قبول بايتات أو حدود مقطع تغيرت عن الهوية المثبتة، أو قبول تقرير سابق على لقطة مصدر مختلفة، ينقض دعوى إعادة الفتح المقيدة.",
+        "observed_current_counterexample": false,
+        "existing_boundary": "تفريغ العوامل يدوي ومراجع بصريًا؛ نجاح بصمته لا يعيد تلك المقابلة البصرية آليًا. نسب مصدر كاذب مصرح به قد يتجاوز فحص الاتساق الداخلي."
+      },
+      "source_of_detector": {
+        "basis": "مقارنة الملف المفتوح وحدود المقطع بالنسخة المثبتة، وإعادة التحقق من التقرير. الهوية الرقمية تكشف اختلاف النسخ ولا تنشئ وثاقة تاريخية أو مشاهدة مستقلة.",
+        "paths": [
+          "evidence/classical_language/catalog_v2.json",
+          "evidence/classical_language/sources/awamil_jurjani_excerpt.metadata.json",
+          "evidence/rational_inquiry/demonstration_v3.json"
+        ],
+        "independence_limit": "بعض النصوص من تحرير رقمي سابق وبعضها تفريغ يدوي؛ سلسلة النقل وسيط معلن، لا شاهد جديد مستقل بمجرد التنزيل."
+      },
+      "remaining_bridge": [
+        "توثيق مستقل للاقتناء والتحرير والنسخ والمرجع المراد عند توسيع سلطة الشاهد.",
+        "تحديد ما إذا كان المرجع مستقلاً عن مادة التكوين، والتحقق من صدق النسب خارج الرسم المعلن."
+      ]
+    },
+    {
+      "id": "C03_EIGHT_FORMAL_BOUNDARIES",
+      "claim": "تصرح وحدة ArabicCoverage بثماني مبرهنات تضبط السلامة والكمال والمطابقة ونقلها بشروطها، وحدود الاستدلال من العينات والحفاظ على البدائل.",
+      "domain": {
+        "law_id": "nabt.arabic-coverage-obligations.v1",
+        "theorem_count": 8,
+        "theorems": [
+          "exact_iff_sound_and_complete",
+          "exact_restricts_to_subdomain",
+          "exactness_transfers_with_reference_equivalence",
+          "sample_agreement_leaves_untested_point",
+          "every_finite_prefix_has_underdetermined_extension",
+          "no_single_interpreter_of_observation_collision",
+          "completeness_preserves_licensed_alternatives",
+          "unique_choice_incomplete_for_ambiguous_input"
+        ],
+        "excluded": "لا تعرّف هذه الوحدة العربية كلها، ولا تكتسب مرجعًا لغويًا صحيحًا، ولا تثبت صلة قارئ Python بالعلاقات المجردة."
+      },
+      "status": "SCOPED_FORMAL_BOUNDARIES",
+      "support_evidence_paths": [
+        "formal/Nabt/ArabicCoverage.lean",
+        "formal/theorems.json",
+        "formal/Audit.lean",
+        "evidence/arabic_coverage/formal_review_v1/independent_scope_review.json"
+      ],
+      "known_falsifier": {
+        "condition": "فشل فحص البرهان في Lean المثبت أو اكتشاف مقدمة أو مسلمة غير مصرح بها يبطل نسبة البرهان المنفذ. أما استعمال نتيجة نقل المطابقة دون تكافؤ المرجع المطلوب فيبطل التطبيق، لا المبرهنة الشرطية.",
+        "observed_current_counterexample": false,
+        "known_scope_counterexample": "السلامة والكمال والمطابقة في مجال فارغ صادقة فراغيًا؛ فلا تصلح وحدها شهادة تغطية ذات معنى."
+      },
+      "source_of_detector": {
+        "basis": "عبارات المبرهنات ومقدماتها وأجسام براهينها، مع مراجعة مستقلة محدودة للعبارة والنطاق. سجل المراجعة يصرح بأنه لم يشغّل المترجم بنفسه.",
+        "paths": [
+          "formal/Nabt/ArabicCoverage.lean",
+          "evidence/arabic_coverage/formal_review_v1/independent_scope_review.json"
+        ],
+        "independence_limit": "مراجعة النطاق ليست مصادقة على كفاية المرجع اللغوي؛ ولا تستبدل هذه الورقة سجل بناء Lean أو تدقيق المسلمّات."
+      },
+      "remaining_bridge": [
+        "تعريف مجال لغوي غير فارغ ومرجعه المستقل وإثبات كفايته.",
+        "إثبات refinement يربط قارئ Python بذلك المرجع.",
+        "الشاهد على تصادم الرصد مقدمة في المبرهنة؛ يلزم إحضاره لأي تطبيق واقعي. عدم التعيين بعينات محدودة على دوال حرة لا يمنع برهانًا ببنية إضافية أو فئة فرضيات مقيدة."
+      ]
+    },
+    {
+      "id": "C04_FINITE_CONFORMANCE",
+      "claim": "توجد مطابقات منفذة بين صادرات Lean وحساب Python داخل ثلاثة مجالات محدودة؛ لا تمنح هذه المطابقات وحدها برهانًا عامًا على القارئ أو استخراج المقدمات.",
+      "domain": {
+        "measurements": [
+          {
+            "receipt": "evidence/rational_inquiry/conformance_v2.json",
+            "rows": 8192,
+            "meaning": "تسعة أعلام منطقية ورتبتان من 0 إلى 3، لبوابة الاستقصاء."
+          },
+          {
+            "receipt": "evidence/classical_language/conformance_v1.json",
+            "rows": 49,
+            "meaning": "8 مجار و4 أسطح و36 حالة إن وأخواتها وقسمة عوامل واحدة، تحت تفسير مزود."
+          },
+          {
+            "receipt": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/targeted_conformance_v2.json",
+            "rows": 3101,
+            "meaning": "صفوف جبر الخطاب المحدود مع إعادة 24 مقطعًا مصدريًا؛ runtime_reader_checked=false."
+          }
+        ],
+        "excluded": "هذه مقامات مختلفة لا تجمع بوصفها عينات لغوية مستقلة."
+      },
+      "status": "FINITE_CONFORMANCE_MEASURED",
+      "support_evidence_paths": [
+        "evidence/rational_inquiry/conformance_v2.json",
+        "evidence/classical_language/conformance_v1.json",
+        "evidence/arabic_coverage/discourse_conformance_policy_review_v1/targeted_conformance_v2.json",
+        "evidence/arabic_coverage/discourse_conformance_policy_review_v1/review.json"
+      ],
+      "known_falsifier": {
+        "condition": "صف مختلف أو مفقود أو مكرر أو خارج نوعه في أي مجال معلن ينقض مطابقة ذلك المجال. خطأ استخراج علم من نص خام ينقض دعوى refinement الشاملة، حتى إن طابقت البوابة كل صفوفها.",
+        "observed_current_counterexample": false,
+        "preserved_failure": "مدقق الخطاب القديم رفض جرد المصدر لأنه توقع 22 مقطعًا. حُفظت بايتاته وسبب الرفض؛ الإصلاح يثبت هوية وجرد 24 مقطعًا، دون تغيير قانون الصفوف المحدود."
+      },
+      "source_of_detector": {
+        "basis": "تصدير Lean جديد ومقارنة مستقلة صارمة للأنواع والتفرد واكتمال المجال؛ فحص المقاطع مصدر منفصل عن مطابقة الجبر.",
+        "paths": [
+          "evidence/rational_inquiry/conformance_v2.json",
+          "evidence/classical_language/conformance_v1.json",
+          "evidence/arabic_coverage/discourse_conformance_policy_review_v1/targeted_conformance_v2.json"
+        ],
+        "independence_limit": "قد تشترك الصيغتان في اختيار تجريدي غير ملائم؛ توافقهما لا يثبت صحة ذلك الاختيار لغويًا أو صحة محول JSON/Unicode/المصادر."
+      },
+      "remaining_bridge": [
+        "برهان أو قياس مستقل لاستخراج كل علم وقراءة من المادة الخام مع اكتمال البدائل ذات الصلة.",
+        "ربط التعريف الشكلي بمرجع اللغة المراد، خارج مجرد اتفاق تنفيذين."
+      ]
+    },
+    {
+      "id": "C05_ORIGINAL_COVERAGE",
+      "claim": "في القياسين الصارمين المحفوظين للّقطة v2، نجح البناء في 80 من 86 حالة والخطاب في 63 من 86؛ كلا القياسين جزئي وفشل شرط النجاح الصارم.",
+      "domain": {
+        "runtime_freeze_sha256": "1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c",
+        "construction": {
+          "passed": 80,
+          "total": 86,
+          "questions": 106,
+          "failed_cases": 6,
+          "failed_checks": 46,
+          "strict_pass": false
+        },
+        "discourse": {
+          "passed": 63,
+          "total": 86,
+          "questions": 74,
+          "failed_cases": 23,
+          "failed_checks": 50,
+          "strict_pass": false
+        },
+        "baseline": {
+          "construction": [
+            71,
+            86
+          ],
+          "discourse": [
+            56,
+            86
+          ]
+        },
+        "excluded": "حالات مؤلفة ومقدمات معجمية وسياقية مزودة؛ ليست عينة احتمالية للعربية ولا نسبة فهم كل اللغة."
+      },
+      "status": "PARTIAL_COVERAGE_MEASURED",
+      "support_evidence_paths": [
+        "evidence/arabic_coverage/baseline_v1.json",
+        "evidence/arabic_coverage/construction_residual_review_v2/arabic_coverage_construction_final_strict_v2.json",
+        "evidence/arabic_coverage/construction_residual_review_v2/review.json",
+        "evidence/arabic_coverage/discourse_residual_review_v2/arabic_coverage_discourse_final_strict_v2.json",
+        "evidence/arabic_coverage/discourse_residual_review_v2/review.json",
+        "evidence/arabic_coverage/discourse_residual_review_v2/policy_gate_final_review.json"
+      ],
+      "known_falsifier": {
+        "condition": "اختلاف الخام عن الدرجة أو الهوية المثبتة، أو قبول خاطئ في الفحوص المعلنة، أو خطأ تنفيذ، أو إخفاق جديد خارج جرد الدين المراجع، يبطل أهلية القياس أو البوابة الجزئية بحسب الحالة.",
+        "observed_current_counterexample": false,
+        "known_counterexample_to_completeness": "بقيت 6 حالات بناء و23 حالة خطاب غير ناجحة في مجموعتيهما. عدم رصد قبول خاطئ في الفحوص المعلنة لا يساوي استحالة الخطأ في مدخل آخر."
+      },
+      "source_of_detector": {
+        "basis": "مواد ذهبية مثبتة قبل الإصلاح، تحقق الشهادات والهوية والسياق، ومقارنة مستقلة للخام وأسماء الحالات والفحوص وإخفاقاتها مع خط الأساس.",
+        "paths": [
+          "evidence/arabic_coverage/baseline_v1.json",
+          "evidence/arabic_coverage/construction_residual_review_v2/review.json",
+          "evidence/arabic_coverage/discourse_residual_review_v2/review.json",
+          "evidence/arabic_coverage/regression_policy_v1.json"
+        ],
+        "independence_limit": "المراجعة في فريق مشترك، وبعض المراجعين شاركوا في التنفيذ. لم يجر تحكيم لغوي شامل مستقل لكل حالة، وقد تكون لبعض صيغ الأسئلة ديون في مرجعها اللغوي."
+      },
+      "remaining_bridge": [
+        "حل البقايا مع مرجع لغوي مستقل ومقدمات كافية؛ لا تحويل الدين إلى نجاح ولا استبعاد الحالات المتعثرة بعد القياس.",
+        "توسيع الدليل خارج المجموعتين المعلومتين، وإثبات صلاحيته للمجال الجديد. البوابة الجزئية تقبل فقط الديون المثبتة، ولا تعيد تعريف strict_pass."
+      ]
+    },
+    {
+      "id": "C06_HOLDOUT_HISTORY",
+      "claim": "يحفظ الاختبار الجديد نتيجته الأولى وإعادة القياس؛ ونجاح 36/36 هو حكم بعد مراجعة خطأ محدد في المدقق، مع بقاء النتيجة الصارمة الأصلية 35/36 محفوظة.",
+      "domain": {
+        "material": "evidence/arabic_coverage/holdout_v2/freeze.json",
+        "cases": 36,
+        "questions": 63,
+        "first_runtime_v1": {
+          "strict_cases": [
+            34,
+            36
+          ],
+          "postreview_cases": [
+            35,
+            36
+          ]
+        },
+        "runtime_v2": {
+          "strict_cases": [
+            35,
+            36
+          ],
+          "postreview_cases": [
+            36,
+            36
+          ],
+          "question_status_agreement": [
+            63,
+            63
+          ]
+        },
+        "fresh_replay_operations": {
+          "document_verifications": 36,
+          "answer_verifications": 63,
+          "changed_context_rejections": 4,
+          "total": 103
+        },
+        "excluded": "إعادة الفحص بعد الاطلاع على النتائج ليست اختبارًا أعمى جديدًا؛ و103 عمليات ليست 103 شهادات أصلية مستقلة.",
+        "material_revision": "قبل أول تنفيذ، صُححت أربع صيغ أسئلة من هل مع نفي صريح إلى الهمزة في material v2 مع حفظ v1؛ لم تتغير هويات الحالات أو أعدادها أو توقعات الدلالة. لم تتغير هذه المادة بعد قياسها."
+      },
+      "status": "POSTREVIEW_PASS_ORIGINAL_FAILURE_RETAINED",
+      "support_evidence_paths": [
+        "evidence/arabic_coverage/holdout_v2/freeze.json",
+        "evidence/arabic_coverage/holdout_runs_v1/first_v2.json",
+        "evidence/arabic_coverage/holdout_postreview_v1/review.json",
+        "evidence/arabic_coverage/holdout_postreview_v2_final/original_result.json",
+        "evidence/arabic_coverage/holdout_postreview_v2_final/review.json",
+        "evidence/arabic_coverage/holdout_postreview_v2_final/independent_review.json",
+        "evidence/arabic_coverage/oracle_audit_v1/question_input_audit.json"
+      ],
+      "known_falsifier": {
+        "condition": "شاهد موجب أو binding في H18 غير محسوب، أو counterproof غير مرتبط بالدعوى والسؤال والسياق، أو إخفاق آخر غير H18، أو تغيير التوقعات بعد القياس، يمنع نسبة نجاح المراجعة المحصورة.",
+        "observed_current_counterexample": false,
+        "preserved_detector_error": "الفحص H18/question:2:no_grounded_evidence رفض UNKNOWN بسبب وجود سندين سالبين؛ العقد يسمح بهما مع صفر سند موجب وصفر binding. أصل الرفض محفوظ؛ ولم يغير التصحيح توقع UNKNOWN."
+      },
+      "source_of_detector": {
+        "basis": "المادة المثبتة، الخام الأصلي، إعادة التنفيذ على أرشيف runtime المثبت، ومدققا الخطاب والبناء لمراجعة H18 وشهاداته تفصيليًا.",
+        "paths": [
+          "evidence/arabic_coverage/holdout_postreview_v1/oracle_erratum.json",
+          "evidence/arabic_coverage/holdout_postreview_v2_final/review.json",
+          "evidence/arabic_coverage/holdout_postreview_v2_final/independent_review.json"
+        ],
+        "independence_limit": "أُعدت المادة إجرائيًا بواسطة وكيل آخر في مساحة مشتركة. إعادة التشغيل شملت الشهادات كلها؛ المراجعة الدلالية المستقلة التفصيلية الإضافية محصورة في H18، لا تحكيمًا جديدًا لكل العربية."
+      },
+      "remaining_bridge": [
+        "قياس جديد مستقل بعد إغلاق هذه المراجعة إذا أريد تقدير تعميم جديد.",
+        "التحقق من كفاية المرجع لكل امتداد؛ نجاح هذه المادة لا يزيل إخفاقات مجموعتي البناء والخطاب الأصليتين."
+      ]
+    },
+    {
+      "id": "C07_AMBIGUITY_AND_CONTEXT",
+      "claim": "توجد شواهد تنفيذية على حفظ منافس مرخص ومنع نقل شهادة إلى سياق آخر؛ واجهة الإجماع تجيب فقط عند اتفاق جميع قراءات السؤال المكتملة ذات الصلة في الحكم والربط.",
+      "domain": {
+        "answer_contract": "nabt.discourse-answer.v2",
+        "witnesses": "أمثلة T/N المؤلفة، منافس المفعول داخل كاد، مراجعة WHR05، ورفض إعادة الشهادة مع سياق متغير.",
+        "excluded": "ليس برهانًا على تعداد جميع قراءات أي كلام عربي، ولا رخصة لحذف قراءة ناقصة أو أخذ اتحاد أو تقاطع انتقائي لنتائج القراءات."
+      },
+      "status": "WITNESSED_SAFETY_REPAIRS",
+      "support_evidence_paths": [
+        "evidence/arabic_coverage/temporal_ambiguity_review_v1/disclosure_v1.json",
+        "evidence/arabic_coverage/operator_argument_review_v1/review.json",
+        "evidence/arabic_coverage/answer_contract_review_v1/review.json",
+        "evidence/arabic_coverage/answer_validator_review_v1/review.json",
+        "evidence/arabic_coverage/holdout_postreview_v2_final/review.json"
+      ],
+      "known_falsifier": {
+        "condition": "قبول حكم واحد مع منافس مرخص غير محسوم، أو إسقاط ربط من إحدى القراءات لتصنيع إجماع، أو قبول التقرير على سياق/هوية مختلفين، ينقض الحد المعلن.",
+        "observed_historical_counterexample": true,
+        "witness_paths": [
+          "evidence/arabic_coverage/temporal_ambiguity_review_v1/before_v1.json",
+          "evidence/arabic_coverage/temporal_ambiguity_review_v1/after_v2.json"
+        ],
+        "historical_result": "أعطى المثال المؤلف T/N في v1 حكم SUPPORTED؛ وبعد إبقاء التحليل الاسمي المنافس في v2 صار DEFER. المدخل والمصدر ثابتان. هذا إصلاح سلامة؛ لا يجوز استعادة القبول السابق بإسقاط المنافس."
+      },
+      "source_of_detector": {
+        "basis": "مقدمات معجمية وسياقية صريحة لحالة نقض مؤلفة، ومراجعة مستقلة لشهادات القراءات بدل الاكتفاء باسم الحالة أو حالتها النهائية.",
+        "paths": [
+          "evidence/arabic_coverage/temporal_ambiguity_review_v1/source.tsv",
+          "evidence/arabic_coverage/temporal_ambiguity_review_v1/context.json",
+          "evidence/arabic_coverage/answer_validator_review_v1/review.json"
+        ],
+        "independence_limit": "حالة النقض مؤلفة ومعلومة للمطور عند الإصلاح؛ لا تثبت اكتمال اكتساب البدائل من اللغة الحرة."
+      },
+      "remaining_bridge": [
+        "تحصيل بدائل اللغة من مصدر مستقل وكافٍ بدل افتراض أن الخيارات التي نجح parser في بنائها هي كل الخيارات الممكنة.",
+        "الحفاظ على DEFER عند بقاء بديل ذي صلة غير محلول، وإثبات الربط لكل سياق جديد."
+      ]
+    },
+    {
+      "id": "C08_CLASSICAL_BOOKS",
+      "claim": "الفهرس الكلاسيكي يتيح مراجعة 13 مقطعًا مختارًا من أربعة مصادر، مع قوانين محدودة؛ لم تتحول الكتب الأربعة كاملة إلى قارئ أو إلى Lean.",
+      "domain": {
+        "catalog_revision": 2,
+        "source_count": 4,
+        "passage_count": 13,
+        "works": [
+          "الكتاب لسيبويه",
+          "متن قطر الندى",
+          "العوامل المئة للجرجاني",
+          "معجم مقاييس اللغة"
+        ],
+        "examples": "تمييز 8 مجار و4 أسطح؛ شروط إن وما وليت؛ مداخل معجمية محددة؛ والقسمة العددية للعوامل.",
+        "excluded": "صحة تفسير كل موضع أو قراءة هدف حر، ومعنى كل وقوع للكلمة، والتعلم الاكتشافي للكتب كلها."
+      },
+      "status": "SELECTED_PASSAGES_ONLY",
+      "support_evidence_paths": [
+        "evidence/classical_language/catalog_v2.json",
+        "evidence/classical_language/SOURCE_AUDIT.md",
+        "formal/Nabt/ClassicalLanguageEvidence.lean",
+        "evidence/classical_language/catalog_review_v1/classification_correction.json",
+        "evidence/classical_language/full_validation_v1.json"
+      ],
+      "known_falsifier": {
+        "condition": "مقطع لا يطابق مصدره، أو إسناد قاعدة إلى المصدر خلافًا لسياقها، أو قبول هدف دون قراءة وتفسير مرخصين، ينقض شهادة ذلك الشاهد أو التطبيق.",
+        "observed_historical_counterexample": true,
+        "existing_boundary": "صُحح توصيف شاهد هنوك من وصف أوسع إلى استعمال منقول عن متكلمين غير مسمين. وفي بلعم يختلف نجاح تفكيك شكلي إلى أصلين عن تفسير ابن فارس المودع بالاشتقاق من بلع مع زيادة."
+      },
+      "source_of_detector": {
+        "basis": "المقاطع المثبتة مع سياقها ونوع الدليل، ومراجعة المقارنة بالكتب؛ النموذج يميز وقوع النص والتفسير وقراءة الهدف والتطبيق.",
+        "paths": [
+          "evidence/classical_language/catalog_v2.json",
+          "evidence/classical_language/SOURCE_AUDIT.md",
+          "evidence/classical_language/catalog_review_v1/classification_correction.json"
+        ],
+        "independence_limit": "تفسير المقاطع وقواعد التطبيق مؤلفان ومصرح بهما؛ إثبات بايتات المصدر لا يثبت تلقائيًا صحة التفسير."
+      },
+      "remaining_bridge": [
+        "فهرسة بقية الأحكام والاستثناءات والخلافات، وربطها بمقاطعها وتفسيرات مبررة.",
+        "قارئ مستقل للأهداف مع اختبار ملاءمة التفسير؛ وجود مدخل في مقاييس أو فهرس 4506 جذور لا يثبت دلالة كل استعمال."
+      ]
+    },
+    {
+      "id": "C09_HUNDRED_FACTORS",
+      "claim": "المقطع المحدد من عوامل الجرجاني يصرح بقسمة 91 سماعية و7 قياسية و2 معنوية، والقانون يثبت أن مجموع هذه القسمة 100؛ لم تثبت مطابقة جدول المالك للكتاب عاملًا بعامل.",
+      "domain": {
+        "source": "تفريغ محدود للمتن، دار المنهاج 1430هـ/2009م، الصفحة المطبوعة 40.",
+        "law_id": "jurjani-awamil-partition-v1",
+        "partition": {
+          "samai": 91,
+          "qiyasi": 7,
+          "manawi": 2,
+          "total": 100
+        },
+        "excluded": "اعتبار كل جدول ذي 100 صف هو عوامل الجرجاني، أو مطابقة التفسير والعمل والمعمول والأثر لكل عامل."
+      },
+      "status": "COUNT_PARTITION_ONLY",
+      "support_evidence_paths": [
+        "evidence/classical_language/sources/awamil_jurjani_excerpt.txt",
+        "evidence/classical_language/sources/awamil_jurjani_excerpt.metadata.json",
+        "formal/Nabt/ClassicalLanguageEvidence.lean",
+        "evidence/classical_language/SOURCE_AUDIT.md"
+      ],
+      "known_falsifier": {
+        "condition": "مخالفة التفريغ للصورة تنقض نسبة القسمة إلى النسخة؛ واختلاف عامل واحد أو قسمه أو عمله ينقض دعوى مطابقة الجدولين حتى إن اتفق المجموع.",
+        "observed_scope_counterexample": true,
+        "existing_formal_witness": "hundred_does_not_determine_partition يعرض قسمة مختلفة مجموعها 100؛ owner_inventory_is_not_jurjani يمنع انتقال الهوية لمجرد عدد الصفوف."
+      },
+      "source_of_detector": {
+        "basis": "مقابلة بصرية معلنة لصفحة المتن، وجمع حسابي في Lean، مع فصل هوية جدول المالك عن هوية المصدر.",
+        "paths": [
+          "evidence/classical_language/sources/awamil_jurjani_excerpt.metadata.json",
+          "formal/Nabt/ClassicalLanguageEvidence.lean"
+        ],
+        "independence_limit": "المجموع المثبت ليس دليلًا مستقلًا على صحة تفريغ الصورة، ولا على استيفاء قائمة عوامل الكتاب."
+      },
+      "remaining_bridge": [
+        "استخراج قائمة الجرجاني كلها مع حدود كل عامل وأقسامه وشواهده.",
+        "مطابقة كل صف باللفظ والعمل والمعمول والأثر وسياق الاستثناء، مع تسجيل الفروق بدل إخفائها وراء المجموع."
+      ]
+    },
+    {
+      "id": "C10_WORLD_CORRESPONDENCE",
+      "claim": "صدق دعوى عن حادثة خارجية لم يثبت بهذا النظام؛ محول الاستقصاء الحالي لا يوفر جسر رصد للعالم.",
+      "domain": {
+        "claim_kind": "WORLD_CORRESPONDENCE",
+        "python_worldBridge": false,
+        "world_truth": "NOT_ESTABLISHED",
+        "gate_behavior": "عند وجود التكوين وعدم نفاد المورد، غياب الجسر يعطي DEFER قبل استخدام سند نصي موجب أو سالب للحكم على العالم.",
+        "excluded": "نفي وجود النص نفسه في النسخة المفتوحة؛ إثبات وجود لفظ في نسخة مسألة نصية لها مجالها."
+      },
+      "status": "NOT_ESTABLISHED",
+      "support_evidence_paths": [
+        "src/nabt/rational_inquiry.py",
+        "formal/Nabt/RationalInquiry.lean",
+        "evidence/rational_inquiry/conformance_v2.json",
+        "evidence/rational_inquiry/independent_tests_v3.json"
+      ],
+      "known_falsifier": {
+        "condition": "وصول WORLD_CORRESPONDENCE إلى LICENSED أو REFUTED أو CONFLICT من مقارنة نصوص فقط، أو ادعاء world_truth مثبتًا مع worldBridge=false، ينقض حاجز السلطة المعلن.",
+        "observed_current_counterexample": false,
+        "limit": "هذا وصف لحد الإثبات؛ غياب الشهادة لا يعني كذب الحادثة أو استحالة بناء جسر في إصدار آخر."
+      },
+      "source_of_detector": {
+        "basis": "أولوية بوابة Lean، قيمة worldBridge التي يبنيها المحول، واختبارات تطابق/اختلاف/تعارض النصوص دون جسر.",
+        "paths": [
+          "formal/Nabt/RationalInquiry.lean",
+          "src/nabt/rational_inquiry.py",
+          "evidence/rational_inquiry/independent_tests_v3.json"
+        ],
+        "independence_limit": "هذه كواشف امتثال لحاجز سلطة، وليست أجهزة رصد للعالم."
+      },
+      "remaining_bridge": [
+        "إجراء اقتناء ورصد مثبت بنطاق واضح، وهوية الملاحظ أو الجهاز والوقت والوحدة وظروف الصلاحية ومعايرة الخطأ.",
+        "ربط مستقل بين القياس والدعوى والسياق، مع أثر قابل لإعادة الفحص ومثال خطأ يمكن أن يكشفه الكاشف."
+      ]
+    },
+    {
+      "id": "C11_ALL_ARABIC",
+      "claim": "اكتمال فهم العربية كلها غير مثبت؛ لا تحوّل المبرهنات أو الأرقام الجزئية أو مراجعة الكتب المختارة هذه الدعوى إلى شهادة عامة.",
+      "domain": {
+        "proposed_universal_domain": "العربية كلها من حيث النص والتحليل والمعنى والسياق والمقام واللهجة والقراءات ذات الصلة؛ هذا المجال ومرجعه الكاملان لم يثبتا هنا.",
+        "all_arabic_completeness": "NOT_ESTABLISHED",
+        "excluded": "لا تدعي هذه النتيجة استحالة أي برهان لغوي شامل ببنية ومقدمات مناسبة؛ إنها تحدد نقص الدليل الحالي."
+      },
+      "status": "NOT_ESTABLISHED",
+      "support_evidence_paths": [
+        "formal/Nabt/ArabicCoverage.lean",
+        "evidence/arabic_coverage/formal_review_v1/independent_scope_review.json",
+        "evidence/arabic_coverage/discourse_residual_review_v1/residual_matrix_v1.json",
+        "evidence/arabic_coverage/construction_residual_review_v2/review.json",
+        "evidence/classical_language/catalog_v2.json"
+      ],
+      "known_falsifier": {
+        "condition": "لأي دعوى كمال مستقبلية ذات مجال ثابت، تكفي قراءة مرخصة مستقلة داخل المجال أغفلها النظام لنقض الكمال؛ وتكفي قراءة قبلها النظام ومنعها المرجع لنقض السلامة.",
+        "observed_current_boundary": "البقايا الست في البناء والثلاث والعشرون في الخطاب وشروط المرجع والاكتساب غير المنجزة تمنع الاستدلال بالقياس الحالي على اكتمال عام. تشخيص هذه البقايا ليس تحكيمًا لغويًا كاملًا لكل حالة.",
+        "status_revision_trigger": "لا يرتفع NOT_ESTABLISHED إلا بدليل جديد يفي بالتزامات المجال والمرجع والربط، لا بمجرد عدم العثور على مثال مضاد."
+      },
+      "source_of_detector": {
+        "basis": "مرجع لغوي مستقل يحدد المشروعية داخل مجال معلن سلفًا، وشواهد سياقية وهوية دقيقة، ثم المقارنة بالقراءات التي يقبلها النظام. البراهين المجردة تضبط هذه العلاقة لكنها لا تكتسب المرجع.",
+        "paths": [
+          "formal/Nabt/ArabicCoverage.lean",
+          "evidence/arabic_coverage/formal_review_v1/independent_scope_review.json",
+          "evidence/arabic_coverage/discourse_residual_review_v1/residual_matrix_v1.json"
+        ],
+        "independence_limit": "لا يوجد في هذه الحزمة كاشف كامل مستقل للعربية كلها؛ الاختبارات الحالية كواشف جزئية لمجالاتها المعلنة فقط."
+      },
+      "remaining_bridge": [
+        "تعريف المجال وحدوده وإثبات أن المرجع كافٍ وممثل له، دون تصغير المجال بعد مشاهدة الإخفاق.",
+        "إثبات السلامة والكمال بالنسبة لذلك المرجع، وربط التنفيذ الحقيقي به، والحفاظ على البدائل والسياق والموارد.",
+        "تمييز القبول النصي والدلالة المصدرية ووقائع العالم في كل توسيع، وتحديد ما يمكن أن ينقض كل دعوى جديدة."
+      ]
+    }
+  ],
+  "evidence_file_snapshots": [
+    {
+      "path": "docs/RATIONAL_INQUIRY.md",
+      "bytes": 32620,
+      "sha256": "d44ea0502c98aa3ff8d51a2e44d8adf53c93de10ade757cae27afc07ee783080"
+    },
+    {
+      "path": "evidence/arabic_coverage/answer_contract_review_v1/review.json",
+      "bytes": 697,
+      "sha256": "63ebdf84e556657dcd80f083b16ed242a05ab89cd472b97ad98227bcbc0821d9"
+    },
+    {
+      "path": "evidence/arabic_coverage/answer_validator_review_v1/review.json",
+      "bytes": 6634,
+      "sha256": "cb5507607b63964a0dae3ba78cb67b537e3edebbfbca74e7ee81692dd481353d"
+    },
+    {
+      "path": "evidence/arabic_coverage/baseline_v1.json",
+      "bytes": 10558,
+      "sha256": "1853baf28ec91b7c9a733bb13c2b22f120a657f16a07d3400982cfd24771dd25"
+    },
+    {
+      "path": "evidence/arabic_coverage/code_freeze_v2.json",
+      "bytes": 15553,
+      "sha256": "1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c"
+    },
+    {
+      "path": "evidence/arabic_coverage/construction_residual_review_v2/arabic_coverage_construction_final_strict_v2.json",
+      "bytes": 153848,
+      "sha256": "020cf93ac66414ede030474813a6b6643bf7fac79242d72c05378f0de1391acb"
+    },
+    {
+      "path": "evidence/arabic_coverage/construction_residual_review_v2/review.json",
+      "bytes": 54346,
+      "sha256": "216580368a7b0f36d62057fe4d5e08cf80bf80fddaed64029b7720c85da7f226"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/review.json",
+      "bytes": 3916,
+      "sha256": "aca540dfae67467b84a394191ffdda10560cc68afa444a5129d2035b7504611b"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_conformance_policy_review_v1/targeted_conformance_v2.json",
+      "bytes": 1571,
+      "sha256": "40d8d85f46aa9c2ec785b5c1b1c1b930ba6d2f8f987d2a719b12e5c9a2459590"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_residual_review_v1/residual_matrix_v1.json",
+      "bytes": 43954,
+      "sha256": "8286a5fb67f6acfa15fc92ba253d5e3e7827a49ac9e85c51d7f412f92bbdc51e"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_residual_review_v2/arabic_coverage_discourse_final_strict_v2.json",
+      "bytes": 134309,
+      "sha256": "eebbca44bcc599e2a602b09653e9a82af6627b3241e140ad6d47f7d3fd3d09f1"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_residual_review_v2/policy_gate_final_review.json",
+      "bytes": 3513,
+      "sha256": "4e09a2dd2c28b98b0c203c02cf4b9551a1ce1b31b20e1f9ea4d57df6cf7ed176"
+    },
+    {
+      "path": "evidence/arabic_coverage/discourse_residual_review_v2/review.json",
+      "bytes": 22322,
+      "sha256": "9a6d041af2e7f0d26039f6d3f865dcb6b2d730cab551ae9b4f7b128b462b3221"
+    },
+    {
+      "path": "evidence/arabic_coverage/formal_review_v1/independent_scope_review.json",
+      "bytes": 3993,
+      "sha256": "f31b2db5b795d36f598ceda001844856a7e4d7e7e1d66b6ac7287b0ac36ad03a"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_postreview_v1/oracle_erratum.json",
+      "bytes": 1571,
+      "sha256": "75b703d9dd2ec697034326a25c69fb333dfc289e1495712f715f5af8310f9c4f"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_postreview_v1/review.json",
+      "bytes": 12610,
+      "sha256": "e9f42a54c1c1e379d39841b1715521705f0f46873b06ec4117ee4eebc04bc7a2"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_postreview_v2_final/independent_review.json",
+      "bytes": 2732,
+      "sha256": "2265412ffac69543187eba0a9d2711d0956479112a24db1867766d350ec11589"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_postreview_v2_final/original_result.json",
+      "bytes": 134730,
+      "sha256": "da1a7719eb49a6ca547cac99aa49e938fa7f0cc48038e4f73c618388508f2a79"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_postreview_v2_final/review.json",
+      "bytes": 5934,
+      "sha256": "29353e644f26f6474e471ba53ad0b0459427e935e025513979b5626a49664fc1"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_runs_v1/first_v2.json",
+      "bytes": 134573,
+      "sha256": "da114e1ccedee5a523b599e006ec0da178e04ee38d4235699bd982c9c6e20c4e"
+    },
+    {
+      "path": "evidence/arabic_coverage/holdout_v2/freeze.json",
+      "bytes": 2983,
+      "sha256": "127a5870fcbc8f8823b95f2a9f452cf4cd87de22fcfc62b271efd32bc684c106"
+    },
+    {
+      "path": "evidence/arabic_coverage/operator_argument_review_v1/review.json",
+      "bytes": 27266,
+      "sha256": "2caafdf9e6bf47f0d2f70e8fb67918a05e7058f882807ef9ce67ebf92ab88a86"
+    },
+    {
+      "path": "evidence/arabic_coverage/oracle_audit_v1/question_input_audit.json",
+      "bytes": 12992,
+      "sha256": "3df9470fcc980ad8a719f2af1a66bf837f0a027c8a83d242c582d96b5cbe29ae"
+    },
+    {
+      "path": "evidence/arabic_coverage/regression_policy_v1.json",
+      "bytes": 96519,
+      "sha256": "cc4a05e19d516b548cc7f935e9506a3cbd85a97c5c0ad9def4dec1c2dbee274a"
+    },
+    {
+      "path": "evidence/arabic_coverage/temporal_ambiguity_review_v1/after_v2.json",
+      "bytes": 97957,
+      "sha256": "7fe877e367840cc06cfd930d40839aac5efc59c65b1806f16491d5a380ca71b0"
+    },
+    {
+      "path": "evidence/arabic_coverage/temporal_ambiguity_review_v1/before_v1.json",
+      "bytes": 93951,
+      "sha256": "7e24a263444dd57bfd22cf3a3686861f40e108fe05e4e2280155602ca8214a7d"
+    },
+    {
+      "path": "evidence/arabic_coverage/temporal_ambiguity_review_v1/context.json",
+      "bytes": 835,
+      "sha256": "7852c8f316995e8b4864edc40ee3c174e44e9f02100657188deeeaaed6e820b0"
+    },
+    {
+      "path": "evidence/arabic_coverage/temporal_ambiguity_review_v1/disclosure_v1.json",
+      "bytes": 1502,
+      "sha256": "e988922b3aca2eaedfb24b09c2d1e74ebc4f4ce62c24466d1f1eb4bba1b3ea9f"
+    },
+    {
+      "path": "evidence/arabic_coverage/temporal_ambiguity_review_v1/source.tsv",
+      "bytes": 2006,
+      "sha256": "29939a9c7dfd5d721db781a03d149b58ed22f06225d1dd96c25a206a20fec427"
+    },
+    {
+      "path": "evidence/classical_language/SOURCE_AUDIT.md",
+      "bytes": 15337,
+      "sha256": "8cf39cf4812336030ef536948de1fc79c3e4af50c08152974dee1e88363c0b82"
+    },
+    {
+      "path": "evidence/classical_language/catalog_review_v1/classification_correction.json",
+      "bytes": 766,
+      "sha256": "f532074a24583504b11384eaefd40d62ec5a57def67a3d5cbeefddf01920b869"
+    },
+    {
+      "path": "evidence/classical_language/catalog_v2.json",
+      "bytes": 18908,
+      "sha256": "65c83b8a76c2532604f90949352caa6c2c3f03b2f0c958066a2cb20390edff3f"
+    },
+    {
+      "path": "evidence/classical_language/conformance_v1.json",
+      "bytes": 2899,
+      "sha256": "c74d610db1440937e4559fabf6ec0f21540c37b4eebd0da7ebf83311e403caac"
+    },
+    {
+      "path": "evidence/classical_language/full_validation_v1.json",
+      "bytes": 62769,
+      "sha256": "924b33695abf35688a4e0e06d521374c84c4f4743a72c35bbc753ad1874405e1"
+    },
+    {
+      "path": "evidence/classical_language/sources/awamil_jurjani_excerpt.metadata.json",
+      "bytes": 4687,
+      "sha256": "bc123f577bce55eb3b0a1bb8a321a80a3f5e3ce447c66a2d9181ccec9cf0a02e"
+    },
+    {
+      "path": "evidence/classical_language/sources/awamil_jurjani_excerpt.txt",
+      "bytes": 790,
+      "sha256": "6fb3f23e891199facf6a4e2b7dbebbc75adaf203787583e899fa765a1943e4c7"
+    },
+    {
+      "path": "evidence/rational_inquiry/conformance_v2.json",
+      "bytes": 2336,
+      "sha256": "a96a50e63a4b25c79bd6ba6b1d6406c27cee2114e258ed3d17538967e1acc618"
+    },
+    {
+      "path": "evidence/rational_inquiry/demonstration_v3.json",
+      "bytes": 69565,
+      "sha256": "19a43626889295819a78988c667e83040340c339b8f58fe1b220bbc003a9a258"
+    },
+    {
+      "path": "evidence/rational_inquiry/independent_tests_v3.json",
+      "bytes": 34620,
+      "sha256": "16aa05b97088f37190c0a1be98d707a9b20107db04fc27d8501fdea33ed52a4b"
+    },
+    {
+      "path": "formal/Audit.lean",
+      "bytes": 50232,
+      "sha256": "9beb050b0485ee9ee3e205b489c99109effb7f13c3d364d3deb589724450e914"
+    },
+    {
+      "path": "formal/Nabt/ArabicCoverage.lean",
+      "bytes": 6383,
+      "sha256": "ba551342d2cb843eded26d116222519924b6324a2caf9d6f4fb5782206665238"
+    },
+    {
+      "path": "formal/Nabt/ClassicalLanguageEvidence.lean",
+      "bytes": 22267,
+      "sha256": "94a12f6bc63c8163947a234d61ba9e8f8d3030fc81df28c2f04a6d632f9b1b30"
+    },
+    {
+      "path": "formal/Nabt/RationalInquiry.lean",
+      "bytes": 15011,
+      "sha256": "01081c4fec11fff797ecfd8f7bab64e3ee8264f6ed0b13c29571153a5a2634b8"
+    },
+    {
+      "path": "formal/theorems.json",
+      "bytes": 50821,
+      "sha256": "a5a7f755e815e5b2b0c5db9f600fb7dc2d3e393b9d4b05ec5478c33a4b76fb66"
+    },
+    {
+      "path": "src/nabt/rational_inquiry.py",
+      "bytes": 23749,
+      "sha256": "a00dac231514ad7829b333ec4411cf5c31b97c48706b3a0dc4118acffd82981e"
+    }
+  ]
+}

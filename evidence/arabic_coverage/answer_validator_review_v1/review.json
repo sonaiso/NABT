@@ -1,0 +1,167 @@
+{
+  "schema": "nabt.independent-question-answer-validator-review.v1",
+  "created_utc": "2026-10-24T12:36:16.909495+00:00",
+  "code": [
+    {
+      "path": "tools/discourse_evaluation.py",
+      "bytes": 98292,
+      "sha256": "00b7de0a8ad06270de3541027c98fbba7f3d52939e137342861db5f5f775a040"
+    },
+    {
+      "path": "tools/construction_evaluation.py",
+      "bytes": 96976,
+      "sha256": "6f4a84ab586a67bffdb9f4fc0ad068baf4e718fcc9191667f804cf9a2307412a"
+    },
+    {
+      "path": "tools/question_answer_validation.py",
+      "bytes": 25158,
+      "sha256": "117852630da7458bb6ed524ac39af64a772b18bb331cc3b1e7c534aaab736a36"
+    },
+    {
+      "path": "tests/test_question_interpretation_validation.py",
+      "bytes": 25430,
+      "sha256": "bf07d908303978ee6992e426b3b83a2c17f70fc75c0bed1a805b531503ef8e9e"
+    },
+    {
+      "path": "tests/test_discourse_evaluator.py",
+      "bytes": 58449,
+      "sha256": "ad2ab7ff7d4fb89accd2c04ecc52f7748495ee615e22ad0922c0df72f8afe2c7"
+    },
+    {
+      "path": "tests/test_construction_evaluator.py",
+      "bytes": 32918,
+      "sha256": "25ed5b23be3160f77774e5400f003f7c7be69d0ab3c66de29d7b5efb6017f01d"
+    }
+  ],
+  "no_runtime_imports_in_validator": true,
+  "no_gold_changes": true,
+  "original_gold_denominators_unchanged": true,
+  "unit_test_runs": [
+    {
+      "command": "python -m unittest discover -s tests -p 'test_question_interpretation_validation.py' -v",
+      "tests": 22,
+      "returncode": 0
+    },
+    {
+      "command": "python -m unittest discover -s tests -p 'test_discourse_evaluator.py'",
+      "tests": 50,
+      "returncode": 0
+    },
+    {
+      "command": "python -m unittest discover -s tests -p 'test_construction_evaluator.py'",
+      "tests": 38,
+      "returncode": 0
+    }
+  ],
+  "unit_test_total": 110,
+  "tests_are_authored_protocol_objects_not_new_Arabic_gold": true,
+  "stored_public_examples": [
+    {
+      "path": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "bytes": 329472,
+      "sha256": "863e8d06e5c961a1e5b61615b4561af447402d134d88b3a0b55109319a523e35"
+    },
+    {
+      "path": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "bytes": 171548,
+      "sha256": "353e3f10e9f545c5e28bde1cfe8f764cfa4e7a0a7cd0db37ac2109df33129d8a"
+    }
+  ],
+  "stored_example_checks": [
+    {
+      "example": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "evaluator": "discourse",
+      "check": "document",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "evaluator": "discourse",
+      "check": "inquiry",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "evaluator": "discourse",
+      "check": "answer",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "evaluator": "construction",
+      "check": "document",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "evaluator": "construction",
+      "check": "inquiry",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/consensus_v2.json",
+      "evaluator": "construction",
+      "check": "answer",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "evaluator": "discourse",
+      "check": "document",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "evaluator": "discourse",
+      "check": "inquiry",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "evaluator": "discourse",
+      "check": "answer",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "evaluator": "construction",
+      "check": "document",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "evaluator": "construction",
+      "check": "inquiry",
+      "passed": true
+    },
+    {
+      "example": "artifacts/local/discourse_coverage/disagreement_v2.json",
+      "evaluator": "construction",
+      "check": "answer",
+      "passed": true
+    }
+  ],
+  "obligations": [
+    "Every non-rejected analysis is accounted for; incomplete viable analyses block accepting any subset.",
+    "Every accepted interpretation is the same inquiry clause/analysis, with licensed_syntax, references_complete, QUESTION force and exactly one claim.",
+    "Every qualified claim field and variable domain is retained. All positive and negative source matches are independently enumerated.",
+    "Each subresult is checked against all matches; omissions and duplicate receipts are rejected even if the headline status is unchanged.",
+    "Consensus compares kinds, statuses, binding values/statuses, and every (bindings, claim_id) pair separately by sign.",
+    "Top receipts retain the receipts of every interpretation. Disagreement yields DEFER and no top-level proofs or bindings.",
+    "Typed agreement witnesses come from the accepted claim itself. Same-lemma predicates in relative-clause interiors cannot provide the outer predicate witness.",
+    "WH UNKNOWN may retain negative counterproofs with no positively supported binding. Polar UNKNOWN must have neither sign.",
+    "New-schema records cannot bypass the inventory by dropping question_interpretations; historical single-query reports retain their legacy path.",
+    "Both evaluator code snapshots include the independent helper and its adversarial tests."
+  ],
+  "independent_peer_review": {
+    "reviewer_task": "/root/empirical_audit",
+    "scope": "Read-only review of the complete helper, after the authored tests were written.",
+    "finding": "No concrete counterexample found under the stated separately validated document/inquiry premise. This is not a proof of all-input correctness."
+  },
+  "limits": [
+    "The helper does not establish parser completeness or Arabic reference adequacy. It relies on separate source/inquiry report validation and replay.",
+    "Passing authored protocol tests and two stored examples does not establish unrestricted Arabic understanding.",
+    "The construction scoring adapter recognizes complete interpretation inventories instead of demanding a unique top query; original gold expectations and counts are unchanged.",
+    "The original frozen independent holdout evaluator and inputs remain unchanged. Its H18 false alarm is reviewed separately after execution."
+  ]
+}
