@@ -28,6 +28,16 @@ VERSION = 'nabt.constructions.independent-evaluation.v1'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b': {
+        'snapshot_sha256': '97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64',
+        'archive_sha256': 'fd1ed9ab3cc8b6b5f98c7b1e04f7bd9255cbc2abee0447cbf9a33f234e28a194',
+        'file_count': 75, 'version': '0.15.0a1',
+    },
+    'cefe19d399b19e30175579e427272b790d24eab0e07b54b152e0cd3a45dc5dc4': {
+        'snapshot_sha256': 'f4f56c8d8e5b8cf7260cb51fa5b87cd8952a2a746294e0050a072c5e3b17f79f',
+        'archive_sha256': '19bc1ab5e1c78d3163cc0ff1af4c0acb85f71886ec8cc3973aeab23529ff5714',
+        'file_count': 75, 'version': '0.15.0a1',
+    },
     '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5': {
         'snapshot_sha256': '3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58',
         'archive_sha256': '62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567',
@@ -124,6 +134,8 @@ DOCUMENTED_FAILURES_V3 = {
 
 # v4 reviewed separately after complete same-adapter strict replay and raw rescoring.
 BOUNDARY_RUNTIME_V4_SHA256 = '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5'
+RATIONAL_INQUIRY_BOUNDARY_RUNTIME_SHA256 = 'cefe19d399b19e30175579e427272b790d24eab0e07b54b152e0cd3a45dc5dc4'
+RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME_SHA256 = '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b'
 DOCUMENTED_FAILURES_V4 = {
     'CON-Z02': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis relation:0 relations_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
     'CON-Z07': frozenset('complete_construction role:0 role:1 role:2 roles_same_analysis scope:0 coherent_analysis question:0 question:1'.split()),
@@ -146,6 +158,9 @@ DOCUMENTED_BOUNDARY_POLICIES = {
     BOUNDARY_RUNTIME_SHA256: DOCUMENTED_FAILURES,
     BOUNDARY_RUNTIME_V3_SHA256: DOCUMENTED_FAILURES_V3,
     BOUNDARY_RUNTIME_V4_SHA256: DOCUMENTED_FAILURES_V4,
+    # Reuse exactly the reviewed v4 debt; the inquiry extension adds no waiver.
+    RATIONAL_INQUIRY_BOUNDARY_RUNTIME_SHA256: DOCUMENTED_FAILURES_V4,
+    RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME_SHA256: DOCUMENTED_FAILURES_V4,
 }
 
 def wire(value):
@@ -1180,7 +1195,9 @@ def gate_decision(result, allow_documented_boundaries=False):
     if type(result['strict_pass']) is not bool or result['strict_pass']!=strict:
         integrity.append('strict_pass_flag_mismatch')
     return {'gate_pass':not integrity and not unexpected and (strict or eligible),
-            'gate_mode':('documented_partial_coverage_v3' if runtime==BOUNDARY_RUNTIME_V4_SHA256
+            'gate_mode':('documented_partial_coverage_v3' if runtime in {
+                             BOUNDARY_RUNTIME_V4_SHA256, RATIONAL_INQUIRY_BOUNDARY_RUNTIME_SHA256,
+                             RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME_SHA256}
                          else 'documented_partial_coverage_v2' if runtime==BOUNDARY_RUNTIME_V3_SHA256
                          else 'documented_partial_coverage_v1') if allow_documented_boundaries else 'strict',
             'documented_boundary_runtime_sha256':runtime if eligible else None,
@@ -1289,7 +1306,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/constructions/code_freeze_v4.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/rational_inquiry/code_freeze_v2.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

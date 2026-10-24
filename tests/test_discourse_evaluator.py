@@ -888,6 +888,16 @@ class DiscourseReviewTests(unittest.TestCase):
             self.assertFalse(evaluation.gate_decision(altered, True)['gate_pass'])
 
     def test_v4_boundary_has_its_own_exact_failure_signatures_and_keeps_history(self):
+        self._check_v4_boundary_policy(evaluation.CONSTRUCTION_V4_BOUNDARY_RUNTIME,
+                                       'constructions_v4')
+
+    def test_inquiry_runtime_preserves_every_v4_signature_and_safety_gate(self):
+        self._check_v4_boundary_policy(evaluation.RATIONAL_INQUIRY_BOUNDARY_RUNTIME,
+                                       'rational_inquiry_v1')
+        self._check_v4_boundary_policy(evaluation.RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME,
+                                       'rational_inquiry_v2')
+
+    def _check_v4_boundary_policy(self, runtime, revision):
         cases = [{'id': c['id'], 'passed': True, 'failures': [], 'false_accepts': []}
                  for c in evaluation.load_material()[1]['cases']]
         p16 = next(c for c in cases if c['id'] == 'DSC-P16')
@@ -901,13 +911,13 @@ class DiscourseReviewTests(unittest.TestCase):
         result = {'cases': cases, 'total': 86, 'strict_pass': False, 'false_accept_count': 0,
                   'execution_errors': [], 'question_execution_errors': [],
                   'measurement_valid': True, 'raw_log': {'valid': True},
-                  'snapshot': {'runtime_freeze_sha256': evaluation.CONSTRUCTION_V4_BOUNDARY_RUNTIME}}
+                  'snapshot': {'runtime_freeze_sha256': runtime}}
         self.assertNotIn('DSC-P16', evaluation.CONSTRUCTION_BOUNDARIES)
         self.assertNotIn('reading:0', evaluation.CONSTRUCTION_BOUNDARIES['DSC-P26'])
         self.assertFalse(evaluation.gate_decision(result)['gate_pass'])
         permitted = evaluation.gate_decision(result, True)
         self.assertTrue(permitted['gate_pass'])
-        self.assertEqual(permitted['boundary_policy_revision'], 'constructions_v4')
+        self.assertEqual(permitted['boundary_policy_revision'], revision)
         self.assertFalse(permitted['coverage_complete'])
         self.assertFalse(result['strict_pass'])
         for old_pin in (evaluation.CONSTRUCTION_BOUNDARY_RUNTIME, evaluation.DOCUMENTED_BOUNDARY_RUNTIME,

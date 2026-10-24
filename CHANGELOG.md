@@ -1,6 +1,42 @@
 # Changelog
 
-## Unreleased — recursive algebra and exact source evidence bridge
+## 0.15.0a1
+
+- State the project's organizing principle explicitly: the rational method
+  organizes claim formation and review; methods are procedures appropriate to
+  the case; Lean formulates and checks declared obligations. Preserve the
+  distinction between a derivation and established correspondence to its target.
+
+- Integrate the rational-inquiry contract with the merged recursive source
+  bridge. Bind claims to their formation material, prior information, source
+  lineage, scope, alternatives, context, conditions and unresolved obligations.
+  Replay the report from independently supplied expected inputs. The installed
+  runtime remains exactly the registered 75-file `rational_inquiry_v2` snapshot.
+- Add 32 inquiry theorems and 48 classical-language-evidence theorems. Keep
+  source attestation, interpretation, target reading, conditional inference and
+  external-event truth distinct; no general world-observation bridge is added.
+- Reopen 13 selected passages from Sibawayhi, Matn Qatr al-Nada, Jurjani's
+  al-Awamil al-Mia and Ibn Faris's Maqayis. Pin editions, bytes and spans; retain
+  the declared manual transcription of the two selected Awamil pages.
+- Formalize the eight courses/four surfaces, the bounded full-form inna/ma/layta
+  alternatives, and Jurjani's 91/7/2 partition. Keep light forms and unknown ma
+  deferred. Lexical attestation is limited to registered root-entry projections.
+- Preserve the source-classification correction, the report-budget replay
+  defect and its repair, and the integration test's obsolete-freeze failure.
+  Keep all earlier source bytes, frozen gold and negative results available.
+- Record successful local `make check` with 1233 tests, a 99-job Lean build,
+  982 audited theorems, 49 classical finite correspondence rows and 8192 inquiry
+  rows. The focused classical tests contain 41 methods and 76 subtests; ten
+  demonstrations include three correct deferrals, not positive language claims.
+- Retain construction 71/86 and discourse 56/86 with `gate_pass=true` and
+  `strict_pass=false`. The four books are not completely formalized, the
+  hundred Awamil entries are not mapped row by row, and a target reading is not
+  acquired by the new standalone tool.
+- Release gates require authenticated repository writes and GitHub checks
+  on the exact proposed head. See [release notes and procedure](docs/releases/0.15.0a1.md)
+  and [the recorded local validation](evidence/classical_language/full_validation_v1.json).
+
+### Included recursive algebra and exact source evidence bridge
 
 - Import the supplied 32-theorem recursive algebra with only its namespace
   changed; preserve the original kernel, report, archive and verification logs.
@@ -22,7 +58,7 @@
   unresolved interfaces and Arabic acquisition claims separate. Preserve the
   old runtime freeze and every earlier evidence snapshot.
 
-## Unreleased — progressive construction algebra and conditional unit laws
+### Included progressive construction algebra and conditional unit laws
 
 - Add atomic/join/wrap/substitute/lift derivations with exact-target premises,
   inductive source/boundary/remainder preservation, strict ranks, and exact

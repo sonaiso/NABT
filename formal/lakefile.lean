@@ -2,7 +2,7 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.14.0"
+  version := v!"0.15.0"
 
 @[default_target]
 lean_lib Nabt
@@ -48,3 +48,9 @@ lean_exe progressiveUnitProbe where
 @[default_target]
 lean_exe recursiveBridgeProbe where
   root := `RecursiveBridgeProbe
+
+lean_exe exportRationalInquiry where
+  root := `ExportRationalInquiry
+
+lean_exe exportClassicalLanguageEvidence where
+  root := `ExportClassicalLanguageEvidence

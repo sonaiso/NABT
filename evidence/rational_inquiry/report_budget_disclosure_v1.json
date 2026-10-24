@@ -1,0 +1,94 @@
+{
+  "schema": "nabt-rational-inquiry-report-budget-disclosure-v1",
+  "recorded_utc": "2026-10-24T09:27:29.935779+00:00",
+  "finding": "CLI_SERIALIZATION_EXCEEDED_ITS_VERIFIER_BYTE_BUDGET",
+  "scope": "A deterministic finite API/CLI regression, not a world-truth or linguistic-acquisition measurement.",
+  "effect": "A valid LICENSED inquiry report was emitted above the verifier byte cap, so unchanged inputs could not replay it through verify-inquiry. No unsupported truth license was observed.",
+  "cause": "The API bounded compact JSON while inquire serialized indented JSON. The same MAX_REPORT_BYTES capped raw verifier input.",
+  "maximum_document_bytes": 1048576,
+  "maximum_report_bytes": 2097152,
+  "fixture": {
+    "test_path": "tests/test_rational_inquiry_report_budget.py",
+    "test_sha256": "980a8dbb4d2897a416f9aa3adef8cf5039326baa0f66faa5dc783862af592216",
+    "generator": "large_snapshot",
+    "candidate_utf8_bytes": 6750,
+    "source_count": 64,
+    "provenance": "64 declared 256-byte origins in a parent chain; all references active at the exact same scope",
+    "context_checks": 64,
+    "condition_checks": 64,
+    "claim_checks": 64,
+    "requested_rank": 1,
+    "max_checks": 256,
+    "plan_bytes": 878347,
+    "plan_sha256": "aa4be75d2dc93a647fd277e9ae73240d2d8a1bb9d78824c5c6d8b4f463b7eb36",
+    "sources_bytes": 465693,
+    "sources_sha256": "386b6afc83f54f742ee38a29547979bb92b00521da8c182fe900888994c51227"
+  },
+  "pre_fix": {
+    "source": "Reexecuted from the preserved code_freeze_v1.tar.gz, with every extracted source hash checked against the freeze manifest.",
+    "freeze_path": "evidence/rational_inquiry/code_freeze_v1.json",
+    "freeze_snapshot_sha256": "f4f56c8d8e5b8cf7260cb51fa5b87cd8952a2a746294e0050a072c5e3b17f79f",
+    "archive_sha256": "19bc1ab5e1c78d3163cc0ff1af4c0acb85f71886ec8cc3973aeab23529ff5714",
+    "affected_files": [
+      {
+        "path": "src/nabt/cli.py",
+        "sha256": "f385e554f2dd38be63b941e912b7adf340185499d27333509eec6e203667cf8c",
+        "bytes": 37274
+      },
+      {
+        "path": "src/nabt/rational_inquiry.py",
+        "sha256": "6b4753b081bca0bc801bc7d7ab20f57952b179c058d2e8e2ba14c644c6b447dc",
+        "bytes": 23592
+      }
+    ],
+    "inquire_exit": 0,
+    "claim_status": "LICENSED",
+    "compact_report_bytes": 2047249,
+    "cli_stdout_bytes_including_newline": 2116272,
+    "cli_stdout_sha256": "4e81955d2b140235059d8e43ce9c634a6ad74ac681471ceee615d96cc65f79b6",
+    "verify_exit": 3,
+    "verify_result": {
+      "status": "DEFER",
+      "code": "RESOURCE_LIMIT",
+      "message": "JSON document exceeds the byte budget",
+      "details": {
+        "maximum_bytes": 2097152
+      }
+    }
+  },
+  "post_fix": {
+    "source": "Reexecuted against the corrected working tree; source hashes identify the exact measured files.",
+    "affected_files": [
+      {
+        "path": "src/nabt/cli.py",
+        "sha256": "02730002cfed710b441f284004f9e1b218c94a5dfd413db57ee6b4097ba6f17f",
+        "bytes": 37508
+      },
+      {
+        "path": "src/nabt/rational_inquiry.py",
+        "sha256": "a00dac231514ad7829b333ec4411cf5c31b97c48706b3a0dc4118acffd82981e",
+        "bytes": 23749
+      }
+    ],
+    "inquire_exit": 0,
+    "claim_status": "LICENSED",
+    "compact_report_bytes": 2047249,
+    "cli_stdout_bytes_including_newline": 2047250,
+    "cli_stdout_sha256": "b3b73f69719c5e04d2372178e2ae48dcdf76545c4634d1c293e1c6f4881fe272",
+    "verify_exit": 0,
+    "verify_result": {
+      "valid": true,
+      "status": "VERIFIED",
+      "claim_status": "LICENSED",
+      "authority": "EXACT_INQUIRY_REPLAY",
+      "world_truth": "NOT_ESTABLISHED"
+    }
+  },
+  "regression_command": "PYTHONPATH=src python3 -m unittest discover -s tests -p test_rational_inquiry_report_budget.py -v",
+  "regression_result": {
+    "tests_run": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

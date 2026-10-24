@@ -72,6 +72,15 @@ def parser() -> Parser:
     result = Parser(prog="nabt", description="Independent Arabic numerical shape kernel")
     result.add_argument("--version", action="version", version=__version__)
     sub = result.add_subparsers(dest="command", required=True, parser_class=Parser)
+    for name in ("inquire", "verify-inquiry"):
+        inquiry = sub.add_parser(name)
+        inquiry.add_argument("document", type=Path)
+        inquiry.add_argument("--sources", type=Path, required=True,
+                             help="Independent expected live source inventory JSON")
+        inquiry.add_argument("--max-checks", default="128")
+        if name == "verify-inquiry":
+            inquiry.add_argument("--plan", type=Path, required=True,
+                                 help="Independent expected inquiry plan JSON")
     for name in ("encode", "analyse", "certify", "rank", "effect"):
         command = sub.add_parser(name)
         command.add_argument("word", help="One exact word, with one supported mark on each carrier")
@@ -226,6 +235,20 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"inquire", "verify-inquiry"}:
+        from .rational_inquiry import (audit_inquiry, verify_inquiry,
+                                       MAX_DOCUMENT_BYTES, MAX_REPORT_BYTES)
+        maximum = number(args.max_checks)
+        sources = read_certificate(args.sources, MAX_DOCUMENT_BYTES)
+        if command == "verify-inquiry":
+            report = read_certificate(args.document, MAX_REPORT_BYTES)
+            plan = read_certificate(args.plan, MAX_DOCUMENT_BYTES)
+            result = verify_inquiry(report, plan, sources, max_checks=maximum)
+            return result, 0 if result["valid"] else 3 if result["status"] == "DEFER" else 2
+        plan = read_certificate(args.document, MAX_DOCUMENT_BYTES)
+        result = audit_inquiry(plan, sources, max_checks=maximum)
+        code = 0 if result["status"] == "LICENSED" else 2 if result["status"] in {"REFUTED", "CONFLICT"} else 3
+        return result, code
     if command in {"discourse-catalog", "person-catalog", "read-person", "read-discourse", "ask-discourse",
                    "verify-discourse", "verify-discourse-answer"}:
         from .corpus_evidence import learn_qac_lexicon, MAX_CORPUS_BYTES
@@ -603,8 +626,13 @@ def run(args) -> tuple[dict, int]:
 
 def main(argv=None) -> int:
     try:
-        result, code = run(parser().parse_args(argv))
-        print(json.dumps(result, ensure_ascii=False, indent=2))
+        args = parser().parse_args(argv)
+        result, code = run(args)
+        if args.command == "inquire":
+            # Match the inquiry report's byte accounting, including newline.
+            print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
+        else:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
         return code
     except NabtError as exc:
         print(json.dumps(exc.as_dict(), ensure_ascii=False), file=sys.stderr)

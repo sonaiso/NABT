@@ -30,6 +30,16 @@ VERSION = 'nabt.discourse.independent-evaluation.v1'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b': {
+        'snapshot_sha256': '97bae287bf823be44033a9e3c174647ed3abb6a15a214e6f4542ba2bb4cc6d64',
+        'archive_sha256': 'fd1ed9ab3cc8b6b5f98c7b1e04f7bd9255cbc2abee0447cbf9a33f234e28a194',
+        'file_count': 75,
+    },
+    'cefe19d399b19e30175579e427272b790d24eab0e07b54b152e0cd3a45dc5dc4': {
+        'snapshot_sha256': 'f4f56c8d8e5b8cf7260cb51fa5b87cd8952a2a746294e0050a072c5e3b17f79f',
+        'archive_sha256': '19bc1ab5e1c78d3163cc0ff1af4c0acb85f71886ec8cc3973aeab23529ff5714',
+        'file_count': 75,
+    },
     '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5': {
         'snapshot_sha256': '3a6e9594cf6b094ca6bfce61a4969e854604f5fc4520db90c793aa7fda0b4e58',
         'archive_sha256': '62d395428f49785c005ceaf55d86ed1e66cce12453d8ed2a03146436b5ba0567',
@@ -121,6 +131,15 @@ CONSTRUCTION_BOUNDARIES = {
 # source diagnosis in constructions/legacy_discourse_review_v3. V3's larger
 # regression remains unapproved; no historical policy is changed here.
 CONSTRUCTION_V4_BOUNDARY_RUNTIME = '42476d67e30e7e86506c3e878552966ce9dc784ae1e5d98bec3af50e6f0a1aa5'
+RATIONAL_INQUIRY_BOUNDARY_RUNTIME = 'cefe19d399b19e30175579e427272b790d24eab0e07b54b152e0cd3a45dc5dc4'
+RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME = '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b'
+# The new runtime inherits the exact v4 case/check/signature policy below.
+# Neither the historical pins nor any allowed failure is changed.
+CONSTRUCTION_V4_POLICY_REVISIONS = {
+    CONSTRUCTION_V4_BOUNDARY_RUNTIME: 'constructions_v4',
+    RATIONAL_INQUIRY_BOUNDARY_RUNTIME: 'rational_inquiry_v1',
+    RATIONAL_INQUIRY_V2_BOUNDARY_RUNTIME: 'rational_inquiry_v2',
+}
 CONSTRUCTION_V4_BOUNDARIES = {
     **CONSTRUCTION_BOUNDARIES,
     'DSC-P16': frozenset({'question:0'}),
@@ -1292,7 +1311,7 @@ def gate_decision(result, allow_documented_boundaries=False):
     documented = []
     runtime = result['snapshot']['runtime_freeze_sha256']
     construction_policy = runtime == CONSTRUCTION_BOUNDARY_RUNTIME
-    construction_v4_policy = runtime == CONSTRUCTION_V4_BOUNDARY_RUNTIME
+    construction_v4_policy = runtime in CONSTRUCTION_V4_POLICY_REVISIONS
     boundaries = (CONSTRUCTION_V4_BOUNDARIES if construction_v4_policy else
                   CONSTRUCTION_BOUNDARIES if construction_policy else DOCUMENTED_BOUNDARIES)
     for case in result['cases']:
@@ -1331,7 +1350,7 @@ def gate_decision(result, allow_documented_boundaries=False):
             'documented_boundary_failures': documented,
             'unexpected_failures': unexpected,
             'boundary_policy': 'EXACT_CASE_AND_CHECK_ALLOWLIST_NO_FALSE_ACCEPT_OR_REPLAY_EXCEPTION',
-            'boundary_policy_revision': ('constructions_v4' if construction_v4_policy else
+            'boundary_policy_revision': (CONSTRUCTION_V4_POLICY_REVISIONS[runtime] if construction_v4_policy else
                                          'constructions_v2' if construction_policy else
                                          'discourse_v4' if approved else None),
             'boundary_policy_runtime_approved': approved}
@@ -1525,7 +1544,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/constructions/code_freeze_v4.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/rational_inquiry/code_freeze_v2.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')
