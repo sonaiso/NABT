@@ -4,6 +4,42 @@ NABT was created at the owner's request as a standalone implementation. It
 does not import or mutate the previous experiments. References below identify
 the research definitions consulted, not runtime dependencies.
 
+## Supplied recursive algebra and source rebuild, 2026-10-24
+
+The owner supplied `RecursiveLicensedAlgebra.lean` and
+`Root_to_Sentence_Algebra_Evidence_2026-10-24.zip`. Both originals and the
+unpacked 14-file hash manifest are preserved under
+`evidence/recursive_algebra/imported_v1/`. The original kernel SHA-256 is
+`bc3fe692f788d6b16bc6ec3ebe6f4c3ba94e8e269d568786097405cf41eb6805`;
+the ZIP SHA-256 is
+`e8381ccf75041a08bb99bff9e2534ea0300fbd5fe15f5a54230a634dc3d39b64`.
+The 32-theorem Std-only original was compiled and axiom-audited independently
+with Lean 4.34.1. The native copy changes its namespace only.
+
+This report's 24 references cover 18 distinct files at Alghanem
+`9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`, Mashru
+`e4c801ffe9171dadedcc3aae23051ea0953ae361`, and NABT
+`171cfa32a4bad0b5f9e8ff856cd98e23028122c7` (PR14). Their commit/tree/blob
+identities were checked again; 349 selected Lean and build files were
+inventoried. Separate clean checkouts record full declared default-target
+build attempts, upstream axiom audits and additional standalone checks. The
+logs retain failed resource-limited attempts and distinguish archived or
+suspended files from active build targets. This is a fresh audit of these
+three pinned projects, not a claim to have repeated the historical 41-repo
+account inventory below.
+
+The original kernel is a conditional structural algebra. Its numbers, finite
+inventories and realization assumptions do not discover Arabic roots, rule
+interpretations, categories or roles. The native bridge keeps these premises
+explicit, retains noncontiguous radical alignment within a full source host,
+and leaves the PR14 adjacency law unchanged. Source-model transport replays
+the existing NABT readers and keeps every alternative. Its full assessment
+envelope preserves upstream evidence beside an explicitly limited typed Lean
+projection; it does not recover a missing original parse tree.
+
+See the [contract transfer audit](../evidence/recursive_algebra/source_rebuild_v1/contract_transfer_review.md)
+and [native implementation contract](RECURSIVE_SOURCE_BRIDGE.md).
+
 ## Construction development `0.14.0a1`
 
 The current source audit refreshes all owner repositories in the two authorized

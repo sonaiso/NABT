@@ -1,0 +1,36 @@
+--- RecursiveBridgeProbe.before.lean
++++ RecursiveBridgeProbe.after.lean
+@@ -575,6 +575,8 @@
+   expectingKey : Bool
+   keys : Std.TreeSet String := {}
+ 
++def jsonQuote : Char := Char.ofNat 34
++
+ def rejectDuplicateKeys (line : String) : ProbeM Unit := do
+   let mut stack : List KeyFrame := []
+   let mut quoted := false
+@@ -588,7 +590,7 @@
+         escaped := false
+       else if character == '\\' then
+         escaped := true
+-      else if character == '"' then
++      else if character == jsonQuote then
+         quoted := false
+         if captureKey then
+           let keyJson ← liftParse (Json.parse (String.ofList keyText.reverse))
+@@ -600,13 +602,13 @@
+           | [] => return ← invalid "object key has no enclosing object"
+           keyText := []
+         captureKey := false
+-    else if character == '"' then
++    else if character == jsonQuote then
+       quoted := true
+       escaped := false
+       captureKey := match stack with
+         | frame :: _ => frame.isObject && frame.expectingKey
+         | [] => false
+-      keyText := if captureKey then ['"'] else []
++      keyText := if captureKey then [jsonQuote] else []
+     else if character == '{' then
+       stack := ⟨true, true, {}⟩ :: stack
+     else if character == '[' then

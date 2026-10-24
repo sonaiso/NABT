@@ -1,0 +1,21 @@
+test_recursive_source_bridge (unittest.loader._FailedTest.test_recursive_source_bridge) ... ERROR
+
+======================================================================
+ERROR: test_recursive_source_bridge (unittest.loader._FailedTest.test_recursive_source_bridge)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_recursive_source_bridge
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/scratch/93a907621097/NABT/tests/test_recursive_source_bridge.py", line 19, in <module>
+    from nabt.corpus_evidence import learn_qac_lexicon
+ModuleNotFoundError: No module named 'nabt'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

@@ -89,6 +89,12 @@ progressive-unit-conformance:
 	NABT_PROGRESSIVE_UNIT_PROBE=$(CURDIR)/formal/.lake/build/bin/progressiveUnitProbe $(PYTHON) -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v
 	NABT_PROGRESSIVE_UNIT_PROBE=$(CURDIR)/formal/.lake/build/bin/progressiveUnitProbe $(PYTHON) -B -m unittest discover -s tests -p test_binary_unit_domain_probe.py -v
 
+.PHONY: recursive-bridge-conformance
+recursive-bridge-conformance:
+	$(PYTHON) tools/check_recursive_bridge.py --lake $(LAKE) --output $(EVIDENCE_DIR)/recursive-bridge-conformance.json
+	NABT_RECURSIVE_BRIDGE_PROBE=$(CURDIR)/formal/.lake/build/bin/recursiveBridgeProbe $(PYTHON) -B -m unittest discover -s tests -p test_recursive_bridge_probe.py -v
+	NABT_RECURSIVE_BRIDGE_PROBE=$(CURDIR)/formal/.lake/build/bin/recursiveBridgeProbe $(PYTHON) -B -m unittest discover -s tests -p test_recursive_source_bridge.py -v
+
 construction-evaluation:
 	$(PYTHON) tools/construction_evaluation.py --runtime-root $(CURDIR) --runtime-freeze $(TEXT_CODE_FREEZE) --allow-documented-boundaries --output $(EVIDENCE_DIR)/construction-regression.json
 
@@ -114,7 +120,7 @@ word-evaluation:
 axioms:
 	$(PYTHON) tools/check_axioms.py --lake $(LAKE) --output $(EVIDENCE_DIR)/axioms.json
 
-check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
+check: test conformance learned-conformance property-conformance arabic-conformance governor-conformance word-conformance morphology-conformance morphology-evaluation text-evidence-conformance text-morphology-evaluation derivation-conformance derivation-evaluation nominal-conformance nominal-evaluation inflection-conformance inflection-evaluation discourse-conformance person-conformance construction-conformance unit-discovery-conformance progressive-unit-conformance recursive-bridge-conformance construction-evaluation discourse-evaluation source-experiment text-evaluation arabic-evaluation governor-evaluation word-evaluation axioms
 	$(PYTHON) tools/check_integrity.py
 
 benchmark:

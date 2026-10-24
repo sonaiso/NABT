@@ -1,0 +1,47 @@
+{
+  "schema": "nabt.recursive-algebra.runtime-boundary-review.v1",
+  "finding": "The additive adapter was initially placed under src, changing the exactly frozen installed runtime inventory from 74 to 75. Full make check correctly rejected this placement in two historical boundary tests.",
+  "resolution": "Move the additive adapter to a separately pinned NABT tool. No existing runtime entry point imports it. Keep all authoritative inventory equality checks and old freeze files unchanged.",
+  "failed_gate": "evidence/recursive_algebra/validation_v1/full_check.json",
+  "before_source_archive": "evidence/recursive_algebra/independent_runs/run_v1.json.code.tar.gz",
+  "before_source_sha256": "404977974c3050469d7b876e36fe0aa2a617a7ae4faf096f8547c01b86b5e3c1",
+  "after_path": "tools/recursive_bridge.py",
+  "after_sha256": "ffe8b1de6905d0eb4dfaac5c9e5185f901815369aa694205bde96e9b3c95801a",
+  "change_scope": "Repository bootstrap, absolute nabt imports and default probe root only; no grammar, source transport, scoring or fixture change.",
+  "frozen_files": 74,
+  "actual_inventory_count": 74,
+  "exact_inventory_verified": true,
+  "protected_guards": [
+    {
+      "path": "tools/text_evaluation/integrity.py",
+      "unchanged": true,
+      "sha256": "19256b7cbceeeb0716de814de392f4330bd5b324d9608115567b74ead3644323"
+    },
+    {
+      "path": "tools/construction_evaluation.py",
+      "unchanged": true,
+      "sha256": "4510a9e5617c6b10bcce79297cb37660b4ce0085cc821edbdfc3342c79a9e1bf"
+    },
+    {
+      "path": "tools/discourse_evaluation.py",
+      "unchanged": true,
+      "sha256": "142000bb904016a2729628b56a397a60ada6c139bddd883118a02dd3b05c03ae"
+    },
+    {
+      "path": "tools/inflection_evaluation.py",
+      "unchanged": true,
+      "sha256": "e56e586c2d97b481ae18ead0d25454d9061580f36c9dd647bb36eab00e4a7d8c"
+    },
+    {
+      "path": "tools/governor_evaluation.py",
+      "unchanged": true,
+      "sha256": "8c0aca6c3d436d378a5727455501146307dd746def5542919b8f9828862163dd"
+    },
+    {
+      "path": "tests/test_arabic_evaluation.py",
+      "unchanged": true,
+      "sha256": "27caca4d2b53689e587f2e76d2e7cabf9665a83ffd678912b9a7a7e37a9e1681"
+    }
+  ],
+  "revalidation": "New independent run_v2 and complete validation_v2 gates; original outputs remain preserved."
+}

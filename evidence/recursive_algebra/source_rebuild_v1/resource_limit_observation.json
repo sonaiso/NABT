@@ -1,0 +1,27 @@
+{
+  "schema": "nabt.recursive-algebra.build-resource-observation.v1",
+  "observed_utc": "2026-10-24T08:00:40.209302+00:00",
+  "memory_limit_bytes": 8589934592,
+  "memory_events_after_mashru_retry": {
+    "low": 0,
+    "high": 0,
+    "max": 71526,
+    "oom": 4,
+    "oom_kill": 1,
+    "oom_group_kill": 0
+  },
+  "initial_failure": {
+    "record": "Mashru.build.json",
+    "module": "Aql.WaqiShawahid",
+    "lean_exit_code": 137,
+    "outer_lake_exit_code": 1
+  },
+  "retry": {
+    "record": "Mashru.retry1.build.json",
+    "LEAN_NUM_THREADS": "1",
+    "unchanged_tracked_sources": true,
+    "uses_only_local_outputs_from_first_build": true,
+    "exit_code": 0
+  },
+  "interpretation": "The first Lean subprocess was killed (137); the enclosing 8 GiB cgroup reported an OOM kill. The same source succeeded when retried after other target builds completed with one worker. No source or theorem was patched. Per-process kernel OOM logs were not available, so cgroup counters are supporting environmental evidence, not independent mathematical diagnostics."
+}

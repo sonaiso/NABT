@@ -1,0 +1,79 @@
+{
+  "schema": "nabt.recursive-algebra.ci-integration-review.v1",
+  "recorded_utc": "2026-10-24T08:46:23.462481+00:00",
+  "initial_published_commit": "e1562a1d52b2949e02d9a420ed008ba8bb4d80c0",
+  "pull_request": "https://github.com/sonaiso/NABT/pull/15",
+  "failed_runs": [
+    {
+      "id": 40079011513,
+      "event": "push",
+      "job_id": 120828457984
+    },
+    {
+      "id": 40079015262,
+      "event": "pull_request",
+      "job_id": 120828467920
+    }
+  ],
+  "cause": "The final formal-job step did not expose src before the adapter test imported nabt.",
+  "workflow_change": "Only PYTHONPATH: src added to the affected step environment.",
+  "workflow_before_sha256": "bbd3ff27a7e0d860fa89eacc450d650f2789610ef3235d85d6aca32183df325d",
+  "workflow_after_sha256": "c26d9a2dd6ebe826d6e582b3bd8b40486a5bb467fb57fdd5a1936b80538929e4",
+  "commands_and_assertions_unchanged": true,
+  "isolated_before": {
+    "exit_code": 1,
+    "cause": "ModuleNotFoundError: nabt"
+  },
+  "isolated_after": {
+    "adapter_tests": 31,
+    "probe_tests": 23,
+    "failures": 0,
+    "skips": 0
+  },
+  "independent_read_only_review": {
+    "source_snapshot_files": 137,
+    "changed_or_missing": 0,
+    "reviewer": "recursive_independent_review",
+    "remeasurement_needed": false
+  },
+  "probe_sha256": "1f5c3a85323576b7649b87028ede3540220835640f5cf84a01320c094ec612f1",
+  "files": {
+    "README.md": {
+      "bytes": 3059,
+      "sha256": "da2b0789a71f17d5082c1f6dde1232a39ca61fe249cf742f8fb7125de40ef88f"
+    },
+    "isolated_before.json": {
+      "bytes": 742,
+      "sha256": "c50e484333a3868176bf17c0804e6e07b557be64ad94de9631e6bfb0877f608e"
+    },
+    "isolated_before.log": {
+      "bytes": 1150,
+      "sha256": "00570d0b9b5f0da5789e7b3ac1cc21fec6673b8b3f1d184b265a968ab6b63c2f"
+    },
+    "isolated_probe_after.json": {
+      "bytes": 707,
+      "sha256": "7cf8ff997d1a560cf2970602d88379460acefe1c7ebb60d2c07639e8fd1df18f"
+    },
+    "isolated_probe_after.log": {
+      "bytes": 4628,
+      "sha256": "8592bacfb76dfb2d08f2500a557ab21ef53700d9d8cda38b7efe5092ccc47808"
+    },
+    "isolated_source_after.json": {
+      "bytes": 709,
+      "sha256": "260d0ccf09057d22ae597816bab92754af581b138adfda1024d2185f63c53b41"
+    },
+    "isolated_source_after.log": {
+      "bytes": 5884,
+      "sha256": "c7cf17ccfc4f4a83b5ceba26c0d1ac8e6cbb53a9b2586404f73e39da79b6a37a"
+    },
+    "job_120828457984.log": {
+      "bytes": 85121,
+      "sha256": "ea16c89d2b7e9589724dcfd1c7808753b11a640bd69eceb814dd9790008a3f44"
+    },
+    "job_120828467920.log": {
+      "bytes": 85633,
+      "sha256": "1582e1c1204f4a4eb7d0ce3d29f38bd0d32f88136c43d416df02063850958a61"
+    }
+  },
+  "scope": "Environment correction and isolated replay. GitHub retests run separately on the correction commit; initial CI failure remains retained."
+}

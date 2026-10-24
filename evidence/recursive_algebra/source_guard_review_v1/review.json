@@ -1,0 +1,18 @@
+{
+  "schema": "nabt.recursive-algebra.source-guard-review.v1",
+  "complete_failure_log": "evidence/recursive_algebra/validation_v3/full_check.log",
+  "unit_tests_passed_before_failure": 1140,
+  "failure": "Unterminated Lean comment/string in source guard",
+  "cause": "The existing lexical source guard does not recognize Lean character literals. Three literal quote characters in the new raw JSON scanner toggled its string state. The actual Lean compiler accepted them.",
+  "resolution": "Define jsonQuote as Char.ofNat 34 and use that same Unicode quote scalar at the three sites; leave the historical guard unchanged.",
+  "guard_path": "tools/check_integrity.py",
+  "guard_unchanged": true,
+  "guard_sha256": "3295c8be1b0aec5b534cef7b0add6a95e3b476f9ed4638d6d696b36089d76d0b",
+  "before_source_archive": "evidence/recursive_algebra/independent_runs/run_v2.json.code.tar.gz",
+  "before_sha256": "49af5999bb9fdf668f4ba2daf18ddf1647199163e1ca37b99adb5504d83221c2",
+  "after_sha256": "8c5937dd6056f5f5e627fcd883104a2b8eab83fc17619b5d6c51afb0dadc64cf",
+  "proof_modules_changed": false,
+  "fixtures_or_expected_results_changed": false,
+  "preserved_incomplete_capture": "evidence/recursive_algebra/validation_v2/full_check.json",
+  "capture_note": "The earlier regular-file log omitted its tail. Its exit2 remains failed, not promoted to passing. Complete pipe capture in validation_v3 establishes the actual failure after all unit tests passed."
+}

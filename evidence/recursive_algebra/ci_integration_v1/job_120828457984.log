@@ -1,0 +1,919 @@
+﻿2026-10-24T08:41:23.9138309Z Current runner version: '2.338.0'
+2026-10-24T08:41:23.9168770Z ##[group]Runner Image Provisioner
+2026-10-24T08:41:23.9169989Z Hosted Compute Agent
+2026-10-24T08:41:23.9170610Z Version: 20261021.618
+2026-10-24T08:41:23.9171368Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-24T08:41:23.9172181Z Build Date: 2026-10-21T00:45:21Z
+2026-10-24T08:41:23.9172977Z Worker ID: {4cffb8d7-6dea-4eb5-8042-5dca6c49a6bf}
+2026-10-24T08:41:23.9173823Z Region: centralus
+2026-10-24T08:41:23.9174658Z Cloud: Azure
+2026-10-24T08:41:23.9175340Z ##[endgroup]
+2026-10-24T08:41:23.9177184Z ##[group]Operating System
+2026-10-24T08:41:23.9177923Z Ubuntu
+2026-10-24T08:41:23.9178514Z 24.04.5
+2026-10-24T08:41:23.9179067Z LTS
+2026-10-24T08:41:23.9179657Z ##[endgroup]
+2026-10-24T08:41:23.9180244Z ##[group]Runner Image
+2026-10-24T08:41:23.9180890Z Image: ubuntu-24.04
+2026-10-24T08:41:23.9181681Z Version: 20261012.334.1
+2026-10-24T08:41:23.9183168Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-24T08:41:23.9185568Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-24T08:41:23.9186682Z ##[endgroup]
+2026-10-24T08:41:23.9188034Z ##[group]GITHUB_TOKEN Permissions
+2026-10-24T08:41:23.9190595Z Contents: read
+2026-10-24T08:41:23.9191391Z Metadata: read
+2026-10-24T08:41:23.9191994Z ##[endgroup]
+2026-10-24T08:41:23.9194755Z Secret source: Actions
+2026-10-24T08:41:23.9195778Z Cache mode: write
+2026-10-24T08:41:23.9196602Z Prepare workflow directory
+2026-10-24T08:41:23.9583709Z Prepare all required actions
+2026-10-24T08:41:23.9628323Z Getting action download info
+2026-10-24T08:41:24.1990568Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-24T08:41:24.6919250Z Download action repository 'actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+2026-10-24T08:41:25.4561792Z Complete job name: formal
+2026-10-24T08:41:25.5512133Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-24T08:41:25.5513681Z with:
+2026-10-24T08:41:25.5514656Z   persist-credentials: false
+2026-10-24T08:41:25.5515540Z   repository: sonaiso/NABT
+2026-10-24T08:41:25.5521875Z   token: ***
+2026-10-24T08:41:25.5522644Z   ssh-strict: true
+2026-10-24T08:41:25.5523421Z   ssh-user: git
+2026-10-24T08:41:25.5524430Z   clean: true
+2026-10-24T08:41:25.5525250Z   sparse-checkout-cone-mode: true
+2026-10-24T08:41:25.5526182Z   fetch-depth: 1
+2026-10-24T08:41:25.5526959Z   fetch-tags: false
+2026-10-24T08:41:25.5527789Z   show-progress: true
+2026-10-24T08:41:25.5528575Z   lfs: false
+2026-10-24T08:41:25.5529298Z   submodules: false
+2026-10-24T08:41:25.5530092Z   set-safe-directory: true
+2026-10-24T08:41:25.5530986Z   allow-unsafe-pr-checkout: false
+2026-10-24T08:41:25.5532405Z env:
+2026-10-24T08:41:25.5533398Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:41:25.5535028Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:41:25.5536030Z ##[endgroup]
+2026-10-24T08:41:25.6377029Z Syncing repository: sonaiso/NABT
+2026-10-24T08:41:25.6379307Z ##[group]Getting Git version info
+2026-10-24T08:41:25.6380462Z Working directory is '/home/runner/work/NABT/NABT'
+2026-10-24T08:41:25.6382342Z [command]/usr/bin/git version
+2026-10-24T08:41:25.7715073Z git version 2.55.0
+2026-10-24T08:41:25.7733981Z ##[endgroup]
+2026-10-24T08:41:25.7745872Z Temporarily overriding HOME='/home/runner/work/_temp/7dd930f4-1784-4c37-a518-8681628020e0' before making global git config changes
+2026-10-24T08:41:25.7748801Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-24T08:41:25.7751165Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NABT/NABT
+2026-10-24T08:41:25.8044530Z Deleting the contents of '/home/runner/work/NABT/NABT'
+2026-10-24T08:41:25.8048568Z ##[group]Determining repository object format
+2026-10-24T08:41:25.8050754Z ##[endgroup]
+2026-10-24T08:41:25.8052911Z ##[group]Initializing the repository
+2026-10-24T08:41:25.8055090Z [command]/usr/bin/git init /home/runner/work/NABT/NABT
+2026-10-24T08:41:25.8577871Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-24T08:41:25.8580254Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-24T08:41:25.8582363Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-24T08:41:25.8583877Z hint: call:
+2026-10-24T08:41:25.8586178Z hint:
+2026-10-24T08:41:25.8588339Z hint: 	git config --global init.defaultBranch <name>
+2026-10-24T08:41:25.8590090Z hint:
+2026-10-24T08:41:25.8591965Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-24T08:41:25.8593926Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-24T08:41:25.8595727Z hint:
+2026-10-24T08:41:25.8596692Z hint: 	git branch -m <name>
+2026-10-24T08:41:25.8597871Z hint:
+2026-10-24T08:41:25.8599713Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-24T08:41:25.8601796Z Initialized empty Git repository in /home/runner/work/NABT/NABT/.git/
+2026-10-24T08:41:25.8605594Z [command]/usr/bin/git remote add origin https://github.com/sonaiso/NABT
+2026-10-24T08:41:25.8950285Z ##[endgroup]
+2026-10-24T08:41:25.8951811Z ##[group]Disabling automatic garbage collection
+2026-10-24T08:41:25.8953159Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-24T08:41:25.8981035Z ##[endgroup]
+2026-10-24T08:41:25.8982767Z ##[group]Setting up auth
+2026-10-24T08:41:25.8983983Z Removing SSH command configuration
+2026-10-24T08:41:25.8987241Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T08:41:25.9012683Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T08:41:26.1027047Z Removing HTTP extra header
+2026-10-24T08:41:26.1034194Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T08:41:26.1060003Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T08:41:26.1221233Z Removing includeIf entries pointing to credentials config files
+2026-10-24T08:41:26.1223354Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T08:41:26.1252458Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T08:41:26.1420240Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-24T08:41:26.1451053Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NABT/NABT/.git.path /home/runner/work/_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:26.1475011Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NABT/NABT/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:26.1501415Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:26.1526714Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:26.1549476Z ##[endgroup]
+2026-10-24T08:41:26.1551237Z ##[group]Fetching the repository
+2026-10-24T08:41:26.1555594Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e1562a1d52b2949e02d9a420ed008ba8bb4d80c0:refs/remotes/origin/feat/recursive-evidence-bridge
+2026-10-24T08:41:29.9594941Z From https://github.com/sonaiso/NABT
+2026-10-24T08:41:29.9596490Z  * [new ref]         e1562a1d52b2949e02d9a420ed008ba8bb4d80c0 -> origin/feat/recursive-evidence-bridge
+2026-10-24T08:41:29.9610651Z [command]/usr/bin/git branch --list --remote origin/feat/recursive-evidence-bridge
+2026-10-24T08:41:29.9625164Z   origin/feat/recursive-evidence-bridge
+2026-10-24T08:41:29.9630661Z [command]/usr/bin/git rev-parse refs/remotes/origin/feat/recursive-evidence-bridge
+2026-10-24T08:41:29.9649069Z e1562a1d52b2949e02d9a420ed008ba8bb4d80c0
+2026-10-24T08:41:29.9650886Z ##[endgroup]
+2026-10-24T08:41:29.9651418Z ##[group]Determining the checkout info
+2026-10-24T08:41:29.9652110Z ##[endgroup]
+2026-10-24T08:41:29.9656395Z [command]/usr/bin/git sparse-checkout disable
+2026-10-24T08:41:29.9829990Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-24T08:41:29.9854253Z ##[group]Checking out the ref
+2026-10-24T08:41:29.9857991Z [command]/usr/bin/git checkout --progress --force -B feat/recursive-evidence-bridge refs/remotes/origin/feat/recursive-evidence-bridge
+2026-10-24T08:41:30.6786172Z Switched to a new branch 'feat/recursive-evidence-bridge'
+2026-10-24T08:41:30.6991414Z branch 'feat/recursive-evidence-bridge' set up to track 'origin/feat/recursive-evidence-bridge'.
+2026-10-24T08:41:30.7043049Z ##[endgroup]
+2026-10-24T08:41:30.7085788Z [command]/usr/bin/git log -1 --format=%H
+2026-10-24T08:41:30.7102735Z e1562a1d52b2949e02d9a420ed008ba8bb4d80c0
+2026-10-24T08:41:30.7110214Z ##[group]Removing auth
+2026-10-24T08:41:30.7111081Z Removing SSH command configuration
+2026-10-24T08:41:30.7113205Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T08:41:30.7137424Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T08:41:30.7303182Z Removing HTTP extra header
+2026-10-24T08:41:30.7306615Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T08:41:30.7328427Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T08:41:30.7487111Z Removing includeIf entries pointing to credentials config files
+2026-10-24T08:41:30.7488576Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T08:41:30.7508043Z includeif.gitdir:/home/runner/work/NABT/NABT/.git.path
+2026-10-24T08:41:30.7508830Z includeif.gitdir:/home/runner/work/NABT/NABT/.git/worktrees/*.path
+2026-10-24T08:41:30.7509489Z includeif.gitdir:/github/workspace/.git.path
+2026-10-24T08:41:30.7510021Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-24T08:41:30.7517022Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NABT/NABT/.git.path
+2026-10-24T08:41:30.7531941Z /home/runner/work/_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:30.7538882Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NABT/NABT/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-7d6f2336\-babb\-453e\-871a\-f2c538ddb957\.config
+2026-10-24T08:41:30.7683044Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NABT/NABT/.git/worktrees/*.path
+2026-10-24T08:41:30.7707279Z /home/runner/work/_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:30.7710043Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NABT/NABT/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-7d6f2336\-babb\-453e\-871a\-f2c538ddb957\.config
+2026-10-24T08:41:30.7775084Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-24T08:41:30.7791614Z /github/runner_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:30.7797949Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-7d6f2336\-babb\-453e\-871a\-f2c538ddb957\.config
+2026-10-24T08:41:30.7863202Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-24T08:41:30.7878210Z /github/runner_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config
+2026-10-24T08:41:30.7884565Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-7d6f2336\-babb\-453e\-871a\-f2c538ddb957\.config
+2026-10-24T08:41:30.7946104Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T08:41:30.8103777Z Removing credentials config '/home/runner/work/_temp/git-credentials-7d6f2336-babb-453e-871a-f2c538ddb957.config'
+2026-10-24T08:41:30.8114456Z ##[endgroup]
+2026-10-24T08:41:30.8325228Z ##[group]Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+2026-10-24T08:41:30.8325644Z with:
+2026-10-24T08:41:30.8325891Z   python-version: 3.12
+2026-10-24T08:41:30.8326180Z   check-latest: false
+2026-10-24T08:41:30.8328122Z   token: ***
+2026-10-24T08:41:30.8328492Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+2026-10-24T08:41:30.8328876Z   update-environment: true
+2026-10-24T08:41:30.8329154Z   allow-prereleases: false
+2026-10-24T08:41:30.8329447Z   freethreaded: false
+2026-10-24T08:41:30.8329710Z env:
+2026-10-24T08:41:30.8330007Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:41:30.8330379Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:41:30.8330665Z ##[endgroup]
+2026-10-24T08:41:30.9237866Z ##[group]Installed versions
+2026-10-24T08:41:30.9872910Z Successfully set up CPython (3.12.15)
+2026-10-24T08:41:30.9873631Z ##[endgroup]
+2026-10-24T08:41:31.0029817Z ##[group]Run sudo apt-get update
+2026-10-24T08:41:31.0030256Z [36;1msudo apt-get update[0m
+2026-10-24T08:41:31.0030721Z [36;1msudo apt-get install --no-install-recommends -y zstd[0m
+2026-10-24T08:41:31.1378270Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:41:31.1378661Z env:
+2026-10-24T08:41:31.1378975Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:41:31.1379379Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:41:31.1379766Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:41:31.1380212Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:41:31.1380662Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:41:31.1381030Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:41:31.1381424Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:41:31.1382063Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:41:31.1382612Z ##[endgroup]
+2026-10-24T08:41:31.4141554Z Get:1 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-10-24T08:41:31.4342717Z Get:2 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-24T08:41:31.5578038Z Hit:3 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-10-24T08:41:31.5593884Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-10-24T08:41:31.6083165Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-10-24T08:41:31.6456634Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-10-24T08:41:31.7869032Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [652 kB]
+2026-10-24T08:41:31.8327051Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+2026-10-24T08:41:31.8646484Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [589 kB]
+2026-10-24T08:41:31.9400407Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1400 kB]
+2026-10-24T08:41:31.9802480Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [310 kB]
+2026-10-24T08:41:31.9887533Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1706 kB]
+2026-10-24T08:41:32.0174652Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+2026-10-24T08:41:32.0342609Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+2026-10-24T08:41:32.0532900Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+2026-10-24T08:41:32.0669409Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1146 kB]
+2026-10-24T08:41:32.0873245Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+2026-10-24T08:41:32.1074196Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1222 kB]
+2026-10-24T08:41:32.1238474Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+2026-10-24T08:41:32.1852211Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+2026-10-24T08:41:32.2121827Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+2026-10-24T08:42:03.6782792Z Fetched 12.6 MB in 2s (8151 kB/s)
+2026-10-24T08:42:04.4597064Z Reading package lists...
+2026-10-24T08:42:04.4893463Z Reading package lists...
+2026-10-24T08:42:04.6626818Z Building dependency tree...
+2026-10-24T08:42:04.6633032Z Reading state information...
+2026-10-24T08:42:04.8889925Z zstd is already the newest version (1.5.5+dfsg2-2build1.1).
+2026-10-24T08:42:04.8890345Z zstd set to manually installed.
+2026-10-24T08:42:04.8890757Z 0 upgraded, 0 newly installed, 0 to remove and 99 not upgraded.
+2026-10-24T08:42:04.8961477Z ##[group]Run python tools/bootstrap_lean.py --destination "/home/runner/work/_temp/nabt-tools"
+2026-10-24T08:42:04.8962183Z [36;1mpython tools/bootstrap_lean.py --destination "/home/runner/work/_temp/nabt-tools"[0m
+2026-10-24T08:42:04.8998697Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:42:04.8999032Z env:
+2026-10-24T08:42:04.8999448Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:42:04.8999814Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:42:04.9000140Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:04.9000565Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:42:04.9000962Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:04.9001398Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:04.9001770Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:04.9002259Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:42:04.9002581Z ##[endgroup]
+2026-10-24T08:42:16.0418234Z Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+2026-10-24T08:42:16.0432051Z Verified toolchain: /home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin
+2026-10-24T08:42:16.0618333Z ##[group]Run python tools/check_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:42:16.0619067Z [36;1mpython tools/check_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:42:16.0655912Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:42:16.0656211Z env:
+2026-10-24T08:42:16.0656567Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:42:16.0656956Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:42:16.0657290Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:16.0657719Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:42:16.0658141Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:16.0658693Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:16.0659050Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:16.0659520Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:42:16.0659830Z ##[endgroup]
+2026-10-24T08:42:17.4766364Z ✔ [2/44] Built Nabt.Transition (616ms)
+2026-10-24T08:42:17.4767545Z ✔ [3/44] Built Nabt.RuleLearning (646ms)
+2026-10-24T08:42:18.5798188Z ✔ [4/44] Built Nabt.Cell (1.8s)
+2026-10-24T08:42:18.5815675Z ✔ [5/44] Built Nabt.PropertyEvidence (1.1s)
+2026-10-24T08:42:18.7801461Z ✔ [6/44] Built Nabt.Obligations (1.3s)
+2026-10-24T08:42:19.9885971Z ✔ [7/44] Built Nabt.SemanticInference (1.4s)
+2026-10-24T08:42:20.2919374Z ✔ [8/44] Built Nabt.Program (1.8s)
+2026-10-24T08:42:20.4916148Z ✔ [9/44] Built Nabt.Transition:c.o (152ms)
+2026-10-24T08:42:20.5905897Z ✔ [10/44] Built Nabt.Cell:c.o (177ms)
+2026-10-24T08:42:21.1896297Z ✔ [11/44] Built Nabt.Acquisition (567ms)
+2026-10-24T08:42:21.1935537Z ✔ [12/44] Built Nabt.LearnedModelData (4.4s)
+2026-10-24T08:42:21.9945580Z ✔ [13/44] Built Nabt.Count (857ms)
+2026-10-24T08:42:22.7016265Z ✔ [14/44] Built Nabt.RecursiveLicensedAlgebra (2.7s)
+2026-10-24T08:42:23.4026452Z ✔ [15/44] Built Nabt.Derivation (4.6s)
+2026-10-24T08:42:23.6005523Z ✔ [16/44] Built Nabt.Sequence (955ms)
+2026-10-24T08:42:25.4065913Z ✔ [17/44] Built Nabt.UnitDiscovery (1.9s)
+2026-10-24T08:42:26.8084848Z ✔ [18/44] Built Nabt.ArabicReading (1.5s)
+2026-10-24T08:42:29.1136543Z ✔ [19/44] Built Nabt.Bridges (2.2s)
+2026-10-24T08:42:29.4173827Z ✔ [20/44] Built Nabt.Governors (8.2s)
+2026-10-24T08:42:30.7216057Z ✔ [21/44] Built Nabt.NominalPatterns (7.1s)
+2026-10-24T08:42:31.9226437Z ✔ [22/44] Built Nabt.ProsodicUnits (2.9s)
+2026-10-24T08:42:32.2203687Z ✔ [23/44] Built Nabt.LicensedDerivation (2.8s)
+2026-10-24T08:42:32.3205001Z ✔ [24/44] Built Nabt.DiscourseEvidence (1.6s)
+2026-10-24T08:42:33.0235804Z ✔ [25/44] Built Nabt.BinaryUnitDomain (847ms)
+2026-10-24T08:42:34.5249812Z ✔ [26/44] Built Nabt.RecursiveSourceBridge (1.4s)
+2026-10-24T08:42:34.8257740Z ✔ [27/44] Built Nabt.Words (2.8s)
+2026-10-24T08:42:36.1312009Z ✔ [28/44] Built Nabt.Morphology (1.3s)
+2026-10-24T08:42:37.0346386Z ✔ [29/44] Built Nabt.TextEvidence (956ms)
+2026-10-24T08:42:38.7416411Z ✔ [30/44] Built Nabt.InflectionEvidence (1.7s)
+2026-10-24T08:42:39.4436071Z ✔ [31/44] Built Nabt.Law (17s)
+2026-10-24T08:42:39.6456043Z ✔ [32/44] Built Nabt.Law:c.o (224ms)
+2026-10-24T08:42:40.1444420Z ✔ [33/44] Built Nabt.BoundedLaw (499ms)
+2026-10-24T08:42:40.1487015Z ✔ [34/44] Built Nabt.UnitCarrier (693ms)
+2026-10-24T08:42:41.1486174Z ✔ [35/44] Built Nabt.ConstructionEvidence (2.4s)
+2026-10-24T08:42:41.2482557Z ✔ [36/44] Built ExportTable (1.1s)
+2026-10-24T08:42:41.4496087Z ✔ [37/44] Built ExportTable:c.o (225ms)
+2026-10-24T08:42:41.6506864Z ✔ [38/44] Built Nabt.NominalEvidence (4.6s)
+2026-10-24T08:42:42.3595824Z ✔ [39/44] Built exportTable:exe (874ms)
+2026-10-24T08:42:43.0569988Z ✔ [40/44] Built Nabt.PersonEvidence (1.3s)
+2026-10-24T08:42:44.4577888Z ✔ [41/44] Built Nabt.AffixFunctions (1.4s)
+2026-10-24T08:42:56.0743252Z ✔ [42/44] Built Nabt.LearnedModel (15s)
+2026-10-24T08:42:56.3746321Z ✔ [43/44] Built Nabt (271ms)
+2026-10-24T08:42:56.3820792Z Build completed successfully (44 jobs).
+2026-10-24T08:42:57.3052099Z {
+2026-10-24T08:42:57.3052801Z   "ok": true,
+2026-10-24T08:42:57.3053646Z   "table_sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+2026-10-24T08:42:57.3054761Z   "primitive_transitions_checked": 11252,
+2026-10-24T08:42:57.3055423Z   "lean_sources_guarded": 55,
+2026-10-24T08:42:57.3056004Z   "fresh_lean_export_compared": true,
+2026-10-24T08:42:57.3056937Z   "governor_table_sha256": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0",
+2026-10-24T08:42:57.3057861Z   "governor_inventory_rows": 100,
+2026-10-24T08:42:57.3058783Z   "governor_source_policy_sha256": "26fdd34913ccca180bb1bf19bd58d725881117c0d01027f51374fd29d578dfa6",
+2026-10-24T08:42:57.3060079Z   "word_table_sha256": "e3e796e849386dedd6abc3a473cb15dcece2e7b35583c45d16139d3c183dbcc3",
+2026-10-24T08:42:57.3061392Z   "word_declension_classes": 15,
+2026-10-24T08:42:57.3061891Z   "word_class_case_rows": 60,
+2026-10-24T08:42:57.3062414Z   "word_source_policy_sha256": "c03134674fb8702af2d0ff4ce91c06d6b6b2f1422373da52e6449f24d1efd5f1",
+2026-10-24T08:42:57.3063608Z   "word_lexical_entries": 16,
+2026-10-24T08:42:57.3064145Z   "morphology_qualified_cause_rows": 2048,
+2026-10-24T08:42:57.3064533Z   "morphology_source_rules": 7,
+2026-10-24T08:42:57.3064873Z   "text_evidence_kind_rows": 8,
+2026-10-24T08:42:57.3065200Z   "text_evidence_activation_rows": 64,
+2026-10-24T08:42:57.3065531Z   "derivation_patterns": 71,
+2026-10-24T08:42:57.3065918Z   "verb_paradigm_rows": 64,
+2026-10-24T08:42:57.3066301Z   "nominal_profiles": 22,
+2026-10-24T08:42:57.3066635Z   "nominal_receipt_rows": 128,
+2026-10-24T08:42:57.3067007Z   "cardinal_rules": 202,
+2026-10-24T08:42:57.3067303Z   "weak_root_masks": 8,
+2026-10-24T08:42:57.3067650Z   "manqus_rows": 32,
+2026-10-24T08:42:57.3067980Z   "pronoun_projection_rows": 14,
+2026-10-24T08:42:57.3068318Z   "inflection_sign_rows": 45,
+2026-10-24T08:42:57.3068661Z   "inflection_conditional_relations": 11,
+2026-10-24T08:42:57.3069213Z   "inflection_grammar_sha256": "87d28b0d9a23ea3300f033aeef38884132d4863f4906e57dda1ee490c1365f09",
+2026-10-24T08:42:57.3069807Z   "person_law_id": "nabt.person-evidence.v1",
+2026-10-24T08:42:57.3070206Z   "discourse_law_id": "nabt.discourse-evidence.v1",
+2026-10-24T08:42:57.3070640Z   "discourse_reference_rows": 2304,
+2026-10-24T08:42:57.3070988Z   "discourse_assertion_rows": 576,
+2026-10-24T08:42:57.3071320Z   "discourse_grammar_rules": 22,
+2026-10-24T08:42:57.3071884Z   "discourse_grammar_sha256": "cd1f4fcf970b62a7ac8882bdfffed72229c5b09cac9abb561d4a99452776aa31",
+2026-10-24T08:42:57.3072497Z   "construction_law_id": "nabt.construction-evidence.v2",
+2026-10-24T08:42:57.3073069Z   "construction_table_sha256": "7cda6fd3736cbd5935bc9a9c3ab0e6510abbacc2f234bd752ab6846ba32e9595",
+2026-10-24T08:42:57.3073641Z   "construction_operator_rows": 4,
+2026-10-24T08:42:57.3073977Z   "construction_role_rows": 68,
+2026-10-24T08:42:57.3074596Z   "construction_agreement_rows": 81,
+2026-10-24T08:42:57.3074994Z   "construction_predicate_agreement_rows": 18,
+2026-10-24T08:42:57.3075353Z   "construction_idafa_rows": 256,
+2026-10-24T08:42:57.3075724Z   "construction_an_rows": 7,
+2026-10-24T08:42:57.3076053Z   "construction_activation_rows": 256,
+2026-10-24T08:42:57.3076431Z   "construction_identity_rows": 16,
+2026-10-24T08:42:57.3076776Z   "construction_scope_rows": 88,
+2026-10-24T08:42:57.3077090Z   "construction_grammar_rules": 18,
+2026-10-24T08:42:57.3077640Z   "construction_grammar_sha256": "d1c3a775f30d503bd1d43f7e570808c6b1c1ca554ca36b2a94302a3fbc8146ed",
+2026-10-24T08:42:57.3078371Z   "scope": "Lean kernel build and complete table conformance; not a full Python refinement proof",
+2026-10-24T08:42:57.3078906Z   "kernel_build_checked": true
+2026-10-24T08:42:57.3079231Z }
+2026-10-24T08:42:57.3237475Z ##[group]Run python tools/check_axioms.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:42:57.3238168Z [36;1mpython tools/check_axioms.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:42:57.3273146Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:42:57.3273519Z env:
+2026-10-24T08:42:57.3273818Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:42:57.3274245Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:42:57.3274626Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:57.3275008Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:42:57.3275426Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:57.3275771Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:57.3276093Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:57.3276562Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:42:57.3277032Z ##[endgroup]
+2026-10-24T08:42:58.8629874Z {
+2026-10-24T08:42:58.8630386Z   "ok": true,
+2026-10-24T08:42:58.8631053Z   "theorem_count": 902,
+2026-10-24T08:42:58.8631545Z   "observed_axioms": [
+2026-10-24T08:42:58.8632072Z     "Classical.choice",
+2026-10-24T08:42:58.8632517Z     "Quot.sound",
+2026-10-24T08:42:58.8632808Z     "propext"
+2026-10-24T08:42:58.8633103Z   ],
+2026-10-24T08:42:58.8633399Z   "project_axioms_allowed": false,
+2026-10-24T08:42:58.8633741Z   "all_nabt_declarations_scanned": true
+2026-10-24T08:42:58.8634346Z }
+2026-10-24T08:42:58.8731376Z ##[group]Run python tools/check_property_evidence_table.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:42:58.8732118Z [36;1mpython tools/check_property_evidence_table.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:42:58.8767553Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:42:58.8767865Z env:
+2026-10-24T08:42:58.8768292Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:42:58.8768673Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:42:58.8769017Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:58.8769424Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:42:58.8769825Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:58.8770221Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:58.8770578Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:42:58.8771296Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:42:58.8771615Z ##[endgroup]
+2026-10-24T08:42:59.3465154Z Build completed successfully (2 jobs).
+2026-10-24T08:43:00.0801147Z {
+2026-10-24T08:43:00.0802141Z   "scope": "all required/positive/negative masks at width four",
+2026-10-24T08:43:00.0802865Z   "states": 4096,
+2026-10-24T08:43:00.0803366Z   "mismatches": 0,
+2026-10-24T08:43:00.0803923Z   "statuses": {
+2026-10-24T08:43:00.0804592Z     "conflict": 1695,
+2026-10-24T08:43:00.0805083Z     "licensed": 625,
+2026-10-24T08:43:00.0805537Z     "pending": 671,
+2026-10-24T08:43:00.0805971Z     "rejected": 1105
+2026-10-24T08:43:00.0806441Z   },
+2026-10-24T08:43:00.0807198Z   "lean_table_sha256": "4d6454114d2949a02c16fda44dbef2352a68531e6f0f7c6b4debb3a40eee2db6",
+2026-10-24T08:43:00.0808290Z   "formal_scope": "Lean specification theorems; Python checked on this finite domain",
+2026-10-24T08:43:00.0808854Z   "linguistic_accuracy_measured": false,
+2026-10-24T08:43:00.0809248Z   "fresh_lean_export_compared": true,
+2026-10-24T08:43:00.0809664Z   "module_build_checked": true
+2026-10-24T08:43:00.0809973Z }
+2026-10-24T08:43:00.0941685Z ##[group]Run python -I tools/check_arabic_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:43:00.0942389Z [36;1mpython -I tools/check_arabic_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:43:00.0978070Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:00.0978410Z env:
+2026-10-24T08:43:00.0978715Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:00.0979105Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:00.0979471Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:00.0979864Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:00.0980286Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:00.0980644Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:00.0981071Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:00.0981499Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:00.0981855Z ##[endgroup]
+2026-10-24T08:43:01.1319789Z {
+2026-10-24T08:43:01.1320590Z   "ok": true,
+2026-10-24T08:43:01.1321157Z   "mood_tags": 8,
+2026-10-24T08:43:01.1321654Z   "entry_profiles": 3,
+2026-10-24T08:43:01.1322737Z   "finite_cell_envelopes": 48,
+2026-10-24T08:43:01.1323581Z   "scope": "fresh Lean tags and finite cell-codec examples; not Python parser refinement"
+2026-10-24T08:43:01.1324730Z }
+2026-10-24T08:43:01.1484712Z ##[group]Run python -I tools/check_governor_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:43:01.1485829Z [36;1mpython -I tools/check_governor_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:43:01.1528362Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:01.1528789Z env:
+2026-10-24T08:43:01.1529149Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:01.1529533Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:01.1529899Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:01.1530307Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:01.1530733Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:01.1531145Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:01.1531551Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:01.1531996Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:01.1532357Z ##[endgroup]
+2026-10-24T08:43:02.2183215Z {
+2026-10-24T08:43:02.2183544Z   "ok": true,
+2026-10-24T08:43:02.2183955Z   "law_id": "nabt.governors.v1",
+2026-10-24T08:43:02.2184475Z   "table_sha256": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0",
+2026-10-24T08:43:02.2184951Z   "entries": 100,
+2026-10-24T08:43:02.2185212Z   "distinct_labels": 96,
+2026-10-24T08:43:02.2185474Z   "classes": 13,
+2026-10-24T08:43:02.2185731Z   "numeric_role_mark_pairs": 36,
+2026-10-24T08:43:02.2186034Z   "category_allowed_pairs": 27,
+2026-10-24T08:43:02.2186311Z   "exhaustive_relevant_role_probes": 197,
+2026-10-24T08:43:02.2186771Z   "scope": "finite class algebra/codec conformance; no Python parser refinement or all-Arabic claim"
+2026-10-24T08:43:02.2187211Z }
+2026-10-24T08:43:02.2314606Z ##[group]Run python -I tools/check_word_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:43:02.2315346Z [36;1mpython -I tools/check_word_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:43:02.2350797Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:02.2351100Z env:
+2026-10-24T08:43:02.2351819Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:02.2352201Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:02.2352589Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:02.2353009Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:02.2353399Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:02.2353756Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:02.2354284Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:02.2354760Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:02.2355076Z ##[endgroup]
+2026-10-24T08:43:03.2550463Z {
+2026-10-24T08:43:03.2550780Z   "ok": true,
+2026-10-24T08:43:03.2551081Z   "law_id": "nabt.words.v1",
+2026-10-24T08:43:03.2551506Z   "table_sha256": "e3e796e849386dedd6abc3a473cb15dcece2e7b35583c45d16139d3c183dbcc3",
+2026-10-24T08:43:03.2551936Z   "kinds": 3,
+2026-10-24T08:43:03.2552169Z   "declension_classes": 15,
+2026-10-24T08:43:03.2552462Z   "ending_types": 11,
+2026-10-24T08:43:03.2552754Z   "class_case_outcomes": 60,
+2026-10-24T08:43:03.2553028Z   "licensed_pairs": 45,
+2026-10-24T08:43:03.2553298Z   "inverse_images": 165,
+2026-10-24T08:43:03.2553684Z   "scope": "finite conditional algebra and codecs; not parser refinement or Arabic completeness"
+2026-10-24T08:43:03.2554217Z }
+2026-10-24T08:43:03.3007523Z ##[group]Run python -I tools/check_morphology_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:43:03.3008417Z [36;1mpython -I tools/check_morphology_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:43:03.3045602Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:03.3045965Z env:
+2026-10-24T08:43:03.3046264Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:03.3046624Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:03.3047043Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:03.3047440Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:03.3047860Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:03.3048222Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:03.3048717Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:03.3049082Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:03.3049414Z ##[endgroup]
+2026-10-24T08:43:09.1777209Z {
+2026-10-24T08:43:09.1777633Z   "ok": true,
+2026-10-24T08:43:09.1777933Z   "law_id": "nabt.morphology.v1",
+2026-10-24T08:43:09.1778469Z   "table_sha256": "643abb2ec66ca0c153e840b2f59a0a75b7af4344a476db7e77d29171487f162f",
+2026-10-24T08:43:09.1778856Z   "verb_rows": 12,
+2026-10-24T08:43:09.1779097Z   "verb_partial": 20,
+2026-10-24T08:43:09.1779352Z   "noun_rows": 2,
+2026-10-24T08:43:09.1779582Z   "noun_partial": 4,
+2026-10-24T08:43:09.1779858Z   "nominal_rows": 4,
+2026-10-24T08:43:09.1780206Z   "nominal_partial": 16,
+2026-10-24T08:43:09.1780441Z   "cause_rows": 2048,
+2026-10-24T08:43:09.1780751Z   "genitive_contexts": 16,
+2026-10-24T08:43:09.1781027Z   "public_reader_partial_projections": 56,
+2026-10-24T08:43:09.1781481Z   "scope": "Finite conditional algebra and reader projections; not unrestricted Arabic understanding"
+2026-10-24T08:43:09.1781930Z }
+2026-10-24T08:43:09.1930178Z ##[group]Run python -I tools/check_text_evidence_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"
+2026-10-24T08:43:09.1930950Z [36;1mpython -I tools/check_text_evidence_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake"[0m
+2026-10-24T08:43:09.1966081Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:09.1966378Z env:
+2026-10-24T08:43:09.1966684Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:09.1967119Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:09.1967465Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:09.1967866Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:09.1968280Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:09.1968651Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:09.1969130Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:09.1969884Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:09.1970233Z ##[endgroup]
+2026-10-24T08:43:25.4069338Z {
+2026-10-24T08:43:25.4069847Z   "ok": true,
+2026-10-24T08:43:25.4070518Z   "law_id": "nabt.text-evidence.v1",
+2026-10-24T08:43:25.4071377Z   "table_sha256": "047d2409b280e488f4af3d635de190752a30938dbc47f053db4ae7670ef9d3ae",
+2026-10-24T08:43:25.4072213Z   "kind_masks": 8,
+2026-10-24T08:43:25.4072739Z   "receipt_masks": 64,
+2026-10-24T08:43:25.4073195Z   "independent_cue_lists": 121,
+2026-10-24T08:43:25.4073517Z   "max_source_list_length": 4,
+2026-10-24T08:43:25.4073931Z   "single_deletion_checks": 426,
+2026-10-24T08:43:25.4074623Z   "duplicate_receipt_checks": 426,
+2026-10-24T08:43:25.4075455Z   "scope": "Complete finite conditional algebra correspondence and bounded list properties; not source-reader refinement, linguistic cue activation or Arabic completeness"
+2026-10-24T08:43:25.4076236Z }
+2026-10-24T08:43:25.4206127Z ##[group]Run python -I tools/check_derivation_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-derivation-conformance.json"
+2026-10-24T08:43:25.4207937Z [36;1mpython -I tools/check_derivation_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-derivation-conformance.json"[0m
+2026-10-24T08:43:25.4246259Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:25.4246553Z env:
+2026-10-24T08:43:25.4246897Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:25.4247264Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:25.4247620Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:25.4248028Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:25.4248415Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:25.4249039Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:25.4249480Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:25.4249950Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:25.4250365Z ##[endgroup]
+2026-10-24T08:43:27.6697003Z {
+2026-10-24T08:43:27.6697615Z   "ok": true,
+2026-10-24T08:43:27.6697962Z   "law_id": "nabt.derivation-patterns.v1",
+2026-10-24T08:43:27.6698412Z   "table_sha256": "0b4d6673c033955490468ad595fc1e988890bba282101e81a80580d3fc1fbf2f",
+2026-10-24T08:43:27.6698953Z   "patterns": 71,
+2026-10-24T08:43:27.6699236Z   "bounded_preimage_checks": 1980,
+2026-10-24T08:43:27.6699566Z   "literal_and_length_counterexamples": 12951,
+2026-10-24T08:43:27.6699884Z   "root_domain_counterexamples": 213,
+2026-10-24T08:43:27.6700175Z   "repeated_slot_checks": 2,
+2026-10-24T08:43:27.6700512Z   "paradigm_truth_set_rows": 64,
+2026-10-24T08:43:27.6701295Z   "scope": "Fresh Lean registry equality; bounded inverse refinement; complete conditional availability algebra. No unrestricted Arabic reader, lexical classification, weak-form realization, or linguistic completeness claim."
+2026-10-24T08:43:27.6702081Z }
+2026-10-24T08:43:27.6845988Z ##[group]Run python -I tools/check_nominal_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-nominal-conformance.json"
+2026-10-24T08:43:27.6847043Z [36;1mpython -I tools/check_nominal_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-nominal-conformance.json"[0m
+2026-10-24T08:43:27.6883598Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:27.6883944Z env:
+2026-10-24T08:43:27.6884428Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:27.6884804Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:27.6885164Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:27.6885570Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:27.6886022Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:27.6886472Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:27.6886892Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:27.6887269Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:27.6887600Z ##[endgroup]
+2026-10-24T08:43:30.2333051Z {
+2026-10-24T08:43:30.2333703Z   "ok": true,
+2026-10-24T08:43:30.2335019Z   "law_id": "nabt.nominal-evidence.v1",
+2026-10-24T08:43:30.2335946Z   "table_sha256": "0b0218d75329e1b04302ebdf875a4a43db772d4650b3415bc767f2a6a96d07a8",
+2026-10-24T08:43:30.2336764Z   "profile_rows": 22,
+2026-10-24T08:43:30.2337306Z   "profile_constraint_subsets": 2048,
+2026-10-24T08:43:30.2337754Z   "bounded_constraint_lists": 133,
+2026-10-24T08:43:30.2338144Z   "max_source_list_length": 2,
+2026-10-24T08:43:30.2338528Z   "single_deletion_checks": 253,
+2026-10-24T08:43:30.2338864Z   "duplicate_constraint_checks": 253,
+2026-10-24T08:43:30.2339224Z   "receipt_masks": 128,
+2026-10-24T08:43:30.2339542Z   "cardinal_rows": 202,
+2026-10-24T08:43:30.2340239Z   "weak_position_masks": 8,
+2026-10-24T08:43:30.2340569Z   "bounded_root_projections": 27,
+2026-10-24T08:43:30.2340899Z   "manqus_complete_models": 32,
+2026-10-24T08:43:30.2341244Z   "pronoun_projection_rows": 14,
+2026-10-24T08:43:30.2341608Z   "canonical_pronoun_reader_checks": 14,
+2026-10-24T08:43:30.2342954Z   "scope": "Complete finite generated-law correspondence; public nominal/cardinal projections; bounded weak-root and canonical-pronoun checks. Receipt and manqus truth tables are checked, not unrestricted source qualification, partial-mark reader correctness, lexical attestation, actual syntactic case, ordinal meaning, or world cardinality."
+2026-10-24T08:43:30.2344508Z }
+2026-10-24T08:43:30.2481903Z ##[group]Run python -I tools/check_inflection_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-inflection-conformance.json"
+2026-10-24T08:43:30.2482969Z [36;1mpython -I tools/check_inflection_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-inflection-conformance.json"[0m
+2026-10-24T08:43:30.2518820Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:30.2519136Z env:
+2026-10-24T08:43:30.2519448Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:30.2519858Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:30.2520205Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:30.2520642Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:30.2521074Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:30.2521519Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:30.2521931Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:30.2522322Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:30.2522652Z ##[endgroup]
+2026-10-24T08:43:31.8197851Z {
+2026-10-24T08:43:31.8198756Z   "ok": true,
+2026-10-24T08:43:31.8199312Z   "law_id": "nabt.inflection-evidence.v1",
+2026-10-24T08:43:31.8200293Z   "packaged_sha256": "f8bc2f04fc1225a4f495d71a4c283289a3e8e9c74b9949008eb51e6445e7deb5",
+2026-10-24T08:43:31.8201250Z   "fresh_full_json_matches_packaged": true,
+2026-10-24T08:43:31.8201950Z   "type_sensitive_comparison": true,
+2026-10-24T08:43:31.8202529Z   "counts": {
+2026-10-24T08:43:31.8202867Z     "sign_rows": 45,
+2026-10-24T08:43:31.8203256Z     "conditional_surface_inverse_checks": 165,
+2026-10-24T08:43:31.8203663Z     "diptote_contexts": 16,
+2026-10-24T08:43:31.8204402Z     "nun_kinds": 7,
+2026-10-24T08:43:31.8204765Z     "relation_requirements": 11,
+2026-10-24T08:43:31.8205139Z     "receipt_masks": 256,
+2026-10-24T08:43:31.8205447Z     "construction_domains": 2
+2026-10-24T08:43:31.8205895Z   },
+2026-10-24T08:43:31.8206201Z   "runtime_correspondence": {
+2026-10-24T08:43:31.8206540Z     "sign_contexts": 16,
+2026-10-24T08:43:31.8206865Z     "class_case_projections": 60,
+2026-10-24T08:43:31.8207248Z     "caller_order_checks": 1,
+2026-10-24T08:43:31.8207599Z     "empty_domain_checks": 2,
+2026-10-24T08:43:31.8207971Z     "relation_kind_construction_combinations": 66,
+2026-10-24T08:43:31.8208409Z     "receipt_masks": 256
+2026-10-24T08:43:31.8208706Z   },
+2026-10-24T08:43:31.8208994Z   "runtime_table_adapters_checked": true,
+2026-10-24T08:43:31.8209362Z   "runtime_reader_checked": false,
+2026-10-24T08:43:31.8210014Z   "scope": "Finite conditional law correspondence; not class/segmentation/relation acquisition, source truth or unrestricted Arabic."
+2026-10-24T08:43:31.8210672Z }
+2026-10-24T08:43:31.8336220Z ##[group]Run python -I tools/check_person_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-person-conformance.json"
+2026-10-24T08:43:31.8337300Z [36;1mpython -I tools/check_person_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-person-conformance.json"[0m
+2026-10-24T08:43:31.8372398Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:31.8372837Z env:
+2026-10-24T08:43:31.8373248Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:31.8373623Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:31.8373991Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:31.8374609Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:31.8375216Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:31.8375734Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:31.8376156Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:31.8376539Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:31.8376863Z ##[endgroup]
+2026-10-24T08:43:33.2885336Z {
+2026-10-24T08:43:33.2885831Z   "ok": true,
+2026-10-24T08:43:33.2886676Z   "law_id": "nabt.person-evidence.v1",
+2026-10-24T08:43:33.2887651Z   "packaged_sha256": "f77c9b65b3a7b638166b5807fff1218cb30079d2d301c815b1b512a665858d15",
+2026-10-24T08:43:33.2888559Z   "fresh_full_json_matches_packaged": true,
+2026-10-24T08:43:33.2889112Z   "type_sensitive_comparison": true,
+2026-10-24T08:43:33.2889460Z   "counts": {
+2026-10-24T08:43:33.2889835Z     "correlated_profiles": 14,
+2026-10-24T08:43:33.2890186Z     "family_prefix_rows": 20,
+2026-10-24T08:43:33.2890520Z     "separate_pronouns": 14,
+2026-10-24T08:43:33.2890863Z     "attached_allomorphs": 20
+2026-10-24T08:43:33.2891171Z   },
+2026-10-24T08:43:33.2891511Z   "runtime_registry_correspondence": true,
+2026-10-24T08:43:33.2891860Z   "runtime_source_reader_verified": false,
+2026-10-24T08:43:33.2892397Z   "scope": "Finite conditional person/shape registry, not source truth, acquisition, reference, case or role."
+2026-10-24T08:43:33.2892944Z }
+2026-10-24T08:43:33.3010300Z ##[group]Run python -I tools/check_discourse_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-discourse-conformance.json"
+2026-10-24T08:43:33.3011417Z [36;1mpython -I tools/check_discourse_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-discourse-conformance.json"[0m
+2026-10-24T08:43:33.3047616Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:33.3047942Z env:
+2026-10-24T08:43:33.3048245Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:33.3048637Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:33.3048961Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:33.3049332Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:33.3049729Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:33.3050148Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:33.3050546Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:33.3050912Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:33.3051265Z ##[endgroup]
+2026-10-24T08:43:34.8957836Z {
+2026-10-24T08:43:34.8958299Z   "ok": true,
+2026-10-24T08:43:34.8958634Z   "law_id": "nabt.discourse-evidence.v1",
+2026-10-24T08:43:34.8959105Z   "packaged_sha256": "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325",
+2026-10-24T08:43:34.8959654Z   "fresh_full_json_matches_packaged": true,
+2026-10-24T08:43:34.8959975Z   "type_sensitive_comparison": true,
+2026-10-24T08:43:34.8960286Z   "runtime_table_adapters_checked": true,
+2026-10-24T08:43:34.8960587Z   "runtime_reader_checked": false,
+2026-10-24T08:43:34.8960846Z   "counts": {
+2026-10-24T08:43:34.8961128Z     "role_rows": 5,
+2026-10-24T08:43:34.8961474Z     "feature_rows": 25,
+2026-10-24T08:43:34.8961743Z     "combine_rows": 9,
+2026-10-24T08:43:34.8962047Z     "reference_rows": 2304,
+2026-10-24T08:43:34.8962337Z     "selection_rows": 12,
+2026-10-24T08:43:34.8962643Z     "assertion_rows": 576,
+2026-10-24T08:43:34.8963168Z     "negation_rows": 2,
+2026-10-24T08:43:34.8963419Z     "truth_rows": 16,
+2026-10-24T08:43:34.8963685Z     "coordination_rows": 8,
+2026-10-24T08:43:34.8963986Z     "claim_projection_rows": 128,
+2026-10-24T08:43:34.8967873Z     "causal_rows": 16
+2026-10-24T08:43:34.8968120Z   },
+2026-10-24T08:43:34.8968487Z   "source_policy_sha256": "cd1f4fcf970b62a7ac8882bdfffed72229c5b09cac9abb561d4a99452776aa31",
+2026-10-24T08:43:34.8969027Z   "source_passages_replayed": 22,
+2026-10-24T08:43:34.8969589Z   "scope": "Conditional algebra correspondence and exact source windows; not acquisition, external reference, free-text correctness or external truth."
+2026-10-24T08:43:34.9088517Z }
+2026-10-24T08:43:34.9141255Z ##[group]Run python -I tools/check_construction_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-construction-conformance.json"
+2026-10-24T08:43:34.9142265Z [36;1mpython -I tools/check_construction_conformance.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-construction-conformance.json"[0m
+2026-10-24T08:43:34.9177644Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:34.9177860Z env:
+2026-10-24T08:43:34.9178090Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:34.9178369Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:34.9178634Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:34.9178957Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:34.9179283Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:34.9179624Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:34.9179917Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:34.9180205Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:34.9180452Z ##[endgroup]
+2026-10-24T08:43:36.4951278Z {
+2026-10-24T08:43:36.4951595Z   "ok": true,
+2026-10-24T08:43:36.4951858Z   "law_id": "nabt.construction-evidence.v2",
+2026-10-24T08:43:36.4952250Z   "packaged_sha256": "7cda6fd3736cbd5935bc9a9c3ab0e6510abbacc2f234bd752ab6846ba32e9595",
+2026-10-24T08:43:36.4952613Z   "fresh_full_json_matches_packaged": true,
+2026-10-24T08:43:36.4952858Z   "type_sensitive_comparison": true,
+2026-10-24T08:43:36.4953088Z   "runtime_table_adapters_checked": true,
+2026-10-24T08:43:36.4953316Z   "runtime_reader_checked": false,
+2026-10-24T08:43:36.4953520Z   "counts": {
+2026-10-24T08:43:36.4953692Z     "operator_rows": 4,
+2026-10-24T08:43:36.4953928Z     "role_rows": 68,
+2026-10-24T08:43:36.4954329Z     "agreement_rows": 81,
+2026-10-24T08:43:36.4954560Z     "predicate_agreement_rows": 18,
+2026-10-24T08:43:36.4954775Z     "idafa_rows": 256,
+2026-10-24T08:43:36.4954958Z     "an_rows": 7,
+2026-10-24T08:43:36.4955139Z     "activation_rows": 256,
+2026-10-24T08:43:36.4955338Z     "identity_rows": 16,
+2026-10-24T08:43:36.4955525Z     "scope_rows": 88
+2026-10-24T08:43:36.4955699Z   },
+2026-10-24T08:43:36.4955863Z   "total_rows": 794,
+2026-10-24T08:43:36.4956351Z   "scope": "Conditional constituent, evidence and scoped-projection algebra only; not source acquisition, parser correctness, linguistic coverage or external truth."
+2026-10-24T08:43:36.4956852Z }
+2026-10-24T08:43:36.5068695Z ##[group]Run python -I tools/check_unit_discovery.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-unit-discovery-conformance.json"
+2026-10-24T08:43:36.5069699Z [36;1mpython -I tools/check_unit_discovery.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-unit-discovery-conformance.json"[0m
+2026-10-24T08:43:36.5105315Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:36.5105542Z env:
+2026-10-24T08:43:36.5105769Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:36.5106065Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:36.5106528Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:36.5106857Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:36.5107188Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:36.5107530Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:36.5107819Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:36.5108111Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:36.5108360Z ##[endgroup]
+2026-10-24T08:43:37.3615243Z {"acquisition_measured":false,"by_group":{"annotated_arabic":{"cases":24,"failed_checks":0,"fully_passed":0,"measured_checks":20,"unmeasured_checks":89},"evidence_binding":{"cases":8,"failed_checks":0,"fully_passed":3,"measured_checks":28,"unmeasured_checks":6},"mechanical":{"cases":8,"failed_checks":0,"fully_passed":4,"measured_checks":19,"unmeasured_checks":5}},"case_statuses":{"MEASURED":7,"PARTIALLY_MEASURED":23,"UNMEASURED":10},"coverage_complete":false,"errors":0,"failed_checks":0,"false_accept_count":0,"fully_passed_cases":7,"gate_pass":true,"gate_scope":"conditional_contract_checks_only","measured_checks":67,"measured_contract_gate_pass":true,"output":"/home/runner/work/_temp/nabt-unit-discovery-conformance.json","required_core_judgments_missing":{},"strict_pass":false,"total_cases":40,"unmeasured_checks":100}
+2026-10-24T08:43:37.3728867Z ##[group]Run python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
+2026-10-24T08:43:37.3729345Z [36;1mpython -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v[0m
+2026-10-24T08:43:37.3764729Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:37.3764966Z env:
+2026-10-24T08:43:37.3765205Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:37.3765493Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:37.3765774Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.3766106Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:37.3766450Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.3766749Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.3767041Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.3767378Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:37.3767775Z   NABT_UNIT_DISCOVERY_PROBE: /home/runner/work/NABT/NABT/formal/.lake/build/bin/unitDiscoveryProbe
+2026-10-24T08:43:37.3768117Z ##[endgroup]
+2026-10-24T08:43:37.5704407Z test_correct_surrogate_pair_matches_its_actual_scalar (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_correct_surrogate_pair_matches_its_actual_scalar) ... ok
+2026-10-24T08:43:37.6002377Z test_distinct_invalid_surrogates_cannot_collapse_into_a_match (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_distinct_invalid_surrogates_cannot_collapse_into_a_match) ... ok
+2026-10-24T08:43:37.6586986Z test_explicit_replacement_character_is_not_rejected (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_explicit_replacement_character_is_not_rejected) ... ok
+2026-10-24T08:43:37.6869864Z test_high_surrogate_needs_an_immediate_low_surrogate (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_high_surrogate_needs_an_immediate_low_surrogate) ... ok
+2026-10-24T08:43:37.7152928Z test_invalid_line_does_not_poison_the_following_request (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_invalid_line_does_not_poison_the_following_request) ... ok
+2026-10-24T08:43:37.7442098Z test_literal_backslash_u_sequences_are_preserved (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_literal_backslash_u_sequences_are_preserved) ... ok
+2026-10-24T08:43:37.7729170Z test_lone_high_and_low_surrogates_are_rejected (test_unit_discovery_probe.UnitDiscoveryProbeTests.test_lone_high_and_low_surrogates_are_rejected) ... ok
+2026-10-24T08:43:37.7729803Z 
+2026-10-24T08:43:37.7729978Z ----------------------------------------------------------------------
+2026-10-24T08:43:37.7730752Z Ran 7 tests in 0.233s
+2026-10-24T08:43:37.7730868Z 
+2026-10-24T08:43:37.7730945Z OK
+2026-10-24T08:43:37.7849248Z ##[group]Run python -I tools/check_progressive_units.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-progressive-unit-conformance.json"
+2026-10-24T08:43:37.7850834Z [36;1mpython -I tools/check_progressive_units.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-progressive-unit-conformance.json"[0m
+2026-10-24T08:43:37.7892451Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:37.7892683Z env:
+2026-10-24T08:43:37.7892920Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:37.7893209Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:37.7893489Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.7893815Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:37.7894400Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.7894745Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.7895043Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:37.7895340Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:37.7895593Z ##[endgroup]
+2026-10-24T08:43:38.4772049Z {"acquisition_measured":false,"assertions":115,"cases":34,"coverage_complete":false,"execution_or_consistency_errors":0,"fail":0,"fully_measured_cases":29,"measured_contract_gate":true,"measured_pass":105,"partially_measured_cases":1,"requests":40,"strict_pass":false,"unmeasured":10,"unmeasured_cases":4}
+2026-10-24T08:43:38.4883000Z ##[group]Run python -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v
+2026-10-24T08:43:38.4883463Z [36;1mpython -B -m unittest discover -s tests -p test_progressive_unit_probe.py -v[0m
+2026-10-24T08:43:38.4883870Z [36;1mpython -B -m unittest discover -s tests -p test_binary_unit_domain_probe.py -v[0m
+2026-10-24T08:43:38.4918179Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:38.4918400Z env:
+2026-10-24T08:43:38.4918634Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:38.4918915Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:38.4919172Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:38.4919480Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:38.4919798Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:38.4920088Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:38.4920424Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:38.4920719Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:38.4921124Z   NABT_PROGRESSIVE_UNIT_PROBE: /home/runner/work/NABT/NABT/formal/.lake/build/bin/progressiveUnitProbe
+2026-10-24T08:43:38.4921482Z ##[endgroup]
+2026-10-24T08:43:38.5930488Z test_a116_cells_and_compound_effect_keep_their_own_domains (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_a116_cells_and_compound_effect_keep_their_own_domains) ... ok
+2026-10-24T08:43:38.6217844Z test_atomic_base_requires_the_complete_registered_source (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_atomic_base_requires_the_complete_registered_source) ... ok
+2026-10-24T08:43:38.6498977Z test_bad_input_line_isolated_from_the_next_valid_request (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_bad_input_line_isolated_from_the_next_valid_request) ... ok
+2026-10-24T08:43:38.6781336Z test_bool_and_noncanonical_numbers_are_not_natural_identifiers (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_bool_and_noncanonical_numbers_are_not_natural_identifiers) ... ok
+2026-10-24T08:43:38.7062554Z test_budget_exhaustion_is_not_rejection_or_completion (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_budget_exhaustion_is_not_rejection_or_completion) ... ok
+2026-10-24T08:43:38.7351551Z test_caller_acceptance_flags_do_not_substitute_for_evidence (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_caller_acceptance_flags_do_not_substitute_for_evidence) ... ok
+2026-10-24T08:43:38.7641958Z test_complete_exact_target_witness_licenses_the_join (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_complete_exact_target_witness_licenses_the_join) ... ok
+2026-10-24T08:43:38.7943072Z test_each_constructor_increases_rank_and_keeps_original_source (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_each_constructor_increases_rank_and_keeps_original_source) ... ok
+2026-10-24T08:43:38.8243534Z test_each_declared_requirement_is_needed (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_each_declared_requirement_is_needed) ... ok
+2026-10-24T08:43:38.8524324Z test_equal_bytes_from_different_revisions_do_not_join (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_equal_bytes_from_different_revisions_do_not_join) ... ok
+2026-10-24T08:43:38.8801305Z test_equal_cv_counts_preserve_order_and_each_contiguous_partition (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_equal_cv_counts_preserve_order_and_each_contiguous_partition) ... ok
+2026-10-24T08:43:38.9085260Z test_exact_flattening_does_not_license_a_join_without_premises (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_exact_flattening_does_not_license_a_join_without_premises) ... ok
+2026-10-24T08:43:38.9373073Z test_join_requires_original_adjacency_without_gaps_or_overlap (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_join_requires_original_adjacency_without_gaps_or_overlap) ... ok
+2026-10-24T08:43:38.9667721Z test_known_negative_cannot_be_hidden_by_omitting_it_from_offered (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_known_negative_cannot_be_hidden_by_omitting_it_from_offered) ... ok
+2026-10-24T08:43:38.9950539Z test_negative_child_blocks_parent_even_when_parent_has_support (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_negative_child_blocks_parent_even_when_parent_has_support) ... ok
+2026-10-24T08:43:39.0241984Z test_no_op_substitution_and_same_class_lift_are_invalid (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_no_op_substitution_and_same_class_lift_are_invalid) ... ok
+2026-10-24T08:43:39.0526682Z test_offered_receipt_without_interpretation_has_no_authority (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_offered_receipt_without_interpretation_has_no_authority) ... ok
+2026-10-24T08:43:39.1916619Z test_ordered_quota_enumeration_matches_independent_position_subsets (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_ordered_quota_enumeration_matches_independent_position_subsets) ... ok
+2026-10-24T08:43:39.2196189Z test_quantity_is_declared_and_vv_does_not_acquire_length (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_quantity_is_declared_and_vv_does_not_acquire_length) ... ok
+2026-10-24T08:43:39.2493704Z test_receipt_binding_includes_each_target_component (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_receipt_binding_includes_each_target_component) ... ok
+2026-10-24T08:43:39.2784342Z test_substitution_deletion_retains_raw_and_rejects_forged_current_output (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_substitution_deletion_retains_raw_and_rejects_forged_current_output) ... ok
+2026-10-24T08:43:39.3073512Z test_support_needs_nonempty_registered_in_bounds_provenance (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_support_needs_nonempty_registered_in_bounds_provenance) ... ok
+2026-10-24T08:43:39.3362328Z test_supported_parent_does_not_bypass_an_unsupported_child (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_supported_parent_does_not_bypass_an_unsupported_child) ... ok
+2026-10-24T08:43:39.3644698Z test_unicode_surrogate_errors_do_not_alias_valid_source_atoms (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_unicode_surrogate_errors_do_not_alias_valid_source_atoms) ... ok
+2026-10-24T08:43:39.3920746Z test_unit_key_preserves_occurrence_without_erasing_alternative_trees (test_progressive_unit_probe.ProgressiveUnitProbeTests.test_unit_key_preserves_occurrence_without_erasing_alternative_trees) ... ok
+2026-10-24T08:43:39.3922256Z 
+2026-10-24T08:43:39.3922539Z ----------------------------------------------------------------------
+2026-10-24T08:43:39.3923141Z Ran 25 tests in 0.830s
+2026-10-24T08:43:39.3923390Z 
+2026-10-24T08:43:39.3923531Z OK
+2026-10-24T08:43:39.4961601Z test_actual_exhaustion_and_refutation_establish_only_domain_necessity (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_actual_exhaustion_and_refutation_establish_only_domain_necessity) ... ok
+2026-10-24T08:43:39.7248150Z test_all_binary_shapes_match_closed_form_catalan_counts (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_all_binary_shapes_match_closed_form_catalan_counts) ... ok
+2026-10-24T08:43:39.7533058Z test_caller_complete_flag_and_short_candidate_list_cannot_assert_exhaustion (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_caller_complete_flag_and_short_candidate_list_cannot_assert_exhaustion) ... ok
+2026-10-24T08:43:39.8090088Z test_empty_partition_does_not_create_an_empty_binary_unit (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_empty_partition_does_not_create_an_empty_binary_unit) ... ok
+2026-10-24T08:43:39.8377887Z test_generated_source_domain_keeps_both_explicit_associations (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_generated_source_domain_keeps_both_explicit_associations) ... ok
+2026-10-24T08:43:39.9215418Z test_invalid_extent_and_missing_source_are_not_linguistic_refutations (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_invalid_extent_and_missing_source_are_not_linguistic_refutations) ... ok
+2026-10-24T08:43:40.0192700Z test_ordinary_eight_leaf_source_forest_remains_complete (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_ordinary_eight_leaf_source_forest_remains_complete) ... ok
+2026-10-24T08:43:40.0503693Z test_rejected_and_conflicted_candidates_never_select_an_answer (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_rejected_and_conflicted_candidates_never_select_an_answer) ... ok
+2026-10-24T08:43:40.0847989Z test_repeated_large_tag_cannot_exceed_the_output_budget (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_repeated_large_tag_cannot_exceed_the_output_budget) ... ok
+2026-10-24T08:43:40.1152434Z test_supported_path_with_pending_rival_is_not_unique (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_supported_path_with_pending_rival_is_not_unique) ... ok
+2026-10-24T08:43:40.1459655Z test_two_licensed_derivations_remain_ambiguous_despite_equal_content (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_two_licensed_derivations_remain_ambiguous_despite_equal_content) ... ok
+2026-10-24T08:43:40.2063154Z test_withdrawal_recomputes_selection_through_all_children (test_binary_unit_domain_probe.BinaryUnitDomainProbeTests.test_withdrawal_recomputes_selection_through_all_children) ... ok
+2026-10-24T08:43:40.2063925Z 
+2026-10-24T08:43:40.2064234Z ----------------------------------------------------------------------
+2026-10-24T08:43:40.2064514Z Ran 12 tests in 0.741s
+2026-10-24T08:43:40.2064638Z 
+2026-10-24T08:43:40.2064709Z OK
+2026-10-24T08:43:40.2182326Z ##[group]Run python -I tools/check_recursive_bridge.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-recursive-bridge-conformance.json"
+2026-10-24T08:43:40.2183716Z [36;1mpython -I tools/check_recursive_bridge.py --lake "/home/runner/work/_temp/nabt-tools/lean-4.34.1-linux/bin/lake" --output "/home/runner/work/_temp/nabt-recursive-bridge-conformance.json"[0m
+2026-10-24T08:43:40.2224498Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:40.2224733Z env:
+2026-10-24T08:43:40.2224969Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:40.2225267Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:40.2225538Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:40.2226048Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:40.2226379Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:40.2226717Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:40.2227009Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:40.2227303Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:40.2227551Z ##[endgroup]
+2026-10-24T08:43:40.6520633Z Build completed successfully (26 jobs).
+2026-10-24T08:43:41.2941741Z {"acquisition_measured":false,"assertions":{"FAIL":0,"PASS":65,"UNMEASURED":41},"case_count":40,"cases_by_status":{"FAIL":0,"PARTIALLY_MEASURED":8,"PASS":19,"UNMEASURED":13},"held_out_arabic_discovery_measured":false,"measured_contract_gate":true,"response_integrity_errors":0,"strict_complete_pass":false}
+2026-10-24T08:43:41.3280854Z ##[group]Run python -B -m unittest discover -s tests -p test_recursive_bridge_probe.py -v
+2026-10-24T08:43:41.3281345Z [36;1mpython -B -m unittest discover -s tests -p test_recursive_bridge_probe.py -v[0m
+2026-10-24T08:43:41.3281745Z [36;1mpython -B -m unittest discover -s tests -p test_recursive_source_bridge.py -v[0m
+2026-10-24T08:43:41.3317546Z shell: /usr/bin/bash -e {0}
+2026-10-24T08:43:41.3317763Z env:
+2026-10-24T08:43:41.3317986Z   NABT_CODE_FREEZE: evidence/constructions/code_freeze_v4.json
+2026-10-24T08:43:41.3318270Z   NABT_FREEZE_VERSION: constructions_v4
+2026-10-24T08:43:41.3318533Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:41.3318857Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-24T08:43:41.3319171Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:41.3319457Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:41.3319779Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-24T08:43:41.3320061Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-24T08:43:41.3320461Z   NABT_RECURSIVE_BRIDGE_PROBE: /home/runner/work/NABT/NABT/formal/.lake/build/bin/recursiveBridgeProbe
+2026-10-24T08:43:41.3320802Z ##[endgroup]
+2026-10-24T08:43:41.4314890Z test_candidate_and_number_budget_exhaustion_do_not_claim_rejection (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_candidate_and_number_budget_exhaustion_do_not_claim_rejection) ... ok
+2026-10-24T08:43:41.4642323Z test_complete_interpreted_full_target_receipt_is_conditional (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_complete_interpreted_full_target_receipt_is_conditional) ... ok
+2026-10-24T08:43:41.4941657Z test_discontinuous_unicode_radicals_bind_a_complete_contiguous_host (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_discontinuous_unicode_radicals_bind_a_complete_contiguous_host) ... ok
+2026-10-24T08:43:41.5275645Z test_duplicate_key_detection_decodes_escaped_keys_and_nested_receipts (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_duplicate_key_detection_decodes_escaped_keys_and_nested_receipts) ... ok
+2026-10-24T08:43:41.5581272Z test_duplicate_object_keys_are_rejected_before_lossy_typed_projection (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_duplicate_object_keys_are_rejected_before_lossy_typed_projection) ... ok
+2026-10-24T08:43:41.6543301Z test_enumeration_deduplicates_inventory_and_reports_structural_completeness (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_enumeration_deduplicates_inventory_and_reports_structural_completeness) ... ok
+2026-10-24T08:43:41.6833032Z test_fast_numbering_matches_independent_closed_arithmetic_with_bit_preflight (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_fast_numbering_matches_independent_closed_arithmetic_with_bit_preflight) ... ok
+2026-10-24T08:43:41.7153124Z test_full_substitution_is_retained_while_original_source_is_recovered (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_full_substitution_is_retained_while_original_source_is_recovered) ... ok
+2026-10-24T08:43:41.7972293Z test_jsonl_recovers_after_invalid_or_oversized_requests (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_jsonl_recovers_after_invalid_or_oversized_requests) ... ok
+2026-10-24T08:43:41.8264370Z test_key_guard_respects_independent_objects_strings_and_following_lines (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_key_guard_respects_independent_objects_strings_and_following_lines) ... ok
+2026-10-24T08:43:41.8644555Z test_known_negative_cannot_be_hidden_or_downgraded_to_source_only (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_known_negative_cannot_be_hidden_or_downgraded_to_source_only) ... ok
+2026-10-24T08:43:41.9298633Z test_metadata_cannot_be_swapped_behind_an_unchanged_receipt_target (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_metadata_cannot_be_swapped_behind_an_unchanged_receipt_target) ... ok
+2026-10-24T08:43:41.9625434Z test_missing_or_changed_alignment_fails_even_when_root_surface_matches (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_missing_or_changed_alignment_fails_even_when_root_surface_matches) ... ok
+2026-10-24T08:43:41.9972175Z test_noop_substitution_and_same_class_lift_fail_existing_host_entry_gates (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_noop_substitution_and_same_class_lift_fail_existing_host_entry_gates) ... ok
+2026-10-24T08:43:42.0399925Z test_offered_receipts_and_unregistered_support_do_not_self_authorize (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_offered_receipts_and_unregistered_support_do_not_self_authorize) ... ok
+2026-10-24T08:43:42.0826013Z test_parent_receipt_never_bypasses_child_premises (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_parent_receipt_never_bypasses_child_premises) ... ok
+2026-10-24T08:43:42.1132498Z test_radical_only_host_cannot_bypass_original_join_adjacency (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_radical_only_host_cannot_bypass_original_join_adjacency) ... ok
+2026-10-24T08:43:42.1430004Z test_repeated_and_reordered_radical_positions_are_preserved (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_repeated_and_reordered_radical_positions_are_preserved) ... ok
+2026-10-24T08:43:42.1727338Z test_root_seed_must_match_typed_reading_in_the_declared_carrier_domain (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_root_seed_must_match_typed_reading_in_the_declared_carrier_domain) ... ok
+2026-10-24T08:43:42.2067784Z test_source_identity_requires_complete_atoms_and_scope_revision (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_source_identity_requires_complete_atoms_and_scope_revision) ... ok
+2026-10-24T08:43:42.2374539Z test_unknown_metadata_or_claim_flags_and_non_scalar_atoms_are_rejected (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_unknown_metadata_or_claim_flags_and_non_scalar_atoms_are_rejected) ... ok
+2026-10-24T08:43:42.2721637Z test_unresolved_or_reconstructed_nodes_do_not_gain_a_linguistic_license (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_unresolved_or_reconstructed_nodes_do_not_gain_a_linguistic_license) ... ok
+2026-10-24T08:43:42.2996185Z test_zero_structural_number_is_valid_and_registry_scoped (test_recursive_bridge_probe.RecursiveBridgeProbeTests.test_zero_structural_number_is_valid_and_registry_scoped) ... ok
+2026-10-24T08:43:42.2997499Z 
+2026-10-24T08:43:42.2997780Z ----------------------------------------------------------------------
+2026-10-24T08:43:42.2998378Z Ran 23 tests in 0.897s
+2026-10-24T08:43:42.2998609Z 
+2026-10-24T08:43:42.2998754Z OK
+2026-10-24T08:43:42.7563685Z test_recursive_source_bridge (unittest.loader._FailedTest.test_recursive_source_bridge) ... ERROR
+2026-10-24T08:43:42.7564775Z 
+2026-10-24T08:43:42.7564997Z ======================================================================
+2026-10-24T08:43:42.7565861Z ERROR: test_recursive_source_bridge (unittest.loader._FailedTest.test_recursive_source_bridge)
+2026-10-24T08:43:42.7566844Z ----------------------------------------------------------------------
+2026-10-24T08:43:42.7568051Z ImportError: Failed to import test module: test_recursive_source_bridge
+2026-10-24T08:43:42.7568762Z Traceback (most recent call last):
+2026-10-24T08:43:42.7577681Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+2026-10-24T08:43:42.7578287Z     module = self._get_module_from_name(name)
+2026-10-24T08:43:42.7578570Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-24T08:43:42.7579112Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+2026-10-24T08:43:42.7579601Z     __import__(name)
+2026-10-24T08:43:42.7580015Z   File "/home/runner/work/NABT/NABT/tests/test_recursive_source_bridge.py", line 19, in <module>
+2026-10-24T08:43:42.7580476Z     from nabt.corpus_evidence import learn_qac_lexicon
+2026-10-24T08:43:42.7580804Z ModuleNotFoundError: No module named 'nabt'
+2026-10-24T08:43:42.7581481Z 
+2026-10-24T08:43:42.7581494Z 
+2026-10-24T08:43:42.7581654Z ----------------------------------------------------------------------
+2026-10-24T08:43:42.7582006Z Ran 1 test in 0.000s
+2026-10-24T08:43:42.7582143Z 
+2026-10-24T08:43:42.7582227Z FAILED (errors=1)
+2026-10-24T08:43:42.7716528Z ##[error]Process completed with exit code 1.
+2026-10-24T08:43:42.7821257Z Post job cleanup.
+2026-10-24T08:43:42.8471810Z [command]/usr/bin/git version
+2026-10-24T08:43:42.8509809Z git version 2.55.0
+2026-10-24T08:43:42.8534673Z Temporarily overriding HOME='/home/runner/work/_temp/46c9d274-fcc6-4845-81dc-b510638ffd95' before making global git config changes
+2026-10-24T08:43:42.8536431Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-24T08:43:42.8539679Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NABT/NABT
+2026-10-24T08:43:42.8562917Z Removing SSH command configuration
+2026-10-24T08:43:42.8568015Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T08:43:42.8593233Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T08:43:42.8751256Z Removing HTTP extra header
+2026-10-24T08:43:42.8755789Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T08:43:42.8778246Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T08:43:42.8934630Z Removing includeIf entries pointing to credentials config files
+2026-10-24T08:43:42.8939462Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T08:43:42.8962728Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T08:43:42.9229009Z Cleaning up orphan processes
