@@ -45,7 +45,18 @@
   "formal_scope": "No Lean change or new theorem. Reuses the pinned native ground-reading verifier. Python adapter is tested, not formally refined.",
   "model_training": false,
   "hidden_test": false,
-  "full_regression": "First local run: 1460 tests, 2 failures and 3 errors due to changed inventory, 10 skipped probe groups. After the adapter move, the 79-test integration suite passes with one skip; full make test is being rerun. Exact final-head CI is linked in the PR.",
+  "full_regression": {
+    "command": "NABT_VERIFIED_READING=<built verifiedReading> make test",
+    "tests_run": 1463,
+    "successful_test_lines": 1463,
+    "skipped_probe_groups": 10,
+    "failures": 0,
+    "errors": 0,
+    "log_sha256": "0066071e9ed803058e8e638f6ac1aa5509a19c3cb38c997bdfb2f8417807ea1f",
+    "archive_sha256": "72410288a12d901cba0f1d90ac85c3d48ba17fae070414d738c67834f70e184d",
+    "tested_code_head": "82d359289304593542b647f19f2a85ae9b317c75",
+    "scope": "All code matches the final implementation; subsequent changes update evidence and counts only. Native probe suites are required in formal CI."
+  },
   "timing_limit": "Latest baseline run collected with no concurrently launched local test process; earlier snapshots were under test load. No dedicated-hardware SLA claim.",
   "pre_inventory_move_targeted_tests": {
     "command": "NABT_VERIFIED_READING=<built verifiedReading> PYTHONPATH=src python -B -m unittest tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation tests.test_explainable_pilot -v",
@@ -58,12 +69,13 @@
   "post_inventory_move_tests": {
     "command": "NABT_VERIFIED_READING=<built verifiedReading> PYTHONPATH=src python -B -m unittest tests.test_rational_inquiry_freeze tests.test_recursive_source_bridge tests.test_arabic_evaluation tests.test_source_codec tests.test_licensed_decoding tests.test_decoding_evaluation tests.test_explainable_pilot -v",
     "tests": 79,
-    "passed": 78,
+    "passed": 79,
     "skipped": 1,
     "skipped_reason": "Native recursiveBridgeProbe not built locally; required build/test remains in formal CI",
     "new_tests_passed": 26,
     "prior_answer_contract_tests_passed": 17,
-    "log_sha256": "a77412fa3c8096adacce23c38bf829720d2661314a3587f062c8b86d85a3d060"
+    "log_sha256": "a77412fa3c8096adacce23c38bf829720d2661314a3587f062c8b86d85a3d060",
+    "counting_note": "79 executed test methods passed; the skipped setUpClass probe group is additional and is not subtracted from tests_run."
   },
   "integration_correction": {
     "cause": "New adapter was initially placed inside the exactly frozen runtime package inventory",

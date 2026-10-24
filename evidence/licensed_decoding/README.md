@@ -5,7 +5,8 @@
 - `baseline-initial.json`: first run before setup-failure reporting was hardened; retained as historical evidence.
 - `baseline-before-inventory-fix.json`: snapshot while the experimental codec was still inside the frozen runtime inventory.
 - `integration-before.log`: failures of that inventory boundary, before moving the adapter into `tools/`.
-- `integration-after.log`: 79 tests after the move: 78 passed and one existing native recursive-probe group skipped locally; its build/check remains in formal CI.
+- `integration-after.log`: 79 executed tests passed after the move; one additional native recursive-probe group skipped locally; its build/check remains in formal CI.
+- `full-test-after.log.gz`: final complete local run: 1463 successful test methods and 10 additional skipped native probe groups.
 - `VALIDATION.json`: exact test command, local scope, source hashes and image provenance.
 - `targeted-tests.log`: native execution of the new suites and the prior answer contract suite.
 
