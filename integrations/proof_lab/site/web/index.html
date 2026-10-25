@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
+  <meta name="description" content="مختبر NABT لاختبار الاستدلال العربي بنواة Lean وقياس التغطية مع حفظ الأدلة والحدود.">
+  <title>مختبر البرهان العربي — NABT</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workbench">انتقل إلى المختبر</a>
+  <header class="site-header wrap">
+    <a class="brand" href="/" aria-label="NABT — مختبر البرهان العربي"><span class="brand-mark" aria-hidden="true">ن</span><span><b dir="ltr">NABT</b><small>منظومة الاستدلال المرخّص</small></span></a>
+    <div class="connection" id="connection"><span class="status-dot" aria-hidden="true"></span><span id="connection-text">جارٍ التحقق من اتصال المحرك</span></div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div><p class="eyebrow"><span class="tiny-square"></span> مختبر بحثي · الإصدار الأول</p><h1 id="page-title">مختبر البرهان<br><span>العربي.</span></h1><p class="hero-copy">اكتب مقدماتك، اختبر استنتاجك، وتتبع ما تسمح به الشهادة. كل نتيجة مرتبطة بالنص والقانون وإصدار الشفرة الذي فحصها.</p></div>
+      <aside class="scope-card"><span class="scope-label">حدود الدعوى</span><p>دليل على الاستدلال<br><strong>داخل نطاق معلن.</strong></p><div class="scope-divider"></div><p class="scope-small">اكتمال العربية كلها <b>غير مثبت</b>. نجاح تجربة أو مجموعة قياس لا يمنح هذه الدعوى.</p><a href="#guide" data-tab-link="guide">كيف نقرأ النتيجة <span aria-hidden="true">↙</span></a></aside>
+    </section>
+    <section class="baseline-strip" aria-label="نطاق النسخة وخط الأساس">
+      <div class="baseline-item"><span class="baseline-label">خط الأساس المستقل المسجّل</span><strong><span id="baseline-pass">37</span><span class="metric-denominator"> / <span id="baseline-total">38</span></span></strong><small>حالة اجتازت التوقع المرجعي؛ ليست تجربة حية</small></div>
+      <div class="baseline-item"><span class="baseline-label">لغة النسخة الحالية</span><strong class="metric-text">شرط + فاعل صريح</strong><small>تراكيب محدودة للسير والمعرفة والنفي</small></div>
+      <div class="baseline-item"><span class="baseline-label">نسخة المحرك المثبتة</span><strong class="commit-value" id="code-sha" dir="ltr">—</strong><small id="law-label" dir="ltr">nabt.licensed-inference.v1</small></div>
+    </section>
+    <section class="workbench" id="workbench" aria-label="لوحة الاختبار">
+      <div class="tabs" role="tablist" aria-label="أقسام المختبر">
+        <button role="tab" id="tab-inference" aria-controls="panel-inference" aria-selected="true" data-tab="inference"><span class="tab-number">01</span> تجربة عبارة</button>
+        <button role="tab" id="tab-coverage" aria-controls="panel-coverage" aria-selected="false" tabindex="-1" data-tab="coverage"><span class="tab-number">02</span> قياس التغطية</button>
+        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">03</span> كيف نقرأ النتيجة</button>
+      </div>
+      <div id="global-message" class="message" role="alert" hidden></div>
+      <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
+        <div class="job-heading"><span class="spinner" id="job-spinner" aria-hidden="true"></span><div><b id="job-title">الطلب في الانتظار</b><p id="job-description">سيظهر الدليل بعد انتهاء التنفيذ.</p></div><span class="job-elapsed" id="job-elapsed"></span></div>
+        <div class="job-meta"><span>الطلب: <code id="job-id"></code></span><a id="job-link" target="_blank" rel="noopener noreferrer" hidden>متابعة التنفيذ في GitHub ↗</a><button class="text-button" id="resume-poll" hidden>استئناف متابعة الطلب</button></div>
+      </section>
+      <div role="tabpanel" id="panel-inference" aria-labelledby="tab-inference">
+        <div class="lab-grid">
+          <section class="card input-card" aria-labelledby="input-heading">
+            <div class="card-heading"><div><p class="eyebrow">المدخلات</p><h2 id="input-heading">ما الذي تريد فحصه؟</h2></div><span class="small-tag">نص ← شهادة</span></div>
+            <form id="inference-form">
+              <div class="field-title"><label for="source-text">النص والمقدمات</label><span id="source-count">0 بايت</span></div>
+              <textarea id="source-text" name="source_text" rows="5" spellcheck="false" required aria-describedby="source-help">إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.</textarea>
+              <p class="field-help" id="source-help">افصل الجمل بالنقطة. تُنقل المدخلات والنتائج مشفّرة عبر GitHub Actions. يظهر معرّف الطلب في سجل التنفيذ، وتُحفظ حزمة النتيجة ٧ أيام. الصفحة خاصة بك، ويُنزّل التقرير لك بصيغة JSON مقروءة.</p>
+              <label for="query-text" class="query-label">الاستنتاج المراد اختباره</label>
+              <input id="query-text" name="query_text" type="text" spellcheck="false" required value="هَلْ سَارَ زَيْدٌ؟" aria-describedby="query-help">
+              <p class="field-help" id="query-help">يُفحص الاستنتاج بالنسبة إلى المقدمات المكتوبة؛ لا يُفترض صدقها في الواقع.</p>
+              <div class="examples"><span class="field-caption">ابدأ بحالة مرجعية</span><div class="example-buttons"><button type="button" data-example="supported" class="example active">استنتاج مدعوم</button><button type="button" data-example="missing" class="example">مقدمة غائبة</button><button type="button" data-example="hidden" class="example">ضمير غير محسوم</button><button type="button" data-example="inverse" class="example">اختبار عكس الشرط</button><button type="button" data-example="outside" class="example">مفردات خارج النطاق</button></div><p class="example-note" id="example-note">تتحقق مقدمة الشرط في النص، فيُختبر إمكان اشتقاق الجواب.</p></div>
+              <details class="budget-details"><summary>ميزانية البحث <span>حدود التنفيذ</span></summary><p class="field-help">الصفر مسموح لاختبار نفاد الموارد. نفاد الميزانية لا يعني رفض العبارة لغويًا.</p><div class="budget-grid"><label>الجمل<input type="number" id="budget-clauses" min="0" max="64" value="64" step="1" inputmode="numeric"></label><label>القراءات<input type="number" id="budget-readings" min="0" max="64" value="64" step="1" inputmode="numeric"></label><label>القضايا<input type="number" id="budget-atoms" min="0" max="256" value="256" step="1" inputmode="numeric"></label><label>خطوات الإغلاق<input type="number" id="budget-steps" min="0" max="256" value="256" step="1" inputmode="numeric"></label></div></details>
+              <button class="primary-button" id="run-inference" type="submit" disabled><span>افحص بنواة Lean</span><span aria-hidden="true">←</span></button>
+              <p class="run-note">تنفيذ فعلي على الخادم. قد يستغرق تجهيز Lean عدة دقائق.</p>
+            </form>
+          </section>
+          <section class="card result-card" aria-labelledby="result-heading" aria-live="polite">
+            <div class="card-heading"><div><p class="eyebrow">المخرجات</p><h2 id="result-heading">نتيجة آخر فحص</h2></div><span class="result-marker" id="result-marker">لم يُنفّذ</span></div>
+            <div id="inference-empty" class="empty-state"><div class="proof-symbol" aria-hidden="true">⊢</div><h3>تبدأ النتيجة من دليلها.</h3><p>أرسل عبارة إلى المحرك لتظهر حالة الاستدلال، والقراءات المفحوصة، ومسار الاشتقاق.</p><div class="empty-chain"><span>النص</span><i>←</i><span>القراءة</span><i>←</i><span>الشهادة</span></div></div>
+            <div id="inference-output" hidden>
+              <div class="result-verdict" id="result-verdict"><span id="verdict-code" dir="ltr"></span><h3 id="verdict-title"></h3><p id="verdict-description"></p></div>
+              <p class="stale-note" id="stale-note" hidden>تغيّرت المدخلات. هذه النتيجة تخص النص المثبت أدناه، وتحتاج العبارة الحالية إلى فحص جديد.</p>
+              <div class="verification-grid"><div><span>فحص Lean</span><b id="native-status">—</b></div><div><span>القراءات ضمن القانون</span><b id="readings-status">—</b></div><div><span>شهادة الإغلاق</span><b id="closure-status">—</b></div><div><span>مطابقة الواقع</span><b>غير مثبتة</b></div></div>
+              <div class="reason-box"><span>سبب النتيجة</span><p id="result-reason-explanation"></p><code id="result-reason"></code></div>
+              <div class="trace-section"><h4>مسار الاستدلال</h4><div id="proof-trace"></div></div>
+              <details class="result-details"><summary>النص الذي خضع للفحص</summary><p class="quoted-source" id="executed-source"></p><p class="quoted-query" id="executed-query"></p></details>
+              <details class="result-details"><summary>القراءات والأدلة التفصيلية</summary><pre id="reading-json" dir="ltr"></pre></details>
+              <p class="report-identity">تقرير الطلب <code id="inference-request-id" dir="ltr"></code></p><div class="result-footnote"><span id="inference-timing"></span><code id="inference-commit" dir="ltr"></code></div>
+              <button class="secondary-button" id="download-inference" type="button">تنزيل الشهادة JSON <span aria-hidden="true">↓</span></button>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div role="tabpanel" id="panel-coverage" aria-labelledby="tab-coverage" hidden>
+        <div class="coverage-heading card"><div><p class="eyebrow">تقييم مستقل ذو مقام معلوم</p><h2>أعد القياس. احتفظ بالفجوة.</h2><p>تشغيل جديد للمجموعة المرجعية المجمدة: ٣٨ حالة تشمل الاستدلال، والحدود، وتعارض الأدلة، واستهلاك الموارد. النجاح يعني مطابقة التوقع المعلن لكل حالة.</p><div class="scope-inline"><b>نطاق القياس:</b> المجموعة المرجعية المحددة، لا جميع العربية.</div></div><button id="run-benchmark" class="primary-button" disabled><span>أعد اختبار الحالات الـ٣٨</span><span aria-hidden="true">←</span></button></div>
+        <div class="benchmark-empty card" id="benchmark-empty"><span class="eyebrow">لم يبدأ قياس جديد</span><h3>خط الأساس: ٣٧ نجاحًا، وإخفاق واحد.</h3><p>هذه لقطة مسجّلة من النسخة السابقة. اضغط إعادة الاختبار للحصول على نتيجة حية، بهوية إصدار ومقام قياس مستقلين.</p></div>
+        <section id="benchmark-output" hidden aria-live="polite">
+          <div class="benchmark-metrics"><div class="metric-card"><span>مطابقة التوقع</span><strong id="bench-pass">—</strong></div><div class="metric-card"><span>فجوات ظاهرة</span><strong id="bench-fail">—</strong></div><div class="metric-card"><span>غير مقاس</span><strong id="bench-unmeasured">—</strong></div><div class="metric-card"><span>مقام المجموعة</span><strong id="bench-total">—</strong></div></div>
+          <div class="card benchmark-card"><div class="card-heading"><div><p class="eyebrow">نتائج التنفيذ الجديد</p><h2>سجل الحالات</h2></div><button class="text-button" id="download-benchmark">تنزيل التقرير JSON ↓</button></div><p class="contract-status" id="benchmark-contract"></p><div class="coverage-bar" aria-hidden="true"><span id="pass-bar"></span><span id="fail-bar"></span><span id="unknown-bar"></span></div><p id="benchmark-ratio" class="field-help"></p><div class="table-controls"><label for="case-filter">اعرض الحالات</label><select id="case-filter"><option value="all">جميع النتائج</option><option value="FAIL">الفجوات فقط</option><option value="UNMEASURED">غير المقاس</option><option value="PASS">النتائج المطابقة</option></select></div><div class="table-wrap"><table><thead><tr><th scope="col">الحالة</th><th scope="col">عائلة الاختبار</th><th scope="col">النتيجة</th><th scope="col">التفاصيل</th></tr></thead><tbody id="benchmark-rows"></tbody></table></div><p class="empty-filter" id="empty-filter" hidden>لا توجد حالات تطابق هذا المرشح.</p><p class="report-identity">تقرير الطلب <code id="benchmark-request-id" dir="ltr"></code></p><div class="result-footnote"><span id="benchmark-timing"></span><code id="benchmark-commit" dir="ltr"></code></div></div>
+        </section>
+        <aside class="coverage-boundary"><span aria-hidden="true">∄</span><div><b>لا توجد نسبة صادقة لاكتمال «كل العربية» هنا.</b><p>لا مقام محصور معتمد يغطي اللغة كلها في هذه النسخة. تُعرض نتيجة المجموعة المحددة، وتبقى دعوى الاكتمال العام مفتوحة.</p></div></aside>
+      </div>
+      <div role="tabpanel" id="panel-guide" aria-labelledby="tab-guide" hidden>
+        <section class="guide-intro"><p class="eyebrow">قراءة الدليل</p><h2>النتيجة لها نطاق.<br>والشهادة لها مقدمات.</h2><p>المختبر يربط ما أدخلته بالنسخة التي فحصته. لا يحوّل التشابه الدلالي أو نجاح الاختبارات إلى برهان على المعنى العام أو صدق الواقع.</p></section>
+        <div class="guide-grid"><article class="card guide-card"><span class="guide-number">01</span><h3>ماذا يفحص Lean؟</h3><p>القراءة وفق القانون المركب المثبت، وهوية النص والاستعلام، وخطوات اشتقاق الجواب من المقدمات. قد تكون الشهادة مفحوصة وتكون الإجابة «غير معلوم» لغياب دليل الاستنتاج.</p></article><article class="card guide-card"><span class="guide-number">02</span><h3>ما اللغة المقبولة؟</h3><p>فاعل صريح من زيد وعمرو، وتراكيب محددة للسير والمعرفة، مع النفي والشرط وبعض الظروف. تُحفظ الأشكال المشكولة المدرجة؛ لا تُحذف الحركات عشوائيًا لتسهيل القبول.</p></article><article class="card guide-card"><span class="guide-number">03</span><h3>ما الذي يبقى مفتوحًا؟</h3><p>اكتساب جميع المقدمات من النص الحر، وحسم الإحالة والسياق، واستنفاد العربية كلها، وصدق المقدمات في العالم. الفاعل المستتر أو المفردة غير المشمولة يُبقيان سبب التعليق ظاهرًا.</p></article></div>
+        <section class="card state-guide"><h3>حالات يجب ألا تختلط</h3><dl><div><dt>مدعوم</dt><dd>يوجد دعم مرخّص للاستنتاج من المقدمات، ضمن القانون المثبت.</dd></div><div><dt>مدعوم النقيض</dt><dd>الدليل يدعم نقيض الاستعلام، دون الحكم بكذب العبارة في العالم.</dd></div><div><dt>غير معلوم / معلّق</dt><dd>لم يكتمل الترخيص المطلوب؛ لا يتحول غياب الدليل إلى نفي.</dd></div><div><dt>تعارض</dt><dd>ظهر دعم متقابل يُعرض كما هو، دون اختيار تعسفي لإحدى الجهتين.</dd></div><div><dt>نفاد الموارد</dt><dd>توقّف البحث عند الميزانية؛ لا يصدر منه حكم لغوي.</dd></div><div><dt>تعذّر التحقق</dt><dd>تعطّل مسار الفحص أو لم تتوفر النواة؛ لا توجد شهادة مقبولة.</dd></div></dl></section>
+      </div>
+    </section>
+    <footer class="site-footer"><span><b dir="ltr">NABT</b> · كل دعوى بقدر دليلها.</span><span>استدلال مشروط · مصدر محفوظ · حدود معلنة</span><a href="https://github.com/sonaiso/NABT" target="_blank" rel="noopener noreferrer">المستودع ↗</a></footer>
+  </main>
+</body>
+</html>
