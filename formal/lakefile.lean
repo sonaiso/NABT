@@ -109,3 +109,6 @@ lean_exe lexicalDenotation where
 
 lean_exe exportRuleRouting where
   root := `ExportRuleRouting
+
+lean_exe exportQualifiedInference where
+  root := `ExportQualifiedInference

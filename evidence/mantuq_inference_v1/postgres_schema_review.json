@@ -1,0 +1,10 @@
+{
+  "schema": "nabt.inference-database-review.v1",
+  "first_head": "7c4e180becf19756b32affa75df26f16827e08fa",
+  "workflow_run": 40201461422,
+  "job_id": 121193327096,
+  "job_url": "https://github.com/sonaiso/NABT/actions/runs/40201461422/job/121193327096",
+  "observed": "PostgreSQL schema setup rejected a three-column foreign key that implicitly targeted the two-column primary key of contexts. No new inference server tests executed in that attempt. Four pure tests passed.",
+  "correction": "Explicitly reference contexts(inventory_sha, context_id, profile_id), which has a declared unique constraint. Keep the foreign-key cross-profile negative test unchanged.",
+  "acceptance_requires": "All nine inference server tests plus four pure tests must pass on actual PostgreSQL; initial failure is not a passing result."
+}
