@@ -1,0 +1,62 @@
+{
+  "schema": "nabt.classical-completion-measurement.v1",
+  "baseline_head": "2976e0c09c0881c35a6f7165096143d58aadf6f1",
+  "scope": "Source-bound extensions to vocalized standard Arabic; conditional reference operations and symbolic phonology separately measured. Quranic corpus regression is a separate historical suite.",
+  "universal_arabic_completeness_ratio": null,
+  "whole_book_completeness_ratio": null,
+  "unknown_denominators_are_not_zero": true,
+  "dimensions": [
+    {
+      "id": "source_law_inventory",
+      "denominator": "38 named, manually reviewed rules only",
+      "evidence": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+      "metric": "raw source/span replay and implementation status; source review is not implementation"
+    },
+    {
+      "id": "imperative_productivity",
+      "denominator": "frozen versioned authored diagnostic cases; literal reference and raw-source checker",
+      "metric": "positive coverage, false acceptance, source withdrawal, retained gender alternatives",
+      "blind": false
+    },
+    {
+      "id": "symbolic_boundaries",
+      "denominator": "20 source examples × 2 starts × 2 endings × 2 profiles; plus 72 finite control inputs",
+      "metric": "Lean/Python correspondence, source/writing preservation, no acoustic claim",
+      "acoustic_validation": false
+    },
+    {
+      "id": "source_lexicon",
+      "denominator": "all structural heading blocks in two pinned source byte sequences",
+      "metric": "exact retrieval, raw-byte partition, irregular headings retained; not all senses or roots"
+    },
+    {
+      "id": "conditional_readings",
+      "denominator": "30 typed input frames and six source reference constructions with12 alternatives",
+      "metric": "exact reading set, order, duplicate prevention, omission rejection",
+      "free_text_parser_accuracy": null
+    },
+    {
+      "id": "formal_soundness",
+      "denominator": "compiled theorem manifest and all Nabt declarations",
+      "metric": "kernel build and transitive axiom audit; excludes project axioms and incomplete proofs"
+    },
+    {
+      "id": "four_slot_claim",
+      "denominator": null,
+      "metric": "constructive induction under explicit closure; counterexample for weight-preserving effects and injective sequence number"
+    },
+    {
+      "id": "existing_regressions",
+      "denominator": "unchanged historical gold inventories",
+      "metric": "fresh raw observations independently checked; previous documented gaps remain visible"
+    }
+  ],
+  "blocked_or_unmeasured": [
+    "full weak/hamzated/geminate imperative transduction",
+    "phonetic signal measurements, continuous speech and dialect-wide coverage",
+    "all senses/attestations in Arabic dictionaries",
+    "independent acquisition of all reference-frame premises from free text",
+    "a semantic equivalence quotient with a proven four-slot closure",
+    "complete coverage of Qatr, Mughni, Sibawayhi or Alfiyya commentaries"
+  ]
+}

@@ -48,3 +48,7 @@ import Nabt.LexicalCatalog
 import Nabt.LisanRules
 import Nabt.MaqayisDenotation
 import Nabt.ProductiveForms
+import Nabt.FourSlotClosure
+import Nabt.ImperativeParadigm
+import Nabt.PhonologicalModes
+import Nabt.ClassicalReferenceReadings

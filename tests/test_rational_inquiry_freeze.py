@@ -19,14 +19,15 @@ finally:
     sys.path.remove(str(ROOT / 'tools'))
 
 PRE_PRODUCTIVE = ROOT / 'evidence/arabic_completion_v3/code_freeze_v2.json'
-CURRENT = ROOT / 'evidence/arabic_completion_v4/code_freeze_v2.json'
+PRODUCTIVE = ROOT / 'evidence/arabic_completion_v4/code_freeze_v2.json'
+CURRENT = ROOT / 'evidence/arabic_completion_v5/code_freeze_v1.json'
 PRE_CORRECTION = ROOT / 'evidence/arabic_completion_v3/code_freeze_v1.json'
 COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v2.json'
 PUBLISHED = ROOT / 'evidence/rational_inquiry/code_freeze_v2.json'
 FIRST_COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v1.json'
 PRE_FIX = ROOT / 'evidence/rational_inquiry/code_freeze_v1.json'
 HISTORICAL = ROOT / 'evidence/constructions/code_freeze_v4.json'
-MANIFEST_SHA256 = 'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9'
+MANIFEST_SHA256 = '06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57'
 PRE_CORRECTION_SHA256 = 'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089'
 COVERAGE_SHA256 = '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c'
 PUBLISHED_SHA256 = '49a9c891446e945b74b28489f4abda522473093ada40e503e1fcd5ce99905f4b'
@@ -75,19 +76,23 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
         self.assertEqual(set(pre_correction), set(completion))
         self.assertEqual({path for path in completion if completion[path] != pre_correction[path]},
                          {'src/nabt/construction_reader.py'})
-        productive = {row['path']: row for row in json.loads(CURRENT.read_text())['files']}
+        productive = {row['path']: row for row in json.loads(PRODUCTIVE.read_text())['files']}
         self.assertEqual(set(productive) - set(completion), {
             'src/nabt/productive_forms.py', 'src/nabt/data/productive_forms.json',
             'src/nabt/data/source_evidence/productive_forms_v1.json'})
         self.assertEqual(set(completion) - set(productive), set())
         self.assertEqual(sha256(PRE_PRODUCTIVE.read_bytes()).hexdigest(),
                          '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd')
+        classical = {row['path']: row for row in json.loads(CURRENT.read_text())['files']}
+        self.assertEqual(set(classical) - set(productive), {'src/nabt/data/source_evidence/imperative_paradigm_v1.json', 'src/nabt/data/source_evidence/source_lexicon_v1.json', 'src/nabt/data/source_evidence/phonological_modes_v1.json', 'src/nabt/imperative_paradigm.py', 'src/nabt/data/source_evidence/mughni.txt', 'src/nabt/data/source_evidence/ibn_aqil.txt', 'src/nabt/source_lexicon.py', 'src/nabt/phonological_modes.py', 'src/nabt/data/source_evidence/classical_rule_inventory_v1.json', 'src/nabt/data/classical_reference_readings.json', 'src/nabt/data/source_evidence/source_lexicon_contexts_v1.json'})
+        self.assertEqual(set(productive) - set(classical), set())
+        self.assertEqual(sha256(PRODUCTIVE.read_bytes()).hexdigest(), 'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9')
         verify_code_freeze(CURRENT, ROOT)
 
     def test_all_registered_evaluators_verify_current_bytes_and_archive(self):
-        word_evaluation.verify_implementation_freeze('arabic_completion_v4_review2')
+        word_evaluation.verify_implementation_freeze('arabic_completion_v5')
         morphology_evaluation.verify_runtime_freeze(
-            morphology_evaluation.snapshot(), 'arabic_completion_v4_review2')
+            morphology_evaluation.snapshot(), 'arabic_completion_v5')
         inflection_evaluation.runtime_snapshot(CURRENT, ROOT)
         discourse_evaluation.runtime_snapshot(CURRENT, ROOT)
         construction_evaluation.runtime_snapshot(CURRENT, ROOT)

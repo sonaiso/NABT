@@ -286,13 +286,13 @@ class RecursiveSourceBridgeTests(unittest.TestCase):
         spec.loader.exec_module(integrity)
         # Inquiry is now part of the installed runtime; the recursive bridge
         # remains a standalone tool outside this approved exact inventory.
-        freeze_path = ROOT / "evidence/arabic_completion_v4/code_freeze_v2.json"
+        freeze_path = ROOT / "evidence/arabic_completion_v5/code_freeze_v1.json"
         self.assertEqual(sha256(freeze_path.read_bytes()).hexdigest(),
-                         "eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9")
+                         "06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57")
         frozen = integrity.verify_code_freeze(freeze_path, ROOT)
         self.assertEqual(frozen["snapshot_sha256"],
-                         "5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797")
-        self.assertEqual(len(frozen["files"]), 83)
+                         "1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c")
+        self.assertEqual(len(frozen["files"]), 94)
         authoritative = integrity.authoritative_paths(ROOT)
         self.assertEqual({row["path"] for row in frozen["files"]}, authoritative)
         self.assertIn("src/nabt/rational_inquiry.py", authoritative)

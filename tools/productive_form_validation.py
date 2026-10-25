@@ -26,6 +26,12 @@ def policy():
 
 def validate_imperative(candidate, audit):
     w = candidate["productive_derivation"]
+    if w.get("law_id") == "nabt.sound-imperative-paradigm.v1":
+        spec = importlib.util.spec_from_file_location('productive_paradigm_validation',
+            Path(__file__).with_name('imperative_paradigm_validation.py'))
+        validator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(validator)
+        return validator.validate_imperative(candidate, audit)
     S.require(w["law_id"] == "nabt.productive-sound-imperative.v1" and
               w["policy_sha256"] == POLICY_SHA256 and w["target_attested"] is False and
               w["target_role_labels_used"] is False, "imperative authority changed")

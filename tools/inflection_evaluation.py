@@ -28,6 +28,7 @@ VERSION = "nabt.inflection.independent-evaluation.v1"
 FREEZE_SHA256 = "25b8b89e48c2403b1fa47055045d2bdd4d738dc86493398369da5749131d23db"
 RUNTIME_FREEZE_SHA256 = "fe93f8ebebb21078113462244052da93c102f4d5a673c2636c0cab27e0ffa103"
 PINNED_RUNTIME_FREEZES = {
+    '06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57': {'snapshot_sha256': '1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c', 'archive_sha256': 'a377cba60bfd1491351322b6543678e023ac83b18ec0cb2543f181f046d318ed', 'file_count': 94},
     'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9': {'snapshot_sha256': '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', 'archive_sha256': '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43', 'file_count': 83},
     '40e6e10d95f444c5a1e1e6c72b4ff997d25a9d1a9caac5c0ff910b1551df677b': {'snapshot_sha256': '36e1e17ace7e5ebaac7b4ef1bb66a1ae8c9212d87f3c60c93c9660cbb9381862', 'archive_sha256': '7e5cfc227fd280ab5052c9cb8937799cde28bd8bf6037e9cd73a32013c842cea', 'file_count': 83},
     '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd': {
@@ -942,7 +943,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qac", type=Path, help="Pinned original QAC .txt or .txt.gz (required for the original 74 cases)")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/arabic_completion_v4/code_freeze_v2.json")
+    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/arabic_completion_v5/code_freeze_v1.json")
     parser.add_argument("--runtime-root", type=Path, default=ROOT,
                         help="Measured source checkout or extracted pinned archive; verified against the selected freeze")
     parser.add_argument("--allow-documented-boundaries", action="store_true",
