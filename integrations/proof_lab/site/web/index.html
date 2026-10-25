@@ -8,6 +8,9 @@
   <title>مختبر البرهان العربي — NABT</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/app.js" defer></script>
+  <script src="/evidence-audit.js" defer></script>
+  <script src="/evidence-sample.js" defer></script>
+  <script src="/evidence-ui.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workbench">انتقل إلى المختبر</a>
@@ -16,9 +19,9 @@
     <div class="connection" id="connection"><span class="status-dot" aria-hidden="true"></span><span id="connection-text">جارٍ التحقق من اتصال المحرك</span></div>
   </header>
   <main class="wrap">
-    <section class="hero" aria-labelledby="page-title">
-      <div><p class="eyebrow"><span class="tiny-square"></span> مختبر بحثي · الإصدار الأول</p><h1 id="page-title">مختبر البرهان<br><span>العربي.</span></h1><p class="hero-copy">اكتب مقدماتك، اختبر استنتاجك، وتتبع ما تسمح به الشهادة. كل نتيجة مرتبطة بالنص والقانون وإصدار الشفرة الذي فحصها.</p></div>
-      <aside class="scope-card"><span class="scope-label">حدود الدعوى</span><p>دليل على الاستدلال<br><strong>داخل نطاق معلن.</strong></p><div class="scope-divider"></div><p class="scope-small">اكتمال العربية كلها <b>غير مثبت</b>. نجاح تجربة أو مجموعة قياس لا يمنح هذه الدعوى.</p><a href="#guide" data-tab-link="guide">كيف نقرأ النتيجة <span aria-hidden="true">↙</span></a></aside>
+    <section class="hero hero-v2" aria-labelledby="page-title">
+      <div><p class="eyebrow"><span class="tiny-square"></span> NABT / مختبر البيان · الإصدار الثاني</p><h1 id="page-title">من العبارة<br>إلى <span>حدود البرهان.</span></h1><p class="hero-copy">افتح الدليل، تتبّع الطبقات الأربع، واختبر اتساق كل ادعاء. هنا تُرى المقدمات والافتراضات والفجوات في المكان نفسه.</p><div class="hero-actions"><a class="hero-link" href="#workbench" data-tab-link="evidence">استكشف سجل «ذَهَبَ الْوَلَدُ» <span>↙</span></a><span>تحليل محلي متاح الآن</span></div></div>
+      <aside class="specimen" aria-label="منهج قراءة الدليل"><div class="specimen-top"><span>عينـة الدراسة / 001</span><span class="specimen-stamp">سجل منقول</span></div><p class="specimen-sentence">ذَهَبَ الْوَلَدُ</p><div class="specimen-path"><span>الدال</span><i>←</i><span>المدلول</span><i>←</i><span>الإسناد</span><i>←</i><span>العقل</span></div><p class="specimen-caption">نجاح فحص الشاهد لا يُغلق التزامات المصدر والسياق. كل انتقال يحتاج دليلًا مستقلًا.</p><div class="specimen-bottom"><span>٤ طبقات للقراءة</span><strong>الاكتمال العام: غير مثبت</strong></div></aside>
     </section>
     <section class="baseline-strip" aria-label="نطاق النسخة وخط الأساس">
       <div class="baseline-item"><span class="baseline-label">خط الأساس المستقل المسجّل</span><strong><span id="baseline-pass">37</span><span class="metric-denominator"> / <span id="baseline-total">38</span></span></strong><small>حالة اجتازت التوقع المرجعي؛ ليست تجربة حية</small></div>
@@ -27,16 +30,37 @@
     </section>
     <section class="workbench" id="workbench" aria-label="لوحة الاختبار">
       <div class="tabs" role="tablist" aria-label="أقسام المختبر">
-        <button role="tab" id="tab-inference" aria-controls="panel-inference" aria-selected="true" data-tab="inference"><span class="tab-number">01</span> تجربة عبارة</button>
-        <button role="tab" id="tab-coverage" aria-controls="panel-coverage" aria-selected="false" tabindex="-1" data-tab="coverage"><span class="tab-number">02</span> قياس التغطية</button>
-        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">03</span> كيف نقرأ النتيجة</button>
+        <button role="tab" id="tab-evidence" aria-controls="panel-evidence" aria-selected="true" data-tab="evidence"><span class="tab-number">01</span> مرصد الأدلة</button>
+        <button role="tab" id="tab-inference" aria-controls="panel-inference" aria-selected="false" tabindex="-1" data-tab="inference"><span class="tab-number">02</span> تجربة عبارة</button>
+        <button role="tab" id="tab-coverage" aria-controls="panel-coverage" aria-selected="false" tabindex="-1" data-tab="coverage"><span class="tab-number">03</span> قياس التغطية</button>
+        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">04</span> دليل القراءة</button>
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
         <div class="job-heading"><span class="spinner" id="job-spinner" aria-hidden="true"></span><div><b id="job-title">الطلب في الانتظار</b><p id="job-description">سيظهر الدليل بعد انتهاء التنفيذ.</p></div><span class="job-elapsed" id="job-elapsed"></span></div>
         <div class="job-meta"><span>الطلب: <code id="job-id"></code></span><a id="job-link" target="_blank" rel="noopener noreferrer" hidden>متابعة التنفيذ في GitHub ↗</a><button class="text-button" id="resume-poll" hidden>استئناف متابعة الطلب</button></div>
       </section>
-      <div role="tabpanel" id="panel-inference" aria-labelledby="tab-inference">
+      <div role="tabpanel" id="panel-evidence" aria-labelledby="tab-evidence">
+        <div class="evidence-toolbar"><div><p class="eyebrow">مرصد الأدلة / فحص قابل للتتبع</p><h2>ما الذي يثبته هذا السجل؟</h2><p>افحص سجل Mashru أو تقرير NABT داخل متصفحك. لا تُرفع الملفات، ولا يُعاد تشغيل Lean في هذا المسار.</p></div><div class="evidence-actions"><button type="button" class="secondary-button" id="open-import">استيراد سجل JSON <span>↑</span></button><button type="button" class="text-button" id="load-evidence-sample">استعادة شاهد «ذهب الولد»</button></div></div>
+        <section class="card import-panel" id="import-panel" hidden aria-label="استيراد دليل"><div class="card-heading"><div><h3>افتح سجلًا قابلًا للفحص</h3><p class="field-help">الصيغ: Tabaqat4Record:v1 أو تقرير استدلال NABT. حد الملف ٢ MiB. تبقى البيانات في ذاكرة هذه الصفحة فقط.</p></div><button class="text-button" id="close-import" type="button">إغلاق</button></div><label for="evidence-file">اختر ملف JSON</label><input type="file" id="evidence-file" accept=".json,application/json"><label for="evidence-input">أو الصق JSON كاملًا</label><textarea id="evidence-input" dir="ltr" rows="7" spellcheck="false" placeholder='{"schema": "Tabaqat4Record:v1", …}'></textarea><div class="import-bottom"><button class="primary-button" type="button" id="audit-evidence">افحص اتساق السجل <span>←</span></button><span>فحص البنية والبصمات؛ لا يمنح سلطة برهانية</span></div></section>
+        <p id="evidence-error" class="message" role="alert" hidden></p><p id="evidence-loading" class="field-help" role="status">جارٍ فحص سجل الشاهد…</p>
+        <section id="evidence-output" hidden>
+          <div class="evidence-identity"><div><span class="origin-badge" id="evidence-origin">سجل مستورد · لم يُعد تشغيله</span><h3 id="evidence-sentence"></h3><p id="evidence-summary"></p></div><div class="identity-digest"><span>بصمة النص المحسوبة محليًا</span><code id="evidence-sha" dir="ltr"></code><span id="evidence-hash-status"></span></div></div>
+          <p class="sample-note" id="evidence-sample-note"></p>
+          <div class="evidence-metrics" id="evidence-metrics" aria-label="مقاييس ذات مقامات مستقلة"></div>
+          <div class="layer-selector" id="evidence-layers" aria-label="تصفية الطبقات الأربع"></div>
+          <section class="card imported-benchmark" id="evidence-imported-benchmark" hidden><p class="eyebrow">سجل قياس مستورد · لم يُعد تنفيذه</p><h3>حالات المجموعة المرجعية</h3><p id="evidence-imported-counts"></p><p id="evidence-imported-scope" class="field-help"></p><div class="table-wrap"><table><thead><tr><th>الحالة</th><th>العائلة</th><th>نتيجة السجل</th><th>الدليل</th></tr></thead><tbody id="evidence-imported-rows"></tbody></table></div></section>
+          <div class="evidence-grid">
+            <section class="card evidence-ledger"><div class="card-heading"><div><p class="eyebrow">من الادعاء إلى مستنده</p><h3>دفتر الادعاءات</h3></div><span id="evidence-claim-count" class="small-tag"></span></div><div class="ledger-controls"><label for="evidence-search">ابحث في الادعاءات<input type="search" id="evidence-search" placeholder="مثل: الزمن، المدلول، axioms" autocomplete="off"></label><label for="evidence-rank">رتبة السجل<select id="evidence-rank"><option value="all">كل الرتب</option><option value="مبرهن على الشاهد">مبرهن على الشاهد</option><option value="مبرهن">مبرهن</option><option value="مطابَق">مطابَق</option><option value="مقيس">مقيس</option><option value="تصريح مستورد">تصريح مستورد</option><option value="unverified">دون إعادة تحقق</option></select></label></div><div id="evidence-claims" class="claim-list"></div><p id="evidence-claims-empty" class="empty-filter" hidden>لا يوجد ادعاء يطابق المرشحات.</p></section>
+            <aside class="evidence-aside"><section class="card claim-inspector" aria-labelledby="claim-detail-title"><p class="eyebrow">عدسة الدليل</p><h3 id="claim-detail-title">اختر ادعاءً لفحصه</h3><div id="claim-detail"></div></section><section class="card assurance-card"><p class="eyebrow">فحص محلي مستقل</p><h3>سلامة السجل</h3><p class="field-help">«مطابق» هنا يصف اتساق البيانات فقط؛ لا يعني أن مبرهنة Lean أُعيد فحصها.</p><div id="evidence-checks"></div></section></aside>
+          </div>
+          <section class="card findings-section"><div class="card-heading"><div><p class="eyebrow">التزامات مفتوحة</p><h3>أين تنقطع سلسلة الدليل؟</h3></div><span class="small-tag" id="evidence-findings-count"></span></div><div id="evidence-findings" class="findings-grid"></div></section>
+          <section class="card stages-section"><div class="card-heading"><div><p class="eyebrow">المراحل / الأسئلة السبعة</p><h3>التنفيذ كما يرويه السجل</h3></div><span class="matrix-legend">● نعم &nbsp; × لا &nbsp; — غير مقاس</span></div><p class="field-help">عدم طلب مرحلة يختلف عن فشلها. لا تتحول القيمة غير المقاسة إلى «نعم».</p><div class="table-wrap"><table class="stage-table"><caption class="sr-only">حالات مراحل التشغيل المنقولة، دون إعادة تنفيذ</caption><thead><tr><th scope="col">المرحلة</th><th scope="col">بدأ</th><th scope="col">اكتمل</th><th scope="col">وجد</th><th scope="col">أنتج</th><th scope="col">قُبل</th><th scope="col">حُفظ</th><th scope="col">استهلكه التالي</th><th scope="col">السبب والبقايا</th></tr></thead><tbody id="evidence-stages"></tbody></table></div><p id="evidence-stages-empty" class="field-help" hidden>هذا النوع من التقارير لا يسجل هذه المراحل؛ لم تُخترع حالات بديلة.</p></section>
+          <section class="card completeness-section"><div><p class="eyebrow">من الشاهد إلى الاكتمال</p><h3>مقامات مختلفة.<br>لا نسبة واحدة مضللة.</h3><p>البرهان العام يحتاج تحديد اللغة المقبولة، وصحة التحليل، واستنفاد القراءات المرخّصة، وصحة ربط المعنى بمصدره. تغطية شاهد واحد لا تقيس هذه الالتزامات كلها.</p></div><div class="obligation-list"><article><span>01</span><div><h4>صحة الشاهد داخل التعريفات</h4><p>تحتاج نص المبرهنات واعتمادياتها، وبيئة قابلة لإعادة البناء. السجل وحده يروي النتيجة.</p></div></article><article><span>02</span><div><h4>استنفاد القراءات داخل قانون محدد</h4><p>يُبرهن لكل مدخل مرخّص، مع فصل حدود الموارد عن الرفض اللغوي.</p></div></article><article><span>03</span><div><h4>صحة المصدر والسياق</h4><p>التعريف المعجمي، والإحالة، والزمن، والمكان التزامات مستقلة عن نجاح حساب بنية البيانات.</p></div></article><article><span>04</span><div><h4>التعميم إلى العربية كلها</h4><p>التغطية العامة غير مقاسة هنا. تحتاج مقامًا معلومًا وأدلة مستقلة لكل عائلة لغوية.</p></div></article></div></section>
+          <section class="card evidence-archive"><div class="card-heading"><div><p class="eyebrow">للمراجعة وإعادة الفحص</p><h3>الهوية والحدود</h3></div><div class="archive-buttons"><button class="text-button" type="button" id="download-evidence-review">تنزيل تقرير التدقيق ↓</button><button class="text-button" type="button" id="download-evidence-source">تنزيل السجل المدخل ↓</button></div></div><dl id="evidence-provenance" class="provenance-list"></dl><details><summary>حدود التقرير المعلنة</summary><ul id="evidence-limits"></ul></details><details><summary>JSON الأصلي كما فُحص</summary><pre id="evidence-raw" dir="ltr"></pre></details></section>
+        </section>
+      </div>
+      <div role="tabpanel" id="panel-inference" aria-labelledby="tab-inference" hidden>
         <div class="lab-grid">
           <section class="card input-card" aria-labelledby="input-heading">
             <div class="card-heading"><div><p class="eyebrow">المدخلات</p><h2 id="input-heading">ما الذي تريد فحصه؟</h2></div><span class="small-tag">نص ← شهادة</span></div>

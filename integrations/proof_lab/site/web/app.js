@@ -31,9 +31,9 @@
   function text(id, value) { $(id).textContent = value == null ? '—' : String(value); }
   function showMessage(message) { $('global-message').hidden = !message; text('global-message', message || ''); }
   function switchTab(name, focus = false) {
-    if (!['inference','coverage','guide'].includes(name)) return;
+    if (!['evidence','inference','coverage','guide'].includes(name)) return;
     document.querySelectorAll('[data-tab]').forEach(tab => { const selected = tab.dataset.tab === name; tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1; });
-    ['inference','coverage','guide'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
+    ['evidence','inference','coverage','guide'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
     if (focus) $('tab-' + name).focus();
   }
   document.querySelectorAll('[data-tab]').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
@@ -91,7 +91,7 @@
       for (const [name,id] of [['max_clauses','budget-clauses'],['max_readings','budget-readings'],['max_atoms','budget-atoms'],['max_closure_steps','budget-steps']]) {
         if (Number.isInteger(limits[name]) && limits[name] >= 0) { $(id).max = String(limits[name]); $(id).value = String(Math.min(Number($(id).value),limits[name])); }
       }
-      if (!config.ready) showMessage('الواجهة جاهزة. ينتظر التنفيذ الحي تفعيل مفتاح النقل الآمن بين الصفحة وGitHub؛ لا توجد نتيجة برهانية قبل اكتمال التنفيذ.');
+      if (!config.ready) showMessage('مرصد الأدلة متاح محليًا. ينتظر تنفيذ Lean الحي تفعيل مفتاح النقل الآمن بين الصفحة وGitHub؛ تدقيق السجل المستورد متاح دون ذلك.');
     } catch (error) { $('connection').className='connection error'; text('connection-text','تعذر الاتصال بالمحرك'); showMessage(error.message); }
     enableActions();
   }
