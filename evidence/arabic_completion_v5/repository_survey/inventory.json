@@ -1,7 +1,7 @@
 {
   "generated_utc": "2026-10-25T10:41:11.499793+00:00",
   "repository_set": "24 repositories discovered by parent in initial connector search for Saleh1967 and sonaiso, carried verbatim from repository_inventory_initial.json",
-  "visibility_limit": "This is not a global GitHub census. Private repositories, repositories outside the connection/search visibility, deleted repositories, other accounts, branches and history are outside this evidence. No credential supplied in chat was used. The initial search pagination response is not retained by this child survey; completeness beyond the supplied 24 cannot be certified.",
+  "visibility_limit": "The original detailed public set contains 24 repositories visible through the connector. Subsequent user-authorized enumeration of every page for both accounts found 17 additional private repositories, for 41 unique authorized repositories in total. Their identities, heads, paths, and contents remain in a separate private report. These counts do not cover other accounts or establish a global GitHub census. Initial public retrieval used the connector and public requests; private follow-up used the authorized credential only in process memory.",
   "tree_method": "Resolve default main branch to commit SHA, then recursive Git tree at pinned tree SHA. One tree response per repository; all 24 report truncated=false. Git trees recursion uses truncation rather than page pagination. Submodule contents are not traversed.",
   "content_method": "Scan all paths. Retrieve candidate text <=1,000,000 bytes whose paths match the documented source/phenomenon regex OR README/LICENSE/MANIFEST/source/inventory metadata regex. Exclude vendored/dependency paths. Additionally decompress and scan 10 selected classical source texts from Alghanem. Scan full selected file text; retain counts and up to 3 line examples per category. This is keyword retrieval, not philological validation or implementation correctness.",
   "content_exclusions": "Unselected first-party files, binary files, most compressed files, and files above the size cap were not content-scanned. An absence of matches is not proof that a work is absent.",
@@ -454,5 +454,30 @@
     "count": 4,
     "scope": "Two Ibn Jinni al-Khasa'is editions and two Sharh Qatr al-Nada editions; resolved from a manifest within the surveyed set, then fetched by immutable OpenITI Git blob. Both Git blob SHA-1 and SHA-256 were verified. These external blobs are not included in the 24 repositories or 703-file scan counts.",
     "manifest": "external_source_refs.json"
+  },
+  "additional_authorized_private_survey": {
+    "repositories": 17,
+    "nonempty_trees": 16,
+    "empty_repositories": 1,
+    "empty_state_verified": true,
+    "tree_entries": 6799,
+    "files": 6014,
+    "truncated_trees": 0,
+    "content_scanned_files": 602,
+    "content_scanned_bytes": 4770230,
+    "path_only_candidates": 4,
+    "fetch_errors": 0,
+    "pagination_complete_for_both_authorized_accounts": true,
+    "publication_scope": "Anonymous aggregate counts only. Private identities, paths, commits, links, and code are not included in this public repository."
+  },
+  "combined_authorized_counts": {
+    "repositories": 41,
+    "nonempty_trees": 40,
+    "empty_repositories": 1,
+    "tree_entries": 28315,
+    "files": 24989,
+    "content_scanned_files": 1305,
+    "content_scanned_bytes": 38134752,
+    "path_only_candidates": 31
   }
 }
