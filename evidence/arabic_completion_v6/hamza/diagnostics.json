@@ -1,0 +1,765 @@
+{
+  "schema": "nabt.classical-hamza-diagnostics.v1",
+  "scope": "33 authored finite source examples/counterexamples; not blind and not all Arabic",
+  "cases": [
+    {
+      "case_id": "interrogative-ibtida",
+      "rule_id": "HAMZA-INTERROGATIVE-AL",
+      "frame": {
+        "tail": [
+          "ر",
+          "ج",
+          "ل"
+        ],
+        "boundary": "ibtida"
+      },
+      "expected_operations": [
+        "interrogative_ibdal",
+        "interrogative_tashil"
+      ],
+      "expected_outputs": [
+        [
+          "ء",
+          "ا",
+          "ل",
+          "ر",
+          "ج",
+          "ل"
+        ],
+        [
+          "ء",
+          "HAMZA_TASHIL",
+          "ل",
+          "ر",
+          "ج",
+          "ل"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": "Question distinction survives both utterance onset and connected speech."
+    },
+    {
+      "case_id": "interrogative-wasl",
+      "rule_id": "HAMZA-INTERROGATIVE-AL",
+      "frame": {
+        "tail": [
+          "ر",
+          "ج",
+          "ل"
+        ],
+        "boundary": "wasl"
+      },
+      "expected_operations": [
+        "interrogative_ibdal",
+        "interrogative_tashil"
+      ],
+      "expected_outputs": [
+        [
+          "ء",
+          "ا",
+          "ل",
+          "ر",
+          "ج",
+          "ل"
+        ],
+        [
+          "ء",
+          "HAMZA_TASHIL",
+          "ل",
+          "ر",
+          "ج",
+          "ل"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": "Question distinction survives both utterance onset and connected speech."
+    },
+    {
+      "case_id": "waqf-not-an-onset",
+      "rule_id": "HAMZA-INTERROGATIVE-AL",
+      "frame": {
+        "tail": [
+          "ر",
+          "ج",
+          "ل"
+        ],
+        "boundary": "waqf"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "DEFER",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "duaa",
+      "rule_id": "HAMZA-FINAL-LONG",
+      "frame": {
+        "prefix": [
+          "د",
+          "ع"
+        ],
+        "glide": "waw",
+        "alif_origin": "added",
+        "suffix": []
+      },
+      "expected_operations": [
+        "hamzate_final"
+      ],
+      "expected_outputs": [
+        [
+          "د",
+          "ع",
+          "ا",
+          "ء"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "binaa",
+      "rule_id": "HAMZA-FINAL-LONG",
+      "frame": {
+        "prefix": [
+          "ب",
+          "ن"
+        ],
+        "glide": "ya",
+        "alif_origin": "added",
+        "suffix": []
+      },
+      "expected_operations": [
+        "hamzate_final"
+      ],
+      "expected_outputs": [
+        [
+          "ب",
+          "ن",
+          "ا",
+          "ء"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "original-alif",
+      "rule_id": "HAMZA-FINAL-LONG",
+      "frame": {
+        "prefix": [
+          "د",
+          "ع"
+        ],
+        "glide": "waw",
+        "alif_origin": "radical",
+        "suffix": []
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "nonfinal-glide",
+      "rule_id": "HAMZA-FINAL-LONG",
+      "frame": {
+        "prefix": [
+          "د",
+          "ع"
+        ],
+        "glide": "waw",
+        "alif_origin": "added",
+        "suffix": [
+          "ن"
+        ]
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "unknown-origin",
+      "rule_id": "HAMZA-FINAL-LONG",
+      "frame": {
+        "prefix": [
+          "د",
+          "ع"
+        ],
+        "glide": "waw",
+        "alif_origin": "unknown",
+        "suffix": []
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "DEFER",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "qail",
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "frame": {
+        "first": "ق",
+        "glide": "waw",
+        "last": "ل",
+        "verb_medial": "changed_to_alif"
+      },
+      "expected_operations": [
+        "hamzate_medial"
+      ],
+      "expected_outputs": [
+        [
+          "ق",
+          "ا",
+          "ء",
+          "ل"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "bai",
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "frame": {
+        "first": "ب",
+        "glide": "ya",
+        "last": "ع",
+        "verb_medial": "changed_to_alif"
+      },
+      "expected_operations": [
+        "hamzate_medial"
+      ],
+      "expected_outputs": [
+        [
+          "ب",
+          "ا",
+          "ء",
+          "ع"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "aawar",
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "frame": {
+        "first": "ع",
+        "glide": "waw",
+        "last": "ر",
+        "verb_medial": "retained"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "aayin",
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "frame": {
+        "first": "ع",
+        "glide": "ya",
+        "last": "ن",
+        "verb_medial": "retained"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "unknown-verb",
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "frame": {
+        "first": "ق",
+        "glide": "waw",
+        "last": "ل",
+        "verb_medial": "unknown"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "DEFER",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "qalaid",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ق",
+          "ل",
+          "ا",
+          "د",
+          "ة"
+        ],
+        "singular_long_origin": "added_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [
+        "hamzate_plural"
+      ],
+      "expected_outputs": [
+        [
+          "ق",
+          "ل",
+          "ا",
+          "ء",
+          "د"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "sahaif",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ص",
+          "ح",
+          "ي",
+          "ف",
+          "ة"
+        ],
+        "singular_long_origin": "added_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [
+        "hamzate_plural"
+      ],
+      "expected_outputs": [
+        [
+          "ص",
+          "ح",
+          "ا",
+          "ء",
+          "ف"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "ajaiz",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ع",
+          "ج",
+          "و",
+          "ز"
+        ],
+        "singular_long_origin": "added_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [
+        "hamzate_plural"
+      ],
+      "expected_outputs": [
+        [
+          "ع",
+          "ج",
+          "ا",
+          "ء",
+          "ز"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "qasawir",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ق",
+          "س",
+          "و",
+          "ر",
+          "ة"
+        ],
+        "singular_long_origin": "nonlong",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "mafawiz",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "م",
+          "ف",
+          "ا",
+          "ز",
+          "ة"
+        ],
+        "singular_long_origin": "radical_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "maayish",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "م",
+          "ع",
+          "ي",
+          "ش",
+          "ة"
+        ],
+        "singular_long_origin": "radical_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "masaib-not-productive",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "م",
+          "ص",
+          "ي",
+          "ب",
+          "ة"
+        ],
+        "singular_long_origin": "radical_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": "مصائب remains a separate lexical exception; this productive rule does not license it."
+    },
+    {
+      "case_id": "plural-unknown-origin",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ص",
+          "ح",
+          "ي",
+          "ف",
+          "ة"
+        ],
+        "singular_long_origin": "unknown",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "DEFER",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "plural-other-template",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ص",
+          "ح",
+          "ي",
+          "ف",
+          "ة"
+        ],
+        "singular_long_origin": "added_long",
+        "plural_template": "other"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "third-nonmadd-lie",
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "frame": {
+        "singular": [
+          "ق",
+          "م",
+          "ر",
+          "ز"
+        ],
+        "singular_long_origin": "added_long",
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "awail",
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "frame": {
+        "underlying_plural": [
+          "ء",
+          "و",
+          "ا",
+          "و",
+          "ل"
+        ],
+        "plural_template": "mafail"
+      },
+      "expected_operations": [
+        "hamzate_second_glide"
+      ],
+      "expected_outputs": [
+        [
+          "ء",
+          "و",
+          "ا",
+          "ء",
+          "ل"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "nayaif",
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "frame": {
+        "underlying_plural": [
+          "ن",
+          "ي",
+          "ا",
+          "ي",
+          "ف"
+        ],
+        "plural_template": "mafail"
+      },
+      "expected_operations": [
+        "hamzate_second_glide"
+      ],
+      "expected_outputs": [
+        [
+          "ن",
+          "ي",
+          "ا",
+          "ء",
+          "ف"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "tawawis",
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "frame": {
+        "underlying_plural": [
+          "ط",
+          "و",
+          "ا",
+          "و",
+          "ي",
+          "س"
+        ],
+        "plural_template": "mafail_long"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "mislabelled-tawawis",
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "frame": {
+        "underlying_plural": [
+          "ط",
+          "و",
+          "ا",
+          "و",
+          "ي",
+          "س"
+        ],
+        "plural_template": "mafail"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "BLOCKED",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "unknown-two-template",
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "frame": {
+        "underlying_plural": [
+          "ء",
+          "و",
+          "ا",
+          "و",
+          "ل"
+        ],
+        "plural_template": "unknown"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "DEFER",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "khudh",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "frame": {
+        "root": [
+          "ء",
+          "خ",
+          "ذ"
+        ],
+        "profile": "all_attested"
+      },
+      "expected_operations": [
+        "short_command"
+      ],
+      "expected_outputs": [
+        [
+          "خ",
+          "ذ"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "kul-with-dialect",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "frame": {
+        "root": [
+          "ء",
+          "ك",
+          "ل"
+        ],
+        "profile": "all_attested"
+      },
+      "expected_operations": [
+        "short_command",
+        "full_dialect_command"
+      ],
+      "expected_outputs": [
+        [
+          "ك",
+          "ل"
+        ],
+        [
+          "ء",
+          "و",
+          "ك",
+          "ل"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "mur",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "frame": {
+        "root": [
+          "ء",
+          "م",
+          "ر"
+        ],
+        "profile": "all_attested"
+      },
+      "expected_operations": [
+        "short_command"
+      ],
+      "expected_outputs": [
+        [
+          "م",
+          "ر"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "unlisted-asr",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "frame": {
+        "root": [
+          "ء",
+          "س",
+          "ر"
+        ],
+        "profile": "all_attested"
+      },
+      "expected_operations": [],
+      "expected_outputs": [],
+      "expected_status": "DEFER",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    },
+    {
+      "case_id": "kul-common",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "frame": {
+        "root": [
+          "ء",
+          "ك",
+          "ل"
+        ],
+        "profile": "named_common"
+      },
+      "expected_operations": [
+        "short_command"
+      ],
+      "expected_outputs": [
+        [
+          "ك",
+          "ل"
+        ]
+      ],
+      "expected_status": "CONDITIONAL_TRANSFORM",
+      "independence": "authored directly from pinned source passage and declared boundary; not blind",
+      "note": ""
+    }
+  ]
+}

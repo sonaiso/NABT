@@ -10,8 +10,8 @@ permissions:
 
 # Keep these selectors on an explicitly registered freeze; update them together.
 env:
-  NABT_CODE_FREEZE: evidence/arabic_completion_v5/code_freeze_v1.json
-  NABT_FREEZE_VERSION: arabic_completion_v5
+  NABT_CODE_FREEZE: evidence/arabic_completion_v6/code_freeze_v1.json
+  NABT_FREEZE_VERSION: arabic_completion_v6
 
 concurrency:
   group: nabt-${{ github.workflow }}-${{ github.ref }}
@@ -109,13 +109,13 @@ jobs:
           holdout_status=0
           python tools/arabic_coverage_holdout_v2.py --output "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" || holdout_status=$?
           if [ "$holdout_status" -gt 1 ]; then exit "$holdout_status"; fi
-          python tools/arabic_coverage_postreview_v6.py --result "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" --raw "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.raw.jsonl" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-holdout-postreview"
+          python tools/arabic_coverage_postreview_v7.py --result "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.json" --raw "${{ github.workspace }}/artifacts/local/ci-arabic-holdout.raw.jsonl" --runtime-freeze "${{ env.NABT_CODE_FREEZE }}" --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-holdout-postreview"
       - name: Reproduce the new directed oracle and preserve every documented coverage failure
         env:
           PYTHONPATH: src
         run: |
           python -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-          python evidence/arabic_completion_v3/independent_oracle/continuation_v5/run_regression_v5.py --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-completion-oracle"
+          python evidence/arabic_completion_v3/independent_oracle/continuation_v6_review2/run_regression_v6.py --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-completion-oracle"
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
@@ -295,6 +295,11 @@ jobs:
           python -m unittest discover -s tests -p test_qatr_readings.py -v
       - name: Source-conditioned productive forms and complete Lean shape table
         run: python tools/check_productive_forms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Remaining classical laws and independent whole-book obligations
+        run: |
+          python tools/check_classical_laws.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-classical-laws.json"
+          python tools/book_rule_coverage.py --check evidence/arabic_completion_v6/books/book_source_index_v1.json --summary "${{ runner.temp }}/nabt-book-coverage.json"
+          PYTHONPATH=src python evidence/arabic_completion_v6/independent_review/run_benchmark.py --output "${{ runner.temp }}/nabt-classical-independent-benchmark.json"
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Three indications, lexical identity and retained sense alternatives

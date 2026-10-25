@@ -1,0 +1,815 @@
+{
+  "schema": "nabt.classical-rule-crosswalk.v2",
+  "baseline_crosswalk_sha256": "f7e560c4ecb446d01980282ffc41dcdfa2a2f2383cd4e777b63f72e800c7c19e",
+  "source_inventory_sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d",
+  "denominator": 38,
+  "extension_denominator": 24,
+  "denominator_scope": "Only the independent listed law IDs, not the entirety of their books or Arabic. Categories below are not interchangeable successes.",
+  "status_counts": {
+    "existing_scoped_generator": 2,
+    "new_scoped_conditional_operator": 24,
+    "new_scoped_generator": 3,
+    "new_symbolic_projection": 3,
+    "catalogue_example_only": 4,
+    "new_source_bound_bridge": 1,
+    "new_conditional_relation": 1
+  },
+  "global_language_coverage": null,
+  "fully_implemented_book_rule_count": null,
+  "rows": [
+    {
+      "rule_id": "CMD-SOUND-2MS",
+      "source_category": "imperative",
+      "status": "existing_scoped_generator",
+      "implemented_scope": "Sound, nonweak, nonhamzated, nongeminate Form-I 2MS only; retained imperfect source required",
+      "formal_namespace": "Nabt.ProductiveForms",
+      "implementation_path": "src/nabt/productive_forms.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "CMD-WEAK-DELETE",
+      "source_category": "imperative",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional weak-final 2MS imperative deletion on retained symbolic stem, w/u or y/i and open-vowel branch; other subjects and suffixes blocked.",
+      "formal_namespace": "Nabt.ClassicalBoundaryAffixes",
+      "implementation_path": "src/nabt/classical_boundary_affixes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_nonimplementation_reason": "Previous productive bridge restricted to sound Form-I stems and lacked weak-final identity, realized-vowel and suffix contracts.",
+      "runtime_path": "src/nabt/classical_boundary_affixes.py",
+      "formal_path": "formal/Nabt/ClassicalBoundaryAffixes.lean",
+      "free_text_premise_acquisition_complete": false,
+      "residuals": "Weak imperative persons beyond2MS; derivation of the pre-deletion stem from free text; subsequent phonological pause",
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "CMD-PRONOUN-SUFFIX",
+      "source_category": "affix",
+      "status": "new_scoped_generator",
+      "implemented_scope": "Additional subject profiles for the same sound class; unresolved final-nun + feminine-nun surface excluded",
+      "formal_namespace": "Nabt.ImperativeParadigm",
+      "implementation_path": "src/nabt/imperative_paradigm.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "CMD-NUN-DELETE",
+      "source_category": "affix",
+      "status": "new_scoped_generator",
+      "implemented_scope": "Source-bound sound imperative subject suffixes; not all weak or five-verb morphology",
+      "formal_namespace": "Nabt.ImperativeParadigm",
+      "implementation_path": "src/nabt/imperative_paradigm.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "CMD-FEMININE-NUN",
+      "source_category": "affix",
+      "status": "new_scoped_generator",
+      "implemented_scope": "Source-bound sound 2FP excluding root-final nun; no silent assertion about assimilation",
+      "formal_namespace": "Nabt.ImperativeParadigm",
+      "implementation_path": "src/nabt/imperative_paradigm.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "HAMZA-WASL-START",
+      "source_category": "hamza",
+      "status": "new_symbolic_projection",
+      "implemented_scope": "Pinned source catalogue plus rederived sound imperative onset; written form retained",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "HAMZA-WASL-JOIN",
+      "source_category": "hamza",
+      "status": "new_symbolic_projection",
+      "implemented_scope": "Same witnessed onset subset; not an unrestricted deletion rule, interrogative-al excluded",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "HAMZA-WASL-VOWEL",
+      "source_category": "hamza",
+      "status": "existing_scoped_generator",
+      "implemented_scope": "Sound Form-I imperative initial vowel from the retained medial vowel; excludes other contexts",
+      "formal_namespace": "Nabt.ProductiveForms",
+      "implementation_path": "src/nabt/productive_forms.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "HAMZA-QAT-FORM-IV",
+      "source_category": "hamza",
+      "status": "catalogue_example_only",
+      "implemented_scope": "Preserve qata in the installed akhraja example; does not classify arbitrary Form-IV words",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "HAMZA-WASL-NOUNS",
+      "source_category": "hamza",
+      "status": "catalogue_example_only",
+      "implemented_scope": "Only installed noun witnesses; no claim about every traditional wasl noun",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "HAMZA-INTERROGATIVE-AL",
+      "source_category": "hamza",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional interrogative + article onset in ibtida/wasl with both symbolic options; no acoustics or parser.",
+      "formal_namespace": "Nabt.ClassicalHamza",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Prior generic wasl deletion did not represent preserved interrogative distinction and both ibdal/tashil alternatives.",
+      "formal_relation": "Admissible",
+      "formal_exactness_theorem": "Nabt.ClassicalHamza.enumeration_exact",
+      "source_spans": [
+        {
+          "source_id": "ibn_aqil",
+          "start": 854514,
+          "end": 855022,
+          "sha256": "cc5d727584d11166be0c083a6cee4202a191b4f243b7f38befe118222a86882e"
+        }
+      ],
+      "premise_acquisition_complete": false,
+      "free_text_parser_complete": false,
+      "conditional_relation_complete": true,
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "HAMZA-FINAL-LONG",
+      "source_category": "hamza",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional final waw/ya after added alif; suffix prevents final status and unknown origin defers.",
+      "formal_namespace": "Nabt.ClassicalHamza",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Prior source catalogue had no origin-aware, final-position checked replacement operator.",
+      "formal_relation": "Admissible",
+      "formal_exactness_theorem": "Nabt.ClassicalHamza.enumeration_exact",
+      "source_spans": [
+        {
+          "source_id": "ibn_aqil",
+          "start": 855890,
+          "end": 856295,
+          "sha256": "829313435aa38994a17c93340887a7f08c45e162832cfaab1bd5dbfab92c6d95"
+        }
+      ],
+      "premise_acquisition_complete": false,
+      "free_text_parser_complete": false,
+      "conditional_relation_complete": true,
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "source_category": "hamza",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional faail medial substitution from declared hollow-verb illal; retained/unknown medial not transformed.",
+      "formal_namespace": "Nabt.ClassicalHamza",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Prior sound imperative path did not represent dependency on medial illal in the source verb.",
+      "formal_relation": "Admissible",
+      "formal_exactness_theorem": "Nabt.ClassicalHamza.enumeration_exact",
+      "source_spans": [
+        {
+          "source_id": "ibn_aqil",
+          "start": 856295,
+          "end": 856938,
+          "sha256": "b7c74fec19bf078ad8f9fedbe016de33ecc9f47ece02b81df2ce69664d0180fe"
+        }
+      ],
+      "premise_acquisition_complete": false,
+      "free_text_parser_complete": false,
+      "conditional_relation_complete": true,
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "source_category": "hamza",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional four-atom singular with optional feminine ta, actual third madd and added origin, aligned to mafail; one step only.",
+      "formal_namespace": "Nabt.ClassicalHamza",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Prior pipeline lacked retained singular/plural alignment and the added-third-madd premise, with lexical exceptions separate.",
+      "formal_relation": "Admissible",
+      "formal_exactness_theorem": "Nabt.ClassicalHamza.enumeration_exact",
+      "source_spans": [
+        {
+          "source_id": "ibn_aqil",
+          "start": 856938,
+          "end": 857550,
+          "sha256": "d0765387866b325d172162132cec11f9ff1c3de7fa5d337254968ec0c01dbf94"
+        }
+      ],
+      "premise_acquisition_complete": false,
+      "free_text_parser_complete": false,
+      "conditional_relation_complete": true,
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "source_category": "hamza",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional five-atom mafail with two physically present glides; mafail-long and shape mismatches blocked.",
+      "formal_namespace": "Nabt.ClassicalHamza",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Prior pipeline lacked positional two-glide shape checks and the mafail versus mafail-long blocker.",
+      "formal_relation": "Admissible",
+      "formal_exactness_theorem": "Nabt.ClassicalHamza.enumeration_exact",
+      "source_spans": [
+        {
+          "source_id": "ibn_aqil",
+          "start": 857550,
+          "end": 858160,
+          "sha256": "1e820ae813cea8eafd044d72f6943ef97983b17682f31056f393a8591aff3cbe"
+        }
+      ],
+      "premise_acquisition_complete": false,
+      "free_text_parser_complete": false,
+      "conditional_relation_complete": true,
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "source_category": "hamza",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Closed source passage roots ءخذ/ءكل/ءمر and source-profile alternatives; unrelated roots defer, no full imperative paradigm.",
+      "formal_namespace": "Nabt.ClassicalHamza",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Prior generic morphology could not replace the named lexical inventory while preserving the quoted minority variant.",
+      "formal_relation": "Admissible",
+      "formal_exactness_theorem": "Nabt.ClassicalHamza.enumeration_exact",
+      "source_spans": [
+        {
+          "source_id": "sibawayhi",
+          "start": 2196526,
+          "end": 2198425,
+          "sha256": "85914846ad443d7f92f7feb9ac7d2928e00e17b7a50e0aab17d82a89c841e8db"
+        }
+      ],
+      "premise_acquisition_complete": false,
+      "free_text_parser_complete": false,
+      "conditional_relation_complete": true,
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-INITIAL-WAW",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "No source-relative class and imperfect-vowel acquisition bridge; sound imperative module excludes initial weak roots.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "waada"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-INITIAL-OPEN-EXCEPTION",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Named open-vowel exceptions were recorded but no closed mechanically bound root dispatch existed.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "wasia"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-WAW-TO-YA",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Needed a vowel-sensitive local transformation and source-preserving output layer.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "mizan"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-YA-TO-WAW",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Singular and ful-plural require different operations; collapsing them would destroy the attested plural exception.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "muqin",
+        "bid"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-MOVE-TO-ALIF",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Requires original/transferred vowel distinction, root position, next-segment blockers and competing-law priority.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "qala"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-AFWAL-BLOCK",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Requires lexical predicate afal, not only visible fatha and moving weak letter.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "awira"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-IFTIAL-RECIPROCAL",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Requires explicit reciprocal meaning and visible iftial morphology; waw and ya differ.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "ishtawaru",
+        "ibtayu"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-TWO-ELIGIBLE",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Requires rule ordering for two eligible glides, not independent replacement of both; ghaya is a named exception.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "hawa",
+        "ghaya"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-NOMINAL-SUFFIX-BLOCK",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Requires noun-specific suffix rather than generic pattern; lexical exceptions cannot be silently generalized.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "jawalan"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-VOWEL-TRANSFER",
+      "source_category": "weak",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": null,
+      "formal_namespace": "Nabt.ClassicalWeak",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "previous_status": "not_implemented_by_this_extension",
+      "previous_blocker": "Requires sound silent predecessor, verb class, no geminate/weak-final/exclamatory blocker.",
+      "current_status": "conditional_cell_transformation",
+      "runtime": "src/nabt/classical_weak.py",
+      "formal_relation": "Admissible and WindowMatches",
+      "premise_acquisition_proved": false,
+      "source_examples": [
+        "yaqumu"
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WEAK-HOLLOW-SHORT",
+      "source_category": "weak",
+      "status": "catalogue_example_only",
+      "implemented_scope": "Already-deleted radicals remain deleted under licensed contact-kasra examples; not a productive hollow-root derivation",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "GEM-VOWELED-FINAL",
+      "source_category": "gemination",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional symbolic contraction of validated identical consonantal root pairs in an asserted verb frame, with moving final vowel, preserving both identities and suffix.",
+      "formal_namespace": "Nabt.ClassicalGemination",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Requires independently specified morphological frame and both radical identities; ordinary repetition is insufficient.",
+      "formal_path": "formal/Nabt/ClassicalGemination.lean",
+      "tests_path": "tests/test_classical_gemination.py",
+      "free_text_premise_acquisition_proved": false,
+      "textual_discrepancy_preserved": false,
+      "sources": [
+        {
+          "source_id": "sibawayhi",
+          "start": 1706931,
+          "end": 1707917,
+          "sha256": "f63e2e4956899f888a3a9a3e7748ac22cd5db758bf19bcbe31776c0713465d25"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "sibawayhi",
+          "line_start": 14377,
+          "line_end": 14384,
+          "start": 1706931,
+          "end": 1707917,
+          "sha256": "f63e2e4956899f888a3a9a3e7748ac22cd5db758bf19bcbe31776c0713465d25",
+          "page_markers_in_span": [
+            "PageV03P529"
+          ]
+        }
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "GEM-JUSSIVE-VARIANTS",
+      "source_category": "gemination",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional command/jussive pair with no suffix/contact: Hijaz split, Tamim opening/following, Kab/Ghani kasra; actual preceding vowel and immediate wasl handling.",
+      "formal_namespace": "Nabt.ClassicalGemination",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Needs dialect alternatives, effective preceding vowel, transient versus inherent sukun, and correctly located wasl deletion.",
+      "formal_path": "formal/Nabt/ClassicalGemination.lean",
+      "tests_path": "tests/test_classical_gemination.py",
+      "free_text_premise_acquisition_proved": false,
+      "textual_discrepancy_preserved": false,
+      "sources": [
+        {
+          "source_id": "sibawayhi",
+          "start": 1707917,
+          "end": 1711414,
+          "sha256": "517ba46594452e3323fc26f59b4cde78129ad8e10828f24431965c6a6bfb3168"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "sibawayhi",
+          "line_start": 14385,
+          "line_end": 14411,
+          "start": 1707917,
+          "end": 1711414,
+          "sha256": "517ba46594452e3323fc26f59b4cde78129ad8e10828f24431965c6a6bfb3168",
+          "page_markers_in_span": [
+            "PageV03P530",
+            "PageV03P531"
+          ]
+        },
+        {
+          "source_id": "sibawayhi",
+          "start": 1711414,
+          "end": 1714952,
+          "sha256": "2ac335f32b2b4e31ea861cdba3dbf8dedd6cb6fc29ef546efa33cc8fd8f4e397",
+          "line_start": 14412,
+          "line_end": 14440
+        }
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "GEM-FEMININE-SUFFIX",
+      "source_category": "gemination",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional majority splitting before actual feminine nun; Bakr contraction reading retained with null surface because final vowel is unestablished.",
+      "formal_namespace": "Nabt.ClassicalGemination",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Majority split and recorded Bakr contraction cannot be collapsed; Bakr final vocalization is unspecified in this passage.",
+      "formal_path": "formal/Nabt/ClassicalGemination.lean",
+      "tests_path": "tests/test_classical_gemination.py",
+      "free_text_premise_acquisition_proved": false,
+      "textual_discrepancy_preserved": false,
+      "sources": [
+        {
+          "source_id": "sibawayhi",
+          "start": 1714820,
+          "end": 1716752,
+          "sha256": "4dc9f041e64f009afcb0c1357d030972b96ac1416c16d4416543faa0c8f48f3f"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "sibawayhi",
+          "line_start": 14440,
+          "line_end": 14454,
+          "start": 1714820,
+          "end": 1716752,
+          "sha256": "4dc9f041e64f009afcb0c1357d030972b96ac1416c16d4416543faa0c8f48f3f",
+          "page_markers_in_span": [
+            "PageV03P534"
+          ]
+        }
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "GEM-EXCLAMATION",
+      "source_category": "gemination",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Conditional exact af-il exclamation shape splits; exact hallumma shape retains contraction. Semantic construction membership is an external premise.",
+      "formal_namespace": "Nabt.ClassicalGemination",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Construction-specific split must override ordinary command contraction; hallumma is a fixed lexical exception.",
+      "formal_path": "formal/Nabt/ClassicalGemination.lean",
+      "tests_path": "tests/test_classical_gemination.py",
+      "free_text_premise_acquisition_proved": false,
+      "textual_discrepancy_preserved": false,
+      "sources": [
+        {
+          "source_id": "ibn_aqil",
+          "start": 893077,
+          "end": 893536,
+          "sha256": "f19fad62e031cf58e253ed7fd9b11edca216b1882496e470b075dfae0d796b88"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "ibn_aqil",
+          "line_start": 9611,
+          "line_end": 9614,
+          "start": 893077,
+          "end": 893536,
+          "sha256": "f19fad62e031cf58e253ed7fd9b11edca216b1882496e470b075dfae0d796b88",
+          "page_markers_in_span": []
+        }
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "WAQF-HA-DEFECTIVE",
+      "source_category": "affix",
+      "status": "new_symbolic_projection",
+      "implemented_scope": "Installed weak-ending witnesses retain declared pausal alternatives under the Sibawayhi profile",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "WAQF-HA-ONE-RADICAL",
+      "source_category": "affix",
+      "status": "catalogue_example_only",
+      "implemented_scope": "Pinned single-consonant witness with ha support; no raw-string category inference",
+      "formal_namespace": "Nabt.PhonologicalModes",
+      "implementation_path": "src/nabt/phonological_modes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "AFFIX-LIGHT-NUN-PAUSE",
+      "source_category": "affix",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Eight structural profiles; light nun alif replacement, glide/mood-nun restoration, connected onset deletion; Khalil/Yunus alternatives and analogy provenance preserved.",
+      "formal_namespace": "Nabt.ClassicalBoundaryAffixes",
+      "implementation_path": "src/nabt/classical_boundary_affixes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_nonimplementation_reason": "Deleting a surface nun loses distinct nun identities, deleted subject markers, mood markers, source dialect profiles and analogy rank.",
+      "runtime_path": "src/nabt/classical_boundary_affixes.py",
+      "formal_path": "formal/Nabt/ClassicalBoundaryAffixes.lean",
+      "free_text_premise_acquisition_complete": false,
+      "residuals": "Yunus indicative-dual extension; full heavy/feminine nun grammar; free-text acquisition of subject and mood",
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "ORTHO-COLLECTIVE-ALIF",
+      "source_category": "affix",
+      "status": "new_source_bound_bridge",
+      "implemented_scope": "Alif before object pronoun handled only with a separately witnessed attached form; no valency invention",
+      "formal_namespace": "Nabt.ImperativeParadigm",
+      "implementation_path": "src/nabt/person_evidence.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "MUGHNI-ANA-BOUNDARY",
+      "source_category": "affix",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Majority connected fatha and pausal alif, reported minority connected sukun, explicit unknown minority pause.",
+      "formal_namespace": "Nabt.ClassicalBoundaryAffixes",
+      "implementation_path": "src/nabt/classical_boundary_affixes.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_nonimplementation_reason": "Prior boundary catalogue lacked pronoun analysis and would conflate nominal ana/an with masdariyya particle.",
+      "runtime_path": "src/nabt/classical_boundary_affixes.py",
+      "formal_path": "formal/Nabt/ClassicalBoundaryAffixes.lean",
+      "free_text_premise_acquisition_complete": false,
+      "residuals": "Minority pause; every pronoun dialect; automatic pronoun/particle disambiguation",
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    },
+    {
+      "rule_id": "MUGHNI-AN-INTERPRETIVE",
+      "source_category": "construction",
+      "status": "new_conditional_relation",
+      "implemented_scope": "Typed interpretive-an frame and observed-ending filter; does not establish frame premises from free text",
+      "formal_namespace": "Nabt.ClassicalReferenceReadings",
+      "implementation_path": "tools/classical_reference_readings.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false
+    },
+    {
+      "rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+      "source_category": "gemination",
+      "status": "new_scoped_conditional_operator",
+      "implemented_scope": "Source-adjudicated symbolic n-sukun to m before adjacent ba, within word or interword connection, never across interword pause.",
+      "formal_namespace": "Nabt.ClassicalGemination",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "full_source_rule_complete": false,
+      "independent_linguistic_adjudication_complete": false,
+      "prior_status": "not_implemented_by_this_extension",
+      "prior_omission_reason": "Local Alfiyya says ya while Ibn Aqil explicitly says ba; required independent source adjudication without silently repairing original bytes.",
+      "formal_path": "formal/Nabt/ClassicalGemination.lean",
+      "tests_path": "tests/test_classical_gemination.py",
+      "free_text_premise_acquisition_proved": false,
+      "textual_discrepancy_preserved": true,
+      "sources": [
+        {
+          "source_id": "alfiyya",
+          "start": 95037,
+          "end": 95134,
+          "sha256": "bf01fdbde1d23f2a10db757de3a7f69dc125cd9b56654a7ff39e5442bf11442a"
+        },
+        {
+          "source_id": "ibn_aqil",
+          "start": 878052,
+          "end": 878530,
+          "sha256": "141696c039418e2bb3eae3b6ad0192bafba95b6a8e1bf2ce0649b9997849f2c0"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "alfiyya",
+          "line_start": 1248,
+          "line_end": 1248,
+          "start": 95037,
+          "end": 95134,
+          "sha256": "bf01fdbde1d23f2a10db757de3a7f69dc125cd9b56654a7ff39e5442bf11442a",
+          "page_markers_in_span": []
+        },
+        {
+          "source_id": "ibn_aqil",
+          "line_start": 9438,
+          "line_end": 9443,
+          "start": 878052,
+          "end": 878530,
+          "sha256": "141696c039418e2bb3eae3b6ad0192bafba95b6a8e1bf2ce0649b9997849f2c0",
+          "page_markers_in_span": [
+            "PageV04P232"
+          ]
+        },
+        {
+          "source_id": "sibawayhi",
+          "start": 2586239,
+          "end": 2587666,
+          "sha256": "e420f759a65a5ca92e1cd7e2c591498da34f26572898a1c7819a8c612228b623",
+          "line_start": 21472,
+          "line_end": 21482
+        }
+      ],
+      "premises_acquired_from_free_text": false,
+      "reason_assessment": "Retrospective technical analysis of missing contracts in the previous implementation; not a historical assertion about developer intent."
+    }
+  ],
+  "formal_namespace_is_not_a_proof_of_the_python_adapter": true,
+  "selected_conditional_implementation_is_not_whole_source_rule_completion": true,
+  "runtime_freeze_sha256": "31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec"
+}
