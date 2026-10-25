@@ -1,0 +1,289 @@
+{
+  "valid": true,
+  "conformance": {
+    "valid": true,
+    "input_count": 30,
+    "mismatches": [],
+    "scope": "Exhaustive finite input-domain agreement with kernel-compiled Lean export."
+  },
+  "benchmark": {
+    "schema": "nabt.classical-reference-benchmark.v1",
+    "law_id": "nabt.classical-conditional-readings.v1",
+    "source_replay_valid": true,
+    "case_count": 6,
+    "exact_set_matches": 6,
+    "order_matches": 6,
+    "expected_reading_count": 12,
+    "returned_reading_count": 12,
+    "matched_reading_count": 12,
+    "free_text_parser_evaluated": false,
+    "premise_acquisition_evaluated": false,
+    "scope": "Source-adjudicated conditional operation benchmark; authored, not blind NLP accuracy.",
+    "cases": [
+      {
+        "case_id": "REF-QATR-ISHTIGHAL",
+        "input": "زيد ضربته",
+        "assumed_frame": {
+          "family": "free_ishtighal"
+        },
+        "exact_set_match": true,
+        "order_match": true,
+        "expected": [
+          "topic",
+          "omitted_verb"
+        ],
+        "actual": [
+          "topic",
+          "omitted_verb"
+        ],
+        "source_spans": [
+          {
+            "source_id": "qatr",
+            "line_start": 247,
+            "line_end": 252,
+            "start": 21235,
+            "end": 21863,
+            "sha256": "ac96169f64aa6e09bac0fb4aef6016d499fe4d0599b01fb58df7a45445f9d690",
+            "raw_text": "# يجوز في نحو \"زيدا ضربته\" أو \"ضربت أخاه\". أو \"مررت به\" رفع زيد\n~~بالابتداء فالجملة بعده خبر، ونصبه بإضمار \"ضربت\" و \"أهنت\" و \"جاوزت\" واجبة\n# PageV01P014\n# الحذف؛ فلا موضع للجملة بعده، ويترجح النصب في نحو \"زيدا اضربه\" للطلب -\n~~ونحو {والسارق والسارقة فاقطعوا أيديهما} متأول - وفي نحو {والأنعام خلقها\n~~لكم} للتناسب، ونحو {أبشرا منا واحدا نتبعه} ، \"وما زيدا رأيته\" لغلبة\n",
+            "page_markers_in_span": [
+              "PageV01P014"
+            ]
+          }
+        ],
+        "vocalized_alternatives": [
+          {
+            "id": "nominative_topic",
+            "surface": "زيدٌ ضربتُه",
+            "analysis": "زيد مبتدأ والجملة خبره"
+          },
+          {
+            "id": "accusative_omitted_verb",
+            "surface": "زيدًا ضربتُه",
+            "analysis": "منصوب بفعل واجب الحذف يفسره المذكور"
+          }
+        ],
+        "free_text_parser_evaluated": false
+      },
+      {
+        "case_id": "REF-QATR-ISHTIGHAL-PP",
+        "input": "زيد مررت به",
+        "assumed_frame": {
+          "family": "free_ishtighal"
+        },
+        "exact_set_match": true,
+        "order_match": true,
+        "expected": [
+          "topic",
+          "omitted_verb"
+        ],
+        "actual": [
+          "topic",
+          "omitted_verb"
+        ],
+        "source_spans": [
+          {
+            "source_id": "qatr",
+            "line_start": 247,
+            "line_end": 252,
+            "start": 21235,
+            "end": 21863,
+            "sha256": "ac96169f64aa6e09bac0fb4aef6016d499fe4d0599b01fb58df7a45445f9d690",
+            "raw_text": "# يجوز في نحو \"زيدا ضربته\" أو \"ضربت أخاه\". أو \"مررت به\" رفع زيد\n~~بالابتداء فالجملة بعده خبر، ونصبه بإضمار \"ضربت\" و \"أهنت\" و \"جاوزت\" واجبة\n# PageV01P014\n# الحذف؛ فلا موضع للجملة بعده، ويترجح النصب في نحو \"زيدا اضربه\" للطلب -\n~~ونحو {والسارق والسارقة فاقطعوا أيديهما} متأول - وفي نحو {والأنعام خلقها\n~~لكم} للتناسب، ونحو {أبشرا منا واحدا نتبعه} ، \"وما زيدا رأيته\" لغلبة\n",
+            "page_markers_in_span": [
+              "PageV01P014"
+            ]
+          }
+        ],
+        "vocalized_alternatives": [
+          {
+            "id": "nominative_topic",
+            "surface": "زيدٌ مررتُ به",
+            "analysis": "المبتدأ مرفوع والجملة خبر"
+          },
+          {
+            "id": "accusative_omitted_jawaztu",
+            "surface": "زيدًا مررتُ به",
+            "analysis": "النصب بفعل محذوف نحو جاوزت لا بنفس حرف الجر"
+          }
+        ],
+        "free_text_parser_evaluated": false
+      },
+      {
+        "case_id": "REF-AQIL-SINGULAR-PREDICATE",
+        "input": "أقائم زيد",
+        "assumed_frame": {
+          "family": "matched_description",
+          "number": "singular"
+        },
+        "exact_set_match": true,
+        "order_match": true,
+        "expected": [
+          "description_subject",
+          "fronted_predicate"
+        ],
+        "actual": [
+          "description_subject",
+          "fronted_predicate"
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 1421,
+            "line_end": 1428,
+            "start": 141597,
+            "end": 142355,
+            "sha256": "7d2a062c33f8065b805882e925d005452c14f51705c377b11edcc3bd9813657d",
+            "raw_text": "# الوصف مع الفاعل إما أن يتطابقا إفرادا أو تثنية أو جمعا أو لا يتطابقا\n~~وهو قسمان ممنوع وجائز.\n# فإن تطابقا إفرادا نحو أقائم زيد جاز فيه وجهان (1) :\n# أحدهما: أن PageV01P197\n# يكون الوصف مبتدأ وما بعده فاعل سد مسد الخبر.\n# والثاني: أن يكون ما بعده مبتدأ مؤخرا ويكون الوصف خبرا مقدما ومنه قوله\n~~تعالى (1) : {أراغب أنت عن آلهتي يا إبراهيم} فيجوز أن يكون أراغب مبتدأ\n~~وأنت فاعل سد مسد الخبر ويحتمل أن يكون أنت مبتدأ مؤخرا وأراغب خبرا مقدما.\n",
+            "page_markers_in_span": [
+              "PageV01P197"
+            ]
+          }
+        ],
+        "vocalized_alternatives": [
+          {
+            "id": "description_topic",
+            "surface": "أقائمٌ زيدٌ",
+            "analysis": "قائم مبتدأ وزيد فاعل سد مسد الخبر"
+          },
+          {
+            "id": "fronted_predicate",
+            "surface": "أقائمٌ زيدٌ",
+            "analysis": "قائم خبر مقدم وزيد مبتدأ مؤخر"
+          }
+        ],
+        "free_text_parser_evaluated": false
+      },
+      {
+        "case_id": "REF-AQIL-DUAL-PREDICATE",
+        "input": "أقائمان الزيدان",
+        "assumed_frame": {
+          "family": "matched_description",
+          "number": "dual"
+        },
+        "exact_set_match": true,
+        "order_match": true,
+        "expected": [
+          "fronted_predicate"
+        ],
+        "actual": [
+          "fronted_predicate"
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 1434,
+            "line_end": 1435,
+            "start": 142991,
+            "end": 143248,
+            "sha256": "3b4b6c5f3982cd2ca47fc8dfb674b8b09ae1b33082a6654ed218f60b3e0aae14",
+            "raw_text": "# وإن تطابقا تثنية نحو أقائمان الزيدان أو جمعا نحو أقائمون الزيدون فما\n~~بعد الوصف مبتدأ والوصف خبر مقدم وهذا معنى قول المصنف والثان مبتدأ وذا\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "vocalized_alternatives": [
+          {
+            "id": "fronted_predicate",
+            "surface": "أقائمان الزيدان",
+            "analysis": "الوصف خبر مقدم وما بعده مبتدأ"
+          }
+        ],
+        "free_text_parser_evaluated": false
+      },
+      {
+        "case_id": "REF-MUGHNI-AN-LA",
+        "input": "أشرت إليه أن لا تفعل",
+        "assumed_frame": {
+          "family": "interpretive_an",
+          "has_la": true
+        },
+        "exact_set_match": true,
+        "order_match": true,
+        "expected": [
+          "an_interpretive_indicative",
+          "an_interpretive_jussive",
+          "an_masdariyya_subjunctive"
+        ],
+        "actual": [
+          "an_interpretive_indicative",
+          "an_interpretive_jussive",
+          "an_masdariyya_subjunctive"
+        ],
+        "source_spans": [
+          {
+            "source_id": "mughni",
+            "line_start": 621,
+            "line_end": 624,
+            "start": 56850,
+            "end": 57260,
+            "sha256": "dd973b4674edd48b2c2c72409432dd39c0c34bc43eb6d2dcca376f830554c187",
+            "raw_text": "# مسألة\n# إذا ولي أن الصالحة للتفسير مضارع معه لا نحو أشرت إليه أن لا تفعل جاز\n~~رفعه على تقدير لا نافية وجزمه على تقديرها ناهية وعليهما ف أن مفسرة ونصبه\n~~على تقدير ms019 لا نافية وأن مصدرية فإن فقدت لا امتنع الجزم وجاز الرفع والنصب\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "vocalized_alternatives": [
+          {
+            "id": "interpretive_negative",
+            "surface": "أشرت إليه أن لا تفعلُ",
+            "analysis": "أن مفسرة ولا نافية والمضارع مرفوع"
+          },
+          {
+            "id": "interpretive_prohibition",
+            "surface": "أشرت إليه أن لا تفعلْ",
+            "analysis": "أن مفسرة ولا ناهية والمضارع مجزوم"
+          },
+          {
+            "id": "masdariyya_negative",
+            "surface": "أشرت إليه أن لا تفعلَ",
+            "analysis": "أن مصدرية ولا نافية والمضارع منصوب"
+          }
+        ],
+        "free_text_parser_evaluated": false
+      },
+      {
+        "case_id": "REF-MUGHNI-AN-NO-LA",
+        "input": "أشرت إليه أن تفعل",
+        "assumed_frame": {
+          "family": "interpretive_an",
+          "has_la": false
+        },
+        "exact_set_match": true,
+        "order_match": true,
+        "expected": [
+          "an_interpretive_indicative",
+          "an_masdariyya_subjunctive"
+        ],
+        "actual": [
+          "an_interpretive_indicative",
+          "an_masdariyya_subjunctive"
+        ],
+        "source_spans": [
+          {
+            "source_id": "mughni",
+            "line_start": 621,
+            "line_end": 624,
+            "start": 56850,
+            "end": 57260,
+            "sha256": "dd973b4674edd48b2c2c72409432dd39c0c34bc43eb6d2dcca376f830554c187",
+            "raw_text": "# مسألة\n# إذا ولي أن الصالحة للتفسير مضارع معه لا نحو أشرت إليه أن لا تفعل جاز\n~~رفعه على تقدير لا نافية وجزمه على تقديرها ناهية وعليهما ف أن مفسرة ونصبه\n~~على تقدير ms019 لا نافية وأن مصدرية فإن فقدت لا امتنع الجزم وجاز الرفع والنصب\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "vocalized_alternatives": [
+          {
+            "id": "interpretive_indicative",
+            "surface": "أشرت إليه أن تفعلُ",
+            "analysis": "مفسرة والمضارع مرفوع"
+          },
+          {
+            "id": "masdariyya_subjunctive",
+            "surface": "أشرت إليه أن تفعلَ",
+            "analysis": "مصدرية والمضارع منصوب"
+          }
+        ],
+        "free_text_parser_evaluated": false
+      }
+    ]
+  },
+  "free_text_parser_evaluated": false,
+  "acquisition_of_premises_proved": false
+}

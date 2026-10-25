@@ -72,6 +72,19 @@ def parser() -> Parser:
     result = Parser(prog="nabt", description="Independent Arabic numerical shape kernel")
     result.add_argument("--version", action="version", version=__version__)
     sub = result.add_subparsers(dest="command", required=True, parser_class=Parser)
+    lexicon = sub.add_parser("source-lexicon", help="Exact source headings, without semantic promotion")
+    lexicon.add_argument("--source", choices=("maqayis", "lisan"), required=True)
+    lexicon.add_argument("--file", type=Path, required=True,
+                         help="Local text matching the installed immutable source identity")
+    lexicon.add_argument("--root", help="Exact heading; omit to audit the source partition")
+    sub.add_parser("phonology-catalog", help="Pinned symbolic examples and their source passages")
+    phonology = sub.add_parser("phonology", help="Source-bound symbolic onset and ending projection")
+    phonology.add_argument("example_id")
+    phonology.add_argument("--start", choices=("ibtida", "wasl"), default="ibtida")
+    phonology.add_argument("--end", choices=("wasl", "waqf"), default="wasl")
+    phonology.add_argument("--profile", choices=("standard_core", "sibawayhi_attested_options"),
+                           default="standard_core")
+    phonology.add_argument("--following-id")
     for name in ("inquire", "verify-inquiry"):
         inquiry = sub.add_parser(name)
         inquiry.add_argument("document", type=Path)
@@ -235,6 +248,23 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command == "source-lexicon":
+        from .source_lexicon import SourceLexicon, SourceIdentityError
+        try:
+            index = SourceLexicon.load(args.source, args.file)
+            report = index.lookup_exact(args.root) if args.root is not None else index.inventory()
+        except SourceIdentityError as exc:
+            raise NabtError("SOURCE_IDENTITY_MISMATCH", str(exc), status="DEFER") from exc
+        except ValueError as exc:
+            raise NabtError("INVALID_LEXICON_QUERY", str(exc)) from exc
+        return report, 3 if report.get("status") == "NOT_INDEXED" else 0
+    if command in {"phonology", "phonology-catalog"}:
+        from .phonological_modes import realize, replay_policy
+        if command == "phonology-catalog":
+            return replay_policy(), 0
+        report = realize(args.example_id, start=args.start, end=args.end,
+                         profile=args.profile, following_id=args.following_id)
+        return report, 3 if report["status"] == "UNKNOWN" else 0
     if command in {"inquire", "verify-inquiry"}:
         from .rational_inquiry import (audit_inquiry, verify_inquiry,
                                        MAX_DOCUMENT_BYTES, MAX_REPORT_BYTES)

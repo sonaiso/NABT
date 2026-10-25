@@ -2,10 +2,22 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.18.0"
+  version := v!"0.19.0"
 
 @[default_target]
 lean_lib Nabt
+
+@[default_target]
+lean_exe exportImperativeParadigm where
+  root := `ExportImperativeParadigm
+
+@[default_target]
+lean_exe exportPhonologicalModes where
+  root := `ExportPhonologicalModes
+
+@[default_target]
+lean_exe exportClassicalReferenceReadings where
+  root := `ExportClassicalReferenceReadings
 
 @[default_target]
 lean_exe exportProductiveForms where
