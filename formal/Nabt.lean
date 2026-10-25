@@ -41,3 +41,5 @@ import Nabt.VerifiedReading
 import Nabt.SourceSemantics
 import Nabt.MantuqMafhum
 import Nabt.ReadingEnumeration
+
+import Nabt.QatrReading

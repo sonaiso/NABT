@@ -15,7 +15,7 @@ concurrency:
 jobs:
   cpu-model-replay:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -36,3 +36,14 @@ jobs:
         run: |
           python tools/replay_neural_morphology.py --source artifacts/local/ci/MASAQ.csv --model-dir evidence/source_morphology_training/run_01 --output artifacts/local/ci/neural-replay.json
           python tools/replay_neural_morphology.py --source artifacts/local/ci/MASAQ.csv --model-dir evidence/source_morphology_training/run_02 --output artifacts/local/ci/neural-replay-v2.json
+      - name: Install pinned official Lean for Qatr teacher replay
+        run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-qatr-tools"
+      - name: Build Qatr reader and check learner boundaries
+        env:
+          PYTHONPATH: .
+          NABT_QATR_READING: ${{ github.workspace }}/formal/.lake/build/bin/qatrReading
+        run: |
+          "${{ runner.temp }}/nabt-qatr-tools/lean-4.34.1-linux/bin/lake" --dir formal build qatrReading
+          python -m unittest discover -s tests -p 'test_qatr_*.py' -v
+      - name: Replay Qatr CPU weights and check every proposal in native Lean
+        run: python tools/train_qatr_readings.py replay --source artifacts/local/ci/MASAQ.csv --lean formal/.lake/build/bin/qatrReading --output-dir evidence/qatr_lean_training/run_01
