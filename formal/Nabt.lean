@@ -59,3 +59,5 @@ import Nabt.ClassicalBoundaryAffixes
 import Nabt.BookCoverage
 import Nabt.RuleRouting
 import Nabt.QualifiedInference
+
+import Nabt.LinguisticTruth

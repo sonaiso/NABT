@@ -1393,7 +1393,27 @@ def theoremManifest : List Name := [
   ``Nabt.QualifiedInference.supported_replays_existing_rule,
   ``Nabt.QualifiedInference.supported_rule_derivable,
   ``Nabt.QualifiedInference.opposition_shape_exact,
-  ``Nabt.QualifiedInference.checked_opposition_meaning
+  ``Nabt.QualifiedInference.checked_opposition_meaning,
+  ``Nabt.LinguisticTruth.enumeration_exact,
+  ``Nabt.LinguisticTruth.enumeration_sound,
+  ``Nabt.LinguisticTruth.enumeration_complete,
+  ``Nabt.LinguisticTruth.complete_proposal_exact,
+  ``Nabt.LinguisticTruth.omitted_candidate_rejected,
+  ``Nabt.LinguisticTruth.bounded_exact,
+  ``Nabt.LinguisticTruth.exhaustion_has_no_candidates,
+  ``Nabt.LinguisticTruth.requirements_profile,
+  ``Nabt.LinguisticTruth.supported_exact,
+  ``Nabt.LinguisticTruth.used_sense_required,
+  ``Nabt.LinguisticTruth.figurative_requires_exclusion,
+  ``Nabt.LinguisticTruth.figurative_requires_relation,
+  ``Nabt.LinguisticTruth.opposite_blocks,
+  ``Nabt.LinguisticTruth.changed_convention_rejected,
+  ``Nabt.LinguisticTruth.literal_keeps_origin,
+  ``Nabt.LinguisticTruth.literal_supported_by_explicit_evidence,
+  ``Nabt.LinguisticTruth.changed_frame_cannot_borrow_usage,
+  ``Nabt.LinguisticTruth.no_evidence_no_support,
+  ``Nabt.LinguisticTruth.literal_support_with_false_world,
+  ``Nabt.LinguisticTruth.usage_does_not_assert_world
 ]
 
 run_cmd do

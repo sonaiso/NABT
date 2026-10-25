@@ -1,0 +1,102 @@
+{
+  "schema": "nabt.linguistic-truth.original-recheck.v1",
+  "ok": true,
+  "checked_at_utc": "2026-10-25T15:18:37.366678+00:00",
+  "mode": "ORIGINAL_RECHECK",
+  "inventory_sha256": "2186d8f4c52d148f13592feef50f617675a8576ff1dfc33f0c9fc6a4bdb56e05",
+  "verifier_sha256": "9de533bb1406c55497606e3560d22fc87f88eabe33fe593929de4b8f81f32411",
+  "originals_rechecked": true,
+  "original_book_count": 3,
+  "sources": [
+    {
+      "source_id": "shakhsiyya3_linguistic_truth_selected",
+      "retained_sha256": "78ed6b6b25c3b6ec2a2b397a29338d8c4598de852ebe1ef1f06005bab990383b",
+      "retained_bytes": 131077,
+      "passages_checked": 84,
+      "retained_units": 84,
+      "original_ranges_rechecked": true
+    },
+    {
+      "source_id": "shakhsiyya3_command_supplement",
+      "retained_sha256": "e03e2aa2e455bd3a18c0ce478e0ea096d94ad9161f9dd25e82ff044f819919bd",
+      "retained_bytes": 9775,
+      "passages_checked": 4,
+      "retained_units": 4,
+      "original_ranges_rechecked": true
+    },
+    {
+      "source_id": "shakhsiyya1_cognition",
+      "retained_sha256": "f037620bf52da373758e98757a373452201baf811f36b379d81b97f5fe238a60",
+      "retained_bytes": 6325,
+      "passages_checked": 3,
+      "retained_units": 11,
+      "original_ranges_rechecked": true
+    },
+    {
+      "source_id": "thinking_cognition",
+      "retained_sha256": "4c49940d956844cf9465d1c82ea5c7d866ff635ba6eaee0e70d9784460c7d0e4",
+      "retained_bytes": 17928,
+      "passages_checked": 4,
+      "retained_units": 14,
+      "original_ranges_rechecked": true
+    }
+  ],
+  "originals": [
+    {
+      "work": "shakhsiyya3",
+      "original_path": "/workspace/scratch/8ead824583ac/research/mantuq_originals/shakhsiyya3-20261025.docx",
+      "original_bytes": 673072,
+      "original_sha256": "057525f3f527e9dbc764e0082f9cce76005e229e226ae3b497177e68ecbec0ab",
+      "canonical_bytes": 1242244,
+      "canonical_sha256": "9e4b6678b3907151273c5a73c8b804db835dc1ed25a1c54c37e7c0cae51a30ff",
+      "canonical_units": 1130,
+      "canonical_unit_kind": "xml_paragraphs",
+      "method": "All descendant w:p in word/document.xml document order; concatenate descendant w:t text; LF after every paragraph; no normalization. Empty paragraphs retained.",
+      "converter": null
+    },
+    {
+      "work": "shakhsiyya1",
+      "original_path": "/workspace/scratch/8ead824583ac/research/linguistic_truth_v1/cognition/originals/الشخصية الإسلامية الجزء الأول(20261025-074402).docx",
+      "original_bytes": 283112,
+      "original_sha256": "5e327aa2563af094962833951972b7537a872119a58bbfce5f2a813d20c88e17",
+      "canonical_bytes": 871127,
+      "canonical_sha256": "cb8ac300def4e1a92dba85d3d136e581566068702a2f829f70b18d28ec8ca987",
+      "canonical_units": 930,
+      "canonical_unit_kind": "xml_paragraphs",
+      "method": "ElementTree: enumerate .//w:p in word/document.xml, concatenate descendant w:t text, preserve empty paragraphs, join LF plus terminal LF; no Arabic normalization",
+      "converter": null
+    },
+    {
+      "work": "thinking",
+      "original_path": "/workspace/scratch/8ead824583ac/research/linguistic_truth_v1/cognition/originals/التفكير(71)(3)(20261024-083904).doc",
+      "original_bytes": 415232,
+      "original_sha256": "e917d9a03b1a546d783868d3bc018b24ced19eb85df671bd41e05f50c2de492c",
+      "canonical_bytes": 339231,
+      "canonical_sha256": "5d5eaf9af0df8a6a8f03014fcf22d6686ecdca6d3137e4df44246a8d35c3ed5c",
+      "canonical_units": 262,
+      "canonical_unit_kind": "text_lines",
+      "method": "LibreOffice txt:Text conversion of .doc; decode utf-8-sig, universal newline read, UTF-8 LF write; no Arabic normalization",
+      "converter": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/native/libreoffice-headless/libreoffice/program/soffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "arguments": [
+          "-env:UserInstallation=<fresh-temporary-profile>",
+          "--headless",
+          "--convert-to",
+          "txt:Text",
+          "--outdir",
+          "<temporary-directory>",
+          "<explicit-original-path>"
+        ],
+        "isolated_profile": true,
+        "postprocessing": "UTF-8-SIG decoding; universal newlines; UTF-8 encoding; no Arabic normalization"
+      }
+    }
+  ],
+  "passages_checked": 95,
+  "retained_units_checked": 113,
+  "printed_edition_authenticated": false,
+  "interpretation_adequacy_proved": false,
+  "world_truth_established": false,
+  "whole_books_formalized": false
+}

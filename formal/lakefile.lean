@@ -112,3 +112,6 @@ lean_exe exportRuleRouting where
 
 lean_exe exportQualifiedInference where
   root := `ExportQualifiedInference
+
+lean_exe linguisticTruth where
+  root := `LinguisticTruthMain

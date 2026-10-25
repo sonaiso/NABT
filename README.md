@@ -938,6 +938,20 @@ make -f Makefile -f integrations/grammar_catalog.mk proof-catalog routing-confor
 [التقرير العربي](docs/GRAMMAR_CATALOG_AR.md) مقاييس الاسترجاع، وتدقيق
 التكرار البرهاني، والالتزامات المتبقية؛ لا يتضمن ضمان دقة عامة 100%.
 
+### الحقيقة اللغوية واكتساب المعنى المصرح به
+
+```bash
+PYTHONPATH=src:. python -m tools.linguistic_truth acquire --text 'أعني بالأسد الحيوان المفترس.' --profile linguistic
+PYTHONPATH=src:. python -m tools.linguistic_truth pipeline --text 'أعني بالقرء الطهر.' --profile linguistic --limit 1
+make -f Makefile -f integrations/grammar_catalog.mk -f integrations/mantuq_inference.mk -f integrations/linguistic_truth.mk linguistic-truth LAKE=/path/to/lake
+```
+
+يفصل المسار الوضع اللغوي، والاستعمال الحاصل في النص، وصدق الخبر خارجيًا.
+يستخرج تصريحات محدودة عن المعنى ويربطها ببايتات المصدر، ثم يفحص كل
+مرشح في Lean. [التقرير العربي](docs/LINGUISTIC_TRUTH_AR.md) يبين البراهين
+والمصادر والإخفاقات: لا يثبت هذا القارئ اكتمال العربية أو فهم الاستعمال
+الطبيعي العام، ولا يحول غياب القرينة إلى معنى مختار.
+
 ### المنطوق والمفهوم والاستدلال المشروط
 
 ```bash
