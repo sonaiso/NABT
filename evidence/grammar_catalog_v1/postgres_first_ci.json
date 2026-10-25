@@ -1,0 +1,88 @@
+{
+  "schema": "nabt.grammar-postgres-ci.v1",
+  "head_sha": "26f1fe9f741376be5f4849a1bca1fb93b8255aea",
+  "tested_merge_sha": "cc94b07690268dfa40a941aa598d8c4572c458a3",
+  "run_id": 40197248603,
+  "run_url": "https://github.com/sonaiso/NABT/actions/runs/40197248603",
+  "jobs": [
+    {
+      "id": 121180647622,
+      "name": "postgres-pgvector",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run python -m pip install -r integrations/grammar_db/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Source replay, SQL constraints and hybrid retrieval",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Post Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        }
+      ]
+    }
+  ],
+  "tests": 16,
+  "skipped": 0,
+  "postgres": "17.11",
+  "pgvector": "0.8.7",
+  "counts": {
+    "rules": 125,
+    "passages": 9385,
+    "sources": 10
+  },
+  "scope": "SQL and proposal implementation, synthetic vector geometry; not embedding relevance or Arabic completeness",
+  "followup": "FK diagnostic assertions strengthened afterward; this result applies only to the named tested head."
+}

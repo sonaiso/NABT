@@ -137,6 +137,12 @@ NABT_TEST_DATABASE_URL='host=127.0.0.1 dbname=nabt_test user=nabt_test' \
 `.github/workflows/grammar-catalog-database.yml` يشغّل المجموعة على خدمة PostgreSQL
 فعلية مثبتة. لا يُعلن نجاح فحص الخادم إلا بعد نتيجة ذلك التشغيل.
 
+أُنجز التحقق الفعلي في [تشغيل GitHub 40197248603](https://github.com/sonaiso/NABT/actions/runs/40197248603)
+للرأس `26f1fe9f741376be5f4849a1bca1fb93b8255aea`: **16 اختبارًا ناجحًا
+بلا تخطٍّ**، على PostgreSQL 17.11 وpgvector 0.8.7. شمل الاستيراد العام
+125 مدخل قاعدة و9385 مقطعًا و10 سجلات مصادر. نتائج أي تعديل لاحق تحتاج
+إعادة تشغيل ولا تستنتج من هذا السجل.
+
 ## مراجع أولية
 
 - [توثيق pgvector: المسح الدقيق والتقريبي والتصفية وإصدارات Docker](https://github.com/pgvector/pgvector)

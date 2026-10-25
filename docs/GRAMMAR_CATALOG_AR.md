@@ -52,6 +52,12 @@
 
 ## البراهين وعدم تكرارها
 
+يصل مسار `tools.grammar_catalog.links` المصادر ببيئة Lean المترجمة
+مباشرةً: **36 رابط إحالة صريحًا** إلى **26 عقدة برهانية أصلية**، عبر
+36 مقطعًا من ثلاث نسخ مصدرية، دون إحالات مجهولة. لا يقبل هذا المسار
+فهرس براهين يقدمه المستدعي؛ يعيد بناءه ويطابق نسخ المدخلات. قلة الروابط
+الصريحة مقارنةً بعدد القواعد فجوة موثقة، ولا تعوّض بإضافة روابط تخمينية.
+
 الفهرس البرهاني مستخرج من بيئة Lean المترجمة فعليًا: **1372 تصريحًا**
 و**1369 بنية عبارة متميزة**، مع ثلاثة أزواج أسماء لعبارات متطابقة بعد
 إزالة أسماء المتغيرات وبيانات العرض. تحفظ أسماء الواجهات وروابط الاعتماد
@@ -101,7 +107,7 @@
 PYTHONPATH=src python -m tools.grammar_catalog catalog --summary
 PYTHONPATH=src python -m tools.grammar_catalog search 'حذف حرف العلة في الأمر' --kind rule --limit 10
 PYTHONPATH=src python -m tools.grammar_catalog route 'همزة الأمر' --frames frames.json
-make grammar-catalog proof-catalog routing-conformance LAKE=/path/to/lake
+make -f Makefile -f integrations/grammar_catalog.mk grammar-catalog proof-catalog routing-conformance LAKE=/path/to/lake
 ```
 
 `frames.json` خريطة من معرف المؤثر إلى مقدماته الصريحة كما تعرفها واجهة
@@ -135,3 +141,12 @@ make grammar-catalog proof-catalog routing-conformance LAKE=/path/to/lake
 تبقى نسبة اكتمال العربية العامة **غير معرفة لعدم حصر مقامها**، وبوابة
 اكتمال الكتب غير مجتازة. التقدم هنا قابل للفحص في سلامة المصدر، وترابط
 الهويات، وتقليل تكرار البرهان، وثبات الفحص تحت تغير ترتيب البحث.
+
+## التحقق الفعلي لقاعدة البيانات
+
+نجحت الاختبارات الـ16 بلا تخطٍّ على PostgreSQL 17.11 وpgvector 0.8.7
+في [تشغيل GitHub](https://github.com/sonaiso/NABT/actions/runs/40197248603)
+للرأس `26f1fe9f741376be5f4849a1bca1fb93b8255aea`. شمل ذلك الاستيراد
+العام للمصادر: 125 مدخل قاعدة و9385 مقطعًا و10 سجلات مصادر. يقيس ذلك
+سلامة التنفيذ والقيود؛ اختبار المتجهات يستخدم اتجاهات اصطناعية معلومة
+ولا يقيس جودة LaBSE. تُسجل نتائج الرؤوس اللاحقة مستقلةً عند توفرها.

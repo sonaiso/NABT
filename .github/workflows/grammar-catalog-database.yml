@@ -1,4 +1,4 @@
-name: Grammar catalogue PostgreSQL
+name: NABT grammar catalogue gates
 
 on:
   pull_request:
@@ -8,6 +8,14 @@ on:
       - 'src/nabt/data/source_evidence/**'
       - 'evidence/arabic_completion_v6/**'
       - 'formal/theorems.json'
+      - 'formal/**'
+      - 'tools/proof_catalog.py'
+      - 'tools/check_rule_routing.py'
+      - 'tools/benchmark_grammar_catalog.py'
+      - 'integrations/grammar_catalog.mk'
+      - 'evidence/grammar_catalog_v1/**'
+      - 'tests/test_grammar_catalog*.py'
+      - 'tests/test_proof_catalog.py'
       - '.github/workflows/grammar-catalog-database.yml'
   push:
     branches: [main]
@@ -17,6 +25,14 @@ on:
       - 'src/nabt/data/source_evidence/**'
       - 'evidence/arabic_completion_v6/**'
       - 'formal/theorems.json'
+      - 'formal/**'
+      - 'tools/proof_catalog.py'
+      - 'tools/check_rule_routing.py'
+      - 'tools/benchmark_grammar_catalog.py'
+      - 'integrations/grammar_catalog.mk'
+      - 'evidence/grammar_catalog_v1/**'
+      - 'tests/test_grammar_catalog*.py'
+      - 'tests/test_proof_catalog.py'
       - '.github/workflows/grammar-catalog-database.yml'
   workflow_dispatch:
 
@@ -24,6 +40,23 @@ permissions:
   contents: read
 
 jobs:
+  catalog-proof-links:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install verified Lean toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+          python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+      - name: Replay source links, compiled proof identities and routing
+        run: make -f Makefile -f integrations/grammar_catalog.mk grammar-catalog proof-catalog routing-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR="${{ runner.temp }}/catalog-proof-links"
   postgres-pgvector:
     runs-on: ubuntu-24.04
     timeout-minutes: 15

@@ -114,25 +114,44 @@ class PostgreSQLTests(unittest.TestCase):
             client.search(self.connection, self.sha, "", embedding=[1, 0, 0], embedding_run=wrong_snapshot)
 
     def test_sql_constraints_reject_zero_nan_dimensions_and_orphans(self):
+        errors = self.psycopg.errors
+        run_fk = "embeddings_snapshot_sha_run_id_dimensions_fkey"
+        document_fk = "embeddings_snapshot_sha_document_id_fkey"
+        # Each FK probe passes both local vector checks. In particular [1,0]
+        # has unit norm and two components, so dimensions=2 isolates the run's
+        # composite FK rather than failing the dimension or norm CHECK first.
         cases = [
-            (self.metadata["run_id"], "passage:p1", 3, "[0,0,0]"),
-            (self.metadata["run_id"], "passage:p1", 3, "[NaN,1,0]"),
-            (self.metadata["run_id"], "passage:p1", 3, "[1,2]"),
-            (self.metadata["run_id"], "passage:p1", 2, "[1,2]"),
-            (self.metadata["run_id"], "unknown", 3, "[1,2,3]"),
-            ("f" * 64, "passage:p1", 3, "[1,2,3]"),
+            ("zero_norm", self.metadata["run_id"], "passage:p1", 3,
+             "[0,0,0]", errors.CheckViolation, None),
+            ("nonfinite_component", self.metadata["run_id"], "passage:p1", 3,
+             "[NaN,1,0]", errors.DataException, None),
+            ("component_count", self.metadata["run_id"], "passage:p1", 3,
+             "[1,0]", errors.CheckViolation, None),
+            ("run_dimension", self.metadata["run_id"], "passage:p1", 2,
+             "[1,0]", errors.ForeignKeyViolation, run_fk),
+            ("missing_document", self.metadata["run_id"], "unknown", 3,
+             "[1,0,0]", errors.ForeignKeyViolation, document_fk),
+            ("missing_run", "f" * 64, "passage:p1", 3,
+             "[1,0,0]", errors.ForeignKeyViolation, run_fk),
         ]
-        for run, doc, dims, vector in cases:
-            with self.subTest(doc=doc, vector=vector), self.assertRaises(self.psycopg.Error):
-                with self.connection.transaction():
-                    self.connection.execute("INSERT INTO nabt_catalog.embeddings VALUES (%s,%s,%s,%s,%s::vector)", (self.sha, run, doc, dims, vector))
+        for label, run, doc, dims, vector, error_type, constraint in cases:
+            with self.subTest(constraint_case=label):
+                with self.assertRaises(error_type) as caught:
+                    with self.connection.transaction():
+                        self.connection.execute(
+                            "INSERT INTO nabt_catalog.embeddings VALUES (%s,%s,%s,%s,%s::vector)",
+                            (self.sha, run, doc, dims, vector))
+                if constraint is not None:
+                    self.assertEqual(caught.exception.diag.constraint_name, constraint)
 
     def test_document_projection_cannot_reference_unknown_entities(self):
-        with self.assertRaises(self.psycopg.Error):
+        with self.assertRaises(self.psycopg.errors.ForeignKeyViolation) as caught:
             with self.connection.transaction():
                 self.connection.execute("""INSERT INTO nabt_catalog.documents
                     (snapshot_sha,document_id,kind,entity_id,search_text)
                     VALUES (%s,'rule:unknown','rule','unknown','نص')""", (self.sha,))
+        self.assertEqual(caught.exception.diag.constraint_name,
+                         "documents_snapshot_sha_rule_entity_id_fkey")
 
     def test_snapshot_rows_are_immutable_under_normal_dml(self):
         for query in ("UPDATE nabt_catalog.rules SET title='invented' WHERE snapshot_sha=%s",
@@ -148,9 +167,11 @@ class PostgreSQLTests(unittest.TestCase):
         broken = copy.deepcopy(self.synthetic)
         broken["rules"][0]["source_passage_ids"] = ["nonexistent"]
         digest = "3" * 64
-        with self.assertRaises(self.psycopg.Error):
+        with self.assertRaises(self.psycopg.errors.ForeignKeyViolation) as caught:
             with self.connection.transaction():
                 client._insert_verified_catalog(self.connection, broken, digest)
+        self.assertEqual(caught.exception.diag.constraint_name,
+                         "attestations_snapshot_sha_passage_id_fkey")
         self.assertIsNone(self.connection.execute("SELECT 1 FROM nabt_catalog.snapshots WHERE snapshot_sha=%s", (digest,)).fetchone())
 
     def test_public_loader_replays_installed_source_catalogue(self):

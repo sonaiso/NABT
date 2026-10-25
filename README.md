@@ -927,8 +927,8 @@ python tools/bootstrap_lean.py --destination /tmp/nabt-tools
 
 ```bash
 PYTHONPATH=src python -m tools.grammar_catalog search 'همزة الوصل' --kind rule
-make grammar-catalog
-make proof-catalog routing-conformance LAKE=/path/to/lake
+make -f Makefile -f integrations/grammar_catalog.mk grammar-catalog
+make -f Makefile -f integrations/grammar_catalog.mk proof-catalog routing-conformance LAKE=/path/to/lake
 ```
 
 هذا مسار اقتراح اختياري خارج سلطة قبول العربية. يحفظ تعدد الأدلة، ويستكمل
