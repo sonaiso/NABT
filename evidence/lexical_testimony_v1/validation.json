@@ -1,7 +1,7 @@
 {
   "schema": "nabt.lexical-testimony-validation.v1",
   "node_tests": {
-    "passed": 131,
+    "passed": 132,
     "failed": 0,
     "skipped": 0
   },
@@ -27,5 +27,38 @@
     "live_request_from_browser": false
   },
   "source_truth_established": false,
-  "all_arabic_complete": false
+  "all_arabic_complete": false,
+  "ci_initial": {
+    "commit": "efaac457c8f457860d42502a180583d754f3fa0d",
+    "run": 40227524230,
+    "formal_job": "success",
+    "python_matrix": "failure: native checker not installed in Python-only jobs",
+    "correction": "Eight native-dependent tests explicitly require the binary; all twelve execute in the Lean job and proof-lab job. No runtime acceptance rule weakened."
+  },
+  "full_unit_suite": {
+    "ran": 2223,
+    "passed": 2195,
+    "skipped": 28,
+    "failed": 0,
+    "duration_seconds": 249.158
+  },
+  "live_controls": {
+    "conditional_inclusion": {
+      "run_id": 40227635381,
+      "status": "CONDITIONAL_INTERPRETATIONS",
+      "native_checked": true
+    },
+    "uninstalled_entry": {
+      "run_id": 40228119306,
+      "status": "UNMEASURED_ROOT",
+      "native_checked": true,
+      "rows": 0
+    },
+    "owner_browser_click_claimed": false
+  },
+  "full_check": {
+    "state": "RUNNING",
+    "command": "make check LAKE=/workspace/scratch/8ead824583ac/lean-driver/lake EVIDENCE_DIR=/tmp/nabt-testimony-check",
+    "note": "Full unit phase passed; subsequent conformance and documented partial coverage gates continue."
+  }
 }

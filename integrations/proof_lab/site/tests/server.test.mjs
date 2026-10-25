@@ -288,3 +288,8 @@ test('private configuration never returns transport or signing secrets',async()=
   const res=await route(new Request('https://lab.example/api/config'),ENV,{});const text=await res.text();
   for(const secret of [TRANSPORT,KEY,ENV.NABT_GITHUB_TOKEN])assert.ok(!text.includes(secret));
 });
+
+test('public configuration identifies the actual pinned testimony branch, never the old default',async()=>{
+  const res=await route(new Request('https://lab.example/api/config'),{...ENV,NABT_REF:'codex/attested-testimony-live'},{});
+  const c=await res.json();assert.equal(c.ready,true);assert.equal(c.branch,'codex/attested-testimony-live');assert.equal(c.code_sha,CODE);
+});

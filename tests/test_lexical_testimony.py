@@ -1,5 +1,4 @@
 """Independent semantic controls and adversarial receipt boundaries."""
-import copy
 import json
 from pathlib import Path
 import tempfile
@@ -10,7 +9,13 @@ from tools import lexical_testimony as testimony
 from tools import proof_lab
 
 
+native_available = unittest.skipUnless(
+    (testimony.ROOT / "formal/.lake/build/bin/lexicalDenotation").is_file(),
+    "native lexicalDenotation executable is built in the Lean CI job")
+
+
 class Testimony(unittest.TestCase):
+    @native_available
     def test_three_distinct_indications_use_real_native_checker(self):
         for entry, target, indication in [
                 ("فرس", ["واحد الخيل"], "mutabaqa"),
@@ -25,6 +30,7 @@ class Testimony(unittest.TestCase):
                 self.assertFalse(row["causal_or_legal_conclusion_established"])
                 self.assertEqual(row["testimony"]["transmission_type"], "UNASSESSED")
 
+    @native_available
     def test_no_invented_sun_or_tawatur_seed(self):
         result = testimony.assess("شمس", ["النهار"])
         self.assertEqual(result["status"], "UNMEASURED_ROOT")
@@ -32,6 +38,7 @@ class Testimony(unittest.TestCase):
         self.assertFalse(result["all_installed_readings_retained"])
         self.assertEqual(result["rows"], [])
 
+    @native_available
     def test_all_three_qalam_senses_survive(self):
         result = testimony.assess("قلم", ["الذي يكتب به"])
         self.assertEqual([r["sense_id"] for r in result["rows"]],
@@ -39,6 +46,7 @@ class Testimony(unittest.TestCase):
         self.assertEqual(result["common_indications"], [])
         self.assertEqual(sum(r["indications"]["mutabaqa"] for r in result["rows"]), 1)
 
+    @native_available
     def test_source_bytes_and_retained_quote_are_different_checks(self):
         house = testimony.assess("بيت", ["المأوى"])
         horse = testimony.assess("فرس", ["واحد الخيل"])
@@ -46,6 +54,7 @@ class Testimony(unittest.TestCase):
         self.assertFalse(horse["rows"][0]["testimony"]["source_file_replayed"])
         self.assertFalse(house["historical_authenticity_established"])
 
+    @native_available
     def test_no_inverse_association_or_gloss_word_fragment(self):
         for entry, target in [("بصر", ["ذهاب البصر كله"]), ("فهم", ["القلب"]), ("أسد", ["العدالة"])]:
             result = testimony.assess(entry, target)
@@ -53,6 +62,7 @@ class Testimony(unittest.TestCase):
             self.assertEqual(result["common_indications"], [])
             self.assertTrue(all(not any(r["indications"].values()) for r in result["rows"]))
 
+    @native_available
     def test_part_is_not_whole_and_duplicates_add_no_parts(self):
         result = testimony.assess("فرس", ["واحد الخيل", "واحد الخيل"])
         self.assertEqual(result["common_indications"], ["mutabaqa"])
@@ -87,6 +97,7 @@ class Testimony(unittest.TestCase):
                 self.assertEqual(testimony.assess("بيت", ["المأوى"], root=root)["status"], "SOURCE_UNAVAILABLE")
                 native.assert_not_called()
 
+    @native_available
     def test_native_forgery_dropped_with_no_positive_rows(self):
         real = testimony._native
         for mutation in ("flag", "omit", "world", "component", "indication"):
@@ -112,6 +123,7 @@ class Testimony(unittest.TestCase):
             with self.assertRaises(proof_lab.RequestError):
                 proof_lab.validate_payload(json.dumps({**value, key: True}))
 
+    @native_available
     def test_actual_transport_receipt_uses_correct_binary_and_scope(self):
         value = {"schema": proof_lab.REQUEST_SCHEMA, "mode": "testimony", "entry": "بيت", "target": ["المأوى"]}
         result = proof_lab.run_payload(proof_lab.SMOKE_ID, json.dumps(value))

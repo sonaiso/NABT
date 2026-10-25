@@ -50,8 +50,10 @@ test('valid unavailable receipts are retained without pretending a native result
 });
 test('testimony receipt cannot be relabelled inference or mixed with a benchmark',()=>{
   const expected={request_id:'id',payload_sha256:'digest',code_sha:'commit',mode:'testimony'};
-  const r={schema:'nabt.proof-lab-result.v1',...expected,status:fixture.status,testimony:fixture,all_arabic_complete:false,world_truth_established:false};
+  const r={schema:'nabt.proof-lab-result.v1',...expected,status:fixture.status,testimony:fixture,native_sha256:fixture.native_sha256,catalogue_sha256:fixture.catalogue_sha256,all_arabic_complete:false,world_truth_established:false};
   assert.equal(validateReport(r,expected),r);
   assert.throws(()=>validateReport({...r,benchmark:{}},expected));
   assert.throws(()=>validateReport({...r,mode:'inference'},expected));
+  assert.throws(()=>validateReport({...r,native_sha256:'0'.repeat(64)},expected));
+  assert.throws(()=>validateReport({...r,catalogue_sha256:'0'.repeat(64)},expected));
 });

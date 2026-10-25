@@ -115,6 +115,7 @@ export function validateReport(report,expected){
   if(report.mode==='testimony'){
     validateTestimony(report.testimony,report.status);
     if(report.result||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
+    if(report.testimony.native_checked&&(report.native_sha256!==report.testimony.native_sha256||report.catalogue_sha256!==report.testimony.catalogue_sha256))fail('REPORT_BINDING_FAILED',502);
     return report;
   }
   if(report.testimony)fail('REPORT_AUTHORITY_INVALID',502);
@@ -198,7 +199,7 @@ export async function route(request,env,assets){
   try{
     const url=new URL(request.url);
     if(request.method==='GET'&&url.pathname in assets){const asset=assets[url.pathname];return new Response(asset.body,{headers:{...securityHeaders,'Content-Type':asset.type,'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'"}});}
-    if(url.pathname==='/api/config'&&request.method==='GET')return json({ready:configured(env),configuration_status:env.NABT_EXECUTION_ENABLED==='true'?'configured_or_missing_fields':'awaiting_transport_authorization',code_sha:SHA.test(env.NABT_CODE_SHA??'')?env.NABT_CODE_SHA:null,branch:'codex/dynamic-proof-lab',law:'nabt.licensed-inference.v1',limits:{...LIMITS,source_bytes:16384,query_bytes:4096},baseline:{total:38,passed:37,failed:1,unmeasured:0,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',scope:'لقطة التقييم المستقل المثبتة للنطاق المحدود؛ ليست قياسًا لكل العربية.'},scope_note:'الاكتمال مقيد بالقانون والنطاق المعلنين. اكتمال العربية كلها وصحة المطابقة للواقع غير مثبتين.'});
+    if(url.pathname==='/api/config'&&request.method==='GET')return json({ready:configured(env),configuration_status:env.NABT_EXECUTION_ENABLED==='true'?'configured_or_missing_fields':'awaiting_transport_authorization',code_sha:SHA.test(env.NABT_CODE_SHA??'')?env.NABT_CODE_SHA:null,branch:['codex/dynamic-proof-lab','codex/attested-testimony-live'].includes(env.NABT_REF)?env.NABT_REF:null,law:'nabt.licensed-inference.v1',limits:{...LIMITS,source_bytes:16384,query_bytes:4096},baseline:{total:38,passed:37,failed:1,unmeasured:0,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',scope:'لقطة التقييم المستقل المثبتة للنطاق المحدود؛ ليست قياسًا لكل العربية.'},scope_note:'الاكتمال مقيد بالقانون والنطاق المعلنين. اكتمال العربية كلها وصحة المطابقة للواقع غير مثبتين.'});
     if(url.pathname==='/api/runs'){
       if(!configured(env))fail('BACKEND_NOT_CONFIGURED',503);
       // Access is restricted to the owner by Sites dispatch; service access uses the same boundary.
