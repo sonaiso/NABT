@@ -46,12 +46,19 @@ def validate_imperative(candidate, audit):
         form = S._decode(row["form"])
         root = S._decode(S._field(t, "ROOT:"), S.ROOT_BW)
         parts = S.clusters(form)
+        source_prefixes = {
+            "3MS": ["ي", {"َ"}],
+            "2MS": ["ت", {"َ"}],
+            "3FS": ["ت", {"َ"}],
+            "1S": ["أ", {"َ"}],
+            "1P": ["ن", {"َ"}],
+        }
         S.require(row["tag"] == "V" and "IMPF" in t and "PASS" not in t and
-                  w["source_profile"] in t and w["source_profile"] in ("3MS", "2MS", "3FS") and
+                  w["source_profile"] in t and w["source_profile"] in source_prefixes and
                   S._field(t, "LEM:") == candidate["lemma_bw"] and
                   form == w["source_form"] and root == w["root"], "wrong imperative raw lexical premise")
         S.require(len(root) == 3 and len(set(root)) == 3 and not set(root) & set("اويءأإآؤئىة") and
-                  len(parts) == 4 and parts[0] in (["ي", {"َ"}], ["ت", {"َ"}]) and
+                  len(parts) == 4 and parts[0] == source_prefixes[w["source_profile"]] and
                   "".join(p[0] for p in parts[1:]) == root and parts[1][1] == {"ْ"} and
                   parts[2][1] in ({"َ"}, {"ِ"}, {"ُ"}) and parts[3][1] == {"ُ"}, "unsound imperfect template")
         vowel = "ُ" if parts[2][1] == {"ُ"} else "ِ"

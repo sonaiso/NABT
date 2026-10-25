@@ -151,7 +151,7 @@ class ImperativeParadigmTests(unittest.TestCase):
             raw=corpus([verb(form,code)])
             model=learn_qac_lexicon(raw,source_id='generic_checker')
             audit=SourceAudit(raw,[],'generic_checker')
-            for text in ('اُكْتُبِي','اُكْتُبَا','اُكْتُبُوا','اُكْتُبْنَ'):
+            for text in ('اُكْتُبْ','اُكْتُبِي','اُكْتُبَا','اُكْتُبُوا','اُكْتُبْنَ'):
                 rows=person_candidates(text,lexical_model=model)
                 self.assertTrue(rows)
                 for row in rows:

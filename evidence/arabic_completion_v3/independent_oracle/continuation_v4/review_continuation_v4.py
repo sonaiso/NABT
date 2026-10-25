@@ -185,6 +185,50 @@ def review(result_path, raw_path, output_dir):
     records = {row['case_id']: row['record'] for row in observations}
     E.require([row['case_id'] for row in observations] == [c['id'] for c in material['cases']] and len(records) == 24,
               'Case inventory changed')
+    model_summaries = {call['inputs']['source_id'].removeprefix('independent_oracle_lexical_'): call['returned']
+                       for call in calls if call['name'] == 'learn_qac_lexicon'}
+    observation_calls = []
+    for case, observation in zip(material['cases'], observations):
+        record = observation['record']
+        inputs = {k: case['input'][k] for k in ('text', 'source_id', 'scope')}
+        inputs['context'] = contexts[case['input']['context_id']]
+        public = {**inputs, 'lexical_profile': case['input']['lexical_profile'],
+                  'model_summary': model_summaries[case['input']['lexical_profile']]}
+        report = record['report']
+        expected_calls = [
+            ('read_discourse', None, public, report),
+            ('verify_discourse', None, {**public, 'certificate_report_id': report['report_id']},
+             record['verification']),
+        ]
+        E.require(len(record['questions']) == len(case['expected']['questions']),
+                  'Question observation count changed')
+        for qi, (wanted, entry) in enumerate(zip(case['expected']['questions'], record['questions'])):
+            question = wanted['text']
+            answer, inquiry = entry['answer'], entry['inquiry']
+            expected_calls.extend([
+                ('ask_discourse', qi, {**public, 'question': question}, answer),
+                ('read_discourse', qi, {**public, 'text': question, 'source_id': 'question'}, inquiry),
+                ('verify_discourse', qi,
+                 {**public, 'text': question, 'source_id': 'question',
+                  'certificate_report_id': inquiry['report_id']}, entry['inquiry_verification']),
+                ('verify_discourse_answer', qi,
+                 {**public, 'question': question, 'certificate_answer_id': answer['answer_id']},
+                 entry['verification']),
+            ])
+        observation_calls.extend((case['id'], call) for call in expected_calls)
+    actual_observation_calls = [call for call in calls if call['name'] in (
+        'read_discourse', 'verify_discourse', 'ask_discourse', 'verify_discourse_answer')]
+    E.require(len(actual_observation_calls) == len(observation_calls),
+              'Public observation calls do not match scored records')
+    for actual, (case_id, (name, question_index, inputs, returned)) in zip(
+            actual_observation_calls, observation_calls):
+        E.require(set(actual) == {'kind', 'call_id', 'name', 'case_id', 'question_index', 'inputs', 'returned'} and
+                  actual['kind'] == 'public_api_call' and type(actual['call_id']) is int and
+                  actual['name'] == name and actual['case_id'] == case_id and
+                  E.wire(actual['question_index']) == E.wire(question_index) and
+                  E.wire(actual['inputs']) == E.wire(inputs) and
+                  E.wire(actual['returned']) == E.wire(returned),
+                  'Public call input/output differs from its scored observation')
     audits = {key: E.SourceAudit((ORACLE / p['file']).read_bytes(), source_id='independent_oracle_lexical_' + key)
               for key, p in profiles.items()}
     scores = []
@@ -208,7 +252,37 @@ def review(result_path, raw_path, output_dir):
         for new, old in zip(result['cross_case_checks'], reference['cross_case_checks'])), 'Cross-case authority regressed')
     for key in ('unsafe_check_failures', 'independent_integrity_failures', 'execution_errors', 'scoring_errors'):
         E.require(result[key] == [], 'New integrity/error/extra-authority failure: ' + key)
-    E.require(result['measurement_valid'] is True and type(result['strict_pass']) is bool,
+    fixed = [case for case in scores if case['fixed_status_case']]
+    probes = [case for case in scores if not case['fixed_status_case']]
+    fixed_summary = {'total': len(fixed), 'passed': sum(case['passed'] is True for case in fixed),
+                     'failed': sum(case['passed'] is False for case in fixed)}
+    provenance_summary = {'total': len(probes),
+                          'outcomes': {case['id']: case['provenance_outcome'] for case in probes},
+                          'not_counted_as_language_coverage': True}
+    question_results = [question for case in scores for question in case['questions']]
+    E.require(all(type(question['status_match']) is bool and
+                  type(question['independently_validated']) is bool for question in question_results),
+              'Question outcomes are not typed booleans')
+    question_summary = {'total': sum(len(case['expected']['questions']) for case in material['cases']),
+                        'observed': len(question_results),
+                        'status_matches': sum(question['status_match'] is True for question in question_results),
+                        'independently_validated': sum(
+                            question['independently_validated'] is True for question in question_results)}
+    E.require(E.wire(result['fixed_cases']) == E.wire(fixed_summary) and
+              E.wire(result['questions']) == E.wire(question_summary) and
+              E.wire(result['conditional_provenance']) == E.wire(provenance_summary),
+              'Fixed-case, question, or provenance summary differs from validated records')
+    measurement_valid = not (result['execution_errors'] or result['scoring_errors'] or
+                             result['independent_integrity_failures'] or
+                             any(mutation['outcome'] == 'ERROR' for mutation in mutation_outcomes))
+    E.require(type(result['measurement_valid']) is bool and result['measurement_valid'] is measurement_valid,
+              'Measurement validity differs from validated records')
+    strict_pass = bool(measurement_valid and result['runtime_unchanged'] is True and
+                       result['runner_and_helpers_unchanged'] is True and
+                       all(case['passed'] is True for case in scores) and
+                       all(check['passed'] is True for check in result['cross_case_checks']) and
+                       all(mutation['outcome'] == 'PASS' for mutation in mutation_outcomes))
+    E.require(type(result['strict_pass']) is bool and result['strict_pass'] is strict_pass,
               'Partial result was converted to full success or invalid measurement')
     categories = {category: {'total': sum(c['category'] == category for c in scores),
                              'passed': sum(c['category'] == category and c['passed'] for c in scores)}
@@ -232,10 +306,10 @@ def review(result_path, raw_path, output_dir):
               'expected_canonical_trace_sha256': sha256(b''.join(R.dump(x) + b'\n' for x in expected)).hexdigest(),
               'raw_journal': inventory, 'fixed_cases': result['fixed_cases'], 'questions': result['questions'],
               'conditional_provenance': result['conditional_provenance'], 'mutation_checks': mutation_outcomes,
-              'residuals': residuals, 'measurement_valid': True, 'review_valid': True,
+              'residuals': residuals, 'measurement_valid': measurement_valid, 'review_valid': True,
               'unsafe_check_failures': [], 'independent_integrity_failures': [], 'execution_errors': [],
               'scoring_errors': [], 'runtime_unchanged': True, 'dependencies_unchanged': True,
-              'strict_pass': False, 'regression_gate_pass': True,
+              'strict_pass': strict_pass, 'regression_gate_pass': True,
               'scope': 'Same 24 authored inputs and retained partial result under a separately approved guard-only runtime. No new blind experiment or universal completeness claim.'}
     output_dir.mkdir(parents=True)
     (output_dir / 'review.json').write_text(json.dumps(review, ensure_ascii=False, indent=2) + '\n')
