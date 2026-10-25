@@ -55,3 +55,15 @@ jobs:
         run: |
           python tools/propose_qatr_readings.py --text 'لَمْ تَفْعَلُوا' --target 1 --lean formal/.lake/build/bin/qatrReading > artifacts/local/ci/qatr-proposal.json
           python -c "import json; r=json.load(open('artifacts/local/ci/qatr-proposal.json')); assert r['authority']=='NONE' and not r['reading_licensed']; assert set(r['ranked_cases'])=={x['case'] for x in r['reading_rows']}; assert r['text'].encode()[r['target_start_byte']:r['target_end_byte']].decode()=='تَفْعَلُوا'"
+      - name: Pinned Lisan source and explicit lexical interpretation replay
+        run: |
+          python tools/fetch_lisan_source.py --output artifacts/local/ci/lisan.txt
+          python tools/build_lexical_catalog.py --lisan artifacts/local/ci/lisan.txt --check
+      - name: Replay both lexical training runs including the failed neural candidate
+        run: |
+          python tools/train_lexical_retrieval.py replay --lisan artifacts/local/ci/lisan.txt --output-dir evidence/lexical_denotation/run_01
+          python tools/train_lexical_weights.py replay --lisan artifacts/local/ci/lisan.txt --output-dir evidence/lexical_denotation/run_02
+      - name: Lexical proposals preserve source bytes and never authorize a reading
+        run: |
+          python tools/propose_lexical_evidence.py --text 'معرفة الشيء بالقلب' --lisan artifacts/local/ci/lisan.txt --top-k 3 > artifacts/local/ci/lexical-proposal.json
+          python -c "import json,pathlib; r=json.load(open('artifacts/local/ci/lexical-proposal.json')); b=pathlib.Path('evidence/classical_language/sources/maqayis.txt').read_bytes(); assert r['authority']=='NONE' and not r['reading_licensed']; assert all(b[p['start_byte']:p['end_byte']].decode()==p['source_entry'] for p in r['proposals'])"

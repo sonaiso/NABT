@@ -284,6 +284,14 @@ jobs:
           python -m unittest discover -s tests -p test_qatr_readings.py -v
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Three indications, lexical identity and retained sense alternatives
+        env:
+          PYTHONPATH: .:src
+          NABT_LEXICAL_DENOTATION: ${{ github.workspace }}/formal/.lake/build/bin/lexicalDenotation
+        run: |
+          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build lexicalDenotation
+          test -x "$NABT_LEXICAL_DENOTATION"
+          python -m unittest discover -s tests -p test_lexical_denotation.py -v
       - name: Executable inna fragment, written case witnesses and explicit completeness scope
         run: python -I tools/check_arabic_inna_fragment.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output-dir "${{ runner.temp }}/nabt-arabic-inna-fragment"
       - name: Independent property-evidence table from Lean predicates

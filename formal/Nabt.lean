@@ -43,3 +43,7 @@ import Nabt.MantuqMafhum
 import Nabt.ReadingEnumeration
 
 import Nabt.QatrReading
+import Nabt.LexicalDenotation
+import Nabt.LexicalCatalog
+import Nabt.LisanRules
+import Nabt.MaqayisDenotation
