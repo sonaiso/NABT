@@ -314,6 +314,7 @@ theorem cue_mask_matches_receipts (target : Binding) (inputs : List Input) :
 /-- A noun kind alone leaves both nominal construction hypotheses open.
 The tanwin witness has no field authorizing a choice between them. -/
 theorem noun_sign_does_not_determine_construction :
-    Morphology.nounCandidates .unknown = [.built, .inflected] := by decide
+    Morphology.nounCandidates .unknown = [.built, .inflected] :=
+  Morphology.noun_unknown_keeps_both
 
 end Nabt.TextEvidence

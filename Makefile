@@ -232,3 +232,16 @@ classical-extension-evaluation:
 	$(PYTHON) tools/imperative_paradigm_evaluation.py --output $(EVIDENCE_DIR)/imperative-paradigm.json
 
 check: classical-extension-conformance classical-extension-evaluation
+
+.PHONY: grammar-catalog proof-catalog routing-conformance
+grammar-catalog:
+	$(PYTHON) -m tools.grammar_catalog catalog --summary --output $(EVIDENCE_DIR)/grammar-catalog.json
+	$(PYTHON) tools/benchmark_grammar_catalog.py --output $(EVIDENCE_DIR)/grammar-retrieval.json
+
+proof-catalog:
+	$(PYTHON) tools/proof_catalog.py --lake $(LAKE) --check evidence/grammar_catalog_v1/proof_catalog.json
+
+routing-conformance:
+	$(PYTHON) tools/check_rule_routing.py --lake $(LAKE) --output $(EVIDENCE_DIR)/routing-conformance.json
+
+check: grammar-catalog proof-catalog routing-conformance

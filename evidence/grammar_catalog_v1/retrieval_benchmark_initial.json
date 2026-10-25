@@ -1,0 +1,1794 @@
+{
+  "schema": "nabt.grammar-catalog.retrieval-benchmark.v1",
+  "authority": "MEASURED_RETRIEVAL_ONLY",
+  "gold_sha256": "329c26d918aa110aa9a6e4e777fff87539b45717badb2246bbdd3cc99b3a5d60",
+  "gold_verified_by_cli": true,
+  "retrieval_kind": "rule",
+  "cutoffs": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "ranking_limit": 125,
+  "mrr_scope": "Complete returned rule ranking, not truncated at ten",
+  "protocol": "Each positive relevant set is a minimum judged set, not exhaustive relevance judgments over every catalogue entry. Scores measure retrieval of these named IDs; no global precision, probability, Arabic completeness, or grammatical license follows.",
+  "independence": "Authored by a separate benchmark agent using source registries and raw spans before viewing or executing the new retriever. Repository access and rule IDs were known. This is not a blind external held-out evaluation. Do not tune this version after measuring.",
+  "catalogue_relevant_ids_present": true,
+  "missing_relevant_ids": [],
+  "soft_hint_nonfiltering_observed": true,
+  "aggregate": {
+    "queries": 24,
+    "positive_queries": 21,
+    "judged_relevant_occurrences": 25,
+    "baseline": {
+      "macro_recall_at_k": {
+        "1": 0.6111111111111112,
+        "3": 0.8571428571428571,
+        "5": 0.9761904761904762,
+        "10": 1.0
+      },
+      "micro_recall_at_k": {
+        "1": 0.56,
+        "3": 0.84,
+        "5": 0.96,
+        "10": 1.0
+      },
+      "mean_reciprocal_rank": 0.7928571428571428
+    },
+    "adversarial_hints": {
+      "macro_recall_at_k": {
+        "1": 0.11904761904761904,
+        "3": 0.21428571428571427,
+        "5": 0.2619047619047619,
+        "10": 0.35714285714285715
+      },
+      "micro_recall_at_k": {
+        "1": 0.12,
+        "3": 0.2,
+        "5": 0.24,
+        "10": 0.36
+      },
+      "mean_reciprocal_rank": 0.23294924819231314
+    }
+  },
+  "by_kind": {
+    "exact_quote": {
+      "queries": 8,
+      "positive_queries": 8,
+      "judged_relevant_occurrences": 8,
+      "baseline": {
+        "macro_recall_at_k": {
+          "1": 0.875,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "micro_recall_at_k": {
+          "1": 0.875,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "mean_reciprocal_rank": 0.9375
+      },
+      "adversarial_hints": {
+        "macro_recall_at_k": {
+          "1": 0.0,
+          "3": 0.125,
+          "5": 0.25,
+          "10": 0.375
+        },
+        "micro_recall_at_k": {
+          "1": 0.0,
+          "3": 0.125,
+          "5": 0.25,
+          "10": 0.375
+        },
+        "mean_reciprocal_rank": 0.13484200304053245
+      }
+    },
+    "multiple_relevant": {
+      "queries": 3,
+      "positive_queries": 3,
+      "judged_relevant_occurrences": 7,
+      "baseline": {
+        "macro_recall_at_k": {
+          "1": 0.27777777777777773,
+          "3": 0.6666666666666666,
+          "5": 0.8333333333333334,
+          "10": 1.0
+        },
+        "micro_recall_at_k": {
+          "1": 0.2857142857142857,
+          "3": 0.7142857142857143,
+          "5": 0.8571428571428571,
+          "10": 1.0
+        },
+        "mean_reciprocal_rank": 0.7333333333333334
+      },
+      "adversarial_hints": {
+        "macro_recall_at_k": {
+          "1": 0.16666666666666666,
+          "3": 0.16666666666666666,
+          "5": 0.16666666666666666,
+          "10": 0.5
+        },
+        "micro_recall_at_k": {
+          "1": 0.14285714285714285,
+          "3": 0.14285714285714285,
+          "5": 0.14285714285714285,
+          "10": 0.42857142857142855
+        },
+        "mean_reciprocal_rank": 0.39610389610389607
+      }
+    },
+    "outside_judged_catalog": {
+      "queries": 3,
+      "positive_queries": 0,
+      "judged_relevant_occurrences": 0,
+      "baseline": {
+        "macro_recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "micro_recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "mean_reciprocal_rank": null
+      },
+      "adversarial_hints": {
+        "macro_recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "micro_recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "mean_reciprocal_rank": null
+      }
+    },
+    "paraphrase": {
+      "queries": 10,
+      "positive_queries": 10,
+      "judged_relevant_occurrences": 10,
+      "baseline": {
+        "macro_recall_at_k": {
+          "1": 0.5,
+          "3": 0.8,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "micro_recall_at_k": {
+          "1": 0.5,
+          "3": 0.8,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "mean_reciprocal_rank": 0.6950000000000001
+      },
+      "adversarial_hints": {
+        "macro_recall_at_k": {
+          "1": 0.2,
+          "3": 0.3,
+          "5": 0.3,
+          "10": 0.3
+        },
+        "micro_recall_at_k": {
+          "1": 0.2,
+          "3": 0.3,
+          "5": 0.3,
+          "10": 0.3
+        },
+        "mean_reciprocal_rank": 0.2624886499402629
+      }
+    }
+  },
+  "outside_catalog": [
+    {
+      "id": "N01",
+      "proposals_count": 0,
+      "top_10": []
+    },
+    {
+      "id": "N02",
+      "proposals_count": 0,
+      "top_10": []
+    },
+    {
+      "id": "N03",
+      "proposals_count": 0,
+      "top_10": []
+    }
+  ],
+  "whole_arabic_complete": false,
+  "semantic_retrieval_measured": false,
+  "probability_calibration_measured": false,
+  "language_license_granted": false,
+  "elapsed_seconds": 0.07133802799944533,
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+  },
+  "cases": [
+    {
+      "id": "E01",
+      "kind": "exact_quote",
+      "query": "ترفع كان المبتدا اسما والخبر",
+      "relevant_rule_ids": [
+        "nabt.construction-grammar-sources.v4::kana_sisters"
+      ],
+      "top_10": [
+        "nabt.construction-grammar-sources.v4::kana_sisters",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.discourse-grammar-sources.v2::nominal_predication",
+        "nabt.word-source-policy.v1::inna_activation",
+        "nabt.governor-source-cues.v1::inna_roles_and_force",
+        "nabt.construction-grammar-sources.v4::inna_sisters",
+        "nabt.discourse-grammar-sources.v2::inna_case",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+        "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS"
+      ],
+      "hinted_top_10": [
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.discourse-grammar-sources.v2::nominal_predication",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF"
+      ],
+      "proposals_count": 44,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.058823529411764705
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E02",
+      "kind": "exact_quote",
+      "query": "الكلمة: قول مفرد. وهي اسم وفعل وحرف.",
+      "relevant_rule_ids": [
+        "nabt.word-source-policy.v1::word_kinds"
+      ],
+      "top_10": [
+        "nabt.word-source-policy.v1::word_kinds",
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "nabt.word-source-policy.v1::basic_case_endings",
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds",
+        "nabt.construction-grammar-sources.v4::tense_aspect",
+        "nabt.inflection-grammar-sources.v1::inflection_signs",
+        "nabt.governor-source-cues.v1::declension_and_substitute_marks",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.construction-grammar-sources.v4::tamyiz_measure",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.construction-grammar-sources.v4::tense_aspect",
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+        "nabt.construction-grammar-sources.v4::idafa_chain",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+        "nabt.discourse-grammar-sources.v2::idafa",
+        "nabt.construction-grammar-sources.v4::prepositional_attachment"
+      ],
+      "proposals_count": 51,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.07692307692307693
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E03",
+      "kind": "exact_quote",
+      "query": "فالكلم اسم وفعل وحرف جاء لمعنى ليس باسم ولا فعل",
+      "relevant_rule_ids": [
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds"
+      ],
+      "top_10": [
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds",
+        "nabt.construction-grammar-sources.v4::tense_aspect",
+        "nabt.word-source-policy.v1::word_kinds",
+        "nabt.construction-grammar-sources.v4::same_form_nominal_inflection",
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "nabt.word-source-policy.v1::sibawayhi_particles",
+        "nabt.word-source-policy.v1::basic_case_endings",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WEAK-AFWAL-BLOCK"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.construction-grammar-sources.v4::tense_aspect",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.construction-grammar-sources.v4::matrix_ma_negation",
+        "nabt.discourse-grammar-sources.v2::active_subject"
+      ],
+      "proposals_count": 78,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.2
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E04",
+      "kind": "exact_quote",
+      "query": "فإن لم تعل العين في الفعل صحت في اسم الفاعل",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+        "nabt.classical-rule-inventory.v1::WEAK-IFTIAL-RECIPROCAL",
+        "nabt.classical-rule-inventory.v1::WEAK-VOWEL-TRANSFER",
+        "nabt.discourse-grammar-sources.v2::active_subject",
+        "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+        "nabt.construction-grammar-sources.v4::matrix_ma_negation",
+        "nabt.classical-rule-inventory.v1::WEAK-AFWAL-BLOCK",
+        "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+        "nabt.morphology.source-policy.v1::word_kind",
+        "nabt.construction-grammar-sources.v4::zanna_sisters"
+      ],
+      "hinted_top_10": [
+        "nabt.construction-grammar-sources.v4::matrix_ma_negation",
+        "nabt.discourse-grammar-sources.v2::active_subject",
+        "nabt.construction-grammar-sources.v4::zanna_sisters",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.construction-grammar-sources.v4::tense_aspect",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds"
+      ],
+      "proposals_count": 116,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.03333333333333333
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E05",
+      "kind": "exact_quote",
+      "query": "هذا باب ما تقلب فيه الواو ياء وذلك إذا سكنت وقبلها كسرة",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF"
+      ],
+      "proposals_count": 94,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.5
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E06",
+      "kind": "exact_quote",
+      "query": "وفك أفعل في التعجب التزم",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION",
+        "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+        "nabt.classical-rule-inventory.v1::WEAK-AFWAL-BLOCK",
+        "nabt.word-source-policy.v1::sibawayhi_particles",
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV",
+        "nabt.construction-grammar-sources.v4::kana_sisters",
+        "nabt.word-source-policy.v1::sibawayhi_daraba_past",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE",
+        "nabt.construction-grammar-sources.v4::same_form_nominal_inflection"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.discourse-grammar-sources.v2::active_subject",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF"
+      ],
+      "proposals_count": 96,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.037037037037037035
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E07",
+      "kind": "exact_quote",
+      "query": "والأكثرون على فتحها وصلا وعلى الإتيان بالألف وقفا",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.discourse-grammar-sources.v2::idafa",
+        "nabt.word-source-policy.v1::min_preposition",
+        "nabt.discourse-grammar-sources.v2::demonstrative",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.discourse-grammar-sources.v2::idafa",
+        "nabt.construction-grammar-sources.v4::idafa_chain",
+        "nabt.construction-grammar-sources.v4::prepositional_attachment",
+        "nabt.word-source-policy.v1::min_preposition",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW"
+      ],
+      "proposals_count": 69,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.047619047619047616
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "E08",
+      "kind": "exact_quote",
+      "query": "فصل: أنواع الإعراب أربعة.",
+      "relevant_rule_ids": [
+        "nabt.inflection-grammar-sources.v1::inflection_signs"
+      ],
+      "top_10": [
+        "nabt.word-source-policy.v1::basic_case_endings",
+        "nabt.inflection-grammar-sources.v1::inflection_signs",
+        "nabt.governor-source-cues.v1::declension_and_substitute_marks",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.inflection-grammar-sources.v1::subjunctive_lan",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-NOUNS",
+        "nabt.discourse-grammar-sources.v2::imperfect_indicative",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.word-source-policy.v1::noun_and_pronoun_types"
+      ],
+      "hinted_top_10": [
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.construction-grammar-sources.v4::inception_sharaa",
+        "nabt.construction-grammar-sources.v4::naat_agreement",
+        "nabt.discourse-grammar-sources.v2::active_subject",
+        "nabt.word-source-policy.v1::basic_case_endings",
+        "nabt.inflection-grammar-sources.v1::inflection_signs",
+        "nabt.governor-source-cues.v1::declension_and_substitute_marks",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL"
+      ],
+      "proposals_count": 18,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.5
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.125
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P01",
+      "kind": "paraphrase",
+      "query": "كيف يبنى أمر الفعل المعتل الآخر عند خطاب المفرد بحذف حرف العلة؟",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+        "nabt.inflection-grammar-sources.v1::inflection_signs",
+        "nabt.governor-source-cues.v1::declension_and_substitute_marks",
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+        "nabt.discourse-grammar-sources.v2::built_noun_exceptions",
+        "nabt.word-source-policy.v1::alfiyya_construction",
+        "nabt.word-source-policy.v1::sibawayhi_conditional_in",
+        "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement"
+      ],
+      "proposals_count": 62,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.5
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.05
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P02",
+      "kind": "paraphrase",
+      "query": "حذف النون في فعل الأمر عند إسناده إلى ألف الاثنين أو واو الجماعة أو ياء المخاطبة",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.morphology.source-policy.v1::verb_construction",
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG",
+        "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.construction-grammar-sources.v4::tense_aspect"
+      ],
+      "proposals_count": 117,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.25
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.03225806451612903
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P03",
+      "kind": "paraphrase",
+      "query": "إثبات همزة الوصل لتجنب الابتداء بحرف ساكن",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.classical-rule-inventory.v1::HAMZA-INTERROGATIVE-AL",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-NOUNS",
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+        "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+        "nabt.classical-rule-inventory.v1::HAMZA-TWO-GLIDES"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.discourse-grammar-sources.v2::idafa",
+        "nabt.construction-grammar-sources.v4::idafa_chain",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.construction-grammar-sources.v4::prepositional_attachment",
+        "nabt.word-source-policy.v1::min_preposition"
+      ],
+      "proposals_count": 32,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P04",
+      "kind": "paraphrase",
+      "query": "ماذا يحدث لهمزة الوصل عند وصل الكلام وعدم الابتداء؟",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.discourse-grammar-sources.v2::relative_ayy_exception",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-NOUNS",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.discourse-grammar-sources.v2::polar_interrogative",
+        "nabt.construction-grammar-sources.v4::counted_tens_paradigm"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+        "nabt.discourse-grammar-sources.v2::laysa_negation"
+      ],
+      "proposals_count": 35,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.5
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.3333333333333333
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P05",
+      "kind": "paraphrase",
+      "query": "همزة أفعل في الفعل الرباعي همزة قطع لا همزة وصل",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV",
+        "nabt.word-source-policy.v1::sibawayhi_particles",
+        "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+        "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+        "nabt.discourse-grammar-sources.v2::relative_ayy_exception",
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+        "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION",
+        "nabt.discourse-grammar-sources.v2::clause_conjunction",
+        "nabt.construction-grammar-sources.v4::same_form_nominal_inflection"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.construction-grammar-sources.v4::inception_sharaa",
+        "nabt.construction-grammar-sources.v4::naat_agreement",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.construction-grammar-sources.v4::matrix_ma_negation",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle"
+      ],
+      "proposals_count": 112,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.5
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.03333333333333333
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P06",
+      "kind": "paraphrase",
+      "query": "لماذا نقول قائل وبائع بالهمزة ونقول عاور وعاين بلا إعلال؟",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+        "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.construction-grammar-sources.v4::badal_identity",
+        "nabt.discourse-grammar-sources.v2::built_noun_exceptions",
+        "nabt.morphology.source-policy.v1::noun_construction",
+        "nabt.construction-grammar-sources.v4::hal_attachment",
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+        "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.construction-grammar-sources.v4::badal_identity",
+        "nabt.discourse-grammar-sources.v2::built_noun_exceptions",
+        "nabt.morphology.source-policy.v1::noun_construction",
+        "nabt.construction-grammar-sources.v4::hal_attachment",
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE"
+      ],
+      "proposals_count": 8,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "bm25-k1-1.2-b-0.75",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P07",
+      "kind": "paraphrase",
+      "query": "إذا استحقت العين واللام الإعلال معا يؤثر إعلال اللام ولا يجمع بين إعلالين",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.classical-rule-inventory.v1::WEAK-VOWEL-TRANSFER",
+        "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+        "nabt.classical-rule-inventory.v1::WEAK-IFTIAL-RECIPROCAL",
+        "nabt.discourse-grammar-sources.v2::idafa",
+        "nabt.word-source-policy.v1::min_preposition",
+        "nabt.construction-grammar-sources.v4::prepositional_attachment",
+        "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+        "nabt.construction-grammar-sources.v4::idafa_chain"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.construction-grammar-sources.v4::idafa_chain",
+        "nabt.construction-grammar-sources.v4::prepositional_attachment",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.discourse-grammar-sources.v2::idafa",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.word-source-policy.v1::min_preposition",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle"
+      ],
+      "proposals_count": 69,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.037037037037037035
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P08",
+      "kind": "paraphrase",
+      "query": "تبدل الواو والياء المتطرفتان همزة بعد ألف زائدة مثل دعاء وبناء",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG",
+        "nabt.classical-rule-inventory.v1::HAMZA-BROKEN-PLURAL",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.classical-rule-inventory.v1::HAMZA-TWO-GLIDES",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-OPEN-EXCEPTION",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+        "nabt.discourse-grammar-sources.v2::clause_conjunction",
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+        "nabt.construction-grammar-sources.v4::attested_accusative_alif"
+      ],
+      "proposals_count": 50,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.06666666666666667
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P09",
+      "kind": "paraphrase",
+      "query": "شروط أن المفسرة وخلاف النحويين فيها وقراءات أشرت إليه أن لا تفعل",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+        "nabt.discourse-grammar-sources.v2::force_nonassertive",
+        "nabt.discourse-grammar-sources.v2::polar_interrogative",
+        "nabt.word-source-policy.v1::sibawayhi_particles",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV",
+        "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+        "nabt.construction-grammar-sources.v4::same_form_nominal_inflection"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.construction-grammar-sources.v4::zanna_sisters",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.discourse-grammar-sources.v2::restriction",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.construction-grammar-sources.v4::matrix_ma_negation"
+      ],
+      "proposals_count": 91,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.04
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "P10",
+      "kind": "paraphrase",
+      "query": "أمس مبني على الكسر في لغة الحجاز مع إمكان موقعه ظرف زمان منصوب",
+      "relevant_rule_ids": [
+        "nabt.discourse-grammar-sources.v2::temporal_ams_built"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::CMD-FEMININE-NUN",
+        "nabt.classical-rule-inventory.v1::GEM-FEMININE-SUFFIX",
+        "nabt.discourse-grammar-sources.v2::independent_pronouns",
+        "nabt.morphology.source-policy.v1::noun_construction",
+        "nabt.discourse-grammar-sources.v2::temporal_ams_built",
+        "nabt.word-source-policy.v1::noun_inflection",
+        "nabt.discourse-grammar-sources.v2::relative_return",
+        "nabt.word-source-policy.v1::relative_and_interrogative_man",
+        "nabt.discourse-grammar-sources.v2::place_time_complements",
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.discourse-grammar-sources.v2::active_subject",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.discourse-grammar-sources.v2::nominal_predication"
+      ],
+      "proposals_count": 107,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.2
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 1,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.03225806451612903
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "M01",
+      "kind": "multiple_relevant",
+      "query": "أمر: ويعرف بدلالته على الطلب مع قبوله ياء المخاطبة. وبناؤه على السكون",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS",
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS",
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE",
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+        "nabt.morphology.source-policy.v1::verb_construction",
+        "nabt.word-source-policy.v1::past_signs",
+        "nabt.discourse-grammar-sources.v2::temporal_ams_built",
+        "nabt.classical-rule-inventory.v1::CMD-FEMININE-NUN",
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.classical-rule-inventory.v1::GEM-FEMININE-SUFFIX",
+        "nabt.discourse-grammar-sources.v2::imperfect_prefix"
+      ],
+      "hinted_top_10": [
+        "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+        "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "nabt.discourse-grammar-sources.v2::laysa_negation"
+      ],
+      "proposals_count": 84,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 3,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 3,
+          "5": 3,
+          "10": 3
+        },
+        "recall_at_k": {
+          "1": 0.3333333333333333,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 3,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "reciprocal_rank": 0.045454545454545456
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "M02",
+      "kind": "multiple_relevant",
+      "query": "كان الناقصة ترفع الاسم وتنصب الخبر وتختلف عن كان التامة والزائدة",
+      "relevant_rule_ids": [
+        "nabt.construction-grammar-sources.v4::kana_sisters",
+        "nabt.discourse-grammar-sources.v2::kana_case"
+      ],
+      "top_10": [
+        "nabt.construction-grammar-sources.v4::kana_sisters",
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.discourse-grammar-sources.v2::nominal_predication",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+        "nabt.discourse-grammar-sources.v2::clause_conjunction",
+        "nabt.discourse-grammar-sources.v2::restriction",
+        "nabt.word-source-policy.v1::zayd_proper_name",
+        "nabt.discourse-grammar-sources.v2::five_verb_nun",
+        "nabt.governor-source-cues.v1::inna_scopes_and_blockers"
+      ],
+      "hinted_top_10": [
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "nabt.discourse-grammar-sources.v2::nominal_predication",
+        "nabt.discourse-grammar-sources.v2::laysa_negation",
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+        "nabt.discourse-grammar-sources.v2::restriction",
+        "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL"
+      ],
+      "proposals_count": 70,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 2,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 2,
+          "5": 2,
+          "10": 2
+        },
+        "recall_at_k": {
+          "1": 0.5,
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 2,
+        "judged_hits_at_k": {
+          "1": 1,
+          "3": 1,
+          "5": 1,
+          "10": 1
+        },
+        "recall_at_k": {
+          "1": 0.5,
+          "3": 0.5,
+          "5": 0.5,
+          "10": 0.5
+        },
+        "reciprocal_rank": 1.0
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "M03",
+      "kind": "multiple_relevant",
+      "query": "ضمير المتكلم وضمير المخاطب وضمير الغائب وأنواع الضمير المتصل والمنفصل",
+      "relevant_rule_ids": [
+        "nabt.word-source-policy.v1::noun_and_pronoun_types",
+        "nabt.discourse-grammar-sources.v2::independent_pronouns"
+      ],
+      "top_10": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+        "nabt.construction-grammar-sources.v4::tawkeed_reference",
+        "nabt.discourse-grammar-sources.v2::relative_ayy_exception",
+        "nabt.word-source-policy.v1::noun_and_pronoun_types",
+        "nabt.discourse-grammar-sources.v2::independent_pronouns",
+        "nabt.construction-grammar-sources.v4::counted_tens_forms",
+        "nabt.discourse-grammar-sources.v2::force_nonassertive",
+        "nabt.word-source-policy.v1::inna_activation",
+        "nabt.discourse-grammar-sources.v2::relative_return"
+      ],
+      "hinted_top_10": [
+        "nabt.discourse-grammar-sources.v2::kana_case",
+        "nabt.discourse-grammar-sources.v2::active_subject",
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+        "nabt.construction-grammar-sources.v4::tawkeed_reference",
+        "nabt.discourse-grammar-sources.v2::relative_ayy_exception",
+        "nabt.word-source-policy.v1::noun_and_pronoun_types",
+        "nabt.discourse-grammar-sources.v2::independent_pronouns",
+        "nabt.construction-grammar-sources.v4::counted_tens_forms",
+        "nabt.discourse-grammar-sources.v2::force_nonassertive"
+      ],
+      "proposals_count": 21,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "rrf-60",
+      "metrics": {
+        "judged_relevant_count": 2,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 1,
+          "10": 2
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.5,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.2
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 2,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 2
+        },
+        "recall_at_k": {
+          "1": 0.0,
+          "3": 0.0,
+          "5": 0.0,
+          "10": 1.0
+        },
+        "reciprocal_rank": 0.14285714285714285
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "N01",
+      "kind": "outside_judged_catalog",
+      "query": "كيف تبنى دائرة كمومية لتصحيح أخطاء الكيوبت؟",
+      "relevant_rule_ids": [],
+      "top_10": [],
+      "hinted_top_10": [],
+      "proposals_count": 0,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "bm25-k1-1.2-b-0.75",
+      "metrics": {
+        "judged_relevant_count": 0,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "reciprocal_rank": null
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 0,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "reciprocal_rank": null
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "N02",
+      "kind": "outside_judged_catalog",
+      "query": "التسلسل الجيني للبروتين وقياس طاقة ارتباط الحمض النووي",
+      "relevant_rule_ids": [],
+      "top_10": [],
+      "hinted_top_10": [],
+      "proposals_count": 0,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "bm25-k1-1.2-b-0.75",
+      "metrics": {
+        "judged_relevant_count": 0,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "reciprocal_rank": null
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 0,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "reciprocal_rank": null
+      },
+      "hints_removed_baseline_candidates": []
+    },
+    {
+      "id": "N03",
+      "kind": "outside_judged_catalog",
+      "query": "PostgreSQL pgvector HNSW vacuum transaction isolation",
+      "relevant_rule_ids": [],
+      "top_10": [],
+      "hinted_top_10": [],
+      "proposals_count": 0,
+      "ranking": "bm25-k1-1.2-b-0.75",
+      "hinted_ranking": "bm25-k1-1.2-b-0.75",
+      "metrics": {
+        "judged_relevant_count": 0,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "reciprocal_rank": null
+      },
+      "hinted_metrics": {
+        "judged_relevant_count": 0,
+        "judged_hits_at_k": {
+          "1": 0,
+          "3": 0,
+          "5": 0,
+          "10": 0
+        },
+        "recall_at_k": {
+          "1": null,
+          "3": null,
+          "5": null,
+          "10": null
+        },
+        "reciprocal_rank": null
+      },
+      "hints_removed_baseline_candidates": []
+    }
+  ],
+  "catalog_sha256": "0bd381237e768f2e54b83ef46d5b8e744582d8a7d34fadfedf92888ea2c2e091",
+  "catalogue_and_index_build_seconds": 3.640483300001506,
+  "algorithm": {
+    "baseline": "BM25 k1=1.2, b=0.75",
+    "adversarial_hints": "RRF constant=60",
+    "vector_stream": "absent",
+    "index_reused_between_queries": true,
+    "search_projection": "Unicode marks and tatweel removed; alif variants unified; casefold; raw source unchanged"
+  }
+}

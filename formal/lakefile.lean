@@ -106,3 +106,6 @@ lean_exe qatrReading where
 @[default_target]
 lean_exe lexicalDenotation where
   root := `LexicalDenotationMain
+
+lean_exe exportRuleRouting where
+  root := `ExportRuleRouting

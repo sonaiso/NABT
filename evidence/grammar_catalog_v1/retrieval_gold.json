@@ -1,0 +1,764 @@
+{
+  "schema": "nabt.grammar-catalog.retrieval-gold.v1",
+  "authority": "INDEPENDENT_AUTHORED_RELEVANCE_JUDGMENTS_ONLY",
+  "frozen_before_retrieval_execution": true,
+  "independence": "Authored by a separate benchmark agent using source registries and raw spans before viewing or executing the new retriever. Repository access and rule IDs were known. This is not a blind external held-out evaluation. Do not tune this version after measuring.",
+  "judgment_scope": "Each positive relevant set is a minimum judged set, not exhaustive relevance judgments over every catalogue entry. Scores measure retrieval of these named IDs; no global precision, probability, Arabic completeness, or grammatical license follows.",
+  "corpus_inputs": [
+    {
+      "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+      "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/construction_policy.json",
+      "sha256": "2faa90be033475c458eeabe61cda472c7856a0342803325bef6474c6c88b13f5"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/discourse_policy.json",
+      "sha256": "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/word_policy.json",
+      "sha256": "c03134674fb8702af2d0ff4ce91c06d6b6b2f1422373da52e6449f24d1efd5f1"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/inflection_policy.json",
+      "sha256": "87d28b0d9a23ea3300f033aeef38884132d4863f4906e57dda1ee490c1365f09"
+    }
+  ],
+  "expected_counts": {
+    "exact_quote": 8,
+    "paraphrase": 10,
+    "multiple_relevant": 3,
+    "outside_judged_catalog": 3
+  },
+  "cases": [
+    {
+      "id": "E01",
+      "kind": "exact_quote",
+      "query": "ترفع كان المبتدا اسما والخبر",
+      "relevant_rule_ids": [
+        "nabt.construction-grammar-sources.v4::kana_sisters"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/construction_policy.json",
+          "rule_id": "kana_sisters",
+          "spans": [
+            {
+              "source_id": "alfiyya",
+              "start": 14745,
+              "end": 16168,
+              "sha256": "5ee7d61b5a70063d29913995b15bba3dbc04a4fe10d5e4ee855d1ef6d6b60898"
+            }
+          ]
+        }
+      ],
+      "judgment": "Quoted Alfiyya statement, minimum judged kana rule.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E02",
+      "kind": "exact_quote",
+      "query": "الكلمة: قول مفرد. وهي اسم وفعل وحرف.",
+      "relevant_rule_ids": [
+        "nabt.word-source-policy.v1::word_kinds"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/word_policy.json",
+          "rule_id": "word_kinds",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 1450,
+              "end": 1648,
+              "sha256": "6ca76264c2378bb4cbd69282edf0d2b703765e2b04b8536a7995d3e3f607b778"
+            }
+          ]
+        }
+      ],
+      "judgment": "Qatr word-kind statement; no inference of a complete parser.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E03",
+      "kind": "exact_quote",
+      "query": "فالكلم اسم وفعل وحرف جاء لمعنى ليس باسم ولا فعل",
+      "relevant_rule_ids": [
+        "nabt.word-source-policy.v1::sibawayhi_word_kinds"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/word_policy.json",
+          "rule_id": "sibawayhi_word_kinds",
+          "spans": [
+            {
+              "source_id": "sibawayhi",
+              "start": 9322,
+              "end": 10390,
+              "sha256": "957c3912c2370990a27a16b779dbd620feb6836ac42f771668c050716d673ef7"
+            }
+          ]
+        }
+      ],
+      "judgment": "Sibawayhi word-kind statement.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E04",
+      "kind": "exact_quote",
+      "query": "فإن لم تعل العين في الفعل صحت في اسم الفاعل",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+          "spans": [
+            {
+              "source_id": "ibn_aqil",
+              "start": 856295,
+              "end": 856938,
+              "sha256": "b7c74fec19bf078ad8f9fedbe016de33ecc9f47ece02b81df2ce69664d0180fe"
+            }
+          ]
+        }
+      ],
+      "judgment": "Ibn Aqil explicitly states the active-participle blocker.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E05",
+      "kind": "exact_quote",
+      "query": "هذا باب ما تقلب فيه الواو ياء وذلك إذا سكنت وقبلها كسرة",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "WEAK-WAW-TO-YA",
+          "spans": [
+            {
+              "source_id": "sibawayhi",
+              "start": 2379256,
+              "end": 2380002,
+              "sha256": "b0bf436891ba51e70f02739b2c476179569ceacab8a21e9f83a736cc7ce913b0"
+            }
+          ]
+        }
+      ],
+      "judgment": "Sibawayhi states waw-to-ya condition.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E06",
+      "kind": "exact_quote",
+      "query": "وفك أفعل في التعجب التزم",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "GEM-EXCLAMATION",
+          "spans": [
+            {
+              "source_id": "ibn_aqil",
+              "start": 893077,
+              "end": 893536,
+              "sha256": "f19fad62e031cf58e253ed7fd9b11edca216b1882496e470b075dfae0d796b88"
+            }
+          ]
+        }
+      ],
+      "judgment": "Alfiyya line quoted in Ibn Aqil.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E07",
+      "kind": "exact_quote",
+      "query": "والأكثرون على فتحها وصلا وعلى الإتيان بالألف وقفا",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "MUGHNI-ANA-BOUNDARY",
+          "spans": [
+            {
+              "source_id": "mughni",
+              "start": 43368,
+              "end": 43862,
+              "sha256": "1010bb6ba5f20982d805d9d36610c575fa02d99ef92d95da51e5b1ba2d77cd0d"
+            }
+          ]
+        }
+      ],
+      "judgment": "Mughni states boundary-dependent ana profile.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "E08",
+      "kind": "exact_quote",
+      "query": "فصل: أنواع الإعراب أربعة.",
+      "relevant_rule_ids": [
+        "nabt.inflection-grammar-sources.v1::inflection_signs"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/inflection_policy.json",
+          "rule_id": "inflection_signs",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 3959,
+              "end": 6128,
+              "sha256": "97bea2dac3a98a7108ddf69840c1e534653548482b61f7e193cb0adf3cc7be27"
+            }
+          ]
+        }
+      ],
+      "judgment": "Qatr inflection source; exception classes remain separate.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P01",
+      "kind": "paraphrase",
+      "query": "كيف يبنى أمر الفعل المعتل الآخر عند خطاب المفرد بحذف حرف العلة؟",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "CMD-WEAK-DELETE",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 2558,
+              "end": 2945,
+              "sha256": "2ffa1f8ea709fb84c320ee712cc6c8ffaca468b8e21077e2e465ed770dde63dc"
+            }
+          ]
+        }
+      ],
+      "judgment": "Paraphrase of Qatr command-final deletion; not a free-text command license.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P02",
+      "kind": "paraphrase",
+      "query": "حذف النون في فعل الأمر عند إسناده إلى ألف الاثنين أو واو الجماعة أو ياء المخاطبة",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "CMD-NUN-DELETE",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 2558,
+              "end": 2945,
+              "sha256": "2ffa1f8ea709fb84c320ee712cc6c8ffaca468b8e21077e2e465ed770dde63dc"
+            }
+          ]
+        }
+      ],
+      "judgment": "Qatr explicitly separates command forms based on nun deletion.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P03",
+      "kind": "paraphrase",
+      "query": "إثبات همزة الوصل لتجنب الابتداء بحرف ساكن",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-START"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "HAMZA-WASL-START",
+          "spans": [
+            {
+              "source_id": "sibawayhi",
+              "start": 2093647,
+              "end": 2095164,
+              "sha256": "862d355725e557bbd9d8f9309ed4b2178c0f190269dc8ddfd4a470250cc6adeb"
+            }
+          ]
+        }
+      ],
+      "judgment": "Sibawayhi beginning-mode condition.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P04",
+      "kind": "paraphrase",
+      "query": "ماذا يحدث لهمزة الوصل عند وصل الكلام وعدم الابتداء؟",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "HAMZA-WASL-JOIN",
+          "spans": [
+            {
+              "source_id": "sibawayhi",
+              "start": 2096704,
+              "end": 2097356,
+              "sha256": "bbd60f6376bbb4b2a43b06e6c529d1a00411d935a7e6db2417f89bfc8f6dc323"
+            }
+          ]
+        }
+      ],
+      "judgment": "Joining mode removes wasl hamza; application premises remain separate.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P05",
+      "kind": "paraphrase",
+      "query": "همزة أفعل في الفعل الرباعي همزة قطع لا همزة وصل",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "HAMZA-QAT-FORM-IV",
+          "spans": [
+            {
+              "source_id": "sibawayhi",
+              "start": 2095035,
+              "end": 2096572,
+              "sha256": "68c621a00ab2fa3f7725d6f567764df7b88b877098edf9b871a36e6ac838571c"
+            }
+          ]
+        }
+      ],
+      "judgment": "Form-IV distinction in cited primary text.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P06",
+      "kind": "paraphrase",
+      "query": "لماذا نقول قائل وبائع بالهمزة ونقول عاور وعاين بلا إعلال؟",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+          "spans": [
+            {
+              "source_id": "ibn_aqil",
+              "start": 856295,
+              "end": 856938,
+              "sha256": "b7c74fec19bf078ad8f9fedbe016de33ecc9f47ece02b81df2ce69664d0180fe"
+            }
+          ]
+        }
+      ],
+      "judgment": "Positive and blocked active-participle forms occur in same witness.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P07",
+      "kind": "paraphrase",
+      "query": "إذا استحقت العين واللام الإعلال معا يؤثر إعلال اللام ولا يجمع بين إعلالين",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "WEAK-TWO-ELIGIBLE",
+          "spans": [
+            {
+              "source_id": "ibn_aqil",
+              "start": 876912,
+              "end": 877619,
+              "sha256": "16e57cbc1801841b4bb78b41760cd636a89b6fa305b20c2a7572d47443a40825"
+            }
+          ]
+        }
+      ],
+      "judgment": "Paraphrase of independently inventoried competition rule.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P08",
+      "kind": "paraphrase",
+      "query": "تبدل الواو والياء المتطرفتان همزة بعد ألف زائدة مثل دعاء وبناء",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "HAMZA-FINAL-LONG",
+          "spans": [
+            {
+              "source_id": "ibn_aqil",
+              "start": 855890,
+              "end": 856295,
+              "sha256": "829313435aa38994a17c93340887a7f08c45e162832cfaab1bd5dbfab92c6d95"
+            }
+          ]
+        }
+      ],
+      "judgment": "Conditional final-hamza rule from Ibn Aqil.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P09",
+      "kind": "paraphrase",
+      "query": "شروط أن المفسرة وخلاف النحويين فيها وقراءات أشرت إليه أن لا تفعل",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "MUGHNI-AN-INTERPRETIVE",
+          "spans": [
+            {
+              "source_id": "mughni",
+              "start": 52724,
+              "end": 57260,
+              "sha256": "bc9f24567fa8cb7caa05e310ac8d77eb5d975f30bc2a1f25ea74bfa473db70d7"
+            }
+          ]
+        }
+      ],
+      "judgment": "Rule passage preserves three readings with la and two without; retrieval is not reading enumeration.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "P10",
+      "kind": "paraphrase",
+      "query": "أمس مبني على الكسر في لغة الحجاز مع إمكان موقعه ظرف زمان منصوب",
+      "relevant_rule_ids": [
+        "nabt.discourse-grammar-sources.v2::temporal_ams_built"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/discourse_policy.json",
+          "rule_id": "temporal_ams_built",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 1648,
+              "end": 2502,
+              "sha256": "2068a5bc74138202030428f4335a6356bb50229e694c00cec33ef55905974823"
+            }
+          ]
+        }
+      ],
+      "judgment": "Named dialectal construction; does not classify every kasra as accusative.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "M01",
+      "kind": "multiple_relevant",
+      "query": "أمر: ويعرف بدلالته على الطلب مع قبوله ياء المخاطبة. وبناؤه على السكون",
+      "relevant_rule_ids": [
+        "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS",
+        "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+        "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "CMD-SOUND-2MS",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 2558,
+              "end": 2945,
+              "sha256": "2ffa1f8ea709fb84c320ee712cc6c8ffaca468b8e21077e2e465ed770dde63dc"
+            }
+          ]
+        },
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "CMD-WEAK-DELETE",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 2558,
+              "end": 2945,
+              "sha256": "2ffa1f8ea709fb84c320ee712cc6c8ffaca468b8e21077e2e465ed770dde63dc"
+            }
+          ]
+        },
+        {
+          "registry_path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "rule_id": "CMD-NUN-DELETE",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 2558,
+              "end": 2945,
+              "sha256": "2ffa1f8ea709fb84c320ee712cc6c8ffaca468b8e21077e2e465ed770dde63dc"
+            }
+          ]
+        }
+      ],
+      "judgment": "The same Qatr span supplies three separately scoped command rules; top one cannot recall all three.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "M02",
+      "kind": "multiple_relevant",
+      "query": "كان الناقصة ترفع الاسم وتنصب الخبر وتختلف عن كان التامة والزائدة",
+      "relevant_rule_ids": [
+        "nabt.construction-grammar-sources.v4::kana_sisters",
+        "nabt.discourse-grammar-sources.v2::kana_case"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/construction_policy.json",
+          "rule_id": "kana_sisters",
+          "spans": [
+            {
+              "source_id": "alfiyya",
+              "start": 14745,
+              "end": 16168,
+              "sha256": "5ee7d61b5a70063d29913995b15bba3dbc04a4fe10d5e4ee855d1ef6d6b60898"
+            }
+          ]
+        },
+        {
+          "registry_path": "src/nabt/data/source_evidence/discourse_policy.json",
+          "rule_id": "kana_case",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 13594,
+              "end": 14994,
+              "sha256": "504e63fcce40b070ea4821f37461262bb7d3b12bae63597984c890b63d590849"
+            }
+          ]
+        }
+      ],
+      "judgment": "Two independently namespaced policy entries reuse related kana evidence; not two independent Arabic laws.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "M03",
+      "kind": "multiple_relevant",
+      "query": "ضمير المتكلم وضمير المخاطب وضمير الغائب وأنواع الضمير المتصل والمنفصل",
+      "relevant_rule_ids": [
+        "nabt.word-source-policy.v1::noun_and_pronoun_types",
+        "nabt.discourse-grammar-sources.v2::independent_pronouns"
+      ],
+      "evidence": [
+        {
+          "registry_path": "src/nabt/data/source_evidence/word_policy.json",
+          "rule_id": "noun_and_pronoun_types",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 8870,
+              "end": 9405,
+              "sha256": "b9884935cdc50e1d28911d3cb72bbe6fa2ff80bd07d19344f86739fd3a8c975f"
+            }
+          ]
+        },
+        {
+          "registry_path": "src/nabt/data/source_evidence/discourse_policy.json",
+          "rule_id": "independent_pronouns",
+          "spans": [
+            {
+              "source_id": "qatr",
+              "start": 8903,
+              "end": 9558,
+              "sha256": "c014edca6c6d8d8ba3917243ba1dd92bdba0bdb218bf68df9b31dd5be78dab8f"
+            }
+          ]
+        }
+      ],
+      "judgment": "Two judged policy entries about personal pronouns; actual referent resolution still needs context.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "N01",
+      "kind": "outside_judged_catalog",
+      "query": "كيف تبنى دائرة كمومية لتصحيح أخطاء الكيوبت؟",
+      "relevant_rule_ids": [],
+      "evidence": [],
+      "judgment": "Out of the declared grammar catalogue task; returned proposals do not answer this technical question.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "N02",
+      "kind": "outside_judged_catalog",
+      "query": "التسلسل الجيني للبروتين وقياس طاقة ارتباط الحمض النووي",
+      "relevant_rule_ids": [],
+      "evidence": [],
+      "judgment": "No grammar relevance judged for this biological query.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    },
+    {
+      "id": "N03",
+      "kind": "outside_judged_catalog",
+      "query": "PostgreSQL pgvector HNSW vacuum transaction isolation",
+      "relevant_rule_ids": [],
+      "evidence": [],
+      "judgment": "Database implementation question outside the declared Arabic-rule retrieval task.",
+      "adversarial_hints": {
+        "chapter": "باب الاشتغال",
+        "keywords": [
+          "التصغير",
+          "الترخيم"
+        ]
+      }
+    }
+  ]
+}

@@ -1379,7 +1379,10 @@ def theoremManifest : List Name := [
   ``Nabt.BookCoverage.covered_sublist,
   ``Nabt.BookCoverage.identity_matches_exact,
   ``Nabt.BookCoverage.changed_identity_rejected,
-  ``Nabt.ClassicalBoundaryAffixes.contradictory_pause_blocked
+  ``Nabt.ClassicalBoundaryAffixes.contradictory_pause_blocked,
+  ``Nabt.RuleRouting.schedule_exact,
+  ``Nabt.RuleRouting.checked_schedule_exact,
+  ``Nabt.RuleRouting.exhausted_budget_not_complete
 ]
 
 run_cmd do

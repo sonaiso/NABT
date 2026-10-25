@@ -36,6 +36,10 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m unittest discover -s tests -v
+      - name: Replay source catalogue and reviewed retrieval diagnostics
+        env:
+          PYTHONPATH: src
+        run: make grammar-catalog EVIDENCE_DIR="${{ runner.temp }}/nabt-grammar-catalog"
       - name: Productive coverage with raw-source validation and withdrawal controls
         run: python tools/productive_evaluation.py --output "${{ runner.temp }}/nabt-productive.json"
       - name: Classical source inventory and imperative paradigm diagnostics
@@ -302,6 +306,8 @@ jobs:
           PYTHONPATH=src python evidence/arabic_completion_v6/independent_review/run_benchmark.py --output "${{ runner.temp }}/nabt-classical-independent-benchmark.json"
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Compiled proof identities and retrieval-independent routing
+        run: make proof-catalog routing-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR="${{ runner.temp }}/nabt-rule-routing"
       - name: Three indications, lexical identity and retained sense alternatives
         env:
           PYTHONPATH: .:src
