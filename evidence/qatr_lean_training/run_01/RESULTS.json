@@ -1,0 +1,1056 @@
+{
+  "schema": "nabt.qatr-lean-training.v1",
+  "protocol": {
+    "schema": "nabt.qatr-lean-training-protocol.v1",
+    "seed": 169,
+    "epochs": 10,
+    "threads": 4,
+    "batch_size": 24,
+    "learning_rate": 0.003,
+    "case_loss_weight": 0.5,
+    "checkpoint_selection": "maximum dev reading-set macro F1; earliest tie",
+    "reading_loss": "cross entropy, normalized inverse sqrt training frequency, cap 5",
+    "case_loss": "cross entropy; ranking only, never prunes certified reading set",
+    "teacher": "native Lean QatrReading; complete 45-row conditional inflection table",
+    "model_inputs": "raw Word and same-verse raw Word context only",
+    "premises": "declinability, noun/imperfect kind and annotation sign; class unknown",
+    "estimated_mark_policy": "erase estimated damma/fatha/kasra to hidden before Lean",
+    "split": "preserve PR25 sura split and duplicate-verse quarantine",
+    "test_status": "already observed regression fold, not a new blind evaluation",
+    "new_blind_sources": "UNMEASURED",
+    "gpu_training": "UNMEASURED",
+    "source_truth": "UNMEASURED",
+    "all_arabic_complete": false,
+    "whole_qatr_book_complete": false
+  },
+  "selected_epoch": 9,
+  "code_commit": "0f8bddbfc85e05a48517be8fe2938a65a00f49e5",
+  "parameters": 825986,
+  "updates": 2010,
+  "training_seconds": 62.39540745400882,
+  "max_rss_kib": 670484,
+  "torch_version": "2.5.1+cpu",
+  "numpy_version": "2.3.5",
+  "cuda_available": false,
+  "initial_dev": {
+    "total": 2841,
+    "correct": 54,
+    "accuracy": 0.01900739176346357,
+    "macro_f1": 0.01111753860818843,
+    "per_class": {
+      "noun:alif": {
+        "support": 9,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:damma": {
+        "support": 510,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:fatha": {
+        "support": 662,
+        "precision": 1.0,
+        "recall": 0.004531722054380665,
+        "f1": 0.009022556390977444
+      },
+      "noun:hidden": {
+        "support": 125,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:kasra": {
+        "support": 779,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:waw": {
+        "support": 80,
+        "precision": 0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:ya": {
+        "support": 210,
+        "precision": 0.14285714285714285,
+        "recall": 0.004761904761904762,
+        "f1": 0.009216589861751152
+      },
+      "verb:damma": {
+        "support": 155,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "verb:fatha": {
+        "support": 50,
+        "precision": 0.02034428794992175,
+        "recall": 0.78,
+        "f1": 0.03965429588205389
+      },
+      "verb:hidden": {
+        "support": 68,
+        "precision": 0.04666666666666667,
+        "recall": 0.10294117647058823,
+        "f1": 0.06422018348623854
+      },
+      "verb:nun_deleted": {
+        "support": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "verb:nun_retained": {
+        "support": 66,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "verb:sukun": {
+        "support": 49,
+        "precision": 0.004975124378109453,
+        "recall": 0.02040816326530612,
+        "f1": 0.008
+      },
+      "verb:weak_deleted": {
+        "support": 20,
+        "precision": 0.013953488372093023,
+        "recall": 0.15,
+        "f1": 0.02553191489361702
+      }
+    }
+  },
+  "test": {
+    "reading_set": {
+      "total": 3417,
+      "correct": 3307,
+      "accuracy": 0.96780801872988,
+      "macro_f1": 0.905852004280827,
+      "per_class": {
+        "noun:alif": {
+          "support": 17,
+          "precision": 0.7857142857142857,
+          "recall": 0.6470588235294118,
+          "f1": 0.7096774193548387
+        },
+        "noun:damma": {
+          "support": 674,
+          "precision": 0.9807407407407407,
+          "recall": 0.9821958456973294,
+          "f1": 0.9814677538917717
+        },
+        "noun:fatha": {
+          "support": 730,
+          "precision": 0.9943977591036415,
+          "recall": 0.9726027397260274,
+          "f1": 0.9833795013850416
+        },
+        "noun:hidden": {
+          "support": 119,
+          "precision": 0.8547008547008547,
+          "recall": 0.8403361344537815,
+          "f1": 0.847457627118644
+        },
+        "noun:kasra": {
+          "support": 1028,
+          "precision": 0.9854227405247813,
+          "recall": 0.9863813229571985,
+          "f1": 0.9859017987360233
+        },
+        "noun:waw": {
+          "support": 66,
+          "precision": 0.9850746268656716,
+          "recall": 1.0,
+          "f1": 0.9924812030075187
+        },
+        "noun:ya": {
+          "support": 215,
+          "precision": 0.9759615384615384,
+          "recall": 0.9441860465116279,
+          "f1": 0.9598108747044918
+        },
+        "verb:damma": {
+          "support": 188,
+          "precision": 0.9390862944162437,
+          "recall": 0.9840425531914894,
+          "f1": 0.961038961038961
+        },
+        "verb:fatha": {
+          "support": 71,
+          "precision": 0.881578947368421,
+          "recall": 0.9436619718309859,
+          "f1": 0.9115646258503401
+        },
+        "verb:hidden": {
+          "support": 61,
+          "precision": 0.8194444444444444,
+          "recall": 0.9672131147540983,
+          "f1": 0.8872180451127819
+        },
+        "verb:nun_deleted": {
+          "support": 93,
+          "precision": 0.9285714285714286,
+          "recall": 0.978494623655914,
+          "f1": 0.9528795811518325
+        },
+        "verb:nun_retained": {
+          "support": 74,
+          "precision": 0.9466666666666667,
+          "recall": 0.9594594594594594,
+          "f1": 0.9530201342281879
+        },
+        "verb:sukun": {
+          "support": 66,
+          "precision": 0.9230769230769231,
+          "recall": 0.9090909090909091,
+          "f1": 0.916030534351145
+        },
+        "verb:weak_deleted": {
+          "support": 15,
+          "precision": 0.8,
+          "recall": 0.5333333333333333,
+          "f1": 0.64
+        }
+      }
+    },
+    "case_ranking": {
+      "total": 3417,
+      "correct": 3260,
+      "accuracy": 0.9540532630962832,
+      "macro_f1": 0.951476712080386,
+      "per_class": {
+        "jarr": {
+          "support": 1147,
+          "precision": 0.9442096365173288,
+          "recall": 0.97384481255449,
+          "f1": 0.9587982832618026
+        },
+        "jazm": {
+          "support": 137,
+          "precision": 0.9420289855072463,
+          "recall": 0.948905109489051,
+          "f1": 0.9454545454545454
+        },
+        "nasb": {
+          "support": 1001,
+          "precision": 0.9620253164556962,
+          "recall": 0.9110889110889111,
+          "f1": 0.9358645459209851
+        },
+        "raf": {
+          "support": 1132,
+          "precision": 0.9590592334494773,
+          "recall": 0.9726148409893993,
+          "f1": 0.9657894736842105
+        }
+      }
+    },
+    "unseen_surface_reading_set": {
+      "total": 864,
+      "correct": 784,
+      "accuracy": 0.9074074074074074,
+      "macro_f1": 0.7860753889399292,
+      "per_class": {
+        "noun:alif": {
+          "support": 10,
+          "precision": 0.5714285714285714,
+          "recall": 0.4,
+          "f1": 0.47058823529411764
+        },
+        "noun:damma": {
+          "support": 172,
+          "precision": 0.9367816091954023,
+          "recall": 0.9476744186046512,
+          "f1": 0.9421965317919075
+        },
+        "noun:fatha": {
+          "support": 147,
+          "precision": 0.9849624060150376,
+          "recall": 0.891156462585034,
+          "f1": 0.9357142857142857
+        },
+        "noun:hidden": {
+          "support": 21,
+          "precision": 0.5,
+          "recall": 0.38095238095238093,
+          "f1": 0.43243243243243246
+        },
+        "noun:kasra": {
+          "support": 209,
+          "precision": 0.9488372093023256,
+          "recall": 0.9760765550239234,
+          "f1": 0.9622641509433962
+        },
+        "noun:waw": {
+          "support": 23,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "noun:ya": {
+          "support": 44,
+          "precision": 0.8947368421052632,
+          "recall": 0.7727272727272727,
+          "f1": 0.8292682926829268
+        },
+        "verb:damma": {
+          "support": 79,
+          "precision": 0.8850574712643678,
+          "recall": 0.9746835443037974,
+          "f1": 0.927710843373494
+        },
+        "verb:fatha": {
+          "support": 46,
+          "precision": 0.84,
+          "recall": 0.9130434782608695,
+          "f1": 0.875
+        },
+        "verb:hidden": {
+          "support": 18,
+          "precision": 0.6296296296296297,
+          "recall": 0.9444444444444444,
+          "f1": 0.7555555555555555
+        },
+        "verb:nun_deleted": {
+          "support": 34,
+          "precision": 0.8648648648648649,
+          "recall": 0.9411764705882353,
+          "f1": 0.9014084507042254
+        },
+        "verb:nun_retained": {
+          "support": 31,
+          "precision": 0.8787878787878788,
+          "recall": 0.9354838709677419,
+          "f1": 0.90625
+        },
+        "verb:sukun": {
+          "support": 23,
+          "precision": 0.8636363636363636,
+          "recall": 0.8260869565217391,
+          "f1": 0.8444444444444444
+        },
+        "verb:weak_deleted": {
+          "support": 7,
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "f1": 0.2222222222222222
+        }
+      }
+    },
+    "compatible_row_recall": 0.9652570626425688,
+    "annotated_case_retained": {
+      "correct": 3367,
+      "total": 3417,
+      "recall": 0.9853672812408546
+    },
+    "ambiguous_reading_set": {
+      "correct": 2188,
+      "total": 2263,
+      "accuracy": 0.966858152894388
+    },
+    "by_sura": {
+      "5": [
+        1238,
+        1291
+      ],
+      "7": [
+        1349,
+        1391
+      ],
+      "32": [
+        145,
+        148
+      ],
+      "50": [
+        173,
+        179
+      ],
+      "63": [
+        81,
+        83
+      ],
+      "68": [
+        118,
+        119
+      ],
+      "77": [
+        69,
+        71
+      ],
+      "82": [
+        29,
+        30
+      ],
+      "86": [
+        36,
+        36
+      ],
+      "98": [
+        48,
+        48
+      ],
+      "102": [
+        12,
+        12
+      ],
+      "112": [
+        9,
+        9
+      ]
+    }
+  },
+  "baselines": {
+    "majority": {
+      "reading_set": {
+        "total": 3417,
+        "correct": 1028,
+        "accuracy": 0.3008486976880304,
+        "macro_f1": 0.0330387273019444,
+        "per_class": {
+          "noun:alif": {
+            "support": 17,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:damma": {
+            "support": 674,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:fatha": {
+            "support": 730,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:hidden": {
+            "support": 119,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:kasra": {
+            "support": 1028,
+            "precision": 0.3008486976880304,
+            "recall": 1.0,
+            "f1": 0.4625421822272216
+          },
+          "noun:waw": {
+            "support": 66,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:ya": {
+            "support": 215,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:damma": {
+            "support": 188,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:fatha": {
+            "support": 71,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:hidden": {
+            "support": 61,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:nun_deleted": {
+            "support": 93,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:nun_retained": {
+            "support": 74,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:sukun": {
+            "support": 66,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:weak_deleted": {
+            "support": 15,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        }
+      },
+      "case_ranking": {
+        "total": 3417,
+        "correct": 1132,
+        "accuracy": 0.331284752707053,
+        "macro_f1": 0.12442295009892285,
+        "per_class": {
+          "jarr": {
+            "support": 1147,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "jazm": {
+            "support": 137,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "nasb": {
+            "support": 1001,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "raf": {
+            "support": 1132,
+            "precision": 0.331284752707053,
+            "recall": 1.0,
+            "f1": 0.4976918003956914
+          }
+        }
+      },
+      "unseen_surface_reading_set": {
+        "total": 864,
+        "correct": 209,
+        "accuracy": 0.24189814814814814,
+        "macro_f1": 0.027825855412062308,
+        "per_class": {
+          "noun:alif": {
+            "support": 10,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:damma": {
+            "support": 172,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:fatha": {
+            "support": 147,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:hidden": {
+            "support": 21,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:kasra": {
+            "support": 209,
+            "precision": 0.24189814814814814,
+            "recall": 1.0,
+            "f1": 0.3895619757688723
+          },
+          "noun:waw": {
+            "support": 23,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:ya": {
+            "support": 44,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:damma": {
+            "support": 79,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:fatha": {
+            "support": 46,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:hidden": {
+            "support": 18,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:nun_deleted": {
+            "support": 34,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:nun_retained": {
+            "support": 31,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:sukun": {
+            "support": 23,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:weak_deleted": {
+            "support": 7,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        }
+      },
+      "compatible_row_recall": 0.27057378487453937,
+      "annotated_case_retained": {
+        "correct": 2148,
+        "total": 3417,
+        "recall": 0.6286215978928885
+      },
+      "ambiguous_reading_set": {
+        "correct": 1028,
+        "total": 2263,
+        "accuracy": 0.45426425099425544
+      },
+      "by_sura": {
+        "5": [
+          343,
+          1291
+        ],
+        "7": [
+          404,
+          1391
+        ],
+        "32": [
+          63,
+          148
+        ],
+        "50": [
+          80,
+          179
+        ],
+        "63": [
+          20,
+          83
+        ],
+        "68": [
+          46,
+          119
+        ],
+        "77": [
+          27,
+          71
+        ],
+        "82": [
+          10,
+          30
+        ],
+        "86": [
+          18,
+          36
+        ],
+        "98": [
+          14,
+          48
+        ],
+        "102": [
+          3,
+          12
+        ],
+        "112": [
+          0,
+          9
+        ]
+      }
+    },
+    "lexical": {
+      "reading_set": {
+        "total": 3417,
+        "correct": 2735,
+        "accuracy": 0.800409716125256,
+        "macro_f1": 0.7521024010173164,
+        "per_class": {
+          "noun:alif": {
+            "support": 17,
+            "precision": 1.0,
+            "recall": 0.4117647058823529,
+            "f1": 0.5833333333333334
+          },
+          "noun:damma": {
+            "support": 674,
+            "precision": 0.994059405940594,
+            "recall": 0.744807121661721,
+            "f1": 0.8515691263782866
+          },
+          "noun:fatha": {
+            "support": 730,
+            "precision": 0.9948453608247423,
+            "recall": 0.7931506849315069,
+            "f1": 0.8826219512195121
+          },
+          "noun:hidden": {
+            "support": 119,
+            "precision": 0.8962264150943396,
+            "recall": 0.7983193277310925,
+            "f1": 0.8444444444444444
+          },
+          "noun:kasra": {
+            "support": 1028,
+            "precision": 0.6060786650774732,
+            "recall": 0.9892996108949417,
+            "f1": 0.7516629711751663
+          },
+          "noun:waw": {
+            "support": 66,
+            "precision": 1.0,
+            "recall": 0.6515151515151515,
+            "f1": 0.7889908256880734
+          },
+          "noun:ya": {
+            "support": 215,
+            "precision": 1.0,
+            "recall": 0.786046511627907,
+            "f1": 0.8802083333333334
+          },
+          "verb:damma": {
+            "support": 188,
+            "precision": 1.0,
+            "recall": 0.5638297872340425,
+            "f1": 0.7210884353741497
+          },
+          "verb:fatha": {
+            "support": 71,
+            "precision": 0.9615384615384616,
+            "recall": 0.352112676056338,
+            "f1": 0.5154639175257731
+          },
+          "verb:hidden": {
+            "support": 61,
+            "precision": 0.9772727272727273,
+            "recall": 0.7049180327868853,
+            "f1": 0.819047619047619
+          },
+          "verb:nun_deleted": {
+            "support": 93,
+            "precision": 0.9833333333333333,
+            "recall": 0.6344086021505376,
+            "f1": 0.7712418300653595
+          },
+          "verb:nun_retained": {
+            "support": 74,
+            "precision": 1.0,
+            "recall": 0.5675675675675675,
+            "f1": 0.7241379310344828
+          },
+          "verb:sukun": {
+            "support": 66,
+            "precision": 0.9761904761904762,
+            "recall": 0.6212121212121212,
+            "f1": 0.7592592592592593
+          },
+          "verb:weak_deleted": {
+            "support": 15,
+            "precision": 1.0,
+            "recall": 0.4666666666666667,
+            "f1": 0.6363636363636364
+          }
+        }
+      },
+      "case_ranking": {
+        "total": 3417,
+        "correct": 2764,
+        "accuracy": 0.8088966930055604,
+        "macro_f1": 0.7926289032806803,
+        "per_class": {
+          "jarr": {
+            "support": 1147,
+            "precision": 0.9546436285097192,
+            "recall": 0.7707061900610288,
+            "f1": 0.8528702363724071
+          },
+          "jazm": {
+            "support": 137,
+            "precision": 0.8947368421052632,
+            "recall": 0.6204379562043796,
+            "f1": 0.7327586206896551
+          },
+          "nasb": {
+            "support": 1001,
+            "precision": 0.9346938775510204,
+            "recall": 0.6863136863136863,
+            "f1": 0.7914746543778802
+          },
+          "raf": {
+            "support": 1132,
+            "precision": 0.6670680313064419,
+            "recall": 0.9787985865724381,
+            "f1": 0.7934121016827784
+          }
+        }
+      },
+      "unseen_surface_reading_set": {
+        "total": 864,
+        "correct": 209,
+        "accuracy": 0.24189814814814814,
+        "macro_f1": 0.027825855412062308,
+        "per_class": {
+          "noun:alif": {
+            "support": 10,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:damma": {
+            "support": 172,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:fatha": {
+            "support": 147,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:hidden": {
+            "support": 21,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:kasra": {
+            "support": 209,
+            "precision": 0.24189814814814814,
+            "recall": 1.0,
+            "f1": 0.3895619757688723
+          },
+          "noun:waw": {
+            "support": 23,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "noun:ya": {
+            "support": 44,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:damma": {
+            "support": 79,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:fatha": {
+            "support": 46,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:hidden": {
+            "support": 18,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:nun_deleted": {
+            "support": 34,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:nun_retained": {
+            "support": 31,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:sukun": {
+            "support": 23,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "verb:weak_deleted": {
+            "support": 7,
+            "precision": 0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        }
+      },
+      "compatible_row_recall": 0.8061063344446394,
+      "annotated_case_retained": {
+        "correct": 3007,
+        "total": 3417,
+        "recall": 0.8800117061750073
+      },
+      "ambiguous_reading_set": {
+        "correct": 1969,
+        "total": 2263,
+        "accuracy": 0.8700839593460009
+      },
+      "by_sura": {
+        "5": [
+          1034,
+          1291
+        ],
+        "7": [
+          1121,
+          1391
+        ],
+        "32": [
+          134,
+          148
+        ],
+        "50": [
+          139,
+          179
+        ],
+        "63": [
+          65,
+          83
+        ],
+        "68": [
+          95,
+          119
+        ],
+        "77": [
+          50,
+          71
+        ],
+        "82": [
+          22,
+          30
+        ],
+        "86": [
+          25,
+          36
+        ],
+        "98": [
+          38,
+          48
+        ],
+        "102": [
+          7,
+          12
+        ],
+        "112": [
+          5,
+          9
+        ]
+      }
+    }
+  },
+  "paired_reading_accuracy_difference_ci95": {
+    "unit": "whole sura",
+    "samples": 2000,
+    "low": 0.155649888821508,
+    "high": 0.21052631578947367
+  },
+  "native_verification": {
+    "checked": 3417,
+    "conditional_exact_set_accepted": 3307,
+    "conditional_set_rejected": 110,
+    "authority": "CONDITIONAL_TABLE_ONLY; independent corpus premises supplied by evaluator",
+    "linguistic_certificates_accepted": 0,
+    "world_truth_established": false
+  },
+  "weights_sha256": "e1f9896a9a2792b0440917dc1ed19d2d9f429eca55fdba4c569a47c13813177f",
+  "book_probe": {
+    "total": 20,
+    "correct": 16,
+    "accuracy": 0.8,
+    "macro_f1": 0.6733333333333333,
+    "per_class": {
+      "noun:alif": {
+        "support": 1,
+        "precision": 0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:fatha": {
+        "support": 1,
+        "precision": 0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "noun:hidden": {
+        "support": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "noun:kasra": {
+        "support": 2,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666
+      },
+      "noun:waw": {
+        "support": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "verb:damma": {
+        "support": 1,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666
+      },
+      "verb:fatha": {
+        "support": 3,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8
+      },
+      "verb:hidden": {
+        "support": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "verb:nun_deleted": {
+        "support": 2,
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1": 0.8
+      },
+      "verb:weak_deleted": {
+        "support": 3,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8
+      }
+    }
+  },
+  "test_status": "OBSERVED_REGRESSION_NOT_BLIND",
+  "arabic_complete": false,
+  "qatr_book_complete": false,
+  "semantic_coverage_measured": false,
+  "world_truth_established": false,
+  "authority": "NONE",
+  "runtime_acceptance_changed": false
+}

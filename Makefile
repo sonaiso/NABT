@@ -196,3 +196,10 @@ check: explainable-pilot-conformance
 .PHONY: certificate-training
 certificate-training:
 	$(PYTHON) tools/train_certificate_ranker.py --output-dir $(EVIDENCE_DIR)/certificate-training
+
+.PHONY: qatr-reading-conformance
+qatr-reading-conformance:
+	cd formal && $(LAKE) build qatrReading
+	NABT_QATR_READING=$(CURDIR)/formal/.lake/build/bin/qatrReading $(PYTHON) -B -m unittest discover -s tests -p test_qatr_readings.py -v
+
+check: qatr-reading-conformance

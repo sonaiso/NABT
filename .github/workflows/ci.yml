@@ -275,6 +275,13 @@ jobs:
           python -B -m unittest discover -s tests -p test_mantuq_mafhum.py -v
           python -B -m unittest discover -s tests -p test_reading_enumeration.py -v
           python -B -m unittest discover -s tests -p test_completion_semantic_integration.py -v
+      - name: Qatr exact reading sets, omission rejection and source identity
+        env:
+          PYTHONPATH: .
+          NABT_QATR_READING: ${{ github.workspace }}/formal/.lake/build/bin/qatrReading
+        run: |
+          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build qatrReading
+          python -m unittest discover -s tests -p test_qatr_readings.py -v
       - name: Audit theorem assumptions
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Executable inna fragment, written case witnesses and explicit completeness scope

@@ -66,3 +66,7 @@ lean_exe verifiedReading where
 @[default_target]
 lean_exe classicalSemanticProbe where
   root := `ClassicalSemanticMain
+
+@[default_target]
+lean_exe qatrReading where
+  root := `QatrReadingMain

@@ -1,0 +1,23 @@
+{
+  "schema": "nabt.qatr-lean-training-protocol.v1",
+  "seed": 169,
+  "epochs": 10,
+  "threads": 4,
+  "batch_size": 24,
+  "learning_rate": 0.003,
+  "case_loss_weight": 0.5,
+  "checkpoint_selection": "maximum dev reading-set macro F1; earliest tie",
+  "reading_loss": "cross entropy, normalized inverse sqrt training frequency, cap 5",
+  "case_loss": "cross entropy; ranking only, never prunes certified reading set",
+  "teacher": "native Lean QatrReading; complete 45-row conditional inflection table",
+  "model_inputs": "raw Word and same-verse raw Word context only",
+  "premises": "declinability, noun/imperfect kind and annotation sign; class unknown",
+  "estimated_mark_policy": "erase estimated damma/fatha/kasra to hidden before Lean",
+  "split": "preserve PR25 sura split and duplicate-verse quarantine",
+  "test_status": "already observed regression fold, not a new blind evaluation",
+  "new_blind_sources": "UNMEASURED",
+  "gpu_training": "UNMEASURED",
+  "source_truth": "UNMEASURED",
+  "all_arabic_complete": false,
+  "whole_qatr_book_complete": false
+}
