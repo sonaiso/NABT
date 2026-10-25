@@ -922,6 +922,22 @@ python tools/bootstrap_lean.py --destination /tmp/nabt-tools
 
 ## التنظيم
 
+يمكن الآن البحث في مقاطع قطر الندى، والألفية، وسيبويه، ومغني اللبيب،
+وشرح ابن عقيل وحاشية الصبان وربطها بمعرفات القواعد والبراهين الصريحة:
+
+```bash
+PYTHONPATH=src python -m tools.grammar_catalog search 'همزة الوصل' --kind rule
+make -f Makefile -f integrations/grammar_catalog.mk grammar-catalog
+make -f Makefile -f integrations/grammar_catalog.mk proof-catalog routing-conformance LAKE=/path/to/lake
+```
+
+هذا مسار اقتراح اختياري خارج سلطة قبول العربية. يحفظ تعدد الأدلة، ويستكمل
+فحص الجرد المشروط مهما كان ترتيب البحث. توفر إضافة
+[PostgreSQL وpgvector](integrations/grammar_db/README.md) فهرسًا اختياريًا
+بنسخ مصادر مثبتة وأبعاد نماذج متحققة. يبين
+[التقرير العربي](docs/GRAMMAR_CATALOG_AR.md) مقاييس الاسترجاع، وتدقيق
+التكرار البرهاني، والالتزامات المتبقية؛ لا يتضمن ضمان دقة عامة 100%.
+
 | المسار | الوظيفة |
 |---|---|
 | `formal/Nabt/` | التعريفات والبراهين العامة وقانون الصيغ المحدد |

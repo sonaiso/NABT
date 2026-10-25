@@ -57,3 +57,4 @@ import Nabt.ClassicalHamza
 import Nabt.ClassicalGemination
 import Nabt.ClassicalBoundaryAffixes
 import Nabt.BookCoverage
+import Nabt.RuleRouting

@@ -1,0 +1,19 @@
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg17-bookworm@sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d
+    environment:
+      POSTGRES_DB: nabt_catalog
+      POSTGRES_USER: nabt
+      POSTGRES_PASSWORD: ${NABT_DB_PASSWORD:?Set NABT_DB_PASSWORD outside the repository}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - catalog_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nabt -d nabt_catalog"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+volumes:
+  catalog_data:
