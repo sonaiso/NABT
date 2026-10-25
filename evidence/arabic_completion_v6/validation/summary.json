@@ -1,6 +1,6 @@
 {
   "schema": "nabt.classical-completion-validation.v2",
-  "status": "full_gate_running",
+  "status": "local_full_gate_passed",
   "baseline_commit": "8a10b88e8ac37b6ba3b442d5923a99c15fc7d3b5",
   "runtime_freeze_sha256": "31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec",
   "runtime_files": 99,
@@ -242,9 +242,111 @@
   },
   "arabic_language_completeness": null,
   "whole_books_complete": false,
-  "remote_ci": "not_started",
+  "remote_ci": {
+    "authority": "GitHub check runs attached to the current PR head; not part of this local receipt",
+    "pull_request": "https://github.com/sonaiso/NABT/pull/30",
+    "required": [
+      "formal",
+      "runtime (3.11)",
+      "runtime (3.12)",
+      "runtime (3.13)",
+      "cpu-model-replay"
+    ]
+  },
   "make_check": {
-    "status": "running",
-    "exit": null
-  }
+    "status": "completed",
+    "exit": 0,
+    "seconds": 738.5919171530004,
+    "command": [
+      "make",
+      "check",
+      "LAKE=/workspace/scratch/8ead824583ac/lean-driver/lake",
+      "EVIDENCE_DIR=evidence/arabic_completion_v6/validation/release"
+    ]
+  },
+  "implementation_commit": "f8c7727fc75660deabf1d0df0307c283fe8bfc51",
+  "kernel_audit": {
+    "ok": true,
+    "theorem_count": 1369,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true
+  },
+  "historical_regressions": {
+    "construction": {
+      "passed": 82,
+      "total": 86,
+      "false_accept_count": 0,
+      "measurement_valid": true,
+      "gate_pass": true,
+      "strict_pass": false
+    },
+    "discourse": {
+      "passed": 68,
+      "total": 86,
+      "false_accept_count": 0,
+      "measurement_valid": true,
+      "gate_pass": true,
+      "strict_pass": false
+    },
+    "directed_oracle": {
+      "fixed_cases": {
+        "total": 22,
+        "passed": 14,
+        "failed": 8
+      },
+      "questions": {
+        "total": 29,
+        "observed": 29,
+        "status_matches": 19,
+        "independently_validated": 29
+      },
+      "source_counterexamples": {
+        "total": 6,
+        "positive_controls": 2,
+        "negative_cases": 4,
+        "passed": 6,
+        "questions": 4,
+        "status_matches": 4,
+        "independently_validated": 4,
+        "unsafe_check_failures": [],
+        "independent_integrity_failures": [],
+        "gate_pass": true,
+        "not_added_to_historical_denominators": true
+      },
+      "regression_gate_pass": true,
+      "strict_pass": false,
+      "historical_material_unchanged": true,
+      "dependencies_unchanged": true
+    },
+    "holdout": {
+      "original_case_score": {
+        "passed": 35,
+        "total": 36
+      },
+      "postreview_case_score": {
+        "passed": 36,
+        "total": 36
+      },
+      "remaining_unsafe_acceptances": [],
+      "gate_pass": true,
+      "frozen_harness_or_gold_changed": false,
+      "oracle_erratum": "The frozen scorer rejects every UNKNOWN counterproof. H18 has no positive WH binding; all its retained negative receipts and interpretations were independently validated."
+    }
+  },
+  "evidence_integrity": {
+    "make-check.log": "d8f64e405c7dde99a19cb519686477725d76661bb5927b5ec4bf3243b7e08135",
+    "make-check.receipt.json": "fc463c4f8a9d0a523fa525a8b79739cb9c0d4050af63c9d662fa63829a2a7022",
+    "release/axioms.json": "0eea7ed246c925fc9b5a67af6f07c541bbe4af91a6fa084a16129b838ddfcbc5",
+    "installed_package/validation.json": "172553379e8bfc7bb2083d04cd3abf855c6e1b22a0b279cbe8b1424b5fba4680",
+    "installed_interfaces/summary.json": "e0317f18d38b5cfa4ae92ce228bb5ea46ba6af25a5a52fb42fff2f9c33461c0c",
+    "release/classical-independent-benchmark.json": "5ecdb669c1226e5bc074c98c07124245341ca28480f7e5060fc1fd875ffd77bf",
+    "release/classical-laws-conformance.json": "45bfcdee9adde731e3101f86d2f06db5ae64a00589e8479ec9e329a6b64da75b"
+  },
+  "validation_bundle": "../validation_bundle.zip",
+  "validation_bundle_manifest": "../validation_bundle_manifest.json"
 }
