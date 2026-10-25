@@ -125,7 +125,10 @@ async function downloadResult(env,artifact){
   if(redirect.status!==302)fail('ARTIFACT_REDIRECT_INVALID',502);
   let url;try{url=new URL(redirect.headers.get('Location'));}catch{fail('ARTIFACT_REDIRECT_INVALID',502);}
   if(url.protocol!=='https:'||url.username||url.password||!(url.hostname.endsWith('.blob.core.windows.net')||url.hostname.endsWith('.githubusercontent.com')))fail('ARTIFACT_REDIRECT_INVALID',502);
-  const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(20000)});
+  // Workers supports manual/follow, not Fetch's error mode. Keep redirects
+  // forbidden explicitly, and never forward GitHub credentials to the CDN.
+  const response=await fetch(url,{redirect:'manual',signal:AbortSignal.timeout(20000)});
+  if(response.status>=300&&response.status<400)fail('ARTIFACT_REDIRECT_INVALID',502);
   if(!response.ok)fail('ARTIFACT_UNAVAILABLE',502);
   const bytes=await boundedBytes(response.body,4*1024*1024);
   if('sha256:'+await sha(bytes)!==artifact.digest)fail('ARTIFACT_DIGEST_FAILED',502);
