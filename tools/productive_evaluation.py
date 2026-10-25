@@ -12,16 +12,33 @@ MATERIAL_SHA256 = 'df414b7ba82fe39f9864139d9207e79472815d0b4532ed60d2e871d461aae
 SOURCE_SHA256 = 'ed24c28da3c603f2e52825d0af4679aa3799228ef7538bc90992178cc69f9455'
 
 
+def verify_loaded_runtime_origins(source_root):
+    loaded = {name: module for name, module in sys.modules.items()
+              if name == "nabt" or name.startswith("nabt.")}
+    if "nabt" not in loaded:
+        raise ValueError("Selected runtime package was not imported")
+    for name, module in loaded.items():
+        origin = getattr(module, "__file__", None)
+        if origin is None or not Path(origin).resolve().is_relative_to(source_root):
+            raise ValueError(f"Runtime module {name} was not loaded from {source_root}")
+
+
 def run(runtime_root, output):
     if output.exists():
         raise ValueError("Refusing to replace an observed measurement")
-    sys.path.insert(0, str(runtime_root / "src"))
+    source_root = (runtime_root / "src").resolve()
+    if not source_root.is_dir() or not (source_root / "nabt" / "__init__.py").is_file():
+        raise ValueError(f"Selected runtime package is missing from {source_root}")
+    if any(name == "nabt" or name.startswith("nabt.") for name in sys.modules):
+        raise ValueError("Selected runtime cannot be measured after importing nabt")
+    sys.path.insert(0, str(source_root))
     sys.path.insert(1, str(ROOT))
     from nabt.corpus_evidence import learn_qac_lexicon
     from nabt.person_evidence import person_candidates
     from nabt.discourse import read_discourse, verify_discourse
     from tools.discourse_evaluation import SourceAudit
     from tools.productive_form_validation import validate_imperative, validate_nominal
+    verify_loaded_runtime_origins(source_root)
     folder = ROOT / "evidence/arabic_completion_v4"
     material = folder / "productive_cases.json"
     source = (folder / "productive_source.tsv").read_bytes()
