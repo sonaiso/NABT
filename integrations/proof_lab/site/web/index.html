@@ -33,7 +33,8 @@
         <button role="tab" id="tab-evidence" aria-controls="panel-evidence" aria-selected="true" data-tab="evidence"><span class="tab-number">01</span> مرصد الأدلة</button>
         <button role="tab" id="tab-inference" aria-controls="panel-inference" aria-selected="false" tabindex="-1" data-tab="inference"><span class="tab-number">02</span> تجربة عبارة</button>
         <button role="tab" id="tab-coverage" aria-controls="panel-coverage" aria-selected="false" tabindex="-1" data-tab="coverage"><span class="tab-number">03</span> قياس التغطية</button>
-        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">04</span> دليل القراءة</button>
+        <button role="tab" id="tab-testimony" aria-controls="panel-testimony" aria-selected="false" tabindex="-1" data-tab="testimony"><span class="tab-number">04</span> شهادات المعجم</button>
+        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">05</span> دليل القراءة</button>
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
@@ -102,6 +103,22 @@
           <div class="card benchmark-card"><div class="card-heading"><div><p class="eyebrow">نتائج التنفيذ الجديد</p><h2>سجل الحالات</h2></div><button class="text-button" id="download-benchmark">تنزيل التقرير JSON ↓</button></div><p class="contract-status" id="benchmark-contract"></p><div class="coverage-bar" aria-hidden="true"><span id="pass-bar"></span><span id="fail-bar"></span><span id="unknown-bar"></span></div><p id="benchmark-ratio" class="field-help"></p><div class="table-controls"><label for="case-filter">اعرض الحالات</label><select id="case-filter"><option value="all">جميع النتائج</option><option value="FAIL">الفجوات فقط</option><option value="UNMEASURED">غير المقاس</option><option value="PASS">النتائج المطابقة</option></select></div><div class="table-wrap"><table><thead><tr><th scope="col">الحالة</th><th scope="col">عائلة الاختبار</th><th scope="col">النتيجة</th><th scope="col">التفاصيل</th></tr></thead><tbody id="benchmark-rows"></tbody></table></div><p class="empty-filter" id="empty-filter" hidden>لا توجد حالات تطابق هذا المرشح.</p><p class="report-identity">تقرير الطلب <code id="benchmark-request-id" dir="ltr"></code></p><div class="result-footnote"><span id="benchmark-timing"></span><code id="benchmark-commit" dir="ltr"></code></div></div>
         </section>
         <aside class="coverage-boundary"><span aria-hidden="true">∄</span><div><b>لا توجد نسبة صادقة لاكتمال «كل العربية» هنا.</b><p>لا مقام محصور معتمد يغطي اللغة كلها في هذه النسخة. تُعرض نتيجة المجموعة المحددة، وتبقى دعوى الاكتمال العام مفتوحة.</p></div></aside>
+      </div>
+      <div role="tabpanel" id="panel-testimony" aria-labelledby="tab-testimony" hidden>
+        <div class="evidence-toolbar"><div><p class="eyebrow">نقل موثّق / دلالة مشروطة</p><h2>المعجم يشهد للاستعمال.</h2><p>اختبر المطابقة والتضمن والالتزام في سجل التعريفات المثبت في Lean. تبقى جهة النقل، والتفسير، وصدق الواقع منفصلة.</p></div></div>
+        <form id="testimony-form" class="card">
+          <label for="testimony-entry">المدخل المعجمي المثبت</label><input id="testimony-entry" value="بيت" required maxlength="64" autocomplete="off" aria-describedby="testimony-help">
+          <label for="testimony-target">المكونات المستعلم عنها — مكون واحد في كل سطر</label><textarea id="testimony-target" rows="3" required>المأوى</textarea>
+          <p id="testimony-help" class="field-help">أمثلة: بيت ← المأوى (تضمن)، فرس ← واحد الخيل (مطابقة)، عمي ← البصر (لزوم ذهني في النظرية الممثلة، لا إثبات إبصار). المدخل فهرس معجمي، وليس تحليلًا صرفيًا تلقائيًا.</p>
+          <button class="primary-button" type="submit" id="run-testimony" disabled>افحص الشهادة في Lean <span>←</span></button>
+        </form>
+        <section id="testimony-output" class="card" hidden aria-live="polite">
+          <p class="eyebrow">نتيجة التنفيذ الحي</p><h3 id="testimony-status"></h3><p id="testimony-disclaimer"></p>
+          <p id="testimony-scope" class="field-help"></p><p id="testimony-input" class="field-help"></p>
+          <div id="testimony-rows" class="testimony-grid"></div>
+          <details><summary>المقدمات والشهادة الكاملة</summary><pre id="testimony-json" dir="ltr"></pre></details>
+          <button id="download-testimony" class="text-button" type="button">تنزيل تقرير الشهادة ↓</button>
+        </section>
       </div>
       <div role="tabpanel" id="panel-guide" aria-labelledby="tab-guide" hidden>
         <section class="guide-intro"><p class="eyebrow">قراءة الدليل</p><h2>النتيجة لها نطاق.<br>والشهادة لها مقدمات.</h2><p>المختبر يربط ما أدخلته بالنسخة التي فحصته. لا يحوّل التشابه الدلالي أو نجاح الاختبارات إلى برهان على المعنى العام أو صدق الواقع.</p></section>

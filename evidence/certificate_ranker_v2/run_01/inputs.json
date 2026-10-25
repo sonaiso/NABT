@@ -1,0 +1,128 @@
+[
+  {
+    "id": "repository-example",
+    "source": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "direct",
+    "source": "سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "refuted",
+    "source": "ليس سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "REFUTED"
+  },
+  {
+    "id": "conflict",
+    "source": "سالم هو عالم.\nليس سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "CONFLICT"
+  },
+  {
+    "id": "unknown",
+    "source": "سالم هو حكيم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "UNKNOWN"
+  },
+  {
+    "id": "conflict-propagation",
+    "source": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nليس سالم هو حكيم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "DEFER"
+  },
+  {
+    "id": "clean-alternative",
+    "source": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nليس سالم هو حكيم.\nسالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "multipremise",
+    "source": "سالم يحب سهيل.\nسالم هو حكيم.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\n",
+    "query": "هل سهيل هو عالم؟\n",
+    "split": "validation",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "relation-order",
+    "source": "سالم يحب سهيل.\n",
+    "query": "هل سهيل يحب سالم؟\n",
+    "split": "validation",
+    "authored_expected": "UNKNOWN"
+  },
+  {
+    "id": "negative-question",
+    "source": "سالم يحب سهيل.\n",
+    "query": "هل ليس سالم يحب سهيل؟\n",
+    "split": "validation",
+    "authored_expected": "REFUTED"
+  },
+  {
+    "id": "cycle",
+    "source": "إذا سالم هو حكيم فإن سالم هو عالم.\nإذا سالم هو عالم فإن سالم هو حكيم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "UNKNOWN"
+  },
+  {
+    "id": "byte-spans",
+    "source": "سَالِم هو حَكِيم.\nإذا سَالِم هو حَكِيم فإن سَالِم هو عَالِم.\n",
+    "query": "هل سَالِم هو عَالِم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "duplicate-facts",
+    "source": "سالم هو حكيم.\nسالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "separate-proof",
+    "source": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nسالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  },
+  {
+    "id": "remove-required-fact",
+    "source": "إذا سالم هو حكيم فإن سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "UNKNOWN"
+  },
+  {
+    "id": "remove-required-rule",
+    "source": "سالم هو حكيم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "UNKNOWN"
+  },
+  {
+    "id": "remove-one-conjunct",
+    "source": "سالم يحب سهيل.\nإذا سالم يحب سهيل و سالم هو حكيم فإن سهيل هو عالم.\n",
+    "query": "هل سهيل هو عالم؟\n",
+    "split": "validation",
+    "authored_expected": "UNKNOWN"
+  },
+  {
+    "id": "keep-independent-proof",
+    "source": "سالم هو عالم.\n",
+    "query": "هل سالم هو عالم؟\n",
+    "split": "train",
+    "authored_expected": "SUPPORTED"
+  }
+]

@@ -16,6 +16,14 @@ function json(value,status=200){return new Response(JSON.stringify(value),{statu
 function exactKeys(value,allowed){if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!allowed.includes(k)))fail('INVALID_INPUT');}
 function unicode(value){if(typeof value!=='string')fail('INVALID_INPUT');for(let i=0;i<value.length;i++){const n=value.charCodeAt(i);if(n>=0xd800&&n<=0xdbff){const next=value.charCodeAt(++i);if(!(next>=0xdc00&&next<=0xdfff))fail('INVALID_UNICODE');}else if(n>=0xdc00&&n<=0xdfff)fail('INVALID_UNICODE');}return value;}
 export function validatePayload(value){
+  if(value?.mode==='testimony'){
+    exactKeys(value,['schema','mode','entry','target']);
+    if(value.schema!==REQUEST_SCHEMA)fail('INVALID_INPUT');
+    const entry=unicode(value.entry);
+    if(!entry.trim()||encoder.encode(entry).length>128||!Array.isArray(value.target)||value.target.length>64)fail('INVALID_INPUT');
+    for(const part of value.target)if(!unicode(part).trim()||encoder.encode(part).length>4096)fail('INVALID_INPUT');
+    return {schema:REQUEST_SCHEMA,mode:'testimony',entry,target:value.target};
+  }
   exactKeys(value,['schema','mode','source_text','query_text','budget']);
   if(value.schema!==REQUEST_SCHEMA||!['inference','benchmark'].includes(value.mode))fail('INVALID_INPUT');
   if(value.mode==='benchmark'){if(Object.keys(value).some(k=>!['schema','mode'].includes(k)))fail('INVALID_INPUT');return {schema:REQUEST_SCHEMA,mode:'benchmark'};}
@@ -42,7 +50,7 @@ export async function verifyHandle(handle,secret,now=Date.now()){
   const raw=fromBase64(pieces[0]);if(!await crypto.subtle.verify('HMAC',await key(secret),fromBase64(pieces[1]),raw))fail('INVALID_HANDLE',403);
   let data;try{data=JSON.parse(decoder.decode(raw));}catch{fail('INVALID_HANDLE',403);}
   exactKeys(data,['request_id','payload_sha256','code_sha','mode','created']);
-  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
+  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
   return data;
 }
 function standard64(bytes){let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s);}
@@ -59,7 +67,7 @@ export async function decryptEnvelope(envelope,keyHex,requestId,maxBytes=MAX_REP
   const nonce=decode64(envelope.nonce,12),cipher=decode64(envelope.ciphertext,maxBytes+16);if(nonce.length!==12||cipher.length<16)fail('ENCRYPTED_PAYLOAD_INVALID',502);
   try{const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:nonce,additionalData:encoder.encode(requestId),tagLength:128},await transportKey(keyHex),cipher);return decoder.decode(bytes);}catch{fail('ENCRYPTED_PAYLOAD_INVALID',502);}
 }
-function configured(env){return env.NABT_EXECUTION_ENABLED==='true'&&/^[a-f0-9]{64}$/.test(env.NABT_TRANSPORT_KEY??'')&&typeof env.NABT_GITHUB_TOKEN==='string'&&env.NABT_GITHUB_TOKEN.length>0&&typeof env.NABT_SIGNING_KEY==='string'&&env.NABT_SIGNING_KEY.length>=32&&SHA.test(env.NABT_CODE_SHA??'')&&env.NABT_REF==='codex/dynamic-proof-lab';}
+function configured(env){return env.NABT_EXECUTION_ENABLED==='true'&&/^[a-f0-9]{64}$/.test(env.NABT_TRANSPORT_KEY??'')&&typeof env.NABT_GITHUB_TOKEN==='string'&&env.NABT_GITHUB_TOKEN.length>0&&typeof env.NABT_SIGNING_KEY==='string'&&env.NABT_SIGNING_KEY.length>=32&&SHA.test(env.NABT_CODE_SHA??'')&&['codex/dynamic-proof-lab','codex/attested-testimony-live'].includes(env.NABT_REF);}
 async function gh(env,path,options={}){
   const response=await fetch('https://api.github.com/repos/'+REPOSITORY+path,{...options,redirect:'manual',signal:AbortSignal.timeout(20000),headers:{'Authorization':'Bearer '+env.NABT_GITHUB_TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'NABT-Proof-Lab','Content-Type':'application/json'}});
   if(!response.ok&&response.status!==302){const code=response.status===401||response.status===403?'GITHUB_ACCESS_UNAVAILABLE':response.status===429?'GITHUB_RATE_LIMIT':'GITHUB_REQUEST_FAILED';fail(code,502);}
@@ -67,7 +75,7 @@ async function gh(env,path,options={}){
 }
 async function ghJson(env,path,options){const response=await gh(env,path,options);if(response.status===204)return null;const bytes=await boundedBytes(response.body,4*1024*1024);try{return JSON.parse(decoder.decode(bytes));}catch{fail('GITHUB_RESPONSE_INVALID',502);}}
 function checkOrigin(request,url){const origin=request.headers.get('Origin');if((origin&&origin!==url.origin)||request.headers.get('Sec-Fetch-Site')==='cross-site')fail('CROSS_ORIGIN_DENIED',403);}
-function activeRuns(runs){return runs.filter(r=>r.event==='workflow_dispatch'&&r.head_branch==='codex/dynamic-proof-lab');}
+function activeRuns(runs,ref){return runs.filter(r=>r.event==='workflow_dispatch'&&r.head_branch===ref);}
 async function submit(request,env){
   const url=new URL(request.url);checkOrigin(request,url);
   if(!(request.headers.get('Content-Type')??'').toLowerCase().startsWith('application/json'))fail('JSON_REQUIRED',415);
@@ -77,7 +85,7 @@ async function submit(request,env){
   if(ref.object?.sha!==env.NABT_CODE_SHA)fail('BACKEND_VERSION_CHANGED',409);
   const recent=await ghJson(env,'/actions/workflows/'+WORKFLOW+'/runs?event=workflow_dispatch&branch='+encodeURIComponent(env.NABT_REF)+'&per_page=30');
   if(!Array.isArray(recent.workflow_runs))fail('GITHUB_RESPONSE_INVALID',502);
-  const now=Date.now();if(activeRuns(recent.workflow_runs).some(r=>r.status!=='completed'||now-Date.parse(r.created_at)<30000))fail('RUN_ALREADY_ACTIVE',429);
+  const now=Date.now();if(activeRuns(recent.workflow_runs,env.NABT_REF).some(r=>r.status!=='completed'||now-Date.parse(r.created_at)<30000))fail('RUN_ALREADY_ACTIVE',429);
   const descriptor={request_id:crypto.randomUUID(),payload_sha256:await sha(encoder.encode(payload)),code_sha:env.NABT_CODE_SHA,mode:input.mode,created:now};
   await ghJson(env,'/actions/workflows/'+WORKFLOW+'/dispatches',{method:'POST',body:JSON.stringify({ref:env.NABT_REF,inputs:{request_id:descriptor.request_id,payload:JSON.stringify(await encryptEnvelope(payload,env.NABT_TRANSPORT_KEY,descriptor.request_id))}})});
   return json({handle:await signHandle(descriptor,env.NABT_SIGNING_KEY),request_id:descriptor.request_id,status:'queued',poll_after_ms:5000},202);
@@ -103,12 +111,21 @@ export async function unpackResult(bytes){
 export function validateReport(report,expected){
   if(!report||report.schema!=='nabt.proof-lab-result.v1'||report.request_id!==expected.request_id||report.payload_sha256!==expected.payload_sha256||report.code_sha!==expected.code_sha||report.mode!==expected.mode||report.all_arabic_complete!==false||report.world_truth_established!==false)fail('REPORT_BINDING_FAILED',502);
   const errorStatuses=['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'];
-  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(report.mode==='testimony'){
+    validateTestimony(report.testimony,report.status);
+    if(report.result||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
+    if(report.testimony.native_checked&&(report.native_sha256!==report.testimony.native_sha256||report.catalogue_sha256!==report.testimony.catalogue_sha256))fail('REPORT_BINDING_FAILED',502);
+    return report;
+  }
+  if(report.testimony)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='inference'){
     const r=report.result;
     const statuses=['SUPPORTED','REFUTED','CONFLICT','UNKNOWN','DEFER','DISAGREEMENT','INVALID_INPUT','SOURCE_UNAVAILABLE','VERIFICATION_UNAVAILABLE','RESOURCE_EXHAUSTED'];
-    if(!r||r.schema!=='nabt.licensed-inference-result.v1'||r.law_id!=='nabt.licensed-inference.v1'||!statuses.includes(r.status)||r.status!==report.status||typeof r.verified!=='boolean'||typeof r.native_checked!=='boolean'||r.all_arabic_complete!==false||r.world_truth_established!==false||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
-    if(r.verified&&(!r.native_checked||r.all_readings_complete!==true||r.closures_checked!==true||r.authority!=='SOURCE_RELATIVE_CONSEQUENCE'))fail('REPORT_AUTHORITY_INVALID',502);
+    if(!r||r.schema!=='nabt.licensed-inference-result.v1'||r.law_id!=='nabt.licensed-inference.v1'||!statuses.includes(r.status)||r.status!==report.status||['verified','native_checked','all_readings_complete','closures_checked'].some(k=>typeof r[k]!=='boolean')||r.all_arabic_complete!==false||r.world_truth_established!==false||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
+    const measured=['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT'];
+    if(r.verified&&(!r.native_checked||!r.all_readings_complete||!r.closures_checked||r.authority!=='SOURCE_RELATIVE_CONSEQUENCE'||![...measured,'UNKNOWN'].includes(r.status)))fail('REPORT_AUTHORITY_INVALID',502);
+    if(!r.verified&&(r.native_checked||r.all_readings_complete||r.closures_checked||r.authority!=='UNVERIFIED_PROPOSAL'||measured.includes(r.status)))fail('REPORT_AUTHORITY_INVALID',502);
   }else{
     const b=report.benchmark,summary=b?.summary;
     if(!b||!summary||!Array.isArray(b.rows)||!['BENCHMARK_COMPLETE','BENCHMARK_CONTRACT_FAILURE'].includes(report.status)||report.result||typeof b.contract_gate?.passed!=='boolean'||(report.status==='BENCHMARK_COMPLETE')!==b.contract_gate.passed)fail('REPORT_AUTHORITY_INVALID',502);
@@ -117,13 +134,43 @@ export function validateReport(report,expected){
   }
   return report;
 }
+
+export function validateTestimony(t,status){
+  const deny=()=>fail('REPORT_AUTHORITY_INVALID',502);
+  if(!t||t.schema!=='nabt.lexical-testimony.v1'||t.law_id!=='nabt.lexical-denotation.v1'||t.status!==status||!Array.isArray(t.rows)||typeof t.native_checked!=='boolean'||typeof t.all_installed_readings_retained!=='boolean'||typeof t.app_disclaimer!=='string'||!t.app_disclaimer.trim())deny();
+  for(const key of ['world_truth_established','all_arabic_complete','intended_sense_established','historical_authenticity_established'])if(t[key]!==false)deny();
+  if(!t.native_checked){
+    if(!['INVALID_INPUT','SOURCE_UNAVAILABLE','VERIFICATION_UNAVAILABLE','RESOURCE_EXHAUSTED'].includes(status)||t.authority!=='UNVERIFIED'||t.rows.length||t.all_installed_readings_retained||t.native_result)deny();
+    return t;
+  }
+  if(!['CONDITIONAL_INTERPRETATIONS','UNMEASURED_ROOT'].includes(status)||t.authority!=='CONDITIONAL_INTERPRETATION_ONLY'||t.all_installed_readings_retained!==(status==='CONDITIONAL_INTERPRETATIONS')||(t.rows.length>0)!==t.all_installed_readings_retained)deny();
+  const n=t.native_result,q=t.native_request;
+  if(!n||!q||n.status!==status||n.authority!==t.authority||n.world_truth_asserted!==false||n.all_arabic_senses_enumerated!==false||n.complete_installed_proposal!==t.all_installed_readings_retained||!Array.isArray(n.rows)||n.rows.length!==t.rows.length||!Array.isArray(t.common_indications)||JSON.stringify(t.common_indications)!==JSON.stringify(n.common_indications)||q.root!==t.entry||JSON.stringify(q.target)!==JSON.stringify(t.target))deny();
+  if(!/^[a-f0-9]{64}$/.test(t.native_sha256??'')||!/^[a-f0-9]{64}$/.test(t.catalogue_sha256??''))deny();
+  const ids=t.rows.map(r=>r.sense_id);
+  if(new Set(ids).size!==ids.length||JSON.stringify(ids)!==JSON.stringify(q.proposed_ids))deny();
+  const sourceCheck=s=>{
+    const c=s?.citation;
+    if(!s||s.transmission_type!=='UNASSESSED'||s.historical_authenticity_established!==false||s.retained_catalogue_matched!==true||typeof s.source_file_replayed!=='boolean'||s.source_check!==(s.source_file_replayed?'RETAINED_SOURCE_BYTES_REPLAYED':'RETAINED_QUOTATION_ONLY')||!c||!Number.isSafeInteger(c.start_byte)||!Number.isSafeInteger(c.end_byte)||c.start_byte<0||c.end_byte<=c.start_byte||typeof c.quotation!=='string'||encoder.encode(c.quotation).length!==c.end_byte-c.start_byte)deny();
+  };
+  for(let i=0;i<t.rows.length;i++){
+    const row=t.rows[i],native=n.rows[i];sourceCheck(row.testimony);
+    if(row.causal_or_legal_conclusion_established!==false||row.interpretation_status!=='AUTHORED_NOT_INDEPENDENTLY_ADJUDICATED'||!Array.isArray(row.commitment_conditions)||!native?.sense||native.sense.id!==row.sense_id||JSON.stringify(native.sense.components)!==JSON.stringify(row.components)||['work','revision','source_sha256','start_byte','end_byte','quotation'].some(k=>native.sense.citation?.[k]!==row.testimony.citation[k])||!Array.isArray(native.indications))deny();
+    for(const k of ['mutabaqa','tadammun','iltizam'])if(row.indications?.[k]!==native.indications.includes(k))deny();
+    for(const c of row.commitment_conditions){if(c.relation!=='MENTAL_NECESSITY_PREMISE')deny();sourceCheck(c.source);}
+  }
+  return t;
+}
 async function downloadResult(env,artifact){
   if(!Number.isSafeInteger(artifact.id)||artifact.expired||artifact.size_in_bytes>4*1024*1024||!/^sha256:[a-f0-9]{64}$/.test(artifact.digest??''))fail('ARTIFACT_UNAVAILABLE',502);
   const redirect=await gh(env,'/actions/artifacts/'+artifact.id+'/zip');
   if(redirect.status!==302)fail('ARTIFACT_REDIRECT_INVALID',502);
   let url;try{url=new URL(redirect.headers.get('Location'));}catch{fail('ARTIFACT_REDIRECT_INVALID',502);}
   if(url.protocol!=='https:'||url.username||url.password||!(url.hostname.endsWith('.blob.core.windows.net')||url.hostname.endsWith('.githubusercontent.com')))fail('ARTIFACT_REDIRECT_INVALID',502);
-  const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(20000)});
+  // Workers supports manual/follow, not Fetch's error mode. Keep redirects
+  // forbidden explicitly, and never forward GitHub credentials to the CDN.
+  const response=await fetch(url,{redirect:'manual',signal:AbortSignal.timeout(20000)});
+  if(response.status>=300&&response.status<400)fail('ARTIFACT_REDIRECT_INVALID',502);
   if(!response.ok)fail('ARTIFACT_UNAVAILABLE',502);
   const bytes=await boundedBytes(response.body,4*1024*1024);
   if('sha256:'+await sha(bytes)!==artifact.digest)fail('ARTIFACT_DIGEST_FAILED',502);
@@ -152,7 +199,7 @@ export async function route(request,env,assets){
   try{
     const url=new URL(request.url);
     if(request.method==='GET'&&url.pathname in assets){const asset=assets[url.pathname];return new Response(asset.body,{headers:{...securityHeaders,'Content-Type':asset.type,'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'"}});}
-    if(url.pathname==='/api/config'&&request.method==='GET')return json({ready:configured(env),configuration_status:env.NABT_EXECUTION_ENABLED==='true'?'configured_or_missing_fields':'awaiting_transport_authorization',code_sha:SHA.test(env.NABT_CODE_SHA??'')?env.NABT_CODE_SHA:null,branch:'codex/dynamic-proof-lab',law:'nabt.licensed-inference.v1',limits:{...LIMITS,source_bytes:16384,query_bytes:4096},baseline:{total:38,passed:37,failed:1,unmeasured:0,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',scope:'لقطة التقييم المستقل المثبتة للنطاق المحدود؛ ليست قياسًا لكل العربية.'},scope_note:'الاكتمال مقيد بالقانون والنطاق المعلنين. اكتمال العربية كلها وصحة المطابقة للواقع غير مثبتين.'});
+    if(url.pathname==='/api/config'&&request.method==='GET')return json({ready:configured(env),configuration_status:env.NABT_EXECUTION_ENABLED==='true'?'configured_or_missing_fields':'awaiting_transport_authorization',code_sha:SHA.test(env.NABT_CODE_SHA??'')?env.NABT_CODE_SHA:null,branch:['codex/dynamic-proof-lab','codex/attested-testimony-live'].includes(env.NABT_REF)?env.NABT_REF:null,law:'nabt.licensed-inference.v1',limits:{...LIMITS,source_bytes:16384,query_bytes:4096},baseline:{total:38,passed:37,failed:1,unmeasured:0,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',scope:'لقطة التقييم المستقل المثبتة للنطاق المحدود؛ ليست قياسًا لكل العربية.'},scope_note:'الاكتمال مقيد بالقانون والنطاق المعلنين. اكتمال العربية كلها وصحة المطابقة للواقع غير مثبتين.'});
     if(url.pathname==='/api/runs'){
       if(!configured(env))fail('BACKEND_NOT_CONFIGURED',503);
       // Access is restricted to the owner by Sites dispatch; service access uses the same boundary.

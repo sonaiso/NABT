@@ -29,7 +29,7 @@ function makeZip(value,{method=0,name='result.json',raw,centralMutator,localMuta
   return Buffer.concat([local,packed,central,end]);
 }
 function completedRun(extra={}){return {id:123,display_title:'NABT Lab · '+ID,head_sha:CODE,event:'workflow_dispatch',head_branch:ENV.NABT_REF,path:'.github/workflows/proof-lab.yml',status:'completed',conclusion:'success',created_at:new Date().toISOString(),...extra};}
-async function pollWith({run=completedRun(),artifactExtra={},zip,reportValue=report(),redirect='https://proof.blob.core.windows.net/result.zip',reportBinding=descriptor()}={},inspect){
+async function pollWith({run=completedRun(),artifactExtra={},zip,reportValue=report(),redirect='https://proof.blob.core.windows.net/result.zip',reportBinding=descriptor(),downloadStatus=200}={},inspect){
   zip ??= makeZip(await encryptEnvelope(JSON.stringify(reportValue),TRANSPORT,reportBinding.request_id));
   const handle=await signHandle(reportBinding,KEY);let downloaded=false;
   const result=await mockedFetch(async(url,options={})=>{
@@ -37,7 +37,7 @@ async function pollWith({run=completedRun(),artifactExtra={},zip,reportValue=rep
     if(url.includes('/workflows/proof-lab.yml/runs?'))return response({workflow_runs:Array.isArray(run)?run:[run]});
     if(url.endsWith('/runs/123/artifacts?per_page=100'))return response({artifacts:[{id:321,name:'nabt-lab-'+ID,expired:false,size_in_bytes:zip.length,digest:'sha256:'+digest(zip),workflow_run:{id:123,head_sha:CODE},...artifactExtra}]});
     if(url.endsWith('/artifacts/321/zip'))return new Response(null,{status:302,headers:{Location:redirect}});
-    if(url===redirect){downloaded=true;return new Response(zip);}
+    if(url===redirect){downloaded=true;return new Response(zip,{status:downloadStatus,headers:downloadStatus>=300?{Location:'https://unapproved.example/result.zip'}:{}});}
     assert.fail('Unexpected URL '+url);
   },()=>route(new Request('https://lab.example/api/runs?handle='+encodeURIComponent(handle)),ENV,{}));
   return {response:result,body:await result.json(),downloaded};
@@ -168,10 +168,29 @@ test('artifact binding rejects other run, wrong digest and expired artifacts',as
 });
 test('archive redirects cannot target arbitrary hosts or forward authorization',async()=>{
   for(const redirect of ['https://evil.example/result.zip','http://proof.blob.core.windows.net/result.zip','https://user:pass@proof.blob.core.windows.net/result.zip']){const {body,downloaded}=await pollWith({redirect});assert.equal(body.error,'ARTIFACT_REDIRECT_INVALID');assert.equal(downloaded,false);}
-  let downloadHeaders;const {body}=await pollWith({},(url,options)=>{if(url.startsWith('https://proof.blob.core.windows.net')){downloadHeaders=options.headers;assert.equal(options.redirect,'error');}else{assert.equal(options.headers.Authorization,'Bearer '+ENV.NABT_GITHUB_TOKEN);assert.equal(options.redirect,'manual');}});assert.equal(downloadHeaders,undefined);assert.equal(body.status,'completed');assert.equal(body.report.result.verified,true);
+  let downloadHeaders;const {body}=await pollWith({},(url,options)=>{if(url.startsWith('https://proof.blob.core.windows.net')){downloadHeaders=options.headers;assert.equal(options.redirect,'manual');}else{assert.equal(options.headers.Authorization,'Bearer '+ENV.NABT_GITHUB_TOKEN);assert.equal(options.redirect,'manual');}});assert.equal(downloadHeaders,undefined);assert.equal(body.status,'completed');assert.equal(body.report.result.verified,true);
 });
 test('artifact payload hash mismatch is rejected after successful authenticated download',async()=>{
   const {response:res,body}=await pollWith({reportValue:report({payload_sha256:'0'.repeat(64)})});assert.equal(res.status,502);assert.equal(body.error,'REPORT_BINDING_FAILED');
+});
+test('completed receipt works when runtime rejects unsupported redirect error mode',async()=>{
+  const {response:res,body}=await pollWith({},(_url,options)=>{
+    // Cloudflare Request supports follow/manual; Node accepts an extra error mode.
+    if(options.redirect==='error')throw new TypeError('unsupported redirect mode');
+  });
+  assert.equal(res.status,200);assert.equal(body.status,'completed');
+  assert.equal(body.report.result.native_checked,true);
+});
+test('artifact CDN redirects are refused without a second fetch or credential forwarding',async()=>{
+  for(const downloadStatus of [301,302,303,307,308]){
+    const calls=[];
+    const {response:res,body}=await pollWith({downloadStatus},(url,options)=>calls.push([url,options]));
+    assert.equal(res.status,502);assert.equal(body.error,'ARTIFACT_REDIRECT_INVALID');
+    assert.equal(calls.filter(([url])=>url.startsWith('https://proof.blob.core.windows.net')).length,1);
+    assert.ok(calls.every(([url])=>!url.includes('unapproved.example')));
+    assert.equal(calls.at(-1)[1].headers,undefined);
+    assert.equal(calls.at(-1)[1].redirect,'manual');
+  }
 });
 test('API and asset responses have no-store, MIME and script-origin protections',async()=>{
   const res=await route(new Request('https://lab.example/'),ENV,{'/':{body:'hello',type:'text/html; charset=utf-8'}});assert.equal(await res.text(),'hello');assert.equal(res.headers.get('Cache-Control'),'no-store');assert.equal(res.headers.get('X-Content-Type-Options'),'nosniff');assert.ok(res.headers.get('Content-Security-Policy').includes("script-src 'self'"));
@@ -195,6 +214,23 @@ test('report success must contain typed checked-result flags and coherent status
   for(const value of [null,undefined,[],{}])assert.throws(()=>validateReport(report({result:value}),expected));
   for(const patch of [{verified:'true'},{verified:1},{native_checked:'true'},{closures_checked:false},{all_readings_complete:false},{authority:'UNVERIFIED_PROPOSAL'},{status:'INVENTED_SUCCESS'}])assert.throws(()=>validateReport(report({result:successResult(patch)}),expected));
   assert.throws(()=>validateReport(report({status:'UNKNOWN',result:successResult()}),expected));
+});
+
+test('unverified live receipts cannot retain checked flags, authority or measured conclusions',()=>{
+  const expected=descriptor();
+  const base={status:'UNKNOWN',verified:false,native_checked:false,all_readings_complete:false,closures_checked:false,authority:'UNVERIFIED_PROPOSAL'};
+  assert.equal(validateReport(report({status:'UNKNOWN',result:successResult(base)}),expected).result.verified,false);
+  for(const patch of [{native_checked:true},{all_readings_complete:true},{closures_checked:true},{authority:'SOURCE_RELATIVE_CONSEQUENCE'},{all_readings_complete:null},{closures_checked:undefined}])
+    assert.throws(()=>validateReport(report({status:'UNKNOWN',result:successResult({...base,...patch})}),expected),expectCode('REPORT_AUTHORITY_INVALID'));
+  for(const status of ['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT'])
+    assert.throws(()=>validateReport(report({status,result:successResult({...base,status})}),expected),expectCode('REPORT_AUTHORITY_INVALID'));
+});
+
+test('checked UNKNOWN remains valid but operational failure cannot claim checked success',()=>{
+  const expected=descriptor();
+  assert.equal(validateReport(report({status:'UNKNOWN',result:successResult({status:'UNKNOWN'})}),expected).result.verified,true);
+  for(const status of ['INVALID_INPUT','RESOURCE_EXHAUSTED','VERIFICATION_UNAVAILABLE','SOURCE_UNAVAILABLE'])
+    assert.throws(()=>validateReport(report({status,result:successResult({status})}),expected),expectCode('REPORT_AUTHORITY_INVALID'));
 });
 
 test('AES-GCM envelopes hide plaintext, use fresh nonces and preserve exact UTF-8',async()=>{
@@ -251,4 +287,9 @@ test('structured execution failures cannot carry a simultaneous proof result',()
 test('private configuration never returns transport or signing secrets',async()=>{
   const res=await route(new Request('https://lab.example/api/config'),ENV,{});const text=await res.text();
   for(const secret of [TRANSPORT,KEY,ENV.NABT_GITHUB_TOKEN])assert.ok(!text.includes(secret));
+});
+
+test('public configuration identifies the actual pinned testimony branch, never the old default',async()=>{
+  const res=await route(new Request('https://lab.example/api/config'),{...ENV,NABT_REF:'codex/attested-testimony-live'},{});
+  const c=await res.json();assert.equal(c.ready,true);assert.equal(c.branch,'codex/attested-testimony-live');assert.equal(c.code_sha,CODE);
 });

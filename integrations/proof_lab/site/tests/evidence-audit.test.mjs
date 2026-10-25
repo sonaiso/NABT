@@ -355,3 +355,152 @@ test('declared dictionary hash conflict fails link consistency but does not clai
   assert.equal(result.identity.files_retrieved, 0);
   assert.equal(result.identity.source_verified, false);
 });
+
+// PR36 review regression: examine the JSON numeric spelling before Number can
+// round a fractional/underflowed value into an apparently valid integer.
+test('lossy fractional and underflowed tokens cannot enter the parser as exact integers', () => {
+  for (const spelling of ['16.000000000000001', '0.99999999999999999',
+    '9007199254740990.5', '1e-1000', '-1e-1000', '1.0000000000000001e0']) {
+    assert.throws(() => api.parse('{"n":' + spelling + '}'), undefined, spelling);
+  }
+  assert.equal(api.parse('{"n":16}').n, 16);
+  assert.equal(api.parse('{"n":16.0}').n, 16);
+  assert.equal(api.parse('{"n":1.6e1}').n, 16);
+  assert.equal(api.parse('{"n":0.1}').n, 0.1, 'ordinary decimal round-trip values remain valid');
+  assert.equal(api.parse('{"n":9007199254740991}').n, 9007199254740991);
+  assert.equal(api.parse('{"n":1.25}').n, 1.25, 'ordinary noninteger data remains representable');
+});
+
+test('raw numeric spellings cannot forge codepoint counts, layer IDs, exit codes or cell IDs', async () => {
+  const raw = JSON.stringify(fixture());
+  for (const [before, after] of [
+    ['"codepoints":16', '"codepoints":16.000000000000001'],
+    ['"tabaqa":1', '"tabaqa":0.99999999999999999'],
+    ['"rc":0', '"rc":1e-1000'],
+    ['"khalaya":[92,4,104]', '"khalaya":[92.000000000000001,4,104]'],
+  ]) {
+    assert(raw.includes(before), before);
+    await assert.rejects(audit(raw.replace(before, after)), undefined, after);
+  }
+});
+
+function failureReceipt(mode, status, error) {
+  // Producer: tools/proof_lab.py run_payload; these terminal failures have no
+  // inference result or benchmark payload. They are not zero-case successes.
+  return { schema: 'nabt.proof-lab-result.v1', mode, status, error,
+    code_sha: '0'.repeat(40), native_sha256: null, duration_ms: 0,
+    all_arabic_complete: false, world_truth_established: false };
+}
+
+test('valid benchmark operational failure receipts retain status and error without inventing rows', async () => {
+  for (const [status, error] of [['VERIFICATION_UNAVAILABLE','NATIVE_CHECKER_MISSING'],
+    ['EXECUTION_FAILED','INTERNAL_EXECUTION_FAILURE'], ['RESOURCE_EXHAUSTED','RESULT_BYTE_LIMIT'],
+    ['INVALID_INPUT','INVALID_UTF8_OR_JSON']]) {
+    const result = await audit(failureReceipt('benchmark', status, error));
+    assert.equal(result.kind, 'nabt');
+    assert.equal(result.declared_status, status);
+    assert.equal(result.benchmark, undefined);
+    assert.equal(result.input, null);
+    assert.notEqual(result.metrics.benchmark_cases, 0, 'failure is not a measured empty benchmark');
+    assert(result.claims.some(claim => JSON.stringify(claim.value).includes(error)), 'error remains inspectable');
+    assert.equal(result.authority.lean_replayed, false);
+    assert.equal(errors(result).length, 0, 'operational failure itself is not inconsistent data');
+  }
+});
+
+test('success without a benchmark payload and malformed failure errors are not valid failure receipts', async () => {
+  await assert.rejects(audit(failureReceipt('benchmark', 'BENCHMARK_COMPLETE', 'NATIVE_CHECKER_MISSING')));
+  await assert.rejects(audit(failureReceipt('benchmark', 'EXECUTION_FAILED', { code: 'FAIL' })));
+});
+
+test('false verification cannot coexist with measured inference conclusions', async () => {
+  for (const status of ['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT']) {
+    const record = nabtFixture(); record.status = status;
+    Object.assign(record.result, { status, verified: false, native_checked: false,
+      all_readings_complete: false, closures_checked: false, authority: 'UNVERIFIED_PROPOSAL' });
+    const result = await audit(record);
+    assert(errors(result).length > 0, status + ' must flag the inconsistent false verification');
+    assert.equal(result.declared_verification.verified, false);
+    assert.equal(result.authority.lean_replayed, false);
+  }
+});
+
+test('false verification cannot retain any true checked flag or source-consequence authority', async () => {
+  for (const field of ['native_checked','all_readings_complete','closures_checked','authority']) {
+    const record = nabtFixture(); record.status = 'UNKNOWN';
+    Object.assign(record.result, { status: 'UNKNOWN', verified: false, native_checked: false,
+      all_readings_complete: false, closures_checked: false, authority: 'UNVERIFIED_PROPOSAL' });
+    record.result[field] = field === 'authority' ? 'SOURCE_RELATIVE_CONSEQUENCE' : true;
+    assert(errors(await audit(record)).length > 0, field);
+  }
+});
+
+test('valid unverified UNKNOWN and independently checked UNKNOWN remain different consistent declarations', async () => {
+  for (const verified of [false, true]) {
+    const record = nabtFixture(); record.status = 'UNKNOWN';
+    Object.assign(record.result, { status: 'UNKNOWN', verified, native_checked: verified,
+      all_readings_complete: verified, closures_checked: verified,
+      authority: verified ? 'SOURCE_RELATIVE_CONSEQUENCE' : 'UNVERIFIED_PROPOSAL' });
+    const result = await audit(record);
+    assert.equal(errors(result).length, 0);
+    assert.equal(result.declared_verification.verified, verified);
+    assert.equal(result.authority.lean_replayed, false);
+  }
+});
+
+test('number token budget accepts the 128-character boundary and rejects one more before conversion', () => {
+  assert.equal(api.limits.maxNumber, 128);
+  const exactZero = '0.' + '0'.repeat(126);
+  assert.equal(exactZero.length, 128);
+  assert.equal(api.parse('{"n":' + exactZero + '}').n, 0);
+  assert.throws(() => api.parse('{"n":' + exactZero + '0}'), error => error.code === 'NUMBER_LIMIT');
+  assert.throws(() => api.parse('{"n":0e' + '9'.repeat(127) + '}'), error => error.code === 'NUMBER_LIMIT');
+});
+
+test('early invalid-input receipt with unknown mode remains an unmeasured operational failure', async () => {
+  const result = await audit({ schema: 'nabt.proof-lab-result.v1', mode: null, status: 'INVALID_INPUT',
+    error: 'INVALID_REQUEST_ID', request_id: null, code_sha: null, native_sha256: null,
+    all_arabic_complete: false, world_truth_established: false });
+  assert.equal(result.declared_status, 'INVALID_INPUT');
+  assert.equal(result.operational_failure.measurements_available, false);
+  assert.equal(result.metrics.benchmark_cases, undefined);
+  assert.equal(result.input, null);
+  assert.equal(result.authority.lean_replayed, false);
+  assert(result.claims.some(claim => claim.value === 'INVALID_REQUEST_ID'));
+  assert.equal(errors(result).length, 0);
+  await assert.rejects(audit({ schema: 'nabt.proof-lab-result.v1', mode: null,
+    status: 'EXECUTION_FAILED', error: 'INTERNAL_EXECUTION_FAILURE' }));
+});
+
+test('explicit unrecognized inference status cannot satisfy the verification declaration contract', async () => {
+  const record = nabtFixture(); record.status = 'UNRECOGNIZED';
+  Object.assign(record.result, { status: 'UNRECOGNIZED', verified: false, native_checked: false,
+    all_readings_complete: false, closures_checked: false, authority: 'UNVERIFIED_PROPOSAL' });
+  const result = await audit(record);
+  assert(errors(result).length > 0);
+  assert.equal(result.checks.find(item => item.id === 'NABT_VERIFICATION_CONTRACT').status, 'fail');
+  assert.equal(result.authority.lean_replayed, false);
+});
+
+test('wrapper and result status mismatch is visible without hiding either declared status', async () => {
+  const record = nabtFixture(); record.status = 'REFUTED';
+  const result = await audit(record);
+  assert(errors(result).length > 0);
+  assert(result.checks.some(item => item.status === 'fail'));
+  assert.equal(result.raw_record.status, 'REFUTED');
+  assert.equal(result.raw_record.result.status, 'SUPPORTED');
+  assert.equal(result.authority.lean_replayed, false);
+});
+
+test('missing verification metadata stays unknown rather than being reported as a contradiction', async () => {
+  for (const missing of ['status','authority','verified','native_checked','all_readings_complete','closures_checked']) {
+    const record = nabtFixture();
+    record.result.authority = 'SOURCE_RELATIVE_CONSEQUENCE';
+    delete record.result[missing];
+    if (missing === 'status') delete record.status;
+    const result = await audit(record);
+    assert.equal(errors(result).length, 0, missing);
+    assert.equal(result.checks.find(item => item.id === 'NABT_VERIFICATION_CONTRACT').status, 'unknown', missing);
+    assert.equal(result.authority.lean_replayed, false);
+  }
+});

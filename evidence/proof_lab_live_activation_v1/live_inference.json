@@ -1,0 +1,557 @@
+{
+  "status": "completed",
+  "run_url": "https://github.com/sonaiso/NABT/actions/runs/40226370128",
+  "artifact_digest": "sha256:a4b8b4192e795b45a9a72cc886bc4b2286f22d3db1e04d9aa43464ae00e108d0",
+  "report": {
+    "schema": "nabt.proof-lab-result.v1",
+    "request_id": "5b219070-aa54-460e-aae7-dac1e9b00159",
+    "payload_sha256": "f532798c3a0bbb2fe7c855dc149cc0530e31e21b931047d2994c7706fac219a8",
+    "code_sha": "007fcfbf316b9d27fbdea6e92dcae1f584ae6978",
+    "native_sha256": "4f6a5ac6c4005bfd8928b2d855b05b54844cc302699560ebab3986a31fa5a267",
+    "generated_at_utc": "2026-10-25T19:31:50.469501+00:00",
+    "duration_ms": 254,
+    "mode": "inference",
+    "status": "SUPPORTED",
+    "all_arabic_complete": false,
+    "world_truth_established": false,
+    "scope": {
+      "law_id": "nabt.licensed-inference.v1",
+      "accepted_language": "nabt.explicit-subject-active.v1",
+      "claim": "Source-relative inference in the installed bounded grammar",
+      "whole_arabic": "NOT_PROVED",
+      "external_world": "NOT_VERIFIED",
+      "benchmark_denominator": "38 frozen diagnostic cases, not all Arabic"
+    },
+    "runner_sha256": "cdeddf5b74178710b7dec6ea8e8478e3f71cb438632bd73e0bc55d72ca6d8ce1",
+    "runtime_sha256": "7ad5780def228018230a6153dc59df31c9fd685480056410898de62ebde32eea",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "result": {
+      "schema": "nabt.licensed-inference-result.v1",
+      "law_id": "nabt.licensed-inference.v1",
+      "authority": "SOURCE_RELATIVE_CONSEQUENCE",
+      "verified": true,
+      "native_checked": true,
+      "accepted_language": "nabt.explicit-subject-active.v1",
+      "reading_scope": "all readings of the installed finite active-voice grammar",
+      "assumptions": [
+        "fixed active-voice lexical interpretation",
+        "one abstract discourse episode",
+        "symbolic addressee and spatial frame",
+        "lexical objects remain symbolic tokens",
+        "source assertions are premises, not world observations"
+      ],
+      "all_readings_complete": true,
+      "closures_checked": true,
+      "all_arabic_complete": false,
+      "world_truth_established": false,
+      "premise_world_truth_established": false,
+      "source_interpretation_historically_proved": false,
+      "readings": [
+        {
+          "clauses": [
+            {
+              "body": [
+                {
+                  "arguments": [
+                    "زيد",
+                    "الحق"
+                  ],
+                  "positive": true,
+                  "predicate": "عرف"
+                }
+              ],
+              "head": {
+                "arguments": [
+                  "زيد"
+                ],
+                "positive": true,
+                "predicate": "سار"
+              },
+              "kind": "rule"
+            },
+            {
+              "atom": {
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true,
+                "predicate": "عرف"
+              },
+              "kind": "fact"
+            }
+          ],
+          "clean_negative": false,
+          "clean_positive": true,
+          "negative": false,
+          "positive": true,
+          "query": {
+            "arguments": [
+              "زيد"
+            ],
+            "positive": true,
+            "predicate": "سار"
+          },
+          "status": "SUPPORTED"
+        }
+      ],
+      "closure_records": [
+        {
+          "clauses": [
+            {
+              "kind": "rule",
+              "body": [
+                {
+                  "predicate": "عرف",
+                  "arguments": [
+                    "زيد",
+                    "الحق"
+                  ],
+                  "positive": true
+                }
+              ],
+              "head": {
+                "predicate": "سار",
+                "arguments": [
+                  "زيد"
+                ],
+                "positive": true
+              }
+            },
+            {
+              "kind": "fact",
+              "atom": {
+                "predicate": "عرف",
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true
+              }
+            }
+          ],
+          "query": {
+            "predicate": "سار",
+            "arguments": [
+              "زيد"
+            ],
+            "positive": true
+          },
+          "steps": [
+            {
+              "kind": "fact",
+              "index": 0
+            },
+            {
+              "kind": "rule",
+              "index": 0
+            }
+          ],
+          "known": [
+            {
+              "predicate": "عرف",
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "سار",
+              "arguments": [
+                "زيد"
+              ],
+              "positive": true
+            }
+          ],
+          "clean_steps": [
+            {
+              "kind": "fact",
+              "index": 0
+            },
+            {
+              "kind": "rule",
+              "index": 0
+            }
+          ],
+          "clean_known": [
+            {
+              "predicate": "عرف",
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true
+            },
+            {
+              "predicate": "سار",
+              "arguments": [
+                "زيد"
+              ],
+              "positive": true
+            }
+          ]
+        }
+      ],
+      "unclassified_spans": [],
+      "source": {
+        "source_id": "proof-lab:5b219070-aa54-460e-aae7-dac1e9b00159",
+        "revision": "007fcfbf316b9d27fbdea6e92dcae1f584ae6978",
+        "raw_text": "إن عرف زيد الحق سار زيد. عرف زيد الحق.",
+        "bytes": 66,
+        "sha256": "8385a344d46287b83b7a1f86522ec01281ede2b9b5524972351662df5be772db"
+      },
+      "query": {
+        "raw_text": "هل سار زيد؟",
+        "bytes": 20,
+        "sha256": "2ca9e42714ccb394379f874075423ed51aa7b004240afa2581c1ca440d215fce"
+      },
+      "binding": {
+        "source_id": "proof-lab:5b219070-aa54-460e-aae7-dac1e9b00159",
+        "revision": "007fcfbf316b9d27fbdea6e92dcae1f584ae6978",
+        "scope": "proof-lab-single-discourse",
+        "time": "unspecified",
+        "native_scope": "{\"scope\":\"proof-lab-single-discourse\",\"time\":\"unspecified\"}",
+        "authority": "EXPLICIT_DISCOURSE_BINDING"
+      },
+      "source_review_sha256": "e4da54a815ecb4fbce4ba2365177aa9ae588d3e8c0ab8c536452702e9352b79d",
+      "source_segments": [
+        {
+          "span": {
+            "start_byte": 0,
+            "end_byte": 41,
+            "sha256": "31011436d3c0f0c90636a340558da08e3335a19084353a9ddd1ac277c8a9674d",
+            "raw_text": "إن عرف زيد الحق سار زيد"
+          },
+          "tokens": [
+            {
+              "span": {
+                "start_byte": 0,
+                "end_byte": 4,
+                "sha256": "1287d1f6f1310727b2978bdf61de7379f3b6032df5dd52f4d5b2bc6aeed608d2",
+                "raw_text": "إن"
+              },
+              "canonical": "إن"
+            },
+            {
+              "span": {
+                "start_byte": 5,
+                "end_byte": 11,
+                "sha256": "60428e6ba944cec9b71afe8cee81ba3e72bb03f7c98eebd0a0230ad63b509d45",
+                "raw_text": "عرف"
+              },
+              "canonical": "عرف"
+            },
+            {
+              "span": {
+                "start_byte": 12,
+                "end_byte": 18,
+                "sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159",
+                "raw_text": "زيد"
+              },
+              "canonical": "زيد"
+            },
+            {
+              "span": {
+                "start_byte": 19,
+                "end_byte": 27,
+                "sha256": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+                "raw_text": "الحق"
+              },
+              "canonical": "الحق"
+            },
+            {
+              "span": {
+                "start_byte": 28,
+                "end_byte": 34,
+                "sha256": "5e481d08cefdba4bd2f8e72350cee89068c68e9ff00d92f3dc8214140a1f7eaa",
+                "raw_text": "سار"
+              },
+              "canonical": "سار"
+            },
+            {
+              "span": {
+                "start_byte": 35,
+                "end_byte": 41,
+                "sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159",
+                "raw_text": "زيد"
+              },
+              "canonical": "زيد"
+            }
+          ],
+          "proposal": {
+            "kind": "rule",
+            "body": [
+              {
+                "predicate": "عرف",
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true
+              }
+            ],
+            "head": {
+              "predicate": "سار",
+              "arguments": [
+                "زيد"
+              ],
+              "positive": true
+            }
+          },
+          "status": "PROPOSED",
+          "reason": null
+        },
+        {
+          "span": {
+            "start_byte": 42,
+            "end_byte": 65,
+            "sha256": "1fe4878bed4850b2bc96026ccae6ffb94c31c18b39a14c04694eadacd4a63ca9",
+            "raw_text": " عرف زيد الحق"
+          },
+          "tokens": [
+            {
+              "span": {
+                "start_byte": 43,
+                "end_byte": 49,
+                "sha256": "60428e6ba944cec9b71afe8cee81ba3e72bb03f7c98eebd0a0230ad63b509d45",
+                "raw_text": "عرف"
+              },
+              "canonical": "عرف"
+            },
+            {
+              "span": {
+                "start_byte": 50,
+                "end_byte": 56,
+                "sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159",
+                "raw_text": "زيد"
+              },
+              "canonical": "زيد"
+            },
+            {
+              "span": {
+                "start_byte": 57,
+                "end_byte": 65,
+                "sha256": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+                "raw_text": "الحق"
+              },
+              "canonical": "الحق"
+            }
+          ],
+          "proposal": {
+            "kind": "fact",
+            "atom": {
+              "predicate": "عرف",
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true
+            }
+          },
+          "status": "PROPOSED",
+          "reason": null
+        }
+      ],
+      "parse_status": "CHECKED_COMPLETE_READING",
+      "parse_reason": null,
+      "proposal": {
+        "law_id": "nabt.licensed-inference.v1",
+        "source": {
+          "identity": "proof-lab:5b219070-aa54-460e-aae7-dac1e9b00159",
+          "revision": "007fcfbf316b9d27fbdea6e92dcae1f584ae6978",
+          "scope": "{\"scope\":\"proof-lab-single-discourse\",\"time\":\"unspecified\"}",
+          "text": "إن عرف زيد الحق سار زيد. عرف زيد الحق."
+        },
+        "query_text": "هل سار زيد؟",
+        "readings": [
+          {
+            "clauses": [
+              {
+                "kind": "rule",
+                "body": [
+                  {
+                    "predicate": "عرف",
+                    "arguments": [
+                      "زيد",
+                      "الحق"
+                    ],
+                    "positive": true
+                  }
+                ],
+                "head": {
+                  "predicate": "سار",
+                  "arguments": [
+                    "زيد"
+                  ],
+                  "positive": true
+                }
+              },
+              {
+                "kind": "fact",
+                "atom": {
+                  "predicate": "عرف",
+                  "arguments": [
+                    "زيد",
+                    "الحق"
+                  ],
+                  "positive": true
+                }
+              }
+            ],
+            "query": {
+              "predicate": "سار",
+              "arguments": [
+                "زيد"
+              ],
+              "positive": true
+            },
+            "steps": [
+              {
+                "kind": "fact",
+                "index": 0
+              },
+              {
+                "kind": "rule",
+                "index": 0
+              }
+            ],
+            "known": [
+              {
+                "predicate": "عرف",
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true
+              },
+              {
+                "predicate": "سار",
+                "arguments": [
+                  "زيد"
+                ],
+                "positive": true
+              }
+            ],
+            "clean_steps": [
+              {
+                "kind": "fact",
+                "index": 0
+              },
+              {
+                "kind": "rule",
+                "index": 0
+              }
+            ],
+            "clean_known": [
+              {
+                "predicate": "عرف",
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true
+              },
+              {
+                "predicate": "سار",
+                "arguments": [
+                  "زيد"
+                ],
+                "positive": true
+              }
+            ]
+          }
+        ]
+      },
+      "status": "SUPPORTED",
+      "aggregate": {
+        "credulous_clean_negative": false,
+        "credulous_clean_positive": true,
+        "credulous_negative": false,
+        "credulous_positive": true,
+        "cross_reading_opposition": false,
+        "skeptical_clean_negative": false,
+        "skeptical_clean_positive": true,
+        "skeptical_negative": false,
+        "skeptical_positive": true,
+        "within_reading_conflict": false
+      },
+      "native_result": {
+        "aggregate": {
+          "credulous_clean_negative": false,
+          "credulous_clean_positive": true,
+          "credulous_negative": false,
+          "credulous_positive": true,
+          "cross_reading_opposition": false,
+          "skeptical_clean_negative": false,
+          "skeptical_clean_positive": true,
+          "skeptical_negative": false,
+          "skeptical_positive": true,
+          "within_reading_conflict": false
+        },
+        "all_arabic_complete": false,
+        "authority": "SOURCE_RELATIVE_CONSEQUENCE",
+        "law_id": "nabt.licensed-inference.v1",
+        "query_text": "هل سار زيد؟",
+        "reading_count": 1,
+        "revision": "007fcfbf316b9d27fbdea6e92dcae1f584ae6978",
+        "rows": [
+          {
+            "clauses": [
+              {
+                "body": [
+                  {
+                    "arguments": [
+                      "زيد",
+                      "الحق"
+                    ],
+                    "positive": true,
+                    "predicate": "عرف"
+                  }
+                ],
+                "head": {
+                  "arguments": [
+                    "زيد"
+                  ],
+                  "positive": true,
+                  "predicate": "سار"
+                },
+                "kind": "rule"
+              },
+              {
+                "atom": {
+                  "arguments": [
+                    "زيد",
+                    "الحق"
+                  ],
+                  "positive": true,
+                  "predicate": "عرف"
+                },
+                "kind": "fact"
+              }
+            ],
+            "clean_negative": false,
+            "clean_positive": true,
+            "negative": false,
+            "positive": true,
+            "query": {
+              "arguments": [
+                "زيد"
+              ],
+              "positive": true,
+              "predicate": "سار"
+            },
+            "status": "SUPPORTED"
+          }
+        ],
+        "source_id": "proof-lab:5b219070-aa54-460e-aae7-dac1e9b00159",
+        "source_scope": "{\"scope\":\"proof-lab-single-discourse\",\"time\":\"unspecified\"}",
+        "source_text": "إن عرف زيد الحق سار زيد. عرف زيد الحق.",
+        "status": "SUPPORTED",
+        "verified": true,
+        "world_truth_established": false
+      },
+      "reason": "CHECKED_INSTALLED_GRAMMAR_AND_SOURCE_THEORY"
+    }
+  }
+}
