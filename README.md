@@ -938,6 +938,24 @@ make -f Makefile -f integrations/grammar_catalog.mk proof-catalog routing-confor
 [التقرير العربي](docs/GRAMMAR_CATALOG_AR.md) مقاييس الاسترجاع، وتدقيق
 التكرار البرهاني، والالتزامات المتبقية؛ لا يتضمن ضمان دقة عامة 100%.
 
+### المنطوق والمفهوم والاستدلال المشروط
+
+```bash
+PYTHONPATH=src python -m tools.mantuq_inference search 'مفهوم المخالفة'
+PYTHONPATH=src python -m tools.mantuq_inference evaluate examples/mantuq_inference_guarded.json
+PYTHONPATH=src python -m tools.mantuq_inference pipeline 'السبب والشرط والمانع' examples/mantuq_inference_plans.json --limit 1
+make -f Makefile -f integrations/grammar_catalog.mk -f integrations/mantuq_inference.mk formal check LAKE=/path/to/lake
+```
+
+يفحص المسار المقدمات والجسور المصرح بها لكل قراءة، ويطلب دليلًا صريحًا
+لانتفاء المانع. حد نتائج البحث لا يحذف سياسة من الفحص. أضيفت 38 فقرة
+من ملف الجزء الثالث الأصلي إلى الجرد المترابط، وأصبحت المقاطع 54 عبر
+أربعة مقتطفات. [التقرير العربي](docs/MANTUQ_INFERENCE_AR.md) يبين
+البراهين والقياس وحدودهما؛ [بروتوكول الطلب](docs/MANTUQ_INFERENCE_PROTOCOL.md)
+يوضح فرضيات التنفيذ، و[إضافة PostgreSQL](integrations/inference_db/README.md)
+توفر التخزين والاسترجاع. هذه نتيجة مشروطة بالمقدمات، وليست ترخيصًا تلقائيًا
+لمعنى نص حر أو دليلًا على صدقه في الواقع أو اكتمال العربية.
+
 | المسار | الوظيفة |
 |---|---|
 | `formal/Nabt/` | التعريفات والبراهين العامة وقانون الصيغ المحدد |

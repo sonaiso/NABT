@@ -1,0 +1,92 @@
+{
+  "schema": "nabt.qualified-inference-benchmark-review.v1",
+  "gold_sha256": "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a",
+  "gold_changed": false,
+  "semantic_expectations_changed": false,
+  "revision": "Initial adapter honestly marked C12 unmeasured because no public policy-routing pipeline existed. Root then implemented the public pipeline. Adapter now executes the same frozen rank/display inputs through baseline and adversarial pipelines, requires all installed policies examined, reversed order exercised, display limit honored, desired policy absent from displayed proposals, invariant outcomes, completed scan and no truth/completeness overclaim. Initial evidence is retained.",
+  "independence": "Semantic gold authored separately before viewing/executing new implementation. New adapter integration is post-initial-run engineering work, not a new blind evaluation.",
+  "new_blind_evaluation": false,
+  "whole_arabic_complete": false,
+  "empirical_world_truth_tested": false,
+  "runs": [
+    {
+      "path": "evidence/mantuq_inference_v1/benchmark_initial.json",
+      "sha256": "bd29f9b51bcba67f0ca3ff2f13a8215b571abaef4a8abb30b8e0cdd62fe85406",
+      "aggregate": {
+        "cases": 34,
+        "measured": 33,
+        "unmeasured": 1,
+        "matched": 33,
+        "mismatched": 0,
+        "false_support": 0,
+        "lost_support": 0,
+        "authority_overclaims": 0
+      },
+      "complete_on_declared_diagnostic": false
+    },
+    {
+      "path": "evidence/mantuq_inference_v1/benchmark_pipeline_first.json",
+      "sha256": "ee3b1f8e2285ab6813742b7a4e0a1e849906f9a1ab97926c781789249c654793",
+      "aggregate": {
+        "cases": 34,
+        "measured": 34,
+        "unmeasured": 0,
+        "matched": 34,
+        "mismatched": 0,
+        "false_support": 0,
+        "lost_support": 0,
+        "authority_overclaims": 0
+      },
+      "complete_on_declared_diagnostic": true
+    },
+    {
+      "path": "evidence/mantuq_inference_v1/benchmark_metadata_initial.json",
+      "sha256": "bb17b5253cc969536f274726dd6dbb85553cc9000964bd6a61477138408d434e",
+      "aggregate": {
+        "cases": 34,
+        "measured": 34,
+        "unmeasured": 0,
+        "matched": 34,
+        "mismatched": 0,
+        "false_support": 0,
+        "lost_support": 0,
+        "authority_overclaims": 0
+      },
+      "complete_on_declared_diagnostic": true,
+      "provenance_error": "Metadata collector imported the original three-source inventory while the runtime used the combined four-source inventory. The status observations are retained, but this report is not evidence for the final execution-input inventory."
+    },
+    {
+      "path": "evidence/mantuq_inference_v1/benchmark_pre_resource_review.json",
+      "sha256": "e911c46dff668ee9b332a3b1eebdcb16372e988b7e34c8349cd740fe82e344b0",
+      "aggregate": {
+        "cases": 34,
+        "measured": 34,
+        "unmeasured": 0,
+        "matched": 34,
+        "mismatched": 0,
+        "false_support": 0,
+        "lost_support": 0,
+        "authority_overclaims": 0
+      },
+      "complete_on_declared_diagnostic": true,
+      "note": "Before final resource-status and native-clean-support hardening; retained unchanged."
+    },
+    {
+      "path": "evidence/mantuq_inference_v1/benchmark_final.json",
+      "sha256": "a272ef012a8da06123668cbdfdf89e8027749060b844fcf7082aa785db50bf1d",
+      "aggregate": {
+        "cases": 34,
+        "measured": 34,
+        "unmeasured": 0,
+        "matched": 34,
+        "mismatched": 0,
+        "false_support": 0,
+        "lost_support": 0,
+        "authority_overclaims": 0
+      },
+      "complete_on_declared_diagnostic": true,
+      "note": "Rerun after resource-status and native-clean-support hardening; gold unchanged."
+    }
+  ],
+  "final_provenance": "The final metadata collector and C12 scheduler now import the same public combined inventory API used by the evaluator/search/database. Actual counts: four retained sources, 54 passages, nine policies. File/source/native-binary hashes and declared Lean toolchain are captured before and after execution and must remain identical. The initial metadata run is retained with its explicit inventory-import error; the semantic gold and expected outcomes were unchanged."
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "nabt.mantuq-inference-request.v1",
+  "policy_id": "guarded_cause",
+  "binding": {
+    "source_id": "fixture",
+    "source_text": "مثال صوري مشروط لا شاهد منقول",
+    "scope": "s",
+    "context": "speaker=a;addressee=b",
+    "time": "t1"
+  },
+  "conclusion": {
+    "predicate": "effect",
+    "arguments": [
+      "case"
+    ],
+    "positive": true
+  },
+  "readings": [
+    {
+      "reading_id": "r1",
+      "requirements": [
+        {
+          "slot": "cause",
+          "atom": {
+            "predicate": "cause",
+            "arguments": [
+              "case"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "slot": "condition",
+          "atom": {
+            "predicate": "condition",
+            "arguments": [
+              "case"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "slot": "blockerAbsence",
+          "atom": {
+            "predicate": "blockerAbsence",
+            "arguments": [
+              "case"
+            ],
+            "positive": false
+          }
+        }
+      ],
+      "hypotheses": [
+        {
+          "predicate": "cause",
+          "arguments": [
+            "case"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "condition",
+          "arguments": [
+            "case"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "blockerAbsence",
+          "arguments": [
+            "case"
+          ],
+          "positive": false
+        }
+      ],
+      "bridge": {
+        "body": [
+          {
+            "predicate": "cause",
+            "arguments": [
+              "case"
+            ],
+            "positive": true
+          },
+          {
+            "predicate": "condition",
+            "arguments": [
+              "case"
+            ],
+            "positive": true
+          },
+          {
+            "predicate": "blockerAbsence",
+            "arguments": [
+              "case"
+            ],
+            "positive": false
+          }
+        ],
+        "head": {
+          "predicate": "effect",
+          "arguments": [
+            "case"
+          ],
+          "positive": true
+        },
+        "basis": "caller_assumption"
+      }
+    }
+  ]
+}

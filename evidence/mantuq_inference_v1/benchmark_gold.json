@@ -1,0 +1,604 @@
+{
+  "schema": "nabt.qualified-inference-gold.v1",
+  "authority": "INDEPENDENT_AUTHORED_CONTRACT_JUDGMENTS_ONLY",
+  "frozen_before_new_runtime_execution": true,
+  "independence": "Authored by a separate benchmark agent from existing repository contracts before reading or executing the new qualified-inference implementation. Runtime transport identifiers were not yet fixed. This is a known-scope engineering diagnostic, not an external blind test. Only transport adaptation may change after freezing; expectations and semantic case inputs must remain byte-identical.",
+  "scope": "Finite source-relative inference of explicitly structured premises under installed templates. No acquisition from free Arabic, no school-independent usul classification, no empirical-world truth, no whole-Arabic completeness.",
+  "expected_counts": {
+    "guarded_cause": 14,
+    "opposition": 6,
+    "analogy": 8,
+    "direct": 6
+  },
+  "contract_inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b"
+    },
+    {
+      "path": "formal/Nabt/Shakhsiyya3Rules.lean",
+      "sha256": "3a7f01d8d7a83133594e56e1c7b9175499aeac2edabd9eefde155e92e38fb223"
+    },
+    {
+      "path": "formal/Nabt/MantuqMafhum.lean",
+      "sha256": "0f1506dbb6b50347479a47fcc45732c5e7b06a3d484c1a8f21e0dde82fa67ba7"
+    },
+    {
+      "path": "formal/Nabt/SemanticInference.lean",
+      "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2"
+    },
+    {
+      "path": "evidence/mantuq_mafhum/sources.json",
+      "sha256": "5d61103fc26d64bee8a766dec337a3f343b938582bf9e528197803dcb872a9e0"
+    }
+  ],
+  "profiles": {
+    "guarded_cause": "cause AND condition AND explicitly not blocker entails ruling only under an installed sufficient-law instance.",
+    "opposition": "Only a separately admitted necessary-condition bridge plus negative antecedent and explicit policy guards can license negative consequent.",
+    "analogy": "Installed transfer law requires original ruling, shared cause, branch condition, explicit absence of blocker, and a transfer bridge; identities include origin, branch, time and scope.",
+    "direct": "A source assertion is a premise only; absence is not negation and contradiction does not explode."
+  },
+  "cases": [
+    {
+      "id": "C01",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "SUPPORTED",
+        "conditional_support": true,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "All independently declared sufficient-law obligations are explicit."
+    },
+    {
+      "id": "C02",
+      "family": "guarded_cause",
+      "facts": [
+        "cause"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A named cause alone does not establish missing conditions or absence of a preventer."
+    },
+    {
+      "id": "C03",
+      "family": "guarded_cause",
+      "facts": [
+        "condition"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A necessary condition is not a sufficient cause."
+    },
+    {
+      "id": "C04",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Unobserved preventer is unknown; its absence is not a fact."
+    },
+    {
+      "id": "C05",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Explicit absence of a preventer cannot replace a missing condition."
+    },
+    {
+      "id": "C06",
+      "family": "guarded_cause",
+      "facts": [
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Conditions and no preventer cannot replace the cause."
+    },
+    {
+      "id": "C07",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition",
+        "blocker"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A present preventer blocks this sufficient-law application; it does not itself prove the opposite ruling."
+    },
+    {
+      "id": "C08",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition",
+        "not_blocker",
+        "blocker"
+      ],
+      "expected": {
+        "outcome": "CONFLICT",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Conflicting preventer evidence is not clean support."
+    },
+    {
+      "id": "C09",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "not_cause",
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "CONFLICT",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Conflicting cause evidence cannot license the conclusion."
+    },
+    {
+      "id": "C10",
+      "family": "guarded_cause",
+      "facts": [],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "An empty evidence set cannot create a fact."
+    },
+    {
+      "id": "C11",
+      "family": "guarded_cause",
+      "facts": [
+        "not_cause",
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Absence of this cause does not negate a ruling that may have another cause."
+    },
+    {
+      "id": "C12",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "SUPPORTED",
+        "conditional_support": true,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Retrieval order is a proposal order only.",
+      "rank_order": "reverse",
+      "display_limit": 1
+    },
+    {
+      "id": "C13",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "RESOURCE_EXHAUSTED",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Insufficient execution budget cannot become completeness or rejection.",
+      "budget": 0
+    },
+    {
+      "id": "C14",
+      "family": "guarded_cause",
+      "facts": [
+        "cause",
+        "condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Evidence from a different context cannot satisfy this context.",
+      "changed_evidence_scope": true
+    },
+    {
+      "id": "O01",
+      "family": "opposition",
+      "facts": [
+        "negative_antecedent",
+        "qualified",
+        "not_countertext",
+        "not_usual"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A forward implication plus denied antecedent does not yield a negative consequent.",
+      "necessary_bridge": false
+    },
+    {
+      "id": "O02",
+      "family": "opposition",
+      "facts": [
+        "negative_antecedent",
+        "qualified",
+        "not_countertext",
+        "not_usual"
+      ],
+      "expected": {
+        "outcome": "SUPPORTED",
+        "conditional_support": true,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A separately admitted necessary-condition bridge and all guards license the negative consequent.",
+      "necessary_bridge": true
+    },
+    {
+      "id": "O03",
+      "family": "opposition",
+      "facts": [
+        "negative_antecedent",
+        "qualified",
+        "countertext",
+        "not_usual"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "An explicit countertext blocks this opposition policy.",
+      "necessary_bridge": true
+    },
+    {
+      "id": "O04",
+      "family": "opposition",
+      "facts": [
+        "negative_antecedent",
+        "qualified",
+        "not_countertext",
+        "usual"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A restriction describing the usual case does not license opposition.",
+      "necessary_bridge": true
+    },
+    {
+      "id": "O05",
+      "family": "opposition",
+      "facts": [
+        "negative_antecedent",
+        "qualified",
+        "not_countertext"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Absence of usual-case evidence is not explicit evidence that the usual-case exception is absent.",
+      "necessary_bridge": true
+    },
+    {
+      "id": "O06",
+      "family": "opposition",
+      "facts": [
+        "negative_antecedent",
+        "qualified",
+        "not_countertext",
+        "not_usual"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A nominal label alone is not an installed opposition kind in this source profile.",
+      "necessary_bridge": true,
+      "contrast_kind": "name"
+    },
+    {
+      "id": "A01",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "shared_cause",
+        "branch_condition",
+        "not_blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "SUPPORTED",
+        "conditional_support": true,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "The installed transfer law and every origin/branch obligation are explicitly satisfied."
+    },
+    {
+      "id": "A02",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "shared_cause",
+        "branch_condition",
+        "not_blocker"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Similarity/shared features without the admitted transfer bridge cannot produce a ruling."
+    },
+    {
+      "id": "A03",
+      "family": "analogy",
+      "facts": [
+        "shared_cause",
+        "branch_condition",
+        "not_blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A proposed original case without its ruling cannot support the branch."
+    },
+    {
+      "id": "A04",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "branch_condition",
+        "not_blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A missing shared cause cannot be supplied by lexical resemblance."
+    },
+    {
+      "id": "A05",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "shared_cause",
+        "not_blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A missing branch condition blocks transfer."
+    },
+    {
+      "id": "A06",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "shared_cause",
+        "branch_condition",
+        "blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A branch preventer blocks the transfer without implying an opposite ruling."
+    },
+    {
+      "id": "A07",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "shared_cause",
+        "branch_condition",
+        "not_blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Changing the branch referent changes the obligation identity.",
+      "changed_branch": true
+    },
+    {
+      "id": "A08",
+      "family": "analogy",
+      "facts": [
+        "origin_ruling",
+        "shared_cause",
+        "branch_condition",
+        "not_blocker",
+        "transfer_bridge"
+      ],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Evidence from another time is not evidence for this time.",
+      "changed_time": true
+    },
+    {
+      "id": "D01",
+      "family": "direct",
+      "facts": [
+        "asserted"
+      ],
+      "expected": {
+        "outcome": "SUPPORTED",
+        "conditional_support": true,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "An explicitly supplied assertion is available only as a source-relative premise; truth in the world remains unestablished."
+    },
+    {
+      "id": "D02",
+      "family": "direct",
+      "facts": [],
+      "expected": {
+        "outcome": "UNKNOWN",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "No source assertion is not a negative assertion."
+    },
+    {
+      "id": "D03",
+      "family": "direct",
+      "facts": [
+        "asserted",
+        "not_asserted"
+      ],
+      "expected": {
+        "outcome": "CONFLICT",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "Both signs are preserved; contradiction is not arbitrary entailment."
+    },
+    {
+      "id": "D04",
+      "family": "direct",
+      "facts": [
+        "asserted"
+      ],
+      "expected": {
+        "outcome": "INVALID",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A caller boolean claiming empirical reality is rejected, not accepted as evidence.",
+      "caller_fields": {
+        "is_empirical_reality": true
+      }
+    },
+    {
+      "id": "D05",
+      "family": "direct",
+      "facts": [
+        "asserted"
+      ],
+      "expected": {
+        "outcome": "INVALID",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A textual completeness certificate cannot grant proof authority.",
+      "caller_fields": {
+        "proof_of_completeness": "100%"
+      }
+    },
+    {
+      "id": "D06",
+      "family": "direct",
+      "facts": [
+        "asserted"
+      ],
+      "expected": {
+        "outcome": "INVALID",
+        "conditional_support": false,
+        "world_truth_established": false,
+        "whole_arabic_complete": false
+      },
+      "rationale": "A caller status claiming Lean acceptance is not authority.",
+      "caller_fields": {
+        "verified": true
+      }
+    }
+  ]
+}
