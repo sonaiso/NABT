@@ -2,10 +2,42 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.17.0"
+  version := v!"0.20.0"
 
 @[default_target]
 lean_lib Nabt
+
+@[default_target]
+lean_exe exportClassicalWeak where
+  root := `ExportClassicalWeak
+
+@[default_target]
+lean_exe exportClassicalHamza where
+  root := `ExportClassicalHamza
+
+@[default_target]
+lean_exe exportClassicalGemination where
+  root := `ExportClassicalGemination
+
+@[default_target]
+lean_exe exportClassicalBoundaryAffixes where
+  root := `ExportClassicalBoundaryAffixes
+
+@[default_target]
+lean_exe exportImperativeParadigm where
+  root := `ExportImperativeParadigm
+
+@[default_target]
+lean_exe exportPhonologicalModes where
+  root := `ExportPhonologicalModes
+
+@[default_target]
+lean_exe exportClassicalReferenceReadings where
+  root := `ExportClassicalReferenceReadings
+
+@[default_target]
+lean_exe exportProductiveForms where
+  root := `ExportProductiveForms
 
 @[default_target]
 lean_exe exportTable where

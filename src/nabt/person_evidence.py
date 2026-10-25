@@ -25,7 +25,7 @@ from .corpus_evidence import (MASKED_FEATURES, VOWELS, buckwalter_to_arabic,
 from .errors import NabtError, resource_limit
 
 LAW_ID = "nabt.person-evidence.v1"
-READER_VERSION = "nabt.source-person-bridge.v1"
+READER_VERSION = "nabt.source-person-bridge.v2"
 EXPECTED_TABLE_SHA256 = "f77c9b65b3a7b638166b5807fff1218cb30079d2d301c815b1b512a665858d15"
 MAX_SURFACE_BYTES = 8192
 MAX_CANDIDATES = 512
@@ -60,8 +60,13 @@ def installed_registry():
 
 
 def person_catalog():
+    from .productive_forms import LAW_ID as PRODUCTIVE_LAW, POLICY_SHA256, TABLE_SHA256
+    from .imperative_paradigm import LAW_ID as PARADIGM_LAW, POLICY_SHA256 as PARADIGM_POLICY
     return {"law_id": LAW_ID, "table_sha256": EXPECTED_TABLE_SHA256,
             "reader_version": READER_VERSION, "table": installed_registry(),
+            "productive_law_id": PRODUCTIVE_LAW, "productive_policy_sha256": POLICY_SHA256,
+            "productive_shape_table_sha256": TABLE_SHA256,
+            "imperative_paradigm_law_id": PARADIGM_LAW, "imperative_paradigm_policy_sha256": PARADIGM_POLICY,
             "authority": "CONDITIONAL_PERSON_AND_SOURCE_MORPHOLOGY_NOT_REFERENCE"}
 
 
@@ -313,6 +318,14 @@ def _compile(raw, excluded_verses, source_id, table_sha):
                 complete_forms[support["record_id"]].add(lookup_key(node["form"]))
     bases = list(_base_variants(lexical, table, complete_forms))
     bases += list(_bare_subject_candidates(nodes, table))
+    from .productive_forms import sound_imperative, replay_policy
+    from .imperative_paradigm import sound_imperative_paradigm, replay_policy as replay_paradigm
+    replay_policy()
+    replay_paradigm()
+    original_bases = list(bases)
+    bases += [derived for base in list(bases)
+              if (derived := sound_imperative(base)) is not None]
+    bases += [derived for base in original_bases for derived in sound_imperative_paradigm(base)]
     attached_index = defaultdict(dict)
     for candidate in _source_attached_variants(nodes, bases, table):
         _add(attached_index, candidate)
@@ -430,7 +443,18 @@ def person_candidates(surface, *, lexical_model=None):
                          lexical_model.source_id, EXPECTED_TABLE_SHA256)
         for encoded in index.get(lookup_key(surface), ()):
             candidate = json.loads(encoded)
+            if candidate.get("productive_derivation") and [x[:2] for x in clusters] != [
+                    x[:2] for x in lookup_clusters(candidate["form"])]:
+                # The new bridge is restricted to fully vocalized input;
+                # missing vowels do not choose an imperative from bare alif.
+                continue
             if _match(surface, candidate["form"], candidate["mutable_clusters"]):
+                if candidate.get("productive_derivation"):
+                    from .productive_forms import replay_policy
+                    replay_policy()  # Recheck even when the lexical compiler cache is warm.
+                    from .imperative_paradigm import LAW_ID as PARADIGM_LAW, replay_policy as replay_paradigm
+                    if candidate["productive_derivation"]["law_id"] == PARADIGM_LAW:
+                        replay_paradigm()
                 candidates.append(candidate)
     if len(candidates) > MAX_CANDIDATES:
         raise resource_limit("Person surface exceeds its candidate budget")
@@ -562,7 +586,9 @@ def _matching_bases(node, bases_by_key, table):
     # branch still requires an independently retained full -waw-nun base.
     if key.endswith("و"):
         options += [b for b in bases_by_key.get(key + "ا", ())
-                    if b["family"] == "masculine_plural" and b["variant"] == "nun_deleted_from_retained_base"]
+                    if (b["family"] == "masculine_plural" and b["variant"] == "nun_deleted_from_retained_base") or
+                       (b["variant"] == "sound_imperative_paradigm_from_imperfect" and
+                        b["profile_id"] == "2MP")]
     allowed_profiles = {_wire(_profile(p)) for p in _profiles(node["person"], table)}
     result = []
     for base in options:

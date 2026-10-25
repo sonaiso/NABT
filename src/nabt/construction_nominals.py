@@ -1,9 +1,7 @@
-"""A narrow, source-attested accusative-alif bridge for nominal readings.
+"""Source-bound nominal bridges with separate attested and productive laws.
 
-No word is generated. Both the complete written carrier form and an ordinary
-paired base paradigm must already occur in the independent lexical source.
-The case/mood labels remain masked. The bridge supplies neither a dependency
-nor a world referent; the reader must establish those separately.
+Each productive form retains its independently paired lexical premise; it
+never claims target attestation, a dependency or a grounded world referent.
 """
 
 from copy import deepcopy
@@ -15,6 +13,79 @@ from .text_ir import span_dict
 from .word_reader import _span
 
 NOMINAL_PARADIGM_RULE = "same_form_nominal_inflection"
+
+
+def generate_accusative_alif(readings, base_readings, *, token, source, index):
+    """Derive a new written form from an independently paired plain base.
+
+    Existing full-form lexical alternatives are never replaced. This v1
+    profile requires a completely vocalized target and a singular, ordinary
+    source declension. Weak, hamza, article, possessive and plural cases stay
+    outside it. The base is acquired afresh from the lexical source.
+    """
+    from .productive_forms import replay_policy, POLICY_SHA256
+    if any(r.get("kind") == "noun" for r in readings):
+        return readings
+    shape = lookup_clusters(token["surface"])
+    if (not shape or len(shape) < 3 or shape[-1][0] != "ا" or shape[-1][1] or
+            shape[-2][1] & VOWELS != {"ً"} or shape[-2][0] in "ءأإآؤئىيةاو" or
+            any(not marks & VOWELS and not (
+                    not marks and i > 0 and letter in "اوي" and
+                    shape[i - 1][1] & VOWELS == {{"ا": "َ", "و": "ُ", "ي": "ِ"}[letter]})
+                for i, (letter, marks, _, _) in enumerate(shape[:-1]))):
+        return readings
+    policy = replay_policy()
+    result = list(readings)
+    base_surface = token["surface"][:shape[-1][2]]
+    carrier_start = token["span"]["start"] + len(base_surface.encode())
+    base_span = span_dict(_span(source, token["span"]["start"], carrier_start))
+    carrier_span = span_dict(_span(source, carrier_start, token["span"]["end"]))
+    for original in base_readings:
+        f = original.get("lexical_features", {})
+        if (original.get("kind") != "noun" or original.get("construction") != "inflected" or
+                original.get("class_candidates") != [0] or original.get("variant") != "attested" or
+                original.get("construction_basis") != "paired_lexical_terminal_realizations" or
+                original.get("person_evidence") or original.get("prefix_relation") or
+                original.get("al_evidence") != 2 or original.get("annotation_only") or
+                original.get("stem_span") != base_span or
+                f.get("number") != "singular" or f.get("pos") not in ("N", "ADJ", "PN") or
+                not f.get("root") or lookup_key(f.get("lemma") or "") != lookup_key(base_surface) or
+                not original.get("segmentation", {}).get("licensed")):
+            continue
+        entries = [json.loads(e) for e in index.get(lookup_key(base_surface), ())]
+        own = [e for e in entries if e.get("lexical_id") == original.get("identity", {}).get("lexical_id")]
+        if len(own) != 1 or len({s["record_id"] for s in own[0].get("construction_supports", [])}) < 2:
+            continue
+        entry = own[0]
+        if _base_template(shape[:-1]) != _base_template(lookup_clusters(entry["form"])):
+            continue
+        witness = {"kind": "productive_nominal_carrier", "rule": "productive_accusative_alif",
+            "law_id": "nabt.productive-accusative-alif.v1", "policy_sha256": POLICY_SHA256,
+            "source_lexical_id": entry["lexical_id"], "source_form": entry["form"],
+            "source_template": entry["template"], "base_surface": base_surface, "base_span": base_span,
+            "carrier_surface": "ا", "carrier_span": carrier_span,
+            "base_paradigm_supports": deepcopy(entry["construction_supports"]),
+            "source_supports": deepcopy(entry["supports"]),
+            "generated_form": True, "target_attested": False, "target_role_labels_used": False,
+            "source_passage": next(p for p in policy["passages"] if p["source_id"] == "qatr" and p["line_start"] == 440)}
+        row = deepcopy(original)
+        row.update(stem_surface=token["surface"], stem_span=deepcopy(token["span"]),
+                   variant="productive_accusative_alif", possible_cases=[0],
+                   nominal_case_carrier=witness,
+                   construction_basis="paired_base_and_productive_orthography")
+        row["segmentation"] = {"licensed": True, "coverage_valid": True,
+            "basis": "PRODUCTIVE_PAIRED_BASE", "parts": [
+                {"kind": "nominal_stem", "surface": base_surface, "span": base_span},
+                {"kind": "accusative_alif", "surface": "ا", "span": carrier_span}]}
+        row["support_records"].append(witness)
+        row["reading_id"] = identity([original["reading_id"], token["span"], witness])
+        row["identity"] = {**row["identity"], "span": deepcopy(token["span"]),
+                           "productive_source_reading_id": original["reading_id"]}
+        row["obligations"] = [o for o in row.get("obligations", []) if o != "OBSERVED_FORM_CONFLICTS_WITH_CONDITIONAL_SIGN_LAW"]
+        for nun in row.get("nun_readings", []):
+            nun["reading_id"] = row["reading_id"]
+        result.append(row)
+    return result
 
 
 def qualify_same_form_nominal(readings, *, index, policy):

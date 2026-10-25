@@ -38,6 +38,18 @@ _COMPLETION_SPEC = importlib.util.spec_from_file_location(
     'reviewed_arabic_completion_gate', Path(__file__).with_name('arabic_completion_gate.py'))
 completion_gate = importlib.util.module_from_spec(_COMPLETION_SPEC)
 _COMPLETION_SPEC.loader.exec_module(completion_gate)
+_PRODUCTIVE_GATE_SPEC = importlib.util.spec_from_file_location(
+    'productive_completion_gate', Path(__file__).with_name('arabic_completion_v4_gate.py'))
+productive_gate = importlib.util.module_from_spec(_PRODUCTIVE_GATE_SPEC)
+_PRODUCTIVE_GATE_SPEC.loader.exec_module(productive_gate)
+_CLASSICAL_GATE_SPEC = importlib.util.spec_from_file_location(
+    'classical_completion_gate', Path(__file__).with_name('arabic_completion_v5_gate.py'))
+classical_gate = importlib.util.module_from_spec(_CLASSICAL_GATE_SPEC)
+_CLASSICAL_GATE_SPEC.loader.exec_module(classical_gate)
+_EXTENSION_GATE_SPEC = importlib.util.spec_from_file_location(
+    'classical_extension_gate', Path(__file__).with_name('arabic_completion_v6_gate.py'))
+extension_gate = importlib.util.module_from_spec(_EXTENSION_GATE_SPEC)
+_EXTENSION_GATE_SPEC.loader.exec_module(extension_gate)
 _SOURCE_SPEC = importlib.util.spec_from_file_location(
     'independent_source_witness_validation', Path(__file__).with_name('source_name_validation.py'))
 source_validation = importlib.util.module_from_spec(_SOURCE_SPEC)
@@ -47,6 +59,10 @@ VERSION = 'nabt.discourse.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec': {'snapshot_sha256': '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23', 'archive_sha256': '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922', 'file_count': 99, 'version': '0.20.0a1'},
+    '06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57': {'snapshot_sha256': '1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c', 'archive_sha256': 'a377cba60bfd1491351322b6543678e023ac83b18ec0cb2543f181f046d318ed', 'file_count': 94, 'version': '0.19.0a1'},
+    'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9': {'snapshot_sha256': '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', 'archive_sha256': '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43', 'file_count': 83, 'version': '0.18.0a1'},
+    '40e6e10d95f444c5a1e1e6c72b4ff997d25a9d1a9caac5c0ff910b1551df677b': {'snapshot_sha256': '36e1e17ace7e5ebaac7b4ef1bb66a1ae8c9212d87f3c60c93c9660cbb9381862', 'archive_sha256': '7e5cfc227fd280ab5052c9cb8937799cde28bd8bf6037e9cd73a32013c842cea', 'file_count': 83, 'version': '0.18.0a1'},
     '045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd': {
         'snapshot_sha256': 'adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f',
         'archive_sha256': 'c1056d20779c557fd060787d5018c503128778712b81eb669881c89e4e7a0e84',
@@ -361,7 +377,11 @@ def runtime_snapshot(manifest_path, runtime_root):
                  ROOT / 'tests/test_arabic_coverage_gate.py', Path(__file__).with_name('source_name_validation.py'),
                  ROOT / 'tests/test_source_witness_validation.py', *source_validation.fixture_paths(),
                  Path(__file__).with_name('arabic_completion_gate.py'), completion_gate.POLICY_PATH,
-                 ROOT/'tests/test_arabic_completion_gate.py'):
+                 ROOT/'tests/test_arabic_completion_gate.py', Path(__file__).with_name('productive_form_validation.py'),
+                 Path(__file__).with_name('arabic_completion_v4_gate.py'), productive_gate.POLICY_PATH,
+                 Path(__file__).with_name('arabic_completion_v5_gate.py'), classical_gate.POLICY_PATH,
+                 Path(__file__).with_name('arabic_completion_v6_gate.py'), extension_gate.POLICY_PATH,
+                 Path(__file__).with_name('imperative_paradigm_validation.py')):
         data = path.read_bytes()
         files.append({'path': str(path.relative_to(ROOT)), 'bytes': len(data), 'sha256': sha256(data).hexdigest()})
     return {'runtime_root': str(runtime_root), 'runtime_freeze': str(manifest_path.relative_to(ROOT)),
@@ -1381,6 +1401,12 @@ def corpus_variant(raw, mode):
 
 
 def gate_decision(result, allow_documented_boundaries=False):
+    if result['snapshot']['runtime_freeze_sha256'] == extension_gate.RUNTIME_SHA256:
+        return extension_gate.gate_decision('discourse', result, allow_documented_boundaries)
+    if result['snapshot']['runtime_freeze_sha256'] == classical_gate.RUNTIME_SHA256:
+        return classical_gate.gate_decision('discourse', result, allow_documented_boundaries)
+    if result['snapshot']['runtime_freeze_sha256'] == productive_gate.RUNTIME_SHA256:
+        return productive_gate.gate_decision('discourse', result, allow_documented_boundaries)
     if result['snapshot']['runtime_freeze_sha256'] == completion_gate.RUNTIME_SHA256:
         return completion_gate.gate_decision('discourse', result, allow_documented_boundaries)
     if result['snapshot']['runtime_freeze_sha256'] == coverage_gate.RUNTIME_SHA256:
@@ -1622,7 +1648,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/arabic_completion_v3/code_freeze_v2.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/arabic_completion_v6/code_freeze_v1.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')
