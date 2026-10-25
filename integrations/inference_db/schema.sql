@@ -137,7 +137,8 @@ CREATE TABLE nabt_inference.senses (
     PRIMARY KEY (inventory_sha, lexeme_id, concept_id, context_id, passage_id),
     FOREIGN KEY (inventory_sha, lexeme_id) REFERENCES nabt_inference.lexemes,
     FOREIGN KEY (inventory_sha, concept_id) REFERENCES nabt_inference.concepts,
-    FOREIGN KEY (inventory_sha, context_id, profile_id) REFERENCES nabt_inference.contexts,
+    FOREIGN KEY (inventory_sha, context_id, profile_id)
+        REFERENCES nabt_inference.contexts(inventory_sha, context_id, profile_id),
     FOREIGN KEY (inventory_sha, passage_id) REFERENCES nabt_inference.passages
 );
 -- Recording an observation is separate from accepting a statement as true.
