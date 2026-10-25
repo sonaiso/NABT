@@ -36,6 +36,8 @@ jobs:
         run: |
           python tools/replay_neural_morphology.py --source artifacts/local/ci/MASAQ.csv --model-dir evidence/source_morphology_training/run_01 --output artifacts/local/ci/neural-replay.json
           python tools/replay_neural_morphology.py --source artifacts/local/ci/MASAQ.csv --model-dir evidence/source_morphology_training/run_02 --output artifacts/local/ci/neural-replay-v2.json
+      - name: Install decompressor for the official Lean archive
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y zstd
       - name: Install pinned official Lean for Qatr teacher replay
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-qatr-tools"
       - name: Build Qatr reader and check learner boundaries
@@ -47,3 +49,5 @@ jobs:
           python -m unittest discover -s tests -p 'test_qatr_*.py' -v
       - name: Replay Qatr CPU weights and check every proposal in native Lean
         run: python tools/train_qatr_readings.py replay --source artifacts/local/ci/MASAQ.csv --lean formal/.lake/build/bin/qatrReading --output-dir evidence/qatr_lean_training/run_01
+      - name: Independently replay source bindings for every Qatr prediction
+        run: python tools/check_qatr_artifacts.py --source artifacts/local/ci/MASAQ.csv --lean formal/.lake/build/bin/qatrReading --model-dir evidence/qatr_lean_training/run_01
