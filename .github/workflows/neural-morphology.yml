@@ -51,3 +51,7 @@ jobs:
         run: python tools/train_qatr_readings.py replay --source artifacts/local/ci/MASAQ.csv --lean formal/.lake/build/bin/qatrReading --output-dir evidence/qatr_lean_training/run_01
       - name: Independently replay source bindings for every Qatr prediction
         run: python tools/check_qatr_artifacts.py --source artifacts/local/ci/MASAQ.csv --lean formal/.lake/build/bin/qatrReading --model-dir evidence/qatr_lean_training/run_01
+      - name: Qatr proposal interface retains alternatives and has no authority
+        run: |
+          python tools/propose_qatr_readings.py --text 'لَمْ تَفْعَلُوا' --target 1 --lean formal/.lake/build/bin/qatrReading > artifacts/local/ci/qatr-proposal.json
+          python -c "import json; r=json.load(open('artifacts/local/ci/qatr-proposal.json')); assert r['authority']=='NONE' and not r['reading_licensed']; assert set(r['ranked_cases'])=={x['case'] for x in r['reading_rows']}; assert r['text'].encode()[r['target_start_byte']:r['target_end_byte']].decode()=='تَفْعَلُوا'"
