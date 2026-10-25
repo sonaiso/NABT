@@ -51,9 +51,13 @@ def check(*, executable=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lake", help="Build the pinned native exporter before checking")
     parser.add_argument("--executable", type=Path)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    if args.lake:
+        subprocess.run([args.lake, "build", "exportQualifiedInference"],
+                       cwd=ROOT / "formal", check=True)
     result = check(executable=args.executable)
     raw = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
