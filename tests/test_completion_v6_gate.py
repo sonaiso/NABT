@@ -1,5 +1,6 @@
 """New runtime pin must keep all existing completeness/safety gate obligations."""
 from copy import deepcopy
+import importlib.util
 import json
 from pathlib import Path
 import unittest
@@ -8,6 +9,14 @@ from tools import arabic_completion_v5_gate as old
 from tools import arabic_completion_v6_gate as current
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# Include the independent continuation's semantic tamper controls in the
+# standard suite as well as its standalone, pre-execution test run.
+_REVIEW_TEST = ROOT / 'evidence/arabic_completion_v3/independent_oracle/continuation_v6_review2/test_continuation_v6_review2.py'
+_REVIEW_SPEC = importlib.util.spec_from_file_location('completion_v6_review2_tests', _REVIEW_TEST)
+_REVIEW_MODULE = importlib.util.module_from_spec(_REVIEW_SPEC)
+_REVIEW_SPEC.loader.exec_module(_REVIEW_MODULE)
+ContinuationReview2Tests = _REVIEW_MODULE.ContinuationReview2Tests
 
 
 def fixture(suite):
