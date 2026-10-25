@@ -150,9 +150,9 @@ async function harness({ ready = true, stored = null, pollResponse = null } = {}
     nodes.set(match[3], element);
   }
   const get = id => { assert(nodes.has(id), 'Unknown DOM id: ' + id); return nodes.get(id); };
-  get('source-text').value = /<textarea[^>]*>([\s\S]*?)<\/textarea>/.exec(html)[1];
+  get('source-text').value = /<textarea[^>]*id="source-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html)[1];
   get('case-filter').value = 'all';
-  const tabs = ['inference', 'coverage', 'guide'].map(name => {
+  const tabs = ['evidence', 'inference', 'coverage', 'guide'].map(name => {
     const element = get('tab-' + name); element.dataset.tab = name; return element;
   });
   const examples = ['supported', 'missing', 'hidden', 'inverse', 'outside'].map(name => {
