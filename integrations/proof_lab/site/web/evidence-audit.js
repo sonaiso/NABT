@@ -8,7 +8,7 @@
   'use strict';
   const VERSION = 'nabt.evidence-audit.v1';
   const LIMITS = Object.freeze({ maxBytes: 2097152, maxDepth: 32, maxString: 65536,
-    maxArray: 4096, maxKeys: 1024, maxNodes: 50000 });
+    maxArray: 4096, maxKeys: 1024, maxNodes: 50000, maxNumber: 128 });
   const AXIOMS = new Set(['propext', 'Classical.choice', 'Quot.sound']);
   const RANKS = ['مبرهن', 'مبرهن على الشاهد', 'مطابَق', 'مفحوص', 'مقيس', 'تقدير', 'رأي', 'بلا رتبة'];
   const QUESTIONS = ['started', 'completed', 'found', 'produced', 'accepted', 'stored', 'consumed_by_next'];
@@ -34,6 +34,19 @@
         if (!(next >= 0xDC00 && next <= 0xDFFF)) fail('INVALID_UNICODE', 'يتضمن النص نصف زوج Unicode غير صالح.', path);
       } else if (c >= 0xDC00 && c <= 0xDFFF) fail('INVALID_UNICODE', 'يتضمن النص نصف زوج Unicode غير صالح.', path);
     }
+  }
+  // Compare decimal values before exposing a Number to integer-field checks.
+  // For example 16.0 and 1.6e1 equal 16, but 16.000000000000001 does not.
+  // This is a decimal round-trip contract, not exact binary-float arithmetic.
+  function decimalIdentity(token) {
+    const [, sign, whole, fraction = '', exponent = '0'] =
+      /^(-?)(\d+)(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/.exec(token);
+    let digits = (whole + fraction).replace(/^0+/, '');
+    if (!digits) return '0';
+    const trailing = /0+$/.exec(digits)?.[0].length ?? 0;
+    if (trailing) digits = digits.slice(0, -trailing);
+    const power = BigInt(exponent) - BigInt(fraction.length) + BigInt(trailing);
+    return sign + digits + 'e' + power.toString();
   }
   function parse(raw) {
     if (!string(raw)) fail('RAW_JSON_REQUIRED', 'يلزم نص JSON الأصلي للفحص.');
@@ -109,9 +122,13 @@
       const match = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/.exec(raw.slice(pos));
       if (match) {
         pos += match[0].length;
+        if (match[0].length > LIMITS.maxNumber)
+          fail('NUMBER_LIMIT', 'يتجاوز طول التمثيل العددي الحد المسموح.', path);
         const n = Number(match[0]);
         if (!Number.isFinite(n) || (Number.isInteger(n) && !Number.isSafeInteger(n)))
           fail('INVALID_NUMBER', 'عدد غير منتهٍ أو خارج مجال التمثيل الدقيق.', path);
+        if (decimalIdentity(match[0]) !== decimalIdentity(String(n)))
+          fail('LOSSY_NUMBER', 'يتغير المعنى العددي عند التحويل؛ لم يُقبل العدد المقرب.', path);
         return n;
       }
       fail('INVALID_JSON', 'قيمة JSON غير صالحة.', path);
@@ -394,7 +411,11 @@
   async function nabt(raw, record) {
     const out = base(raw, record, 'nabt');
     authorityFinding(out, record, '$');
-    if (!['inference','benchmark'].includes(record.mode)) fail('SCHEMA_SHAPE', 'نمط تقرير NABT غير معروف.', '$.mode');
+    const operationalFailure = own(record, 'error');
+    const earlyInputFailure = operationalFailure && record.status === 'INVALID_INPUT' && record.mode == null;
+    if (!['inference','benchmark'].includes(record.mode) && !earlyInputFailure)
+      fail('SCHEMA_SHAPE', 'نمط تقرير NABT غير معروف.', '$.mode');
+    optionalType(record, 'status', string, '$');
     for (const k of ['code_sha','native_sha256','runtime_sha256','runner_sha256','payload_sha256','toolchain','request_id']) optionalType(record, k, string, '$');
     out.identity = { engine: 'NABT', commit: record.code_sha ?? null, tree_clean: null,
       toolchain: record.toolchain ?? null, request_id: record.request_id ?? null,
@@ -402,6 +423,31 @@
       native_sha256: record.native_sha256 ?? null, payload_sha256: record.payload_sha256 ?? null };
     check(out, 'COMMIT_FORMAT', 'صيغة هوية الالتزام', record.code_sha == null ? 'unknown' : SHA1.test(record.code_sha) ? 'pass' : 'fail', 'الصيغة وحدها لا تثبت مصدر التقرير المستورد.');
     check(out, 'LEAN_REPLAY', 'إعادة تشغيل البرهان محليًا', 'unknown', 'لم يُرسل السجل إلى الخادم ولم يُعد تشغيل Lean.');
+    const importedClaim = (id, layer, label, value) => out.claims.push({ id, layer, label, value,
+      rank: 'تصريح مستورد', evidence: 'قيمة من JSON المستورد؛ لم يُعد تشغيل Lean للتحقق منها.',
+      axioms: null, declared_passed: null, replayed: false });
+    // run_payload can fail before either payload exists. A valid terminal
+    // failure is inspectable evidence of an unmeasured run, not an empty test.
+    if (operationalFailure) {
+      const error = requireString(record.error, '$.error');
+      if (!['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'].includes(record.status)
+          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result'))
+        fail('SCHEMA_SHAPE', 'غلاف تعذر التنفيذ لا يطابق عقد الحالة والخطأ.', '$.error');
+      out.declared_status = record.status;
+      out.operational_failure = { status: record.status, error, measurements_available: false };
+      importedClaim('operational_status', 3, 'حالة التنفيذ المعلنة: ' + record.status, record.status);
+      importedClaim('operational_error', 3, 'سبب تعذر التنفيذ: ' + error, error);
+      out.metrics.claims = out.claims.length;
+      out.metrics.rank_counts = { 'تصريح مستورد': out.claims.length };
+      out.layers = [{ id: 3, title: 'حالة التنفيذ', declared: null,
+        summary: 'تعذر تنفيذ معلن؛ لا قياس لغوي', claim_count: out.claims.length, issues: [] }];
+      check(out, 'OPERATIONAL_FAILURE', 'غلاف تعذر التنفيذ', 'pass', 'الحالة والخطأ متوافقان مع عقد التعذر؛ لا صفوف قياس متاحة.');
+      finding(out, 'OPERATIONAL_FAILURE_UNMEASURED', 'info', 'القياس غير متاح',
+        record.status + ': ' + error + '. لا يحسب غياب النتائج صفر نجاحات أو إخفاقًا لغويًا.', 3);
+      finding(out, 'IMPORTED_REPORT_UNAUTHENTICATED', 'warning', 'التقرير المستورد غير مصادق عليه',
+        'هذه حالة تشغيل من ملف مستورد؛ لم يُعد تشغيل الطلب أو التحقق من مصدره.');
+      return out;
+    }
     if (record.mode === 'benchmark') {
       const b = requireObject(record.benchmark, '$.benchmark');
       const rows = requireArray(b.rows, '$.benchmark.rows');
@@ -437,13 +483,36 @@
       out.metrics.readings = array(result.readings).length;
       out.metrics.closures = array(result.closure_records).length;
       out.metrics.assumptions = array(result.assumptions).length;
-      if (result.verified === true && ['native_checked','all_readings_complete','closures_checked'].some(k => result[k] !== true))
-        finding(out, 'NABT_AUTHORITY_CONTRADICTION', 'error', 'تصريح تحقق لا يستوفي شروطه', 'verified=true دون اكتمال أعلام الفحص والإغلاق والقراءات.');
+      optionalType(result, 'authority', string, '$.result');
+      const checkedFlags = ['native_checked','all_readings_complete','closures_checked'];
+      const checkedStates = ['SUPPORTED','REFUTED','CONFLICT','UNKNOWN','DEFER','DISAGREEMENT'];
+      const resultStates = [...checkedStates, 'INVALID_INPUT','SOURCE_UNAVAILABLE','VERIFICATION_UNAVAILABLE','RESOURCE_EXHAUSTED'];
+      const statusConflict = (result.status != null && !resultStates.includes(result.status))
+        || (record.status != null && !resultStates.includes(record.status))
+        || (result.status != null && record.status != null && result.status !== record.status);
+      const falseConflict = result.verified === false && (
+        checkedFlags.some(k => result[k] === true)
+        || (result.authority != null && result.authority !== 'UNVERIFIED_PROPOSAL')
+        || ['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT'].includes(result.status));
+      const trueConflict = result.verified === true && (
+        checkedFlags.some(k => result[k] === false)
+        || (result.authority != null && result.authority !== 'SOURCE_RELATIVE_CONSEQUENCE')
+        || (result.status != null && !checkedStates.includes(result.status)));
+      if (trueConflict || falseConflict)
+        finding(out, 'NABT_AUTHORITY_CONTRADICTION', 'error', 'تصريحات التحقق متناقضة',
+          falseConflict ? 'verified=false مع علم فحص ناجح أو سلطة أو حكم لا يسمح به عقد النتيجة غير المتحققة.'
+            : 'verified=true دون توافق أعلام الفحص والحالة وسلطة الاستدلال.');
+      if (statusConflict)
+        finding(out, 'NABT_STATUS_CONTRADICTION', 'error', 'حالة النتيجة غير متسقة',
+          'الحالة خارج عقد NABT أو مختلفة بين الغلاف والنتيجة.');
+      const completeDeclaration = typeof result.verified === 'boolean'
+        && checkedFlags.every(k => typeof result[k] === 'boolean')
+        && string(result.authority) && string(result.status);
+      check(out, 'NABT_VERIFICATION_CONTRACT', 'اتساق تصريحات التحقق',
+        trueConflict || falseConflict || statusConflict ? 'fail' : completeDeclaration ? 'pass' : 'unknown',
+        'تُراجع العلاقة في الاتجاهين. الحقول الغائبة تظل غير محسومة، وأعلام النجاح بيانات مستوردة.');
       array(result.assumptions).forEach((a,i) => finding(out, 'DECLARED_ASSUMPTION_' + i, 'info', 'افتراض معلن', display(a), 4));
       if (array(result.unclassified_spans).length) finding(out, 'UNCLASSIFIED_SPANS', 'warning', 'بقايا نص غير مصنفة', 'يحفظ السجل أجزاء لم يصنفها المسار. لا تتحول إلى دليل ضمني.', 1);
-      const importedClaim = (id, layer, label, value) => out.claims.push({ id, layer, label, value,
-        rank: 'تصريح مستورد', evidence: 'قيمة من JSON المستورد؛ لم يُعد تشغيل Lean للتحقق منها.',
-        axioms: null, declared_passed: null, replayed: false });
       if (out.input) importedClaim('source_raw_text', 1, 'النص الأصلي كما سجّله NABT', out.input.text);
       if (object(result.query) && own(result.query, 'raw_text')) {
         requireString(result.query.raw_text, '$.result.query.raw_text');

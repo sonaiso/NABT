@@ -10,18 +10,29 @@ const files = name => readFileSync(new URL('../web/' + name, import.meta.url), '
 const html = files('index.html');
 const programs = ['evidence-audit.js', 'evidence-sample.js', 'evidence-ui.js'].map(files);
 class Element {
-  constructor(tag = 'div') { this.tag = tag; this.children = []; this.listeners = {};
-    this.textContent = ''; this.value = ''; this.hidden = false; this.attrs = {}; this.files = []; }
+  constructor(tag = 'div', ownerDocument = null) { this.tag = tag; this.children = []; this.listeners = {};
+    this.textContent = ''; this.value = ''; this.hidden = false; this.attrs = {}; this.files = [];
+    this.ownerDocument = ownerDocument; this.parentElement = null; this.isConnected = false; }
   set innerHTML(_) { throw new Error('Unsafe innerHTML sink reached'); }
   addEventListener(name, handler) { (this.listeners[name] ??= []).push(handler); }
-  fire(name) { return Promise.all((this.listeners[name] || []).map(handler => handler({ preventDefault() {}, target: this }))); }
-  append(...children) { this.children.push(...children); }
-  replaceChildren(...children) { this.children = children; }
+  fire(name, extras = {}) { return Promise.all((this.listeners[name] || []).map(handler => handler({ preventDefault() {}, target: this, ...extras }))); }
+  attach(parent) { this.parentElement = parent; this.isConnected = parent.isConnected;
+    for (const child of this.children) child.attach(this); }
+  disconnect() {
+    if (this.ownerDocument?.activeElement === this) this.ownerDocument.activeElement = this.ownerDocument.body;
+    this.isConnected = false; this.parentElement = null;
+    for (const child of this.children) child.disconnect();
+  }
+  append(...children) { for (const child of children) { this.children.push(child); child.attach(this); } }
+  replaceChildren(...children) { for (const child of this.children) child.disconnect(); this.children = []; this.append(...children); }
   setAttribute(key, value) { this.attrs[key] = value; }
-  focus() { this.focused = true; }
+  getAttribute(key) { return this.attrs[key] ?? null; }
+  contains(node) { return this === node || this.children.some(child => child.contains(node)); }
+  focus() { if (this.isConnected && this.ownerDocument) this.ownerDocument.activeElement = this; this.focused = true; }
   click() { this.clicked = true; return this.fire('click'); }
-  remove() { this.removed = true; }
+  remove() { if (this.parentElement) this.parentElement.children = this.parentElement.children.filter(child => child !== this); this.disconnect(); this.removed = true; }
 }
+
 const content = node => node.textContent + node.children.map(content).join(' ');
 // WebCrypto resolves on the real worker pool. A deadline with a short timer
 // yields to that pool under concurrent tests; a count of immediate callbacks
@@ -35,21 +46,24 @@ async function flushUntil(test, description) {
 }
 async function harness({ cryptoAvailable = true } = {}) {
   const nodes = new Map();
+  const document = { activeElement: null };
+  const body = new Element('body', document); body.isConnected = true; document.body = body; document.activeElement = body;
   for (const match of html.matchAll(/<([a-z][a-z0-9]*)\b([^>]*\bid="([^"]+)"[^>]*)>/g)) {
     assert(!nodes.has(match[3]), 'Duplicate id ' + match[3]);
-    const node = new Element(match[1]); node.hidden = /\bhidden\b/.test(match[2]); nodes.set(match[3], node);
+    const node = new Element(match[1], document); node.isConnected = true; node.hidden = /\bhidden\b/.test(match[2]); nodes.set(match[3], node);
   }
   const get = id => { assert(nodes.has(id), 'Unknown DOM id ' + id); return nodes.get(id); };
-  const body = new Element('body'), blobs = [], calls = [];
+  const blobs = [], calls = [];
   const failRemote = kind => () => { calls.push(kind); throw new Error('Unexpected ' + kind); };
-  const document = { getElementById: get, createElement: tag => new Element(tag), body };
+  Object.assign(document, { getElementById: get, createElement: tag => new Element(tag, document), body });
   const storage = { setItem: failRemote('storage write'), getItem: failRemote('storage read') };
   const context = vm.createContext({ document, TextEncoder, TextDecoder, crypto: cryptoAvailable ? webcrypto : undefined,
     Blob, URL: { createObjectURL: blob => { blobs.push(blob); return 'blob:local-' + blobs.length; }, revokeObjectURL() {} },
     fetch: failRemote('network'), localStorage: storage, sessionStorage: storage, setTimeout() {} });
   programs.forEach((program, i) => vm.runInContext(program, context, { filename: ['evidence-audit.js','evidence-sample.js','evidence-ui.js'][i] }));
   await flushUntil(() => get('evidence-loading').hidden, 'initial sample');
-  return { get, context, body, blobs, calls,
+  return { get, context, document, body, blobs, calls,
+    async activate(node, key) { node.focus(); await node.fire('keydown', { key }); await node.fire('click', { detail: 0 }); await node.fire('keyup', { key }); },
     sample: () => JSON.parse(JSON.stringify(context.NabtEvidenceSample)),
     async paste(record) { get('evidence-input').value = typeof record === 'string' ? record : JSON.stringify(record); await get('audit-evidence').fire('click'); },
   };
@@ -232,4 +246,56 @@ test('missing WebCrypto leaves digest unavailable without inventing a successful
   assert.equal(result.input.computed_sha256, null);
   assert.equal(result.checks.find(item => item.id === 'TEXT_HASH').status, 'unknown');
   assert.equal(result.authority.lean_replayed, false);
+});
+
+// A native button activation dispatches click for Enter/Space. This harness
+// models focus loss on DOM removal, so keeping a detached node's `focused`
+// property true cannot accidentally satisfy these regressions.
+test('keyboard layer activation keeps focus on the activated layer after selecting and toggling', async () => {
+  const ui = await harness();
+  for (const key of ['Enter', ' ']) {
+    const layer = ui.get('evidence-layers').children[2];
+    await ui.activate(layer, key);
+    const current = ui.get('evidence-layers').children[2];
+    assert(ui.document.activeElement === current, 'focus must remain on a connected layer button');
+    assert.equal(current.isConnected, true);
+    assert.equal(current.attrs['aria-pressed'], key === 'Enter' ? 'true' : 'false');
+  }
+});
+
+test('keyboard claim activation keeps focus on the selected claim and opens its detail', async () => {
+  const ui = await harness();
+  for (const [key, id] of [['Enter','tabaqa3_hukm'], [' ','tabaqa4_zaman']]) {
+    const row = ui.get('evidence-claims').children.find(node => content(node).includes(id));
+    assert(row); await ui.activate(row, key);
+    const current = ui.get('evidence-claims').children.find(node => content(node).includes(id));
+    assert(ui.document.activeElement === current, 'selection must not drop focus to body');
+    assert.equal(current.isConnected, true);
+    assert.equal(current.attrs['aria-pressed'], 'true');
+    assert.match(content(ui.get('claim-detail')), new RegExp(id));
+  }
+});
+
+test('search and rank filtering never steal focus to a newly selected claim', async () => {
+  const ui = await harness();
+  const search = ui.get('evidence-search'); search.focus(); search.value = 'tabaqa4';
+  await search.fire('input');
+  assert.equal(ui.document.activeElement, search);
+  assert.equal(ui.get('evidence-claims').children.length, 5);
+  const rank = ui.get('evidence-rank'); rank.focus(); rank.value = 'مبرهن'; await rank.fire('change');
+  assert.equal(ui.document.activeElement, rank);
+  assert.equal(ui.get('evidence-claims').children.length, 1);
+});
+
+test('benchmark failure receipt displays its failure status and reason instead of a parsing rejection', async () => {
+  const ui = await harness();
+  await ui.paste({ schema: 'nabt.proof-lab-result.v1', mode: 'benchmark', status: 'VERIFICATION_UNAVAILABLE',
+    error: 'NATIVE_CHECKER_MISSING', native_sha256: null, all_arabic_complete: false, world_truth_established: false });
+  assert.equal(ui.get('evidence-output').hidden, false);
+  assert.equal(ui.get('evidence-error').hidden, true);
+  assert.equal(ui.get('evidence-imported-benchmark').hidden, true);
+  assert.equal(ui.get('evidence-imported-rows').children.length, 0);
+  assert.match(content(ui.get('evidence-claims')), /VERIFICATION_UNAVAILABLE|حالة التنفيذ/);
+  assert(content(ui.get('evidence-claims')).includes('NATIVE_CHECKER_MISSING') || content(ui.get('claim-detail')).includes('NATIVE_CHECKER_MISSING'), 'reason must be visible as a claim label or detail');
+  assert.equal(ui.calls.length, 0);
 });

@@ -73,13 +73,24 @@
   }
   function renderLayers(){
     const root=$('evidence-layers');root.replaceChildren();
+    const buttons=[];
     for(let i=0;i<4;i++){
       const layer=review.layers.find(l=>Number(l.id)===i+1);
       const related=review.claims.filter(c=>Number(c.layer)===i+1);
       const node=make('button',null,'layer-card'+(selectedLayer===i+1?' selected':''));node.type='button';node.setAttribute('aria-pressed',String(selectedLayer===i+1));
       node.append(make('span','0'+(i+1),'layer-index'),make('h3',layer?.title||layerNames[i]),make('span',layer?.declared?'رتبة السجل: '+layer.declared:'رتبة غير مسجلة','layer-declared'),make('p',count(related.length)+' ادعاءات · '+(i===0?'هوية النص وترميزه':i===1?'المعنى ومصدره':i===2?'الإطار والترخيص':'المرساة والافتراضات')));
       node.append(make('span',(layer?.issues?.length?count(layer.issues.length)+' التزامات ظاهرة':'التوثيق وإعادة التشغيل لم يُحسما'),'layer-issues'));
-      node.addEventListener('click',()=>{selectedLayer=selectedLayer===i+1?0:i+1;renderLayers();renderClaims();});root.append(node);
+      buttons.push(node);
+      node.addEventListener('click',()=>{
+        selectedLayer=selectedLayer===i+1?0:i+1;
+        // Keep the activated DOM node (and keyboard focus) in place.
+        buttons.forEach((button,index)=>{
+          const selected=selectedLayer===index+1;
+          button.className='layer-card'+(selected?' selected':'');
+          button.setAttribute('aria-pressed',String(selected));
+        });
+        renderClaims();
+      });root.append(node);
     }
   }
   function renderClaims(){
@@ -88,11 +99,22 @@
     if(!items.some(c=>c.id===selectedId))selectedId=items[0]?.id||null;
     set('evidence-claim-count',count(items.length)+' / '+count(review.claims.length));
     $('evidence-claims').replaceChildren();
+    const buttons=[];
     for(const c of items){
       const button=make('button',null,'claim-row'+(selectedId===c.id?' selected':''));button.type='button';button.setAttribute('aria-pressed',String(selectedId===c.id));
       const top=make('span',null,'claim-row-top');top.append(make('span','ط'+count(Number(c.layer)),'claim-layer'),make('span',c.rank||'بلا رتبة','claim-rank'));
       button.append(top,make('strong',c.label||c.id),make('code',c.id),make('span','افحص المستند والحدود ↙','claim-open'));
-      button.addEventListener('click',()=>{selectedId=c.id;renderClaims();});$('evidence-claims').append(button);
+      buttons.push({id:c.id,node:button});
+      button.addEventListener('click',()=>{
+        selectedId=c.id;
+        // Selecting a row changes its state/detail, not its identity or focus.
+        buttons.forEach(row=>{
+          const selected=row.id===selectedId;
+          row.node.className='claim-row'+(selected?' selected':'');
+          row.node.setAttribute('aria-pressed',String(selected));
+        });
+        renderClaim(c);
+      });$('evidence-claims').append(button);
     }
     $('evidence-claims-empty').hidden=items.length>0;
     renderClaim(items.find(c=>c.id===selectedId));

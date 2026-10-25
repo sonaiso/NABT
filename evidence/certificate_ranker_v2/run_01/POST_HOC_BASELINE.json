@@ -1,0 +1,83 @@
+{
+  "schema": "nabt.certificate-ranker-v2-secondary-analysis.v1",
+  "comparison_status": "POST_HOC_NOT_PREREGISTERED",
+  "comparator": "Untrained sum of visible consistency features; bias weight zero; all other weights one",
+  "reason": "Separate the effect of added structural information from any claim of SGD superiority. This comparator did not select model weights or hyperparameters.",
+  "untrained_consistency_sum": {
+    "planned_groups": 4,
+    "measured_groups": 4,
+    "unmeasured_groups": 0,
+    "top1_accepted": 4,
+    "top1_rate": 1.0,
+    "mean_first_accepted_rank": 1.0,
+    "groups": [
+      {
+        "case_id": "multipremise",
+        "candidate_order": [
+          "original",
+          "bad_clean_step_index",
+          "bad_step_index",
+          "wrong_law",
+          "changed_source",
+          "changed_query",
+          "changed_identity",
+          "extra_clause"
+        ],
+        "measurement": "MEASURED",
+        "first_accepted_rank": 1,
+        "top1_accepted": true
+      },
+      {
+        "case_id": "relation-order",
+        "candidate_order": [
+          "original",
+          "bad_clean_step_index",
+          "bad_step_index",
+          "wrong_law",
+          "changed_source",
+          "changed_query",
+          "changed_identity",
+          "extra_clause"
+        ],
+        "measurement": "MEASURED",
+        "first_accepted_rank": 1,
+        "top1_accepted": true
+      },
+      {
+        "case_id": "negative-question",
+        "candidate_order": [
+          "original",
+          "bad_clean_step_index",
+          "bad_step_index",
+          "wrong_law",
+          "changed_source",
+          "changed_query",
+          "changed_identity",
+          "extra_clause"
+        ],
+        "measurement": "MEASURED",
+        "first_accepted_rank": 1,
+        "top1_accepted": true
+      },
+      {
+        "case_id": "remove-one-conjunct",
+        "candidate_order": [
+          "original",
+          "bad_clean_step_index",
+          "bad_step_index",
+          "wrong_law",
+          "changed_source",
+          "changed_query",
+          "changed_identity",
+          "extra_clause"
+        ],
+        "measurement": "MEASURED",
+        "first_accepted_rank": 1,
+        "top1_accepted": true
+      }
+    ]
+  },
+  "learning_superiority_established": false,
+  "latency_improvement_measured": false,
+  "all_arabic_complete": false
+}

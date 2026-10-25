@@ -197,6 +197,23 @@ test('report success must contain typed checked-result flags and coherent status
   assert.throws(()=>validateReport(report({status:'UNKNOWN',result:successResult()}),expected));
 });
 
+test('unverified live receipts cannot retain checked flags, authority or measured conclusions',()=>{
+  const expected=descriptor();
+  const base={status:'UNKNOWN',verified:false,native_checked:false,all_readings_complete:false,closures_checked:false,authority:'UNVERIFIED_PROPOSAL'};
+  assert.equal(validateReport(report({status:'UNKNOWN',result:successResult(base)}),expected).result.verified,false);
+  for(const patch of [{native_checked:true},{all_readings_complete:true},{closures_checked:true},{authority:'SOURCE_RELATIVE_CONSEQUENCE'},{all_readings_complete:null},{closures_checked:undefined}])
+    assert.throws(()=>validateReport(report({status:'UNKNOWN',result:successResult({...base,...patch})}),expected),expectCode('REPORT_AUTHORITY_INVALID'));
+  for(const status of ['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT'])
+    assert.throws(()=>validateReport(report({status,result:successResult({...base,status})}),expected),expectCode('REPORT_AUTHORITY_INVALID'));
+});
+
+test('checked UNKNOWN remains valid but operational failure cannot claim checked success',()=>{
+  const expected=descriptor();
+  assert.equal(validateReport(report({status:'UNKNOWN',result:successResult({status:'UNKNOWN'})}),expected).result.verified,true);
+  for(const status of ['INVALID_INPUT','RESOURCE_EXHAUSTED','VERIFICATION_UNAVAILABLE','SOURCE_UNAVAILABLE'])
+    assert.throws(()=>validateReport(report({status,result:successResult({status})}),expected),expectCode('REPORT_AUTHORITY_INVALID'));
+});
+
 test('AES-GCM envelopes hide plaintext, use fresh nonces and preserve exact UTF-8',async()=>{
   const input=JSON.stringify(INPUT),a=await encryptEnvelope(input,TRANSPORT,ID),b=await encryptEnvelope(input,TRANSPORT,ID);
   assert.equal(a.schema,'nabt.proof-lab-envelope.v1');assert.equal(Buffer.from(a.nonce,'base64').length,12);assert.notEqual(a.nonce,b.nonce);assert.notEqual(a.ciphertext,b.ciphertext);

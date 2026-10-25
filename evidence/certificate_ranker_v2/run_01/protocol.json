@@ -1,0 +1,61 @@
+{
+  "schema": "nabt.certificate-ranker-v2-protocol.v1",
+  "frozen_before_native_measurement": true,
+  "purpose": "Secondary hard-negative proposal-ranking development; no native decision or language changes",
+  "features": [
+    "bias",
+    "source_equal",
+    "query_equal",
+    "identity_equal",
+    "revision_equal",
+    "scope_equal",
+    "clause_count_equal",
+    "trace_size_equal",
+    "clean_trace_size_equal",
+    "law_equal",
+    "proof_indices_in_bounds"
+  ],
+  "train_candidate_kinds": [
+    "bad_step_index",
+    "wrong_law",
+    "changed_source",
+    "changed_query",
+    "changed_identity",
+    "extra_clause",
+    "original"
+  ],
+  "validation_candidate_kinds": [
+    "bad_clean_step_index",
+    "bad_step_index",
+    "wrong_law",
+    "changed_source",
+    "changed_query",
+    "changed_identity",
+    "extra_clause",
+    "original"
+  ],
+  "validation_case_ids": [
+    "multipremise",
+    "remove-one-conjunct",
+    "relation-order",
+    "negative-question"
+  ],
+  "held_out_mutation": "bad_clean_step_index appears only in validation; same bounded-index feature is shared across both traces",
+  "optimizer": {
+    "epochs": 160,
+    "learning_rate": 0.1,
+    "seed": 20261025
+  },
+  "cases_sha256": "7e1a2a58658d3a54a85446f02d3ff778e5bd8fca5d99d944fe94de94451dcaef",
+  "prior_model_sha256": "1c227a51508cd839254141d366a197af2d7fe95428962196adf73e7aed698756",
+  "selection": "one fixed run; no validation-based hyperparameter or checkpoint selection",
+  "label_authority": "fresh native Lean verifier for every proposal; expected statuses from preexisting authored case file",
+  "promotion": "Never promote scores; all candidates rechecked; unavailable labels prohibit training/selection",
+  "scope_limits": [
+    "Existing public source cases and split; not a fresh blind Arabic dataset",
+    "Held-out mutation family tests structural transfer only",
+    "No inference that a source premise is true in the world",
+    "No runtime deployment of learned weights",
+    "No certificate pruning or linguistic reading pruning"
+  ]
+}

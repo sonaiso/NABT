@@ -107,8 +107,10 @@ export function validateReport(report,expected){
   if(report.mode==='inference'){
     const r=report.result;
     const statuses=['SUPPORTED','REFUTED','CONFLICT','UNKNOWN','DEFER','DISAGREEMENT','INVALID_INPUT','SOURCE_UNAVAILABLE','VERIFICATION_UNAVAILABLE','RESOURCE_EXHAUSTED'];
-    if(!r||r.schema!=='nabt.licensed-inference-result.v1'||r.law_id!=='nabt.licensed-inference.v1'||!statuses.includes(r.status)||r.status!==report.status||typeof r.verified!=='boolean'||typeof r.native_checked!=='boolean'||r.all_arabic_complete!==false||r.world_truth_established!==false||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
-    if(r.verified&&(!r.native_checked||r.all_readings_complete!==true||r.closures_checked!==true||r.authority!=='SOURCE_RELATIVE_CONSEQUENCE'))fail('REPORT_AUTHORITY_INVALID',502);
+    if(!r||r.schema!=='nabt.licensed-inference-result.v1'||r.law_id!=='nabt.licensed-inference.v1'||!statuses.includes(r.status)||r.status!==report.status||['verified','native_checked','all_readings_complete','closures_checked'].some(k=>typeof r[k]!=='boolean')||r.all_arabic_complete!==false||r.world_truth_established!==false||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
+    const measured=['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT'];
+    if(r.verified&&(!r.native_checked||!r.all_readings_complete||!r.closures_checked||r.authority!=='SOURCE_RELATIVE_CONSEQUENCE'||![...measured,'UNKNOWN'].includes(r.status)))fail('REPORT_AUTHORITY_INVALID',502);
+    if(!r.verified&&(r.native_checked||r.all_readings_complete||r.closures_checked||r.authority!=='UNVERIFIED_PROPOSAL'||measured.includes(r.status)))fail('REPORT_AUTHORITY_INVALID',502);
   }else{
     const b=report.benchmark,summary=b?.summary;
     if(!b||!summary||!Array.isArray(b.rows)||!['BENCHMARK_COMPLETE','BENCHMARK_CONTRACT_FAILURE'].includes(report.status)||report.result||typeof b.contract_gate?.passed!=='boolean'||(report.status==='BENCHMARK_COMPLETE')!==b.contract_gate.passed)fail('REPORT_AUTHORITY_INVALID',502);
