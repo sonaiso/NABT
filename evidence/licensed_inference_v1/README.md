@@ -29,6 +29,15 @@ or the truth of source assertions in the external world.
   0 unmeasured; the positive out-of-vocabulary case remains a failure.
 - `validation.json` and `targeted_tests.log`: targeted execution receipt;
   full repository and CI gates are separate runs, not inferred from this file.
+- `full_check.json` and `full_check_*.log.gz`: all 53 unique repository check
+  targets executed across an initial run and an explicit continuation. The
+  first run stopped at a legacy output-path constraint; the continuation used
+  repository-local output and reused only the 25 already completed targets.
+  The continuation's saved output ended at the start of `word-evaluation`;
+  a separate successful terminal replay retained that target and all later
+  output in full. All three command receipts and log scopes are explicit.
+  Unit discovery ran 2172 tests: 2144 passed, 28 skipped, none failed. GitHub
+  publication and remote checks are not recorded as successful.
 
 Reproduce with the pinned Lean toolchain:
 
@@ -43,3 +52,6 @@ receipts and never silently overwrites them. Native binary hashes describe the
 recorded build environment and may differ in a fresh build; the source and
 proof identities are replayed locally. The direct JSON/file adapter has tests,
 not a general Lean parser/compiler refinement theorem.
+
+Use an `EVIDENCE_DIR` inside the repository for the complete historical gate
+suite: its holdout recorder requires repository-relative artifact paths.
