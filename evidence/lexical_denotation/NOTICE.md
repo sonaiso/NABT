@@ -9,8 +9,9 @@ Code in `formal/` and `tools/` retains the repository code license.
 * Ibn Manzur, *Lisan al-Arab*, OpenITI Shamela0001687, upstream
   `OpenITI/0725AH@056df249d6619b428a78f1d69a8ab2851b97b0a6`;
   exact upstream blob `9f6bfb332bdf8ed25ff6c7b50400ea258bbe0b7b`.
-  The gzip transport is an immutable Alghanem mirror at
-  `9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`.
+  The initial research copy was checked against an immutable Alghanem gzip
+  mirror at `9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`. The replay downloader
+  retrieves OpenITI directly and has no dependency on that experiment.
 * Ibn Faris, *Mu'jam Maqayis al-Lugha*, OpenITI Shamela0021710,
   `OpenITI/0400AH@5bb6966d8df2ed22b1bff5cdbe29bb9c24f3ca29`;
   the full pinned text was already retained by NABT.

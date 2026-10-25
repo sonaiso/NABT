@@ -13,8 +13,9 @@ After merged PR #26, the source review pinned Mashru at
 were research references. NABT independently implements its conditional
 component/set checker; none of those codebases is imported or executed.
 
-The pinned Lisan transport is an Alghanem gzip mirror whose decompressed
-bytes match the OpenITI upstream git blob and SHA-256. Maqayis and the supplied
+The initially consulted Alghanem gzip mirror matched the OpenITI upstream
+git blob and SHA-256. Replay retrieves the pinned OpenITI text directly,
+without a release dependency on Alghanem. Maqayis and the supplied
 Shakhsiyya 3 excerpt were already retained locally. The full immutable paths,
 interpretation boundary, negative training results and license notices are in
 [LEXICAL_DENOTATION.md](LEXICAL_DENOTATION.md) and

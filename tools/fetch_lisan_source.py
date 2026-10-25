@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch a pinned compressed mirror; verify the upstream uncompressed identity."""
+"""Fetch pinned primary OpenITI bytes; verify size, SHA-256 and git identity."""
 import argparse
 from pathlib import Path
 import sys

@@ -3,7 +3,6 @@
 It identifies a bibliographic entry, not equivalent senses or true sentences.
 Source bytes are never normalized. Only the retrieval view is normalized.
 """
-import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -14,34 +13,31 @@ ROOT = Path(__file__).resolve().parents[2]
 LISAN_SHA = '34fa56710a5b701532a34cb70f8fe440b261e80ae3c40d9667d18b65be7ed86d'
 MAQAYIS_SHA = '7f71af0dfe056cb84e7da24657fa13edc6e8061ca1980eed7f6c196bd18b5689'
 LISAN_BLOB = '9f6bfb332bdf8ed25ff6c7b50400ea258bbe0b7b'
-LISAN_GZIP_SHA = 'ed42d51af8a4a72ba43959b9a0a34953b88dca9c8729e5661cf0b2f5935f351a'
 LISAN_REV = '056df249d6619b428a78f1d69a8ab2851b97b0a6'
 MAQAYIS_REV = '5bb6966d8df2ed22b1bff5cdbe29bb9c24f3ca29'
-LISAN_URL = ('https://raw.githubusercontent.com/Saleh1967/Alghanem/'
- '9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/corpora/lisan/'
- '0711IbnManzurIfriqi.LisanCarab.Shamela0001687-ara1.mARkdown.gz')
+LISAN_URL = ('https://raw.githubusercontent.com/OpenITI/0725AH/'
+ '056df249d6619b428a78f1d69a8ab2851b97b0a6/data/0711IbnManzurIfriqi/'
+ '0711IbnManzurIfriqi.LisanCarab/'
+ '0711IbnManzurIfriqi.LisanCarab.Shamela0001687-ara1.mARkdown')
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 def fetch_lisan(path):
     path = Path(path)
-    if path.exists():
+    existing = path.exists()
+    if existing:
         data = path.read_bytes()
     else:
         with urllib.request.urlopen(LISAN_URL, timeout=120) as response:
-            compressed = response.read(12_000_001)
-        if len(compressed) > 12_000_000:
-            raise ValueError('compressed source exceeds pinned bound')
-        if digest(compressed) != LISAN_GZIP_SHA:
-            raise ValueError('compressed Lisan identity mismatch')
-        data = gzip.decompress(compressed)
+            data = response.read(30_670_792)
     if len(data) != 30670791 or digest(data) != LISAN_SHA:
         raise ValueError('Lisan source identity mismatch')
     if hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest() != LISAN_BLOB:
         raise ValueError('Lisan upstream git blob mismatch')
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(data)
+    if not existing:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
     return data
 
 def normalize(s):
