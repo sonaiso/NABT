@@ -1,0 +1,73 @@
+{
+  "schema": "nabt.linguistic-truth.source-provenance-gold.v1",
+  "frozen_at_utc": "2026-10-25T15:16:52.841330+00:00",
+  "scope": "Four finite citation controls; verifies exact quote and source-reported kind, not historical authenticity or Quran-wide verification.",
+  "source": {
+    "path": "evidence/linguistic_truth_v1/benchmark_source_control.txt",
+    "sha256": "158b63027a5aa7c6c85e4535be4199dab312d2b32d35ee5157ac1036cffedc71",
+    "source_reported_kind": "quran_quote",
+    "paragraph": 902,
+    "original_start": 879643,
+    "original_end": 881450,
+    "original_artifact_sha256": "057525f3f527e9dbc764e0082f9cce76005e229e226ae3b497177e68ecbec0ab",
+    "original_extraction_sha256": "9e4b6678b3907151273c5a73c8b804db835dc1ed25a1c54c37e7c0cae51a30ff"
+  },
+  "cases": [
+    {
+      "id": "V01",
+      "input": {
+        "quote": "لِيَشْهَدُوا مَنَافِعَ لَهُمْ",
+        "claimed_kind": "quran_quote",
+        "start": 750,
+        "end": 806
+      },
+      "expected": {
+        "exact_quote_match": true,
+        "kind_matches_source_report": true,
+        "external_authenticity_established": false
+      }
+    },
+    {
+      "id": "V02",
+      "input": {
+        "quote": "وَالسُّلُوكُ بِالْمَفْاهِيمِ غَدَا ... مُرْتَبِطاً حَتْمًا لِكُلِّ مَنْ هَدَى",
+        "claimed_kind": "alfiyya_verse",
+        "start": 750,
+        "end": 806
+      },
+      "expected": {
+        "exact_quote_match": false,
+        "kind_matches_source_report": false,
+        "external_authenticity_established": false
+      }
+    },
+    {
+      "id": "V03",
+      "input": {
+        "quote": "لِيَشْهَدُوا مَضَارَّ لَهُمْ",
+        "claimed_kind": "quran_quote",
+        "start": 750,
+        "end": 806
+      },
+      "expected": {
+        "exact_quote_match": false,
+        "kind_matches_source_report": false,
+        "external_authenticity_established": false
+      }
+    },
+    {
+      "id": "V04",
+      "input": {
+        "quote": "لِيَشْهَدُوا مَنَافِعَ لَهُمْ",
+        "claimed_kind": "alfiyya_verse",
+        "start": 750,
+        "end": 806
+      },
+      "expected": {
+        "exact_quote_match": true,
+        "kind_matches_source_report": false,
+        "external_authenticity_established": false
+      }
+    }
+  ]
+}

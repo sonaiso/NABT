@@ -1,0 +1,1898 @@
+{
+  "schema": "nabt.linguistic-truth.benchmark-observation-revision.v1",
+  "gold_sha256": "8d980b7ae2611e9a8157db17a8218c7a9305d4ec6c59b06a85f84c9ede6bf86a",
+  "initial_report_sha256": "1a0037fbe3db878041e2de7cc229f2f2d37d59434e506966941abce89aadc48e",
+  "runtime_reexecuted": false,
+  "gold_expected_or_input_changed": false,
+  "changes": [
+    "Map already exposed selected/excluded/certified senses to the requested semantic observations.",
+    "Validate source_roundtrip from returned raw text, byte count, and SHA256.",
+    "Map ambiguity and contexts from returned occurrence fields.",
+    "The first B05 constructor exception remains unmeasured in this reused-output report; new adapter records typed rejection on subsequent execution."
+  ],
+  "summary": {
+    "total_cases": 44,
+    "pass": 15,
+    "fail": 13,
+    "unmeasured": 16,
+    "executed": 43,
+    "checks": {
+      "PASS": 147,
+      "FAIL": 43,
+      "UNMEASURED": 26
+    },
+    "families": {
+      "explicit_intent": {
+        "PASS": 4
+      },
+      "negative_cues": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "contrary_cues": {
+        "FAIL": 1
+      },
+      "scope": {
+        "FAIL": 2
+      },
+      "unicode": {
+        "PASS": 1
+      },
+      "homonymy": {
+        "PASS": 3,
+        "FAIL": 1
+      },
+      "profile": {
+        "PASS": 1,
+        "FAIL": 1
+      },
+      "natural_use_holdout": {
+        "FAIL": 6
+      },
+      "attachment_authority": {
+        "PASS": 2,
+        "UNMEASURED": 4
+      },
+      "resources": {
+        "PASS": 2,
+        "FAIL": 1
+      },
+      "invalid_input": {
+        "PASS": 1,
+        "UNMEASURED": 1
+      },
+      "candidate_recall": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_particle_dependence": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_temporal_derivation": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_proper_name": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_profile_homonymy": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_preference_not_certainty": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_ratio_conditions": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_cognition": {
+        "UNMEASURED": 4
+      }
+    },
+    "candidate_recall": {
+      "required_sense_obligations": 48,
+      "found": 27,
+      "missing": 21,
+      "unmeasured": 0
+    },
+    "intended_selection": {
+      "cases": 23,
+      "exact_matches": 15,
+      "misses": 8,
+      "unmeasured": 0,
+      "false_selected_senses": 0,
+      "missed_selected_senses": 8
+    },
+    "authority": {
+      "obligations": 86,
+      "excess_claims": 0,
+      "unmeasured": 0
+    },
+    "natural_use_holdout": {
+      "cases": 6,
+      "pass": 0,
+      "fail": 6,
+      "unmeasured": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "M01",
+      "family": "explicit_intent",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "lion"
+          ],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M02",
+      "family": "explicit_intent",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "brave_man"
+          ],
+          "expected": [
+            "brave_man"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "figurative"
+          ],
+          "expected": [
+            "figurative"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M03",
+      "family": "explicit_intent",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "brave_man"
+          ],
+          "expected": [
+            "brave_man"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "figurative"
+          ],
+          "expected": [
+            "figurative"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M04",
+      "family": "explicit_intent",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "lion"
+          ],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M05",
+      "family": "negative_cues",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "brave_man"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "figurative"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M06",
+      "family": "negative_cues",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "semantics.literal_positive_support",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "semantics.brave_man_negative_support",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "M07",
+      "family": "contrary_cues",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "semantics.same_context_conflict",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "semantics.consistent_unique_literal_proof",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "M08",
+      "family": "scope",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "semantics.distinct_contexts",
+          "outcome": "FAIL",
+          "actual": 0,
+          "expected": 2
+        },
+        {
+          "name": "semantics.preserve_selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "brave_man",
+            "lion"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M09",
+      "family": "unicode",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "lion"
+          ],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        },
+        {
+          "name": "semantics.source_roundtrip",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "family": "scope",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "brave_man"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "figurative"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "H01",
+      "family": "homonymy",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.menstruation",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.purity",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "semantics.ambiguous",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "H02",
+      "family": "homonymy",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.menstruation",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.purity",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "menstruation"
+          ],
+          "expected": [
+            "menstruation"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "family": "homonymy",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.menstruation",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.purity",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "purity"
+          ],
+          "expected": [
+            "purity"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "H04",
+      "family": "homonymy",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.menstruation",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.purity",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "semantics.ambiguous",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "family": "profile",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.supplication",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "supplication"
+          ],
+          "expected": [
+            "supplication"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "H06",
+      "family": "profile",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.ritual_prayer",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "ritual_prayer"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N01",
+      "family": "natural_use_holdout",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N02",
+      "family": "natural_use_holdout",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "brave_man"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "figurative"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N03",
+      "family": "natural_use_holdout",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.spring",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.eye",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "spring"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N04",
+      "family": "natural_use_holdout",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.spring",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.eye",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "eye"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N05",
+      "family": "natural_use_holdout",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.spring",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.eye",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "semantics.ambiguous",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "N06",
+      "family": "natural_use_holdout",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "FAIL",
+          "actual": false,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "FAIL",
+          "actual": [],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A01",
+      "family": "attachment_authority",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "lion"
+          ],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "family": "attachment_authority",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.lion",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.brave_man",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "lion"
+          ],
+          "expected": [
+            "lion"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "family": "attachment_authority",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.verse_attribution_established",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.judgment",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": "unverified_in_supplied_sources"
+        }
+      ]
+    },
+    {
+      "id": "A04",
+      "family": "attachment_authority",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.general_causal_ratio_established",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.derivation_implies_ratio",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "A05",
+      "family": "attachment_authority",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.causal_ratio_established",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "A06",
+      "family": "attachment_authority",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.analogy_transfer_established",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        },
+        {
+          "name": "attachment_audit.cause_equals_ratio",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "B01",
+      "family": "resources",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "status",
+          "outcome": "PASS",
+          "actual": "RESOURCE_EXHAUSTED",
+          "expected": "RESOURCE_EXHAUSTED"
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "family": "resources",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "status",
+          "outcome": "FAIL",
+          "actual": "UNKNOWN",
+          "expected": "RESOURCE_EXHAUSTED"
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "family": "resources",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "status",
+          "outcome": "PASS",
+          "actual": "RESOURCE_EXHAUSTED",
+          "expected": "RESOURCE_EXHAUSTED"
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "family": "invalid_input",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "status",
+          "outcome": "PASS",
+          "actual": "INVALID_INPUT",
+          "expected": "INVALID_INPUT"
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "family": "invalid_input",
+      "executed": false,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "runtime_available",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": "result"
+        }
+      ]
+    },
+    {
+      "id": "B06",
+      "family": "candidate_recall",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "candidate_recall.menstruation",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "candidate_recall.purity",
+          "outcome": "PASS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "selected_senses",
+          "outcome": "PASS",
+          "actual": [
+            "purity"
+          ],
+          "expected": [
+            "purity"
+          ]
+        },
+        {
+          "name": "selected_use_kind",
+          "outcome": "PASS",
+          "actual": [
+            "literal"
+          ],
+          "expected": [
+            "literal"
+          ]
+        },
+        {
+          "name": "metamorphic.reverse_candidates",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": true
+        },
+        {
+          "name": "metamorphic.display_limit",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": 1
+        },
+        {
+          "name": "metamorphic.same_semantic_result",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": true
+        },
+        {
+          "name": "metamorphic.all_installed_candidates_examined",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "S403",
+      "family": "source_holdout_particle_dependence",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.particle_min_depends_on_related_expression",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "S446",
+      "family": "source_holdout_temporal_derivation",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.darib_before_or_after_act",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": "figurative_in_author_profile"
+        }
+      ]
+    },
+    {
+      "id": "S447",
+      "family": "source_holdout_proper_name",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.mubarak_after_relation_disappears",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": "not_figurative_in_author_profile"
+        }
+      ]
+    },
+    {
+      "id": "S482",
+      "family": "source_holdout_profile_homonymy",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.prayer_shared_sharia_senses",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": [
+            "regular_prayer",
+            "funeral_prayer"
+          ]
+        },
+        {
+          "name": "source_understanding.single_sharia_sense_complete",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "S491",
+      "family": "source_holdout_preference_not_certainty",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.najas_candidates",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": [
+            "figurative_moral_impurity",
+            "transferred_sharia_impurity"
+          ]
+        },
+        {
+          "name": "source_understanding.preferred",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": "figurative_moral_impurity"
+        },
+        {
+          "name": "source_understanding.other_reading_erased",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "S902",
+      "family": "source_holdout_ratio_conditions",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.causal_particle_alone_sufficient",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.required_conditions",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": [
+            "particle_designated_for_causation",
+            "governed_expression_is_description",
+            "description_fits_established_ruling"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "T01",
+      "family": "source_holdout_cognition",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.cognitive_and_motivational_bases_may_differ",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "family": "source_holdout_cognition",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.creed_concept_link_mechanical_necessity",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "T03",
+      "family": "source_holdout_cognition",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.linguistic_understanding_entails_understanding_external_referent",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "T04",
+      "family": "source_holdout_cognition",
+      "executed": true,
+      "outcome": "UNMEASURED",
+      "checks": [
+        {
+          "name": "authority.world_truth_established",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "authority.all_arabic_complete",
+          "outcome": "PASS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "source_understanding.linguistic_prior_information_suffices_for_every_intellectual_judgment",
+          "outcome": "UNMEASURED",
+          "actual": null,
+          "expected": false
+        }
+      ]
+    }
+  ]
+}
