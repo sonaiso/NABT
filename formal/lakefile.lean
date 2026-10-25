@@ -2,10 +2,14 @@ import Lake
 open Lake DSL
 
 package nabt where
-  version := v!"0.17.0"
+  version := v!"0.18.0"
 
 @[default_target]
 lean_lib Nabt
+
+@[default_target]
+lean_exe exportProductiveForms where
+  root := `ExportProductiveForms
 
 @[default_target]
 lean_exe exportTable where

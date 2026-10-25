@@ -1,0 +1,454 @@
+{
+  "schema": "acb.standard.v1",
+  "version": "1.0.0",
+  "date": "2026-10-25",
+  "status": "RESEARCH_MEASUREMENT_STANDARD_V1_NEW_OPERATIONAL_THRESHOLDS_ARE_PROPOSALS",
+  "primary_scope": {
+    "language": "الفصحى المعيارية المشكلة بالكامل",
+    "orthography": "الإملاء المعياري؛ سياسة التطبيع والرد معلنة",
+    "excluded": [
+      "العامية",
+      "غير المشكول",
+      "الرسم غير المعياري"
+    ],
+    "separate_tracks": [
+      "النطق الصوتي الحقيقي يحتاج مرجعًا صوتيًا",
+      "شواهد القرآن والرسم العثماني انحدار مستقل لا مقام اكتمال النثر"
+    ]
+  },
+  "formal_target": "forall x in D, r: ArabicReference(x,r) iff exists d, AlgebraDerivation(d) and surface(d)=x and meaning(d)=r",
+  "reference_adequacy": "Separate independent obligation; do not define reference by system outputs",
+  "families": [
+    {
+      "id": "F01",
+      "title_ar": "الترميز وهوية الحوامل والحالات",
+      "scope_ar": "29 حاملًا × 4 حالات؛ الهمزة والألف؛ السكون؛ الشدة والتنوين؛ Unicode والرد إلى الأصل",
+      "acceptance_ar": "تقابل الترميز وفكّه وحفظ البايتات أو بقايا التطبيع على مجال معلن؛ لا مساواة بين 116 حالة و116 صوتًا مستعملًا",
+      "candidate_module_pointers": "Cell.lean; Sequence.lean",
+      "counterexample_ar": "قلب ترميز خانة أو حذف أثر التطبيع",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F02",
+      "title_ar": "المخارج والصفات والصوت المسموع",
+      "scope_ar": "مخارج الحروف وصفاتها، أدوار الواو والياء والألف، التحقق السمعي",
+      "acceptance_ar": "مطابقة التمثيل الصوتي لمرجع نطقي مستقل؛ القياس الصوتي مسار مستقل عن صحة جدول رمزي",
+      "candidate_module_pointers": "Law.lean",
+      "counterexample_ar": "اختلاف صوت مسموع مع تماثل الرسم",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F03",
+      "title_ar": "الابتداء والوصل والوقف",
+      "scope_ar": "الابتداء، الوصل الداخلي والحدّي، الوقف، همزة الوصل، التقاء الساكنين",
+      "acceptance_ar": "سلامة واكتمال قرار الترخيص لكل حالة/سياق داخل النطاق، وحفظ أثر الحدّ",
+      "candidate_module_pointers": "Law.lean; UnitCarrier.lean",
+      "counterexample_ar": "وحدتان جائزتان منفردتين ووصل غير جائز",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F04",
+      "title_ar": "المقطع وقوالبه",
+      "scope_ar": "CV وCVV وCVC ثم CVVC وCVCC بشروطهما؛ طول الحركة ليس حركة جديدة عشوائية",
+      "acceptance_ar": "تحليل وتوليد متعاكسان للمقاطع المرخصة، ومنع القفز فوق درجة غير مغلقة",
+      "candidate_module_pointers": "ProsodicUnits.lean",
+      "counterexample_ar": "مرشح C/V ممكن حسابيًا وغير مرخص لغويًا",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F05",
+      "title_ar": "الخانات والترتيب والتركيب المتكرر",
+      "scope_ar": "خانة إلى خمس وما بعدها؛ مقطع+مقطع؛ التجاور المكاني والتتابع الزماني",
+      "acceptance_ar": "استقراء على كل طول/ارتفاع، حفظ الترتيب والهوية والحدود، وتعريف مستقل لرتبة الاستنفاد",
+      "candidate_module_pointers": "RecursiveLicensedAlgebra.lean",
+      "counterexample_ar": "إيقاف التوليد عند أربعة أو تبديل الأبناء بلا ترخيص",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F06",
+      "title_ar": "حدود الكلمة واللواصق",
+      "scope_ar": "السوابق واللواحق والضمائر المتصلة؛ الكلمة قبل التركيب وبعده",
+      "acceptance_ar": "F1 للحدود واسترجاع كل تقسيم مرخص مع مواضعه الأصلية؛ لا إعطاء حدود الذهب للمحلل",
+      "candidate_module_pointers": "Words.lean; ReadingEnumeration.lean",
+      "counterexample_ar": "إسقاط تقطيع بديل أو دمج وقوعين",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F07",
+      "title_ar": "الجذور والأوزان والإعلال",
+      "scope_ar": "الثلاثي والرباعي والمزيد؛ الصحيح والمعتل والمهموز والمضعّف؛ الإبدال والحذف",
+      "acceptance_ar": "جرد الأوزان والجذور المسندة ثم تمام توليدها وتحليلها؛ قياس الجذور الجديدة منفصل عن تراكيب جذور معلومة",
+      "candidate_module_pointers": "RecursiveLicensedAlgebra.lean; Morphology.lean",
+      "counterexample_ar": "وزن جديد أو جذر معتل لا يبلغه المحلل",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F08",
+      "title_ar": "تصريف الفعل",
+      "scope_ar": "الماضي والمضارع والأمر؛ المعلوم والمجهول؛ الأشخاص والأعداد؛ الأفعال الخمسة",
+      "acceptance_ar": "مطابقة مجموعة الصيغ المرخصة لكل حزمة سمات، ورفض الحزم الممتنعة",
+      "candidate_module_pointers": "QatrRules.lean; QatrReading.lean",
+      "counterexample_ar": "حذف نون أو إعلال في موضع غير مرخص",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F09",
+      "title_ar": "تصريف الاسم والمشتقات",
+      "scope_ar": "الجامد والمشتق، المصدر والمشتقات، المثنى والجمع بأنواعه، العدد والمعدود",
+      "acceptance_ar": "تغطية الأنماط والاستثناءات ومجموعات السمات مع بقاء الشاهد المعجمي",
+      "candidate_module_pointers": "NominalEvidence.lean; Derivation.lean",
+      "counterexample_ar": "جمع تكسير أو اشتقاق من لازم دون متممه",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F10",
+      "title_ar": "أقسام الكلمة والبناء والإعراب",
+      "scope_ar": "اسم وفعل وحرف؛ مبني ومعرب؛ الممنوع من الصرف؛ أسماء خمسة/ستة بحسب المصدر",
+      "acceptance_ar": "تحليل الصنف وحكم البناء أو الإعراب من شروطه؛ قراءة الحركة وحدها ليست إعرابًا",
+      "candidate_module_pointers": "Words.lean; InflectionEvidence.lean",
+      "counterexample_ar": "فتحة جرّ ممنوع من الصرف تُحسب نصبًا",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F11",
+      "title_ar": "الضمائر والأسماء الوظيفية",
+      "scope_ar": "المتكلم والمخاطب والغائب؛ العاقل وغيره؛ المنفصل والمتصل؛ الإشارة والموصول والاستفهام",
+      "acceptance_ar": "جرد الصيغ والأدوار والمرجعيات؛ استبقاء البدائل عند غياب القرينة",
+      "candidate_module_pointers": "PersonEvidence.lean",
+      "counterexample_ar": "تعيين مرجع ضمير من جواب متوقع",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F12",
+      "title_ar": "أدوات الربط والمنطق",
+      "scope_ar": "و/ف/ثم/أو/أم/بل/لكن/لا؛ AND OR NOR XOR IF THEN",
+      "acceptance_ar": "فصل المنطق الصوري عن استعمال الأداة؛ اختبار النطاق والترتيب والاختيار بحسب القرينة",
+      "candidate_module_pointers": "SourceSemantics.lean; RecursiveLicensedAlgebra.lean",
+      "counterexample_ar": "تحويل كل أو إلى XOR أو كل واو إلى ترتيب",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F13",
+      "title_ar": "الزمان والمكان",
+      "scope_ar": "الظرف وشبه الجملة والتتابع الزمني والتجاور المكاني",
+      "acceptance_ar": "تعيين تعلق الظرف ومجاله والمرجع الزمني دون اختراع تاريخ أو مكان",
+      "candidate_module_pointers": "DiscourseEvidence.lean",
+      "counterexample_ar": "تفسير كل اسم زمان ظرفًا دون عامل",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F14",
+      "title_ar": "التراكيب وأنواع الجمل",
+      "scope_ar": "اسم+اسم واسم+فعل وأداة+اسم/فعل/أداة/ضمير؛ الاسمية والفعلية وشبه الجملة وروابطها",
+      "acceptance_ar": "مرجع اشتقاق مستقل لجميع الأنماط المعلنة؛ تحليل شامل يحفظ ترتيب الأجزاء ومجالاتها",
+      "candidate_module_pointers": "ConstructionEvidence.lean; ArabicInnaFragment.lean",
+      "counterexample_ar": "تركيب مرخص في المرجع لا يظهر في المخرجات",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F15",
+      "title_ar": "العوامل والنواسخ والأدوار",
+      "scope_ar": "العامل والمعمول؛ النواسخ؛ الفاعل والمفعول والتوابع؛ العلامات الأصلية والفرعية",
+      "acceptance_ar": "صحة علاقة العامل والأثر والمطابقة؛ LAS/MLAS بعد تثبيت تحويل الوسوم؛ منع تسرّب وسم الإعراب",
+      "candidate_module_pointers": "Governors.lean; InflectionEvidence.lean",
+      "counterexample_ar": "علامة صحيحة مع عامل أو تعلق خاطئ",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F16",
+      "title_ar": "الوضع والمعاجم وتعدد المعنى",
+      "scope_ar": "اللفظ والمعنى والمدخل المعجمي والطبعة؛ المشترك والمنقول والحقيقة والمجاز",
+      "acceptance_ar": "تغطية المداخل والمعاني والشواهد في معجم مرجعي مجمد، وحفظ اختلاف المصادر",
+      "candidate_module_pointers": "LexicalCatalog.lean; LexicalDenotation.lean",
+      "counterexample_ar": "قراءة مصدرية مسقطة أو سياق يجيز معنى آخر",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F17",
+      "title_ar": "الأجناس والخواص والصفات والعلاقات",
+      "scope_ar": "الجنس والنوع والقابلية والصفة والعلاقات ومطابقة النمط",
+      "acceptance_ar": "سلامة أنواع العلاقات وتغطية العلاقات المرجعية؛ الفصل بين هوية الشكل وهوية المعنى",
+      "candidate_module_pointers": "SourceSemantics.lean; PropertyEvidence.lean",
+      "counterexample_ar": "علاقة جزء/كل مستنتجة من التشابه اللفظي",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F18",
+      "title_ar": "المطابقة والتضمن والالتزام",
+      "scope_ar": "تمام المعنى، جزؤه الصحيح، اللزوم الذهني وشروطه",
+      "acceptance_ar": "تعيين المعنى أولًا ثم مطابقة علاقته بالمرجع؛ لا استخراج جزء المعنى من تجزئة العبارة فقط",
+      "candidate_module_pointers": "LexicalDenotation.lean",
+      "counterexample_ar": "لزوم خارجي أو جزء لفظي يعامل جزء معنى",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F19",
+      "title_ar": "المنطوق والمفهوم",
+      "scope_ar": "الاقتضاء والإشارة والموافقة والمخالفة؛ الشرط والصفة والغاية والعدد وموانعها",
+      "acceptance_ar": "قواعد صورية وشواهد لتعيين شروط التطبيق، وحفظ الخلاف المنهجي وإبطال المفهوم الممنوع",
+      "candidate_module_pointers": "MantuqMafhum.lean; Shakhsiyya3Rules.lean",
+      "counterexample_ar": "استنتاج نفي التالي من نفي المقدم وحده",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F20",
+      "title_ar": "المقام والإحالة",
+      "scope_ar": "المتكلم والمخاطب والغائب والعاقل وغير العاقل؛ القرينة والإشارة والمعلومات السابقة",
+      "acceptance_ar": "اختبار نص واحد في مقامين؛ إن تعذر الحسم تحفظ البدائل أو يعلق الحكم بسبب مسمى",
+      "candidate_module_pointers": "PersonEvidence.lean; RationalInquiry.lean",
+      "counterexample_ar": "ثبات الجواب رغم تغير المرجع أو القصد المصرح",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F21",
+      "title_ar": "الخطاب والإخبار والإنشاء",
+      "scope_ar": "السؤال والأمر والنهي والتمني والترجي والحكاية؛ ربط الجمل وحفظ النفي والنطاق",
+      "acceptance_ar": "صحة القوة الإنجازية والادعاءات والإحالات عبر الجمل؛ فصل السؤال والأمر عن تقرير الحقيقة",
+      "candidate_module_pointers": "DiscourseEvidence.lean; RationalInquiry.lean",
+      "counterexample_ar": "حكاية اعتقاد تُقبل حقيقة أو أمر يُقبل خبرًا",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    },
+    {
+      "id": "F22",
+      "title_ar": "السلسلة الكاملة والحد الأدنى المكتمل",
+      "scope_ar": "من النص إلى القراءة والشهادة؛ اكتمال مطالب الوحدة ثم التسليم؛ صدق النقل وصحة الاستنتاج",
+      "acceptance_ar": "لكل جواب موجب مسار معاد الفحص؛ اكتمال كل طبقة وجسر اكتساب مقدماتها ومطابقة التنفيذ؛ الصدق الخارجي التزام مستقل",
+      "candidate_module_pointers": "RecursiveSourceBridge.lean; ArabicCoverage.lean",
+      "counterexample_ar": "شهادة صحيحة على مقدمات أُدخلت من الجواب أو حلقة تسليم مفقودة",
+      "independent_rule_denominator": null,
+      "denominator_status": "NOT_YET_ENUMERATED_AND_ADJUDICATED",
+      "universal_coverage_percentage": null,
+      "role": "REQUIREMENT_FAMILY_NOT_A_SINGLE_RULE"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "M01",
+      "title_ar": "اكتمال الجرد المرجعي",
+      "formula_ar": "عدد التزامات المرجع التي راجعتها مراجعة مستقلة ÷ جميع التزاماته المجردة في النسخة",
+      "interpretation_ar": "المقام مجهول حتى يغلق جرد المصادر؛ عدّ 22 أسرة ليس مقام قوانين العربية"
+    },
+    {
+      "id": "M02",
+      "title_ar": "تغطية الشاهد اللغوي",
+      "formula_ar": "القواعد ذات موضع مصدر مطابق وتفسير مراجع ÷ قواعد المرجع",
+      "interpretation_ar": "البصمة تثبت الهوية؛ لا تثبت أن النص يقول المعنى المسند"
+    },
+    {
+      "id": "M03",
+      "title_ar": "تغطية الالتزامات البرهانية",
+      "formula_ar": "القواعد المستوفية لكل براهينها المطلوبة ÷ قواعد المرجع",
+      "interpretation_ar": "تُعرض السلامة والاكتمال والتركيب والجسر ومطابقة التنفيذ أعمدة مستقلة"
+    },
+    {
+      "id": "M04",
+      "title_ar": "تغطية العمليات المرخصة",
+      "formula_ar": "أصناف العمليات ذات توقيع وشروط وموانع وبرهان ومحقق ÷ أصناف العمليات المرجعية",
+      "interpretation_ar": "إغلاق أنواع العمليات لا يحد أطوال النصوص ولا عدد معانيها"
+    },
+    {
+      "id": "M05",
+      "title_ar": "دقّة القراءات",
+      "formula_ar": "TP ÷ (TP + FP)",
+      "interpretation_ar": "تقاس على مجموعات قراءات مرجعية مكتملة داخل السياق؛ بلا مخرجات تكون غير معرفة"
+    },
+    {
+      "id": "M06",
+      "title_ar": "استرجاع القراءات",
+      "formula_ar": "TP ÷ (TP + FN)",
+      "interpretation_ar": "الامتناع والمخرج المفقود يبقيان القراءات المطلوبة في المقام"
+    },
+    {
+      "id": "M07",
+      "title_ar": "اكتمال المجموعة الإيجابية",
+      "formula_ar": "الحالات الإيجابية التي أعيدت كل قراءاتها ولا زيادة ÷ جميع الحالات الإيجابية",
+      "interpretation_ar": "الرفض الصحيح والحالات السالبة لا يرفعان هذا المقياس"
+    },
+    {
+      "id": "M08",
+      "title_ar": "التغطية والدقّة الانتقائية",
+      "formula_ar": "التغطية = المحسوم من الكافي ÷ الكافي؛ الدقّة = الصحيح من المحسوم ÷ المحسوم",
+      "interpretation_ar": "تضاف تغطية صحيحة = الصحيح من الكافي ÷ الكافي؛ لا تنشر الدقّة وحدها"
+    },
+    {
+      "id": "M09",
+      "title_ar": "حفظ الغموض",
+      "formula_ar": "حالات تعدد القراءة المحفوظة كاملة ÷ حالات التعدد",
+      "interpretation_ar": "لا يحسب إخراج قراءة واحدة صحيحة نجاحًا في اكتمال البدائل"
+    },
+    {
+      "id": "M10",
+      "title_ar": "القبول غير المرخص",
+      "formula_ar": "الحالات السالبة التي قُبلت ÷ جميع الحالات السالبة",
+      "interpretation_ar": "يرافقه الرفض الصحيح؛ الصفر المشاهد ليس برهان خطر صفري"
+    },
+    {
+      "id": "M11",
+      "title_ar": "صدق التعليق",
+      "formula_ar": "التعليقات التي يقر المرجع نقص دليلها ÷ جميع التعليقات",
+      "interpretation_ar": "يفصل التعليق الصحيح عن نقص التغطية؛ وتعليق نقص المورد خطأ تشغيل منفصل"
+    },
+    {
+      "id": "M12",
+      "title_ar": "سلامة المسار المكتمل",
+      "formula_ar": "الأجوبة الموجبة ذات سلسلة كاملة أعيد فحصها ÷ جميع الأجوبة الموجبة",
+      "interpretation_ar": "لا يكفي علم certificate=true؛ يلزم المدقق ومواضع المصادر وتفريغ المقدمات"
+    },
+    {
+      "id": "M13",
+      "title_ar": "المطابقة التنفيذية",
+      "formula_ar": "حالة البرهان العام لتنقيح التنفيذ + عدد مخالفات فحص التناظر المحدود",
+      "interpretation_ar": "عدم وجود مخالفات عينية لا يعادل برهان تنقيح عام"
+    },
+    {
+      "id": "M14",
+      "title_ar": "الاختبار خارج التطوير",
+      "formula_ar": "الدقّة والتغطية لكل أسرة ومصدر ونمط/جذر غير مرئي، مع أعدادها",
+      "interpretation_ar": "تقسيم على المصدر والجذر/القالب عند الاقتضاء؛ احتفاظ بأول نتيجة؛ لا ثقة إحصائية من شاهد مؤلف"
+    },
+    {
+      "id": "M15",
+      "title_ar": "سلامة أداة القياس",
+      "formula_ar": "حصر الحالات والأخطاء والتخطيات ومطابقة البصمات وقت التشغيل",
+      "interpretation_ar": "الحالات المفقودة لا تحذف؛ المقام الصفري غير معرف؛ استثناء الانحدار لا يصبح نجاحًا صارمًا"
+    },
+    {
+      "id": "M16",
+      "title_ar": "الأداء والمقارنة",
+      "formula_ar": "وسيط وp95 الزمن، الذاكرة، الكلفة لكل جواب صحيح، وجودة المهمة المزدوجة",
+      "interpretation_ar": "النص والمدخل والسياق واحد؛ تثبيت النسخ والعتاد والتخزين المؤقت؛ جودة GPT-5 غير مقيسة الآن"
+    }
+  ],
+  "rule_record_fields": [
+    "rule_id",
+    "family_id",
+    "source_revision",
+    "source_span",
+    "statement",
+    "domain",
+    "codomain",
+    "arity",
+    "input_features",
+    "preconditions",
+    "blocking_conditions",
+    "alternatives",
+    "output",
+    "proof_soundness",
+    "proof_completeness",
+    "proof_composition",
+    "proof_premise_acquisition",
+    "proof_runtime_refinement",
+    "positive_cases",
+    "negative_cases",
+    "ambiguity_cases",
+    "counterexamples",
+    "residuals",
+    "scope_version"
+  ],
+  "claim_gates": {
+    "formal_completeness_in_declared_reference": [
+      "independent_reference_defined",
+      "nonempty_domain",
+      "reference_inventory_closed_and_reviewed",
+      "all_applicable_proof_obligations_discharged",
+      "all_bridges_refined",
+      "no_custom_unjustified_axioms",
+      "no_open_blocking_residual"
+    ],
+    "strict_frozen_suite": [
+      "all_cases_present",
+      "measurement_valid",
+      "all_required_checks_pass",
+      "no_waived_failure",
+      "no_required_skip"
+    ],
+    "high_accuracy_pilot_proposed": [
+      "positive_exact_set_95pct_lower_bound_ge_0.95_per_critical_family",
+      "reading_precision_95pct_lower_bound_ge_0.99",
+      "observed_false_accepts_zero_in_directed_suite",
+      "complete_trace_replay_for_every_accepted_answer",
+      "zero_required_measurement_errors"
+    ],
+    "gpt5_parity_proposed": [
+      "same_frozen_inputs_outputs_and_information_budget",
+      "paired_quality_lower_bound_ge_minus_0.02_per_critical_family",
+      "latency_p95_ratio_le_1",
+      "cost_per_correct_answer_ratio_le_1",
+      "strict_safety_gate_pass"
+    ],
+    "gpt5_superiority_proposed": [
+      "paired_quality_lower_bound_gt_0_with_familywise_comparison_plan"
+    ]
+  },
+  "threshold_note": "Operational thresholds are proposed after the present regression baseline and must be frozen before a NEW held-out run. They do not certify universal completeness. Sampling design and cluster-aware uncertainty are mandatory for bounds.",
+  "unverified_target_inventories": {
+    "41_functions": "Target requires named, disambiguated, source-linked inventory; not an audited denominator here",
+    "426_patterns": "Target requires source-linked inventory and equivalence policy; not an audited denominator here"
+  },
+  "global_arabic_percentage": null,
+  "zero_denominator": "UNDEFINED_NOT_ONE",
+  "unknown_denominator": "NOT_MEASURABLE_YET_NOT_ZERO"
+}

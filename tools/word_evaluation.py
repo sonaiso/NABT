@@ -31,6 +31,8 @@ FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    "arabic_completion_v4_review2": ('eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9', '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43'),
+    "arabic_completion_v4": ('40e6e10d95f444c5a1e1e6c72b4ff997d25a9d1a9caac5c0ff910b1551df677b', '36e1e17ace7e5ebaac7b4ef1bb66a1ae8c9212d87f3c60c93c9660cbb9381862', '7e5cfc227fd280ab5052c9cb8937799cde28bd8bf6037e9cd73a32013c842cea'),
     "arabic_completion_v3_review2": ("045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd",
                                      "adb248f5e22007d4155448f77fe9d845ec1780c1032bb158d8f6d3d50d65964f",
                                      "c1056d20779c557fd060787d5018c503128778712b81eb669881c89e4e7a0e84"),
@@ -101,6 +103,8 @@ CODE_FREEZES = {
            "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026"),
 }
 CODE_FREEZE_PATHS = {
+    "arabic_completion_v4_review2": ROOT / "evidence/arabic_completion_v4/code_freeze_v2.json",
+    "arabic_completion_v4": ROOT / "evidence/arabic_completion_v4/code_freeze_v1.json",
     "arabic_completion_v3_review2": ROOT / "evidence/arabic_completion_v3/code_freeze_v2.json",
     "arabic_completion_v3": ROOT / "evidence/arabic_completion_v3/code_freeze_v1.json",
     "arabic_coverage_v2": ROOT / "evidence/arabic_coverage/code_freeze_v2.json",
@@ -182,7 +186,7 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="arabic_completion_v3_review2"):
+def verify_implementation_freeze(version="arabic_completion_v4_review2"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -489,7 +493,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="arabic_completion_v3_review2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="arabic_completion_v4_review2")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()

@@ -1182,7 +1182,18 @@ def theoremManifest : List Name := [
   ``Nabt.MaqayisDenotation.sayf_origin_part,
   ``Nabt.MaqayisDenotation.root_cause_is_not_mental_necessity,
   ``Nabt.MaqayisDenotation.cross_dictionary_gloss_not_automatically_equal,
-  ``Nabt.MaqayisDenotation.ilm_ambiguity_retained
+  ``Nabt.MaqayisDenotation.ilm_ambiguity_retained,
+  ``Nabt.ProductiveForms.recover_imperative,
+  ``Nabt.ProductiveForms.imperative_injective,
+  ``Nabt.ProductiveForms.radicals_preserved,
+  ``Nabt.ProductiveForms.imperative_four_cells,
+  ``Nabt.ProductiveForms.imperative_final_sukun,
+  ``Nabt.ProductiveForms.enumeration_exact,
+  ``Nabt.ProductiveForms.withdrawal,
+  ``Nabt.ProductiveForms.accusative_base_recovered,
+  ``Nabt.ProductiveForms.accusative_length,
+  ``Nabt.ProductiveForms.source_preserved,
+  ``Nabt.ProductiveForms.witnesses_preserved
 ]
 
 run_cmd do

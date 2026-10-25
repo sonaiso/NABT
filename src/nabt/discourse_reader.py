@@ -27,8 +27,8 @@ from .construction_laws import (LAW_ID as CONSTRUCTION_LAW_ID,
     EXPECTED_TABLE_SHA256 as CONSTRUCTION_TABLE_SHA256, ROLES as CONSTRUCTION_ROLES,
     role_case as construction_role_case, predicate_agreement_status)
 
-LANGUAGE_ID = "nabt.arabic-discourse-frames.v6"
-READER_VERSION = "nabt.discourse-reader.v6"
+LANGUAGE_ID = "nabt.arabic-discourse-frames.v7"
+READER_VERSION = "nabt.discourse-reader.v7"
 MAX_ANALYSES = 128
 MAX_CLAUSES = 32
 _UNSET = object()
@@ -231,6 +231,16 @@ class _Reader:
         readings = qualify_same_form_nominal(readings, index=self.index, policy=self.construction_policy)
         readings = qualify_attested_alif(readings, token=token, source=self.source,
                                          index=self.index, policy=self.construction_policy)
+        shape = lookup_clusters(token["surface"])
+        if (shape and len(shape) > 2 and shape[-1][0] == "ا" and not shape[-1][1]
+                and shape[-2][1] & set("ًٌٍَُِْ") == {"ً"}
+                and not any(r.get("kind") == "noun" for r in readings)):
+            from .construction_nominals import generate_accusative_alif
+            base = _slice(self.source, token, 0, shape[-1][2], "productive_nominal_base")
+            base_rows = _read_run(self.source, self.scope, base, self.index,
+                                 self.model_summary, self.inflection_policy)["readings"]
+            readings = generate_accusative_alif(readings, base_rows, token=token,
+                                                source=self.source, index=self.index)
         for row in readings:
             unique.setdefault(row["reading_id"], row)
         if len(unique) > MAX_ANALYSES:

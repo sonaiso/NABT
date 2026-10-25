@@ -29,13 +29,15 @@ from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.17.0a1"
+VERSION = "0.18.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/arabic_completion_v3/code_freeze_v2.json"
+DEFAULT_FREEZE = "evidence/arabic_completion_v4/code_freeze_v2.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
+    'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9': {'selection': 'arabic_completion_v4_review2', 'version': '0.18.0a1', 'profile': 'arabic_completion_v4', 'source_file_count': 83, 'future_operator_support': True, 'snapshot_sha256': '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', 'archive_sha256': '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43'},
+    '40e6e10d95f444c5a1e1e6c72b4ff997d25a9d1a9caac5c0ff910b1551df677b': {'selection': 'arabic_completion_v4', 'version': '0.18.0a1', 'profile': 'arabic_completion_v4', 'source_file_count': 83, 'future_operator_support': True, 'snapshot_sha256': '36e1e17ace7e5ebaac7b4ef1bb66a1ae8c9212d87f3c60c93c9660cbb9381862', 'archive_sha256': '7e5cfc227fd280ab5052c9cb8937799cde28bd8bf6037e9cd73a32013c842cea'},
     "045d6b3d6d3c2f6744b3157a2bd3cbf025b401e2efd215d8a4200182685978dd": {
         "selection": "arabic_completion_v3_review2",
         "version": "0.17.0a1",
@@ -223,6 +225,14 @@ RELEASE_PROFILES = {
                 "bytes": 9864, "sha256": "83b0d8c4c2d8a3efebbed921c3675517b662ac7e386a1973354714bafdc8ee27"},
         },
     },
+}
+RELEASE_PROFILES["arabic_completion_v4"] = {
+    **RELEASE_PROFILES["arabic_completion_v3"],
+    "language_id": "nabt.arabic-discourse-frames.v7",
+    "reader_version": "nabt.discourse-reader.v7",
+    "extra_package_files": RELEASE_PROFILES["arabic_completion_v3"]["extra_package_files"] | {
+        "nabt/productive_forms.py", "nabt/data/productive_forms.json",
+        "nabt/data/source_evidence/productive_forms_v1.json"},
 }
 REQUIRED_PACKAGE_FILES = {
     "nabt/person_evidence.py", "nabt/discourse.py", "nabt/discourse_reader.py",

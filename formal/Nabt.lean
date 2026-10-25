@@ -47,3 +47,4 @@ import Nabt.LexicalDenotation
 import Nabt.LexicalCatalog
 import Nabt.LisanRules
 import Nabt.MaqayisDenotation
+import Nabt.ProductiveForms

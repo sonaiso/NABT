@@ -25,7 +25,7 @@ from .corpus_evidence import (MASKED_FEATURES, VOWELS, buckwalter_to_arabic,
 from .errors import NabtError, resource_limit
 
 LAW_ID = "nabt.person-evidence.v1"
-READER_VERSION = "nabt.source-person-bridge.v1"
+READER_VERSION = "nabt.source-person-bridge.v2"
 EXPECTED_TABLE_SHA256 = "f77c9b65b3a7b638166b5807fff1218cb30079d2d301c815b1b512a665858d15"
 MAX_SURFACE_BYTES = 8192
 MAX_CANDIDATES = 512
@@ -60,8 +60,11 @@ def installed_registry():
 
 
 def person_catalog():
+    from .productive_forms import LAW_ID as PRODUCTIVE_LAW, POLICY_SHA256, TABLE_SHA256
     return {"law_id": LAW_ID, "table_sha256": EXPECTED_TABLE_SHA256,
             "reader_version": READER_VERSION, "table": installed_registry(),
+            "productive_law_id": PRODUCTIVE_LAW, "productive_policy_sha256": POLICY_SHA256,
+            "productive_shape_table_sha256": TABLE_SHA256,
             "authority": "CONDITIONAL_PERSON_AND_SOURCE_MORPHOLOGY_NOT_REFERENCE"}
 
 
@@ -313,6 +316,10 @@ def _compile(raw, excluded_verses, source_id, table_sha):
                 complete_forms[support["record_id"]].add(lookup_key(node["form"]))
     bases = list(_base_variants(lexical, table, complete_forms))
     bases += list(_bare_subject_candidates(nodes, table))
+    from .productive_forms import sound_imperative, replay_policy
+    replay_policy()
+    bases += [derived for base in list(bases)
+              if (derived := sound_imperative(base)) is not None]
     attached_index = defaultdict(dict)
     for candidate in _source_attached_variants(nodes, bases, table):
         _add(attached_index, candidate)
@@ -430,7 +437,15 @@ def person_candidates(surface, *, lexical_model=None):
                          lexical_model.source_id, EXPECTED_TABLE_SHA256)
         for encoded in index.get(lookup_key(surface), ()):
             candidate = json.loads(encoded)
+            if candidate.get("productive_derivation") and [x[:2] for x in clusters] != [
+                    x[:2] for x in lookup_clusters(candidate["form"])]:
+                # The new bridge is restricted to fully vocalized input;
+                # missing vowels do not choose an imperative from bare alif.
+                continue
             if _match(surface, candidate["form"], candidate["mutable_clusters"]):
+                if candidate.get("productive_derivation"):
+                    from .productive_forms import replay_policy
+                    replay_policy()  # Recheck even when the lexical compiler cache is warm.
                 candidates.append(candidate)
     if len(candidates) > MAX_CANDIDATES:
         raise resource_limit("Person surface exceeds its candidate budget")
