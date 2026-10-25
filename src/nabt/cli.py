@@ -72,6 +72,12 @@ def parser() -> Parser:
     result = Parser(prog="nabt", description="Independent Arabic numerical shape kernel")
     result.add_argument("--version", action="version", version=__version__)
     sub = result.add_subparsers(dest="command", required=True, parser_class=Parser)
+    sub.add_parser("classical-laws", help="Source-backed catalogue of conditional classical laws")
+    classical = sub.add_parser("classical-transform", help="Evaluate an explicit conditional frame")
+    classical.add_argument("rule_id")
+    classical.add_argument("frame", type=Path)
+    classical_verify = sub.add_parser("verify-classical-transform", help="Replay the entire conditional receipt")
+    classical_verify.add_argument("document", type=Path)
     lexicon = sub.add_parser("source-lexicon", help="Exact source headings, without semantic promotion")
     lexicon.add_argument("--source", choices=("maqayis", "lisan"), required=True)
     lexicon.add_argument("--file", type=Path, required=True,
@@ -248,6 +254,14 @@ def run(args) -> tuple[dict, int]:
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command in {"classical-laws", "classical-transform", "verify-classical-transform"}:
+        from .classical_laws import catalog, evaluate, verify
+        if command == "classical-laws":
+            return catalog(), 0
+        if command == "verify-classical-transform":
+            return verify(read_certificate(args.document)), 0
+        # Zero means a conditional computation completed, never a free-text license.
+        return evaluate(args.rule_id, read_certificate(args.frame)), 0
     if command == "source-lexicon":
         from .source_lexicon import SourceLexicon, SourceIdentityError
         try:

@@ -1,0 +1,250 @@
+{
+  "schema": "nabt.classical-completion-validation.v2",
+  "status": "full_gate_running",
+  "baseline_commit": "8a10b88e8ac37b6ba3b442d5923a99c15fc7d3b5",
+  "runtime_freeze_sha256": "31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec",
+  "runtime_files": 99,
+  "unit_tests": {
+    "run": 1923,
+    "passed": 1895,
+    "skipped": 28,
+    "failed": 0,
+    "seconds": 189.515
+  },
+  "installed_package": {
+    "version": "0.20.0a1",
+    "base_checks": 49,
+    "new_interface_checks": 12,
+    "passed": 61,
+    "failed": 0
+  },
+  "conditional_law_extension": {
+    "previously_unimplemented_ids": 24,
+    "new_scoped_conditional_operators": 24,
+    "full_source_rules_certified_complete": 0
+  },
+  "finite_conformance": {
+    "schema": "nabt.classical-law-conformance.v1",
+    "valid": true,
+    "rule_count": 24,
+    "groups": [
+      {
+        "module": "classical_weak",
+        "law_id": "nabt.classical-weak.v1",
+        "rules": [
+          "WEAK-INITIAL-WAW",
+          "WEAK-INITIAL-OPEN-EXCEPTION",
+          "WEAK-WAW-TO-YA",
+          "WEAK-YA-TO-WAW",
+          "WEAK-MOVE-TO-ALIF",
+          "WEAK-AFWAL-BLOCK",
+          "WEAK-IFTIAL-RECIPROCAL",
+          "WEAK-TWO-ELIGIBLE",
+          "WEAK-NOMINAL-SUFFIX-BLOCK",
+          "WEAK-VOWEL-TRANSFER"
+        ],
+        "groups": {
+          "rows": 7424
+        },
+        "matched": 7424,
+        "export_sha256": "0d9b0958c3fe84f38fae0d660de39b06c04bb8badeb707731540a98542312ff4"
+      },
+      {
+        "module": "classical_hamza",
+        "law_id": "nabt.classical-hamza.v1",
+        "rules": [
+          "HAMZA-INTERROGATIVE-AL",
+          "HAMZA-FINAL-LONG",
+          "HAMZA-ACTIVE-PARTICIPLE",
+          "HAMZA-BROKEN-PLURAL",
+          "HAMZA-TWO-GLIDES",
+          "HAMZA-LEXICAL-COMMAND"
+        ],
+        "groups": {
+          "rows": 40
+        },
+        "matched": 40,
+        "export_sha256": "bb463259004c43d2b965562f0bd4f9b8b6f72dcf6dec222072448c417ab6fa85"
+      },
+      {
+        "module": "classical_gemination",
+        "law_id": "nabt.classical-gemination.v1",
+        "rules": [
+          "GEM-VOWELED-FINAL",
+          "GEM-JUSSIVE-VARIANTS",
+          "GEM-FEMININE-SUFFIX",
+          "GEM-EXCLAMATION",
+          "ASSIM-NUN-B-BLOCKED-TEXT"
+        ],
+        "groups": {
+          "morphology": 1920,
+          "assimilation": 72,
+          "projections": 504
+        },
+        "matched": 2496,
+        "export_sha256": "7c0e7e05106b0fa9a83d87a4a382481fe7de2721799c367d7752a36417438e17"
+      },
+      {
+        "module": "classical_boundary_affixes",
+        "law_id": "nabt.classical-boundary-affixes.v1",
+        "rules": [
+          "CMD-WEAK-DELETE",
+          "AFFIX-LIGHT-NUN-PAUSE",
+          "MUGHNI-ANA-BOUNDARY"
+        ],
+        "groups": {
+          "rows": 486
+        },
+        "matched": 486,
+        "export_sha256": "3a1fdc8ec0678f690ff5726f89777b7d2e889a7a034e2d69838a9448d81d0718"
+      }
+    ],
+    "finite_controls_matched": 10446,
+    "scope": "Exact declared finite control exports; not general Python/Lean equivalence or Arabic coverage.",
+    "premise_acquisition_proved": false,
+    "whole_arabic_complete": false
+  },
+  "source_books": {
+    "schema": "nabt.book-rule-coverage-result.v1",
+    "valid": true,
+    "source_count": 6,
+    "source_bytes": 10595657,
+    "source_lines": 98852,
+    "partition_segment_count": 9157,
+    "body_segment_obligations": 9151,
+    "body_segments_with_selected_law_overlap": 53,
+    "fully_adjudicated_body_segments": 0,
+    "heading_candidate_count": 3846,
+    "page_marker_occurrences": 5760,
+    "selected_rule_count": 38,
+    "qatr_docket": {
+      "section_count": 55,
+      "extraction_obligation_count": 187,
+      "sections_with_existing_narrow_bridge": 30,
+      "complete_section_count": 0,
+      "semantic_rule_denominator": null,
+      "independent_extraction_exhaustiveness_established": false
+    },
+    "exact_available_byte_partition": true,
+    "whole_book_strict_pass": false,
+    "whole_arabic_strict_pass": false,
+    "obligation_results": {
+      "physical_edition_extent_and_transcription_collation": false,
+      "independent_semantic_rule_inventory_for_every_body_segment": false,
+      "explicit_disputes_exceptions_dialects_and_attribution": false,
+      "source_to_Lean_translation_fidelity_adjudication": false,
+      "kernel_checked_soundness_and_completeness_for_each_rule_domain": false,
+      "runtime_refinement_and_premise_acquisition": false,
+      "independently_adjudicated_external_benchmark": false,
+      "separate_argument_that_book_scope_exhausts_claimed_Arabic_domain": false
+    },
+    "whole_book_rule_denominator": null,
+    "whole_arabic_coverage": null,
+    "unresolved_gate_obligations": [
+      "physical_edition_extent_and_transcription_collation",
+      "independent_semantic_rule_inventory_for_every_body_segment",
+      "explicit_disputes_exceptions_dialects_and_attribution",
+      "source_to_Lean_translation_fidelity_adjudication",
+      "kernel_checked_soundness_and_completeness_for_each_rule_domain",
+      "runtime_refinement_and_premise_acquisition",
+      "independently_adjudicated_external_benchmark",
+      "separate_argument_that_book_scope_exhausts_claimed_Arabic_domain"
+    ],
+    "books": [
+      {
+        "source_id": "qatr",
+        "size_bytes": 40168,
+        "line_count": 453,
+        "segment_count": 50,
+        "heading_candidate_count": 30,
+        "page_marker_occurrence_count": 35,
+        "selected_law_count": 5,
+        "extent_status": "available_bytes_only_physical_edition_unverified",
+        "extent_notes": [
+          "Qatr matn, not its separate sharh; available ending contains hamzat al-wasl. Physical-edition collation is not certified."
+        ]
+      },
+      {
+        "source_id": "alfiyya",
+        "size_bytes": 97798,
+        "line_count": 1292,
+        "segment_count": 150,
+        "heading_candidate_count": 88,
+        "page_marker_occurrence_count": 139,
+        "selected_law_count": 1,
+        "extent_status": "available_bytes_only_physical_edition_unverified",
+        "extent_notes": [
+          "Concluding verses are present. A known ba/ya transcription discrepancy remains in the preserved bytes; conclusion presence is not text-integrity adjudication."
+        ]
+      },
+      {
+        "source_id": "sibawayhi",
+        "size_bytes": 2639395,
+        "line_count": 21893,
+        "segment_count": 2664,
+        "heading_candidate_count": 813,
+        "page_marker_occurrence_count": 1983,
+        "selected_law_count": 14,
+        "extent_status": "available_bytes_only_physical_edition_unverified",
+        "extent_notes": [
+          "Available page markers reach V04P485. Header reports five volumes; this may include indices. Full edition collation is not established by metadata."
+        ]
+      },
+      {
+        "source_id": "sabban",
+        "size_bytes": 5332827,
+        "line_count": 48257,
+        "segment_count": 2467,
+        "heading_candidate_count": 1102,
+        "page_marker_occurrence_count": 1366,
+        "selected_law_count": 1,
+        "extent_status": "available_bytes_only_physical_edition_unverified",
+        "extent_notes": [
+          "Available text ends at V03P462 in the subjunctive-verb discussion. Later Alfiyya chapters are absent from this available text. A different four-volume edition must not be spliced silently into this one."
+        ]
+      },
+      {
+        "source_id": "ibn_aqil",
+        "size_bytes": 998579,
+        "line_count": 10665,
+        "segment_count": 1624,
+        "heading_candidate_count": 410,
+        "page_marker_occurrence_count": 1330,
+        "selected_law_count": 16,
+        "extent_status": "available_bytes_only_physical_edition_unverified",
+        "extent_notes": [
+          "The supplement beginning at line 9658 is explicitly by Muhammad Muhyi al-Din Abd al-Hamid, not Ibn Aqil. Earlier editorial material also requires passage-level attribution review."
+        ]
+      },
+      {
+        "source_id": "mughni",
+        "size_bytes": 1486890,
+        "line_count": 16292,
+        "segment_count": 2202,
+        "heading_candidate_count": 1403,
+        "page_marker_occurrence_count": 907,
+        "selected_law_count": 2,
+        "extent_status": "available_bytes_only_physical_edition_unverified",
+        "extent_notes": [
+          "A concluding passage is present; repeated V00P000 markers are not distinct printed pages. Full edition collation remains unverified."
+        ]
+      }
+    ]
+  },
+  "independent_diagnostics": {
+    "total": 73,
+    "passed": 73,
+    "positive": 34,
+    "negative": 37,
+    "partial": 2,
+    "negative_emitted_alternatives": 0,
+    "blind": false
+  },
+  "arabic_language_completeness": null,
+  "whole_books_complete": false,
+  "remote_ci": "not_started",
+  "make_check": {
+    "status": "running",
+    "exit": null
+  }
+}

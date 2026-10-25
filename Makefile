@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= arabic_completion_v5
-TEXT_CODE_FREEZE ?= evidence/arabic_completion_v5/code_freeze_v1.json
+RUNTIME_FREEZE_VERSION ?= arabic_completion_v6
+TEXT_CODE_FREEZE ?= evidence/arabic_completion_v6/code_freeze_v1.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -114,12 +114,12 @@ discourse-evaluation:
 .PHONY: arabic-coverage-holdout
 arabic-coverage-holdout:
 	$(PYTHON) tools/arabic_coverage_holdout_v2.py --output $(EVIDENCE_DIR)/arabic-holdout.json; holdout_status=$$?; test "$$holdout_status" -eq 0 -o "$$holdout_status" -eq 1
-	$(PYTHON) tools/arabic_coverage_postreview_v6.py --result $(EVIDENCE_DIR)/arabic-holdout.json --raw $(EVIDENCE_DIR)/arabic-holdout.raw.jsonl --runtime-freeze $(TEXT_CODE_FREEZE) --output-dir $(EVIDENCE_DIR)/arabic-holdout-postreview
+	$(PYTHON) tools/arabic_coverage_postreview_v7.py --result $(EVIDENCE_DIR)/arabic-holdout.json --raw $(EVIDENCE_DIR)/arabic-holdout.raw.jsonl --runtime-freeze $(TEXT_CODE_FREEZE) --output-dir $(EVIDENCE_DIR)/arabic-holdout-postreview
 
 .PHONY: arabic-completion-oracle
 arabic-completion-oracle:
 	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-	$(PYTHON) evidence/arabic_completion_v3/independent_oracle/continuation_v5/run_regression_v5.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
+	$(PYTHON) evidence/arabic_completion_v3/independent_oracle/continuation_v6/run_regression_v6.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
@@ -144,6 +144,16 @@ check: test conformance learned-conformance property-conformance arabic-conforma
 
 benchmark:
 	$(PYTHON) tools/benchmark.py
+
+.PHONY: classical-laws-conformance book-coverage
+classical-laws-conformance:
+	$(PYTHON) tools/check_classical_laws.py --lake $(LAKE) --output $(EVIDENCE_DIR)/classical-laws-conformance.json
+	$(PYTHON) evidence/arabic_completion_v6/independent_review/run_benchmark.py --output $(EVIDENCE_DIR)/classical-independent-benchmark.json
+
+book-coverage:
+	$(PYTHON) tools/book_rule_coverage.py --check evidence/arabic_completion_v6/books/book_source_index_v1.json --summary $(EVIDENCE_DIR)/book-coverage.json
+
+check: classical-laws-conformance book-coverage
 
 demo:
 	$(PYTHON) -m nabt analyse 'كَتَبَ'

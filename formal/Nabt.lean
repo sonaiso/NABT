@@ -52,3 +52,8 @@ import Nabt.FourSlotClosure
 import Nabt.ImperativeParadigm
 import Nabt.PhonologicalModes
 import Nabt.ClassicalReferenceReadings
+import Nabt.ClassicalWeak
+import Nabt.ClassicalHamza
+import Nabt.ClassicalGemination
+import Nabt.ClassicalBoundaryAffixes
+import Nabt.BookCoverage
