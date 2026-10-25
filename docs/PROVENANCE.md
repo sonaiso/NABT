@@ -4,6 +4,26 @@ NABT was created at the owner's request as a standalone implementation. It
 does not import or mutate the previous experiments. References below identify
 the research definitions consulted, not runtime dependencies.
 
+## Lexical denotation and retrieval, 2026-10-25
+
+After merged PR #26, the source review pinned Mashru at
+`d2533c39bb42b710248beebb0129f178fc7cbd76`, Alghanem at
+`9d8fa03a51f894416e0abaf3b6821c5ae6441dcd`, and hamil-hala-zaman-program at
+`232821b7a19498da4727fd731d2859eb45d14ef9`. Their denotation specifications
+were research references. NABT independently implements its conditional
+component/set checker; none of those codebases is imported or executed.
+
+The initially consulted Alghanem gzip mirror matched the OpenITI upstream
+git blob and SHA-256. Replay retrieves the pinned OpenITI text directly,
+without a release dependency on Alghanem. Maqayis and the supplied
+Shakhsiyya 3 excerpt were already retained locally. The full immutable paths,
+interpretation boundary, negative training results and license notices are in
+[LEXICAL_DENOTATION.md](LEXICAL_DENOTATION.md) and
+[evidence/lexical_denotation/NOTICE.md](../evidence/lexical_denotation/NOTICE.md).
+An earlier repository's owner approval does not become source authentication
+or semantic authority here. Authored sense decompositions and cross-source
+mental-rule alignments remain explicit, unadjudicated premises.
+
 ## Supplied recursive algebra and source rebuild, 2026-10-24
 
 The owner supplied `RecursiveLicensedAlgebra.lean` and

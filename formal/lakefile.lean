@@ -70,3 +70,7 @@ lean_exe classicalSemanticProbe where
 @[default_target]
 lean_exe qatrReading where
   root := `QatrReadingMain
+
+@[default_target]
+lean_exe lexicalDenotation where
+  root := `LexicalDenotationMain

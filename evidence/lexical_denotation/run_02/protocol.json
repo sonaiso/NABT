@@ -1,0 +1,21 @@
+{
+  "schema": "nabt.lexical-retrieval-protocol.v2",
+  "task": "learn diagonal lexical metric while retaining the original feature space",
+  "change_reason": "dense 96D retrieval in run_01 lost lexical information and failed against the baseline",
+  "data": "exact run_01 source views, train-only IDF and root partitions",
+  "test_status": "SECONDARY_REUSED_AFTER_RUN_01; not independent evidence of generalization",
+  "seed": 26026,
+  "epochs": 24,
+  "batch_size": 128,
+  "learning_rate": 0.02,
+  "temperature": 0.08,
+  "regularization": 0.1,
+  "threads": 4,
+  "parameters": 8192,
+  "initialization": "all log weights zero; exactly the original lexical cosine",
+  "weight_bounds": "log weights clamped to [-2,2] at inference",
+  "selection": "highest dev MRR; include epoch 0 baseline and keep earliest tie",
+  "authority": "NONE",
+  "semantic_equivalence": "UNMEASURED",
+  "external_truth": "UNMEASURED"
+}
