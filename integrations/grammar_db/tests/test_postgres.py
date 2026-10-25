@@ -127,6 +127,13 @@ class PostgreSQLTests(unittest.TestCase):
                 with self.connection.transaction():
                     self.connection.execute("INSERT INTO nabt_catalog.embeddings VALUES (%s,%s,%s,%s,%s::vector)", (self.sha, run, doc, dims, vector))
 
+    def test_document_projection_cannot_reference_unknown_entities(self):
+        with self.assertRaises(self.psycopg.Error):
+            with self.connection.transaction():
+                self.connection.execute("""INSERT INTO nabt_catalog.documents
+                    (snapshot_sha,document_id,kind,entity_id,search_text)
+                    VALUES (%s,'rule:unknown','rule','unknown','نص')""", (self.sha,))
+
     def test_snapshot_rows_are_immutable_under_normal_dml(self):
         for query in ("UPDATE nabt_catalog.rules SET title='invented' WHERE snapshot_sha=%s",
                       "DELETE FROM nabt_catalog.snapshots WHERE snapshot_sha=%s"):

@@ -82,11 +82,21 @@ CREATE TABLE nabt_catalog.documents (
     document_id text NOT NULL,
     kind text NOT NULL CHECK (kind IN ('rule', 'passage', 'item')),
     entity_id text NOT NULL,
+    rule_entity_id text GENERATED ALWAYS AS
+        (CASE WHEN kind = 'rule' THEN entity_id END) STORED,
+    passage_entity_id text GENERATED ALWAYS AS
+        (CASE WHEN kind = 'passage' THEN entity_id END) STORED,
+    item_entity_id text GENERATED ALWAYS AS
+        (CASE WHEN kind = 'item' THEN entity_id END) STORED,
     search_text text NOT NULL,
     search_vector tsvector GENERATED ALWAYS AS
         (to_tsvector('simple'::regconfig, search_text)) STORED,
     PRIMARY KEY (snapshot_sha, document_id),
-    UNIQUE (snapshot_sha, kind, entity_id)
+    UNIQUE (snapshot_sha, kind, entity_id),
+    CHECK (document_id = kind || ':' || entity_id),
+    FOREIGN KEY (snapshot_sha, rule_entity_id) REFERENCES nabt_catalog.rules,
+    FOREIGN KEY (snapshot_sha, passage_entity_id) REFERENCES nabt_catalog.passages,
+    FOREIGN KEY (snapshot_sha, item_entity_id) REFERENCES nabt_catalog.items
 );
 CREATE INDEX documents_lexical ON nabt_catalog.documents USING gin (search_vector);
 CREATE INDEX rules_keywords ON nabt_catalog.rules USING gin (keywords);
