@@ -1,0 +1,1834 @@
+{
+  "schema": "nabt.licensed-inference.observation-revision.v1",
+  "gold_sha256": "4aae6aa0054d42820626f72fa5194d16902544e86629d1a57f69b52a971707af",
+  "initial_report_sha256": "04c2bbf1dbc0ac7e8cdd02e83bb63b80b43ed26c78b8a29b17d734ac2daf5a9d",
+  "runtime_reexecuted": false,
+  "gold_changed": false,
+  "change": "L29 preparse exhaustion explicitly reported verified=false, native_checked=false, all_readings_complete=false and readings=[]; map these to no fully checked reading, not a linguistic rejection.",
+  "summary": {
+    "cases": 38,
+    "pass": 37,
+    "fail": 1,
+    "unmeasured": 0,
+    "executed": 38,
+    "families": {
+      "original_unresolved": {
+        "PASS": 1
+      },
+      "conditional_only": {
+        "PASS": 2
+      },
+      "forward": {
+        "PASS": 1
+      },
+      "order_invariance": {
+        "PASS": 1
+      },
+      "front_conditional": {
+        "PASS": 1
+      },
+      "no_inverse": {
+        "PASS": 2
+      },
+      "negative_consequent": {
+        "PASS": 1
+      },
+      "signed_states": {
+        "PASS": 4
+      },
+      "derived_conflict": {
+        "PASS": 1
+      },
+      "no_explosion": {
+        "PASS": 1
+      },
+      "subject_identity": {
+        "PASS": 2
+      },
+      "frame_identity": {
+        "PASS": 2
+      },
+      "preserved_adjuncts": {
+        "PASS": 1
+      },
+      "quote_boundary": {
+        "PASS": 1
+      },
+      "question_boundary": {
+        "PASS": 1
+      },
+      "trailing_input": {
+        "PASS": 1
+      },
+      "partial_condition": {
+        "PASS": 1
+      },
+      "query_boundary": {
+        "PASS": 1
+      },
+      "unknown_vocabulary": {
+        "FAIL": 1
+      },
+      "provenance": {
+        "PASS": 2
+      },
+      "resource": {
+        "PASS": 2
+      },
+      "invalid_input": {
+        "PASS": 2
+      },
+      "aggregation": {
+        "PASS": 6
+      }
+    },
+    "target_observations": {
+      "measured": 28,
+      "exact_matches": 27,
+      "false_supported_literals": 0,
+      "missing_supported_literals": 1
+    },
+    "authority": {
+      "obligations": 76,
+      "measured": 76,
+      "overclaims": 0,
+      "unmeasured": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "L01",
+      "family": "original_unresolved",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "reference_resolved",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "reference_resolved": false,
+        "outside_declared_surface_domain": false,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L02",
+      "family": "conditional_only",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L03",
+      "family": "conditional_only",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L04",
+      "family": "forward",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L05",
+      "family": "order_invariance",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "same_target_as",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L06",
+      "family": "front_conditional",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "same_target_as",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L07",
+      "family": "no_inverse",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L08",
+      "family": "no_inverse",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L09",
+      "family": "negative_consequent",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "REFUTED",
+          "expected": "REFUTED",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "REFUTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "REFUTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L10",
+      "family": "signed_states",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L11",
+      "family": "signed_states",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "REFUTED",
+          "expected": "REFUTED",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "REFUTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "REFUTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L12",
+      "family": "signed_states",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "CONFLICT",
+          "expected": "CONFLICT",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "CONFLICT",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "CONFLICT",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L13",
+      "family": "signed_states",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L14",
+      "family": "derived_conflict",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "CONFLICT",
+          "expected": "CONFLICT",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "CONFLICT",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "CONFLICT",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L15",
+      "family": "no_explosion",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L16",
+      "family": "subject_identity",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L17",
+      "family": "subject_identity",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L18",
+      "family": "frame_identity",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك"
+        ]
+      }
+    },
+    {
+      "id": "L19",
+      "family": "frame_identity",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L20",
+      "family": "preserved_adjuncts",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "preserve_locations",
+          "actual": [
+            "أمامك",
+            "خلف الدار"
+          ],
+          "expected": [
+            "أمامك",
+            "خلف الدار"
+          ],
+          "outcome": "PASS"
+        },
+        {
+          "name": "exact_source_roundtrip",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L21",
+      "family": "quote_boundary",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": true,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L22",
+      "family": "question_boundary",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": true,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L23",
+      "family": "trailing_input",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": true,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L24",
+      "family": "partial_condition",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": true,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L25",
+      "family": "query_boundary",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": true,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L26",
+      "family": "unknown_vocabulary",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "FAIL",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "desired_target",
+          "actual": "UNKNOWN",
+          "expected": "SUPPORTED",
+          "outcome": "FAIL"
+        },
+        {
+          "name": "outside_declared_surface_domain",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "UNKNOWN",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": true,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L27",
+      "family": "provenance",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "identity_exact",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        },
+        {
+          "name": "exact_source_roundtrip",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"trial:scope:A\",\"time\":\"2030-01-02T03:04:05Z\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L28",
+      "family": "provenance",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "target",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "identity_exact",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        },
+        {
+          "name": "different_identity_from",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "SUPPORTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "full_licensed_reading": true,
+        "reference_resolved": true,
+        "outside_declared_surface_domain": false,
+        "complete_closure": true,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"trial:scope:B\",\"time\":\"2030-01-03T03:04:05Z\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ]
+      }
+    },
+    {
+      "id": "L29",
+      "family": "resource",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "status",
+          "actual": "RESOURCE_EXHAUSTED",
+          "expected": "RESOURCE_EXHAUSTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "full_licensed_reading",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "RESOURCE_EXHAUSTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "full_licensed_reading": false,
+        "complete_closure": false,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L30",
+      "family": "resource",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "status",
+          "actual": "RESOURCE_EXHAUSTED",
+          "expected": "RESOURCE_EXHAUSTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "complete_closure",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "RESOURCE_EXHAUSTED",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "full_licensed_reading": false,
+        "outside_declared_surface_domain": false,
+        "complete_closure": false,
+        "identity_exact": true,
+        "identity": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+        "exact_source_roundtrip": true,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L31",
+      "family": "invalid_input",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "status",
+          "actual": "INVALID_INPUT",
+          "expected": "INVALID_INPUT",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "INVALID_INPUT",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "full_licensed_reading": false,
+        "complete_closure": false,
+        "preserve_locations": []
+      }
+    },
+    {
+      "id": "L32",
+      "family": "invalid_input",
+      "mode": "evaluate",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "status",
+          "actual": "INVALID_INPUT",
+          "expected": "INVALID_INPUT",
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "status": "INVALID_INPUT",
+        "world_truth_established": false,
+        "all_arabic_complete": false
+      }
+    },
+    {
+      "id": "A01",
+      "family": "aggregation",
+      "mode": "aggregate_fixture",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "aggregate",
+          "actual": "DISAGREEMENT",
+          "expected": "DISAGREEMENT",
+          "outcome": "PASS"
+        },
+        {
+          "name": "within_reading_conflict",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "native_aggregate_status": "DISAGREEMENT",
+        "per_reading_status_diversity": 2,
+        "aggregate": "DISAGREEMENT",
+        "within_reading_conflict": false,
+        "unanimous_consistent_support": false,
+        "empty_readings_not_consensus": false,
+        "all_readings_retained": true
+      }
+    },
+    {
+      "id": "A02",
+      "family": "aggregation",
+      "mode": "aggregate_fixture",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "aggregate",
+          "actual": "SUPPORTED",
+          "expected": "SUPPORTED",
+          "outcome": "PASS"
+        },
+        {
+          "name": "within_reading_conflict",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "native_aggregate_status": "SUPPORTED",
+        "per_reading_status_diversity": 1,
+        "aggregate": "SUPPORTED",
+        "within_reading_conflict": false,
+        "unanimous_consistent_support": true,
+        "empty_readings_not_consensus": false,
+        "all_readings_retained": true
+      }
+    },
+    {
+      "id": "A03",
+      "family": "aggregation",
+      "mode": "aggregate_fixture",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "aggregate",
+          "actual": "DISAGREEMENT",
+          "expected": "DISAGREEMENT",
+          "outcome": "PASS"
+        },
+        {
+          "name": "within_reading_conflict",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "native_aggregate_status": "DEFER",
+        "per_reading_status_diversity": 2,
+        "aggregate": "DISAGREEMENT",
+        "within_reading_conflict": false,
+        "unanimous_consistent_support": false,
+        "empty_readings_not_consensus": false,
+        "all_readings_retained": true
+      }
+    },
+    {
+      "id": "A04",
+      "family": "aggregation",
+      "mode": "aggregate_fixture",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "unanimous_consistent_support",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "within_reading_conflict",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "native_aggregate_status": "CONFLICT",
+        "per_reading_status_diversity": 2,
+        "aggregate": "CONFLICT",
+        "within_reading_conflict": true,
+        "unanimous_consistent_support": false,
+        "empty_readings_not_consensus": false,
+        "all_readings_retained": true
+      }
+    },
+    {
+      "id": "A05",
+      "family": "aggregation",
+      "mode": "aggregate_fixture",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "aggregate",
+          "actual": "UNKNOWN",
+          "expected": "UNKNOWN",
+          "outcome": "PASS"
+        },
+        {
+          "name": "empty_readings_not_consensus",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "native_aggregate_status": "UNKNOWN",
+        "per_reading_status_diversity": 0,
+        "aggregate": "UNKNOWN",
+        "within_reading_conflict": false,
+        "unanimous_consistent_support": false,
+        "empty_readings_not_consensus": true,
+        "all_readings_retained": true
+      }
+    },
+    {
+      "id": "A06",
+      "family": "aggregation",
+      "mode": "aggregate_fixture",
+      "executed": true,
+      "outcome": "PASS",
+      "checks": [
+        {
+          "name": "world_truth_established",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_arabic_complete",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "aggregate",
+          "actual": "DISAGREEMENT",
+          "expected": "DISAGREEMENT",
+          "outcome": "PASS"
+        },
+        {
+          "name": "within_reading_conflict",
+          "actual": false,
+          "expected": false,
+          "outcome": "PASS"
+        },
+        {
+          "name": "same_aggregate_as",
+          "actual": "DISAGREEMENT",
+          "expected": "DISAGREEMENT",
+          "outcome": "PASS"
+        },
+        {
+          "name": "all_readings_retained",
+          "actual": true,
+          "expected": true,
+          "outcome": "PASS"
+        }
+      ],
+      "observed": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "native_aggregate_status": "DISAGREEMENT",
+        "per_reading_status_diversity": 2,
+        "aggregate": "DISAGREEMENT",
+        "within_reading_conflict": false,
+        "unanimous_consistent_support": false,
+        "empty_readings_not_consensus": false,
+        "all_readings_retained": true
+      }
+    }
+  ]
+}

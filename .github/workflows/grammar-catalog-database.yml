@@ -7,6 +7,13 @@ on:
       - 'integrations/inference_db/**'
       - 'integrations/mantuq_inference.mk'
       - 'integrations/linguistic_truth.mk'
+      - 'integrations/licensed_inference.mk'
+      - 'tools/licensed_inference/**'
+      - 'tools/check_licensed_inference.py'
+      - 'tools/benchmark_licensed_inference.py'
+      - 'tools/licensed_inference_benchmark_adapter.py'
+      - 'tests/test_licensed_inference*.py'
+      - 'evidence/licensed_inference_v1/**'
       - 'tools/linguistic_truth/**'
       - 'tools/check_linguistic_truth.py'
       - 'tools/benchmark_linguistic_truth.py'
@@ -41,6 +48,13 @@ on:
       - 'integrations/inference_db/**'
       - 'integrations/mantuq_inference.mk'
       - 'integrations/linguistic_truth.mk'
+      - 'integrations/licensed_inference.mk'
+      - 'tools/licensed_inference/**'
+      - 'tools/check_licensed_inference.py'
+      - 'tools/benchmark_licensed_inference.py'
+      - 'tools/licensed_inference_benchmark_adapter.py'
+      - 'tests/test_licensed_inference*.py'
+      - 'evidence/licensed_inference_v1/**'
       - 'tools/linguistic_truth/**'
       - 'tools/check_linguistic_truth.py'
       - 'tools/benchmark_linguistic_truth.py'
@@ -90,7 +104,7 @@ jobs:
           sudo apt-get install -y zstd
           python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Replay source links, compiled proof identities and routing
-        run: make -f Makefile -f integrations/grammar_catalog.mk -f integrations/mantuq_inference.mk -f integrations/linguistic_truth.mk grammar-catalog proof-catalog routing-conformance mantuq-inference linguistic-truth LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR="${{ runner.temp }}/catalog-proof-links"
+        run: make -f Makefile -f integrations/grammar_catalog.mk -f integrations/mantuq_inference.mk -f integrations/linguistic_truth.mk -f integrations/licensed_inference.mk grammar-catalog proof-catalog routing-conformance mantuq-inference linguistic-truth licensed-inference LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR="${{ runner.temp }}/catalog-proof-links"
   postgres-pgvector:
     runs-on: ubuntu-24.04
     timeout-minutes: 15

@@ -1,0 +1,624 @@
+{
+  "schema": "nabt.licensed-inference-sources.v1",
+  "law_id": "nabt.licensed-inference.v1",
+  "scope": "Reviewed source support for a finite explicitly authored reader law; not an exhaustive inventory of Arabic or complete source-book formalization. Source replay does not prove translation fidelity or world truth.",
+  "selection": "POST_PROPOSAL_SOURCE_REVIEW_NOT_HELD_OUT_EVALUATION",
+  "byte_span_convention": "UTF-8 bytes; zero-based start inclusive/end exclusive; source physical lines one-based inclusive, original paragraph IDs one-based.",
+  "replay_policy": {
+    "default": "retained_bytes_only",
+    "originals_required_for_fresh_clone": false,
+    "originals_rechecked_by_default": false,
+    "creation_original_comparison": {
+      "scope": "nabhani_condition_profile only",
+      "original_docx_sha256": "057525f3f527e9dbc764e0082f9cce76005e229e226ae3b497177e68ecbec0ab",
+      "canonical_sha256": "9e4b6678b3907151273c5a73c8b804db835dc1ed25a1c54c37e7c0cae51a30ff",
+      "retained_exact_match": true
+    },
+    "authority": "Only fixed installed document/hash and exact retained source replay. Caller metadata, database rows, or flags cannot authorize meaning."
+  },
+  "source_registries": [
+    {
+      "path": "src/nabt/data/source_evidence/source_manifest.json",
+      "sha256": "4eb5f589f8a016adcf070cf1995905c78b65c18c1963c0d158f04a5beb349998",
+      "bytes": 60101
+    },
+    {
+      "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+      "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d",
+      "bytes": 134412
+    },
+    {
+      "path": "src/nabt/data/source_evidence/construction_supplementary_sources_v2.json",
+      "sha256": "96f505a0e34964e6b7fc65ed7dfaa6c0f5430c75a51766760495c25295ab1fe7",
+      "bytes": 4779
+    },
+    {
+      "path": "evidence/linguistic_truth_v1/source_inventory.json",
+      "sha256": "2186d8f4c52d148f13592feef50f617675a8576ff1dfc33f0c9fc6a4bdb56e05",
+      "bytes": 51526
+    },
+    {
+      "path": "evidence/mantuq_mafhum/sources.json",
+      "sha256": "5d61103fc26d64bee8a766dec337a3f343b938582bf9e528197803dcb872a9e0",
+      "bytes": 36366
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "alfiyya",
+      "local_path": "src/nabt/data/source_evidence/alfiyya.txt",
+      "sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+      "bytes": 97798,
+      "attribution": "ألفية ابن مالك",
+      "provenance": {
+        "registry": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+        "repository": "OpenITI/0675AH",
+        "commit": "4b1d2886508b435eb0377ccab96e1da96cc8ee0a",
+        "path": "data/0672IbnMalik/0672IbnMalik.Alfiyya/0672IbnMalik.Alfiyya.Shamela0008522-ara1",
+        "url": "https://github.com/OpenITI/0675AH/blob/4b1d2886508b435eb0377ccab96e1da96cc8ee0a/data/0672IbnMalik/0672IbnMalik.Alfiyya/0672IbnMalik.Alfiyya.Shamela0008522-ara1",
+        "license": "CC-BY-NC-SA-4.0",
+        "scope": "Pinned digital text identity, not manuscript/edition authentication or world truth."
+      }
+    },
+    {
+      "source_id": "qatr",
+      "local_path": "src/nabt/data/source_evidence/qatr.txt",
+      "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+      "bytes": 40168,
+      "attribution": "متن قطر الندى وبل الصدى",
+      "provenance": {
+        "registry": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+        "repository": "OpenITI/0775AH",
+        "commit": "61b0c7891699554aeff8dffdb8b1a2a59d2d22ab",
+        "path": "data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MatnQatrNada/0761JamalDinIbnHisham.MatnQatrNada.Shamela0011376-ara1",
+        "url": "https://github.com/OpenITI/0775AH/blob/61b0c7891699554aeff8dffdb8b1a2a59d2d22ab/data/0761JamalDinIbnHisham/0761JamalDinIbnHisham.MatnQatrNada/0761JamalDinIbnHisham.MatnQatrNada.Shamela0011376-ara1",
+        "license": "CC-BY-NC-SA-4.0",
+        "scope": "Pinned digital text identity, not manuscript/edition authentication or world truth."
+      }
+    },
+    {
+      "source_id": "ibn_aqil",
+      "local_path": "src/nabt/data/source_evidence/ibn_aqil.txt",
+      "sha256": "661e43ea265eca8c72b9e4ab7a46cd9182b34e834105b595241bc7787b471f09",
+      "bytes": 998579,
+      "attribution": "شرح ابن عقيل على ألفية ابن مالك",
+      "provenance": {
+        "registry": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+        "repository": "Saleh1967/Alghanem",
+        "commit": "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd",
+        "path": "corpora/ibn-aqil/sharh-alfiyya.txt.gz",
+        "url": "https://github.com/Saleh1967/Alghanem/blob/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/corpora/ibn-aqil/sharh-alfiyya.txt.gz",
+        "license": "CC-BY-NC-SA-4.0",
+        "scope": "Pinned digital text identity, not manuscript/edition authentication or world truth."
+      }
+    },
+    {
+      "source_id": "sibawayhi",
+      "local_path": "src/nabt/data/source_evidence/sibawayhi.txt",
+      "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+      "bytes": 2639395,
+      "attribution": "كتاب سيبويه",
+      "provenance": {
+        "registry": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+        "repository": "OpenITI/0200AH",
+        "commit": "599f22fe249871f602efe2e0ddc801d3742960a3",
+        "path": "data/0180Sibawayhi/0180Sibawayhi.KitabSibawayhi/0180Sibawayhi.KitabSibawayhi.JK006989-ara1",
+        "url": "https://github.com/OpenITI/0200AH/blob/599f22fe249871f602efe2e0ddc801d3742960a3/data/0180Sibawayhi/0180Sibawayhi.KitabSibawayhi/0180Sibawayhi.KitabSibawayhi.JK006989-ara1",
+        "license": "CC-BY-NC-SA-4.0",
+        "scope": "Pinned digital text identity, not manuscript/edition authentication or world truth."
+      }
+    },
+    {
+      "source_id": "mukhtar_sihah",
+      "local_path": "src/nabt/data/source_evidence/mukhtar_sihah.txt",
+      "sha256": "e93f4054f3cddb826a7b3fafd01eac8c4b39b25ed2d92ece7ea093b755776691",
+      "bytes": 1540847,
+      "attribution": "مختار الصحاح",
+      "provenance": {
+        "registry": "src/nabt/data/source_evidence/construction_supplementary_sources_v2.json",
+        "repository": "OpenITI/0675AH",
+        "commit": "4b1d2886508b435eb0377ccab96e1da96cc8ee0a",
+        "path": "data/0666IbnAbiBakrZaynDinRazi/0666IbnAbiBakrZaynDinRazi.MukhtarSihah/0666IbnAbiBakrZaynDinRazi.MukhtarSihah.JK000107-ara1",
+        "url": "https://github.com/OpenITI/0675AH/blob/4b1d2886508b435eb0377ccab96e1da96cc8ee0a/data/0666IbnAbiBakrZaynDinRazi/0666IbnAbiBakrZaynDinRazi.MukhtarSihah/0666IbnAbiBakrZaynDinRazi.MukhtarSihah.JK000107-ara1",
+        "license": "CC-BY-NC-SA-4.0",
+        "scope": "Pinned digital text identity, not manuscript/edition authentication or world truth."
+      }
+    },
+    {
+      "source_id": "nabhani_condition_profile",
+      "local_path": "evidence/licensed_inference_v1/sources/shakhsiyya3_condition_profile.txt",
+      "sha256": "94798716f624635f177ec93a5d0ca0730d8c70509f4a511ed279008bd945807b",
+      "bytes": 3689,
+      "attribution": "الشخصية الإسلامية، الجزء الثالث؛ ف574 وف576",
+      "provenance": {
+        "origin": "User-supplied digital book; retained excerpts, no independent author/edition authentication",
+        "registry": null
+      },
+      "original_artifact": {
+        "filename": "shakhsiyya3-20261025.docx",
+        "sha256": "057525f3f527e9dbc764e0082f9cce76005e229e226ae3b497177e68ecbec0ab",
+        "bytes": 673072,
+        "distributed": false
+      },
+      "canonical_extraction": {
+        "sha256": "9e4b6678b3907151273c5a73c8b804db835dc1ed25a1c54c37e7c0cae51a30ff",
+        "bytes": 1242244,
+        "paragraphs": 1130,
+        "method": "All descendant w:p in word/document.xml order; concatenate descendant w:t; LF after every paragraph; retain empty paragraphs; no normalization."
+      },
+      "retained_original_spans": [
+        {
+          "paragraph": 574,
+          "original_start": 466053,
+          "original_end": 467178,
+          "start": 0,
+          "end": 1125,
+          "sha256": "a155c553c71790e26222817bdfb11e7c868f7b013b906ed86dbf0dc9f5077de7"
+        },
+        {
+          "paragraph": 576,
+          "original_start": 467296,
+          "original_end": 469860,
+          "start": 1125,
+          "end": 3689,
+          "sha256": "e821cc77d427b174fb3c192c0b49f5a16f710f9672dc348ef194213ff7e7cecd"
+        }
+      ]
+    },
+    {
+      "source_id": "nabhani_opposition_limits",
+      "local_path": "evidence/mantuq_mafhum/sources/shakhsiyya3.txt",
+      "sha256": "42e8a6a98a73d513bfdb0f984a63846499d380216a1870eb95ce6225e2ca1703",
+      "bytes": 21584,
+      "attribution": "الشخصية الإسلامية، الجزء الثالث؛ مقتطفات محفوظة",
+      "provenance": {
+        "origin": "User-supplied digital book; retained excerpts, no independent author/edition authentication",
+        "registry": "evidence/mantuq_mafhum/sources.json"
+      }
+    },
+    {
+      "source_id": "nabhani_words_reality",
+      "local_path": "evidence/linguistic_truth_v1/sources/shakhsiyya1_cognition.txt",
+      "sha256": "f037620bf52da373758e98757a373452201baf811f36b379d81b97f5fe238a60",
+      "bytes": 6325,
+      "attribution": "الشخصية الإسلامية، الجزء الأول؛ مقتطفات محفوظة",
+      "provenance": {
+        "origin": "User-supplied digital book; retained excerpts, no independent author/edition authentication",
+        "registry": "evidence/linguistic_truth_v1/source_inventory.json"
+      }
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "alfiyya.condition_pair",
+      "source_id": "alfiyya",
+      "start": 68486,
+      "end": 69623,
+      "line_start": 906,
+      "line_end": 918,
+      "sha256": "78aea0f0a5d4c19f72ec041dff7b112eb1377992ca7f2038857aba8b86904d16",
+      "raw_text": "# واجزم بإن ms23 ومن وما ومهما ... أي متى أيان أين إذ ما\n# وحيثما أتى وحرف إذ ما ... كإن وباقي الأدوات أسما\n# فعلين يقتضين شرط قدما ... يتلو الجزاء وجوابا وسما\n# وماضيين أو مضارعين ... تلفيهما أو متخالفين\n# وبعد ماض رفعك الجزا حسن ... ورفعه بعد مضارع وهن\n# واقرن بفا حتما جوابا لو جعل ... شرطا لإن أو غيرها لم ينجعل\n# PageV01P058\n# وتخلف الفاء إذا المفاجأة ... كإن تجد إذا لنا مكافأة\n# والفعل من بعد الجزا إن يقترن ... بالفا أو الواو بتثليث قمن\n# وجزم او نصب لفعل إثر فا ... أو واو ان بالجملتين اكتنفا\n# والشرط يغني عن جواب قد علم ... والعكس قد يأتي إن المعنى فهم\n# واحذف لدى اجتماع شرط وقسم ... جواب ما أخرت فهو ملتزم\n# وإن تواليا وقبل ذو خبر ... فالشرط رجح مطلقا بلا حذر\n",
+      "licensed_scope": "إن selects a condition and response, allowing past/present forms; response may be omitted if known.",
+      "limits": "Grammar source; no derivation of material implication truth conditions or world facts."
+    },
+    {
+      "passage_id": "ibn_aqil.condition_pair_past",
+      "source_id": "ibn_aqil",
+      "start": 713630,
+      "end": 715734,
+      "line_start": 7617,
+      "line_end": 7641,
+      "sha256": "88be15d058fabf9c62815912e42d7f5fec926784179f0c4c04c052673b849b41",
+      "raw_text": "# وهذه الأدوات التي تجزم فعلين كلها أسماء إلا إن وإذ ما فإنهما حرفان\n~~وكذلك الأدوات التي تجزم فعلا واحدا كلها حروف.\n# PageV04P031\n# فعلين يقتضين شرط قدما ... يتلو الجزاء وجوابا وسما\n# يعني أن هذه الأدوات المذكورة في قوله واجزم بإن إلى قوله وأني يقتضين\n~~جملتين:\n# إحداهما: وهي المتقدمة تسمى شرطا.\n# والثانية: وهي المتأخرة تسمى جوابا وجزاء ويجب في الجملة الأولى أن تكون\n~~فعلية وأما الثانية فالأصل فيها أن تكون فعلية ويجوز أن تكون اسمية نحو إن\n~~جاء زيد أكرمته وإن جاء زيد فله الفضل.\n# وماضيين أومضارعين ... تلفيهما أو متخالفين\n# PageV04P032\n# إذا كان الشرط والجزاء جملتين فعليتين فيكونان على أربعة أنحاء:\n# الأول: أن يكون الفعلان ماضيين نحو إن قام زيد قام عمرو ويكونان في محل\n~~جزم ومنه قوله تعالى: {إن أحسنتم أحسنتم لأنفسكم} .\n# والثاني: أن يكونا مضارعين نحو إن يقم زيد يقم عمرو ومنه قوله تعالى:\n~~{وإن تبدوا ما في أنفسكم أو تخفوه يحاسبكم به الله} .\n# والثالث: أن يكون الأول ماضيا والثاني مضارعا نحو إن قام زيد يقم عمرو\n~~ومنه قوله تعالى: {من كان يريد الحياة الدنيا وزينتها نوف إليهم أعمالهم\n~~فيها} .\n# والرابع: أن يكون الأول مضارعا والثاني ماضيا وهو قليل ومنه قوله:\n### | 340 - \n# من يكدني بسيء كنت منه ... كالشجا بين حلقه والوريد\n# PageV04P033\n# وقوله صلى الله عليه ms243 وسلم: \"من يقم ليلة القدر غفر له ما تقدم من ذنبه\"\n",
+      "licensed_scope": "Two clauses, first condition and second response; examples include explicit Zayd/Amr subjects and two past verbs.",
+      "limits": "Example family, not exhaustive parsing/semantics for all Arabic conditionals."
+    },
+    {
+      "passage_id": "ibn_aqil.omitted_response",
+      "source_id": "ibn_aqil",
+      "start": 719166,
+      "end": 719829,
+      "line_start": 7687,
+      "line_end": 7693,
+      "sha256": "df9fd25a89f7912db4d3ed66c4034e3b934415c55f38cb3b699466459d0a7047",
+      "raw_text": "# والشرط يغني عن جواب قد علم ... والعكس قد يأتي إن المعنى فهم\n# PageV04P041\n# يجوز حذف جواب الشرط والاستغناء بالشرط عنه وذلك عند ما يدل دليل على\n~~حذفه نحو أنت ظالم إن فعلت فحذف جواب الشرط لدلالة أنت ظالم عليه والتقدير\n~~أنت ظالم إن فعلت فأنت ظالم وهذا كثير في لسانهم وأما عكسه وهو حذف الشرط\n~~والاستغناء عنه بالجزاء فقليل ومنه قوله:\n# فطلقها فلست لها بكفء ... وإلا يعل مفرقك الحسام\n",
+      "licensed_scope": "A preceding clause can supply evidence of a deleted conditional response.",
+      "limits": "The source explicitly analyzes أنت ظالم إن فعلت; extension to the admitted lexical slots is an authored bounded grammar."
+    },
+    {
+      "passage_id": "ibn_aqil.lam_negative",
+      "source_id": "ibn_aqil",
+      "start": 711347,
+      "end": 712288,
+      "line_start": 7577,
+      "line_end": 7586,
+      "sha256": "d72c4de93922e0f49f15725386f8b03ec241bcbf3d44246e5fcb74ea31f40807",
+      "raw_text": "### | عوامل الجزم\n# بلا ولام طالبا ضع جزما ... في الفعل هكذا بلم ولما\n# وأجزم بإن ومن وما ومهما ... أي متى أيان أين إذما\n# وحيثما أنى وحرف إذما ... كإن وباقي الأدوات أسما\n# الأدوات الجازمة للمضارع على قسمين:\n# أحدهما: ما يجزم فعلا واحدا وهو اللام الدالة على الأمر نحو ليقم زيد أو\n~~على الدعاء نحو {ليقض علينا ربك} ولا الدالة على النهي نحو قوله تعالى: {لا\n~~تحزن إن الله معنا} أو على الدعاء نحوربنا لا تؤاخذنا ولم ولما وهما للنفي\n~~ويختصان بالمضارع ويقلبان معناه إلى المضي نحو لم يقم زيد ولما يقم عمرو\n~~ولا يكون النفي بلما إلا متصلا بالحال.\n",
+      "licensed_scope": "لم and لما negate an imperfect and give past reference; the latter differs by connection with present.",
+      "limits": "Only لم is installed; scope under a surrounding condition is retained and no factual past occurrence is inferred."
+    },
+    {
+      "passage_id": "qatr.locative",
+      "source_id": "qatr",
+      "start": 25305,
+      "end": 26137,
+      "line_start": 292,
+      "line_end": 300,
+      "sha256": "c450f71f58a4966e9b427c27d79981a32eb9bb6f8cb5f195b8b416e6f6885b90",
+      "raw_text": "~~الأقاويل} وليس منه \"فكلا منها رغدا\". ms08\n# والمفعول له، وهو المصدر المعلل لحدث شاركه وقتا وفاعلا، ك \"قمت إجلالا\n~~لك\". فإن فقد المعلل شرطا جر بحرف التعليل، نحو: \"خلق لكم\"\n# وإني لتعروني لذكراك هزة\n# فجئت وقد نضت لنوم ثيابها\n# والمفعول فيه: وهو ما سلط عليه عامل على معنى في من اسم زمان ك\"صمت يوم\n~~الخميس، أو حينا، أو أسبوعا\"، أو اسم مكان مبهم، وهو الجهات الست كالأمام\n~~والفوق واليمين وعكسهن، ونحوهن ك \"عند ولدى\"، والمقادير كالفرسخ، وما صيغ\n~~من مصدر عامله ك\"قعدت مقعد زيد\".\n",
+      "licensed_scope": "Distinguishes purpose/reason object from locative; includes directions such as أمام and its opposite.",
+      "limits": "Locative attachment does not establish causation, disjoint geometry, actual existence, or distance."
+    },
+    {
+      "passage_id": "qatr.pronoun_name",
+      "source_id": "qatr",
+      "start": 8903,
+      "end": 9799,
+      "line_start": 123,
+      "line_end": 130,
+      "sha256": "3141ab3e91821f176db10144e2c763f4fa6d7a35a99b4ca0a5b96df5f9a9aff5",
+      "raw_text": "# نكرة، وهو ما شاع في جنس موجود ك\"رجل\" أو مقدر ك\"شمس\"، ومعرفة وهي ستة:\n~~الضمير وهو ما دل على متكلم أو مخاطب أو غائب. وهو إما مستتر كالمقدر وجوبا\n~~في نحو \"أقوم\" و \"تقوم\" أو جوازا فشي نحو \"زيد يقوم\"، أو بارز وهو إما متصل\n~~ك\"تاء\" \"قمت\" وكاف \"أكرمك\" وهاء \"غلامه\"، أو منفصل ك\"أنا وأنت وإياي\". ولا\n~~فصل مع إمكان الوصل، إلا في نحو الهاء من \"سلنيه\" بمرجوحية، و \"ظننتكه\" و\n~~\"كنته\" برجحان.\n# ثم العلم وهو: إما شخصي ك \"زيد\" أو جنسي ك \"أسامة\"، وإما اسم كما مثلنا\n~~أو لقب ك\"زين العابدين\" و \"قفة\" أو كنية ك\"أبي عمرو\" و \"أم كلثوم\". ويؤخر\n",
+      "licensed_scope": "Personal names such as زيد and explicit/implicit participant pronouns are distinct grammatical forms.",
+      "limits": "Does not identify a real-world person or resolve a hidden pronoun from its shape alone."
+    },
+    {
+      "passage_id": "sibawayhi.direction",
+      "source_id": "sibawayhi",
+      "start": 2215181,
+      "end": 2215824,
+      "line_start": 18511,
+      "line_end": 18515,
+      "sha256": "d018c5fe2a71a0ff3fa83cb172eba215b5b57264700dceea9f91ab178eb05348",
+      "raw_text": "~~سوفته | وأما قبل فللأول وبعد للآخر وهما اسمان يكونان ظرفين | وكيف على أي\n~~حال وأين أي مكان ومتى أي حين وأما حيث فمكان بمنزلة قولك هو في المكان\n~~الذي فيه زيد وهذه الأسماء تكون ظروفا | وأما خلف فمؤخر الشيء وأمام مقدمه\n~~وقدام بمنزلة أمام وفوق أعلى الشيء وقالوا فوقك في العلم والعقل على نحو\n~~المثل وهذه الأسماء تكون ظروفا | وليس نفي وأي مسألة ليبين لك بعض الشيء\n",
+      "licensed_scope": "أمام and خلف denote front/rear relational directions; metaphorical spatial expressions exist.",
+      "limits": "No world coordinates, distance bound, exhaustive lexical senses, or automatic exterior-of-house rule."
+    },
+    {
+      "passage_id": "sibawayhi.distance_unspecified",
+      "source_id": "sibawayhi",
+      "start": 489365,
+      "end": 490013,
+      "line_start": 4161,
+      "line_end": 4165,
+      "sha256": "65c198634deba8f04e0e9654faadb10014ab444a33e78558e041726f9b646f82",
+      "raw_text": "~~ولكن الشاعر أراد أن يشبه مكانه بذلك المكان | وأما قولهم دارى خلف دارك\n~~فرسخا فانتصب لأن خلف خبر للدار وهو كلام قد عمل بعضه فى بعض واستغنى فلما\n~~قال دارى خلف دارك أبهم فلم يدر ما قدر ذاك فقال فرسخا وذراعا وميلا أراد\n~~أن يبين | فيعمل هذا الكلام فى هذه الغايات بالنصب كما عمل له عشرون درهما\n~~فى الدرهم كأن هذا الكلام شئ منون يعمل فيما ليس من اسمه ولا هو هو كما كان\n",
+      "licensed_scope": "داري خلف دارك leaves the measure of distance unspecified until an added measure.",
+      "limits": "This directly blocks inference that خلف excludes being far away."
+    },
+    {
+      "passage_id": "sibawayhi.hollow_jussive",
+      "source_id": "sibawayhi",
+      "start": 2110831,
+      "end": 2113988,
+      "line_start": 17643,
+      "line_end": 17667,
+      "sha256": "c40de7fd0e95a8540ad53db7a18556fc0d11d80d017bcadf695c134249ca8207",
+      "raw_text": "# | ( هذا باب ما يحذف من السواكن إذا وقع بعدها ساكن )\n# وذلك ثلاثة أحرف الألف والياء التي قبلها حرف مكسور والواو التي قبلها\n~~حرف مضموم | فأما حذف الألف فقولك رمى الرجل وأنت تريد رمي ولم يخف وإنما\n~~كرهوا تحريكها لأنها إذا حركت صارت ياء أو واوا فكرهوا ms747 أن تصير إلى ما\n~~يستثقلون فحذفوا الألف حيث لم يخافوا التباسا | ومثل ذلك هذه حبلى الرجل\n~~ومعزى القوم وأنت تريد المعزى والحبلى كرهوا أن يصيروا إلى ما هو أثقل من\n~~الألف فحذفوا حيث لم يخافوا التباسا | ومثل ذلك قولهم رمت وقالوا رميا\n~~فجاءوا بالياء وقالوا غزوا فجاءوا بالواو لئلا يلتبس الاثنان بالواحد\n~~وذفريان لأنهم لو حذفوا لالتبس بما ليس في آخره ألف التأنيث من الأسماء\n~~وأنت إذا قلت هذه حبلى الرجل ومن حبلى الرجل علم أن في أخرها ألفا\n~~PageV04P156 فإن قلت قد تقول رأيت حبلى الرجل فيوافق اللفظ لفظ ما ليست في\n~~آخره ألف التأنيث فإن هذا لا يلزمه في كل موضع وأنت لو قلت حبلان لم تجد\n~~موضعا إلا والألف منه ساقطة ولفظ الاسم حينئذ ولفظ ما ليست فيه الألف سواء\n~~| وأما حذف الياء التي قبلها كسرة فقولك هو يرمي الرجل ويقضي الحق وأنت\n~~تريد يقضي ويرمي كرهوا الكسر كما كرهوا الجر في قاض والضم فيه كما كرهوا\n~~الرفع فيه ولم يكونوا ليفتحوا فيلتبس بالنصب لأن سبيل هذا أن يكسر فحذفوا\n~~حيث لم يخافوا التباسا | وأما حذف الواو التي قبلها حرف مضموم فقولك يغزو\n~~القوم ويدعو الناس وكرهوا الكسر كما كرهوا الضم هناك وكرهوا الضم هنا كما\n~~كرهوا الكسر في يرمي وأما اخشوا القوم ورموا الرجل واخشي الرجل فإنهم لو\n~~حذفوا لالتبس الواحد بالجميع والأنثى بالذكر وليس هنا موضع التباس ومع هذا\n~~أن قبل هذه الواو أخف الحركات وكذلك ياء اخشي وما قبل الياء منها في يقضي\n~~ونحوه وما قبل الواو منها في يدعو ونحوه فاجتمع أنه أثقل وأنه لا يخاف\n~~الالتباس فحذف فأجريت هذه السواكن التي حركوا ما قبلها منها مجرى واحدا |\n~~ومثل ذلك لم يبع ولم يقل ولو لم يكن ذلك فيها من الاستثقال لأجريت مجرى لم\n~~يخف لأنه ليس لاستثقال لما بعدها حذفت وذلك ياء يهاب وواو يخاف وقد بين ذلك\n",
+      "licensed_scope": "Deletion of weak stem letters before another quiescent consonant, with لم يبع and لم يقل.",
+      "limits": "لم يسر is a compositional instantiation using the attested سار/يسير stem, not a verbatim source example."
+    },
+    {
+      "passage_id": "ibn_aqil.yasiru",
+      "source_id": "ibn_aqil",
+      "start": 379386,
+      "end": 380491,
+      "line_start": 3856,
+      "line_end": 3865,
+      "sha256": "566b96ab3da51266a0aa9d2f16869bb821f52370eb0dd469064575b7fb4cf2e7",
+      "raw_text": "~~وإما تفدون فداء وهذا معنى قوله ms128 وما لتفصيل إلى آخره أي يحذف عامل المصدر\n~~المسوق للتفصيل حيث عن أي عرض.\n# كذا مكرر وذو حصر ورد ... نائب فعل لاسم عين استند (2) PageV02P180\n# أي: كذلك يحذف عامل المصدر وجوبا إذا ناب المصدر عن فعل استند لاسم عين\n~~أي أخبر به عنه وكان المصدر مكررا أو محصورا (1) فمثال المكرر زيد سيرا\n~~سيرا والتقدير زيد يسير سيرا فحذف يسير وجوبا لقيام التكرير مقامه ومثال\n~~المحصور ما زيد إلا سيرا وإنما زيد سيرا والتقدير إلا يسير سيرا فحذف يسير\n~~وجوبا لما في الحصر من التأكيد القائم مقام التكرير.\n# فإن لم يكرر ولم يحصر لم يجب الحذف نحو زيد سيرا التقدير زيد يسير سيرا\n~~فإن شئت حذفت يسير وإن شئت صرحت به والله أعلم.\n",
+      "licensed_scope": "Attests يسير سيرا as the restored motion expression.",
+      "limits": "Source discussion concerns deleted source-governing verb; only the motion stem attestation is reused."
+    },
+    {
+      "passage_id": "mukhtar.sara",
+      "source_id": "mukhtar_sihah",
+      "start": 688325,
+      "end": 688990,
+      "line_start": 6291,
+      "line_end": 6296,
+      "sha256": "af7f84f95bbd3d25b47b6e10eac7ce2ce698e9a697e5389a6ba55d6e971ffde1",
+      "raw_text": "# س ي ر سار ms254 من باب باع و تسيارا و مسيرا أيضا يقال بارك الله في مسيرك أي\n~~في سيرك و سارت الدابة و سارها صاحبها يتعدى ويلزم و السيرة الطريقة يقال\n~~سار بهم سيرة حسنة و التسيار بالفتح تفعال من السير و سايره أي جاراه\n~~فتسايرا وبينهما مسيرة يوم و سيره من بلده أخرجه وأجلاه و السيارة القافلة\n~~و السير الذي يقد من الجلد وجمعه سيور و سائر الناس جميعهم و سار الشيء لغة\n~~في سائره\n",
+      "licensed_scope": "Attests سار and its verbal paradigm and both transitive/intransitive uses.",
+      "limits": "The admitted سار + explicit subject frame selects the intransitive syntactic use; no guarantee of intended literal or physical motion."
+    },
+    {
+      "passage_id": "mukhtar.arafa",
+      "source_id": "mukhtar_sihah",
+      "start": 893251,
+      "end": 893515,
+      "line_start": 8134,
+      "line_end": 8135,
+      "sha256": "341c8dd198e20c5dca7b28659f27648c93d362d275f52b12a43f046c66d4d583",
+      "raw_text": "# ع ر ف عرفه يعرفه بالكسر معرفة و عرفانا بالكسر و العرف الريح طيبة كانت\n~~أو ms330 منتنة و المعروف ضد المنكر و العرف ضد النكر يقال أولاه عرفا أي معروفا\n",
+      "licensed_scope": "Attests عرفه يعرفه and معرفة/عرفان.",
+      "limits": "Active transitive frame only; this is not evidence that a particular subject knew a true proposition."
+    },
+    {
+      "passage_id": "mukhtar.haqq_polysemy",
+      "source_id": "mukhtar_sihah",
+      "start": 315232,
+      "end": 315475,
+      "line_start": 2937,
+      "line_end": 2938,
+      "sha256": "05d165309e05a8f1915db2ae13ebde53e5bffa99c1947eda6542c03ccfeefcec",
+      "raw_text": "# ح ق ق الحق ضد الباطل والحق أيضا واحد الحقوق و الحقة بالضم معروفة\n~~والجمع حق و حقق و حقاق و الحق بالسكر ما كان من الإبل بن ثلاث سنين وقد\n",
+      "licensed_scope": "الحق is contrasted with الباطل and also denotes one of الحقوق.",
+      "limits": "The reader preserves the object label الحق; it neither selects one sense nor instantiates any true external fact."
+    },
+    {
+      "passage_id": "nabhani.condition_opposition",
+      "source_id": "nabhani_condition_profile",
+      "start": 0,
+      "end": 3689,
+      "line_start": 1,
+      "line_end": 2,
+      "sha256": "94798716f624635f177ec93a5d0ca0730d8c70509f4a511ed279008bd945807b",
+      "raw_text": "مفهوم الشرط هو تعليق الحكم على الشيء بكلمة «إن» أو غيرها من الشروط اللغوية، فإنه يدل على نفي الحكم عند عدم تحقق الشرط، كقوله عليه السلام في حديث سليمان بن بريدة عن أبيه: «ثـُمَّ ادْعُهُمْ إِلَى التَّحَوُّلِ مِنْ دَارِهِمْ إِلَى دَارِ الْمُهَاجِرِينَ، وَأَخْبِرْهُمْ أَنَّهُمْ إِنْ فَعَلُوا ذَلِكَ فَلَهُمْ مَا لِلْمُهَاجِرِينَ وَعَلَيْهِمْ مَا عَلَى الْمُهَاجِرِينَ» رواه مسلم، فإنه يدل على أنهم إن لم يتحولوا، فليس لهم ما للمهاجرين، وليس عليهم ما على المهاجرين، فعلق الحكم بالشرط، كقوله تعالى:  وَإِنْ كُنَّ أُولَاتِ حَمْلٍ فَأَنْفِقُوا عَلَيْهِنَّ فإنه يدل على عدم وجوب الإنفاق بعدم الحمل، فعلق الحكم بالشرط. \nأحدهما: إنه لا خلاف في ثبوت المشروط عند ثبوت الشرط اللغوي، ولا خلاف في دلالة «إن» عليه، أي على الثبوت، ولا خلاف في عدم المشروط عند عدم الشرط اللغوي، وهذا وحده كاف في الدلالة على العمل بمفهوم الشرط، فإن ثبوت المشروط يلزم عند ثبوت الشرط، ودلالة «إن» عليه كافية في الدلالة على أن الحكم معلق بوجود الشرط؛ لأن معناه أنه إذا لم يثبت الشرط لا يثبت المشروط، فكيف إذا أضيف إليه أيضاً بأن عدم المشروط كذلك محقق عند عدم الشرط، فإن ذلك يؤكد هذا المعنى صراحة. وأما دلالة «إن» على العدم فإن الصحيح أنها تدل عليه، والدليل على ذلك أن النحاة قد نصوا على أنها للشرط، ويلزم من انتفاء الشرط انتفاء المشروط. ولا يقال إن تسمية «إن» حرف شرط إنما هو اصطلاح للنحاة، كاصطلاحهم على الرفع والنصب وغيرهما، وليس ذلك مدلولاً لغوياً؛ لا يقال ذلك لأن الرفع والنصب اصطلاحان للنحاة نقلوا فيهما كلمة الرفع والنصب لغير معناها اللغوي فكانت اصطلاحاً، وهذا بخلاف تسمية «إن» حرف شرط فإنه لم يكن بنقل الكلمة لغير معناها اللغوي، وإنما هو تسمية الكلمة بما استعملها العرب له، فالعرب استعملوا «إن» للشرط، فسميت حرف شرط، فهي مستعملة فيما استعملها العرب وليست منقولة، وإنا نستدل باستعمالها الآن للشرط على أنها في اللغة كذلك. إذ لو لم تكن كذلك لكانت منقولة عن مدلولها، والأصل عدم النقل؛ وعليه فإن ثبوت المشروط عند ثبوت الشرط ودلالة «إن» عليه، وعدم المشروط عند عدم الشرط ودلالة «إن» عليه، يثبت أن مفهوم الشرط معمول به، فإذا كان شرطاً في الثبوت كان العدم معمولاً به، وإن كان شرطاً في العدم كان الثبوت معمولاً به، فيكون مفهوم المخالفة في الحكم المعلق به معمولاً به.\n",
+      "licensed_scope": "Author endorses مفهوم الشرط: absence of condition may support absence of the associated ruling in his method.",
+      "limits": "Documentary author-profile evidence only. This v1 law does not activate the inverse or infer consensus; applicability and blockers require separate support."
+    },
+    {
+      "passage_id": "nabhani.opposition_blockers",
+      "source_id": "nabhani_opposition_limits",
+      "start": 18460,
+      "end": 21274,
+      "line_start": 9,
+      "line_end": 10,
+      "sha256": "41715713469c24791cad1e886902b64948dc2f4607f401075536933b247e25dc",
+      "raw_text": "وكذلك كل خطاب خصص محل النطق بالذكر لخروجه مخرج الأعم الأغلب لا مفهوم له، وذلك كقوله تعالى:  وَرَبَائِبُكُمُ اللَّاتِي فِي حُجُورِكُمْ مِنْ نِسَائِكُمُ اللَّاتِي دَخَلْتُمْ بِهِنَّ وقوله:  وَإِنْ خِفْتُمْ شِقَاقَ بَيْنِهِمَا فَابْعَثُوا حَكَمًا مِنْ أَهْلِهِ وَحَكَمًا مِنْ أَهْلِهَا وقوله : «أَيُّمَا امْرَأَةٍ نَكَحَتْ بِغَيْرِ إِذْنِ وَلِيِّهَا، فَنِكَاحُهَا بَاطِلٌ» أخرجه الترمذي. وقوله عليه السلام: «إِذَا ذَهَبَ أَحَدُكُمْ لِحَاجَةٍ فَلْيَسْتَطِبْ بِثَلاَثـَةِ أَحْجَارٍ، فَإِنَّهَا تُجْزِئُهُ» أخرجه أحمد. فإن تخصيصه بالذكر لمحل النطق، في جميع هذه الصور، إنما كان لأنه الغالب. إذ الغالب أن الربيبة إنما تكون في الحجر، وأن الخلع لا يكون إلا مع الشقاق، وأن المرأة لا تزوج نفسها إلا عند عدم إذن الولي لها، وإبائه من تزويجها، وأن الاستنجاء لا يكون إلا بالحجارة؛ ولهذا لا مفهوم للخطاب في جميع هذه الأمثلة وما شابهها.\nوكذلك لا يعمل بمفهوم المخالفة إذا ورد نص من الكتاب أو السنة يعطله، فإنه حينئذ يعطل لورود النص بخلافه، كقوله تعالى:  لَا تَأْكُلُوا الرِّبَا أَضْعَافًا مُضَاعَفَةً وقوله تعالى:  وَلَا تُكْرِهُوا فَتَيَاتِكُمْ عَلَى الْبِغَاءِ إِنْ أَرَدْنَ تَحَصُّنًا فإنه لا يقال إن الربا إذا لم يكن أضعافاً مضاعفة كان حلالاً بحجة مفهوم الآية، فقد ورد نص آخر عطل هذا المفهوم، وهو قوله تعالى:  وَإِنْ تُبْتُمْ فَلَكُمْ رُءُوسُ أَمْوَالِكُمْ فكان الربا كله حراماً، وقوله: أضعافاً مضاعفة لا يعمل بمفهومه. وكذلك لا يقال إن لم يردن تحصناً فأكرهوهن على البغاء بحجة مفهوم الآية، فقد ورد نص آخر يعطل هذا المفهوم، وهو قوله تعالى:  وَلَا تَقْرَبُوا الزِّنَى إِنَّهُ كَانَ فَاحِشَةً فكان إكراههن على البغاء حراماً، سواء أردن التحصن أم لم يردنه. \n",
+      "licensed_scope": "Author excludes opposition for common-case restriction and where other text overrides it.",
+      "limits": "These are attributed method rules, not automatic findings about the current input."
+    },
+    {
+      "passage_id": "nabhani.words_reality",
+      "source_id": "nabhani_words_reality",
+      "start": 1185,
+      "end": 3722,
+      "line_start": 2,
+      "line_end": 8,
+      "sha256": "4fc1e858c81544f9d40da6eda85b41bdeb87b8f6fd000af8632c5373f15a5d67",
+      "raw_text": "المفاهيم هي معاني الأفكار لا معاني الألفاظ، فاللفظ كلام دلّ على معانٍ قد تكون موجودة في الواقع وقد لا تكون موجودة، فالشاعر حين يقول:\nومن الرجال إذا أنبريت لهدمهم     هرم غليظ مناكب الصفاح\nفإذا رميت الحق في أجلاده         ترك الصراع مضعضع الألواح\nفإن هذا المعنى موجود في الواقع، ومدرَك حساً، وإن كان إدراكه يحتاج إلى عمق واستنارة. ولكن الشاعر حين يقول:\nقالوا أينظم فارسين بطعنة              يوم النزال ولا يراه جليلا\nفأجبتهم لو كان طول قناته           ميلاً إذن نَظْم الفوارس ميلا\nفهذا المعنى غير موجود مطلقاً. فلم ينظم الممدوح فارسين بطعنة، ولا سأل أحد هذا السؤال، ولا يمكن أن ينظم الفوارس ميلا. فهذه المعاني للجمل تشرح وتفسر ألفاظها. أمّا معنى الفكر، فهو أنه إذا كان لهذا المعنى الذي تضمنه اللفظ واقع يقع عليه الحس أو يتصوره الذهن كشيء محسوس ويصدقه، كان هذا المعنى مفهوماً عند من يحسه أو يتصوره ويصدقه، ولا يكون مفهوماً عند من لا يحسه ولا يتصوره، وإن كان فهم هذا المعنى من الجملة التي قيلت له أو التي قرأها. ومن هنا كان من المحتم على الشخص أن يتلقى الكلام تلقياً فكرياً سواء قرأه أو سمعه. أي أن يفهم معاني الجمل كما تدل عليه من حيث هي، لا كما يريدها لافظها أو يريدها هو أن تكون. وأن يدرك في نفس الوقت واقع هذه المعاني في ذهنه إدراكاً يشخِّص له هذا الواقع، حتى تصبح هذه المعاني مفاهيماً. فالمفاهيم هي المعاني المدرَك لها واقع في الذهن، سواء أكان واقعاً محسوساً في الخارج أم واقعاً مسلَّماً به أنه موجود في الخارج، تسليماً مبنياً على واقع محسوس. وما عدا ذلك من معاني الألفاظ والجمل لا يسمى مفهوماً، وإنما هو مجرد معلومات.\n",
+      "licensed_scope": "Meanings of expressions can be understood without the described events having occurred in external reality.",
+      "limits": "Source philosophy is attributed; no total philosophical or psychological formalization is claimed."
+    }
+  ],
+  "relations": [
+    {
+      "relation_id": "explicit_subject_clause",
+      "passage_ids": [
+        "qatr.pronoun_name",
+        "ibn_aqil.condition_pair_past"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Finite active clauses use explicit زيد/عمرو; identity remains a discourse label, not an external referent."
+    },
+    {
+      "relation_id": "front_condition",
+      "passage_ids": [
+        "alfiyya.condition_pair",
+        "ibn_aqil.condition_pair_past"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "إن + explicit knowledge clause + explicit motion clause; conditional frame, not either side asserted separately."
+    },
+    {
+      "relation_id": "post_condition",
+      "passage_ids": [
+        "ibn_aqil.omitted_response"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Explicit motion clause + إن + explicit knowledge clause; preceding motion supplies the deleted response in this selected grammatical profile."
+    },
+    {
+      "relation_id": "lam_negative",
+      "passage_ids": [
+        "ibn_aqil.lam_negative",
+        "sibawayhi.hollow_jussive",
+        "ibn_aqil.yasiru",
+        "mukhtar.arafa"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "لم يسر and لم يعرف are signed negative clause forms in the finite law; supplied vowel marks must not be contradicted."
+    },
+    {
+      "relation_id": "motion_lexeme",
+      "passage_ids": [
+        "mukhtar.sara",
+        "ibn_aqil.yasiru"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "سار/يسر are a source-supported selected motion paradigm; no universal disambiguation of the unvocalized shapes."
+    },
+    {
+      "relation_id": "knowledge_lexeme",
+      "passage_ids": [
+        "mukhtar.arafa"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "عرف/يعرف active transitive selected paradigm; preserve الحق as object label."
+    },
+    {
+      "relation_id": "spatial_frame",
+      "passage_ids": [
+        "qatr.locative",
+        "sibawayhi.direction"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Four opaque motion frames: none, أمامك, خلف الدار, أمامك خلف الدار. No component projection from a negated frame, causation, exterior, or distance rule."
+    },
+    {
+      "relation_id": "no_distance_inference",
+      "passage_ids": [
+        "sibawayhi.distance_unspecified"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Directional positions alone do not bound distance."
+    },
+    {
+      "relation_id": "unresolved_reference",
+      "passage_ids": [
+        "qatr.pronoun_name"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Omitted knowledge subject remains unresolved; preserve a structural conditional and return UNKNOWN/UNRESOLVED_REFERENCE, without silently binding it to motion subject."
+    },
+    {
+      "relation_id": "unresolved_object_sense",
+      "passage_ids": [
+        "mukhtar.haqq_polysemy"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Object label الحق has source-attested competing meanings; no selected sense or truth claim is acquired."
+    },
+    {
+      "relation_id": "no_world_truth",
+      "passage_ids": [
+        "nabhani.words_reality"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Parsing or attributed assertions do not authenticate external occurrence, referents, or empirical truth."
+    },
+    {
+      "relation_id": "inverse_profile_disabled",
+      "passage_ids": [
+        "nabhani.condition_opposition",
+        "nabhani.opposition_blockers"
+      ],
+      "kind": "AUTHORED_BOUNDED_INTERPRETATION_WITH_SOURCE_SUPPORT",
+      "scope": "Nabhani conditional opposition is documented but disabled: future activation needs author-profile applicability plus separately verified prerequisites/blockers. P→Q alone does not yield ¬P→¬Q."
+    }
+  ],
+  "lexical_forms": [
+    {
+      "forms": [
+        "سار",
+        "يسر"
+      ],
+      "canonical_forms": [
+        "سَارَ",
+        "يَسِرْ"
+      ],
+      "role": "selected active motion predicate",
+      "passage_ids": [
+        "mukhtar.sara",
+        "ibn_aqil.yasiru",
+        "sibawayhi.hollow_jussive"
+      ]
+    },
+    {
+      "forms": [
+        "عرف",
+        "يعرف"
+      ],
+      "canonical_forms": [
+        "عَرَفَ",
+        "يَعْرِفْ"
+      ],
+      "role": "selected active transitive knowledge predicate",
+      "passage_ids": [
+        "mukhtar.arafa",
+        "ibn_aqil.lam_negative"
+      ]
+    },
+    {
+      "forms": [
+        "زيد",
+        "عمرو"
+      ],
+      "canonical_forms": [
+        "زَيْدٌ",
+        "عَمْرٌو"
+      ],
+      "role": "finite nominative personal-name labels",
+      "passage_ids": [
+        "qatr.pronoun_name",
+        "ibn_aqil.condition_pair_past"
+      ]
+    },
+    {
+      "forms": [
+        "أمامك",
+        "خلف",
+        "الدار"
+      ],
+      "canonical_forms": [
+        "أَمَامَكَ",
+        "خَلْفَ",
+        "الدَّارِ"
+      ],
+      "role": "opaque locative frame tokens; speech-context referents unresolved",
+      "passage_ids": [
+        "qatr.locative",
+        "sibawayhi.direction",
+        "sibawayhi.distance_unspecified"
+      ]
+    },
+    {
+      "forms": [
+        "الحق"
+      ],
+      "canonical_forms": [
+        "الْحَقَّ"
+      ],
+      "role": "object label with unresolved lexical sense",
+      "passage_ids": [
+        "mukhtar.haqq_polysemy"
+      ]
+    },
+    {
+      "forms": [
+        "إن",
+        "لم"
+      ],
+      "canonical_forms": [
+        "إِنْ",
+        "لَمْ"
+      ],
+      "role": "selected conditional and negative particles, not all uses of surface strings",
+      "passage_ids": [
+        "alfiyya.condition_pair",
+        "ibn_aqil.lam_negative"
+      ]
+    }
+  ],
+  "grammar_contract": {
+    "names": [
+      "زيد",
+      "عمرو"
+    ],
+    "motion": [
+      "سار NAME FRAME",
+      "لم يسر NAME FRAME"
+    ],
+    "knowledge": [
+      "عرف NAME الحق",
+      "لم يعرف NAME الحق"
+    ],
+    "frames": [
+      "",
+      "أمامك",
+      "خلف الدار",
+      "أمامك خلف الدار"
+    ],
+    "conditional": [
+      "إن KNOWLEDGE MOTION",
+      "MOTION إن KNOWLEDGE"
+    ],
+    "single_clauses": [
+      "MOTION",
+      "KNOWLEDGE"
+    ],
+    "omitted_knowledge_subject": "structural only; UNKNOWN UNRESOLVED_REFERENCE",
+    "not_supported": [
+      "general Arabic coreference",
+      "external referent identity",
+      "selected sense of الحق",
+      "world truth",
+      "conditional inverse by default",
+      "free spatial projection",
+      "arbitrary word order",
+      "full chapters or all Arabic"
+    ],
+    "translation_status": "Interpreted finite law. Formal exactness, if proved, is relative to this declared scope; scholarly interpretation is not proved by byte replay."
+  }
+}

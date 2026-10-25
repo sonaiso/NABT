@@ -1413,7 +1413,26 @@ def theoremManifest : List Name := [
   ``Nabt.LinguisticTruth.changed_frame_cannot_borrow_usage,
   ``Nabt.LinguisticTruth.no_evidence_no_support,
   ``Nabt.LinguisticTruth.literal_support_with_false_world,
-  ``Nabt.LinguisticTruth.usage_does_not_assert_world
+  ``Nabt.LinguisticTruth.usage_does_not_assert_world,
+  ``Nabt.LicensedInference.atom_roundtrip,
+  ``Nabt.LicensedInference.atom_read_exact,
+  ``Nabt.LicensedInference.statement_roundtrip,
+  ``Nabt.LicensedInference.statement_read_exact,
+  ``Nabt.LicensedInference.statements_read_exact,
+  ``Nabt.LicensedInference.source_read_exact,
+  ``Nabt.LicensedInference.query_read_exact,
+  ``Nabt.LicensedInference.reading_exact,
+  ``Nabt.LicensedInference.checked_row_exact,
+  ``Nabt.LicensedInference.checked_rows_preserve_readings,
+  ``Nabt.LicensedInference.checked_rows_each,
+  ``Nabt.LicensedInference.verified_execution,
+  ``Nabt.LicensedInference.changed_source_rejected,
+  ``Nabt.LicensedInference.changed_query_rejected,
+  ``Nabt.LicensedInference.execution_entails,
+  ``Nabt.LicensedInference.compositional_answers_exact,
+  ``Nabt.LicensedInference.empty_readings_not_skeptical,
+  ``Nabt.LicensedInference.skeptical_positive_exact,
+  ``Nabt.LicensedInference.credulous_positive_exact
 ]
 
 run_cmd do

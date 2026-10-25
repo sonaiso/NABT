@@ -115,3 +115,6 @@ lean_exe exportQualifiedInference where
 
 lean_exe linguisticTruth where
   root := `LinguisticTruthMain
+
+lean_exe licensedInference where
+  root := `LicensedInferenceMain

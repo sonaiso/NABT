@@ -1,0 +1,703 @@
+{
+  "schema": "nabt.licensed-inference.independent-gold.v1",
+  "frozen_at_utc": "2026-10-25T16:06:29.140646+00:00",
+  "independence": {
+    "new_runtime_read": false,
+    "new_runtime_executed": false,
+    "interface_known": true,
+    "expected_labels_copied_from_production": false,
+    "external_human_review": false,
+    "blind_external_evaluation": false
+  },
+  "scope": {
+    "cases": 38,
+    "raw_surface_cases": 32,
+    "aggregation_fixtures": 6,
+    "all_arabic_claim": false,
+    "meaning": "bounded source-conditioned forward signed inference; factual-world truth separate; unsupported positive natural example remains a visible generalization gap"
+  },
+  "aliases": {
+    "SUPPORTED": "positive target support only in every measured reading",
+    "REFUTED": "negative target support only in every measured reading",
+    "CONFLICT": "positive and negative target support within a reading",
+    "UNKNOWN": "no target support in either direction or unresolved/unlicensed input; parse evidence distinguished",
+    "DISAGREEMENT": "different per-reading truth statuses, without treating cross-reading opposition as same-reading conflict"
+  },
+  "cases": [
+    {
+      "id": "L01",
+      "family": "original_unresolved",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف الحق",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "reference_resolved": false,
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "الفاعل المستتر في عرف لا يثبت مرجعه من هذا النص وحده؛ التحليل البنيوي لا يكمل المرجع ولا يثبت وقوع السير."
+    },
+    {
+      "id": "L02",
+      "family": "conditional_only",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": true
+      },
+      "rationale_ar": "الشرط وحده لا يثبت المقدم ولا التالي في الحساب المعلن."
+    },
+    {
+      "id": "L03",
+      "family": "conditional_only",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق",
+        "query_text": "هل عرف زيد الحق؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "وجود عرف في الشرط ليس تقريراً لوقوع المعرفة."
+    },
+    {
+      "id": "L04",
+      "family": "forward",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED"
+      },
+      "rationale_ar": "حقيقة لغوية صريحة للمقدم في النص مع قاعدة أمامية، والنتيجة تظل مشروطة بصحة المقدمات خارج النظام."
+    },
+    {
+      "id": "L05",
+      "family": "order_invariance",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "عرف زيد الحق. سار زيد أمامك خلف الدار إن عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "same_target_as": "L04"
+      },
+      "rationale_ar": "تغيير ترتيب الجمل لا يغير إغلاق قواعد النص الكامل."
+    },
+    {
+      "id": "L06",
+      "family": "front_conditional",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "إن عرف زيد الحق سار زيد أمامك خلف الدار. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "same_target_as": "L04"
+      },
+      "rationale_ar": "تقديم جملة الشرط لا يعكس اتجاه الاستلزام."
+    },
+    {
+      "id": "L07",
+      "family": "no_inverse",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. سار زيد أمامك خلف الدار.",
+        "query_text": "هل عرف زيد الحق؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "إثبات التالي لا يكفي لإثبات المقدم؛ لا تحويل للشرط إلى تكافؤ."
+    },
+    {
+      "id": "L08",
+      "family": "no_inverse",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. لم يعرف زيد الحق.",
+        "query_text": "هل لم يسر زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "نفي المقدم لا يثبت نفي التالي؛ لا جسر ضرورة مزود."
+    },
+    {
+      "id": "L09",
+      "family": "negative_consequent",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "لم يسر زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "REFUTED"
+      },
+      "rationale_ar": "النتيجة السالبة المصرح بها تحفظ إشارتها عند الاستدلال."
+    },
+    {
+      "id": "L10",
+      "family": "signed_states",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED"
+      },
+      "rationale_ar": "دعم موجب مباشر للهدف ضمن المصدر المعلن."
+    },
+    {
+      "id": "L11",
+      "family": "signed_states",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "لم يسر زيد أمامك خلف الدار.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "REFUTED"
+      },
+      "rationale_ar": "دعم سالب مباشر للهدف؛ لا يسقط النفي الصريح."
+    },
+    {
+      "id": "L12",
+      "family": "signed_states",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار. لم يسر زيد أمامك خلف الدار.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "CONFLICT"
+      },
+      "rationale_ar": "دعم طرفي القضية في القراءة نفسها تعارض محفوظ، لا تصويت ولا حذف."
+    },
+    {
+      "id": "L13",
+      "family": "signed_states",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "عرف عمرو الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "واقعة أخرى لا تثبت الهدف ولا نقيضه."
+    },
+    {
+      "id": "L14",
+      "family": "derived_conflict",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق. لم يسر زيد أمامك خلف الدار.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "CONFLICT"
+      },
+      "rationale_ar": "الاشتقاق الموجب مع شاهد سالب مباشر للهدف يسجل التعارض."
+    },
+    {
+      "id": "L15",
+      "family": "no_explosion",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "عرف زيد الحق. لم يعرف زيد الحق.",
+        "query_text": "هل سار عمرو؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "التعارض على قضية المعرفة لا يشتق قضية سير غير متصلة."
+    },
+    {
+      "id": "L16",
+      "family": "subject_identity",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف عمرو الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "تطابق الفعل والمفعول لا يغني عن هوية الفاعل."
+    },
+    {
+      "id": "L17",
+      "family": "subject_identity",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار عمرو أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "نتيجة زيد لا تصبح نتيجة عمرو بتشابه باقي النص."
+    },
+    {
+      "id": "L18",
+      "family": "frame_identity",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "إثبات أمامك وحدها لا يثبت القيد الإضافي خلف الدار."
+    },
+    {
+      "id": "L19",
+      "family": "frame_identity",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN"
+      },
+      "rationale_ar": "إثبات خلف الدار وحدها لا يثبت القيد الإضافي أمامك."
+    },
+    {
+      "id": "L20",
+      "family": "preserved_adjuncts",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "preserve_locations": [
+          "أمامك",
+          "خلف الدار"
+        ],
+        "exact_source_roundtrip": true
+      },
+      "rationale_ar": "أمام المخاطب وخلف الدار علاقتان لمرجعين مختلفين؛ ليستا متناقضتين لمجرد التضاد اللفظي."
+    },
+    {
+      "id": "L21",
+      "family": "quote_boundary",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "«عرف زيد الحق». سار زيد أمامك خلف الدار إن عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "ذكر جملة داخل اقتباس لا يصير تقريراً مصدرياً بمضمونها تلقائياً."
+    },
+    {
+      "id": "L22",
+      "family": "question_boundary",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "هل عرف زيد الحق؟ سار زيد أمامك خلف الدار إن عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "السؤال عن المقدم ليس إثباتاً له."
+    },
+    {
+      "id": "L23",
+      "family": "trailing_input",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق ثم قال كلاماً آخر.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "لا يكفي قبول بادئة المصدر وترك ذيل غير محلل لإصدار حكم عن النص كله."
+    },
+    {
+      "id": "L24",
+      "family": "partial_condition",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن",
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "الشرط المبتور لا يتحول إلى واقعة سير مطلقة."
+    },
+    {
+      "id": "L25",
+      "family": "query_boundary",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟ وماذا بعد ذلك؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "UNKNOWN",
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "قبول بادئة السؤال لا يثبت أن السؤال الكامل داخل المجال المحدد."
+    },
+    {
+      "id": "L26",
+      "family": "unknown_vocabulary",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "ركض خالد خلف المسجد إن أدرك الصواب. أدرك خالد الصواب.",
+        "query_text": "هل ركض خالد خلف المسجد؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "desired_target": "SUPPORTED",
+        "outside_declared_surface_domain": true
+      },
+      "rationale_ar": "استدلال طبيعي مواز خارج الجرد المحدد؛ لا يحذف من تقرير حدود التعميم ولا يعد الامتناع اكتساباً ناجحاً."
+    },
+    {
+      "id": "L27",
+      "family": "provenance",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟",
+        "source_id": "independent:source:α",
+        "revision": "r-2",
+        "scope": "trial:scope:A",
+        "time": "2030-01-02T03:04:05Z"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "identity_exact": true,
+        "exact_source_roundtrip": true
+      },
+      "rationale_ar": "هوية المصدر والنسخة والنطاق والزمن تحفظ كما قدمت ولا تختزل إلى الكلمات."
+    },
+    {
+      "id": "L28",
+      "family": "provenance",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟",
+        "source_id": "independent:source:β",
+        "revision": "r-3",
+        "scope": "trial:scope:B",
+        "time": "2030-01-03T03:04:05Z"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "target": "SUPPORTED",
+        "identity_exact": true,
+        "different_identity_from": "L27"
+      },
+      "rationale_ar": "تغيير الزمن والنطاق لا يختفي من هوية الشهادة وإن بقي الهدف اللغوي مماثلاً."
+    },
+    {
+      "id": "L29",
+      "family": "resource",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟",
+        "resource_limit": {
+          "kind": "input_bytes",
+          "value": 1
+        }
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "status": "RESOURCE_EXHAUSTED",
+        "full_licensed_reading": false
+      },
+      "rationale_ar": "نفاد حد المصدر لا يعد رفضاً لغوياً أو استنفاداً للنص."
+    },
+    {
+      "id": "L30",
+      "family": "resource",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق. عرف زيد الحق.",
+        "query_text": "هل سار زيد أمامك خلف الدار؟",
+        "resource_limit": {
+          "kind": "closure_steps",
+          "value": 0
+        }
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "status": "RESOURCE_EXHAUSTED",
+        "complete_closure": false
+      },
+      "rationale_ar": "نفاد ميزانية الإغلاق لا يمنح نفياً للهدف ولا شهادة اكتمال."
+    },
+    {
+      "id": "L31",
+      "family": "invalid_input",
+      "input": {
+        "mode": "evaluate",
+        "source_text": true,
+        "query_text": "هل سار زيد أمامك خلف الدار؟"
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "status": "INVALID_INPUT"
+      },
+      "rationale_ar": "القيمة المنطقية ليست مصدراً نصياً."
+    },
+    {
+      "id": "L32",
+      "family": "invalid_input",
+      "input": {
+        "mode": "evaluate",
+        "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق",
+        "query_text": "هل سار زيد أمامك خلف الدار؟",
+        "resource_limit": {
+          "kind": "closure_steps",
+          "value": true
+        }
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "status": "INVALID_INPUT"
+      },
+      "rationale_ar": "القيمة المنطقية ليست عدداً صحيحاً لميزانية الإغلاق."
+    },
+    {
+      "id": "A01",
+      "family": "aggregation",
+      "input": {
+        "mode": "aggregate_fixture",
+        "readings": [
+          {
+            "id": "r1",
+            "positive": true,
+            "negative": false
+          },
+          {
+            "id": "r2",
+            "positive": false,
+            "negative": true
+          }
+        ],
+        "display_limit": null
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "aggregate": "DISAGREEMENT",
+        "within_reading_conflict": false
+      },
+      "rationale_ar": "قراءة موجبة وأخرى سالبة اختلاف بين القراءات، لا تعارض داخل أي قراءة."
+    },
+    {
+      "id": "A02",
+      "family": "aggregation",
+      "input": {
+        "mode": "aggregate_fixture",
+        "readings": [
+          {
+            "id": "r1",
+            "positive": true,
+            "negative": false
+          },
+          {
+            "id": "r2",
+            "positive": true,
+            "negative": false
+          }
+        ],
+        "display_limit": null
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "aggregate": "SUPPORTED",
+        "within_reading_conflict": false
+      },
+      "rationale_ar": "اتفاق جميع القراءات المفحوصة على الموجب يختلف عن حصر جميع قراءات العربية."
+    },
+    {
+      "id": "A03",
+      "family": "aggregation",
+      "input": {
+        "mode": "aggregate_fixture",
+        "readings": [
+          {
+            "id": "r1",
+            "positive": true,
+            "negative": false
+          },
+          {
+            "id": "r2",
+            "positive": false,
+            "negative": false
+          }
+        ],
+        "display_limit": null
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "aggregate": "DISAGREEMENT",
+        "within_reading_conflict": false
+      },
+      "rationale_ar": "القراءة المجهولة لا تسقط من مجموعة القراءات لإعلان الإجماع."
+    },
+    {
+      "id": "A04",
+      "family": "aggregation",
+      "input": {
+        "mode": "aggregate_fixture",
+        "readings": [
+          {
+            "id": "r1",
+            "positive": true,
+            "negative": true
+          },
+          {
+            "id": "r2",
+            "positive": true,
+            "negative": false
+          }
+        ],
+        "display_limit": null
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "unanimous_consistent_support": false,
+        "within_reading_conflict": true
+      },
+      "rationale_ar": "وجود قراءة متعارضة لا يتحول إلى تأييد متسق بالإجماع."
+    },
+    {
+      "id": "A05",
+      "family": "aggregation",
+      "input": {
+        "mode": "aggregate_fixture",
+        "readings": [],
+        "display_limit": null
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "aggregate": "UNKNOWN",
+        "empty_readings_not_consensus": true
+      },
+      "rationale_ar": "المجموعة الفارغة ليست شهادة إجماع دلالي."
+    },
+    {
+      "id": "A06",
+      "family": "aggregation",
+      "input": {
+        "mode": "aggregate_fixture",
+        "readings": [
+          {
+            "id": "r2",
+            "positive": false,
+            "negative": true
+          },
+          {
+            "id": "r1",
+            "positive": true,
+            "negative": false
+          }
+        ],
+        "display_limit": 1
+      },
+      "expected": {
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "aggregate": "DISAGREEMENT",
+        "within_reading_conflict": false,
+        "same_aggregate_as": "A01",
+        "all_readings_retained": true
+      },
+      "rationale_ar": "ترتيب القراءات أو الاكتفاء بعرض واحدة لا يغير الحكم الجامع."
+    }
+  ]
+}
