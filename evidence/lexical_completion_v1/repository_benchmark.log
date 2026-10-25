@@ -1,0 +1,82 @@
+python3 tools/benchmark.py
+{
+  "recorded_at_utc": "2026-10-25T20:51:06.318724+00:00",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "table_sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+  "repeats": 7,
+  "scope": "local measurement; no full-language or hardware-general claim",
+  "runs": [
+    {
+      "mode": "waqf",
+      "consonant_weight": 4,
+      "count": "1089919936",
+      "sampled_ranks": 100,
+      "seed": 20261022,
+      "count_with_cold_memo": {
+        "samples_seconds": [
+          0.0030503710004268214,
+          0.0031440989987459034,
+          0.0030293210002128035,
+          0.003074778003792744,
+          0.0030835300058242865,
+          0.0029739599995082244,
+          0.0029826929967384785
+        ],
+        "median_seconds": 0.0030503710004268214,
+        "p95_nearest_rank_seconds": 0.0031440989987459034
+      },
+      "rank_unrank_batch_with_warm_memo": {
+        "samples_seconds": [
+          0.01257795999845257,
+          0.01224800600175513,
+          0.012169521003670525,
+          0.012259822993655689,
+          0.011644610996881966,
+          0.010754106006061193,
+          0.011471627003629692
+        ],
+        "median_seconds": 0.012169521003670525,
+        "p95_nearest_rank_seconds": 0.01257795999845257
+      },
+      "count_peak_python_allocated_bytes": 32216,
+      "peak_memory_scope": "tracemalloc Python allocations; excludes already loaded law table; not process RSS"
+    },
+    {
+      "mode": "wasl",
+      "consonant_weight": 4,
+      "count": "1068055744",
+      "sampled_ranks": 100,
+      "seed": 20261022,
+      "count_with_cold_memo": {
+        "samples_seconds": [
+          0.002919188998930622,
+          0.0027545979974092916,
+          0.002853632999176625,
+          0.0028575589967658743,
+          0.0028612440000870265,
+          0.0028105700039304793,
+          0.0028466779986047186
+        ],
+        "median_seconds": 0.002853632999176625,
+        "p95_nearest_rank_seconds": 0.002919188998930622
+      },
+      "rank_unrank_batch_with_warm_memo": {
+        "samples_seconds": [
+          0.009571647002303507,
+          0.01111978100379929,
+          0.007775939004204702,
+          0.008246771001722664,
+          0.007682752999244258,
+          0.007325127997319214,
+          0.007721068999671843
+        ],
+        "median_seconds": 0.007775939004204702,
+        "p95_nearest_rank_seconds": 0.01111978100379929
+      },
+      "count_peak_python_allocated_bytes": 29272,
+      "peak_memory_scope": "tracemalloc Python allocations; excludes already loaded law table; not process RSS"
+    }
+  ]
+}

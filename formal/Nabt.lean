@@ -62,3 +62,5 @@ import Nabt.QualifiedInference
 
 import Nabt.LinguisticTruth
 import Nabt.LicensedInference
+import Nabt.LexicalCompletion
+import Nabt.LexicalCompletionCatalog

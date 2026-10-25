@@ -1,0 +1,65 @@
+name: NABT lexical completion scope
+
+on:
+  pull_request:
+    paths:
+      - 'formal/**'
+      - 'tools/lexical_completion.py'
+      - 'tools/build_lexical_completion.py'
+      - 'tools/benchmark_lexical_completion.py'
+      - 'tools/lexical_testimony.py'
+      - 'tools/lexical_training/data.py'
+      - 'src/nabt/source_lexicon.py'
+      - 'src/nabt/data/source_evidence/source_lexicon_v1.json'
+      - 'evidence/lexical_completion_v1/**'
+      - 'evidence/lexical_denotation/**'
+      - 'tests/test_lexical_completion.py'
+      - '.github/workflows/lexical-completion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kernel-and-source-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: src:.
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Fetch and verify the complete pinned Lisan source
+        run: python tools/fetch_lisan_source.py --output artifacts/local/lisan.txt
+      - name: Replay exact citations and generated catalogue
+        run: python tools/build_lexical_completion.py --check
+      - name: Install verified Lean
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+          python tools/bootstrap_lean.py --destination "$RUNNER_TEMP/nabt-tools"
+      - name: Build kernel and native executable
+        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build Nabt lexicalCompletion'
+      - name: Enforce transitive axiom audit
+        run: python tools/check_axioms.py --lake "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --output artifacts/local/lexical-completion-ci/axioms.json
+      - name: Require native tests with source replay
+        run: |
+          test -x formal/.lake/build/bin/lexicalCompletion
+          test -s artifacts/local/lisan.txt
+          python -m unittest discover -s tests -p test_lexical_completion.py -v
+      - name: Run scope-separated controls and example
+        run: |
+          python tools/benchmark_lexical_completion.py --output artifacts/local/lexical-completion-ci/benchmark.json
+          python tools/lexical_completion.py --request evidence/lexical_completion_v1/example_request.json > artifacts/local/lexical-completion-ci/example.json
+      - name: Retain bounded verification evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lexical-completion-evidence
+          path: artifacts/local/lexical-completion-ci/
+          if-no-files-found: error
+          retention-days: 14
