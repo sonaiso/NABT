@@ -31,9 +31,9 @@
   function text(id, value) { $(id).textContent = value == null ? '—' : String(value); }
   function showMessage(message) { $('global-message').hidden = !message; text('global-message', message || ''); }
   function switchTab(name, focus = false) {
-    if (!['evidence','inference','coverage','guide'].includes(name)) return;
+    if (!['evidence','inference','coverage','testimony','guide'].includes(name)) return;
     document.querySelectorAll('[data-tab]').forEach(tab => { const selected = tab.dataset.tab === name; tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1; });
-    ['evidence','inference','coverage','guide'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
+    ['evidence','inference','coverage','testimony','guide'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
     if (focus) $('tab-' + name).focus();
   }
   document.querySelectorAll('[data-tab]').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
@@ -66,7 +66,7 @@
   }));
   function enableActions() {
     const disabled = !state.config?.ready || !!state.pending;
-    $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled;
+    $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled; $('run-testimony').disabled = disabled;
   }
   async function request(path, options = {}) {
     const response = await fetch(path, { credentials:'same-origin', cache:'no-store', ...options, headers: { 'Accept':'application/json', ...options.headers }, signal:AbortSignal.timeout(45000) });
@@ -116,7 +116,13 @@
         if (byteLength(source) > 16384 || byteLength(query) > 4096) throw new Error('يتجاوز النص حد المختبر: ١٦٣٨٤ بايت للمقدمات و٤٠٩٦ بايت للاستعلام.');
         payload.source_text = source; payload.query_text = query; payload.budget = getBudget();
       }
-      $('run-inference').disabled = true; $('run-benchmark').disabled = true;
+      if (mode === 'testimony') {
+        if (!$('testimony-form').reportValidity()) return;
+        payload.entry = $('testimony-entry').value;
+        payload.target = $('testimony-target').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+        if (!payload.target.length || payload.target.length>64 || byteLength(payload.entry)>128 || payload.target.some(s=>byteLength(s)>4096)) throw new Error('المدخل أو المكونات يتجاوز حدود الشهادة.');
+      }
+      $('run-inference').disabled = true; $('run-benchmark').disabled = true; $('run-testimony').disabled = true;
       const result = await request('/api/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       if (typeof result.handle !== 'string' || typeof result.request_id !== 'string') throw new Error('استجابة إرسال غير مكتملة. راجع سجل GitHub قبل إعادة الإرسال لتجنب تكرار الطلب.');
       state.pending = {handle:result.handle,request_id:result.request_id,mode,started:Date.now()};
@@ -129,6 +135,7 @@
   }
   $('inference-form').addEventListener('submit',event=>{event.preventDefault();submit('inference');});
   $('run-benchmark').addEventListener('click',()=>submit('benchmark'));
+  $('testimony-form').addEventListener('submit',event=>{event.preventDefault();submit('testimony');});
   function prepareJob() {
     $('job-panel').hidden=false; $('job-spinner').hidden=false; $('resume-poll').hidden=true; $('job-link').hidden=true;
     text('job-id',state.pending.request_id);text('job-title','الطلب في انتظار التنفيذ');text('job-description','سيبني GitHub النسخة المثبتة ويشغّل الفحص. مدة الانتظار ليست دليلًا على قبول النتيجة.');
@@ -161,7 +168,7 @@
         if (!result.report || result.report.request_id!==state.pending.request_id || result.report.mode!==state.pending.mode) throw new Error('لا تتطابق هوية التقرير مع الطلب الجاري. لم تُعرض نتيجة.');
         if(result.report.schema!=='nabt.proof-lab-result.v1' || result.report.all_arabic_complete!==false || result.report.world_truth_established!==false) throw new Error('التقرير يخالف نطاق المختبر المعلن؛ لم تُعرض دعوى غير مرخّصة.');
         const mode=state.pending.mode;
-        if(mode==='inference')renderInference(result.report);else renderBenchmark(result.report);
+        if(mode==='inference')renderInference(result.report);else if(mode==='testimony')renderTestimony(result.report);else renderBenchmark(result.report);
         text('job-title','اكتمل التنفيذ واستلام التقرير');text('job-description','النتيجة أدناه مرتبطة بمعرف الطلب وإصدار الشفرة. اكتمال التنفيذ لا يعني أن الاستنتاج مدعوم.');
         finishPending(); return;
       } else if (result.status==='failed') {
@@ -212,6 +219,26 @@
     text('reading-json',JSON.stringify({readings:result.readings||[],aggregate:result.aggregate||null,unclassified_spans:result.unclassified_spans||[],assumptions:result.assumptions||[],all_readings_complete:result.all_readings_complete===true,all_arabic_complete:false},null,2));
     text('inference-timing','زمن المحرك: '+number(report.duration_ms)+' مللي ثانية');text('inference-commit','commit '+String(report.code_sha||'—').slice(0,12));updateInputState();
   }
+  function renderTestimony(report){
+    state.testimony=report;const t=report.testimony;
+    $('testimony-output').hidden=false;$('testimony-rows').replaceChildren();
+    text('testimony-json',JSON.stringify(report,null,2));
+    text('testimony-input',t?'المدخل المفحوص: '+t.entry+' · المكونات: '+(t.target||[]).join('، '):'');
+    text('testimony-status',t?.native_checked===true?(t.rows.length?'Lean مفعل · دلالات مشروطة مفحوصة':'Lean مفعل · المدخل خارج السجل المثبت'):'لم تُقبل شهادة: '+String(report.status));
+    text('testimony-disclaimer',t?.app_disclaimer||'تعذر إكمال فحص الشهادة.');
+    text('testimony-scope',t?.native_checked===true?'نوع النقل غير مقيّم. التفسير الدلالي مؤلف وغير محكّم استقلالًا. النتيجة لا تعيّن مراد متكلم بعينه.':'راجع سبب التعذر في التقرير.');
+    if(!t?.native_checked)return;
+    for(const row of t.rows){
+      const card=document.createElement('article');card.className='testimony-card';
+      const heading=document.createElement('h4');heading.textContent=row.sense_id;
+      const source=document.createElement('p');source.textContent=row.testimony.author+' · '+row.testimony.work_title;
+      const quote=document.createElement('blockquote');quote.textContent=row.testimony.citation.quotation;
+      const transfer=document.createElement('p');transfer.className='field-help';transfer.textContent=row.testimony.source_file_replayed?'النقل: أُعيد فحص بايتات المصدر المحفوظ. لا حكم على صحة الرواية تاريخيًا.':'النقل: طابق الاقتباس السجل المثبت؛ لم يُعَد فحص ملف الأصل في هذا التشغيل.';
+      const indications=document.createElement('p');indications.textContent=Object.entries({mutabaqa:'المطابقة',tadammun:'التضمن',iltizam:'الالتزام'}).map(([k,label])=>label+': '+(row.indications[k]===true?'مقبولة في التفسير':'غير مثبتة لهذا الهدف')).join(' · ');
+      const condition=document.createElement('p');condition.className='field-help';condition.textContent=row.commitment_conditions.length?'قاعدة اللزوم مقدمة منقولة ومربوطة بهذه القراءة؛ لا تثبت واقعة أو علة حكم.':'لا توجد قاعدة لزوم مودعة لهذه القراءة.';
+      card.append(heading,source,quote,transfer,indications,condition);$('testimony-rows').append(card);
+    }
+  }
   function renderBenchmark(report){
     state.benchmark=report;
     const benchmark=report.benchmark;
@@ -239,9 +266,9 @@
   }
   $('case-filter').addEventListener('change',renderRows);
   function download(report){if(!report)return;const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='nabt-'+report.mode+'-'+String(report.request_id||'report').replace(/[^a-zA-Z0-9-]/g,'')+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  $('download-inference').addEventListener('click',()=>download(state.inference));$('download-benchmark').addEventListener('click',()=>download(state.benchmark));
+  $('download-inference').addEventListener('click',()=>download(state.inference));$('download-benchmark').addEventListener('click',()=>download(state.benchmark));$('download-testimony').addEventListener('click',()=>download(state.testimony));
   updateInputState();
   loadConfig().then(()=>{
-    try{const saved=JSON.parse(sessionStorage.getItem(pendingKey)||'null');if(saved&&typeof saved.handle==='string'&&typeof saved.request_id==='string'&&['inference','benchmark'].includes(saved.mode)&&Number.isFinite(saved.started)){state.pending=saved;prepareJob();switchTab(saved.mode==='benchmark'?'coverage':'inference');enableActions();poll();}}catch{try{sessionStorage.removeItem(pendingKey);}catch{}}
+    try{const saved=JSON.parse(sessionStorage.getItem(pendingKey)||'null');if(saved&&typeof saved.handle==='string'&&typeof saved.request_id==='string'&&['inference','benchmark','testimony'].includes(saved.mode)&&Number.isFinite(saved.started)){state.pending=saved;prepareJob();switchTab(saved.mode==='benchmark'?'coverage':saved.mode);enableActions();poll();}}catch{try{sessionStorage.removeItem(pendingKey);}catch{}}
   });
 })();

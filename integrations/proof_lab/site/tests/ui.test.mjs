@@ -152,7 +152,8 @@ async function harness({ ready = true, stored = null, pollResponse = null } = {}
   const get = id => { assert(nodes.has(id), 'Unknown DOM id: ' + id); return nodes.get(id); };
   get('source-text').value = /<textarea[^>]*id="source-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html)[1];
   get('case-filter').value = 'all';
-  const tabs = ['evidence', 'inference', 'coverage', 'guide'].map(name => {
+  get('testimony-target').value = 'المأوى';
+  const tabs = ['evidence', 'inference', 'coverage', 'testimony', 'guide'].map(name => {
     const element = get('tab-' + name); element.dataset.tab = name; return element;
   });
   const examples = ['supported', 'missing', 'hidden', 'inverse', 'outside'].map(name => {
@@ -189,7 +190,7 @@ async function harness({ ready = true, stored = null, pollResponse = null } = {}
     get, nodes, examples, requests, storage,
     setResponse: value => { response = value; },
     posts: () => requests.filter(item => item.options?.method === 'POST'),
-    submit: async mode => { get(mode === 'benchmark' ? 'run-benchmark' : 'inference-form').fire(mode === 'benchmark' ? 'click' : 'submit'); await flush(); },
+    submit: async mode => { get(mode === 'benchmark' ? 'run-benchmark' : mode === 'testimony' ? 'testimony-form' : 'inference-form').fire(mode === 'benchmark' ? 'click' : 'submit'); await flush(); },
     poll: async () => {
       const next = timers.entries().next().value;
       assert(next, 'Expected a scheduled polling callback'); timers.delete(next[0]);
@@ -337,4 +338,30 @@ test('zero budget is forwarded but fractional budgets are rejected before submis
   await fractional.submit('inference');
   assert.equal(fractional.posts().length, 0);
   assert.match(fractional.get('global-message').textContent, /أعداد صحيحة/);
+});
+
+const testimonyFixture=JSON.parse(readFileSync(new URL('./fixtures/testimony.json',import.meta.url),'utf8'));
+test('testimony UI dispatches exact components and keeps provenance apart from Lean result',async()=>{
+  const ui=await harness();
+  const value=report('testimony',{testimony:testimonyFixture,status:testimonyFixture.status});delete value.benchmark;
+  ui.setResponse({status:'completed',report:value});
+  await ui.submit('testimony');
+  assert.deepEqual(JSON.parse(ui.posts()[0].options.body),{schema:'nabt.proof-lab-request.v1',mode:'testimony',entry:'بيت',target:['المأوى']});
+  await ui.poll();
+  assert.equal(ui.get('testimony-output').hidden,false);
+  assert.match(ui.get('testimony-status').textContent,/Lean مفعل/);
+  assert.match(ui.get('testimony-scope').textContent,/نوع النقل غير مقيّم/);
+  assert.equal(ui.get('testimony-rows').children.length,1);
+  assert.equal(ui.storage.size,0);
+});
+test('testimony unavailable result clears old rows without a successful check label',async()=>{
+  const ui=await harness();
+  ui.setResponse({status:'completed',report:report('testimony',{status:'VERIFICATION_UNAVAILABLE',error:'NATIVE_CHECKER_MISSING'})});
+  await ui.submit('testimony');await ui.poll();
+  assert.match(ui.get('testimony-status').textContent,/لم تُقبل شهادة/);
+  assert.equal(ui.get('testimony-rows').children.length,0);
+});
+test('disabled connection cannot submit testimony',async()=>{
+  const ui=await harness({ready:false});await ui.submit('testimony');
+  assert.equal(ui.get('run-testimony').disabled,true);assert.equal(ui.posts().length,0);
 });

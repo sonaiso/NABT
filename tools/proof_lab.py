@@ -175,6 +175,15 @@ def validate_payload(payload):
     if type(request) is not dict or request.get("schema") != REQUEST_SCHEMA:
         raise RequestError("INVALID_REQUEST_SCHEMA")
     mode = request.get("mode")
+    if mode == "testimony":
+        if set(request) != {"schema", "mode", "entry", "target"}:
+            raise RequestError("UNEXPECTED_REQUEST_FIELD")
+        _text(request["entry"], 128, "ENTRY")
+        if type(request["target"]) is not list or len(request["target"]) > 64:
+            raise RequestError("INVALID_TARGET")
+        for component in request["target"]:
+            _text(component, 4096, "TARGET")
+        return request
     if mode == "benchmark":
         if set(request) != {"schema", "mode"}:
             raise RequestError("UNEXPECTED_REQUEST_FIELD")
@@ -220,6 +229,17 @@ def _identity():
         "runtime_sha256": _sha((ROOT / "tools/licensed_inference/runtime.py").read_bytes()),
         "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip(),
     }
+
+
+def _testimony_identity():
+    from tools.lexical_testimony import CATALOG
+    binary = ROOT / "formal/.lake/build/bin/lexicalDenotation"
+    return {"code_sha": _code_sha(),
+            "native_sha256": _sha(binary.read_bytes()) if binary.is_file() else None,
+            "runner_sha256": _sha(Path(__file__).read_bytes()),
+            "runtime_sha256": _sha((ROOT / "tools/lexical_testimony.py").read_bytes()),
+            "catalogue_sha256": _sha((ROOT / CATALOG).read_bytes()),
+            "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
 
 
 def _authority_guard(result):
@@ -286,12 +306,21 @@ def run_payload(request_id, payload, *, prepare=False):
             response["payload_sha256"] = _sha(raw)
         request = validate_payload(payload)
         response["mode"] = request["mode"]
-        before = _identity()
+        identity = _testimony_identity if request["mode"] == "testimony" else _identity
+        before = identity()
         response.update(before)
+        if request["mode"] == "testimony":
+            response["scope"] = {"law_id": "nabt.lexical-denotation.v1",
+                "claim": "Source-attributed conditional interpretation in the installed lexical catalogue",
+                "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED"}
         if prepare:
             response["status"] = "PREPARED"
         elif response["native_sha256"] is None:
             response.update(status="VERIFICATION_UNAVAILABLE", error="NATIVE_CHECKER_MISSING")
+        elif request["mode"] == "testimony":
+            from tools.lexical_testimony import assess
+            testimony = assess(request["entry"], request["target"])
+            response.update(status=testimony["status"], testimony=testimony)
         elif request["mode"] == "inference":
             budget = InferenceBudget(max_source_bytes=MAX_SOURCE_BYTES,
                 max_query_bytes=MAX_QUERY_BYTES, **(BUDGET_LIMITS | request.get("budget", {})))
@@ -304,7 +333,7 @@ def run_payload(request_id, payload, *, prepare=False):
             report = _benchmark()
             response.update(status="BENCHMARK_COMPLETE" if report["contract_gate"]["passed"]
                             else "BENCHMARK_CONTRACT_FAILURE", benchmark=report)
-        if not prepare and _identity() != before:
+        if not prepare and identity() != before:
             raise RuntimeError("EXECUTION_IDENTITY_CHANGED")
     except (RequestError, UnicodeError) as exc:
         response.update(status="INVALID_INPUT", error=str(exc) if isinstance(exc, RequestError)
@@ -315,11 +344,13 @@ def run_payload(request_id, payload, *, prepare=False):
         response.update(status="EXECUTION_FAILED", error="INTERNAL_EXECUTION_FAILURE")
         response.pop("result", None)
         response.pop("benchmark", None)
+        response.pop("testimony", None)
     response["duration_ms"] = round((time.monotonic() - started) * 1000)
     encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
     if len(encoded) >= MAX_RESULT_BYTES:
         response.pop("result", None)
         response.pop("benchmark", None)
+        response.pop("testimony", None)
         response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
     return response
 

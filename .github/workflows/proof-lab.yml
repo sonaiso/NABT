@@ -7,6 +7,8 @@ on:
   pull_request:
     paths:
       - 'tools/proof_lab.py'
+      - 'tools/lexical_testimony.py'
+      - 'tests/test_lexical_testimony.py'
       - 'tests/test_proof_lab.py'
       - 'integrations/proof_lab/**'
       - '.github/workflows/proof-lab.yml'
@@ -58,13 +60,15 @@ jobs:
           python tools/bootstrap_lean.py --destination "$RUNNER_TEMP/nabt-tools"
       - name: Build the installed native checker
         if: steps.prepare.outputs.valid == 'true'
-        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference'
+        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation'
       - name: Worker transport and certificate boundary tests
         if: github.event_name != 'workflow_dispatch'
         run: node --test integrations/proof_lab/site/tests/*.test.mjs
       - name: Boundary and transport regression tests
         if: steps.prepare.outputs.valid == 'true' && github.event_name != 'workflow_dispatch'
-        run: python -m unittest discover -s tests -p test_proof_lab.py -v
+        run: |
+          python -m unittest discover -s tests -p test_proof_lab.py -v
+          python -m unittest discover -s tests -p test_lexical_testimony.py -v
       - name: Execute the exact request and retain its receipt
         if: always() && steps.prepare.outputs.valid == 'true'
         env:
