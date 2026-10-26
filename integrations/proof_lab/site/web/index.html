@@ -7,6 +7,7 @@
   <meta name="description" content="مختبر NABT لاختبار الاستدلال العربي بنواة Lean وقياس التغطية مع حفظ الأدلة والحدود.">
   <title>مختبر البرهان العربي — NABT</title>
   <link rel="stylesheet" href="/style.css">
+  <script src="/semantic-axes.js" defer></script>
   <script src="/app.js" defer></script>
   <script src="/evidence-audit.js" defer></script>
   <script src="/evidence-sample.js" defer></script>
@@ -34,7 +35,8 @@
         <button role="tab" id="tab-inference" aria-controls="panel-inference" aria-selected="false" tabindex="-1" data-tab="inference"><span class="tab-number">02</span> تجربة عبارة</button>
         <button role="tab" id="tab-coverage" aria-controls="panel-coverage" aria-selected="false" tabindex="-1" data-tab="coverage"><span class="tab-number">03</span> قياس التغطية</button>
         <button role="tab" id="tab-testimony" aria-controls="panel-testimony" aria-selected="false" tabindex="-1" data-tab="testimony"><span class="tab-number">04</span> شهادات المعجم</button>
-        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">05</span> دليل القراءة</button>
+        <button role="tab" id="tab-semantic_axes" aria-controls="panel-semantic_axes" aria-selected="false" tabindex="-1" data-tab="semantic_axes"><span class="tab-number">05</span> فصل جهات الدلالة</button>
+        <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">06</span> دليل القراءة</button>
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
@@ -118,6 +120,15 @@
           <div id="testimony-rows" class="testimony-grid"></div>
           <details><summary>المقدمات والشهادة الكاملة</summary><pre id="testimony-json" dir="ltr"></pre></details>
           <button id="download-testimony" class="text-button" type="button">تنزيل تقرير الشهادة ↓</button>
+        </section>
+      </div>
+      <div role="tabpanel" id="panel-semantic_axes" aria-labelledby="tab-semantic_axes" hidden>
+        <section class="coverage-heading card"><div><p class="eyebrow">مجموعة مرجعية · مقامات منفصلة</p><h2>التركيب والمعنى والسياق.<br>كل جهة بفحصها.</h2><p>أمثلة اسمية ذات أحداث، وأفعال غير إرادية، وزمان بلا سببية، وعبارات تتغير مقاماتها، ونفي وافتراض. يُقاس التحليل واسترجاع القراءات وحسم المرجع والدافع والواقع كل على حدة.</p><p class="field-help">هذا المرجع مؤلف داخل فريق المشروع ولم يُحكّم خارجيًا. مطابقة المرجع قياس داخل هذه المجموعة. لا يمنح نجاح تشغيل Lean شهادة لكل دعوى، ولا يتحول الامتناع الآمن عن إسناد الدافع إلى فهم مثبت له.</p></div><button id="run-semantic-axes" class="primary-button" type="button" disabled>أعد فحص الجهات <span aria-hidden="true">←</span></button></section>
+        <section id="semantic-empty" class="card benchmark-empty" role="status"><h3 id="semantic-empty-title">لم يبدأ قياس هذه المجموعة في الجلسة الحالية.</h3><p>ستظهر المقامات والنتائج بعد اكتمال الطلب. لا تُعرض أعداد تاريخية بوصفها نتيجة حية.</p></section>
+        <section id="semantic-output" hidden>
+          <p id="semantic-scope" class="field-help"></p><div id="semantic-axis-metrics" class="semantic-axis-metrics"></div>
+          <div class="semantic-workbench"><section class="card"><h3>الحالات ومقاماتها</h3><p class="field-help">يمكن أن يتكرر النص مع مقام مختلف. اختر الحالة لعرض المتوقع والمرصود وحدود كل دعوى.</p><div id="semantic-cases" class="semantic-case-list" aria-label="حالات المجموعة المرجعية"></div></section><section class="card" id="semantic-case-detail" aria-label="تفاصيل الحالة المختارة" aria-live="polite"></section></div>
+          <section class="card"><p id="semantic-run-identity" class="report-identity"></p><p id="semantic-reference-identity" class="report-identity" dir="ltr"></p><button type="button" id="download-semantic-axes" class="text-button">تنزيل تقرير الجهات JSON ↓</button><details><summary>سجل التنفيذ الكامل</summary><pre id="semantic-json" dir="ltr"></pre></details></section>
         </section>
       </div>
       <div role="tabpanel" id="panel-guide" aria-labelledby="tab-guide" hidden>

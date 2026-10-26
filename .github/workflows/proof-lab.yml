@@ -7,6 +7,10 @@ on:
   pull_request:
     paths:
       - 'tools/proof_lab.py'
+      - 'tools/semantic_axes.py'
+      - 'tools/benchmark_semantic_axes.py'
+      - 'tests/test_semantic_axes*.py'
+      - 'evidence/semantic_axes_v1/**'
       - 'tools/lexical_testimony.py'
       - 'tests/test_lexical_testimony.py'
       - 'tests/test_proof_lab.py'
@@ -69,6 +73,12 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_proof_lab.py -v
           python -m unittest discover -s tests -p test_lexical_testimony.py -v
+          python -m unittest discover -s tests -p 'test_semantic_axes*.py' -v
+      - name: Replay the frozen reference through both transport consumers
+        if: steps.prepare.outputs.valid == 'true' && github.event_name != 'workflow_dispatch'
+        run: |
+          python tools/benchmark_semantic_axes.py --output "$RUNNER_TEMP/semantic-axes.json"
+          node integrations/proof_lab/site/scripts/validate-semantic-report.mjs "$RUNNER_TEMP/semantic-axes.json"
       - name: Execute the exact request and retain its receipt
         if: always() && steps.prepare.outputs.valid == 'true'
         env:

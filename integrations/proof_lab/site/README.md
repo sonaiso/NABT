@@ -46,3 +46,19 @@
 فرع التنفيذ المثبت لهذه الإضافة `codex/attested-testimony-live`، مع إلزام
 `NABT_CODE_SHA` بمطابقة رأسه قبل أي إرسال. لا يقبل المتصفح فرعًا بديلًا
 أو قواعد أو تعريفات أو أعلام تحقق من المستخدم.
+
+## Semantic axes reference
+
+The `semantic_axes` mode runs the pinned 25-case authored reference on
+`codex/semantic-axes-reference`. It measures syntax, reading recovery, reference
+resolution, motive understanding and external truth separately. The last two
+are currently unmeasured. This route emits Python replay receipts, never Lean
+proofs, and preserves the previous live Lean routes. Each measured comparison
+binds its claim ID and exact input/context digest. Imported reports remain
+unverified declarations. See `docs/SEMANTIC_AXES_AR.md` in the NABT repository.
+
+Validate an actual output against both Worker and UI consumers with:
+
+```sh
+node scripts/validate-semantic-report.mjs /absolute/path/to/measurement.json
+```

@@ -1,5 +1,6 @@
 const REPOSITORY = 'sonaiso/NABT';
 const WORKFLOW = 'proof-lab.yml';
+const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference'];
 const REQUEST_SCHEMA = 'nabt.proof-lab-request.v1';
 const MAX_PAYLOAD = 32768;
 const MAX_REPORT = 2 * 1024 * 1024;
@@ -25,8 +26,8 @@ export function validatePayload(value){
     return {schema:REQUEST_SCHEMA,mode:'testimony',entry,target:value.target};
   }
   exactKeys(value,['schema','mode','source_text','query_text','budget']);
-  if(value.schema!==REQUEST_SCHEMA||!['inference','benchmark'].includes(value.mode))fail('INVALID_INPUT');
-  if(value.mode==='benchmark'){if(Object.keys(value).some(k=>!['schema','mode'].includes(k)))fail('INVALID_INPUT');return {schema:REQUEST_SCHEMA,mode:'benchmark'};}
+  if(value.schema!==REQUEST_SCHEMA||!['inference','benchmark','semantic_axes'].includes(value.mode))fail('INVALID_INPUT');
+  if(['benchmark','semantic_axes'].includes(value.mode)){if(Object.keys(value).some(k=>!['schema','mode'].includes(k)))fail('INVALID_INPUT');return {schema:REQUEST_SCHEMA,mode:value.mode};}
   const source=unicode(value.source_text),query=unicode(value.query_text);
   if(!source.trim()||!query.trim()||encoder.encode(source).length>16384||encoder.encode(query).length>4096)fail('INPUT_LIMIT');
   const budget=Object.hasOwn(value,'budget')?value.budget:{};exactKeys(budget,Object.keys(LIMITS));
@@ -50,7 +51,7 @@ export async function verifyHandle(handle,secret,now=Date.now()){
   const raw=fromBase64(pieces[0]);if(!await crypto.subtle.verify('HMAC',await key(secret),fromBase64(pieces[1]),raw))fail('INVALID_HANDLE',403);
   let data;try{data=JSON.parse(decoder.decode(raw));}catch{fail('INVALID_HANDLE',403);}
   exactKeys(data,['request_id','payload_sha256','code_sha','mode','created']);
-  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
+  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony','semantic_axes'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
   return data;
 }
 function standard64(bytes){let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s);}
@@ -67,7 +68,7 @@ export async function decryptEnvelope(envelope,keyHex,requestId,maxBytes=MAX_REP
   const nonce=decode64(envelope.nonce,12),cipher=decode64(envelope.ciphertext,maxBytes+16);if(nonce.length!==12||cipher.length<16)fail('ENCRYPTED_PAYLOAD_INVALID',502);
   try{const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:nonce,additionalData:encoder.encode(requestId),tagLength:128},await transportKey(keyHex),cipher);return decoder.decode(bytes);}catch{fail('ENCRYPTED_PAYLOAD_INVALID',502);}
 }
-function configured(env){return env.NABT_EXECUTION_ENABLED==='true'&&/^[a-f0-9]{64}$/.test(env.NABT_TRANSPORT_KEY??'')&&typeof env.NABT_GITHUB_TOKEN==='string'&&env.NABT_GITHUB_TOKEN.length>0&&typeof env.NABT_SIGNING_KEY==='string'&&env.NABT_SIGNING_KEY.length>=32&&SHA.test(env.NABT_CODE_SHA??'')&&['codex/dynamic-proof-lab','codex/attested-testimony-live'].includes(env.NABT_REF);}
+function configured(env){return env.NABT_EXECUTION_ENABLED==='true'&&/^[a-f0-9]{64}$/.test(env.NABT_TRANSPORT_KEY??'')&&typeof env.NABT_GITHUB_TOKEN==='string'&&env.NABT_GITHUB_TOKEN.length>0&&typeof env.NABT_SIGNING_KEY==='string'&&env.NABT_SIGNING_KEY.length>=32&&SHA.test(env.NABT_CODE_SHA??'')&&ALLOWED_REFS.includes(env.NABT_REF);}
 async function gh(env,path,options={}){
   const response=await fetch('https://api.github.com/repos/'+REPOSITORY+path,{...options,redirect:'manual',signal:AbortSignal.timeout(20000),headers:{'Authorization':'Bearer '+env.NABT_GITHUB_TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'NABT-Proof-Lab','Content-Type':'application/json'}});
   if(!response.ok&&response.status!==302){const code=response.status===401||response.status===403?'GITHUB_ACCESS_UNAVAILABLE':response.status===429?'GITHUB_RATE_LIMIT':'GITHUB_REQUEST_FAILED';fail(code,502);}
@@ -111,7 +112,14 @@ export async function unpackResult(bytes){
 export function validateReport(report,expected){
   if(!report||report.schema!=='nabt.proof-lab-result.v1'||report.request_id!==expected.request_id||report.payload_sha256!==expected.payload_sha256||report.code_sha!==expected.code_sha||report.mode!==expected.mode||report.all_arabic_complete!==false||report.world_truth_established!==false)fail('REPORT_BINDING_FAILED',502);
   const errorStatuses=['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'];
-  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony||report.semantic_axes)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(report.mode==='semantic_axes'){
+    if(report.result||report.benchmark||report.testimony||report.native_sha256!==null||report.status!=='SEMANTIC_AXES_COMPLETE')fail('REPORT_AUTHORITY_INVALID',502);
+    validateSemanticAxes(report.semantic_axes);
+    if(report.reference_sha256!==report.semantic_axes.reference_sha256||report.runtime_sha256!==report.semantic_axes.adapter_sha256)fail('REPORT_BINDING_FAILED',502);
+    return report;
+  }
+  if(report.semantic_axes)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='testimony'){
     validateTestimony(report.testimony,report.status);
     if(report.result||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
@@ -133,6 +141,50 @@ export function validateReport(report,expected){
     if(summary.cases!==38||b.rows.length!==summary.cases||summary.pass+summary.fail+summary.unmeasured!==summary.cases)fail('REPORT_AUTHORITY_INVALID',502);
   }
   return report;
+}
+
+// v1 measures the Python reader. No Lean-proof declaration is supported here.
+export function validateSemanticAxes(suite){
+  const deny=()=>fail('REPORT_AUTHORITY_INVALID',502);
+  const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+  const text=v=>typeof v==='string'&&v.trim().length>0;
+  const hash=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
+  const integer=v=>Number.isSafeInteger(v)&&v>=0;
+  const axes=['syntax','readings','reference','motive','world'];
+  const states=['PASS','FAIL','UNMEASURED','NOT_APPLICABLE'];
+  if(!object(suite)||suite.schema!=='nabt.semantic-axes-benchmark.v1'||suite.case_count!==25||!Array.isArray(suite.cases)||suite.cases.length!==suite.case_count||!object(suite.axes)||!text(suite.scope))deny();
+  if(!hash(suite.reference_sha256)||!hash(suite.adapter_sha256)||!hash(suite.input_suite_sha256)||suite.lean_native_checked!==false||suite.all_arabic_complete!==false)deny();
+  const counts=Object.fromEntries(axes.map(a=>[a,{eligible:0,measured:0,passed:0,failed:0,unmeasured:0}]));
+  const ids=new Set();
+  for(const row of suite.cases){
+    if(!object(row)||!text(row.id)||ids.has(row.id)||!text(row.context_id)||!hash(row.case_input_sha256)||!object(row.input)||!text(row.input.text)||!object(row.input.context)||!object(row.axis_results)||!Array.isArray(row.claims)||row.claims.length!==axes.filter(a=>row.axis_results[a]?.status!=='NOT_APPLICABLE').length)deny();
+    ids.add(row.id);
+    for(const axis of axes){
+      const result=row.axis_results[axis], c=counts[axis];
+      if(!object(result)||!states.includes(result.status))deny();
+      if(result.status==='NOT_APPLICABLE')continue;
+      c.eligible++;
+      if(result.status==='UNMEASURED')c.unmeasured++;
+      else{c.measured++;c[result.status==='PASS'?'passed':'failed']++;}
+    }
+    const claimAxes=new Set();
+    for(const claim of row.claims){
+      const v=claim?.verification;
+      if(!object(claim)||!axes.includes(claim.axis)||claimAxes.has(claim.axis)||claim.id!==row.id+':'+claim.axis||!text(claim.statement)||claim.status!==row.axis_results[claim.axis].status||!object(v)||typeof v.checked!=='boolean'||!text(v.scope)||!Array.isArray(v.theorem_references)||v.theorem_references.length!==0)deny();
+      claimAxes.add(claim.axis);
+      if(v.claim_id!==claim.id||v.input_sha256!==row.case_input_sha256)deny();
+      const measured=['PASS','FAIL'].includes(claim.status);
+      if(v.checked!==measured||v.kind!==(measured?'PYTHON_REPLAY':'NOT_CHECKED'))deny();
+      if(measured?!hash(v.certificate_sha256):v.certificate_sha256!=null)deny();
+    }
+  }
+  if(Object.keys(suite.axes).length!==axes.length)deny();
+  for(const axis of axes){
+    const actual=counts[axis], declared=suite.axes[axis];
+    if(!object(declared)||Object.keys(actual).some(k=>!integer(declared[k])||declared[k]!==actual[k]))deny();
+    if(actual.measured===0?declared.rate!==null:typeof declared.rate!=='number'||!Number.isFinite(declared.rate)||Math.abs(declared.rate-actual.passed/actual.measured)>1e-12)deny();
+  }
+  return suite;
 }
 
 export function validateTestimony(t,status){
@@ -199,7 +251,7 @@ export async function route(request,env,assets){
   try{
     const url=new URL(request.url);
     if(request.method==='GET'&&url.pathname in assets){const asset=assets[url.pathname];return new Response(asset.body,{headers:{...securityHeaders,'Content-Type':asset.type,'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'"}});}
-    if(url.pathname==='/api/config'&&request.method==='GET')return json({ready:configured(env),configuration_status:env.NABT_EXECUTION_ENABLED==='true'?'configured_or_missing_fields':'awaiting_transport_authorization',code_sha:SHA.test(env.NABT_CODE_SHA??'')?env.NABT_CODE_SHA:null,branch:['codex/dynamic-proof-lab','codex/attested-testimony-live'].includes(env.NABT_REF)?env.NABT_REF:null,law:'nabt.licensed-inference.v1',limits:{...LIMITS,source_bytes:16384,query_bytes:4096},baseline:{total:38,passed:37,failed:1,unmeasured:0,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',scope:'لقطة التقييم المستقل المثبتة للنطاق المحدود؛ ليست قياسًا لكل العربية.'},scope_note:'الاكتمال مقيد بالقانون والنطاق المعلنين. اكتمال العربية كلها وصحة المطابقة للواقع غير مثبتين.'});
+    if(url.pathname==='/api/config'&&request.method==='GET')return json({ready:configured(env),configuration_status:env.NABT_EXECUTION_ENABLED==='true'?'configured_or_missing_fields':'awaiting_transport_authorization',code_sha:SHA.test(env.NABT_CODE_SHA??'')?env.NABT_CODE_SHA:null,branch:ALLOWED_REFS.includes(env.NABT_REF)?env.NABT_REF:null,law:'nabt.licensed-inference.v1',limits:{...LIMITS,source_bytes:16384,query_bytes:4096},baseline:{total:38,passed:37,failed:1,unmeasured:0,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',scope:'لقطة التقييم المستقل المثبتة للنطاق المحدود؛ ليست قياسًا لكل العربية.'},scope_note:'الاكتمال مقيد بالقانون والنطاق المعلنين. اكتمال العربية كلها وصحة المطابقة للواقع غير مثبتين.'});
     if(url.pathname==='/api/runs'){
       if(!configured(env))fail('BACKEND_NOT_CONFIGURED',503);
       // Access is restricted to the owner by Sites dispatch; service access uses the same boundary.
