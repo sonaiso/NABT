@@ -1513,7 +1513,28 @@ def theoremManifest : List Name := [
   ``Nabt.ContextualReference.resolved_reading_has_dependent_lexical_certificate,
   ``Nabt.ContextualReference.insufficient_budget_has_no_reference,
   ``Nabt.ContextualReference.lexical_certificate_keeps_all_donor_obligations,
-  ``Nabt.ContextualReference.returned_reference_requires_every_reading
+  ``Nabt.ContextualReference.returned_reference_requires_every_reading,
+  ``Nabt.OccurrenceSense.checked_receipt_exact,
+  ``Nabt.OccurrenceSense.checked_source_and_scope,
+  ``Nabt.OccurrenceSense.checked_all_donors_supported,
+  ``Nabt.OccurrenceSense.receipt_keeps_complete_binding,
+  ``Nabt.OccurrenceSense.checked_keeps_complete_binding,
+  ``Nabt.OccurrenceSense.receipt_keeps_supplied_budget,
+  ``Nabt.OccurrenceSense.budget_change_invalidates_old_receipt,
+  ``Nabt.OccurrenceSense.context_swap_invalidates_old_receipt,
+  ``Nabt.OccurrenceSense.every_morphology_key_retained,
+  ``Nabt.OccurrenceSense.every_parsed_donor_key_retained,
+  ``Nabt.OccurrenceSense.morphology_key_has_retained_record,
+  ``Nabt.OccurrenceSense.no_invented_morphology_reading,
+  ``Nabt.OccurrenceSense.dictionary_candidates_exact,
+  ``Nabt.OccurrenceSense.missing_lemma_has_no_dictionary_candidate,
+  ``Nabt.OccurrenceSense.every_dictionary_candidate_retained,
+  ``Nabt.OccurrenceSense.returned_sense_requires_catalogue_and_link,
+  ``Nabt.OccurrenceSense.per_sense_indications_exact,
+  ``Nabt.OccurrenceSense.unmatched_morphology_retained,
+  ``Nabt.OccurrenceSense.insufficient_budget_has_no_readings,
+  ``Nabt.OccurrenceSense.sufficient_budget_preserves_all_readings,
+  ``Nabt.OccurrenceSense.no_morphology_no_sense
 ]
 
 run_cmd do

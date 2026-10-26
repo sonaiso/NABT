@@ -134,3 +134,7 @@ lean_exe epistemicMeasurement where
 @[default_target]
 lean_exe contextualReference where
   root := `ContextualReferenceMain
+
+@[default_target]
+lean_exe occurrenceSense where
+  root := `OccurrenceSenseMain
