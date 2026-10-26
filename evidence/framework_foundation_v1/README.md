@@ -1,5 +1,25 @@
 # Framework foundation runtime and review 2
 
+Final local verification is recorded in [verification.json](verification.json).
+`make test formal conformance check` exited 0 on the implementation commit
+`dabadefb24c7510273eda21c5b0cde104bbaf670`: the principal suite ran 2,669 tests,
+with 2,658 passing and 11 optional neural-environment skips. The repeated
+focused suites within `make check` are recorded separately, not counted as new
+independent coverage. The pinned full QAC and Lisan sources were present.
+Kernel build, 11,252 primitive transitions, the foundation's 206 source cases,
+all 116 cells, cluster-cut mutations, architecture inventory and axiom audit
+passed. `make benchmark` also completed; its seven-repeat local observations
+are preserved without a speedup claim.
+
+**This is not a merge-ready release.** The additional catalogue/inference
+integration exits 2 at its unchanged M09 nonregression gate. Its complete
+record is in [catalog_references/validation.json](catalog_references/validation.json).
+The separate successful licensed-inference continuation does not erase that
+failure. GitHub publication was also unavailable: no local Git credential,
+and branch creation through the connector returned HTTP 403. No PR or merge
+is claimed. The delivery archive retains the Git branch and complete local
+measurement directory for review and later publication.
+
 This is a new registered runtime snapshot for the shared A116 foundation. It
 does not replace `evidence/arabic_completion_v6`, republish a blind experiment,
 or alter historical cases, gold labels, thresholds, denominators, or allowed
