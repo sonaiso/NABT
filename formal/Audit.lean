@@ -1566,7 +1566,30 @@ def theoremManifest : List Name := [
   ``Nabt.CertifiedLexical.accepted_sound_and_complete,
   ``Nabt.CertifiedLexical.accepted_requires_usage_premise,
   ``Nabt.CertifiedLexical.checked_candidates_retain_every_compatible,
-  ``Nabt.CertifiedLexical.checked_cells_reversible
+  ``Nabt.CertifiedLexical.checked_cells_reversible,
+  ``Nabt.LexicalSurfaceBinding.all_116_pair_codes_roundtrip,
+  ``Nabt.LexicalSurfaceBinding.decodePairs_encode,
+  ``Nabt.LexicalSurfaceBinding.decodeForm_encode,
+  ``Nabt.LexicalSurfaceBinding.decodePair_retains_code,
+  ``Nabt.LexicalSurfaceBinding.encodePairs_decode,
+  ``Nabt.LexicalSurfaceBinding.encodeForm_decode,
+  ``Nabt.LexicalSurfaceBinding.encodeForm_injective,
+  ``Nabt.LexicalSurfaceBinding.checkWitness_exact,
+  ``Nabt.LexicalSurfaceBinding.witnesses_exact,
+  ``Nabt.LexicalSurfaceBinding.checked_occurrence_exact,
+  ``Nabt.LexicalSurfaceBinding.checked_source_witness_retained,
+  ``Nabt.LexicalSurfaceBinding.checked_surface_exact,
+  ``Nabt.LexicalSurfaceBinding.checked_cells_exact,
+  ``Nabt.LexicalSurfaceBinding.checked_expression_exact,
+  ``Nabt.LexicalSurfaceBinding.changed_surface_rejected,
+  ``Nabt.LexicalSurfaceBinding.changed_expression_rejected,
+  ``Nabt.LexicalSurfaceBinding.missing_witness_rejected,
+  ``Nabt.LexicalSurfaceBinding.no_ledger_no_witness,
+  ``Nabt.LexicalSurfaceBinding.checkCandidates_exact,
+  ``Nabt.LexicalSurfaceBinding.checked_preserves_candidate_contract,
+  ``Nabt.LexicalSurfaceBinding.checked_has_installed_witness,
+  ``Nabt.LexicalSurfaceBinding.missing_witness_blocks_candidates,
+  ``Nabt.LexicalSurfaceBinding.witnessed_surface_does_not_supply_usage
 ]
 
 run_cmd do

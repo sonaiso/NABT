@@ -396,7 +396,7 @@ def main():
         return 0
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runtime-root", type=Path, default=ROOT)
-    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/certified_natural_use_v1/code_freeze_v1.json")
+    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/progressive_rule_audit_v1/code_freeze_v1.json")
     parser.add_argument("--output", type=Path, required=True)
     return evaluate(parser.parse_args())
 

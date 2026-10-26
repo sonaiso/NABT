@@ -1472,3 +1472,40 @@ contracts (1467 audited declarations total) specify paired witness loading,
 not Python refinement, individual matrix-row checks, or all-Arabic completeness.
 See `docs/ATTESTED_LEXICAL_LOADING_AR.md` and
 `evidence/lexical_loading_v1/formal_contract.json`.
+
+## Progressive rule and exact surface audit (2026-10-26)
+
+The additional `LexicalSurfaceBinding` module contributes 23 declarations
+(1579 audited declarations in this revision). Its strict documentary
+carrier/mark decoder round-trips all 116 cells and, by list induction, every
+finite sequence in that declared encoding. Eleven retained QAC rows cover
+nine directly representable spellings. The native `lexicalSurface` checker
+binds the supplied source row, observed occurrence, exact spelling, cells,
+number, expression label and convention. The Python public entry is
+`tools.linguistic_truth.surface.certify_surface`.
+
+The full-corpus row acquisition and LEM extraction remain Python operations;
+Lean checks the retained row supplied to it. No contextual sense, grammatical
+application, source truth or whole-Arabic claim follows. The new bridge does
+not silently replace the older `CertifiedLexical` v1 runtime. Unsupported
+spelling, unavailable verification and resource exhaustion remain distinct.
+
+`nabt.classical_certified.evaluate_certified` adds native finite control-row
+checks for the 24 conditional classical-rule families. It replays the parent
+receipt and complete installed Lean export before authorizing the selected
+row. Weak/gemination claims concern control/actions; no general Python
+refinement, source interpretation, control acquisition or spelling theorem
+is inferred. Older diagnostic APIs retain their stated conditional authority.
+
+The source audit distinguishes 9151 body segments from a still-unknown
+whole-book rule denominator. All 38 selected inventory IDs still report
+`full_source_rule_complete=false`. The induction theorems already exist;
+exhaustive source adjudication, faithful translation and acquired premises
+are the remaining bridges. See [the detailed causes and source audit](PROGRESSIVE_RULE_CAUSES_AR.md)
+and [execution evidence](PROGRESSIVE_RULE_EXECUTION_AR.md). Natural-use success,
+tawatur and whole-language completeness are not inferred from these additions.
+Final local gates passed with 2811 unit tests and no skips or failures. The
+replayed legacy natural-use score remains 1/6, candidate obligations 10/12,
+and positive intended-sense selection 0/5. The independent 30-case diagnostic
+remains 16 passed, 12 failed and 2 unmeasured; its positive selection is 5/16.
+These denominators are distinct. No new site deployment is included.

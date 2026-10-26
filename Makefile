@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= certified_natural_use_v1
-TEXT_CODE_FREEZE ?= evidence/certified_natural_use_v1/code_freeze_v1.json
+RUNTIME_FREEZE_VERSION ?= progressive_rule_audit_v1
+TEXT_CODE_FREEZE ?= evidence/progressive_rule_audit_v1/code_freeze_v1.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -35,6 +35,17 @@ certified-lexical-conformance: formal
 	$(PYTHON) tools/benchmark_certified_natural_use.py --output $(EVIDENCE_DIR)/certified-natural-use.json.gz
 
 check: certified-lexical-conformance
+
+.PHONY: progressive-rule-conformance
+progressive-rule-conformance:
+	cd formal && $(LAKE) build lexicalSurface exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
+	cd formal && $(LAKE) env lean LexicalSurfaceBindingChecks.lean
+	$(PYTHON) tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
+	test -x formal/.lake/build/bin/lexicalSurface
+	$(PYTHON) -m unittest discover -s tests -p 'test_lexical_surface_binding.py' -v
+	$(PYTHON) -m unittest discover -s tests -p 'test_classical_certified.py' -v
+
+check: progressive-rule-conformance
 
 conformance:
 	$(PYTHON) tools/check_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/conformance.json
@@ -137,7 +148,7 @@ arabic-coverage-holdout:
 .PHONY: arabic-completion-oracle
 arabic-completion-oracle:
 	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-	$(PYTHON) evidence/certified_natural_use_v1/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
+	$(PYTHON) evidence/progressive_rule_audit_v1/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
