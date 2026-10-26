@@ -175,12 +175,12 @@ def uniqueObjectKeys (line : String) : ProbeM Unit := do
       token := c :: token
       if escaped then escaped := false
       else if c == '\\' then escaped := true
-      else if c == '"' then
+      else if c == (Char.ofNat 34) then
         quoted := false
         lastString := some (String.ofList token.reverse)
-    else if c == '"' then
+    else if c == (Char.ofNat 34) then
       quoted := true
-      token := ['"']
+      token := [(Char.ofNat 34)]
       lastString := none
     else if c == '{' then
       objects := [] :: objects

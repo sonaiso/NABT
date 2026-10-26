@@ -143,7 +143,7 @@ e\in\operatorname{selected}(E,q)\iff A(e,q).
 ```bash
 lake --dir formal build epistemicMeasurement
 PYTHONPATH=src:. python -m unittest discover -s tests -p 'test_epistemic*.py' -v
-python tools/benchmark_epistemic_measurement.py --output artifacts/local/epistemic-measurement/replay.json
+python tools/benchmark_epistemic_measurement.py --require-native --output artifacts/local/epistemic-measurement/replay.json
 node integrations/proof_lab/site/scripts/validate-epistemic-report.mjs artifacts/local/epistemic-measurement/replay.json
 node --test integrations/proof_lab/site/tests/*.test.mjs
 make check LAKE=/absolute/path/to/lake EVIDENCE_DIR=artifacts/local/epistemic-measurement/checks ARABIC_EVALUATION_DIR=artifacts/local/epistemic-measurement/checks/arabic-regression
