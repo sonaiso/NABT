@@ -413,7 +413,7 @@
     authorityFinding(out, record, '$');
     const operationalFailure = own(record, 'error');
     const earlyInputFailure = operationalFailure && record.status === 'INVALID_INPUT' && record.mode == null;
-    if (!['inference','benchmark','semantic_axes'].includes(record.mode) && !earlyInputFailure)
+    if (!['inference','benchmark','semantic_axes','epistemic_measurement'].includes(record.mode) && !earlyInputFailure)
       fail('SCHEMA_SHAPE', 'نمط تقرير NABT غير معروف.', '$.mode');
     optionalType(record, 'status', string, '$');
     for (const k of ['code_sha','native_sha256','runtime_sha256','runner_sha256','payload_sha256','toolchain','request_id']) optionalType(record, k, string, '$');
@@ -431,7 +431,7 @@
     if (operationalFailure) {
       const error = requireString(record.error, '$.error');
       if (!['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'].includes(record.status)
-          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result') || own(record, 'semantic_axes'))
+          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result') || own(record, 'semantic_axes') || own(record, 'epistemic_measurement'))
         fail('SCHEMA_SHAPE', 'غلاف تعذر التنفيذ لا يطابق عقد الحالة والخطأ.', '$.error');
       out.declared_status = record.status;
       out.operational_failure = { status: record.status, error, measurements_available: false };
@@ -448,7 +448,22 @@
         'هذه حالة تشغيل من ملف مستورد؛ لم يُعد تشغيل الطلب أو التحقق من مصدره.');
       return out;
     }
-    if (record.mode === 'semantic_axes') {
+    if (record.mode === 'epistemic_measurement') {
+      if (!globalThis.NabtEpistemicContract) fail('SCHEMA_SHAPE', 'مدقق القصد والرصد غير متاح.', '$.epistemic_measurement');
+      let suite;
+      try {
+        suite = globalThis.NabtEpistemicContract.validateEnvelope(record);
+        if (globalThis.NabtEpistemicContract.verifyIntegrity) await globalThis.NabtEpistemicContract.verifyIntegrity(suite);
+      } catch (error) { fail('SCHEMA_SHAPE', error.message, '$.epistemic_measurement'); }
+      if (record.status !== 'EPISTEMIC_MEASUREMENT_COMPLETE' || record.native_sha256 !== suite.native_sha256 || record.runtime_sha256 !== suite.runtime_sha256 || record.source_registry_sha256 !== suite.source_registry_sha256 || record.reference_sha256 !== suite.reference_sha256 || record.all_arabic_complete !== false || record.world_truth_established !== false || own(record, 'semantic_axes') || own(record, 'result') || own(record, 'benchmark')) fail('SCHEMA_SHAPE', 'غلاف القصد والرصد لا يطابق هويات المجموعة وحدودها.', '$.epistemic_measurement');
+      out.epistemic_measurement = suite;
+      for (const item of suite.cases) importedClaim(item.id, 4, item.query.key.axis === 'reported_motive' ? 'نسبة القصد المصرح به إلى قائله' : item.query.key.axis === 'hidden_motive' ? 'الدافع الباطن: فحص الامتناع' : 'مطابقة دعوى لسجل رصد مستقل', { query: item.query, group: item.group, expected: item.expected, observed: item.observed, comparison: item.comparison, declared_native_checked: item.native_checked, scope: item.proof_scope, source_bindings: item.source_bindings });
+      out.metrics.claims = out.claims.length;
+      out.metrics.rank_counts = { 'تصريح مستورد': out.claims.length };
+      out.layers = [{ id: 4, title: 'القصد والرصد', declared: null, summary: 'شهادات مستوردة؛ لم يُعد فحص Lean', claim_count: out.claims.length, issues: [] }];
+      check(out, 'EPISTEMIC_MEASUREMENT_COUNTS', 'المقامات المستقلة للقصد والرصد', 'pass', 'أُعيد عد الحالات والتحقق من بنية الارتباط؛ لا يصادق ذلك على تشغيل Lean المستورد.');
+      out.limits.push('الدافع الباطن واكتساب الدعوى من النص الحر وصدق الواقع العام واكتمال العربية غير مقاسة. حالات الضبط المؤلفة مستقلة عن مقارنة سجل الوكالة.');
+    } else if (record.mode === 'semantic_axes') {
       if (!globalThis.NabtSemanticAxes) fail('SCHEMA_SHAPE', 'مدقق جهات الدلالة غير متاح.', '$.semantic_axes');
       let suite;
       try { suite = globalThis.NabtSemanticAxes.validate(record.semantic_axes); }

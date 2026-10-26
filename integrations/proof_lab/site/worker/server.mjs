@@ -1,6 +1,7 @@
+import '../web/epistemic-contract.js';
 const REPOSITORY = 'sonaiso/NABT';
 const WORKFLOW = 'proof-lab.yml';
-const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix'];
+const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix','codex/epistemic-measurement'];
 const REQUEST_SCHEMA = 'nabt.proof-lab-request.v1';
 const MAX_PAYLOAD = 32768;
 const MAX_REPORT = 2 * 1024 * 1024;
@@ -17,6 +18,11 @@ function json(value,status=200){return new Response(JSON.stringify(value),{statu
 function exactKeys(value,allowed){if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!allowed.includes(k)))fail('INVALID_INPUT');}
 function unicode(value){if(typeof value!=='string')fail('INVALID_INPUT');for(let i=0;i<value.length;i++){const n=value.charCodeAt(i);if(n>=0xd800&&n<=0xdbff){const next=value.charCodeAt(++i);if(!(next>=0xdc00&&next<=0xdfff))fail('INVALID_UNICODE');}else if(n>=0xdc00&&n<=0xdfff)fail('INVALID_UNICODE');}return value;}
 export function validatePayload(value){
+  if(value?.mode==='epistemic_measurement'){
+    exactKeys(value,['schema','mode']);
+    if(value.schema!==REQUEST_SCHEMA)fail('INVALID_INPUT');
+    return {schema:REQUEST_SCHEMA,mode:'epistemic_measurement'};
+  }
   if(value?.mode==='semantic_axes'){
     exactKeys(value,['schema','mode','lexical_profile']);
     if(value.schema!==REQUEST_SCHEMA||(Object.hasOwn(value,'lexical_profile')&&!['teaching_v1','attested_qac_v1'].includes(value.lexical_profile)))fail('INVALID_INPUT');
@@ -57,7 +63,7 @@ export async function verifyHandle(handle,secret,now=Date.now()){
   let data;try{data=JSON.parse(decoder.decode(raw));}catch{fail('INVALID_HANDLE',403);}
   exactKeys(data,['request_id','payload_sha256','code_sha','mode','created','lexical_profile']);
   if(Object.hasOwn(data,'lexical_profile')&&(data.mode!=='semantic_axes'||data.lexical_profile!=='attested_qac_v1'))fail('INVALID_HANDLE',403);
-  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony','semantic_axes'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
+  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony','semantic_axes','epistemic_measurement'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
   return data;
 }
 function standard64(bytes){let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s);}
@@ -120,7 +126,17 @@ export function validateReport(report,expected){
   if(!report||report.schema!=='nabt.proof-lab-result.v1'||report.request_id!==expected.request_id||report.payload_sha256!==expected.payload_sha256||report.code_sha!==expected.code_sha||report.mode!==expected.mode||report.all_arabic_complete!==false||report.world_truth_established!==false)fail('REPORT_BINDING_FAILED',502);
   if(report.mode==='semantic_axes'&&Object.hasOwn(report,'lexical_profile')&&report.lexical_profile!==(expected.lexical_profile??'teaching_v1'))fail('REPORT_BINDING_FAILED',502);
   const errorStatuses=['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'];
-  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony||report.semantic_axes)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony||report.semantic_axes||report.epistemic_measurement)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(report.mode==='epistemic_measurement'){
+    const allowed=['schema','request_id','payload_sha256','code_sha','native_sha256','generated_at_utc','duration_ms','mode','status','all_arabic_complete','world_truth_established','scope','reference_sha256','source_registry_sha256','runtime_sha256','runner_sha256','measurement_source_sha256','toolchain','epistemic_measurement'];
+    if(Object.keys(report).some(k=>!allowed.includes(k)))fail('REPORT_AUTHORITY_INVALID',502);
+    if(report.result||report.benchmark||report.testimony||report.semantic_axes||report.status!=='EPISTEMIC_MEASUREMENT_COMPLETE')fail('REPORT_AUTHORITY_INVALID',502);
+    try{globalThis.NabtEpistemicContract.validateEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
+    const suite=report.epistemic_measurement;
+    if(report.reference_sha256!==suite.reference_sha256||report.source_registry_sha256!==suite.source_registry_sha256||report.runtime_sha256!==suite.runtime_sha256||report.native_sha256!==suite.native_sha256)fail('REPORT_BINDING_FAILED',502);
+    return report;
+  }
+  if(report.epistemic_measurement)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='semantic_axes'){
     if(report.result||report.benchmark||report.testimony||report.native_sha256!==null||report.status!=='SEMANTIC_AXES_COMPLETE')fail('REPORT_AUTHORITY_INVALID',502);
     validateSemanticAxes(report.semantic_axes);
@@ -151,6 +167,10 @@ export function validateReport(report,expected){
     if(summary.cases!==38||b.rows.length!==summary.cases||summary.pass+summary.fail+summary.unmeasured!==summary.cases)fail('REPORT_AUTHORITY_INVALID',502);
   }
   return report;
+}
+
+export function validateEpistemicMeasurement(suite){
+  try{return globalThis.NabtEpistemicContract.validate(suite);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
 }
 
 // v1 measures the Python reader. No Lean-proof declaration is supported here.
@@ -290,6 +310,7 @@ async function poll(url,env){
   if(items.length!==1)fail('ARTIFACT_UNAVAILABLE',502);
   const encrypted=await downloadResult(env,items[0]);
   const report=validateReport(JSON.parse(await decryptEnvelope(encrypted,env.NABT_TRANSPORT_KEY,expected.request_id)),expected);
+  if(report.epistemic_measurement){try{await globalThis.NabtEpistemicContract.verifyIntegrity(report.epistemic_measurement);}catch{fail('REPORT_BINDING_FAILED',502);}}
   return json({status:'completed',run_url,artifact_digest:items[0].digest,report});
 }
 export async function route(request,env,assets){
