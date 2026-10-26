@@ -12,6 +12,9 @@ on:
       - 'src/nabt/source_lexicon.py'
       - 'src/nabt/data/source_evidence/source_lexicon_v1.json'
       - 'evidence/lexical_completion_v1/**'
+      - 'evidence/lexical_loading_v1/**'
+      - 'tools/attested_lexical_loader.py'
+      - 'tools/measure_lexical_loading.py'
       - 'evidence/lexical_denotation/**'
       - 'tests/test_lexical_completion.py'
       - 'tools/lexical_graph.py'
@@ -57,6 +60,10 @@ jobs:
         run: python tools/fetch_lisan_source.py --output artifacts/local/lisan.txt
       - name: Replay exact citations and generated catalogue
         run: python tools/build_lexical_completion.py --check
+      - name: Verify independent lexical witness matrix without changing source bytes
+        run: |
+          python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
+          python evidence/lexical_loading_v1/build_matrix.py --check
       - name: Install verified Lean
         run: |
           sudo apt-get update

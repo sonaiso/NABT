@@ -11,6 +11,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
 import json
+import re
 from pathlib import Path
 import sys
 import unicodedata
@@ -40,6 +41,17 @@ STATEMENTS = {
     "motive": "فهم الدافع من دليل مستقل عن الصنف النحوي.",
     "world": "التحقق المستقل من صدق القضية في الواقع الخارجي.",
 }
+# This is a comparison policy, not a morphological analysis or a licence to
+# supply missing gemination. Version 1 also erased shadda, falsely collapsing
+# predicates such as عَلِمَ and عَلَّمَ. Frozen references remain unchanged.
+LEMMA_COMPARISON_POLICY = {
+    "id": "nabt.semantic-axes.predicate-comparison.v2",
+    "unicode": "NFC",
+    "ignored_marks": ["U+064B", "U+064C", "U+064D", "U+064E", "U+064F", "U+0650", "U+0652"],
+    "preserved": ["shadda", "dagger_alif", "hamza", "prefixes", "suffixes", "other_codepoints"],
+    "scope": "Predicate strings only; exact source tokens, spans and role fields are not normalized. Missing shadda is not inferred.",
+}
+_LEMMA_IGNORED_MARKS = frozenset("ًٌٍَُِْ")
 
 
 def digest(path):
@@ -91,9 +103,14 @@ def load_reference(path=REFERENCE):
 
 
 def _lemma(value):
-    # Compare lexical identity only: source tokens, spans and roles remain exact.
+    """Compare explicit predicate spellings under the versioned policy above.
+
+    Short vowels, tanwin and sukun may differ between a lemma and its inflected
+    citation. Gemination, long-vowel signs and affixes remain significant: this
+    scorer cannot acquire a missing morphological analysis from the gold.
+    """
     return "".join(c for c in unicodedata.normalize("NFC", value)
-                   if c not in "ًٌٍَُِّْٰ") if type(value) is str else value
+                   if c not in _LEMMA_IGNORED_MARKS) if type(value) is str else value
 
 
 def _matches(actual, expected):
@@ -165,7 +182,43 @@ def _reference(expected, observed):
                    "REFERENCE_MATCH" if ok else "REFERENCE_NOT_ACQUIRED_AS_EXPECTED")
 
 
-def score_case(case, execution):
+def profile_binding_checked(execution, profile=None, loading=None):
+    """Bind measured observations to their selected source, not just the suite label."""
+    actual = execution.get("lexical_profile")
+    requested = actual if profile is None else profile
+    if requested is None:  # Archived v1 teaching receipts predate profile selection.
+        receipt = execution.get("replay_receipt")
+        return (type(receipt) is dict and receipt.get("lexical_profile") is None and
+                execution.get("lexical_loading") is None and receipt.get("lexical_loading") is None)
+    if requested not in adapter.LEXICAL_PROFILES or actual != requested:
+        return False
+    receipt = execution.get("replay_receipt")
+    training = execution.get("training")
+    if (type(receipt) is not dict or type(training) is not dict or
+            receipt.get("lexical_profile") != requested or
+            type(training.get("sha256")) is not str or
+            not re.fullmatch(r"[a-f0-9]{64}", training["sha256"]) or
+            receipt.get("training_sha256") != training["sha256"]):
+        return False
+    if requested == "teaching_v1":
+        return execution.get("lexical_loading") is None and receipt.get("lexical_loading") is None
+    metadata = execution.get("lexical_loading")
+    if (type(metadata) is not dict or receipt.get("lexical_loading") != metadata or
+            (loading is not None and metadata != loading)):
+        return False
+    from tools.attested_lexical_loader import MATRIX_SHA256, SOURCE_SHA256
+    counts = ("source_record_count", "model_entry_count", "matrix_sense_count",
+              "matrix_aligned_count", "matrix_unresolved_count")
+    return (metadata.get("schema") == "nabt.semantic-axes-lexical-loading.v1" and
+        metadata.get("profile") == requested and metadata.get("source_sha256") == SOURCE_SHA256 and
+        metadata.get("matrix_sha256") == MATRIX_SHA256 and training["sha256"] == SOURCE_SHA256 and
+        metadata.get("authority") == "SOURCE_ANNOTATION_NOT_SENSE_OR_WORLD_LICENSE" and
+        metadata.get("lean_native_checked") is False and
+        all(type(metadata.get(key)) is int and 0 <= metadata[key] <= 2 ** 53 - 1 for key in counts) and
+        metadata["matrix_aligned_count"] + metadata["matrix_unresolved_count"] == metadata["matrix_sense_count"])
+
+
+def score_case(case, execution, *, lexical_profile=None, lexical_loading=None):
     request_sha = adapter.identity(adapter.build_request(case))
     receipt = execution.get("replay_receipt")
     checked = (execution.get("schema") == "nabt.semantic-axes-observation.v1" and
@@ -177,7 +230,8 @@ def score_case(case, execution):
         type(receipt) is dict and receipt.get("input_sha256") == request_sha and
         receipt.get("replay", {}).get("valid") is True and
         receipt.get("replay", {}).get("status") == "VERIFIED" and
-        execution.get("replay_receipt_sha256") == adapter.identity(receipt))
+        execution.get("replay_receipt_sha256") == adapter.identity(receipt) and
+        profile_binding_checked(execution, lexical_profile, lexical_loading))
     observed = execution.get("observed") if checked else None
     results, claims = {}, []
     for axis in AXES:
@@ -247,9 +301,41 @@ def historical_natural_use():
             "scope": raw["scope"], "included_in_new_denominators": False}
 
 
-def run(reference_path=REFERENCE, *, executor=None):
+def lexical_coverage(execution):
+    """Count available lexical readings, never whole-sentence understanding."""
+    if execution.get("executed") is not True or execution.get("replay_checked") is not True:
+        return None
+    observed = execution.get("observed")
+    if type(observed) is not dict:
+        return None
+    diagnostics = observed.get("acquisition_diagnostics", {})
+    if type(diagnostics) is not dict:
+        return None
+    occurrences = diagnostics.get("lexical_occurrences")
+    if type(occurrences) is not list:
+        return None
+    items = []
+    for row in occurrences:
+        if (type(row) is not dict or type(row.get("surface")) is not str or not row["surface"].strip()
+                or type(row.get("reading_count")) is not int
+                or not 0 <= row["reading_count"] <= adapter.MAX_PUBLIC_COUNT):
+            raise ValueError("Lexical coverage requires source occurrences and bounded natural reading counts")
+        items.append({"surface": row["surface"], "reading_count": row["reading_count"]})
+    covered = sum(row["reading_count"] > 0 for row in items)
+    return {"tokens": len(items), "covered": covered, "uncovered": len(items) - covered,
+            "items": items}
+
+
+def run(reference_path=REFERENCE, *, executor=None, lexical_profile="teaching_v1"):
     reference, frozen, freeze = load_reference(reference_path)
-    executor = adapter.execute_request if executor is None else executor
+    if type(lexical_profile) is not str or lexical_profile not in adapter.LEXICAL_PROFILES:
+        raise ValueError("Unsupported lexical profile")
+    loading = None
+    if lexical_profile != "teaching_v1":
+        if executor is not None:
+            raise ValueError("Installed source measurement cannot substitute the executor")
+        _, _, loading = adapter.lexical_profile_resources(lexical_profile)
+    executor = (lambda request: adapter.execute_request(request, lexical_profile=lexical_profile)) if executor is None else executor
     requests = [adapter.build_request(case) for case in reference["cases"]]
     rows = []
     for case, request in zip(reference["cases"], requests, strict=True):
@@ -259,14 +345,20 @@ def run(reference_path=REFERENCE, *, executor=None):
             execution = {"executed": False, "replay_checked": False, "observed": None,
                          "input_sha256": adapter.identity(request),
                          "error": {"type": type(error).__name__, "code": getattr(error, "code", "RUNTIME_UNAVAILABLE")}}
-        rows.append(score_case(case, execution))
+        scored = score_case(case, execution, lexical_profile=lexical_profile, lexical_loading=loading)
+        scored["lexical_coverage"] = (lexical_coverage(execution)
+            if profile_binding_checked(execution, lexical_profile, loading) else None)
+        rows.append(scored)
     snapshot = adapter.runtime_snapshot()
     return {"schema": "nabt.semantic-axes-benchmark.v1",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "scope": "مجموعة تشخيصية مؤلفة مستقلة ومجمّدة؛ كل مقام مستقل، ونجاح المطابقة لا يثبت صدق الواقع أو الدافع أو اكتمال العربية.",
             "case_count": len(rows), "reference_sha256": frozen,
+            "lexical_profile": lexical_profile,
+            **({"lexical_loading": loading} if loading is not None else {}),
             "adapter_sha256": digest(adapter.__file__), "input_suite_sha256": adapter.identity(requests),
             "scorer_sha256": digest(__file__), "runtime_source_sha256": adapter.identity(snapshot),
+            "predicate_comparison_policy": deepcopy(LEMMA_COMPARISON_POLICY),
             "runtime_sources": snapshot, "reference_freeze": freeze,
             "axes": summarize(rows), "cases": rows,
             "historical_natural_use": historical_natural_use(),
@@ -278,8 +370,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--reference", type=Path, default=REFERENCE)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--lexical-profile", choices=adapter.LEXICAL_PROFILES, default="teaching_v1")
     args = parser.parse_args()
-    report = run(args.reference)
+    report = run(args.reference, lexical_profile=args.lexical_profile)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"case_count": report["case_count"], "axes": report["axes"]}, ensure_ascii=False))

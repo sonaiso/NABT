@@ -18,6 +18,18 @@ function suite() {
     safety_checks: { unsupported_motive_attribution: { passed: 2, eligible: 2, scope: 'منع الادعاء فقط' } } };
 }
 const receipt = changes => ({ schema: 'nabt.proof-lab-result.v1', mode: 'semantic_axes', request_id: requestId, code_sha: 'a'.repeat(40), all_arabic_complete: false, world_truth_established: false, semantic_axes: suite(), ...changes });
+function attestedSuite() {
+  const value = suite(); value.lexical_profile = 'attested_qac_v1';
+  value.lexical_loading = { schema: 'nabt.semantic-axes-lexical-loading.v1', profile: 'attested_qac_v1', matrix_sha256: 'd'.repeat(64), source_sha256: 'e'.repeat(64), authority: 'SOURCE_ANNOTATION_NOT_SENSE_OR_WORLD_LICENSE', lean_native_checked: false, source_record_count: 10, model_entry_count: 7, matrix_sense_count: 3, matrix_aligned_count: 2, matrix_unresolved_count: 1 };
+  for (const row of value.cases) {
+    row.lexical_coverage = { tokens: 2, covered: 1, uncovered: 1, items: [{ surface: 'هُوَ', reading_count: 2 }, { surface: 'هُنَا', reading_count: 0 }] };
+    row.execution = { executed: true, replay_checked: true, input_sha256: row.case_input_sha256, lexical_profile: value.lexical_profile, lexical_loading: structuredClone(value.lexical_loading),
+      training: { path: 'pinned-source.gz', sha256: value.lexical_loading.source_sha256, authority: value.lexical_loading.authority },
+      replay_receipt: { lexical_profile: value.lexical_profile, lexical_loading: structuredClone(value.lexical_loading), training_sha256: value.lexical_loading.source_sha256, input_sha256: row.case_input_sha256, replay: { valid: true, status: 'VERIFIED' } },
+      observed: { acquisition_diagnostics: { lexical_occurrences: structuredClone(row.lexical_coverage.items) } } };
+  }
+  return value;
+}
 const pure = () => { const context = vm.createContext({ TextEncoder, crypto: webcrypto }); vm.runInContext(file('semantic-axes.js'), context); vm.runInContext(file('evidence-audit.js'), context); return context; };
 class Element {
   constructor(tag, document) { this.tag = tag; this.document = document; this.children = []; this.textContent = ''; this.hidden = false; this.disabled = false; this.dataset = {}; this.attrs = {}; this.listeners = {}; this.style = {}; this.value = ''; this.max = ''; this.connected = true; this.classes = new Set(); this.classList = { toggle: (name, on) => on ? this.classes.add(name) : this.classes.delete(name), add: name => this.classes.add(name), remove: name => this.classes.delete(name) }; }
@@ -74,6 +86,37 @@ test('v1 cannot promote any claim to Lean and rejects contradictory local verifi
   const unmeasured = suite(); unmeasured.cases[0].claims[2].verification.checked = true; assert.throws(() => api.validate(unmeasured));
 });
 
+test('excluded-axis substitution cannot conceal an eligible claim in an imported record', () => {
+  const api = pure().NabtSemanticAxes, data = suite(), row = data.cases[1];
+  const replacement = row.claims[0];
+  Object.assign(replacement, { id: row.id + ':motive', axis: 'motive', status: 'NOT_APPLICABLE' });
+  Object.assign(replacement.verification, { claim_id: replacement.id, kind: 'NOT_CHECKED', checked: false });
+  delete replacement.verification.certificate_sha256;
+  assert.throws(() => api.validate(data));
+});
+
+test('source loading and token coverage are distinct counts with no authority promotion', () => {
+  const api = pure().NabtSemanticAxes; assert.equal(api.validate(attestedSuite()).lexical_loading.matrix_sense_count, 3);
+  for (const change of [
+    value => value.lexical_loading.matrix_sense_count++, value => value.lexical_loading.matrix_aligned_count = true,
+    value => value.lexical_loading.lean_native_checked = true, value => value.lexical_loading.authority = 'PROVEN_MEANING',
+    value => value.cases[0].lexical_coverage.covered++, value => value.cases[0].lexical_coverage.items[0].reading_count = 3,
+    value => value.cases[0].lexical_coverage.items[0].surface = 'آخَرٌ', value => value.cases[0].lexical_coverage = null,
+    value => value.lexical_profile = 'teaching_v1', value => delete value.lexical_loading,
+  ]) { const value = attestedSuite(); change(value); assert.throws(() => api.validate(value)); }
+});
+
+test('UI rejects cross-profile and cross-source execution/receipt declarations', () => {
+  const api = pure().NabtSemanticAxes;
+  for (const mutate of [
+    e => e.lexical_profile = 'teaching_v1', e => e.replay_receipt.lexical_profile = 'teaching_v1',
+    e => e.training.sha256 = 'a'.repeat(64), e => e.replay_receipt.training_sha256 = 'a'.repeat(64),
+    e => e.lexical_loading = null, e => e.replay_receipt.lexical_loading = null,
+    e => e.lexical_loading.matrix_sha256 = 'a'.repeat(64), e => e.replay_receipt.lexical_loading.model_entry_count++,
+    e => e.replay_receipt.replay.valid = false, e => e.input_sha256 = 'a'.repeat(64),
+  ]) { const value = attestedSuite(); mutate(value.cases[0].execution); assert.throws(() => api.validate(value)); }
+});
+
 test('imported axes retain five denominators but never a live or checked rank', async () => {
   const context = pure(); const report = receipt();
   const out = await context.NabtEvidenceAudit.audit(JSON.stringify(report));
@@ -95,6 +138,28 @@ test('live dispatch is minimal and axes keep reference comparison apart from pro
   assert.match(contents(ui.get('semantic-axis-metrics').children[4]), /غير مقاس/);
   assert.match(contents(ui.get('semantic-case-detail')), /إعادة فحص Python/);
   assert.equal(ui.get('semantic-case-detail').children.flatMap(n => n.children).some(n => n.className === 'semantic-proof'), false);
+});
+
+test('external lexical profile dispatch, visible coverage and import remain scoped', async () => {
+  const ui = await harness(); ui.get('semantic-lexical-profile').value = 'attested_qac_v1';
+  const result = receipt({ lexical_profile: 'attested_qac_v1', semantic_axes: attestedSuite() }); ui.setResponse({ status: 'completed', report: result }); await ui.submit();
+  const posted = ui.requests.find(r => r.options?.method === 'POST');
+  assert.deepEqual(JSON.parse(posted.options.body), { schema: 'nabt.proof-lab-request.v1', mode: 'semantic_axes', lexical_profile: 'attested_qac_v1' });
+  assert.equal(ui.get('semantic-lexical-profile').disabled, true); await ui.poll();
+  assert.match(contents(ui.get('semantic-lexical-loading')), /QAC/);
+  assert.match(contents(ui.get('semantic-lexical-loading')), /ليست ترخيصًا للمعنى/);
+  assert.match(contents(ui.get('semantic-case-detail')), /خارج درجات فهم الجملة/);
+  assert.equal(ui.get('semantic-lexical-profile').disabled, false);
+  const imported = await pure().NabtEvidenceAudit.audit(JSON.stringify(result));
+  assert.equal(imported.authority.lean_replayed, false); assert(imported.claims.every(claim => claim.replayed === false));
+  result.lexical_profile = 'teaching_v1';
+  await assert.rejects(() => pure().NabtEvidenceAudit.audit(JSON.stringify(result)));
+});
+
+test('a different lexical profile cannot replace the pending profile result', async () => {
+  const ui = await harness(); ui.get('semantic-lexical-profile').value = 'attested_qac_v1';
+  ui.setResponse({ status: 'completed', report: receipt() }); await ui.submit(); await ui.poll();
+  assert.equal(ui.get('semantic-output').hidden, true);
 });
 
 test('case activation by Enter and Space preserves focused button and distinct context', async () => {

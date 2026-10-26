@@ -1304,3 +1304,20 @@ Lean أو يدعي تقييم كل معاجم NABT. نتائج المصدر ال
 تُربط شهادة المقارنة بالدعوى ومدخلها ومقامها، ولا تعرض الواجهة حقل برهان
 لهذا المسار. يبقى تشغيل Lean السابق مستقلًا، وكذلك مقام الاستعمال الطبيعي
 التاريخي 0/6. نجاح النقل واختبارات البرمجيات لا يرفع هذه النتائج اللغوية.
+
+## Attested lexical source loading (2026-10-26)
+
+The unchanged pinned full QAC source is now an optional discourse profile,
+separate from the historical teaching corpus. A matrix of all 42 pre-existing
+catalogue senses retains 27 candidate morphology alignments, 15 unresolved
+entries and 1,302 unique source witnesses. No cross-source contextual sense
+license follows from candidate alignment. Full source loading yields 12,760
+morphological readings; it includes verbs, so gains are not noun-only effects.
+
+The same 25-case reference reports syntax 2/25, readings 1/25, reference 0/5;
+motive and world remain unmeasured. Reader-emitted lexical coverage is 51/77
+versus 21/77. These are Python replay comparisons. New 11 conditional Lean
+contracts (1467 audited declarations total) specify paired witness loading,
+not Python refinement, individual matrix-row checks, or all-Arabic completeness.
+See `docs/ATTESTED_LEXICAL_LOADING_AR.md` and
+`evidence/lexical_loading_v1/formal_contract.json`.

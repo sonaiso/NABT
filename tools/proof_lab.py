@@ -184,7 +184,14 @@ def validate_payload(payload):
         for component in request["target"]:
             _text(component, 4096, "TARGET")
         return request
-    if mode in {"benchmark", "semantic_axes"}:
+    if mode == "semantic_axes":
+        if set(request) not in ({"schema", "mode"}, {"schema", "mode", "lexical_profile"}):
+            raise RequestError("UNEXPECTED_REQUEST_FIELD")
+        profile = request.get("lexical_profile", "teaching_v1")
+        if type(profile) is not str or profile not in {"teaching_v1", "attested_qac_v1"}:
+            raise RequestError("INVALID_LEXICAL_PROFILE")
+        return request
+    if mode == "benchmark":
         if set(request) != {"schema", "mode"}:
             raise RequestError("UNEXPECTED_REQUEST_FIELD")
         return request
@@ -242,7 +249,7 @@ def _testimony_identity():
             "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
 
 
-def _semantic_axes_identity():
+def _semantic_axes_identity(lexical_profile="teaching_v1"):
     # This route replays the Python discourse reader. A Lean binary installed
     # beside it is not evidence that Lean checked these benchmark claims.
     from tools.benchmark_semantic_axes import REFERENCE
@@ -250,6 +257,11 @@ def _semantic_axes_identity():
         ROOT / "tools/semantic_axes.py", ROOT / "tools/benchmark_semantic_axes.py",
         ROOT / "examples/discourse_training.tsv", REFERENCE.parent / "freeze.json"]
     source_manifest = {str(path.relative_to(ROOT)): _sha(path.read_bytes()) for path in measured_sources}
+    if lexical_profile == "attested_qac_v1":
+        from tools.attested_lexical_loader import DEFAULT_SOURCE, MATRIX_PATH
+        for path in (DEFAULT_SOURCE, MATRIX_PATH, ROOT / "tools/attested_lexical_loader.py",
+                     ROOT / "evidence/lexical_completion_v1/catalog.json"):
+            source_manifest[str(path.relative_to(ROOT))] = _sha(path.read_bytes()) if path.is_file() else None
     return {"code_sha": _code_sha(), "native_sha256": None,
             "runner_sha256": _sha(Path(__file__).read_bytes()),
             "runtime_sha256": _sha((ROOT / "tools/semantic_axes.py").read_bytes()),
@@ -324,6 +336,9 @@ def run_payload(request_id, payload, *, prepare=False):
         response["mode"] = request["mode"]
         identity = {"testimony": _testimony_identity,
                     "semantic_axes": _semantic_axes_identity}.get(request["mode"], _identity)
+        profile = request.get("lexical_profile", "teaching_v1")
+        if request["mode"] == "semantic_axes" and profile != "teaching_v1":
+            identity = lambda: _semantic_axes_identity(profile)
         before = identity()
         response.update(before)
         if request["mode"] == "testimony":
@@ -335,11 +350,13 @@ def run_payload(request_id, payload, *, prepare=False):
                 "claim": "Reference comparison of the bounded discourse reader, separately by semantic axis",
                 "verification_kind": "PYTHON_REPLAY",
                 "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED"}
+            response["lexical_profile"] = profile
         if prepare:
             response["status"] = "PREPARED"
         elif request["mode"] == "semantic_axes":
             from tools.benchmark_semantic_axes import run
-            response.update(status="SEMANTIC_AXES_COMPLETE", semantic_axes=run())
+            suite = run() if profile == "teaching_v1" else run(lexical_profile=profile)
+            response.update(status="SEMANTIC_AXES_COMPLETE", semantic_axes=suite)
         elif response["native_sha256"] is None:
             response.update(status="VERIFICATION_UNAVAILABLE", error="NATIVE_CHECKER_MISSING")
         elif request["mode"] == "testimony":
@@ -444,6 +461,7 @@ def main(argv=None):
         with args.github_output.open("a") as stream:
             stream.write("valid=" + ("true" if valid else "false") + "\n")
             stream.write("artifact_name=" + artifact + "\n")
+            stream.write("attested_source=" + ("true" if valid and result.get("lexical_profile") == "attested_qac_v1" else "false") + "\n")
     print(json.dumps({"request_id": result["request_id"],
         "status": ("ENCRYPTED_RESULT_WRITTEN" if encrypted else result["status"])}, ensure_ascii=False))
     if smoke and not args.prepare and not (result.get("result", {}).get("verified") is True

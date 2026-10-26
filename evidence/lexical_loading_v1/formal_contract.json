@@ -1,0 +1,90 @@
+{
+  "schema": "nabt.lexical-loading.formal-contract.v1",
+  "law_id": "nabt.attested-lexical-loading.v1",
+  "evidence_kind": "GENERAL_CONDITIONAL_LEAN_THEOREMS",
+  "kernel_check_returncode": 0,
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "new_theorem_count": 11,
+  "theorem_axioms": {
+    "Nabt.AttestedLexicalLoading.load_exact": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.admitted_keeps_both_ledgers": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.admitted_keeps_both_passages": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.admitted_definition_citation_bound": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.root_only_is_not_a_headword_license": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.missing_morphology_blocks": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.shared_lemma_preserves_distinct_senses": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.extension_preserves_full_alignment": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.unlicensed_feature_change_rejected": [
+      "propext",
+      "Quot.sound"
+    ],
+    "Nabt.AttestedLexicalLoading.candidate_is_not_a_contextual_sense_license": [
+      "propext"
+    ],
+    "Nabt.AttestedLexicalLoading.selected_sense_keeps_contextual_license": [
+      "propext",
+      "Quot.sound"
+    ]
+  },
+  "full_repository_audit": {
+    "ok": true,
+    "theorem_count": 1467,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true
+  },
+  "source_sha256": {
+    "formal/Nabt/AttestedLexicalLoading.lean": "c8b65ef5606f323f097c48374f1afdd2fb08d9efc4e9b14217676a44771f2122",
+    "formal/AttestedLexicalLoadingAudit.lean": "77a50f0ee3d531f49be68fa55a6099a6ac6357f077f5dbed35ce01d5fdebd43b",
+    "formal/Nabt.lean": "fe16eeb7181fdc01d8a4550379fc4c9ffb6b253f1259f23f318206cccc61875a",
+    "formal/Audit.lean": "392f3a3649557064e17e76f6c3147da92a146ea2294ef7e2ecf65f7779b1cf24",
+    "formal/theorems.json": "5a44e70f844d69844db1e98511463c1e3a2a1a7d02347937d953e79e1c37eed5"
+  },
+  "axiom_log_sha256": "0073d343669953cc59559ee46fab1dfbdeb76db3617a8868f7425b2de1760efc",
+  "commands": [
+    "cd formal && lake build Nabt",
+    "cd formal && lake env lean AttestedLexicalLoadingAudit.lean",
+    "python3 tools/check_axioms.py --lake lake"
+  ],
+  "proved_scope": "Exact enumeration and provenance retention for a finite candidate join relative to supplied source bytes, headword interpretations, qualified lemma/root keys and morphological annotations; separate contextual sense license ledger is required for sense selection.",
+  "runtime_matrix_status": "CANDIDATE_NOT_SENSE_LICENSE",
+  "runtime_matrix_refinement_proved": false,
+  "python_loader_refinement_proved": false,
+  "per_matrix_rows_kernel_checked": false,
+  "all_arabic_complete": false,
+  "world_truth_proved": false,
+  "limitations": [
+    "The installed consonantal-headword candidates may have differing recorded root labels and are not asserted to satisfy the stronger qualified-key relation in this specification.",
+    "Source authenticity, hash correctness, Unicode normalization, shadda treatment, annotation correctness, and headword interpretation remain independent obligations.",
+    "Retaining an aligned dictionary sense and corpus annotation does not identify the contextual meaning of that corpus occurrence.",
+    "Existing LexicalDenotation.definition_does_not_assert_world is reused, not re-proved or counted as a new theorem."
+  ]
+}

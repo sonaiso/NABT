@@ -206,7 +206,7 @@ class EventTransport(unittest.TestCase):
             self.assertNotIn("payload_sha256", stream.getvalue())
             self.assertNotIn(private_text, out.read_text())
             self.assertNotIn("PREPARED", out.read_text())
-            self.assertEqual(metadata.read_text(), "valid=true\nartifact_name=nabt-lab-" + lab.SMOKE_ID + "\n")
+            self.assertEqual(metadata.read_text(), "valid=true\nartifact_name=nabt-lab-" + lab.SMOKE_ID + "\nattested_source=false\n")
 
     def test_bad_uuid_cannot_inject_github_output(self):
         with tempfile.TemporaryDirectory() as directory:

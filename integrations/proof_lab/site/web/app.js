@@ -67,6 +67,7 @@
   function enableActions() {
     const disabled = !state.config?.ready || !!state.pending;
     $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled; $('run-testimony').disabled = disabled; $('run-semantic-axes').disabled = disabled;
+    $('semantic-lexical-profile').disabled = !!state.pending;
   }
   async function request(path, options = {}) {
     const response = await fetch(path, { credentials:'same-origin', cache:'no-store', ...options, headers: { 'Accept':'application/json', ...options.headers }, signal:AbortSignal.timeout(45000) });
@@ -110,6 +111,11 @@
     let payload;
     try {
       payload = {schema:'nabt.proof-lab-request.v1',mode};
+      if (mode === 'semantic_axes') {
+        const profile = $('semantic-lexical-profile').value || 'teaching_v1';
+        if (!['teaching_v1','attested_qac_v1'].includes(profile)) throw new Error('المسار المعجمي غير معروف.');
+        if (profile === 'attested_qac_v1') payload.lexical_profile = profile;
+      }
       if (mode === 'inference') {
         if (!$('inference-form').reportValidity()) return;
         const source = $('source-text').value, query = $('query-text').value;
@@ -127,6 +133,7 @@
       const result = await request('/api/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       if (typeof result.handle !== 'string' || typeof result.request_id !== 'string') throw new Error('استجابة إرسال غير مكتملة. راجع سجل GitHub قبل إعادة الإرسال لتجنب تكرار الطلب.');
       state.pending = {handle:result.handle,request_id:result.request_id,mode,started:Date.now()};
+      if (mode === 'semantic_axes') state.pending.lexical_profile = payload.lexical_profile || 'teaching_v1';
       state.submitted = {request_id:result.request_id,payload};
       state.failures=0; state.pollCount=0;
       try { sessionStorage.setItem(pendingKey,JSON.stringify(state.pending)); } catch { /* Polling still works without browser persistence. */ }
@@ -170,6 +177,7 @@
         if (!result.report || result.report.request_id!==state.pending.request_id || result.report.mode!==state.pending.mode) throw new Error('لا تتطابق هوية التقرير مع الطلب الجاري. لم تُعرض نتيجة.');
         if(result.report.schema!=='nabt.proof-lab-result.v1' || result.report.all_arabic_complete!==false || result.report.world_truth_established!==false) throw new Error('التقرير يخالف نطاق المختبر المعلن؛ لم تُعرض دعوى غير مرخّصة.');
         const mode=state.pending.mode;
+        if(mode==='semantic_axes'&&result.report.semantic_axes&&((result.report.semantic_axes.lexical_profile||'teaching_v1')!==(state.pending.lexical_profile||'teaching_v1')||(Object.hasOwn(result.report,'lexical_profile')&&result.report.lexical_profile!==(state.pending.lexical_profile||'teaching_v1'))))throw new Error('المسار المعجمي في النتيجة لا يطابق الطلب؛ لم تُعرض نتيجة بديلة.');
         if(mode==='inference')renderInference(result.report);else if(mode==='testimony')renderTestimony(result.report);else if(mode==='semantic_axes'){globalThis.NabtSemanticAxes.render(result.report);state.semantic_axes=result.report;}else renderBenchmark(result.report);
         text('job-title','اكتمل التنفيذ واستلام التقرير');text('job-description','النتيجة أدناه مرتبطة بمعرف الطلب وإصدار الشفرة. اكتمال التنفيذ لا يعني أن الاستنتاج مدعوم.');
         finishPending(); return;
