@@ -184,7 +184,7 @@ def validate_payload(payload):
         for component in request["target"]:
             _text(component, 4096, "TARGET")
         return request
-    if mode == "benchmark":
+    if mode in {"benchmark", "semantic_axes"}:
         if set(request) != {"schema", "mode"}:
             raise RequestError("UNEXPECTED_REQUEST_FIELD")
         return request
@@ -239,6 +239,22 @@ def _testimony_identity():
             "runner_sha256": _sha(Path(__file__).read_bytes()),
             "runtime_sha256": _sha((ROOT / "tools/lexical_testimony.py").read_bytes()),
             "catalogue_sha256": _sha((ROOT / CATALOG).read_bytes()),
+            "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
+
+
+def _semantic_axes_identity():
+    # This route replays the Python discourse reader. A Lean binary installed
+    # beside it is not evidence that Lean checked these benchmark claims.
+    from tools.benchmark_semantic_axes import REFERENCE
+    measured_sources = sorted((ROOT / "src/nabt").rglob("*.py")) + [
+        ROOT / "tools/semantic_axes.py", ROOT / "tools/benchmark_semantic_axes.py",
+        ROOT / "examples/discourse_training.tsv", REFERENCE.parent / "freeze.json"]
+    source_manifest = {str(path.relative_to(ROOT)): _sha(path.read_bytes()) for path in measured_sources}
+    return {"code_sha": _code_sha(), "native_sha256": None,
+            "runner_sha256": _sha(Path(__file__).read_bytes()),
+            "runtime_sha256": _sha((ROOT / "tools/semantic_axes.py").read_bytes()),
+            "reference_sha256": _sha(REFERENCE.read_bytes()),
+            "measurement_source_sha256": _sha(json.dumps(source_manifest, sort_keys=True).encode()),
             "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
 
 
@@ -306,15 +322,24 @@ def run_payload(request_id, payload, *, prepare=False):
             response["payload_sha256"] = _sha(raw)
         request = validate_payload(payload)
         response["mode"] = request["mode"]
-        identity = _testimony_identity if request["mode"] == "testimony" else _identity
+        identity = {"testimony": _testimony_identity,
+                    "semantic_axes": _semantic_axes_identity}.get(request["mode"], _identity)
         before = identity()
         response.update(before)
         if request["mode"] == "testimony":
             response["scope"] = {"law_id": "nabt.lexical-denotation.v1",
                 "claim": "Source-attributed conditional interpretation in the installed lexical catalogue",
                 "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED"}
+        elif request["mode"] == "semantic_axes":
+            response["scope"] = {"law_id": "nabt.semantic-axes.v1",
+                "claim": "Reference comparison of the bounded discourse reader, separately by semantic axis",
+                "verification_kind": "PYTHON_REPLAY",
+                "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED"}
         if prepare:
             response["status"] = "PREPARED"
+        elif request["mode"] == "semantic_axes":
+            from tools.benchmark_semantic_axes import run
+            response.update(status="SEMANTIC_AXES_COMPLETE", semantic_axes=run())
         elif response["native_sha256"] is None:
             response.update(status="VERIFICATION_UNAVAILABLE", error="NATIVE_CHECKER_MISSING")
         elif request["mode"] == "testimony":
@@ -345,12 +370,14 @@ def run_payload(request_id, payload, *, prepare=False):
         response.pop("result", None)
         response.pop("benchmark", None)
         response.pop("testimony", None)
+        response.pop("semantic_axes", None)
     response["duration_ms"] = round((time.monotonic() - started) * 1000)
     encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
     if len(encoded) >= MAX_RESULT_BYTES:
         response.pop("result", None)
         response.pop("benchmark", None)
         response.pop("testimony", None)
+        response.pop("semantic_axes", None)
         response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
     return response
 

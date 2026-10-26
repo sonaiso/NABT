@@ -1,0 +1,37 @@
+{
+  "schema": "nabt.semantic-axes-measurement-history.v1",
+  "first_v1": {
+    "path": "evidence/semantic_axes_v1/first_measurement.json",
+    "sha256": "dcd52ae6aab232e3d3fd54002f8b23299fe2fcee854844215b588aa0290d2588",
+    "scope": "Original frozen suite, three invalid context names retained as UNMEASURED, not linguistic failure."
+  },
+  "first_revision_2": {
+    "path": "evidence/semantic_axes_v1/revision_2/first_measurement.json",
+    "sha256": "bf26ad238a79e75a50a4b9d945142d8b4343a63045cefeb01c0c0a0b760756c0",
+    "scope": "Only input context names corrected before this revision was executed; expected annotations unchanged."
+  },
+  "current": {
+    "path": "evidence/semantic_axes_v1/revision_2/measurement.json",
+    "sha256": "5355a83e094a059b09edd168f0880661992e4339ea473114336c785405961a7b",
+    "change_from_first_revision_2": "Declared adapter projection time_adverb -> temporal_adverb preserves runtime_role. A pre-existing temporal example passes. All 25 gold outcomes are unchanged because the underlying reader produced no complete analysis."
+  },
+  "training": {
+    "path": "examples/discourse_training.tsv",
+    "sha256": "84fbfcbae95d2cc16fe6922469c7e59a69fba80861c3428ee997cc60282adc69",
+    "noncomment_data_rows": 30,
+    "changed_for_reference": false
+  },
+  "sanity_controls": {
+    "path": "evidence/semantic_axes_v1/sanity_controls.json",
+    "sha256": "167851cf4ed3c2d24874856d59b88098956605fe1d24cc32de6398b09c77f867",
+    "successful_source_relative_reads": 3,
+    "total": 3,
+    "inside_reference_denominators": false
+  },
+  "limits": [
+    "Python replay plus reference comparison only, no Lean-native execution for this diagnostic.",
+    "Motive and empirical world understanding remain unmeasured.",
+    "Required reading recall and explicit forbidden outputs are checked; no exhaustive reading precision claim.",
+    "Prior natural-use 0/6 remains separate and unchanged."
+  ]
+}

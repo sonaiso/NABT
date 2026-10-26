@@ -413,7 +413,7 @@
     authorityFinding(out, record, '$');
     const operationalFailure = own(record, 'error');
     const earlyInputFailure = operationalFailure && record.status === 'INVALID_INPUT' && record.mode == null;
-    if (!['inference','benchmark'].includes(record.mode) && !earlyInputFailure)
+    if (!['inference','benchmark','semantic_axes'].includes(record.mode) && !earlyInputFailure)
       fail('SCHEMA_SHAPE', 'نمط تقرير NABT غير معروف.', '$.mode');
     optionalType(record, 'status', string, '$');
     for (const k of ['code_sha','native_sha256','runtime_sha256','runner_sha256','payload_sha256','toolchain','request_id']) optionalType(record, k, string, '$');
@@ -431,7 +431,7 @@
     if (operationalFailure) {
       const error = requireString(record.error, '$.error');
       if (!['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'].includes(record.status)
-          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result'))
+          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result') || own(record, 'semantic_axes'))
         fail('SCHEMA_SHAPE', 'غلاف تعذر التنفيذ لا يطابق عقد الحالة والخطأ.', '$.error');
       out.declared_status = record.status;
       out.operational_failure = { status: record.status, error, measurements_available: false };
@@ -448,7 +448,23 @@
         'هذه حالة تشغيل من ملف مستورد؛ لم يُعد تشغيل الطلب أو التحقق من مصدره.');
       return out;
     }
-    if (record.mode === 'benchmark') {
+    if (record.mode === 'semantic_axes') {
+      if (!globalThis.NabtSemanticAxes) fail('SCHEMA_SHAPE', 'مدقق جهات الدلالة غير متاح.', '$.semantic_axes');
+      let suite;
+      try { suite = globalThis.NabtSemanticAxes.validate(record.semantic_axes); }
+      catch (error) { fail('SCHEMA_SHAPE', error.message, '$.semantic_axes'); }
+      out.semantic_axes = suite;
+      for (const item of suite.cases) for (const c of item.claims) {
+        importedClaim(item.id + ':' + c.id, c.axis === 'syntax' ? 1 : ['readings','reference'].includes(c.axis) ? 2 : 4,
+          c.statement, { case_id: item.id, context_id: item.context_id, axis: c.axis, status: c.status, verification: c.verification });
+      }
+      out.metrics.claims = out.claims.length;
+      out.metrics.rank_counts = { 'تصريح مستورد': out.claims.length };
+      out.layers = ['التركيب', 'القراءات والمرجع', 'حدود الفحص', 'الدافع والواقع'].map((title, i) => ({ id: i + 1, title,
+        declared: null, summary: 'دعوى مستوردة؛ لم يُعد فحصها', claim_count: out.claims.filter(c => c.layer === i + 1).length, issues: [] }));
+      check(out, 'SEMANTIC_AXIS_COUNTS', 'المقامات المستقلة لجهات الدلالة', 'pass', 'أُعيد العد لكل محور من صفوف الحالات؛ لا نسبة موحدة لاكتمال العربية.');
+      out.limits.push('فحوص منع الإسناد غير المرخص مستقلة عن فهم الدافع أو إثبات الواقع. كل تصريح هنا مستورد؛ هذا الإصدار يرفض ترقية فحص Python إلى LEAN_NATIVE.');
+    } else if (record.mode === 'benchmark') {
       const b = requireObject(record.benchmark, '$.benchmark');
       const rows = requireArray(b.rows, '$.benchmark.rows');
       const counts = { cases: rows.length, pass: 0, fail: 0, unmeasured: 0 };

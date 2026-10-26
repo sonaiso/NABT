@@ -1,0 +1,2389 @@
+{
+  "schema": "nabt.semantic-axes.reference.v1",
+  "version": 2,
+  "title_ar": "مرجع فصل النحو والقراءة والمرجع والدافع والواقع",
+  "independence": {
+    "procedurally_independent_authorship": true,
+    "shared_team_and_workspace": true,
+    "blind_external_test": false,
+    "external_human_adjudication": false,
+    "runtime_outputs_used_for_expected": false,
+    "cases_executed_before_freeze": false
+  },
+  "scope": {
+    "case_count": 25,
+    "families": [
+      "nominal_event",
+      "nonvolitional_verb",
+      "temporal_not_causal",
+      "context_collision",
+      "negation_hypothesis_quote"
+    ],
+    "axes": [
+      "syntax",
+      "readings",
+      "reference",
+      "motive",
+      "world"
+    ],
+    "population": "authored fully vocalized diagnostic examples, five selected families",
+    "claim_ar": "عينة تشخيصية مؤلفة؛ لا نسبة لاكتمال العربية، ولا تواتر، ولا تحقق من الوقائع أو الدوافع."
+  },
+  "conventions": {
+    "input_identity": "NFC exact text and exact role surfaces; raw diacritics are part of the example.",
+    "predicates": "Arabic lemma identity; infinitive noun event denotation is distinct from the main predicate kind. Optional predicate_kind is asserted only where declared.",
+    "required_readings": "All required specifications must be retrieved; any forbidden specification prevents success. Omission and universal abstention are not success.",
+    "selection": "Multiplicity of semantic readings, separate from reference multiplicity. Mixed outer ASSERT and nested QUOTED are one scoped analysis, selection unique.",
+    "HYPOTHETICAL": "Independent gold label for clauses under an unasserted conditional; runtime lack of this force is a capability gap, not reason to relabel the gold.",
+    "reference_denominator": "Only C01–C05; not_applicable is excluded, never counted as a correct resolution.",
+    "motive_world": "underdetermined / not_established concerns evidence provided here. Unsupported runtime axes must be UNMEASURED; absence of an unsafe promotion may be separately reported as safety, never full interpretation success.",
+    "nonvolitional_family": "Reject inference of volition from verbal syntax; some human states have voluntary precursors. No universal claim that every listed event is causally involuntary.",
+    "temporal_scope": "The gold requires the temporal adjunct role and bans causal promotion; complete event-time ordering or attachment semantics requires an explicitly measured feature, not an inferred success."
+  },
+  "cases": [
+    {
+      "id": "N01",
+      "family": "nominal_event",
+      "input": {
+        "text": "زَيْدٌ يَمْشِي.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "nominal_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "مَشَى",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "صدر الجملة مبتدأ وخبره جملة فعلية تدل على حدث؛ الاسمية لا تلغي الحدث ولا تثبت دوام المشي.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "N02",
+      "family": "nominal_event",
+      "input": {
+        "text": "الْخُرُوجُ سَرِيعٌ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "الْخُرُوجُ",
+              "role": "nominal_subject"
+            },
+            {
+              "surface": "سَرِيعٌ",
+              "role": "nominal_predicate"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "سَرِيع",
+              "predicate_kind": "property"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "المصدر خروج اسم يدل على حدث، والمحمول سريع صفة له. لا تُخلط دلالة اسم الحدث بنوع المحمول الوصفي.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "N03",
+      "family": "nominal_event",
+      "input": {
+        "text": "زَيْدٌ مَرِيضٌ الْيَوْمَ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "nominal_subject"
+            },
+            {
+              "surface": "مَرِيضٌ",
+              "role": "nominal_predicate"
+            },
+            {
+              "surface": "الْيَوْمَ",
+              "role": "temporal_adverb"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "مَرِيض",
+              "predicate_kind": "property"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "الحالة مقيدة باليوم؛ لا تلزم ديمومتها من الجملة الاسمية. لم يُحدد مرض أو سببه أو وقوعه خارجيًا.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "N04",
+      "family": "nominal_event",
+      "input": {
+        "text": "الْمَطَرُ يَهْطِلُ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "الْمَطَرُ",
+              "role": "nominal_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "هَطَلَ",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "خبر المبتدأ جملة فعلية عن حدث طبيعي؛ الاسمية لا تجعل المحمول ساكنًا والفعل لا يجعله إراديًا.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "N05",
+      "family": "nominal_event",
+      "input": {
+        "text": "ذَهَابُ زَيْدٍ سَرِيعٌ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "ذَهَابُ",
+              "role": "nominal_subject"
+            },
+            {
+              "surface": "سَرِيعٌ",
+              "role": "nominal_predicate"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "سَرِيع",
+              "predicate_kind": "property"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "اسم الحدث المضاف هو المبتدأ، والسرعة خبر؛ لا يستنتج مقصد زيد أو حقيقة الذهاب في العالم.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "V01",
+      "family": "nonvolitional_verb",
+      "input": {
+        "text": "هَطَلَ الْمَطَرُ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "الْمَطَرُ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "هَطَلَ"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "فاعل نحوي غير بشري؛ لا غريزة أو قصد يستنتجان من الإسناد.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "V02",
+      "family": "nonvolitional_verb",
+      "input": {
+        "text": "نَامَ الطِّفْلُ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "الطِّفْلُ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "نَامَ"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "النوم لا يثبت تعمد الطفل أو غريزة معينة؛ لا يُدّعى استحالة وجود مقدمات إرادية للنوم.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "V03",
+      "family": "nonvolitional_verb",
+      "input": {
+        "text": "مَرِضَ زَيْدٌ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "مَرِضَ"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "حصول حالة المرض غير دليل على إرادة المريض أو سببه، ولو كان المسند إليه عاقلًا.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "V04",
+      "family": "nonvolitional_verb",
+      "input": {
+        "text": "سَقَطَ الْحَجَرُ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "الْحَجَرُ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "سَقَطَ"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "السقوط مسند إلى حجر؛ النص لا يحدد سبب السقوط أو فاعلًا قاصدًا وراءه.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "V05",
+      "family": "nonvolitional_verb",
+      "input": {
+        "text": "مَاتَ الرَّجُلُ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "الرَّجُلُ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "مَاتَ"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "إسناد الموت نحويًا لا يثبت أن الرجل أراده أو يعيّن سببًا أو واقعة حسية.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "T01",
+      "family": "temporal_not_causal",
+      "input": {
+        "text": "خَرَجَ زَيْدٌ بَعْدَ دُخُولِ عَمْرٍو.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "بَعْدَ",
+              "role": "temporal_adverb"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "خَرَجَ",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "الخروج تالٍ للدخول في القراءة المرادة؛ التعاقب ليس سببًا للخروج.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "T02",
+      "family": "temporal_not_causal",
+      "input": {
+        "text": "خَرَجَ زَيْدٌ قَبْلَ دُخُولِ عَمْرٍو.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "قَبْلَ",
+              "role": "temporal_adverb"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "خَرَجَ",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "الخروج سابق للدخول؛ لا يثبت تسببه في الدخول أو علم زيد به.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "T03",
+      "family": "temporal_not_causal",
+      "input": {
+        "text": "جَلَسَ زَيْدٌ بَعْدَ خُرُوجِ عَمْرٍو.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "بَعْدَ",
+              "role": "temporal_adverb"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "جَلَسَ",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "جلوس زيد بعد الخروج لا يعيّن غرض الجلوس أو سببه.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "T04",
+      "family": "temporal_not_causal",
+      "input": {
+        "text": "جَلَسَ زَيْدٌ قَبْلَ خُرُوجِ عَمْرٍو.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "قَبْلَ",
+              "role": "temporal_adverb"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "جَلَسَ",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "ترتيب الحدثين سابقية لا تعليلًا؛ يجب الاحتفاظ بالظرف بوظيفته النحوية.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "T05",
+      "family": "temporal_not_causal",
+      "input": {
+        "text": "نَامَ الطِّفْلُ بَعْدَ غُرُوبِ الشَّمْسِ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "الطِّفْلُ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "بَعْدَ",
+              "role": "temporal_adverb"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "نَامَ",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-TEMPORAL"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "الغروب قيد زمني في النص؛ لا يثبت أنه السبب الكافي للنوم أو دافع الطفل.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "C01",
+      "family": "context_collision",
+      "input": {
+        "text": "أَنَا أَمْشِي.",
+        "context": {
+          "entities": [
+            {
+              "id": "zayd",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "amr",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "speaker": "zayd",
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "أَنَا",
+              "role": "nominal_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "مَشَى",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "resolved",
+          "surface": "أَنَا",
+          "target_ids": [
+            "zayd"
+          ]
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "reference": [
+          "QATR-REFERENCE",
+          "DECLARED-REFERENCE-FIXTURES"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "النص نفسه في مقامين: أنا يعود إلى المتكلم المعيّن هنا، لا إلى ترتيب قائمة الكائنات. المقام مصطنع وليس شهادة حسية.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "C02",
+      "family": "context_collision",
+      "input": {
+        "text": "أَنَا أَمْشِي.",
+        "context": {
+          "entities": [
+            {
+              "id": "zayd",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "amr",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "speaker": "amr",
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "أَنَا",
+              "role": "nominal_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "مَشَى",
+              "predicate_kind": "event"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "resolved",
+          "surface": "أَنَا",
+          "target_ids": [
+            "amr"
+          ]
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "reference": [
+          "QATR-REFERENCE",
+          "DECLARED-REFERENCE-FIXTURES"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "النص نفسه في مقامين: أنا يعود إلى المتكلم المعيّن هنا، لا إلى ترتيب قائمة الكائنات. المقام مصطنع وليس شهادة حسية.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "C03",
+      "family": "context_collision",
+      "input": {
+        "text": "هَذَا حَجَرٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            },
+            {
+              "id": "stone_b",
+              "name": "بَاءٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [
+            {
+              "form": "هَذَا",
+              "entity_ids": [
+                "stone_a"
+              ]
+            }
+          ],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "هَذَا",
+              "role": "nominal_subject"
+            },
+            {
+              "surface": "حَجَرٌ",
+              "role": "nominal_predicate"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "حَجَر"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "resolved",
+          "surface": "هَذَا",
+          "target_ids": [
+            "stone_a"
+          ]
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "reference": [
+          "QATR-REFERENCE",
+          "DECLARED-REFERENCE-FIXTURES"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "المعنى المعجمي والإسناد ثابتان، وتعيين هذا يتغير مع تعيين الإشارة. تعدد المرشحين في C05 غموض مرجعي لا قراءة معجمية ثانية؛ يجب حفظ المرشحين.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "C04",
+      "family": "context_collision",
+      "input": {
+        "text": "هَذَا حَجَرٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            },
+            {
+              "id": "stone_b",
+              "name": "بَاءٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [
+            {
+              "form": "هَذَا",
+              "entity_ids": [
+                "stone_b"
+              ]
+            }
+          ],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "هَذَا",
+              "role": "nominal_subject"
+            },
+            {
+              "surface": "حَجَرٌ",
+              "role": "nominal_predicate"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "حَجَر"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "resolved",
+          "surface": "هَذَا",
+          "target_ids": [
+            "stone_b"
+          ]
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "reference": [
+          "QATR-REFERENCE",
+          "DECLARED-REFERENCE-FIXTURES"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "المعنى المعجمي والإسناد ثابتان، وتعيين هذا يتغير مع تعيين الإشارة. تعدد المرشحين في C05 غموض مرجعي لا قراءة معجمية ثانية؛ يجب حفظ المرشحين.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "C05",
+      "family": "context_collision",
+      "input": {
+        "text": "هَذَا حَجَرٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            },
+            {
+              "id": "stone_b",
+              "name": "بَاءٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [
+            {
+              "form": "هَذَا",
+              "entity_ids": [
+                "stone_a",
+                "stone_b"
+              ]
+            }
+          ],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "nominal",
+          "required_roles": [
+            {
+              "surface": "هَذَا",
+              "role": "nominal_subject"
+            },
+            {
+              "surface": "حَجَرٌ",
+              "role": "nominal_predicate"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "حَجَر"
+            }
+          ],
+          "forbidden": [],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "ambiguous",
+          "surface": "هَذَا",
+          "target_ids": [
+            "stone_a",
+            "stone_b"
+          ]
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-REFERENCE"
+        ],
+        "reference": [
+          "QATR-REFERENCE",
+          "DECLARED-REFERENCE-FIXTURES"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "المعنى المعجمي والإسناد ثابتان، وتعيين هذا يتغير مع تعيين الإشارة. تعدد المرشحين في C05 غموض مرجعي لا قراءة معجمية ثانية؛ يجب حفظ المرشحين.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "Q01",
+      "family": "negation_hypothesis_quote",
+      "input": {
+        "text": "لَمْ يَخْرُجْ زَيْدٌ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": false,
+              "predicate": "خَرَجَ"
+            }
+          ],
+          "forbidden": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            }
+          ],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-CONDITION"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-CONDITION"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "المحتوى المنطوق ينفي الخروج، ولا يحوله إلى حدث موجب ولا إلى شهادة خارجية بصدق النفي.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "Q02",
+      "family": "negation_hypothesis_quote",
+      "input": {
+        "text": "إِنْ خَرَجَ زَيْدٌ جَلَسَ عَمْرٌو.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "عَمْرٌو",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "HYPOTHETICAL",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            },
+            {
+              "force": "HYPOTHETICAL",
+              "positive": true,
+              "predicate": "جَلَسَ"
+            }
+          ],
+          "forbidden": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            },
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "جَلَسَ"
+            }
+          ],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-CONDITION"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-CONDITION"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "الطرفان داخل فرض الشرط؛ لا يثبت وقوع أي منهما. التصنيف فعلي وفق اختيار مغني اللبيب، والفرض لا يثبت عكس القضية ولا مفهوم مخالفة آليًا.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "Q03",
+      "family": "negation_hypothesis_quote",
+      "input": {
+        "text": "قَالَ زَيْدٌ: «خَرَجَ عَمْرٌو».",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "قَالَ"
+            },
+            {
+              "force": "QUOTED",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            }
+          ],
+          "forbidden": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            }
+          ],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "MUGHNI-QUOTE"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "MUGHNI-QUOTE"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "المتكلم يخبر عن قول زيد، ويعرض خروج عمرو بوصفه مضمون القول. صدق المضمون ليس مستفادًا من نقله.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "Q04",
+      "family": "negation_hypothesis_quote",
+      "input": {
+        "text": "لَمْ يَقُلْ زَيْدٌ: «خَرَجَ عَمْرٌو».",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "ASSERT",
+              "positive": false,
+              "predicate": "قَالَ"
+            },
+            {
+              "force": "QUOTED",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            }
+          ],
+          "forbidden": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "قَالَ"
+            },
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "خَرَجَ"
+            }
+          ],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "MUGHNI-QUOTE",
+          "QATR-CONDITION"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "MUGHNI-QUOTE",
+          "QATR-CONDITION"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "النفي يتناول حصول القول. المحتوى المحكي ذكرٌ ضمن القول المنفي، فلا يثبت صدقه أو كذبه أو وقوع القول.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "Q05",
+      "family": "negation_hypothesis_quote",
+      "input": {
+        "text": "إِنْ هَطَلَ الْمَطَرُ بَقِيَ زَيْدٌ.",
+        "context": {
+          "entities": [],
+          "deixis": [],
+          "closed_reference_scope": false
+        }
+      },
+      "expected": {
+        "syntax": {
+          "clause_form": "verbal",
+          "required_roles": [
+            {
+              "surface": "الْمَطَرُ",
+              "role": "active_subject"
+            },
+            {
+              "surface": "زَيْدٌ",
+              "role": "active_subject"
+            }
+          ]
+        },
+        "readings": {
+          "required": [
+            {
+              "force": "HYPOTHETICAL",
+              "positive": true,
+              "predicate": "هَطَلَ"
+            },
+            {
+              "force": "HYPOTHETICAL",
+              "positive": true,
+              "predicate": "بَقِيَ"
+            }
+          ],
+          "forbidden": [
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "هَطَلَ"
+            },
+            {
+              "force": "ASSERT",
+              "positive": true,
+              "predicate": "بَقِيَ"
+            }
+          ],
+          "selection": "unique"
+        },
+        "reference": {
+          "status": "not_applicable",
+          "target_ids": []
+        },
+        "motive": {
+          "status": "underdetermined",
+          "permitted_claims": [],
+          "forbidden_promotions": [
+            "instinct_from_pos",
+            "volition_from_verb",
+            "causality_from_temporal_order"
+          ]
+        },
+        "world": {
+          "status": "not_established",
+          "forbidden_promotions": [
+            "external_world_truth"
+          ]
+        }
+      },
+      "expectation_sources": {
+        "syntax": [
+          "QATR-PARTS",
+          "MUGHNI-CLAUSE",
+          "AUTHORED-ORACLE-V1",
+          "QATR-CONDITION"
+        ],
+        "readings": [
+          "SHAKHSIYYA-REPORT",
+          "AUTHORED-ORACLE-V1",
+          "QATR-CONDITION"
+        ],
+        "reference": [
+          "AUTHORED-ORACLE-V1"
+        ],
+        "motive": [
+          "SHAKHSIYYA-PARTS",
+          "SHAKHSIYYA-LUZUM",
+          "EVIDENCE-BOUNDARY-V1"
+        ],
+        "world": [
+          "SHAKHSIYYA-REPORT",
+          "EVIDENCE-BOUNDARY-V1"
+        ]
+      },
+      "rationale_ar": "حدث طبيعي وحالة بشرية داخل فرض شرطي؛ لا يتحول الشرط اللغوي إلى تحقق حسّي أو تعليل نفسي لبقاء زيد.",
+      "authorship": "independent_agent_before_runtime_execution",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    }
+  ],
+  "revision": {
+    "number": 2,
+    "previous_reference_sha256": "18d59350e622df23d67f5f8f44864aeeee9817515a838fb05911b85b4a5a3625",
+    "reason": "static_context_contract_correction",
+    "change_log_ar": "تغيير اسمَي الكائنين في C03 وC04 وC05 فقط من عبارتين متعددتي الكلمات إلى أَلِفٌ وبَاءٌ؛ قارئ context يشترط اسمًا من كلمة واحدة. بقيت النصوص ومعرفات الكائنات والإشارات والتوقعات كما هي. المصدر مراجعة عقد المدخلات، لا نتائج المحرك.",
+    "blind_external_test": false
+  }
+}
