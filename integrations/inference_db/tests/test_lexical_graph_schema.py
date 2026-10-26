@@ -185,7 +185,12 @@ class LexicalGraphPostgreSQLTests(unittest.TestCase):
         self.seal()
         self.rejected(self.psycopg.errors.RaiseException, lambda: self.node('late', concept='a', positive=False))
         self.rejected(self.psycopg.errors.RaiseException, lambda: self.connection.execute('DELETE FROM nabt_inference.lexical_graph_seals WHERE graph_sha=%s', (self.graph,)))
-        self.rejected(self.psycopg.errors.RaiseException, lambda: self.connection.execute('TRUNCATE nabt_inference.lexical_graph_nodes'))
+        # PostgreSQL rejects a referenced table before firing its TRUNCATE
+        # trigger. CASCADE reaches the immutability guard without removing rows.
+        self.rejected(self.psycopg.errors.FeatureNotSupported,
+                      lambda: self.connection.execute('TRUNCATE nabt_inference.lexical_graph_nodes'))
+        self.rejected(self.psycopg.errors.RaiseException,
+                      lambda: self.connection.execute('TRUNCATE nabt_inference.lexical_graph_nodes CASCADE'))
 
     def test_non_read_committed_writes_are_rejected_in_temporary_schema(self):
         # The fixture schema above is deliberately uncommitted. Extract the
