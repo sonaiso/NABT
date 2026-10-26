@@ -1447,7 +1447,26 @@ def theoremManifest : List Name := [
   ``Nabt.LexicalCompletion.empty_batch_blocks,
   ``Nabt.LexicalCompletion.budget_preserves_verdict,
   ``Nabt.LexicalCompletion.compose_exact_with_domains,
-  ``Nabt.LexicalCompletion.chain_exact
+  ``Nabt.LexicalCompletion.chain_exact,
+  ``Nabt.LexicalGraph.reference_is_not_inference,
+  ``Nabt.LexicalGraph.lowered_edge_guards,
+  ``Nabt.LexicalGraph.reference_edge_not_lowered,
+  ``Nabt.LexicalGraph.node_atom_preserves_identity,
+  ``Nabt.LexicalGraph.scan_activation_bound,
+  ``Nabt.LexicalGraph.scan_preserves_known,
+  ``Nabt.LexicalGraph.scan_replays,
+  ``Nabt.LexicalGraph.scan_finishes_by_rule_count,
+  ``Nabt.LexicalGraph.covered_after_activation,
+  ``Nabt.LexicalGraph.no_enabled_closed,
+  ``Nabt.LexicalGraph.finished_scan_closed,
+  ``Nabt.LexicalGraph.admitted_initial_present,
+  ``Nabt.LexicalGraph.facts_replay,
+  ``Nabt.LexicalGraph.initial_replays,
+  ``Nabt.LexicalGraph.replay_append,
+  ``Nabt.LexicalGraph.completed_certificate,
+  ``Nabt.LexicalGraph.completed_exact,
+  ``Nabt.LexicalGraph.completed_empty_without_seeds,
+  ``Nabt.LexicalGraph.completed_model_sound
 ]
 
 run_cmd do
