@@ -31,6 +31,7 @@ FREEZE_SHA256 = "493626c2bed79ba40a733e7c35995efbbf9d1190139d9e6783fee05a08ad0fc
 SNAPSHOT_SHA256 = "96d7e5328966d41eaf0cb5fd012e52b0fd48f783ad5d170bd9eac76e3988fef4"
 ARCHIVE_SHA256 = "fcd06e9eaa0c5edefed68684a96a1c5e78bb1a5e3a3e227c971458a00cce2d3d"
 CODE_FREEZES = {
+    'attested_mark_recovery_v1': ('1c47bfee3fa0baa190ec0e0455dfcb2528aec65a6280694956c1e00186948d30', '8ea9f386852e40ae092ec9a0c9c37ae7a3c48d50468191038209511f156ac280', 'd04ff4bf22171441e5731bfdb67dd4b4d6e6470db0e75b58977656d42e5172c2'),
     'framework_foundation_v1_review2': ('a192d915f933a8f98ddb4d166f741be4ab976d34cc2c13be71eb940f08ca06e4', '36fba6536d27a077bba568c024ac0eabb22c1defbaec17ae45c665083e361766', '6da895ca88448dd9261f6acf0e5fe244fef311ef6dfe785acda9307a6b928598'),
     'framework_foundation_v1': ('00b06260322f06a6394b3a1164aa78833758a86f1c71c232433d1ab786077447', '9f497aa3f3083d7e8073b77e21599445add23ef139b3c419372178be91a954e9', '168c7a1a90761cb0d90c90f4f0f0f4ce80e955813448f7c519696b94b20c6f2f'),
     'arabic_completion_v6': ('31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec', '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23', '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922'),
@@ -107,6 +108,7 @@ CODE_FREEZES = {
            "1753f8cc46e7176d013d7a7297b61e5e194e3c628828f83ec66be84f3480c026"),
 }
 CODE_FREEZE_PATHS = {
+    'attested_mark_recovery_v1': ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json',
     'framework_foundation_v1_review2': ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json',
     'framework_foundation_v1': ROOT / 'evidence/framework_foundation_v1/code_freeze_v1.json',
     'arabic_completion_v6': ROOT / 'evidence/arabic_completion_v6/code_freeze_v1.json',
@@ -194,7 +196,7 @@ def load_material():
     return data
 
 
-def verify_implementation_freeze(version="framework_foundation_v1_review2"):
+def verify_implementation_freeze(version="attested_mark_recovery_v1"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -501,7 +503,7 @@ def regression_gate_passes(results):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="framework_foundation_v1_review2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="attested_mark_recovery_v1")
     parser.add_argument("--require-regression-gates", action="store_true",
                         help="Allow only the documented frame-coverage misses w15/w16/w17; never mark them passed")
     args = parser.parse_args()

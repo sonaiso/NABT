@@ -92,22 +92,22 @@ class ActualInstalledSources(unittest.TestCase):
         if not cls.native.exists():
             raise unittest.SkipTest("optional native linguisticTruth checker not built")
 
-    def test_vocalized_cue_retains_source_but_needs_attested_spelling(self):
+    def test_vocalized_cue_retains_source_and_replayed_spelling_premises(self):
         raw = "أَعْنِي بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ"
         result = self.acquire(raw, subject="المتكلم", time="وقت الاختبار", context="حديث عن اللفظ")
-        # v2 erased all marks before acquiring the intended-use premise. The
-        # installed source forms are unmarked: they do not license this exact
-        # reading. Keep this formerly positive case visible as a coverage debt.
-        self.assertEqual(result["status"], "UNKNOWN")
-        self.assertEqual(result["reason"], "UNSUPPORTED_OBSERVED_MARKS")
-        self.assertFalse(result["intended_sense_acquired"])
-        self.assertEqual(result["acquired_premises"], [])
+        # v4 replays a separate stem/inflection review. The old semantic ledger
+        # alone still cannot license these marks; the new evidence is explicit
+        # and remains an acquisition premise outside the native semantic proof.
+        self.assertEqual(result["status"], "COMPLETE")
+        self.assertTrue(result["intended_sense_acquired"])
+        self.assertTrue(result["acquired_premises"])
+        self.assertIs(result["orthography_evidence"][0]["native_acquisition_proof"], False)
         self.assertTrue(result["native_checked"])
         self.assertEqual(result["source"]["raw_text"], raw)
         self.assertEqual(result["source"]["sha256"], hashlib.sha256(raw.encode()).hexdigest())
         occurrence = result["occurrences"][0]
         self.assertEqual(occurrence["span"]["raw_text"], "بِالْأَسَدِ")
-        self.assertEqual(occurrence["supported_use_kinds"], [])
+        self.assertEqual(occurrence["supported_use_kinds"], ["literal"])
         self.assertGreaterEqual(len(occurrence["candidates"]), 2)
         for key in ("world_truth_established", "truth_of_claim_established", "empirical_validation_established",
                     "all_arabic_complete"):

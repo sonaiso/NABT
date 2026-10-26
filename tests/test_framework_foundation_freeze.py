@@ -12,7 +12,8 @@ from tools.text_evaluation.integrity import verify_code_freeze
 
 ROOT = Path(__file__).resolve().parents[1]
 FIRST_FOUNDATION = ROOT / "evidence/framework_foundation_v1/code_freeze_v1.json"
-CURRENT = ROOT / "evidence/framework_foundation_v1/code_freeze_v2.json"
+PREVIOUS = ROOT / "evidence/framework_foundation_v1/code_freeze_v2.json"
+CURRENT = ROOT / "evidence/attested_mark_recovery_v1/code_freeze_v1.json"
 HISTORICAL = ROOT / "evidence/arabic_completion_v6/code_freeze_v1.json"
 HISTORICAL_MANIFEST_SHA = "31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec"
 HISTORICAL_POLICY_SHA = "5e73cfdae07cdb60a2f93c8cc9961a9ee283d85471f24b5b61eabcb3c3647657"
@@ -29,8 +30,15 @@ class FoundationFreezeTests(unittest.TestCase):
     def test_current_inventory_is_exact_and_old_freeze_cannot_authorize_it(self):
         current = verify_code_freeze(CURRENT, ROOT)
         old = json.loads(HISTORICAL.read_text())
-        self.assertEqual(current["previous_runtime_manifest_sha256"], sha256(FIRST_FOUNDATION.read_bytes()).hexdigest())
+        self.assertEqual(current["previous_runtime_manifest_sha256"], sha256(PREVIOUS.read_bytes()).hexdigest())
         self.assertEqual(current["historical_v6_manifest_sha256"], HISTORICAL_MANIFEST_SHA)
+        previous = json.loads(PREVIOUS.read_bytes())
+        self.assertEqual(sha256(PREVIOUS.read_bytes()).hexdigest(), "a192d915f933a8f98ddb4d166f741be4ab976d34cc2c13be71eb940f08ca06e4")
+        self.assertEqual(current["changed_runtime_paths"], ["src/nabt/data/framework_foundation.json"])
+        self.assertEqual([a["path"] for a, b in zip(current["files"], previous["files"]) if a != b],
+                         ["src/nabt/data/framework_foundation.json"])
+        with self.assertRaises(ValueError):
+            verify_code_freeze(PREVIOUS, ROOT)
         current_paths = {row["path"] for row in current["files"]}
         old_paths = {row["path"] for row in old["files"]}
         self.assertEqual(current_paths - old_paths,
@@ -43,7 +51,7 @@ class FoundationFreezeTests(unittest.TestCase):
     def test_policy_keeps_all_material_denominators_and_failure_signatures(self):
         old, current = historical_gate.load_policy(), current_gate.load_policy()
         self.assertEqual(old["suites"], current["suites"])
-        self.assertEqual(current["previous_policy_sha256"], "08928857043652240209630b5e424ba7c6c8d28cbb8f02c4390d9caee5749d65")
+        self.assertEqual(current["previous_policy_sha256"], '20b8eb82e9df6dd52905d1dd3bde2716fec819302b9a538a6f0965aa42dde275')
         self.assertEqual(current["historical_v6_policy_sha256"], HISTORICAL_POLICY_SHA)
         self.assertEqual(current["runtime_file_count"], 101)
         self.assertEqual(current["runtime_freeze_sha256"], sha256(CURRENT.read_bytes()).hexdigest())

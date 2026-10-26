@@ -71,7 +71,7 @@ class ObservedMarkCoverage(unittest.TestCase):
 
 class FoundationInputAdmission(unittest.TestCase):
     def test_law_and_foundation_are_not_caller_authority(self):
-        self.assertEqual(LAW_ID, "nabt.linguistic-truth-acquisition.v3")
+        self.assertEqual(LAW_ID, "nabt.linguistic-truth-acquisition.v4")
         with patch("nabt.foundation.require_foundation", side_effect=NabtError("DENIED", "test")):
             with self.assertRaises(NabtError):
                 acquire("أعني بالأسد الحيوان المفترس", profile_id="linguistic")
@@ -118,8 +118,8 @@ class InstalledOrthographicAdmission(unittest.TestCase):
         for text in (
                 "أعني بالأسدّ الحيوان المفترس",
                 "أعني بالأسد الحيوان المُفْتَرَس",
-                "أعني بالأسد الحيوان الْمُفْتَرِسَ",
-                "أَعْنِي بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ",
+                "أعني بالأسد الحيوان الْمُفْتَرِسُ",
+                "أَعْنِي بِالْأَسَدُ الْحَيَوَانَ الْمُفْتَرِسَ",
                 "أعني بالقرء الطهر وَالحيض",
                 "لَا أعني بالأسد الرجل الشجاع بل الحيوان المفترس"):
             with self.subTest(text=text):

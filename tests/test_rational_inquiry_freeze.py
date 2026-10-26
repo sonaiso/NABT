@@ -23,14 +23,14 @@ PRODUCTIVE = ROOT / 'evidence/arabic_completion_v4/code_freeze_v2.json'
 CLASSICAL = ROOT / 'evidence/arabic_completion_v5/code_freeze_v1.json'
 EXTENDED = ROOT / 'evidence/arabic_completion_v6/code_freeze_v1.json'
 FIRST_FOUNDATION = ROOT / 'evidence/framework_foundation_v1/code_freeze_v1.json'
-CURRENT = ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json'
+CURRENT = ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json'
 PRE_CORRECTION = ROOT / 'evidence/arabic_completion_v3/code_freeze_v1.json'
 COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v2.json'
 PUBLISHED = ROOT / 'evidence/rational_inquiry/code_freeze_v2.json'
 FIRST_COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v1.json'
 PRE_FIX = ROOT / 'evidence/rational_inquiry/code_freeze_v1.json'
 HISTORICAL = ROOT / 'evidence/constructions/code_freeze_v4.json'
-MANIFEST_SHA256 = 'a192d915f933a8f98ddb4d166f741be4ab976d34cc2c13be71eb940f08ca06e4'
+MANIFEST_SHA256 = '1c47bfee3fa0baa190ec0e0455dfcb2528aec65a6280694956c1e00186948d30'
 EXTENDED_SHA256 = '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec'
 PRE_CORRECTION_SHA256 = 'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089'
 COVERAGE_SHA256 = '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c'
@@ -100,9 +100,9 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
         verify_code_freeze(CURRENT, ROOT)
 
     def test_all_registered_evaluators_verify_current_bytes_and_archive(self):
-        word_evaluation.verify_implementation_freeze('framework_foundation_v1_review2')
+        word_evaluation.verify_implementation_freeze('attested_mark_recovery_v1')
         morphology_evaluation.verify_runtime_freeze(
-            morphology_evaluation.snapshot(), 'framework_foundation_v1_review2')
+            morphology_evaluation.snapshot(), 'attested_mark_recovery_v1')
         inflection_evaluation.runtime_snapshot(CURRENT, ROOT)
         discourse_evaluation.runtime_snapshot(CURRENT, ROOT)
         construction_evaluation.runtime_snapshot(CURRENT, ROOT)

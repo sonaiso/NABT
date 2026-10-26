@@ -20,7 +20,7 @@ from nabt.errors import NabtError
 from .calculus import canonical_json, enumerate_candidates, evaluate_request
 
 ROOT = Path(__file__).resolve().parents[2]
-LAW_ID = "nabt.linguistic-truth-acquisition.v3"
+LAW_ID = "nabt.linguistic-truth-acquisition.v4"
 _MARKS = re.compile(r"[\u064b-\u065f\u0670\u0640]")
 _WORDS = re.compile(r"[^\s.!?؛;،؟«»()\[\]\"“”]+")
 _SEPARATORS = re.compile(r"[.!?؛;؟\r\n]+")
@@ -97,20 +97,27 @@ def _covers_observed_marks(observed, reviewed):
                     for a, b in zip(left, right)))
 
 
-def _orthography_gate(parsed, tokens, raw, inventory, senses):
+def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None):
     """Bind each cue reading to its own reviewed expression/sense spellings.
 
-    Grammar literals currently have unmarked installed spellings. A marked
-    grammar literal therefore needs a future reviewed grammar reading; it is
-    not licensed by a marked example in documentation or tests.
+    A separate source-replayed review may supply inflected spellings. It can
+    only license existing parsed alternatives, never insert a semantic answer.
+    Bare inventory forms remain available for unspecified input marks.
     """
     head = tokens[parsed["token_index"]]
     head_forms = ["ب" + form for row in inventory["designations"]
                   if row["expression"] == parsed["expression"] for form in row["forms"]]
-    head_ok = any(_covers_observed_marks(head["text"], form) for form in head_forms)
-    admitted, failures = [], []
+    from .marked_forms import _reviewed_forms
+    head_license = [] if mark_review is None else [candidate for candidate in
+        _reviewed_forms(mark_review, parsed["expression"], "expression")
+        if _covers_observed_marks(head["text"], candidate["form"])]
+    head_ok = (any(_covers_observed_marks(head["text"], form) for form in head_forms)
+               or bool(head_license))
+    admitted, failures, licenses = [], [], []
     for reading in parsed["readings"]:
         issues = []
+        reading_licenses = [{**candidate, "span": _span(raw, head["start"], head["end"])}
+                            for candidate in head_license]
         covered = [(head["start"], head["end"])]
         if not head_ok:
             issues.append({"start": head["start"], "end": head["end"], "role": "expression"})
@@ -119,10 +126,22 @@ def _orthography_gate(parsed, tokens, raw, inventory, senses):
             covered.append((start, end))
             observed = raw[start:end].decode("utf-8")
             reviewed = senses[parsed["expression"]][premise["sense_id"]]["forms"]
-            if not any(_covers_observed_marks(observed, form) for form in reviewed):
+            derived = [] if mark_review is None else [candidate for form in reviewed
+                for candidate in _reviewed_forms(mark_review, _normal(form), "sense")
+                if _covers_observed_marks(observed, candidate["form"])]
+            if not any(_covers_observed_marks(observed, form) for form in reviewed) and not derived:
                 issues.append({"start": start, "end": end, "role": "sense",
                                "sense_id": premise["sense_id"]})
+            reading_licenses.extend({**candidate, "sense_id": premise["sense_id"],
+                                     "span": _span(raw, start, end)} for candidate in derived)
         for token in tokens:
+            grammar_licenses = [] if mark_review is None else [candidate for candidate in
+                _reviewed_forms(mark_review, token["normal"], "grammar")
+                if _covers_observed_marks(token["text"], candidate["form"])]
+            if grammar_licenses:
+                covered.append((token["start"], token["end"]))
+                reading_licenses.extend({**candidate,
+                    "span": _span(raw, token["start"], token["end"])} for candidate in grammar_licenses)
             cursor = token["start"]
             for char in token["text"]:
                 end = cursor + len(char.encode("utf-8"))
@@ -134,8 +153,10 @@ def _orthography_gate(parsed, tokens, raw, inventory, senses):
             failures.extend(issues)
         else:
             admitted.append(reading)
+            licenses.extend(reading_licenses)
     if admitted:
-        return {**parsed, "readings": admitted}, []
+        return {**parsed, "readings": admitted,
+                "orthography_licenses": list({_wire(row): row for row in licenses}.values())}, []
     return None, list({_wire(issue): issue for issue in failures}.values())
 
 
@@ -444,6 +465,11 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
             return {**output, "status": "INVALID_INPUT", "reason": "UNKNOWN_PROFILE"}
         forms, senses = _form_index(inventory)
         designations, relations = _native_ledger(inventory)
+        mark_review = None
+        if any(_is_observed_mark(char) for char in text):
+            from .marked_forms import _load_review, REVIEW_SHA256
+            mark_review = _load_review(root)
+            output["mark_review_sha256"] = REVIEW_SHA256
     except (OSError, ValueError, KeyError, ImportError) as exc:
         return {**output, "status": "SOURCE_UNAVAILABLE", "reason": str(exc)}
     output["inventory_sha256"] = inventory["review_sha256"]
@@ -469,7 +495,12 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
                 ord(c) < 32 and c not in "\t" for c in text[start:end])
             parsed = None if barred else _parse_clause(tokens, forms, senses)
             if parsed is not None:
-                parsed, orthography_issues = _orthography_gate(parsed, tokens, raw, inventory, senses)
+                parsed, orthography_issues = _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review)
+            if parsed is not None and parsed["orthography_licenses"]:
+                output.setdefault("orthography_evidence", []).append({"clause_span": clause_span,
+                    "licenses": parsed["orthography_licenses"],
+                    "authority": "REPLAYED_REVIEW_AND_PYTHON_ACQUISITION",
+                    "native_acquisition_proof": False})
             if parsed is not None and parsed["negative_correction"]:
                 from .correction import replay_correction_source
                 try:
