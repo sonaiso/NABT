@@ -1,0 +1,469 @@
+{
+  "schema": "nabt.interface-migration.verification.v1",
+  "created_utc": "2026-10-26T23:57:27.503555+00:00",
+  "base_commit": "e08809c4c654e0d8dd8eab224e476df4cc9b300c",
+  "branch": "codex/licensed-interface-migration",
+  "validation_order": "Full gates after final dependency freeze v4: make check -o test, make test with native executables present, optional integrations. No language gold or acceptance threshold was changed.",
+  "dependency_freeze": {
+    "path": "evidence/interface_migration_v1/independent_oracle/runner_freeze_v4.json",
+    "bytes": 162255,
+    "sha256": "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d"
+  },
+  "runtime_freeze": {
+    "path": "evidence/interface_migration_v1/code_freeze_v1.json",
+    "bytes": 18823,
+    "sha256": "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271"
+  },
+  "policy": {
+    "path": "evidence/interface_migration_v1/regression_policy_v1.json",
+    "bytes": 90543,
+    "sha256": "da9c90ed0b5d8fbf8be6cf5ebca490c16773af0931e82512a880feb60fd8472e"
+  },
+  "gates": [
+    {
+      "started_utc": "2026-10-26T23:25:03.888229+00:00",
+      "completed_utc": "2026-10-26T23:42:03.309798+00:00",
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "-o",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/interface-migration-release-v4/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/interface-migration-release-v4/checks/arabic-regression"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1019.422,
+      "log": "artifacts/local/interface-migration-release-v4/make-check.log",
+      "log_sha256": "9f6ec6410077227923a647446cb7919ec54c98fadef33e6cc16609e3ada11980",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "started_utc": "2026-10-26T23:42:03.315043+00:00",
+      "completed_utc": "2026-10-26T23:55:00.527849+00:00",
+      "name": "unit-tests",
+      "command": [
+        "make",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 777.213,
+      "log": "artifacts/local/interface-migration-release-v4/unit-tests.log",
+      "log_sha256": "4a928ebea34a7cd3deaecdaa5d44cba82bd4f7eca9f81d6e34433c400d89ec36",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "started_utc": "2026-10-26T23:55:00.533653+00:00",
+      "completed_utc": "2026-10-26T23:57:20.405998+00:00",
+      "name": "integration",
+      "command": [
+        "make",
+        "-f",
+        "Makefile",
+        "-f",
+        "integrations/grammar_catalog.mk",
+        "-f",
+        "integrations/mantuq_inference.mk",
+        "-f",
+        "integrations/linguistic_truth.mk",
+        "-f",
+        "integrations/licensed_inference.mk",
+        "grammar-catalog",
+        "proof-catalog",
+        "routing-conformance",
+        "mantuq-inference",
+        "linguistic-truth",
+        "licensed-inference",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/interface-migration-release-v4/integration"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 139.872,
+      "log": "artifacts/local/interface-migration-release-v4/integration.log",
+      "log_sha256": "4032193ffe0b68a240acbf69278c8d709492e0f6507f3348c400231517c87378",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "main_tests": {
+    "run": 2964,
+    "passed": 2964,
+    "skipped": 0,
+    "failed": 0
+  },
+  "ui_tests": {
+    "passed": 239,
+    "failed": 0,
+    "scope": "Browser/Worker contract and focus tests; not language coverage."
+  },
+  "lean": {
+    "audited_declarations": 1631,
+    "new_declarations": 20,
+    "scope_theorems": 9,
+    "transmission_theorems": 11,
+    "scope_kernel_controls": 12,
+    "transmission_kernel_controls": 15,
+    "permitted_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "foundation_inventory": {
+    "surfaces": 179,
+    "runtime_guards": 169,
+    "intrinsic_domain_checks": 7,
+    "machine_snapshot_checks": 3,
+    "lean_executables": 40
+  },
+  "migration_inventory": {
+    "path": "evidence/interface_migration_v1/interface_inventory.json",
+    "bytes": 130110,
+    "sha256": "f98af54e803ac6db0ee369c1b253bc160a75426c1c812e5356aaba6f5ff2bd2e"
+  },
+  "independent_development_review": {
+    "cases": 24,
+    "passed": 24,
+    "blind": false,
+    "raw": {
+      "path": "evidence/interface_migration_v1/independent_review/attempt2.json.gz",
+      "bytes": 69871,
+      "sha256": "d5b25237d9b87431ce77286fe0282efb07ccd031fe62c3c80a122409865b8a1f"
+    },
+    "case_manifest": {
+      "path": "evidence/interface_migration_v1/independent_review/cases.v1.json",
+      "bytes": 12013,
+      "sha256": "d2f9c5a6b556c84a5738cf4e2b8bce435fc4d7b7821ddcdb4a529e3c008c153e"
+    },
+    "scope": "Same fixed reference executed twice; repeats do not add cases."
+  },
+  "scope_replay": {
+    "schema": "nabt.scope-inherited-replay.v1",
+    "created_utc": "2026-10-26T23:01:30.060539+00:00",
+    "evaluation_role": "POST_DEVELOPMENT_REPLAY_NOT_BLIND",
+    "unchanged_corpus": {
+      "path": "evidence/certified_natural_use_v1/independent_cases.json",
+      "sha256": "d2fcae08a163bf017184a42638a02901d1331704ee0dca4881b880215fb095f3"
+    },
+    "runtime_sha256": "0a1e13d284273a990d6bf75de1c1f33f01d699713caaebe8e3b5c5eb9f0768d4",
+    "scope_api_sha256": "a3f67f31d2998e43c4c31c0abbea01f9f395d1010bcb76f9c8d71f89fa19f3c5",
+    "native_binary_sha256": "2f231a0d469d67a7b54fbae2adbca561d5ae8b4086a324c8522302b648803813",
+    "cases": [
+      {
+        "id": "S03",
+        "path": "S03.json",
+        "sha256": "723b26025d16f3100b60144b21ff570932ab4c774a841f2375948cedc61aae77",
+        "scope_matches_expected": true,
+        "exact_envelope_native_checked": true,
+        "old_selected_ids": [],
+        "new_scoped_selected_ids": [],
+        "scoped_selection_matches_expected": true,
+        "selected_sense_kernel_proved": false,
+        "strict_language_accepted": false
+      },
+      {
+        "id": "S04",
+        "path": "S04.json",
+        "sha256": "29ba2e8d67e87665010d2c7fd51d966b35e5477a6ea17420730fb69126358152",
+        "scope_matches_expected": true,
+        "exact_envelope_native_checked": true,
+        "old_selected_ids": [],
+        "new_scoped_selected_ids": [
+          "ayn_spring"
+        ],
+        "scoped_selection_matches_expected": true,
+        "selected_sense_kernel_proved": false,
+        "strict_language_accepted": false
+      },
+      {
+        "id": "S05",
+        "path": "S05.json",
+        "sha256": "db81e308670691a904b366a0703083d28e6c0391e4083c6f89d134c7945426c9",
+        "scope_matches_expected": true,
+        "exact_envelope_native_checked": true,
+        "old_selected_ids": [],
+        "new_scoped_selected_ids": [],
+        "scoped_selection_matches_expected": true,
+        "selected_sense_kernel_proved": false,
+        "strict_language_accepted": false
+      }
+    ],
+    "scope_acquisition": {
+      "numerator": 3,
+      "denominator": 3
+    },
+    "quoted_target_selection_diagnostic": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "strict_language_acceptance": {
+      "numerator": 0,
+      "denominator": 3
+    },
+    "legacy_thirty_case_scorer_changed": false,
+    "limits": [
+      "Exact envelope shape, not body syntax completeness.",
+      "Quoted sense selection still uses the diagnostic Python acquisition premises.",
+      "Two nonassertive scopes with empty selected senses are not positive intended-sense successes.",
+      "The historical 30-case and natural-use denominators are unchanged."
+    ]
+  },
+  "legacy_thirty_cases": {
+    "cases": 30,
+    "semantic_diagnostic_outcomes": {
+      "PASS": 26,
+      "UNMEASURED": 2,
+      "FAIL": 2
+    },
+    "positive_selection": {
+      "numerator": 14,
+      "denominator": 16,
+      "fraction": 0.875
+    },
+    "positive_case_with_scope": {
+      "numerator": 14,
+      "denominator": 16,
+      "fraction": 0.875
+    },
+    "source_identity": {
+      "numerator": 30,
+      "denominator": 30,
+      "fraction": 1.0
+    },
+    "authority_safety": {
+      "numerator": 30,
+      "denominator": 30,
+      "fraction": 1.0
+    },
+    "required_native_execution": {
+      "numerator": 30,
+      "denominator": 30,
+      "fraction": 1.0
+    },
+    "declared_native_checked_cases": {
+      "numerator": 26,
+      "denominator": 30,
+      "fraction": 0.8666666666666667
+    },
+    "native_receipt_cases": {
+      "numerator": 26,
+      "denominator": 30,
+      "fraction": 0.8666666666666667
+    },
+    "strict_language_acceptances": 0,
+    "consistent_named_claims": 0,
+    "locally_executed_named_claims": 0,
+    "families": {
+      "ambiguity": {
+        "PASS": 5
+      },
+      "context_identity": {
+        "PASS": 5
+      },
+      "explicit_intention": {
+        "PASS": 5
+      },
+      "mark_integrity": {
+        "PASS": 5
+      },
+      "negation_quotation_condition": {
+        "PASS": 2,
+        "UNMEASURED": 2,
+        "FAIL": 1
+      },
+      "unvowelized_control": {
+        "PASS": 4,
+        "FAIL": 1
+      }
+    },
+    "motive_assessment": "UNMEASURED",
+    "interpretation": "Native receipts and safe deferrals do not count as successful positive language understanding."
+  },
+  "natural_use": {
+    "full_case_success": {
+      "numerator": 1,
+      "denominator": 6,
+      "fraction": 0.16666666666666666
+    },
+    "any_lexical_occurrence": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "all_required_candidate_cases": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "required_candidate_obligations": {
+      "numerator": 12,
+      "denominator": 12,
+      "fraction": 1.0
+    },
+    "positive_intended_selection": {
+      "numerator": 0,
+      "denominator": 5,
+      "fraction": 0.0
+    },
+    "required_ambiguity_preserved": {
+      "numerator": 1,
+      "denominator": 1,
+      "fraction": 1.0
+    },
+    "native_checked_candidate_cases": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "source_identity_preserved": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "selection_precision": {
+      "numerator": 0,
+      "denominator": 0,
+      "fraction": null
+    },
+    "false_selected_senses": 0,
+    "precision_note": "No selections gives null precision, not 100%; abstention does not pass positive cases."
+  },
+  "source_continuation": {
+    "fixed_cases": {
+      "total": 22,
+      "passed": 14,
+      "failed": 8
+    },
+    "questions": {
+      "total": 29,
+      "observed": 29,
+      "status_matches": 19,
+      "independently_validated": 29
+    },
+    "source_counterexamples": {
+      "total": 6,
+      "positive_controls": 2,
+      "negative_cases": 4,
+      "passed": 6,
+      "questions": 4,
+      "status_matches": 4,
+      "independently_validated": 4,
+      "unsafe_check_failures": [],
+      "independent_integrity_failures": [],
+      "gate_pass": true,
+      "not_added_to_historical_denominators": true
+    },
+    "strict_pass": false,
+    "regression_gate_pass": true,
+    "dependencies_unchanged": true,
+    "errors": []
+  },
+  "historical_holdout_postreview": {
+    "original_case_score": {
+      "passed": 35,
+      "total": 36
+    },
+    "original_strict_pass": false,
+    "original_unsafe_acceptances": [
+      {
+        "case_id": "H18",
+        "name": "question:2:no_grounded_evidence",
+        "pass": false,
+        "unsafe_acceptance": true
+      }
+    ],
+    "postreview_case_score": {
+      "passed": 36,
+      "total": 36
+    },
+    "remaining_unsafe_acceptances": [],
+    "reclassified_checker_false_alarms": [
+      {
+        "case_id": "H18",
+        "name": "question:2:no_grounded_evidence",
+        "pass": false,
+        "unsafe_acceptance": true
+      }
+    ],
+    "original_result_rewritten": false,
+    "gate_pass": true
+  },
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "lean_toolchain": "leanprover/lean4:v4.34.1",
+    "local_driver_reference": {
+      "path": "evidence/source_acquisition_v1/local_toolchain/environment.json",
+      "bytes": 1268,
+      "sha256": "cec656dc92beaf34901323d6d7a49df1c90575a28d5171eb1417d6bb1a361cdb"
+    },
+    "note": "Official Lean 4.34.1 compiler; documented local lake driver handles the managed environment executable-path constraint. Remote CI uses the pinned official distribution directly."
+  },
+  "bundle": {
+    "manifest": {
+      "path": "evidence/interface_migration_v1/verification_bundle/manifest.json",
+      "bytes": 55815,
+      "sha256": "f7a5655d13640b3f505e5cc4403b46de4423739a7542341b1efe3075e6936f34"
+    },
+    "archive": {
+      "path": "evidence/interface_migration_v1/verification_bundle/objects.zip",
+      "bytes": 48107777,
+      "sha256": "568536ccfd1a2358b5f80acc271be931b9c7b76d5fd626bab0a665fe69600307"
+    },
+    "restored_files": 147,
+    "all_original_bytes_roundtrip_checked": true,
+    "authority": "byte-preservation-only"
+  },
+  "interrupted_attempt": {
+    "manifest": {
+      "path": "evidence/interface_migration_v1/validation_attempt_1/manifest.json",
+      "bytes": 22560,
+      "sha256": "b9365ff16be3ead281998505330118d4f1193d4a19ea530d1bbc6829fb54ff15"
+    },
+    "archive": {
+      "path": "evidence/interface_migration_v1/validation_attempt_1/objects.zip",
+      "bytes": 17730782,
+      "sha256": "6c28c14b3f3f6078a61c71cd4b124477321ad2923b67727c96d7b3bfa0d6b3ba"
+    },
+    "completed": false,
+    "observed_returncode": 130,
+    "reason": "Stopped after post-freeze UI sample and dependency-selector corrections; raw output preserved, not a completed proof gate."
+  },
+  "failed_make_check_v3": {
+    "manifest": {
+      "path": "evidence/interface_migration_v1/validation_attempt_2/manifest.json",
+      "bytes": 41285,
+      "sha256": "7cd1c5986cd83ad933fc9f203c42d52a1c9abf9fd75d9a87b3cb14db271a852b"
+    },
+    "archive": {
+      "path": "evidence/interface_migration_v1/validation_attempt_2/objects.zip",
+      "bytes": 46961371,
+      "sha256": "c57e3fba4a765f64667d0673e5a53c2691fbb2da0bc809f49b3b507a585c2ad0"
+    },
+    "returncode": 2,
+    "reason": "Module import path at the new interface audit target. Corrected invocation to python -m tools.interface_migration_audit; no language oracle or runtime changes."
+  },
+  "all_legacy_interfaces_acquisition_proved": false,
+  "whole_arabic_complete": false,
+  "tawatur_evaluated": false,
+  "intended_sense_general_acquisition_proved": false,
+  "world_truth_proved": false,
+  "site_deployment_status": "Recorded separately after publication; local tests do not establish live execution."
+}

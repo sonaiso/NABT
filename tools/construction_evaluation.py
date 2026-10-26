@@ -61,6 +61,7 @@ VERSION = 'nabt.constructions.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    'b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271': {'snapshot_sha256': '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607', 'archive_sha256': 'd65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5', 'file_count': 102, 'version': '0.20.0a1'},
     'ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b': {'snapshot_sha256': 'c913baa9667ce54ae5da2726cb622ecb55fec0557876038989c4c353af541d78', 'archive_sha256': '19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94', 'file_count': 102, 'version': '0.20.0a1'},
     'b184a00c3c19b3204b889f14567b042c987046e7698f657bf9586ff307f01cf5': {'snapshot_sha256': 'dba50fbcc16fae7bdf2046e56afa55f7daf2657b25b2c0cb7be486d664d9f188', 'archive_sha256': '8646f73fef57bd97428cc3686843a0f3c9e12f2cf850342c6462e507c232c8e9', 'file_count': 102, 'version': '0.20.0a1'},
     '1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f': {'snapshot_sha256': '422ecda54cd92c27b1408feb2d6616eb4011dec751ee8754692eb1a16c08085b', 'archive_sha256': '16a6e83e0d8cffe5898789751a221053da1530119ec12871be52fc26e6968d01', 'file_count': 101, 'version': '0.20.0a1'},
@@ -1531,7 +1532,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/source_acquisition_v1/code_freeze_v1.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/interface_migration_v1/code_freeze_v1.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

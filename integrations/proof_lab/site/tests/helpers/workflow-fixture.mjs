@@ -1,0 +1,12 @@
+import {createHash} from 'node:crypto';
+import '../../web/workflow-contract.js';
+export const workflowId='11111111-1111-4111-8111-111111111111';
+export const workflowRequest={schema:'nabt.licensed-workflow-request.v1',op:'lexical_surface',input:{text:'عَيْنَ',context:'مقام جديد غير محسوم'}};
+const wire=globalThis.NabtWorkflowContract.canonical;
+export const workflowHash=v=>createHash('sha256').update(typeof v==='string'?v:wire(v)).digest('hex');
+export function workflowReport({checked=true}={}){
+ const claim={kind:'EXACT_DOCUMENTARY_FORM',scope:'Explicit synthetic transport fixture, not native evidence.',proof:{law_id:'nabt.lexical-surface.v1',theorems:['Nabt.Example.transportFixture']}};
+ const result={schema:'nabt.witnessed-surface-receipt.v2',status:checked?'DOCUMENTARY_FORM_MATCH':'VERIFICATION_UNAVAILABLE',native_checked:checked,strict_language_accepted:false,claims:checked?[claim]:[]};
+ const registry='a'.repeat(64),gateway={schema:'nabt.licensed-workflow-response.v1',status:result.status,workflow_status:checked?'SCOPED_CLAIMS_AVAILABLE':'NO_SCOPED_CLAIMS',operation:'lexical_surface',claims:checked?[{...claim,origin_path:'claims[0]'}]:[],native_checked:checked,strict_language_accepted:false,whole_arabic_complete:false,tawatur_established:false,world_truth_established:false,display_contract:{proof_source:'claims[*].proof',native_checked_is_not_blanket_proof:true},request_sha256:workflowHash(workflowRequest),surface_id:'tools.linguistic_truth.surface.certify_surface',registry_sha256:registry,result_sha256:workflowHash(result),result};
+ return {schema:'nabt.proof-lab-result.v1',request_id:workflowId,code_sha:'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',payload_sha256:'b'.repeat(64),mode:'licensed_workflow',status:'LICENSED_WORKFLOW_COMPLETE',all_arabic_complete:false,world_truth_established:false,native_sha256:null,registry_sha256:registry,workflow_request:structuredClone(workflowRequest),workflow_request_sha256:workflowHash(workflowRequest),gateway_result:gateway,gateway_result_json:wire(gateway),gateway_result_sha256:workflowHash(gateway),adapter_result_json:wire(result),migration_inventory:{schema:'nabt.interface-migration-inventory.v1',registry_sha256:registry,surface_count:1,states:{MIGRATED_SCOPED_NATIVE_ADAPTER:1},surfaces:[{surface_id:gateway.surface_id,migration_state:'MIGRATED_SCOPED_NATIVE_ADAPTER',pending_obligations:['NO_GENERAL_LANGUAGE_ACCEPTANCE'],whole_language_claim:false}],all_interfaces_migrated:false,whole_arabic_complete:false}};
+}

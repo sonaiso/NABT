@@ -140,6 +140,14 @@ lean_exe lexicalSourceRows where
 lean_exe qualifiedCueLicensing where
   root := `QualifiedCueLicensingMain
 
+@[default_target]
+lean_exe lexicalTransmission where
+  root := `LexicalTransmissionMain
+
+@[default_target]
+lean_exe scopeAcquisition where
+  root := `ScopeAcquisitionMain
+
 lean_exe licensedInference where
   root := `LicensedInferenceMain
 

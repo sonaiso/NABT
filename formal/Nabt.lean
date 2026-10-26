@@ -76,3 +76,5 @@ import Nabt.OccurrenceSense
 import Nabt.LexicalSourceAcquisition
 
 import Nabt.QualifiedCueLicensing
+import Nabt.LexicalTransmission
+import Nabt.ScopeAcquisition

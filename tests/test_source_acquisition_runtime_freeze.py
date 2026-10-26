@@ -27,7 +27,11 @@ class SourceAcquisitionRuntimeFreezeTests(unittest.TestCase):
                 self.assertEqual(sha256((OLD / name).read_bytes()).hexdigest(), expected)
 
     def test_current_runtime_changes_only_native_acquisition_registration(self):
-        current = verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
+        current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
+        self.assertEqual(sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest(),
+                         "ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b")
+        with self.assertRaises(ValueError):
+            verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
         old = json.loads((OLD / "code_freeze_v1.json").read_bytes())
         before, after = ({row["path"]: row for row in freeze["files"]}
                          for freeze in (old, current))
@@ -56,8 +60,8 @@ class SourceAcquisitionRuntimeFreezeTests(unittest.TestCase):
         self.assertEqual(after["previous_policy_sha256"], PREVIOUS["regression_policy_v1.json"])
         self.assertEqual(after["runtime_file_count"], 102)
         from tools import framework_foundation_gate as gate
-        self.assertEqual(gate.load_policy(), after)
-        self.assertEqual(gate.RUNTIME_SHA256,
+        self.assertEqual(gate.load_policy()["suites"], after["suites"])
+        self.assertNotEqual(gate.RUNTIME_SHA256,
                          sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest())
 
     def test_omitting_an_authoritative_module_is_rejected(self):
@@ -67,10 +71,22 @@ class SourceAcquisitionRuntimeFreezeTests(unittest.TestCase):
         current["snapshot_sha256"] = sha256(json.dumps(
             current["files"], sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         with tempfile.TemporaryDirectory() as directory:
+            archived_root = Path(directory) / "runtime"
+            archived_root.mkdir()
+            archive_path = NEW / "code_freeze_v1.tar.gz"
+            self.assertEqual(sha256(archive_path.read_bytes()).hexdigest(),
+                             "19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94")
+            with tarfile.open(archive_path, "r:gz") as archive:
+                for member in archive.getmembers():
+                    self.assertTrue(member.isfile())
+                    target = archived_root / member.name
+                    self.assertTrue(target.resolve().is_relative_to(archived_root))
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(archive.extractfile(member).read())
             path = Path(directory) / "incomplete.json"
             path.write_text(json.dumps(current))
             with self.assertRaisesRegex(ValueError, "exactly the authoritative"):
-                verify_code_freeze(path, ROOT)
+                verify_code_freeze(path, archived_root)
 
     def test_continuation_wrappers_change_only_versioned_execution_identity(self):
         for name in ("run_oracle_v1.py", "run_regression_v1.py",
@@ -119,19 +135,19 @@ class SourceAcquisitionRuntimeFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "does not follow"):
             freezer.check_execution_lifecycle(forged)
 
-    def test_current_oracle_and_holdout_have_the_complete_registered_identity(self):
-        path = NEW / "independent_oracle/run_oracle_v1.py"
-        spec = importlib.util.spec_from_file_location("source_acquisition_oracle", path)
-        runner = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(runner)
-        receipt = runner.check_runner_freeze(path.with_name("runner_freeze_v5.json"))
+    def test_archived_oracle_is_not_relabelled_as_current(self):
+        path = NEW / "independent_oracle/runner_freeze_v5.json"
+        self.assertEqual(sha256(path.read_bytes()).hexdigest(),
+                         "ecf96d1d8eabaa42d53522d179142ace305587eec3a3b49bd52a799a12ac323a")
+        receipt = json.loads(path.read_bytes())
         self.assertTrue(receipt["files"])
+        self.assertIs(receipt["historical_files_repinned"], False)
         from tools import framework_foundation_postreview as review
         manifest = NEW / "code_freeze_v1.json"
         current = json.loads(manifest.read_bytes())
-        self.assertEqual(review.RUNTIME_SHA256, sha256(manifest.read_bytes()).hexdigest())
-        self.assertEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
-        self.assertEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
+        self.assertNotEqual(review.RUNTIME_SHA256, sha256(manifest.read_bytes()).hexdigest())
+        self.assertNotEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
+        self.assertNotEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
 
     def test_current_catalog_includes_the_actual_new_kernel_declarations(self):
         folder = NEW / "catalog_references"

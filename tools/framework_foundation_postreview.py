@@ -25,9 +25,9 @@ from tempfile import TemporaryDirectory
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'evidence/arabic_coverage'
 MATERIAL_SHA256 = '127a5870fcbc8f8823b95f2a9f452cf4cd87de22fcfc62b271efd32bc684c106'
-RUNTIME_SHA256 = 'ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b'
-RUNTIME_SNAPSHOT_SHA256 = 'c913baa9667ce54ae5da2726cb622ecb55fec0557876038989c4c353af541d78'
-RUNTIME_ARCHIVE_SHA256 = '19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94'
+RUNTIME_SHA256 = 'b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271'
+RUNTIME_SNAPSHOT_SHA256 = '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607'
+RUNTIME_ARCHIVE_SHA256 = 'd65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5'
 TARGET = ('H18', 'question:2:no_grounded_evidence')
 PREVIOUS_ARCHIVE = ROOT / 'evidence/arabic_completion_v3/full_validation_reports_v1.zip'
 PREVIOUS_ARCHIVE_SHA256 = '23062c5cab865a4acfd29aa66928dc3301816fb7816bd712a4d1b5c53ba22d58'
@@ -423,7 +423,7 @@ def run(result_path, raw_path, runtime_path, output):
                                                         'question_answer_validation.py', 'arabic_coverage_gate.py',
                                                         'arabic_completion_gate.py', 'source_name_validation.py')]
         validators.extend([ROOT / 'tools/framework_foundation_gate.py',
-                           ROOT / 'evidence/source_acquisition_v1/regression_policy_v1.json'])
+                           ROOT / 'evidence/interface_migration_v1/regression_policy_v1.json'])
         validators.append(FOLDER / 'regression_policy_v1.json')
         validators.extend(sorted((ROOT / 'evidence/arabic_completion_v3').glob('regression_policy_v*.json')))
         validator_ids = [identity(path) for path in validators]

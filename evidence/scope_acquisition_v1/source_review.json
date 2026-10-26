@@ -1,0 +1,51 @@
+{
+  "schema": "nabt.scope-source-review.v1",
+  "authority": "EDITORIALLY_SELECTED_BOUNDED_ENVELOPES",
+  "sources": [
+    {
+      "id": "qatr",
+      "path": "src/nabt/data/source_evidence/qatr.txt",
+      "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d"
+    },
+    {
+      "id": "mughni",
+      "path": "src/nabt/data/source_evidence/mughni.txt",
+      "sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d"
+    }
+  ],
+  "passages": [
+    {
+      "id": "qatr_quoted_report",
+      "source_id": "qatr",
+      "start_byte": 16692,
+      "end_byte": 16743,
+      "quote": "والقول نحو {قال إني عبد الله}",
+      "sha256": "b46721cd225ebb63eb59075ccdafb1a359c155cac7513bcd7176a40607d91ce0",
+      "interpretation": "Quote attribution has its own reported utterance; modern delimiters and exact envelopes are the explicitly selected application grammar, not a verbatim rule from the book."
+    },
+    {
+      "id": "mughni_negated",
+      "source_id": "mughni",
+      "start_byte": 611778,
+      "end_byte": 611857,
+      "quote": "كلمة دالة على نفي الحال وتنفي غيره بالقرينة",
+      "sha256": "33d057d02787c1a9fd6c8a1c25b700e88a70c7b6fd50eb5c5c5d6ecad0ecc343",
+      "interpretation": "The implemented ليس صحيحا أني wrapper withholds the embedded positive premise; it does not claim every ليس construction or truth of its negation."
+    },
+    {
+      "id": "mughni_condition",
+      "source_id": "mughni",
+      "start_byte": 32196,
+      "end_byte": 32303,
+      "quote": "أحدها أن تكون شرطية نحو {إن ينتهوا يغفر لهم} {وإن تعودوا نعد}",
+      "sha256": "1217bdbddb4e92e66bc45b489c7a0af93714a60fee2b95d7c0a1fd37b4f6170a",
+      "interpretation": "The exact إن قلت ... فلا ... envelope records a hypothetical scope; no premise or denial of consequent is inferred."
+    }
+  ],
+  "limitations": [
+    "A textual speaker label is not a resolved external referent.",
+    "Source interpretation and complete semantic translation remain declared premises.",
+    "No nested quotation, general conditional parsing, ordinary free prose, or assertion of event truth.",
+    "Preserving a scoped body is distinct from obtaining a complete A116 representation of that body."
+  ]
+}

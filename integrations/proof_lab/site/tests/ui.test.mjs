@@ -1,3 +1,6 @@
+import {workflowReport} from './helpers/workflow-fixture.mjs';
+import {createHash} from 'node:crypto';
+import {bindInferenceFixture} from './helpers/inference-fixture.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -8,6 +11,7 @@ import vm from 'node:vm';
 // and the frozen 38-case benchmark's IDs/families/outcomes. Backend authenticity
 // and native proof checking are tested independently.
 const html = readFileSync(new URL('../web/index.html', import.meta.url), 'utf8');
+const authority = readFileSync(new URL('../web/legacy-authority.js', import.meta.url), 'utf8');
 const app = readFileSync(new URL('../web/app.js', import.meta.url), 'utf8');
 const pendingKey = 'nabt.proof-lab.pending.v1';
 const requestId = '11111111-1111-4111-8111-111111111111';
@@ -104,8 +108,8 @@ function report(mode = 'inference', changes = {}) {
     schema: 'nabt.proof-lab-result.v1', request_id: requestId, mode,
     payload_sha256: 'a'.repeat(64),
     code_sha: 'f0d41d3c6320fe78ac31ce60411fbb3442dc8293',
-    duration_ms: 110, all_arabic_complete: false, world_truth_established: false,
-    ...(mode === 'inference' ? { result: nativeFixture } : { benchmark: benchmarkFixture }),
+    duration_ms: 110, native_sha256: 'b'.repeat(64), status: mode === 'inference' ? nativeFixture.status : 'BENCHMARK_COMPLETE', all_arabic_complete: false, world_truth_established: false,
+    ...(mode === 'inference' ? { result: bindInferenceFixture(nativeFixture,requestId,'f0d41d3c6320fe78ac31ce60411fbb3442dc8293') } : { benchmark: benchmarkFixture }),
     ...changes,
   });
 }
@@ -136,7 +140,7 @@ class Element {
   remove() {}
 }
 
-const flush = async () => { for (let i = 0; i < 24; i++) await Promise.resolve(); };
+const flush = async () => { for (let i = 0; i < 24; i++) await new Promise(resolve=>setImmediate(resolve)); };
 
 async function harness({ ready = true, stored = null, pollResponse = null } = {}) {
   const nodes = new Map();
@@ -153,6 +157,8 @@ async function harness({ ready = true, stored = null, pollResponse = null } = {}
   get('source-text').value = /<textarea[^>]*id="source-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html)[1];
   get('case-filter').value = 'all';
   get('testimony-target').value = 'المأوى';
+  get('workflow-operation').value='lexical_surface';get('workflow-profile').value='linguistic';
+  get('workflow-frame').value=JSON.stringify({root:['ء','ك','ل'],profile:'all_attested'});
   const tabs = ['evidence', 'inference', 'coverage', 'testimony', 'guide'].map(name => {
     const element = get('tab-' + name); element.dataset.tab = name; return element;
   });
@@ -170,7 +176,7 @@ async function harness({ ready = true, stored = null, pollResponse = null } = {}
   let timerId = 0; let response = pollResponse || { status: 'in_progress' };
   if (stored) storage.set(pendingKey, JSON.stringify(stored));
   const sandbox = vm.createContext({ document, TextEncoder, AbortSignal, Blob, URL,
-    Date, Number, JSON, Error, console,
+    Date, Number, JSON, Error, console, crypto: {subtle:{digest:async(_algorithm,bytes)=>createHash('sha256').update(bytes).digest()}}, Uint8Array,
     sessionStorage: { setItem: (key, value) => storage.set(key, value),
       getItem: key => storage.get(key) || null, removeItem: key => storage.delete(key) },
     setTimeout: fn => { timers.set(++timerId, fn); return timerId; },
@@ -184,13 +190,15 @@ async function harness({ ready = true, stored = null, pollResponse = null } = {}
       return { ok: true, status: 200, json: async () => structuredClone(body) };
     },
   });
+  for(const name of ['workflow-contract.js','workflow-ui.js'])vm.runInContext(readFileSync(new URL('../web/'+name,import.meta.url),'utf8'),sandbox);
+  vm.runInContext(authority, sandbox, {filename:'web/legacy-authority.js'});
   vm.runInContext(app, sandbox, { filename: 'web/app.js' });
   await flush();
   return {
     get, nodes, examples, requests, storage,
     setResponse: value => { response = value; },
     posts: () => requests.filter(item => item.options?.method === 'POST'),
-    submit: async mode => { get(mode === 'benchmark' ? 'run-benchmark' : mode === 'testimony' ? 'testimony-form' : 'inference-form').fire(mode === 'benchmark' ? 'click' : 'submit'); await flush(); },
+    submit: async mode => { get(mode === 'benchmark' ? 'run-benchmark' : mode === 'testimony' ? 'testimony-form' : mode === 'licensed_workflow' ? 'workflow-form' : 'inference-form').fire(mode === 'benchmark' ? 'click' : 'submit'); await flush(); },
     poll: async () => {
       const next = timers.entries().next().value;
       assert(next, 'Expected a scheduled polling callback'); timers.delete(next[0]);
@@ -236,6 +244,7 @@ test('unknown conclusion remains distinct from an accepted native certificate', 
     steps: [], known: [], clean_steps: [], clean_known: [] };
   value.result.aggregate.skeptical_clean_positive = false;
   value.result.aggregate.credulous_positive = false;
+  value.status='UNKNOWN';value.result=bindInferenceFixture(value.result,requestId,value.code_sha);
   ui.setResponse({ status: 'completed', report: value });
   await ui.submit('inference'); await ui.poll();
   assert.equal(ui.get('verdict-code').textContent, 'UNKNOWN');
@@ -323,6 +332,7 @@ test('resource exhaustion is displayed without a certified inference claim', asy
   value.result = { status: 'RESOURCE_EXHAUSTED', reason: 'MAX_CLOSURE_STEPS',
     native_checked: false, verified: false, all_readings_complete: false, closures_checked: false,
     source: { raw_text: sourceText }, query: { raw_text: queryText }, readings: [], closure_records: [] };
+  value.status='RESOURCE_EXHAUSTED';value.result=bindInferenceFixture(value.result,requestId,value.code_sha);
   ui.setResponse({ status: 'completed', report: value });
   await ui.submit('inference'); await ui.poll();
   assert.equal(ui.get('verdict-title').textContent, 'انتهت ميزانية البحث');
@@ -364,4 +374,57 @@ test('testimony unavailable result clears old rows without a successful check la
 test('disabled connection cannot submit testimony',async()=>{
   const ui=await harness({ready:false});await ui.submit('testimony');
   assert.equal(ui.get('run-testimony').disabled,true);assert.equal(ui.posts().length,0);
+});
+
+
+test('legacy inference does not display a native contradiction as proof',async()=>{
+ const ui=await harness();const value=report();value.result.native_result.verified=false;
+ ui.setResponse({status:'completed',report:value});await ui.submit('inference');
+ await ui.poll();await ui.poll();await ui.poll();
+ assert.equal(ui.get('inference-output').hidden,true);
+ assert.equal(ui.get('resume-poll').hidden,false);
+});
+test('new inference clears prior displayed authority while retaining the request button',async()=>{
+ const ui=await harness();const button=ui.get('run-inference');
+ ui.setResponse({status:'completed',report:report()});await ui.submit('inference');await ui.poll();
+ assert.equal(ui.get('inference-output').hidden,false);
+ assert.match(ui.get('inference-bridge').textContent,/لا يحمل إيصال المسار القديم/);
+ ui.setResponse({status:'in_progress'});await ui.submit('inference');
+ assert.equal(ui.get('inference-output').hidden,true);assert.equal(ui.get('run-inference'),button);
+});
+
+
+test('workflow UI dispatches raw input and renders only individually bound claims',async()=>{
+ const ui=await harness(),r=workflowReport();
+ r.migration_inventory.states={SCOPED_GATEWAY_INSTALLED:1};r.migration_inventory.surfaces[0].migration_state='SCOPED_GATEWAY_INSTALLED';
+ ui.setResponse({status:'completed',report:r});
+ await ui.submit('licensed_workflow');await ui.poll();
+ const payload=JSON.parse(ui.posts()[0].options.body);
+ assert.equal(payload.mode,'licensed_workflow');assert.equal(payload.workflow.op,'lexical_surface');
+ assert.equal(ui.get('workflow-output').hidden,false);
+ assert.equal(ui.get('workflow-claims').children.length,1);
+ assert.match(ui.get('workflow-claims').children[0].children[0].textContent,/برهان الدعوى المحددة/);
+ assert.match(ui.get('workflow-inventory-count').textContent,/لا يساوي اكتمال تحصيل/);
+ assert.match(ui.get('workflow-migration').children[0].textContent,/الإتاحة تُفحص عند التشغيل/);
+});
+test('workflow failure clears preceding claims and keeps the same keyboard target',async()=>{
+ const ui=await harness(),button=ui.get('run-workflow');ui.setResponse({status:'completed',report:workflowReport()});
+ await ui.submit('licensed_workflow');await ui.poll();
+ ui.setResponse({status:'completed',report:workflowReport({checked:false})});
+ await ui.submit('licensed_workflow');assert.equal(ui.get('workflow-output').hidden,true);await ui.poll();
+ assert.equal(ui.get('run-workflow'),button);assert.equal(ui.get('workflow-claims').children.length,1);
+ assert.match(ui.get('workflow-claims').children[0].textContent,/لا توجد دعوى مبرهنة/);
+});
+
+
+test('scope selector offers an executed envelope and explains its bounded grammar',async()=>{
+ const ui=await harness(),select=ui.get('workflow-operation');
+ select.value='scope_acquisition';select.fire('change');
+ assert.equal(ui.get('workflow-text').value,'قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».');
+ assert.equal(ui.get('workflow-scope-help').hidden,false);
+ await ui.submit('licensed_workflow');
+ const sent=JSON.parse(ui.posts()[0].options.body).workflow;
+ assert.equal(sent.op,'scope_acquisition');assert.equal(sent.input.text,ui.get('workflow-text').value);
+ select.value='lexical_surface';select.fire('change');
+ assert.equal(ui.get('workflow-scope-help').hidden,true);
 });
