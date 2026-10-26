@@ -37,6 +37,8 @@ _RECEIPT_FIELDS = {
 }
 
 
+from nabt import foundation
+
 class Opcode(IntEnum):
     READ_UTF8 = 1
     WORD_SHAPE = 2
@@ -331,6 +333,7 @@ class Program:
 
     @classmethod
     def from_bytes(cls, raw: bytes) -> Program:
+        foundation.require_foundation('nabt.program.program.from_bytes')
         if type(raw) is not bytes:
             raise NabtError(
                 "INVALID_PROGRAM", "Program wire data must be immutable bytes"
@@ -395,6 +398,7 @@ class Program:
 
     @classmethod
     def from_number(cls, number: int) -> Program:
+        foundation.require_foundation('nabt.program.program.from_number')
         natural(number, "program_number")
         if number.bit_length() > 8 * (MAX_PROGRAM_BYTES + 1):
             raise resource_limit("Program number exceeds the wire budget")
@@ -417,6 +421,7 @@ class Program:
 
 def compile_request(request: dict) -> Program:
     """Compile scoped tasks; new text is interpreted, never supplied as trusted IR."""
+    foundation.require_foundation('nabt.program.compile_request')
     if type(request) is not dict or type(request.get("task")) is not str:
         raise NabtError("INVALID_REQUEST", "A request needs a declared task")
     task = request["task"]
@@ -580,6 +585,7 @@ def _application(text: str, pilot) -> dict:
 
 def execute_program(program: Program) -> dict:
     """Execute only checked instruction records, returning a replayable trace."""
+    foundation.require_foundation('nabt.program.execute_program')
     if type(program) is not Program:
         raise NabtError("INVALID_PROGRAM", "Expected the concrete inert Program format")
     program = Program.from_bytes(program.to_bytes())  # Revalidate at consumption.
@@ -933,6 +939,7 @@ def _receipt_preflight(receipt: object) -> None:
 
 def verify_execution(receipt: object) -> dict:
     """Re-execute bounded code and compare the complete canonical receipt."""
+    foundation.require_foundation('nabt.program.verify_execution')
     try:
         _receipt_preflight(receipt)
         if type(receipt.get("program")) is not dict:

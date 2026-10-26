@@ -22,6 +22,8 @@ _LETTERS = re.compile(r"[ء-غف-ي]{2,5}")
 _MARKS = re.compile(r"[\u064b-\u065f\u0670]")
 
 
+from nabt import foundation
+
 class SourceIdentityError(ValueError):
     """The bytes do not match an installed source identity."""
 
@@ -110,6 +112,7 @@ class SourceLexicon:
         return cls(source_id, raw)
 
     def lookup_exact(self, heading: str) -> dict:
+        foundation.require_foundation('nabt.source_lexicon.sourcelexicon.lookup_exact')
         if not isinstance(heading, str) or not heading or len(heading) > 256:
             raise ValueError("heading must be a nonempty string of at most 256 characters")
         if any(ord(c) < 32 for c in heading):
@@ -134,6 +137,7 @@ class SourceLexicon:
 
     def record(self, block: HeadingBlock) -> dict:
         # A foreign/mutated block cannot be used to manufacture a source quote.
+        foundation.require_foundation('nabt.source_lexicon.sourcelexicon.record')
         if type(block.ordinal) is not int or not 0 <= block.ordinal < len(self.blocks):
             raise ValueError("block is not in this index")
         if self.blocks[block.ordinal] != block:
@@ -150,6 +154,7 @@ class SourceLexicon:
         }
 
     def inventory(self) -> dict:
+        foundation.require_foundation('nabt.source_lexicon.sourcelexicon.inventory')
         counts = Counter(block.heading_status for block in self.blocks)
         heading_counts = Counter(block.heading for block in self.blocks)
         prefix_end = self.blocks[0].start_byte if self.blocks else len(self.raw)

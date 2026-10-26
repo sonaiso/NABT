@@ -24,6 +24,8 @@ GATE_FLAGS = ("formed", "reviewed", "provenance", "scopeCovered", "supported",
 _SCOPE = {"domain", "referent", "time", "unit"}
 
 
+from nabt import foundation
+
 def _fail(message: str, code: str = "INVALID_INQUIRY") -> None:
     raise NabtError(code, message)
 
@@ -124,6 +126,7 @@ def decide_gate(checks: dict) -> dict:
     Mirrored by Nabt.RationalInquiry.assess. The public inquiry API derives
     these flags by executing its installed protocols, never from a report.
     """
+    foundation.require_foundation('nabt.rational_inquiry.decide_gate')
     _object(checks, {*GATE_FLAGS, "requestedRank", "evidenceRank"}, "gate")
     for name in GATE_FLAGS:
         if type(checks[name]) is not bool:
@@ -221,6 +224,7 @@ def audit_inquiry(plan: dict, sources: list[dict], *, max_checks: int = 128) -> 
     Origin/parent declarations are compared and replayed, not authenticated.
     Missing or revoked premises remain distinct from negative evidence.
     """
+    foundation.require_foundation('nabt.rational_inquiry.audit_inquiry')
     natural(max_checks, "max_checks", maximum=MAX_CHECKS)
     _validate(plan, sources)
     plan, sources = deepcopy(plan), deepcopy(sources)
@@ -471,6 +475,7 @@ def audit_inquiry(plan: dict, sources: list[dict], *, max_checks: int = 128) -> 
 
 def verify_inquiry(report: object, plan: dict, sources: list[dict], *, max_checks: int = 128) -> dict:
     """Replay against independently supplied expected inputs, never report inputs."""
+    foundation.require_foundation('nabt.rational_inquiry.verify_inquiry')
     try:
         _bounded(report, MAX_REPORT_BYTES)
         expected = audit_inquiry(plan, sources, max_checks=max_checks)

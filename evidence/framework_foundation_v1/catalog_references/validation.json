@@ -1,0 +1,738 @@
+{
+  "schema": "nabt.framework-foundation-catalog-integration.v1",
+  "catalog_counts": {
+    "advertised_declarations": 1544,
+    "normalized_statement_groups": 1541,
+    "same_statement_groups_with_multiple_names": 3,
+    "redundant_statement_names": 3
+  },
+  "catalog_canonical_sha256": "6a1a3fbc3d279d832230a87f1a877c5c27665aefafa5d0e870e2a10da0a9f1bc",
+  "all_compiled_inputs_match": true,
+  "previous_declarations_unchanged": true,
+  "added_declarations": [
+    "Nabt.Foundation.all_116_cells_project",
+    "Nabt.Foundation.changed_reading_rejected",
+    "Nabt.Foundation.changed_source_rejected",
+    "Nabt.Foundation.checkReceipt_exact",
+    "Nabt.Foundation.checked_append_number",
+    "Nabt.Foundation.checked_identity_exact",
+    "Nabt.Foundation.checked_number_exact",
+    "Nabt.Foundation.checked_receipt_restores_source",
+    "Nabt.Foundation.checked_source_exact",
+    "Nabt.Foundation.checked_transform_computes_output",
+    "Nabt.Foundation.checked_transform_exact",
+    "Nabt.Foundation.checked_transform_preserves_binding",
+    "Nabt.Foundation.classify_preserves_raw",
+    "Nabt.Foundation.invalid_not_promoted",
+    "Nabt.Foundation.number_restores_cells",
+    "Nabt.Foundation.partial_not_promoted",
+    "Nabt.Foundation.piecesAux_reconstruct",
+    "Nabt.Foundation.projected_cells_bounded",
+    "Nabt.Foundation.projection_restores_source",
+    "Nabt.Foundation.takeMarks_reconstruct"
+  ],
+  "removed_declarations": [],
+  "references": {
+    "grammar_link_summary.json": {
+      "sha256": "7e7ec2a628ab821ce95ffc4eee8a81b0fe5cb384c199203e03a059634ece158d",
+      "changed_top_level_fields": [
+        "compiled_proof_catalog_sha256",
+        "counts",
+        "source_catalog_sha256",
+        "theorem_manifest_sha256"
+      ]
+    },
+    "licensed_proof_links.json": {
+      "sha256": "34157d265c9719b9b578609b78cb8af97486fcd58b9dc8d48bd2c53915c70e8f",
+      "changed_top_level_fields": [
+        "compiled_catalog_sha256"
+      ]
+    },
+    "linguistic_proof_links.json": {
+      "sha256": "3cb79fd1ffbbebaaf8bfc23ce5f8a43a305c82c45f968b2e12e0b3189860d6c3",
+      "changed_top_level_fields": [
+        "compiled_catalog_sha256"
+      ]
+    },
+    "mantuq_proof_links.json": {
+      "sha256": "56da8abffc0e81cf8bec1cdc6af2788ceb8fc0e5e80d16632ca88b9f95f43406",
+      "changed_top_level_fields": [
+        "compiled_catalog_sha256"
+      ]
+    },
+    "proof_catalog.json": {
+      "sha256": "4d2c5ef2575e936419b89370b3e6df7074be92acb3cbff5db2e22b5e516760b7",
+      "changed_top_level_fields": [
+        "counts",
+        "inputs",
+        "theorems"
+      ]
+    }
+  },
+  "historical_references": {
+    "evidence/occurrence_sense_v1/catalog_references/grammar_link_summary.json": {
+      "sha256": "b0b99167d615a56ee5c0b2968734bf39e052e5fef8feb142f130e4dfca401a37",
+      "matches_head_bytes": true
+    },
+    "evidence/occurrence_sense_v1/catalog_references/licensed_proof_links.json": {
+      "sha256": "c0c45d3b09aede6911ff29fa8adabe80a0a6f37cc477af25a4cba2292a244ce6",
+      "matches_head_bytes": true
+    },
+    "evidence/occurrence_sense_v1/catalog_references/linguistic_proof_links.json": {
+      "sha256": "060dbedbcbcae3d451090f52497c08ab69a2a500dd22e8c4ed0ba30278b3cb7b",
+      "matches_head_bytes": true
+    },
+    "evidence/occurrence_sense_v1/catalog_references/mantuq_proof_links.json": {
+      "sha256": "3e282d5ae2cdd7ca924364c1290a08c91eedbb6da557becb525f8daa15d794ea",
+      "matches_head_bytes": true
+    },
+    "evidence/occurrence_sense_v1/catalog_references/proof_catalog.json": {
+      "sha256": "a389f1ae0006572aa5dd6a0fd72c4879542a6a6ec51dfd9a7d85cdaaf37cf6f7",
+      "matches_head_bytes": true
+    },
+    "evidence/occurrence_sense_v1/catalog_references/validation.json": {
+      "sha256": "dfd37c671f71fd88af91e4d73c5f27d6ac3ca016c0c49effb1629c1937de911d",
+      "matches_head_bytes": true
+    }
+  },
+  "generation": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "tools/proof_catalog.py",
+        "--lake",
+        "/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "--output",
+        "/workspace/scratch/041f7a0071c0/nabt-foundation/evidence/framework_foundation_v1/catalog_references/proof_catalog.json"
+      ],
+      "exit_code": 0,
+      "output": "evidence/framework_foundation_v1/catalog_references/proof_catalog.json"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "tools.grammar_catalog.links",
+        "--lake",
+        "/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "--output",
+        "/workspace/scratch/041f7a0071c0/nabt-foundation/evidence/framework_foundation_v1/catalog_references/grammar_link_summary.json"
+      ],
+      "exit_code": 0,
+      "output": "evidence/framework_foundation_v1/catalog_references/grammar_link_summary.json"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "tools.mantuq_inference.links",
+        "--lake",
+        "/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "--output",
+        "/workspace/scratch/041f7a0071c0/nabt-foundation/evidence/framework_foundation_v1/catalog_references/mantuq_proof_links.json"
+      ],
+      "exit_code": 0,
+      "output": "evidence/framework_foundation_v1/catalog_references/mantuq_proof_links.json"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "tools.linguistic_truth.links",
+        "--lake",
+        "/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "--output",
+        "/workspace/scratch/041f7a0071c0/nabt-foundation/evidence/framework_foundation_v1/catalog_references/linguistic_proof_links.json"
+      ],
+      "exit_code": 0,
+      "output": "evidence/framework_foundation_v1/catalog_references/linguistic_proof_links.json"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "tools.licensed_inference.links",
+        "--lake",
+        "/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "--output",
+        "/workspace/scratch/041f7a0071c0/nabt-foundation/evidence/framework_foundation_v1/catalog_references/licensed_proof_links.json"
+      ],
+      "exit_code": 0,
+      "output": "evidence/framework_foundation_v1/catalog_references/licensed_proof_links.json"
+    }
+  ],
+  "initial_attempt": {
+    "command": [
+      "make",
+      "-f",
+      "Makefile",
+      "-f",
+      "integrations/grammar_catalog.mk",
+      "-f",
+      "integrations/mantuq_inference.mk",
+      "-f",
+      "integrations/linguistic_truth.mk",
+      "-f",
+      "integrations/licensed_inference.mk",
+      "grammar-catalog",
+      "proof-catalog",
+      "routing-conformance",
+      "mantuq-inference",
+      "linguistic-truth",
+      "licensed-inference",
+      "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+      "EVIDENCE_DIR=artifacts/local/foundation/integration"
+    ],
+    "exit_code": 2,
+    "elapsed_seconds": 35.610833168029785,
+    "log": "artifacts/local/foundation/integration/make-integration.log"
+  },
+  "full_integration": {
+    "command": [
+      "make",
+      "-f",
+      "Makefile",
+      "-f",
+      "integrations/grammar_catalog.mk",
+      "-f",
+      "integrations/mantuq_inference.mk",
+      "-f",
+      "integrations/linguistic_truth.mk",
+      "-f",
+      "integrations/licensed_inference.mk",
+      "grammar-catalog",
+      "proof-catalog",
+      "routing-conformance",
+      "mantuq-inference",
+      "linguistic-truth",
+      "licensed-inference",
+      "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+      "EVIDENCE_DIR=artifacts/local/foundation/integration"
+    ],
+    "exit_code": 2,
+    "elapsed_seconds": 51.31241178512573,
+    "log": "artifacts/local/foundation/integration/make-integration.log"
+  },
+  "licensed_continuation": {
+    "command": [
+      "make",
+      "-f",
+      "Makefile",
+      "-f",
+      "integrations/grammar_catalog.mk",
+      "-f",
+      "integrations/mantuq_inference.mk",
+      "-f",
+      "integrations/linguistic_truth.mk",
+      "-f",
+      "integrations/licensed_inference.mk",
+      "licensed-inference",
+      "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+      "EVIDENCE_DIR=artifacts/local/foundation/integration"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 76.47222757339478,
+    "log": "artifacts/local/foundation/integration/licensed-inference-continuation.log",
+    "continuation_not_complete_integration_success": true
+  },
+  "full_integration_passed": false,
+  "release_blocked": true,
+  "blocking_gate": "tools/measure_natural_use.py: positive acquisition nonregression",
+  "regressions": [
+    {
+      "id": "M09",
+      "before": "PASS",
+      "after": "FAIL"
+    }
+  ],
+  "changed_cases": [
+    {
+      "id": "M05",
+      "before": "FAIL",
+      "after": "PASS"
+    },
+    {
+      "id": "M09",
+      "before": "PASS",
+      "after": "FAIL"
+    }
+  ],
+  "m09": {
+    "source": "أَعْنِي بِالأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ.",
+    "checks": [
+      {
+        "name": "authority.world_truth_established",
+        "outcome": "PASS",
+        "actual": false,
+        "expected": false
+      },
+      {
+        "name": "authority.all_arabic_complete",
+        "outcome": "PASS",
+        "actual": false,
+        "expected": false
+      },
+      {
+        "name": "candidate_recall.lion",
+        "outcome": "PASS",
+        "actual": true,
+        "expected": true
+      },
+      {
+        "name": "candidate_recall.brave_man",
+        "outcome": "PASS",
+        "actual": true,
+        "expected": true
+      },
+      {
+        "name": "selected_senses",
+        "outcome": "FAIL",
+        "actual": [],
+        "expected": [
+          "lion"
+        ]
+      },
+      {
+        "name": "selected_use_kind",
+        "outcome": "FAIL",
+        "actual": [],
+        "expected": [
+          "literal"
+        ]
+      },
+      {
+        "name": "semantics.source_roundtrip",
+        "outcome": "PASS",
+        "actual": true,
+        "expected": true
+      }
+    ],
+    "reason": "NO_COMPLETE_INTENDED_SENSE_CUE",
+    "candidate_inventory_preserved": true,
+    "gold_or_baseline_changed": false
+  },
+  "tests": {
+    "proof_catalog": {
+      "passed": 10,
+      "failed": 0
+    },
+    "mantuq_contract_migration": {
+      "passed": 14,
+      "failed": 0
+    },
+    "linguistic_truth": {
+      "passed": 79,
+      "failed": 0
+    },
+    "natural_use_measurement": {
+      "passed": 10,
+      "failed": 0
+    },
+    "licensed_inference": {
+      "passed": 76,
+      "failed": 0
+    }
+  },
+  "mantuq_benchmark": {
+    "cases": 34,
+    "measured": 34,
+    "unmeasured": 0,
+    "matched": 34,
+    "mismatched": 0,
+    "false_support": 0,
+    "lost_support": 0,
+    "authority_overclaims": 0
+  },
+  "mantuq_complete_diagnostic": true,
+  "linguistic_benchmark": {
+    "summary": {
+      "total_cases": 44,
+      "pass": 19,
+      "fail": 11,
+      "unmeasured": 14,
+      "executed": 44,
+      "checks": {
+        "PASS": 169,
+        "FAIL": 28,
+        "UNMEASURED": 21
+      },
+      "families": {
+        "explicit_intent": {
+          "PASS": 4
+        },
+        "negative_cues": {
+          "PASS": 2
+        },
+        "contrary_cues": {
+          "FAIL": 1
+        },
+        "scope": {
+          "FAIL": 2
+        },
+        "unicode": {
+          "FAIL": 1
+        },
+        "homonymy": {
+          "PASS": 4
+        },
+        "profile": {
+          "PASS": 1,
+          "FAIL": 1
+        },
+        "natural_use_holdout": {
+          "FAIL": 6
+        },
+        "attachment_authority": {
+          "PASS": 2,
+          "UNMEASURED": 4
+        },
+        "resources": {
+          "PASS": 3
+        },
+        "invalid_input": {
+          "PASS": 2
+        },
+        "candidate_recall": {
+          "PASS": 1
+        },
+        "source_holdout_particle_dependence": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_temporal_derivation": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_proper_name": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_profile_homonymy": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_preference_not_certainty": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_ratio_conditions": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_cognition": {
+          "UNMEASURED": 4
+        }
+      },
+      "candidate_recall": {
+        "required_sense_obligations": 48,
+        "found": 40,
+        "missing": 8,
+        "unmeasured": 0
+      },
+      "intended_selection": {
+        "cases": 23,
+        "exact_matches": 15,
+        "misses": 8,
+        "unmeasured": 0,
+        "false_selected_senses": 0,
+        "missed_selected_senses": 8
+      },
+      "authority": {
+        "obligations": 88,
+        "excess_claims": 0,
+        "unmeasured": 0
+      },
+      "natural_use_holdout": {
+        "cases": 6,
+        "pass": 0,
+        "fail": 6,
+        "unmeasured": 0
+      }
+    },
+    "contract_gate": {
+      "passed": true,
+      "checks": {
+        "execution_evidence_stable": true,
+        "all_44_cases_handled": true,
+        "all_authority_observations_present": true,
+        "no_authority_overclaim": true,
+        "no_false_selected_senses": true,
+        "native_checker_present_for_parsed_candidates": true
+      },
+      "missing_native_checks": [],
+      "scope": "Execution-integrity and safety contracts only; does not require or imply acquisition completeness, all diagnostic cases passing, or all source assertions measured."
+    }
+  },
+  "licensed_benchmark": {
+    "summary": {
+      "cases": 38,
+      "pass": 37,
+      "fail": 1,
+      "unmeasured": 0,
+      "executed": 38,
+      "families": {
+        "original_unresolved": {
+          "PASS": 1
+        },
+        "conditional_only": {
+          "PASS": 2
+        },
+        "forward": {
+          "PASS": 1
+        },
+        "order_invariance": {
+          "PASS": 1
+        },
+        "front_conditional": {
+          "PASS": 1
+        },
+        "no_inverse": {
+          "PASS": 2
+        },
+        "negative_consequent": {
+          "PASS": 1
+        },
+        "signed_states": {
+          "PASS": 4
+        },
+        "derived_conflict": {
+          "PASS": 1
+        },
+        "no_explosion": {
+          "PASS": 1
+        },
+        "subject_identity": {
+          "PASS": 2
+        },
+        "frame_identity": {
+          "PASS": 2
+        },
+        "preserved_adjuncts": {
+          "PASS": 1
+        },
+        "quote_boundary": {
+          "PASS": 1
+        },
+        "question_boundary": {
+          "PASS": 1
+        },
+        "trailing_input": {
+          "PASS": 1
+        },
+        "partial_condition": {
+          "PASS": 1
+        },
+        "query_boundary": {
+          "PASS": 1
+        },
+        "unknown_vocabulary": {
+          "FAIL": 1
+        },
+        "provenance": {
+          "PASS": 2
+        },
+        "resource": {
+          "PASS": 2
+        },
+        "invalid_input": {
+          "PASS": 2
+        },
+        "aggregation": {
+          "PASS": 6
+        }
+      },
+      "target_observations": {
+        "measured": 28,
+        "exact_matches": 27,
+        "false_supported_literals": 0,
+        "missing_supported_literals": 1
+      },
+      "authority": {
+        "obligations": 76,
+        "measured": 76,
+        "overclaims": 0,
+        "unmeasured": 0
+      }
+    },
+    "contract_gate": {
+      "passed": true,
+      "checks": {
+        "execution_identity_stable": true,
+        "all_38_cases_handled": true,
+        "primary_authority_observed": true,
+        "no_authority_overclaim": true,
+        "no_false_supported_literals": true,
+        "native_checker_for_complete_readings": true
+      },
+      "scope": "Integrity and authority contracts only; 38-case diagnostic denominator and every unsupported or unmeasured capability remain visible."
+    }
+  },
+  "mantuq_gold": {
+    "path": "evidence/mantuq_inference_v1/benchmark_gold.json",
+    "sha256": "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a",
+    "matches_head_bytes": true
+  },
+  "mantuq_contract_migration": {
+    "schema": "nabt.qualified-inference-contract-migration.v1",
+    "migration_path": "evidence/framework_foundation_v1/mantuq_benchmark_contracts_v1.json",
+    "migration_sha256": "a94d5409ec495b69f01921d81c56dee4f8e6023e0167db721adb57da91d4ac9a",
+    "inputs": [
+      {
+        "contract_path": "AGENTS.md",
+        "verified_path": "evidence/framework_foundation_v1/mantuq_contract_sources/AGENTS.v1.md",
+        "sha256": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b"
+      },
+      {
+        "contract_path": "formal/Nabt/Shakhsiyya3Rules.lean",
+        "verified_path": "formal/Nabt/Shakhsiyya3Rules.lean",
+        "sha256": "3a7f01d8d7a83133594e56e1c7b9175499aeac2edabd9eefde155e92e38fb223"
+      },
+      {
+        "contract_path": "formal/Nabt/MantuqMafhum.lean",
+        "verified_path": "formal/Nabt/MantuqMafhum.lean",
+        "sha256": "0f1506dbb6b50347479a47fcc45732c5e7b06a3d484c1a8f21e0dde82fa67ba7"
+      },
+      {
+        "contract_path": "formal/Nabt/SemanticInference.lean",
+        "verified_path": "formal/Nabt/SemanticInference.lean",
+        "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2"
+      },
+      {
+        "contract_path": "evidence/mantuq_mafhum/sources.json",
+        "verified_path": "evidence/mantuq_mafhum/sources.json",
+        "sha256": "5d61103fc26d64bee8a766dec337a3f343b938582bf9e528197803dcb872a9e0"
+      }
+    ],
+    "current_control_documents": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "83a462b4ff9ccc32adb871d9a4d6f6d3854e645cd817758ea7b8c2f25c1f63d7"
+      }
+    ],
+    "gold_sha256": "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a",
+    "fresh_blind_evaluation": false
+  },
+  "retained_artifacts": [
+    {
+      "source": "artifacts/local/foundation/integration/grammar_link_summary.json.generation.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/grammar_link_summary.json.generation.log.gz",
+      "uncompressed_sha256": "3707a863b79c8f93fd6d0dc4885b3d5dd7636b4e0d35292e1ac03fc969fccb40",
+      "sha256": "9084309ff187a285fb6a9ad3f7da77bf99cb1ce52708a0a55f4485cf8d551e46",
+      "bytes": 367
+    },
+    {
+      "source": "artifacts/local/foundation/integration/licensed_proof_links.json.generation.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/licensed_proof_links.json.generation.log.gz",
+      "uncompressed_sha256": "0608ffd116a61c5f920ae573518e0fed73d1799c05c532a37818537d3d5d1685",
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78",
+      "bytes": 152
+    },
+    {
+      "source": "artifacts/local/foundation/integration/linguistic_proof_links.json.generation.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/linguistic_proof_links.json.generation.log.gz",
+      "uncompressed_sha256": "707d3a85e6d5d1c89d4f1b10e2691b12445aa8e0e990acbbe488da10e363d583",
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2",
+      "bytes": 109
+    },
+    {
+      "source": "artifacts/local/foundation/integration/mantuq_proof_links.json.generation.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/mantuq_proof_links.json.generation.log.gz",
+      "uncompressed_sha256": "a3152d5b1ada74da5c815f13925953cc9bbc732793999ec552369ca49e07ad96",
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b",
+      "bytes": 141
+    },
+    {
+      "source": "artifacts/local/foundation/integration/proof_catalog.json.generation.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/proof_catalog.json.generation.log.gz",
+      "uncompressed_sha256": "87a3b3da734e50b2311896ab9a84919c1c7a8c3a067795432b8d710f39e3dc2c",
+      "sha256": "94e2c4423400c104d0f73c5af8e73fb05c4f4d0044e7f34fe6ab14b1d0485523",
+      "bytes": 249
+    },
+    {
+      "source": "artifacts/local/foundation/integration/make-integration.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/make-integration.log.gz",
+      "uncompressed_sha256": "be93346b1fbef1a4451e04cf0c038b999aeeaab7510d4d6c17e62e0992353223",
+      "sha256": "efc08ecc979b57988ed1f977184b820f1f7d5ea97c8d8daf9e76994097220c2d",
+      "bytes": 29565
+    },
+    {
+      "source": "artifacts/local/foundation/integration/licensed-inference-continuation.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/licensed-inference-continuation.log.gz",
+      "uncompressed_sha256": "000e3020c58202fbb0743ebfbeacfda0a3f5ed66bfde6ce58bc6d69200ae4300",
+      "sha256": "c73ae6c2fd1a342a9f9e2b4e45dd3de6a18cff92c062137b5b10067932fded7c",
+      "bytes": 17848
+    },
+    {
+      "source": "artifacts/local/foundation/integration/mantuq-contract-tests.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/mantuq-contract-tests.log.gz",
+      "uncompressed_sha256": "f5898857f6532b615b0b6d5549348cd51a3362439c6837b9a2e4d53127f48ecf",
+      "sha256": "f07914f58f4915fd327764dcdec9c4660f8bc12cc996a9ba044d573ec9c1323e",
+      "bytes": 2465
+    },
+    {
+      "source": "artifacts/local/foundation/integration/attempt01-before-policy-migration/make-integration.log",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/attempt01-make-integration.log.gz",
+      "uncompressed_sha256": "d8c9bfca8d830da628348a09de84b61b45ec1e9f48d9aa5b62ddc22ebd5fa32d",
+      "sha256": "f35a0fd9f1b87141de8aac995a3fdd3936793b17724d410858e0807034cb0274",
+      "bytes": 6219
+    },
+    {
+      "source": "artifacts/local/foundation/integration/mantuq-inference-benchmark.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/mantuq-inference-benchmark.json.gz",
+      "uncompressed_sha256": "bc689a55a71348a194fe0c48c0024ab1548544fd42a2dde4373ab38ef50aae41",
+      "sha256": "1f53c3fc4f5998b10f5440c596aa146be202b581d1feef772f5803cdfdfa6def",
+      "bytes": 45940
+    },
+    {
+      "source": "artifacts/local/foundation/integration/linguistic-truth-benchmark.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/linguistic-truth-benchmark.json.gz",
+      "uncompressed_sha256": "7d8141361bafea8afc48b2ac194f06ee51b79de331ac142b4efe2c8c77f8786e",
+      "sha256": "0b3768396d4d4b9f604b115810a045da5206636b83849ec2f676fc4f32f92e74",
+      "bytes": 5891891
+    },
+    {
+      "source": "artifacts/local/foundation/integration/licensed-inference-benchmark.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/licensed-inference-benchmark.json.gz",
+      "uncompressed_sha256": "d04aaa53025cf5cc247b42cd23998a3770c744ad7dccc0bddcf325ee1c08bd78",
+      "sha256": "3fa75e4efd19526450a85ee4814efad83a2e27a3f5d51405c416101a26fa0817",
+      "bytes": 471475
+    },
+    {
+      "source": "artifacts/local/foundation/integration/natural-use-measurement.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/natural-use-measurement.json.gz",
+      "uncompressed_sha256": "393ee81f7e56117ecfde8ce42128e2924aea788f0e1b4de7d7aee406c745a4cd",
+      "sha256": "482be800333aa35197c0c9633d508d6935eee58657f1231e32983c2a6703d4a0",
+      "bytes": 11985
+    },
+    {
+      "source": "artifacts/local/foundation/integration/licensed-inference-axioms.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/licensed-inference-axioms.json.gz",
+      "uncompressed_sha256": "73b84a9c25ca7e1866d5559ac6613e607429a88c6e5773b5a468a646ca5a3d6a",
+      "sha256": "ab1363b6dca624e3c147747348c547c92ee8d999f8d7e12d703193c81ced228f",
+      "bytes": 129443
+    },
+    {
+      "source": "artifacts/local/foundation/integration/licensed-inference-conformance.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/licensed-inference-conformance.json.gz",
+      "uncompressed_sha256": "ab52bd7ea457a4d531aa75b92adecb5999f27b694c1f5fe4e34cf6ca22b3ba04",
+      "sha256": "18fd17f3d1b80e4bd33ad3135162e27ad21cba31cfbb21d0af66b578d44f69ca",
+      "bytes": 16446
+    },
+    {
+      "source": "artifacts/local/foundation/integration/linguistic-truth-conformance.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/linguistic-truth-conformance.json.gz",
+      "uncompressed_sha256": "026d8b5bb19953afc3fb6d374c162fff214c117cf77f50c315a5d8f9acb5ed51",
+      "sha256": "5098913cd29d867645cdd740bf285db07d5363b70a39a86d633382336f52b714",
+      "bytes": 1149
+    },
+    {
+      "source": "artifacts/local/foundation/integration/qualified-inference-conformance.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/qualified-inference-conformance.json.gz",
+      "uncompressed_sha256": "ceb67532439b9e813d62b6593690e42686968e9d3b9c20beb12ca5504f513567",
+      "sha256": "edbf92061cf0d5db6b5162c3ef886ab171c013ee131882efcc6bc34f523ac2a2",
+      "bytes": 425
+    },
+    {
+      "source": "artifacts/local/foundation/integration/routing-conformance.json",
+      "retained_path": "evidence/framework_foundation_v1/catalog_references/validation/routing-conformance.json.gz",
+      "uncompressed_sha256": "698e8346886cfc275203175d23bffcb6b5f253f508a08d5acda7a0fa713cc0e0",
+      "sha256": "aca26175c37e64db4d09eb7443f2e1c0c363ade038c82dbb8e523344a5a98573",
+      "bytes": 285
+    }
+  ],
+  "scope": "Fresh compiled/source reference replay and finite diagnostics. Separate continuation success does not waive the full integration failure. No coverage, source-fidelity, or world-truth claim."
+}

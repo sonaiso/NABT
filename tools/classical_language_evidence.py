@@ -37,6 +37,11 @@ FORMS = ("full", "light")
 MA_STATUSES = ("absent", "kaffa", "unknown")
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 class EvidenceUnavailable(ValueError):
     """The installed evidence could not be reopened under its approved pins."""
 
@@ -339,6 +344,7 @@ def _assess(request: dict, *, root: Path = ROOT) -> dict:
 
 
 def assess(request: dict, *, root: Path = ROOT) -> dict:
+    foundation.require_foundation('tools.classical_language_evidence.assess')
     report = _assess(request, root=root)
     # A report repeats the request and adds evidence. Its wire budget is
     # separate, includes the final newline, and is shared by API and CLI replay.
@@ -351,6 +357,7 @@ def assess(request: dict, *, root: Path = ROOT) -> dict:
 
 
 def verify(report: dict, request: dict, *, root: Path = ROOT) -> dict:
+    foundation.require_foundation('tools.classical_language_evidence.verify')
     fresh = assess(request, root=root)
     try:
         _plain_json(report, report=True)

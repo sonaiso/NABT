@@ -33,6 +33,9 @@ DISCLAIMER = ("الاكتمال هنا بالنسبة إلى القراءات ا
               "صدق التفسير وقاعدة اللزوم مقدمات، والتواتر والمراد والواقع غير مثبتة.")
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -152,6 +155,7 @@ class CompletionEngine:
                 "slots": result_slots, "combinations": rows}
 
     def assess(self, request):
+        foundation.require_foundation('tools.lexical_completion.completionengine.assess')
         validate(request)
         binary_sha = sha(self.exe.read_bytes())
         if canonical(_native(self.exe)) != canonical(self.exported()):
@@ -187,6 +191,7 @@ class CompletionEngine:
 
 
 def assess(request, *, engine=None):
+    foundation.require_foundation('tools.lexical_completion.assess')
     failed = {"schema": LAW, "status": "INVALID_INPUT", "native_checked": False,
               "all_arabic_complete": False, "world_truth_established": False,
               "app_disclaimer": DISCLAIMER}
@@ -210,6 +215,7 @@ def assess(request, *, engine=None):
 
 
 def main():
+    foundation.require_foundation('tools.lexical_completion.main')
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--request", type=Path, help="UTF-8 JSON with an ordered slots array")
     p.add_argument("--inventory", action="store_true")

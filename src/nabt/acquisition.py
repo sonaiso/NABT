@@ -22,6 +22,8 @@ INPUT_BITS = 14
 MAX_MODEL_NODES = 32767
 
 
+from nabt import foundation
+
 @dataclass(frozen=True, slots=True)
 class Leaf:
     target: int
@@ -111,6 +113,7 @@ class Verification:
 
 
 def verify_candidate(candidate: DecisionDAG, *, counterexample_limit: int = 256) -> Verification:
+    foundation.require_foundation('nabt.acquisition.verify_candidate')
     model = _snapshot(candidate)
     limit = natural(counterexample_limit, "counterexample_limit", maximum=STATE_COUNT * 116)
     machine = Machine()
@@ -134,6 +137,7 @@ class CheckedPredictor:
     verification: Verification
 
     def __init__(self, candidate: DecisionDAG) -> None:
+        foundation.require_foundation('nabt.acquisition.checkedpredictor.__init__')
         model = _snapshot(candidate)
         report = verify_candidate(model)
         if not report.accepted:
@@ -143,11 +147,13 @@ class CheckedPredictor:
         object.__setattr__(self, "verification", report)
 
     def transition(self, state: int, cell: int) -> tuple[int, int]:
+        foundation.require_foundation('nabt.acquisition.checkedpredictor.transition')
         q = natural(state, "state", maximum=96)
         a = validate_cell(cell)
         return _evaluate(self.nodes, (q << 7) | a)
 
     def run(self, cells: tuple[int, ...], *, mode: str = "waqf", start_state: int = 0) -> tuple[int, int, bool]:
+        foundation.require_foundation('nabt.acquisition.checkedpredictor.run')
         machine = Machine(mode)
         q = natural(start_state, "state", maximum=96)
         weight = 0
@@ -215,6 +221,7 @@ class AcquisitionResult:
 
 
 def acquire_transition_model(*, max_rounds: int = 64, batch_size: int = 256) -> AcquisitionResult:
+    foundation.require_foundation('nabt.acquisition.acquire_transition_model')
     rounds_limit = natural(max_rounds, "max_rounds", maximum=1024)
     batch = natural(batch_size, "batch_size", maximum=STATE_COUNT * 116)
     if rounds_limit == 0 or batch == 0:

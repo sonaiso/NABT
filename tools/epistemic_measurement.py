@@ -36,6 +36,11 @@ PROOF_SCOPE = {
 }
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 class InputError(ValueError):
     """The supplied value does not satisfy this versioned wire contract."""
 
@@ -346,6 +351,7 @@ def _checked_native(result: dict, proposed: dict) -> bool:
 
 def execute_request(input_value: Any, *, source_profile: str = AUTHORED_PROFILE) -> dict:
     """Propose, replay, and bind one decision. Missing native is never a proof."""
+    foundation.require_foundation('tools.epistemic_measurement.execute_request')
     profile_label = source_profile if type(source_profile) is str else "INVALID_PROFILE"
     execution = {"input": None, "input_sha256": None, "proposal_sha256": None,
                  "native_result_sha256": None, "native_sha256": None, "proposal": None,
@@ -358,6 +364,11 @@ def execute_request(input_value: Any, *, source_profile: str = AUTHORED_PROFILE)
               "free_arabic_acquisition_measured": False, "whole_arabic_complete": False}
     try:
         request, bindings = build_request(input_value, source_profile=source_profile)
+        try:
+            for source in request["active_sources"]:
+                foundation.validate_source(source["content"])
+        except ValueError as error:
+            raise InputError("Malformed source content representation") from error
         result["source_bindings"] = bindings
         proposed = propose(request)
         request["certificate"] = proposed

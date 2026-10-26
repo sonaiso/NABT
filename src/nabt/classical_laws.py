@@ -24,6 +24,8 @@ MODULES = (
 AUTHORITY = "CONDITIONAL_TRANSFORMATION_ONLY"
 
 
+from nabt import foundation
+
 def _canonical(value):
     try:
         raw = json.dumps(value, ensure_ascii=False, sort_keys=True,
@@ -101,6 +103,7 @@ def _registry():
 
 
 def catalog():
+    foundation.require_foundation('nabt.classical_laws.catalog')
     inventory, registry = replay_inventory(), _registry()
     rows = []
     for rule in inventory["rules"]:
@@ -120,6 +123,7 @@ def catalog():
 
 
 def evaluate(rule_id, frame):
+    foundation.require_foundation('nabt.classical_laws.evaluate')
     if type(rule_id) is not str:
         raise NabtError("INVALID_CLASSICAL_RULE", "Rule ID must be a string")
     _json_frame(frame)
@@ -146,6 +150,7 @@ def evaluate(rule_id, frame):
 
 
 def verify(report):
+    foundation.require_foundation('nabt.classical_laws.verify')
     if type(report) is not dict or not {"rule_id", "input_frame"} <= set(report):
         raise NabtError("INVALID_CLASSICAL_RECEIPT", "Missing classical receipt input")
     expected = evaluate(report["rule_id"], report["input_frame"])

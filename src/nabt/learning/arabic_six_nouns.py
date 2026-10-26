@@ -121,6 +121,8 @@ _OBSERVATION_DEFINITION = identity_digest(
 )
 
 
+from nabt import foundation
+
 def prescription_schema() -> FeatureSchema:
     return FeatureSchema(
         "source_prescription.six_nouns",
@@ -406,9 +408,11 @@ class SixNounPilot:
         return tuple(self._replay(spec) for spec in _RECORDS if spec.kind == "observed_example")
 
     def propose(self, record_id: str) -> EvidenceProposal:
+        foundation.require_foundation('nabt.learning.arabic_six_nouns.sixnounpilot.propose')
         return self._replay(_RECORD_INDEX[record_id]).proposal()
 
     def check(self, proposal: EvidenceProposal) -> CheckResult:
+        foundation.require_foundation('nabt.learning.arabic_six_nouns.sixnounpilot.check')
         spec = _RECORD_INDEX.get(proposal.record_id)
         if spec is None:
             return CheckResult(CheckStatus.REJECTED, ("record_outside_approved_policy",))
@@ -450,6 +454,7 @@ class SixNounPilot:
 
     def assess_family(self, alternatives: Iterable[EvidenceProposal]) -> FamilyAssessment:
         """An unresolved family never emits each alternative as an asserted fact."""
+        foundation.require_foundation('nabt.learning.arabic_six_nouns.sixnounpilot.assess_family')
         retained = tuple(islice(alternatives, 33))
         if not retained:
             return FamilyAssessment(CheckStatus.PENDING, (), (), ("no_interpretation_supplied",))
@@ -483,6 +488,7 @@ class SixNounPilot:
         Caller-supplied alternative names can add possibilities, never erase the
         alternatives attested by this policy.
         """
+        foundation.require_foundation('nabt.learning.arabic_six_nouns.sixnounpilot.application_assessment')
         if len(alternatives) > 32:
             raise resource_limit("application alternatives exceed resource budget")
         if any(not isinstance(name, str) or not name.strip() for name in alternatives):

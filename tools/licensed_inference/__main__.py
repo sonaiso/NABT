@@ -6,7 +6,12 @@ from pathlib import Path
 from .runtime import InferenceBudget, evaluate
 
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def main():
+    foundation.require_foundation('tools.licensed_inference.__main__.main')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path)
     parser.add_argument("query", type=Path)

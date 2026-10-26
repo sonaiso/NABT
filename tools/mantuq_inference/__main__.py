@@ -6,6 +6,10 @@ from pathlib import Path
 from . import EvaluationBudget, build_inventory, evaluate
 
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def _unique(pairs):
     out = {}
     for key, value in pairs:
@@ -24,6 +28,7 @@ def _load(path):
 
 
 def main():
+    foundation.require_foundation('tools.mantuq_inference.__main__.main')
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="operation", required=True)
     sub.add_parser("catalogue")

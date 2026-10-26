@@ -28,6 +28,8 @@ OUT_OF_SCOPE = "OUT_OF_SCOPE"
 DEFER = "DEFER"
 
 
+from nabt import foundation
+
 def _key(atom: Atom) -> tuple:
     return atom.predicate, atom.args, atom.positive
 
@@ -585,6 +587,7 @@ class SemanticKernel:
     """
 
     def __init__(self, *, budget: SemanticBudget | None = None, language_id: str = LANGUAGE_ID) -> None:
+        foundation.require_foundation('nabt.semantics.semantickernel.__init__')
         _reader(language_id)
         self._language_id = language_id
         self.budget = budget or SemanticBudget()
@@ -627,9 +630,11 @@ class SemanticKernel:
         return AdmissionReport(True, "ADMITTED", doc.source.source_id, doc.scope, doc.source.sha256, after.sha256)
 
     def add_document(self, document: ParsedDocument) -> AdmissionReport:
+        foundation.require_foundation('nabt.semantics.semantickernel.add_document')
         return self._admit(document)
 
     def add_source(self, raw: str | bytes, *, source_id: str = "text", scope: str = "default") -> AdmissionReport:
+        foundation.require_foundation('nabt.semantics.semantickernel.add_source')
         return self._admit(_parse(raw, source_id, scope, self.language_id))
 
     def _removed(self, before: _Program, after: _Program, scopes: set[str]) -> tuple[dict, ...]:
@@ -641,6 +646,7 @@ class SemanticKernel:
         return tuple(lost)
 
     def remove_source(self, source_id: str) -> RevisionReport:
+        foundation.require_foundation('nabt.semantics.semantickernel.remove_source')
         before = self._program()
         if source_id not in self._sources:
             return RevisionReport(False, "REJECT", source_id, before.sha256, before.sha256,
@@ -659,6 +665,7 @@ class SemanticKernel:
         return RevisionReport(True, "REMOVED", source_id, before.sha256, after.sha256, lost, residuals)
 
     def replace_source(self, raw: str | bytes, *, source_id: str, scope: str | None = None) -> RevisionReport:
+        foundation.require_foundation('nabt.semantics.semantickernel.replace_source')
         before = self._program()
         if source_id not in self._sources:
             return RevisionReport(False, "REJECT", source_id, before.sha256, before.sha256,
@@ -678,9 +685,11 @@ class SemanticKernel:
         return RevisionReport(True, "REPLACED", source_id, before.sha256, after.sha256, lost, residuals)
 
     def query_text(self, text: str | bytes, *, scope: str = "default") -> QueryResult:
+        foundation.require_foundation('nabt.semantics.semantickernel.query_text')
         return self.query(text, scope=scope)
 
     def read_query(self, text: str | bytes, *, scope: str = "default") -> Query:
+        foundation.require_foundation('nabt.semantics.semantickernel.read_query')
         reader = _reader(self.language_id)
         if self.language_id == LANGUAGE_ID:
             return reader.parse_query(text, scope=scope)
@@ -698,6 +707,7 @@ class SemanticKernel:
                                   known_relations=frozenset(relations))
 
     def query(self, query: Query | Atom | str | bytes, *, scope: str | None = None) -> QueryResult:
+        foundation.require_foundation('nabt.semantics.semantickernel.query')
         if type(query) in (str, bytes):
             query = self.read_query(query, scope="default" if scope is None else scope)
         if type(query) is Query:
@@ -755,6 +765,7 @@ class SemanticKernel:
         removals need not invalidate a still-supported proof; changed or withdrawn
         dependencies do. Clean proofs are also rechecked for current conflicts.
         """
+        foundation.require_foundation('nabt.semantics.semantickernel.verify_certificate')
         checked = 0
         program = self._program()
         try:

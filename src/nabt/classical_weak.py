@@ -47,6 +47,8 @@ CONTROL_DOMAINS = (
 )
 
 
+from nabt import foundation
+
 def replay_sources():
     """Replay installed inventory and source spans; caller hashes grant no trust."""
     directory = files("nabt").joinpath("data/source_evidence")
@@ -294,6 +296,7 @@ def _transform(cells, i, action):
 
 def evaluate(rule_id, frame):
     """Compute only the consequence of the supplied, still-unproved analysis."""
+    foundation.require_foundation('nabt.classical_weak.evaluate')
     control = control_frame(rule_id, frame)
     sources = replay_sources()[rule_id]
     cells, i = _validate(frame)

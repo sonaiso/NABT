@@ -36,6 +36,8 @@ _PERSON = {1: "speaker", 2: "addressee", 3: "third"}
 _ORDER = "ًٌٍَُِّْٰ"
 
 
+from nabt import foundation
+
 def _wire(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True,
                       separators=(",", ":"), allow_nan=False).encode("utf-8")
@@ -409,6 +411,7 @@ def person_candidates(surface, *, lexical_model=None):
     Span coordinates are relative to this exact UTF-8 surface.  A candidate
     is never a uniquely selected analysis, actual attachment, or referent.
     """
+    foundation.require_foundation('nabt.person_evidence.person_candidates')
     if type(surface) is not str:
         raise NabtError("INVALID_PERSON_SURFACE", "Use one Arabic text surface")
     try:

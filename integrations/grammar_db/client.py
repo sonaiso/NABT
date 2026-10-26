@@ -18,6 +18,10 @@ INPUT_RECIPE = "nabt.catalog.search-projection.v1"
 MAX_QUERY_CHARACTERS = 10000
 
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def _json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
 
@@ -79,6 +83,7 @@ def load_catalog(connection, catalog: dict, root: Path | str) -> str:
     A connection transaction context commits only if it owns the transaction;
     callers already inside a transaction retain ownership of the outer commit.
     """
+    foundation.require_foundation('integrations.grammar_db.client.load_catalog')
     from tools.grammar_catalog.catalog import validate_catalog
     verified = validate_catalog(catalog, root=Path(root))
     digest = snapshot_digest(verified)
@@ -189,6 +194,7 @@ def search(connection, snapshot_sha: str, query: str, embedding=None,
     query vector. Scores are ranks/similarities, never calibrated probabilities.
     No predicted chapter/keyword is accepted as a candidate filter.
     """
+    foundation.require_foundation('integrations.grammar_db.client.search')
     _sha(snapshot_sha, "snapshot")
     _positive_integer(k, "k", 1000)
     if not isinstance(query, str) or len(query) > MAX_QUERY_CHARACTERS:

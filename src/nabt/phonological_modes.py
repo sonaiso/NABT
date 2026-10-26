@@ -20,6 +20,8 @@ ALPHABET = "nabt.phonological-segments.v1"
 VOWELS = frozenset(("a", "i", "u", "a:", "i:", "u:"))
 
 
+from nabt import foundation
+
 class Mode(str, Enum):
     IBTIDA = "ibtida"
     WASL = "wasl"
@@ -91,6 +93,7 @@ def realize(example_id, *, start=Mode.IBTIDA, end=Mode.WASL,
     general sandhi returns UNKNOWN, never silently returning an unverified form.
     The spelling is preserved even when its symbolic realization loses a vowel.
     """
+    foundation.require_foundation('nabt.phonological_modes.realize')
     start, end, profile = _modes(start, end, profile)
     if type(example_id) is not str or (following_id is not None and type(following_id) is not str):
         raise NabtError("INVALID_PHONOLOGICAL_INPUT", "Example IDs must be strings")
@@ -135,6 +138,7 @@ def realize_imperative_onset(surface, *, lexical_model, profile_id,
     rerun. The remainder stays explicitly in its observed grapheme alphabet;
     this bridge does not claim to phonemize plural silent alif or pausal endings.
     """
+    foundation.require_foundation('nabt.phonological_modes.realize_imperative_onset')
     start, _, _ = _modes(start, Mode.WASL, Profile.STANDARD_CORE)
     if type(surface) is not str or type(profile_id) is not str:
         raise NabtError("INVALID_PHONOLOGICAL_INPUT", "Surface and profile must be strings")

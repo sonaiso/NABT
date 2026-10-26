@@ -36,6 +36,8 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    'framework_foundation_v1_review2': ('a192d915f933a8f98ddb4d166f741be4ab976d34cc2c13be71eb940f08ca06e4', '36fba6536d27a077bba568c024ac0eabb22c1defbaec17ae45c665083e361766', '6da895ca88448dd9261f6acf0e5fe244fef311ef6dfe785acda9307a6b928598'),
+    'framework_foundation_v1': ('00b06260322f06a6394b3a1164aa78833758a86f1c71c232433d1ab786077447', '9f497aa3f3083d7e8073b77e21599445add23ef139b3c419372178be91a954e9', '168c7a1a90761cb0d90c90f4f0f0f4ce80e955813448f7c519696b94b20c6f2f'),
     'arabic_completion_v6': ('31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec', '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23', '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922'),
     'arabic_completion_v5': ('06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57', '1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c', 'a377cba60bfd1491351322b6543678e023ac83b18ec0cb2543f181f046d318ed'),
     "arabic_completion_v4_review2": ('eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9', '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43'),
@@ -103,6 +105,8 @@ CODE_FREEZES = {
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    'framework_foundation_v1_review2': ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json',
+    'framework_foundation_v1': ROOT / 'evidence/framework_foundation_v1/code_freeze_v1.json',
     'arabic_completion_v6': ROOT / 'evidence/arabic_completion_v6/code_freeze_v1.json',
     'arabic_completion_v5': ROOT / 'evidence/arabic_completion_v5/code_freeze_v1.json',
     "arabic_completion_v4_review2": ROOT / "evidence/arabic_completion_v4/code_freeze_v2.json",
@@ -203,7 +207,7 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot, version="arabic_completion_v6"):
+def verify_runtime_freeze(actual_snapshot, version="framework_foundation_v1_review2"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -486,7 +490,7 @@ def regression_gate(results):
     return all(case["passed"] or documented_boundary(case) for case in results)
 
 
-def evaluate(version="v2", *, freeze_version="arabic_completion_v6"):
+def evaluate(version="v2", *, freeze_version="framework_foundation_v1_review2"):
     material = load_material(version)
     before = snapshot()
     freeze = verify_runtime_freeze(before, freeze_version)
@@ -517,7 +521,7 @@ def evaluate(version="v2", *, freeze_version="arabic_completion_v6"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="arabic_completion_v6")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="framework_foundation_v1_review2")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")

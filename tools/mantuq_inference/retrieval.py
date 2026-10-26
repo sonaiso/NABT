@@ -13,6 +13,11 @@ from .inventory import ROOT, build_inventory
 INPUT_RECIPE = "nabt.inference.search-projection.v1"
 
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def inventory_sha256(inventory):
     return sha256(json.dumps(inventory, ensure_ascii=False, sort_keys=True,
                              separators=(",", ":"), allow_nan=False).encode()).hexdigest()
@@ -44,6 +49,7 @@ class InferenceSearchIndex(SearchIndex):
                     for key, doc in self._docs.items()}
 
     def search(self, query, limit=10, hints=None, vector_scores=None, kind=None):
+        foundation.require_foundation('tools.mantuq_inference.retrieval.inferencesearchindex.search')
         if vector_scores is not None and (type(vector_scores) is not dict or
                 vector_scores.get("input_recipe") != INPUT_RECIPE):
             raise RetrievalError("Inference embedding input recipe mismatch")
@@ -54,6 +60,7 @@ class InferenceSearchIndex(SearchIndex):
                 "world_truth_established": False}
 
     def rehydrate_database(self, proposals):
+        foundation.require_foundation('tools.mantuq_inference.retrieval.inferencesearchindex.rehydrate_database')
         if (type(proposals) is not dict or
                 proposals.get("schema") != "nabt.inference-database-proposals.v1" or
                 proposals.get("inventory_sha") != self.catalog_sha256):
@@ -70,4 +77,5 @@ class InferenceSearchIndex(SearchIndex):
 
 
 def search(query, *, limit=10, hints=None, vector_scores=None, kind=None, root=ROOT):
+    foundation.require_foundation('tools.mantuq_inference.retrieval.search')
     return InferenceSearchIndex(root=root).search(query, limit, hints, vector_scores, kind)

@@ -32,6 +32,8 @@ _SIBAWAYHI_NUN = (2586239, 2587666,
     "e420f759a65a5ca92e1cd7e2c591498da34f26572898a1c7819a8c612228b623")
 
 
+from nabt import foundation
+
 def replay_sources(rule_id):
     """Recheck installed original bytes and contradictory readings on every call."""
     if type(rule_id) is not str:
@@ -213,6 +215,7 @@ def evaluate(rule_id, frame):
     lexical attestation, or an exclamation's syntactic context. ``CONDITIONAL``
     explicitly describes this limitation, even when the symbolic form is total.
     """
+    foundation.require_foundation('nabt.classical_gemination.evaluate')
     sources = replay_sources(rule_id)
     original = deepcopy(frame)
     f = _frame(frame, rule_id == RULE_IDS[-1])

@@ -25,6 +25,8 @@ MAX_WEIGHT = 16
 EXPECTED_TABLE_SHA256 = "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd"
 
 
+from nabt import foundation
+
 @dataclass(frozen=True)
 class _Table:
     transitions: tuple[tuple[tuple[int, int], ...], ...]
@@ -149,6 +151,7 @@ class Effect:
     weights: tuple[int, ...]
 
     def __post_init__(self) -> None:
+        foundation.require_foundation('nabt.machine.effect.__post_init__')
         cells = validate_cells(self.cells)
         if type(self.cells) is not tuple or type(self.destinations) is not tuple or type(self.weights) is not tuple:
             raise NabtError("INVALID_EFFECT", "Effect fields must be immutable tuples")
@@ -171,6 +174,7 @@ class Effect:
 
 
 def compose_effects(left: Effect, right: Effect) -> Effect:
+    foundation.require_foundation('nabt.machine.compose_effects')
     if type(left) is not Effect or type(right) is not Effect:
         raise NabtError("INVALID_EFFECT", "Composition requires two verified effects")
     # Payload preservation prevents equal transition effects from erasing identity.
@@ -184,6 +188,7 @@ class Machine:
     """Word-level finite law. The sentence boundary 116 is outside this alphabet."""
 
     def __init__(self, mode: str = "waqf") -> None:
+        foundation.require_foundation('nabt.machine.machine.__init__')
         if type(mode) is not str or mode not in {"waqf", "wasl"}:
             raise NabtError("INVALID_MODE", "Mode must be waqf or wasl")
         self._mode = mode
@@ -225,6 +230,7 @@ class Machine:
         return dict(self._count_suffix.cache_info()._asdict())
 
     def analyse(self, cells: Iterable[int], start_state: int = 0) -> Analysis:
+        foundation.require_foundation('nabt.machine.machine.analyse')
         values, initial = validate_cells(cells), _state(start_state)
         q, weight, blocker = initial, 0, None
         steps = []
@@ -240,10 +246,12 @@ class Machine:
                         None if q == DEAD_STATE else weight, tuple(steps), reason, blocker)
 
     def count(self, weight: int, start_state: int = 0) -> int:
+        foundation.require_foundation('nabt.machine.machine.count')
         w, q = _weight(weight), _state(start_state)
         return self._count_suffix(3 * w + self.pot(q), w, q)
 
     def rank(self, cells: Iterable[int], start_state: int = 0) -> int:
+        foundation.require_foundation('nabt.machine.machine.rank')
         analysis = self.analyse(cells, start_state)
         if not analysis.licensed or analysis.consonant_weight is None:
             raise NabtError("UNLICENSED_SHAPE", "Only a licensed sequence has a rank", details=analysis.as_dict())
@@ -264,6 +272,7 @@ class Machine:
         return rank
 
     def unrank(self, weight: int, rank: int, start_state: int = 0) -> tuple[int, ...]:
+        foundation.require_foundation('nabt.machine.machine.unrank')
         w, i, q = _weight(weight), natural(rank, "rank"), _state(start_state)
         fuel = 3 * w + self.pot(q)
         size = self._count_suffix(fuel, w, q)
@@ -288,6 +297,7 @@ class Machine:
                 raise NabtError("INTERNAL_COUNT_MISMATCH", "An in-range rank has no transition block")
 
     def effect(self, cells: Iterable[int]) -> Effect:
+        foundation.require_foundation('nabt.machine.machine.effect')
         values = validate_cells(cells)
         destinations, weights = _effect_values(values, self._table)
         return Effect(values, destinations, weights)

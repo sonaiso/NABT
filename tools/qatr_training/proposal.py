@@ -4,12 +4,18 @@ import math
 CASE_LABELS=('nasb','raf','jarr','jazm')
 
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def project_ranking(reading, scores):
     """Rank only cases inside the proposed set, retaining every original row.
 
     `reading` must come from the pinned native teacher. Unknown linguistic
     premises remain obligations; score projection does not discharge them.
     """
+    foundation.require_foundation('tools.qatr_training.proposal.project_ranking')
     if len(scores)!=4 or any(type(x) not in (int,float) or not math.isfinite(x) for x in scores):
         raise ValueError('four finite numeric scores required')
     allowed=reading['cases']

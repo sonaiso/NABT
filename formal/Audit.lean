@@ -1534,7 +1534,27 @@ def theoremManifest : List Name := [
   ``Nabt.OccurrenceSense.unmatched_morphology_retained,
   ``Nabt.OccurrenceSense.insufficient_budget_has_no_readings,
   ``Nabt.OccurrenceSense.sufficient_budget_preserves_all_readings,
-  ``Nabt.OccurrenceSense.no_morphology_no_sense
+  ``Nabt.OccurrenceSense.no_morphology_no_sense,
+  ``Nabt.Foundation.classify_preserves_raw,
+  ``Nabt.Foundation.all_116_cells_project,
+  ``Nabt.Foundation.takeMarks_reconstruct,
+  ``Nabt.Foundation.piecesAux_reconstruct,
+  ``Nabt.Foundation.projection_restores_source,
+  ``Nabt.Foundation.checkReceipt_exact,
+  ``Nabt.Foundation.checked_source_exact,
+  ``Nabt.Foundation.checked_identity_exact,
+  ``Nabt.Foundation.checked_receipt_restores_source,
+  ``Nabt.Foundation.projected_cells_bounded,
+  ``Nabt.Foundation.number_restores_cells,
+  ``Nabt.Foundation.checked_number_exact,
+  ``Nabt.Foundation.partial_not_promoted,
+  ``Nabt.Foundation.invalid_not_promoted,
+  ``Nabt.Foundation.changed_source_rejected,
+  ``Nabt.Foundation.checked_transform_exact,
+  ``Nabt.Foundation.checked_transform_preserves_binding,
+  ``Nabt.Foundation.checked_transform_computes_output,
+  ``Nabt.Foundation.checked_append_number,
+  ``Nabt.Foundation.changed_reading_rejected
 ]
 
 run_cmd do

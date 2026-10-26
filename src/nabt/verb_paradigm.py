@@ -28,6 +28,8 @@ _POSITIVE = re.compile(r"(الماضي|المضارع|الأمر) مستعمل: 
 _NEGATIVE = re.compile(r"(الماضي|المضارع|الأمر) غير مستعمل\.")
 
 
+from nabt import foundation
+
 def availability_candidates(positive_mask, negative_mask):
     """Conditional finite algebra; these inputs are premises, not witnesses."""
     if (type(positive_mask) is not int or type(negative_mask) is not int
@@ -92,6 +94,7 @@ def _finish(block):
 def read_verb_paradigm(text, *, source_id="paradigm", scope="default"):
     # Even an entirely unparsed source must not issue a report for an
     # installed law whose bytes or domain have not been replayed.
+    foundation.require_foundation('nabt.verb_paradigm.read_verb_paradigm')
     availability_candidates(0, 0)
     source = _source(text, source_id, scope)
     blocks, unscoped = [], []
@@ -163,6 +166,7 @@ def read_verb_paradigm(text, *, source_id="paradigm", scope="default"):
 
 
 def verify_verb_paradigm(report, *, text=None, source_id=None, scope=None):
+    foundation.require_foundation('nabt.verb_paradigm.verify_verb_paradigm')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")

@@ -19,6 +19,11 @@ READINGS = (
 )
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def _frame(frame: dict) -> dict:
     if type(frame) is not dict or type(frame.get("family")) is not str:
         raise ValueError("a typed conditional frame is required; text is not parsed")
@@ -58,6 +63,7 @@ def enumerate_readings(frame: dict) -> dict:
     No raw text, example identity, source gold set, acquisition certificate, or
     caller authority is consumed. Supplying a frame does not establish it.
     """
+    foundation.require_foundation('tools.classical_reference_readings.enumerate_readings')
     frame = _frame(frame)
     family = frame["family"]
     if family == "free_ishtighal":
@@ -80,6 +86,7 @@ def enumerate_readings(frame: dict) -> dict:
 
 
 def verify_proposal(frame: dict, proposal: list[str]) -> dict:
+    foundation.require_foundation('tools.classical_reference_readings.verify_proposal')
     if type(proposal) is not list or any(type(r) is not str or r not in READINGS for r in proposal):
         raise ValueError("proposal must be a list of known reading IDs")
     expected = enumerate_readings(frame)["readings"]

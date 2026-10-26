@@ -7,7 +7,11 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def main():
+    foundation.require_foundation('tools.propose_arabic_morphology.main')
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--model-dir',type=Path,default=ROOT/'evidence/source_morphology_training/run_02')
     p.add_argument('--text-file',type=Path,required=True)

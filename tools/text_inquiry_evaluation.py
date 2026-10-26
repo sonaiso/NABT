@@ -28,7 +28,7 @@ def main() -> int:
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA,
                         help="Directory containing an unchanged copy of the published frozen data")
     parser.add_argument("--code-freeze", type=Path,
-                        help="Runtime checksum manifest; defaults to the portable source projection of the final snapshot")
+                        help="Runtime checksum manifest; defaults to the current registered framework-foundation runtime")
     parser.add_argument("--output-dir", type=Path, required=True,
                         help="A separate output directory; historical evidence is never overwritten")
     parser.add_argument("--suite", choices=("all", "controlled", "natural", "attacks", "plans", "boundaries", "baseline"), default="all")
@@ -36,7 +36,7 @@ def main() -> int:
     args = parser.parse_args()
     data = args.data_root.resolve()
     output = args.output_dir.resolve()
-    freeze = (args.code_freeze or data / "code_freeze_reserve20_portable.json").resolve()
+    freeze = (args.code_freeze or ROOT / "evidence/framework_foundation_v1/code_freeze_v2.json").resolve()
     try:
         inputs = verify_published_inputs(data)
         runtime = verify_code_freeze(freeze)

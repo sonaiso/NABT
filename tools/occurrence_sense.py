@@ -69,6 +69,9 @@ _RUNTIME_FILES = ("tools/occurrence_sense.py", "tools/attested_lexical_loader.py
     "src/nabt/person_evidence.py", "src/nabt/word_reader.py", "src/nabt/discourse_context.py")
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def _hash(raw: bytes) -> str:
     return sha256(raw).hexdigest()
 
@@ -349,6 +352,7 @@ def _reference_bound(reference: dict, request: dict) -> bool:
 
 
 def assess(request: Any) -> dict:
+    foundation.require_foundation('tools.occurrence_sense.assess')
     answer = {"schema": "nabt.occurrence-sense-observation.v1", "law_id": LAW_ID,
         "status": "UNMEASURED", "native_checked": False, "certificate_checked": False,
         "input": None, "input_sha256": None, "context_sha256": None, "occurrence": None,
@@ -361,6 +365,7 @@ def assess(request: Any) -> dict:
     phase = "input"
     try:
         request = validate_input(request)
+        foundation.validate_source(request["text"])
         answer.update(input=deepcopy(request), input_sha256=digest(request), context_sha256=digest(request["context"]))
         answer["occurrence"] = _occurrence(request["text"], request["token_index"])
         phase = "installed"
@@ -415,6 +420,7 @@ def assess(request: Any) -> dict:
 
 
 def main() -> int:
+    foundation.require_foundation('tools.occurrence_sense.main')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--request", required=True, help="Strict UTF-8 JSON request file; '-' reads stdin")
     args = parser.parse_args()

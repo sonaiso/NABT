@@ -10,6 +10,9 @@ import time
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools.lexical_training.data import ROOT,paired_data,save_json,digest,LISAN_SHA,MAQAYIS_SHA
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def ranks(scores,gold):
     import numpy as np
     # Stable ties use gallery order, not labels.
@@ -22,6 +25,7 @@ def metrics(r):
             'recall10':float(np.mean(r<=10)),'mrr':float(np.mean(1/r))}
 
 def main(a):
+    foundation.require_foundation('tools.train_lexical_retrieval.main')
     import numpy as np
     import torch
     from tools.lexical_training.model import Retriever,encode,embed

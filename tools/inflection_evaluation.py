@@ -28,6 +28,8 @@ VERSION = "nabt.inflection.independent-evaluation.v1"
 FREEZE_SHA256 = "25b8b89e48c2403b1fa47055045d2bdd4d738dc86493398369da5749131d23db"
 RUNTIME_FREEZE_SHA256 = "fe93f8ebebb21078113462244052da93c102f4d5a673c2636c0cab27e0ffa103"
 PINNED_RUNTIME_FREEZES = {
+    'a192d915f933a8f98ddb4d166f741be4ab976d34cc2c13be71eb940f08ca06e4': {'snapshot_sha256': '36fba6536d27a077bba568c024ac0eabb22c1defbaec17ae45c665083e361766', 'archive_sha256': '6da895ca88448dd9261f6acf0e5fe244fef311ef6dfe785acda9307a6b928598', 'file_count': 101},
+    '00b06260322f06a6394b3a1164aa78833758a86f1c71c232433d1ab786077447': {'snapshot_sha256': '9f497aa3f3083d7e8073b77e21599445add23ef139b3c419372178be91a954e9', 'archive_sha256': '168c7a1a90761cb0d90c90f4f0f0f4ce80e955813448f7c519696b94b20c6f2f', 'file_count': 101},
     '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec': {'snapshot_sha256': '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23', 'archive_sha256': '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922', 'file_count': 99},
     '06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57': {'snapshot_sha256': '1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c', 'archive_sha256': 'a377cba60bfd1491351322b6543678e023ac83b18ec0cb2543f181f046d318ed', 'file_count': 94},
     'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9': {'snapshot_sha256': '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', 'archive_sha256': '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43', 'file_count': 83},
@@ -944,7 +946,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qac", type=Path, help="Pinned original QAC .txt or .txt.gz (required for the original 74 cases)")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/arabic_completion_v6/code_freeze_v1.json")
+    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/framework_foundation_v1/code_freeze_v2.json")
     parser.add_argument("--runtime-root", type=Path, default=ROOT,
                         help="Measured source checkout or extracted pinned archive; verified against the selected freeze")
     parser.add_argument("--allow-documented-boundaries", action="store_true",

@@ -32,6 +32,9 @@ FEATURES = ['bias', 'source_equal', 'query_equal', 'identity_equal', 'revision_e
 KINDS = ('changed_source', 'changed_query', 'changed_identity', 'extra_clause', 'original')
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def wire(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False)
 
@@ -66,6 +69,7 @@ def check(raw, query, certificate, checker, *, identity='text', revision='1', sc
     No model-supplied label, score, source path or truth flag is consulted.
     Failed measurements cannot provide positive *or negative* training rewards.
     """
+    foundation.require_foundation('tools.train_certificate_ranker.check')
     start = time.perf_counter()
     row = {'measurement': 'UNMEASURED', 'label': None, 'semantic_status': None, 'error': None}
     try:
@@ -180,6 +184,7 @@ def rank_and_check(raw, query, proposals, model, checker):
     does not stand for the free reader's linguistic alternatives. An unavailable
     measurement blocks selection; no ranked score is an entailment receipt.
     """
+    foundation.require_foundation('tools.train_certificate_ranker.rank_and_check')
     if type(proposals) is not list or not 1 <= len(proposals) <= 16:
         raise ValueError('expected 1..16 certificate proposals')
     if type(model) is not dict or model.get('schema') != 'nabt.certificate-ranker.v1' or model.get('features') != FEATURES or model.get('authority') != 'proposal-order-only':
@@ -230,6 +235,7 @@ def summarize(rows, weights):
 
 def execute(output, checker):
     # Refuse replacement *before* any compute, preserving first-run evidence.
+    foundation.require_foundation('tools.train_certificate_ranker.execute')
     output.mkdir(parents=True, exist_ok=False)
     protocol = json.loads(PROTOCOL.read_bytes())
     if protocol['candidate_kinds'] != list(KINDS):

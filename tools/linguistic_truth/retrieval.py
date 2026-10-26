@@ -12,6 +12,11 @@ from .inventory import ROOT, build_inventory
 INPUT_RECIPE = 'nabt.linguistic-truth.search-projection.v1'
 
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def iter_documents(inventory):
     for row in inventory['designations']:
         yield 'item', 'designation:'+row['designation_id'], ' '.join([
@@ -33,6 +38,7 @@ class LinguisticTruthSearchIndex(SearchIndex):
         self._tf = {key:Counter(tokens(doc['search_text'])) for key,doc in self._docs.items()}
 
     def search(self, query, limit=10, hints=None, vector_scores=None, kind=None):
+        foundation.require_foundation('tools.linguistic_truth.retrieval.linguistictruthsearchindex.search')
         if vector_scores is not None and (type(vector_scores) is not dict or
                 vector_scores.get('input_recipe') != INPUT_RECIPE):
             raise RetrievalError('Linguistic-use embedding recipe mismatch')
@@ -41,6 +47,7 @@ class LinguisticTruthSearchIndex(SearchIndex):
                 'world_truth_established':False,'source_interpretation_established':False}
 
     def rehydrate_database(self, proposals):
+        foundation.require_foundation('tools.linguistic_truth.retrieval.linguistictruthsearchindex.rehydrate_database')
         if (type(proposals) is not dict or
                 proposals.get('schema') != 'nabt.linguistic-truth-database-proposals.v1' or
                 proposals.get('inventory_sha') != self.catalog_sha256):
