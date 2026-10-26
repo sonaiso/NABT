@@ -191,7 +191,7 @@ def validate_payload(payload):
         if type(profile) is not str or profile not in {"teaching_v1", "attested_qac_v1"}:
             raise RequestError("INVALID_LEXICAL_PROFILE")
         return request
-    if mode == "benchmark":
+    if mode in ("benchmark", "epistemic_measurement"):
         if set(request) != {"schema", "mode"}:
             raise RequestError("UNEXPECTED_REQUEST_FIELD")
         return request
@@ -270,6 +270,27 @@ def _semantic_axes_identity(lexical_profile="teaching_v1"):
             "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
 
 
+def _epistemic_identity():
+    """Bind the installed finite suite, acquisition records, and native checker.
+
+    The manifest identifies bytes; it does not authenticate the outside agency
+    or turn a supplied source interpretation into a fact about the world.
+    """
+    from tools.benchmark_epistemic_measurement import identity
+    installed = identity()
+    measured_sources = [ROOT / "tools/epistemic_measurement.py",
+        ROOT / "tools/benchmark_epistemic_measurement.py",
+        ROOT / "formal/Nabt/EpistemicMeasurement.lean",
+        ROOT / "formal/EpistemicMeasurementMain.lean"]
+    measured_sources += sorted((ROOT / "evidence/epistemic_measurement_v1").rglob("*.json"))
+    manifest = {str(path.relative_to(ROOT)): _sha(path.read_bytes()) for path in measured_sources}
+    return {**installed, "code_sha": _code_sha(),
+            "runner_sha256": _sha(Path(__file__).read_bytes()),
+            "runtime_sha256": _sha((ROOT / "tools/epistemic_measurement.py").read_bytes()),
+            "measurement_source_sha256": _sha(json.dumps(manifest, sort_keys=True).encode()),
+            "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
+
+
 def _authority_guard(result):
     if (type(result) is not dict or any(type(result.get(key)) is not bool for key in BOOLEAN_FLAGS)
             or result.get("schema") != "nabt.licensed-inference-result.v1"
@@ -335,6 +356,7 @@ def run_payload(request_id, payload, *, prepare=False):
         request = validate_payload(payload)
         response["mode"] = request["mode"]
         identity = {"testimony": _testimony_identity,
+                    "epistemic_measurement": _epistemic_identity,
                     "semantic_axes": _semantic_axes_identity}.get(request["mode"], _identity)
         profile = request.get("lexical_profile", "teaching_v1")
         if request["mode"] == "semantic_axes" and profile != "teaching_v1":
@@ -351,6 +373,12 @@ def run_payload(request_id, payload, *, prepare=False):
                 "verification_kind": "PYTHON_REPLAY",
                 "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED"}
             response["lexical_profile"] = profile
+        elif request["mode"] == "epistemic_measurement":
+            response["scope"] = {"law_id": "nabt.epistemic-measurement.v1",
+                "claim": "Complete enumeration of licensed evidence in the supplied finite ledger",
+                "verification_kind": "NATIVE_RECEIPT_CHECK",
+                "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED",
+                "hidden_motive": "UNMEASURED", "free_arabic_acquisition": "UNMEASURED"}
         if prepare:
             response["status"] = "PREPARED"
         elif request["mode"] == "semantic_axes":
@@ -359,6 +387,18 @@ def run_payload(request_id, payload, *, prepare=False):
             response.update(status="SEMANTIC_AXES_COMPLETE", semantic_axes=suite)
         elif response["native_sha256"] is None:
             response.update(status="VERIFICATION_UNAVAILABLE", error="NATIVE_CHECKER_MISSING")
+        elif request["mode"] == "epistemic_measurement":
+            from tools.benchmark_epistemic_measurement import run
+            suite = run(require_native=True)
+            if (any(suite.get(key) != response[key] for key in (
+                        "native_sha256", "runtime_sha256", "reference_sha256", "source_registry_sha256"))
+                    or suite.get("schema") != "nabt.epistemic-measurement-benchmark.v1"
+                    or suite.get("law_id") != response["scope"]["law_id"]
+                    or any(suite.get(key) is not False for key in (
+                        "hidden_motive_measured", "free_arabic_acquisition_measured",
+                        "whole_arabic_complete", "world_truth_established"))):
+                raise RuntimeError("AUTHORITY_CONTRACT_FAILURE")
+            response.update(status="EPISTEMIC_MEASUREMENT_COMPLETE", epistemic_measurement=suite)
         elif request["mode"] == "testimony":
             from tools.lexical_testimony import assess
             testimony = assess(request["entry"], request["target"])
@@ -388,6 +428,7 @@ def run_payload(request_id, payload, *, prepare=False):
         response.pop("benchmark", None)
         response.pop("testimony", None)
         response.pop("semantic_axes", None)
+        response.pop("epistemic_measurement", None)
     response["duration_ms"] = round((time.monotonic() - started) * 1000)
     encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
     if len(encoded) >= MAX_RESULT_BYTES:
@@ -395,6 +436,7 @@ def run_payload(request_id, payload, *, prepare=False):
         response.pop("benchmark", None)
         response.pop("testimony", None)
         response.pop("semantic_axes", None)
+        response.pop("epistemic_measurement", None)
         response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
     return response
 

@@ -126,3 +126,7 @@ lean_exe linguisticTruth where
 
 lean_exe licensedInference where
   root := `LicensedInferenceMain
+
+@[default_target]
+lean_exe epistemicMeasurement where
+  root := `EpistemicMeasurementMain

@@ -8,6 +8,8 @@
   <title>مختبر البرهان العربي — NABT</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/semantic-axes.js" defer></script>
+  <script src="/epistemic-contract.js" defer></script>
+  <script src="/epistemic-measurement.js" defer></script>
   <script src="/app.js" defer></script>
   <script src="/evidence-audit.js" defer></script>
   <script src="/evidence-sample.js" defer></script>
@@ -37,6 +39,7 @@
         <button role="tab" id="tab-testimony" aria-controls="panel-testimony" aria-selected="false" tabindex="-1" data-tab="testimony"><span class="tab-number">04</span> شهادات المعجم</button>
         <button role="tab" id="tab-semantic_axes" aria-controls="panel-semantic_axes" aria-selected="false" tabindex="-1" data-tab="semantic_axes"><span class="tab-number">05</span> فصل جهات الدلالة</button>
         <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">06</span> دليل القراءة</button>
+        <button role="tab" id="tab-epistemic_measurement" aria-controls="panel-epistemic_measurement" aria-selected="false" tabindex="-1" data-tab="epistemic_measurement"><span class="tab-number">07</span> القصد والرصد</button>
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
@@ -130,6 +133,16 @@
           <p id="semantic-scope" class="field-help"></p><section class="card" id="semantic-lexical-loading" aria-label="مصدر المعجم وحدود التغطية"></section><div id="semantic-axis-metrics" class="semantic-axis-metrics"></div>
           <div class="semantic-workbench"><section class="card"><h3>الحالات ومقاماتها</h3><p class="field-help">يمكن أن يتكرر النص مع مقام مختلف. اختر الحالة لعرض المتوقع والمرصود وحدود كل دعوى.</p><div id="semantic-cases" class="semantic-case-list" aria-label="حالات المجموعة المرجعية"></div></section><section class="card" id="semantic-case-detail" aria-label="تفاصيل الحالة المختارة" aria-live="polite"></section></div>
           <section class="card"><p id="semantic-run-identity" class="report-identity"></p><p id="semantic-reference-identity" class="report-identity" dir="ltr"></p><button type="button" id="download-semantic-axes" class="text-button">تنزيل تقرير الجهات JSON ↓</button><details><summary>سجل التنفيذ الكامل</summary><pre id="semantic-json" dir="ltr"></pre></details></section>
+        </section>
+      </div>
+      <div role="tabpanel" id="panel-epistemic_measurement" aria-labelledby="tab-epistemic_measurement" hidden>
+        <section class="coverage-heading card"><div><p class="eyebrow">دليل مستقل · مقام معلوم · شهادة محددة</p><h2>القصد المصرّح به.<br>والدعوى في سجل الرصد.</h2><p>نقيس نسبة القصد المصرّح به إلى قائله، ومطابقة دعوى لسجل رصد مستقل. لكل منهما مصدره ومقامه؛ لا تتحول العبارة وحدها إلى كشف للدافع الباطن أو إثبات لصدق العالم.</p><p class="field-help">حالات مؤلفة لضبط العقد، وسجل وكالة USGS مستقل عنهما. يُفحص التطابق في Lean بعد توفير الاستعلام المعياري والمصدر؛ اكتساب الدعوى من العربية الحرة غير مقاس.</p></div><button id="run-epistemic-measurement" class="primary-button" type="button" disabled>أعد القياس في Lean <span aria-hidden="true">←</span></button></section>
+        <aside class="coverage-boundary"><span aria-hidden="true">⊢</span><div><b>ما يبقى غير مقاس</b><p>الدافع الباطن، واكتساب المقدمات من النص الحر، وصدق الواقع العام، واكتمال العربية. لا تغير هذه المجموعة نتيجة محوري الدافع والواقع في مرجع «فصل جهات الدلالة» ذي الحالات الـ٢٥.</p></div></aside>
+        <section id="epistemic-empty" class="card benchmark-empty" role="status"><h3 id="epistemic-empty-title">لم يبدأ قياس القصد والرصد في هذه الجلسة.</h3><p>تظهر المصادر والمقامات والشهادات بعد تنفيذ الطلب المثبت. لا يعادل غياب القياس صفر إخفاقات أو نجاحًا.</p></section>
+        <section id="epistemic-output" hidden>
+          <p id="epistemic-scope" class="field-help"></p><div id="epistemic-group-metrics" class="epistemic-groups"></div>
+          <div class="semantic-workbench"><section class="card"><h3>الدعاوى بمقاماتها</h3><p class="field-help">اختيار الدعوى يعرض الاستعلام والأدلة التي فُحصت والحدود الخاصة بها.</p><div id="epistemic-cases" class="semantic-case-list" aria-label="دعاوى القصد والرصد"></div></section><section class="card" id="epistemic-case-detail" aria-label="تفاصيل الدعوى المختارة" aria-live="polite"></section></div>
+          <section class="card"><p id="epistemic-run-identity" class="report-identity"></p><p id="epistemic-reference-identity" class="report-identity" dir="ltr"></p><button type="button" id="download-epistemic-measurement" class="text-button">تنزيل تقرير القصد والرصد JSON ↓</button><details><summary>المدخلات والشهادات الكاملة</summary><pre id="epistemic-json" dir="ltr"></pre></details></section>
         </section>
       </div>
       <div role="tabpanel" id="panel-guide" aria-labelledby="tab-guide" hidden>

@@ -1,0 +1,2946 @@
+{
+  "schema": "nabt.epistemic-measurement-reference.v1",
+  "version": 1,
+  "title_ar": "مرجع مستقل لقرار الشاهد: القصد المصرح به والرصد المقيد",
+  "group": "authored_controls",
+  "independence": {
+    "authored_by": "independent_reference_agent",
+    "runtime_implementation_read": false,
+    "runtime_results_read": false,
+    "external_human_adjudication": false,
+    "blind_evaluation": false,
+    "same_team_and_environment": true
+  },
+  "scope": {
+    "data_origin": "AUTHORED_SCENARIO",
+    "claim_acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+    "natural_language_acquisition_measured": false,
+    "hidden_motive_identification_measured": false,
+    "physical_world_truth_measured": false,
+    "whole_arabic_complete": false,
+    "domain_transfer_measured": false,
+    "warning_ar": "مطابقة القرار لتوقع مؤلف داخل هذا الفريق لا تثبت صدق الشاهد ولا تحقق الدافع الفعلي ولا اكتساب المعنى من النص الحر."
+  },
+  "metric_policy": {
+    "overall_decision_accuracy": "correct_exact_status_and_complete_relative_witness_lists / eligible_structured_cases; reported separately from capability",
+    "positive_capability": "SUPPORTED cases only; never include successful UNKNOWN abstention",
+    "refutation": "REFUTED cases only; absence is not explicit counterevidence",
+    "conflict": "CONFLICT cases only; preserve every admissible alternative",
+    "safe_abstention": "UNKNOWN expected cases only; safety, not understanding",
+    "resource_boundary": "RESOURCE_LIMIT controls separately; excluded from semantic-capability rates",
+    "unmeasured_axes": [
+      "free_arabic_claim_acquisition",
+      "hidden_actual_motive",
+      "universal_physical_truth",
+      "domain_transfer"
+    ],
+    "zero_denominator": "null"
+  },
+  "historical_reference": {
+    "path": "evidence/semantic_axes_v1/revision_2/reference.json",
+    "sha256": "9787e4496118a80a4f352ef19193e1e37976eb282eaf96caaad511ce77ffa431",
+    "modified": false,
+    "denominators_merged": false
+  },
+  "cases": [
+    {
+      "id": "EM-M01",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M01"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M01:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M01",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M01:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M01-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M01:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M01:1",
+            "ancestry": [
+              "origin:EM-M01:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-M01-e1"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-M01-e1"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تثبت نسبة القصد المصرح به في الشهادة المؤلفة إلى قائلها ونطاقها؛ لا تثبت الدافع الفعلي.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "e6eb1f06a9c6a99edfd685faadda889488304b95ac29076fa45c330e1b1e9126",
+      "expected_sha256": "382aa463f797141dd4960fba0fda46e74adad89f8889c5264bf679840cfc98aa"
+    },
+    {
+      "id": "EM-M02",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هَلْ صَرَّحَ أَلِفٌ بِأَنَّ غَرَضَهُ طَلَبُ الْعِلْمِ؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M02"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M02:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: لَمْ يَكُنْ طَلَبُ الْعِلْمِ غَرَضِي."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M02",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M02:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M02-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M02:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: لَمْ يَكُنْ طَلَبُ الْعِلْمِ غَرَضِي."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": false,
+            "kind": "self_report",
+            "origin": "origin:EM-M02:1",
+            "ancestry": [
+              "origin:EM-M02:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "REFUTED",
+        "support_ids": [],
+        "refutation_ids": [
+          "EM-M02-e1"
+        ],
+        "selected_ids": [
+          "EM-M02-e1"
+        ]
+      },
+      "metric_category": "refutation",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "النفي الصريح لنفس القصد المنسوب وفي النطاق نفسه شاهد معارض؛ ليس غياب الشهادة نفيًا.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "87b4875306cd3df84c84beb339a59c134bb5d40f05e4a2fd5848d5ce51d53ea2",
+      "expected_sha256": "681050007f1050fa35d3e6be425e4e878ddd41d487f6fe693b74b7643fc1b281"
+    },
+    {
+      "id": "EM-M03",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "شَهَادَتَانِ مُتَعَارِضَتَانِ عَنْ تَصْرِيحِ أَلِفٍ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M03"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M03:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          },
+          {
+            "identity": "AUTHORED:EM-M03:2",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: لَيْسَ طَلَبُ الْعِلْمِ غَرَضِي."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M03",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M03:1",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M03:2",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M03-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M03:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M03:1",
+            "ancestry": [
+              "origin:EM-M03:1"
+            ]
+          },
+          {
+            "id": "EM-M03-e2",
+            "source": {
+              "identity": "AUTHORED:EM-M03:2",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: لَيْسَ طَلَبُ الْعِلْمِ غَرَضِي."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": false,
+            "kind": "self_report",
+            "origin": "origin:EM-M03:2",
+            "ancestry": [
+              "origin:EM-M03:2"
+            ]
+          }
+        ],
+        "budget": 2,
+        "certificate": null
+      },
+      "expected": {
+        "status": "CONFLICT",
+        "support_ids": [
+          "EM-M03-e1"
+        ],
+        "refutation_ids": [
+          "EM-M03-e2"
+        ],
+        "selected_ids": [
+          "EM-M03-e1",
+          "EM-M03-e2"
+        ]
+      },
+      "metric_category": "conflict",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "يبقى التعارض ظاهرًا؛ لا يختار النظام رواية توافق السؤال.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "048b7504140a68efc16addc7238f32dce219ffd0a0b14a56c16bd8c8e1cd3b5d",
+      "expected_sha256": "a05aa13038f466bd7fadfee82811238562e5d2922841ec3b64abf7230544986b"
+    },
+    {
+      "id": "EM-M04",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "خَرَجَ أَلِفٌ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M04"
+        },
+        "active_sources": [],
+        "origins": [
+          {
+            "id": "query:EM-M04",
+            "parents": []
+          }
+        ],
+        "interpretations": [],
+        "budget": 0,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الفعل المذكور دون شهادة مستقلة على التصريح لا يكشف غرضه.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "653c6524484bfb0c2e092ded2aa0693e9fb2df2153e651cebd8e91f1fbb42222",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M05",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "قَالَ بَاءٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M05"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M05:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M05",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M05:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M05-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M05:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:baa",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M05:1",
+            "ancestry": [
+              "origin:EM-M05:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "لا تنقل شهادة باء إلى ألف؛ اتحاد اللفظ ليس اتحاد المرجع.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "f453fab14d6d03944b917a761c3929ecebf8450a96a81813926430621e454bad",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M06",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "تَصْرِيحٌ فِي رِحْلَةٍ أُخْرَى.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M06"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M06:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M06",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M06:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M06-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M06:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:2",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M06:1",
+            "ancestry": [
+              "origin:EM-M06:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تصريح الحلقة الثانية لا يحسم القصد المصرح به في الحلقة الأولى.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "914277c60fdc0361c8ef722f00f37c5606cf12fdab0379b84a2f43f927f113e7",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M07",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "إِنْ خَرَجَ أَلِفٌ لِطَلَبِ الْعِلْمِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M07"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M07:1",
+            "revision": "1",
+            "content": "إِنْ خَرَجَ أَلِفٌ لِطَلَبِ الْعِلْمِ فَلَهُ غَرَضٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M07",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M07:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M07-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M07:1",
+              "revision": "1",
+              "content": "إِنْ خَرَجَ أَلِفٌ لِطَلَبِ الْعِلْمِ فَلَهُ غَرَضٌ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "hypothetical",
+            "origin": "origin:EM-M07:1",
+            "ancestry": [
+              "origin:EM-M07:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الافتراض لا يثبت حصول التصريح ولا القصد الفعلي.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "94b9c50fc85913e7fd7275c208c5ee75d5bfd91ffb6d69d14f743850b55824e7",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M08",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "حُكِيَ اللَّفْظُ دُونَ تَعْيِينِ قَائِلِهِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M08"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M08:1",
+            "revision": "1",
+            "content": "حُكِيَ لَفْظُ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M08",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M08:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M08-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M08:1",
+              "revision": "1",
+              "content": "حُكِيَ لَفْظُ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "quotation",
+            "origin": "origin:EM-M08:1",
+            "ancestry": [
+              "origin:EM-M08:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "مجرد حكاية النص لا تمنح نسبة ذاتية موثقة إلى المتكلم المقصود.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "26d94c8667130140606ebe2226815b2bf37df33011139d33f13b6629db5f1e79",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M09",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هَلْ نَفَى أَلِفٌ أَنْ يَكُونَ غَرَضُهُ طَلَبَ الْعِلْمِ؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": false,
+          "origin": "query:EM-M09"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M09:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: لَمْ يَكُنْ طَلَبُ الْعِلْمِ غَرَضِي."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M09",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M09:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M09-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M09:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: لَمْ يَكُنْ طَلَبُ الْعِلْمِ غَرَضِي."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": false,
+            "kind": "self_report",
+            "origin": "origin:EM-M09:1",
+            "ancestry": [
+              "origin:EM-M09:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-M09-e1"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-M09-e1"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الشاهد السالب يؤيد السؤال السالب؛ قوائم التأييد والمعارضة نسبية لقطبية السؤال.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "a98baff93a98ebba759edc43a2c08c991842fb2bd6db8afbd2d4f659bce08658",
+      "expected_sha256": "fed841ba3705d6db0d6790fbaa0c002b4f6fd0c0b2241423165590d3b991ef8d"
+    },
+    {
+      "id": "EM-M10",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "طَلَبُ الْعِلْمِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M10"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M10:1",
+            "revision": "1",
+            "content": "طَلَبُ الْعِلْمِ تَعْبِيرٌ لُغَوِيٌّ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M10",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M10:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M10-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M10:1",
+              "revision": "1",
+              "content": "طَلَبُ الْعِلْمِ تَعْبِيرٌ لُغَوِيٌّ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "lexical",
+            "origin": "origin:EM-M10:1",
+            "ancestry": [
+              "origin:EM-M10:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تعريف العبارة المعجمي لا يشهد بأن شخصًا معينًا صرح بهذا القصد.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "2accb90d24199b8deba9285b711fbace575e6037089b9a94fa5270838227597f",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M11",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "تَصْرِيحٌ سَابِقٌ لَا تَعْيِينَ لِاسْتِمْرَارِهِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M11"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M11:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M11",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M11:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M11-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M11:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "-1",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M11:1",
+            "ancestry": [
+              "origin:EM-M11:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "لا يُمدد شاهد زمني إلى آن آخر دون قاعدة مستقلة.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "d8dd14e6afed2b681b64d08c1891491dbcbbf34f73beab05c67300a42c754ae6",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M12",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "شَهَادَةٌ سُحِبَ اعْتِمَادُهَا.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M12"
+        },
+        "active_sources": [],
+        "origins": [
+          {
+            "id": "query:EM-M12",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M12:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M12-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M12:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M12:1",
+            "ancestry": [
+              "origin:EM-M12:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "بقاء التفسير في السجل لا يبقي مصدرًا مسحوبًا فاعلًا.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "58ba5665b97a53124943d6ec95425b188e201c5fb14875d104155389d085e5ab",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-M13",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "نَصٌّ وَاحِدٌ فِي مَقَامَيْنِ مَكَانِيَّيْنِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M13"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M13:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          },
+          {
+            "identity": "AUTHORED:EM-M13:2",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M13",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M13:1",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M13:2",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M13-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M13:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M13:1",
+            "ancestry": [
+              "origin:EM-M13:1"
+            ]
+          },
+          {
+            "id": "EM-M13-e2",
+            "source": {
+              "identity": "AUTHORED:EM-M13:2",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:baa"
+            },
+            "positive": false,
+            "kind": "self_report",
+            "origin": "origin:EM-M13:2",
+            "ancestry": [
+              "origin:EM-M13:2"
+            ]
+          }
+        ],
+        "budget": 2,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-M13-e1"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-M13-e1"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الشاهد المعارض في مقام مكاني مختلف لا يصنع تناقضًا في المقام المطلوب.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "d3ef9291100540f7d96ff98279533d5bef30179fe47826be288d698c50462308",
+      "expected_sha256": "ecba53a29e2f718ad371ea9c2a91dc8e5a8fe353965eacb6b0fefb89f35f4b10"
+    },
+    {
+      "id": "EM-M14",
+      "family": "reported_intent",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "شَهَادَتَانِ مُؤَيِّدَتَانِ بِهُوِيَّتَيْنِ مَحْفُوظَتَيْنِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "reported_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-M14"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-M14:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          },
+          {
+            "identity": "AUTHORED:EM-M14:2",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-M14",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M14:1",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-M14:2",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-M14-e1",
+            "source": {
+              "identity": "AUTHORED:EM-M14:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M14:1",
+            "ancestry": [
+              "origin:EM-M14:1"
+            ]
+          },
+          {
+            "id": "EM-M14-e2",
+            "source": {
+              "identity": "AUTHORED:EM-M14:2",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "reported_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-M14:2",
+            "ancestry": [
+              "origin:EM-M14:2"
+            ]
+          }
+        ],
+        "budget": 2,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-M14-e1",
+          "EM-M14-e2"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-M14-e1",
+          "EM-M14-e2"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "يحتفظ بجميع الشواهد المؤيدة؛ لا يمنح تعدد الأسماء حكم التواتر أو استقلال النقل الواقعي.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "46f8a976f15ede360893684b707548267aa172d8fa41c3ac6e6cb09886a6de75",
+      "expected_sha256": "ea80398814a3407c99c8b0856c7a87cb207a242f686ca04b7c518150bd7ca2ab"
+    },
+    {
+      "id": "EM-W01",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "الْحَاوِيَةُ مُغْلَقَةٌ وَفْقَ سِجِلِّ الرَّصْدِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W01"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W01:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W01",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W01:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W01-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W01:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W01:1",
+            "ancestry": [
+              "origin:EM-W01:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-W01-e1"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-W01-e1"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "مطابقة لشاهد رصد مؤلف في هذه الحالة؛ لا تجربة حسية فعلية.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "23f2c74e33d407e5a3bdc9f4a86c84c7b05f7eaf742c168c4ccc502507bebf80",
+      "expected_sha256": "840815a75a714633789e58f3e79c4da62776908e47b9fdea1aed69360fd5cd00"
+    },
+    {
+      "id": "EM-W02",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هَلِ الْحَاوِيَةُ مُغْلَقَةٌ فِي هَذَا السِّجِلِّ؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W02"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W02:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ لَيْسَتْ مُغْلَقَةً."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W02",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W02:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W02-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W02:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ لَيْسَتْ مُغْلَقَةً."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": false,
+            "kind": "observation",
+            "origin": "origin:EM-W02:1",
+            "ancestry": [
+              "origin:EM-W02:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "REFUTED",
+        "support_ids": [],
+        "refutation_ids": [
+          "EM-W02-e1"
+        ],
+        "selected_ids": [
+          "EM-W02-e1"
+        ]
+      },
+      "metric_category": "refutation",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الرصد السالب الصريح لنفس القضية يعارضها؛ غياب سجل موجب لا يكفي.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "0d84720f623a9205a16192168b49151797e0016138fa0e2bd2b6f9e8c0cb609e",
+      "expected_sha256": "331a9ca1a7ba5a032a3a15743e6aeab75488a53edb2da212cfb29b7a0269f488"
+    },
+    {
+      "id": "EM-W03",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "سِجِلَّاتٌ مُتَعَارِضَةٌ لِلْقَضِيَّةِ نَفْسِهَا.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W03"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W03:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          },
+          {
+            "identity": "AUTHORED:EM-W03:2",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          },
+          {
+            "identity": "AUTHORED:EM-W03:3",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W03",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W03:1",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W03:2",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W03:3",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W03-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W03:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W03:1",
+            "ancestry": [
+              "origin:EM-W03:1"
+            ]
+          },
+          {
+            "id": "EM-W03-e2",
+            "source": {
+              "identity": "AUTHORED:EM-W03:2",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": false,
+            "kind": "observation",
+            "origin": "origin:EM-W03:2",
+            "ancestry": [
+              "origin:EM-W03:2"
+            ]
+          },
+          {
+            "id": "EM-W03-e3",
+            "source": {
+              "identity": "AUTHORED:EM-W03:3",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W03:3",
+            "ancestry": [
+              "origin:EM-W03:3"
+            ]
+          }
+        ],
+        "budget": 3,
+        "certificate": null
+      },
+      "expected": {
+        "status": "CONFLICT",
+        "support_ids": [
+          "EM-W03-e1",
+          "EM-W03-e3"
+        ],
+        "refutation_ids": [
+          "EM-W03-e2"
+        ],
+        "selected_ids": [
+          "EM-W03-e1",
+          "EM-W03-e2",
+          "EM-W03-e3"
+        ]
+      },
+      "metric_category": "conflict",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تُحفظ المعارضة وترتيب السجل كاملًا؛ كثرة المؤيدين لا تلغي المعارض.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "966daddd087181873a30f8ef79a1fbafdf6939d3b126bf7960a7cc6b72e28ff4",
+      "expected_sha256": "fc273d161931b584861824f5c5863f06e51ac88caa0fde9228f19888ff13d7f8"
+    },
+    {
+      "id": "EM-W04",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "قِيمَةٌ مَرْصُودَةٌ مُخْتَلِفَةٌ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W04"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W04:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W04",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W04:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W04-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W04:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "ajar",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W04:1",
+            "ancestry": [
+              "origin:EM-W04:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "اختلاف القيمة لا يُحوَّل إلى نفي بقاعدة غير معلنة؛ الشاهد ليس عن المفتاح نفسه.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "c96cac287a7478b4abacc05d2927c4603f750d2f398c9ba93094b66dcd3913cf",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W05",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "وَحْدَةُ تَرْمِيزٍ مُخْتَلِفَةٌ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W05"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W05:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W05",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W05:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W05-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W05:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "different-state-code",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W05:1",
+            "ancestry": [
+              "origin:EM-W05:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تغيير الوحدة يحتاج تحويلًا مرخصًا؛ لا تُسقط الوحدة من الهوية.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "a41439d9a34b878017ad8f85a5412fccd4831669e4bad3f5c53de792695189d0",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W06",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "رَصْدٌ فِي مَكَانٍ آخَرَ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W06"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W06:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W06",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W06:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W06-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W06:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:baa"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W06:1",
+            "ancestry": [
+              "origin:EM-W06:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الخبر المكاني الآخر لا يحسم الموضع المقصود.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "7d99cbe514620f5feeae9e627c8000e0490f47bd1b8414926f2c92cb533010ea",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W07",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "رَصْدٌ فِي آنٍ سَابِقٍ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W07"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W07:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W07",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W07:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W07-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W07:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "-1",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W07:1",
+            "ancestry": [
+              "origin:EM-W07:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "لا يُفترض استمرار حالة الحاوية من آن سابق.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "ded31bd89a7bae68af126cfaa9647246178a86e3c5264a812b222fbc0e3319cf",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W08",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "رَصْدُ حَاوِيَةٍ أُخْرَى.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W08"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W08:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W08",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W08:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W08-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W08:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:baa",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W08:1",
+            "ancestry": [
+              "origin:EM-W08:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تشابه الجنس لا يساوي تعيين الذات.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "bdea46bcc7c832a5e05a054e075ce1e7914bd3f33524b00589dcafe5c9b833c7",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W09",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "سِجِلُّ رَصْدٍ غَيْرُ فَعَّالٍ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W09"
+        },
+        "active_sources": [],
+        "origins": [
+          {
+            "id": "query:EM-W09",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W09:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W09-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W09:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W09:1",
+            "ancestry": [
+              "origin:EM-W09:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "المصدر غير الفعال لا يسند حكمًا موجبًا ولا سالبًا.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "098b8913fc73f3d07558d6f6f7d83726c53978d56122f4e152829e49543a76a8",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W10",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هُوِيَّةُ مَصْدَرٍ مُتَشَابِهَةٌ وَمَتْنٌ مُخْتَلِفٌ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W10"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W10:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W10",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W10:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W10-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W10:1",
+              "revision": "1",
+              "content": "نَصٌّ مُبَدَّلٌ فِي التَّفْسِيرِ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W10:1",
+            "ancestry": [
+              "origin:EM-W10:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "اسم المصدر ورقمه لا يعوضان عدم تطابق متن الشاهد كاملًا.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "e6d0490b70dda0f98120a087887b1aba61e26accaab1003fe8dc2abc8c9123da",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W11",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "شَاهِدٌ أُعِيدَ تَوْلِيدُهُ مِنَ الدَّعْوَى.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W11"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W11:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W11",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W11:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W11-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W11:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "query:EM-W11",
+            "ancestry": [
+              "query:EM-W11"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "لا تصبح إعادة صياغة الدعوى دليلًا مستقلًا عليها.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "1ac480683367c6c8346a850d8054d5440db2712e4ee824f564bec04732c92c2a",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W12",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "وَاسِطَةٌ تُخْفِي اعْتِمَادَ الشَّاهِدِ عَلَى الدَّعْوَى.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W12"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W12:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W12",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W12:1",
+            "parents": [
+              "origin:EM-W12:middle"
+            ]
+          },
+          {
+            "id": "origin:EM-W12:middle",
+            "parents": [
+              "query:EM-W12"
+            ]
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W12-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W12:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W12:1",
+            "ancestry": [
+              "origin:EM-W12:1",
+              "origin:EM-W12:middle",
+              "query:EM-W12"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "يحفظ النسب غير المباشر؛ المرور بوسيط لا يجعل المصدر مستقلًا.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "f76270f529e656e924a93047a068ac5a8c52b8dfcdff83bc7211a3988b40943c",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W13",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هَلْ تَسَبَّبَتِ الرِّيحُ فِي الْمَطَرِ؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "event:rain",
+            "predicate": "caused_by",
+            "value": "event:wind",
+            "unit": "relation",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W13"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W13:1",
+            "revision": "1",
+            "content": "هَطَلَ الْمَطَرُ بَعْدَ هُبُوبِ الرِّيحِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W13",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W13:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W13-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W13:1",
+              "revision": "1",
+              "content": "هَطَلَ الْمَطَرُ بَعْدَ هُبُوبِ الرِّيحِ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "event:rain",
+              "predicate": "after",
+              "value": "event:wind",
+              "unit": "relation",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W13:1",
+            "ancestry": [
+              "origin:EM-W13:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "ثبوت التعاقب لا يسند دعوى سببية مختلفة.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "d0861ea277d069f5162b336c992ad2210efdfdea7019a1d82741066ce1a0255b",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-W14",
+      "family": "recorded_observation",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "الْحَاوِيَةُ مُغْلَقَةٌ وَلَيْسَتْ حَارَّةً فِي الْآنِ نَفْسِهِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-W14"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-W14:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          },
+          {
+            "identity": "AUTHORED:EM-W14:2",
+            "revision": "1",
+            "content": "الْحَاوِيَةُ لَيْسَتْ حَارَّةً."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-W14",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W14:1",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-W14:2",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-W14-e1",
+            "source": {
+              "identity": "AUTHORED:EM-W14:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-W14:1",
+            "ancestry": [
+              "origin:EM-W14:1"
+            ]
+          },
+          {
+            "id": "EM-W14-e2",
+            "source": {
+              "identity": "AUTHORED:EM-W14:2",
+              "revision": "1",
+              "content": "الْحَاوِيَةُ لَيْسَتْ حَارَّةً."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "hot_state",
+              "value": "hot",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": false,
+            "kind": "observation",
+            "origin": "origin:EM-W14:2",
+            "ancestry": [
+              "origin:EM-W14:2"
+            ]
+          }
+        ],
+        "budget": 2,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-W14-e1"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-W14-e1"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "التزامن بين قضيتين مختلفتين ليس اجتماع النقيضين في القضية نفسها.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "40c6f1ab912a58fa21e1ef628a58d9bd7aa06cd0a530bb1489c6780b3b5398b9",
+      "expected_sha256": "17e2636fa3544e41d03d9ea835ea66b63e75d96aa0144072838e0b87b0b2fa5f"
+    },
+    {
+      "id": "EM-H01",
+      "family": "hidden_motive_boundary",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هَلْ طَلَبُ الْعِلْمِ هُوَ الدَّافِعُ الْفِعْلِيُّ الْخَفِيُّ؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "hidden_motive",
+            "entity": "person:alif",
+            "predicate": "stated_purpose",
+            "value": "seeking_knowledge",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-H01"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-H01:1",
+            "revision": "1",
+            "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-H01",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-H01:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-H01-e1",
+            "source": {
+              "identity": "AUTHORED:EM-H01:1",
+              "revision": "1",
+              "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+            },
+            "key": {
+              "axis": "hidden_motive",
+              "entity": "person:alif",
+              "predicate": "stated_purpose",
+              "value": "seeking_knowledge",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "self_report",
+            "origin": "origin:EM-H01:1",
+            "ancestry": [
+              "origin:EM-H01:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "حتى التصريح الصريح لا يثبت صدق الدافع النفسي الخفي؛ يبقى قياسه غير منفذ.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "4124c605057f2d802b916c281b71ac43691db853922aac52bfffc534c0982d20",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-H02",
+      "family": "hidden_motive_boundary",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "هَلْ تَثْبُتُ غَرِيزَةُ التَّقْدِيسِ مِنَ الْجُمْلَةِ الِاسْمِيَّةِ؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "hidden_motive",
+            "entity": "person:alif",
+            "predicate": "instinct",
+            "value": "veneration",
+            "unit": "purpose",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-H02"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-H02:1",
+            "revision": "1",
+            "content": "السَّمَاءُ وَاسِعَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-H02",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-H02:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-H02-e1",
+            "source": {
+              "identity": "AUTHORED:EM-H02:1",
+              "revision": "1",
+              "content": "السَّمَاءُ وَاسِعَةٌ."
+            },
+            "key": {
+              "axis": "hidden_motive",
+              "entity": "person:alif",
+              "predicate": "instinct",
+              "value": "veneration",
+              "unit": "purpose",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "grammar",
+            "origin": "origin:EM-H02:1",
+            "ancestry": [
+              "origin:EM-H02:1"
+            ]
+          }
+        ],
+        "budget": 1,
+        "certificate": null
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الصنف النحوي أو ذكر السماء لا يثبت غريزة متكلم معين.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "0e1778439b26f17b046ac5a07fa12c6e82f87094bbd9e7c0cf62d0dccfcce812",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "EM-R01",
+      "family": "resource_boundary",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "فَحْصٌ تَوَقَّفَ لِنَفَادِ الْمَوْرِدِ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-R01"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-R01:1",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-R01",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-R01:1",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-R01-e1",
+            "source": {
+              "identity": "AUTHORED:EM-R01:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-R01:1",
+            "ancestry": [
+              "origin:EM-R01:1"
+            ]
+          }
+        ],
+        "budget": 0,
+        "certificate": null
+      },
+      "expected": {
+        "status": "RESOURCE_LIMIT",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "resource_boundary",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "نفاد الميزانية ليس حكمًا لغويًا ولا استنفادًا للشواهد.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "bbe5dcd190f096b675dd0e603ad7dfab33391d03df7caff9a6eccf93282300d0",
+      "expected_sha256": "9cd23e3a66c7191d6ac691430e28467fea0c03181aef0447c206fd3179d99a85"
+    },
+    {
+      "id": "EM-B01",
+      "family": "source_withdrawal",
+      "source_profile": "authored_controls_v1",
+      "data_origin": "AUTHORED_SCENARIO",
+      "display_text_ar": "سُحِبَ شَاهِدٌ وَبَقِيَ شَاهِدٌ آخَرُ.",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "container:alif",
+            "predicate": "closed_state",
+            "value": "closed",
+            "unit": "state",
+            "context": "episode:1",
+            "time": "0",
+            "place": "place:alif"
+          },
+          "positive": true,
+          "origin": "query:EM-B01"
+        },
+        "active_sources": [
+          {
+            "identity": "AUTHORED:EM-B01:2",
+            "revision": "1",
+            "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+          }
+        ],
+        "origins": [
+          {
+            "id": "query:EM-B01",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-B01:1",
+            "parents": []
+          },
+          {
+            "id": "origin:EM-B01:2",
+            "parents": []
+          }
+        ],
+        "interpretations": [
+          {
+            "id": "EM-B01-e1",
+            "source": {
+              "identity": "AUTHORED:EM-B01:1",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-B01:1",
+            "ancestry": [
+              "origin:EM-B01:1"
+            ]
+          },
+          {
+            "id": "EM-B01-e2",
+            "source": {
+              "identity": "AUTHORED:EM-B01:2",
+              "revision": "1",
+              "content": "سَجَّلَ الرَّاصِدُ أَنَّ الْحَاوِيَةَ مُغْلَقَةٌ."
+            },
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "container:alif",
+              "predicate": "closed_state",
+              "value": "closed",
+              "unit": "state",
+              "context": "episode:1",
+              "time": "0",
+              "place": "place:alif"
+            },
+            "positive": true,
+            "kind": "observation",
+            "origin": "origin:EM-B01:2",
+            "ancestry": [
+              "origin:EM-B01:2"
+            ]
+          }
+        ],
+        "budget": 2,
+        "certificate": null
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "EM-B01-e2"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "EM-B01-e2"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "سحب المصدر الأول لا يمحو دعمًا آخر ما زال فعالًا وفق مقدمات هذا السجل.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_before_runtime_execution",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "f3be50bec3996feae007cbf7840479ef570b0afb8d9ef52324b4e81d99bc7aac",
+      "expected_sha256": "c666f45fb8d7899c7cdc6eca8275c72ad792acccc106d0cc8feb9d32206eb905"
+    }
+  ]
+}
