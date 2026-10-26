@@ -111,6 +111,10 @@ lean_exe lexicalDenotation where
 lean_exe lexicalCompletion where
   root := `LexicalCompletionMain
 
+@[default_target]
+lean_exe lexicalGraph where
+  root := `LexicalGraphMain
+
 lean_exe exportRuleRouting where
   root := `ExportRuleRouting
 

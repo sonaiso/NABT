@@ -1,0 +1,61 @@
+{
+  "schema": "nabt.lexical-graph-validation.v1",
+  "gates": [
+    {
+      "command": "make formal",
+      "exit_code": 0,
+      "log": "formal.log.gz",
+      "uncompressed_sha256": "c520490379fd2385e969d256f5daad36eb3c5fcbc86cf0a4efa3617df6936853"
+    },
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "log": "tests.log.gz",
+      "uncompressed_sha256": "1deb70ad4ef233f430430a17f2f08f81409e25d9e50bb589129734449450f66a",
+      "executed": 2289,
+      "skipped": 28,
+      "seconds": 271.98,
+      "passed": 2261,
+      "failed": 0
+    },
+    {
+      "command": "make conformance",
+      "exit_code": 0,
+      "log": "conformance.log.gz",
+      "uncompressed_sha256": "7fa8c049e433fa79cec0e2409675640b159f36b591d2915866e9eb69853d875c"
+    },
+    {
+      "command": "make -f Makefile -f integrations/grammar_catalog.mk proof-catalog",
+      "exit_code": 0,
+      "log": "proof-links.log.gz",
+      "uncompressed_sha256": "63760770b745ca6d4c948a54c6e8ecf85634d143b685fa76a2ce9f75dc91ec7d"
+    },
+    {
+      "command": "python -m unittest tests.test_lexical_graph -v",
+      "exit_code": 0,
+      "log": "graph-tests.log.gz",
+      "uncompressed_sha256": "de230248c9dddde3daafeff04fda08a12dc7ca709cc12ca2fbb6b6bef0a7f0c7",
+      "executed": 29,
+      "skipped": 0,
+      "seconds": 15.881,
+      "passed": 29,
+      "failed": 0
+    }
+  ],
+  "lake": "leanprover/lean4:v4.34.1",
+  "base_commit": "3619280b9c405fcac5ca700918484c2faf6aab56",
+  "working_tree_at_validation": "uncommitted lexical graph addition",
+  "full_suite_note": "Full discovery ran 2289 tests (2261 passed,28 skipped). Three further transport/topology methods were then included in the final focused 29/29 run. They were not retroactively counted in the full-discovery total.",
+  "full_make_check_executed_in_this_step": false,
+  "full_make_check_note": "Required kernel-change gates formal/test/conformance and axiom/catalogue/integrity gates ran; this draft is not a release. Existing optional runtime and source evaluation gates remain enforced by repository CI.",
+  "all_arabic_complete": false,
+  "world_truth_established": false,
+  "postgres": {
+    "static_checks_passed": 5,
+    "integration_tests_skipped": 9,
+    "server_tests_executed_locally": false,
+    "log": "postgres-tests.log.gz",
+    "log_sha256": "edc008d742e47755b0ad901b8545dd5250ea7bdba174165baa5223c88ddaec9d",
+    "reason": "NABT_TEST_DATABASE_URL unset; no local PostgreSQL server"
+  }
+}
