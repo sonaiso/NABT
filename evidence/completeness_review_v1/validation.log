@@ -1,0 +1,49 @@
+Build completed successfully (76 jobs).
+Nabt.Shakhsiyya3Rules.forward_condition_insufficient : ∃ P Q, (P → Q) ∧ ¬P ∧ Q
+Nabt.Shakhsiyya3Rules.contrast_with_necessary_condition (P Q : Prop) (necessary : Q → P) (absent : ¬P) : ¬Q
+Nabt.Shakhsiyya3Rules.countertext_blocks_contrast (k : Nabt.Shakhsiyya3Rules.ContrastKind) (q u : Bool) :
+  Nabt.Shakhsiyya3Rules.permitsContrast k q true u = false
+Nabt.Shakhsiyya3Rules.usual_case_blocks_contrast (k : Nabt.Shakhsiyya3Rules.ContrastKind) (q o : Bool) :
+  Nabt.Shakhsiyya3Rules.permitsContrast k q o true = false
+Nabt.ArabicCoverage.exact_iff_sound_and_complete {Input Reading : Type} (domain : Input → Prop)
+  (reference recognized : Input → Reading → Prop) :
+  Nabt.ArabicCoverage.ExactWithin domain reference recognized ↔
+    Nabt.ArabicCoverage.SoundWithin domain reference recognized ∧
+      Nabt.ArabicCoverage.CompleteWithin domain reference recognized
+Nabt.ArabicCoverage.exactness_transfers_with_reference_equivalence {Input Reading : Type} (domain : Input → Prop)
+  (formalReference intendedReference recognized : Input → Reading → Prop)
+  (implementation : Nabt.ArabicCoverage.ExactWithin domain formalReference recognized)
+  (adequacy :
+    ∀ (input : Input),
+      domain input → ∀ (reading : Reading), formalReference input reading ↔ intendedReference input reading) :
+  Nabt.ArabicCoverage.ExactWithin domain intendedReference recognized
+Nabt.ArabicCoverage.no_single_interpreter_of_observation_collision {World Input Reading : Type}
+  (observe : World → Input) (intended : World → Reading) (first second : World)
+  (sameObservation : observe first = observe second) (differentReadings : intended first ≠ intended second) :
+  ¬∃ interpret, ∀ (world : World), interpret (observe world) = intended world
+Nabt.ArabicCoverage.unique_choice_incomplete_for_ambiguous_input {Input Reading : Type} (domain : Input → Prop)
+  (reference recognized : Input → Reading → Prop)
+  (complete : Nabt.ArabicCoverage.CompleteWithin domain reference recognized) (input : Input) (covered : domain input)
+  (first second : Reading) (firstLicensed : reference input first) (secondLicensed : reference input second)
+  (distinct : first ≠ second) : ¬∃ only, ∀ (reading : Reading), recognized input reading → reading = only
+Nabt.LexicalGraph.completed_exact (p : Nabt.VerifiedReading.GroundProgram) (budget : Nat)
+  (finished : (Nabt.LexicalGraph.result p budget).finished = true) (a : Nabt.VerifiedReading.GroundAtom) :
+  a ∈ (Nabt.LexicalGraph.result p budget).known ↔ Nabt.SemanticInference.Derivable p a
+Nabt.LexicalGraph.completed_model_sound (p : Nabt.VerifiedReading.GroundProgram) (budget : Nat)
+  (finished : (Nabt.LexicalGraph.result p budget).finished = true) (meaning : Nabt.VerifiedReading.GroundAtom → Prop)
+  (factsTrue :
+    ∀ (f : Nabt.SemanticInference.Fact (String × List String)),
+      Nabt.SemanticInference.FactAdmitted p f → meaning f.atom)
+  (rulesPreserve :
+    ∀ (r : Nabt.SemanticInference.Rule (String × List String)),
+      Nabt.SemanticInference.RuleAdmitted p r →
+        (∀ (a : Nabt.SemanticInference.Atom (String × List String)), a ∈ r.body → meaning a) → meaning r.head)
+  (a : Nabt.VerifiedReading.GroundAtom) (member : a ∈ (Nabt.LexicalGraph.result p budget).known) : meaning a
+Nabt.LexicalGraph.completed_empty_without_seeds (p : Nabt.VerifiedReading.GroundProgram) (budget : Nat)
+  (finished : (Nabt.LexicalGraph.result p budget).finished = true) (empty : p.facts = []) :
+  (Nabt.LexicalGraph.result p budget).known = []
+NABT_REVIEW_THEOREM CompletenessReview.finite_generation_need_not_cover AXIOMS []
+NABT_REVIEW_THEOREM CompletenessReview.a_cycle_has_distinct_models AXIOMS []
+NABT_REVIEW_THEOREM CompletenessReview.two_nonempty_classes_need_not_cover AXIOMS [propext]
+NABT_REVIEW_THEOREM CompletenessReview.set_exclusion_is_not_unconditional_xor AXIOMS []
+NABT_COMPLETENESS_REVIEW_OK

@@ -19,6 +19,10 @@ on:
       - 'tools/benchmark_lexical_graph.py'
       - 'tests/test_lexical_graph.py'
       - 'evidence/lexical_graph_v1/**'
+      - 'evidence/completeness_review_v1/**'
+      - 'tools/check_completeness_review.py'
+      - 'tests/test_completeness_review.py'
+      - 'docs/NABT_COMPLETENESS_PROOF.md'
       - 'integrations/lexical_graph.mk'
       - 'tools/linguistic_truth/**'
       - 'tools/benchmark_linguistic_truth.py'
@@ -62,6 +66,10 @@ jobs:
         run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build Nabt lexicalCompletion linguisticTruth lexicalGraph'
       - name: Enforce transitive axiom audit
         run: python tools/check_axioms.py --lake "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --output artifacts/local/lexical-completion-ci/axioms.json
+      - name: Kernel-check completeness boundaries and failure receipts
+        run: |
+          python tools/check_completeness_review.py --lake "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --output artifacts/local/lexical-completion-ci/completeness-review.json
+          python -m unittest discover -s tests -p test_completeness_review.py -v
       - name: Require native tests with source replay
         run: |
           test -x formal/.lake/build/bin/lexicalCompletion
