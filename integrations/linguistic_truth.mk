@@ -1,6 +1,6 @@
 # Optional source-grounded linguistic-use reader; coverage gaps stay explicit.
 .PHONY: linguistic-truth
-LINGUISTIC_LINK_REFERENCE ?= evidence/contextual_semantics_v1/linguistic_proof_links.json
+LINGUISTIC_LINK_REFERENCE ?= evidence/occurrence_sense_v1/catalog_references/linguistic_proof_links.json
 linguistic-truth: formal
 	$(PYTHON) tools/check_linguistic_truth.py --lake $(LAKE) --output $(EVIDENCE_DIR)/linguistic-truth-conformance.json
 	$(PYTHON) -m tools.linguistic_truth.verify_originals --output $(EVIDENCE_DIR)/linguistic-truth-retained-sources.json

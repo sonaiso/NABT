@@ -1,0 +1,36 @@
+{
+  "schema": "nabt.occurrence-sense.holdout.integrity.v1",
+  "ordinary_case_denominator": false,
+  "obligations": [
+    {
+      "id": "I01",
+      "operation": "Change selected text or token_index after receipt construction without replaying acquisition.",
+      "expected": "Receipt verification rejects altered identity or recomputes from the original source and selected occurrence; supplied candidates and hashes alone never authorize it."
+    },
+    {
+      "id": "I02",
+      "operation": "Change one pinned dictionary source byte while retaining the prior hash and receipt.",
+      "expected": "Source integrity fails before semantic success; not a complete empty candidate list."
+    },
+    {
+      "id": "I03",
+      "operation": "Remove an alternative reading or same-headword sense from a receipt and recompute caller-controlled hashes.",
+      "expected": "Verifier rejects incomplete replay; matching target cannot license discarding competing alternatives."
+    },
+    {
+      "id": "I04",
+      "operation": "Transfer a valid initial-reference receipt to another text/context or assign its entity to a later selected noun.",
+      "expected": "Reject occurrence/context mismatch and lack of clause binding; a correct independent initial receipt is not a binding certificate for that noun."
+    },
+    {
+      "id": "I05",
+      "operation": "Supply token_index as true, -1 or a noninteger; supply budget as true or a negative integer.",
+      "expected": "Strict type/range rejection; no Python bool/int alias acceptance."
+    },
+    {
+      "id": "I06",
+      "operation": "Truncate morphology enumeration at a finite positive budget before all alternatives are inspected.",
+      "expected": "Explicit resource/incomplete result. A partial list cannot claim source completeness or contextual selection."
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "nabt.occurrence-sense-integrity-results.v1",
+  "ordinary_case_denominator": false,
+  "obligations": [
+    {
+      "id": "I01",
+      "status": "PASS",
+      "tests": [
+        {
+          "path": "tests/test_occurrence_sense_adversarial.py",
+          "class": "OccurrenceAdversarialTests",
+          "method": "test_identical_surface_at_a_different_occurrence_cannot_reuse_receipt"
+        },
+        {
+          "path": "tests/test_occurrence_sense_adversarial.py",
+          "class": "OccurrenceAdversarialTests",
+          "method": "test_shifted_source_bytes_invalidate_old_occurrence_receipt"
+        }
+      ]
+    },
+    {
+      "id": "I02",
+      "status": "PASS",
+      "tests": [
+        {
+          "path": "tests/test_occurrence_sense_adversarial.py",
+          "class": "OccurrenceAdversarialTests",
+          "method": "test_pinned_dictionary_byte_mutation_stops_before_native_semantic_success"
+        }
+      ]
+    },
+    {
+      "id": "I03",
+      "status": "PASS",
+      "tests": [
+        {
+          "path": "tests/test_occurrence_sense_adversarial.py",
+          "class": "OccurrenceAdversarialTests",
+          "method": "test_deleting_an_entire_reading_invalidates_the_native_receipt"
+        },
+        {
+          "path": "tests/test_occurrence_sense.py",
+          "class": "OccurrenceSourceTests",
+          "method": "test_native_rechecks_complete_senses_and_original_budget"
+        }
+      ]
+    },
+    {
+      "id": "I04",
+      "status": "PASS",
+      "tests": [
+        {
+          "path": "tests/test_occurrence_sense_adversarial.py",
+          "class": "OccurrenceAdversarialTests",
+          "method": "test_public_context_swap_rejects_stale_reference_subreceipt"
+        },
+        {
+          "path": "tests/test_occurrence_sense.py",
+          "class": "OccurrenceSourceTests",
+          "method": "test_initial_reference_is_bound_to_its_own_occurrence"
+        }
+      ]
+    },
+    {
+      "id": "I05",
+      "status": "PASS",
+      "tests": [
+        {
+          "path": "tests/test_occurrence_sense.py",
+          "class": "OccurrenceInputTests",
+          "method": "test_strict_natural_types_and_component_arrays"
+        }
+      ]
+    },
+    {
+      "id": "I06",
+      "status": "PASS",
+      "tests": [
+        {
+          "path": "tests/test_occurrence_sense_adversarial.py",
+          "class": "OccurrenceAdversarialTests",
+          "method": "test_positive_insufficient_budget_does_not_return_a_partial_inventory"
+        }
+      ]
+    }
+  ],
+  "test_suite": {
+    "total": 46,
+    "passed": 46,
+    "failed": 0,
+    "skipped": 0
+  },
+  "log_sha256": "4a1970250c42ffad79d2a2c519f1ccc4fa898421f13f282bc9480978ed1aac4a",
+  "native_required": true,
+  "notes": "Obligations are covered by explicit counterexample tests. Counts are not natural-language accuracy."
+}

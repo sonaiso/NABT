@@ -1,0 +1,221 @@
+{
+  "schema": "nabt.occurrence-sense.benchmark-review.v1",
+  "initial_implementation_commit": "2061c510501382a721b9575376703b57ec596d18",
+  "first_report": {
+    "path": "evidence/occurrence_sense_v1/benchmark_initial.json",
+    "sha256": "e88a3aa9ba7bc827ae752deee786abc7d05aad2df4dbed73a1edec8516ee450e",
+    "preserved_byte_exact": true
+  },
+  "corrected_report": {
+    "path": "evidence/occurrence_sense_v1/benchmark_initial_corrected.json",
+    "sha256": "bce7174bd2ac2fcdf2710c693c2142272bd056472133dd22201faf387cb41613"
+  },
+  "reference_erratum": {
+    "path": "evidence/occurrence_sense_v1/reference_erratum_v1.json",
+    "sha256": "6ec6cbc3852b5c3766860e976fcc0d60889be69bd3a1f1e9cf986b4840f66e4a",
+    "discovered_after_first_observation": true,
+    "affected_fields": "Nine candidate_sense_ids_exact arrays and the forbidden_sense_ids array in O19 only. No conditional labels or API inputs changed.",
+    "cause": "Reference authoring shared-list aliasing appended passage provenance IDs to arrays reserved for dictionary sense IDs. The exact edits are justified by pinned catalogue versus passage-ledger membership."
+  },
+  "runtime_changed_between_reports": false,
+  "public_schema_adapter_mismatches_found": [],
+  "original_summary": {
+    "safety": {
+      "eligible": 20,
+      "passed": 20,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "candidate_acquisition": {
+      "eligible": 17,
+      "passed": 7,
+      "failed": 10,
+      "unmeasured": 0
+    },
+    "conditional_indication": {
+      "eligible": 17,
+      "passed": 7,
+      "failed": 10,
+      "unmeasured": 0
+    },
+    "ambiguity": {
+      "eligible": 13,
+      "passed": 4,
+      "failed": 9,
+      "unmeasured": 0
+    },
+    "initial_reference": {
+      "eligible": 6,
+      "passed": 6,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "occurrence_reference_separation": {
+      "eligible": 20,
+      "passed": 20,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "bounded_behavior": {
+      "eligible": 7,
+      "passed": 5,
+      "failed": 2,
+      "unmeasured": 0
+    },
+    "linguistic_coverage": {
+      "eligible": 1,
+      "passed": 0,
+      "failed": 1,
+      "unmeasured": 0
+    },
+    "native": {
+      "eligible": 18,
+      "passed": 18,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "context_and_query_invariance": {
+      "eligible": 5,
+      "passed": 1,
+      "failed": 4,
+      "unmeasured": 0
+    },
+    "positive_candidate_acquisition": {
+      "eligible": 14,
+      "passed": 4,
+      "failed": 10,
+      "unmeasured": 0
+    }
+  },
+  "corrected_summary": {
+    "safety": {
+      "eligible": 20,
+      "passed": 20,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "candidate_acquisition": {
+      "eligible": 17,
+      "passed": 13,
+      "failed": 4,
+      "unmeasured": 0
+    },
+    "conditional_indication": {
+      "eligible": 17,
+      "passed": 13,
+      "failed": 4,
+      "unmeasured": 0
+    },
+    "ambiguity": {
+      "eligible": 10,
+      "passed": 7,
+      "failed": 3,
+      "unmeasured": 0
+    },
+    "initial_reference": {
+      "eligible": 6,
+      "passed": 6,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "occurrence_reference_separation": {
+      "eligible": 20,
+      "passed": 20,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "bounded_behavior": {
+      "eligible": 7,
+      "passed": 5,
+      "failed": 2,
+      "unmeasured": 0
+    },
+    "linguistic_coverage": {
+      "eligible": 1,
+      "passed": 0,
+      "failed": 1,
+      "unmeasured": 0
+    },
+    "native": {
+      "eligible": 18,
+      "passed": 18,
+      "failed": 0,
+      "unmeasured": 0
+    },
+    "context_and_query_invariance": {
+      "eligible": 5,
+      "passed": 4,
+      "failed": 1,
+      "unmeasured": 0
+    },
+    "positive_candidate_acquisition": {
+      "eligible": 14,
+      "passed": 10,
+      "failed": 4,
+      "unmeasured": 0
+    }
+  },
+  "real_coverage_failures": [
+    {
+      "case_ids": [
+        "O07"
+      ],
+      "selected_surface": "الشَّمْسُ",
+      "observed": "NO_MORPHOLOGY_READING",
+      "unmet_obligation": "Acquire the catalogue sun candidate and preserve its unresolved definition; its absent morphology is not evidence of absent meaning."
+    },
+    {
+      "case_ids": [
+        "O14",
+        "O15",
+        "O16"
+      ],
+      "selected_surface": "قَلَمٌ",
+      "observed": "NO_MORPHOLOGY_READING",
+      "unmet_obligation": "Acquire all three conditional dictionary alternatives. Opening demonstrative reference is correct in all three contexts but does not license the later noun."
+    },
+    {
+      "case_ids": [
+        "O17"
+      ],
+      "selected_surface": "سَرِيرٌ",
+      "observed": "NO_MORPHOLOGY_READING",
+      "unmet_obligation": "Desired two-sense coverage remains unmet while abstention is correct for the missing installed morphology alignment."
+    },
+    {
+      "case_ids": [
+        "O19"
+      ],
+      "selected_surface": "رِجْلٌ",
+      "observed": "NO_MORPHOLOGY_READING",
+      "unmet_obligation": "Correctly avoids the man sense sharing a root, but does not acquire the expected morphology or prove a complete dictionary gap."
+    }
+  ],
+  "interpretation_limits": [
+    "Fixing malformed reference labels is not a runtime improvement. Both original and corrected metrics remain published.",
+    "Candidate acquisition 13/17 includes negative empty-inventory obligations; positive candidate acquisition is separately10/14.",
+    "Native18/18 is the eligible validation denominator, not linguistic correctness. Quote-out-of-range and zero-budget requests are excluded from required-native denominator.",
+    "The failed context pair is due to missing selected-noun acquisition; equal empty lists do not earn positive invariance success.",
+    "No whole-sentence parsing, actual contextual sense selection or world truth is measured."
+  ],
+  "generic_budget_clarification": {
+    "timing": "Before initial implementation freeze and before holdout labels released",
+    "public_range": [
+      0,
+      1000000
+    ],
+    "internal_distinct_group_cap": 256,
+    "effective_limit": "min(request.budget,256)",
+    "frozen_inputs_unchanged": true
+  },
+  "regression_validation": {
+    "scorer_fixture_tests": 16,
+    "tests": "tests/test_occurrence_sense_benchmark.py",
+    "new_guards": [
+      "Every effective sense label must be unique within its field and present in the pinned catalogue.",
+      "Erratum may remove only the two exact provenance IDs from precisely recorded arrays.",
+      "Erratum cannot change actual sense labels, API inputs or conditional-indication fields.",
+      "Shared input/source_basis lists stay unchanged when the derived expectations are repaired."
+    ]
+  }
+}

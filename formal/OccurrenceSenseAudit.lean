@@ -1,0 +1,24 @@
+import Nabt.OccurrenceSense
+
+-- Transitive kernel dependencies of the bounded candidate law.
+#print axioms Nabt.OccurrenceSense.checked_receipt_exact
+#print axioms Nabt.OccurrenceSense.checked_source_and_scope
+#print axioms Nabt.OccurrenceSense.checked_all_donors_supported
+#print axioms Nabt.OccurrenceSense.receipt_keeps_complete_binding
+#print axioms Nabt.OccurrenceSense.checked_keeps_complete_binding
+#print axioms Nabt.OccurrenceSense.receipt_keeps_supplied_budget
+#print axioms Nabt.OccurrenceSense.budget_change_invalidates_old_receipt
+#print axioms Nabt.OccurrenceSense.context_swap_invalidates_old_receipt
+#print axioms Nabt.OccurrenceSense.every_morphology_key_retained
+#print axioms Nabt.OccurrenceSense.every_parsed_donor_key_retained
+#print axioms Nabt.OccurrenceSense.morphology_key_has_retained_record
+#print axioms Nabt.OccurrenceSense.no_invented_morphology_reading
+#print axioms Nabt.OccurrenceSense.dictionary_candidates_exact
+#print axioms Nabt.OccurrenceSense.missing_lemma_has_no_dictionary_candidate
+#print axioms Nabt.OccurrenceSense.every_dictionary_candidate_retained
+#print axioms Nabt.OccurrenceSense.returned_sense_requires_catalogue_and_link
+#print axioms Nabt.OccurrenceSense.per_sense_indications_exact
+#print axioms Nabt.OccurrenceSense.unmatched_morphology_retained
+#print axioms Nabt.OccurrenceSense.insufficient_budget_has_no_readings
+#print axioms Nabt.OccurrenceSense.sufficient_budget_preserves_all_readings
+#print axioms Nabt.OccurrenceSense.no_morphology_no_sense

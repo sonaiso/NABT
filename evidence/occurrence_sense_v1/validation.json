@@ -1,0 +1,109 @@
+{
+  "schema": "nabt.occurrence-sense-validation.v1",
+  "base_commit": "130fa4ba13ed505039d425271a1e5fcf56058f86",
+  "implementation_commit": "2061c510501382a721b9575376703b57ec596d18",
+  "reference_commit": "16f8cb0",
+  "runtime_unchanged_since_initial_freeze": true,
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "lean_toolchain": "leanprover/lean4:v4.34.1"
+  },
+  "checks": {
+    "make_formal_conformance": {
+      "exit_code": 0,
+      "log": "validation/formal-conformance.log.gz"
+    },
+    "additive_occurrence_sense_gate": {
+      "exit_code": 0,
+      "tests": 46,
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "source_replay": true,
+      "native_required": true,
+      "log": "validation/occurrence-integration.log.gz"
+    },
+    "axiom_audit": {
+      "count": 1524,
+      "new": 21,
+      "project_axioms": false,
+      "evidence": "axioms.json.gz"
+    },
+    "compiled_statement_inventory": {
+      "declarations": 1524,
+      "unique_normalized_statements": 1521,
+      "historical_duplicate_groups": 3,
+      "new_duplicate_groups": 0,
+      "evidence": "proof_catalog.json.gz"
+    },
+    "make_benchmark": {
+      "exit_code": 0,
+      "scope": "Existing finite machine local timing only; no new occurrence throughput claim",
+      "log": "validation/performance.log.gz"
+    },
+    "make_check": {
+      "status": "COMPLETED_IN_STAGES_AFTER_GENERATED_EXECUTE_BIT_REPAIR",
+      "first_invocation_exit_code": 2,
+      "failed_target": "classical-laws-conformance",
+      "failure_reproduced": "Permission denied executing exportClassicalHamza",
+      "repair": "build_permissions.json",
+      "source_or_rule_changes_for_repair": false,
+      "initial_command": "make check LAKE=/workspace/scratch/8ead824583ac/lean-driver/lake EVIDENCE_DIR=artifacts/local/occurrence-full-check ARABIC_EVALUATION_DIR=artifacts/local/occurrence-full-check/arabic-regression",
+      "resumed_targets": [
+        "classical-laws-conformance",
+        "book-coverage",
+        "verified-reading-conformance",
+        "source-semantics-conformance",
+        "mantuq-mafhum-conformance",
+        "explainable-pilot-conformance",
+        "qatr-reading-conformance",
+        "productive-conformance",
+        "productive-evaluation",
+        "classical-extension-conformance",
+        "classical-extension-evaluation"
+      ],
+      "resumed_targets_exit_code": 0,
+      "final_integrity_exit_code": 0,
+      "final_integrity_report": "final_integrity.json",
+      "logs": [
+        "validation/full-check.log.gz",
+        "validation/resumed-check.log.gz"
+      ],
+      "log_limit": "The retained first-run log is a partial snapshot and does not include a complete general unittest count. Early prerequisites completed before make reached classical-laws-conformance; downstream reports are indexed separately. No general test count is claimed.",
+      "not_a_single_clean_make_check_invocation": true,
+      "all_targets_completed_in_sequence": true
+    },
+    "log_file_sha256": {
+      "validation/formal-conformance.log.gz": "16eee0277f3b9cf4cb4cfa05517ea63af537ba0de71ecca1e51bff6c239f7d77",
+      "validation/full-check.log.gz": "41cfdc81af8ea79745a8df88d585d4998b80ac1a33b156d74988bf4ea0d85945",
+      "validation/occurrence-integration.log.gz": "97923b3e0f5ab0757076cd1aca6f08c94558b2a474c52467fe506c634e011e2a",
+      "validation/performance.log.gz": "4f7757998ff1b6c6082f1c4de874adebf43b76f2420a8a69bf0d9d16584e4389",
+      "validation/proof-catalog.log.gz": "cfad46ebae36389c5a9dcd627836cdb41d24b8767884c3f94f375925b572c7a2",
+      "validation/resumed-check.log.gz": "e3a48b6694edc89c014e2b2f94ad87494a3f1bebbcc8987c3ffa643954ce901e"
+    }
+  },
+  "independent_reference": {
+    "ordinary_cases": 20,
+    "initial_report": "benchmark_initial.json",
+    "corrected_report": "benchmark_initial_corrected.json",
+    "erratum": "reference_erratum_v1.json",
+    "reference_unchanged": true,
+    "sense_labels_and_inputs_unchanged": true,
+    "correction_after_first_observation": true,
+    "external_human_adjudication": false
+  },
+  "publication": {
+    "remote_branch_created": false,
+    "pull_request_created": false,
+    "github_connector": "HTTP403 Resource not accessible by integration",
+    "direct_git_push": "No configured HTTPS credentials; terminal prompts disabled",
+    "local_branch": "codex/occurrence-sense-reference"
+  },
+  "limitations": [
+    "Candidate acquisition positive10/14; not complete Arabic.",
+    "No contextual sense selection or predicate referent transfer.",
+    "QAC source authenticity and full extraction remain Python collector premises.",
+    "Six integrity obligations are separate counterexample tests, not language accuracy."
+  ]
+}
