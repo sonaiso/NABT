@@ -15,10 +15,17 @@ are preserved without a speedup claim.
 integration exits 2 at its unchanged M09 nonregression gate. Its complete
 record is in [catalog_references/validation.json](catalog_references/validation.json).
 The separate successful licensed-inference continuation does not erase that
-failure. GitHub publication was also unavailable: no local Git credential,
-and branch creation through the connector returned HTTP 403. No PR or merge
-is claimed. The delivery archive retains the Git branch and complete local
-measurement directory for review and later publication.
+failure. At the time of local verification, GitHub publication was unavailable:
+no local Git credential, and connector branch creation returned HTTP 403.
+That historical observation remains intact in `verification.json`.
+
+Publication subsequently succeeded on 2026-10-26. The verified branch head
+`fa2fdf1fbcf101d01a48a2cc786c15ce3c151aec` was pushed, and
+[draft PR #45](https://github.com/sonaiso/NABT/pull/45) was opened against
+`codex/contextual-semantic-licenses` above PR #43. The separate
+[publication record](publication.json) preserves this event. No merge or new
+CI success is claimed; M09 remains a release blocker. The delivery archive
+retains the original two-commit Git branch and complete local measurements.
 
 This is a new registered runtime snapshot for the shared A116 foundation. It
 does not replace `evidence/arabic_completion_v6`, republish a blind experiment,
