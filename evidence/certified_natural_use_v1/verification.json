@@ -1,0 +1,2376 @@
+{
+  "schema": "nabt.certified-natural-use.verification.v1",
+  "base_commit": "050daa42b5505c3f9fb63ea2c6a162bc427607d1",
+  "branch": "codex/certified-natural-use",
+  "scope": "Final local verification inputs are hashed below. Earlier failed/interrupted attempt logs are historical and do not claim the same input tree. GitHub CI is recorded later on the published commit.",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "torch": "2.5.1+cpu",
+    "lake_version": "Lake version 5.0.0-src+5045d00 (Lean version 4.34.1)"
+  },
+  "gates": [
+    {
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "-o",
+        "test",
+        "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/certified-natural-use/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/certified-natural-use/checks/arabic-regression"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1046.201,
+      "log": "artifacts/local/certified-natural-use/make-check.log",
+      "log_sha256": "71dd313bcb38b02382725c18b95797c08df094cb62b8c611893b7f321298fea4",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "unit-tests",
+      "command": [
+        "make",
+        "test",
+        "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 776.417,
+      "log": "artifacts/local/certified-natural-use/unit-tests.log",
+      "log_sha256": "c85fa6378065b210eb4bcdc5e710efc1142e5cc49014e40a11e563448b385d7f",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "integration",
+      "command": [
+        "make",
+        "-f",
+        "Makefile",
+        "-f",
+        "integrations/grammar_catalog.mk",
+        "-f",
+        "integrations/mantuq_inference.mk",
+        "-f",
+        "integrations/linguistic_truth.mk",
+        "-f",
+        "integrations/licensed_inference.mk",
+        "grammar-catalog",
+        "proof-catalog",
+        "routing-conformance",
+        "mantuq-inference",
+        "linguistic-truth",
+        "licensed-inference",
+        "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/certified-natural-use/integration"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 157.503,
+      "log": "artifacts/local/certified-natural-use/integration.log",
+      "log_sha256": "5d0f24cdc2d1e64aa35fb591f2e303fa6c8814219189215fe2d8ae51a81bc6dd",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "main_test_count": 2768,
+  "main_tests": {
+    "run": 2768,
+    "passed": 2768,
+    "skipped": 0,
+    "failed": 0
+  },
+  "repeated_test_groups_not_additional_coverage": [
+    7,
+    25,
+    12,
+    23,
+    31,
+    10,
+    10,
+    13,
+    16,
+    16,
+    17,
+    6,
+    17,
+    13
+  ],
+  "validation_order": "make check -o test first builds and verifies native programs; a fresh make test then uses those current binaries; optional integration follows.",
+  "ui_tests": {
+    "passed": 201,
+    "failed": 0,
+    "skipped": 0
+  },
+  "lean": {
+    "new_theorems": 12,
+    "audited_declarations": 1556,
+    "permitted_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "scope": "Finite supplied-ledger A116-bound candidate and conditional usage contract"
+  },
+  "natural_use": {
+    "full_case_success": {
+      "numerator": 1,
+      "denominator": 6,
+      "fraction": 0.16666666666666666
+    },
+    "any_lexical_occurrence": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "all_required_candidate_cases": {
+      "numerator": 5,
+      "denominator": 6,
+      "fraction": 0.8333333333333334
+    },
+    "required_candidate_obligations": {
+      "numerator": 10,
+      "denominator": 12,
+      "fraction": 0.8333333333333334
+    },
+    "positive_intended_selection": {
+      "numerator": 0,
+      "denominator": 5,
+      "fraction": 0.0
+    },
+    "required_ambiguity_preserved": {
+      "numerator": 1,
+      "denominator": 1,
+      "fraction": 1.0
+    },
+    "native_checked_candidate_cases": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "source_identity_preserved": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "selection_precision": {
+      "numerator": 0,
+      "denominator": 0,
+      "fraction": null
+    },
+    "false_selected_senses": 0,
+    "precision_note": "No selections gives null precision, not 100%; abstention does not pass positive cases."
+  },
+  "known_regression_changes": [
+    {
+      "id": "N05",
+      "before": "FAIL",
+      "after": "PASS"
+    }
+  ],
+  "known_regressions": [],
+  "independent": {
+    "cases": 30,
+    "semantic_diagnostic_outcomes": {
+      "FAIL": 12,
+      "PASS": 16,
+      "UNMEASURED": 2
+    },
+    "positive_selection": {
+      "numerator": 5,
+      "denominator": 16,
+      "fraction": 0.3125
+    },
+    "positive_case_with_scope": {
+      "numerator": 5,
+      "denominator": 16,
+      "fraction": 0.3125
+    },
+    "source_identity": {
+      "numerator": 30,
+      "denominator": 30,
+      "fraction": 1.0
+    },
+    "authority_safety": {
+      "numerator": 30,
+      "denominator": 30,
+      "fraction": 1.0
+    },
+    "required_native_execution": {
+      "numerator": 30,
+      "denominator": 30,
+      "fraction": 1.0
+    },
+    "declared_native_checked_cases": {
+      "numerator": 26,
+      "denominator": 30,
+      "fraction": 0.8666666666666667
+    },
+    "native_receipt_cases": {
+      "numerator": 26,
+      "denominator": 30,
+      "fraction": 0.8666666666666667
+    },
+    "strict_language_acceptances": 0,
+    "consistent_named_claims": 0,
+    "locally_executed_named_claims": 0,
+    "families": {
+      "ambiguity": {
+        "PASS": 5
+      },
+      "context_identity": {
+        "FAIL": 5
+      },
+      "explicit_intention": {
+        "FAIL": 3,
+        "PASS": 2
+      },
+      "mark_integrity": {
+        "FAIL": 1,
+        "PASS": 4
+      },
+      "negation_quotation_condition": {
+        "FAIL": 2,
+        "PASS": 1,
+        "UNMEASURED": 2
+      },
+      "unvowelized_control": {
+        "PASS": 4,
+        "FAIL": 1
+      }
+    },
+    "motive_assessment": "UNMEASURED",
+    "interpretation": "Native receipts and safe deferrals do not count as successful positive language understanding."
+  },
+  "projection_controls": {
+    "cases": 3,
+    "semantic_diagnostic_outcomes": {
+      "PASS": 3
+    },
+    "positive_selection": {
+      "numerator": 0,
+      "denominator": 0,
+      "fraction": null
+    },
+    "positive_case_with_scope": {
+      "numerator": 0,
+      "denominator": 0,
+      "fraction": null
+    },
+    "source_identity": {
+      "numerator": 3,
+      "denominator": 3,
+      "fraction": 1.0
+    },
+    "authority_safety": {
+      "numerator": 3,
+      "denominator": 3,
+      "fraction": 1.0
+    },
+    "required_native_execution": {
+      "numerator": 3,
+      "denominator": 3,
+      "fraction": 1.0
+    },
+    "declared_native_checked_cases": {
+      "numerator": 3,
+      "denominator": 3,
+      "fraction": 1.0
+    },
+    "native_receipt_cases": {
+      "numerator": 3,
+      "denominator": 3,
+      "fraction": 1.0
+    },
+    "strict_language_acceptances": 0,
+    "consistent_named_claims": 3,
+    "locally_executed_named_claims": 3,
+    "families": {
+      "projection_controls": {
+        "PASS": 3
+      }
+    },
+    "motive_assessment": "UNMEASURED",
+    "interpretation": "Native receipts and safe deferrals do not count as successful positive language understanding."
+  },
+  "native_acquisition_proof": false,
+  "lexical_surface_licensed": false,
+  "strict_language_acceptance_proved": false,
+  "tawatur_evaluated": false,
+  "all_arabic_complete": false,
+  "new_site_deployment_performed": false,
+  "preliminary_attempts": [
+    {
+      "attempt": 1,
+      "status": "INTERRUPTED_BY_OPERATOR",
+      "exit_code": 130,
+      "reason": "Restart after final CI/current-oracle identity migration."
+    },
+    {
+      "attempt": 2,
+      "status": "FAILED",
+      "reason": "Fixture counts/provenance mock and frozen identity mismatch; repaired without changing semantic gold."
+    },
+    {
+      "attempt": 3,
+      "status": "FAILED",
+      "unit_tests_passed": 2761,
+      "reason": "Source guard misread a Lean character literal; retained in archive."
+    },
+    {
+      "attempt": 4,
+      "status": "INTERRUPTED",
+      "reason": "Execution session disappeared after an aborted wait; no success inferred."
+    },
+    {
+      "attempt": 5,
+      "status": "FAILED_NATIVE_INTEGRATION",
+      "unit_tests_passed": 2768,
+      "reason": "Shared JSON preflight changed legacy error wording. Repaired fixed adapter labels; final gates build native binaries before fresh full unit suite."
+    },
+    {
+      "attempt": 6,
+      "status": "INTERRUPTED",
+      "reason": "Execution session disappeared after an aborted wait during non-unit gates; partial output preserved."
+    },
+    {
+      "attempt": 7,
+      "status": "FAILED_OUTPUT_COLLISION",
+      "reason": "Fail-closed writer refused a conformance output from the interrupted attempt. Fresh output directory used; no test policy relaxed."
+    }
+  ],
+  "input_files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 28233,
+      "sha256": "9f0f93837936d12151bac00df6b5843be28033cb32ad681582eddfa1e6c9477e"
+    },
+    {
+      "path": ".github/workflows/lexical-completion.yml",
+      "bytes": 6133,
+      "sha256": "1faf40d00ec7dc246a01ded8447e512a5197889e269679134a3f3cfe90096ae0"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 4703,
+      "sha256": "2be464e6adbe181df6705b75bf3544cd5360c1ec0372646e33bcabb9d585f899"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 14117,
+      "sha256": "676e0ec0f834f7be1ffade863585120a61a35e0f8ba3a956f5f86d6eb206a616"
+    },
+    {
+      "path": "README.md",
+      "bytes": 87262,
+      "sha256": "1fb53c461b9c253b7eac32cb3aefa0f02eb5d3d490aad638ae362ceb79227d07"
+    },
+    {
+      "path": "docs/CERTIFIED_NATURAL_USE_AR.md",
+      "bytes": 12403,
+      "sha256": "8c013021b2cf13e239940f0c22c6bc3b0253bcd3402b1506924ff23cbb31d436"
+    },
+    {
+      "path": "docs/PROOF_STATUS.md",
+      "bytes": 145969,
+      "sha256": "000f36d61ad570760832e75bac2bbeb4a5a03061da2d6a7d839d62ad0c610bde"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/build_runtime_freeze.py",
+      "bytes": 6131,
+      "sha256": "772a5a0829797d4bc4103dae99a9aa96a589bb86d52d2aac489e175b79d88001"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/catalog_references/grammar_link_summary.json",
+      "bytes": 76269,
+      "sha256": "e8e4cf0c9ebce5e590a42edbe8f3bc500995d31006c6252aa38e53fa1aaefb27"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/catalog_references/licensed_proof_links.json",
+      "bytes": 50226,
+      "sha256": "231b9f391de1bd9c73b5bd6ff46d8a0e0391e9975ae71c1272bf86e7ca0fe9bc"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/catalog_references/linguistic_proof_links.json",
+      "bytes": 4098,
+      "sha256": "584daabc49f654a7167a8950997d18e1fba39ef1f1ed52ce24bb12310a674fda"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/catalog_references/mantuq_proof_links.json",
+      "bytes": 23285,
+      "sha256": "1fa51a4e20c92237710cbcaa6533db506216bae8c6ef73523c6f2719530708b0"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/catalog_references/proof_catalog.json",
+      "bytes": 2958303,
+      "sha256": "cff113a165619ad72f03b334d4a8f6900ec3bb3dd248f3f77a65a19ccb04888d"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/code_freeze_v1.json",
+      "bytes": 18435,
+      "sha256": "1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/code_freeze_v1.tar.gz",
+      "bytes": 3624387,
+      "sha256": "16a6e83e0d8cffe5898789751a221053da1530119ec12871be52fc26e6968d01"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_cases.json",
+      "bytes": 36473,
+      "sha256": "d2fcae08a163bf017184a42638a02901d1331704ee0dca4881b880215fb095f3"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_cases.sha256",
+      "bytes": 89,
+      "sha256": "b976fb5b352de8bf90ce4fd5a3aa5dccd67e3861f9041b6367a13d500e7f8bd2"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/freeze_runner_v1.py",
+      "bytes": 3463,
+      "sha256": "aeb4b831aef190b242fe0f287d9801bb404e39540f6f8aebd2e6f2ad77403ba2"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/review_continuation_v1.py",
+      "bytes": 25198,
+      "sha256": "5c6defd29c9d992cc4caa81c7cc663ae9151c03b90e81b46532af27cc6e9c5e1"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/run_oracle_v1.py",
+      "bytes": 19703,
+      "sha256": "e8a30c4612895e2e75cdb6fc9acc1e481dd767b8d3a67760eb9aba07052cb22a"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/run_regression_v1.py",
+      "bytes": 5510,
+      "sha256": "703988deb55aaba9c5a6b15cc307ebac562d8f3e329f5932eda14ceb254f3e3b"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "bytes": 21711,
+      "sha256": "3ab5361863aa42db31f3b36db21d9c0e0b88950c6c35e612a81713743ec460f9"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/runner_freeze_v1.json",
+      "bytes": 16951,
+      "sha256": "70ae1a444ac8a99ba4fcdb47c062c9797f2ace37c877cabf72762f217f39a412"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/runner_freeze_v2.json",
+      "bytes": 16976,
+      "sha256": "14c718afa958056890d42163b9a19bc60fb9537294f4e38211fdafd19fce64dd"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/runner_freeze_v3.json",
+      "bytes": 17005,
+      "sha256": "c7086392c4529acbc6da492a4d10bbf95bbf56b08bc9c1185b09a64578b12ff6"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/runner_freeze_v4.json",
+      "bytes": 17043,
+      "sha256": "aecb8a03c367dd1ecb9c4e4c2b8ab3b1aba46815dd4ea2de0ae0d725b1d907b8"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/runner_freeze_v5.json",
+      "bytes": 17091,
+      "sha256": "7965b7ac4d69fd0ed0cdf73811bad94d25559852a70f249d642eec5a59793eb7"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/independent_oracle/test_continuation_v1.py",
+      "bytes": 8495,
+      "sha256": "b6d9670e1fbc897fe9179163d172a2864b92030ae4c4bd9b1fb7f0c64965eabf"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/mantuq_benchmark_contracts_v1.json",
+      "bytes": 1138,
+      "sha256": "9b9fbcd74ef45da3149f1af9a42d98e7defc535b1dfc28b0259846e9f8f77ac7"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/open_obligations.json",
+      "bytes": 1497,
+      "sha256": "e59845e3b5538744fbd6c3b98d690e844cf843576c8cdca3948ce5a6dfaffeb0"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/oracle_migration.json",
+      "bytes": 3428,
+      "sha256": "08248319d3255f0c7cba88016661d834f72f04f7fa069e53bccf060979638a52"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/oracle_migration.patch",
+      "bytes": 15798,
+      "sha256": "ef4bbd2c3bb62466c216d8f6cdbdf5e4ece1ca0ee997c47407c605c7602edeea"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/projection_controls.json",
+      "bytes": 2619,
+      "sha256": "73e1b414a8a24da6e4d83e6b469d6e812db656612a925f3fd9c8befe44aaa0ce"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/projection_controls.sha256",
+      "bytes": 91,
+      "sha256": "e5e40b78ea30122fd0a9e2d0bcb5e848f6ab9259c5a337732541ec237327252e"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/regression_policy_v1.json",
+      "bytes": 90286,
+      "sha256": "452d9aa53b92883cf416809d099a663f253306adaace9d2762e605faf56b6e81"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/runtime_migration.json",
+      "bytes": 1533,
+      "sha256": "e997d4c04b1ce708c9c1a1995e220faa1aa7df5efd76a65feda42bc3ba79d514"
+    },
+    {
+      "path": "evidence/certified_natural_use_v1/runtime_migration.patch",
+      "bytes": 1417,
+      "sha256": "92b29b4f482f445fc266f136f2ef041fb0617f4a89e3ea2516a4af74884ddc26"
+    },
+    {
+      "path": "evidence/natural_use_sources_v1/build_review.py",
+      "bytes": 8748,
+      "sha256": "c819a1533d740422842c3ff0c1b77848197d9a92c3a6921c81e3a1093f5c7d82"
+    },
+    {
+      "path": "evidence/natural_use_sources_v1/source_inventory.json",
+      "bytes": 16549,
+      "sha256": "3e97720bf5e73514c0b3758fd822eeac5a49f9abd6818e0e1756cbfbd5a687a3"
+    },
+    {
+      "path": "formal/Audit.lean",
+      "bytes": 79465,
+      "sha256": "797469c8481a00ace8e67dd3fd3f219ea2e4af8a9a29a8d0f734ee7c073f14c6"
+    },
+    {
+      "path": "formal/ClassicalSemanticMain.lean",
+      "bytes": 22993,
+      "sha256": "3d1c8834c817aeb9b62dc9beb809c428c0f263fdcdfc6b201ecd48b18761e5e6"
+    },
+    {
+      "path": "formal/FoundationMain.lean",
+      "bytes": 13475,
+      "sha256": "57e16833c105dca212771d87963c344dbc8dac99e5ca2c9177d2326c7a67b346"
+    },
+    {
+      "path": "formal/LicensedInferenceMain.lean",
+      "bytes": 11619,
+      "sha256": "8665931ee198335714140a5d4da51398273cdfb61fc2df672d5a1b7c75f6d608"
+    },
+    {
+      "path": "formal/LinguisticTruthMain.lean",
+      "bytes": 15966,
+      "sha256": "928fa7493321a76eb1b3321794f7420a1ece11b2f2177d5554dd8b18ab9ea8f8"
+    },
+    {
+      "path": "formal/Nabt.lean",
+      "bytes": 1924,
+      "sha256": "ea5ce983bc61f7ed2f066201d44779bb6bca1713ce0f0415a1840684fe7470dd"
+    },
+    {
+      "path": "formal/Nabt/CertifiedLexical.lean",
+      "bytes": 8462,
+      "sha256": "628598da7f4306b53070a30a06c553cd45696a1d590a7ef9ce7439096a06c740"
+    },
+    {
+      "path": "formal/ProbeJson.lean",
+      "bytes": 8648,
+      "sha256": "6e916b9fd07a8ca0ff3eac6b2ccc471715a14cac9c3993b71989659a11ac0abe"
+    },
+    {
+      "path": "formal/RecursiveBridgeProbe.lean",
+      "bytes": 34447,
+      "sha256": "85aac25490345cb19a0639db8c61e334681491d4b9d95c96400d55ee3a4292e4"
+    },
+    {
+      "path": "formal/theorems.json",
+      "bytes": 81186,
+      "sha256": "1fff352a53727a1772351a891aa7419d7ca458251710d22109a52047831d1bca"
+    },
+    {
+      "path": "integrations/grammar_catalog.mk",
+      "bytes": 1136,
+      "sha256": "6f15db0e5e1c1b146c4876459f17e3ac514f81ba3c419d6adb5b59606ff0b95c"
+    },
+    {
+      "path": "integrations/licensed_inference.mk",
+      "bytes": 1190,
+      "sha256": "49e420418dff1b92b033e6cb0fba34b48b73fa0c2a3b8c98e1b80c4435b9df18"
+    },
+    {
+      "path": "integrations/linguistic_truth.mk",
+      "bytes": 1439,
+      "sha256": "7fa73286d1660549788dad31cfed2d8685128a4e6a94d084ffce68f57ab5fae5"
+    },
+    {
+      "path": "integrations/mantuq_inference.mk",
+      "bytes": 627,
+      "sha256": "5db28181c1527b1d606552d5008edbb43538e6676985445eb0ef330adfea9467"
+    },
+    {
+      "path": "src/nabt/data/framework_foundation.json",
+      "bytes": 207812,
+      "sha256": "39a6ae218bf136b5b1dabc6d299d1b2517e9fadb75bf0b0a050295b8e677ae0a"
+    },
+    {
+      "path": "tests/test_arabic_coverage_package_verifier.py",
+      "bytes": 11051,
+      "sha256": "781005dec7987265bd9a85eb64cd3fac542f3d6b294a34b4adb538b2f13991a0"
+    },
+    {
+      "path": "tests/test_arabic_evaluation.py",
+      "bytes": 7337,
+      "sha256": "20e01697c2174dedbbbdf5a6f2e647579d3de3e097e4b2eb636c936551084007"
+    },
+    {
+      "path": "tests/test_attested_mark_runtime_freeze.py",
+      "bytes": 3692,
+      "sha256": "0926dff4d3f35777229daa14c64b39133de10baf9f5a3d829addc268049051ff"
+    },
+    {
+      "path": "tests/test_benchmark_module_provenance.py",
+      "bytes": 4595,
+      "sha256": "39f294e6fa2d48f32658730a7796c66582867585f00c1ae1503c4294c0a82210"
+    },
+    {
+      "path": "tests/test_certified_linguistic_cli.py",
+      "bytes": 2119,
+      "sha256": "daa766c1201e9c0158a91c1ca67e049f741e1758bae21a4c6b8b7f90e0251b20"
+    },
+    {
+      "path": "tests/test_certified_native_protocol.py",
+      "bytes": 8178,
+      "sha256": "9173718e17a70efedfa921e3d3888b3e348347667d0ee65195e925b09db98f69"
+    },
+    {
+      "path": "tests/test_certified_natural_use_benchmark.py",
+      "bytes": 11022,
+      "sha256": "d34f7aad9bb0226a401ee88d0ae4ae6c64355a5401d807d05b88d878a7376cb2"
+    },
+    {
+      "path": "tests/test_certified_natural_use_freeze.py",
+      "bytes": 3533,
+      "sha256": "298fc47cc9d7fb4a20788ef77522456924b51204222ccab62ea2dba48b4d89a7"
+    },
+    {
+      "path": "tests/test_completion_v6_gate.py",
+      "bytes": 2792,
+      "sha256": "a04b086644ba4a55ded9d43e3263e2b847693f06cdf59c400d8b00c7e66ced71"
+    },
+    {
+      "path": "tests/test_foundation_architecture.py",
+      "bytes": 14608,
+      "sha256": "1a66e5d7768feff51eaa8639b84f3c93c565d0f958f715eaad18c86a7fead140"
+    },
+    {
+      "path": "tests/test_framework_foundation_freeze.py",
+      "bytes": 5253,
+      "sha256": "376e3478a13144a4b9ec52b41cd0ede48be88e4045bcf7f5641767e9fe38527e"
+    },
+    {
+      "path": "tests/test_lean_source_guard.py",
+      "bytes": 4306,
+      "sha256": "d2b77b5c37230d44f9fc9497be772ca95e9d401e3fec2b346308a2625b540609"
+    },
+    {
+      "path": "tests/test_linguistic_truth_certified.py",
+      "bytes": 10830,
+      "sha256": "c1712d486632f94bc2d535bba41622fb6172a9b9649bcc2340f4ed647234a093"
+    },
+    {
+      "path": "tests/test_linguistic_truth_foundation.py",
+      "bytes": 9175,
+      "sha256": "24e006069c424813c315077cb1f60e98456437c9f387d3d60a9af1a52f918319"
+    },
+    {
+      "path": "tests/test_linguistic_truth_natural_extension.py",
+      "bytes": 9339,
+      "sha256": "cfd3c483838af630debc93cd4cec9098b0331d19c34230a372e5c573f151541a"
+    },
+    {
+      "path": "tests/test_linguistic_truth_retrieval.py",
+      "bytes": 3145,
+      "sha256": "8821e0451203c679bfee69889df278729ce666c6dea31b548f42fe0d678ba05c"
+    },
+    {
+      "path": "tests/test_linguistic_truth_sources.py",
+      "bytes": 2213,
+      "sha256": "16e59f9514d2942936ddd2c91386ff672b70aed6eaec508a68e3a4de0e499b0d"
+    },
+    {
+      "path": "tests/test_natural_use_sources.py",
+      "bytes": 5281,
+      "sha256": "8af3e36576c9f5c90a4176b2f076eb55e2d139d2d9e3ca1e35cd92a7ddbb7713"
+    },
+    {
+      "path": "tests/test_rational_inquiry_freeze.py",
+      "bytes": 11779,
+      "sha256": "ad5fe1e9e542d2dac14cf3c9d4e92e6b7b6dc1f57c468e397258bf68525fd762"
+    },
+    {
+      "path": "tests/test_recursive_source_bridge.py",
+      "bytes": 25000,
+      "sha256": "313c15bee26fa2ed0f7575640637d473c9df3c6e0cdd04686db75d5086548e78"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation.py",
+      "bytes": 7165,
+      "sha256": "cf7a4940a9bc7e9f527a871fb62ea3dc94a4efbd270cd05705943e4e8e075b1e"
+    },
+    {
+      "path": "tools/benchmark_certified_natural_use.py",
+      "bytes": 19695,
+      "sha256": "2576be24b0b1370a797f6f6e9f40b39fa1292c6eeb7239a88e40973bac79e3a1"
+    },
+    {
+      "path": "tools/benchmark_linguistic_truth.py",
+      "bytes": 20891,
+      "sha256": "eb5b4ccb652d74f166d75f929d15978d7a17dee5da9e2fade32eeac8ea021977"
+    },
+    {
+      "path": "tools/benchmark_mantuq_inference.py",
+      "bytes": 12376,
+      "sha256": "2ece8f2ad9853923b642de0e11321998fa4a658e578dfe949c6f31a8d8e9ed47"
+    },
+    {
+      "path": "tools/check_foundation_architecture.py",
+      "bytes": 12958,
+      "sha256": "8d4814e0efbc2b74e352491a46cef369bd8d47797e0f6ca90031998a9f900c73"
+    },
+    {
+      "path": "tools/check_integrity.py",
+      "bytes": 11258,
+      "sha256": "394b58a6c02ee028e758a2b1941bd8b7b2fba0b7b36fa3d982980ba48b270b94"
+    },
+    {
+      "path": "tools/construction_evaluation.py",
+      "bytes": 112913,
+      "sha256": "3908a49640549e0dc782cdc16e942dbaf4e43c9f400f97349f98e2521a38fd0d"
+    },
+    {
+      "path": "tools/discourse_evaluation.py",
+      "bytes": 107230,
+      "sha256": "8ff7d0652f09a27836e41fd8664fa2e599db056280731e05db4fecd600ff75a7"
+    },
+    {
+      "path": "tools/framework_foundation_gate.py",
+      "bytes": 9358,
+      "sha256": "7186572bda9eb03ec75c519b5c9a939295b8795d57e59efcc91f19f282a9937f"
+    },
+    {
+      "path": "tools/framework_foundation_postreview.py",
+      "bytes": 33919,
+      "sha256": "3e72997c4f5ac1534064c600f99973e46f2a7ea877d89b19bf333c5e10298127"
+    },
+    {
+      "path": "tools/governor_evaluation.py",
+      "bytes": 49838,
+      "sha256": "88e4e122fc5e600dbf16adbe4ffc5d44e57732380f7d5e61f0286664fd7d07fb"
+    },
+    {
+      "path": "tools/inflection_cli_evaluation.py",
+      "bytes": 19384,
+      "sha256": "a4740e1114fc837af6652c975692577ca52e6ef83fe43af4fe114433f9c8c4b1"
+    },
+    {
+      "path": "tools/inflection_evaluation.py",
+      "bytes": 62179,
+      "sha256": "465a5bd5c38adbf3708d2cbd6729d1c889cf9f62f3d8d17fac48bad140612a28"
+    },
+    {
+      "path": "tools/linguistic_truth/__main__.py",
+      "bytes": 4086,
+      "sha256": "d1665352f586a683dbba3d45c58c69eaa0572fb8b2ce20bbf979ecbbc91b9c58"
+    },
+    {
+      "path": "tools/linguistic_truth/certified.py",
+      "bytes": 12776,
+      "sha256": "85071dbbbb07253bdf9e3f1a2664b2698fb0df215785dc2040dc73fc449e73fd"
+    },
+    {
+      "path": "tools/linguistic_truth/runtime.py",
+      "bytes": 41121,
+      "sha256": "98f82c61f652cae9bcb8ada6ac081a9d60e2fd7612a19cd97dd2f6c07909d670"
+    },
+    {
+      "path": "tools/linguistic_truth/sources.py",
+      "bytes": 7442,
+      "sha256": "bbb5e0d60ffaf86d66da1dd517f571ce04b536ac19a8e167ffb3d10eb50821cf"
+    },
+    {
+      "path": "tools/morphology_evaluation.py",
+      "bytes": 32968,
+      "sha256": "5deef370e908d2e90984cb619ae2dab52f0cba4c09de54216a8405e53e7dbcdc"
+    },
+    {
+      "path": "tools/text_inquiry_evaluation.py",
+      "bytes": 4565,
+      "sha256": "f6abce5827cf0cec0ca9d511e3d8311442839ca4fa85985b16bf40e7f3cf912e"
+    },
+    {
+      "path": "tools/verify_construction_package.py",
+      "bytes": 84629,
+      "sha256": "87210051d676e300cd3ada0dffe715cb65cef26edf6b2ce0a6c97b40bf27dd9b"
+    },
+    {
+      "path": "tools/word_evaluation.py",
+      "bytes": 36956,
+      "sha256": "6cc47fc8135e10d0541c0e2f9ee42989673a74675a213dbb77958fc43e74623a"
+    }
+  ],
+  "archive": {
+    "path": "evidence/certified_natural_use_v1/verification_reports_v1.zip",
+    "sha256": "8de46b89c7bcd3da4308c9737a9c8bc730b3e3c5439a7d51b3cb11a1b8af5a8b",
+    "bytes": 82239145,
+    "members": [
+      {
+        "path": "attempt01_identity_migration/make-check.log",
+        "bytes": 103809,
+        "sha256": "aa538f5cd33a366c9bfe11fa1ac15330182f32965c24db6f14ccb7964b16e096"
+      },
+      {
+        "path": "attempt01_identity_migration/reason.json",
+        "bytes": 196,
+        "sha256": "f1ef9e1635b58942dce94c23ae0fc0a9b29b1cca0213260dc0199af8ded873c2"
+      },
+      {
+        "path": "attempt02_fixture_and_freeze_errors/gates.json",
+        "bytes": 825,
+        "sha256": "2d72e3aca3a8e9109ce22d4b13d12f2775e94b820141d4943f2fb1840c6deb04"
+      },
+      {
+        "path": "attempt02_fixture_and_freeze_errors/make-check.log",
+        "bytes": 486088,
+        "sha256": "25725e85a71284c2073d2d622d3beb4f83ed98099a028d4ce86bd31ae3d501af"
+      },
+      {
+        "path": "attempt02_fixture_and_freeze_errors/reason.json",
+        "bytes": 459,
+        "sha256": "3ca2d741975b0d41b6cab68fd41cd09054bd1039c3c511b0b8c0f0d20af37c14"
+      },
+      {
+        "path": "attempt03_source_guard_failure/gates.json",
+        "bytes": 825,
+        "sha256": "561f2a2ec644e755ae072aa22417575e1a7b7d6b35adb89e0bca5536cf154a56"
+      },
+      {
+        "path": "attempt03_source_guard_failure/make-check.log",
+        "bytes": 473860,
+        "sha256": "c62074b987bc42fd846517663f5276991336e008902fbab669bd54dd5c6dd4b2"
+      },
+      {
+        "path": "attempt03_source_guard_failure/reason.json",
+        "bytes": 386,
+        "sha256": "6d8df7919f13748eb7bcfdb19b8b974ee3d157e277fabf97ac1688c355c6b144"
+      },
+      {
+        "path": "attempt04_interrupted_wait/make-check.log",
+        "bytes": 47244,
+        "sha256": "5dc7f9fbfdc41a346e2111460589bee7cca818bc63d72b7944dd38051ac32203"
+      },
+      {
+        "path": "attempt04_interrupted_wait/reason.json",
+        "bytes": 145,
+        "sha256": "a7a1924feeaba671bf4630dc9c8aceb2880eeabcb3ecb7336ae3ecd37cc33f8e"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/arabic-conformance.json",
+        "bytes": 180,
+        "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/conformance.json",
+        "bytes": 2310,
+        "sha256": "e8b094c536436066ac77b527efbab5758360bb046f9fb86e7dd90526959a3cc1"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/construction-conformance.json",
+        "bytes": 738,
+        "sha256": "bf860578406e0cb038de8f2a4b00eccdf04bde35f5239a97f1b195322b5f43d8"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/derivation-conformance.json",
+        "bytes": 573,
+        "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/derivation-regression.json",
+        "bytes": 155782,
+        "sha256": "ee49333b1fdd622781c90a9d84037a6a5ffce1c58ec730558439f188f8aaa54e"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/discourse-conformance.json",
+        "bytes": 1571,
+        "sha256": "40d8d85f46aa9c2ec785b5c1b1c1b930ba6d2f8f987d2a719b12e5c9a2459590"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/governor-conformance.json",
+        "bytes": 405,
+        "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-cli-regression.code.tar.gz",
+        "bytes": 3655588,
+        "sha256": "294043981ed13aac496690b937ba027251a74f324fbb604314227ca5c26f3930"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-cli-regression.json",
+        "bytes": 221885,
+        "sha256": "b6c6334e9e624cf8fb83a4caf2a6b68377fc6f5ec2ba4bd2af5030ae63f75648"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-cli-regression.raw.jsonl.gz",
+        "bytes": 60659,
+        "sha256": "44bf08a8c9718fca2252a125c475ff171d9d58975b457ec1729c41a3d760ed02"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-conformance.json",
+        "bytes": 896,
+        "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-post-review-regression.code.tar.gz",
+        "bytes": 3645176,
+        "sha256": "a0fd38cc5f65283ae969fe9f7e3f48b239592a6a02413174c86129c367897e23"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-post-review-regression.json",
+        "bytes": 117419,
+        "sha256": "33f78183718779bc68fe72d04d22a640cf65ba370da1ff9797c58261b8f2eb82"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-post-review-regression.raw.jsonl.gz",
+        "bytes": 22325,
+        "sha256": "52f13a77e7684814a0384c3f39c89014793ac1dd7af283dbba1b00c9e2d5d08d"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-regression.code.tar.gz",
+        "bytes": 3645164,
+        "sha256": "b6f44026fb40e1a25aa3de674c1dd3e51406eea57fd6a18a0d425bd480d77494"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-regression.json",
+        "bytes": 361168,
+        "sha256": "82a307588f89f0115511bcbaed97569807cfd0df9d6f0d84e7563c8d0466ce23"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/inflection-regression.raw.jsonl.gz",
+        "bytes": 86223,
+        "sha256": "667f8ff906176925e38356f82006a80b76b0fb17a64c5a6721b8e824cbab0163"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/morphology-conformance.json",
+        "bytes": 458,
+        "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/morphology-regression.json",
+        "bytes": 224582,
+        "sha256": "c6a002a8c93aad33535c06dd8142041142795c524ac977fe37b574eee92e5b65"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/nominal-conformance.json",
+        "bytes": 901,
+        "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/nominal-regression.json",
+        "bytes": 553046,
+        "sha256": "8bf64680e3416749f9656f7a9dcb3212f335df645db0cda9d4408478de1fe6d9"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/person-conformance.json",
+        "bytes": 563,
+        "sha256": "f1a184c52877db6bdd11cc0a6a27ab5ea888005fb0de935fa8184c681ac89a53"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/progressive-unit-conformance.json",
+        "bytes": 55783,
+        "sha256": "9f151ddc5e327d1a6b8e0b54d22f95daf7df6027dfb6981fd307656c47087afb"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/progressive-unit-conformance.plan.json",
+        "bytes": 336214,
+        "sha256": "fbc7dd2364b78f9b6127f78955d101fcea58d365af03b20c04101d93b3366205"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/progressive-unit-conformance.sources.tar.gz",
+        "bytes": 348785,
+        "sha256": "4ab6e0124d2b5410e42622356f49150f074890649cef9f6f902238e881bace01"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/progressive-unit-conformance.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/progressive-unit-conformance.stdin.jsonl",
+        "bytes": 96886,
+        "sha256": "d19d25df3a7b7e18fe18eb97746b9536287d457ba0ab9252b7c614f915ce9c92"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/progressive-unit-conformance.stdout.jsonl",
+        "bytes": 102648,
+        "sha256": "67e1fa52fed275f47ede2fa8474a0c4951ef4fb997cd048e4a07cadc1a67247a"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/property-conformance.json",
+        "bytes": 499,
+        "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json",
+        "bytes": 506508,
+        "sha256": "e840fba6e0bde8f3273e83bc1db89d190f6278e9b505afed9f0eda40e970fb3d"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.code.tar.gz",
+        "bytes": 861786,
+        "sha256": "02373bc8361e08e5950c6282d4c8832b9f5fc4e94051ed8130f911356326b477"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.lean.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.lean.stdin.jsonl",
+        "bytes": 72724,
+        "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.lean.stdout.jsonl",
+        "bytes": 103709,
+        "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.native.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.native.stdin.jsonl",
+        "bytes": 1188,
+        "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.native.stdout.jsonl",
+        "bytes": 90282,
+        "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/recursive-bridge-conformance.json.plan.json",
+        "bytes": 339625,
+        "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/text-evidence-conformance.json",
+        "bytes": 486,
+        "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/text-morphology-regression.json",
+        "bytes": 226230,
+        "sha256": "626150fd700fc342cf5e58e63053acb33c7f337e8d7bc9b622fe3f16883ef9d0"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.inputs.json",
+        "bytes": 24639,
+        "sha256": "0d92c50c3563258461ed696e2564abb2640afed0317af98bb6bf43b60c5f6d92"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.json",
+        "bytes": 123340,
+        "sha256": "9f546858521dbf3f9ca4a0b3fddf62d5c5cb71fe617d9334f3213f5bad4f5f37"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.raw.jsonl.gz",
+        "bytes": 29811,
+        "sha256": "16bb032d79aaa43f9dc5273f27015a2d5849795a43bd5203921a72826801b042"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.requests.json",
+        "bytes": 183357,
+        "sha256": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.snapshot.tar.gz",
+        "bytes": 57593,
+        "sha256": "e089861656403ff54353e5474cccde84d50dadae2dd3232db74340f7ee15aa21"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.sources.tar.gz",
+        "bytes": 396884,
+        "sha256": "b69af4a249ca00a11c19441bc21398ceee45cd0749065567bdec737e6e658f00"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/unit-discovery-conformance.stdio.json",
+        "bytes": 144841,
+        "sha256": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+      },
+      {
+        "path": "attempt05_native_error_contract/checks/word-conformance.json",
+        "bytes": 372,
+        "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77"
+      },
+      {
+        "path": "attempt05_native_error_contract/gates.json",
+        "bytes": 826,
+        "sha256": "44a99eb3922377f755793b15807788ce32a802656a9fb2baeb3fa65eac672577"
+      },
+      {
+        "path": "attempt05_native_error_contract/make-check.log",
+        "bytes": 513158,
+        "sha256": "6ad6c346ba99de258c1e52af65da4430f7e9a8fe3d6292690d7b0e1ab3be827e"
+      },
+      {
+        "path": "attempt05_native_error_contract/reason.json",
+        "bytes": 392,
+        "sha256": "cef4794c8f892889e369adf606503d88a41de7608c874a2827599db6d735f8f6"
+      },
+      {
+        "path": "attempt06_interrupted_wait/make-check.log",
+        "bytes": 49723,
+        "sha256": "835004def9fe2dcc8098e7264ed43f260845522b6869e3deaf47b3bee031e6de"
+      },
+      {
+        "path": "attempt06_interrupted_wait/status.json",
+        "bytes": 152,
+        "sha256": "a2299043d57d473434a5a7cff7ef21368727f12d6da511152d7c6d265a2bd3bd"
+      },
+      {
+        "path": "attempt07_existing_output/checks/arabic-conformance.json",
+        "bytes": 180,
+        "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea"
+      },
+      {
+        "path": "attempt07_existing_output/checks/conformance.json",
+        "bytes": 2310,
+        "sha256": "e8b094c536436066ac77b527efbab5758360bb046f9fb86e7dd90526959a3cc1"
+      },
+      {
+        "path": "attempt07_existing_output/checks/construction-conformance.json",
+        "bytes": 738,
+        "sha256": "bf860578406e0cb038de8f2a4b00eccdf04bde35f5239a97f1b195322b5f43d8"
+      },
+      {
+        "path": "attempt07_existing_output/checks/construction-regression.code.tar.gz",
+        "bytes": 3798590,
+        "sha256": "cb8c9b5c75d4aedf89041394033fc30d2a6ea784215d049d90c1bbc1801963a5"
+      },
+      {
+        "path": "attempt07_existing_output/checks/construction-regression.json",
+        "bytes": 162701,
+        "sha256": "3deb43ed017a4ddd595820c40bf317024d00f158841f4da5e8128044f7c48491"
+      },
+      {
+        "path": "attempt07_existing_output/checks/construction-regression.raw.jsonl.gz",
+        "bytes": 1440240,
+        "sha256": "8a5468d70c0d12c542a5d0d719b65a787cf035c6a1273c60f4814df4dced679e"
+      },
+      {
+        "path": "attempt07_existing_output/checks/derivation-conformance.json",
+        "bytes": 573,
+        "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73"
+      },
+      {
+        "path": "attempt07_existing_output/checks/derivation-regression.json",
+        "bytes": 155782,
+        "sha256": "24e6a27bbac958cd71ccb2b645bcfabfaa03184ac34df5c953f63212ceff5e71"
+      },
+      {
+        "path": "attempt07_existing_output/checks/discourse-conformance.json",
+        "bytes": 1571,
+        "sha256": "40d8d85f46aa9c2ec785b5c1b1c1b930ba6d2f8f987d2a719b12e5c9a2459590"
+      },
+      {
+        "path": "attempt07_existing_output/checks/discourse-regression.code.tar.gz",
+        "bytes": 3798223,
+        "sha256": "a1f879b9865104c12b0a1b27aaf0d9c40180e329d39eb83dc44c7a9149004e5d"
+      },
+      {
+        "path": "attempt07_existing_output/checks/discourse-regression.raw.jsonl.gz",
+        "bytes": 92100,
+        "sha256": "e67f3bf16f936851e28b239fa4e46b4026af31071ac17648ebcc24787ab088ee"
+      },
+      {
+        "path": "attempt07_existing_output/checks/governor-conformance.json",
+        "bytes": 405,
+        "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-cli-regression.code.tar.gz",
+        "bytes": 3655588,
+        "sha256": "dff6fb523572e1a4ceb20d7d9ab3a5a03cb4374d9845a4d82a6706ae306d88ad"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-cli-regression.json",
+        "bytes": 221885,
+        "sha256": "1408aad434231c7102597a8107b4d9141e0981faa9cd98d50948e3cacd60782e"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-cli-regression.raw.jsonl.gz",
+        "bytes": 60659,
+        "sha256": "9b271d0957a695ba16d39f6413b4f0b2004aef7505697e88c7a79d9d9d896f89"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-conformance.json",
+        "bytes": 896,
+        "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-post-review-regression.code.tar.gz",
+        "bytes": 3645176,
+        "sha256": "41802eb03b845b50ab9b1e1d7b53f4fefe37dc2312fb85747c67c7dcd635a967"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-post-review-regression.json",
+        "bytes": 117419,
+        "sha256": "8f30d09fb59483f4a9bece207b1330356882cdfb50d990088f78f4bb04539640"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-post-review-regression.raw.jsonl.gz",
+        "bytes": 22325,
+        "sha256": "cdcec88657c2ca42645c7c6fd9e2c8e587b7ee144d37a65c664709124ec243a8"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-regression.code.tar.gz",
+        "bytes": 3645164,
+        "sha256": "c08f7143c93126fb5751cf3761fa56c612127051f1bb126b29e11d54d736d3c0"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-regression.json",
+        "bytes": 361168,
+        "sha256": "079f525790c307beb09e9ee136d3be137acc3e61bf0ea205c05a64f292acaaf9"
+      },
+      {
+        "path": "attempt07_existing_output/checks/inflection-regression.raw.jsonl.gz",
+        "bytes": 86223,
+        "sha256": "9812b5a28043e78d530551a20d4d68f9b0673f903b70cc5b08a079cc3c41522a"
+      },
+      {
+        "path": "attempt07_existing_output/checks/morphology-conformance.json",
+        "bytes": 458,
+        "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758"
+      },
+      {
+        "path": "attempt07_existing_output/checks/morphology-regression.json",
+        "bytes": 224582,
+        "sha256": "7a0ba2f1bb23439ce3924f1f20f72880e7befec4b09c3447a8809eb7ecb3f7f5"
+      },
+      {
+        "path": "attempt07_existing_output/checks/nominal-conformance.json",
+        "bytes": 901,
+        "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+      },
+      {
+        "path": "attempt07_existing_output/checks/nominal-regression.json",
+        "bytes": 553046,
+        "sha256": "0995eb80f5f0cc7b59d9fe76ac9abcc4b01b9a3d26069e58eae52c2b3a7c328f"
+      },
+      {
+        "path": "attempt07_existing_output/checks/person-conformance.json",
+        "bytes": 563,
+        "sha256": "f1a184c52877db6bdd11cc0a6a27ab5ea888005fb0de935fa8184c681ac89a53"
+      },
+      {
+        "path": "attempt07_existing_output/checks/progressive-unit-conformance.json",
+        "bytes": 55783,
+        "sha256": "94ea5494ceb579836c02223f3e5b9eb9d9e4ee85c2d6dc02b29a49138473c732"
+      },
+      {
+        "path": "attempt07_existing_output/checks/progressive-unit-conformance.plan.json",
+        "bytes": 336214,
+        "sha256": "fbc7dd2364b78f9b6127f78955d101fcea58d365af03b20c04101d93b3366205"
+      },
+      {
+        "path": "attempt07_existing_output/checks/progressive-unit-conformance.sources.tar.gz",
+        "bytes": 348864,
+        "sha256": "053c4d3168242e348556614c94831cf9466f55897d97ba8d5ce3fe32e67a953b"
+      },
+      {
+        "path": "attempt07_existing_output/checks/progressive-unit-conformance.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "attempt07_existing_output/checks/progressive-unit-conformance.stdin.jsonl",
+        "bytes": 96886,
+        "sha256": "d19d25df3a7b7e18fe18eb97746b9536287d457ba0ab9252b7c614f915ce9c92"
+      },
+      {
+        "path": "attempt07_existing_output/checks/progressive-unit-conformance.stdout.jsonl",
+        "bytes": 102648,
+        "sha256": "67e1fa52fed275f47ede2fa8474a0c4951ef4fb997cd048e4a07cadc1a67247a"
+      },
+      {
+        "path": "attempt07_existing_output/checks/property-conformance.json",
+        "bytes": 499,
+        "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json",
+        "bytes": 506508,
+        "sha256": "4404153d09226dff56441d7737db6fef68f4682dff5be476beb6c3a9b23b7a74"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.code.tar.gz",
+        "bytes": 861966,
+        "sha256": "34713a7c3ad05732f61fe5074d1b2c8412136be1ec9ebb7781472d6ba69eb2e2"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.lean.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.lean.stdin.jsonl",
+        "bytes": 72724,
+        "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.lean.stdout.jsonl",
+        "bytes": 103709,
+        "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.native.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.native.stdin.jsonl",
+        "bytes": 1188,
+        "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.native.stdout.jsonl",
+        "bytes": 90282,
+        "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      },
+      {
+        "path": "attempt07_existing_output/checks/recursive-bridge-conformance.json.plan.json",
+        "bytes": 339625,
+        "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+      },
+      {
+        "path": "attempt07_existing_output/checks/text-evidence-conformance.json",
+        "bytes": 486,
+        "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862"
+      },
+      {
+        "path": "attempt07_existing_output/checks/text-morphology-regression.json",
+        "bytes": 226230,
+        "sha256": "b6e7464e95fbd41625d727fdbc5633e3dfb1f913bf37eafeeabb8a84b7eb2655"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.inputs.json",
+        "bytes": 24639,
+        "sha256": "6ed4003f1606fd15c3130b2ce12ba7e228be14cdd04a7d7cc98f15c918c98c98"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.json",
+        "bytes": 123340,
+        "sha256": "2caa35ed7f2624bca7bb9876f7205dd26ea8614900f08feca598d7f6d1bf48a4"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.raw.jsonl.gz",
+        "bytes": 29811,
+        "sha256": "16bb032d79aaa43f9dc5273f27015a2d5849795a43bd5203921a72826801b042"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.requests.json",
+        "bytes": 183357,
+        "sha256": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.snapshot.tar.gz",
+        "bytes": 57590,
+        "sha256": "c730afb1aad25188b5d86f43dd46444d78cf975f48bc60decf9303634bad0191"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.sources.tar.gz",
+        "bytes": 396973,
+        "sha256": "f35546652af83522974c3844527b40d3e9e8e1a123c2acdbdd192d71243924fa"
+      },
+      {
+        "path": "attempt07_existing_output/checks/unit-discovery-conformance.stdio.json",
+        "bytes": 144841,
+        "sha256": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+      },
+      {
+        "path": "attempt07_existing_output/checks/word-conformance.json",
+        "bytes": 372,
+        "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77"
+      },
+      {
+        "path": "attempt07_existing_output/gates.json",
+        "bytes": 850,
+        "sha256": "5d5cfa9ff97736a76ce1563c2454be39bec64cd1217936da5ee3950ff6114fa7"
+      },
+      {
+        "path": "attempt07_existing_output/make-check.log",
+        "bytes": 4205,
+        "sha256": "bfdc27efd00d0f5d2c18c7c29353e5c2c1d2e918f99aab057ec681c91eaded78"
+      },
+      {
+        "path": "attempt07_existing_output/status.json",
+        "bytes": 214,
+        "sha256": "38b0eef13cd0b8053b45209a9a8c7eee80ce58d34d1c973cfc5ebef86dd3335e"
+      },
+      {
+        "path": "axioms.json",
+        "bytes": 130967,
+        "sha256": "931483e60514f9134f014eccfd96206e3e721b525a559c45adbae6ed4b865ace"
+      },
+      {
+        "path": "axioms.log",
+        "bytes": 125482,
+        "sha256": "0691da21359c669e67f39fac9a20a876a52e3e760b9f2e15f7dc704aa349a580"
+      },
+      {
+        "path": "baseline-benchmark.json.gz",
+        "bytes": 303629,
+        "sha256": "0705af736ddfab9826f40a7d75776caca94a579fb7edf5fd7083baccc4f35ec1"
+      },
+      {
+        "path": "baseline_identity.json",
+        "bytes": 433,
+        "sha256": "584190608bcb25455f85a04145d6bdbf2a802a58b461ade63b0478aca67f20de"
+      },
+      {
+        "path": "catalog-links-final-native-compat.log",
+        "bytes": 2293,
+        "sha256": "4ed5b57dbbdd08cc23df551a03428322804ee7a1f24cf1dd3341b096914ca270"
+      },
+      {
+        "path": "catalog-links.log",
+        "bytes": 769,
+        "sha256": "d5cf56d82bd809ba5f4060dc81cc5b534fa9ad127ea89b911c850f8386411324"
+      },
+      {
+        "path": "catalog-tests-final-native-compat.log",
+        "bytes": 1607,
+        "sha256": "6293c261bc1a1c8bee06fbbdb6837ac4ec4c9d1e6fd3fd0f8d0491444a48f637"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/regression.json",
+        "bytes": 3176,
+        "sha256": "d4485ae839fc68a1628b2815787cf6e6027b20c15d7101ad347dd14f3768d1ca"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/review/review.json",
+        "bytes": 58512,
+        "sha256": "1108f09072afc1a6057fa562ccfc3933d74bca2d3c5c73a74c5a1892aa39f32f"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/source_counterexamples/raw.jsonl.gz",
+        "bytes": 243556,
+        "sha256": "4e159c6c2c938eff60144c022232d91ad532570e869babe59da6d6e2fea2f3c2"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/source_counterexamples/result.code.tar.gz",
+        "bytes": 8516584,
+        "sha256": "9807fe49af464c2bf131dbd471208aa471e8070ff02944073a2251c226fc2e92"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/source_counterexamples/result.json",
+        "bytes": 99198,
+        "sha256": "5d5533e77c5868e0f116a67b333c1ff5fc7a5d34079855ab9f965a518f6052fc"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/source_counterexamples/review.json",
+        "bytes": 10529,
+        "sha256": "aeadd1f7bcc5296be29b2ff213f37d32a67e41c8d0a4c8f1a97890d774e38083"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/source_counterexamples.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/source_counterexamples.stdout.log",
+        "bytes": 180,
+        "sha256": "2f878f4f2589006b013b2b1fb4c46635b7f9bf6b59e41b29f39129eed0ec8837"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/strict/raw.jsonl.gz",
+        "bytes": 1118127,
+        "sha256": "3f357e13bd204186a34bd0f6bd14ac009e540c51ab1dcbf6b54b02c768a5b306"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/strict/result.code.tar.gz",
+        "bytes": 8516584,
+        "sha256": "eee9aea6fa21973145d11b5f60927ca3a2ba5c554ff01a34fca7e191951c91ce"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/strict/result.json",
+        "bytes": 314782,
+        "sha256": "7186850ba91042d4bbd604a4f5d06d9caf65c6bc285548a212dc8c50cf33c76c"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/strict.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checks/arabic-completion-oracle/strict.stdout.log",
+        "bytes": 2916,
+        "sha256": "669cb0cc84e318c5045f2cc400868e33576ac642c5026321aad7aef3706a0bab"
+      },
+      {
+        "path": "checks/arabic-conformance.json",
+        "bytes": 180,
+        "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea"
+      },
+      {
+        "path": "checks/arabic-holdout-postreview/original_raw.jsonl.gz",
+        "bytes": 404766,
+        "sha256": "d9722534a6eff0019d1186e4efe39c57639fe2975ea0643d8effdb735166118a"
+      },
+      {
+        "path": "checks/arabic-holdout-postreview/original_result.json",
+        "bytes": 143704,
+        "sha256": "2d812ee7ad8492c3ad73c2ddf8663d9cb5d6b9e6ce51b903539cfed6867af6dc"
+      },
+      {
+        "path": "checks/arabic-holdout-postreview/question_report.json",
+        "bytes": 51564,
+        "sha256": "321b2044d347621ede78b1a9b01bab5e4f880b818da3ad3b51418e0520bc15c8"
+      },
+      {
+        "path": "checks/arabic-holdout-postreview/review.json",
+        "bytes": 7699,
+        "sha256": "f7bda9fabf277e0698dc8076278c9a31af12e256d1921ce80628cf5f1f1a2b66"
+      },
+      {
+        "path": "checks/arabic-holdout-postreview/review_code.tar.gz",
+        "bytes": 106888,
+        "sha256": "ff904b852538fbec8d3516e7f0812827e86574ced96a47687dd630e1e74ca9b7"
+      },
+      {
+        "path": "checks/arabic-holdout-postreview/verification_replay.json",
+        "bytes": 31317,
+        "sha256": "75cf8a1ee39ac96ef839255d72e632918bd5ad4c8f0c1b1a028a343882e0bf03"
+      },
+      {
+        "path": "checks/arabic-holdout.json",
+        "bytes": 143704,
+        "sha256": "2d812ee7ad8492c3ad73c2ddf8663d9cb5d6b9e6ce51b903539cfed6867af6dc"
+      },
+      {
+        "path": "checks/arabic-holdout.raw.jsonl",
+        "bytes": 5675795,
+        "sha256": "2ca31828c7c5fdc64741a62f35b62dc7f5b247aaf34797cf063600e0bfd4e671"
+      },
+      {
+        "path": "checks/arabic-inna-fragment/expectations.json",
+        "bytes": 7032,
+        "sha256": "4b5e3d58e92abf425d509817f7fb60a57381d6abe4632d58018d8f6a4a28233a"
+      },
+      {
+        "path": "checks/arabic-inna-fragment/lexical_material.json",
+        "bytes": 5684,
+        "sha256": "157778d62ffc0309d079a2db8e1291bfe52b367df5b6d5a8e11098e5af17a8f7"
+      },
+      {
+        "path": "checks/arabic-inna-fragment/report.json",
+        "bytes": 15757,
+        "sha256": "d1fabc9d5a9692214324ad112a84edc635746c88f243624e169cf6fef7934664"
+      },
+      {
+        "path": "checks/arabic-inna-fragment/requests.jsonl",
+        "bytes": 111581,
+        "sha256": "21a8a4250c082d413f3cdd0f780b882358cb21036be7913475fd07f3f5877952"
+      },
+      {
+        "path": "checks/arabic-inna-fragment/responses.jsonl",
+        "bytes": 44580,
+        "sha256": "96396cc0a7bfb25409df774d4c29610bc1c13450b02bf250f2ca7890de1ae43a"
+      },
+      {
+        "path": "checks/arabic-inna-fragment/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checks/arabic-regression/receipt.json",
+        "bytes": 3093,
+        "sha256": "b0edb8e73eaea2022e9ef324acf58fc5ee7cb17ece4bf14b424d31143550d92c"
+      },
+      {
+        "path": "checks/arabic-regression/results.json",
+        "bytes": 686797,
+        "sha256": "16060fa253f851ffbe942601f2567246e665f40daf9b29f6b739dc34545099e4"
+      },
+      {
+        "path": "checks/axioms.json",
+        "bytes": 130967,
+        "sha256": "931483e60514f9134f014eccfd96206e3e721b525a559c45adbae6ed4b865ace"
+      },
+      {
+        "path": "checks/axioms.log",
+        "bytes": 125482,
+        "sha256": "0691da21359c669e67f39fac9a20a876a52e3e760b9f2e15f7dc704aa349a580"
+      },
+      {
+        "path": "checks/book-coverage.json",
+        "bytes": 5052,
+        "sha256": "954f4e9a07fa4899bc51c7b8b155ab22b146b9624ed428460fce5074abc2b2fb"
+      },
+      {
+        "path": "checks/certified-natural-use.json.gz",
+        "bytes": 4562,
+        "sha256": "d36da2610ab836ed378f7e386dca639fae2f1c6682db8848a6e508afb6db39bc"
+      },
+      {
+        "path": "checks/classical-independent-benchmark.json",
+        "bytes": 55266,
+        "sha256": "3f15cac50e958de698bb9a9d4db729710a03e656baa87e89fe90f339b54e654f"
+      },
+      {
+        "path": "checks/classical-language-conformance.json",
+        "bytes": 2816,
+        "sha256": "d6b4f1b81faac399750ed2c47c8e828c0ab7995fbf3f67baa84d1bb13e81af08"
+      },
+      {
+        "path": "checks/classical-language-sources.json",
+        "bytes": 35131,
+        "sha256": "a659bdc18ee3301f4d87f2692c7e56d0f9eb18ebe178f69f6ab093e20cab54a4"
+      },
+      {
+        "path": "checks/classical-laws-conformance.json",
+        "bytes": 2261,
+        "sha256": "45bfcdee9adde731e3101f86d2f06db5ae64a00589e8479ec9e329a6b64da75b"
+      },
+      {
+        "path": "checks/classical-reference-readings.json",
+        "bytes": 12030,
+        "sha256": "53a22a68a70ad37070fce147af3d221714d62d79fd57e21debad13da052bd7b2"
+      },
+      {
+        "path": "checks/conformance.json",
+        "bytes": 2310,
+        "sha256": "e8b094c536436066ac77b527efbab5758360bb046f9fb86e7dd90526959a3cc1"
+      },
+      {
+        "path": "checks/construction-conformance.json",
+        "bytes": 738,
+        "sha256": "bf860578406e0cb038de8f2a4b00eccdf04bde35f5239a97f1b195322b5f43d8"
+      },
+      {
+        "path": "checks/construction-regression.code.tar.gz",
+        "bytes": 3798590,
+        "sha256": "9bbd01d2105ed7db0fa9a3a80f7fc1a6fef79c8fd6973900d77cf2f7dbbbf5e7"
+      },
+      {
+        "path": "checks/construction-regression.json",
+        "bytes": 162696,
+        "sha256": "91a26769e8502a8a065162bd282c4dbca6caf4084296571465112d2d0f63d322"
+      },
+      {
+        "path": "checks/construction-regression.raw.jsonl.gz",
+        "bytes": 1440222,
+        "sha256": "db7e29c4547513f02dd24a687e5c61ea911204dde57b2863221f7716362c88b2"
+      },
+      {
+        "path": "checks/derivation-conformance.json",
+        "bytes": 573,
+        "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73"
+      },
+      {
+        "path": "checks/derivation-regression.json",
+        "bytes": 155782,
+        "sha256": "0884715732c88da8be684d5a710d53a3758c4df2696d09eedd65fc6e9dfe9c34"
+      },
+      {
+        "path": "checks/discourse-conformance.json",
+        "bytes": 1571,
+        "sha256": "40d8d85f46aa9c2ec785b5c1b1c1b930ba6d2f8f987d2a719b12e5c9a2459590"
+      },
+      {
+        "path": "checks/discourse-regression.code.tar.gz",
+        "bytes": 3798223,
+        "sha256": "cf7574bfe71c1598b3a3443e2954e086df7e73b877defaa84d889693b034baf6"
+      },
+      {
+        "path": "checks/discourse-regression.json",
+        "bytes": 143124,
+        "sha256": "a5bea3a986da7a288624f514a040abec1cd65a00175a2402225fb64fe75938d5"
+      },
+      {
+        "path": "checks/discourse-regression.raw.jsonl.gz",
+        "bytes": 1144461,
+        "sha256": "7fbad81f53aa83c49098fa526ed5f2dd6c3aac09cdd9a81aefa97cbf7adbeb87"
+      },
+      {
+        "path": "checks/foundation-architecture.json",
+        "bytes": 356,
+        "sha256": "b98f72fde612c4c9aedcf80cb8ab17349943ee4135049d067a9c37d84b0f072b"
+      },
+      {
+        "path": "checks/foundation-conformance.json",
+        "bytes": 759,
+        "sha256": "cc452dda08a4d232dd204526e69ac7bbb8de3ebbbaeab632946948888d29a3dd"
+      },
+      {
+        "path": "checks/governor-conformance.json",
+        "bytes": 405,
+        "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+      },
+      {
+        "path": "checks/governor-regression/regression_gate.json",
+        "bytes": 787,
+        "sha256": "bde14e2428aa2634c7ec30a7ecd122ee95ce49529f1af5349f3143b5fd78b8aa"
+      },
+      {
+        "path": "checks/governor-regression/results.json",
+        "bytes": 3169682,
+        "sha256": "32d3ac43b838b30131e9f223cc8c4df2f1f36f99b82c3b372f92168c39ee6631"
+      },
+      {
+        "path": "checks/governor-regression/summary.json",
+        "bytes": 2132,
+        "sha256": "1c143f55b054595501e02368b0ce6af805c601c7747a1efcda9af5b5f1d7c73f"
+      },
+      {
+        "path": "checks/imperative-paradigm.json",
+        "bytes": 28458,
+        "sha256": "ef283210c47cd4602a10b20a1e1567b618aaa73451cf8bfbaa5626ca83870aa3"
+      },
+      {
+        "path": "checks/imperative-paradigm.raw.jsonl",
+        "bytes": 64537,
+        "sha256": "afc30f94c41f700a6291b8211ef34dab6b8882516884778bae0bafe573d52fb5"
+      },
+      {
+        "path": "checks/inflection-cli-regression.code.tar.gz",
+        "bytes": 3655588,
+        "sha256": "9487e76dc5b8ad5cc7f3f77b3ac9149ef912cf853a06975460dbc89bebd0c4f5"
+      },
+      {
+        "path": "checks/inflection-cli-regression.json",
+        "bytes": 221885,
+        "sha256": "e699ef9e0a12109c6b588aa62a245475b86e237c5ca504dd0e82da4d5cd004c7"
+      },
+      {
+        "path": "checks/inflection-cli-regression.raw.jsonl.gz",
+        "bytes": 60656,
+        "sha256": "ac69c0fa5a8164d066fb0f24879c0607ab5826da588993c1cdd97bce43ef3b12"
+      },
+      {
+        "path": "checks/inflection-conformance.json",
+        "bytes": 896,
+        "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d"
+      },
+      {
+        "path": "checks/inflection-post-review-regression.code.tar.gz",
+        "bytes": 3645176,
+        "sha256": "b6035b169f3b12bf8f588b33d08b00c0ba8bf2f38187d24be183f5c18930f6e9"
+      },
+      {
+        "path": "checks/inflection-post-review-regression.json",
+        "bytes": 117419,
+        "sha256": "9b4f7c75ff2adb6de8d2bffeca7a55803adce3e9727fd9d331199571980d1da1"
+      },
+      {
+        "path": "checks/inflection-post-review-regression.raw.jsonl.gz",
+        "bytes": 22325,
+        "sha256": "075b64e8200a79d68a191d90bdd80171b6a943831716fd277f7c0bd33a8af2ca"
+      },
+      {
+        "path": "checks/inflection-regression.code.tar.gz",
+        "bytes": 3645164,
+        "sha256": "ff93e24ed708b846accabdd26f0bc2e6ceeecb28e4a817414408b68a9d61aa6f"
+      },
+      {
+        "path": "checks/inflection-regression.json",
+        "bytes": 361168,
+        "sha256": "e74bd8af6a9d2d4716b6f566e591ac47f304bc31e5ebe4975c1ef4a87a81e34a"
+      },
+      {
+        "path": "checks/inflection-regression.raw.jsonl.gz",
+        "bytes": 86223,
+        "sha256": "2dd12364dc00a063f866bbb261904e6252b59faff08f9bbf209401cf764dd940"
+      },
+      {
+        "path": "checks/inquiry-conformance.json",
+        "bytes": 2348,
+        "sha256": "fddad35aef768297ba5874be5da0148fa5e28455ad53dfe52315a1e19a7e3eaa"
+      },
+      {
+        "path": "checks/morphology-conformance.json",
+        "bytes": 458,
+        "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758"
+      },
+      {
+        "path": "checks/morphology-regression.json",
+        "bytes": 224582,
+        "sha256": "6c3863cce7e5a5adef4b1ec7542240ef7961560d6bc8c5c9bacd8e633569b5ca"
+      },
+      {
+        "path": "checks/nominal-conformance.json",
+        "bytes": 901,
+        "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+      },
+      {
+        "path": "checks/nominal-regression.json",
+        "bytes": 553046,
+        "sha256": "68ffdfc3553096940496f9f299d4766eaa63efbf2e3ed8c0284f7312a3fb0691"
+      },
+      {
+        "path": "checks/person-conformance.json",
+        "bytes": 563,
+        "sha256": "f1a184c52877db6bdd11cc0a6a27ab5ea888005fb0de935fa8184c681ac89a53"
+      },
+      {
+        "path": "checks/productive-evaluation.json",
+        "bytes": 22426,
+        "sha256": "7393fe11ea16ba4583013a0549b5e4efe597248773465902ee7800857421a4a1"
+      },
+      {
+        "path": "checks/productive-evaluation.raw.jsonl",
+        "bytes": 144210,
+        "sha256": "e424352b4e1beb3f0cd5935118d380ce8881c7bfb5d514fcec2e53d53ca57635"
+      },
+      {
+        "path": "checks/progressive-unit-conformance.json",
+        "bytes": 55783,
+        "sha256": "674ac3b37f2db08382a6126f4007f10340982d7885b075f20c150b7b1505dbd6"
+      },
+      {
+        "path": "checks/progressive-unit-conformance.plan.json",
+        "bytes": 336214,
+        "sha256": "fbc7dd2364b78f9b6127f78955d101fcea58d365af03b20c04101d93b3366205"
+      },
+      {
+        "path": "checks/progressive-unit-conformance.sources.tar.gz",
+        "bytes": 348864,
+        "sha256": "b038eeb1e8341ba762e6fe53dae6f1ec22ac04f4a462bb8c678617ef008dcb31"
+      },
+      {
+        "path": "checks/progressive-unit-conformance.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checks/progressive-unit-conformance.stdin.jsonl",
+        "bytes": 96886,
+        "sha256": "d19d25df3a7b7e18fe18eb97746b9536287d457ba0ab9252b7c614f915ce9c92"
+      },
+      {
+        "path": "checks/progressive-unit-conformance.stdout.jsonl",
+        "bytes": 102648,
+        "sha256": "67e1fa52fed275f47ede2fa8474a0c4951ef4fb997cd048e4a07cadc1a67247a"
+      },
+      {
+        "path": "checks/property-conformance.json",
+        "bytes": 499,
+        "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json",
+        "bytes": 506508,
+        "sha256": "76c8020250953b3232d2bdb0d2ef0b9198fba562a961cb0bbdbcf52b3b597421"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.code.tar.gz",
+        "bytes": 861966,
+        "sha256": "4e1ed35e0d694c1f45bf0ab7e9dbdee8a6f132c7d1e5c506dfa975f2c0226e0c"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.lean.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.lean.stdin.jsonl",
+        "bytes": 72724,
+        "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.lean.stdout.jsonl",
+        "bytes": 103709,
+        "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.native.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.native.stdin.jsonl",
+        "bytes": 1188,
+        "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.native.stdout.jsonl",
+        "bytes": 90282,
+        "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      },
+      {
+        "path": "checks/recursive-bridge-conformance.json.plan.json",
+        "bytes": 339625,
+        "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+      },
+      {
+        "path": "checks/source-learning.json",
+        "bytes": 32860,
+        "sha256": "efd6380ae5656b1e5f17ca9001dd8b905781b7f8d6339ac32d050a0c4f162550"
+      },
+      {
+        "path": "checks/text-evidence-conformance.json",
+        "bytes": 486,
+        "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862"
+      },
+      {
+        "path": "checks/text-morphology-regression.json",
+        "bytes": 226230,
+        "sha256": "d75d5c83499c8e4823a7a30a6082ff14ac136547c640987ba61d20c8f190feca"
+      },
+      {
+        "path": "checks/text-regression/attacks_rerun.json",
+        "bytes": 37144,
+        "sha256": "8d689d1a111fd7c9924c0357291848e585f737ccb16486353f0ec21cb95e60c5"
+      },
+      {
+        "path": "checks/text-regression/baseline_rerun.json",
+        "bytes": 50414,
+        "sha256": "ace71bef87bcb2a99efb3c36f06e64f97d4f8185670dedf8cd706241a47dc522"
+      },
+      {
+        "path": "checks/text-regression/boundaries_rerun.json",
+        "bytes": 21849,
+        "sha256": "83fb57b5955093ba692b33d14068c90e708d4b0d426b7bfe2e4883ab318aa58e"
+      },
+      {
+        "path": "checks/text-regression/controlled_rerun.json",
+        "bytes": 908189,
+        "sha256": "16766b0ebea2da92200db824604e51c4d81610d50f2e76e8ecfedd015108a53a"
+      },
+      {
+        "path": "checks/text-regression/natural_rerun.json",
+        "bytes": 55378,
+        "sha256": "b2b9efe6284f38fc9f8fd6902d66d59faee95b1cc7fd4f88f0dea36df871b1bd"
+      },
+      {
+        "path": "checks/text-regression/plans_rerun.json",
+        "bytes": 23751,
+        "sha256": "c12ae17b62a11c009614d84123aee16fc0de35f26857c8200bc413b52304f61b"
+      },
+      {
+        "path": "checks/text-regression/summary.json",
+        "bytes": 5616,
+        "sha256": "d308c707978070162df27f68996b8af3115d284845659d19cf5db2c573dfcaa4"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.inputs.json",
+        "bytes": 24639,
+        "sha256": "c578e2c76f77b96a502ff9b16f31c5d943b849341bd50e29901fec5dbda1bdf9"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.json",
+        "bytes": 123340,
+        "sha256": "95d57e44c24fb34746cc0a649aec19c1d3c416c8c2208c4ec6dc1e81d1354716"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.raw.jsonl.gz",
+        "bytes": 29811,
+        "sha256": "16bb032d79aaa43f9dc5273f27015a2d5849795a43bd5203921a72826801b042"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.requests.json",
+        "bytes": 183357,
+        "sha256": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.snapshot.tar.gz",
+        "bytes": 57590,
+        "sha256": "bea0838920bff7be37f0f38084adacca3bc37d72c80037df1d491efda0f24faf"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.sources.tar.gz",
+        "bytes": 396973,
+        "sha256": "07cf73ae0098754f0da8a1af25028ddecfef9844abc55ef680dc9667928a8b05"
+      },
+      {
+        "path": "checks/unit-discovery-conformance.stdio.json",
+        "bytes": 144841,
+        "sha256": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+      },
+      {
+        "path": "checks/word-conformance.json",
+        "bytes": 372,
+        "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77"
+      },
+      {
+        "path": "checks/word-regression.json",
+        "bytes": 444045,
+        "sha256": "d3abfb4eba093149d47f7da38bd8c488f0c1442338c66aef8757f0779e408562"
+      },
+      {
+        "path": "current-freeze-v4.log",
+        "bytes": 1070,
+        "sha256": "844bcb739ac6e1b89cc500d83ee8d5f665b512ff2def3e4553ff55708dd86b3a"
+      },
+      {
+        "path": "foundation-architecture.json",
+        "bytes": 356,
+        "sha256": "b98f72fde612c4c9aedcf80cb8ab17349943ee4135049d067a9c37d84b0f072b"
+      },
+      {
+        "path": "gates.json",
+        "bytes": 2636,
+        "sha256": "d8390346703ef777908909cd570af04ea0ffa397e20383c0ea616ecc4bcd306d"
+      },
+      {
+        "path": "independent-final-before-full-gate.json",
+        "bytes": 127943,
+        "sha256": "259b6ba5be89b4a8f58c2b0e0f44f22d44e8b1a9da02047d02cb52a8781f0b00"
+      },
+      {
+        "path": "independent-first.json",
+        "bytes": 116083,
+        "sha256": "01c551b81577f2cfaeda0fbc2e6f3582442848b5a3246508a2e9773005ad2761"
+      },
+      {
+        "path": "independent-scope-review.json",
+        "bytes": 974,
+        "sha256": "b670bf1c76416216278e260d82bfdb8d17ec2da9440e7cc0abb94665b6a2a03d"
+      },
+      {
+        "path": "integration/grammar-catalog.json",
+        "bytes": 7819,
+        "sha256": "6826af2ed8b64db041f3dc73684e59c8c1c32e8380a91c1c3b7a4feb3c536453"
+      },
+      {
+        "path": "integration/grammar-proof-links.json",
+        "bytes": 76269,
+        "sha256": "e8e4cf0c9ebce5e590a42edbe8f3bc500995d31006c6252aa38e53fa1aaefb27"
+      },
+      {
+        "path": "integration/grammar-retrieval.json",
+        "bytes": 61938,
+        "sha256": "a1c58cd64084ef37eb49c68acd65b72ca855f7ab989d6ca70a01d42dab1596a4"
+      },
+      {
+        "path": "integration/inference-proof-links.json",
+        "bytes": 23285,
+        "sha256": "1fa51a4e20c92237710cbcaa6533db506216bae8c6ef73523c6f2719530708b0"
+      },
+      {
+        "path": "integration/licensed-inference-axioms.json",
+        "bytes": 130967,
+        "sha256": "931483e60514f9134f014eccfd96206e3e721b525a559c45adbae6ed4b865ace"
+      },
+      {
+        "path": "integration/licensed-inference-axioms.log",
+        "bytes": 125482,
+        "sha256": "0691da21359c669e67f39fac9a20a876a52e3e760b9f2e15f7dc704aa349a580"
+      },
+      {
+        "path": "integration/licensed-inference-benchmark.json",
+        "bytes": 471381,
+        "sha256": "ea8da8f5b4c0b2408cf0183fd4260d0464ef1f3ef9378935bd6096b2e0fcddc6"
+      },
+      {
+        "path": "integration/licensed-inference-conformance.json",
+        "bytes": 16555,
+        "sha256": "979e4cd57eed230a69e59990745980e2f5679c055f10b83056719455c6434808"
+      },
+      {
+        "path": "integration/licensed-inference-proof-links.json",
+        "bytes": 50226,
+        "sha256": "231b9f391de1bd9c73b5bd6ff46d8a0e0391e9975ae71c1272bf86e7ca0fe9bc"
+      },
+      {
+        "path": "integration/linguistic-truth-benchmark.json",
+        "bytes": 7165435,
+        "sha256": "502a69111991bbae6b0a220de9ab3d8d1f349a5acc09075a811adea1d5f6a2c0"
+      },
+      {
+        "path": "integration/linguistic-truth-citation-audit.json",
+        "bytes": 2023,
+        "sha256": "2d63723de0479f15448a82285c104f42086ae89f7561262d0bddc797cd3c8962"
+      },
+      {
+        "path": "integration/linguistic-truth-conformance.json",
+        "bytes": 1149,
+        "sha256": "026d8b5bb19953afc3fb6d374c162fff214c117cf77f50c315a5d8f9acb5ed51"
+      },
+      {
+        "path": "integration/linguistic-truth-proof-links.json",
+        "bytes": 4098,
+        "sha256": "584daabc49f654a7167a8950997d18e1fba39ef1f1ed52ce24bb12310a674fda"
+      },
+      {
+        "path": "integration/linguistic-truth-retained-sources.json",
+        "bytes": 1786,
+        "sha256": "35214d74ea486175168e45c6222c05af38290573150ddba10a3fcc68e7861a73"
+      },
+      {
+        "path": "integration/linguistic-truth-security-review.json",
+        "bytes": 17939,
+        "sha256": "7c19bab895b3e1590dad558344b1e85719917b57b8569ee5659d1308c83bee80"
+      },
+      {
+        "path": "integration/mantuq-inference-benchmark.json",
+        "bytes": 45940,
+        "sha256": "f7c813768c475c257b39429b4f9412c713f72b2e46eabbe66f62409fff23eed1"
+      },
+      {
+        "path": "integration/natural-use-measurement.json",
+        "bytes": 11672,
+        "sha256": "297ea8eef2e482c09f2b707d5b495d3ea087bf2f3255a6dc0729ad67e773a6e9"
+      },
+      {
+        "path": "integration/qualified-inference-conformance.json",
+        "bytes": 425,
+        "sha256": "ceb67532439b9e813d62b6593690e42686968e9d3b9c20beb12ca5504f513567"
+      },
+      {
+        "path": "integration/routing-conformance.json",
+        "bytes": 285,
+        "sha256": "698e8346886cfc275203175d23bffcb6b5f253f508a08d5acda7a0fa713cc0e0"
+      },
+      {
+        "path": "integration-guards-rerun.log",
+        "bytes": 2887,
+        "sha256": "517ad34988c451f884ca363f14fe8d3625c78b11a59eaf7afb416d4cc509e083"
+      },
+      {
+        "path": "integration-guards.log",
+        "bytes": 11411,
+        "sha256": "b1b6d89b12576876f9296906e836d0e23625c732053f9a0565339463478493e8"
+      },
+      {
+        "path": "integration.log",
+        "bytes": 55396,
+        "sha256": "5d0f24cdc2d1e64aa35fb591f2e303fa6c8814219189215fe2d8ae51a81bc6dd"
+      },
+      {
+        "path": "linguistic-benchmark.json.gz",
+        "bytes": 357124,
+        "sha256": "a201a6ff1841c9ae403c7e96ccf98866c37aa53cb80f3efcf0a64055748fdad5"
+      },
+      {
+        "path": "make-check.log",
+        "bytes": 140367,
+        "sha256": "71dd313bcb38b02382725c18b95797c08df094cb62b8c611893b7f321298fea4"
+      },
+      {
+        "path": "native-compatibility-repair/all-shared-native-build.log",
+        "bytes": 465,
+        "sha256": "250f8a6fcd1ee5d12ff9adf0b4762ffc92fd21e7894978199b8ff977951d5766"
+      },
+      {
+        "path": "native-compatibility-repair/duplicate-contracts-attempt1.json",
+        "bytes": 3437,
+        "sha256": "78cdb821f3a3b2858eed2166f299ac00bf838ebc2395d6b7b4e51997e039a74b"
+      },
+      {
+        "path": "native-compatibility-repair/duplicate-contracts-final.json",
+        "bytes": 16526,
+        "sha256": "8414380745d6fe4a4f4048e18df888526a1eaa60209a241c79af6fbc152b7de4"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json",
+        "bytes": 506886,
+        "sha256": "e1e3846469dcb0fe5b52fd79734fa14c298b36b60ccff0ff6a8afc88a0d9c6e5"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.code.tar.gz",
+        "bytes": 861966,
+        "sha256": "5cb88855dc350076d19cab8bd93eada35be98765db3101818db4ba2b070f4351"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.lean.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.lean.stdin.jsonl",
+        "bytes": 72724,
+        "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.lean.stdout.jsonl",
+        "bytes": 103709,
+        "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.native.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.native.stdin.jsonl",
+        "bytes": 1188,
+        "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.native.stdout.jsonl",
+        "bytes": 90282,
+        "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      },
+      {
+        "path": "native-compatibility-repair/gates/recursive-bridge-conformance.json.plan.json",
+        "bytes": 339625,
+        "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+      },
+      {
+        "path": "native-compatibility-repair/lexical-completion-relink.json",
+        "bytes": 405,
+        "sha256": "b09965ce138550c00d50fd49a0078a01649f4d3cfac56f27dc360753299c01ec"
+      },
+      {
+        "path": "native-compatibility-repair/lexical-completion-relink.log",
+        "bytes": 87,
+        "sha256": "513505351f37ac7964ed744206b61d5d3face6156671b5bc7bdb3ece6901e2e7"
+      },
+      {
+        "path": "native-compatibility-repair/recursive-bridge-conformance.log",
+        "bytes": 11572,
+        "sha256": "5bae315ec4cff78d1e2dae6efb7da0808283f5e33d850e88d42728da42716e5f"
+      },
+      {
+        "path": "native-compatibility-repair/targeted-gates.json",
+        "bytes": 5714,
+        "sha256": "cd6ac3ce0705a9a30ec48a813753f414d31e98fc1cb6b9e86022dae07ead98a0"
+      },
+      {
+        "path": "native-compatibility-repair/test_binary_unit_domain_probe.log",
+        "bytes": 2385,
+        "sha256": "918caeaefeeb2e11467563884e115256eede2bf696a8a5b26f311d27280c11fc"
+      },
+      {
+        "path": "native-compatibility-repair/test_certified_native_protocol.log",
+        "bytes": 1941,
+        "sha256": "856ee5c666233769921e7380a35c33c97351dee3affb1d8064ecda1d9b166386"
+      },
+      {
+        "path": "native-compatibility-repair/test_foundation_independent.log",
+        "bytes": 6505,
+        "sha256": "9249d78ff3dd7251c36c595fc2bd5e068b666e4c7a1d804e738aafae396d18a2"
+      },
+      {
+        "path": "native-compatibility-repair/test_licensed_inference_runtime.log",
+        "bytes": 1205,
+        "sha256": "5f22c1f5eefb7b80340f20ec90391d0ecf1f541807b2f2847635ff2b1346112a"
+      },
+      {
+        "path": "native-compatibility-repair/test_licensed_inference_security.log",
+        "bytes": 4124,
+        "sha256": "54c4fec83831ace21491dfbdc6268dfa90d7f3368219ed1b82d08bfe2b2a1626"
+      },
+      {
+        "path": "native-compatibility-repair/test_progressive_unit_probe.log",
+        "bytes": 4668,
+        "sha256": "b63f5cca5071614c9c2bba4f0c67acea01b34ac606e970a3e9fb4a7054722778"
+      },
+      {
+        "path": "native-compatibility-repair/test_qatr_readings.log",
+        "bytes": 1891,
+        "sha256": "8b4d7da5fb99e14f233865a1fc6cdf87f5bc700a580473f149c838bf114cad4a"
+      },
+      {
+        "path": "native-compatibility-repair/test_source_semantics.log",
+        "bytes": 2459,
+        "sha256": "216b45293739decf0c9cdc65c53c866dddc4e5bbaf963565b45f99c94e79da7c"
+      },
+      {
+        "path": "native-compatibility-repair/test_verified_reading.log",
+        "bytes": 1767,
+        "sha256": "83cbde0c970f085d9184957d208b189e8f99a1f0e4848f5afc576c735df749d3"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json",
+        "bytes": 506732,
+        "sha256": "92ee99ebf51f4b44820e1c551507c2b2127a8a6aea3ab0345b483589ab7133a4"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.code.tar.gz",
+        "bytes": 861966,
+        "sha256": "6ce3e869753469f7860995755826733a5e39247f7145cd18ac9695bdd0d28de2"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.lean.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.lean.stdin.jsonl",
+        "bytes": 72724,
+        "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.lean.stdout.jsonl",
+        "bytes": 103709,
+        "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.native.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.native.stdin.jsonl",
+        "bytes": 1188,
+        "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.native.stdout.jsonl",
+        "bytes": 90282,
+        "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      },
+      {
+        "path": "native-protocol-repair/recursive-bridge-conformance.json.plan.json",
+        "bytes": 339625,
+        "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+      },
+      {
+        "path": "natural-use.json",
+        "bytes": 11357,
+        "sha256": "bc2b36054a014b0a4596e7afa5b797ec5d0d11060d2ea28280ea581991862a0d"
+      },
+      {
+        "path": "recursive-source-bridge-current-pin.log",
+        "bytes": 6071,
+        "sha256": "2d4cdbb36a3c096435de7f736d82fc59036cc1fbe36bc35f8f92555f66aa31e5"
+      },
+      {
+        "path": "source-fixture-repair.log",
+        "bytes": 3516,
+        "sha256": "41aa3e1def80f15accf841edb447256829839ecd491286124388f5534a0aa4ba"
+      },
+      {
+        "path": "source-guard-repair/conformance.json",
+        "bytes": 2310,
+        "sha256": "e8b094c536436066ac77b527efbab5758360bb046f9fb86e7dd90526959a3cc1"
+      },
+      {
+        "path": "torch-source-benchmark-replay.json",
+        "bytes": 7165435,
+        "sha256": "5c303c44efe9bc2a2840c011cca21969ab8f0f1d673b216bbe02c1eee557f824"
+      },
+      {
+        "path": "ui-tests.log",
+        "bytes": 19528,
+        "sha256": "7b5b9b25e1350ee7901194643073964c83280d6b097b1aee959246c70c7074f8"
+      },
+      {
+        "path": "unit-tests.log",
+        "bytes": 474707,
+        "sha256": "c85fa6378065b210eb4bcdc5e710efc1142e5cc49014e40a11e563448b385d7f"
+      }
+    ]
+  }
+}

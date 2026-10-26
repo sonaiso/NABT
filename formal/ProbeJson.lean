@@ -82,10 +82,48 @@ def unicodeEscapesValid : List Char → Bool → Bool
   | _ :: rest, true => unicodeEscapesValid rest true
   | character :: rest, false => unicodeEscapesValid rest (character == '"')
 
+/-- Reject repeated decoded object keys before Json.parse can replace an
+earlier value. Equal keys written with different JSON escapes are duplicates.
+Only the current object's keys are compared; sibling objects remain independent. -/
+def uniqueObjectKeys (line : String) (duplicateMessage : String := "duplicate object key") : ProbeM Unit := do
+  let mut quoted := false
+  let mut escaped := false
+  let mut token : List Char := []
+  let mut lastString : Option String := none
+  let mut objects : List (List String) := []
+  for c in line.toList do
+    if quoted then
+      token := c :: token
+      if escaped then escaped := false
+      else if c == '\\' then escaped := true
+      else if c == '"' then
+        quoted := false
+        lastString := some (String.ofList token.reverse)
+    else if c == '"' then
+      quoted := true
+      token := ['"']
+      lastString := none
+    else if c == '{' then
+      objects := [] :: objects
+      lastString := none
+    else if c == '}' then
+      objects := objects.tail
+      lastString := none
+    else if c == ':' then
+      let some raw := lastString | return ← invalid "object key missing"
+      let key ← str (← liftParse (Json.parse raw))
+      let keys :: rest := objects | return ← invalid "object key outside object"
+      if keys.contains key then return ← invalid duplicateMessage
+      objects := (key :: keys) :: rest
+      lastString := none
+    else if !c.isWhitespace then lastString := none
+
 /-- A small lexical boundary check before the general JSON parser prevents
 unbounded numeric exponents and deeply nested malformed input. Strings and
 escapes are preserved; interpretation still belongs to Lean's JSON parser. -/
-def preflight (line : String) : ProbeM Unit := do
+-- The message parameter preserves adapters' existing error envelopes. It is
+-- fixed by each adapter's code; input cannot disable duplicate rejection.
+def preflight (line : String) (duplicateMessage : String := "duplicate object key") : ProbeM Unit := do
   let characters := line.toList
   if !unicodeEscapesValid characters false then
     return ← invalid "invalid Unicode escape or unpaired UTF-16 surrogate"
@@ -116,6 +154,7 @@ def preflight (line : String) : ProbeM Unit := do
           if depth > maxDepth then return ← limited "JSON nesting exceeds 64 levels"
         else if character == ']' || character == '}' then
           depth := depth - 1
+  uniqueObjectKeys line duplicateMessage
 
 def processLine (dispatch : Json → ProbeM Json) (errorResponse : Failure → Json) (bytes : ByteArray) (oversized : Bool) : Json :=
   if oversized then errorResponse ⟨"RESOURCE_LIMIT", "input line exceeds 1 MiB"⟩

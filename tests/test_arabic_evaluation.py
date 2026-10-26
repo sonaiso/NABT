@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
 DATA = ROOT / "evidence/arabic_syntax/independent"
 ENTRYPOINT = TOOLS / "arabic_syntax_evaluation.py"
-CURRENT_FREEZE = ROOT / "evidence/attested_mark_recovery_v1/code_freeze_v1.json"
+CURRENT_FREEZE = ROOT / "evidence/certified_natural_use_v1/code_freeze_v1.json"
 
 
 class ArabicEvaluationBoundaryTests(unittest.TestCase):

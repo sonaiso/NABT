@@ -10,11 +10,14 @@ from tools.linguistic_truth.sources import ROOT, INVENTORY_PATH, SourceInventory
 class LinguisticSourceReplay(unittest.TestCase):
     def test_all_three_works_and_exact_designation_subquotes(self):
         inv = build_inventory()
-        self.assertEqual({s['work'] for s in inv['sources']}, {'shakhsiyya1','shakhsiyya3','thinking'})
-        self.assertEqual(len(inv['passages']), 95)
+        self.assertEqual({s['work'] for s in inv['sources']}, {'shakhsiyya1','shakhsiyya3','thinking',
+                                                             'mukhtar_sihah','qatr','ibn_aqil','lisan'})
+        self.assertEqual(len(inv['passages']), 104)
         self.assertEqual(inv['scope']['retained_units'], 113)
-        self.assertEqual(len(inv['designations']), 9)
-        self.assertEqual(inv['replay']['designation_subquotes_checked'], 12)
+        self.assertEqual(len(inv['designations']), 12)
+        self.assertEqual(inv['replay']['designation_subquotes_checked'], 15)
+        self.assertEqual(inv['extension_scope']['new_designations'], 3)
+        self.assertFalse(inv['extension_scope']['all_ayn_senses_exhausted'])
         self.assertFalse(inv['replay']['original_comparison_performed_here'])
         self.assertFalse(inv['scope']['world_truth_established'])
 

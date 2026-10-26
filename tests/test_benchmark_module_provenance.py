@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 from tools import benchmark_licensed_inference as licensed
 from tools import benchmark_linguistic_truth as linguistic
-from tools.linguistic_truth import marked_forms
+from tools.linguistic_truth import marked_forms, sources
 from tools.linguistic_truth.correction import CITATION
 
 
@@ -27,6 +27,7 @@ class BenchmarkModuleProvenanceTests(unittest.TestCase):
             'evidence/linguistic_truth_v1/source_inventory.json': '{"sources":[]}',
             CITATION['path']: 'test source bytes',
             str(marked_forms.REVIEW_PATH): 'test review bytes',
+            str(sources.SUPPLEMENT_PATH): 'test supplement bytes',
         }
         for name, data in files.items():
             target = self.root / name
@@ -34,6 +35,10 @@ class BenchmarkModuleProvenanceTests(unittest.TestCase):
             target.write_text(data)
         self.enterContext(chdir(self.root))
         self.enterContext(patch.object(marked_forms, '_load_review', return_value={'sources': []}))
+        # These tests isolate Python-module provenance with a synthetic root.
+        # Production byte authentication is covered by the source replay tests;
+        # do not ask its pinned reader to authorize this synthetic catalogue.
+        self.enterContext(patch.object(sources, 'build_inventory', return_value={'sources': []}))
 
     def snapshots(self, filename, origin=None):
         module = ModuleType('external_virtual_provenance_fixture')
@@ -43,11 +48,15 @@ class BenchmarkModuleProvenanceTests(unittest.TestCase):
             (licensed, 'snapshot', 'repository_python'),
             (linguistic, 'evidence_snapshot', 'python_repository_modules'),
         ):
-            with self.subTest(benchmark=benchmark.__name__):
+            def snapshot(benchmark=benchmark, method=method):
                 with patch.object(benchmark, 'ROOT', self.root), \
                      patch.object(benchmark, 'GOLD_PATH', self.root / 'gold.json'), \
                      patch.dict(sys.modules, {module.__name__: module}):
-                    yield getattr(benchmark, method), key
+                    return getattr(benchmark, method)()
+            # Contexts belong to the actual call, not a suspended generator;
+            # a failing assertion must not leave patches active or emit a
+            # misleading GeneratorExit subtest error.
+            yield snapshot, key
 
     def test_virtual_relative_filename_is_not_a_repository_input(self):
         # Even an identically named file in cwd does not establish provenance.

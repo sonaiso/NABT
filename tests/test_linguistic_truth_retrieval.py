@@ -3,13 +3,19 @@ from unittest.mock import patch
 
 from tools.linguistic_truth.retrieval import LinguisticTruthSearchIndex, INPUT_RECIPE, RetrievalError
 from tools.linguistic_truth.pipeline import run
+from tools.linguistic_truth.sources import build_inventory
 
 
 class LinguisticTruthRetrieval(unittest.TestCase):
     def test_search_returns_source_identity_without_classification(self):
         index=LinguisticTruthSearchIndex()
         result=index.search('الأسد الحيوان المفترس')
-        self.assertEqual(len(index._docs),105)
+        inventory=build_inventory()
+        expected_ids=({('passage', row['passage_id']) for row in inventory['passages']}
+                      | {('item', f"designation:{row['designation_id']}") for row in inventory['designations']}
+                      | {('item', f"relation:{row['relation_id']}") for row in inventory['relations']})
+        self.assertEqual(set(index._docs),expected_ids)
+        self.assertEqual(len(index._docs),117)
         self.assertTrue(result['candidates'])
         self.assertFalse(result['world_truth_established'])
         self.assertFalse(result['source_interpretation_established'])

@@ -1,8 +1,8 @@
 """Administrative discovery migration cannot replace language evidence or gold."""
 from hashlib import sha256
-import importlib.util
 import json
 from pathlib import Path
+import tarfile
 import unittest
 
 from tools.text_evaluation.integrity import verify_code_freeze
@@ -23,7 +23,9 @@ class AttestedMarkRuntimeMigration(unittest.TestCase):
                 self.assertEqual(sha256((OLD / name).read_bytes()).hexdigest(), digest)
 
     def test_only_discovery_registration_changes_in_complete_package_inventory(self):
-        current = verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
+        # This published migration is historical. Verify its captured bytes,
+        # not the newer active checkout; the current migration has its own test.
+        current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
         old = json.loads((OLD / "code_freeze_v2.json").read_bytes())
         previous = {row["path"]: row for row in old["files"]}
         actual = {row["path"]: row for row in current["files"]}
@@ -31,6 +33,16 @@ class AttestedMarkRuntimeMigration(unittest.TestCase):
         self.assertEqual(set(previous), set(actual))
         self.assertEqual([name for name in previous if previous[name] != actual[name]],
                          ["src/nabt/data/framework_foundation.json"])
+        archive_path = NEW / current["archive_filename"]
+        self.assertEqual(sha256(archive_path.read_bytes()).hexdigest(), current["archive_sha256"])
+        with tarfile.open(archive_path, "r:gz") as archive:
+            self.assertEqual({member.name for member in archive.getmembers()}, set(actual))
+            for member in archive.getmembers():
+                raw = archive.extractfile(member).read()
+                self.assertEqual((len(raw), sha256(raw).hexdigest()),
+                                 (actual[member.name]["bytes"], actual[member.name]["sha256"]))
+        with self.assertRaises(ValueError):
+            verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
         with self.assertRaises(ValueError):
             verify_code_freeze(OLD / "code_freeze_v2.json", ROOT)
 
@@ -43,12 +55,11 @@ class AttestedMarkRuntimeMigration(unittest.TestCase):
 
     def test_current_oracle_dependencies_are_frozen_without_new_prediction_claim(self):
         location = NEW / "independent_oracle/run_oracle_v1.py"
-        spec = importlib.util.spec_from_file_location("mark_recovery_oracle", location)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        receipt = module.check_runner_freeze(location.with_name("runner_freeze_v4.json"))
-        self.assertTrue(receipt["files"])
-        frozen = json.loads(location.with_name("runner_freeze_v4.json").read_bytes())
+        raw = location.with_name("runner_freeze_v4.json").read_bytes()
+        self.assertEqual(sha256(raw).hexdigest(),
+                         "f5ada86aaedd33b823750e36fcae0610f4925621652f34c422d2cc67f54f102e")
+        frozen = json.loads(raw)
+        self.assertTrue(frozen["files"])
         self.assertIs(frozen["runtime_calls_performed_by_freezer"], False)
         self.assertIs(frozen["historical_files_repinned"], False)
 

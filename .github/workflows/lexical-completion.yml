@@ -33,6 +33,11 @@ on:
       - 'tools/measure_natural_use.py'
       - 'tests/test_linguistic_truth*.py'
       - 'tests/test_natural_use_measurement.py'
+      - 'tools/benchmark_certified_natural_use.py'
+      - 'tests/test_certified*.py'
+      - 'tests/test_natural_use_sources.py'
+      - 'evidence/certified_natural_use_v1/**'
+      - 'evidence/natural_use_sources_v1/**'
       - 'evidence/natural_use_gap_v1/**'
       - 'evidence/linguistic_truth_v1/**'
       - 'src/nabt/data/source_evidence/mughni.txt'
@@ -98,6 +103,12 @@ jobs:
           python tools/build_lexical_graph.py --check --audit-output artifacts/local/lexical-completion-ci/graph-license-audit.json
           python -m unittest discover -s tests -p test_lexical_graph.py -v
           python tools/benchmark_lexical_graph.py --output artifacts/local/lexical-completion-ci/graph-benchmark.json
+      - name: Require A116 and native Lean for named lexical proof claims
+        run: |
+          test -x formal/.lake/build/bin/linguisticTruth
+          python -m unittest discover -s tests -p 'test_certified*.py' -v
+          python -m unittest discover -s tests -p 'test_linguistic_truth_certified.py' -v
+          python tools/benchmark_certified_natural_use.py --output artifacts/local/lexical-completion-ci/certified-natural-use.json.gz
       - name: Retain bounded verification evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

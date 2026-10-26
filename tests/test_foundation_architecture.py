@@ -106,6 +106,12 @@ class FoundationArchitectureTests(unittest.TestCase):
         self.assert_denied(lambda: index.search("همزة الوصل"))
         self.assert_denied(lambda: project_ranking(reading, [0.0, 1.0, 0.0, 0.0]))
 
+    def test_certified_lexical_entry_cannot_bypass_foundation(self):
+        from tools.linguistic_truth.certified import acquire_certified
+        # A CLI-only guard would leave this direct admission path unprotected.
+        # Denial must happen before lexical acquisition or native execution.
+        self.assert_denied(lambda: acquire_certified("عَيْنٌ"))
+
     @unittest.skipUnless((ROOT / "formal/.lake/build/bin/licensedInference").is_file(), "native checker built in native CI")
     def test_native_inference_and_transport_positive_then_denied(self):
         from tools.licensed_inference.runtime import evaluate
@@ -191,6 +197,10 @@ class FoundationArchitectureTests(unittest.TestCase):
             (root / "tools").mkdir()
             (root / "tools/new_backend.py").write_text(
                 "def new_backend():\n    return {'native_checked': True, 'verified': True}\n")
+            self.assertEqual(architecture.unregistered_grants(root, {
+                "surfaces": [], "non_authority_grant_sites": []}), ["tools/new_backend.py:new_backend"])
+            (root / "tools/new_backend.py").write_text(
+                "def new_backend():\n    return {'strict_language_accepted': True, 'certified_from_a116': True}\n")
             self.assertEqual(architecture.unregistered_grants(root, {
                 "surfaces": [], "non_authority_grant_sites": []}), ["tools/new_backend.py:new_backend"])
         source = (ROOT / "src/nabt/cli.py").read_text()

@@ -370,7 +370,7 @@ def processSemanticLine (source : Option Nabt.ClassicalLanguageEvidence.Source) 
     | none => errorResponse ⟨"INVALID_INPUT", "input line is not valid UTF-8"⟩
     | some line =>
       match (do
-        ProbeJson.preflight line
+        ProbeJson.preflight line "duplicate JSON object key"
         rejectDuplicateKeys line
         let request ← liftParse (Json.parse line)
         dispatch source request : ProbeM Json) with

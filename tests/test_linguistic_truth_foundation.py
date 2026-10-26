@@ -71,7 +71,7 @@ class ObservedMarkCoverage(unittest.TestCase):
 
 class FoundationInputAdmission(unittest.TestCase):
     def test_law_and_foundation_are_not_caller_authority(self):
-        self.assertEqual(LAW_ID, "nabt.linguistic-truth-acquisition.v4")
+        self.assertEqual(LAW_ID, "nabt.linguistic-truth-acquisition.v5")
         with patch("nabt.foundation.require_foundation", side_effect=NabtError("DENIED", "test")):
             with self.assertRaises(NabtError):
                 acquire("أعني بالأسد الحيوان المفترس", profile_id="linguistic")

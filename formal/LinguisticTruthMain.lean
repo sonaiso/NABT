@@ -1,4 +1,5 @@
 import Nabt.LinguisticTruth
+import Nabt.CertifiedLexical
 import ProbeJson
 
 open Lean ProbeJson Nabt.LinguisticTruth Nabt.SemanticInference
@@ -129,6 +130,68 @@ def dispatch (j : Json) : ProbeM Json := do
   if budget > 4096 then return ← limited "ledger budget exceeds 4096"
   return response f ds rs known ps budget
 
+/-- Strict composition entry point. No supplied status, proof flag, or textual
+certificate is accepted: both source projection and lexical verdicts are
+recomputed by the same executable. Ledger interpretation remains a premise. -/
+def dispatchCertified (j : Json) : ProbeM Json := do
+  exactKeys j ["op", "source", "cells", "request"]
+  if (← str (← field j "op")) != "certify_a116" then return ← invalid "unknown certified operation"
+  let sj ← field j "source"
+  exactKeys sj ["id", "revision", "text"]
+  let sid ← textValue (← field sj "id")
+  let revision ← textValue (← field sj "revision")
+  if sid.isEmpty || revision.isEmpty || sid.toList.length > 256 || revision.toList.length > 256 then
+    return ← invalid "source identity must be nonempty and bounded"
+  let text ← str (← field sj "text")
+  if text.utf8ByteSize > 65536 then return ← limited "source exceeds 65536 UTF-8 bytes"
+  let source : Nabt.Foundation.Source := ⟨sid, revision, text⟩
+  let cells ← boundedItems 4096 (fun value => do
+    let n ← nat value
+    if h : n < 116 then pure (⟨n, h⟩ : Nabt.Atom)
+    else invalid "cell outside the installed A116 alphabet") (← field j "cells")
+  let request ← field j "request"
+  exactKeys request ["frame", "designations", "relations", "known", "proposed", "budget"]
+  let f ← parseFrame (← field request "frame")
+  let ds ← boundedItems 128 parseDesignation (← field request "designations")
+  let rs ← boundedItems 128 parseRelation (← field request "relations")
+  let known ← boundedItems 1024 parseAtom (← field request "known")
+  let proposed ← field request "proposed"
+  let ps ← if proposed == Json.null then pure none else some <$> boundedItems 256 parseCandidate proposed
+  let budget ← nat (← field request "budget")
+  if budget > 4096 then return ← limited "ledger budget exceeds 4096"
+  let projection := Nabt.Foundation.project source
+  if projection.cells.length > 4096 then return ← limited "projection exceeds 4096 cells"
+  let checked := Nabt.CertifiedLexical.checkCandidates source cells f ds rs (ps.getD []) budget
+  let accepted := Nabt.CertifiedLexical.accepted source cells f ds rs known (ps.getD []) budget
+  let result := Json.mkObj [
+    ("schema", toJson Nabt.CertifiedLexical.lawId),
+    ("law_id", toJson Nabt.CertifiedLexical.lawId),
+    ("authority", toJson "A116_SOURCE_BOUND_CONDITIONAL_SUPPLIED_PREMISES"),
+    ("status", toJson (if ds.length + rs.length > budget then "RESOURCE_EXHAUSTED"
+      else if !accepted.isEmpty then "CERTIFIED_CONDITIONAL_USE"
+      else if checked then "CHECKED_CANDIDATES" else "DEFERRED")),
+    ("source", Json.mkObj [("id", toJson sid), ("revision", toJson revision), ("text", toJson text)]),
+    ("alphabet_id", toJson Nabt.Foundation.alphabetId),
+    ("number_domain", toJson Nabt.Foundation.numberDomain),
+    ("cells", toJson (projection.cells.map Fin.val)),
+    ("source_number", toJson (toString projection.number)),
+    ("projection_status", toJson projection.status.label),
+    ("source_bound", toJson (decide (Nabt.CertifiedLexical.SourceBound source f))),
+    ("cells_exact", toJson (cells == projection.cells)),
+    ("candidate_set_checked", toJson checked),
+    ("certified_from_a116", toJson (!accepted.isEmpty)),
+    ("accepted_candidates", toJson (accepted.map candidateJson)),
+    ("semantic", response f ds rs known ps budget),
+    ("native_acquisition_proof", toJson false),
+    ("all_arabic_complete", toJson false),
+    ("world_truth_established", toJson false)]
+  if result.compress.utf8ByteSize > 524288 then
+    return ← limited "certified response exceeds 524288 UTF-8 bytes"
+  return result
+
+def dispatchAll (j : Json) : ProbeM Json := do
+  if (j.getObjVal? "op").isOk then dispatchCertified j else dispatch j
+
 def errorJson (e : Failure) : Json := Json.mkObj [("status", toJson e.code), ("message", toJson e.message)]
 
 def fixtureCitation : Nabt.LexicalDenotation.Citation :=
@@ -201,6 +264,6 @@ def main (args : List String) : IO Unit := do
   let output ← IO.getStdout
   if args == ["--export"] then LinguisticTruthMain.exportFixtures
   else if args.isEmpty then
-    ProbeJson.readLoop LinguisticTruthMain.dispatch LinguisticTruthMain.errorJson
+    ProbeJson.readLoop LinguisticTruthMain.dispatchAll LinguisticTruthMain.errorJson
       (← IO.getStdin) output (ByteArray.emptyWithCapacity 0) false
   else throw (IO.userError "usage: linguisticTruth [--export]")

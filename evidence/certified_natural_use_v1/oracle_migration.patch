@@ -1,0 +1,225 @@
+--- evidence/attested_mark_recovery_v1/independent_oracle/freeze_runner_v1.py
++++ evidence/certified_natural_use_v1/independent_oracle/freeze_runner_v1.py
+@@ -9,8 +9,8 @@
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parents[2]
+ ORACLE = ROOT / 'evidence/arabic_completion_v3/independent_oracle'
+-PREVIOUS = ROOT / 'evidence/framework_foundation_v1/independent_oracle/runner_freeze_v1.json'
+-PREVIOUS_SHA256 = 'bfceeccfe85fae87156a3be23c2e85af58db138fa0b63b34934c6db6195f9b8e'
++PREVIOUS = ROOT / 'evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v4.json'
++PREVIOUS_SHA256 = 'f5ada86aaedd33b823750e36fcae0610f4925621652f34c422d2cc67f54f102e'
+ 
+ 
+ def dependency_paths(snapshot):
+@@ -18,37 +18,37 @@
+     if sha256(raw).hexdigest() != PREVIOUS_SHA256:
+         raise ValueError('Historical dependency freeze changed')
+     previous = json.loads(raw)
+-    prefix = 'evidence/framework_foundation_v1/independent_oracle/'
+-    destination = 'evidence/attested_mark_recovery_v1/independent_oracle/'
++    prefix = 'evidence/attested_mark_recovery_v1/independent_oracle/'
++    destination = 'evidence/certified_natural_use_v1/independent_oracle/'
+     selected = {destination + row['path'].removeprefix(prefix)
+                 if row['path'].startswith(prefix) else row['path']
+                 for row in previous['files']}
+-    selected.add('evidence/attested_mark_recovery_v1/regression_policy_v1.json')
+-    selected.add('tests/test_attested_mark_runtime_freeze.py')
++    selected.add('evidence/certified_natural_use_v1/regression_policy_v1.json')
++    selected.add('tests/test_certified_natural_use_freeze.py')
+     return selected
+ 
+ 
+ def main():
+-    output = HERE / 'runner_freeze_v4.json'
++    output = HERE / 'runner_freeze_v5.json'
+     if output.exists():
+         raise ValueError('Never overwrite an observed dependency freeze')
+     spec = importlib.util.spec_from_file_location('foundation_oracle_runner', HERE / 'run_oracle_v1.py')
+     runner = importlib.util.module_from_spec(spec)
+     spec.loader.exec_module(runner)
+-    runtime = ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json'
++    runtime = ROOT / 'evidence/certified_natural_use_v1/code_freeze_v1.json'
+     snapshot = runner.E.runtime_snapshot(runtime, ROOT)
+     old = json.loads(PREVIOUS.read_bytes())
+     selected = dependency_paths(snapshot)
+     rows = [runner.file_row(ROOT / name) for name in sorted(selected)]
+     frozen = {key: value for key, value in old.items()
+               if key not in ('schema', 'created_utc', 'runtime_freeze_sha256', 'files', 'upstream_hardening_commit')}
+-    frozen.update(schema='nabt.attested-mark-recovery.directed-runner-freeze.v1',
++    frozen.update(schema='nabt.certified-natural-use.directed-runner-freeze.v1',
+                   created_utc=datetime.now(timezone.utc).isoformat(),
+                   runtime_freeze_sha256=sha256(runtime.read_bytes()).hexdigest(),
+                   previous_dependency_freeze_sha256=sha256(PREVIOUS.read_bytes()).hexdigest(),
+-                  supersedes_pre_execution_dependency_freeze_sha256='c1c92ddaf90f7457c9927afbfa4c4e89c37a3a981869d818cfaa09f23b2852f3',
++                  supersedes_pre_execution_dependency_freeze_sha256='aecb8a03c367dd1ecb9c4e4c2b8ab3b1aba46815dd4ea2de0ae0d725b1d907b8',
+                   files=rows,
+-                  review_correction='Administrative A116 discovery registration, current-oracle wrapper selection and dependency identities only; all material, scorer, denominators and residual signatures remain unchanged.',
++                  review_correction='Native lexical certification discovery registration, strict native CI target with explicit non-default linguisticTruth build, remote CI current selection, complete holdout postreview identity, current-oracle wrapper selection and dependency identities only; all material, scorer, denominators and residual signatures remain unchanged.',
+                   scope='Same 24 authored cases, 29 questions and separate six source counterexamples; historical evidence is read-only.')
+     with output.open('x', encoding='utf-8') as stream:
+         json.dump(frozen, stream, ensure_ascii=False, indent=2)
+--- evidence/attested_mark_recovery_v1/independent_oracle/review_continuation_v1.py
++++ evidence/certified_natural_use_v1/independent_oracle/review_continuation_v1.py
+@@ -110,8 +110,8 @@
+ 
+ def checked_artifacts(result_path, raw_path):
+     result = json.loads(result_path.read_text())
+-    runner = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
+-    current = E.runtime_snapshot(R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json', R.ROOT)
++    runner = R.check_runner_freeze(HERE / 'runner_freeze_v5.json')
++    current = E.runtime_snapshot(R.ROOT / 'evidence/certified_natural_use_v1/code_freeze_v1.json', R.ROOT)
+     E.require(result['runtime_freeze_sha256'] == R.RUNTIME_SHA and
+               result['material_freeze_sha256'] == R.MATERIAL_SHA and
+               E.wire(result['runner']) == E.wire(runner), 'Continuation runtime/material/dependency pin mismatch')
+@@ -120,7 +120,7 @@
+     by_path = {row['path']: row for row in current['files']}
+     for row in runner['files']:
+         by_path.setdefault(row['path'], row)
+-    for path in (HERE / 'runner_freeze_v4.json', R.ROOT / current['runtime_freeze']):
++    for path in (HERE / 'runner_freeze_v5.json', R.ROOT / current['runtime_freeze']):
+         row = R.file_row(path)
+         by_path.setdefault(row['path'], row)
+     for name in ['freeze.json', *[row['path'] for row in material['files']]]:
+@@ -349,10 +349,10 @@
+     E.require(set(residuals) == set(reference['regression_gate']['actual_failure_inventory']) and all(
+         set(checks) <= set(reference['regression_gate']['actual_failure_inventory'][cid]) for cid, checks in residuals.items()),
+         'New case failures were introduced')
+-    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v4.json')) == E.wire(runner) and
+-              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json', R.ROOT)) == E.wire(current),
++    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v5.json')) == E.wire(runner) and
++              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/certified_natural_use_v1/code_freeze_v1.json', R.ROOT)) == E.wire(current),
+               'Runtime/checker changed during independent review')
+-    review = {'schema': 'nabt.attested-mark-recovery.continuation-review.v1',
++    review = {'schema': 'nabt.certified-natural-use.continuation-review.v1',
+               'reviewed_utc': datetime.now(timezone.utc).isoformat(),
+               'runtime_freeze_sha256': R.RUNTIME_SHA, 'material_freeze_sha256': R.MATERIAL_SHA,
+               'dependency_freeze_sha256': runner['sha256'], 'historical_material_unchanged': True,
+--- evidence/attested_mark_recovery_v1/independent_oracle/run_oracle_v1.py
++++ evidence/certified_natural_use_v1/independent_oracle/run_oracle_v1.py
+@@ -26,7 +26,7 @@
+ S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
+ E=S.E
+ RUNTIME_SHA=E.foundation_gate.RUNTIME_SHA256
+-VERSION='nabt.attested-mark-recovery.directed-oracle-execution.v1'
++VERSION='nabt.certified-natural-use.directed-oracle-execution.v1'
+ 
+ 
+ def dump(value):
+@@ -57,12 +57,12 @@
+ 
+ def check_runner_freeze(path):
+     raw=path.read_bytes();freeze=json.loads(raw)
+-    E.require(freeze['schema']=='nabt.attested-mark-recovery.directed-runner-freeze.v1'
++    E.require(freeze['schema']=='nabt.certified-natural-use.directed-runner-freeze.v1'
+               and freeze['material_freeze_sha256']==MATERIAL_SHA and freeze['runtime_freeze_sha256']==RUNTIME_SHA,
+               'Unapproved runner/material/runtime combination')
+     dependency_spec=importlib.util.spec_from_file_location('foundation_dependency_inventory',EXEC_DIR/'freeze_runner_v1.py')
+     dependency=importlib.util.module_from_spec(dependency_spec);dependency_spec.loader.exec_module(dependency)
+-    snapshot=E.runtime_snapshot(ROOT/'evidence/attested_mark_recovery_v1/code_freeze_v1.json',ROOT)
++    snapshot=E.runtime_snapshot(ROOT/'evidence/certified_natural_use_v1/code_freeze_v1.json',ROOT)
+     expected=dependency.dependency_paths(snapshot)
+     rows=freeze['files']
+     E.require(type(rows) is list and len(rows)==len(expected)
+@@ -82,7 +82,7 @@
+     by_path={row['path']:row for row in snapshot['files']}
+     for item in runner['files']:
+         by_path.setdefault(item['path'],item)
+-    for path in (EXEC_DIR/'runner_freeze_v4.json', ROOT/snapshot['runtime_freeze']):
++    for path in (EXEC_DIR/'runner_freeze_v5.json', ROOT/snapshot['runtime_freeze']):
+         row=file_row(path);by_path.setdefault(row['path'],row)
+     for name in ['freeze.json',*[item['path'] for item in material['files']]]:
+         row=file_row(HERE/name);by_path.setdefault(row['path'],row)
+@@ -267,6 +267,6 @@
+ 
+ if __name__=='__main__':
+     p=argparse.ArgumentParser();p.add_argument('--output-dir',type=Path,required=True)
+-    p.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/attested_mark_recovery_v1/code_freeze_v1.json')
+-    p.add_argument('--runner-freeze',type=Path,default=EXEC_DIR/'runner_freeze_v4.json')
++    p.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/certified_natural_use_v1/code_freeze_v1.json')
++    p.add_argument('--runner-freeze',type=Path,default=EXEC_DIR/'runner_freeze_v5.json')
+     args=p.parse_args();raise SystemExit(execute(args.output_dir.resolve(),args.runtime_freeze.resolve(),args.runner_freeze.resolve()))
+--- evidence/attested_mark_recovery_v1/independent_oracle/run_regression_v1.py
++++ evidence/certified_natural_use_v1/independent_oracle/run_regression_v1.py
+@@ -30,7 +30,7 @@
+ def run(output_dir):
+     E.require(not output_dir.exists(), 'Refusing to replace a continuation attempt')
+     E.require(output_dir.is_relative_to(R.ROOT), 'Output directory must be inside the repository')
+-    before = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
++    before = R.check_runner_freeze(HERE / 'runner_freeze_v5.json')
+     P.historical_reference()
+     C.load_cases()
+     output_dir.mkdir(parents=True)
+@@ -57,11 +57,11 @@
+             json.dumps(source_review, ensure_ascii=False, indent=2) + '\n')
+     except Exception as error:
+         errors.append({'phase': 'source_counterexample_review', 'type': type(error).__name__, 'message': str(error)})
+-    after = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
++    after = R.check_runner_freeze(HERE / 'runner_freeze_v5.json')
+     stable = E.wire(before) == E.wire(after)
+     passed = bool(not errors and stable and reviewed and reviewed['regression_gate_pass']
+                   and source_review and source_review['gate_pass'])
+-    receipt = {'schema': 'nabt.attested-mark-recovery.regression-execution.v1',
++    receipt = {'schema': 'nabt.certified-natural-use.regression-execution.v1',
+                'completed_utc': datetime.now(timezone.utc).isoformat(), 'executions': executions,
+                'runtime_freeze_sha256': R.RUNTIME_SHA, 'material_freeze_sha256': R.MATERIAL_SHA,
+                'dependency_freeze_sha256': before['sha256'], 'source_material_freeze_sha256': P.SOURCE_MATERIAL,
+--- evidence/attested_mark_recovery_v1/independent_oracle/run_source_counterexamples_v1.py
++++ evidence/certified_natural_use_v1/independent_oracle/run_source_counterexamples_v1.py
+@@ -158,8 +158,8 @@
+     E.require(not output_dir.exists() and output_dir.is_relative_to(R.ROOT), 'Use a new repository-local output directory')
+     material, context = load_cases()
+     original_material = R.load_material()[0]
+-    runner = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
+-    runtime_freeze = R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json'
++    runner = R.check_runner_freeze(HERE / 'runner_freeze_v5.json')
++    runtime_freeze = R.ROOT / 'evidence/certified_natural_use_v1/code_freeze_v1.json'
+     snapshot = E.runtime_snapshot(runtime_freeze, R.ROOT)
+     output_dir.mkdir(parents=True)
+     output = output_dir / 'result.json'
+@@ -252,7 +252,7 @@
+     result['raw_journal'] = R.finish_journal(journal_path, inventory)
+     after = E.runtime_snapshot(runtime_freeze, R.ROOT)
+     result.update(public_api_calls=call_id, snapshot_after=after, runtime_unchanged=after == snapshot,
+-                  runner_and_helpers_unchanged=R.check_runner_freeze(HERE / 'runner_freeze_v4.json') == runner,
++                  runner_and_helpers_unchanged=R.check_runner_freeze(HERE / 'runner_freeze_v5.json') == runner,
+                   summary=summarize(result['cases']), finished_utc=datetime.now(timezone.utc).isoformat())
+     result['measurement_valid'] = not (result['execution_errors'] or result['scoring_errors'] or
+                                        result['summary']['independent_integrity_failures'])
+@@ -323,8 +323,8 @@
+     E.require(result['execution_errors'] == [] and result['scoring_errors'] == []
+               and result['measurement_valid'] is True and result['gate_pass'] is True
+               and summary['gate_pass'] is True, 'Counterexample source guard failed')
+-    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v4.json')) == E.wire(runner) and
+-              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json', R.ROOT)) == E.wire(current),
++    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v5.json')) == E.wire(runner) and
++              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/certified_natural_use_v1/code_freeze_v1.json', R.ROOT)) == E.wire(current),
+               'Runtime/dependencies changed during source-counterexample review')
+     return {'schema': 'nabt.completion-source-counterexample-review.v1', 'summary': summary,
+             'source_material_freeze_sha256': P.SOURCE_MATERIAL, 'runtime_freeze_sha256': R.RUNTIME_SHA,
+--- evidence/attested_mark_recovery_v1/independent_oracle/test_continuation_v1.py
++++ evidence/certified_natural_use_v1/independent_oracle/test_continuation_v1.py
+@@ -129,20 +129,20 @@
+                 self.semantic_review(values=changed)
+ 
+     def test_new_dependency_lineage_preserves_old_freeze_and_runtime(self):
+-        freeze = HERE / 'runner_freeze_v4.json'
++        freeze = HERE / 'runner_freeze_v5.json'
+         if not freeze.exists():
+             self.skipTest('Dependency freeze has not been registered yet; static tests precede it')
+         actual = P.R.check_runner_freeze(freeze)
+         record = json.loads(freeze.read_bytes())
+-        old = P.R.ROOT / 'evidence/framework_foundation_v1/independent_oracle/runner_freeze_v1.json'
++        old = P.R.ROOT / 'evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v4.json'
+         self.assertEqual(record['previous_dependency_freeze_sha256'], P.sha256(old.read_bytes()).hexdigest())
+-        self.assertEqual(record['previous_dependency_freeze_sha256'], 'bfceeccfe85fae87156a3be23c2e85af58db138fa0b63b34934c6db6195f9b8e')
++        self.assertEqual(record['previous_dependency_freeze_sha256'], 'f5ada86aaedd33b823750e36fcae0610f4925621652f34c422d2cc67f54f102e')
+         self.assertEqual(record['runtime_freeze_sha256'], P.R.RUNTIME_SHA)
+         paths = {row['path'] for row in actual['files']}
+         self.assertIn('tools/productive_form_validation.py', paths)
+         self.assertIn('tools/productive_evaluation.py', paths)
+         self.assertIn(str(Path(__file__).relative_to(P.R.ROOT)), paths)
+-        self.assertTrue(any('/attested_mark_recovery_v1/independent_oracle/review_' in path for path in paths))
++        self.assertTrue(any('/certified_natural_use_v1/independent_oracle/review_' in path for path in paths))
+         self.assertFalse(any('/continuation_v6_review2/review_' in path for path in paths))
+ 
+ 
