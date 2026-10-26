@@ -1,0 +1,147 @@
+{
+  "schema": "nabt.occurrence-catalog-ci-repair.v1",
+  "source_head": "d6b7563f60a58793b36a8e68117113d70e0a737f",
+  "failed_remote_run": 40290605583,
+  "cause": "CI selected pre-OccurrenceSense proof and dependent link snapshots",
+  "compiled_counts": {
+    "advertised_declarations": 1524,
+    "normalized_statement_groups": 1521,
+    "same_statement_groups_with_multiple_names": 3,
+    "redundant_statement_names": 3
+  },
+  "previous_declaration_records_unchanged": 1503,
+  "matches_previously_retained_occurrence_catalogue": true,
+  "historical_reference_paths_unchanged": true,
+  "reference_files": {
+    "grammar_link_summary.json": "b0b99167d615a56ee5c0b2968734bf39e052e5fef8feb142f130e4dfca401a37",
+    "licensed_proof_links.json": "c0c45d3b09aede6911ff29fa8adabe80a0a6f37cc477af25a4cba2292a244ce6",
+    "linguistic_proof_links.json": "060dbedbcbcae3d451090f52497c08ab69a2a500dd22e8c4ed0ba30278b3cb7b",
+    "mantuq_proof_links.json": "3e282d5ae2cdd7ca924364c1290a08c91eedbb6da557becb525f8daa15d794ea",
+    "proof_catalog.json": "a389f1ae0006572aa5dd6a0fd72c4879542a6a6ec51dfd9a7d85cdaaf37cf6f7"
+  },
+  "ci_replay": {
+    "command": "make -f Makefile -f integrations/grammar_catalog.mk -f integrations/mantuq_inference.mk -f integrations/linguistic_truth.mk -f integrations/licensed_inference.mk grammar-catalog proof-catalog routing-conformance mantuq-inference linguistic-truth licensed-inference LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake EVIDENCE_DIR=artifacts/local/catalog-ci-fix",
+    "exit_code": 0,
+    "test_suite_counts": [
+      10,
+      69,
+      10,
+      76
+    ],
+    "scope": "Complete affected Make invocation, not the PostgreSQL service job or a new full make check."
+  },
+  "additional_grammar_tests": {
+    "count": 46,
+    "exit_code": 0
+  },
+  "negative_control": {
+    "command": [
+      "python3",
+      "tools/proof_catalog.py",
+      "--lake",
+      "/workspace/scratch/041f7a0071c0/lean-driver/lake",
+      "--check",
+      "evidence/contextual_semantics_v1/proof_catalog.json"
+    ],
+    "returncode": 1,
+    "stdout": "{\"ok\": false, \"error\": \"stored proof catalogue differs from current compiled sources\"}\n",
+    "stderr": "",
+    "expected_rejection": true
+  },
+  "environment": {
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+    "local_launcher": "Host numeric PID namespace differs from /proc. An external readlink shim maps only the calling process executable path to /proc/self/exe; LEAN_SYSROOT and LAKE_HOME point to the verified distribution. No compiler, kernel, repository source or generated reference was patched by this workaround. GitHub Ubuntu CI uses the original pinned executable directly."
+  },
+  "logs": {
+    "ci-replay.log.gz": {
+      "sha256": "807d8dd71be3cd5db339f517c9fa4023a160c007983dda095fc4fc020ebf6221",
+      "uncompressed_sha256": "e39c5778148b74c33da2f5adb07caf9830f7b5c052148bfefcb7aa9bc112fdf5"
+    },
+    "grammar-tests.log.gz": {
+      "sha256": "a09073e34af7021f499014319252031a7f3835ab865d1f545351dbcb8b6d288a",
+      "uncompressed_sha256": "a3553f1b55ec74338d172774710c2b6f226a747ae5b0dd3dca95edd61ff958f4"
+    },
+    "generation.log.gz": {
+      "sha256": "4a9dcbd7e2efb3b1701b099ccfb129f5aca59ac062fbc5c90413e4ce177c749f",
+      "uncompressed_sha256": "e2749d8e0af47dc1701c68749307a073191a8de39bf177eec89de36e31b32dca"
+    },
+    "build.log.gz": {
+      "sha256": "55acc15adc134d1e2b0e047e7bcb225d0534d345694d39dc880698af97fc1b3d",
+      "uncompressed_sha256": "2877ff3092afc37df89df8a0cb24dd733900bb66ec928ae4d98af5d04fe9b5c4"
+    },
+    "integrity.log.gz": {
+      "sha256": "027362e216ac2874e37d0174423c0768fe424b06d9d665c70f0cd5eda07e72e8",
+      "uncompressed_sha256": "74139266f5a128fc95dfe1641fba43d6449564bb815e69387282aeabb14e5721"
+    }
+  },
+  "generated_report_files": {
+    "artifacts/local/catalog-ci-fix/grammar-catalog.json": {
+      "sha256": "b64ea1dc4b8d44cb9a23d442cc1a7af56d6bc692043c75bb5374661768a87aa0"
+    },
+    "artifacts/local/catalog-ci-fix/grammar-proof-links.json": {
+      "sha256": "b0b99167d615a56ee5c0b2968734bf39e052e5fef8feb142f130e4dfca401a37"
+    },
+    "artifacts/local/catalog-ci-fix/grammar-retrieval.json": {
+      "sha256": "5d2b553458a843cb0afcec8b7b6159b770280797d64cc165135a51c3abe1faec"
+    },
+    "artifacts/local/catalog-ci-fix/inference-proof-links.json": {
+      "sha256": "3e282d5ae2cdd7ca924364c1290a08c91eedbb6da557becb525f8daa15d794ea"
+    },
+    "artifacts/local/catalog-ci-fix/licensed-inference-axioms.json": {
+      "sha256": "4aad8a3a96de3ba87bde829e6e789cb23a14d5690de31db3da4b321a8afed5e6"
+    },
+    "artifacts/local/catalog-ci-fix/licensed-inference-benchmark.json": {
+      "sha256": "3d5f4ed8c062f7e2f68a8c7d44287aef35073df15d51d052912edc97dfafbebb"
+    },
+    "artifacts/local/catalog-ci-fix/licensed-inference-conformance.json": {
+      "sha256": "5187b0432e96dcb6548ef2848e8f6296d13ea114f242a3f8ade163f9f2dac8d9"
+    },
+    "artifacts/local/catalog-ci-fix/licensed-inference-proof-links.json": {
+      "sha256": "c0c45d3b09aede6911ff29fa8adabe80a0a6f37cc477af25a4cba2292a244ce6"
+    },
+    "artifacts/local/catalog-ci-fix/linguistic-truth-benchmark.json": {
+      "sha256": "84e6101bc642f5bf8840081d8e202f8c512650978f24bff8edb9bf9f242a3c35"
+    },
+    "artifacts/local/catalog-ci-fix/linguistic-truth-citation-audit.json": {
+      "sha256": "2d63723de0479f15448a82285c104f42086ae89f7561262d0bddc797cd3c8962"
+    },
+    "artifacts/local/catalog-ci-fix/linguistic-truth-conformance.json": {
+      "sha256": "7fce249a406ddc04fc7eeab3b543ed98e1699fc4bcc34f31ba806910df772bbe"
+    },
+    "artifacts/local/catalog-ci-fix/linguistic-truth-proof-links.json": {
+      "sha256": "060dbedbcbcae3d451090f52497c08ab69a2a500dd22e8c4ed0ba30278b3cb7b"
+    },
+    "artifacts/local/catalog-ci-fix/linguistic-truth-retained-sources.json": {
+      "sha256": "1a68abefb9144982f850c6c7ac59de57d27ea8a44123ed9c4ae97ca0ff214fa0"
+    },
+    "artifacts/local/catalog-ci-fix/linguistic-truth-security-review.json": {
+      "sha256": "e538e06fa431cc5ef301953be9dd5b3ce914c4e82241ced836b386ee3f19cb2c"
+    },
+    "artifacts/local/catalog-ci-fix/mantuq-inference-benchmark.json": {
+      "sha256": "aa8babf4d2f7e4c806afa3006a444a7bb0037836c01d482933acceb535e5045f"
+    },
+    "artifacts/local/catalog-ci-fix/natural-use-measurement.json": {
+      "sha256": "e1ced632a5fc1482a6d37a1e2f2c940895ae0eccece54a2baf0731a1deaf4b07"
+    },
+    "artifacts/local/catalog-ci-fix/qualified-inference-conformance.json": {
+      "sha256": "ceb67532439b9e813d62b6593690e42686968e9d3b9c20beb12ca5504f513567"
+    },
+    "artifacts/local/catalog-ci-fix/routing-conformance.json": {
+      "sha256": "698e8346886cfc275203175d23bffcb6b5f253f508a08d5acda7a0fa713cc0e0"
+    }
+  },
+  "limitations": [
+    "Compilation and source links do not establish source-translation fidelity, world truth or complete Arabic coverage.",
+    "Existing benchmark scope and coverage gaps are unchanged."
+  ],
+  "integrity_check": {
+    "exit_code": 0,
+    "ok": true
+  },
+  "independent_review": {
+    "blocking_findings": 0,
+    "proof_catalog_tests_passed": 10,
+    "historical_snapshots_byte_identical": true
+  }
+}

@@ -3,6 +3,8 @@
 from copy import deepcopy
 import json
 from pathlib import Path
+import shlex
+import subprocess
 import sys
 import unittest
 
@@ -24,6 +26,43 @@ def log(rows, count=None):
 
 
 class ProofCatalogTests(unittest.TestCase):
+    def ci_references(self):
+        """Read the commands CI actually invokes, including Make defaults."""
+        command = ["make", "--no-print-directory", "-n", "-f", "Makefile"]
+        for name in ("grammar_catalog", "mantuq_inference", "linguistic_truth",
+                     "licensed_inference"):
+            command.extend(["-f", f"integrations/{name}.mk"])
+        command.extend(["proof-catalog", "mantuq-inference", "linguistic-truth",
+                        "licensed-inference"])
+        dry_run = subprocess.run(command, cwd=ROOT, check=True,
+                                 capture_output=True, text=True)
+        paths = []
+        for line in dry_run.stdout.splitlines():
+            args = shlex.split(line)
+            if "--check" in args:
+                paths.append(ROOT / args[args.index("--check") + 1])
+        self.assertEqual(len(paths), 5, "all five compiled snapshot checks must remain enabled")
+        self.assertEqual(len(set(paths)), 5)
+        return [json.loads(path.read_text(encoding="utf-8")) for path in paths]
+
+    def test_ci_proof_reference_binds_current_manifest_and_sources(self):
+        report, *_ = self.ci_references()
+        manifest = json.loads((ROOT / "formal/theorems.json").read_text())["theorems"]
+        self.assertEqual([row["name"] for row in report["theorems"]], manifest)
+        for path, expected in report["inputs"].items():
+            with self.subTest(path=path):
+                self.assertEqual(catalog.file_sha(ROOT / path), expected)
+
+    def test_ci_link_references_share_the_current_proof_snapshot(self):
+        compiled, grammar, *inference = self.ci_references()
+        fingerprint = catalog.digest(compiled)
+        self.assertEqual(grammar["compiled_proof_catalog_sha256"], fingerprint)
+        self.assertEqual(grammar["theorem_manifest_sha256"],
+                         catalog.file_sha(ROOT / "formal/theorems.json"))
+        for report in inference:
+            with self.subTest(schema=report["schema"]):
+                self.assertEqual(report["compiled_catalog_sha256"], fingerprint)
+
     def test_exact_export_order_and_count(self):
         rows = [row(), row("Nabt.Example.two", ["const", "False"])]
         names = [item["name"] for item in rows]
