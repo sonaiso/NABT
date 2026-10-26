@@ -1,6 +1,5 @@
 """The additive proof paths cannot rewrite historical coverage obligations."""
 from hashlib import sha256
-import importlib.util
 import json
 from pathlib import Path
 import tarfile
@@ -27,7 +26,11 @@ class ProgressiveRuleRuntimeFreezeTests(unittest.TestCase):
                 self.assertEqual(sha256((OLD / name).read_bytes()).hexdigest(), expected)
 
     def test_current_runtime_adds_only_the_named_surface_and_registration(self):
-        current = verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
+        current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
+        self.assertEqual(sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest(),
+                         "b184a00c3c19b3204b889f14567b042c987046e7698f657bf9586ff307f01cf5")
+        with self.assertRaises(ValueError):
+            verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
         old = json.loads((OLD / "code_freeze_v1.json").read_bytes())
         before, after = ({row["path"]: row for row in freeze["files"]}
                          for freeze in (old, current))
@@ -56,8 +59,9 @@ class ProgressiveRuleRuntimeFreezeTests(unittest.TestCase):
         self.assertEqual(after["previous_policy_sha256"], PREVIOUS["regression_policy_v1.json"])
         self.assertEqual(after["runtime_file_count"], 102)
         from tools import framework_foundation_gate as gate
-        self.assertEqual(gate.load_policy(), after)
-        self.assertEqual(gate.RUNTIME_SHA256,
+        self.assertNotEqual(gate.load_policy()["runtime_freeze_sha256"],
+                            after["runtime_freeze_sha256"])
+        self.assertNotEqual(gate.RUNTIME_SHA256,
                          sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest())
 
     def test_omitting_the_added_module_cannot_reuse_the_previous_inventory(self):
@@ -67,10 +71,22 @@ class ProgressiveRuleRuntimeFreezeTests(unittest.TestCase):
         current["snapshot_sha256"] = sha256(json.dumps(
             current["files"], sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         with tempfile.TemporaryDirectory() as directory:
+            archived_root = Path(directory) / "runtime"
+            archived_root.mkdir()
+            archive_path = NEW / "code_freeze_v1.tar.gz"
+            self.assertEqual(sha256(archive_path.read_bytes()).hexdigest(),
+                             "8646f73fef57bd97428cc3686843a0f3c9e12f2cf850342c6462e507c232c8e9")
+            with tarfile.open(archive_path, "r:gz") as archive:
+                for member in archive.getmembers():
+                    self.assertTrue(member.isfile())
+                    target = archived_root / member.name
+                    self.assertTrue(target.resolve().is_relative_to(archived_root))
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(archive.extractfile(member).read())
             path = Path(directory) / "incomplete.json"
             path.write_text(json.dumps(current))
             with self.assertRaisesRegex(ValueError, "exactly the authoritative"):
-                verify_code_freeze(path, ROOT)
+                verify_code_freeze(path, archived_root)
 
     def test_continuation_wrappers_change_only_versioned_execution_identity(self):
         for name in ("run_oracle_v1.py", "run_regression_v1.py",
@@ -83,19 +99,20 @@ class ProgressiveRuleRuntimeFreezeTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual((NEW / "independent_oracle" / name).read_text(), expected)
 
-    def test_current_oracle_and_holdout_have_the_complete_registered_identity(self):
-        path = NEW / "independent_oracle/run_oracle_v1.py"
-        spec = importlib.util.spec_from_file_location("progressive_rule_oracle", path)
-        runner = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(runner)
-        receipt = runner.check_runner_freeze(path.with_name("runner_freeze_v1.json"))
-        self.assertTrue(receipt["files"])
+    def test_archived_oracle_identity_is_not_relabelled_as_current(self):
+        path = NEW / "independent_oracle/runner_freeze_v1.json"
+        raw = path.read_bytes()
+        self.assertEqual(sha256(raw).hexdigest(),
+                         "e3ddc002acc6b9ac951b9c7c36e1c7d42e936b5854aeed97b6b5848abbb411b5")
+        frozen = json.loads(raw)
+        self.assertTrue(frozen["files"])
+        self.assertIs(frozen["historical_files_repinned"], False)
         from tools import framework_foundation_postreview as review
         manifest = NEW / "code_freeze_v1.json"
         current = json.loads(manifest.read_bytes())
-        self.assertEqual(review.RUNTIME_SHA256, sha256(manifest.read_bytes()).hexdigest())
-        self.assertEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
-        self.assertEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
+        self.assertNotEqual(review.RUNTIME_SHA256, sha256(manifest.read_bytes()).hexdigest())
+        self.assertNotEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
+        self.assertNotEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
 
 
 if __name__ == "__main__":

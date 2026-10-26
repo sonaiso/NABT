@@ -121,7 +121,7 @@ class InstalledOrthographicAdmission(unittest.TestCase):
                 "أعني بالأسد الحيوان الْمُفْتَرِسُ",
                 "أَعْنِي بِالْأَسَدُ الْحَيَوَانَ الْمُفْتَرِسَ",
                 "أعني بالقرء الطهر وَالحيض",
-                "لَا أعني بالأسد الرجل الشجاع بل الحيوان المفترس"):
+                "لُا أعني بالأسد الرجل الشجاع بل الحيوان المفترس"):
             with self.subTest(text=text):
                 result = acquire(text, profile_id="linguistic")
                 self.assertEqual(result["status"], "UNKNOWN")
@@ -135,6 +135,46 @@ class InstalledOrthographicAdmission(unittest.TestCase):
                 for issue in result["unclassified_spans"][0]["orthography_issues"]:
                     span = issue["span"]
                     self.assertEqual(text.encode()[span["start_byte"]:span["end_byte"]].decode(), span["raw_text"])
+
+    def test_newly_witnessed_la_vowel_preserves_the_existing_negative_correction(self):
+        # Previously لَا was intentionally unsupported only because its fatha
+        # lacked a reviewed spelling. QAC now witnesses laA; the established
+        # whole-cue negative-correction parser supplies polarity independently.
+        # This is a local spelling improvement, not a new rule of intention.
+        text = "لَا أعني بالأسد الرجل الشجاع بل الحيوان المفترس"
+        result = acquire(text, profile_id="linguistic")
+        self.assertEqual(result["status"], "COMPLETE")
+        self.assertEqual(result["source"]["raw_text"], text)
+        self.assertEqual(result["occurrences"][0]["selected_sense_ids"], ["asad_animal"])
+        self.assertEqual(result["occurrences"][0]["excluded_sense_ids"], ["asad_brave"])
+        self.assertTrue(result["native_checked"])
+        self.assertFalse(result["world_truth_established"])
+        self.assertFalse(result["all_arabic_complete"])
+        derivation = result["qualified_form_derivation"]
+        self.assertEqual(derivation["receipt"]["status"], "CHECKED_CONDITIONAL_FORMS")
+        self.assertFalse(derivation["native_acquisition_proof"])
+        self.assertFalse(derivation["receipt"]["source_interpretation_kernel_proved"])
+        self.assertFalse(derivation["receipt"]["intended_sense_established"])
+        self.assertFalse(derivation["receipt"]["strict_language_accepted"])
+        la = [license_ for item in result["orthography_evidence"] for license_ in item["licenses"]
+              if license_["role"] == "grammar" and license_["form"] == "لَا"]
+        self.assertEqual(len(la), 1)
+        self.assertIn("cue_la", la[0]["passage_ids"])
+        self.assertTrue(la[0]["native_form_derivation_checked"])
+
+    def test_new_la_spelling_cannot_be_used_when_its_native_checker_is_absent(self):
+        text = "لَا أعني بالأسد الرجل الشجاع بل الحيوان المفترس"
+        with patch("tools.linguistic_truth.marked_forms.subprocess.run",
+                   side_effect=FileNotFoundError("qualifiedCueLicensing unavailable")) as native:
+            result = acquire(text, profile_id="linguistic")
+        native.assert_called_once()
+        self.assertTrue(native.call_args.args[0][0].endswith("/qualifiedCueLicensing"))
+        self.assertEqual(result["status"], "VERIFICATION_UNAVAILABLE")
+        self.assertEqual(result["reason"], "QUALIFIED_NATIVE_UNAVAILABLE")
+        self.assertEqual(result["source"]["raw_text"], text)
+        self.assertEqual(result["acquired_premises"], [])
+        self.assertFalse(result["intended_sense_acquired"])
+        self.assertFalse(result["native_checked"])
 
     def test_profile_hypotheses_cannot_restore_unreviewed_marks(self):
         result = acquire("أعني بالأسد الحيوان المُفْتَرَس")

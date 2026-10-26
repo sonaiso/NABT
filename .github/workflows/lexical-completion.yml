@@ -38,6 +38,15 @@ on:
       - 'tests/test_natural_use_sources.py'
       - 'evidence/certified_natural_use_v1/**'
       - 'evidence/progressive_rule_audit_v1/**'
+      - 'evidence/source_acquisition_v1/**'
+      - 'evidence/qualified_cue_licensing_v1/**'
+      - 'tests/test_qualified_cue_benchmark.py'
+      - 'tools/benchmark_qualified_cues.py'
+      - 'tools/grammar_catalog/**'
+      - 'tests/test_lexical_source_acquisition.py'
+      - 'tests/test_qualified_cue_licensing.py'
+      - 'tests/test_grammar_native_authority.py'
+      - 'tests/test_source_acquisition*.py'
       - 'evidence/lexical_surface_binding_v1/**'
       - 'src/nabt/classical_certified.py'
       - 'src/nabt/classical_laws.py'
@@ -86,7 +95,7 @@ jobs:
           sudo apt-get install -y zstd
           python tools/bootstrap_lean.py --destination "$RUNNER_TEMP/nabt-tools"
       - name: Build kernel and native executable
-        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build Nabt lexicalCompletion linguisticTruth lexicalGraph'
+        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build Nabt lexicalCompletion linguisticTruth lexicalGraph lexicalSourceRows qualifiedCueLicensing'
       - name: Enforce transitive axiom audit
         run: python tools/check_axioms.py --lake "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --output artifacts/local/lexical-completion-ci/axioms.json
       - name: Kernel-check completeness boundaries and failure receipts
@@ -122,6 +131,8 @@ jobs:
           python tools/benchmark_certified_natural_use.py --output artifacts/local/lexical-completion-ci/certified-natural-use.json.gz
       - name: Require exact lexical surfaces and native conditional classical controls
         run: make progressive-rule-conformance LAKE="$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Require native source acquisition and qualified cue licensing
+        run: make source-acquisition-conformance LAKE="$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Retain bounded verification evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= progressive_rule_audit_v1
-TEXT_CODE_FREEZE ?= evidence/progressive_rule_audit_v1/code_freeze_v1.json
+RUNTIME_FREEZE_VERSION ?= source_acquisition_v1
+TEXT_CODE_FREEZE ?= evidence/source_acquisition_v1/code_freeze_v1.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -38,14 +38,35 @@ check: certified-lexical-conformance
 
 .PHONY: progressive-rule-conformance
 progressive-rule-conformance:
-	cd formal && $(LAKE) build lexicalSurface exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
+	cd formal && $(LAKE) build lexicalSourceRows lexicalSurface exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
 	cd formal && $(LAKE) env lean LexicalSurfaceBindingChecks.lean
 	$(PYTHON) tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 	test -x formal/.lake/build/bin/lexicalSurface
+	test -x formal/.lake/build/bin/lexicalSourceRows
 	$(PYTHON) -m unittest discover -s tests -p 'test_lexical_surface_binding.py' -v
 	$(PYTHON) -m unittest discover -s tests -p 'test_classical_certified.py' -v
 
 check: progressive-rule-conformance
+
+.PHONY: source-acquisition-conformance
+source-acquisition-conformance:
+	cd formal && $(LAKE) build lexicalSourceRows lexicalSurface qualifiedCueLicensing linguisticTruth exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
+	cd formal && $(LAKE) env lean LexicalSourceAcquisitionChecks.lean
+	$(PYTHON) tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
+	test -x formal/.lake/build/bin/lexicalSourceRows
+	test -x formal/.lake/build/bin/qualifiedCueLicensing
+	test -x formal/.lake/build/bin/lexicalSurface
+	test -x formal/.lake/build/bin/linguisticTruth
+	test -x formal/.lake/build/bin/exportClassicalWeak
+	test -x formal/.lake/build/bin/exportClassicalHamza
+	test -x formal/.lake/build/bin/exportClassicalGemination
+	test -x formal/.lake/build/bin/exportClassicalBoundaryAffixes
+	$(PYTHON) -m unittest discover -s tests -p 'test_lexical_source_acquisition.py' -v
+	$(PYTHON) -m unittest discover -s tests -p 'test_qualified_cue_licensing.py' -v
+	$(PYTHON) -m unittest discover -s tests -p 'test_grammar_native_authority.py' -v
+	$(PYTHON) tools/benchmark_qualified_cues.py --output $(EVIDENCE_DIR)/qualified-cue-cases.json.gz
+
+check: source-acquisition-conformance
 
 conformance:
 	$(PYTHON) tools/check_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/conformance.json
@@ -148,7 +169,7 @@ arabic-coverage-holdout:
 .PHONY: arabic-completion-oracle
 arabic-completion-oracle:
 	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-	$(PYTHON) evidence/progressive_rule_audit_v1/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
+	$(PYTHON) evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json

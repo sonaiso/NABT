@@ -12,8 +12,8 @@ from tools.text_evaluation.integrity import verify_code_freeze
 
 ROOT = Path(__file__).resolve().parents[1]
 FIRST_FOUNDATION = ROOT / "evidence/framework_foundation_v1/code_freeze_v1.json"
-PREVIOUS = ROOT / "evidence/certified_natural_use_v1/code_freeze_v1.json"
-CURRENT = ROOT / "evidence/progressive_rule_audit_v1/code_freeze_v1.json"
+PREVIOUS = ROOT / "evidence/progressive_rule_audit_v1/code_freeze_v1.json"
+CURRENT = ROOT / "evidence/source_acquisition_v1/code_freeze_v1.json"
 HISTORICAL = ROOT / "evidence/arabic_completion_v6/code_freeze_v1.json"
 HISTORICAL_MANIFEST_SHA = "31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec"
 HISTORICAL_POLICY_SHA = "5e73cfdae07cdb60a2f93c8cc9961a9ee283d85471f24b5b61eabcb3c3647657"
@@ -33,13 +33,13 @@ class FoundationFreezeTests(unittest.TestCase):
         self.assertEqual(current["previous_runtime_manifest_sha256"], sha256(PREVIOUS.read_bytes()).hexdigest())
         self.assertEqual(current["historical_v6_manifest_sha256"], HISTORICAL_MANIFEST_SHA)
         previous = json.loads(PREVIOUS.read_bytes())
-        self.assertEqual(sha256(PREVIOUS.read_bytes()).hexdigest(), "1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f")
+        self.assertEqual(sha256(PREVIOUS.read_bytes()).hexdigest(), "b184a00c3c19b3204b889f14567b042c987046e7698f657bf9586ff307f01cf5")
         self.assertEqual(current["changed_runtime_paths"], ["src/nabt/data/framework_foundation.json"])
         previous_rows = {row["path"]: row for row in previous["files"]}
         self.assertEqual([row["path"] for row in current["files"]
                           if row["path"] in previous_rows and row != previous_rows[row["path"]]],
                          ["src/nabt/data/framework_foundation.json"])
-        self.assertEqual(current["added_runtime_paths"], ["src/nabt/classical_certified.py"])
+        self.assertEqual(current["added_runtime_paths"], [])
         with self.assertRaises(ValueError):
             verify_code_freeze(PREVIOUS, ROOT)
         current_paths = {row["path"] for row in current["files"]}
@@ -55,7 +55,7 @@ class FoundationFreezeTests(unittest.TestCase):
     def test_policy_keeps_all_material_denominators_and_failure_signatures(self):
         old, current = historical_gate.load_policy(), current_gate.load_policy()
         self.assertEqual(old["suites"], current["suites"])
-        self.assertEqual(current["previous_policy_sha256"], '452d9aa53b92883cf416809d099a663f253306adaace9d2762e605faf56b6e81')
+        self.assertEqual(current["previous_policy_sha256"], '4f1660cbba2b513f134f0677e5b48a04d57139b32b9a475b280bd4417a35664f')
         self.assertEqual(current["historical_v6_policy_sha256"], HISTORICAL_POLICY_SHA)
         self.assertEqual(current["runtime_file_count"], 102)
         self.assertEqual(current["runtime_freeze_sha256"], sha256(CURRENT.read_bytes()).hexdigest())

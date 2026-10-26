@@ -63,6 +63,7 @@ VERSION = 'nabt.discourse.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '3f65aa1c7fca3f6d5d4685654ebecbfc4c260c9920c562d8c5cad3dd41dccfe5'
 QAC_SHA256 = 'a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46'
 PINS = {
+    'ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b': {'snapshot_sha256': 'c913baa9667ce54ae5da2726cb622ecb55fec0557876038989c4c353af541d78', 'archive_sha256': '19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94', 'file_count': 102, 'version': '0.20.0a1'},
     'b184a00c3c19b3204b889f14567b042c987046e7698f657bf9586ff307f01cf5': {'snapshot_sha256': 'dba50fbcc16fae7bdf2046e56afa55f7daf2657b25b2c0cb7be486d664d9f188', 'archive_sha256': '8646f73fef57bd97428cc3686843a0f3c9e12f2cf850342c6462e507c232c8e9', 'file_count': 102, 'version': '0.20.0a1'},
     '1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f': {'snapshot_sha256': '422ecda54cd92c27b1408feb2d6616eb4011dec751ee8754692eb1a16c08085b', 'archive_sha256': '16a6e83e0d8cffe5898789751a221053da1530119ec12871be52fc26e6968d01', 'file_count': 101, 'version': '0.20.0a1'},
     '1c47bfee3fa0baa190ec0e0455dfcb2528aec65a6280694956c1e00186948d30': {'snapshot_sha256': '8ea9f386852e40ae092ec9a0c9c37ae7a3c48d50468191038209511f156ac280', 'archive_sha256': 'd04ff4bf22171441e5731bfdb67dd4b4d6e6470db0e75b58977656d42e5172c2', 'file_count': 101, 'version': '0.20.0a1'},
@@ -1660,7 +1661,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--qac', type=Path, required=True)
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
-    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/progressive_rule_audit_v1/code_freeze_v1.json')
+    parser.add_argument('--runtime-freeze', type=Path, default=ROOT / 'evidence/source_acquisition_v1/code_freeze_v1.json')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--allow-documented-boundaries', action='store_true',
                         help='Permit only reviewed coverage misses; strict_pass remains false and every false acceptance blocks')

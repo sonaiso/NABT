@@ -7,6 +7,7 @@ measurements, not newly verified Lean receipts or deployment authorization.
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import gzip
 import hashlib
 import json
@@ -19,7 +20,11 @@ sys.path.insert(0, str(ROOT / 'src'))
 from tools import benchmark_linguistic_truth as benchmark
 from tools.lexical_testimony import _strict_json
 
-SCHEMA = 'nabt.natural-use-measurement.v1'
+SCHEMA = 'nabt.natural-use-measurement.v2'
+LEGACY_REPORT = 'nabt.linguistic-truth.benchmark-result.v1'
+CURRENT_REPORT = 'nabt.linguistic-truth.benchmark-result.v2'
+LEGACY_OBSERVATION = 'nabt.lexical-occurrence-observation.v1'
+CURRENT_OBSERVATION = 'nabt.lexical-occurrence-observation.v2'
 REPORT_LIMIT = 20 * 1024 * 1024
 CAUSES = {
     'M05': ['NEGATIVE_BAL_CORRECTION'],
@@ -54,11 +59,54 @@ def read_report(path):
     return _strict_json(raw)
 
 
+def _observation_contract(report):
+    """A report version selects one observation law, never a caller's scorer."""
+    schema = report.get('schema')
+    if schema == LEGACY_REPORT:
+        # Historical v1 did not declare a contract. An injected v2 declaration
+        # must not silently reinterpret its observations or check outcomes.
+        if 'observation_contract' in report:
+            raise ValueError('CONTRADICTORY_OBSERVATION_CONTRACT')
+        return LEGACY_OBSERVATION
+    if schema == CURRENT_REPORT:
+        if report.get('observation_contract') != CURRENT_OBSERVATION:
+            raise ValueError('WRONG_OBSERVATION_CONTRACT')
+        return CURRENT_OBSERVATION
+    raise ValueError('WRONG_FROZEN_DIAGNOSTIC')
+
+
+def _observation(raw, contract):
+    if contract == CURRENT_OBSERVATION:
+        if benchmark.OBSERVATION_CONTRACT != CURRENT_OBSERVATION:
+            raise ValueError('INSTALLED_OBSERVATION_CONTRACT_CHANGED')
+        return benchmark.observation(raw)
+    if contract != LEGACY_OBSERVATION:
+        raise ValueError('WRONG_OBSERVATION_CONTRACT')
+    # Reconstruct the historical observer exactly: expression took precedence
+    # over observed spelling, and no separate expression focus fallback existed.
+    # The current scorer sees no expression field, so its additional fallback
+    # cannot retroactively improve an archived v1 result.
+    observed = benchmark.observation(raw)
+    observed.pop('observation_contract', None)
+    for original, item in zip(raw.get('occurrences', []), observed.get('occurrences', []), strict=True):
+        item['surface'] = original.get('expression', original.get('surface',
+            original.get('text', original.get('token', original.get('span', {}).get('raw_text', '')))))
+        item.pop('expression', None)
+    return observed
+
+
+def _row_observation(row, contract):
+    observed = _observation(row['raw_result'], contract)
+    if row['id'] == 'B06':
+        observed['metamorphic'] = row['scenario']['observation']
+    return observed
+
+
 def validate_report(report):
     gold = benchmark.load_gold()
     expected_ids = {c['id']: c for c in gold['cases']}
-    if (report.get('schema') != 'nabt.linguistic-truth.benchmark-result.v1'
-            or report.get('gold_sha256') != benchmark.GOLD_SHA256):
+    contract = _observation_contract(report)
+    if report.get('gold_sha256') != benchmark.GOLD_SHA256:
         raise ValueError('WRONG_FROZEN_DIAGNOSTIC')
     rows = report.get('rows')
     if type(rows) is not list or len(rows) != len(expected_ids):
@@ -75,11 +123,10 @@ def validate_report(report):
                 or row['outcome'] != benchmark.case_outcome(checks)):
             raise ValueError('CONTRADICTORY_CHECKS')
         if row['executed']:
-            # Reuse the unchanged historical scorer, including its known focus
-            # limitation. B06 additionally carries independently observed ranking.
-            obs = benchmark.observation(row['raw_result'])
-            if row['id'] == 'B06':
-                obs['metamorphic'] = row['scenario']['observation']
+            obs = _row_observation(row, contract)
+            if ((contract == CURRENT_OBSERVATION or 'observation' in row)
+                    and canonical(row.get('observation')) != canonical(obs)):
+                raise ValueError('OBSERVATION_DIFFERS_FROM_DECLARED_CONTRACT')
             if canonical(checks) != canonical(benchmark.evaluate(expected_ids[row['id']], obs)):
                 raise ValueError('CHECKS_DIFFER_FROM_OBSERVATION')
     if canonical(report['summary']) != canonical(benchmark.summarize(rows)):
@@ -152,11 +199,36 @@ def natural_metrics(rows):
 
 def measure(before, after):
     old, new = validate_report(before), validate_report(after)
+    before_contract, after_contract = _observation_contract(before), _observation_contract(after)
+    expected_ids = {c['id']: c for c in benchmark.load_gold()['cases']}
+    # Counterfactual measurement holds every old runtime byte/result fixed and
+    # applies only the after-observer. It is not a new runtime or semantic gain.
+    rescored = deepcopy(old)
+    observation_changes = []
+    for identifier, row in rescored.items():
+        if not row['executed']:
+            continue
+        row['observation'] = _row_observation(row, after_contract)
+        row['checks'] = benchmark.evaluate(expected_ids[identifier], row['observation'])
+        row['outcome'] = benchmark.case_outcome(row['checks'])
+        prior_checks = {check['name']: check for check in old[identifier]['checks']}
+        for check in row['checks']:
+            if canonical(check) != canonical(prior_checks[check['name']]):
+                observation_changes.append({'id': identifier, 'check': check['name'],
+                    'before': prior_checks[check['name']], 'after': check})
     changes, failures = [], []
     for identifier, prior in old.items():
         current = new[identifier]
         if current['outcome'] != prior['outcome']:
-            changes.append({'id': identifier, 'before': prior['outcome'], 'after': current['outcome']})
+            same_runtime = (canonical(prior.get('raw_result')) == canonical(current.get('raw_result'))
+                            and canonical(prior.get('scenario')) == canonical(current.get('scenario'))
+                            and prior['executed'] == current['executed'])
+            changes.append({'id': identifier, 'before': prior['outcome'], 'after': current['outcome'],
+                'raw_runtime_result_changed': not same_runtime,
+                'attribution': ('OBSERVATION_CONTRACT_ONLY' if same_runtime and before_contract != after_contract
+                                else 'RUNTIME_RESULT_AND_OBSERVATION_CONTRACT' if before_contract != after_contract
+                                else 'RUNTIME_RESULT_OR_MEASUREMENT_CHANGE'),
+                'semantic_improvement_established': False})
         if prior['outcome'] == 'FAIL':
             failures.append({'id': identifier, 'family': prior['family'],
                              'before': prior['outcome'], 'after': current['outcome'],
@@ -164,6 +236,17 @@ def measure(before, after):
                              'remaining_failed_checks': [c['name'] for c in current['checks'] if c['outcome'] == 'FAIL']})
     return {'schema': SCHEMA, 'gold_sha256': benchmark.GOLD_SHA256,
             'evaluation_role': 'KNOWN_REGRESSION_NOT_NEW_BLIND_EVALUATION',
+            'before_report_schema': before['schema'], 'after_report_schema': after['schema'],
+            'before_observation_contract': before_contract, 'after_observation_contract': after_contract,
+            'observation_contract_comparison': {
+                'contract_changed': before_contract != after_contract,
+                'runtime_executed_for_counterfactual': False,
+                'before_raw_results_unchanged': True,
+                'changed_checks': observation_changes,
+                'changed_check_count': len(observation_changes),
+                'changed_case_count': sum(old[key]['outcome'] != row['outcome'] for key, row in rescored.items()),
+                'before_raw_under_after_observer': natural_metrics(rescored),
+                'semantic_improvement_established': False},
             'before_measured_at': before['measured_at_utc'], 'after_measured_at': after['measured_at_utc'],
             'before_summary': before['summary'], 'after_summary': after['summary'],
             'natural_before': natural_metrics(old), 'natural_after': natural_metrics(new),

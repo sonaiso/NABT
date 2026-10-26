@@ -7,7 +7,7 @@ from unittest import TestCase
 
 from tools.grammar_catalog.catalog import build_catalog
 from tools.grammar_catalog.retrieval import RetrievalError, SearchIndex, tokens
-from tools.grammar_catalog.routing import evaluate_candidates, schedule
+from tools.grammar_catalog.routing import evaluate_diagnostic_candidates, schedule
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = "nabt.classical-rule-inventory.v1::"
@@ -117,22 +117,22 @@ class GrammarRetrievalTests(TestCase):
                 schedule(inventory, ranked)
 
     def test_missing_frames_and_budget_cannot_certify_completion(self):
-        result = evaluate_candidates(self.index, [], {})
+        result = evaluate_diagnostic_candidates(self.index, [], {})
         self.assertEqual(result["examined_rule_count"], 24)
         self.assertTrue(result["inventory_exhausted"])
         self.assertFalse(result["conditional_evaluation_complete"])
         self.assertTrue(all(r["status"] == "MISSING_PREMISES" for r in result["rows"]))
-        exhausted = evaluate_candidates(self.index, [], {}, budget=0)
+        exhausted = evaluate_diagnostic_candidates(self.index, [], {}, budget=0)
         self.assertEqual(exhausted["status"], "RESOURCE_EXHAUSTED")
         self.assertFalse(exhausted["inventory_exhausted"])
         self.assertEqual(len(exhausted["pending_rule_ids"]), 24)
         for budget in (True, -1, 25, 1.0):
             with self.assertRaises(RetrievalError):
-                evaluate_candidates(self.index, [], {}, budget=budget)
+                evaluate_diagnostic_candidates(self.index, [], {}, budget=budget)
 
     def test_top_one_does_not_prune_installed_laws(self):
         rid = "HAMZA-LEXICAL-COMMAND"
-        result = evaluate_candidates(self.index, [PREFIX + rid, PREFIX + rid],
+        result = evaluate_diagnostic_candidates(self.index, [PREFIX + rid, PREFIX + rid],
                                      {rid: {"root": ["ء", "ك", "ل"], "profile": "all_attested"}})
         self.assertEqual(result["schedule"][0], rid)
         self.assertEqual(len(set(result["schedule"])), 24)
@@ -150,8 +150,8 @@ class GrammarRetrievalTests(TestCase):
             if row["kind"] == "positive":
                 frames.setdefault(row["rule_id"], row["frame"])
         self.assertEqual(len(frames), 24)
-        first = evaluate_candidates(self.index, [], frames)
-        reverse = evaluate_candidates(self.index, [PREFIX + r for r in reversed(first["schedule"])], frames)
+        first = evaluate_diagnostic_candidates(self.index, [], frames)
+        reverse = evaluate_diagnostic_candidates(self.index, [PREFIX + r for r in reversed(first["schedule"])], frames)
         self.assertEqual({r["rule_id"]: r for r in first["rows"]},
                          {r["rule_id"]: r for r in reverse["rows"]})
         self.assertFalse(first["exhaustive_language_claim"])
@@ -162,9 +162,9 @@ class GrammarRetrievalTests(TestCase):
         gold = json.loads((ROOT / "evidence/arabic_completion_v6/independent_review/benchmark_v1.json").read_bytes())
         partial = next(r for r in gold["cases"] if r["kind"] == "partial")
         rid = partial["rule_id"]
-        result = evaluate_candidates(self.index, [PREFIX + rid], {rid: partial["frame"]})
+        result = evaluate_diagnostic_candidates(self.index, [PREFIX + rid], {rid: partial["frame"]})
         self.assertEqual(result["rows"][0]["status"], "PARTIAL")
-        invalid = evaluate_candidates(self.index, [PREFIX + rid], {rid: {"approved": True}})
+        invalid = evaluate_diagnostic_candidates(self.index, [PREFIX + rid], {rid: {"approved": True}})
         self.assertEqual(invalid["rows"][0]["status"], "FRAME_ERROR")
         with self.assertRaises(RetrievalError):
-            evaluate_candidates(self.index, [], {"LLM-INVENTED-RULE": {}})
+            evaluate_diagnostic_candidates(self.index, [], {"LLM-INVENTED-RULE": {}})

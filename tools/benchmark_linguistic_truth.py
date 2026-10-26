@@ -27,11 +27,12 @@ from tools.linguistic_truth_benchmark_adapter import build_request,execute_reque
 
 GOLD_SHA256='8d980b7ae2611e9a8157db17a8218c7a9305d4ec6c59b06a85f84c9ede6bf86a'
 GOLD_PATH=ROOT/'evidence/linguistic_truth_v1/benchmark_gold.json'
+OBSERVATION_CONTRACT='nabt.lexical-occurrence-observation.v2'
 
 
 def evidence_snapshot()->dict[str,Any]:
     """Hash the imported runtime closure and exact execution inputs, not reports."""
-    from tools.linguistic_truth.marked_forms import REVIEW_PATH, _load_review
+    from tools.linguistic_truth.marked_forms import REVIEW_PATH, QUALIFIED_REVIEW_PATH, _load_review
     from tools.linguistic_truth.sources import SUPPLEMENT_PATH, build_inventory
     marked_review = _load_review(ROOT)
     installed = build_inventory(ROOT)
@@ -56,12 +57,26 @@ def evidence_snapshot()->dict[str,Any]:
     # its exact review and source bytes as well as the imported Python code;
     # a checked semantic receipt alone does not attest these spellings.
     inputs += [ROOT / REVIEW_PATH] + [ROOT / s['path'] for s in marked_review['sources']]
+    qualified_raw=(ROOT / QUALIFIED_REVIEW_PATH).read_bytes()
+    qualified_review=json.loads(qualified_raw)
+    inputs += [ROOT / QUALIFIED_REVIEW_PATH] + [ROOT / s['path'] for s in qualified_review['sources']]
+    inputs += [ROOT / name for name in ('formal/Nabt/QualifiedCueLicensing.lean',
+                                       'formal/QualifiedCueLicensingMain.lean')]
+    # Conservatively retain the local formal import closure, including shared
+    # representation/transport modules. Build products are bound separately.
+    inputs += [path for path in (ROOT/'formal').rglob('*.lean')
+               if '.lake' not in path.relative_to(ROOT/'formal').parts]
+    inputs += [ROOT/'formal/lake-manifest.json']
     native=ROOT/'formal/.lake/build/bin/linguisticTruth'
+    qualified_native=ROOT/'formal/.lake/build/bin/qualifiedCueLicensing'
     toolchain=ROOT/'formal/lean-toolchain'
     return {
         'python_repository_modules':dict(sorted(modules.items())),
         'input_files':{str(p.relative_to(ROOT)):digest(p) for p in inputs},
         'native_checker':{'path':str(native.relative_to(ROOT)),'sha256':digest(native) if native.is_file() else None,'bytes':native.stat().st_size if native.is_file() else None},
+        'qualified_form_checker':{'path':str(qualified_native.relative_to(ROOT)),
+            'sha256':digest(qualified_native) if qualified_native.is_file() else None,
+            'bytes':qualified_native.stat().st_size if qualified_native.is_file() else None},
         'formal_toolchain':{'path':str(toolchain.relative_to(ROOT)),'sha256':digest(toolchain),'contents':toolchain.read_text().strip()},
         'python_executable':{'path':sys.executable,'sha256':digest(Path(sys.executable).resolve()),'version':sys.version},
     }
@@ -70,6 +85,11 @@ def evidence_snapshot()->dict[str,Any]:
 def integrity_check(before:dict[str,Any],after:dict[str,Any])->dict[str,Any]:
     changed=[k for k in sorted(set(before)|set(after)) if before.get(k)!=after.get(k)]
     native_present=bool(before.get('native_checker',{}).get('sha256') and after.get('native_checker',{}).get('sha256'))
+    # Earlier synthetic/imported snapshots may have no qualified checker. If
+    # either declares it, both must retain its actual executable identity.
+    if 'qualified_form_checker' in before or 'qualified_form_checker' in after:
+        native_present = native_present and bool(before.get('qualified_form_checker',{}).get('sha256')
+            and after.get('qualified_form_checker',{}).get('sha256'))
     return {'stable':not changed,'native_checker_present':native_present,'valid':not changed and native_present,'changed_sections':changed,'meaning':'Hashes of the imported repository Python module closure, executed native checker, pinned toolchain, gold, installed source inventory and its exact source files agree before and after all calls.'}
 
 
@@ -130,11 +150,17 @@ def plain(result:Any)->dict[str,Any]:
 
 
 def observation(raw:dict[str,Any])->dict[str,Any]:
-    out={'status':raw.get('status'),'authority':{k:raw[k] for k in ('world_truth_established','all_arabic_complete') if k in raw},'occurrences':[],'source':raw.get('source')}
+    out={'observation_contract':OBSERVATION_CONTRACT,'status':raw.get('status'),'authority':{k:raw[k] for k in ('world_truth_established','all_arabic_complete') if k in raw},'occurrences':[],'source':raw.get('source')}
     if 'occurrences' not in raw:out.pop('occurrences')
     for o in raw.get('occurrences',[]):
         cs=o.get('candidates',[]); senses={str(c.get('sense_id')):alias(c) for c in cs}
         item={'surface':o.get('expression',o.get('surface',o.get('text',o.get('token',o.get('span',{}).get('raw_text',''))))),'candidates':[alias(c) for c in cs],'candidate_kinds':{alias(c):c.get('use_kind') for c in cs},'selected':[senses.get(str(x),'UNMAPPED:'+str(x)) for x in o.get('selected_sense_ids',[])],'excluded':[senses.get(str(x),'UNMAPPED:'+str(x)) for x in o.get('excluded_sense_ids',[])],'certified':[senses.get(str(x),'UNMAPPED:'+str(x)) for x in o.get('certified_sense_ids',[])],'signed_conflict':o.get('signed_conflict'),'raw':o}
+        # A lexical query label is not the occurrence's spelling. Preserve both:
+        # e.g. the label الأسـد must not replace an observed accusative أسدًا.
+        item['expression']=o.get('expression','')
+        span=o.get('span')
+        if isinstance(span,dict) and isinstance(span.get('raw_text'),str):
+            item['surface']=span['raw_text']
         out['occurrences'].append(item)
     for k in ('attachment_audit','source_understanding','semantics','metamorphic'):
         if k in raw:out[k]=raw[k]
@@ -155,7 +181,10 @@ def evaluate(case:dict[str,Any],obs:dict[str,Any])->list[dict[str,Any]]:
         # matching occurrences; aggregate selection does not erase per-occurrence
         # scope checks, which are separately required below.
         target=normalized(a['focus']).removeprefix('ال')
-        selected_occ=[o for o in occ if normalized(o['surface']).removeprefix('ال').removeprefix('ب') in (target,target+'ا') or normalized(o['surface'])==normalized(a['focus'])]
+        selected_occ=[o for o in occ if any(
+            normalized(value).removeprefix('ال').removeprefix('ب') in (target,target+'ا')
+            or normalized(value)==normalized(a['focus'])
+            for value in (o['surface'],o.get('expression','')) if value)]
         # Some transports expose only IDs. Do not silently invent focus spans.
         candidates=set(x for o in selected_occ for x in o['candidates'])
         selected=set(x for o in selected_occ for x in o['selected'])
@@ -268,7 +297,7 @@ def run(*,execute=execute_request,scenario_execute=run_ranking_scenario)->dict[s
             rows.append({'id':c['id'],'family':c['family'],'executed':False,'outcome':'UNMEASURED','checks':checks,'error':{'type':type(exc).__name__,'message':str(exc)},'input_unchanged':request==before})
     if digest(GOLD_PATH)!=GOLD_SHA256:raise ValueError('gold changed during evaluation')
     after_evidence=evidence_snapshot();integrity=integrity_check(before_evidence,after_evidence);summary=summarize(rows)
-    return {'schema':'nabt.linguistic-truth.benchmark-result.v1','measured_at_utc':datetime.now(timezone.utc).isoformat(),'gold_sha256':GOLD_SHA256,'scope':'finite independently authored diagnostic, not external human review or Arabic population accuracy','summary':summary,'environment':{'python':sys.version,'platform':platform.platform()},'execution_evidence':{'before':before_evidence,'after':after_evidence,'integrity':integrity},'contract_gate':contract_gate(rows,summary,integrity),'rows':rows}
+    return {'schema':'nabt.linguistic-truth.benchmark-result.v2','observation_contract':OBSERVATION_CONTRACT,'measured_at_utc':datetime.now(timezone.utc).isoformat(),'gold_sha256':GOLD_SHA256,'scope':'finite independently authored diagnostic, not external human review or Arabic population accuracy','summary':summary,'environment':{'python':sys.version,'platform':platform.platform()},'execution_evidence':{'before':before_evidence,'after':after_evidence,'integrity':integrity},'contract_gate':contract_gate(rows,summary,integrity),'rows':rows}
 
 
 def main()->int:

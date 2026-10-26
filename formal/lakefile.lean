@@ -132,6 +132,14 @@ lean_exe linguisticTruth where
 lean_exe lexicalSurface where
   root := `LexicalSurfaceMain
 
+@[default_target]
+lean_exe lexicalSourceRows where
+  root := `LexicalSourceRowsMain
+
+@[default_target]
+lean_exe qualifiedCueLicensing where
+  root := `QualifiedCueLicensingMain
+
 lean_exe licensedInference where
   root := `LicensedInferenceMain
 

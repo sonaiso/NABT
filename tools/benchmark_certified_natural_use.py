@@ -302,6 +302,15 @@ def summarize(rows):
 def run():
     cases, controls = load_cases()
     from tools.linguistic_truth.certified import acquire_certified
+    from tools.benchmark_linguistic_truth import evidence_snapshot, integrity_check
+    import importlib
+    for name in ("tools.linguistic_truth.inventory", "tools.linguistic_truth.sources",
+                 "tools.linguistic_truth.pipeline", "tools.linguistic_truth.correction",
+                 "tools.linguistic_truth.marked_forms", "nabt.codec", "nabt.machine"):
+        importlib.import_module(name)
+    before_evidence = evidence_snapshot()
+    before_evidence["input_files"].update({
+        str(path.relative_to(ROOT)): sha(path.read_bytes()) for path in (CORPUS, CONTROLS)})
     rows, control_rows = [], []
     for group, destination, is_control in ((cases, rows, False), (controls, control_rows, True)):
         for case in group:
@@ -309,7 +318,12 @@ def run():
             output = acquire_certified(case["input"]["text"], **_arguments(case))
             row = evaluate(case, output, projection_control=is_control)
             row["executed_locally"] = True
+            row["receipt"] = output
             destination.append(row)
+    after_evidence = evidence_snapshot()
+    after_evidence["input_files"].update({
+        str(path.relative_to(ROOT)): sha(path.read_bytes()) for path in (CORPUS, CONTROLS)})
+    integrity = integrity_check(before_evidence, after_evidence)
     return {"schema": SCHEMA, "measured_at_utc": datetime.now(timezone.utc).isoformat(),
             "execution": "ACTUAL_LOCAL_ACQUIRE_CERTIFIED_CALLS", "gold_sha256": CORPUS_SHA256,
             "projection_controls_sha256": CONTROLS_SHA256,
@@ -317,7 +331,8 @@ def run():
             "rows": rows, "summary": summarize(rows), "projection_control_rows": control_rows,
             "projection_control_summary": summarize(control_rows), "all_arabic_complete": False,
             "tawatur_evaluated": False, "native_acquisition_refinement_proved": False,
-            "safety_gate_passed": all(row[axis]["outcome"] == "PASS"
+            "execution_evidence": {"before": before_evidence, "after": after_evidence, "integrity": integrity},
+            "safety_gate_passed": integrity["valid"] and all(row[axis]["outcome"] == "PASS"
                                       for row in rows + control_rows for axis in ("integrity", "authority", "execution"))}
 
 

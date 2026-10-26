@@ -1,0 +1,2057 @@
+{
+  "schema": "nabt.source-acquisition.verification.v1",
+  "base_commit": "f7e7ed8adf4db17b9cd2935a22b4014b62a3c6d8",
+  "branch": "codex/source-acquisition-licenses",
+  "validation_order": "Full code gates on evaluator v4: make check -o test, fresh make test on built binaries, then optional integrations; evaluator v5 chronology correction plus build/test portability repair, then targeted identity, native-conformance and regression checks afterward.",
+  "execution_identity": {
+    "full_gate_runner": {
+      "path": "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v4.json",
+      "bytes": 54254,
+      "sha256": "839c89eed6773775e354631a7418c5812ebad43355dc24ff8aae13d35561451d"
+    },
+    "current_runner": {
+      "path": "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v5.json",
+      "bytes": 56015,
+      "sha256": "ecf96d1d8eabaa42d53522d179142ace305587eec3a3b49bd52a799a12ac323a"
+    },
+    "post_correction_validation": {
+      "schema": "nabt.source-acquisition.post-refreeze-validation.v1",
+      "completed_utc": "2026-10-26T22:24:17.330895+00:00",
+      "passed": true,
+      "runtime_lean_gold_unchanged": true,
+      "full_gates_rerun_on_v5": false,
+      "full_gate_identity": {
+        "runner_sha256": "839c89eed6773775e354631a7418c5812ebad43355dc24ff8aae13d35561451d",
+        "files": 294,
+        "gates": [
+          {
+            "name": "make-check",
+            "command": [
+              "make",
+              "check",
+              "-o",
+              "test",
+              "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+              "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+              "EVIDENCE_DIR=artifacts/local/source-acquisition-final/checks",
+              "ARABIC_EVALUATION_DIR=artifacts/local/source-acquisition-final/checks/arabic-regression"
+            ],
+            "returncode": 0,
+            "elapsed_seconds": 990.847,
+            "log": "artifacts/local/source-acquisition-final/make-check.log",
+            "log_sha256": "9328cd47da6105d7279daabe90f69c7bf81cd742a3d2fb34065b8a1e3556f680",
+            "explicit_environment": {
+              "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+              "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+            }
+          },
+          {
+            "name": "unit-tests",
+            "command": [
+              "make",
+              "test",
+              "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+              "PYTHON=/tmp/nabt-neural-ci-review/bin/python"
+            ],
+            "returncode": 0,
+            "elapsed_seconds": 756.284,
+            "log": "artifacts/local/source-acquisition-final/unit-tests.log",
+            "log_sha256": "dd18fa82814273307829986ec60bab585e75c0b08851e687a6960431ab4a6b1d",
+            "explicit_environment": {
+              "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+              "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+            }
+          },
+          {
+            "name": "integration",
+            "command": [
+              "make",
+              "-f",
+              "Makefile",
+              "-f",
+              "integrations/grammar_catalog.mk",
+              "-f",
+              "integrations/mantuq_inference.mk",
+              "-f",
+              "integrations/linguistic_truth.mk",
+              "-f",
+              "integrations/licensed_inference.mk",
+              "grammar-catalog",
+              "proof-catalog",
+              "routing-conformance",
+              "mantuq-inference",
+              "linguistic-truth",
+              "licensed-inference",
+              "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+              "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+              "EVIDENCE_DIR=artifacts/local/source-acquisition-final/integration"
+            ],
+            "returncode": 0,
+            "elapsed_seconds": 141.026,
+            "log": "artifacts/local/source-acquisition-final/integration.log",
+            "log_sha256": "62c68a80f50b28e91bf38e8a6d787542a25fac52ba83c99758a4ea400c6bcc7e",
+            "explicit_environment": {
+              "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+              "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+            }
+          }
+        ]
+      },
+      "post_refreeze_identity": {
+        "path": "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v5.json",
+        "sha256": "ecf96d1d8eabaa42d53522d179142ace305587eec3a3b49bd52a799a12ac323a",
+        "files": 297
+      },
+      "commands": [
+        {
+          "phase": "qac-source-bootstrap",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "tools/fetch_qac_source.py",
+            "--output",
+            "artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 0.122,
+          "log": "artifacts/local/source-acquisition-v5-identity/qac-source-bootstrap.log",
+          "log_sha256": "ec7417707b4c4fb89ed06799f6e37e54450f51af363906b8cfda4259bedf90eb"
+        },
+        {
+          "phase": "freeze",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 0.375,
+          "log": "artifacts/local/source-acquisition-v5-identity/freeze.log",
+          "log_sha256": "5f55eceabfa8353fbbea6334795fe0af38d0c563e71b5d2138fc78c2dc4ca4c0"
+        },
+        {
+          "phase": "freeze-tests",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-p",
+            "test_source_acquisition_runtime_freeze.py",
+            "-v"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 0.863,
+          "log": "artifacts/local/source-acquisition-v5-identity/freeze-tests.log",
+          "log_sha256": "a90b7ae9d090c02d9fa7bee5b12be6cc800c893dc24761b227f773c3c6cacecd"
+        },
+        {
+          "phase": "continuation-tests",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "evidence/source_acquisition_v1/independent_oracle",
+            "-p",
+            "test_continuation_v1.py",
+            "-v"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 25.977,
+          "log": "artifacts/local/source-acquisition-v5-identity/continuation-tests.log",
+          "log_sha256": "94c5b6f8958ffa4d4bf615a916ea1e3d510e86f3359e6215e7e08206e85be2af"
+        },
+        {
+          "phase": "portable-routing-without-native",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "/workspace/scratch/8ead824583ac/source-runner-v5-preparation/check_portable_routing.py"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 13.466,
+          "log": "artifacts/local/source-acquisition-v5-identity/portable-routing-without-native.log",
+          "log_sha256": "d43a3983795bdba648a4b0adaa37dbeb2406bcca78e82833923814c94a39dc91"
+        },
+        {
+          "phase": "progressive-standalone-rebuild",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "/workspace/scratch/8ead824583ac/source-runner-v5-preparation/check_progressive_standalone.py"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 113.401,
+          "log": "artifacts/local/source-acquisition-v5-identity/progressive-standalone-rebuild.log",
+          "log_sha256": "a756ff7b7e031bf51d635e19bb14bc01a7f9a111f66418f690fdbf9a52b76eba"
+        },
+        {
+          "phase": "source-acquisition-conformance",
+          "command": [
+            "make",
+            "source-acquisition-conformance",
+            "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+            "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+            "EVIDENCE_DIR=/workspace/scratch/8ead824583ac/NABT/artifacts/local/source-acquisition-v5-identity/source-conformance"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 116.255,
+          "log": "artifacts/local/source-acquisition-v5-identity/source-acquisition-conformance.log",
+          "log_sha256": "499d4393f40a351177cb8a5f5870c93e8d21023c5be2806004680592879135c2"
+        },
+        {
+          "phase": "regression-and-source-counterexamples",
+          "command": [
+            "/tmp/nabt-neural-ci-review/bin/python",
+            "evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+            "--output-dir",
+            "/workspace/scratch/8ead824583ac/NABT/artifacts/local/source-acquisition-v5-identity/oracle"
+          ],
+          "returncode": 0,
+          "elapsed_seconds": 58.183,
+          "log": "artifacts/local/source-acquisition-v5-identity/regression-and-source-counterexamples.log",
+          "log_sha256": "6e9c1cddec4ad175cf866b5898c72fa33c836f8aa083b17af2f4cea9acb00b2d"
+        }
+      ],
+      "whitelisted_paths": [
+        ".github/workflows/ci.yml",
+        "Makefile",
+        "evidence/source_acquisition_v1/README.md",
+        "evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py",
+        "evidence/source_acquisition_v1/independent_oracle/review_continuation_v1.py",
+        "evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+        "evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+        "evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+        "evidence/source_acquisition_v1/independent_oracle/test_continuation_v1.py",
+        "tests/test_grammar_native_authority.py",
+        "tests/test_source_acquisition_runtime_freeze.py"
+      ],
+      "changed_existing_dependency_files": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "before_sha256": "d7252bc4ff970e3725b49b2dfd4e654f796214025b068d8cf79a1de74af0bc1f",
+          "after_sha256": "14877814f34316ecb980a6a87f04179c94f204a76512bc4517ed7d069d48d10b"
+        },
+        {
+          "path": "Makefile",
+          "before_sha256": "2ef768959495b260f9288d09079b768712d4a21f4124c4fe194cf3f411b35c3e",
+          "after_sha256": "1e3f2a5896d2a57bd89e92488b4466f80adc2444a604b226e86d5b6b07c3078e"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py",
+          "before_sha256": "6155c88feeb72f4b75531363fe4de3318672f57cf7040e6cd3d539901fcf4254",
+          "after_sha256": "7714cc397acca688e28863fe7e15e148cf65e92bade1524aceee877131f513da"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/review_continuation_v1.py",
+          "before_sha256": "5a1800f7f4f04fd5bc2056c9ce4c04d2dc1ed219e30035cf56c603a5e2315835",
+          "after_sha256": "a360604b7734413051a366a61510cbef5ff7e001c36bf991a3ea690279fbfa11"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+          "before_sha256": "c54c2a08bc884db46ab82ae20555721100ad836a7269ea25191909d771e9eae7",
+          "after_sha256": "050876743a266fe0074ea55a40dc4bcc6e9675d6b61e5699a2dcd7a83cbab790"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+          "before_sha256": "1df0156d70f77b88cf9e5ecba352eeb396f65be21a5d08d7e92d099330f707ef",
+          "after_sha256": "d62990a79c83142458971b7e60a54a52ceb5b341bc1713129ebd6122d33130de"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+          "before_sha256": "41dd114ab622abadf15a3c1c2b0a5de2503709c7fc1aa79b46aa569d06724b77",
+          "after_sha256": "1e89c9c9e677940a64b4728a218211c0b3a24f63cd6801ab2ecaba625ddfcbbc"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/test_continuation_v1.py",
+          "before_sha256": "971e84a92aa92dad247f857880c3a5e29332355f1c89fedd036ccaaa238c372a",
+          "after_sha256": "f1d203ab73a2372d511cf5dea4d2a4bae501be716009cc56c0fd2a7bb2b519b2"
+        },
+        {
+          "path": "tests/test_grammar_native_authority.py",
+          "before_sha256": "38d5bd2cf2a35ec4bb243f1d0ed75e6417b40bc39888e9f12d52597c6f046648",
+          "after_sha256": "af6ac90f4b5233f68a80555217cbd4f1b7843e65845627f5fecabf7a69fe82b7"
+        },
+        {
+          "path": "tests/test_source_acquisition_runtime_freeze.py",
+          "before_sha256": "b786848122b5b0f56ca7065887f664b3ad084a0969cd19bd1810a4044ab5e8a4",
+          "after_sha256": "db4e672e47ddd119e161923e3ec5e577c99a5bacc3e951e4173ec58fc90868bc"
+        }
+      ],
+      "changes_outside_whitelist": [],
+      "added_dependencies": [
+        "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v3.json",
+        "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v4.json",
+        "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/first_oracle_result.json"
+      ],
+      "expected_added_dependencies": [
+        "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v3.json",
+        "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v4.json",
+        "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/first_oracle_result.json"
+      ],
+      "all_changed_file_hashes": [
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py",
+          "before_sha256": "6155c88feeb72f4b75531363fe4de3318672f57cf7040e6cd3d539901fcf4254",
+          "after_sha256": "7714cc397acca688e28863fe7e15e148cf65e92bade1524aceee877131f513da"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+          "before_sha256": "c54c2a08bc884db46ab82ae20555721100ad836a7269ea25191909d771e9eae7",
+          "after_sha256": "050876743a266fe0074ea55a40dc4bcc6e9675d6b61e5699a2dcd7a83cbab790"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+          "before_sha256": "1df0156d70f77b88cf9e5ecba352eeb396f65be21a5d08d7e92d099330f707ef",
+          "after_sha256": "d62990a79c83142458971b7e60a54a52ceb5b341bc1713129ebd6122d33130de"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/review_continuation_v1.py",
+          "before_sha256": "5a1800f7f4f04fd5bc2056c9ce4c04d2dc1ed219e30035cf56c603a5e2315835",
+          "after_sha256": "a360604b7734413051a366a61510cbef5ff7e001c36bf991a3ea690279fbfa11"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+          "before_sha256": "41dd114ab622abadf15a3c1c2b0a5de2503709c7fc1aa79b46aa569d06724b77",
+          "after_sha256": "1e89c9c9e677940a64b4728a218211c0b3a24f63cd6801ab2ecaba625ddfcbbc"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/independent_oracle/test_continuation_v1.py",
+          "before_sha256": "971e84a92aa92dad247f857880c3a5e29332355f1c89fedd036ccaaa238c372a",
+          "after_sha256": "f1d203ab73a2372d511cf5dea4d2a4bae501be716009cc56c0fd2a7bb2b519b2"
+        },
+        {
+          "path": "tests/test_source_acquisition_runtime_freeze.py",
+          "before_sha256": "b786848122b5b0f56ca7065887f664b3ad084a0969cd19bd1810a4044ab5e8a4",
+          "after_sha256": "db4e672e47ddd119e161923e3ec5e577c99a5bacc3e951e4173ec58fc90868bc"
+        },
+        {
+          "path": "evidence/source_acquisition_v1/README.md",
+          "before_sha256": "4fd402ad994523c02908d0d173549e90e6d688fb6bfb4fc611665b0898a587e7",
+          "after_sha256": "4b1cf1057fd558163236502bd0bf17f0094000f86b2d51da5d0e0ed5d09edfd3"
+        },
+        {
+          "path": "Makefile",
+          "before_sha256": "2ef768959495b260f9288d09079b768712d4a21f4124c4fe194cf3f411b35c3e",
+          "after_sha256": "1e3f2a5896d2a57bd89e92488b4466f80adc2444a604b226e86d5b6b07c3078e"
+        },
+        {
+          "path": "tests/test_grammar_native_authority.py",
+          "before_sha256": "38d5bd2cf2a35ec4bb243f1d0ed75e6417b40bc39888e9f12d52597c6f046648",
+          "after_sha256": "af6ac90f4b5233f68a80555217cbd4f1b7843e65845627f5fecabf7a69fe82b7"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "before_sha256": "d7252bc4ff970e3725b49b2dfd4e654f796214025b068d8cf79a1de74af0bc1f",
+          "after_sha256": "14877814f34316ecb980a6a87f04179c94f204a76512bc4517ed7d069d48d10b"
+        }
+      ],
+      "unchanged_check_scope": "Every prior v4 dependency outside the explicit metadata/build/test whitelist, plus all 102 packaged runtime files.",
+      "removed_dependencies": [],
+      "runtime_package_files_rechecked": 102,
+      "runtime_manifest_sha256": "ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b",
+      "runtime_archive_sha256": "19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94",
+      "driver_sha256": "def2a421d5b550b48ba51edfeb070311641ed04a478b509e1cb6501c6a0da370",
+      "scope": "Full code gates ran under v4. This later gate checks corrected dependency identity and chronology, native-test portability, standalone build prerequisites, continuation review, and a fresh preserved-denominator oracle/source-counterexample run. Runtime, Lean, source acquisition code, gold and thresholds are unchanged. Native-test scheduling and standalone build prerequisites were separately checked; no linguistic gain is inferred from the refreeze.",
+      "regression_summary": {
+        "fixed_cases": {
+          "total": 22,
+          "passed": 14,
+          "failed": 8
+        },
+        "questions": {
+          "total": 29,
+          "observed": 29,
+          "status_matches": 19,
+          "independently_validated": 29
+        },
+        "source_counterexamples": {
+          "total": 6,
+          "positive_controls": 2,
+          "negative_cases": 4,
+          "passed": 6,
+          "questions": 4,
+          "status_matches": 4,
+          "independently_validated": 4,
+          "unsafe_check_failures": [],
+          "independent_integrity_failures": [],
+          "gate_pass": true,
+          "not_added_to_historical_denominators": true
+        },
+        "strict_pass": false,
+        "regression_gate_pass": true,
+        "executions": [
+          {
+            "kind": "strict",
+            "command": [
+              "/tmp/nabt-neural-ci-review/bin/python",
+              "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+              "--output-dir",
+              "/workspace/scratch/8ead824583ac/NABT/artifacts/local/source-acquisition-v5-identity/oracle/strict"
+            ],
+            "exit": 1
+          },
+          {
+            "kind": "source_counterexamples",
+            "command": [
+              "/tmp/nabt-neural-ci-review/bin/python",
+              "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+              "--output-dir",
+              "/workspace/scratch/8ead824583ac/NABT/artifacts/local/source-acquisition-v5-identity/oracle/source_counterexamples"
+            ],
+            "exit": 0
+          }
+        ]
+      },
+      "source_conformance24": {
+        "path": "artifacts/local/source-acquisition-v5-identity/source-conformance/qualified-cue-cases.json.gz",
+        "sha256": "6e8233eed9503c1b9b96dfcddbcc53eec14c5510992d7a2228df9acf40498d95",
+        "gold_sha256": "ae10bce75024763f9e751dcc8af1ea090124d1fbac93d09e002e1ea2cd78fb68",
+        "baseline_path": "artifacts/local/source-acquisition-final/checks/qualified-cue-cases.json.gz",
+        "baseline_sha256": "4e020676081f3d53a67ed1b7f82e5e63416053a20f9295b30b187d2032a79f25",
+        "summary_mismatches": [],
+        "summary_unchanged": true,
+        "summary": {
+          "cases": 24,
+          "axes": {
+            "candidate_recall": {
+              "eligible": 23,
+              "measured": 23,
+              "passed": 23,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "complete_a116_projection": {
+              "eligible": 24,
+              "measured": 24,
+              "passed": 0,
+              "failed": 24,
+              "unmeasured": 0,
+              "fraction": 0.0
+            },
+            "declared_native_execution": {
+              "eligible": 24,
+              "measured": 24,
+              "passed": 24,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "diagnostic_positive_selection": {
+              "eligible": 12,
+              "measured": 12,
+              "passed": 8,
+              "failed": 4,
+              "unmeasured": 0,
+              "fraction": 0.6666666666666666
+            },
+            "direct_frame_licensing": {
+              "eligible": 9,
+              "measured": 9,
+              "passed": 9,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "execution_available": {
+              "eligible": 24,
+              "measured": 24,
+              "passed": 24,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "explicit_negative_exclusion": {
+              "eligible": 3,
+              "measured": 3,
+              "passed": 3,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "marked_frame_guard": {
+              "eligible": 4,
+              "measured": 4,
+              "passed": 4,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "named_proof_binding_consistency": {
+              "eligible": 24,
+              "measured": 24,
+              "passed": 24,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "no_current_speaker_leakage": {
+              "eligible": 6,
+              "measured": 6,
+              "passed": 6,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "no_unsupported_promotion": {
+              "eligible": 24,
+              "measured": 24,
+              "passed": 24,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "safe_nonselection": {
+              "eligible": 8,
+              "measured": 8,
+              "passed": 8,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "scope_comprehension": {
+              "eligible": 20,
+              "measured": 0,
+              "passed": 0,
+              "failed": 0,
+              "unmeasured": 20,
+              "fraction": null
+            },
+            "source_identity": {
+              "eligible": 24,
+              "measured": 24,
+              "passed": 24,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            },
+            "target_occurrence": {
+              "eligible": 23,
+              "measured": 23,
+              "passed": 23,
+              "failed": 0,
+              "unmeasured": 0,
+              "fraction": 1.0
+            }
+          },
+          "locally_executed_cases": 24,
+          "strict_language_acceptances": 0,
+          "motive_assessment": "UNMEASURED",
+          "world_truth_assessment": "UNMEASURED",
+          "tawatur_assessment": "UNMEASURED",
+          "all_arabic_complete": false,
+          "interpretation": "Separate diagnostic denominators; no overall Arabic accuracy or completeness score."
+        },
+        "safety_gate_passed": true,
+        "native_acquisition_refinement_proved": false,
+        "all_arabic_complete": false
+      },
+      "compiled_temporary_cleanup": "compiled-temporary-cleanup.json",
+      "verification_driver_source": "drivers/apply_and_verify_v5.py",
+      "driver_summary_sha256": "1ed214f6c0d788e29996ee899b0d529c4f0709b8fca3498f8d44fdf2ebd47722"
+    },
+    "post_correction_report": {
+      "path": "artifacts/local/source-acquisition-final/post_v5/summary.json",
+      "bytes": 21558,
+      "sha256": "88ff29c419e8430f6bdf95113a1c21bab7b12cc320c1cb46bcf5172fe1aff13f"
+    },
+    "full_gates_rerun_on_v5": false,
+    "runtime_lean_gold_unchanged": true
+  },
+  "environment": {
+    "scope": "Observed local executable-path workaround only; official Lean compiler/kernel binaries are unchanged. CI uses the ordinary pinned toolchain.",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "official_root": "/tmp/nabt-tools/lean-4.34.1-linux",
+    "wrapper": "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+    "reason": "Sandbox exposes /proc/self/exe but not /proc/<current pid>/exe; redirect only that same-process readlink path.",
+    "compile_command": [
+      "cc",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.c",
+      "-ldl",
+      "-o",
+      "/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.so"
+    ],
+    "controls": {
+      "True.lean": {
+        "rc": 0,
+        "axioms": []
+      },
+      "False.lean": {
+        "rc": 1,
+        "error": "Tactic decide proved that the proposition 2 + 2 = 5 is false"
+      }
+    },
+    "sha256": {
+      "/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.so": "1289c2c0704eb3166389e96f960204f44c0f5f28b8006818d98065327cb2f873",
+      "/tmp/nabt-tools/lean-4.34.1-linux/bin/lean": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
+      "/tmp/nabt-tools/lean-4.34.1-linux/bin/lake": "6f53827dab18010d6c690d14c8401cacabc1db958edb3552a877ed4cf1dd995d"
+    },
+    "python_runtime": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "torch": "2.5.1+cpu"
+    }
+  },
+  "gates": [
+    {
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "-o",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/source-acquisition-final/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/source-acquisition-final/checks/arabic-regression"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 990.847,
+      "log": "artifacts/local/source-acquisition-final/make-check.log",
+      "log_sha256": "9328cd47da6105d7279daabe90f69c7bf81cd742a3d2fb34065b8a1e3556f680",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "unit-tests",
+      "command": [
+        "make",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 756.284,
+      "log": "artifacts/local/source-acquisition-final/unit-tests.log",
+      "log_sha256": "dd18fa82814273307829986ec60bab585e75c0b08851e687a6960431ab4a6b1d",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "integration",
+      "command": [
+        "make",
+        "-f",
+        "Makefile",
+        "-f",
+        "integrations/grammar_catalog.mk",
+        "-f",
+        "integrations/mantuq_inference.mk",
+        "-f",
+        "integrations/linguistic_truth.mk",
+        "-f",
+        "integrations/licensed_inference.mk",
+        "grammar-catalog",
+        "proof-catalog",
+        "routing-conformance",
+        "mantuq-inference",
+        "linguistic-truth",
+        "licensed-inference",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/source-acquisition-final/integration"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 141.026,
+      "log": "artifacts/local/source-acquisition-final/integration.log",
+      "log_sha256": "62c68a80f50b28e91bf38e8a6d787542a25fac52ba83c99758a4ea400c6bcc7e",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "main_tests": {
+    "run": 2891,
+    "passed": 2891,
+    "skipped": 0,
+    "failed": 0
+  },
+  "repeated_gate_test_groups_not_additional_coverage": [
+    7,
+    25,
+    12,
+    23,
+    31,
+    10,
+    10,
+    14,
+    13,
+    12,
+    16,
+    13,
+    13,
+    16,
+    16,
+    17,
+    6,
+    17,
+    13
+  ],
+  "lean": {
+    "new_audited_declarations": 32,
+    "audited_declarations": 1611,
+    "source_row_theorems": 21,
+    "qualified_cue_theorems": 11,
+    "separate_source_kernel_controls": 19,
+    "permitted_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "scope": "General conditional laws and installed-inventory specializations; not 32 independent language generalizations."
+  },
+  "source_row_scope": {
+    "source_bytes": 6309503,
+    "retained_rows": 11,
+    "distinct_forms": 9,
+    "source_row_extraction_kernel_proved": true,
+    "annotation_field_extraction_kernel_proved": true,
+    "annotation_semantic_correctness_kernel_proved": false,
+    "source_authenticity_kernel_proved": false,
+    "source_inventory_exhaustive": false,
+    "intended_sense_established": false,
+    "scope": "Claims require actual complete receipt replay for the particular request."
+  },
+  "qualified_cue_scope": {
+    "forms": 6,
+    "sources": 5,
+    "passages": 15,
+    "lexemes": 7,
+    "source_interpretation_kernel_proved": false,
+    "free_text_role_acquisition_kernel_proved": false
+  },
+  "independent30": {
+    "summary": {
+      "cases": 30,
+      "semantic_diagnostic_outcomes": {
+        "PASS": 26,
+        "UNMEASURED": 2,
+        "FAIL": 2
+      },
+      "positive_selection": {
+        "numerator": 14,
+        "denominator": 16,
+        "fraction": 0.875
+      },
+      "positive_case_with_scope": {
+        "numerator": 14,
+        "denominator": 16,
+        "fraction": 0.875
+      },
+      "source_identity": {
+        "numerator": 30,
+        "denominator": 30,
+        "fraction": 1.0
+      },
+      "authority_safety": {
+        "numerator": 30,
+        "denominator": 30,
+        "fraction": 1.0
+      },
+      "required_native_execution": {
+        "numerator": 30,
+        "denominator": 30,
+        "fraction": 1.0
+      },
+      "declared_native_checked_cases": {
+        "numerator": 26,
+        "denominator": 30,
+        "fraction": 0.8666666666666667
+      },
+      "native_receipt_cases": {
+        "numerator": 26,
+        "denominator": 30,
+        "fraction": 0.8666666666666667
+      },
+      "strict_language_acceptances": 0,
+      "consistent_named_claims": 0,
+      "locally_executed_named_claims": 0,
+      "families": {
+        "ambiguity": {
+          "PASS": 5
+        },
+        "context_identity": {
+          "PASS": 5
+        },
+        "explicit_intention": {
+          "PASS": 5
+        },
+        "mark_integrity": {
+          "PASS": 5
+        },
+        "negation_quotation_condition": {
+          "PASS": 2,
+          "UNMEASURED": 2,
+          "FAIL": 1
+        },
+        "unvowelized_control": {
+          "PASS": 4,
+          "FAIL": 1
+        }
+      },
+      "motive_assessment": "UNMEASURED",
+      "interpretation": "Native receipts and safe deferrals do not count as successful positive language understanding."
+    },
+    "separate_projection_controls": {
+      "cases": 3,
+      "semantic_diagnostic_outcomes": {
+        "PASS": 3
+      },
+      "positive_selection": {
+        "numerator": 0,
+        "denominator": 0,
+        "fraction": null
+      },
+      "positive_case_with_scope": {
+        "numerator": 0,
+        "denominator": 0,
+        "fraction": null
+      },
+      "source_identity": {
+        "numerator": 3,
+        "denominator": 3,
+        "fraction": 1.0
+      },
+      "authority_safety": {
+        "numerator": 3,
+        "denominator": 3,
+        "fraction": 1.0
+      },
+      "required_native_execution": {
+        "numerator": 3,
+        "denominator": 3,
+        "fraction": 1.0
+      },
+      "declared_native_checked_cases": {
+        "numerator": 3,
+        "denominator": 3,
+        "fraction": 1.0
+      },
+      "native_receipt_cases": {
+        "numerator": 3,
+        "denominator": 3,
+        "fraction": 1.0
+      },
+      "strict_language_acceptances": 0,
+      "consistent_named_claims": 3,
+      "locally_executed_named_claims": 3,
+      "families": {
+        "projection_controls": {
+          "PASS": 3
+        }
+      },
+      "motive_assessment": "UNMEASURED",
+      "interpretation": "Native receipts and safe deferrals do not count as successful positive language understanding."
+    }
+  },
+  "independent24": {
+    "summary": {
+      "cases": 24,
+      "axes": {
+        "candidate_recall": {
+          "eligible": 23,
+          "measured": 23,
+          "passed": 23,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "complete_a116_projection": {
+          "eligible": 24,
+          "measured": 24,
+          "passed": 0,
+          "failed": 24,
+          "unmeasured": 0,
+          "fraction": 0.0
+        },
+        "declared_native_execution": {
+          "eligible": 24,
+          "measured": 24,
+          "passed": 24,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "diagnostic_positive_selection": {
+          "eligible": 12,
+          "measured": 12,
+          "passed": 8,
+          "failed": 4,
+          "unmeasured": 0,
+          "fraction": 0.6666666666666666
+        },
+        "direct_frame_licensing": {
+          "eligible": 9,
+          "measured": 9,
+          "passed": 9,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "execution_available": {
+          "eligible": 24,
+          "measured": 24,
+          "passed": 24,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "explicit_negative_exclusion": {
+          "eligible": 3,
+          "measured": 3,
+          "passed": 3,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "marked_frame_guard": {
+          "eligible": 4,
+          "measured": 4,
+          "passed": 4,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "named_proof_binding_consistency": {
+          "eligible": 24,
+          "measured": 24,
+          "passed": 24,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "no_current_speaker_leakage": {
+          "eligible": 6,
+          "measured": 6,
+          "passed": 6,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "no_unsupported_promotion": {
+          "eligible": 24,
+          "measured": 24,
+          "passed": 24,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "safe_nonselection": {
+          "eligible": 8,
+          "measured": 8,
+          "passed": 8,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "scope_comprehension": {
+          "eligible": 20,
+          "measured": 0,
+          "passed": 0,
+          "failed": 0,
+          "unmeasured": 20,
+          "fraction": null
+        },
+        "source_identity": {
+          "eligible": 24,
+          "measured": 24,
+          "passed": 24,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        },
+        "target_occurrence": {
+          "eligible": 23,
+          "measured": 23,
+          "passed": 23,
+          "failed": 0,
+          "unmeasured": 0,
+          "fraction": 1.0
+        }
+      },
+      "locally_executed_cases": 24,
+      "strict_language_acceptances": 0,
+      "motive_assessment": "UNMEASURED",
+      "world_truth_assessment": "UNMEASURED",
+      "tawatur_assessment": "UNMEASURED",
+      "all_arabic_complete": false,
+      "interpretation": "Separate diagnostic denominators; no overall Arabic accuracy or completeness score."
+    },
+    "scope": "Authored developmental reference with internal independent review, not blind population accuracy."
+  },
+  "natural_use": {
+    "full_case_success": {
+      "numerator": 1,
+      "denominator": 6,
+      "fraction": 0.16666666666666666
+    },
+    "any_lexical_occurrence": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "all_required_candidate_cases": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "required_candidate_obligations": {
+      "numerator": 12,
+      "denominator": 12,
+      "fraction": 1.0
+    },
+    "positive_intended_selection": {
+      "numerator": 0,
+      "denominator": 5,
+      "fraction": 0.0
+    },
+    "required_ambiguity_preserved": {
+      "numerator": 1,
+      "denominator": 1,
+      "fraction": 1.0
+    },
+    "native_checked_candidate_cases": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "source_identity_preserved": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "selection_precision": {
+      "numerator": 0,
+      "denominator": 0,
+      "fraction": null
+    },
+    "false_selected_senses": 0,
+    "precision_note": "No selections gives null precision, not 100%; abstention does not pass positive cases."
+  },
+  "observer_correction": {
+    "path": "measurement_erratum.json",
+    "scope": "Same historical raw output; candidate obligations 10/12 to 12/12, semantic outcomes unchanged.",
+    "semantic_improvement_claimed": false
+  },
+  "continuation": {
+    "fixed_cases": {
+      "total": 22,
+      "passed": 14,
+      "failed": 8
+    },
+    "questions": {
+      "total": 29,
+      "observed": 29,
+      "status_matches": 19,
+      "independently_validated": 29
+    },
+    "source_counterexamples": {
+      "total": 6,
+      "positive_controls": 2,
+      "negative_cases": 4,
+      "passed": 6,
+      "questions": 4,
+      "status_matches": 4,
+      "independently_validated": 4,
+      "unsafe_check_failures": [],
+      "independent_integrity_failures": [],
+      "gate_pass": true,
+      "not_added_to_historical_denominators": true
+    },
+    "strict_pass": false,
+    "regression_gate_pass": true,
+    "dependencies_unchanged": true,
+    "errors": []
+  },
+  "continuation_report": "checks/arabic-completion-oracle/regression.json",
+  "historical_holdout_postreview": {
+    "original_case_score": {
+      "passed": 35,
+      "total": 36
+    },
+    "original_strict_pass": false,
+    "original_unsafe_acceptances": [
+      {
+        "case_id": "H18",
+        "name": "question:2:no_grounded_evidence",
+        "pass": false,
+        "unsafe_acceptance": true
+      }
+    ],
+    "postreview_case_score": {
+      "passed": 36,
+      "total": 36
+    },
+    "remaining_unsafe_acceptances": [],
+    "reclassified_checker_false_alarms": [
+      {
+        "case_id": "H18",
+        "name": "question:2:no_grounded_evidence",
+        "pass": false,
+        "unsafe_acceptance": true
+      }
+    ],
+    "original_result_rewritten": false,
+    "gate_pass": true
+  },
+  "foundation_inventory": {
+    "python_surfaces": 174,
+    "runtime_guarded": 164,
+    "intrinsic_domain_checks": 7,
+    "machine_snapshot_checks": 3,
+    "lean_executables": 38
+  },
+  "all_legacy_paths_migrated_to_native_language_acceptance": false,
+  "full_python_refinement_proved": false,
+  "complete_a116_free_text_projection_proved": false,
+  "tawatur_evaluated": false,
+  "motive_acquisition_measured": false,
+  "world_truth_acquisition_measured": false,
+  "whole_arabic_complete": false,
+  "site_deployed": false,
+  "ui_changed": false,
+  "ui_tests_rerun": false,
+  "bundle": {
+    "manifest": {
+      "path": "evidence/source_acquisition_v1/verification_bundle/manifest.json",
+      "bytes": 69493,
+      "sha256": "cac804cd1054a5e54af7c68557ac077f8514818f1aa474013011ad97909735cd"
+    },
+    "archive": {
+      "path": "evidence/source_acquisition_v1/verification_bundle/objects.zip",
+      "bytes": 62883797,
+      "sha256": "91f5ec12135f3dfd7b6110760a15ec851f6eabcc6e517e1f61c49bf059d42faa"
+    },
+    "restored_files": 185,
+    "all_original_bytes_roundtrip_checked": true,
+    "authority": "byte-preservation-only"
+  },
+  "preserved_failed_attempt": {
+    "metadata": {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/attempt.json",
+      "bytes": 2696,
+      "sha256": "46506c14716680e81bb473894cd67a8415ae875718d357bb2738be8931476c5d"
+    },
+    "manifest": {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/manifest.json",
+      "bytes": 49083,
+      "sha256": "ef7a466bdd225f2c80f9e9dcdbb3478a653bfc2a985160323a4221b520eb0582"
+    },
+    "archive": {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/objects.zip",
+      "bytes": 43500902,
+      "sha256": "157a477c9085f06146284de99e5c4d292b33b0188a1e4c5cc797802a28b3065c"
+    },
+    "scope": "Initial make-check passed; 2888-test attempt had two failures and three errors. Original bytes and v3 dependencies retained; no gold/runtime/Lean change to correct the test contracts.",
+    "integrity_limitations": [
+      {
+        "path": "checks/progressive-unit-conformance.sources.tar.gz",
+        "retained_bytes": 325443,
+        "retained_sha256": "168d1e019ef3d96d15666ee9cdc372a0b1e5af0856196b668dd383ecef27f6dc",
+        "reported_bytes": 363929,
+        "reported_sha256": "bb83eae23ceb4f5ff68418ddce3e72c30149fb8331c09d0bd797732e6b4e6204",
+        "gzip_complete": false,
+        "matches_original_report_reference": false,
+        "cause_established": false,
+        "authority": "Historical incomplete artifact only. Original report is retained unchanged; not used as a complete source snapshot."
+      }
+    ]
+  },
+  "preserved_operational_stop": {
+    "metadata": {
+      "path": "evidence/source_acquisition_v1/operational_attempts/02_output_collision/attempt.json",
+      "bytes": 11771,
+      "sha256": "58ee81038f157e8a96a78a6fe3bd486fc12e005d9f2c1a785213786897d2678a"
+    },
+    "scope": "Exclusive output creation refused a pre-existing report. Final gates use a distinct empty output namespace; no runtime or threshold change."
+  },
+  "pins": {
+    "evidence/source_acquisition_v1/code_freeze_v1.json": "ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b",
+    "evidence/source_acquisition_v1/regression_policy_v1.json": "855af093fb8534aeb87c60450a36365d4d05b636864454e397d5a9943cc19e63",
+    "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v4.json": "839c89eed6773775e354631a7418c5812ebad43355dc24ff8aae13d35561451d",
+    "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v5.json": "ecf96d1d8eabaa42d53522d179142ace305587eec3a3b49bd52a799a12ac323a",
+    "evidence/qualified_cue_licensing_v1/source_review.json": "22cf92779bb0d2f6e72bdd09743898bc708dbf4997749e9b55ed9c7620eafed6",
+    "evidence/qualified_cue_licensing_v1/independent_cases.json": "ae10bce75024763f9e751dcc8af1ea090124d1fbac93d09e002e1ea2cd78fb68"
+  },
+  "input_files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 28825,
+      "sha256": "14877814f34316ecb980a6a87f04179c94f204a76512bc4517ed7d069d48d10b"
+    },
+    {
+      "path": ".github/workflows/grammar-catalog-database.yml",
+      "bytes": 6390,
+      "sha256": "e1103f5415228490bb5f2f653202746eb1b6ae37a36102c4fa9ddc01d370fae9"
+    },
+    {
+      "path": ".github/workflows/lexical-completion.yml",
+      "bytes": 7414,
+      "sha256": "7f03664821f97929c403365fbe35840e98b6e6e654fc4d20a9ddd3ad971002e3"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 16052,
+      "sha256": "1e3f2a5896d2a57bd89e92488b4466f80adc2444a604b226e86d5b6b07c3078e"
+    },
+    {
+      "path": "docs/GRAMMAR_CATALOG_AR.md",
+      "bytes": 14716,
+      "sha256": "085d2dad925edc500cb5a0581efefb5abe6d518670e21bf0c0f5c035669d6934"
+    },
+    {
+      "path": "docs/PROOF_STATUS.md",
+      "bytes": 152193,
+      "sha256": "4dd2066c333f134af841d526aa1da62d2dfa1ee438422e3b8d85f0f1e5577816"
+    },
+    {
+      "path": "docs/SOURCE_ACQUISITION_PROGRESS_AR.md",
+      "bytes": 19163,
+      "sha256": "09c698c28177fc719efd03deae5ce72a5b157bd73eff75dc3e9f3bdfc0864f60"
+    },
+    {
+      "path": "evidence/qualified_cue_licensing_v1/CASE_REVIEW.md",
+      "bytes": 7943,
+      "sha256": "2aeaeca00d5e4c4f3e8bac1de0796bb55fabb003fbcaa000abf20ab690733efc"
+    },
+    {
+      "path": "evidence/qualified_cue_licensing_v1/README.md",
+      "bytes": 9834,
+      "sha256": "ada5226d59a892a822d257abfaf6df5ac37d76b08d4809c5a740410aa042fcc1"
+    },
+    {
+      "path": "evidence/qualified_cue_licensing_v1/independent_cases.json",
+      "bytes": 41658,
+      "sha256": "ae10bce75024763f9e751dcc8af1ea090124d1fbac93d09e002e1ea2cd78fb68"
+    },
+    {
+      "path": "evidence/qualified_cue_licensing_v1/independent_cases.sha256",
+      "bytes": 89,
+      "sha256": "cf51b932297169d1a897bf71186d9a8c5220e399c544f2e2e8bf51556fe51a53"
+    },
+    {
+      "path": "evidence/qualified_cue_licensing_v1/source_materials/fayd_qadir_basira_excerpt.txt",
+      "bytes": 67,
+      "sha256": "c1858b04a31c5571690af4e38fa2e6010925f9b04c73bb5ed6a30987883f7207"
+    },
+    {
+      "path": "evidence/qualified_cue_licensing_v1/source_review.json",
+      "bytes": 26864,
+      "sha256": "22cf92779bb0d2f6e72bdd09743898bc708dbf4997749e9b55ed9c7620eafed6"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/README.md",
+      "bytes": 3583,
+      "sha256": "4b1cf1057fd558163236502bd0bf17f0094000f86b2d51da5d0e0ed5d09edfd3"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/build_catalog_references.py",
+      "bytes": 6984,
+      "sha256": "1084a3e68fbf2abf5934dcc349f9e4053335fec6555f2b228059363fd819ae42"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/build_runtime_freeze.py",
+      "bytes": 6917,
+      "sha256": "bcbf5e33fb4b49c923f43e1c8baec84cd76ba4fe4ecc85a091036a68218919b0"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/bundle_roundtrip.json",
+      "bytes": 868,
+      "sha256": "a6dd0ee0d563a6f356dee43c68d2f851f6292eaad1d6c33dfad591fdc9160945"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0001_missing_toolchain/attempt.json",
+      "bytes": 448,
+      "sha256": "a2a7c5adbf853625680c6b6d78c081a422692b494b036262d7ae3c0681219af0"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0001_missing_toolchain/validation/proof_catalog.generation.log.gz",
+      "bytes": 115,
+      "sha256": "ed42327839e68cd8c6c8f36e003efa371adf4c9a1725cebe2be754c72d894c2b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0002_unusable_direct_toolchain/attempt.json",
+      "bytes": 517,
+      "sha256": "a18f1b6a4c8b106bd67a0cc2f76ca36cded44da615cb35818902c55b3cdaebd6"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0002_unusable_direct_toolchain/validation/proof_catalog.generation.log.gz",
+      "bytes": 115,
+      "sha256": "ed42327839e68cd8c6c8f36e003efa371adf4c9a1725cebe2be754c72d894c2b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/attempt.json",
+      "bytes": 420,
+      "sha256": "8934cdfd6fa56c78fd5975ce53581f8352d5f7237490ae572afd7bd7183b02e0"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/catalog_migration.json",
+      "bytes": 10691,
+      "sha256": "407b83b0280468b28cdac21284edffd901b40e4234c94bb4b4395eb0ef49dc47"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/grammar_link_summary.json",
+      "bytes": 76269,
+      "sha256": "dfd015d16d9d380a7f1b26a1d5d693e54bef1467b0321171713e033cf2b0db9d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/licensed_proof_links.json",
+      "bytes": 50226,
+      "sha256": "3b1abfda250e35dd057e444f06b1fbb0d031620905cfb0643376b9e98c07574a"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/linguistic_proof_links.json",
+      "bytes": 4098,
+      "sha256": "efaf58f20beda0c8fffe15af0968e3382e5384b68de621a89c86f0b0b413e145"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/mantuq_proof_links.json",
+      "bytes": 23285,
+      "sha256": "9b986868602eaf9c6382444ce19ac2cdb3a541606dec0a86087d8e0b686c9616"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/proof_catalog.json",
+      "bytes": 3003976,
+      "sha256": "80c6a922a49d7f2694af1e671df0256509dca1b636cc65a8e3007f7d884a506f"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/grammar_link_summary.check.log.gz",
+      "bytes": 233,
+      "sha256": "e9a6c41ef2335340e79090e1e46d554e45e14deda2d648f8cf9a0d6da2c0cc3d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/grammar_link_summary.generation.log.gz",
+      "bytes": 233,
+      "sha256": "e9a6c41ef2335340e79090e1e46d554e45e14deda2d648f8cf9a0d6da2c0cc3d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/licensed_proof_links.check.log.gz",
+      "bytes": 130,
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/licensed_proof_links.generation.log.gz",
+      "bytes": 130,
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/linguistic_proof_links.check.log.gz",
+      "bytes": 104,
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/linguistic_proof_links.generation.log.gz",
+      "bytes": 104,
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/mantuq_proof_links.check.log.gz",
+      "bytes": 127,
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/mantuq_proof_links.generation.log.gz",
+      "bytes": 127,
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/proof_catalog.check.log.gz",
+      "bytes": 189,
+      "sha256": "fa76782357f7983238de9a03b25b3a5707a318eee92b194a84aba1a0ab09533d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/proof_catalog.generation.log.gz",
+      "bytes": 189,
+      "sha256": "fa76782357f7983238de9a03b25b3a5707a318eee92b194a84aba1a0ab09533d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_attempts/0003_omitted_declaration_manifest/validation/test_proof_catalog.log.gz",
+      "bytes": 406,
+      "sha256": "e7121946c3575220a314f23da35def1cebbcfef5bbd000333c9f0dafdb39d025"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/catalog_migration.json",
+      "bytes": 13609,
+      "sha256": "761df5148b188bc3d5807cc0e19618af4aa0339b59f590c3e1618b82b10748c8"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/grammar_link_summary.json",
+      "bytes": 76269,
+      "sha256": "31bf7087b23f2a219481384db64ce06e065504bc0bcc94916b0ade085e4cc9b4"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/licensed_proof_links.json",
+      "bytes": 50226,
+      "sha256": "69f502fa87c8cc5bff8d7a271e1d34f5c35f245d516b9fd47251db7164fa3636"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/linguistic_proof_links.json",
+      "bytes": 4098,
+      "sha256": "a89ea1eb575a01ea70c3a714d42955d9f02c2604f63aef0e77d25264c6f8c3d2"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/mantuq_proof_links.json",
+      "bytes": 23285,
+      "sha256": "3b3674f47a32109b65e262339d4625d2e1747d34dec985999cce89a21687dce6"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/proof_catalog.json",
+      "bytes": 3080551,
+      "sha256": "a39fbc016be5dbbcf6ccb8bdb36f33bbd1e49dfebc2e27090bd8ccb2a3e49b19"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/axiom_audit.log.gz",
+      "bytes": 163,
+      "sha256": "2ca2540f2753eaa8b0d112173b08057a4aa6a88ff61199c9cad72b18903a0555"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/axioms.json",
+      "bytes": 137712,
+      "sha256": "5a6c349803e8df5fbc98798f3e298b635296dae1bfea155ae5ea6fe3bd84605f"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/axioms.log",
+      "bytes": 131393,
+      "sha256": "5c0e5d42bfa7efc879f6fee5d4c8e3828a4db84d2adb0f99908556a42a704715"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/grammar_link_summary.check.log.gz",
+      "bytes": 233,
+      "sha256": "ab9fc72b37900495d361f82ed9a23a822e6f436a290731b0753ed600dfe79766"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/grammar_link_summary.generation.log.gz",
+      "bytes": 233,
+      "sha256": "ab9fc72b37900495d361f82ed9a23a822e6f436a290731b0753ed600dfe79766"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/licensed_proof_links.check.log.gz",
+      "bytes": 130,
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/licensed_proof_links.generation.log.gz",
+      "bytes": 130,
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/linguistic_proof_links.check.log.gz",
+      "bytes": 104,
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/linguistic_proof_links.generation.log.gz",
+      "bytes": 104,
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/mantuq_proof_links.check.log.gz",
+      "bytes": 127,
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/mantuq_proof_links.generation.log.gz",
+      "bytes": 127,
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/proof_catalog.check.log.gz",
+      "bytes": 189,
+      "sha256": "0908aa04da48c23be0ba2333673ab39f6e0cedda52a1c5d86840f983cdf0511c"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/proof_catalog.generation.log.gz",
+      "bytes": 189,
+      "sha256": "0908aa04da48c23be0ba2333673ab39f6e0cedda52a1c5d86840f983cdf0511c"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/catalog_references/validation/test_proof_catalog.log.gz",
+      "bytes": 404,
+      "sha256": "cac643b3c61d6df78503fbd384f4795a60b58e50749d63a6cc63eaeca94e6ece"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/code_freeze_v1.json",
+      "bytes": 18784,
+      "sha256": "ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/code_freeze_v1.tar.gz",
+      "bytes": 3627524,
+      "sha256": "19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py",
+      "bytes": 11480,
+      "sha256": "7714cc397acca688e28863fe7e15e148cf65e92bade1524aceee877131f513da"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/review_continuation_v1.py",
+      "bytes": 25189,
+      "sha256": "a360604b7734413051a366a61510cbef5ff7e001c36bf991a3ea690279fbfa11"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+      "bytes": 19740,
+      "sha256": "050876743a266fe0074ea55a40dc4bcc6e9675d6b61e5699a2dcd7a83cbab790"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+      "bytes": 5507,
+      "sha256": "d62990a79c83142458971b7e60a54a52ceb5b341bc1713129ebd6122d33130de"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "bytes": 21705,
+      "sha256": "1e89c9c9e677940a64b4728a218211c0b3a24f63cd6801ab2ecaba625ddfcbbc"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v3.json",
+      "bytes": 53906,
+      "sha256": "453fc9d7e0cf846a1c7c8bd6c57580937d32bd71c979ac2fac0c77c4d56deb96"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v4.json",
+      "bytes": 54254,
+      "sha256": "839c89eed6773775e354631a7418c5812ebad43355dc24ff8aae13d35561451d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v5.json",
+      "bytes": 56015,
+      "sha256": "ecf96d1d8eabaa42d53522d179142ace305587eec3a3b49bd52a799a12ac323a"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/test_continuation_v1.py",
+      "bytes": 8492,
+      "sha256": "f1d203ab73a2372d511cf5dea4d2a4bae501be716009cc56c0fd2a7bb2b519b2"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/local_toolchain/False.lean",
+      "bytes": 50,
+      "sha256": "30363878f415df1f3b5519781e2f174d327dfb509ada9d4a4789269f241f9c52"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/local_toolchain/True.lean",
+      "bytes": 71,
+      "sha256": "338347a27ce2976819986a58e5ec08138eff855df2ede12d6f20a13612fb9945"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/local_toolchain/cc",
+      "bytes": 72,
+      "sha256": "fbcb625e5cfd1e6de6861a492c5d34a94d92e1ee58867c4ebe5665295746750e"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/local_toolchain/environment.json",
+      "bytes": 1268,
+      "sha256": "cec656dc92beaf34901323d6d7a49df1c90575a28d5171eb1417d6bb1a361cdb"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/local_toolchain/lake",
+      "bytes": 232,
+      "sha256": "e4d8617ea82738fc5bd7b17f3b9ee82d9d37c56f1ee21eb03ee31146168c0158"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/local_toolchain/self_exe.c",
+      "bytes": 596,
+      "sha256": "6ed435b9147185bb0c32cac432130ab1991f195d6dc06352200f886d1f929cd8"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/operational_attempts/02_output_collision/attempt.json",
+      "bytes": 11771,
+      "sha256": "58ee81038f157e8a96a78a6fe3bd486fc12e005d9f2c1a785213786897d2678a"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/operational_attempts/02_output_collision/checks__governor-conformance.json",
+      "bytes": 405,
+      "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/operational_attempts/02_output_collision/gates.json",
+      "bytes": 844,
+      "sha256": "95f12357e1ee699174d4ddb8ebd55bacf883a24a5f8a722e12b7a3b428659118"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/operational_attempts/02_output_collision/make-check.log",
+      "bytes": 4202,
+      "sha256": "4a5e78d86c9c18e3af9166298a48668bb4516378fbc1abfc136cdda74b81516d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/pack_verification.py",
+      "bytes": 8742,
+      "sha256": "08426281323c3a73299c97606f8371a699460d040ded72d2def5c5781ac368b5"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/regression_policy_v1.json",
+      "bytes": 90504,
+      "sha256": "855af093fb8534aeb87c60450a36365d4d05b636864454e397d5a9943cc19e63"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v1_omitted_declaration_manifest/attempt.json",
+      "bytes": 552,
+      "sha256": "b210eedd6adf723f6c46a2c4f2a7308891c6865c7a110438bf658fc2b8dfbda3"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v1_omitted_declaration_manifest/runner_freeze_v1.json",
+      "bytes": 50831,
+      "sha256": "5aea498cd50491e3c08bc207b98bb93d4712e6257ab720d5e1eba072764db4cd"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v2_public_helper_rename/attempt.json",
+      "bytes": 488,
+      "sha256": "be00861126ae9ddb5a898f7505870a843f1078bab5f869ba4b21d7d5818f0a55"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v2_public_helper_rename/runner_freeze_v2.json",
+      "bytes": 53906,
+      "sha256": "ec421afbd49145f563e453fc2769c398c79fb679ae1afe22d6909c366f58e7a1"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/attempt.json",
+      "bytes": 1858,
+      "sha256": "9a1b59f1288482c4dcb3a23f28a5d6a031f18b5682b0eea2e0f6d313c83f7d76"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/dependency_snapshot_v3.tar.gz",
+      "bytes": 15296882,
+      "sha256": "05c03da2746a8795aa42e8338b9748e73c6c873b8c131135e8d9105cd7233b2a"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/first_oracle_result.json",
+      "bytes": 392656,
+      "sha256": "f2e909036d31567665e344beede3edf5f73da32cd49d05db0da6959bfede67a8"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/runner_freeze_v3.json",
+      "bytes": 53906,
+      "sha256": "453fc9d7e0cf846a1c7c8bd6c57580937d32bd71c979ac2fac0c77c4d56deb96"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/supplemental_head_tests/tests/test_benchmark_module_provenance.py",
+      "bytes": 4595,
+      "sha256": "39f294e6fa2d48f32658730a7796c66582867585f00c1ae1503c4294c0a82210"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/supplemental_head_tests/tests/test_linguistic_truth_foundation.py",
+      "bytes": 9175,
+      "sha256": "24e006069c424813c315077cb1f60e98456437c9f387d3d60a9af1a52f918319"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/attempt.json",
+      "bytes": 5886,
+      "sha256": "95ea2b1b105474bd7db909ee19ab64a0552f04f9a5e307c7faed6d48fb7aaadc"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/.github/workflows/ci.yml",
+      "bytes": 28638,
+      "sha256": "d7252bc4ff970e3725b49b2dfd4e654f796214025b068d8cf79a1de74af0bc1f"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/Makefile",
+      "bytes": 15663,
+      "sha256": "2ef768959495b260f9288d09079b768712d4a21f4124c4fe194cf3f411b35c3e"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/README.md",
+      "bytes": 3483,
+      "sha256": "4fd402ad994523c02908d0d173549e90e6d688fb6bfb4fc611665b0898a587e7"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py",
+      "bytes": 7653,
+      "sha256": "6155c88feeb72f4b75531363fe4de3318672f57cf7040e6cd3d539901fcf4254"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/independent_oracle/review_continuation_v1.py",
+      "bytes": 25189,
+      "sha256": "5a1800f7f4f04fd5bc2056c9ce4c04d2dc1ed219e30035cf56c603a5e2315835"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+      "bytes": 19691,
+      "sha256": "c54c2a08bc884db46ab82ae20555721100ad836a7269ea25191909d771e9eae7"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+      "bytes": 5507,
+      "sha256": "1df0156d70f77b88cf9e5ecba352eeb396f65be21a5d08d7e92d099330f707ef"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "bytes": 21705,
+      "sha256": "41dd114ab622abadf15a3c1c2b0a5de2503709c7fc1aa79b46aa569d06724b77"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/evidence/source_acquisition_v1/independent_oracle/test_continuation_v1.py",
+      "bytes": 8492,
+      "sha256": "971e84a92aa92dad247f857880c3a5e29332355f1c89fedd036ccaaa238c372a"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/tests/test_grammar_native_authority.py",
+      "bytes": 12336,
+      "sha256": "38d5bd2cf2a35ec4bb243f1d0ed75e6417b40bc39888e9f12d52597c6f046648"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/tests/test_source_acquisition_runtime_freeze.py",
+      "bytes": 7031,
+      "sha256": "b786848122b5b0f56ca7065887f664b3ad084a0969cd19bd1810a4044ab5e8a4"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/runner_freeze_v4.json",
+      "bytes": 54254,
+      "sha256": "839c89eed6773775e354631a7418c5812ebad43355dc24ff8aae13d35561451d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runtime_migration.json",
+      "bytes": 1708,
+      "sha256": "30d71bab8aba9ce9a9456ff4f4ecec665880c318ebce4e096394ea19e72cb692"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/runtime_migration.patch",
+      "bytes": 2636,
+      "sha256": "f5a4772e504e9e505b2adef3ab2762a10f3fea74b0b92f5ff61c7c0eaf4df78b"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/attempt.json",
+      "bytes": 2696,
+      "sha256": "46506c14716680e81bb473894cd67a8415ae875718d357bb2738be8931476c5d"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/manifest.json",
+      "bytes": 49083,
+      "sha256": "ef7a466bdd225f2c80f9e9dcdbb3478a653bfc2a985160323a4221b520eb0582"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/objects.zip",
+      "bytes": 43500902,
+      "sha256": "157a477c9085f06146284de99e5c4d292b33b0188a1e4c5cc797802a28b3065c"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/verification_bundle/manifest.json",
+      "bytes": 69493,
+      "sha256": "cac804cd1054a5e54af7c68557ac077f8514818f1aa474013011ad97909735cd"
+    },
+    {
+      "path": "evidence/source_acquisition_v1/verification_bundle/objects.zip",
+      "bytes": 62883797,
+      "sha256": "91f5ec12135f3dfd7b6110760a15ec851f6eabcc6e517e1f61c49bf059d42faa"
+    },
+    {
+      "path": "formal/Audit.lean",
+      "bytes": 82621,
+      "sha256": "377c9ff824330fa05b0c5904219972733a16aa8a773cf7bc00aa68a0c7ead4c9"
+    },
+    {
+      "path": "formal/LexicalSourceAcquisitionChecks.lean",
+      "bytes": 3484,
+      "sha256": "684c3b06654979b3937c351097339cff0ffe21c87a1a9191d6f687f0c09465d2"
+    },
+    {
+      "path": "formal/LexicalSourceRowsMain.lean",
+      "bytes": 5696,
+      "sha256": "1f2632c8be8883c93c2fd738fdb8532c0072bae71781da29a8807eeeabe48a7c"
+    },
+    {
+      "path": "formal/Nabt.lean",
+      "bytes": 2031,
+      "sha256": "55b1f50a41c3f25eb94bf22f774a6777a5003de1c41d869b3b095d2954b219d4"
+    },
+    {
+      "path": "formal/Nabt/LexicalSourceAcquisition.lean",
+      "bytes": 17001,
+      "sha256": "1149df8ee24ea02ee824d19a630e3676a431db5dbc5688be99ac1a9994635c0c"
+    },
+    {
+      "path": "formal/Nabt/QualifiedCueLicensing.lean",
+      "bytes": 10344,
+      "sha256": "67798e37bfb0fe980111b349d8f7cb4f4d42cc8ed26eb69d443d87a88b86d6c4"
+    },
+    {
+      "path": "formal/QualifiedCueLicensingMain.lean",
+      "bytes": 1715,
+      "sha256": "63f24383246f861d163766855ee8838d72140f04c88e5f7302c0777b1531130f"
+    },
+    {
+      "path": "formal/lakefile.lean",
+      "bytes": 3363,
+      "sha256": "f229d3b99b8f8bfe153e72613a80bf5872afaaf08d6b13b6cd68f05731190bbb"
+    },
+    {
+      "path": "formal/theorems.json",
+      "bytes": 84452,
+      "sha256": "32e8419b6a8ebdbaf5da23304e9e883851b3a2b326ae847130ddb7bd2588909f"
+    },
+    {
+      "path": "integrations/grammar_catalog.mk",
+      "bytes": 1130,
+      "sha256": "d443dc5c352220de089f85de1c7bbf62476f5a6cf93d1c2d5136f27e503e6ca4"
+    },
+    {
+      "path": "integrations/licensed_inference.mk",
+      "bytes": 1187,
+      "sha256": "b8b3e1a951140d4535f919aca2788d9739968776c7a44e83b50d1d70750617b0"
+    },
+    {
+      "path": "integrations/linguistic_truth.mk",
+      "bytes": 1436,
+      "sha256": "e209813549c522aa86e6fe3e068db001f938bd646bbe00f258c8d1c83cf8649a"
+    },
+    {
+      "path": "integrations/mantuq_inference.mk",
+      "bytes": 624,
+      "sha256": "3f35bf07f8dd66d24eede7750fb646b840e527e0b37c5808f0738b0e84b6cfb3"
+    },
+    {
+      "path": "src/nabt/data/framework_foundation.json",
+      "bytes": 210980,
+      "sha256": "01887099c9c2f26b4e6451d0777b40241a7120dcedc1f45a84a2dc402732608b"
+    },
+    {
+      "path": "tests/test_arabic_coverage_package_verifier.py",
+      "bytes": 11048,
+      "sha256": "572985fbcd2d5efd9ae8c653917c41e55360c0d701db40627c023898c8784c90"
+    },
+    {
+      "path": "tests/test_arabic_evaluation.py",
+      "bytes": 7334,
+      "sha256": "ba033031269854930afd3198d4c0d92ec26a4c3ce1804f3ddc00c3142470f90a"
+    },
+    {
+      "path": "tests/test_benchmark_module_provenance.py",
+      "bytes": 5790,
+      "sha256": "ed10ab553254b105aee7c7d8c853d77c5e46822197bdc5715fa076871751fee6"
+    },
+    {
+      "path": "tests/test_completion_v6_gate.py",
+      "bytes": 2789,
+      "sha256": "59568c4e967b1b0822a5ea8f0f005ddc0d4e50895934f1a321a8994ddd60acd6"
+    },
+    {
+      "path": "tests/test_framework_foundation_freeze.py",
+      "bytes": 5507,
+      "sha256": "1f73c8723c5e2cd5600c88d652c29a80c64656f6010ccf5543c41f8b8548053f"
+    },
+    {
+      "path": "tests/test_grammar_catalog_retrieval.py",
+      "bytes": 9960,
+      "sha256": "ca0bdd8d37e55e631c83db55db886d843ff1bb3457c3c9fe5f39795950cfb274"
+    },
+    {
+      "path": "tests/test_grammar_native_authority.py",
+      "bytes": 13226,
+      "sha256": "af6ac90f4b5233f68a80555217cbd4f1b7843e65845627f5fecabf7a69fe82b7"
+    },
+    {
+      "path": "tests/test_lexical_source_acquisition.py",
+      "bytes": 8410,
+      "sha256": "1fa324d2e13b362a64063148fb7736777c57d941010f31a279d8d2954cd33ba7"
+    },
+    {
+      "path": "tests/test_lexical_surface_binding.py",
+      "bytes": 8442,
+      "sha256": "cb7a95f853d6d5e33cab62a83965d9434bc6307a62fb3336db0fb5541176ce56"
+    },
+    {
+      "path": "tests/test_linguistic_truth_benchmark.py",
+      "bytes": 9852,
+      "sha256": "75b04d7212bac2603a84a9475a027d792b8c1e7cc38b60685e98f7c78f433a5b"
+    },
+    {
+      "path": "tests/test_linguistic_truth_foundation.py",
+      "bytes": 11909,
+      "sha256": "17d6797e21c2740d00955cb0423cd121e69eb6dd714427e67fee1c59a8f00b19"
+    },
+    {
+      "path": "tests/test_natural_use_measurement.py",
+      "bytes": 9982,
+      "sha256": "c655bab54ae4b91009401994affa707456f8cf243c67c888151c5277df179dc7"
+    },
+    {
+      "path": "tests/test_progressive_rule_runtime_freeze.py",
+      "bytes": 6955,
+      "sha256": "e153439a32013959723ccf0867fe04959d5addc24d1b6a7e3c2eef3711665ef8"
+    },
+    {
+      "path": "tests/test_proof_catalog.py",
+      "bytes": 8386,
+      "sha256": "b6dd0eb91f264f1b9152a92df8992123fb2e73522888ee057fb868ca74c6eaf8"
+    },
+    {
+      "path": "tests/test_qualified_cue_benchmark.py",
+      "bytes": 11962,
+      "sha256": "9a0fed9ab0eebe24ed96fe11f1e9bc460387c123c2f8fbbb9c18154a3ed78cf8"
+    },
+    {
+      "path": "tests/test_qualified_cue_licensing.py",
+      "bytes": 15516,
+      "sha256": "acea82cb2a9a75ed8c6afc576e6953ab5852a7b0fe5a8482117da482e345851f"
+    },
+    {
+      "path": "tests/test_rational_inquiry_freeze.py",
+      "bytes": 11917,
+      "sha256": "ba143221cbee75184db0d81b63ea1e251fed352fc36cc89dea2a15b9cd01d36c"
+    },
+    {
+      "path": "tests/test_recursive_source_bridge.py",
+      "bytes": 24997,
+      "sha256": "fa3b7743e683fe7bea0e0a52646b67cf04392aa9e64b634d71c8a196b92e332d"
+    },
+    {
+      "path": "tests/test_source_acquisition_runtime_freeze.py",
+      "bytes": 9601,
+      "sha256": "db4e672e47ddd119e161923e3ec5e577c99a5bacc3e951e4173ec58fc90868bc"
+    },
+    {
+      "path": "tests/test_verification_byte_bundle.py",
+      "bytes": 5141,
+      "sha256": "b926925e81f47302bafead985bdf57b170cab721fd13deef93e446cfe52e7ef7"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation.py",
+      "bytes": 7162,
+      "sha256": "b0592eea3324d51452a50f57d91987a6b27cfedb0808da020b608af8c704e958"
+    },
+    {
+      "path": "tools/benchmark_certified_natural_use.py",
+      "bytes": 20693,
+      "sha256": "b15965ca1bb4cecfc5568cb7ddb138cf40624e68d0f4313b23dd17df1a2b3921"
+    },
+    {
+      "path": "tools/benchmark_linguistic_truth.py",
+      "bytes": 22976,
+      "sha256": "0a5b671e971d87baa8d3cef121f98a8535b65e5e43052f2cc694384ccbdab0b6"
+    },
+    {
+      "path": "tools/benchmark_qualified_cues.py",
+      "bytes": 15902,
+      "sha256": "76602c98541cd10c56539f16ebf7335083650c09dee3c29573135f928594b142"
+    },
+    {
+      "path": "tools/construction_evaluation.py",
+      "bytes": 113488,
+      "sha256": "bfcaf92b23ba5fbcf233480a0bfa4dccab9792d936a007ba9e9731e2e0184859"
+    },
+    {
+      "path": "tools/discourse_evaluation.py",
+      "bytes": 107805,
+      "sha256": "bf157e9f8568dc8c72924557512c64c7fe545b1d60ad8907591702fa24ff00a0"
+    },
+    {
+      "path": "tools/framework_foundation_gate.py",
+      "bytes": 9355,
+      "sha256": "c8a0c25431e3f0a8564326b617c4529f0a387c273f3761826c680a252c8a16cf"
+    },
+    {
+      "path": "tools/framework_foundation_postreview.py",
+      "bytes": 33916,
+      "sha256": "2773b028782aba5da7867cda47e4122dfb27ce9582c99a4e909f1aef3e296bcb"
+    },
+    {
+      "path": "tools/governor_evaluation.py",
+      "bytes": 50115,
+      "sha256": "e5c419d0723599abe973125d3b5f2fa75d2ceee26e5e5139230e825257a714df"
+    },
+    {
+      "path": "tools/grammar_catalog/__main__.py",
+      "bytes": 4304,
+      "sha256": "6828d01e10fa6129282108647a1f36c638ec1a3298f4a210f4700b220ab5e1cb"
+    },
+    {
+      "path": "tools/grammar_catalog/routing.py",
+      "bytes": 8650,
+      "sha256": "83fe4f65109bed9cc995602aa65c71aab466efadb2e09add5f87f0a95178d0ec"
+    },
+    {
+      "path": "tools/inflection_cli_evaluation.py",
+      "bytes": 19381,
+      "sha256": "5e7e6b18442ce3b7efeb705e608bcce7a2fc0f4247214153e6e661a5390c09b7"
+    },
+    {
+      "path": "tools/inflection_evaluation.py",
+      "bytes": 62708,
+      "sha256": "457ea53d0e02e319d9118bea70c3802ac8b06a89fc522f3e2dc108f369d5ee7c"
+    },
+    {
+      "path": "tools/linguistic_truth/marked_forms.py",
+      "bytes": 17517,
+      "sha256": "164f1948285008337fcc871cb504700b84490cdddd6a65c43396153672d4b815"
+    },
+    {
+      "path": "tools/linguistic_truth/runtime.py",
+      "bytes": 43106,
+      "sha256": "0a1e13d284273a990d6bf75de1c1f33f01d699713caaebe8e3b5c5eb9f0768d4"
+    },
+    {
+      "path": "tools/linguistic_truth/surface.py",
+      "bytes": 17185,
+      "sha256": "340f9959290248ae037bc7ba614c580b5b32e0e7a43e1b3fb2872db19582098a"
+    },
+    {
+      "path": "tools/measure_natural_use.py",
+      "bytes": 15366,
+      "sha256": "237c6e38d76281bf3c79a70f5fc4d1a2749bff5c9ecce5857c6c0a5f52ad1654"
+    },
+    {
+      "path": "tools/morphology_evaluation.py",
+      "bytes": 33621,
+      "sha256": "c2a236538aec648fb42fead6a207d3e295b17180d21cdc92c2fcd902bb156364"
+    },
+    {
+      "path": "tools/text_inquiry_evaluation.py",
+      "bytes": 4562,
+      "sha256": "7fcdca40d57be9a138b7766e967af34877f2dbb77b76cbaab5117581db6cc85f"
+    },
+    {
+      "path": "tools/verify_construction_package.py",
+      "bytes": 85440,
+      "sha256": "76bb40f37945034dc867499b05673427608a3085779c2aa1216c8802575d6614"
+    },
+    {
+      "path": "tools/word_evaluation.py",
+      "bytes": 37612,
+      "sha256": "7bb3fad358edf166b6a2f62c0809365a6c0b8cdd760aa0c198f337a6b521d225"
+    }
+  ],
+  "release_hygiene": {
+    "immutable_byte_whitespace_exceptions": [
+      "evidence/source_acquisition_v1/runner_attempts/v4_executed_metadata_chronology/changed_inputs/tests/test_grammar_native_authority.py:215: new blank line at EOF.",
+      "tests/test_grammar_native_authority.py:224: new blank line at EOF."
+    ],
+    "other_whitespace_checks_passed": true,
+    "unreferenced_incomplete_pack_temporary_file_excluded": {
+      "path": "evidence/source_acquisition_v1/verification_attempt_1/.objects.zip.2pdzLP",
+      "bytes": 26738688,
+      "sha256": "e7e4808c538785c2de0f110bd78aa4281500e9addf98e722158a48e41761964f"
+    },
+    "runtime_and_observed_freezes_unchanged": true,
+    "current_progressive_source_archive_verified": {
+      "bytes": 363929,
+      "sha256": "11ac024a6c1da01989c54cfb2ce23d5f3231422cc97c9b8bb7e3e3002f6b2276",
+      "matches_current_report_reference": true,
+      "gzip_complete": true
+    },
+    "credential_scan": {
+      "passed": true,
+      "staged_files": 168,
+      "expanded_contents": 7805,
+      "known_partial_plaintext_scanned": 3,
+      "known_invalid_deflate_controls_raw_scanned": 2,
+      "scope": "PAT pattern scan of staged contents and expanded archives; not a claim of absence of every possible secret format."
+    }
+  }
+}

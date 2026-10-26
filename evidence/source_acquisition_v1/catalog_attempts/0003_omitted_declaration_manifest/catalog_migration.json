@@ -1,0 +1,253 @@
+{
+  "schema": "nabt.source-acquisition.proof-catalog-migration.v1",
+  "scope": "Compiled declaration index and replayed source references; not whole-book or Arabic completeness.",
+  "previous_directory": "evidence/progressive_rule_audit_v1/catalog_references",
+  "current_directory": "evidence/source_acquisition_v1/catalog_references",
+  "old_artifacts_unchanged": true,
+  "previous_artifact_sha256": {
+    "proof_catalog.json": "fc99e19bfb976deed7c3f7528d4ab20160a9a3ee7517196a2b66a05e4b76919f",
+    "grammar_link_summary.json": "f9c496285ac7b9126ea8df414ac6f48bb3c062aea1e5ee711eae0bd9a9435fc1",
+    "mantuq_proof_links.json": "87de15e5eba25b7873dc6a4919415c7af7b96b0a1dde101e41e48eb349696a5e",
+    "linguistic_proof_links.json": "f8b33e16162824c0e1ecd134dd06d064343f370c45b4b07fdbb27bbeb7325216",
+    "licensed_proof_links.json": "a8bff6221698b8348af9503a4a8bb84807386847ce9dd425411ed6702ef3e903"
+  },
+  "current_artifact_sha256": {
+    "proof_catalog.json": "80c6a922a49d7f2694af1e671df0256509dca1b636cc65a8e3007f7d884a506f",
+    "grammar_link_summary.json": "dfd015d16d9d380a7f1b26a1d5d693e54bef1467b0321171713e033cf2b0db9d",
+    "mantuq_proof_links.json": "9b986868602eaf9c6382444ce19ac2cdb3a541606dec0a86087d8e0b686c9616",
+    "linguistic_proof_links.json": "efaf58f20beda0c8fffe15af0968e3382e5384b68de621a89c86f0b0b413e145",
+    "licensed_proof_links.json": "3b1abfda250e35dd057e444f06b1fbb0d031620905cfb0643376b9e98c07574a"
+  },
+  "previous_counts": {
+    "advertised_declarations": 1579,
+    "normalized_statement_groups": 1576,
+    "same_statement_groups_with_multiple_names": 3,
+    "redundant_statement_names": 3
+  },
+  "current_counts": {
+    "advertised_declarations": 1579,
+    "normalized_statement_groups": 1576,
+    "same_statement_groups_with_multiple_names": 3,
+    "redundant_statement_names": 3
+  },
+  "added_declarations": [],
+  "removed_declarations": [],
+  "check_returncodes": {
+    "proof_catalog": 0,
+    "grammar_link_summary": 0,
+    "mantuq_proof_links": 0,
+    "linguistic_proof_links": 0,
+    "licensed_proof_links": 0
+  },
+  "tests": {
+    "file": "tests/test_proof_catalog.py",
+    "returncode": 0
+  },
+  "commands": [
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.proof_catalog",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--output",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/proof_catalog.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/proof_catalog.generation.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.proof_catalog",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--check",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/proof_catalog.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/proof_catalog.check.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.grammar_catalog.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--output",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/grammar_link_summary.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/grammar_link_summary.generation.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.grammar_catalog.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--check",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/grammar_link_summary.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/grammar_link_summary.check.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.mantuq_inference.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--output",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/mantuq_proof_links.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/mantuq_proof_links.generation.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.mantuq_inference.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--check",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/mantuq_proof_links.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/mantuq_proof_links.check.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.linguistic_truth.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--output",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/linguistic_proof_links.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/linguistic_proof_links.generation.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.linguistic_truth.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--check",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/linguistic_proof_links.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/linguistic_proof_links.check.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.licensed_inference.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--output",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/licensed_proof_links.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/licensed_proof_links.generation.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "tools.licensed_inference.links",
+        "--lake",
+        "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "--check",
+        "/workspace/scratch/8ead824583ac/NABT/evidence/source_acquisition_v1/catalog_references/licensed_proof_links.json"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/licensed_proof_links.check.log.gz"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_proof_catalog.py",
+        "-v"
+      ],
+      "returncode": 0,
+      "log": "evidence/source_acquisition_v1/catalog_references/validation/test_proof_catalog.log.gz"
+    }
+  ],
+  "logs": {
+    "validation/proof_catalog.generation.log.gz": {
+      "sha256": "fa76782357f7983238de9a03b25b3a5707a318eee92b194a84aba1a0ab09533d",
+      "uncompressed_sha256": "0a4099c39b9a0bac57187bf27fe254068279273147878451acac83263eadbe1a",
+      "uncompressed_bytes": 249
+    },
+    "validation/proof_catalog.check.log.gz": {
+      "sha256": "fa76782357f7983238de9a03b25b3a5707a318eee92b194a84aba1a0ab09533d",
+      "uncompressed_sha256": "0a4099c39b9a0bac57187bf27fe254068279273147878451acac83263eadbe1a",
+      "uncompressed_bytes": 249
+    },
+    "validation/grammar_link_summary.generation.log.gz": {
+      "sha256": "e9a6c41ef2335340e79090e1e46d554e45e14deda2d648f8cf9a0d6da2c0cc3d",
+      "uncompressed_sha256": "07057476de7e96f9e7d14f7cd89f36bd0ae7b1868d26d075d7a6bd38df7a3e8d",
+      "uncompressed_bytes": 367
+    },
+    "validation/grammar_link_summary.check.log.gz": {
+      "sha256": "e9a6c41ef2335340e79090e1e46d554e45e14deda2d648f8cf9a0d6da2c0cc3d",
+      "uncompressed_sha256": "07057476de7e96f9e7d14f7cd89f36bd0ae7b1868d26d075d7a6bd38df7a3e8d",
+      "uncompressed_bytes": 367
+    },
+    "validation/mantuq_proof_links.generation.log.gz": {
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b",
+      "uncompressed_sha256": "a3152d5b1ada74da5c815f13925953cc9bbc732793999ec552369ca49e07ad96",
+      "uncompressed_bytes": 141
+    },
+    "validation/mantuq_proof_links.check.log.gz": {
+      "sha256": "8abb16eff684d92a0a428553946ab623b50c0b782e785748ad0ea099653f1a9b",
+      "uncompressed_sha256": "a3152d5b1ada74da5c815f13925953cc9bbc732793999ec552369ca49e07ad96",
+      "uncompressed_bytes": 141
+    },
+    "validation/linguistic_proof_links.generation.log.gz": {
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2",
+      "uncompressed_sha256": "707d3a85e6d5d1c89d4f1b10e2691b12445aa8e0e990acbbe488da10e363d583",
+      "uncompressed_bytes": 109
+    },
+    "validation/linguistic_proof_links.check.log.gz": {
+      "sha256": "b6cb5fb3471c0edda01d3131f24b524bb798d19f932569b0bbccd5206a5bcbc2",
+      "uncompressed_sha256": "707d3a85e6d5d1c89d4f1b10e2691b12445aa8e0e990acbbe488da10e363d583",
+      "uncompressed_bytes": 109
+    },
+    "validation/licensed_proof_links.generation.log.gz": {
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78",
+      "uncompressed_sha256": "0608ffd116a61c5f920ae573518e0fed73d1799c05c532a37818537d3d5d1685",
+      "uncompressed_bytes": 152
+    },
+    "validation/licensed_proof_links.check.log.gz": {
+      "sha256": "f04569ef25a6bca50b51bd15fc531b039591ba4d6e0781f9b2861a0440385a78",
+      "uncompressed_sha256": "0608ffd116a61c5f920ae573518e0fed73d1799c05c532a37818537d3d5d1685",
+      "uncompressed_bytes": 152
+    },
+    "validation/test_proof_catalog.log.gz": {
+      "sha256": "e7121946c3575220a314f23da35def1cebbcfef5bbd000333c9f0dafdb39d025",
+      "uncompressed_sha256": "5bf56bc4ea23011204c5d0c7727d2b4b359628fcafc4ffb0e955e7ab438482f5",
+      "uncompressed_bytes": 1607
+    }
+  },
+  "source_translation_fidelity_established": false,
+  "whole_book_completeness_established": false,
+  "whole_arabic_completeness_established": false
+}

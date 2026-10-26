@@ -1,0 +1,62 @@
+{
+  "schema": "nabt.source-acquisition.failed-gate-attempt.v1",
+  "original_run_directory": "artifacts/local/source-acquisition",
+  "stored_run_directory": "artifacts/local/source-acquisition-attempt1",
+  "runner_freeze": "evidence/source_acquisition_v1/runner_attempts/v3_complete_gate_failures/runner_freeze_v3.json",
+  "gates": [
+    {
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "-o",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/source-acquisition/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/source-acquisition/checks/arabic-regression"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1028.037,
+      "log": "artifacts/local/source-acquisition/make-check.log",
+      "log_sha256": "9ec8897851191db64b8ad1f77f3c954d92d1d99acf04195f685b3a2e6a32b1bd",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "unit-tests",
+      "command": [
+        "make",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python"
+      ],
+      "returncode": 2,
+      "elapsed_seconds": 831.487,
+      "log": "artifacts/local/source-acquisition/unit-tests.log",
+      "log_sha256": "8116aea37cfc099d864e91d7db4f07012edac755fbaa69814053e086037f50ca",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "main_test_attempt": {
+    "run": 2888,
+    "failures": 2,
+    "errors": 3,
+    "integration_started": false
+  },
+  "causes": [
+    "Missing new qualified-source fixtures in benchmark provenance tests (three errors).",
+    "Copied continuation test named an obsolete predecessor (one failure).",
+    "Orthographic test still classified newly reviewed لَا as unreviewed (one failure)."
+  ],
+  "correction_scope": "Test fixtures, source-qualified expectation with retained rejection/native-absence controls, and evaluator lineage only; runtime, Lean, gold and thresholds unchanged.",
+  "manifest_sha256": "ef7a466bdd225f2c80f9e9dcdbb3478a653bfc2a985160323a4221b520eb0582",
+  "restored_files": 128,
+  "all_original_bytes_restored": true,
+  "original_reports_rewritten": false
+}
