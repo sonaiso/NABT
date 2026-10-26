@@ -62,3 +62,16 @@ Validate an actual output against both Worker and UI consumers with:
 ```sh
 node scripts/validate-semantic-report.mjs /absolute/path/to/measurement.json
 ```
+
+The optional `lexical_profile` selects only an installed profile:
+`teaching_v1` (the historical default) or `attested_qac_v1`. The latter sends
+`{"schema":"nabt.proof-lab-request.v1","mode":"semantic_axes","lexical_profile":"attested_qac_v1"}`.
+The signed handle binds this selection; a report from another profile is
+rejected. The `codex/attested-lexical-matrix` branch is allowed only when its
+exact SHA is pinned by the deployment configuration.
+
+The UI displays source/model counts and the lexical matrix separately from
+the unchanged semantic-axis denominators. Token coverage is reconciled with
+the same case's actual replay observations; it counts tokens with lexical
+readings, not successful sentence interpretations. Source annotation and
+cross-source alignment confer no sense, world-truth, or Lean-proof authority.

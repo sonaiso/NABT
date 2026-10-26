@@ -1,6 +1,6 @@
 const REPOSITORY = 'sonaiso/NABT';
 const WORKFLOW = 'proof-lab.yml';
-const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference'];
+const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix'];
 const REQUEST_SCHEMA = 'nabt.proof-lab-request.v1';
 const MAX_PAYLOAD = 32768;
 const MAX_REPORT = 2 * 1024 * 1024;
@@ -17,6 +17,11 @@ function json(value,status=200){return new Response(JSON.stringify(value),{statu
 function exactKeys(value,allowed){if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!allowed.includes(k)))fail('INVALID_INPUT');}
 function unicode(value){if(typeof value!=='string')fail('INVALID_INPUT');for(let i=0;i<value.length;i++){const n=value.charCodeAt(i);if(n>=0xd800&&n<=0xdbff){const next=value.charCodeAt(++i);if(!(next>=0xdc00&&next<=0xdfff))fail('INVALID_UNICODE');}else if(n>=0xdc00&&n<=0xdfff)fail('INVALID_UNICODE');}return value;}
 export function validatePayload(value){
+  if(value?.mode==='semantic_axes'){
+    exactKeys(value,['schema','mode','lexical_profile']);
+    if(value.schema!==REQUEST_SCHEMA||(Object.hasOwn(value,'lexical_profile')&&!['teaching_v1','attested_qac_v1'].includes(value.lexical_profile)))fail('INVALID_INPUT');
+    return {schema:REQUEST_SCHEMA,mode:'semantic_axes',...(value.lexical_profile==='attested_qac_v1'?{lexical_profile:'attested_qac_v1'}:{})};
+  }
   if(value?.mode==='testimony'){
     exactKeys(value,['schema','mode','entry','target']);
     if(value.schema!==REQUEST_SCHEMA)fail('INVALID_INPUT');
@@ -50,7 +55,8 @@ export async function verifyHandle(handle,secret,now=Date.now()){
   if(typeof handle!=='string'||handle.length>2048)fail('INVALID_HANDLE',403);const pieces=handle.split('.');if(pieces.length!==2)fail('INVALID_HANDLE',403);
   const raw=fromBase64(pieces[0]);if(!await crypto.subtle.verify('HMAC',await key(secret),fromBase64(pieces[1]),raw))fail('INVALID_HANDLE',403);
   let data;try{data=JSON.parse(decoder.decode(raw));}catch{fail('INVALID_HANDLE',403);}
-  exactKeys(data,['request_id','payload_sha256','code_sha','mode','created']);
+  exactKeys(data,['request_id','payload_sha256','code_sha','mode','created','lexical_profile']);
+  if(Object.hasOwn(data,'lexical_profile')&&(data.mode!=='semantic_axes'||data.lexical_profile!=='attested_qac_v1'))fail('INVALID_HANDLE',403);
   if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony','semantic_axes'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
   return data;
 }
@@ -88,6 +94,7 @@ async function submit(request,env){
   if(!Array.isArray(recent.workflow_runs))fail('GITHUB_RESPONSE_INVALID',502);
   const now=Date.now();if(activeRuns(recent.workflow_runs,env.NABT_REF).some(r=>r.status!=='completed'||now-Date.parse(r.created_at)<30000))fail('RUN_ALREADY_ACTIVE',429);
   const descriptor={request_id:crypto.randomUUID(),payload_sha256:await sha(encoder.encode(payload)),code_sha:env.NABT_CODE_SHA,mode:input.mode,created:now};
+  if(input.mode==='semantic_axes'&&input.lexical_profile==='attested_qac_v1')descriptor.lexical_profile='attested_qac_v1';
   await ghJson(env,'/actions/workflows/'+WORKFLOW+'/dispatches',{method:'POST',body:JSON.stringify({ref:env.NABT_REF,inputs:{request_id:descriptor.request_id,payload:JSON.stringify(await encryptEnvelope(payload,env.NABT_TRANSPORT_KEY,descriptor.request_id))}})});
   return json({handle:await signHandle(descriptor,env.NABT_SIGNING_KEY),request_id:descriptor.request_id,status:'queued',poll_after_ms:5000},202);
 }
@@ -111,11 +118,14 @@ export async function unpackResult(bytes){
 }
 export function validateReport(report,expected){
   if(!report||report.schema!=='nabt.proof-lab-result.v1'||report.request_id!==expected.request_id||report.payload_sha256!==expected.payload_sha256||report.code_sha!==expected.code_sha||report.mode!==expected.mode||report.all_arabic_complete!==false||report.world_truth_established!==false)fail('REPORT_BINDING_FAILED',502);
+  if(report.mode==='semantic_axes'&&Object.hasOwn(report,'lexical_profile')&&report.lexical_profile!==(expected.lexical_profile??'teaching_v1'))fail('REPORT_BINDING_FAILED',502);
   const errorStatuses=['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'];
   if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony||report.semantic_axes)fail('REPORT_AUTHORITY_INVALID',502);return report;}
   if(report.mode==='semantic_axes'){
     if(report.result||report.benchmark||report.testimony||report.native_sha256!==null||report.status!=='SEMANTIC_AXES_COMPLETE')fail('REPORT_AUTHORITY_INVALID',502);
     validateSemanticAxes(report.semantic_axes);
+    if((report.semantic_axes.lexical_profile??'teaching_v1')!==(expected.lexical_profile??'teaching_v1'))fail('REPORT_BINDING_FAILED',502);
+    if(Object.hasOwn(report.semantic_axes,'lexical_profile')&&report.lexical_profile!==report.semantic_axes.lexical_profile)fail('REPORT_BINDING_FAILED',502);
     if(report.reference_sha256!==report.semantic_axes.reference_sha256||report.runtime_sha256!==report.semantic_axes.adapter_sha256)fail('REPORT_BINDING_FAILED',502);
     return report;
   }
@@ -152,16 +162,50 @@ export function validateSemanticAxes(suite){
   const integer=v=>Number.isSafeInteger(v)&&v>=0;
   const axes=['syntax','readings','reference','motive','world'];
   const states=['PASS','FAIL','UNMEASURED','NOT_APPLICABLE'];
+  const loadingFields=['schema','profile','matrix_sha256','source_sha256','authority','lean_native_checked','source_record_count','model_entry_count','matrix_sense_count','matrix_aligned_count','matrix_unresolved_count'];
+  const sameLoading=(left,right)=>object(left)&&object(right)&&Object.keys(left).length===loadingFields.length&&Object.keys(right).length===loadingFields.length&&loadingFields.every(key=>Object.hasOwn(left,key)&&left[key]===right[key]);
   if(!object(suite)||suite.schema!=='nabt.semantic-axes-benchmark.v1'||suite.case_count!==25||!Array.isArray(suite.cases)||suite.cases.length!==suite.case_count||!object(suite.axes)||!text(suite.scope))deny();
   if(!hash(suite.reference_sha256)||!hash(suite.adapter_sha256)||!hash(suite.input_suite_sha256)||suite.lean_native_checked!==false||suite.all_arabic_complete!==false)deny();
+  if(Object.hasOwn(suite,'lexical_profile')&&!['teaching_v1','attested_qac_v1'].includes(suite.lexical_profile))deny();
+  if(suite.lexical_profile==='attested_qac_v1'){
+    const l=suite.lexical_loading;
+    if(!object(l)||!sameLoading(l,l)||l.schema!=='nabt.semantic-axes-lexical-loading.v1'||l.profile!=='attested_qac_v1'||!hash(l.matrix_sha256)||!hash(l.source_sha256)||l.authority!=='SOURCE_ANNOTATION_NOT_SENSE_OR_WORLD_LICENSE'||l.lean_native_checked!==false)deny();
+    if(['source_record_count','model_entry_count','matrix_sense_count','matrix_aligned_count','matrix_unresolved_count'].some(k=>!integer(l[k]))||l.matrix_aligned_count+l.matrix_unresolved_count!==l.matrix_sense_count)deny();
+  }else if(Object.hasOwn(suite,'lexical_loading'))deny();
   const counts=Object.fromEntries(axes.map(a=>[a,{eligible:0,measured:0,passed:0,failed:0,unmeasured:0}]));
   const ids=new Set();
+  let teachingSourceSha=null;
   for(const row of suite.cases){
     if(!object(row)||!text(row.id)||ids.has(row.id)||!text(row.context_id)||!hash(row.case_input_sha256)||!object(row.input)||!text(row.input.text)||!object(row.input.context)||!object(row.axis_results)||!Array.isArray(row.claims)||row.claims.length!==axes.filter(a=>row.axis_results[a]?.status!=='NOT_APPLICABLE').length)deny();
     ids.add(row.id);
+    if(Object.hasOwn(suite,'lexical_profile')&&(!object(row.execution)||typeof row.execution.executed!=='boolean'||typeof row.execution.replay_checked!=='boolean'||(row.execution.replay_checked&&!row.execution.executed)))deny();
+    if(Object.hasOwn(suite,'lexical_profile')&&row.execution?.executed===true&&row.execution?.replay_checked===true){
+      const e=row.execution,r=e.replay_receipt,profile=suite.lexical_profile;
+      if(e.lexical_profile!==profile||!object(r)||r.lexical_profile!==profile||!object(e.training)||!hash(e.training.sha256)||r.training_sha256!==e.training.sha256||!text(e.training.path)||r.replay?.valid!==true||r.replay?.status!=='VERIFIED'||e.input_sha256!==row.case_input_sha256||r.input_sha256!==row.case_input_sha256)deny();
+      if(profile==='attested_qac_v1'){
+        if(e.training.sha256!==suite.lexical_loading.source_sha256||e.training.authority!==suite.lexical_loading.authority||!sameLoading(e.lexical_loading,suite.lexical_loading)||!sameLoading(r.lexical_loading,suite.lexical_loading))deny();
+      }else{
+        if(e.lexical_loading!==null||r.lexical_loading!==null||e.training.authority!=='PRE_EXISTING_AUTHORED_TEACHING_CORPUS_NOT_EXTERNAL_ATTESTATION')deny();
+        if(teachingSourceSha!==null&&e.training.sha256!==teachingSourceSha)deny();
+        teachingSourceSha=e.training.sha256;
+      }
+    }
+    if(Object.hasOwn(suite,'lexical_profile')||Object.hasOwn(row,'lexical_coverage')){
+      const coverage=row.lexical_coverage,execution=row.execution;
+      if(coverage===null){if(execution?.executed===true&&execution?.replay_checked===true)deny();}
+      else{
+        const observed=execution?.observed?.acquisition_diagnostics?.lexical_occurrences;
+        if(!object(coverage)||!Array.isArray(coverage.items)||!Array.isArray(observed)||execution?.executed!==true||execution?.replay_checked!==true||['tokens','covered','uncovered'].some(k=>!integer(coverage[k])))deny();
+        if(coverage.tokens!==coverage.items.length||coverage.covered+coverage.uncovered!==coverage.tokens||observed.length!==coverage.tokens)deny();
+        let covered=0;
+        coverage.items.forEach((item,i)=>{if(!object(item)||!text(item.surface)||!integer(item.reading_count)||item.surface!==observed[i]?.surface||item.reading_count!==observed[i]?.reading_count)deny();if(item.reading_count>0)covered++;});
+        if(covered!==coverage.covered)deny();
+      }
+    }
     for(const axis of axes){
       const result=row.axis_results[axis], c=counts[axis];
       if(!object(result)||!states.includes(result.status))deny();
+      if(Object.hasOwn(suite,'lexical_profile')&&['PASS','FAIL'].includes(result.status)&&(row.execution?.executed!==true||row.execution?.replay_checked!==true))deny();
       if(result.status==='NOT_APPLICABLE')continue;
       c.eligible++;
       if(result.status==='UNMEASURED')c.unmeasured++;
@@ -170,13 +214,14 @@ export function validateSemanticAxes(suite){
     const claimAxes=new Set();
     for(const claim of row.claims){
       const v=claim?.verification;
-      if(!object(claim)||!axes.includes(claim.axis)||claimAxes.has(claim.axis)||claim.id!==row.id+':'+claim.axis||!text(claim.statement)||claim.status!==row.axis_results[claim.axis].status||!object(v)||typeof v.checked!=='boolean'||!text(v.scope)||!Array.isArray(v.theorem_references)||v.theorem_references.length!==0)deny();
+      if(!object(claim)||!axes.includes(claim.axis)||claimAxes.has(claim.axis)||claim.id!==row.id+':'+claim.axis||!text(claim.statement)||claim.status==='NOT_APPLICABLE'||claim.status!==row.axis_results[claim.axis].status||!object(v)||typeof v.checked!=='boolean'||!text(v.scope)||!Array.isArray(v.theorem_references)||v.theorem_references.length!==0)deny();
       claimAxes.add(claim.axis);
       if(v.claim_id!==claim.id||v.input_sha256!==row.case_input_sha256)deny();
       const measured=['PASS','FAIL'].includes(claim.status);
       if(v.checked!==measured||v.kind!==(measured?'PYTHON_REPLAY':'NOT_CHECKED'))deny();
       if(measured?!hash(v.certificate_sha256):v.certificate_sha256!=null)deny();
     }
+    if(axes.some(axis=>row.axis_results[axis].status!=='NOT_APPLICABLE'&&!claimAxes.has(axis)))deny();
   }
   if(Object.keys(suite.axes).length!==axes.length)deny();
   for(const axis of axes){

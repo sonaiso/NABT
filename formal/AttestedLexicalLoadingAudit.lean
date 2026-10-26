@@ -1,0 +1,14 @@
+import Nabt.AttestedLexicalLoading
+
+-- Kernel dependence receipts for the conditional loading specification only.
+#print axioms Nabt.AttestedLexicalLoading.load_exact
+#print axioms Nabt.AttestedLexicalLoading.admitted_keeps_both_ledgers
+#print axioms Nabt.AttestedLexicalLoading.admitted_keeps_both_passages
+#print axioms Nabt.AttestedLexicalLoading.admitted_definition_citation_bound
+#print axioms Nabt.AttestedLexicalLoading.root_only_is_not_a_headword_license
+#print axioms Nabt.AttestedLexicalLoading.missing_morphology_blocks
+#print axioms Nabt.AttestedLexicalLoading.shared_lemma_preserves_distinct_senses
+#print axioms Nabt.AttestedLexicalLoading.extension_preserves_full_alignment
+#print axioms Nabt.AttestedLexicalLoading.unlicensed_feature_change_rejected
+#print axioms Nabt.AttestedLexicalLoading.candidate_is_not_a_contextual_sense_license
+#print axioms Nabt.AttestedLexicalLoading.selected_sense_keeps_contextual_license

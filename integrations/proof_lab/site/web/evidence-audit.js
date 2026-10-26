@@ -453,6 +453,7 @@
       let suite;
       try { suite = globalThis.NabtSemanticAxes.validate(record.semantic_axes); }
       catch (error) { fail('SCHEMA_SHAPE', error.message, '$.semantic_axes'); }
+      if (own(suite, 'lexical_profile') && record.lexical_profile !== suite.lexical_profile) fail('SCHEMA_SHAPE', 'المسار المعجمي في التقرير لا يطابق المجموعة.', '$.lexical_profile');
       out.semantic_axes = suite;
       for (const item of suite.cases) for (const c of item.claims) {
         importedClaim(item.id + ':' + c.id, c.axis === 'syntax' ? 1 : ['readings','reference'].includes(c.axis) ? 2 : 4,
