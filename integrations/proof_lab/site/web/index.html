@@ -10,6 +10,8 @@
   <script src="/semantic-axes.js" defer></script>
   <script src="/epistemic-contract.js" defer></script>
   <script src="/epistemic-measurement.js" defer></script>
+  <script src="/contextual-contract.js" defer></script>
+  <script src="/contextual-reference.js" defer></script>
   <script src="/app.js" defer></script>
   <script src="/evidence-audit.js" defer></script>
   <script src="/evidence-sample.js" defer></script>
@@ -40,6 +42,7 @@
         <button role="tab" id="tab-semantic_axes" aria-controls="panel-semantic_axes" aria-selected="false" tabindex="-1" data-tab="semantic_axes"><span class="tab-number">05</span> فصل جهات الدلالة</button>
         <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">06</span> دليل القراءة</button>
         <button role="tab" id="tab-epistemic_measurement" aria-controls="panel-epistemic_measurement" aria-selected="false" tabindex="-1" data-tab="epistemic_measurement"><span class="tab-number">07</span> القصد والرصد</button>
+        <button role="tab" id="tab-contextual_reference" aria-controls="panel-contextual_reference" aria-selected="false" tabindex="-1" data-tab="contextual_reference"><span class="tab-number">08</span> إحالة اللفظ والمقام</button>
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
@@ -143,6 +146,15 @@
           <p id="epistemic-scope" class="field-help"></p><div id="epistemic-group-metrics" class="epistemic-groups"></div>
           <div class="semantic-workbench"><section class="card"><h3>الدعاوى بمقاماتها</h3><p class="field-help">اختيار الدعوى يعرض الاستعلام والأدلة التي فُحصت والحدود الخاصة بها.</p><div id="epistemic-cases" class="semantic-case-list" aria-label="دعاوى القصد والرصد"></div></section><section class="card" id="epistemic-case-detail" aria-label="تفاصيل الدعوى المختارة" aria-live="polite"></section></div>
           <section class="card"><p id="epistemic-run-identity" class="report-identity"></p><p id="epistemic-reference-identity" class="report-identity" dir="ltr"></p><button type="button" id="download-epistemic-measurement" class="text-button">تنزيل تقرير القصد والرصد JSON ↓</button><details><summary>المدخلات والشهادات الكاملة</summary><pre id="epistemic-json" dir="ltr"></pre></details></section>
+        </section>
+      </div>
+      <div role="tabpanel" id="panel-contextual_reference" aria-labelledby="tab-contextual_reference" hidden>
+        <section class="coverage-heading card"><div><p class="eyebrow">ورود اللفظ · المرشحون · المقام</p><h2>المرجع بحسب المقام.<br>والشهادة بحسب الدعوى.</h2><p>يفحص Lean اختيار المرجع عند الورود الأول للفظ في المقام الخارجي، ضمن المرشحين والسياق المعلنين. تبقى مقارنة التحليل واسترجاع القراءات بالمرجع فحصًا مستقلًا في Python.</p><p class="field-help">وجود شاهد معجمي لا يحسم المعنى في مقام جديد. لا يُثبت هذا المسار تواتر النقل أو الدافع الباطن أو صدق الواقع أو اكتمال العربية.</p></div><button id="run-contextual-reference" class="primary-button" type="button" disabled>أعد فحص الإحالة والمقام <span aria-hidden="true">←</span></button></section>
+        <section id="contextual-empty" class="card benchmark-empty" role="status"><h3 id="contextual-empty-title">لم يبدأ قياس الإحالة في هذه الجلسة.</h3><p>تُعرض المجموعة المرجعية القديمة ومجموعة الاختبار المنفصلة بمقامين مستقلين. لا يعادل غياب القياس نجاحًا.</p></section>
+        <section id="contextual-output" hidden>
+          <p id="contextual-scope" class="field-help"></p><div id="contextual-group-metrics" class="epistemic-groups"></div>
+          <div class="semantic-workbench"><section class="card"><h3>العبارات ومقاماتها</h3><p class="field-help">اختر الحالة لعرض الورود الأول المرصود والمرشحين والشهادة الخاصة به.</p><div id="contextual-cases" class="semantic-case-list" aria-label="حالات إحالة اللفظ والمقام"></div></section><section class="card" id="contextual-case-detail" aria-label="تفاصيل حالة الإحالة" aria-live="polite"></section></div>
+          <section class="card"><p id="contextual-run-identity" class="report-identity"></p><p id="contextual-reference-identity" class="report-identity" dir="ltr"></p><button type="button" id="download-contextual-reference" class="text-button">تنزيل تقرير الإحالة JSON ↓</button><details><summary>السجل والمدخلات والشهادات الكاملة</summary><pre id="contextual-json" dir="ltr"></pre></details></section>
         </section>
       </div>
       <div role="tabpanel" id="panel-guide" aria-labelledby="tab-guide" hidden>

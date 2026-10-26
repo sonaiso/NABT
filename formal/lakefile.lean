@@ -130,3 +130,7 @@ lean_exe licensedInference where
 @[default_target]
 lean_exe epistemicMeasurement where
   root := `EpistemicMeasurementMain
+
+@[default_target]
+lean_exe contextualReference where
+  root := `ContextualReferenceMain

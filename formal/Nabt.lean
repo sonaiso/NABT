@@ -67,3 +67,4 @@ import Nabt.LexicalCompletionCatalog
 import Nabt.LexicalGraph
 import Nabt.AttestedLexicalLoading
 import Nabt.EpistemicMeasurement
+import Nabt.ContextualReference
