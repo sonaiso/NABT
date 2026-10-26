@@ -1,0 +1,170 @@
+{
+  "schema": "nabt.qatr-replay-compatibility-verification.v1",
+  "base_commit": "f4fb02868fb191b6d815538f29d62f63f738c9aa",
+  "scope": "Exact input hashes below; targeted follow-up, not a rerun of the entire initial suite. GitHub results belong to their own commit.",
+  "implementation_inputs": {
+    "tools/check_qatr_artifacts.py": "c92fac5a70b5947ce72377ae487230eccab58648b6ab657ac8ac3456afb1afb1",
+    "tools/qatr_training/experiment.py": "68f449000babb62521e6ae2c0c7163b97b60838db7b76a89e6b4675c3021c265",
+    "tests/test_qatr_replay_compatibility.py": "be71094189966dab5eb8e66e68aee754839851ae016116fb38fe4c24319af6d4",
+    "docs/CERTIFIED_REPLAY_COMPATIBILITY_AR.md": "f29b0a26df5ca59954408cfa3b3addbda05a9eb6189da5a7a9e5f84aecdf4d3d",
+    "formal/ProbeJson.lean": "6e916b9fd07a8ca0ff3eac6b2ccc471715a14cac9c3993b71989659a11ac0abe",
+    "formal/Nabt/QatrReading.lean": "a777e4c6f5109abf1f9d72750769471bc1c689ba88965c7d6aea1f73ab139ffe",
+    "formal/QatrReadingMain.lean": "df3eac5073f99da4dcfd0b3835b64c2f32857326a974790b6c1cf8d42dc5d492"
+  },
+  "review_sha256": "3721424476a13318c34cc79ed687ccd0a9892a2e4f2497bf3ecf2cc7430bb505",
+  "patch_sha256": "2977fc5a2489df78d8656c94a7abce1c84d2f01b9bf37be6126c54a7be510c88",
+  "historical_artifacts_unchanged": true,
+  "checks": [
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "tools/train_qatr_readings.py",
+        "replay",
+        "--source",
+        "artifacts/local/external/MASAQ.csv",
+        "--lean",
+        "formal/.lake/build/bin/qatrReading",
+        "--output-dir",
+        "evidence/qatr_lean_training/run_01"
+      ],
+      "returncode": 0,
+      "seconds": 15.079,
+      "log": "artifacts/local/certified-natural-use-ci/qatr-replay.log",
+      "sha256": "be398896653f7a0362f998452e4627a3e237887af5089b01232e44e65da69195"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "tools/check_qatr_artifacts.py",
+        "--source",
+        "artifacts/local/external/MASAQ.csv",
+        "--lean",
+        "formal/.lake/build/bin/qatrReading",
+        "--model-dir",
+        "evidence/qatr_lean_training/run_01"
+      ],
+      "returncode": 0,
+      "seconds": 9.3,
+      "log": "artifacts/local/certified-natural-use-ci/qatr-source.log",
+      "sha256": "b08affaa6ddf139e95065afc74ddcddb428747d9b4a4fd5f8725718014fc8fe5"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "tools/train_lexical_retrieval.py",
+        "replay",
+        "--lisan",
+        "artifacts/local/lisan.txt",
+        "--output-dir",
+        "evidence/lexical_denotation/run_01"
+      ],
+      "returncode": 0,
+      "seconds": 13.387,
+      "log": "artifacts/local/certified-natural-use-ci/lexical-source.log",
+      "sha256": "bb309b13d162dcebc4b1500ba38c2a58ea5d9606b4400a6d528b9b449b285979"
+    },
+    {
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "tools/train_lexical_weights.py",
+        "replay",
+        "--lisan",
+        "artifacts/local/lisan.txt",
+        "--output-dir",
+        "evidence/lexical_denotation/run_02"
+      ],
+      "returncode": 0,
+      "seconds": 14.181,
+      "log": "artifacts/local/certified-natural-use-ci/lexical-model.log",
+      "sha256": "c4f2183c79cd142940c4d74e21209a755a6346ecceef7fe4c6369fd073b33f9e"
+    }
+  ],
+  "unit_tests": {
+    "command": "PYTHONPATH=src:. NABT_QATR_READING=formal/.lake/build/bin/qatrReading python -m unittest discover -s tests -p 'test_qatr_*.py' -v",
+    "passed": 32,
+    "skipped": 0,
+    "failed": 0,
+    "log": "qatr-tests-native.log",
+    "sha256": "f6557402ed49515b30dafb253ca30f1b95f551edb03b2d7937f1fbde239ac2bb"
+  },
+  "initial_targeted_test_attempt": {
+    "passed": 24,
+    "skipped": 7,
+    "failed": 0,
+    "reason": "NABT_QATR_READING was omitted; corrected run above exercises all seven native tests.",
+    "log": "qatr-tests.log"
+  },
+  "model_replay": {
+    "ok": true,
+    "words": 3417,
+    "native": {
+      "checked": 3417,
+      "conditional_exact_set_accepted": 3307,
+      "conditional_set_rejected": 110,
+      "authority": "CONDITIONAL_TABLE_ONLY; independent corpus premises supplied by evaluator",
+      "linguistic_certificates_accepted": 0,
+      "world_truth_established": false
+    },
+    "weights_sha256": "e1f9896a9a2792b0440917dc1ed19d2d9f429eca55fdba4c569a47c13813177f",
+    "implementation": {
+      "status": "REVIEWED_IMPLEMENTATION_MIGRATION",
+      "review": "evidence/qatr_lean_training/replay_compatibility_v1/review.json",
+      "review_sha256": "3721424476a13318c34cc79ed687ccd0a9892a2e4f2497bf3ecf2cc7430bb505",
+      "historical_manifest_sha256": "e0dd522119c8f7af3748003e6dcb20a28c14923276240e2f919a3c518eea28ee",
+      "changed_files": [
+        "formal/ProbeJson.lean",
+        "tools/qatr_training/experiment.py"
+      ],
+      "model_replay_required": true,
+      "scope": "Exact historical run only; unchanged teacher, source intake, vocabulary, predictions, metrics, baselines and native results must be independently replayed."
+    }
+  },
+  "architecture": {
+    "schema": "nabt.foundation-architecture-check.v1",
+    "ok": true,
+    "surfaces": 171,
+    "guarded_surfaces": 161,
+    "cli_commands": 69,
+    "lean_executables": 35,
+    "projection_completeness_established": false,
+    "whole_arabic_complete": false,
+    "scope": "Installed identity boundaries and discovered entrypoints; dynamic denial tests remain required."
+  },
+  "logs": {
+    "file": "verification_logs.zip",
+    "sha256": "a9b9508d043659cd89983480c37cfd2a6305a57c90598d94977fc784c8ae270d",
+    "entries": {
+      "qatr-replay.log": "be398896653f7a0362f998452e4627a3e237887af5089b01232e44e65da69195",
+      "qatr-replay.json": "b2eb361eec63994dde1bce02fc15bed824b0ef3df15d6f8b481f4a351c4d8bea",
+      "qatr-source.log": "b08affaa6ddf139e95065afc74ddcddb428747d9b4a4fd5f8725718014fc8fe5",
+      "qatr-source.json": "b8c00775533b052e9cb87bf41755daf2b00f84349b4313d7022d804eb0da809b",
+      "lexical-source.log": "bb309b13d162dcebc4b1500ba38c2a58ea5d9606b4400a6d528b9b449b285979",
+      "lexical-source.json": "02e95befed681ab439b987ddc49c71c1848e3501ce5d380c9bf71bd75489c64f",
+      "lexical-model.log": "c4f2183c79cd142940c4d74e21209a755a6346ecceef7fe4c6369fd073b33f9e",
+      "lexical-model.json": "564f6e379419c365aa9be807b735fc0dbb1a2017e73e9720bf600b69fcd8bff1",
+      "qatr-tests-native.log": "f6557402ed49515b30dafb253ca30f1b95f551edb03b2d7937f1fbde239ac2bb",
+      "architecture.log": "7fc9f8ab1193105d8c7de4419fb45f2e41f9a6bce166434fe212e5ab2d99718c",
+      "architecture.json": "b98f72fde612c4c9aedcf80cb8ab17349943ee4135049d067a9c37d84b0f072b",
+      "initial-neural-failure.log": "bdfac9a68a45d02c9f85d087faa1c05b1dfe31d2e33b3f72663728130933f9f4",
+      "qatr-tests.log": "1d86e5d2c40a3f5f8352fc5c45eb470a37f797389dfb5d1aeb63c4fda3419bd9"
+    }
+  },
+  "initial_ci_failure": {
+    "url": "https://github.com/sonaiso/NABT/actions/runs/40377013722",
+    "job_id": 121762716313,
+    "reason": "Pinned historical ProbeJson implementation changed."
+  },
+  "initial_full_validation": {
+    "commit": "f4fb02868fb191b6d815538f29d62f63f738c9aa",
+    "main_passed": 2768,
+    "ui_passed": 201,
+    "repeated_on_followup": false
+  },
+  "whole_arabic_complete": false,
+  "linguistic_certificates_accepted": 0,
+  "new_site_deployment": false,
+  "independent_review": {
+    "historical_rebaseline_shortcut": "fixed and regression tested",
+    "changed_scope": "No model or semantic-law change; evidence identity enforced before historical admission."
+  }
+}

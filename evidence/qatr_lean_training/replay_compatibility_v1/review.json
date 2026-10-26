@@ -1,0 +1,57 @@
+{
+  "schema": "nabt.qatr-training.replay-compatibility.v1",
+  "historical_run": "evidence/qatr_lean_training/run_01",
+  "protocol_schema": "nabt.qatr-lean-training-protocol.v1",
+  "historical_manifest_sha256": "e0dd522119c8f7af3748003e6dcb20a28c14923276240e2f919a3c518eea28ee",
+  "changes": {
+    "formal/ProbeJson.lean": {
+      "before_sha256": "f31524f55128cc00e547a7517466b057b5f6773b1b3b1164d03e9aebff96d8b6",
+      "after_sha256": "6e916b9fd07a8ca0ff3eac6b2ccc471715a14cac9c3993b71989659a11ac0abe"
+    },
+    "tools/qatr_training/experiment.py": {
+      "before_sha256": "ca73d6e64ae6f8acde83f9f743ef50e2be7b1b875db6c967702bb4b2ecaa4b9a",
+      "after_sha256": "68f449000babb62521e6ae2c0c7163b97b60838db7b76a89e6b4675c3021c265"
+    }
+  },
+  "preserved_artifacts": {
+    "RESULTS.json": "cb08f37c5c0b6a8b9a4d58ffa1e5d331395c8c242f40a30799e6354434d74d7d",
+    "book_results.json": "87b1931e6def76266ac4c8e5b08ba1d21c72ec553efbea3cfeada27791f78e3a",
+    "code_manifest.json": "e0dd522119c8f7af3748003e6dcb20a28c14923276240e2f919a3c518eea28ee",
+    "curve.json": "ec0b7b797cd55e42034518b1c5f18e20b932f81834895fb20f00e2f47a64be86",
+    "initial_dev.json": "e91f7f29b3d996bb4810f035bc60020b4ccfc1498fd2e531288acb14d97355da",
+    "initial_weights.npz": "7611a71b3693697579d50000f11bca36f283dcbfea70883b90c8f0d102084543",
+    "intake.json": "3bb301149cb2e81916bf2afa0a492725089ed97845c2c23c70993e186447522e",
+    "lean_teacher.json": "2dfbb04c59f66c9e7314fca034a24256f5eeee7a95c54f88352d53447dd768ae",
+    "protocol.json": "dcf4c8faaaa9c5f239465d986c78e3a8f5f26c303e76e3e9b2cd85a7b2f5bf7d",
+    "test_predictions.jsonl": "419697851568147c447883ff56a54a30dde60ab345cf331986d119c5242f97a6",
+    "vocab.json": "9aa6054790dab951398cf02dd498697fcfd73c8107c64299bdfab403fb8a56ed",
+    "weights.npz": "e1f9896a9a2792b0440917dc1ed19d2d9f429eca55fdba4c569a47c13813177f"
+  },
+  "patch_filename": "reviewed_changes.patch",
+  "patch_sha256": "2977fc5a2489df78d8656c94a7abce1c84d2f01b9bf37be6126c54a7be510c88",
+  "review_scope": [
+    "ProbeJson adds decoded duplicate-object-key rejection before JSON collapse; the training protocol serializes dictionaries with unique keys. No Qatr semantic law or teacher adapter changes.",
+    "experiment.py replaces source-identity admission with this pinned compatibility gate and adds its receipt to replay output. Training, model, evaluator and the complete historical replay comparisons remain unchanged.",
+    "The private compatibility gate in tools/check_qatr_artifacts.py is installed checker code, not a claim made by the old training manifest. It rejects unknown code changes and requires the exact archived run, protocol and outputs. The independent source-binding checker remains unchanged.",
+    "proposal.py already exists after the original training run and is not imported by replay; its exact current bytes are separately pinned so the current source inventory cannot silently expand."
+  ],
+  "required_replay": [
+    "complete Lean teacher equality",
+    "exact intake and split",
+    "exact vocabulary",
+    "exact saved weights digest",
+    "all test predictions in order",
+    "all metrics and baselines",
+    "all native conditional verification results",
+    "book probe",
+    "independent source-binding check_qatr_artifacts.py"
+  ],
+  "retrained": false,
+  "gold_or_threshold_changed": false,
+  "old_evidence_modified": false,
+  "runtime_acceptance_changed": false,
+  "all_arabic_complete": false,
+  "existing_nontraining_modules": {
+    "tools/qatr_training/proposal.py": "54e99b284e6bee7936f19e0ae4b99f13f17337b89242b548f2a3c7a1f0637621"
+  }
+}
