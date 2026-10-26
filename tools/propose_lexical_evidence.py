@@ -12,7 +12,11 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools.lexical_training.data import ROOT,paired_data,normalize,digest,MAQAYIS_SHA,MAQAYIS_REV
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def main(a):
+    foundation.require_foundation('tools.propose_lexical_evidence.main')
     import numpy as np
     from tools.lexical_training.model import encode
     import torch

@@ -1,5 +1,6 @@
 """Metric and frozen protocol checks, independent of the inference implementation."""
 from copy import deepcopy
+import json
 import tempfile
 from pathlib import Path
 import unittest
@@ -22,6 +23,41 @@ class InferenceBenchmarkTests(unittest.TestCase):
             path.write_bytes(raw.replace(b'"UNKNOWN"', b'"SUPPORTED"', 1))
             with self.assertRaisesRegex(ValueError, "Frozen inference gold"):
                 benchmark.load_gold(path=path)
+
+    def test_policy_migration_preserves_the_entire_historical_gold(self):
+        historical = json.loads((benchmark.ROOT / benchmark.GOLD_PATH).read_bytes())
+        self.assertEqual(benchmark.load_gold(), historical)
+        replay = benchmark.contract_replay(benchmark.ROOT, historical)
+        self.assertEqual(replay["gold_sha256"], benchmark.GOLD_SHA256)
+        self.assertFalse(replay["fresh_blind_evaluation"])
+        moved = [row for row in replay["inputs"] if row["contract_path"] != row["verified_path"]]
+        self.assertEqual([row["contract_path"] for row in moved], ["AGENTS.md"])
+        self.assertEqual(moved[0]["sha256"], historical["contract_inputs"][0]["sha256"])
+        self.assertEqual([row["path"] for row in replay["current_control_documents"]], ["AGENTS.md"])
+
+    def test_migration_rejects_tampered_policy_snapshots_and_formal_contract(self):
+        gold = benchmark.load_gold()
+        replay = benchmark.contract_replay(benchmark.ROOT, gold)
+        paths = {benchmark.GOLD_PATH, benchmark.CONTRACT_MIGRATION_PATH, Path("AGENTS.md")}
+        paths.update(Path(row["verified_path"]) for row in replay["inputs"])
+        historical_policy = Path(next(row["verified_path"] for row in replay["inputs"]
+                                      if row["contract_path"] == "AGENTS.md"))
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for path in paths:
+                (root / path).parent.mkdir(parents=True, exist_ok=True)
+                (root / path).write_bytes((benchmark.ROOT / path).read_bytes())
+            self.assertEqual(benchmark.load_gold(root=root), gold)
+            for path, error in (
+                    (benchmark.CONTRACT_MIGRATION_PATH, "contract migration changed"),
+                    (historical_policy, "Frozen contract input changed: AGENTS.md"),
+                    (Path("AGENTS.md"), "Reviewed current contract input changed: AGENTS.md"),
+                    (Path("formal/Nabt/MantuqMafhum.lean"), "Frozen contract input changed")):
+                original = (root / path).read_bytes()
+                (root / path).write_bytes(original + b"\n")
+                with self.subTest(path=path), self.assertRaisesRegex(ValueError, error):
+                    benchmark.load_gold(root=root)
+                (root / path).write_bytes(original)
 
     def test_false_support_is_counted_independently(self):
         case = benchmark.load_gold()["cases"][1]

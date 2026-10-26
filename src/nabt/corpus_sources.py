@@ -51,6 +51,8 @@ _LOCATION = re.compile(r"\(([1-9][0-9]{0,18}):([1-9][0-9]{0,18}):"
 _DECIMAL = re.compile(r"[1-9][0-9]{0,18}")
 
 
+from nabt import foundation
+
 def _source(raw, format, source_id):
     if type(format) is not str or format not in HEADERS:
         raise NabtError("INVALID_CORPUS_FORMAT", "Choose qac, masaq-ar or masaq-en")
@@ -233,6 +235,7 @@ def read_corpus(raw: bytes, *, format: str, source_id: str = "corpus") -> dict:
     signed 64-bit range; raw strings are always retained, including invalid ones.
     A syntactically valid row is not a claim of linguistic truth or completeness.
     """
+    foundation.require_foundation('nabt.corpus_sources.read_corpus')
     source = _source(raw, format, source_id)
     header = None
     records = []
@@ -324,6 +327,7 @@ def _same_json(left, right):
 
 def verify_corpus(report, *, raw: bytes, format: str, source_id: str = "corpus") -> dict:
     """Re-read all external bytes; a matching report proves annotation replay only."""
+    foundation.require_foundation('nabt.corpus_sources.verify_corpus')
     if type(report) is not dict:
         return {"valid": False, "status": "REJECT", "code": "INVALID_CORPUS_REPORT",
                 "diagnostics": [{"code": "INVALID_CORPUS_REPORT"}]}

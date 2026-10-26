@@ -10,6 +10,10 @@ from .experiment import encode, collate
 from .model import MorphologyModel, load_weights
 
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def load_bundle(directory):
     directory=Path(directory)
     receipt=json.loads((directory/'bundle.json').read_text())
@@ -32,6 +36,7 @@ def load_bundle(directory):
 
 @torch.no_grad()
 def propose(raw, model, vocab, receipt):
+    foundation.require_foundation('tools.arabic_training.proposal.propose')
     result=dict(schema='nabt.neural-morphology-proposals.v1',input_sha256=sha(raw),
                 input_bytes=len(raw),model_sha256=receipt['files']['weights.npz'],
                 authority='NONE',alternatives_complete=False,calibrated_probabilities=False,
@@ -40,8 +45,11 @@ def propose(raw, model, vocab, receipt):
         return dict(result,status='RESOURCE_LIMIT',reason='input byte budget 16384')
     try:
         text=raw.decode('utf-8',errors='strict')
+        foundation.validate_source(text)
     except UnicodeDecodeError:
         return dict(result,status='INVALID_INPUT',reason='UTF-8 required')
+    except ValueError:
+        return dict(result,status='INVALID_INPUT',reason='Malformed source representation')
     matches=list(re.finditer(r'\S+',text))
     if not matches:
         return dict(result,status='INVALID_INPUT',reason='no surface tokens')

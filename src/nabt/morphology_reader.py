@@ -81,6 +81,8 @@ BOOL_TRAITS = ("independent", "time_in_form", "event_time", "particle_resemblanc
                "property_bearing", *algebra.CAUSE_TRAITS, "al", "idhafa")
 
 
+from nabt import foundation
+
 def _wire(value) -> bytes:
     try:
         raw = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
@@ -378,6 +380,7 @@ def _analyse(source, scope, reading, table):
 
 
 def read_morphology(text, *, source_id="input", scope="default") -> dict:
+    foundation.require_foundation('nabt.morphology_reader.read_morphology')
     source = _source(text, source_id, scope)
     policy = replay_policy()
     table = algebra.installed_table()
@@ -396,6 +399,7 @@ def read_morphology(text, *, source_id="input", scope="default") -> dict:
 
 
 def verify_morphology(report, *, text=None, source_id=None, scope=None) -> dict:
+    foundation.require_foundation('nabt.morphology_reader.verify_morphology')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")

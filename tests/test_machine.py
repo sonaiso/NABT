@@ -101,7 +101,9 @@ class TransitionTests(unittest.TestCase):
                 with patch.object(machine_module, "files", return_value=root):
                     with self.assertRaises(NabtError) as caught:
                         Machine()
-                self.assertEqual(caught.exception.code, "LAW_TABLE_INTEGRITY")
+                # The shared admission now wraps a mismatched execution table
+                # before Machine can use it, including on its first load.
+                self.assertEqual(caught.exception.code, "FOUNDATION_INTEGRITY")
             finally:
                 machine_module._load_table.cache_clear()
 

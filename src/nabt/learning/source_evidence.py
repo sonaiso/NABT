@@ -26,6 +26,8 @@ MAX_SOURCE_BYTES = 8_000_000
 MAX_EVIDENCE_WIDTH = 32
 
 
+from nabt import foundation
+
 def content_digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -266,6 +268,7 @@ def compare_replayed_record(expected: ReplayRecord, proposal: EvidenceProposal) 
     Unknown/partial proposals are named pending, never ready observations.
     A syntactically well-formed receipt is not a substitute for this comparison.
     """
+    foundation.require_foundation('nabt.learning.source_evidence.compare_replayed_record')
     reasons = []
     if proposal.record_id != expected.record_id:
         reasons.append("record_identity_mismatch")
@@ -346,6 +349,7 @@ def evaluate_license(required: int, ledger: EvidenceLedger) -> LicenseDecision:
     that a matching rule exists *before* using this operation. Conflict outside
     the required set remains in the ledger but does not decide this claim.
     """
+    foundation.require_foundation('nabt.learning.source_evidence.evaluate_license')
     _natural(required, "required mask")
     if required >= 1 << ledger.width:
         raise ValueError("required bit outside schema")

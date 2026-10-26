@@ -25,6 +25,9 @@ DISCLAIMER = ('الإغلاق بالنسبة إلى الرسم المثبت وا
               'الإحالة المعجمية ليست استلزامًا، والنتيجة لا تثبت المراد أو الواقع أو اكتمال العربية.')
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 class GraphError(ValueError):
     pass
 
@@ -186,6 +189,7 @@ class GraphEngine:
                          'scope': 'INSTALLED_AUTHORED_SENSES_NOT_ALL_ARABIC_ROOTS'})
 
     def assess(self, request):
+        foundation.require_foundation('tools.lexical_graph.graphengine.assess')
         validate(request)
         if canonical(self.graph) != self.frozen_graph:
             raise GraphError('SOURCE_UNAVAILABLE')
@@ -250,6 +254,7 @@ def request_json(raw):
 
 
 def assess(request, *, engine=None):
+    foundation.require_foundation('tools.lexical_graph.assess')
     try:
         validate(request)
         engine = engine or GraphEngine()
@@ -263,6 +268,7 @@ def assess(request, *, engine=None):
 
 
 def main():
+    foundation.require_foundation('tools.lexical_graph.main')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--request', type=Path)
     parser.add_argument('--inventory', action='store_true')

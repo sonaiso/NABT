@@ -92,10 +92,16 @@ class ActualInstalledSources(unittest.TestCase):
         if not cls.native.exists():
             raise unittest.SkipTest("optional native linguisticTruth checker not built")
 
-    def test_actual_literal_cue_retains_exact_original_and_native_evidence(self):
+    def test_vocalized_cue_retains_source_and_replayed_spelling_premises(self):
         raw = "أَعْنِي بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ"
         result = self.acquire(raw, subject="المتكلم", time="وقت الاختبار", context="حديث عن اللفظ")
+        # v4 replays a separate stem/inflection review. The old semantic ledger
+        # alone still cannot license these marks; the new evidence is explicit
+        # and remains an acquisition premise outside the native semantic proof.
         self.assertEqual(result["status"], "COMPLETE")
+        self.assertTrue(result["intended_sense_acquired"])
+        self.assertTrue(result["acquired_premises"])
+        self.assertIs(result["orthography_evidence"][0]["native_acquisition_proof"], False)
         self.assertTrue(result["native_checked"])
         self.assertEqual(result["source"]["raw_text"], raw)
         self.assertEqual(result["source"]["sha256"], hashlib.sha256(raw.encode()).hexdigest())

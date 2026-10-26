@@ -49,6 +49,9 @@ SCOPE = {
 }
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def validate_input(request: Any) -> dict:
     if type(request) is not dict or set(request) != {"text", "context"}:
         raise InputError("Initial reference accepts text and explicit context only")
@@ -435,6 +438,7 @@ def execute_request(request: Any) -> dict:
     annotation tags, bounded scope and the complete candidate receipt. Those
     checks do not establish source authenticity or whole-clause meaning.
     """
+    foundation.require_foundation('tools.contextual_reference.execute_request')
     execution = {"input": None, "input_sha256": None, "proposal": None, "proposal_sha256": None,
                  "native_result": None, "native_result_sha256": None, "native_sha256": None, "error": None}
     answer = {"schema": "nabt.contextual-reference-observation.v1", "law_id": LAW_ID,
@@ -452,6 +456,7 @@ def execute_request(request: Any) -> dict:
         if type(request) is dict and "context" in request:
             answer["context_sha256"] = digest(request["context"])
         request = validate_input(request)
+        foundation.validate_source(request["text"])
         current = identity()
         answer.update({key: current[key] for key in ("source_registry_sha256", "runtime_sha256", "native_sha256")})
         payload, bindings = build_request(request)

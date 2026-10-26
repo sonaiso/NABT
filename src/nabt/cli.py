@@ -18,6 +18,8 @@ from .machine import Machine, MAX_WEIGHT
 MAX_JSON_BYTES = 262144
 
 
+from nabt import foundation
+
 class Parser(argparse.ArgumentParser):
     def error(self, message):
         raise NabtError("INVALID_ARGUMENT", message)
@@ -72,6 +74,10 @@ def parser() -> Parser:
     result = Parser(prog="nabt", description="Independent Arabic numerical shape kernel")
     result.add_argument("--version", action="version", version=__version__)
     sub = result.add_subparsers(dest="command", required=True, parser_class=Parser)
+    foundation_command = sub.add_parser("foundation", help="Replay the shared Lean A116 source representation contract")
+    foundation_command.add_argument("text", nargs="?", help="Exact source; omit to inspect the installed foundation identity")
+    foundation_command.add_argument("--source-id", default="input")
+    foundation_command.add_argument("--revision", default="1")
     sub.add_parser("classical-laws", help="Source-backed catalogue of conditional classical laws")
     classical = sub.add_parser("classical-transform", help="Evaluate an explicit conditional frame")
     classical.add_argument("rule_id")
@@ -250,10 +256,22 @@ def parser() -> Parser:
 def run(args) -> tuple[dict, int]:
     # argparse catches ValueError from type converters. NabtError derives from
     # ValueError, so conversion here preserves RESOURCE_LIMIT as DEFER.
+    foundation.require_foundation('nabt.cli.run')
     for field in ("number", "left", "right", "weight", "rank", "at", "cell"):
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
     command = args.command
+    if command == "foundation":
+        identity = foundation.require_foundation("nabt.cli.foundation")
+        if args.text is None:
+            return identity, 0
+        projection = foundation.inspect_source(args.text, source_id=args.source_id,
+                                               revision=args.revision)
+        return {"foundation": identity, "projection": projection,
+                "scope": "SOURCE_REPRESENTATION_ONLY",
+                "linguistic_license": False, "world_truth_established": False}, (
+                    2 if projection["status"] == "INVALID" else
+                    3 if projection["status"] == "PARTIAL" else 0)
     if command in {"classical-laws", "classical-transform", "verify-classical-transform"}:
         from .classical_laws import catalog, evaluate, verify
         if command == "classical-laws":

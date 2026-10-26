@@ -28,6 +28,9 @@ VALIDATION_KINDS = ['bad_clean_step_index', *TRAIN_KINDS]
 SCHEMA = 'nabt.certificate-ranker.v2'
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -118,6 +121,7 @@ def fit(rows, *, epochs, learning_rate, seed):
 
 def rank_and_check(source, query, proposals, model, checker):
     """All proposals are freshly checked. Missing measurements block selection."""
+    foundation.require_foundation('tools.train_certificate_ranker_v2.rank_and_check')
     if type(proposals) is not list or not 1 <= len(proposals) <= 16:
         raise ValueError('proposal count')
     if type(model) is not dict or model.get('schema') != SCHEMA or model.get('features') != FEATURES or model.get('authority') != 'proposal-order-only':
@@ -137,6 +141,7 @@ def rank_and_check(source, query, proposals, model, checker):
 
 
 def execute(protocol_path, output, checker):
+    foundation.require_foundation('tools.train_certificate_ranker_v2.execute')
     protocol_raw = protocol_path.read_bytes(); p = json.loads(protocol_raw)
     if p['features'] != FEATURES or p['train_candidate_kinds'] != TRAIN_KINDS or p['validation_candidate_kinds'] != VALIDATION_KINDS:
         raise ValueError('protocol drift')

@@ -10,7 +10,12 @@ from .retrieval import RetrievalError, SearchIndex
 from .routing import evaluate_candidates
 
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def main():
+    foundation.require_foundation('tools.grammar_catalog.__main__.main')
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     cat = sub.add_parser("catalog", help="Replay sources and emit the catalogue")

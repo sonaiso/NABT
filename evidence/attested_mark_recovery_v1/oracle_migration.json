@@ -1,0 +1,74 @@
+{
+  "schema": "nabt.attested-mark-oracle-migration.v1",
+  "scope": "Versioned execution wrapper and dependency registration only; no case, expected answer, scorer formula, threshold, failure waiver, or source corpus change.",
+  "files": [
+    {
+      "previous_path": "evidence/framework_foundation_v1/independent_oracle/freeze_runner_v1.py",
+      "previous_sha256": "c0297b032c731c7698edbd278b797019fd1204f6e6d703bd4bd84de2dc31f900",
+      "current_path": "evidence/attested_mark_recovery_v1/independent_oracle/freeze_runner_v1.py",
+      "current_sha256": "f0f07814a477707e8fc7d0fff212d6fc2258c2e37285de15ec0b7d84544bc65f",
+      "bytes_before": 3885,
+      "bytes_after": 3314
+    },
+    {
+      "previous_path": "evidence/framework_foundation_v1/independent_oracle/review_continuation_v1.py",
+      "previous_sha256": "d554a72b465a9523ebae222e83f20b1b6237d47b1eb050763dca13f3775bab5c",
+      "current_path": "evidence/attested_mark_recovery_v1/independent_oracle/review_continuation_v1.py",
+      "current_sha256": "ad2b8f3d26ac56e347e8242f6ad230c6495720b636860f2c3ac5fc3d896d6b50",
+      "bytes_before": 25195,
+      "bytes_after": 25201
+    },
+    {
+      "previous_path": "evidence/framework_foundation_v1/independent_oracle/run_oracle_v1.py",
+      "previous_sha256": "bc90e9d7b8cb3398d63705f3d291fe0e7ca9005d89da22095e2e321c9b4c12ea",
+      "current_path": "evidence/attested_mark_recovery_v1/independent_oracle/run_oracle_v1.py",
+      "current_sha256": "0eb1adc460e54d21ef3bcebabe84b4c0dc495ff376264f6deeb218c14594f7b0",
+      "bytes_before": 19699,
+      "bytes_after": 19707
+    },
+    {
+      "previous_path": "evidence/framework_foundation_v1/independent_oracle/run_regression_v1.py",
+      "previous_sha256": "b13cd61a61c7edec209d29a411571012d9499e309f06057000a049e83c250336",
+      "current_path": "evidence/attested_mark_recovery_v1/independent_oracle/run_regression_v1.py",
+      "current_sha256": "3e3be7f7e181a2df84ba70104da187ec6dd7bb28d8ed1eef0a18abf6306d6171",
+      "bytes_before": 5509,
+      "bytes_after": 5511
+    },
+    {
+      "previous_path": "evidence/framework_foundation_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "previous_sha256": "495c5a74c754910739ee3350b083e9aed78db56ee648ccfce187b540161eead3",
+      "current_path": "evidence/attested_mark_recovery_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "current_sha256": "ca60e17fbdf00dc80dc6c1bb7596ab84720253622d3c0ad3c09702da37eb8b5f",
+      "bytes_before": 21709,
+      "bytes_after": 21713
+    },
+    {
+      "previous_path": "evidence/framework_foundation_v1/independent_oracle/test_continuation_v1.py",
+      "previous_sha256": "8fac52ff01888e7cb8770ad581495d4a32117ac4db44197d31f6e4f14b5ad5cb",
+      "current_path": "evidence/attested_mark_recovery_v1/independent_oracle/test_continuation_v1.py",
+      "current_sha256": "c97cb4c49e8caa7572a2840f3e6c4bcee07a74658af6abff9c307b4a2d94ba06",
+      "bytes_before": 8464,
+      "bytes_after": 8494
+    }
+  ],
+  "patch_path": "evidence/attested_mark_recovery_v1/oracle_migration.patch",
+  "patch_sha256": "475b27cfc47af553c8efe1d7535738628dd841a13482f28ef4f88ee961b00e98",
+  "current_dependency_freeze": "evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v4.json",
+  "current_dependency_freeze_sha256": "f5ada86aaedd33b823750e36fcae0610f4925621652f34c422d2cc67f54f102e",
+  "retained_pre_execution_dependency_freezes": [
+    "runner_freeze_v1.json",
+    "runner_freeze_v2.json",
+    "runner_freeze_v3.json"
+  ],
+  "material_freeze": "evidence/arabic_completion_v3/independent_oracle/freeze.json",
+  "material_freeze_sha256": "78589ad292f747a27b76cf08c56848377f93fe370b6fa9f0229951fa8f443a3f",
+  "historical_evidence_paths_modified": [],
+  "runtime_predictions_performed_by_this_report": false,
+  "current_wrapper_change": {
+    "path": "tests/test_completion_v6_gate.py",
+    "previous_sha256": "e2a124755e447861d0aa16c771055039b787e9a405dd4755cd4b200fa7b758a6",
+    "current_sha256": "2b0ab7948df00ea58698395d0bb7242417b38099f78f90140f56f084231d2d69",
+    "change": "One current-execution selector moves from the historical foundation oracle to the attested-mark oracle; tests, scorers and expectations are unchanged."
+  },
+  "patch_format": "Unified diff with zero context; avoids treating context-only blank-line markers as source whitespace."
+}

@@ -44,6 +44,8 @@ ALGHANEM_COMMIT = "9d8fa03a51f894416e0abaf3b6821c5ae6441dcd"
 MASHRU_COMMIT = "e4c801ffe9171dadedcc3aae23051ea0953ae361"
 
 
+from nabt import foundation
+
 class SourcePin(NamedTuple):
     repository: str
     commit: str
@@ -240,6 +242,7 @@ def cell_parts(cell: int, alphabet_id: str) -> tuple[str, str]:
 
 
 def convert_cell(cell: int, source_alphabet: str, target_alphabet: str) -> int:
+    foundation.require_foundation('nabt.bridges.convert_cell')
     source, target = get_alphabet(source_alphabet), get_alphabet(target_alphabet)
     carrier, mark = divmod(validate_cell(cell), 4)
     return 4 * target.carriers.index(source.carriers[carrier]) + mark
@@ -247,30 +250,35 @@ def convert_cell(cell: int, source_alphabet: str, target_alphabet: str) -> int:
 
 def convert_cells(cells: Iterable[int], source_alphabet: str, target_alphabet: str) -> tuple[int, ...]:
     """Total permutation on in-domain cells, preserving order and multiplicity."""
+    foundation.require_foundation('nabt.bridges.convert_cells')
     source, target = get_alphabet(source_alphabet), get_alphabet(target_alphabet)
     permutation = tuple(target.carriers.index(carrier) for carrier in source.carriers)
     return tuple(4 * permutation[cell // 4] + cell % 4 for cell in validate_cells(cells))
 
 
 def render_cells(cells: Iterable[int], alphabet_id: str) -> str:
+    foundation.require_foundation('nabt.bridges.render_cells')
     spec = get_alphabet(alphabet_id)
     return "".join(spec.carriers[cell // 4] + spec.marks[cell % 4]
                    for cell in validate_cells(cells))
 
 
 def encode_number(cells: Iterable[int], codec_id: str) -> int:
+    foundation.require_foundation('nabt.bridges.encode_number')
     spec = _kind(codec_id, "number")
     values = validate_cells(cells)
     return _encode_big(values[::-1] if spec.encoding == "bijective116-little" else values)
 
 
 def decode_number(number: int, codec_id: str) -> tuple[int, ...]:
+    foundation.require_foundation('nabt.bridges.decode_number')
     spec = _kind(codec_id, "number")
     cells = _decode_big(number)
     return cells[::-1] if spec.encoding == "bijective116-little" else cells
 
 
 def encode_bytes(cells: Iterable[int], codec_id: str) -> bytes:
+    foundation.require_foundation('nabt.bridges.encode_bytes')
     spec = _kind(codec_id, "bytes")
     values = validate_cells(cells)
     if spec.encoding == "frame7":
@@ -283,6 +291,7 @@ def encode_bytes(cells: Iterable[int], codec_id: str) -> bytes:
 
 
 def decode_bytes(data: bytes, codec_id: str) -> tuple[int, ...]:
+    foundation.require_foundation('nabt.bridges.decode_bytes')
     spec = _kind(codec_id, "bytes")
     if type(data) is not bytes:
         raise NabtError("INVALID_BYTES", "Encoded input must be bytes")
@@ -356,6 +365,7 @@ def transcode(value: object, source_codec: str, target_codec: str) -> BridgeResu
     Success says only that the chosen codecs describe the same cell sequence.
     There is no inference of a codec from input, filename, magic, or plausibility.
     """
+    foundation.require_foundation('nabt.bridges.transcode')
     source, target = get_codec(source_codec), get_codec(target_codec)
     if source.kind == "number":
         source_cells = decode_number(value, source.codec_id)
@@ -375,12 +385,14 @@ def transcode(value: object, source_codec: str, target_codec: str) -> BridgeResu
 
 
 def convert_number(number: int, source_codec: str, target_codec: str) -> BridgeResult:
+    foundation.require_foundation('nabt.bridges.convert_number')
     _kind(source_codec, "number")
     _kind(target_codec, "number")
     return transcode(number, source_codec, target_codec)
 
 
 def convert_bytes(data: bytes, source_codec: str, target_codec: str) -> BridgeResult:
+    foundation.require_foundation('nabt.bridges.convert_bytes')
     _kind(source_codec, "bytes")
     _kind(target_codec, "bytes")
     return transcode(data, source_codec, target_codec)

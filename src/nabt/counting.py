@@ -50,6 +50,8 @@ _TEEN_UNITS = {
 }
 
 
+from nabt import foundation
+
 def count_source_units(text, *, source_id="count", scope="default"):
     """Count distinct supported written-run occurrences, including mentions.
 
@@ -171,6 +173,7 @@ This is not a general Arabic NP parser. In particular 1/2 rules do not license
 the order of the two words. Raw digits have no observed grammatical gender.
 Only the unmarked closed numeral spellings above are acquired in this version.
 """
+    foundation.require_foundation('nabt.counting.read_count_phrase')
     nominal = read_nominal(text, lexical_text=lexical_text, source_id=source_id,
                            lexical_source_id=lexical_source_id, scope=scope)
     partition = nominal["partition"]
@@ -245,6 +248,7 @@ Only the unmarked closed numeral spellings above are acquired in this version.
 
 
 def verify_source_count(report, *, text=_UNSET, source_id=None, scope=None):
+    foundation.require_foundation('nabt.counting.verify_source_count')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")
@@ -263,6 +267,7 @@ def verify_source_count(report, *, text=_UNSET, source_id=None, scope=None):
 
 def verify_count_phrase(report, *, text=_UNSET, lexical_text=_UNSET,
                         source_id=None, lexical_source_id=None, scope=None):
+    foundation.require_foundation('nabt.counting.verify_count_phrase')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")

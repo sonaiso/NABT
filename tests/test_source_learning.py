@@ -682,7 +682,12 @@ class TestInstalledSourceResources(unittest.TestCase):
             package_root = DATA.parents[1]
             with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as zipped:
                 zipped.writestr("nabt/__init__.py", "")
-                zipped.write(package_root / "errors.py", "nabt/errors.py")
+                # Installed learning admissions now require the same numerical
+                # foundation as readers and inference. Keep this a zip-import
+                # test, including its actual packaged law rather than a stub.
+                for name in ("errors.py", "alphabet.py", "codec.py", "machine.py", "foundation.py"):
+                    zipped.write(package_root / name, str(Path("nabt") / name))
+                zipped.write(package_root / "data/law.json", "nabt/data/law.json")
                 for path in sorted((package_root / "learning").glob("*.py")):
                     zipped.write(path, str(Path("nabt/learning") / path.name))
                 for path in sorted(DATA.iterdir()):

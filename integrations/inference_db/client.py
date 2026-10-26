@@ -17,6 +17,11 @@ SCHEMA = "nabt.inference-database.v1"
 INPUT_RECIPE = "nabt.inference.search-projection.v1"
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def _json(value) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
 
@@ -116,6 +121,7 @@ def load_inventory(connection, root: Path = ROOT) -> dict:
     The corresponding grammar catalogue must already be installed. A duplicate
     snapshot fails instead of silently trusting old database rows.
     """
+    foundation.require_foundation('integrations.inference_db.client.load_inventory')
     from tools.mantuq_inference import build_inventory
     from tools.grammar_catalog.catalog import build_catalog, catalog_sha256
     root = Path(root).resolve()
@@ -218,6 +224,7 @@ def search(connection, inventory_sha: str, query: str, *, k: int = 10,
     inventory. Neither no match nor top-k is an inference rejection. Missing
     embeddings and unmeasured semantic relevance remain explicit.
     """
+    foundation.require_foundation('integrations.inference_db.client.search')
     grammar_db._sha(inventory_sha, "inventory")
     grammar_db._positive_integer(k, "k", 1000)
     if type(query) is not str or len(query) > grammar_db.MAX_QUERY_CHARACTERS:

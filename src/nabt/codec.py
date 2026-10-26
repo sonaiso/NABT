@@ -13,6 +13,7 @@ MAGIC = b"NABT\x01"
 HEADER_SIZE = len(MAGIC) + 4
 
 
+
 def encode_cells(cells: Iterable[int]) -> int:
     """Bijective positional encoding: append a as n -> 116*n + a + 1."""
     n = 0

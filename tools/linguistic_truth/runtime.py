@@ -14,10 +14,13 @@ from pathlib import Path
 import re
 import subprocess
 
+from nabt import foundation
+from nabt.errors import NabtError
+
 from .calculus import canonical_json, enumerate_candidates, evaluate_request
 
 ROOT = Path(__file__).resolve().parents[2]
-LAW_ID = "nabt.linguistic-truth-acquisition.v2"
+LAW_ID = "nabt.linguistic-truth-acquisition.v4"
 _MARKS = re.compile(r"[\u064b-\u065f\u0670\u0640]")
 _WORDS = re.compile(r"[^\s.!?؛;،؟«»()\[\]\"“”]+")
 _SEPARATORS = re.compile(r"[.!?؛;؟\r\n]+")
@@ -51,6 +54,110 @@ def _sha(raw):
 def _normal(text):
     # Retrieval spelling only. Exact original bytes and hamza/maqsura survive.
     return _MARKS.sub("", text)
+
+
+def _is_observed_mark(char):
+    return char != "\u0640" and _MARKS.fullmatch(char) is not None
+
+
+def _marked_clusters(text):
+    """Compare spellings without inventing vowels or interpreting shadda.
+
+    Tatweel remains retrieval formatting only. Whitespace separates words;
+    Arabic marks belong to their preceding carrier and stay significant.
+    Source validation separately rejects orphan/conflicting marks.
+    """
+    words = []
+    for word in text.split():
+        clusters = []
+        for char in word:
+            if char == "\u0640":
+                continue
+            if _is_observed_mark(char):
+                if not clusters:
+                    return None
+                clusters[-1][1].add(char)
+            else:
+                clusters.append([char, set()])
+        words.append(clusters)
+    return words
+
+
+def _covers_observed_marks(observed, reviewed):
+    """A supplied mark needs the same mark at the same reviewed carrier.
+
+    An unmarked reviewed form is not a fully vocalized reading. Missing input
+    marks may remain unspecified; visible input marks cannot be discarded to
+    obtain an intended-use premise. This relation grants no source authority.
+    """
+    left, right = _marked_clusters(observed), _marked_clusters(reviewed)
+    return (left is not None and right is not None and len(left) == len(right)
+            and all(len(a) == len(b) and all(c == d and marks <= licensed
+                    for (c, marks), (d, licensed) in zip(a, b))
+                    for a, b in zip(left, right)))
+
+
+def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None):
+    """Bind each cue reading to its own reviewed expression/sense spellings.
+
+    A separate source-replayed review may supply inflected spellings. It can
+    only license existing parsed alternatives, never insert a semantic answer.
+    Bare inventory forms remain available for unspecified input marks.
+    """
+    head = tokens[parsed["token_index"]]
+    head_forms = ["ب" + form for row in inventory["designations"]
+                  if row["expression"] == parsed["expression"] for form in row["forms"]]
+    from .marked_forms import _reviewed_forms
+    head_license = [] if mark_review is None else [candidate for candidate in
+        _reviewed_forms(mark_review, parsed["expression"], "expression")
+        if _covers_observed_marks(head["text"], candidate["form"])]
+    head_ok = (any(_covers_observed_marks(head["text"], form) for form in head_forms)
+               or bool(head_license))
+    admitted, failures, licenses = [], [], []
+    for reading in parsed["readings"]:
+        issues = []
+        reading_licenses = [{**candidate, "span": _span(raw, head["start"], head["end"])}
+                            for candidate in head_license]
+        covered = [(head["start"], head["end"])]
+        if not head_ok:
+            issues.append({"start": head["start"], "end": head["end"], "role": "expression"})
+        for premise in reading:
+            start, end = premise["start"], premise["end"]
+            covered.append((start, end))
+            observed = raw[start:end].decode("utf-8")
+            reviewed = senses[parsed["expression"]][premise["sense_id"]]["forms"]
+            derived = [] if mark_review is None else [candidate for form in reviewed
+                for candidate in _reviewed_forms(mark_review, _normal(form), "sense")
+                if _covers_observed_marks(observed, candidate["form"])]
+            if not any(_covers_observed_marks(observed, form) for form in reviewed) and not derived:
+                issues.append({"start": start, "end": end, "role": "sense",
+                               "sense_id": premise["sense_id"]})
+            reading_licenses.extend({**candidate, "sense_id": premise["sense_id"],
+                                     "span": _span(raw, start, end)} for candidate in derived)
+        for token in tokens:
+            grammar_licenses = [] if mark_review is None else [candidate for candidate in
+                _reviewed_forms(mark_review, token["normal"], "grammar")
+                if _covers_observed_marks(token["text"], candidate["form"])]
+            if grammar_licenses:
+                covered.append((token["start"], token["end"]))
+                reading_licenses.extend({**candidate,
+                    "span": _span(raw, token["start"], token["end"])} for candidate in grammar_licenses)
+            cursor = token["start"]
+            for char in token["text"]:
+                end = cursor + len(char.encode("utf-8"))
+                if (_is_observed_mark(char)
+                        and not any(start <= cursor < stop for start, stop in covered)):
+                    issues.append({"start": cursor, "end": end, "role": "grammar"})
+                cursor = end
+        if issues:
+            failures.extend(issues)
+        else:
+            admitted.append(reading)
+            licenses.extend(reading_licenses)
+    if admitted:
+        return {**parsed, "readings": admitted,
+                "orthography_licenses": list({_wire(row): row for row in licenses}.values())}, []
+    return None, list({_wire(issue): issue for issue in failures}.values())
 
 
 def _span(raw, start, end):
@@ -171,7 +278,17 @@ def _read_tail(tokens, start, sense_rows, negative):
             # complete known sense phrase, rather than normalizing every word.
             if rest[0].startswith("و") and len(rest[0]) > 1 and rest[0] != "ولا":
                 original = tokens[after]
-                tokens[after] = {**original, "normal": rest[0][1:], "start": original["start"] + len("و".encode())}
+                # Consume the raw conjunction cluster, including its marks;
+                # adding only the two-byte waw would start a sense at a mark.
+                cut = 0
+                while cut < len(original["text"]) and original["text"][cut] == "\u0640":
+                    cut += 1
+                cut += 1
+                while cut < len(original["text"]) and _MARKS.fullmatch(original["text"][cut]):
+                    cut += 1
+                remainder = original["text"][cut:]
+                tokens[after] = {**original, "text": remainder, "normal": rest[0][1:],
+                    "start": original["start"] + len(original["text"][:cut].encode("utf-8"))}
                 walk(after, positive, found + [evidence])
                 tokens[after] = original
 
@@ -332,12 +449,27 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
     if len(raw) > budget.max_input_bytes:
         return {**output, "status": "RESOURCE_EXHAUSTED", "reason": "MAX_INPUT_BYTES"}
     try:
+        foundation.validate_source(text)
+    except NabtError as exc:
+        if exc.code == "FOUNDATION_SOURCE_INVALID":
+            return {**output, "status": "INVALID_INPUT", "reason": exc.code,
+                    "foundation_error": exc.as_dict()}
+        if exc.code == "RESOURCE_LIMIT":
+            return {**output, "status": "RESOURCE_EXHAUSTED", "reason": exc.code,
+                    "foundation_error": exc.as_dict()}
+        raise
+    try:
         from .inventory import build_inventory
         inventory = build_inventory(root)
         if profile_id not in {p["profile_id"] for p in inventory["profiles"]}:
             return {**output, "status": "INVALID_INPUT", "reason": "UNKNOWN_PROFILE"}
         forms, senses = _form_index(inventory)
         designations, relations = _native_ledger(inventory)
+        mark_review = None
+        if any(_is_observed_mark(char) for char in text):
+            from .marked_forms import _load_review, REVIEW_SHA256
+            mark_review = _load_review(root)
+            output["mark_review_sha256"] = REVIEW_SHA256
     except (OSError, ValueError, KeyError, ImportError) as exc:
         return {**output, "status": "SOURCE_UNAVAILABLE", "reason": str(exc)}
     output["inventory_sha256"] = inventory["review_sha256"]
@@ -355,12 +487,20 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
             continue
         clause_span = _span(raw, offsets[start], offsets[end])
         tokens = _tokens(text, start, end, offsets)
+        orthography_issues = []
         try:
             # Quotation, punctuation and controls cannot be silently erased to
             # turn a mentioned clause into an assertion of intended use.
             barred = quotation_barrier or any(c in text[start:end] for c in '،,\':') or any(
                 ord(c) < 32 and c not in "\t" for c in text[start:end])
             parsed = None if barred else _parse_clause(tokens, forms, senses)
+            if parsed is not None:
+                parsed, orthography_issues = _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review)
+            if parsed is not None and parsed["orthography_licenses"]:
+                output.setdefault("orthography_evidence", []).append({"clause_span": clause_span,
+                    "licenses": parsed["orthography_licenses"],
+                    "authority": "REPLAYED_REVIEW_AND_PYTHON_ACQUISITION",
+                    "native_acquisition_proof": False})
             if parsed is not None and parsed["negative_correction"]:
                 from .correction import replay_correction_source
                 try:
@@ -373,7 +513,12 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
         except OverflowError as exc:
             return {**output, "status": "RESOURCE_EXHAUSTED", "reason": str(exc)}
         if parsed is None:
-            output["unclassified_spans"].append({**clause_span, "reason": "OUTSIDE_BOUNDED_CUE_LANGUAGE"})
+            output["unclassified_spans"].append({**clause_span,
+                "reason": "UNSUPPORTED_OBSERVED_MARKS" if orthography_issues else "OUTSIDE_BOUNDED_CUE_LANGUAGE",
+                **({"orthography_issues": [{"role": issue["role"],
+                    **({"sense_id": issue["sense_id"]} if "sense_id" in issue else {}),
+                    "span": _span(raw, issue["start"], issue["end"])} for issue in orthography_issues]}
+                    if orthography_issues else {})})
         for token_index, token in enumerate(tokens):
             possible_forms = _occurrence_forms(token, forms)
             keys = possible_forms.keys()
@@ -473,7 +618,9 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
     elif any(o["signed_conflict"] for o in output["occurrences"]):
         output.update(status="CONFLICT", reason="OPPOSED_EXPLICIT_INTENDED_USE")
     elif output["unclassified_spans"] or not output["intended_sense_acquired"]:
-        output.update(status="UNKNOWN", reason="UNCLASSIFIED_TEXT_OR_NO_INTENDED_USE")
+        output.update(status="UNKNOWN", reason=("UNSUPPORTED_OBSERVED_MARKS"
+            if any(s["reason"] == "UNSUPPORTED_OBSERVED_MARKS" for s in output["unclassified_spans"])
+            else "UNCLASSIFIED_TEXT_OR_NO_INTENDED_USE"))
     else:
         output.update(status="COMPLETE", reason="BOUNDED_ACQUISITION_SCAN_COMPLETE")
     return output
@@ -487,6 +634,7 @@ def acquire(text, *, profile_id=None, budget=None, source_id="user_text",
     hypothesis. Native branch checks remain conditional and do not certify a
     literal or figurative interpretation for the unassigned occurrence.
     """
+    foundation.require_foundation("tools.linguistic_truth.acquire")
     arguments = {"budget": budget, "source_id": source_id, "subject": subject,
                  "time": time, "context": context, "root": root}
     if profile_id is not None:

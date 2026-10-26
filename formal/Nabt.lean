@@ -1,4 +1,5 @@
 import Nabt.Cell
+import Nabt.Foundation
 import Nabt.Sequence
 import Nabt.Transition
 import Nabt.Count

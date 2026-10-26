@@ -19,6 +19,8 @@ _UNSET = object()
 _FIELDS = ("predicate", "predicate_kind", "voice", "args", "positive", "tense", "time", "place", "restriction")
 
 
+from nabt import foundation
+
 def discourse_catalog():
     from .governors import installed_table
     from .person_evidence import person_catalog
@@ -286,6 +288,7 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
 
 def verify_discourse_answer(report, *, text=_UNSET, question=_UNSET, lexical_model=None,
                             context=None, source_id=None, scope=None):
+    foundation.require_foundation('nabt.discourse.verify_discourse_answer')
     try:
         if type(report) is not dict:
             return {"valid": False, "status": "REJECT", "code": "INVALID_DISCOURSE_ANSWER"}

@@ -136,7 +136,14 @@ def snapshot()->dict[str,Any]:
     for module in tuple(sys.modules.values()):
         name=getattr(module,'__file__',None)
         if not name:continue
-        p=Path(name).resolve()
+        p=Path(name)
+        if not p.is_absolute():
+            # Virtual modules can advertise e.g. "_ops.py". The working
+            # directory is not provenance; only an absolute origin may bind it.
+            origin=getattr(getattr(module,'__spec__',None),'origin',None)
+            if not origin or not Path(origin).is_absolute():continue
+            p=Path(origin)
+        p=p.resolve()
         if p.suffix=='.py' and p.is_relative_to(ROOT):modules[str(p.relative_to(ROOT))]=digest(p)
     binary=(ROOT/'formal/.lake/build/bin/licensedInference').resolve()
     toolchain=ROOT/'formal/lean-toolchain'

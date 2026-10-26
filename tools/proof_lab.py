@@ -63,6 +63,9 @@ BOOLEAN_FLAGS = {
 }
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 class RequestError(ValueError):
     """A stable error code; it never includes caller-supplied text."""
 
@@ -353,6 +356,7 @@ def _benchmark():
 
 
 def run_payload(request_id, payload, *, prepare=False):
+    foundation.require_foundation('tools.proof_lab.run_payload')
     started = time.monotonic()
     response = {
         "schema": RESULT_SCHEMA, "request_id": None,
@@ -369,6 +373,12 @@ def run_payload(request_id, payload, *, prepare=False):
             raw = payload.encode("utf-8", "strict") if type(payload) is str else payload
             response["payload_sha256"] = _sha(raw)
         request = validate_payload(payload)
+        if request["mode"] == "inference":
+            try:
+                foundation.validate_source(request["source_text"])
+                foundation.validate_source(request["query_text"])
+            except ValueError as error:
+                raise RequestError("MALFORMED_SOURCE_REPRESENTATION") from error
         response["mode"] = request["mode"]
         identity = {"testimony": _testimony_identity,
                     "epistemic_measurement": _epistemic_identity,

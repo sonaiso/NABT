@@ -21,6 +21,11 @@ KINDS = {"rule", "passage", "item"}
 MAX_QUERY_BYTES = 16384
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 class RetrievalError(ValueError):
     """Malformed proposal input; not a rejection of Arabic."""
 
@@ -96,6 +101,7 @@ class SearchIndex:
 
     def rehydrate(self, kind, identifier):
         """Database/LLM text is ignored: only a known typed ID is accepted."""
+        foundation.require_foundation('tools.grammar_catalog.retrieval.searchindex.rehydrate')
         if type(kind) is not str or type(identifier) is not str:
             raise RetrievalError("Expected a typed catalogue identity")
         try:
@@ -106,6 +112,7 @@ class SearchIndex:
 
     def rehydrate_database(self, proposals):
         """Discard all DB display/authority fields and restore local records."""
+        foundation.require_foundation('tools.grammar_catalog.retrieval.searchindex.rehydrate_database')
         if (type(proposals) is not dict or proposals.get("schema") != "nabt.database-proposals.v1" or
                 proposals.get("snapshot_sha") != self.catalog_sha256 or
                 type(proposals.get("candidates")) is not list or len(proposals["candidates"]) > 1000):
@@ -166,7 +173,12 @@ class SearchIndex:
         return scores
 
     def search(self, query, limit=10, hints=None, vector_scores=None, kind=None):
+        foundation.require_foundation('tools.grammar_catalog.retrieval.searchindex.search')
         _limit(limit)
+        try:
+            foundation.validate_source(_text(query, "query"))
+        except ValueError as error:
+            raise RetrievalError("Malformed query source representation") from error
         query_terms = set(tokens(_text(query, "query")))
         if not query_terms:
             raise RetrievalError("Query must contain searchable text")
@@ -231,4 +243,5 @@ class SearchIndex:
 
 
 def search(catalog, query, limit=10, hints=None, vector_scores=None, kind=None):
+    foundation.require_foundation('tools.grammar_catalog.retrieval.search')
     return SearchIndex(catalog).search(query, limit, hints, vector_scores, kind)

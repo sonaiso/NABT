@@ -21,6 +21,11 @@ LAW_ID = "nabt.licensed-inference.v1"
 AUTHORITY = "SOURCE_RELATIVE_CONSEQUENCE"
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 @dataclass(frozen=True)
 class InferenceBudget:
     max_source_bytes: int = 65536
@@ -224,6 +229,7 @@ def _failure(result, expected_reason):
 
 def evaluate(source_text, query_text, *, source_id="user_text", revision="1", scope="default",
              time="unspecified", budget=None, root=ROOT):
+    foundation.require_foundation('tools.licensed_inference.runtime.evaluate')
     output = _base()
     if budget is None:
         budget = InferenceBudget()
@@ -232,6 +238,8 @@ def evaluate(source_text, query_text, *, source_id="user_text", revision="1", sc
             raise ValueError("budget must be InferenceBudget")
         source_raw, source_text = _bytes(source_text, "source", budget.max_source_bytes)
         query_raw, query_text = _bytes(query_text, "query", budget.max_query_bytes)
+        foundation.validate_source(source_raw)
+        foundation.validate_source(query_raw)
         for key, value in {"source_id": source_id, "revision": revision, "scope": scope, "time": time}.items():
             _metadata(value, key)
     except OverflowError as exc:

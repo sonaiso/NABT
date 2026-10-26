@@ -7,7 +7,11 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def replay(source,directory):
+    foundation.require_foundation('tools.replay_neural_morphology.replay')
     import torch
     from tools.arabic_training.data import read_source,sha
     from tools.arabic_training.experiment import vocabulary,encode,predict,evaluate,baseline_tables,baseline_predict,paired_intervals

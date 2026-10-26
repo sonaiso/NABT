@@ -53,6 +53,8 @@ _MARKERS = {
 }
 
 
+from nabt import foundation
+
 def _wire(value):
     try:
         raw = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
@@ -376,6 +378,7 @@ def _attachments(partition, occurrences):
 
 def read_text_morphology(text, *, source_id="input", scope="default", lexical_text=None,
                          lexical_source_id="lexical"):
+    foundation.require_foundation('nabt.text_morphology.read_text_morphology')
     source = _source(text, source_id, scope)
     if lexical_text is not None and source_id == lexical_source_id:
         raise NabtError("DUPLICATE_SOURCE_ID", "Text and lexical premises need distinct source identities")
@@ -446,6 +449,7 @@ def read_text_morphology(text, *, source_id="input", scope="default", lexical_te
 
 def verify_text_morphology(report, *, text=None, source_id=None, scope=None,
                            lexical_text=_UNSET, lexical_source_id=None):
+    foundation.require_foundation('nabt.text_morphology.verify_text_morphology')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")

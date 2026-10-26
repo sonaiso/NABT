@@ -13,6 +13,11 @@ from nabt.errors import NabtError
 from .retrieval import RetrievalError, SearchIndex
 
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def schedule(inventory, ranked):
     """Canonical identity deduplication; every installed ID occurs exactly once."""
     if type(inventory) is not list or type(ranked) is not list:
@@ -27,6 +32,7 @@ def schedule(inventory, ranked):
 
 def evaluate_candidates(index, ranked_rule_keys, frames_by_rule, *, budget=None):
     """Scan all installed rules, not just top-k; missing/partial input stays open."""
+    foundation.require_foundation('tools.grammar_catalog.routing.evaluate_candidates')
     if type(index) is not SearchIndex:
         raise RetrievalError("Expected a source-replayed search index")
     if type(ranked_rule_keys) is not list or len(ranked_rule_keys) > 1000:

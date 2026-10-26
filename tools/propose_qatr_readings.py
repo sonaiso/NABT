@@ -9,7 +9,11 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def main():
+    foundation.require_foundation('tools.propose_qatr_readings.main')
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--text',required=True);p.add_argument('--target',type=int,required=True)
     p.add_argument('--lean',type=Path,required=True)

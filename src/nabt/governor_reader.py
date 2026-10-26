@@ -30,6 +30,8 @@ EXPECTED_POLICY_SHA256 = "26fdd34913ccca180bb1bf19bd58d725881117c0d01027f51374fd
 QATR_SHA256 = "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d"
 
 
+from nabt import foundation
+
 def replay_source_policy() -> dict:
     root = files("nabt").joinpath("data/source_evidence")
     raw = root.joinpath("governor_policy.json").read_bytes()
@@ -199,6 +201,7 @@ def _emphatic_nominal(ctx, tokens):
 
 
 def read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "default") -> base.ArabicReading:
+    foundation.require_foundation('nabt.governor_reader.read_arabic')
     return base._read_arabic(raw, source_id=source_id, scope=scope, use_governors=True)
 
 

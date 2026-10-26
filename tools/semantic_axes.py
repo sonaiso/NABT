@@ -24,6 +24,11 @@ MAX_PUBLIC_COUNT = (1 << 53) - 1
 ROLE_PROJECTION = {"time_adverb": "temporal_adverb"}
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def wire(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True,
                       separators=(",", ":"), allow_nan=False).encode("utf-8")
@@ -163,7 +168,9 @@ def execute_request(request, *, reader=None, verifier=None, lexical_model=None,
     Injectable reader/verifier are for boundary tests. They cannot promote
     replay to a Lean-native certificate. Production uses the installed reader.
     """
+    foundation.require_foundation('tools.semantic_axes.execute_request')
     request = validate_request(request)
+    foundation.validate_source(request["text"])
     if lexical_profile != "teaching_v1" and any(value is not None for value in (reader, verifier, lexical_model)):
         raise ValueError("An installed source profile cannot accept substituted model, reader or verifier")
     if reader is None or verifier is None:
