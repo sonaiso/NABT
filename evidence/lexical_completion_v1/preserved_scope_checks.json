@@ -1,0 +1,226 @@
+{
+  "licensed-inference-benchmark.json": {
+    "schema": "nabt.licensed-inference.independent-result.v1",
+    "gold_sha256": "4aae6aa0054d42820626f72fa5194d16902544e86629d1a57f69b52a971707af",
+    "scope": "Finite independent-agent diagnostic, not external human evaluation or all-Arabic completeness.",
+    "summary": {
+      "cases": 38,
+      "pass": 37,
+      "fail": 1,
+      "unmeasured": 0,
+      "executed": 38,
+      "families": {
+        "original_unresolved": {
+          "PASS": 1
+        },
+        "conditional_only": {
+          "PASS": 2
+        },
+        "forward": {
+          "PASS": 1
+        },
+        "order_invariance": {
+          "PASS": 1
+        },
+        "front_conditional": {
+          "PASS": 1
+        },
+        "no_inverse": {
+          "PASS": 2
+        },
+        "negative_consequent": {
+          "PASS": 1
+        },
+        "signed_states": {
+          "PASS": 4
+        },
+        "derived_conflict": {
+          "PASS": 1
+        },
+        "no_explosion": {
+          "PASS": 1
+        },
+        "subject_identity": {
+          "PASS": 2
+        },
+        "frame_identity": {
+          "PASS": 2
+        },
+        "preserved_adjuncts": {
+          "PASS": 1
+        },
+        "quote_boundary": {
+          "PASS": 1
+        },
+        "question_boundary": {
+          "PASS": 1
+        },
+        "trailing_input": {
+          "PASS": 1
+        },
+        "partial_condition": {
+          "PASS": 1
+        },
+        "query_boundary": {
+          "PASS": 1
+        },
+        "unknown_vocabulary": {
+          "FAIL": 1
+        },
+        "provenance": {
+          "PASS": 2
+        },
+        "resource": {
+          "PASS": 2
+        },
+        "invalid_input": {
+          "PASS": 2
+        },
+        "aggregation": {
+          "PASS": 6
+        }
+      },
+      "target_observations": {
+        "measured": 28,
+        "exact_matches": 27,
+        "false_supported_literals": 0,
+        "missing_supported_literals": 1
+      },
+      "authority": {
+        "obligations": 76,
+        "measured": 76,
+        "overclaims": 0,
+        "unmeasured": 0
+      }
+    },
+    "contract_gate": {
+      "passed": true,
+      "checks": {
+        "execution_identity_stable": true,
+        "all_38_cases_handled": true,
+        "primary_authority_observed": true,
+        "no_authority_overclaim": true,
+        "no_false_supported_literals": true,
+        "native_checker_for_complete_readings": true
+      },
+      "scope": "Integrity and authority contracts only; 38-case diagnostic denominator and every unsupported or unmeasured capability remain visible."
+    }
+  },
+  "linguistic-truth-benchmark.json": {
+    "schema": "nabt.linguistic-truth.benchmark-result.v1",
+    "gold_sha256": "8d980b7ae2611e9a8157db17a8218c7a9305d4ec6c59b06a85f84c9ede6bf86a",
+    "scope": "finite independently authored diagnostic, not external human review or Arabic population accuracy",
+    "summary": {
+      "total_cases": 44,
+      "pass": 19,
+      "fail": 11,
+      "unmeasured": 14,
+      "executed": 44,
+      "checks": {
+        "PASS": 169,
+        "FAIL": 28,
+        "UNMEASURED": 21
+      },
+      "families": {
+        "explicit_intent": {
+          "PASS": 4
+        },
+        "negative_cues": {
+          "FAIL": 1,
+          "PASS": 1
+        },
+        "contrary_cues": {
+          "FAIL": 1
+        },
+        "scope": {
+          "FAIL": 2
+        },
+        "unicode": {
+          "PASS": 1
+        },
+        "homonymy": {
+          "PASS": 4
+        },
+        "profile": {
+          "PASS": 1,
+          "FAIL": 1
+        },
+        "natural_use_holdout": {
+          "FAIL": 6
+        },
+        "attachment_authority": {
+          "PASS": 2,
+          "UNMEASURED": 4
+        },
+        "resources": {
+          "PASS": 3
+        },
+        "invalid_input": {
+          "PASS": 2
+        },
+        "candidate_recall": {
+          "PASS": 1
+        },
+        "source_holdout_particle_dependence": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_temporal_derivation": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_proper_name": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_profile_homonymy": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_preference_not_certainty": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_ratio_conditions": {
+          "UNMEASURED": 1
+        },
+        "source_holdout_cognition": {
+          "UNMEASURED": 4
+        }
+      },
+      "candidate_recall": {
+        "required_sense_obligations": 48,
+        "found": 40,
+        "missing": 8,
+        "unmeasured": 0
+      },
+      "intended_selection": {
+        "cases": 23,
+        "exact_matches": 15,
+        "misses": 8,
+        "unmeasured": 0,
+        "false_selected_senses": 0,
+        "missed_selected_senses": 8
+      },
+      "authority": {
+        "obligations": 88,
+        "excess_claims": 0,
+        "unmeasured": 0
+      },
+      "natural_use_holdout": {
+        "cases": 6,
+        "pass": 0,
+        "fail": 6,
+        "unmeasured": 0
+      }
+    },
+    "contract_gate": {
+      "passed": true,
+      "checks": {
+        "execution_evidence_stable": true,
+        "all_44_cases_handled": true,
+        "all_authority_observations_present": true,
+        "no_authority_overclaim": true,
+        "no_false_selected_senses": true,
+        "native_checker_present_for_parsed_candidates": true
+      },
+      "missing_native_checks": [],
+      "scope": "Execution-integrity and safety contracts only; does not require or imply acquisition completeness, all diagnostic cases passing, or all source assertions measured."
+    }
+  }
+}

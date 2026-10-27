@@ -1,0 +1,16 @@
+{
+  "schema": "nabt.lexical-graph-postgres-ci.v1",
+  "commit": "69c9488ff732ef1510c6e74c1532ea1230ff4e2a",
+  "job_url": "https://github.com/sonaiso/NABT/actions/runs/40262210107/job/121376803835",
+  "server": "PostgreSQL 17.11 with pgvector 0.8.7",
+  "integration_suite_executed": 27,
+  "integration_suite_passed": 26,
+  "integration_suite_errors": 1,
+  "lexical_graph_static_passed": 5,
+  "lexical_graph_server_passed": 8,
+  "lexical_graph_server_errors": 1,
+  "failure": "test_sealed_graph_cannot_gain_rows expected RaiseException for plain TRUNCATE; PostgreSQL raised FeatureNotSupported because referenced tables cannot be truncated without CASCADE.",
+  "correction": "Test plain TRUNCATE for the FK rejection, then TRUNCATE CASCADE for the immutability-trigger rejection. No SQL guard was relaxed.",
+  "corrected_server_run_passed": null,
+  "all_arabic_complete": false
+}

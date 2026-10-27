@@ -1,0 +1,118 @@
+{
+  "schema": "nabt.lexical-testimony-validation.v1",
+  "node_tests": {
+    "passed": 132,
+    "failed": 0,
+    "skipped": 0
+  },
+  "python_tests": {
+    "testimony": 12,
+    "transport": 29,
+    "denotation": 12,
+    "failed": 0,
+    "skipped": 0
+  },
+  "lean_build": {
+    "jobs": 51,
+    "passed": true,
+    "driver": "existing documented explicit-path Lake wrapper; pinned Lean 4.34.1"
+  },
+  "kernel_changed": false,
+  "new_theorems": 0,
+  "catalogue_changed": false,
+  "browser_qa": {
+    "environment": "local preview without production secrets",
+    "new_tab_visible": true,
+    "arrow_keys_preserve_selected_focus": true,
+    "live_request_from_browser": false
+  },
+  "source_truth_established": false,
+  "all_arabic_complete": false,
+  "ci_initial": {
+    "commit": "efaac457c8f457860d42502a180583d754f3fa0d",
+    "run": 40227524230,
+    "formal_job": "success",
+    "python_matrix": "failure: native checker not installed in Python-only jobs",
+    "correction": "Eight native-dependent tests explicitly require the binary; all twelve execute in the separate proof-lab CI job after building Lean. The frozen main CI workflow is unchanged. No runtime acceptance rule weakened."
+  },
+  "full_unit_suite": {
+    "ran": 2223,
+    "passed": 2195,
+    "skipped": 28,
+    "failed": 0,
+    "duration_seconds": 249.158
+  },
+  "live_controls": {
+    "conditional_inclusion": {
+      "run_id": 40227635381,
+      "status": "CONDITIONAL_INTERPRETATIONS",
+      "native_checked": true
+    },
+    "uninstalled_entry": {
+      "run_id": 40228119306,
+      "status": "UNMEASURED_ROOT",
+      "native_checked": true,
+      "rows": 0
+    },
+    "owner_browser_click_claimed": false
+  },
+  "full_check": {
+    "state": "COMPLETE_ACROSS_RECORDED_PHASES",
+    "initial_exit_code": 2,
+    "initial_command": "make check LAKE=/workspace/scratch/8ead824583ac/lean-driver/lake EVIDENCE_DIR=/tmp/nabt-testimony-check",
+    "initial_error": "The unchanged holdout harness requires its output beneath the repository; Path.relative_to(ROOT) rejected /tmp output, so its result JSON was not written.",
+    "resume_evidence_dir": "artifacts/local/testimony-check-v1",
+    "note": "All make-check targets completed across phases. Earlier failed attempts are preserved. Gate success includes documented partial linguistic coverage, not strict language completeness.",
+    "first_resume_exit_code": 2,
+    "first_resume_gate": "Holdout postreview passed 36/36, 63 question statuses and 103 replayed certificates. The historical oracle rejected an added CI line because ci.yml is byte-pinned.",
+    "resolution": "Removed the new CI line; every frozen dependency matches again. Testimony native tests remain required by the separate proof-lab CI workflow. No historical freeze changed.",
+    "final_resume_exit_code": 0,
+    "final_resume_evidence_dir": "artifacts/local/testimony-check-v2",
+    "all_targets_completed": true,
+    "resume_policy": "make check with -o for targets already passed in the preserved preceding logs; no unexecuted target omitted. Final check_integrity ran and passed."
+  },
+  "published_site": {
+    "url": "https://nabt-proof-lab.violet-mink-4106.chatgpt.site",
+    "audience": "owner-private",
+    "deployment_id": "appgdep_6ade5dc9c60c81918802550cc6599f6b",
+    "site_source_commit": "6390d12690bc1dfd374897248b592ddf9241102c",
+    "environment_revision": 5,
+    "execution_ref": "codex/attested-testimony-live",
+    "execution_code_sha": "efaac457c8f457860d42502a180583d754f3fa0d",
+    "transport_secret_exposed": false
+  },
+  "completed_utc": "2026-10-25T20:05:58.112467+00:00",
+  "check_code_head": "ad6d78e7df9f2d3f086f95ebec31f9915a159794",
+  "axiom_audit": {
+    "ok": true,
+    "theorem_count": 1422,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false
+  },
+  "retained_partial_scope": {
+    "historical_fixed_cases_passed": 14,
+    "historical_fixed_cases_total": 22,
+    "historical_uncovered": 8,
+    "separate_source_controls_passed": 6,
+    "whole_books_fully_adjudicated": false
+  },
+  "github_observed": {
+    "code_head": "ad6d78e7df9f2d3f086f95ebec31f9915a159794",
+    "proof_lab": {
+      "run_id": 40228969873,
+      "conclusion": "success"
+    },
+    "main_ci": {
+      "run_id": 40228969781,
+      "status": "in_progress"
+    },
+    "neural_replay": {
+      "run_id": 40228969820,
+      "status": "in_progress"
+    }
+  }
+}

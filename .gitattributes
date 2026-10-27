@@ -2,12 +2,16 @@
 *.json text eol=lf
 *.lean text eol=lf
 *.py text eol=lf
+# Browser sources are authored/reviewed; only ignored dist/worker bundles are generated.
+integrations/proof_lab/site/web/*.js linguist-generated=false linguist-vendored=false
+integrations/proof_lab/site/web/*.css linguist-generated=false linguist-vendored=false
 src/nabt/data/source_evidence/*.txt -text -whitespace
 # Preserve fetched HTML witnesses exactly, including their original CRLF bytes.
 evidence/arabic_completion_v3/source_review/*.html -text -whitespace
 # Retained DOCX paragraph excerpts preserve original whitespace byte-for-byte.
 evidence/mantuq_mafhum/sources/*.txt -text -whitespace
 evidence/linguistic_truth_v1/sources/*.txt -text -whitespace
+evidence/licensed_inference_v1/sources/*.txt -text -whitespace
 
 # Keep reproducible machine reports available while focusing review on code,
 # handwritten gold, original source excerpts, and contracts.
@@ -36,3 +40,11 @@ evidence/linguistic_truth_v1/benchmark_metadata_gate_initial.json linguist-gener
 evidence/linguistic_truth_v1/proof_catalog.json linguist-generated=true
 evidence/linguistic_truth_v1/grammar_link_summary.json linguist-generated=true
 evidence/linguistic_truth_v1/integration_review.json linguist-generated=true
+evidence/licensed_inference_v1/proof_catalog.json linguist-generated=true
+evidence/licensed_inference_v1/grammar_link_summary.json linguist-generated=true
+evidence/licensed_inference_v1/axioms.* linguist-generated=true
+evidence/licensed_inference_v1/conformance*.json linguist-generated=true
+evidence/licensed_inference_v1/independent_initial.json linguist-generated=true
+evidence/licensed_inference_v1/independent_final.json linguist-generated=true
+evidence/licensed_inference_v1/independent_pre_transport_review.json linguist-generated=true
+evidence/licensed_inference_v1/independent_intermediate_transport_review.json linguist-generated=true

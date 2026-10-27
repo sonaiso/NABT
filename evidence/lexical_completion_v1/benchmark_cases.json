@@ -1,0 +1,303 @@
+{
+  "schema": "nabt.lexical-completion.controls.v1",
+  "review_status": "HAND_AUTHORED_BY_IMPLEMENTER_NOT_BLIND_OR_INDEPENDENT_LINGUISTIC_ADJUDICATION",
+  "scope": "semantic controls and ambiguity/resource boundaries for installed catalogue",
+  "cases": [
+    {
+      "id": "whole-earth",
+      "request": {
+        "slots": [
+          {
+            "entry": "أرض",
+            "target": [
+              "التي عليها الناس"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_ALL_READINGS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "part-house",
+      "request": {
+        "slots": [
+          {
+            "entry": "بيت",
+            "target": [
+              "المأوى"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_ALL_READINGS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "necessary-vision",
+      "request": {
+        "slots": [
+          {
+            "entry": "عمي",
+            "target": [
+              "البصر"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_ALL_READINGS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "bed-necessity-is-sense-specific",
+      "request": {
+        "slots": [
+          {
+            "entry": "سرر",
+            "target": [
+              "الارتفاع"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_SOME_READINGS",
+      "expected_combinations": 2,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "five-eye-readings",
+      "request": {
+        "slots": [
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_SOME_READINGS",
+      "expected_combinations": 5,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "eye-pen-product",
+      "request": {
+        "slots": [
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          },
+          {
+            "entry": "قلم",
+            "target": [
+              "الذي يكتب به"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_SOME_READINGS",
+      "expected_combinations": 15,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "repeated-eye-positions",
+      "request": {
+        "slots": [
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          },
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          },
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_SOME_READINGS",
+      "expected_combinations": 125,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "going-child-slots-not-sentence",
+      "request": {
+        "slots": [
+          {
+            "entry": "ذهب",
+            "target": [
+              "السير والمرور"
+            ]
+          },
+          {
+            "entry": "ولد",
+            "target": [
+              "ما ولد أيا كان"
+            ]
+          }
+        ]
+      },
+      "expected_status": "CONDITIONAL_ALL_READINGS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 1
+    },
+    {
+      "id": "atomic-gloss-not-word-parts",
+      "request": {
+        "slots": [
+          {
+            "entry": "ذهب",
+            "target": [
+              "السير"
+            ]
+          }
+        ]
+      },
+      "expected_status": "NO_LICENSE_FOR_TARGETS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 0
+    },
+    {
+      "id": "mind-word-not-a-part",
+      "request": {
+        "slots": [
+          {
+            "entry": "فهم",
+            "target": [
+              "القلب"
+            ]
+          }
+        ]
+      },
+      "expected_status": "NO_LICENSE_FOR_TARGETS",
+      "expected_combinations": 3,
+      "expected_licensed_combinations": 0
+    },
+    {
+      "id": "no-legal-effect",
+      "request": {
+        "slots": [
+          {
+            "entry": "أسد",
+            "target": [
+              "وجوب الحكم"
+            ]
+          }
+        ]
+      },
+      "expected_status": "NO_LICENSE_FOR_TARGETS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 0
+    },
+    {
+      "id": "sun-deictic-gloss",
+      "request": {
+        "slots": [
+          {
+            "entry": "شمس",
+            "target": [
+              "النهار"
+            ]
+          }
+        ]
+      },
+      "expected_status": "UNMEASURED_DEFINITION",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 0
+    },
+    {
+      "id": "source-found-meaning-unimplemented",
+      "request": {
+        "slots": [
+          {
+            "entry": "بحر",
+            "target": [
+              "ماء"
+            ]
+          }
+        ]
+      },
+      "expected_status": "UNMEASURED_ENTRY",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 0
+    },
+    {
+      "id": "missing-entry",
+      "request": {
+        "slots": [
+          {
+            "entry": "لفظغيرمفهرس",
+            "target": [
+              "شيء"
+            ]
+          }
+        ]
+      },
+      "expected_status": "UNMEASURED_ENTRY",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 0
+    },
+    {
+      "id": "resource-limit-no-prefix",
+      "request": {
+        "slots": [
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          },
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          },
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          },
+          {
+            "entry": "عين",
+            "target": [
+              "النقد"
+            ]
+          }
+        ]
+      },
+      "expected_status": "RESOURCE_EXHAUSTED",
+      "expected_combinations": 625,
+      "expected_licensed_combinations": null
+    },
+    {
+      "id": "empty-target-no-vacuity",
+      "request": {
+        "slots": [
+          {
+            "entry": "أرض",
+            "target": []
+          }
+        ]
+      },
+      "expected_status": "NO_LICENSE_FOR_TARGETS",
+      "expected_combinations": 1,
+      "expected_licensed_combinations": 0
+    }
+  ]
+}

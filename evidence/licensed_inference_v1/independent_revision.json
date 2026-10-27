@@ -1,0 +1,158 @@
+{
+  "schema": "nabt.licensed-inference.independent-revision.v1",
+  "gold_sha256": "4aae6aa0054d42820626f72fa5194d16902544e86629d1a57f69b52a971707af",
+  "gold_inputs_or_expected_labels_changed": false,
+  "initial_report_sha256": "04c2bbf1dbc0ac7e8cdd02e83bb63b80b43ed26c78b8a29b17d734ac2daf5a9d",
+  "observation_revision_sha256": "36673648a3b4db888153335a87eb4339c61d443a045b14acb20739d40d1aece2",
+  "final_report_sha256": "530ca7b6f00fe2fbffb9806cf49b43a8705aad408dbccf63a1d9e209456be2cc",
+  "runtime_changed_between_measurements": true,
+  "changes": [
+    {
+      "component": "L29 observation",
+      "detail": "Map explicit verified=false, native_checked=false, all_readings_complete=false and empty readings before parse to no complete checked reading. Preserve RESOURCE_EXHAUSTED, never call this linguistic rejection."
+    },
+    {
+      "component": "native JSON transport hardening",
+      "detail": "Native checker rejects duplicate JSON object keys and bounds object preflight to 16 keys. Preserve both preceding actual runs, rerun unchanged frozen gold/evaluator on final binary. No semantic label or accepted natural grammar change."
+    }
+  ],
+  "taxonomy_mapping": {
+    "native_DEFER_to_gold_DISAGREEMENT": "Only when actual per-reading (positive, negative) support pairs differ. Equal unclean readings remain DEFER. Raw status retained.",
+    "aggregation_fixture_scope": "Six zero-rule supplied signed-fact readings; calculation-only, not acquired alternative Arabic readings."
+  },
+  "summary": {
+    "cases": 38,
+    "pass": 37,
+    "fail": 1,
+    "unmeasured": 0,
+    "executed": 38,
+    "families": {
+      "original_unresolved": {
+        "PASS": 1
+      },
+      "conditional_only": {
+        "PASS": 2
+      },
+      "forward": {
+        "PASS": 1
+      },
+      "order_invariance": {
+        "PASS": 1
+      },
+      "front_conditional": {
+        "PASS": 1
+      },
+      "no_inverse": {
+        "PASS": 2
+      },
+      "negative_consequent": {
+        "PASS": 1
+      },
+      "signed_states": {
+        "PASS": 4
+      },
+      "derived_conflict": {
+        "PASS": 1
+      },
+      "no_explosion": {
+        "PASS": 1
+      },
+      "subject_identity": {
+        "PASS": 2
+      },
+      "frame_identity": {
+        "PASS": 2
+      },
+      "preserved_adjuncts": {
+        "PASS": 1
+      },
+      "quote_boundary": {
+        "PASS": 1
+      },
+      "question_boundary": {
+        "PASS": 1
+      },
+      "trailing_input": {
+        "PASS": 1
+      },
+      "partial_condition": {
+        "PASS": 1
+      },
+      "query_boundary": {
+        "PASS": 1
+      },
+      "unknown_vocabulary": {
+        "FAIL": 1
+      },
+      "provenance": {
+        "PASS": 2
+      },
+      "resource": {
+        "PASS": 2
+      },
+      "invalid_input": {
+        "PASS": 2
+      },
+      "aggregation": {
+        "PASS": 6
+      }
+    },
+    "target_observations": {
+      "measured": 28,
+      "exact_matches": 27,
+      "false_supported_literals": 0,
+      "missing_supported_literals": 1
+    },
+    "authority": {
+      "obligations": 76,
+      "measured": 76,
+      "overclaims": 0,
+      "unmeasured": 0
+    }
+  },
+  "contract_gate": {
+    "passed": true,
+    "checks": {
+      "execution_identity_stable": true,
+      "all_38_cases_handled": true,
+      "primary_authority_observed": true,
+      "no_authority_overclaim": true,
+      "no_false_supported_literals": true,
+      "native_checker_for_complete_readings": true
+    },
+    "scope": "Integrity and authority contracts only; 38-case diagnostic denominator and every unsupported or unmeasured capability remain visible."
+  },
+  "integrity": {
+    "valid": true,
+    "stable": true,
+    "native_present": true,
+    "changed_sections": []
+  },
+  "limitations": [
+    "Finite agent-authored diagnostic, not external human review or population accuracy.",
+    "One out-of-domain natural positive case remains an acquisition miss.",
+    "Original implicit subject remains unresolved; no invented complete referent universe.",
+    "Surface parser singleton readings do not prove that Arabic ambiguity is singleton."
+  ],
+  "runtime_python_files_changed": [],
+  "pre_transport_review_report_sha256": "227eaa05fd9c45dcb147c46df10a32b48bd2d1a2cd312d3deeecfe07bf8c6077",
+  "intermediate_transport_review_report_sha256": "0bf9dba9e211705121be1fd49f279ca0ddff9b4e3147677f24b9213af862d412",
+  "native_transport_history": [
+    {
+      "report": "independent_pre_transport_review.json",
+      "native_sha256": "777c172445d07078e2900e9fce787aab47a43d173566288a88092c7aa9ad8973",
+      "stage": "before duplicate-object-key transport review"
+    },
+    {
+      "report": "independent_intermediate_transport_review.json",
+      "native_sha256": "cc2f893f9dc32c5d896bb83f8d9295d26604c9c42a380c88803f21671578ae18",
+      "stage": "duplicate-object-key rejection"
+    },
+    {
+      "report": "independent_final.json",
+      "native_sha256": "bcda66dc675a0ba7c375647943da14d3a312e49f8f7d4bcfff8eb6212b871b49",
+      "stage": "duplicate-object-key rejection with final 16-key object preflight bound"
+    }
+  ],
+  "evaluator_changed_for_transport_review": false
+}

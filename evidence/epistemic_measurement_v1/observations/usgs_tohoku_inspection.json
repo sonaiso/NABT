@@ -1,0 +1,109 @@
+{
+  "schema": "nabt.primary-observation-source-inspection.v1",
+  "status": "SOURCE_INSPECTION_ONLY_NO_RUNTIME_EXPECTATIONS",
+  "capture_sha256": "d9cf0301f748786d5ff881edba71e1b19c5b5008b3abeb893e8e88240433ba4a",
+  "capture_file": "usgs_tohoku_raw.json",
+  "source_agency": "United States Geological Survey",
+  "record_kind": "INSTITUTIONAL_OBSERVATION_REPORT",
+  "id": "official20110311054624120_30",
+  "source_url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventid=official20110311054624120_30",
+  "record_fields": {
+    "mag": {
+      "json_pointer": "/properties/mag",
+      "value": 9.1
+    },
+    "magType": {
+      "json_pointer": "/properties/magType",
+      "value": "mww"
+    },
+    "time": {
+      "json_pointer": "/properties/time",
+      "value": 1299822384120
+    },
+    "updated": {
+      "json_pointer": "/properties/updated",
+      "value": 1792147089160
+    },
+    "status": {
+      "json_pointer": "/properties/status",
+      "value": "reviewed"
+    },
+    "net": {
+      "json_pointer": "/properties/net",
+      "value": "official"
+    },
+    "code": {
+      "json_pointer": "/properties/code",
+      "value": "20110311054624120_30"
+    },
+    "type": {
+      "json_pointer": "/properties/type",
+      "value": "earthquake"
+    }
+  },
+  "geometry_fields": {
+    "longitude": {
+      "json_pointer": "/geometry/coordinates/0",
+      "value": 142.373,
+      "unit": "degree"
+    },
+    "latitude": {
+      "json_pointer": "/geometry/coordinates/1",
+      "value": 38.297,
+      "unit": "degree"
+    },
+    "depth": {
+      "json_pointer": "/geometry/coordinates/2",
+      "value": 29,
+      "unit": "km"
+    }
+  },
+  "decoded_times": {
+    "phenomenon_time_utc": "2011-03-11T05:46:24.120000+00:00",
+    "agency_record_updated_utc": "2026-10-16T10:38:09.160000+00:00",
+    "input_unit": "milliseconds since Unix epoch",
+    "agency_update_is_not_automatically_sensor_acquisition_time": true
+  },
+  "magnitude_scope": {
+    "published_value": 9.1,
+    "magnitude_type": "mww",
+    "magnitude_type_is_not_si_unit": true,
+    "magnitude_uncertainty": null,
+    "uncertainty_status": "NOT_DECLARED_FOR_SELECTED_PREFERRED_VALUE",
+    "different_origins_must_not_be_merged": true,
+    "other_origin_published_magnitudes": [
+      "9.1",
+      "9.0",
+      "9.09",
+      "8.72",
+      "9.1"
+    ]
+  },
+  "preferred_origin_inspection": {
+    "path": "/properties/products/origin/0",
+    "source": "official",
+    "code": "official20110311054624120_30",
+    "updateTime": 1561150942463,
+    "preferredWeight": 100000000,
+    "recorded_uncertainty_strings": {
+      "error-ellipse-azimuth": "141.99",
+      "error-ellipse-intermediate": "2540",
+      "error-ellipse-major": "3330",
+      "error-ellipse-minor": "0",
+      "error-ellipse-plunge": "0.00",
+      "error-ellipse-rotation": "0.00",
+      "eventtime-error": "0.10",
+      "standard-error": "1.16"
+    },
+    "interpretation": "Raw reported strings only; no precision or coverage guarantee is inferred."
+  },
+  "permitted_claim_scope": "A claim may correspond to a selected field in this frozen agency report. The report itself and its physical measurements are not independently certified by Lean.",
+  "independence": "Captured from the agency before pilot claim bindings; no NABT runtime output used to create this inspection.",
+  "not_claimed": [
+    "independent sensor calibration",
+    "absolute physical world truth",
+    "actual human motive",
+    "Arabic natural-text extraction",
+    "all-Arabic completeness"
+  ]
+}

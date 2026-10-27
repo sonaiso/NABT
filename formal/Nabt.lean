@@ -61,3 +61,9 @@ import Nabt.RuleRouting
 import Nabt.QualifiedInference
 
 import Nabt.LinguisticTruth
+import Nabt.LicensedInference
+import Nabt.LexicalCompletion
+import Nabt.LexicalCompletionCatalog
+import Nabt.LexicalGraph
+import Nabt.AttestedLexicalLoading
+import Nabt.EpistemicMeasurement
