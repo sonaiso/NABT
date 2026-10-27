@@ -1,0 +1,189 @@
+{
+  "schema": "nabt.interface-migration.runner-identity-change.v4",
+  "reason": "Makefile passes PYTHONPATH=src; direct file invocation omitted the repository package root. Invoke the interface audit with python -m tools.interface_migration_audit.",
+  "prior_attempt_sha256": "111fc2619cda93fd0225d7d6b7f602ba61ab538e0974d00173030bd26e81ea16",
+  "current_sha256": "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d",
+  "runtime_freeze_sha256": "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271",
+  "runtime_changed": false,
+  "formal_changed": false,
+  "ui_changed": false,
+  "gold_or_denominators_changed": false,
+  "changed_common_dependencies": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "before": {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 29033,
+        "sha256": "79ffc01e02b5cd7addc8968104056ebd99d6425bebab63aa5b298a63188500c5"
+      },
+      "after": {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 29033,
+        "sha256": "566300ad7282d6cf5302bd74a995bf281b7930c5eebcc6a7783a377f48c288af"
+      }
+    },
+    {
+      "path": "Makefile",
+      "before": {
+        "path": "Makefile",
+        "bytes": 17143,
+        "sha256": "c33b402f9a4b1ff0a7d6f1e151188df133f105bdc968a890b2ab7b34601effdd"
+      },
+      "after": {
+        "path": "Makefile",
+        "bytes": 17143,
+        "sha256": "91b156953908d6ef2f483aea27e750ac2c9d0114dc5c4b04f4a83db69b4d5ed9"
+      }
+    },
+    {
+      "path": "tests/test_completion_v6_gate.py",
+      "before": {
+        "path": "tests/test_completion_v6_gate.py",
+        "bytes": 2790,
+        "sha256": "e9a6d35b0907e47fa652c1dfbe6fe606dda1ff74072e32eb35b5ae9a7eea5de3"
+      },
+      "after": {
+        "path": "tests/test_completion_v6_gate.py",
+        "bytes": 2790,
+        "sha256": "6a02db407d29fe2b9caad2c3f02922e0cb066fe32c9338031dcb68f61bc05dac"
+      }
+    },
+    {
+      "path": "tests/test_interface_migration_runtime_freeze.py",
+      "before": {
+        "path": "tests/test_interface_migration_runtime_freeze.py",
+        "bytes": 10134,
+        "sha256": "e32516f24e6551bc236f77eab1edabcb8c3d1242b6bd0f0420c31d72cab35b9f"
+      },
+      "after": {
+        "path": "tests/test_interface_migration_runtime_freeze.py",
+        "bytes": 11202,
+        "sha256": "01c928ee303cebdee1e342a7e992451e0b2cb99418e908e57fa6711464df63f3"
+      }
+    }
+  ],
+  "added_dependencies": [
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/freeze_runner_v4.py",
+      "bytes": 10125,
+      "sha256": "40f7fb207191eb4e6bcf80a1dd3ac347c8ee3adb3a570345d87c9bd9d56002ed"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/review_continuation_v4.py",
+      "bytes": 25192,
+      "sha256": "bc9996fe6e1a926e728744f50b97c626bb44abf0803ef3941700a69f4ee4cdeb"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_oracle_v4.py",
+      "bytes": 19744,
+      "sha256": "8111814e847c2dcf45738e71c804d92638e296adc823948f1ed2ecf0af9bcfdd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_regression_v4.py",
+      "bytes": 5508,
+      "sha256": "661792bde0ecd34b0acb994dc939395cc71eef156756b41656c3b75efc9088bd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_source_counterexamples_v4.py",
+      "bytes": 21707,
+      "sha256": "dc947ebc1fc605e03a76522995e2fd5c90e339793cc95f546590627525823765"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/runner_freeze_v3.json",
+      "bytes": 156876,
+      "sha256": "111fc2619cda93fd0225d7d6b7f602ba61ab538e0974d00173030bd26e81ea16"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/test_continuation_v4.py",
+      "bytes": 8489,
+      "sha256": "697229b50c8c754e8fc09619f1c80b5b05172be93bba954f9d940591eb639418"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/attempt.json",
+      "bytes": 3602,
+      "sha256": "7b75acef7234137b9e48f5a3cb4167adf494237a8a99e7a4bbe474d21b26353c"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/.github/workflows/ci.yml",
+      "bytes": 29033,
+      "sha256": "79ffc01e02b5cd7addc8968104056ebd99d6425bebab63aa5b298a63188500c5"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/Makefile",
+      "bytes": 17143,
+      "sha256": "c33b402f9a4b1ff0a7d6f1e151188df133f105bdc968a890b2ab7b34601effdd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/freeze_runner_v3.py",
+      "bytes": 9777,
+      "sha256": "35a37a4bbb0ec7458b7614478093e7f30f8831a140ee91aa7236e8676ac22f9c"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/review_continuation_v3.py",
+      "bytes": 25192,
+      "sha256": "c604240cb572f9bc7ab6f98243e91fb138d2d3880d5eb4ba6a4d9be1ee74c609"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/run_oracle_v3.py",
+      "bytes": 19744,
+      "sha256": "4a6774801d599139aa32766443a0b5745308d0e0e364eb4370ea32499ff3d0a8"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/run_regression_v3.py",
+      "bytes": 5508,
+      "sha256": "a6c9dd4cce42626b8d585ee83b55b6549839ddd73cac795c9f1bdbf79b0881b6"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/run_source_counterexamples_v3.py",
+      "bytes": 21707,
+      "sha256": "fadeec7e8012242060afa7f2c409824d63fb57718e0796bdb4ed91a051ebe1bc"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/runner_freeze_v3.json",
+      "bytes": 156876,
+      "sha256": "111fc2619cda93fd0225d7d6b7f602ba61ab538e0974d00173030bd26e81ea16"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/evidence/interface_migration_v1/independent_oracle/test_continuation_v3.py",
+      "bytes": 8489,
+      "sha256": "3061cab2442dec80681b4aadf1f34cd8a869f152070a93d7d3b7438dbdebdc80"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/tests/test_completion_v6_gate.py",
+      "bytes": 2790,
+      "sha256": "e9a6d35b0907e47fa652c1dfbe6fe606dda1ff74072e32eb35b5ae9a7eea5de3"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/files/tests/test_interface_migration_runtime_freeze.py",
+      "bytes": 10134,
+      "sha256": "e32516f24e6551bc236f77eab1edabcb8c3d1242b6bd0f0420c31d72cab35b9f"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/gates.json",
+      "bytes": 993,
+      "sha256": "7eca1bd8c768dd0c77ac1e432da247065001176dd1caf07adbfc4ea90a07aba0"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/identity_tests_v3.log",
+      "bytes": 4017,
+      "sha256": "2e073e6fffc6077ddc62c010bceabc008dfa37a48054d89991d5fa808a3878cd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/03_cli_module_import_path/make-check.log",
+      "bytes": 128607,
+      "sha256": "ea600889dead4fade9562bf3c4918d9da9bbeab13c208c1a128fb942e5b39894"
+    }
+  ],
+  "removed_dependencies": [],
+  "addition_explanation": "Six v4 scripts, previous v3 runner identity, and fifteen exact v3 attempt files/logs. No prior evidence was resealed.",
+  "targeted_gate": {
+    "target": "licensed-interface-conformance",
+    "returncode": 0,
+    "tests_passed": 57,
+    "tests_skipped": 0,
+    "registered_guards_denied_before_body": 169,
+    "registered_guard_count": 169,
+    "native_controls_executed": true
+  },
+  "scope": "Executable entrypoint repair and release identity. No language coverage claim."
+}

@@ -1,7 +1,8 @@
 # Optional source-grounded linguistic-use reader; coverage gaps stay explicit.
 .PHONY: linguistic-truth
-LINGUISTIC_LINK_REFERENCE ?= evidence/progressive_rule_audit_v1/catalog_references/linguistic_proof_links.json
+LINGUISTIC_LINK_REFERENCE ?= evidence/legacy_migration_v2/catalog_references/linguistic_proof_links.json
 linguistic-truth: formal
+	$(PYTHON) tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 	$(PYTHON) tools/check_linguistic_truth.py --lake $(LAKE) --output $(EVIDENCE_DIR)/linguistic-truth-conformance.json
 	$(PYTHON) -m tools.linguistic_truth.verify_originals --output $(EVIDENCE_DIR)/linguistic-truth-retained-sources.json
 	$(PYTHON) -m tools.linguistic_truth.links --lake $(LAKE) --check $(LINGUISTIC_LINK_REFERENCE) --output $(EVIDENCE_DIR)/linguistic-truth-proof-links.json

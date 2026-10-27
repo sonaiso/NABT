@@ -1,8 +1,11 @@
+import '../web/transport-contract.js';
+import '../web/workflow-contract.js';
+import '../web/legacy-authority.js';
 import '../web/contextual-contract.js';
 import '../web/epistemic-contract.js';
 const REPOSITORY = 'sonaiso/NABT';
 const WORKFLOW = 'proof-lab.yml';
-const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix','codex/epistemic-measurement','codex/contextual-semantic-licenses'];
+const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix','codex/epistemic-measurement','codex/contextual-semantic-licenses','codex/licensed-interface-migration','codex/legacy-license-wave1'];
 const REQUEST_SCHEMA = 'nabt.proof-lab-request.v1';
 const MAX_PAYLOAD = 32768;
 const MAX_REPORT = 2 * 1024 * 1024;
@@ -19,6 +22,12 @@ function json(value,status=200){return new Response(JSON.stringify(value),{statu
 function exactKeys(value,allowed){if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!allowed.includes(k)))fail('INVALID_INPUT');}
 function unicode(value){if(typeof value!=='string')fail('INVALID_INPUT');for(let i=0;i<value.length;i++){const n=value.charCodeAt(i);if(n>=0xd800&&n<=0xdbff){const next=value.charCodeAt(++i);if(!(next>=0xdc00&&next<=0xdfff))fail('INVALID_UNICODE');}else if(n>=0xdc00&&n<=0xdfff)fail('INVALID_UNICODE');}return value;}
 export function validatePayload(value){
+  if(value?.mode==='licensed_workflow'){
+    exactKeys(value,['schema','mode','workflow']);
+    if(value.schema!==REQUEST_SCHEMA)fail('INVALID_INPUT');
+    try{globalThis.NabtWorkflowContract.validateRequest(value.workflow);}catch{fail('INVALID_INPUT');}
+    return {schema:REQUEST_SCHEMA,mode:'licensed_workflow',workflow:value.workflow};
+  }
   if(value?.mode==='contextual_reference'){
     exactKeys(value,['schema','mode']);
     if(value.schema!==REQUEST_SCHEMA)fail('INVALID_INPUT');
@@ -67,9 +76,11 @@ export async function verifyHandle(handle,secret,now=Date.now()){
   if(typeof handle!=='string'||handle.length>2048)fail('INVALID_HANDLE',403);const pieces=handle.split('.');if(pieces.length!==2)fail('INVALID_HANDLE',403);
   const raw=fromBase64(pieces[0]);if(!await crypto.subtle.verify('HMAC',await key(secret),fromBase64(pieces[1]),raw))fail('INVALID_HANDLE',403);
   let data;try{data=JSON.parse(decoder.decode(raw));}catch{fail('INVALID_HANDLE',403);}
-  exactKeys(data,['request_id','payload_sha256','code_sha','mode','created','lexical_profile']);
+  exactKeys(data,['request_id','payload_sha256','code_sha','mode','created','lexical_profile','workflow_request_sha256']);
+  if(Object.hasOwn(data,'workflow_request_sha256')&&(data.mode!=='licensed_workflow'||!/^[a-f0-9]{64}$/.test(data.workflow_request_sha256)))fail('INVALID_HANDLE',403);
+  if(data.mode==='licensed_workflow'&&!/^[a-f0-9]{64}$/.test(data.workflow_request_sha256??''))fail('INVALID_HANDLE',403);
   if(Object.hasOwn(data,'lexical_profile')&&(data.mode!=='semantic_axes'||data.lexical_profile!=='attested_qac_v1'))fail('INVALID_HANDLE',403);
-  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony','semantic_axes','epistemic_measurement','contextual_reference'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
+  if(!UUID.test(data.request_id)||!SHA.test(data.code_sha)||! /^[a-f0-9]{64}$/.test(data.payload_sha256)||!['inference','benchmark','testimony','semantic_axes','epistemic_measurement','contextual_reference','licensed_workflow'].includes(data.mode)||!Number.isSafeInteger(data.created)||data.created>now+30000||now-data.created>86400000)fail('EXPIRED_OR_INVALID_HANDLE',403);
   return data;
 }
 function standard64(bytes){let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s);}
@@ -106,6 +117,7 @@ async function submit(request,env){
   if(!Array.isArray(recent.workflow_runs))fail('GITHUB_RESPONSE_INVALID',502);
   const now=Date.now();if(activeRuns(recent.workflow_runs,env.NABT_REF).some(r=>r.status!=='completed'||now-Date.parse(r.created_at)<30000))fail('RUN_ALREADY_ACTIVE',429);
   const descriptor={request_id:crypto.randomUUID(),payload_sha256:await sha(encoder.encode(payload)),code_sha:env.NABT_CODE_SHA,mode:input.mode,created:now};
+  if(input.mode==='licensed_workflow')descriptor.workflow_request_sha256=await globalThis.NabtWorkflowContract.digest(globalThis.NabtWorkflowContract.canonical(input.workflow));
   if(input.mode==='semantic_axes'&&input.lexical_profile==='attested_qac_v1')descriptor.lexical_profile='attested_qac_v1';
   await ghJson(env,'/actions/workflows/'+WORKFLOW+'/dispatches',{method:'POST',body:JSON.stringify({ref:env.NABT_REF,inputs:{request_id:descriptor.request_id,payload:JSON.stringify(await encryptEnvelope(payload,env.NABT_TRANSPORT_KEY,descriptor.request_id))}})});
   return json({handle:await signHandle(descriptor,env.NABT_SIGNING_KEY),request_id:descriptor.request_id,status:'queued',poll_after_ms:5000},202);
@@ -129,17 +141,24 @@ export async function unpackResult(bytes){
   try{return JSON.parse(decoder.decode(result));}catch{fail('ARTIFACT_JSON_INVALID',502);}
 }
 export function validateReport(report,expected){
+  if(report?.transport_contract){try{globalThis.NabtTransportContract.validateDetached(report,'tools.proof_lab.run_payload');}catch{fail('REPORT_TRANSPORT_CONTRACT_INVALID',502);}}
   if(!report||report.schema!=='nabt.proof-lab-result.v1'||report.request_id!==expected.request_id||report.payload_sha256!==expected.payload_sha256||report.code_sha!==expected.code_sha||report.mode!==expected.mode||report.all_arabic_complete!==false||report.world_truth_established!==false)fail('REPORT_BINDING_FAILED',502);
+  if(report.mode==='licensed_workflow'&&report.workflow_request_sha256&&report.workflow_request_sha256!==expected.workflow_request_sha256)fail('REPORT_BINDING_FAILED',502);
   if(report.mode==='semantic_axes'&&Object.hasOwn(report,'lexical_profile')&&report.lexical_profile!==(expected.lexical_profile??'teaching_v1'))fail('REPORT_BINDING_FAILED',502);
   const errorStatuses=['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'];
-  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony||report.semantic_axes||report.epistemic_measurement||report.contextual_reference)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(Object.hasOwn(report,'error')){if(typeof report.error!=='string'||report.error.length>128||!errorStatuses.includes(report.status)||report.result||report.benchmark||report.testimony||report.semantic_axes||report.epistemic_measurement||report.contextual_reference||report.gateway_result)fail('REPORT_AUTHORITY_INVALID',502);return report;}
+  if(report.mode==='licensed_workflow'){
+    try{globalThis.NabtWorkflowContract.validateEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
+    return report;
+  }
+  if(report.gateway_result)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='contextual_reference'){
     try{globalThis.NabtContextualContract.validateEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
     return report;
   }
   if(report.contextual_reference)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='epistemic_measurement'){
-    const allowed=['schema','request_id','payload_sha256','code_sha','native_sha256','generated_at_utc','duration_ms','mode','status','all_arabic_complete','world_truth_established','scope','reference_sha256','source_registry_sha256','runtime_sha256','runner_sha256','measurement_source_sha256','toolchain','epistemic_measurement'];
+    const allowed=['schema','request_id','payload_sha256','code_sha','native_sha256','generated_at_utc','duration_ms','mode','status','all_arabic_complete','world_truth_established','scope','reference_sha256','source_registry_sha256','runtime_sha256','runner_sha256','measurement_source_sha256','toolchain','epistemic_measurement','transport_contract'];
     if(Object.keys(report).some(k=>!allowed.includes(k)))fail('REPORT_AUTHORITY_INVALID',502);
     if(report.result||report.benchmark||report.testimony||report.semantic_axes||report.status!=='EPISTEMIC_MEASUREMENT_COMPLETE')fail('REPORT_AUTHORITY_INVALID',502);
     try{globalThis.NabtEpistemicContract.validateEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
@@ -165,12 +184,8 @@ export function validateReport(report,expected){
   }
   if(report.testimony)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='inference'){
-    const r=report.result;
-    const statuses=['SUPPORTED','REFUTED','CONFLICT','UNKNOWN','DEFER','DISAGREEMENT','INVALID_INPUT','SOURCE_UNAVAILABLE','VERIFICATION_UNAVAILABLE','RESOURCE_EXHAUSTED'];
-    if(!r||r.schema!=='nabt.licensed-inference-result.v1'||r.law_id!=='nabt.licensed-inference.v1'||!statuses.includes(r.status)||r.status!==report.status||['verified','native_checked','all_readings_complete','closures_checked'].some(k=>typeof r[k]!=='boolean')||r.all_arabic_complete!==false||r.world_truth_established!==false||report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
-    const measured=['SUPPORTED','REFUTED','CONFLICT','DEFER','DISAGREEMENT'];
-    if(r.verified&&(!r.native_checked||!r.all_readings_complete||!r.closures_checked||r.authority!=='SOURCE_RELATIVE_CONSEQUENCE'||![...measured,'UNKNOWN'].includes(r.status)))fail('REPORT_AUTHORITY_INVALID',502);
-    if(!r.verified&&(r.native_checked||r.all_readings_complete||r.closures_checked||r.authority!=='UNVERIFIED_PROPOSAL'||measured.includes(r.status)))fail('REPORT_AUTHORITY_INVALID',502);
+    if(report.benchmark)fail('REPORT_AUTHORITY_INVALID',502);
+    try{globalThis.NabtLegacyAuthority.validateInference(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
   }else{
     const b=report.benchmark,summary=b?.summary;
     if(!b||!summary||!Array.isArray(b.rows)||!['BENCHMARK_COMPLETE','BENCHMARK_CONTRACT_FAILURE'].includes(report.status)||report.result||typeof b.contract_gate?.passed!=='boolean'||(report.status==='BENCHMARK_COMPLETE')!==b.contract_gate.passed)fail('REPORT_AUTHORITY_INVALID',502);
@@ -268,31 +283,9 @@ export function validateSemanticAxes(suite){
 }
 
 export function validateTestimony(t,status){
-  const deny=()=>fail('REPORT_AUTHORITY_INVALID',502);
-  if(!t||t.schema!=='nabt.lexical-testimony.v1'||t.law_id!=='nabt.lexical-denotation.v1'||t.status!==status||!Array.isArray(t.rows)||typeof t.native_checked!=='boolean'||typeof t.all_installed_readings_retained!=='boolean'||typeof t.app_disclaimer!=='string'||!t.app_disclaimer.trim())deny();
-  for(const key of ['world_truth_established','all_arabic_complete','intended_sense_established','historical_authenticity_established'])if(t[key]!==false)deny();
-  if(!t.native_checked){
-    if(!['INVALID_INPUT','SOURCE_UNAVAILABLE','VERIFICATION_UNAVAILABLE','RESOURCE_EXHAUSTED'].includes(status)||t.authority!=='UNVERIFIED'||t.rows.length||t.all_installed_readings_retained||t.native_result)deny();
-    return t;
-  }
-  if(!['CONDITIONAL_INTERPRETATIONS','UNMEASURED_ROOT'].includes(status)||t.authority!=='CONDITIONAL_INTERPRETATION_ONLY'||t.all_installed_readings_retained!==(status==='CONDITIONAL_INTERPRETATIONS')||(t.rows.length>0)!==t.all_installed_readings_retained)deny();
-  const n=t.native_result,q=t.native_request;
-  if(!n||!q||n.status!==status||n.authority!==t.authority||n.world_truth_asserted!==false||n.all_arabic_senses_enumerated!==false||n.complete_installed_proposal!==t.all_installed_readings_retained||!Array.isArray(n.rows)||n.rows.length!==t.rows.length||!Array.isArray(t.common_indications)||JSON.stringify(t.common_indications)!==JSON.stringify(n.common_indications)||q.root!==t.entry||JSON.stringify(q.target)!==JSON.stringify(t.target))deny();
-  if(!/^[a-f0-9]{64}$/.test(t.native_sha256??'')||!/^[a-f0-9]{64}$/.test(t.catalogue_sha256??''))deny();
-  const ids=t.rows.map(r=>r.sense_id);
-  if(new Set(ids).size!==ids.length||JSON.stringify(ids)!==JSON.stringify(q.proposed_ids))deny();
-  const sourceCheck=s=>{
-    const c=s?.citation;
-    if(!s||s.transmission_type!=='UNASSESSED'||s.historical_authenticity_established!==false||s.retained_catalogue_matched!==true||typeof s.source_file_replayed!=='boolean'||s.source_check!==(s.source_file_replayed?'RETAINED_SOURCE_BYTES_REPLAYED':'RETAINED_QUOTATION_ONLY')||!c||!Number.isSafeInteger(c.start_byte)||!Number.isSafeInteger(c.end_byte)||c.start_byte<0||c.end_byte<=c.start_byte||typeof c.quotation!=='string'||encoder.encode(c.quotation).length!==c.end_byte-c.start_byte)deny();
-  };
-  for(let i=0;i<t.rows.length;i++){
-    const row=t.rows[i],native=n.rows[i];sourceCheck(row.testimony);
-    if(row.causal_or_legal_conclusion_established!==false||row.interpretation_status!=='AUTHORED_NOT_INDEPENDENTLY_ADJUDICATED'||!Array.isArray(row.commitment_conditions)||!native?.sense||native.sense.id!==row.sense_id||JSON.stringify(native.sense.components)!==JSON.stringify(row.components)||['work','revision','source_sha256','start_byte','end_byte','quotation'].some(k=>native.sense.citation?.[k]!==row.testimony.citation[k])||!Array.isArray(native.indications))deny();
-    for(const k of ['mutabaqa','tadammun','iltizam'])if(row.indications?.[k]!==native.indications.includes(k))deny();
-    for(const c of row.commitment_conditions){if(c.relation!=='MENTAL_NECESSITY_PREMISE')deny();sourceCheck(c.source);}
-  }
-  return t;
+  try{return globalThis.NabtLegacyAuthority.validateTestimony(t,status);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
 }
+
 async function downloadResult(env,artifact){
   if(!Number.isSafeInteger(artifact.id)||artifact.expired||artifact.size_in_bytes>4*1024*1024||!/^sha256:[a-f0-9]{64}$/.test(artifact.digest??''))fail('ARTIFACT_UNAVAILABLE',502);
   const redirect=await gh(env,'/actions/artifacts/'+artifact.id+'/zip');
@@ -324,7 +317,18 @@ async function poll(url,env){
   const items=(artifacts.artifacts??[]).filter(a=>a.name==='nabt-lab-'+expected.request_id&&a.workflow_run?.head_sha===expected.code_sha&&a.workflow_run?.id===run.id);
   if(items.length!==1)fail('ARTIFACT_UNAVAILABLE',502);
   const encrypted=await downloadResult(env,items[0]);
-  const report=validateReport(JSON.parse(await decryptEnvelope(encrypted,env.NABT_TRANSPORT_KEY,expected.request_id)),expected);
+  let report;
+  try{report=globalThis.NabtTransportContract.parseExactJSON(await decryptEnvelope(encrypted,env.NABT_TRANSPORT_KEY,expected.request_id));}
+  catch{fail('ARTIFACT_JSON_INVALID',502);}
+  report=validateReport(report,expected);
+  if(env.NABT_REF==='codex/legacy-license-wave1'||report.transport_contract){
+    try{
+      await globalThis.NabtTransportContract.verifyDetached(report,'tools.proof_lab.run_payload');
+      if(report.gateway_result)await globalThis.NabtTransportContract.verifyDetached(report.gateway_result,'tools.licensed_workflow.run_request');
+    }catch{fail('REPORT_TRANSPORT_CONTRACT_INVALID',502);}
+  }
+  if(report.mode==='licensed_workflow'&&report.gateway_result){try{await globalThis.NabtWorkflowContract.verifyEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}}
+  if(report.mode==='inference'&&report.result){try{await globalThis.NabtLegacyAuthority.verifyInferenceDigests(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}}
   if(report.contextual_reference){try{await globalThis.NabtContextualContract.verifyIntegrity(report.contextual_reference);}catch{fail('REPORT_BINDING_FAILED',502);}}
   if(report.epistemic_measurement){try{await globalThis.NabtEpistemicContract.verifyIntegrity(report.epistemic_measurement);}catch{fail('REPORT_BINDING_FAILED',502);}}
   return json({status:'completed',run_url,artifact_digest:items[0].digest,report});

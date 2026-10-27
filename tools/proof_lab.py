@@ -178,6 +178,38 @@ def validate_payload(payload):
     if type(request) is not dict or request.get("schema") != REQUEST_SCHEMA:
         raise RequestError("INVALID_REQUEST_SCHEMA")
     mode = request.get("mode")
+    if mode == "licensed_workflow":
+        if set(request) != {"schema", "mode", "workflow"}:
+            raise RequestError("UNEXPECTED_REQUEST_FIELD")
+        workflow = request["workflow"]
+        if (type(workflow) is not dict or set(workflow) != {"schema", "op", "input"}
+                or workflow["schema"] != "nabt.licensed-workflow-request.v1"
+                or type(workflow["op"]) is not str
+                or workflow["op"] not in {"lexical_surface", "lexical_candidates", "classical_control",
+                                          "scope_acquisition", "lexical_transmission", "discourse_boundary", "source_inference"}
+                or type(workflow["input"]) is not dict):
+            raise RequestError("INVALID_WORKFLOW_REQUEST")
+        from tools.licensed_workflow import _OPERATIONS
+        definition = _OPERATIONS[workflow["op"]]
+        if (not definition["required"] <= set(workflow["input"])
+                or set(workflow["input"]) - definition["required"] - definition["optional"]):
+            raise RequestError("UNDECLARED_WORKFLOW_ARGUMENT")
+        def portable(value):
+            if type(value) is int and not -(2**53-1) <= value <= 2**53-1:
+                raise RequestError("UNSAFE_WORKFLOW_INTEGER")
+            if type(value) is float:
+                raise RequestError("WORKFLOW_INTEGER_REQUIRED")
+            if type(value) is str:
+                value.encode("utf-8", "strict")
+            if type(value) is dict:
+                for key, child in value.items():
+                    portable(key)
+                    portable(child)
+            if type(value) is list:
+                for child in value:
+                    portable(child)
+        portable(workflow)
+        return request
     if mode == "testimony":
         if set(request) != {"schema", "mode", "entry", "target"}:
             raise RequestError("UNEXPECTED_REQUEST_FIELD")
@@ -239,6 +271,23 @@ def _identity():
         "runtime_sha256": _sha((ROOT / "tools/licensed_inference/runtime.py").read_bytes()),
         "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip(),
     }
+
+
+def _workflow_wire(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+def _workflow_identity():
+    binaries = ("lexicalSourceRows", "lexicalSurface", "linguisticTruth", "exportClassicalHamza",
+                "exportClassicalWeak", "exportClassicalGemination", "exportClassicalBoundaryAffixes", "qualifiedCueLicensing",
+                "scopeAcquisition", "lexicalTransmission", "discourseBoundaryCue", "licensedInference")
+    native = {name: _sha(path.read_bytes()) if (path := ROOT / "formal/.lake/build/bin" / name).is_file()
+              else None for name in binaries}
+    return {"code_sha": _code_sha(), "native_sha256": None, "native_binaries_sha256": native,
+        "runner_sha256": _sha(Path(__file__).read_bytes()),
+        "runtime_sha256": _sha((ROOT / "tools/licensed_workflow.py").read_bytes()),
+        "registry_sha256": _sha((ROOT / "src/nabt/data/framework_foundation.json").read_bytes()),
+        "toolchain": (ROOT / "formal/lean-toolchain").read_text().strip()}
 
 
 def _testimony_identity():
@@ -355,6 +404,27 @@ def _benchmark():
     }
 
 
+def _bind_transport(response):
+    # This only binds a fresh fixed producer's output. It never imports proof
+    # authority from caller-provided receipts or native flags.
+    from nabt.transport_contract import _bind_metadata
+    response.pop("transport_contract", None)
+    paths = []
+    if response.get("mode") == "licensed_workflow" and "gateway_result" in response:
+        paths = [f"gateway_result.claims[{i}]"
+                 for i in range(len(response["gateway_result"]["claims"]))]
+    response["transport_contract"] = _bind_metadata(
+        entrypoint="tools.proof_lab.run_payload", command=response.get("mode"),
+        resolved_request={"request_id": response.get("request_id"),
+                          "payload_sha256": response.get("payload_sha256")},
+        result=response, policy_id="nabt.proof-lab." + (response.get("mode") or "invalid") + ".v1",
+        authority="CHILD_DOMAIN_CONTRACT_RETAINED", input_binding="EXACT_PAYLOAD_DIGEST",
+        claim_paths=paths,
+        unresolved_premises=["TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
+                             "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY"])
+    return response
+
+
 def run_payload(request_id, payload, *, prepare=False):
     foundation.require_foundation('tools.proof_lab.run_payload')
     started = time.monotonic()
@@ -380,7 +450,7 @@ def run_payload(request_id, payload, *, prepare=False):
             except ValueError as error:
                 raise RequestError("MALFORMED_SOURCE_REPRESENTATION") from error
         response["mode"] = request["mode"]
-        identity = {"testimony": _testimony_identity,
+        identity = {"licensed_workflow": _workflow_identity, "testimony": _testimony_identity,
                     "epistemic_measurement": _epistemic_identity,
                     "contextual_reference": _contextual_identity,
                     "semantic_axes": _semantic_axes_identity}.get(request["mode"], _identity)
@@ -411,12 +481,27 @@ def run_payload(request_id, payload, *, prepare=False):
                 "verification_kind": "NATIVE_REFERENCE_RECEIPT_AND_PYTHON_GOLD_COMPARISON",
                 "whole_clause": "NOT_PROVED", "whole_arabic": "NOT_PROVED",
                 "external_world": "NOT_VERIFIED", "tawatur": "NOT_EVALUATED"}
+        if request["mode"] == "licensed_workflow":
+            response["scope"] = {"law_id": "nabt.licensed-workflow.v1",
+                "claim": "Only exact named claims returned by registered native adapters",
+                "whole_arabic": "NOT_PROVED", "external_world": "NOT_VERIFIED",
+                "all_interfaces_migrated": False, "tawatur": "NOT_ESTABLISHED"}
         if prepare:
             response["status"] = "PREPARED"
         elif request["mode"] == "semantic_axes":
             from tools.benchmark_semantic_axes import run
             suite = run() if profile == "teaching_v1" else run(lexical_profile=profile)
             response.update(status="SEMANTIC_AXES_COMPLETE", semantic_axes=suite)
+        elif request["mode"] == "licensed_workflow":
+            from tools.licensed_workflow import run_request, migration_inventory
+            gateway = run_request(request["workflow"])
+            inventory = migration_inventory()
+            response.update(status="LICENSED_WORKFLOW_COMPLETE", workflow_request=request["workflow"],
+                workflow_request_sha256=_sha(_workflow_wire(request["workflow"]).encode("utf-8")),
+                gateway_result=gateway, gateway_result_json=_workflow_wire(gateway),
+                gateway_result_sha256=_sha(_workflow_wire(gateway).encode("utf-8")),
+                adapter_result_json=_workflow_wire(gateway["result"]) if "result" in gateway else None,
+                migration_inventory=inventory)
         elif response["native_sha256"] is None:
             response.update(status="VERIFICATION_UNAVAILABLE", error="NATIVE_CHECKER_MISSING")
         elif request["mode"] == "epistemic_measurement":
@@ -477,16 +562,31 @@ def run_payload(request_id, payload, *, prepare=False):
         response.pop("semantic_axes", None)
         response.pop("epistemic_measurement", None)
         response.pop("contextual_reference", None)
+        for field in ("gateway_result", "gateway_result_json", "gateway_result_sha256", "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory"):
+            response.pop(field, None)
     response["duration_ms"] = round((time.monotonic() - started) * 1000)
-    encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
-    if len(encoded) >= MAX_RESULT_BYTES:
-        response.pop("result", None)
-        response.pop("benchmark", None)
-        response.pop("testimony", None)
-        response.pop("semantic_axes", None)
-        response.pop("epistemic_measurement", None)
-        response.pop("contextual_reference", None)
-        response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
+    # Validate and bound the producer before copying canonical bytes. Private
+    # malformed diagnostic values must fail closed, without echoing the child.
+    try:
+        for phase in range(2):
+            encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            if len(encoded) >= MAX_RESULT_BYTES:
+                for field in ("result", "benchmark", "testimony", "semantic_axes", "epistemic_measurement",
+                              "contextual_reference", "gateway_result", "gateway_result_json", "gateway_result_sha256",
+                              "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory",
+                              "transport_contract"):
+                    response.pop(field, None)
+                response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
+            if phase == 0 or response.get("transport_contract") is None:
+                _bind_transport(response)
+    except (ValueError, TypeError, UnicodeError, RecursionError):
+        for field in ("result", "benchmark", "testimony", "semantic_axes", "epistemic_measurement",
+                      "contextual_reference", "gateway_result", "gateway_result_json", "gateway_result_sha256",
+                      "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory",
+                      "transport_contract"):
+            response.pop(field, None)
+        response.update(status="EXECUTION_FAILED", error="INTERNAL_EXECUTION_FAILURE")
+        _bind_transport(response)
     return response
 
 
@@ -536,6 +636,7 @@ def main(argv=None):
             return 2
         result = run_payload(None, None, prepare=args.prepare)
         result["error"] = "INPUT_TRANSPORT_FAILURE"
+        _bind_transport(result)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(result, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     if encrypted:
@@ -554,7 +655,7 @@ def main(argv=None):
             stream.write("artifact_name=" + artifact + "\n")
             stream.write("attested_source=" + ("true" if valid and (
                 result.get("lexical_profile") == "attested_qac_v1" or
-                result.get("mode") == "contextual_reference") else "false") + "\n")
+                result.get("mode") in {"contextual_reference", "licensed_workflow"}) else "false") + "\n")
     print(json.dumps({"request_id": result["request_id"],
         "status": ("ENCRYPTED_RESULT_WRITTEN" if encrypted else result["status"])}, ensure_ascii=False))
     if smoke and not args.prepare and not (result.get("result", {}).get("verified") is True

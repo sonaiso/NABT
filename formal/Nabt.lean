@@ -72,3 +72,10 @@ import Nabt.AttestedLexicalLoading
 import Nabt.EpistemicMeasurement
 import Nabt.ContextualReference
 import Nabt.OccurrenceSense
+
+import Nabt.LexicalSourceAcquisition
+
+import Nabt.QualifiedCueLicensing
+import Nabt.LexicalTransmission
+import Nabt.ScopeAcquisition
+import Nabt.DiscourseBoundaryCueBridge

@@ -132,6 +132,22 @@ lean_exe linguisticTruth where
 lean_exe lexicalSurface where
   root := `LexicalSurfaceMain
 
+@[default_target]
+lean_exe lexicalSourceRows where
+  root := `LexicalSourceRowsMain
+
+@[default_target]
+lean_exe qualifiedCueLicensing where
+  root := `QualifiedCueLicensingMain
+
+@[default_target]
+lean_exe lexicalTransmission where
+  root := `LexicalTransmissionMain
+
+@[default_target]
+lean_exe scopeAcquisition where
+  root := `ScopeAcquisitionMain
+
 lean_exe licensedInference where
   root := `LicensedInferenceMain
 
@@ -146,3 +162,7 @@ lean_exe contextualReference where
 @[default_target]
 lean_exe occurrenceSense where
   root := `OccurrenceSenseMain
+
+@[default_target]
+lean_exe discourseBoundaryCue where
+  root := `DiscourseBoundaryCueMain

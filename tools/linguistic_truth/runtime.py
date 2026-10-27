@@ -97,7 +97,7 @@ def _covers_observed_marks(observed, reviewed):
                     for a, b in zip(left, right)))
 
 
-def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None):
+def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None, qualified_review=None):
     """Bind each cue reading to its own reviewed expression/sense spellings.
 
     A separate source-replayed review may supply inflected spellings. It can
@@ -108,8 +108,9 @@ def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None):
     head_forms = ["ب" + form for row in inventory["designations"]
                   if row["expression"] == parsed["expression"] for form in row["forms"]]
     from .marked_forms import _reviewed_forms
-    head_license = [] if mark_review is None else [candidate for candidate in
-        _reviewed_forms(mark_review, parsed["expression"], "expression")
+    reviews = [review for review in (mark_review, qualified_review) if review is not None]
+    head_license = [candidate for review in reviews for candidate in
+        _reviewed_forms(review, parsed["expression"], "expression")
         if _covers_observed_marks(head["text"], candidate["form"])]
     head_ok = (any(_covers_observed_marks(head["text"], form) for form in head_forms)
                or bool(head_license))
@@ -126,17 +127,18 @@ def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None):
             covered.append((start, end))
             observed = raw[start:end].decode("utf-8")
             reviewed = senses[parsed["expression"]][premise["sense_id"]]["forms"]
-            derived = [] if mark_review is None else [candidate for form in reviewed
-                for candidate in _reviewed_forms(mark_review, _normal(form), "sense")
+            derived = [candidate for source_review in reviews for form in reviewed
+                for candidate in _reviewed_forms(source_review, _normal(form), "sense")
                 if _covers_observed_marks(observed, candidate["form"])]
             if not any(_covers_observed_marks(observed, form) for form in reviewed) and not derived:
                 issues.append({"start": start, "end": end, "role": "sense",
                                "sense_id": premise["sense_id"]})
             reading_licenses.extend({**candidate, "sense_id": premise["sense_id"],
                                      "span": _span(raw, start, end)} for candidate in derived)
-        for token in tokens:
-            grammar_licenses = [] if mark_review is None else [candidate for candidate in
-                _reviewed_forms(mark_review, token["normal"], "grammar")
+        for token_index, token in enumerate(tokens):
+            following = tokens[token_index + 1]["normal"] if token_index + 1 < len(tokens) else None
+            grammar_licenses = [candidate for review in reviews for candidate in
+                _reviewed_forms(review, token["normal"], "grammar", following=following)
                 if _covers_observed_marks(token["text"], candidate["form"])]
             # New cue spellings have their own pinned lexical/derivational
             # evidence. A normal-form match alone never licenses a visible
@@ -512,6 +514,7 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
     reading_count = 0
     native_unavailable = False
     native_exhausted = False
+    qualified_review = None
     quotation_barrier = any(c in text for c in '«»()[]{}"“”\'‘’`')
     for start, end in _regions(text):
         if not text[start:end].strip():
@@ -526,7 +529,30 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
                 ord(c) < 32 and c not in "\t" for c in text[start:end])
             parsed = None if barred else _parse_clause(tokens, forms, senses, extension=extension)
             if parsed is not None:
+                original_parse = parsed
                 parsed, orthography_issues = _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review)
+                if parsed is None and orthography_issues:
+                    # The historical bridge remains unchanged. Only a blocked
+                    # observed spelling requests the additive source-qualified
+                    # native derivation; missing evidence never strips marks.
+                    from .marked_forms import (_load_qualified_review, QUALIFIED_REVIEW_SHA256,
+                        _QualifiedCueVerificationError, _QualifiedCueResourceError)
+                    try:
+                        if qualified_review is None:
+                            qualified_review = _load_qualified_review(root)
+                        output["qualified_mark_review_sha256"] = QUALIFIED_REVIEW_SHA256
+                        output["qualified_form_derivation"] = {
+                            "receipt": qualified_review["native_derivation_receipt"],
+                            "executable_sha256": qualified_review["native_executable_sha256"],
+                            "native_acquisition_proof": False}
+                        parsed, orthography_issues = _orthography_gate(original_parse, tokens, raw,
+                            inventory, senses, mark_review, qualified_review)
+                    except _QualifiedCueResourceError as exc:
+                        return {**output, "status": "RESOURCE_EXHAUSTED", "reason": str(exc)}
+                    except _QualifiedCueVerificationError as exc:
+                        return {**output, "status": "VERIFICATION_UNAVAILABLE", "reason": str(exc)}
+                    except (OSError, ValueError, KeyError) as exc:
+                        return {**output, "status": "SOURCE_UNAVAILABLE", "reason": str(exc)}
             if parsed is not None and parsed["orthography_licenses"]:
                 output.setdefault("orthography_evidence", []).append({"clause_span": clause_span,
                     "licenses": parsed["orthography_licenses"],

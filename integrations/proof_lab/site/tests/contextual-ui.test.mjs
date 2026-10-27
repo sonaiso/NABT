@@ -62,7 +62,8 @@ test('new tab keeps RTL navigation and focused button through case updates', asy
   const ui = await harness(), tab = ui.get('tab-contextual_reference'); tab.focus(); tab.click();
   assert.equal(ui.get('panel-contextual_reference').hidden, false); assert.equal(ui.document.activeElement, tab);
   ui.tablist.fire('keydown', { key: 'ArrowRight' }); assert.equal(ui.document.activeElement, ui.get('tab-epistemic_measurement'));
-  ui.tablist.fire('keydown', { key: 'End' }); assert.equal(ui.document.activeElement, tab);
+  ui.tablist.fire('keydown', { key: 'End' }); assert.equal(ui.document.activeElement, ui.get('tab-licensed_workflow'));
+  ui.tablist.fire('keydown', { key: 'ArrowRight' }); assert.equal(ui.document.activeElement, tab);
 });
 test('unavailable native receipts remain unmeasured and never show a conditional proof label', async () => {
   const ui = await harness(); ui.setResponse({ status: 'completed', report: report(unavailable()) }); await ui.submit(); await ui.poll();

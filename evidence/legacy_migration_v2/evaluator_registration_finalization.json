@@ -1,0 +1,51 @@
+{
+  "schema": "nabt.legacy-migration.evaluator-registration-finalization.v1",
+  "initial_record": {
+    "path": "evidence/legacy_migration_v2/evaluator_registration.json",
+    "sha256": "ec0bd030e23c93902b3cbf775e4929d5da820a040e01756f2f715aa4335157b8"
+  },
+  "changes": [
+    {
+      "path": "tools/framework_foundation_postreview.py",
+      "initial_registered_sha256": "c33d0d3bbfe2ec2a9a62b0225ffe95432f7439949a9f8c87396502a5855cab74",
+      "final_sha256": "28c5aaf43557e8eb7424f43cd13496bf2a6aec528fc3693aea05d0af1a5a2804",
+      "bytes": 33914
+    },
+    {
+      "path": "Makefile",
+      "initial_registered_sha256": "5286f6c35737bad2356f2ec47ab9c9d92b7a91f221507c7e19bf6539bb6e7970",
+      "final_sha256": "9516de798e9c612a81cf6724a36038b4cd3f44d1df74886a6e5e6547b06e6849",
+      "bytes": 18488
+    }
+  ],
+  "reviewed_test_and_reproducer_files": [
+    {
+      "path": "tests/test_framework_foundation_freeze.py",
+      "sha256": "0fd133b22478774031ea43d1877ee6cfdf132398c09d3d91dc69377406a2011b",
+      "bytes": 5732
+    },
+    {
+      "path": "tests/test_interface_migration_runtime_freeze.py",
+      "sha256": "7e6ee07e1fc49f4c084b2c70a77daab377a06de5cb5b919b1a15820a28d0e05b",
+      "bytes": 14354
+    },
+    {
+      "path": "tests/test_legacy_migration_runtime_freeze.py",
+      "sha256": "2bf8828769ada00edac577e77b1a6cabfa07d0aeb634c6691352b9b4dd54e070",
+      "bytes": 9001
+    },
+    {
+      "path": "evidence/legacy_migration_v2/register_runtime.py",
+      "sha256": "f2f0a0c2d85b9cd2f30e9903ab133d4236ff75764dc208fc5508fb05bb8fd97a",
+      "bytes": 5501
+    }
+  ],
+  "reason": "Correct explicit current postreview file-count predicate to 104; enforce missing-native failure in mandatory migration target and include portable/live binding tests; preserve historical freeze tests against their original archived roots and add current-identity controls. No runtime source, historical gold, scoring threshold or prior observation changed.",
+  "historical_registry_entries_preserved": true,
+  "new_runtime_predictions_performed_by_registration": false,
+  "pre_freeze_targeted_checks": {
+    "tests_passed": 55,
+    "tests_skipped": 0,
+    "scope": "Current/historical runtime identities, evaluator registration, recursive bridge regression, and wrapper-only identity controls; not a full release run."
+  }
+}

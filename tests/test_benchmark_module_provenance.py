@@ -22,11 +22,17 @@ class BenchmarkModuleProvenanceTests(unittest.TestCase):
         files = {
             'gold.json': '{}',
             'formal/lean-toolchain': 'test-toolchain\n',
+            'formal/lake-manifest.json': '{}',
+            'formal/Nabt/QualifiedCueLicensing.lean': '-- synthetic source identity fixture\n',
+            'formal/QualifiedCueLicensingMain.lean': '-- synthetic entrypoint identity fixture\n',
             'evidence/licensed_inference_v1/source_links.json':
                 '{"sources":[],"source_registries":[]}',
             'evidence/linguistic_truth_v1/source_inventory.json': '{"sources":[]}',
             CITATION['path']: 'test source bytes',
             str(marked_forms.REVIEW_PATH): 'test review bytes',
+            str(marked_forms.QUALIFIED_REVIEW_PATH):
+                '{"sources":[{"path":"qualified-test-source.txt"}]}',
+            'qualified-test-source.txt': 'synthetic qualified source bytes',
             str(sources.SUPPLEMENT_PATH): 'test supplement bytes',
         }
         for name, data in files.items():
@@ -90,6 +96,19 @@ class BenchmarkModuleProvenanceTests(unittest.TestCase):
         for snapshot, _ in self.snapshots('_relative.py', str(missing)):
             with self.assertRaises(FileNotFoundError):
                 snapshot()
+
+    def test_missing_qualified_review_source_fails_closed(self):
+        # The expanded execution snapshot must retain its source dependency;
+        # fixing this fixture must not turn a missing source into an omission.
+        source = self.root / 'qualified-test-source.txt'
+        with patch.object(linguistic, 'ROOT', self.root), \
+             patch.object(linguistic, 'GOLD_PATH', self.root / 'gold.json'):
+            snapshot = linguistic.evidence_snapshot()
+            self.assertEqual(snapshot['input_files']['qualified-test-source.txt'],
+                             sha256(source.read_bytes()).hexdigest())
+            source.unlink()
+            with self.assertRaises(FileNotFoundError):
+                linguistic.evidence_snapshot()
 
 
 if __name__ == '__main__':

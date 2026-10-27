@@ -1,0 +1,3206 @@
+{
+  "schema": "nabt.interface-migration-inventory.v1",
+  "registry_sha256": "63e29c7408cd736d62866bf634951c15493f963b98af5232430e8c9992c5a80d",
+  "foundation_law_id": "nabt.foundation.v1",
+  "surface_count": 179,
+  "states": {
+    "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED": 104,
+    "CHILD_CONTRACT_REVIEW_REQUIRED": 7,
+    "RETAIN_NON_AUTHORITATIVE": 33,
+    "RETAIN_TYPED_PRIMITIVE": 30,
+    "SCOPED_GATEWAY_INSTALLED": 5
+  },
+  "surfaces": [
+    {
+      "surface_id": "integrations.grammar_db.client.load_catalog",
+      "path": "integrations/grammar_db/client.py",
+      "entrypoint": "load_catalog",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_snapshot_ids_and_vectors_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "integrations.grammar_db.client.search",
+      "path": "integrations/grammar_db/client.py",
+      "entrypoint": "search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_snapshot_ids_and_vectors_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "integrations.inference_db.client.load_inventory",
+      "path": "integrations/inference_db/client.py",
+      "entrypoint": "load_inventory",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "inference_snapshot_ids_and_vectors_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "integrations.inference_db.client.search",
+      "path": "integrations/inference_db/client.py",
+      "entrypoint": "search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "inference_snapshot_ids_and_vectors_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.acquisition.acquire_transition_model",
+      "path": "src/nabt/acquisition.py",
+      "entrypoint": "acquire_transition_model",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "machine_state_and_a116_cell_identity",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.acquisition.checkedpredictor.__init__",
+      "path": "src/nabt/acquisition.py",
+      "entrypoint": "CheckedPredictor.__init__",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "machine_state_and_a116_cell_identity",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.acquisition.checkedpredictor.run",
+      "path": "src/nabt/acquisition.py",
+      "entrypoint": "CheckedPredictor.run",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "machine_state_and_a116_cell_identity",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.acquisition.checkedpredictor.transition",
+      "path": "src/nabt/acquisition.py",
+      "entrypoint": "CheckedPredictor.transition",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "machine_state_and_a116_cell_identity",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.acquisition.verify_candidate",
+      "path": "src/nabt/acquisition.py",
+      "entrypoint": "verify_candidate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "machine_state_and_a116_cell_identity",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.arabic_reader.read_arabic",
+      "path": "src/nabt/arabic_reader.py",
+      "entrypoint": "read_arabic",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "exact_utf8_source_and_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.convert_bytes",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "convert_bytes",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.convert_cell",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "convert_cell",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.convert_cells",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "convert_cells",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.convert_number",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "convert_number",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.decode_bytes",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "decode_bytes",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.decode_number",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "decode_number",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.encode_bytes",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "encode_bytes",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.encode_number",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "encode_number",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.render_cells",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "render_cells",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.bridges.transcode",
+      "path": "src/nabt/bridges.py",
+      "entrypoint": "transcode",
+      "kind": "encoding",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_alphabet_and_codec_not_raw_numeral_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.certificates.issue_certificate",
+      "path": "src/nabt/certificates.py",
+      "entrypoint": "issue_certificate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.certificates.verify_certificate",
+      "path": "src/nabt/certificates.py",
+      "entrypoint": "verify_certificate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_boundary_affixes.evaluate",
+      "path": "src/nabt/classical_boundary_affixes.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_certified.evaluate_certified",
+      "path": "src/nabt/classical_certified.py",
+      "entrypoint": "evaluate_certified",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "declared_classical_control_domains_with_separate_supplied_frame_a116_projection",
+      "migration_state": "SCOPED_GATEWAY_INSTALLED",
+      "authority_limit": "SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION",
+      "gateway_operation": "classical_control",
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "CLAIM_SPECIFIC_PREMISES_REMAIN_EXPLICIT",
+        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_gemination.evaluate",
+      "path": "src/nabt/classical_gemination.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_hamza.evaluate",
+      "path": "src/nabt/classical_hamza.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_laws.catalog",
+      "path": "src/nabt/classical_laws.py",
+      "entrypoint": "catalog",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_laws.evaluate",
+      "path": "src/nabt/classical_laws.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_laws.verify",
+      "path": "src/nabt/classical_laws.py",
+      "entrypoint": "verify",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.classical_weak.evaluate",
+      "path": "src/nabt/classical_weak.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_rule_ids_and_explicit_typed_premises",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.cli.run",
+      "path": "src/nabt/cli.py",
+      "entrypoint": "run",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "command_specific_typed_identity",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.append_numbers",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "append_numbers",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.decode_number",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "decode_number",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.encode_cells",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "encode_cells",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.pack_cells",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "pack_cells",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.replace_cell",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "replace_cell",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.split_number",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "split_number",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.codec.unpack_cells",
+      "path": "src/nabt/codec.py",
+      "entrypoint": "unpack_cells",
+      "kind": "encoding",
+      "guard_kind": "intrinsic_domain_checks",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.corpus_evidence.learn_qac_lexicon",
+      "path": "src/nabt/corpus_evidence.py",
+      "entrypoint": "learn_qac_lexicon",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_row_and_annotation_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.corpus_sources.read_corpus",
+      "path": "src/nabt/corpus_sources.py",
+      "entrypoint": "read_corpus",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bytes_and_annotation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.corpus_sources.verify_corpus",
+      "path": "src/nabt/corpus_sources.py",
+      "entrypoint": "verify_corpus",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bytes_and_annotation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.counting.read_count_phrase",
+      "path": "src/nabt/counting.py",
+      "entrypoint": "read_count_phrase",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_units_and_count_domain_not_cell_codes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.counting.verify_count_phrase",
+      "path": "src/nabt/counting.py",
+      "entrypoint": "verify_count_phrase",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_units_and_count_domain_not_cell_codes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.counting.verify_source_count",
+      "path": "src/nabt/counting.py",
+      "entrypoint": "verify_source_count",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_units_and_count_domain_not_cell_codes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.derivation.read_derivation",
+      "path": "src/nabt/derivation.py",
+      "entrypoint": "read_derivation",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_and_derivation_pattern_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.derivation.verify_derivation",
+      "path": "src/nabt/derivation.py",
+      "entrypoint": "verify_derivation",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_and_derivation_pattern_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.discourse.verify_discourse_answer",
+      "path": "src/nabt/discourse.py",
+      "entrypoint": "verify_discourse_answer",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "scoped_proposition_and_reference_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.discourse_reader.read_discourse",
+      "path": "src/nabt/discourse_reader.py",
+      "entrypoint": "read_discourse",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_context_entity_and_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.discourse_reader.verify_discourse",
+      "path": "src/nabt/discourse_reader.py",
+      "entrypoint": "verify_discourse",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_context_entity_and_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.governor_reader.read_arabic",
+      "path": "src/nabt/governor_reader.py",
+      "entrypoint": "read_arabic",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_licensed_governor_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.governors.check_assignment",
+      "path": "src/nabt/governors.py",
+      "entrypoint": "check_assignment",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "typed_syntactic_assignment_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.inflection_reader.read_inflection",
+      "path": "src/nabt/inflection_reader.py",
+      "entrypoint": "read_inflection",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_case_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.inflection_reader.verify_inflection",
+      "path": "src/nabt/inflection_reader.py",
+      "entrypoint": "verify_inflection",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_case_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.arabic_six_nouns.sixnounpilot.application_assessment",
+      "path": "src/nabt/learning/arabic_six_nouns.py",
+      "entrypoint": "SixNounPilot.application_assessment",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bindings_and_feature_schema_bits",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.arabic_six_nouns.sixnounpilot.assess_family",
+      "path": "src/nabt/learning/arabic_six_nouns.py",
+      "entrypoint": "SixNounPilot.assess_family",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bindings_and_feature_schema_bits",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.arabic_six_nouns.sixnounpilot.check",
+      "path": "src/nabt/learning/arabic_six_nouns.py",
+      "entrypoint": "SixNounPilot.check",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bindings_and_feature_schema_bits",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.arabic_six_nouns.sixnounpilot.propose",
+      "path": "src/nabt/learning/arabic_six_nouns.py",
+      "entrypoint": "SixNounPilot.propose",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bindings_and_feature_schema_bits",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.finite_guard.learningsession.choose_query",
+      "path": "src/nabt/learning/finite_guard.py",
+      "entrypoint": "LearningSession.choose_query",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "feature_schema_bits_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.finite_guard.learningsession.predict",
+      "path": "src/nabt/learning/finite_guard.py",
+      "entrypoint": "LearningSession.predict",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "feature_schema_bits_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.source_evidence.compare_replayed_record",
+      "path": "src/nabt/learning/source_evidence.py",
+      "entrypoint": "compare_replayed_record",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_span_and_explicit_evidence_feature_bits",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.learning.source_evidence.evaluate_license",
+      "path": "src/nabt/learning/source_evidence.py",
+      "entrypoint": "evaluate_license",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_span_and_explicit_evidence_feature_bits",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.compose_effects",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "compose_effects",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.effect.__post_init__",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Effect.__post_init__",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.__init__",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.__init__",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.analyse",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.analyse",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.count",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.count",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.effect",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.effect",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.final",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.final",
+      "kind": "checked",
+      "guard_kind": "checked_snapshot_primitive",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.pot",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.pot",
+      "kind": "checked",
+      "guard_kind": "checked_snapshot_primitive",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.rank",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.rank",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.transition",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.transition",
+      "kind": "checked",
+      "guard_kind": "checked_snapshot_primitive",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.machine.machine.unrank",
+      "path": "src/nabt/machine.py",
+      "entrypoint": "Machine.unrank",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "a116_cell_identity",
+      "migration_state": "RETAIN_TYPED_PRIMITIVE",
+      "authority_limit": "REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "LAYER_HANDOVER_REQUIRES_NEW_EVIDENCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.morphology_reader.read_morphology",
+      "path": "src/nabt/morphology_reader.py",
+      "entrypoint": "read_morphology",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_morphological_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.morphology_reader.verify_morphology",
+      "path": "src/nabt/morphology_reader.py",
+      "entrypoint": "verify_morphology",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_morphological_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.nominal.read_count_phrase",
+      "path": "src/nabt/nominal.py",
+      "entrypoint": "read_count_phrase",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_nominal_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.nominal.read_nominal",
+      "path": "src/nabt/nominal.py",
+      "entrypoint": "read_nominal",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_nominal_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.nominal.read_nominal_facts",
+      "path": "src/nabt/nominal.py",
+      "entrypoint": "read_nominal_facts",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_nominal_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.nominal.verify_nominal",
+      "path": "src/nabt/nominal.py",
+      "entrypoint": "verify_nominal",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_nominal_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.nominal.verify_nominal_facts",
+      "path": "src/nabt/nominal.py",
+      "entrypoint": "verify_nominal_facts",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_nominal_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.person_evidence.person_candidates",
+      "path": "src/nabt/person_evidence.py",
+      "entrypoint": "person_candidates",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_and_person_feature_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.phonological_modes.realize",
+      "path": "src/nabt/phonological_modes.py",
+      "entrypoint": "realize",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_modes_and_segments_with_explicit_alphabet",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.phonological_modes.realize_imperative_onset",
+      "path": "src/nabt/phonological_modes.py",
+      "entrypoint": "realize_imperative_onset",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_modes_and_segments_with_explicit_alphabet",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.program.compile_request",
+      "path": "src/nabt/program.py",
+      "entrypoint": "compile_request",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_program_bytes_and_opcodes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.program.execute_program",
+      "path": "src/nabt/program.py",
+      "entrypoint": "execute_program",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_program_bytes_and_opcodes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.program.program.from_bytes",
+      "path": "src/nabt/program.py",
+      "entrypoint": "Program.from_bytes",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_program_bytes_and_opcodes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.program.program.from_number",
+      "path": "src/nabt/program.py",
+      "entrypoint": "Program.from_number",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_program_bytes_and_opcodes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.program.verify_execution",
+      "path": "src/nabt/program.py",
+      "entrypoint": "verify_execution",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_program_bytes_and_opcodes",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.rational_inquiry.audit_inquiry",
+      "path": "src/nabt/rational_inquiry.py",
+      "entrypoint": "audit_inquiry",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "scope_bound_question_evidence_and_obligation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.rational_inquiry.decide_gate",
+      "path": "src/nabt/rational_inquiry.py",
+      "entrypoint": "decide_gate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "scope_bound_question_evidence_and_obligation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.rational_inquiry.verify_inquiry",
+      "path": "src/nabt/rational_inquiry.py",
+      "entrypoint": "verify_inquiry",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "scope_bound_question_evidence_and_obligation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.__init__",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.__init__",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.add_document",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.add_document",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.add_source",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.add_source",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.query",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.query",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.query_text",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.query_text",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.read_query",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.read_query",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.remove_source",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.remove_source",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.replace_source",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.replace_source",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.semantics.semantickernel.verify_certificate",
+      "path": "src/nabt/semantics.py",
+      "entrypoint": "SemanticKernel.verify_certificate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_predicate_and_term_ids_not_a116_cells",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.source_lexicon.sourcelexicon.inventory",
+      "path": "src/nabt/source_lexicon.py",
+      "entrypoint": "SourceLexicon.inventory",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "dictionary_source_heading_and_byte_spans",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.source_lexicon.sourcelexicon.lookup_exact",
+      "path": "src/nabt/source_lexicon.py",
+      "entrypoint": "SourceLexicon.lookup_exact",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "dictionary_source_heading_and_byte_spans",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.source_lexicon.sourcelexicon.record",
+      "path": "src/nabt/source_lexicon.py",
+      "entrypoint": "SourceLexicon.record",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "dictionary_source_heading_and_byte_spans",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.text_morphology.read_text_morphology",
+      "path": "src/nabt/text_morphology.py",
+      "entrypoint": "read_text_morphology",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_morphological_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.text_morphology.verify_text_morphology",
+      "path": "src/nabt/text_morphology.py",
+      "entrypoint": "verify_text_morphology",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_spans_and_morphological_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.text_reader.parse_document",
+      "path": "src/nabt/text_reader.py",
+      "entrypoint": "parse_document",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "exact_utf8_source_and_byte_spans",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.text_reader.parse_query",
+      "path": "src/nabt/text_reader.py",
+      "entrypoint": "parse_query",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "exact_utf8_source_and_byte_spans",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.verb_paradigm.read_verb_paradigm",
+      "path": "src/nabt/verb_paradigm.py",
+      "entrypoint": "read_verb_paradigm",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_and_person_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.verb_paradigm.verify_verb_paradigm",
+      "path": "src/nabt/verb_paradigm.py",
+      "entrypoint": "verify_verb_paradigm",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_and_person_feature_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.word_reader.read_word_at",
+      "path": "src/nabt/word_reader.py",
+      "entrypoint": "read_word_at",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bytes_and_word_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.word_reader.read_words",
+      "path": "src/nabt/word_reader.py",
+      "entrypoint": "read_words",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bytes_and_word_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "nabt.word_reader.verify_word_reading",
+      "path": "src/nabt/word_reader.py",
+      "entrypoint": "verify_word_reading",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_bytes_and_word_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.arabic_training.proposal.propose",
+      "path": "tools/arabic_training/proposal.py",
+      "entrypoint": "propose",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "model_token_ids_padding_and_scores_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.attested_lexical_loader.load_attested_lexicon",
+      "path": "tools/attested_lexical_loader.py",
+      "entrypoint": "load_attested_lexicon",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_rows_and_annotation_ids_not_semantic_truth",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.classical_language_evidence.assess",
+      "path": "tools/classical_language_evidence.py",
+      "entrypoint": "assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_passage_rule_and_occurrence_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.classical_language_evidence.verify",
+      "path": "tools/classical_language_evidence.py",
+      "entrypoint": "verify",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_passage_rule_and_occurrence_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.classical_reference_readings.enumerate_readings",
+      "path": "tools/classical_reference_readings.py",
+      "entrypoint": "enumerate_readings",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "explicit_frame_and_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.classical_reference_readings.verify_proposal",
+      "path": "tools/classical_reference_readings.py",
+      "entrypoint": "verify_proposal",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "explicit_frame_and_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.contextual_reference.execute_request",
+      "path": "tools/contextual_reference.py",
+      "entrypoint": "execute_request",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_donor_and_entity_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.epistemic_measurement.execute_request",
+      "path": "tools/epistemic_measurement.py",
+      "entrypoint": "execute_request",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "measurement_ledger_source_and_claim_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.explainable_pilot.answer",
+      "path": "tools/explainable_pilot.py",
+      "entrypoint": "answer",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_query_bytes_and_typed_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.explainable_pilot.main",
+      "path": "tools/explainable_pilot.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_query_bytes_and_typed_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.explainable_pilot.native",
+      "path": "tools/explainable_pilot.py",
+      "entrypoint": "native",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_query_bytes_and_typed_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.explainable_pilot.verify",
+      "path": "tools/explainable_pilot.py",
+      "entrypoint": "verify",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_query_bytes_and_typed_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.__main__.main",
+      "path": "tools/grammar_catalog/__main__.py",
+      "entrypoint": "main",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_rule_and_document_ids",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.retrieval.search",
+      "path": "tools/grammar_catalog/retrieval.py",
+      "entrypoint": "search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_snapshot_document_and_rule_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.retrieval.searchindex.rehydrate",
+      "path": "tools/grammar_catalog/retrieval.py",
+      "entrypoint": "SearchIndex.rehydrate",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_snapshot_document_and_rule_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.retrieval.searchindex.rehydrate_database",
+      "path": "tools/grammar_catalog/retrieval.py",
+      "entrypoint": "SearchIndex.rehydrate_database",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_snapshot_document_and_rule_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.retrieval.searchindex.search",
+      "path": "tools/grammar_catalog/retrieval.py",
+      "entrypoint": "SearchIndex.search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "catalogue_snapshot_document_and_rule_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.routing.evaluate_candidates",
+      "path": "tools/grammar_catalog/routing.py",
+      "entrypoint": "evaluate_candidates",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "installed_rule_ids_and_explicit_frames",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.grammar_catalog.routing.evaluate_diagnostic_candidates",
+      "path": "tools/grammar_catalog/routing.py",
+      "entrypoint": "evaluate_diagnostic_candidates",
+      "kind": "diagnostic",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "installed_rule_ids_and_explicit_frames",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "DIAGNOSTIC_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_completion.assess",
+      "path": "tools/lexical_completion.py",
+      "entrypoint": "assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "ordered_lexical_slots_and_sense_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_completion.completionengine.assess",
+      "path": "tools/lexical_completion.py",
+      "entrypoint": "CompletionEngine.assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "ordered_lexical_slots_and_sense_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_completion.main",
+      "path": "tools/lexical_completion.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "ordered_lexical_slots_and_sense_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_graph.assess",
+      "path": "tools/lexical_graph.py",
+      "entrypoint": "assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "sense_nodes_and_explicit_horn_rule_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_graph.graphengine.assess",
+      "path": "tools/lexical_graph.py",
+      "entrypoint": "GraphEngine.assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "sense_nodes_and_explicit_horn_rule_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_graph.main",
+      "path": "tools/lexical_graph.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "sense_nodes_and_explicit_horn_rule_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_testimony.assess",
+      "path": "tools/lexical_testimony.py",
+      "entrypoint": "assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "dictionary_sense_component_and_citation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_testimony.main",
+      "path": "tools/lexical_testimony.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "dictionary_sense_component_and_citation_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_transmission.assess_transmission",
+      "path": "tools/lexical_transmission.py",
+      "entrypoint": "assess_transmission",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "conditional_documentary_transmission",
+      "migration_state": "SCOPED_GATEWAY_INSTALLED",
+      "authority_limit": "DOCUMENTARY_SOURCE_DEPENDENCY_CLASSIFICATION",
+      "gateway_operation": "lexical_transmission",
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "CLAIM_SPECIFIC_PREMISES_REMAIN_EXPLICIT",
+        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.lexical_transmission.main",
+      "path": "tools/lexical_transmission.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "conditional_documentary_transmission",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.licensed_inference.__main__.main",
+      "path": "tools/licensed_inference/__main__.py",
+      "entrypoint": "main",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_and_literal_ids",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.licensed_inference.runtime.evaluate",
+      "path": "tools/licensed_inference/runtime.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_scope_signed_literal_and_reading_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.licensed_workflow.migration_inventory",
+      "path": "tools/licensed_workflow.py",
+      "entrypoint": "migration_inventory",
+      "kind": "diagnostic",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "non_authoritative_architecture_inventory",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "DIAGNOSTIC_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.licensed_workflow.run_request",
+      "path": "tools/licensed_workflow.py",
+      "entrypoint": "run_request",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "request_only_native_dispatch",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.__main__.main",
+      "path": "tools/linguistic_truth/__main__.py",
+      "entrypoint": "main",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_and_occurrence_ids",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.acquire",
+      "path": "tools/linguistic_truth/runtime.py",
+      "entrypoint": "acquire",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_sense_and_claim_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.certified.acquire_certified",
+      "path": "tools/linguistic_truth/certified.py",
+      "entrypoint": "acquire_certified",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_context_sense_ids_and_a116_projection",
+      "migration_state": "SCOPED_GATEWAY_INSTALLED",
+      "authority_limit": "A116_CONDITIONAL_CANDIDATE_CONTRACT",
+      "gateway_operation": "lexical_candidates",
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "CLAIM_SPECIFIC_PREMISES_REMAIN_EXPLICIT",
+        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.retrieval.linguistictruthsearchindex.rehydrate_database",
+      "path": "tools/linguistic_truth/retrieval.py",
+      "entrypoint": "LinguisticTruthSearchIndex.rehydrate_database",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "linguistic_inventory_snapshot_and_document_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.retrieval.linguistictruthsearchindex.search",
+      "path": "tools/linguistic_truth/retrieval.py",
+      "entrypoint": "LinguisticTruthSearchIndex.search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "linguistic_inventory_snapshot_and_document_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.scopes.acquire_scope",
+      "path": "tools/linguistic_truth/scopes.py",
+      "entrypoint": "acquire_scope",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_utf8_spans_and_context_separate_from_a116_cells",
+      "migration_state": "SCOPED_GATEWAY_INSTALLED",
+      "authority_limit": "EXACT_BOUNDED_SCOPE_ENVELOPE",
+      "gateway_operation": "scope_acquisition",
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "CLAIM_SPECIFIC_PREMISES_REMAIN_EXPLICIT",
+        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.linguistic_truth.surface.certify_surface",
+      "path": "tools/linguistic_truth/surface.py",
+      "entrypoint": "certify_surface",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_form_Buckwalter_direct_pairs_to_a116_to_exact_UTF8_occurrence",
+      "migration_state": "SCOPED_GATEWAY_INSTALLED",
+      "authority_limit": "EXACT_DOCUMENTARY_FORM_AND_SOURCE_FIELDS",
+      "gateway_operation": "lexical_surface",
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "CLAIM_SPECIFIC_PREMISES_REMAIN_EXPLICIT",
+        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.mantuq_inference.__main__.main",
+      "path": "tools/mantuq_inference/__main__.py",
+      "entrypoint": "main",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "typed_claim_and_source_ids",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.mantuq_inference.evaluator.evaluate",
+      "path": "tools/mantuq_inference/evaluator.py",
+      "entrypoint": "evaluate",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "explicit_requirement_consequence_and_binding_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.mantuq_inference.retrieval.inferencesearchindex.rehydrate_database",
+      "path": "tools/mantuq_inference/retrieval.py",
+      "entrypoint": "InferenceSearchIndex.rehydrate_database",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "inference_inventory_snapshot_and_document_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.mantuq_inference.retrieval.inferencesearchindex.search",
+      "path": "tools/mantuq_inference/retrieval.py",
+      "entrypoint": "InferenceSearchIndex.search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "inference_inventory_snapshot_and_document_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.mantuq_inference.retrieval.search",
+      "path": "tools/mantuq_inference/retrieval.py",
+      "entrypoint": "search",
+      "kind": "retrieval",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "inference_inventory_snapshot_and_document_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "RETRIEVAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.occurrence_sense.assess",
+      "path": "tools/occurrence_sense.py",
+      "entrypoint": "assess",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_dictionary_sense_and_donor_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.occurrence_sense.main",
+      "path": "tools/occurrence_sense.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_occurrence_dictionary_sense_and_donor_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.proof_lab.run_payload",
+      "path": "tools/proof_lab.py",
+      "entrypoint": "run_payload",
+      "kind": "transport",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "request_payload_code_revision_and_mode_ids",
+      "migration_state": "CHILD_CONTRACT_REVIEW_REQUIRED",
+      "authority_limit": "TRANSPORT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "EXACT_CHILD_REQUEST_AND_RESPONSE_BINDING",
+        "DISPLAY_ONLY_CHECKED_NAMED_CLAIMS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.propose_arabic_morphology.main",
+      "path": "tools/propose_arabic_morphology.py",
+      "entrypoint": "main",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "model_token_ids_padding_and_scores_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.propose_lexical_evidence.main",
+      "path": "tools/propose_lexical_evidence.py",
+      "entrypoint": "main",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_row_ids_and_untrusted_model_scores",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.propose_qatr_readings.main",
+      "path": "tools/propose_qatr_readings.py",
+      "entrypoint": "main",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "candidate_reading_ids_and_untrusted_scores",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.qatr_training.proposal.project_ranking",
+      "path": "tools/qatr_training/proposal.py",
+      "entrypoint": "project_ranking",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "candidate_reading_ids_and_untrusted_scores",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.recursive_bridge.assess_recursive_source",
+      "path": "tools/recursive_bridge.py",
+      "entrypoint": "assess_recursive_source",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_source_cell_spans_and_recursive_tree_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.recursive_bridge.check_with_lean",
+      "path": "tools/recursive_bridge.py",
+      "entrypoint": "check_with_lean",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_source_cell_spans_and_recursive_tree_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.recursive_bridge.main",
+      "path": "tools/recursive_bridge.py",
+      "entrypoint": "main",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_source_cell_spans_and_recursive_tree_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.recursive_bridge.read_recursive_source",
+      "path": "tools/recursive_bridge.py",
+      "entrypoint": "read_recursive_source",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_source_cell_spans_and_recursive_tree_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.recursive_bridge.verify_recursive_assessment",
+      "path": "tools/recursive_bridge.py",
+      "entrypoint": "verify_recursive_assessment",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_source_cell_spans_and_recursive_tree_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.recursive_bridge.verify_recursive_source",
+      "path": "tools/recursive_bridge.py",
+      "entrypoint": "verify_recursive_source",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "versioned_source_cell_spans_and_recursive_tree_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.replay_neural_morphology.replay",
+      "path": "tools/replay_neural_morphology.py",
+      "entrypoint": "replay",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "model_token_ids_padding_and_scores_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.semantic_axes.execute_request",
+      "path": "tools/semantic_axes.py",
+      "entrypoint": "execute_request",
+      "kind": "measurement",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_context_and_separate_semantic_axis_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "MEASUREMENT_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.train_certificate_ranker.check",
+      "path": "tools/train_certificate_ranker.py",
+      "entrypoint": "check",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "untrusted_ranking_and_typed_native_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.train_certificate_ranker.execute",
+      "path": "tools/train_certificate_ranker.py",
+      "entrypoint": "execute",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "untrusted_ranking_and_typed_native_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.train_certificate_ranker.rank_and_check",
+      "path": "tools/train_certificate_ranker.py",
+      "entrypoint": "rank_and_check",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "untrusted_ranking_and_typed_native_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.train_certificate_ranker_v2.execute",
+      "path": "tools/train_certificate_ranker_v2.py",
+      "entrypoint": "execute",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "untrusted_ranking_and_typed_native_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.train_certificate_ranker_v2.rank_and_check",
+      "path": "tools/train_certificate_ranker_v2.py",
+      "entrypoint": "rank_and_check",
+      "kind": "checked",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "untrusted_ranking_and_typed_native_certificate_ids",
+      "migration_state": "ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED",
+      "authority_limit": "EXISTING_BOUNDED_DOMAIN_CONTRACT",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "RAW_SOURCE_TO_PREMISE_ACQUISITION",
+        "NATIVE_REQUEST_RESPONSE_REFINEMENT",
+        "EXACT_CLAIM_AND_UNRESOLVED_PREMISES",
+        "INDEPENDENT_POSITIVE_AND_COUNTEREXAMPLE_CONTROLS"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.train_lexical_retrieval.main",
+      "path": "tools/train_lexical_retrieval.py",
+      "entrypoint": "main",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "model_token_and_vector_ids_not_a116_cells",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.verified_reading.main",
+      "path": "tools/verified_reading.py",
+      "entrypoint": "main",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_query_bytes_and_explicit_reading_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    },
+    {
+      "surface_id": "tools.verified_reading.propose",
+      "path": "tools/verified_reading.py",
+      "entrypoint": "propose",
+      "kind": "proposal",
+      "guard_kind": "runtime_foundation",
+      "identifier_domain": "source_query_bytes_and_explicit_reading_ids",
+      "migration_state": "RETAIN_NON_AUTHORITATIVE",
+      "authority_limit": "PROPOSAL_ONLY",
+      "gateway_operation": null,
+      "runtime_availability": "NOT_MEASURED_BY_INVENTORY",
+      "pending_obligations": [
+        "OUTPUT_CANNOT_LICENSE_A_LINGUISTIC_CLAIM"
+      ],
+      "whole_language_claim": false
+    }
+  ],
+  "all_interfaces_migrated": false,
+  "whole_arabic_complete": false,
+  "scope": "Installed admission inventory and explicit migration obligations, not a proof of every result or language coverage."
+}

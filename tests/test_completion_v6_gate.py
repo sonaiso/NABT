@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 # Include the independent continuation's semantic tamper controls in the
 # standard suite as well as its standalone, pre-execution test run.
-_REVIEW_TEST = ROOT / 'evidence/progressive_rule_audit_v1/independent_oracle/test_continuation_v1.py'
+_REVIEW_TEST = ROOT / 'evidence/legacy_migration_v2/independent_oracle/test_continuation_v1.py'
 _REVIEW_SPEC = importlib.util.spec_from_file_location('completion_v6_review2_tests', _REVIEW_TEST)
 _REVIEW_MODULE = importlib.util.module_from_spec(_REVIEW_SPEC)
 _REVIEW_SPEC.loader.exec_module(_REVIEW_MODULE)

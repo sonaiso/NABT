@@ -1,0 +1,94 @@
+{
+  "schema": "nabt.runner_attempt.v1",
+  "reason": "MAKEFILE_FILE_PATH_INVOCATION_REMOVES_PACKAGE_IMPORT_ROOT",
+  "error": "ModuleNotFoundError: No module named tools",
+  "accepted_for_release": false,
+  "runtime_and_gold_unchanged": true,
+  "runner_freeze_sha256": "111fc2619cda93fd0225d7d6b7f602ba61ab538e0974d00173030bd26e81ea16",
+  "source_files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "79ffc01e02b5cd7addc8968104056ebd99d6425bebab63aa5b298a63188500c5",
+      "bytes": 29033
+    },
+    {
+      "path": "Makefile",
+      "sha256": "c33b402f9a4b1ff0a7d6f1e151188df133f105bdc968a890b2ab7b34601effdd",
+      "bytes": 17143
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/freeze_runner_v3.py",
+      "sha256": "35a37a4bbb0ec7458b7614478093e7f30f8831a140ee91aa7236e8676ac22f9c",
+      "bytes": 9777
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/review_continuation_v3.py",
+      "sha256": "c604240cb572f9bc7ab6f98243e91fb138d2d3880d5eb4ba6a4d9be1ee74c609",
+      "bytes": 25192
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_oracle_v3.py",
+      "sha256": "4a6774801d599139aa32766443a0b5745308d0e0e364eb4370ea32499ff3d0a8",
+      "bytes": 19744
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_regression_v3.py",
+      "sha256": "a6c9dd4cce42626b8d585ee83b55b6549839ddd73cac795c9f1bdbf79b0881b6",
+      "bytes": 5508
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_source_counterexamples_v3.py",
+      "sha256": "fadeec7e8012242060afa7f2c409824d63fb57718e0796bdb4ed91a051ebe1bc",
+      "bytes": 21707
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/runner_freeze_v3.json",
+      "sha256": "111fc2619cda93fd0225d7d6b7f602ba61ab538e0974d00173030bd26e81ea16",
+      "bytes": 156876
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/test_continuation_v3.py",
+      "sha256": "3061cab2442dec80681b4aadf1f34cd8a869f152070a93d7d3b7438dbdebdc80",
+      "bytes": 8489
+    },
+    {
+      "path": "tests/test_completion_v6_gate.py",
+      "sha256": "e9a6d35b0907e47fa652c1dfbe6fe606dda1ff74072e32eb35b5ae9a7eea5de3",
+      "bytes": 2790
+    },
+    {
+      "path": "tests/test_interface_migration_runtime_freeze.py",
+      "sha256": "e32516f24e6551bc236f77eab1edabcb8c3d1242b6bd0f0420c31d72cab35b9f",
+      "bytes": 10134
+    }
+  ],
+  "full_gate": [
+    {
+      "started_utc": "2026-10-26T23:07:33.861905+00:00",
+      "completed_utc": "2026-10-26T23:22:47.883130+00:00",
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "-o",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/interface-migration-release-v3/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/interface-migration-release-v3/checks/arabic-regression"
+      ],
+      "returncode": 2,
+      "elapsed_seconds": 914.021,
+      "log": "artifacts/local/interface-migration-release-v3/make-check.log",
+      "log_sha256": "ea600889dead4fade9562bf3c4918d9da9bbeab13c208c1a128fb942e5b39894",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "identity_tests": {
+    "passed": 20,
+    "seconds": 23.741
+  }
+}

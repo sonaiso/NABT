@@ -1,0 +1,4 @@
+#!/bin/sh
+export LD_PRELOAD=/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.so${LD_PRELOAD:+:$LD_PRELOAD}
+export LEAN_CC=/workspace/scratch/8ead824583ac/lean-driver-v2/cc
+exec /tmp/nabt-tools/lean-4.34.1-linux/bin/lake "$@"

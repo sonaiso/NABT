@@ -113,6 +113,9 @@ class SurfaceNativeTests(unittest.TestCase):
             result = surface.certify_surface("عَيْنَ")
             self.assertEqual(result["status"], "VERIFICATION_UNAVAILABLE")
             self.assertEqual(result["claims"], [])
+            self.assertFalse(result["native_checked"])
+            self.assertTrue(result["source_row_extraction_kernel_proved"])
+            self.assertTrue(result["source_acquisition"]["proof"]["theorems"])
         original = surface._native
         def mutate(requests):
             rows, digest = original(requests)

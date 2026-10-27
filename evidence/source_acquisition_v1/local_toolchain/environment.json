@@ -1,0 +1,32 @@
+{
+  "scope": "Observed local executable-path workaround only; official Lean compiler/kernel binaries are unchanged. CI uses the ordinary pinned toolchain.",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "official_root": "/tmp/nabt-tools/lean-4.34.1-linux",
+  "wrapper": "/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+  "reason": "Sandbox exposes /proc/self/exe but not /proc/<current pid>/exe; redirect only that same-process readlink path.",
+  "compile_command": [
+    "cc",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.c",
+    "-ldl",
+    "-o",
+    "/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.so"
+  ],
+  "controls": {
+    "True.lean": {
+      "rc": 0,
+      "axioms": []
+    },
+    "False.lean": {
+      "rc": 1,
+      "error": "Tactic decide proved that the proposition 2 + 2 = 5 is false"
+    }
+  },
+  "sha256": {
+    "/workspace/scratch/8ead824583ac/lean-driver-v2/self_exe.so": "1289c2c0704eb3166389e96f960204f44c0f5f28b8006818d98065327cb2f873",
+    "/tmp/nabt-tools/lean-4.34.1-linux/bin/lean": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
+    "/tmp/nabt-tools/lean-4.34.1-linux/bin/lake": "6f53827dab18010d6c690d14c8401cacabc1db958edb3552a877ed4cf1dd995d"
+  }
+}

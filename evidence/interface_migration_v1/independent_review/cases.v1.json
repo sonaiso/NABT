@@ -1,0 +1,425 @@
+{
+  "schema": "nabt.interface-independent-reference.v1",
+  "authorship": "Independent agent after design/code inspection, before executing these cases. Development reference, not blind population sample.",
+  "baseline_commit": "e08809c4c654e0d8dd8eab224e476df4cc9b300c",
+  "scope": "Exact envelope/source/report/request contract only. No Arabic-wide truth or natural-use accuracy claim.",
+  "forbidden_promotions": [
+    "strict_language_accepted",
+    "whole_arabic_complete",
+    "tawatur_established",
+    "world_truth_established",
+    "intended_sense_established"
+  ],
+  "cases": [
+    {
+      "id": "Q01",
+      "axis": "scope_positive",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ»",
+          "context": "مقام اختبار مستقل"
+        }
+      },
+      "expected": {
+        "acquired": true,
+        "kind": "quoted",
+        "body": "أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ",
+        "speaker": "زَيْدٌ",
+        "narrator_projection": false
+      }
+    },
+    {
+      "id": "Q02",
+      "axis": "scope_positive",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ عَمْرٌو: «أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ».",
+          "context": "مقام اختبار مستقل"
+        }
+      },
+      "expected": {
+        "acquired": true,
+        "kind": "quoted",
+        "body": "أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ",
+        "speaker": "عَمْرٌو",
+        "narrator_projection": false
+      }
+    },
+    {
+      "id": "Q03",
+      "axis": "scope_positive",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ هِنْدٌ: «أُرِيدُ بِالْعَيْنِ عَيْنَ الْمَاءِ»",
+          "context": "مقام اختبار مستقل"
+        }
+      },
+      "expected": {
+        "acquired": true,
+        "kind": "quoted",
+        "body": "أُرِيدُ بِالْعَيْنِ عَيْنَ الْمَاءِ",
+        "speaker": "هِنْدٌ",
+        "narrator_projection": false
+      }
+    },
+    {
+      "id": "N01",
+      "axis": "scope_positive",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "لَيْسَ صَحِيحًا أَنِّي أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ",
+          "context": "مقام اختبار مستقل"
+        }
+      },
+      "expected": {
+        "acquired": true,
+        "kind": "negated",
+        "body": "أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ",
+        "speaker": "",
+        "narrator_projection": false
+      }
+    },
+    {
+      "id": "C01",
+      "axis": "scope_positive",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "إِنْ قُلْتُ أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ فَلَا تَعْتَمِدْ قَوْلِي",
+          "context": "مقام اختبار مستقل"
+        }
+      },
+      "expected": {
+        "acquired": true,
+        "kind": "hypothetical",
+        "body": "أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ",
+        "speaker": "",
+        "narrator_projection": false
+      }
+    },
+    {
+      "id": "QB01",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "missing_quote",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "QB02",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ: «قَالَ عَمْرٌو: «أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ»»"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "nested_quote_not_licensed",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "QB03",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ. خَرَجَ زَيْدٌ»"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "second_sentence_not_licensed",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "QB04",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ:«أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ»"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "delimiter_not_exact",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "QB05",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ: «»"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "empty_body",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "CB01",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "إِنْ قُلْتُ أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ فَلَا تَسْمَعْ فَلَا تَقُلْ"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "ambiguous_condition_separator",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "CB02",
+      "axis": "scope_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "إِنْ جَاءَ خَالِدٌ قُمْتُ"
+        }
+      },
+      "expected": {
+        "acquired": false,
+        "reason": "ordinary_condition_outside_bounded_grammar",
+        "no_claims": true
+      }
+    },
+    {
+      "id": "T01",
+      "axis": "transmission",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_transmission",
+        "input": {
+          "entry": "أسد",
+          "context": "مقام لا يضيف شاهدا"
+        }
+      },
+      "expected": {
+        "report_count": 1,
+        "families": [
+          "lisan"
+        ]
+      }
+    },
+    {
+      "id": "T02",
+      "axis": "transmission",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_transmission",
+        "input": {
+          "entry": "سمع",
+          "context": "مقام لا يضيف شاهدا"
+        }
+      },
+      "expected": {
+        "report_count": 2,
+        "families": [
+          "lisan"
+        ]
+      }
+    },
+    {
+      "id": "T03",
+      "axis": "transmission",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_transmission",
+        "input": {
+          "entry": "فهم",
+          "context": "مقام لا يضيف شاهدا"
+        }
+      },
+      "expected": {
+        "report_count": 3,
+        "families": [
+          "lisan",
+          "maqayis"
+        ],
+        "relationship": "INDEPENDENCE_UNASSESSED"
+      }
+    },
+    {
+      "id": "T04",
+      "axis": "transmission",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_transmission",
+        "input": {
+          "entry": "سقف",
+          "context": "مقام لا يضيف شاهدا"
+        }
+      },
+      "expected": {
+        "report_count": 2,
+        "families": [
+          "lisan",
+          "maqayis"
+        ],
+        "relationship": "INDEPENDENCE_UNASSESSED"
+      }
+    },
+    {
+      "id": "T05",
+      "axis": "transmission",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_transmission",
+        "input": {
+          "entry": "لفظ-غير-مفهرس",
+          "context": "مقام لا يضيف شاهدا"
+        }
+      },
+      "expected": {
+        "report_count": 0,
+        "no_claims": true
+      }
+    },
+    {
+      "id": "G01",
+      "axis": "request_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "scope_acquisition",
+        "input": {
+          "text": "قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ»",
+          "native_checked": true
+        }
+      },
+      "expected": {
+        "no_claims": true,
+        "native_checked": false
+      }
+    },
+    {
+      "id": "G02",
+      "axis": "request_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_surface",
+        "input": {
+          "text": "عَيْنَ",
+          "start_byte": true
+        }
+      },
+      "expected": {
+        "no_claims": true,
+        "native_checked": false
+      }
+    },
+    {
+      "id": "G03",
+      "axis": "request_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_transmission",
+        "input": {
+          "entry": "فهم",
+          "root": "/tmp/forged-ledger"
+        }
+      },
+      "expected": {
+        "no_claims": true,
+        "native_checked": false
+      }
+    },
+    {
+      "id": "G04",
+      "axis": "request_boundary",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "legacy_direct_meaning",
+        "input": {
+          "text": "ذَهَبَ الْوَلَدُ"
+        }
+      },
+      "expected": {
+        "no_claims": true,
+        "native_checked": false
+      }
+    },
+    {
+      "id": "F01",
+      "axis": "exact_form",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_surface",
+        "input": {
+          "text": "عَيْنَ",
+          "context": "مقام جديد لا يختار المعنى"
+        }
+      },
+      "expected": {
+        "matched": true,
+        "matching_witness_count": 3
+      }
+    },
+    {
+      "id": "F02",
+      "axis": "exact_form",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_surface",
+        "input": {
+          "text": "عِيْنَ",
+          "context": "مقام جديد لا يختار المعنى"
+        }
+      },
+      "expected": {
+        "matched": false,
+        "matching_witness_count": 0
+      }
+    },
+    {
+      "id": "F03",
+      "axis": "exact_form",
+      "request": {
+        "schema": "nabt.licensed-workflow-request.v1",
+        "op": "lexical_surface",
+        "input": {
+          "text": "عَ يْنَ",
+          "context": "مقام جديد لا يختار المعنى"
+        }
+      },
+      "expected": {
+        "matched": false,
+        "matching_witness_count": 0
+      }
+    }
+  ]
+}

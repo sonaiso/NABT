@@ -1,0 +1,161 @@
+{
+  "schema": "nabt.interface-migration.targeted-verification.v5",
+  "created_utc": "2026-10-27T00:11:39.495914+00:00",
+  "base_commit": "3727825da5dde66f9f69909128626c1915edb484",
+  "source_identity": {
+    "path": "evidence/interface_migration_v1/independent_oracle/runner_freeze_v5.json",
+    "bytes": 168948,
+    "sha256": "0f7ae3bf2cab565b2976aa9b0cca39dc87a452f965dba7987ab95525ce890613"
+  },
+  "runtime_package_identity": {
+    "path": "evidence/interface_migration_v1/code_freeze_v1.json",
+    "bytes": 18823,
+    "sha256": "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271"
+  },
+  "scope": "Targeted optional-dependency admission correction; exact response/no_grad preservation and release identity checks. No full local v5 gate or linguistic coverage run.",
+  "full_local_suite_rerun_for_v5": false,
+  "prior_counts_reused_as_v5_results": false,
+  "implementation_change": "Import optional neural dependencies only after the registered proposal guard; preserve signature, no_grad, result schema and outputs.",
+  "checks": [
+    {
+      "name": "admission_architecture_and_neural_behavior",
+      "tests": 38,
+      "passed": 38,
+      "skipped": 0,
+      "returncode": 0,
+      "seconds": 14.736,
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "unittest",
+        "tests.test_interface_migration_audit",
+        "tests.test_foundation_architecture",
+        "tests.test_neural_morphology_model",
+        "tests.test_neural_morphology_data",
+        "-v"
+      ],
+      "environment_overrides": {
+        "PYTHONPATH": "src:."
+      },
+      "evidence": "proposal-admission-tests.json",
+      "includes": "Core subprocess (-S with forbidden neural imports) checks all 169 registered direct admissions; no_grad and numerical response tests."
+    },
+    {
+      "name": "exact_pre_post_differential",
+      "cases": 11,
+      "all_results_exactly_equal": true,
+      "signature_unchanged": true,
+      "returncode": 0,
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "evidence/interface_migration_v1/ci_followup_v5/replay_proposal_differential.py",
+        "--output",
+        "artifacts/local/proposal-admission-followup/replayed-differential.json"
+      ],
+      "environment_overrides": {
+        "PYTHONPATH": "src:."
+      },
+      "evidence": "proposal-replay-validation.json",
+      "scope": "Same deterministic toy weights and inputs, no retraining or coverage denominator."
+    },
+    {
+      "name": "dependency_identity_and_semantic_tamper_controls",
+      "tests": 22,
+      "passed": 22,
+      "skipped": 0,
+      "returncode": 0,
+      "unittest_seconds": 24.197,
+      "command": [
+        "/tmp/nabt-neural-ci-review/bin/python",
+        "-m",
+        "unittest",
+        "tests.test_interface_migration_runtime_freeze",
+        "tests.test_completion_v6_gate",
+        "-v"
+      ],
+      "environment_overrides": {
+        "PYTHONPATH": "src:."
+      },
+      "evidence": "identity-tests.json"
+    }
+  ],
+  "historical_v4": {
+    "published_commit": "3727825da5dde66f9f69909128626c1915edb484",
+    "verification": {
+      "path": "evidence/interface_migration_v1/verification.json",
+      "bytes": 15600,
+      "sha256": "b13bd58e121f9686974aa24c0e51ff5fb3ac2525d777c86e28e32ba4058bb168"
+    },
+    "verification_bundle_manifest": {
+      "path": "evidence/interface_migration_v1/verification_bundle/manifest.json",
+      "bytes": 55815,
+      "sha256": "f7a5655d13640b3f505e5cc4403b46de4423739a7542341b1efe3075e6936f34"
+    },
+    "local_full_gates_passed": true,
+    "separate_ci_runtime_312_and_formal_jobs_failed": true,
+    "original_records_resealed": false,
+    "full_counts_are_historical_only": {
+      "unit_tests": 2964,
+      "ui_tests": 239
+    }
+  },
+  "retained_evidence": [
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/proposal-admission-tests.json",
+      "bytes": 2919,
+      "sha256": "851850a74232d60cc1ed2f839e42747d716e63c1b740786891a86cc8e4c8c7d0"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/proposal-admission-tests.log",
+      "bytes": 6973,
+      "sha256": "39dfdc9440d0f7855ce351fd110955d5f6f1d9d4adceea1f0a9cb8c7480b9095"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/proposal-differential.json",
+      "bytes": 2593,
+      "sha256": "a11cfbf4d706de0bfd2fb3fd7db59341661c0bab05378ad54d392b1cc374cddd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/replay_proposal_differential.py",
+      "bytes": 3906,
+      "sha256": "179497e11b24de5db34d0adf2308c1fc87c73f811d654c8aabc39d981c008246"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/proposal-replay-validation.json",
+      "bytes": 969,
+      "sha256": "a49acc717082ec8b16b0907fdbf9e77d4210a44957c4cc98abf15ab1c64d9942"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/identity-tests.json",
+      "bytes": 166,
+      "sha256": "edd63c5b06eedcd514d0fa220f33fa4adbfdc34c1284fe91ca778386a83d2775"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/identity-tests.log",
+      "bytes": 4443,
+      "sha256": "bf87a7d8f20d6a00126b6d80a00d9f4f1b3793d4e12763fdeba9c93270880640"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/failure.json",
+      "bytes": 585,
+      "sha256": "4118eed865622dc6f2fc6623bc4fa209db94ea0fde59625c78727e3cdaee424e"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/runtime-python312.log.gz",
+      "bytes": 96068,
+      "sha256": "c717d692b0f1ce8e79b63068bb443647bfb97f7e494cf082d891fe1f893943e2"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/formal-failure.json",
+      "bytes": 449,
+      "sha256": "e1ed8b8355f0cdd42371fd76c220c3fea28350c1c17aab371d1d3f40553a49b2"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/formal-job-121923294840.log.gz",
+      "bytes": 20403,
+      "sha256": "1a04cb5a2d658d083e0de638df236e42d76ca6ec7105c60f3fe29721b527254d"
+    }
+  ],
+  "verification_state": "TARGETED_CHECKS_PASSED_FULL_CI_FOR_NEW_HEAD_REQUIRED",
+  "whole_arabic_complete": false
+}

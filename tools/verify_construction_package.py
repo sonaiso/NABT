@@ -32,10 +32,13 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.20.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/progressive_rule_audit_v1/code_freeze_v1.json"
+DEFAULT_FREEZE = "evidence/legacy_migration_v2/code_freeze_v1.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
+    '9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b': {'selection': 'legacy_migration_v2', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 104, 'future_operator_support': True, 'snapshot_sha256': 'fa6a18a4b034433ef9d2dd2faf5754b1207b125b1d459831529344d2383b3d85', 'archive_sha256': '53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473'},
+    'b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271': {'selection': 'interface_migration_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 102, 'future_operator_support': True, 'snapshot_sha256': '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607', 'archive_sha256': 'd65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5'},
+    'ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b': {'selection': 'source_acquisition_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 102, 'future_operator_support': True, 'snapshot_sha256': 'c913baa9667ce54ae5da2726cb622ecb55fec0557876038989c4c353af541d78', 'archive_sha256': '19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94'},
     'b184a00c3c19b3204b889f14567b042c987046e7698f657bf9586ff307f01cf5': {'selection': 'progressive_rule_audit_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 102, 'future_operator_support': True, 'snapshot_sha256': 'dba50fbcc16fae7bdf2046e56afa55f7daf2657b25b2c0cb7be486d664d9f188', 'archive_sha256': '8646f73fef57bd97428cc3686843a0f3c9e12f2cf850342c6462e507c232c8e9'},
     '1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f': {'selection': 'certified_natural_use_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 101, 'future_operator_support': True, 'snapshot_sha256': '422ecda54cd92c27b1408feb2d6616eb4011dec751ee8754692eb1a16c08085b', 'archive_sha256': '16a6e83e0d8cffe5898789751a221053da1530119ec12871be52fc26e6968d01'},
     '1c47bfee3fa0baa190ec0e0455dfcb2528aec65a6280694956c1e00186948d30': {'selection': 'attested_mark_recovery_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 101, 'future_operator_support': True, 'snapshot_sha256': '8ea9f386852e40ae092ec9a0c9c37ae7a3c48d50468191038209511f156ac280', 'archive_sha256': 'd04ff4bf22171441e5731bfdb67dd4b4d6e6470db0e75b58977656d42e5172c2'},

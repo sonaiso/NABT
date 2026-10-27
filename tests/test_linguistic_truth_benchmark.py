@@ -9,6 +9,27 @@ from tools.linguistic_truth_benchmark_adapter import build_request,execute_reque
 from tools.benchmark_linguistic_truth import case_outcome,evaluate,load_gold,observation,summarize,ranking_observation,integrity_check,contract_gate
 
 class BenchmarkIntegrityTests(unittest.TestCase):
+    def test_observed_accusative_surface_is_not_replaced_by_lexical_label(self):
+        raw={'occurrences':[{'expression':'الأسد','span':{'raw_text':'أسدًا'},
+            'candidates':[{'sense_id':'lion','gloss':'الحيوان المفترس'},
+                          {'sense_id':'brave','gloss':'الرجل الشجاع'}],
+            'selected_sense_ids':[]}]}
+        obs=observation(raw)
+        self.assertEqual(obs['observation_contract'],'nabt.lexical-occurrence-observation.v2')
+        self.assertEqual(obs['occurrences'][0]['surface'],'أسدًا')
+        self.assertEqual(obs['occurrences'][0]['expression'],'الأسد')
+        case={'expected':{'authority':{},'acquisition':{'focus':'أسدا',
+            'required_candidates':['lion','brave_man'],'selected_senses':['lion']}}}
+        checks=evaluate(case,obs)
+        self.assertTrue(all(c['outcome']=='PASS' for c in checks if c['name'].startswith('candidate_recall.')))
+        self.assertEqual(next(c['outcome'] for c in checks if c['name']=='selected_senses'),'FAIL')
+
+    def test_attached_preposition_keeps_the_independent_lexical_query_label(self):
+        raw={'occurrences':[{'expression':'العين','span':{'raw_text':'بِالْعَيْنِ'},
+            'candidates':[{'sense_id':'eye','gloss':'العين الباصرة'}]}]}
+        case={'expected':{'authority':{},'acquisition':{'focus':'عين','required_candidates':['eye']}}}
+        self.assertEqual(case_outcome(evaluate(case,observation(raw))),'PASS')
+
     def test_direct_script_help_with_make_pythonpath(self):
         root=Path(__file__).resolve().parents[1]
         completed=subprocess.run([sys.executable,str(root/'tools/benchmark_linguistic_truth.py'),'--help'],cwd=root,env={**os.environ,'PYTHONPATH':'src'},capture_output=True,text=True,timeout=10)

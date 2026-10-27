@@ -1509,3 +1509,61 @@ replayed legacy natural-use score remains 1/6, candidate obligations 10/12,
 and positive intended-sense selection 0/5. The independent 30-case diagnostic
 remains 16 passed, 12 failed and 2 unmeasured; its positive selection is 5/16.
 These denominators are distinct. No new site deployment is included.
+
+## Full-source row acquisition and qualified cue licensing (2026-10-26)
+
+On top of `f7e7ed8`, the new `LexicalSourceAcquisition` law computes a row,
+FORM, unique nonempty LEM, field byte intervals and the existing lexical
+witness from the complete supplied corpus bytes and requested spans.
+Twenty-one new public theorems and nineteen separate kernel controls bind
+that computation to its exact byte-level specification. All requested rows
+are retained in order or the batch fails; an empty batch grants no witness.
+This is not a census of the corpus, authentication of its edition, correctness
+of its annotation, or contextual interpretation. The public surface now uses
+both native stages; the v2 receipt separates field extraction from semantic
+acquisition, source authenticity and strict language acceptance.
+
+`QualifiedCueLicensing` contributes eleven further theorems for a six-form,
+source-reviewed inflection table. The reviewed feminine adjective, genitive
+head, bounded idafa and fixed cue particles are checked against the complete
+native export. Source interpretation, partial-mark matching and acquisition
+of syntactic roles/adjacency remain explicitly conditional Python bridges.
+The audit and compiled declaration manifest agree on 1611 declarations.
+
+The default grammar `route` / `evaluate_candidates` now require native
+conditional-control receipts (v2); the earlier diagnostic remains explicitly
+available as `route-diagnostic` / `evaluate_diagnostic_candidates` (v1).
+This is one actual authority migration, not a claim that all legacy APIs
+have a source-to-meaning refinement proof. The foundation inventory has 174
+Python surfaces, including 164 runtime identity gates, and 38 Lean executables.
+
+The unchanged independent 30-case diagnostic improves from 16/30 full case
+successes to 26/30 (2 failed, 2 unmeasured); diagnostic positive selection improves
+from 5/16 to 14/16. The legacy natural-use result remains 1/6 and positive
+selection 0/5. Its candidate obligations change 10/12 to 12/12 solely because
+the versioned observer now preserves the occurrence surface separately from
+the lexical query label; replay of the same historical raw output demonstrates
+that correction without claiming a linguistic improvement.
+The 30-case report still records zero strict language acceptances and zero
+consistent named claims for those cases; its three separate projection controls
+are not included in that denominator.
+
+A separately frozen 24-case developmental reference reports positive selection
+8/12, direct cue licensing 9/9, exclusion 3/3, and marked-frame guards 4/4.
+Twenty scope-acquisition obligations remain unmeasured, full A116 projection
+is 0/24, and strict language acceptance is zero. Safe refusal of quotation
+does not pass its positive comprehension target. These are known authored
+cases with internal review, not blind population estimates. Tawatur, motives,
+external truth and whole-Arabic completeness remain unproved. No new site
+deployment is included. See [the execution and measurement report](SOURCE_ACQUISITION_PROGRESS_AR.md).
+
+The three full local gates completed on evaluator v4: `make check -o test`,
+`make test` (2891 passed, zero skipped or failed), and the additional integrations.
+The subsequent v5 chronology correction, native-test availability guards and
+build/CI prerequisites have their own targeted verification record. Runtime,
+Lean and gold bytes stay unchanged; the earlier full gates are not relabeled as
+v5 executions. Portable skips never count as native proof checks.
+The eight post-correction commands passed under v5's 297-file dependency
+identity. The standalone missing executable was rebuilt byte-identically;
+continuation scores remain 14/22 and 19/29, with 6/6 separate source controls.
+The final evidence bundle restored all 185 retained files byte-for-byte.

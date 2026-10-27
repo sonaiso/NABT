@@ -1,0 +1,144 @@
+{
+  "schema": "nabt.source-acquisition.runner-attempt.v1",
+  "status": "superseded_after_successful_full_gates_for_metadata_and_ci_portability_corrections",
+  "runner_sha256": "839c89eed6773775e354631a7418c5812ebad43355dc24ff8aae13d35561451d",
+  "runtime_calls_performed": true,
+  "all_three_full_gates_passed": true,
+  "full_gates": [
+    {
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "-o",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/source-acquisition-final/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/source-acquisition-final/checks/arabic-regression"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 990.847,
+      "log": "artifacts/local/source-acquisition-final/make-check.log",
+      "log_sha256": "9328cd47da6105d7279daabe90f69c7bf81cd742a3d2fb34065b8a1e3556f680",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "unit-tests",
+      "command": [
+        "make",
+        "test",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 756.284,
+      "log": "artifacts/local/source-acquisition-final/unit-tests.log",
+      "log_sha256": "dd18fa82814273307829986ec60bab585e75c0b08851e687a6960431ab4a6b1d",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "integration",
+      "command": [
+        "make",
+        "-f",
+        "Makefile",
+        "-f",
+        "integrations/grammar_catalog.mk",
+        "-f",
+        "integrations/mantuq_inference.mk",
+        "-f",
+        "integrations/linguistic_truth.mk",
+        "-f",
+        "integrations/licensed_inference.mk",
+        "grammar-catalog",
+        "proof-catalog",
+        "routing-conformance",
+        "mantuq-inference",
+        "linguistic-truth",
+        "licensed-inference",
+        "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/source-acquisition-final/integration"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 141.026,
+      "log": "artifacts/local/source-acquisition-final/integration.log",
+      "log_sha256": "62c68a80f50b28e91bf38e8a6d787542a25fac52ba83c99758a4ea400c6bcc7e",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "reason": "The inherited before_first_new_runtime_oracle_prediction=true was not valid for a dependency refreeze after v3 had already executed. Corrected in a new identity without rewriting this evidence; native-test scheduling and the standalone lexicalSourceRows build prerequisite are also repaired.",
+  "retained_dependency_archive": {
+    "path": "artifacts/local/source-acquisition-final/checks/arabic-completion-oracle/strict/result.code.tar.gz",
+    "sha256": "a76653d39984f6ef21cb13ceb02590a36ff4a7afe34407f4f0319bdd4b77ffb8",
+    "all_prior_dependency_bytes_in_archive_verified": true,
+    "verified_files": 294
+  },
+  "saved_changed_inputs": [
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/freeze_runner_v1.py",
+      "sha256": "6155c88feeb72f4b75531363fe4de3318672f57cf7040e6cd3d539901fcf4254",
+      "bytes": 7653
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/run_oracle_v1.py",
+      "sha256": "c54c2a08bc884db46ab82ae20555721100ad836a7269ea25191909d771e9eae7",
+      "bytes": 19691
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/run_regression_v1.py",
+      "sha256": "1df0156d70f77b88cf9e5ecba352eeb396f65be21a5d08d7e92d099330f707ef",
+      "bytes": 5507
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/review_continuation_v1.py",
+      "sha256": "5a1800f7f4f04fd5bc2056c9ce4c04d2dc1ed219e30035cf56c603a5e2315835",
+      "bytes": 25189
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "sha256": "41dd114ab622abadf15a3c1c2b0a5de2503709c7fc1aa79b46aa569d06724b77",
+      "bytes": 21705
+    },
+    {
+      "path": "evidence/source_acquisition_v1/independent_oracle/test_continuation_v1.py",
+      "sha256": "971e84a92aa92dad247f857880c3a5e29332355f1c89fedd036ccaaa238c372a",
+      "bytes": 8492
+    },
+    {
+      "path": "tests/test_source_acquisition_runtime_freeze.py",
+      "sha256": "b786848122b5b0f56ca7065887f664b3ad084a0969cd19bd1810a4044ab5e8a4",
+      "bytes": 7031
+    },
+    {
+      "path": "evidence/source_acquisition_v1/README.md",
+      "sha256": "4fd402ad994523c02908d0d173549e90e6d688fb6bfb4fc611665b0898a587e7",
+      "bytes": 3483
+    },
+    {
+      "path": "Makefile",
+      "sha256": "2ef768959495b260f9288d09079b768712d4a21f4124c4fe194cf3f411b35c3e",
+      "bytes": 15663
+    },
+    {
+      "path": "tests/test_grammar_native_authority.py",
+      "sha256": "38d5bd2cf2a35ec4bb243f1d0ed75e6417b40bc39888e9f12d52597c6f046648",
+      "bytes": 12336
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "d7252bc4ff970e3725b49b2dfd4e654f796214025b068d8cf79a1de74af0bc1f",
+      "bytes": 28638
+    }
+  ]
+}

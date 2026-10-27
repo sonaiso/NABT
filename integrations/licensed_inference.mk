@@ -1,6 +1,6 @@
 # Source-to-reading-to-closure bridge; historical kernel gates remain intact.
 .PHONY: licensed-inference
-LICENSED_LINK_REFERENCE ?= evidence/progressive_rule_audit_v1/catalog_references/licensed_proof_links.json
+LICENSED_LINK_REFERENCE ?= evidence/legacy_migration_v2/catalog_references/licensed_proof_links.json
 licensed-inference: formal
 	cd formal && $(LAKE) build licensedInference
 	test -x $(CURDIR)/formal/.lake/build/bin/licensedInference

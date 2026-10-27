@@ -20,7 +20,8 @@ _ROOT = Path(__file__).resolve().parents[2]
 _LEDGER = _ROOT / "evidence/lexical_surface_binding_v1/source_ledger.json"
 _LEDGER_SHA = "01c585ae3b4b27d957ca703faf0370ad7bf28d9d5f4f0d564bdb13d63381e9f1"
 _LAW = "nabt.lexical-surface-binding.v1"
-_SCHEMA = "nabt.witnessed-surface-receipt.v1"
+_SCHEMA = "nabt.witnessed-surface-receipt.v2"
+_SOURCE_LAW = "nabt.lexical-source-acquisition.v1"
 _BW_CARRIERS = "AbtvjHxd*rzs$SDTZEgfqklmnhwy'"
 _BW_MARKS = "auio"
 _AR_CARRIERS = "ابتثجحخدذرزسشصضطظعغفقكلمنهويء"
@@ -75,6 +76,7 @@ def _installed():
             or len(raw) != ledger["source"]["bytes"]):
         raise ValueError("SOURCE_IDENTITY_CHANGED")
     witnesses = []
+    source_rows = []
     for row in ledger["rows"]:
         fragment = raw[row["source_start_byte"]:row["source_end_byte"]]
         if (fragment.decode("utf-8") != row["raw_line"]
@@ -87,14 +89,59 @@ def _installed():
                 or fragment[row["form_start_byte"]:row["form_end_byte"]] != row["form"].encode("ascii")
                 or not _decode(row["form"])):
             raise ValueError("SOURCE_ANNOTATION_OR_FORM_CHANGED")
-        witnesses.append({"id": row["id"], "expression": row["annotation_lemma"],
+        witness = {"id": row["id"], "expression": row["annotation_lemma"],
             "convention": ledger["convention"], "binding": {
-                "source": {"id": "qac:" + row["id"], "revision": row["row_sha256"],
+                "source": {"id": "qac:" + row["id"], "revision":
+                           f'{ledger["source"]["sha256"]}:{row["source_start_byte"]}:{row["source_end_byte"]}',
                            "text": row["raw_line"]},
                 "scope_id": ledger["source"]["sha256"], "occurrence_id": row["id"],
                 "reading_id": row["annotation_lemma"], "start_byte": row["form_start_byte"],
-                "end_byte": row["form_end_byte"], "surface": row["form"]}})
-    return ledger, witnesses
+                "end_byte": row["form_end_byte"], "surface": row["form"]}}
+        witnesses.append(witness)
+        feature_start = len("\t".join(fields[:3]).encode("utf-8")) + 1
+        lemma_token = next(token for token in fields[3].split("|") if token.startswith("LEM:"))
+        previous_features = fields[3].split("|")[:fields[3].split("|").index(lemma_token)]
+        lemma_start = feature_start + sum(len(token.encode("utf-8")) + 1 for token in previous_features) + 4
+        source_rows.append({"start_byte": row["source_start_byte"],
+            "end_byte": row["source_end_byte"], "raw_line": row["raw_line"],
+            "location": row["id"], "form": row["form"], "tag": row["tag"],
+            "lemma": row["annotation_lemma"], "form_start_byte": row["form_start_byte"],
+            "form_end_byte": row["form_end_byte"], "lemma_start_byte": lemma_start,
+            "lemma_end_byte": lemma_start + len(row["annotation_lemma"].encode("utf-8")),
+            "witness": witness})
+    request = {"source": {"id": "qac-morphology-0.4", "revision": ledger["source"]["sha256"],
+                           "text": raw.decode("utf-8")},
+        "row_spans": [{"start_byte": row["source_start_byte"], "end_byte": row["source_end_byte"]}
+                      for row in ledger["rows"]]}
+    expected = {"schema": "nabt.lexical-source-rows.v1", "law_id": _SOURCE_LAW,
+        "source_id": request["source"]["id"], "source_revision": ledger["source"]["sha256"],
+        "source_bytes": len(raw), "row_count": len(source_rows), "rows": source_rows,
+        "source_authenticity_established": False, "intended_sense_established": False}
+    return ledger, witnesses, request, expected
+
+
+def _native_source_rows(request):
+    """The native function receives source bytes and spans, never parsed fields."""
+    payload = _wire(request) + b"\n"
+    if len(payload) > 16 * 1048576:
+        raise OverflowError("SOURCE_REQUEST_LIMIT")
+    executable = _ROOT / "formal/.lake/build/bin/lexicalSourceRows"
+    binary_hash = sha256(executable.read_bytes()).hexdigest()
+    completed = subprocess.run([str(executable)], input=payload, capture_output=True,
+                               timeout=60, check=False)
+    if sha256(executable.read_bytes()).hexdigest() != binary_hash:
+        raise ValueError("NATIVE_SOURCE_EXECUTION_FAILED")
+    if len(completed.stdout) > 4 * 1048576:
+        raise OverflowError("SOURCE_RESPONSE_LIMIT")
+    lines = completed.stdout.splitlines()
+    if len(lines) != 1:
+        raise ValueError("NATIVE_SOURCE_RESPONSE_COUNT")
+    response = _json(lines[0])
+    if type(response) is dict and response.get("error") == "RESOURCE_LIMIT":
+        raise OverflowError("NATIVE_SOURCE_RESOURCE_LIMIT")
+    if completed.returncode:
+        raise ValueError("NATIVE_SOURCE_EXECUTION_FAILED")
+    return response, binary_hash
 
 
 def _native(requests):
@@ -146,10 +193,13 @@ def certify_surface(text, *, start_byte=0, end_byte=None, source_id="user_text",
         "native_checked": False, "exact_surface_checked": False, "claims": [], "matches": [],
         "strict_language_accepted": False, "intended_sense_established": False,
         "source_interpretation_proved": False, "annotation_acquisition_kernel_proved": False,
+        "source_row_extraction_kernel_proved": False,
+        "annotation_field_extraction_kernel_proved": False,
+        "source_authenticity_kernel_proved": False,
         "tawatur_evaluated": False,
         "whole_arabic_complete": False, "residuals": ["SOURCE_ANNOTATION_TESTIMONY",
             "SOURCE_ROW_ACQUISITION_NOT_KERNEL_PROVED",
-            "SOURCE_ANNOTATION_ACQUISITION_NOT_KERNEL_PROVED",
+            "ANNOTATION_SEMANTIC_CORRECTNESS_NOT_KERNEL_PROVED",
             "NEW_CONTEXT_SENSE_NOT_ESTABLISHED", "GRAMMATICAL_APPLICATION_NOT_ESTABLISHED"]}
     try:
         whole = foundation.inspect_source(text, source_id=source_id, revision="observed")
@@ -179,12 +229,38 @@ def certify_surface(text, *, start_byte=0, end_byte=None, source_id="user_text",
                       reason=error.code if isinstance(error, NabtError) else str(error))
         return report
     try:
-        ledger, witnesses = _installed()
+        ledger, witnesses, source_request, expected_source = _installed()
     except (OSError, NabtError, ValueError, KeyError, TypeError, UnicodeError):
         report.update(status="SOURCE_UNAVAILABLE", reason="INSTALLED_WITNESS_REPLAY_FAILED")
         return report
     report["source_ledger_sha256"] = _LEDGER_SHA
     report["source_corpus_sha256"] = ledger["source"]["sha256"]
+    try:
+        source_response, source_binary = _native_source_rows(source_request)
+        if _wire(source_response) != _wire(expected_source):
+            raise ValueError("NATIVE_SOURCE_POSTCONDITION_MISMATCH")
+    except (subprocess.TimeoutExpired, OverflowError):
+        report.update(status="RESOURCE_EXHAUSTED", reason="NATIVE_SOURCE_RESOURCE_LIMIT")
+        return report
+    except (OSError, ValueError, KeyError, TypeError, UnicodeError):
+        report.update(status="VERIFICATION_UNAVAILABLE", reason="NATIVE_SOURCE_UNAVAILABLE_OR_REJECTED")
+        return report
+    # Only the native-derived objects cross into the subsequent spelling law.
+    # The independent Python replay is a consistency check, not the authority.
+    witnesses = [row["witness"] for row in source_response["rows"]]
+    report["source_acquisition"] = {"receipt": source_response,
+        "request_sha256": _digest(source_request), "response_sha256": _digest(source_response),
+        "native_binary_sha256": source_binary,
+        "proof": {"kind": "NATIVE_LEAN_RECEIPT", "law_id": _SOURCE_LAW,
+            "theorems": ["Nabt.LexicalSourceAcquisition.acquired_row_source_bytes",
+                "Nabt.LexicalSourceAcquisition.acquired_lemma_is_unique",
+                "Nabt.LexicalSourceAcquisition.acquired_lemma_source_span",
+                "Nabt.LexicalSourceAcquisition.acquired_witness_form_bound",
+                "Nabt.LexicalSourceAcquisition.acquired_batch_preserves_positions"]},
+        "scope": "Exact row and annotation-field extraction from the supplied pinned corpus bytes; source authenticity and interpretation remain premises."}
+    report["source_row_extraction_kernel_proved"] = True
+    report["annotation_field_extraction_kernel_proved"] = True
+    report["residuals"].remove("SOURCE_ROW_ACQUISITION_NOT_KERNEL_PROVED")
     expressions = sorted({(w["expression"], w["convention"]) for w in witnesses})
     requests = [{"source": source, "frame": {"occurrence": report["occurrence"],
         "expression": expression, "convention": convention}, "surface": surface,
@@ -220,6 +296,7 @@ def certify_surface(text, *, start_byte=0, end_byte=None, source_id="user_text",
                 "Nabt.LexicalSurfaceBinding.checked_cells_exact",
                 "Nabt.LexicalSurfaceBinding.decodeForm_encode",
                 "Nabt.LexicalSurfaceBinding.changed_surface_rejected"]},
-            "scope": "Conditional on the retained source row, Lean checks its exact FORM encoding and equality with the observed Arabic spelling under the declared expression label. Python replays the row's byte interval in the full pinned corpus and its LEM extraction; neither acquisition step is kernel-proved. No transfer of corpus sense or grammatical role into the new context.",
+            "source_acquisition_response_sha256": _digest(source_response),
+            "scope": "Lean extracts the retained row and unique annotation fields from the supplied full corpus bytes, then checks exact FORM encoding and equality with the observed spelling under that annotation label. Corpus authenticity and the semantic correctness of the annotation remain premises. No transfer of corpus sense or grammatical role into the new context.",
             "unresolved_premises": list(report["residuals"])})
     return report

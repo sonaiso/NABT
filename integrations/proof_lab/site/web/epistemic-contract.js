@@ -138,7 +138,7 @@
     return suite;
   }
   function validateEnvelope(report) {
-    const allowed = ['schema', 'request_id', 'payload_sha256', 'code_sha', 'native_sha256', 'generated_at_utc', 'duration_ms', 'mode', 'status', 'all_arabic_complete', 'world_truth_established', 'scope', 'reference_sha256', 'source_registry_sha256', 'runtime_sha256', 'runner_sha256', 'measurement_source_sha256', 'toolchain', 'epistemic_measurement'];
+    const allowed = ['schema', 'request_id', 'payload_sha256', 'code_sha', 'native_sha256', 'generated_at_utc', 'duration_ms', 'mode', 'status', 'all_arabic_complete', 'world_truth_established', 'scope', 'reference_sha256', 'source_registry_sha256', 'runtime_sha256', 'runner_sha256', 'measurement_source_sha256', 'toolchain', 'epistemic_measurement', 'transport_contract'];
     if (!object(report) || Object.keys(report).some(k => !allowed.includes(k)) || report.schema !== 'nabt.proof-lab-result.v1' || report.mode !== 'epistemic_measurement' || report.status !== 'EPISTEMIC_MEASUREMENT_COMPLETE' || report.all_arabic_complete !== false || report.world_truth_established !== false) deny('غلاف القياس أو حدود سلطته غير صالح.');
     const suite = validate(report.epistemic_measurement);
     for (const k of ['native_sha256', 'runtime_sha256', 'reference_sha256', 'source_registry_sha256']) if (report[k] !== suite[k]) deny('غلاف القياس لا يطابق هويات المجموعة.');
