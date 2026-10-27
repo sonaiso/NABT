@@ -1337,3 +1337,30 @@ contracts (1467 audited declarations total) specify paired witness loading,
 not Python refinement, individual matrix-row checks, or all-Arabic completeness.
 See `docs/ATTESTED_LEXICAL_LOADING_AR.md` and
 `evidence/lexical_loading_v1/formal_contract.json`.
+
+## Source-aligned local acquisition (2026-10-28)
+
+`Nabt.AlignedAcquisition` adds exact source partition/restoration, contiguous
+code-point/UTF-8 offsets, typed A116 cells, complete-only handoff, exact request
+binding, and composition with the existing shape checker. The two local
+expansion relations characterize their helpers; they are not a proof that the
+Arabic interpretation of every classifier branch is historically complete.
+Fourteen new manifest theorems bring the enforcing audit to 1504. The observed
+axioms remain only `propext`, `Quot.sound`, and `Classical.choice`.
+
+The native executable independently re-reads the exact input. Python compares
+the entire result and passes original bytes to the existing reader. No source
+normalization replaces textual evidence. The new repository tool path leaves
+the historical `src/` tree, Makefile, runtime freezes, and gold unchanged.
+The proof-token guard now recognizes Char literals so a double-quote character
+cannot mis-open a string and hide later forbidden proof tokens.
+
+First independent matrix: 72/72 representation expectations, 37/37 independently
+authored cell arrays, 0 observed false licenses. Forty-nine cases are complete
+within the declared representation scope; positive-goal acquisition is 32/47,
+including only 10/18 positive orthography goals. All 48 downstream measurements
+remain unmeasured; 29 positive downstream goals are coverage misses. Conditional
+examples are outside the existing finite inference vocabulary. A later exposed
+replay after relocating the tools produces the same counts. Neither gate
+certifies general phonology, morphology, syntax, reference, or Arabic coverage.
+See `docs/ACQUISITION_RESULT_AR.md` and `evidence/aligned_acquisition_v1/summary.json`.

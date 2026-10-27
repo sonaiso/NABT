@@ -18,3 +18,15 @@ only with a version, source/scope, native checks and counterexamples.
 The v1 goal is checked acquisition and original-source handoff. General nominal
 syntax, unrestricted person/reference acquisition, omitted-alif lexicon and
 all-Arabic completeness remain tracked goals, not facts asserted by this file.
+
+Implemented as repository tools (`tools/aligned_acquisition.py` and
+`python -m tools.acquisition_cli`), with native `alignedAcquisition` replay.
+The entire historical `src/` tree and Makefile remain byte-identical to the
+base. Extend verification using `make -f tools/aligned_acquisition.mk`.
+
+Measured first matrix: 72 representation outcomes match, 37 independent cell
+arrays match, zero observed false licenses. Positive-goal acquisition is 32/47;
+orthography positive coverage is 10/18. All 48 downstream measurements remain
+unmeasured, with 29 positive goals counted as misses. The exposed replay after
+relocation preserves these counts. See docs/ACQUISITION_RESULT_AR.md and the
+immutable compressed results; these figures do not certify grammar coverage.
