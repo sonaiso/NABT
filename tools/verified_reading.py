@@ -19,6 +19,9 @@ LAW_ID = "nabt.verified-ground-reading.v1"
 RESERVED = {"ليس", "هو", "إذا", "فإن", "و", "هل", "كل", "كان", "تعريف", "مفهوم", "علاقة", "فرد"}
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def literal(a):
     return {"predicate": a.predicate, "arguments": list(a.args), "positive": a.positive}
 
@@ -79,6 +82,7 @@ def closure(facts, rules):
 
 
 def propose(raw: bytes, query_raw: bytes, identity="text", revision="1", scope="default"):
+    foundation.require_foundation('tools.verified_reading.propose')
     if len(raw) > 65536 or len(query_raw) > 8192:
         raise ValueError("RESOURCE_LIMIT: source or query too large")
     doc = parse_document(raw, source_id=identity, scope=scope)
@@ -112,6 +116,7 @@ def propose(raw: bytes, query_raw: bytes, identity="text", revision="1", scope="
 
 
 def main():
+    foundation.require_foundation('tools.verified_reading.main')
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("source", type=Path)
     p.add_argument("query", type=Path)

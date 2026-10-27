@@ -127,7 +127,7 @@ class NeuralMorphologyModelTests(unittest.TestCase):
         self.assertEqual(propose(b'\xff',self.model,self.vocab,self.receipt)['status'],'INVALID_INPUT')
         self.assertEqual(propose(('بَ'*20).encode(),self.model,self.vocab,self.receipt)['status'],'RESOURCE_LIMIT')
         self.assertEqual(propose(b'',self.model,self.vocab,self.receipt)['status'],'INVALID_INPUT')
-        for word in ('١َ','َ','كَتَبَ،'):
+        for word in ('١َ','كَتَبَ،'):
             self.assertEqual(propose(word.encode(),self.model,self.vocab,self.receipt)['tokens'][0]['status'],'UNKNOWN_INPUT_DOMAIN')
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)
@@ -135,6 +135,21 @@ class NeuralMorphologyModelTests(unittest.TestCase):
             (p/'weights.npz').write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError,'checksum'):
                 load_bundle(p)
+
+    def test_malformed_marks_are_rejected_before_model_execution(self):
+        from unittest.mock import patch
+        from tools.arabic_training.proposal import propose
+        # A source error has no per-token model proposal. This is distinct
+        # from a well-formed token outside the learner's input domain.
+        for text in ('َ', 'َكَتَبَ', 'كَُتَبَ', 'كََتَبَ', 'كّّتَبَ'):
+            with self.subTest(text=text), patch.object(self.model, 'forward') as forward:
+                result = propose(text.encode(), self.model, self.vocab, self.receipt)
+                self.assertEqual(result['status'], 'INVALID_INPUT')
+                self.assertEqual(result['tokens'], [])
+                self.assertEqual(result['authority'], 'NONE')
+                self.assertFalse(result['readings_licensed'])
+                self.assertFalse(result['alternatives_complete'])
+                forward.assert_not_called()
 
 
 if __name__=='__main__':

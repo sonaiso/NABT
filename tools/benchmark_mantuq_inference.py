@@ -16,7 +16,49 @@ from typing import Callable
 ROOT = Path(__file__).resolve().parents[1]
 GOLD_PATH = Path("evidence/mantuq_inference_v1/benchmark_gold.json")
 GOLD_SHA256 = "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a"
+CONTRACT_MIGRATION_PATH = Path("evidence/framework_foundation_v1/mantuq_benchmark_contracts_v1.json")
+CONTRACT_MIGRATION_SHA256 = "a94d5409ec495b69f01921d81c56dee4f8e6023e0167db721adb57da91d4ac9a"
 OUTCOMES = {"SUPPORTED", "UNKNOWN", "CONFLICT", "INVALID", "RESOURCE_EXHAUSTED"}
+
+
+def contract_replay(root: Path, gold: dict) -> dict:
+    """Replay the original authoring contracts and the reviewed current policy.
+
+    The immutable gold still names the historical AGENTS.md. Its exact bytes
+    are retained separately after the additive foundation-policy revision;
+    every other contract is checked at its original path. The migration and
+    current control document are both pinned, so this is not an exemption for
+    arbitrary policy or formal-source changes.
+    """
+    raw = (root / CONTRACT_MIGRATION_PATH).read_bytes()
+    if sha256(raw).hexdigest() != CONTRACT_MIGRATION_SHA256:
+        raise ValueError("Frozen inference contract migration changed")
+    migration = json.loads(raw)
+    if (migration["gold_path"] != str(GOLD_PATH) or migration["gold_sha256"] != GOLD_SHA256
+            or migration["case_inputs_and_expectations_changed"] is not False
+            or migration["scoring_or_thresholds_changed"] is not False):
+        raise ValueError("Contract migration does not preserve the frozen benchmark")
+    bindings = {entry["contract_path"]: entry for entry in migration["historical_bindings"]}
+    if len(migration["historical_bindings"]) != 1 or set(bindings) != {"AGENTS.md"}:
+        raise ValueError("Unexpected historical contract migration")
+    inputs = []
+    for source in gold["contract_inputs"]:
+        binding = bindings.get(source["path"])
+        verified_path = source["path"] if binding is None else binding["retained_path"]
+        if binding is not None and binding["sha256"] != source["sha256"]:
+            raise ValueError("Historical contract does not match the frozen gold")
+        if sha256((root / verified_path).read_bytes()).hexdigest() != source["sha256"]:
+            raise ValueError("Frozen contract input changed: " + source["path"])
+        inputs.append({"contract_path": source["path"], "verified_path": verified_path,
+                       "sha256": source["sha256"]})
+    for source in migration["current_control_documents"]:
+        if sha256((root / source["path"]).read_bytes()).hexdigest() != source["sha256"]:
+            raise ValueError("Reviewed current contract input changed: " + source["path"])
+    return {"schema": migration["schema"],
+            "migration_path": str(CONTRACT_MIGRATION_PATH),
+            "migration_sha256": CONTRACT_MIGRATION_SHA256, "inputs": inputs,
+            "current_control_documents": migration["current_control_documents"],
+            "gold_sha256": GOLD_SHA256, "fresh_blind_evaluation": False}
 
 
 def execution_inputs(root: Path = ROOT) -> dict:
@@ -56,7 +98,8 @@ def execution_inputs(root: Path = ROOT) -> dict:
                     digest.update(block)
             record.update(sha256=digest.hexdigest(), bytes=path.stat().st_size)
         binaries.append(record)
-    return {"files": files, "inventory_sha256": inventory_sha256(inventory),
+    return {"files": files, "benchmark_contract_replay": contract_replay(root, load_gold(root)),
+            "inventory_sha256": inventory_sha256(inventory),
             "inventory_counts": {"sources": len(inventory["sources"]), "passages": len(inventory["passages"]),
                                  "policies": len(inventory["rules"])},
             "sources": [{"source_id": source["source_id"], "path": source["local_path"],
@@ -71,9 +114,7 @@ def load_gold(root: Path = ROOT, path: Path | None = None) -> dict:
     if sha256(raw).hexdigest() != GOLD_SHA256:
         raise ValueError("Frozen inference gold changed; use a new benchmark version")
     gold = json.loads(raw)
-    for source in gold["contract_inputs"]:
-        if sha256((root / source["path"]).read_bytes()).hexdigest() != source["sha256"]:
-            raise ValueError("Frozen contract input changed: " + source["path"])
+    contract_replay(root, gold)
     cases = gold["cases"]
     if len({case["id"] for case in cases}) != len(cases):
         raise ValueError("Duplicate benchmark case identity")

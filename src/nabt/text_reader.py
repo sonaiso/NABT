@@ -53,6 +53,8 @@ _RESERVED = frozenset(
 _SEPARATORS = frozenset(".;؛؟\n\r")
 
 
+from nabt import foundation
+
 @dataclass(frozen=True, slots=True)
 class _Token:
     value: str
@@ -276,6 +278,7 @@ def parse_document(
     with any residual has ``accepted == False`` and is inadmissible as a whole.
     Parsed prefixes remain visible for inspection, never as partial authority.
     """
+    foundation.require_foundation('nabt.text_reader.parse_document')
     source = _source(raw, source_id, scope)
     text = source.raw_bytes.decode("utf-8")
     offsets = [0]
@@ -402,6 +405,7 @@ def parse_query(raw: bytes | str, *, source_id: str = "query", scope: str = "def
     This wrapper never extracts a question from a mixed document. Its error
     retains parser residuals, including their original source spans.
     """
+    foundation.require_foundation('nabt.text_reader.parse_query')
     document = parse_document(raw, source_id=source_id, scope=scope)
     if (not document.accepted or len(document.queries) != 1 or document.declarations
             or document.definitions or document.facts or document.rules):

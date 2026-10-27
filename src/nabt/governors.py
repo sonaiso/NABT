@@ -25,6 +25,8 @@ ROLE_CATEGORIES = MappingProxyType({0: "noun", 1: "noun", 2: "verb", 6: "noun",
 MARK_NAMES = ("nasb", "raf", "jarr", "jazm")
 
 
+from nabt import foundation
+
 @dataclass(frozen=True, slots=True)
 class GovernorEntry:
     row_id: int
@@ -107,6 +109,7 @@ def check_assignment(class_code: int, assignments: dict[int, int | None]) -> dic
     constrain the assignment. Extra known roles are irrelevant. Category
     admissibility is a separate predicate, not an undocumented extra premise.
     """
+    foundation.require_foundation('nabt.governors.check_assignment')
     natural(class_code, "class_code")
     cls = installed_table().classes.get(class_code)
     if cls is None:

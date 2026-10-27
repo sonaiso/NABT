@@ -35,6 +35,9 @@ MESSAGES = {
 }
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 class PilotError(ValueError):
     def __init__(self, code, message):
         super().__init__(message)
@@ -112,6 +115,10 @@ def validate_inputs(raw, query, identity, revision, scope, timeout):
             value.decode("utf-8")
         except UnicodeError as exc:
             raise PilotError("INVALID_INPUT", "source and question must be UTF-8") from exc
+        try:
+            foundation.validate_source(value)
+        except NabtError as exc:
+            raise PilotError("INVALID_INPUT", "malformed source representation") from exc
     for value in (identity, revision, scope):
         if type(value) is not str or not value or "\x00" in value:
             raise PilotError("INVALID_INPUT", "binding fields must be nonempty strings without NUL")
@@ -126,6 +133,7 @@ def validate_inputs(raw, query, identity, revision, scope, timeout):
 
 
 def native(raw, query, certificate, identity, revision, scope, checker, timeout):
+    foundation.require_foundation('tools.explainable_pilot.native')
     try:
         encoded = wire(certificate).encode("utf-8")
     except (ValueError, TypeError, RecursionError) as exc:
@@ -222,6 +230,7 @@ def propose_certificate(raw, query, identity="text", revision="1", scope="defaul
 
 def answer(raw, query, *, identity="text", revision="1", scope="default",
            certificate=None, checker=None, timeout=20):
+    foundation.require_foundation('tools.explainable_pilot.answer')
     validate_inputs(raw, query, identity, revision, scope, timeout)
     if certificate is None:
         certificate = propose_certificate(raw, query, identity, revision, scope)
@@ -255,6 +264,7 @@ def verify(raw, query, bundle, **options):
     Canonical JSON comparison is type-sensitive (True != 1 here), unlike Python
     container equality. Extra fields, changed display, spans or claims all fail.
     """
+    foundation.require_foundation('tools.explainable_pilot.verify')
     if not isinstance(bundle, dict) or bundle.get("schema") != ANSWER_SCHEMA:
         raise PilotError("ANSWER_REJECTED", "unsupported answer schema")
     try:
@@ -276,6 +286,7 @@ def verify(raw, query, bundle, **options):
 
 
 def main():
+    foundation.require_foundation('tools.explainable_pilot.main')
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="operation", required=True)
     for operation in ("answer", "verify"):

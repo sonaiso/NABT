@@ -71,6 +71,8 @@ _CLAUSES = {
 }
 
 
+from nabt import foundation
+
 def _wire(value):
     try:
         data = json.dumps(value, ensure_ascii=False, sort_keys=True,
@@ -296,6 +298,7 @@ def _finish_fact(block, table, outside):
 
 
 def read_nominal_facts(text, *, source_id="nominal_lexicon", scope="default"):
+    foundation.require_foundation('nabt.nominal.read_nominal_facts')
     table = installed_registry()
     source = _source(text, source_id, scope)
     blocks, outside = _scan_facts(source)
@@ -465,6 +468,7 @@ def _reading(source, run, scope, lexical, table, lexical_report):
 
 
 def read_nominal(text, *, lexical_text=None, source_id="input", lexical_source_id="nominal_lexicon", scope="default"):
+    foundation.require_foundation('nabt.nominal.read_nominal')
     table = installed_registry()
     source = _source(text, source_id, scope)
     lexical = None if lexical_text is None else read_nominal_facts(lexical_text, source_id=lexical_source_id, scope=scope)
@@ -510,6 +514,7 @@ def read_nominal(text, *, lexical_text=None, source_id="input", lexical_source_i
 
 
 def verify_nominal_facts(report, *, text=_UNSET, source_id=None, scope=None):
+    foundation.require_foundation('nabt.nominal.verify_nominal_facts')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")
@@ -527,6 +532,7 @@ def verify_nominal_facts(report, *, text=_UNSET, source_id=None, scope=None):
 
 
 def verify_nominal(report, *, text=_UNSET, lexical_text=_UNSET, source_id=None, lexical_source_id=None, scope=None):
+    foundation.require_foundation('nabt.nominal.verify_nominal')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")
@@ -576,6 +582,7 @@ def count_source_units(text, *, source_id="count", scope="default"):
 
 
 def read_count_phrase(text, *, lexical_text=None, source_id="count_phrase", lexical_source_id="nominal_lexicon", scope="default"):
+    foundation.require_foundation('nabt.nominal.read_count_phrase')
     from .counting import read_count_phrase as execute
     return execute(text, lexical_text=lexical_text, source_id=source_id,
                    lexical_source_id=lexical_source_id, scope=scope)

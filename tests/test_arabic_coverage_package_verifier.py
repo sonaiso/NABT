@@ -84,7 +84,7 @@ class ArabicCoveragePackageVerifierTests(unittest.TestCase):
         profile = self._assert_archive_profile(freeze_path, "0.17.0a1", 80, "v6", 25)
         pin = VERIFIER.CODE_FREEZE_PINS[sha256(freeze_path.read_bytes()).hexdigest()]
         self.assertEqual((pin["selection"], pin["profile"]), ("arabic_completion_v3_review2", "arabic_completion_v3"))
-        self.assertEqual(VERIFIER.DEFAULT_FREEZE, "evidence/arabic_completion_v6/code_freeze_v1.json")
+        self.assertEqual(VERIFIER.DEFAULT_FREEZE, "evidence/attested_mark_recovery_v1/code_freeze_v1.json")
         self.assertEqual(profile["supplementary_source_ids"], ["mukhtar_sihah", "sabban"])
         self.assertEqual(set(VERIFIER.supplementary_file_hashes(profile)), {
             "nabt/data/source_evidence/construction_supplementary_sources_v2.json",

@@ -11,6 +11,11 @@ on:
       - 'tools/benchmark_semantic_axes.py'
       - 'tools/*epistemic_measurement.py'
       - 'tests/test_epistemic*.py'
+      - 'tools/*contextual_reference.py'
+      - 'tests/test_contextual*.py'
+      - 'evidence/contextual_semantics_v1/**'
+      - 'formal/Nabt/ContextualReference.lean'
+      - 'formal/ContextualReferenceMain.lean'
       - 'evidence/epistemic_measurement_v1/**'
       - 'formal/Nabt/EpistemicMeasurement.lean'
       - 'formal/EpistemicMeasurementMain.lean'
@@ -76,7 +81,7 @@ jobs:
         run: python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
       - name: Build the installed native checker
         if: steps.prepare.outputs.valid == 'true'
-        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation epistemicMeasurement'
+        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation epistemicMeasurement contextualReference'
       - name: Worker transport and certificate boundary tests
         if: github.event_name != 'workflow_dispatch'
         run: node --test integrations/proof_lab/site/tests/*.test.mjs
@@ -89,6 +94,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_attested_lexical_loader.py' -v
           python -m unittest discover -s tests -p 'test_lexical_loading*.py' -v
           python -m unittest discover -s tests -p 'test_epistemic*.py' -v
+          python -m unittest discover -s tests -p 'test_contextual*.py' -v
       - name: Replay the frozen reference through both transport consumers
         if: steps.prepare.outputs.valid == 'true' && github.event_name != 'workflow_dispatch'
         run: |
@@ -98,6 +104,8 @@ jobs:
           node integrations/proof_lab/site/scripts/validate-semantic-report.mjs "$RUNNER_TEMP/semantic-axes-attested.json"
           python tools/benchmark_epistemic_measurement.py --require-native --output "$RUNNER_TEMP/epistemic-measurement.json"
           node integrations/proof_lab/site/scripts/validate-epistemic-report.mjs "$RUNNER_TEMP/epistemic-measurement.json"
+          python tools/benchmark_contextual_reference.py --require-native --output "$RUNNER_TEMP/contextual-reference.json"
+          node integrations/proof_lab/site/scripts/validate-contextual-report.mjs "$RUNNER_TEMP/contextual-reference.json"
       - name: Execute the exact request and retain its receipt
         if: always() && steps.prepare.outputs.valid == 'true'
         env:

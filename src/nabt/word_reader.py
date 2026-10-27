@@ -16,6 +16,8 @@ import json
 import re
 import unicodedata
 
+from nabt import foundation
+
 from . import words
 from .alphabet import ALPHABET_ID, parse_word
 from .codec import encode_cells
@@ -413,6 +415,7 @@ def _contexts(source, scope, segments, runs):
 
 
 def read_words(raw: bytes | str, *, source_id: str = "input", scope: str = "default") -> dict:
+    foundation.require_foundation("nabt.word_reader.read_words")
     source = _source(raw, source_id, scope)
     policy = replay_policy()
     segments = _scan(source)
@@ -433,6 +436,11 @@ def read_words(raw: bytes | str, *, source_id: str = "input", scope: str = "defa
               "source_restored": True, "facts": [], "semantic_projection": "NONE",
               "world_truth": "NOT_ESTABLISHED",
               "interpretation_scope": "FINITE_ATTESTED_LEXICAL_PILOT_AND_THREE_COMPLETE_FRAMES"}
+    # Source representation and lexical acceptance have different scopes.
+    # The exact projection is replayed with the report; residual spellings do
+    # not receive invented cells or silently become complete A116 readings.
+    result["foundation_source"] = foundation.inspect_source(
+        source.raw_bytes, source_id=source.source_id, revision=source.sha256)
     _wire(result)  # Bound the report before presenting it or encoding it.
     return result
 
@@ -451,6 +459,7 @@ def read_word_at(raw: bytes | str, start: int, end: int, *, source_id: str = "in
     A valid UTF-8 cut is necessary, not sufficient: cutting a mark from its
     carrier or inventing a suffix boundary does not create a word witness.
     """
+    foundation.require_foundation("nabt.word_reader.read_word_at")
     source = _source(raw, source_id, scope)
     requested = _span(source, start, end)
     report = read_words(raw, source_id=source_id, scope=scope)
@@ -483,6 +492,7 @@ def verify_word_reading(report: dict, *, source: bytes | str | None = None,
     query context. A self-consistent different source is not an answer to it.
     Policy/resource failures keep their DEFER status; malformed reports fail.
     """
+    foundation.require_foundation("nabt.word_reader.verify_word_reading")
     try:
         if type(report) is not dict:
             raise ValueError("not a report")

@@ -74,6 +74,10 @@ lean_exe unitDiscoveryProbe where
 lean_lib ProbeJson
 
 @[default_target]
+lean_exe foundationProbe where
+  root := `FoundationMain
+
+@[default_target]
 lean_exe progressiveUnitProbe where
   root := `ProgressiveUnitProbe
 
@@ -130,3 +134,11 @@ lean_exe licensedInference where
 @[default_target]
 lean_exe epistemicMeasurement where
   root := `EpistemicMeasurementMain
+
+@[default_target]
+lean_exe contextualReference where
+  root := `ContextualReferenceMain
+
+@[default_target]
+lean_exe occurrenceSense where
+  root := `OccurrenceSenseMain

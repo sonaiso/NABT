@@ -31,6 +31,8 @@ MAX_ALTERNATIVES = 8
 MAX_QUERY_CONTEXT_NAMES = 16_384
 
 
+from nabt import foundation
+
 class Mood(IntEnum):
     ASSERT = 0
     QUESTION = 1
@@ -757,6 +759,7 @@ def _read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "def
 
 
 def read_arabic(raw: bytes | str, *, source_id: str = "text", scope: str = "default") -> ArabicReading:
+    foundation.require_foundation('nabt.arabic_reader.read_arabic')
     return _read_arabic(raw, source_id=source_id, scope=scope)
 
 

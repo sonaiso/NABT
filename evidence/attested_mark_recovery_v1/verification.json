@@ -1,0 +1,1213 @@
+{
+  "schema": "nabt.attested-mark-recovery-verification.v1",
+  "recorded_at": "2026-10-26T15:27:07.385035+00:00",
+  "implementation_base_commit": "be404b7c2dbe75f58338a6ac23fcd2d3f51fd2d4",
+  "execution_tree": "BASE_PLUS_RECORDED_UNCOMMITTED_PATCH",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "torch": "2.5.1+cpu",
+    "numpy": "2.3.5",
+    "cryptography": "50.0.2",
+    "node": "v24.22.1",
+    "lean_toolchain": "leanprover/lean4:v4.34.1"
+  },
+  "implementation_inputs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "cf9657e1ab9860187dfa1d02f049ce497221d0a51cecbae130890cfe213707ea"
+    },
+    {
+      "path": "Makefile",
+      "sha256": "313ffaa6cb1fc5b60cb0597264bfb7d572e19dffdee1f8e3611b5e328b0ac6f3"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/freeze_runner_v1.py",
+      "sha256": "f0f07814a477707e8fc7d0fff212d6fc2258c2e37285de15ec0b7d84544bc65f"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/review_continuation_v1.py",
+      "sha256": "ad2b8f3d26ac56e347e8242f6ad230c6495720b636860f2c3ac5fc3d896d6b50"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/run_oracle_v1.py",
+      "sha256": "0eb1adc460e54d21ef3bcebabe84b4c0dc495ff376264f6deeb218c14594f7b0"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/run_regression_v1.py",
+      "sha256": "3e3be7f7e181a2df84ba70104da187ec6dd7bb28d8ed1eef0a18abf6306d6171"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "sha256": "ca60e17fbdf00dc80dc6c1bb7596ab84720253622d3c0ad3c09702da37eb8b5f"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/test_continuation_v1.py",
+      "sha256": "c97cb4c49e8caa7572a2840f3e6c4bcee07a74658af6abff9c307b4a2d94ba06"
+    },
+    {
+      "path": "src/nabt/data/framework_foundation.json",
+      "sha256": "8dec05aa721d36931fb988bbb33187680fcb7c2ce5eb92d6363c333d6244dfb8"
+    },
+    {
+      "path": "tests/test_arabic_coverage_package_verifier.py",
+      "sha256": "039f52b2cdb329ec5c86899b9983492d4aa36fd4f09926862ab06df69941683b"
+    },
+    {
+      "path": "tests/test_arabic_evaluation.py",
+      "sha256": "1af7767e27b0e95f7b16be416ef1248573af1a2fb30956437ddac2f00f4b2b39"
+    },
+    {
+      "path": "tests/test_attested_mark_runtime_freeze.py",
+      "sha256": "825e2fc15ed5579eb7f506cf595c5f40286527953c29271b052425f813173c59"
+    },
+    {
+      "path": "tests/test_benchmark_module_provenance.py",
+      "sha256": "4dbac0bde151e3b37a36fc6127a0af3ab365328ff655462855e24b05d617e1af"
+    },
+    {
+      "path": "tests/test_completion_v6_gate.py",
+      "sha256": "2b0ab7948df00ea58698395d0bb7242417b38099f78f90140f56f084231d2d69"
+    },
+    {
+      "path": "tests/test_framework_foundation_freeze.py",
+      "sha256": "f2849f8e06d776f83e40c887c2df385db43e2aa72f65e0f009b507d8cb8dcec7"
+    },
+    {
+      "path": "tests/test_linguistic_truth_foundation.py",
+      "sha256": "56ae63cca2983d854cf86cc425f52157a2b66b51789b4f3beea3576f7981b2de"
+    },
+    {
+      "path": "tests/test_linguistic_truth_mark_recovery.py",
+      "sha256": "a5eab871666f1c98c97a6d04a644b7dd6efef1a97ee87e4333f19f415281b123"
+    },
+    {
+      "path": "tests/test_linguistic_truth_runtime.py",
+      "sha256": "c4547e920ce6d0ffa62a528b9aca38a8c8aa9b7914b8b7727aa384ff58d58c34"
+    },
+    {
+      "path": "tests/test_neural_morphology_model.py",
+      "sha256": "a2ed2f12c4531c1041f29a62448d38584331e51d229b3fbdf200a54232965481"
+    },
+    {
+      "path": "tests/test_rational_inquiry_freeze.py",
+      "sha256": "7677113b74559c85ecbaec219f70d1875e2ef88bb1893255dce6fd95a0721870"
+    },
+    {
+      "path": "tests/test_recursive_source_bridge.py",
+      "sha256": "909e45324d77415cf57f12d9edbf2b58cfa9794a529a5ea3cb9f1332de1b2430"
+    },
+    {
+      "path": "tools/arabic_syntax_evaluation.py",
+      "sha256": "59f0900ccc4b9f5d764c9ebc802040eda18766ec82d96443df093634c8c3dfff"
+    },
+    {
+      "path": "tools/benchmark_licensed_inference.py",
+      "sha256": "bfcfa6c964117f915ec1693b392fac7fe2237b105dabab936e9a73fe09fe0525"
+    },
+    {
+      "path": "tools/benchmark_linguistic_truth.py",
+      "sha256": "3a0257f4fb76edc71867c36c350d6297a7c70db222e6849e5eaf4fa53517fb60"
+    },
+    {
+      "path": "tools/construction_evaluation.py",
+      "sha256": "b2bdc1196d4c221871445af0afd57da08d6f0395ea90acde562b2cce67816058"
+    },
+    {
+      "path": "tools/discourse_evaluation.py",
+      "sha256": "d03f77e5774a6efad4bfacb6611a7f6bd60768366e93d44cfe8dd0cc71cd04e1"
+    },
+    {
+      "path": "tools/framework_foundation_gate.py",
+      "sha256": "3331569cafaf4ea0a685e8a38b42fe8e46d42b9843c69ba0bffcaa84a25de5b7"
+    },
+    {
+      "path": "tools/framework_foundation_postreview.py",
+      "sha256": "02b18c3cbf8612bfd0533c3904a93d7774b19feda4318a01c2cc68ee856c6f2c"
+    },
+    {
+      "path": "tools/governor_evaluation.py",
+      "sha256": "f0d2e86afd8bac7710933879a530164b53059b99f902ee3c90a7166604d32b86"
+    },
+    {
+      "path": "tools/inflection_cli_evaluation.py",
+      "sha256": "2621cb7aecb718b5ae1781f2984b49d6e992ce237885b7fe12be74e729b8d10b"
+    },
+    {
+      "path": "tools/inflection_evaluation.py",
+      "sha256": "b3ab9710df44db7cb480c29135a1123da84b7129ba27aa1205c74f12a20bea22"
+    },
+    {
+      "path": "tools/linguistic_truth/marked_forms.py",
+      "sha256": "a2f04ab15fe92c349636615bf9a46e02a5b908492e7f3d97ae863be3b3ccf7b0"
+    },
+    {
+      "path": "tools/linguistic_truth/runtime.py",
+      "sha256": "72da3c3e3197e9db447aab7ffb6158ce5f86bbc39cd2096a11e6183769865925"
+    },
+    {
+      "path": "tools/morphology_evaluation.py",
+      "sha256": "d04f3017848e6f5adaffeac6621c0041705153b4404dbb7321c72cd0ee0c5ea6"
+    },
+    {
+      "path": "tools/text_inquiry_evaluation.py",
+      "sha256": "023840832d8726bc322ca535518f20bf3fe667ddf9f3912cc7fdb1ea78a998a5"
+    },
+    {
+      "path": "tools/verify_construction_package.py",
+      "sha256": "ec28fe64206d019b68686b11629ae0153be3dd11dfe548880c23a19d25f63025"
+    },
+    {
+      "path": "tools/word_evaluation.py",
+      "sha256": "db7412c45fa32b992d8c3513bb520aa079c375815c5513b08abd2bb753cd5459"
+    }
+  ],
+  "evidence_inputs": [
+    {
+      "path": "evidence/attested_mark_recovery_v1/code_freeze_v1.json",
+      "sha256": "1c47bfee3fa0baa190ec0e0455dfcb2528aec65a6280694956c1e00186948d30"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/code_freeze_v1.tar.gz",
+      "sha256": "d04ff4bf22171441e5731bfdb67dd4b4d6e6470db0e75b58977656d42e5172c2"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/freeze_runner_v1.py",
+      "sha256": "f0f07814a477707e8fc7d0fff212d6fc2258c2e37285de15ec0b7d84544bc65f"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/review_continuation_v1.py",
+      "sha256": "ad2b8f3d26ac56e347e8242f6ad230c6495720b636860f2c3ac5fc3d896d6b50"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/run_oracle_v1.py",
+      "sha256": "0eb1adc460e54d21ef3bcebabe84b4c0dc495ff376264f6deeb218c14594f7b0"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/run_regression_v1.py",
+      "sha256": "3e3be7f7e181a2df84ba70104da187ec6dd7bb28d8ed1eef0a18abf6306d6171"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/run_source_counterexamples_v1.py",
+      "sha256": "ca60e17fbdf00dc80dc6c1bb7596ab84720253622d3c0ad3c09702da37eb8b5f"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v1.json",
+      "sha256": "d8e8d05a6ff8e6945abad5f727e29dc6643901a2c882d561789a7b4376a7a605"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v2.json",
+      "sha256": "10bb225a4ac3ff716f4a68aff5e2e3f85e0b3017862b43528698ad52ae153e93"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v3.json",
+      "sha256": "c1c92ddaf90f7457c9927afbfa4c4e89c37a3a981869d818cfaa09f23b2852f3"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/runner_freeze_v4.json",
+      "sha256": "f5ada86aaedd33b823750e36fcae0610f4925621652f34c422d2cc67f54f102e"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/independent_oracle/test_continuation_v1.py",
+      "sha256": "c97cb4c49e8caa7572a2840f3e6c4bcee07a74658af6abff9c307b4a2d94ba06"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/oracle_migration.json",
+      "sha256": "44e7df2fb7ea49e20a4f276a0010bbe368632f05512fa95f401588d19ba197b2"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/oracle_migration.patch",
+      "sha256": "475b27cfc47af553c8efe1d7535738628dd841a13482f28ef4f88ee961b00e98"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/regression_policy_v1.json",
+      "sha256": "784ba72cb7738d3639a267e82da0b510fbf1f7f284271b26eac3ffe66c26dad9"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/runtime_migration.json",
+      "sha256": "8d4e1b0bd6e7623e7a9068c523086e7e6491e26ea3ea66785ecc46a85ec3aacc"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/source_review.json",
+      "sha256": "4b2411793136de0744a0a8cd39eeeecd44fb3ddd6bd9b59cd1481dd69f321484"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/sources/lisan_ana.txt",
+      "sha256": "5907511a15ddb2382f314484bc9436460a69b9f6e48d200d1325529db54bd7c5"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/sources/lisan_asad.txt",
+      "sha256": "69b68218096051c04b8f1937e3595a56c5f8810e6aa72d340f46b6a8a858c221"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/sources/lisan_faras.txt",
+      "sha256": "2cfe7fa1f50fb29d934d9940cd7f5d66353bdd646fd9484b3b69f92354a929b2"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/sources/lisan_haya.txt",
+      "sha256": "e42405835b1e93f7de65d614f27e6e0767c59f6dff5d2a28d9bed8c863ea19be"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/sources/lisan_rawd.txt",
+      "sha256": "d6c66c380717a858b5028fcda0f9fb9f7cd7dd39fbbc5d5f9548e074e3c7eda6"
+    },
+    {
+      "path": "evidence/attested_mark_recovery_v1/sources/lisan_shaja.txt",
+      "sha256": "8c126a4146734848399321a337ad26ae5c36668df6a15aa6e6e66ff9bf02c0db"
+    }
+  ],
+  "gates": [
+    {
+      "name": "make-check",
+      "command": [
+        "make",
+        "check",
+        "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/mark-recovery/checks",
+        "ARABIC_EVALUATION_DIR=artifacts/local/mark-recovery/checks/arabic-regression"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1833.757,
+      "log": "artifacts/local/mark-recovery/make-check.log",
+      "log_sha256": "7455d89639d83d110f8b1307bf0183564cc59703cfdca12d4d30eb43e6036df4",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    },
+    {
+      "name": "integration",
+      "command": [
+        "make",
+        "-f",
+        "Makefile",
+        "-f",
+        "integrations/grammar_catalog.mk",
+        "-f",
+        "integrations/mantuq_inference.mk",
+        "-f",
+        "integrations/linguistic_truth.mk",
+        "-f",
+        "integrations/licensed_inference.mk",
+        "grammar-catalog",
+        "proof-catalog",
+        "routing-conformance",
+        "mantuq-inference",
+        "linguistic-truth",
+        "licensed-inference",
+        "LAKE=/workspace/scratch/041f7a0071c0/lean-driver/lake",
+        "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+        "EVIDENCE_DIR=artifacts/local/mark-recovery/integration"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 129.183,
+      "log": "artifacts/local/mark-recovery/integration.log",
+      "log_sha256": "e034c7dc2d20027f8093ffb00f4856e3b6a908872770364dc7277ea1a26e1b2a",
+      "explicit_environment": {
+        "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading",
+        "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation"
+      }
+    }
+  ],
+  "local_tests": {
+    "total": 2691,
+    "passed": 2691,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0
+  },
+  "ui_tests": {
+    "total": 201,
+    "passed": 201,
+    "failed": 0,
+    "skipped": 0
+  },
+  "focused_neural_tests": {
+    "total": 18,
+    "passed": 18,
+    "skipped": 0,
+    "note": "Also included in final full test run; do not add twice."
+  },
+  "focused_proof_lab_transport_tests": {
+    "total": 29,
+    "passed": 29,
+    "skipped": 0,
+    "note": "Included in final full test run; local test keys only, no new deployment."
+  },
+  "native_linguistic_conformance": {
+    "total": 786,
+    "passed": true,
+    "mismatches": []
+  },
+  "benchmark": {
+    "total_cases": 44,
+    "pass": 20,
+    "fail": 10,
+    "unmeasured": 14,
+    "executed": 44,
+    "checks": {
+      "PASS": 171,
+      "FAIL": 26,
+      "UNMEASURED": 21
+    },
+    "families": {
+      "explicit_intent": {
+        "PASS": 4
+      },
+      "negative_cues": {
+        "PASS": 2
+      },
+      "contrary_cues": {
+        "FAIL": 1
+      },
+      "scope": {
+        "FAIL": 2
+      },
+      "unicode": {
+        "PASS": 1
+      },
+      "homonymy": {
+        "PASS": 4
+      },
+      "profile": {
+        "PASS": 1,
+        "FAIL": 1
+      },
+      "natural_use_holdout": {
+        "FAIL": 6
+      },
+      "attachment_authority": {
+        "PASS": 2,
+        "UNMEASURED": 4
+      },
+      "resources": {
+        "PASS": 3
+      },
+      "invalid_input": {
+        "PASS": 2
+      },
+      "candidate_recall": {
+        "PASS": 1
+      },
+      "source_holdout_particle_dependence": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_temporal_derivation": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_proper_name": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_profile_homonymy": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_preference_not_certainty": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_ratio_conditions": {
+        "UNMEASURED": 1
+      },
+      "source_holdout_cognition": {
+        "UNMEASURED": 4
+      }
+    },
+    "candidate_recall": {
+      "required_sense_obligations": 48,
+      "found": 40,
+      "missing": 8,
+      "unmeasured": 0
+    },
+    "intended_selection": {
+      "cases": 23,
+      "exact_matches": 16,
+      "misses": 7,
+      "unmeasured": 0,
+      "false_selected_senses": 0,
+      "missed_selected_senses": 7
+    },
+    "authority": {
+      "obligations": 88,
+      "excess_claims": 0,
+      "unmeasured": 0
+    },
+    "natural_use_holdout": {
+      "cases": 6,
+      "pass": 0,
+      "fail": 6,
+      "unmeasured": 0
+    }
+  },
+  "natural_use": {
+    "full_case_success": {
+      "numerator": 0,
+      "denominator": 6,
+      "fraction": 0.0
+    },
+    "any_lexical_occurrence": {
+      "numerator": 2,
+      "denominator": 6,
+      "fraction": 0.3333333333333333
+    },
+    "all_required_candidate_cases": {
+      "numerator": 2,
+      "denominator": 6,
+      "fraction": 0.3333333333333333
+    },
+    "required_candidate_obligations": {
+      "numerator": 4,
+      "denominator": 12,
+      "fraction": 0.3333333333333333
+    },
+    "positive_intended_selection": {
+      "numerator": 0,
+      "denominator": 5,
+      "fraction": 0.0
+    },
+    "required_ambiguity_preserved": {
+      "numerator": 0,
+      "denominator": 1,
+      "fraction": 0.0
+    },
+    "native_checked_candidate_cases": {
+      "numerator": 2,
+      "denominator": 6,
+      "fraction": 0.3333333333333333
+    },
+    "source_identity_preserved": {
+      "numerator": 6,
+      "denominator": 6,
+      "fraction": 1.0
+    },
+    "selection_precision": {
+      "numerator": 0,
+      "denominator": 0,
+      "fraction": null
+    },
+    "false_selected_senses": 0,
+    "precision_note": "No selections gives null precision, not 100%; abstention does not pass positive cases."
+  },
+  "historical_benchmark_comparison": [
+    {
+      "id": "M05",
+      "before": "FAIL",
+      "after": "PASS"
+    }
+  ],
+  "baseline_M09": "Actual isolated call at implementation_base_commit: UNKNOWN / UNSUPPORTED_OBSERVED_MARKS; not a full baseline benchmark run.",
+  "contextual_replay": {
+    "cases": 45,
+    "native_checked": 45,
+    "original_eligible_reference_passed": 5,
+    "original_eligible_reference_total": 5,
+    "independent_reference_passed": 9,
+    "independent_reference_total": 20,
+    "scope": "Fresh local replay and shared Worker/UI validation; not a new deployed live request."
+  },
+  "source_review": {
+    "path": "evidence/attested_mark_recovery_v1/source_review.json",
+    "sha256": "4b2411793136de0744a0a8cd39eeeecd44fb3ddd6bd9b59cd1481dd69f321484",
+    "sources": 9,
+    "passages": 19,
+    "lexical_surfaces": 9,
+    "rules": 7
+  },
+  "failure_history": [
+    {
+      "attempt": 1,
+      "reason": "Evidence snapshot imported the new bridge after module enumeration; execution-identity drift rejected. Fixed ordering and replayed."
+    },
+    {
+      "attempt": 2,
+      "reason": "Interrupted while administrative oracle lineage correction was still being finalized; no passing gate claimed."
+    },
+    {
+      "attempt": 3,
+      "reason": "One current test wrapper still selected historical oracle; strict freeze rejected. New runner v4 and wrapper selected, historical inputs unchanged."
+    },
+    {
+      "attempt": 4,
+      "reason": "Torch virtual relative module _ops.py was incorrectly attributed to the repository by the benchmark snapshot. Module origin resolution corrected; real missing repository sources still fail closed."
+    }
+  ],
+  "new_lean_theorems": 0,
+  "formal_changes": false,
+  "native_acquisition_proof": false,
+  "tawatur_evaluated": false,
+  "source_interpretation_proved": false,
+  "world_truth_established": false,
+  "all_arabic_complete": false,
+  "deployment_performed": false,
+  "github_checks": "To be checked on the published repair commit; not inferred from these local logs.",
+  "archive": {
+    "path": "evidence/attested_mark_recovery_v1/verification_reports_v1.zip",
+    "bytes": 2944690,
+    "sha256": "e4d3369b1b2e1ef4238750a6b76f7a7e48bb4ae02ed5d23b815ecea8d92e7c01",
+    "members": [
+      {
+        "member": "attempt01-natural-use.json",
+        "bytes": 11870,
+        "sha256": "c76727dd7cb005901e316c9ab4f97dd45f53dbf27e79ac30d0f4865319d367a0"
+      },
+      {
+        "member": "attempt01-snapshot-import-drift.json.gz",
+        "bytes": 303653,
+        "sha256": "f0b943459ccf07c0e2d047d1b2c26953c86df1be027c4079c541cf178dee277d"
+      },
+      {
+        "member": "attempt02-interrupted-freeze-migration.log",
+        "bytes": 41823,
+        "sha256": "96f0afbc7d6055e10c7ddde5a67c025536c4f02bd4aba39e0de9250ed4a69134"
+      },
+      {
+        "member": "attempt02.json",
+        "bytes": 462,
+        "sha256": "a3ebd6ad2a5ac321390ef26576e2046ac2f6b191a2f65a6f4c4eb14232074fca"
+      },
+      {
+        "member": "attempt03-gates.json",
+        "bytes": 495,
+        "sha256": "599eb8df95ef073c5daea497d212ada058421d5bc053374189872f5787ef950f"
+      },
+      {
+        "member": "attempt03-old-oracle-selector.log",
+        "bytes": 465983,
+        "sha256": "d87e869c245684afa8e25874b2963e0b5831b7cb6c3ea59a4a82915c2768e43e"
+      },
+      {
+        "member": "attempt04-gates.json",
+        "bytes": 801,
+        "sha256": "344c7eb794d8bca00d9bf40b0a5cde347aad1bc06fccc34a2d21e430fdbee492"
+      },
+      {
+        "member": "attempt04-torch-module-provenance.log",
+        "bytes": 460979,
+        "sha256": "838cbfbc6d33276963ad215b5e6fe88f7d6569ba28fa8c6827d50b5510c0fe24"
+      },
+      {
+        "member": "baseline-m09.json",
+        "bytes": 82115,
+        "sha256": "f79ed4f2db3c0f55bacc07975f9ca18fc88da5c75e3ed3b7d5cc1b21312f5b6c"
+      },
+      {
+        "member": "checks/arabic-completion-oracle/regression.json",
+        "bytes": 3131,
+        "sha256": "6cc6298142185a4154c350092b26a7966c8cc7364fc3bf03e8387a7fd74b6d8d"
+      },
+      {
+        "member": "checks/arabic-completion-oracle/review/review.json",
+        "bytes": 58505,
+        "sha256": "1829dcde530a9843dceedb14013a1949b1e8e33daa9f11a7f39a620e76fc9a43"
+      },
+      {
+        "member": "checks/arabic-completion-oracle/source_counterexamples/result.json",
+        "bytes": 98424,
+        "sha256": "4048913ba4cae47ff2af13f7e98bcb714df4a20b1ff5e20138adad48761f5687"
+      },
+      {
+        "member": "checks/arabic-completion-oracle/source_counterexamples/review.json",
+        "bytes": 10521,
+        "sha256": "6d7aaecb38a3ca6e734338e40de5b7b67dfa40ee1b1c167a2d434cd11b5283fa"
+      },
+      {
+        "member": "checks/arabic-completion-oracle/strict/result.json",
+        "bytes": 314009,
+        "sha256": "f7a0cef6645a702d139d0e650bede4f1ff19712c74a6e72ec8b0b88e7a0cffa4"
+      },
+      {
+        "member": "checks/arabic-conformance.json",
+        "bytes": 180,
+        "sha256": "85abd978002feef1e3c983ece982c8656d1eb612288e03a6bd2a969f48e15bea"
+      },
+      {
+        "member": "checks/arabic-holdout-postreview/original_result.json",
+        "bytes": 143696,
+        "sha256": "19a38603f676c2fb2a2cf76f284e986e15b53e74c48cb595f08f25b305566272"
+      },
+      {
+        "member": "checks/arabic-holdout-postreview/question_report.json",
+        "bytes": 51564,
+        "sha256": "321b2044d347621ede78b1a9b01bab5e4f880b818da3ad3b51418e0520bc15c8"
+      },
+      {
+        "member": "checks/arabic-holdout-postreview/review.json",
+        "bytes": 7645,
+        "sha256": "3e535294ebcd96a35c94371eef8ea7477c4dfeeecb6e6d44292331e0136798af"
+      },
+      {
+        "member": "checks/arabic-holdout-postreview/verification_replay.json",
+        "bytes": 31317,
+        "sha256": "75cf8a1ee39ac96ef839255d72e632918bd5ad4c8f0c1b1a028a343882e0bf03"
+      },
+      {
+        "member": "checks/arabic-holdout.json",
+        "bytes": 143696,
+        "sha256": "19a38603f676c2fb2a2cf76f284e986e15b53e74c48cb595f08f25b305566272"
+      },
+      {
+        "member": "checks/arabic-holdout.raw.jsonl",
+        "bytes": 5675795,
+        "sha256": "2ca31828c7c5fdc64741a62f35b62dc7f5b247aaf34797cf063600e0bfd4e671"
+      },
+      {
+        "member": "checks/arabic-inna-fragment/expectations.json",
+        "bytes": 7032,
+        "sha256": "4b5e3d58e92abf425d509817f7fb60a57381d6abe4632d58018d8f6a4a28233a"
+      },
+      {
+        "member": "checks/arabic-inna-fragment/lexical_material.json",
+        "bytes": 5684,
+        "sha256": "157778d62ffc0309d079a2db8e1291bfe52b367df5b6d5a8e11098e5af17a8f7"
+      },
+      {
+        "member": "checks/arabic-inna-fragment/report.json",
+        "bytes": 15717,
+        "sha256": "1e016b1b393406fa4b0a4d4184cd6e3473998cb90f61b1b7d6222b9c2f10150e"
+      },
+      {
+        "member": "checks/arabic-inna-fragment/requests.jsonl",
+        "bytes": 111581,
+        "sha256": "21a8a4250c082d413f3cdd0f780b882358cb21036be7913475fd07f3f5877952"
+      },
+      {
+        "member": "checks/arabic-inna-fragment/responses.jsonl",
+        "bytes": 44623,
+        "sha256": "2fa6d319a37b2431197e8ba773354b1b42a84509e06e3f3a3f57b7a3c2df23ce"
+      },
+      {
+        "member": "checks/arabic-regression/receipt.json",
+        "bytes": 3093,
+        "sha256": "67542806b6a527e3d7638ba14ffc158c1469eccc849c61330debba6e06331fc2"
+      },
+      {
+        "member": "checks/arabic-regression/results.json",
+        "bytes": 686803,
+        "sha256": "3d6eb827bce35cf25832de02a19d899ea5ede9a6df2cdd30d1f4da5c73231a42"
+      },
+      {
+        "member": "checks/axioms.json",
+        "bytes": 129443,
+        "sha256": "73b84a9c25ca7e1866d5559ac6613e607429a88c6e5773b5a468a646ca5a3d6a"
+      },
+      {
+        "member": "checks/book-coverage.json",
+        "bytes": 5052,
+        "sha256": "954f4e9a07fa4899bc51c7b8b155ab22b146b9624ed428460fce5074abc2b2fb"
+      },
+      {
+        "member": "checks/classical-independent-benchmark.json",
+        "bytes": 55266,
+        "sha256": "3f15cac50e958de698bb9a9d4db729710a03e656baa87e89fe90f339b54e654f"
+      },
+      {
+        "member": "checks/classical-language-conformance.json",
+        "bytes": 2816,
+        "sha256": "658825ba39eb16219b2556c4ee0cf466506093ab679e39dcd77d9cfa4ce6f1b6"
+      },
+      {
+        "member": "checks/classical-language-sources.json",
+        "bytes": 35131,
+        "sha256": "a659bdc18ee3301f4d87f2692c7e56d0f9eb18ebe178f69f6ab093e20cab54a4"
+      },
+      {
+        "member": "checks/classical-laws-conformance.json",
+        "bytes": 2261,
+        "sha256": "45bfcdee9adde731e3101f86d2f06db5ae64a00589e8479ec9e329a6b64da75b"
+      },
+      {
+        "member": "checks/classical-reference-readings.json",
+        "bytes": 12030,
+        "sha256": "53a22a68a70ad37070fce147af3d221714d62d79fd57e21debad13da052bd7b2"
+      },
+      {
+        "member": "checks/conformance.json",
+        "bytes": 2310,
+        "sha256": "f93d7ee01c518b6710aa5edf7614e21b8a49436ed072ab6f6d3b148e479b5ef6"
+      },
+      {
+        "member": "checks/construction-conformance.json",
+        "bytes": 738,
+        "sha256": "bf860578406e0cb038de8f2a4b00eccdf04bde35f5239a97f1b195322b5f43d8"
+      },
+      {
+        "member": "checks/construction-regression.json",
+        "bytes": 162699,
+        "sha256": "73247a54ae1ef6f81163e093078691eea27f21dd33857cabf7f16d487215816c"
+      },
+      {
+        "member": "checks/derivation-conformance.json",
+        "bytes": 573,
+        "sha256": "a68c4ed30e7802dda5a37482e13305fd34a7a4d12e5040f65f9a296be7781a73"
+      },
+      {
+        "member": "checks/derivation-regression.json",
+        "bytes": 155782,
+        "sha256": "45f1c94fbddfdc08781777108214eab3e74e268f4afeaf3a47a37affcd013490"
+      },
+      {
+        "member": "checks/discourse-conformance.json",
+        "bytes": 1571,
+        "sha256": "40d8d85f46aa9c2ec785b5c1b1c1b930ba6d2f8f987d2a719b12e5c9a2459590"
+      },
+      {
+        "member": "checks/discourse-regression.json",
+        "bytes": 143125,
+        "sha256": "47afd91537de747aead96ef075de85072d4f1e0471cb2bad4da1969a6fd911a9"
+      },
+      {
+        "member": "checks/foundation-architecture.json",
+        "bytes": 356,
+        "sha256": "309da743806fda65ecfc75f334ba3683dc61d3778e4a5a13b01d1c6f1e9447a0"
+      },
+      {
+        "member": "checks/foundation-conformance.json",
+        "bytes": 759,
+        "sha256": "cc452dda08a4d232dd204526e69ac7bbb8de3ebbbaeab632946948888d29a3dd"
+      },
+      {
+        "member": "checks/governor-conformance.json",
+        "bytes": 405,
+        "sha256": "a59124afba3c1219566092a895c5f85b749724b1d4b54031b74b1e990861dee0"
+      },
+      {
+        "member": "checks/governor-regression/regression_gate.json",
+        "bytes": 787,
+        "sha256": "bde14e2428aa2634c7ec30a7ecd122ee95ce49529f1af5349f3143b5fd78b8aa"
+      },
+      {
+        "member": "checks/governor-regression/results.json",
+        "bytes": 3169682,
+        "sha256": "efefef8b3fad8df7817e6f747549a623e18a165572206b23867b106b90a91f4d"
+      },
+      {
+        "member": "checks/governor-regression/summary.json",
+        "bytes": 2132,
+        "sha256": "1c143f55b054595501e02368b0ce6af805c601c7747a1efcda9af5b5f1d7c73f"
+      },
+      {
+        "member": "checks/imperative-paradigm.json",
+        "bytes": 28458,
+        "sha256": "7ac20dde61959f357b4973faf88c5d96fa92b6a8e14fd68e8d5202afd50b7d42"
+      },
+      {
+        "member": "checks/imperative-paradigm.raw.jsonl",
+        "bytes": 64537,
+        "sha256": "afc30f94c41f700a6291b8211ef34dab6b8882516884778bae0bafe573d52fb5"
+      },
+      {
+        "member": "checks/inflection-cli-regression.json",
+        "bytes": 221886,
+        "sha256": "4299d5ef8cba8377fc251db05c269fab482553cb4126292cd3dfbadfd5f03e51"
+      },
+      {
+        "member": "checks/inflection-conformance.json",
+        "bytes": 896,
+        "sha256": "3f52684be6e6006302a3e5f1c929ae31589adf669b06b01d017c473f1fedf41d"
+      },
+      {
+        "member": "checks/inflection-post-review-regression.json",
+        "bytes": 117420,
+        "sha256": "60fb6559ac1eb83c7af46f664cd9a42d54cd02bb08ecda99c30b919fd69529bd"
+      },
+      {
+        "member": "checks/inflection-regression.json",
+        "bytes": 361169,
+        "sha256": "adc6daeae96b6dce8b993e75b7ca2bd60b5cc7a56baf4499da38fcb4cbc58e74"
+      },
+      {
+        "member": "checks/inquiry-conformance.json",
+        "bytes": 2348,
+        "sha256": "fddad35aef768297ba5874be5da0148fa5e28455ad53dfe52315a1e19a7e3eaa"
+      },
+      {
+        "member": "checks/morphology-conformance.json",
+        "bytes": 458,
+        "sha256": "dc24b7a6cc7e45f401a294e342a98c12543227ef9499031d880e69996cb22758"
+      },
+      {
+        "member": "checks/morphology-regression.json",
+        "bytes": 224583,
+        "sha256": "130800895250b8a3b36ec8b4f9936be47b03c691933fb427b75f552802616f6e"
+      },
+      {
+        "member": "checks/nominal-conformance.json",
+        "bytes": 901,
+        "sha256": "12cf138fbee6d085add94a32cf427aace05ba5d12942073f5e7e6ad249152c03"
+      },
+      {
+        "member": "checks/nominal-regression.json",
+        "bytes": 553046,
+        "sha256": "86363fc03fef42343a2e6b745a1e0a43981b8f70b066c4d8578648b1f2944fd1"
+      },
+      {
+        "member": "checks/person-conformance.json",
+        "bytes": 563,
+        "sha256": "f1a184c52877db6bdd11cc0a6a27ab5ea888005fb0de935fa8184c681ac89a53"
+      },
+      {
+        "member": "checks/productive-evaluation.json",
+        "bytes": 22427,
+        "sha256": "7690da94e2b06bf49e885c3387a0045ec7209986357999ff90a7a0980dd38091"
+      },
+      {
+        "member": "checks/productive-evaluation.raw.jsonl",
+        "bytes": 144210,
+        "sha256": "e424352b4e1beb3f0cd5935118d380ce8881c7bfb5d514fcec2e53d53ca57635"
+      },
+      {
+        "member": "checks/progressive-unit-conformance.json",
+        "bytes": 55549,
+        "sha256": "c0f86592b1439ab2a5cc5ab918a647d6b50be791876b8836fda59fb856c5e7bb"
+      },
+      {
+        "member": "checks/progressive-unit-conformance.plan.json",
+        "bytes": 336214,
+        "sha256": "fbc7dd2364b78f9b6127f78955d101fcea58d365af03b20c04101d93b3366205"
+      },
+      {
+        "member": "checks/progressive-unit-conformance.stdin.jsonl",
+        "bytes": 96886,
+        "sha256": "d19d25df3a7b7e18fe18eb97746b9536287d457ba0ab9252b7c614f915ce9c92"
+      },
+      {
+        "member": "checks/progressive-unit-conformance.stdout.jsonl",
+        "bytes": 102648,
+        "sha256": "67e1fa52fed275f47ede2fa8474a0c4951ef4fb997cd048e4a07cadc1a67247a"
+      },
+      {
+        "member": "checks/property-conformance.json",
+        "bytes": 499,
+        "sha256": "9c679266c7891416bb0c895772b62df4f99acb90cd6ca6cd438a879db7dec3c6"
+      },
+      {
+        "member": "checks/recursive-bridge-conformance.json",
+        "bytes": 505862,
+        "sha256": "03192e52ae5e8d8f96c0b637f7571d35b5048032c95d719ea208ce9827a24c0e"
+      },
+      {
+        "member": "checks/recursive-bridge-conformance.json.lean.stdin.jsonl",
+        "bytes": 72724,
+        "sha256": "67bfb68393830c9b96d011621983a777d88771a5d265bbcf8c6db2ebf26581d1"
+      },
+      {
+        "member": "checks/recursive-bridge-conformance.json.lean.stdout.jsonl",
+        "bytes": 103709,
+        "sha256": "8cc7983058b79ecd99f9965d6ab14541e626f11954530a8176eb1ad4c0424e48"
+      },
+      {
+        "member": "checks/recursive-bridge-conformance.json.native.stdin.jsonl",
+        "bytes": 1188,
+        "sha256": "b260d6bd678581472c06632f5d209e3cdc91bfc555895aeec582ef6376cd3703"
+      },
+      {
+        "member": "checks/recursive-bridge-conformance.json.native.stdout.jsonl",
+        "bytes": 90282,
+        "sha256": "ea108ad907a1b428af1d5385ae300898315fd2cb8924e2a149b6bb0b79514700"
+      },
+      {
+        "member": "checks/recursive-bridge-conformance.json.plan.json",
+        "bytes": 339625,
+        "sha256": "419eb210bc8baf943738c87159f4cc869959b2178eb5849603491d112e15d915"
+      },
+      {
+        "member": "checks/source-learning.json",
+        "bytes": 32862,
+        "sha256": "f07418cda26154e466c10c2fc3489928b6689b08c97cf4e261adfe69e243e26a"
+      },
+      {
+        "member": "checks/text-evidence-conformance.json",
+        "bytes": 486,
+        "sha256": "41dda992f85c39f08b1bd6e916cd48af396186b2495a1f463c8bd3c56ac75862"
+      },
+      {
+        "member": "checks/text-morphology-regression.json",
+        "bytes": 226230,
+        "sha256": "485a87efdfb5c41919b17316d5dd1f2cad1a4053a12480ab4147477596213e29"
+      },
+      {
+        "member": "checks/text-regression/attacks_rerun.json",
+        "bytes": 37119,
+        "sha256": "1e943f7bf739db5d95569fe96d204b1afd1f484351728e3274c4a30be0c59f30"
+      },
+      {
+        "member": "checks/text-regression/baseline_rerun.json",
+        "bytes": 50389,
+        "sha256": "1b00fa4f19f3cf6d9752e7f96d83ae71ae9530c65cf7cbf3aec4d7594d37ae4f"
+      },
+      {
+        "member": "checks/text-regression/boundaries_rerun.json",
+        "bytes": 21824,
+        "sha256": "ec3c2de017ef479457dee4d95eac485a2e0527ffdeea51e8536e5999a3f3a72f"
+      },
+      {
+        "member": "checks/text-regression/controlled_rerun.json",
+        "bytes": 908179,
+        "sha256": "0c1ac024e516d342a9cb63ae8582db3b87adc75635592755e1e6f6b9a2484789"
+      },
+      {
+        "member": "checks/text-regression/natural_rerun.json",
+        "bytes": 55351,
+        "sha256": "dfec7fc2fd5cff0047acab78e614ab21f23eb9834c90bb29fa08240daa05cc2e"
+      },
+      {
+        "member": "checks/text-regression/plans_rerun.json",
+        "bytes": 23726,
+        "sha256": "5b743fabbdf6c220ee2bb56e676363c11b78e2b050e1ef36984d81a36c02c87a"
+      },
+      {
+        "member": "checks/text-regression/summary.json",
+        "bytes": 5617,
+        "sha256": "3c8e56d30d34e2f5124b363d1af9f6ee9fc88e7eb11a734cabc666fd97409cf3"
+      },
+      {
+        "member": "checks/unit-discovery-conformance.inputs.json",
+        "bytes": 24460,
+        "sha256": "b992cc533e281f1221532d3cb8389165263e94abb783fe86436fb3f0fb0d753d"
+      },
+      {
+        "member": "checks/unit-discovery-conformance.json",
+        "bytes": 122930,
+        "sha256": "341213e72e68e4dfb6cae4245c8b6470e622d2ef288818409caadacafe907f27"
+      },
+      {
+        "member": "checks/unit-discovery-conformance.requests.json",
+        "bytes": 183357,
+        "sha256": "763b43edd4be214d6eb1cec93025bb3e2cfb334614988bb7c6f6b45666e2d060"
+      },
+      {
+        "member": "checks/unit-discovery-conformance.stdio.json",
+        "bytes": 144841,
+        "sha256": "32ead4e9a7a97f89e17a5a3c1deb3211f4595e2ea9340a207acb9a63d9365293"
+      },
+      {
+        "member": "checks/word-conformance.json",
+        "bytes": 372,
+        "sha256": "64be8d10dea16fe3052631e03cf7349fd878925f2068aef83e2d49904d849b77"
+      },
+      {
+        "member": "checks/word-regression.json",
+        "bytes": 444047,
+        "sha256": "20180ec8ca369ba3d5c82dd5ccd56a847aa62911028c324cf6e3827eaeebed6c"
+      },
+      {
+        "member": "contextual-replay.json",
+        "bytes": 439670,
+        "sha256": "2e87bdac1f5c2d0c3803e9ed51e252298f7b53702cc31d61f4aceb2bc0fa76a4"
+      },
+      {
+        "member": "contextual-replay.log",
+        "bytes": 913,
+        "sha256": "ac8da56fe7a0ed410c465a0cc3da4023478bcc36a00bb5dfce421d64bd62c4d5"
+      },
+      {
+        "member": "contextual-validator.log",
+        "bytes": 235,
+        "sha256": "3b014f45e2da525b7ae3ec3f29ecbc582747f5190ba90c1afe5ddadbe6599db2"
+      },
+      {
+        "member": "focused/current-oracle-wrapper-tests-final-v4.log",
+        "bytes": 2115,
+        "sha256": "6a13c3257c6b023185334c93b37102e19909c73796076e70edb3208d63cf70ec"
+      },
+      {
+        "member": "focused/freeze-oracle-tests-final-v4.log",
+        "bytes": 1461,
+        "sha256": "8dbca84ce710b30b68d25fb243bd1932e2976de6ba6295a83b84d5a549f1b650"
+      },
+      {
+        "member": "focused/freeze-tests-final-v4.log",
+        "bytes": 2269,
+        "sha256": "0bafb4c350a26c0ac7ff19809d72f5870f00b28fbe9d6c8508707c21ec704a04"
+      },
+      {
+        "member": "focused/module-provenance-tests.log",
+        "bytes": 6680,
+        "sha256": "1076010917ed33dc6fb861ff62c8085f5734a151bd5564be9702779e15f175ef"
+      },
+      {
+        "member": "focused/neural-tests.log",
+        "bytes": 3124,
+        "sha256": "de8a589382b81009df7bb8e49019d596682ca83b7ba147d40bf5912c423ab033"
+      },
+      {
+        "member": "focused/proof-lab-with-torch.log",
+        "bytes": 395,
+        "sha256": "b42dc0a7d28426e9c667e5fd4898fb12d5b1c645981e0dbf4721c1f619ea02f2"
+      },
+      {
+        "member": "formal-conformance.log",
+        "bytes": 2613,
+        "sha256": "9b3c5b322ea7f56409c0e7d87da606320f7866e2bbba1dc3a979c2d0ef101aa7"
+      },
+      {
+        "member": "foundation-after.json",
+        "bytes": 356,
+        "sha256": "309da743806fda65ecfc75f334ba3683dc61d3778e4a5a13b01d1c6f1e9447a0"
+      },
+      {
+        "member": "gates.json",
+        "bytes": 1910,
+        "sha256": "fae39c5f9f7433698d107fff7923aef666b0fa9afc4024b6230aff8af1249484"
+      },
+      {
+        "member": "integration.log",
+        "bytes": 50024,
+        "sha256": "e034c7dc2d20027f8093ffb00f4856e3b6a908872770364dc7277ea1a26e1b2a"
+      },
+      {
+        "member": "integration/grammar-catalog.json",
+        "bytes": 7819,
+        "sha256": "4a9b07d82e71f33b87e0aa6f9061b8945d05aabcac0f04d15e4984aef1384bd3"
+      },
+      {
+        "member": "integration/grammar-proof-links.json",
+        "bytes": 76269,
+        "sha256": "7e7ec2a628ab821ce95ffc4eee8a81b0fe5cb384c199203e03a059634ece158d"
+      },
+      {
+        "member": "integration/grammar-retrieval.json",
+        "bytes": 61939,
+        "sha256": "fa34f52015f77e6a8edaa4f0d674a78236ac9753f8cc32492612cb70d7c0d3d2"
+      },
+      {
+        "member": "integration/inference-proof-links.json",
+        "bytes": 23285,
+        "sha256": "56da8abffc0e81cf8bec1cdc6af2788ceb8fc0e5e80d16632ca88b9f95f43406"
+      },
+      {
+        "member": "integration/licensed-inference-axioms.json",
+        "bytes": 129443,
+        "sha256": "73b84a9c25ca7e1866d5559ac6613e607429a88c6e5773b5a468a646ca5a3d6a"
+      },
+      {
+        "member": "integration/licensed-inference-benchmark.json",
+        "bytes": 471381,
+        "sha256": "47f682ee9e65bb3e5a3fe646ce31d79d8d8f2e0a4a9c1d676b589859d888e495"
+      },
+      {
+        "member": "integration/licensed-inference-conformance.json",
+        "bytes": 16446,
+        "sha256": "ab52bd7ea457a4d531aa75b92adecb5999f27b694c1f5fe4e34cf6ca22b3ba04"
+      },
+      {
+        "member": "integration/licensed-inference-proof-links.json",
+        "bytes": 50226,
+        "sha256": "34157d265c9719b9b578609b78cb8af97486fcd58b9dc8d48bd2c53915c70e8f"
+      },
+      {
+        "member": "integration/linguistic-truth-benchmark.json",
+        "bytes": 5907905,
+        "sha256": "591e960eab7fc767db9a526719349f5c64997ffa8bde0f26e274de1f1e52e987"
+      },
+      {
+        "member": "integration/linguistic-truth-citation-audit.json",
+        "bytes": 2023,
+        "sha256": "2d63723de0479f15448a82285c104f42086ae89f7561262d0bddc797cd3c8962"
+      },
+      {
+        "member": "integration/linguistic-truth-conformance.json",
+        "bytes": 1149,
+        "sha256": "026d8b5bb19953afc3fb6d374c162fff214c117cf77f50c315a5d8f9acb5ed51"
+      },
+      {
+        "member": "integration/linguistic-truth-proof-links.json",
+        "bytes": 4098,
+        "sha256": "3cb79fd1ffbbebaaf8bfc23ce5f8a43a305c82c45f968b2e12e0b3189860d6c3"
+      },
+      {
+        "member": "integration/linguistic-truth-retained-sources.json",
+        "bytes": 1786,
+        "sha256": "2960a8c221d0fafb2eca86d73a30307c8a9f5613530e80e7b1238bcc02636342"
+      },
+      {
+        "member": "integration/linguistic-truth-security-review.json",
+        "bytes": 17894,
+        "sha256": "d58c482de3d8a2279edf28a427d24b9420d334d2aa77f5e14de5ae854aa0a4e9"
+      },
+      {
+        "member": "integration/mantuq-inference-benchmark.json",
+        "bytes": 45939,
+        "sha256": "df4d6a3dbe31caca6f7ab5295fc71f51355d87017676e2e56c1593473c401dcc"
+      },
+      {
+        "member": "integration/natural-use-measurement.json",
+        "bytes": 11827,
+        "sha256": "f3a2ab7047c355b69c609104986cf460a3763ccf60088eb3fc2a4bf7adb3b343"
+      },
+      {
+        "member": "integration/qualified-inference-conformance.json",
+        "bytes": 425,
+        "sha256": "ceb67532439b9e813d62b6593690e42686968e9d3b9c20beb12ca5504f513567"
+      },
+      {
+        "member": "integration/routing-conformance.json",
+        "bytes": 285,
+        "sha256": "698e8346886cfc275203175d23bffcb6b5f253f508a08d5acda7a0fa713cc0e0"
+      },
+      {
+        "member": "integrity.log",
+        "bytes": 2272,
+        "sha256": "9a95d4275021e3a72344db4ae36228482cc2065963ae1c35be8f1aba5e7eea40"
+      },
+      {
+        "member": "linguistic-benchmark.json.gz",
+        "bytes": 303629,
+        "sha256": "0705af736ddfab9826f40a7d75776caca94a579fb7edf5fd7083baccc4f35ec1"
+      },
+      {
+        "member": "linguistic-tests.log",
+        "bytes": 15624,
+        "sha256": "18d403b07049cef49224fdb812619d60302ea39ede8d5bae19116250998b449b"
+      },
+      {
+        "member": "make-check.log",
+        "bytes": 595670,
+        "sha256": "7455d89639d83d110f8b1307bf0183564cc59703cfdca12d4d30eb43e6036df4"
+      },
+      {
+        "member": "native-conformance.json",
+        "bytes": 1149,
+        "sha256": "026d8b5bb19953afc3fb6d374c162fff214c117cf77f50c315a5d8f9acb5ed51"
+      },
+      {
+        "member": "native-conformance.log",
+        "bytes": 1189,
+        "sha256": "fbebf879b9fe2f66648dbbb17f116c5bdfec5d2cf348830efe23453288211576"
+      },
+      {
+        "member": "natural-use.json",
+        "bytes": 11827,
+        "sha256": "ad8bcf2ed9e7f6a09f42b46d21bb239ba4726cacdfe24b4b446e1cb98caa7932"
+      },
+      {
+        "member": "natural-use.log",
+        "bytes": 1045,
+        "sha256": "53bbb849b2718f7415b11601d4f103b971423a56cd5dbbc183ebd396de2ebe0b"
+      },
+      {
+        "member": "pre-origin-fix-linguistic-benchmark.json.gz",
+        "bytes": 303646,
+        "sha256": "97b47722b44f84b842a4be2291cf95a3364daeed658bbd0589fc67f148b937db"
+      },
+      {
+        "member": "pre-origin-fix-natural-use.json",
+        "bytes": 11827,
+        "sha256": "79a341d1f06d5e22e1a7dd6f330ffaaf6435a3ef3516699ac25c78a325778c29"
+      },
+      {
+        "member": "proof-lab-transport-tests.log",
+        "bytes": 4373,
+        "sha256": "38c6cd1c12f379885370502b4cf62368c0cd1f98ea9288eed7cfc1213df2cea0"
+      },
+      {
+        "member": "transport-dependencies.log",
+        "bytes": 774,
+        "sha256": "a40cb5d0ff2958f3ff155d8131d123e4a6a8d269b012c05c2f06b3e48e3ad3ca"
+      },
+      {
+        "member": "ui-tests.log",
+        "bytes": 19502,
+        "sha256": "01570fce0973ae197ce70a23e3d6d5c41a7f307da897b6939dfd552d4ec47501"
+      }
+    ]
+  }
+}

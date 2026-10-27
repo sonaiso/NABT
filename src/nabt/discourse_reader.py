@@ -91,6 +91,8 @@ _OPERATORS = {
 }
 
 
+from nabt import foundation
+
 def _profile(reading):
     candidate = reading.get("person_evidence")
     if candidate and candidate.get("person_profile") is not None:
@@ -1241,6 +1243,7 @@ def _semantic_key(analysis):
 
 def read_discourse(text, *, lexical_model=None, context=None, source_id="input", scope="default"):
     """Read complete bounded clauses, retaining original bytes and alternatives."""
+    foundation.require_foundation('nabt.discourse_reader.read_discourse')
     source = _source(text, source_id, scope)
     engine = _Reader(source, scope, lexical_model, context)
     segments = _scan(source)
@@ -1323,6 +1326,7 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
 def verify_discourse(report, *, text=_UNSET, lexical_model=None, context=None,
                      source_id=None, scope=None):
     """Recompute from original sources; supplied successes and hashes are inert."""
+    foundation.require_foundation('nabt.discourse_reader.verify_discourse')
     try:
         if type(report) is not dict:
             return {"valid": False, "status": "REJECT", "code": "INVALID_DISCOURSE_REPORT"}

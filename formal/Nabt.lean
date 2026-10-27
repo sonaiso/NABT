@@ -1,4 +1,5 @@
 import Nabt.Cell
+import Nabt.Foundation
 import Nabt.Sequence
 import Nabt.Transition
 import Nabt.Count
@@ -67,3 +68,5 @@ import Nabt.LexicalCompletionCatalog
 import Nabt.LexicalGraph
 import Nabt.AttestedLexicalLoading
 import Nabt.EpistemicMeasurement
+import Nabt.ContextualReference
+import Nabt.OccurrenceSense

@@ -59,7 +59,7 @@ test('epistemic tab keeps RTL keyboard focus while old tab order remains usable'
   const ui = await harness(), tab = ui.get('tab-epistemic_measurement'); tab.focus(); tab.click();
   assert.equal(ui.document.activeElement, tab); assert.equal(ui.get('panel-epistemic_measurement').hidden, false);
   ui.tablist.fire('keydown', { key: 'ArrowRight' }); assert.equal(ui.document.activeElement, ui.get('tab-guide'));
-  ui.tablist.fire('keydown', { key: 'End' }); assert.equal(ui.document.activeElement, tab);
+  ui.tablist.fire('keydown', { key: 'End' }); assert.equal(ui.document.activeElement, ui.get('tab-contextual_reference'));
 });
 test('unavailable native execution preserves counts with no accepted certificate label', async () => {
   const ui = await harness(); ui.setResponse({ status: 'completed', report: report(unavailable()) }); await ui.submit(); await ui.poll();

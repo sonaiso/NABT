@@ -41,6 +41,9 @@ MAX_TRANSPORT_NODES = 2048
 MAX_PROBE_INPUT_BYTES = 1024 * 1024
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def wire(value):
     try:
         result = json.dumps(value, ensure_ascii=False, sort_keys=True,
@@ -85,6 +88,7 @@ def source_view(text, source_id="input", scope="default"):
         raise NabtError("INVALID_RECURSIVE_SOURCE", "Source must be valid UTF-8") from error
     if len(raw) > MAX_SOURCE_BYTES:
         raise resource_limit("Recursive source exceeds its byte budget")
+    foundation.validate_source(raw)
     boundaries = [0]
     for character in text:
         boundaries.append(boundaries[-1] + len(character.encode("utf-8")))
@@ -257,6 +261,7 @@ def _syntax_transport(source, report, morphology):
 
 def read_recursive_source(text, *, source_id="input", scope="default", profile="surface_v1",
                           lexical_model=None, context=None, with_discourse=False):
+    foundation.require_foundation('tools.recursive_bridge.read_recursive_source')
     if type(with_discourse) is not bool:
         raise NabtError("INVALID_RECURSIVE_OPTION", "with_discourse must be Boolean")
     source = source_view(text, source_id, scope)
@@ -321,6 +326,7 @@ def verify_recursive_source(report, *, text, source_id="input", scope="default",
                             profile="surface_v1", lexical_model=None, context=None,
                             with_discourse=False):
     """External source/context arguments are mandatory authority, not report flags."""
+    foundation.require_foundation('tools.recursive_bridge.verify_recursive_source')
     try:
         fresh = read_recursive_source(text, source_id=source_id, scope=scope, profile=profile,
                                       lexical_model=lexical_model, context=context,
@@ -444,6 +450,7 @@ def assess_recursive_source(text, index=0, *, kind="morphology", probe=None, **o
     Report-local evidence IDs are interpretable only inside this complete
     envelope. The projection's source spine does not recover old parse children.
     """
+    foundation.require_foundation('tools.recursive_bridge.assess_recursive_source')
     if kind not in ("morphology", "frame"):
         raise NabtError("INVALID_RECURSIVE_KIND", "Use morphology or frame")
     natural(index, "proposal index")
@@ -467,6 +474,7 @@ def assess_recursive_source(text, index=0, *, kind="morphology", probe=None, **o
 
 def verify_recursive_assessment(envelope, *, text, index=0, kind="morphology", probe=None, **options):
     """Replay full transport, rebuild its projection, and execute Lean again."""
+    foundation.require_foundation('tools.recursive_bridge.verify_recursive_assessment')
     try:
         fresh = assess_recursive_source(text, index, kind=kind, probe=probe, **options)
         if wire(envelope) != wire(fresh):
@@ -482,6 +490,7 @@ def verify_recursive_assessment(envelope, *, text, index=0, kind="morphology", p
 
 def check_with_lean(request, *, probe=None):
     """Execute the bounded repository probe; no shell or external runtime import."""
+    foundation.require_foundation('tools.recursive_bridge.check_with_lean')
     executable = Path(probe or os.environ.get("NABT_RECURSIVE_BRIDGE_PROBE", "") or
                       ROOT / "formal/.lake/build/bin/recursiveBridgeProbe")
     if not executable.is_file():
@@ -553,6 +562,7 @@ def _load_json(path):
 
 
 def main(argv=None):
+    foundation.require_foundation('tools.recursive_bridge.main')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("operation", choices=("read", "verify", "lean-morphology", "lean-frame"))
     parser.add_argument("source")

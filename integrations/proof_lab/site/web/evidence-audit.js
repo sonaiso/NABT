@@ -413,7 +413,7 @@
     authorityFinding(out, record, '$');
     const operationalFailure = own(record, 'error');
     const earlyInputFailure = operationalFailure && record.status === 'INVALID_INPUT' && record.mode == null;
-    if (!['inference','benchmark','semantic_axes','epistemic_measurement'].includes(record.mode) && !earlyInputFailure)
+    if (!['inference','benchmark','semantic_axes','epistemic_measurement','contextual_reference'].includes(record.mode) && !earlyInputFailure)
       fail('SCHEMA_SHAPE', 'نمط تقرير NABT غير معروف.', '$.mode');
     optionalType(record, 'status', string, '$');
     for (const k of ['code_sha','native_sha256','runtime_sha256','runner_sha256','payload_sha256','toolchain','request_id']) optionalType(record, k, string, '$');
@@ -431,7 +431,7 @@
     if (operationalFailure) {
       const error = requireString(record.error, '$.error');
       if (!['INVALID_INPUT','RESOURCE_EXHAUSTED','EXECUTION_FAILED','VERIFICATION_UNAVAILABLE'].includes(record.status)
-          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result') || own(record, 'semantic_axes') || own(record, 'epistemic_measurement'))
+          || !error.length || error.length > 128 || own(record, 'benchmark') || own(record, 'result') || own(record, 'semantic_axes') || own(record, 'epistemic_measurement') || own(record, 'contextual_reference'))
         fail('SCHEMA_SHAPE', 'غلاف تعذر التنفيذ لا يطابق عقد الحالة والخطأ.', '$.error');
       out.declared_status = record.status;
       out.operational_failure = { status: record.status, error, measurements_available: false };
@@ -448,7 +448,18 @@
         'هذه حالة تشغيل من ملف مستورد؛ لم يُعد تشغيل الطلب أو التحقق من مصدره.');
       return out;
     }
-    if (record.mode === 'epistemic_measurement') {
+    if (record.mode === 'contextual_reference') {
+      if (!globalThis.NabtContextualContract) fail('SCHEMA_SHAPE', 'مدقق إحالة اللفظ والمقام غير متاح.', '$.contextual_reference');
+      let suite;
+      try { suite = globalThis.NabtContextualContract.validateEnvelope(record); await globalThis.NabtContextualContract.verifyIntegrity(suite); }
+      catch (error) { fail('SCHEMA_SHAPE', error.message, '$.contextual_reference'); }
+      out.contextual_reference = suite;
+      for (const item of suite.cases) importedClaim(item.id, 2, 'إحالة ورود اللفظ في مقام معلن', { input: item.input, group: item.group, reference_comparison: item.reference_comparison, declared_native_checked: item.execution.native_checked, status: item.execution.status, reference: item.execution.reference, scope: item.execution.scope });
+      out.metrics.claims = out.claims.length; out.metrics.rank_counts = { 'تصريح مستورد': out.claims.length };
+      out.layers = [{ id: 2, title: 'إحالة اللفظ والمقام', declared: null, summary: 'شهادات مستوردة؛ لم يُعد تشغيل Lean', claim_count: out.claims.length, issues: [] }];
+      check(out, 'CONTEXTUAL_REFERENCE_BINDINGS', 'ارتباط النص والمقام والمرشحين والشهادة', 'pass', 'فُحص الاتساق والبصمات والمقامات؛ لا يصادق ذلك على تشغيل Lean المستورد.');
+      out.limits.push('المقارنة المرجعية في Python مستقلة عن شهادة إحالة الورود. التواتر وصحة الجملة كاملة والدافع وصدق الواقع واكتمال العربية غير مثبتة.');
+    } else if (record.mode === 'epistemic_measurement') {
       if (!globalThis.NabtEpistemicContract) fail('SCHEMA_SHAPE', 'مدقق القصد والرصد غير متاح.', '$.epistemic_measurement');
       let suite;
       try {

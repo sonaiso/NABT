@@ -38,6 +38,8 @@ _OPERATORS = (
 )
 
 
+from nabt import foundation
+
 def _wire(value):
     try:
         raw = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
@@ -366,6 +368,7 @@ def _relation(source, scope, head, reading, label, policy, *, blocked=False, clo
 
 
 def read_inflection(text, *, lexical_model=None, source_id="input", scope="default"):
+    foundation.require_foundation('nabt.inflection_reader.read_inflection')
     installed_registry()
     policy = replay_inflection_policy()
     source = _source(text, source_id, scope)
@@ -419,6 +422,7 @@ def read_inflection(text, *, lexical_model=None, source_id="input", scope="defau
 
 def verify_inflection(report, *, text=_UNSET, lexical_model=None, source_id=None, scope=None):
     """Replay against independently supplied corpus bytes; None withdraws them."""
+    foundation.require_foundation('nabt.inflection_reader.verify_inflection')
     try:
         if type(report) is not dict:
             raise ValueError("report type")

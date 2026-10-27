@@ -6,7 +6,12 @@ from pathlib import Path
 from .runtime import AcquisitionBudget, acquire
 
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 def main():
+    foundation.require_foundation('tools.linguistic_truth.__main__.main')
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="operation", required=True)
     sub.add_parser("catalogue")

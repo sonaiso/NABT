@@ -36,6 +36,8 @@ TAILS = {
 }
 
 
+from nabt import foundation
+
 def _bad(message):
     raise NabtError("INVALID_CLASSICAL_BOUNDARY_FRAME", message)
 
@@ -165,6 +167,7 @@ def _ana(frame):
 
 def evaluate(rule_id, frame):
     """Compute a conditional relation; labels never establish their own premises."""
+    foundation.require_foundation('nabt.classical_boundary_affixes.evaluate')
     _choice(rule_id, RULE_IDS, "rule ID")
     if type(frame) is not dict:
         _bad("frame must be a dictionary")

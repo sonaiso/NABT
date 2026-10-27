@@ -1,0 +1,134 @@
+--- evidence/framework_foundation_v1/independent_oracle/freeze_runner_v1.py
++++ evidence/attested_mark_recovery_v1/independent_oracle/freeze_runner_v1.py
+@@ -12,10 +12,2 @@
+-PREVIOUS = ORACLE / 'continuation_v6_review2/runner_freeze_v6.json'
+-PREVIOUS_SHA256 = '6e8dde893aa919dec0dd23e37a7882b228d45d977743526ef2178483599fabb3'
+-NAMES = {
+-    'run_oracle_v6.py': 'run_oracle_v1.py',
+-    'review_continuation_v6.py': 'review_continuation_v1.py',
+-    'run_regression_v6.py': 'run_regression_v1.py',
+-    'run_source_counterexamples_v1.py': 'run_source_counterexamples_v1.py',
+-    'test_continuation_v6_review2.py': 'test_continuation_v1.py',
+-    'freeze_continuation_v6.py': 'freeze_runner_v1.py',
+-}
++PREVIOUS = ROOT / 'evidence/framework_foundation_v1/independent_oracle/runner_freeze_v1.json'
++PREVIOUS_SHA256 = 'bfceeccfe85fae87156a3be23c2e85af58db138fa0b63b34934c6db6195f9b8e'
+@@ -29,15 +21,7 @@
+-    prefix = 'evidence/arabic_completion_v3/independent_oracle/continuation_v6_review2/'
+-    destination = 'evidence/framework_foundation_v1/independent_oracle/'
+-    selected = set()
+-    for row in previous['files']:
+-        name = row['path']
+-        if name.startswith(prefix):
+-            name = destination + NAMES[name.removeprefix(prefix)]
+-        selected.add(name)
+-    selected.update(row['path'] for row in snapshot['files']
+-                    if not row['path'].startswith('src/') and row['path'] != 'pyproject.toml')
+-    selected.update(destination + name for name in NAMES.values())
+-    selected.update({'tests/test_framework_foundation_freeze.py',
+-                     'tools/framework_foundation_gate.py',
+-                     'tools/framework_foundation_postreview.py',
+-                     'evidence/framework_foundation_v1/regression_policy_v2.json'})
++    prefix = 'evidence/framework_foundation_v1/independent_oracle/'
++    destination = 'evidence/attested_mark_recovery_v1/independent_oracle/'
++    selected = {destination + row['path'].removeprefix(prefix)
++                if row['path'].startswith(prefix) else row['path']
++                for row in previous['files']}
++    selected.add('evidence/attested_mark_recovery_v1/regression_policy_v1.json')
++    selected.add('tests/test_attested_mark_runtime_freeze.py')
+@@ -48 +32 @@
+-    output = HERE / 'runner_freeze_v1.json'
++    output = HERE / 'runner_freeze_v4.json'
+@@ -54 +38 @@
+-    runtime = ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json'
++    runtime = ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json'
+@@ -61 +45 @@
+-    frozen.update(schema='nabt.framework-foundation.directed-runner-freeze.v1',
++    frozen.update(schema='nabt.attested-mark-recovery.directed-runner-freeze.v1',
+@@ -64,0 +49 @@
++                  supersedes_pre_execution_dependency_freeze_sha256='c1c92ddaf90f7457c9927afbfa4c4e89c37a3a981869d818cfaa09f23b2852f3',
+@@ -66 +51 @@
+-                  review_correction='New registered A116 foundation runtime and dependency identities only; all material, scorer, denominators and residual signatures remain unchanged.',
++                  review_correction='Administrative A116 discovery registration, current-oracle wrapper selection and dependency identities only; all material, scorer, denominators and residual signatures remain unchanged.',
+--- evidence/framework_foundation_v1/independent_oracle/review_continuation_v1.py
++++ evidence/attested_mark_recovery_v1/independent_oracle/review_continuation_v1.py
+@@ -113,2 +113,2 @@
+-    runner = R.check_runner_freeze(HERE / 'runner_freeze_v1.json')
+-    current = E.runtime_snapshot(R.ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json', R.ROOT)
++    runner = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
++    current = E.runtime_snapshot(R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json', R.ROOT)
+@@ -123 +123 @@
+-    for path in (HERE / 'runner_freeze_v1.json', R.ROOT / current['runtime_freeze']):
++    for path in (HERE / 'runner_freeze_v4.json', R.ROOT / current['runtime_freeze']):
+@@ -352,2 +352,2 @@
+-    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v1.json')) == E.wire(runner) and
+-              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json', R.ROOT)) == E.wire(current),
++    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v4.json')) == E.wire(runner) and
++              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json', R.ROOT)) == E.wire(current),
+@@ -355 +355 @@
+-    review = {'schema': 'nabt.framework-foundation.continuation-review.v1',
++    review = {'schema': 'nabt.attested-mark-recovery.continuation-review.v1',
+--- evidence/framework_foundation_v1/independent_oracle/run_oracle_v1.py
++++ evidence/attested_mark_recovery_v1/independent_oracle/run_oracle_v1.py
+@@ -29 +29 @@
+-VERSION='nabt.framework-foundation.directed-oracle-execution.v1'
++VERSION='nabt.attested-mark-recovery.directed-oracle-execution.v1'
+@@ -60 +60 @@
+-    E.require(freeze['schema']=='nabt.framework-foundation.directed-runner-freeze.v1'
++    E.require(freeze['schema']=='nabt.attested-mark-recovery.directed-runner-freeze.v1'
+@@ -65 +65 @@
+-    snapshot=E.runtime_snapshot(ROOT/'evidence/framework_foundation_v1/code_freeze_v2.json',ROOT)
++    snapshot=E.runtime_snapshot(ROOT/'evidence/attested_mark_recovery_v1/code_freeze_v1.json',ROOT)
+@@ -85 +85 @@
+-    for path in (EXEC_DIR/'runner_freeze_v1.json', ROOT/snapshot['runtime_freeze']):
++    for path in (EXEC_DIR/'runner_freeze_v4.json', ROOT/snapshot['runtime_freeze']):
+@@ -270,2 +270,2 @@
+-    p.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/framework_foundation_v1/code_freeze_v2.json')
+-    p.add_argument('--runner-freeze',type=Path,default=EXEC_DIR/'runner_freeze_v1.json')
++    p.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/attested_mark_recovery_v1/code_freeze_v1.json')
++    p.add_argument('--runner-freeze',type=Path,default=EXEC_DIR/'runner_freeze_v4.json')
+--- evidence/framework_foundation_v1/independent_oracle/run_regression_v1.py
++++ evidence/attested_mark_recovery_v1/independent_oracle/run_regression_v1.py
+@@ -33 +33 @@
+-    before = R.check_runner_freeze(HERE / 'runner_freeze_v1.json')
++    before = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
+@@ -60 +60 @@
+-    after = R.check_runner_freeze(HERE / 'runner_freeze_v1.json')
++    after = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
+@@ -64 +64 @@
+-    receipt = {'schema': 'nabt.framework-foundation.regression-execution.v1',
++    receipt = {'schema': 'nabt.attested-mark-recovery.regression-execution.v1',
+--- evidence/framework_foundation_v1/independent_oracle/run_source_counterexamples_v1.py
++++ evidence/attested_mark_recovery_v1/independent_oracle/run_source_counterexamples_v1.py
+@@ -161,2 +161,2 @@
+-    runner = R.check_runner_freeze(HERE / 'runner_freeze_v1.json')
+-    runtime_freeze = R.ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json'
++    runner = R.check_runner_freeze(HERE / 'runner_freeze_v4.json')
++    runtime_freeze = R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json'
+@@ -255 +255 @@
+-                  runner_and_helpers_unchanged=R.check_runner_freeze(HERE / 'runner_freeze_v1.json') == runner,
++                  runner_and_helpers_unchanged=R.check_runner_freeze(HERE / 'runner_freeze_v4.json') == runner,
+@@ -326,2 +326,2 @@
+-    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v1.json')) == E.wire(runner) and
+-              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/framework_foundation_v1/code_freeze_v2.json', R.ROOT)) == E.wire(current),
++    E.require(E.wire(R.check_runner_freeze(HERE / 'runner_freeze_v4.json')) == E.wire(runner) and
++              E.wire(E.runtime_snapshot(R.ROOT / 'evidence/attested_mark_recovery_v1/code_freeze_v1.json', R.ROOT)) == E.wire(current),
+--- evidence/framework_foundation_v1/independent_oracle/test_continuation_v1.py
++++ evidence/attested_mark_recovery_v1/independent_oracle/test_continuation_v1.py
+@@ -132 +132 @@
+-        freeze = HERE / 'runner_freeze_v1.json'
++        freeze = HERE / 'runner_freeze_v4.json'
+@@ -137 +137 @@
+-        old = P.ORACLE / 'continuation_v6_review2/runner_freeze_v6.json'
++        old = P.R.ROOT / 'evidence/framework_foundation_v1/independent_oracle/runner_freeze_v1.json'
+@@ -139 +139 @@
+-        self.assertEqual(record['previous_dependency_freeze_sha256'], '6e8dde893aa919dec0dd23e37a7882b228d45d977743526ef2178483599fabb3')
++        self.assertEqual(record['previous_dependency_freeze_sha256'], 'bfceeccfe85fae87156a3be23c2e85af58db138fa0b63b34934c6db6195f9b8e')
+@@ -145 +145 @@
+-        self.assertTrue(any('/framework_foundation_v1/independent_oracle/review_' in path for path in paths))
++        self.assertTrue(any('/attested_mark_recovery_v1/independent_oracle/review_' in path for path in paths))
+--- HEAD/tests/test_completion_v6_gate.py
++++ tests/test_completion_v6_gate.py
+@@ -15 +15 @@
+-_REVIEW_TEST = ROOT / 'evidence/framework_foundation_v1/independent_oracle/test_continuation_v1.py'
++_REVIEW_TEST = ROOT / 'evidence/attested_mark_recovery_v1/independent_oracle/test_continuation_v1.py'

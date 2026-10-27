@@ -33,6 +33,11 @@ THEOREMS = ["Nabt.LexicalDenotation.check_exact",
             "Nabt.LexicalDenotation.definition_does_not_assert_world"]
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 def _sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -99,6 +104,7 @@ def _indications(sense, target, necessities):
 
 def assess(entry, target, *, root=ROOT):
     """Run the pinned native catalogue; return every installed sense for entry."""
+    foundation.require_foundation('tools.lexical_testimony.assess')
     out = {"schema": SCHEMA, "law_id": LAW, "status": "INVALID_INPUT",
            "authority": "UNVERIFIED", "native_checked": False,
            "all_installed_readings_retained": False, "rows": [],
@@ -175,6 +181,7 @@ def assess(entry, target, *, root=ROOT):
 
 
 def main():
+    foundation.require_foundation('tools.lexical_testimony.main')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--entry", required=True)
     parser.add_argument("--target", action="append", default=[])

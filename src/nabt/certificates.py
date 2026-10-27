@@ -27,6 +27,8 @@ _STEP_KEYS = frozenset({"position", "state_before", "cell", "state_after", "weig
 _DECIMAL = re.compile(r"(?:0|[1-9][0-9]*)\Z", flags=re.ASCII)
 
 
+from nabt import foundation
+
 @lru_cache(maxsize=2)
 def _machine(mode: str) -> Machine:
     return Machine(mode)
@@ -34,6 +36,7 @@ def _machine(mode: str) -> Machine:
 
 def issue_certificate(cells: Iterable[int], mode: str = "waqf", source_text: str | None = None) -> dict[str, Any]:
     """Issue only complete words from q0, binding optional exact source bytes."""
+    foundation.require_foundation('nabt.certificates.issue_certificate')
     values = validate_cells(cells)
     if type(mode) is not str or mode not in {"wasl", "waqf"}:
         raise NabtError("INVALID_MODE", "Mode must be waqf or wasl")
@@ -130,6 +133,7 @@ def verify_certificate(certificate: object) -> VerificationReport:
     This verifies internal consistency, not authorship. An attacker can create a
     different internally valid public claim; authentication needs an external key.
     """
+    foundation.require_foundation('nabt.certificates.verify_certificate')
     try:
         supplied = _schema(certificate)
         if supplied["alphabet_id"] != ALPHABET_ID or supplied["law_id"] != LAW_ID:

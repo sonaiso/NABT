@@ -26,6 +26,8 @@ GLIDES = {"waw": "و", "ya": "ي"}
 LONGS = {"alif": "ا", **GLIDES}
 
 
+from nabt import foundation
+
 def _bad(message):
     raise NabtError("INVALID_CLASSICAL_HAMZA_FRAME", message)
 
@@ -191,6 +193,7 @@ def evaluate(rule_id, frame):
     Hamza is always the unseated atom ء; combining marks and seated hamzas are
     rejected, not silently normalized. Follow-on transformations remain separate.
     """
+    foundation.require_foundation('nabt.classical_hamza.evaluate')
     if type(rule_id) is not str or rule_id not in RULE_IDS:
         raise NabtError("UNKNOWN_CLASSICAL_HAMZA_RULE", "Unknown hamza rule", status="DEFER")
     underlying, alternatives, blocker, unresolved = _compute(rule_id, frame)

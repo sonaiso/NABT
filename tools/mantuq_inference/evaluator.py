@@ -45,6 +45,11 @@ ROLES = {
 KINDS = {"guarded_cause": "causal", "opposition": "opposition", "analogy": "analogy"}
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from nabt import foundation
+
 class InvalidRequest(ValueError):
     pass
 
@@ -319,6 +324,7 @@ def evaluate(payload, *, budget=None, root=ROOT):
     A SUPPORTED result is conditional on explicit premises and a caller-supplied
     bridge. It is not a license for the original Arabic text or a worldly fact.
     """
+    foundation.require_foundation('tools.mantuq_inference.evaluator.evaluate')
     out = _base()
     if budget is None:
         budget = EvaluationBudget()

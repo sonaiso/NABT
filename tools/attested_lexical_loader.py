@@ -44,6 +44,11 @@ CATALOGUE_PATH = ROOT / "evidence/lexical_completion_v1/catalog.json"
 CATALOGUE_SHA256 = "1ac5b25629f7847e9f128cf2c75cfbe573657df769446afae3cc3436f566a872"
 
 
+import sys
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from nabt import foundation
+
 @dataclass(frozen=True, slots=True)
 class LoadedLexicon:
     """The immutable raw-source model and a scoped, reproducible load receipt."""
@@ -253,6 +258,7 @@ def load_attested_lexicon(source_path: str | Path | None = None) -> LoadedLexico
     corpus is passed to ``learn_qac_lexicon``; the separate alignment matrix
     documents dictionary coverage and never filters or supplies parse answers.
     """
+    foundation.require_foundation('tools.attested_lexical_loader.load_attested_lexicon')
     path = DEFAULT_SOURCE if source_path is None else Path(source_path)
     try:
         with path.open("rb") as stream:

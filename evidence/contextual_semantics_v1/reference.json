@@ -1,0 +1,1308 @@
+{
+  "schema": "nabt.contextual-semantics.reference.v1",
+  "version": 1,
+  "title_ar": "مرجع مستقل لاكتساب إحالة الموضع وفصلها عن ترخيص الجملة",
+  "independence": {
+    "procedurally_separate_authorship": true,
+    "same_team_and_workspace": true,
+    "external_blind_holdout": false,
+    "external_human_adjudication": false,
+    "new_runtime_implementation_read": false,
+    "new_runtime_outputs_read": false,
+    "existing_input_contract_and_resolver_read": true,
+    "cases_executed_before_freeze": false,
+    "runtime_labels_used_in_input": false,
+    "note_ar": "أحكام تشخيصية مؤلفة قبل تنفيذ المحرك الجديد؛ راجع المؤلف عقد المقام القديم واطلع في القراءة نفسها على محلله السابق. شارك مخطط العائلات مع الفريق؛ ليست مجموعة عمياء خارجية."
+  },
+  "scope": {
+    "case_count": 20,
+    "measurement": "REFERENCE_OCCURRENCE_ONLY",
+    "population": "authored vocalized statements and declared hypothetical contexts",
+    "source_authority": "DECLARED_CONTEXT_PREMISES_NOT_EXTERNAL_WORLD_FACTS",
+    "complete_clause_licensing_measured": false,
+    "whole_arabic_complete": false,
+    "actual_motive_measured": false,
+    "external_world_truth_measured": false,
+    "external_lexical_attestation_of_context_names_measured": false
+  },
+  "conventions": {
+    "indexing": "zero-based Unicode codepoint offsets [start,end) in exact raw input.text; no NFC/diacritic stripping before span identity",
+    "scope": "outer or quote:1; quote:1 means first explicit guillemet-delimited span, not an assertion that quoted speech occurred",
+    "status": "resolved=one licensed contextual identity; ambiguous=retain all declared alternatives; unresolved=no licensed binding acquired; resource exhaustion/invalid input must remain distinct runtime outcomes",
+    "target_ids": "identity sets; canonical reference order is ascending ASCII ID; order is not salience",
+    "input_boundary": "Only case.input {text,context} goes to runtime; IDs, gold, metrics, spans, sources and rationale remain evaluator-only",
+    "occurrence_independence": "A resolved occurrence does not license unknown remaining words, the entire clause, quoted content truth, or an external speaker event",
+    "reference_licensing": "Resolution must preserve exact raw occurrence and explicit contextual or locally attributed quoted-speaker premise. Name declaration is conditional identity evidence, not external lexical attestation."
+  },
+  "metric_policy": {
+    "positive_binding": "resolved cases only; correct target set and exact occurrence/source scope",
+    "alternative_retention": "ambiguous cases only; all and only licensed alternatives",
+    "safe_nonresolution": "unresolved cases only; report separately, never positive acquisition",
+    "unknown_not_resource": "RESOURCE_LIMIT and INVALID input are not successful unresolved answers",
+    "zero_denominator": "null",
+    "historical_denominators": "old25 and its reference5 remain separate; no merging",
+    "unmeasured": [
+      "whole_clause_grammar_licensing",
+      "all_arabic_completeness",
+      "actual_motive",
+      "external_world_truth"
+    ]
+  },
+  "historical_reference": {
+    "path": "evidence/semantic_axes_v1/revision_2/reference.json",
+    "sha256": "9787e4496118a80a4f352ef19193e1e37976eb282eaf96caaad511ce77ffa431",
+    "modified": false,
+    "denominators_merged": false
+  },
+  "cases": [
+    {
+      "id": "CR-N01",
+      "family": "named",
+      "input": {
+        "text": "زَيْدٌ عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "زَيْدٌ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "person_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "يربط العلم بالهوية المسماة في المقام المعلن؛ هوية الراوي المختلف لا تبدل مرجع العلم.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "00d9a2b3d6c33fdd5d9a3597d44e82f8cc6850cf4ee1668fc681b9d37357913c",
+      "expected_sha256": "5850043637f18768dfc922b22039077b94c9c54836e1b7180d7b9f4cd636ddad",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-N02",
+      "family": "named",
+      "input": {
+        "text": "زَيْدٌ عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "زَيْدٌ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "ambiguous",
+          "target_ids": [
+            "person_a",
+            "person_b"
+          ]
+        }
+      },
+      "metric_category": "alternative_retention",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "تكرار الاسم لشخصين لا يسمح باختيار أول سجل؛ يجب حفظ البديلين.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "fc70a9046797f9b6f0419ad162e5888e00e42386b3b00cf974c2d8e964b5a0f8",
+      "expected_sha256": "6588ad4cfca7c3606b553f279a9cf7fedee371096078d2a40be4a942842a900a",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-N03",
+      "family": "named",
+      "input": {
+        "text": "زَيْدٌ عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "زَيْدٌ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "person_b"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "النص ثابت؛ تبدل تسمية الهوية في المقام يبدل المرجع ولا يجوز تثبيت معرف زيد من المثال السابق.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "4e3ad1b4675acf512cd89de7bdef874601818b7b7836dafc907414b3af5a6e76",
+      "expected_sha256": "26c877bf1219a9de1575355fd841caca8b447307def9c17cf0e334dd7edc1cfb",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-N04",
+      "family": "named",
+      "input": {
+        "text": "زَيْدٌ عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "زَيْدٌ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "unresolved",
+          "target_ids": []
+        }
+      },
+      "metric_category": "safe_nonresolution",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "ذكر علم غير مسمى في المقام لا ينشئ هوية خارجية ولا يعادله بالشخص الوحيد المسجل.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "6114501ba979a9a0895dbd65600255c5170704af819d67cbcfeeb0efbedb8c8b",
+      "expected_sha256": "a078829f0d8e5c4dea2ca85241aef939a3c2b00da41f9210b939449a77b9ecb0",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-P01",
+      "family": "personal",
+      "input": {
+        "text": "أَنَا عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_a"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 5
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "person_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "أنا يعود إلى المتكلم المعلن في هذا المقام.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "f8eb44c2ca38e1125e809be144d66e8e51e9f96015d6f9487792fec1eb73f1e3",
+      "expected_sha256": "0b788c5a50ef12aca4d7c7dc1ca02891694e65c1b8449c9f8430574919ab43ed",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-P02",
+      "family": "personal",
+      "input": {
+        "text": "أَنَا عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 5
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "person_b"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "الجملة عينها في مقام آخر؛ المتكلم باء، فلا يحفظ جواب المقام الأول.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "e24b3d9e5649d5dddbeb0fdd03149b68a13ea9f037d028dad2fcba1e8e93104a",
+      "expected_sha256": "af8b81205c766bbe3f728bb1a7b09c6df089de85728fc733d7e3a90d59db4e92",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-P03",
+      "family": "personal",
+      "input": {
+        "text": "أَنَا عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 5
+          },
+          "scope": "outer",
+          "status": "unresolved",
+          "target_ids": []
+        }
+      },
+      "metric_category": "safe_nonresolution",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "انفراد شخص في القائمة ليس شهادة بأنه المتكلم؛ لم يعلن مقام المتكلم.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "f45b6f9ecc66cef8d036e403a7019a2f8a03ecde2574090306d582280e50442d",
+      "expected_sha256": "3a4b253a88c7265a516b33559ae3ae523b2cf6382e37341d66f8edb72ec374b7",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-P04",
+      "family": "personal",
+      "input": {
+        "text": "أَنْتَ عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_a",
+          "addressee": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنْتَ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "person_b"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "ضمير المخاطب يعود إلى المخاطب المعلن لا المتكلم.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "70820b7b1fd60ceb3704a9bcdd3b7f2202968b9d52532b726741f2581f52a898",
+      "expected_sha256": "8bac4be03bf1715e81e842fce46437d942c8ee7de6ab2af7134d040a09e08122",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-P05",
+      "family": "personal",
+      "input": {
+        "text": "هُوَ عَالِمٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_a"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "هُوَ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 4
+          },
+          "scope": "outer",
+          "status": "unresolved",
+          "target_ids": []
+        }
+      },
+      "metric_category": "safe_nonresolution",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "لا سابق نصي ولا تعيين إشاري للغائب؛ وحدة القائمة أو هوية المتكلم لا تنشئ إحالة للغائب.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "982f243a8d57289fe91ef6fbb3072a0389bb52b6116159955303f589cc95419a",
+      "expected_sha256": "137a73263a530ed9b776f0e546eb4416f6c8285065f3e131d609b5888af1f1b7",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-D01",
+      "family": "deictic",
+      "input": {
+        "text": "ذَلِكَ كِتَابٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            },
+            {
+              "id": "stone_b",
+              "name": "بَاءٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [
+            {
+              "form": "ذَلِكَ",
+              "entity_ids": [
+                "stone_a"
+              ]
+            }
+          ],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "ذَلِكَ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "stone_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "هوية المشار إليه تؤخذ من الإشارة المعلنة لهذا المقام لا من معنى حجر وحده.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "e3d16ad91a469738999dd1e425fa113318f7c8fe56351c14c4c80d5afd40a3ae",
+      "expected_sha256": "58a9c7c5840c3fd6972a75b9281950cfdcac7a5c4d3c66f038b41dcf6a8a7a4f",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-D02",
+      "family": "deictic",
+      "input": {
+        "text": "ذَلِكَ كِتَابٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            },
+            {
+              "id": "stone_b",
+              "name": "بَاءٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [
+            {
+              "form": "ذَلِكَ",
+              "entity_ids": [
+                "stone_b"
+              ]
+            }
+          ],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "ذَلِكَ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "stone_b"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "تبدل الإشارة يبدل المرجع مع ثبات النص والتحليل المعجمي المتوقع.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "939bbbfad9e7590d45c8cf0792048736d7257d7c7bfe22943f24398317846768",
+      "expected_sha256": "d8bd3527afb5aaa04102b556dab220cf3dfa071a93d00ec4bc29cefd0039f0f7",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-D03",
+      "family": "deictic",
+      "input": {
+        "text": "ذَلِكَ كِتَابٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            },
+            {
+              "id": "stone_b",
+              "name": "بَاءٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [
+            {
+              "form": "ذَلِكَ",
+              "entity_ids": [
+                "stone_a",
+                "stone_b"
+              ]
+            }
+          ],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "ذَلِكَ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "ambiguous",
+          "target_ids": [
+            "stone_a",
+            "stone_b"
+          ]
+        }
+      },
+      "metric_category": "alternative_retention",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "المقام يجيز بديلين؛ لا يسمح اختيار الأول أو الأقرب متجهيًا بحسم المرجع.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "3f3aa16391b8451057c651c3fa52b1364be41ccb948f27c7d41e176a3c54bf71",
+      "expected_sha256": "65ee43628c7231418ed036da918350687d1ac37de6cea837969c08e7ef4e4042",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-D04",
+      "family": "deictic",
+      "input": {
+        "text": "ذَلِكَ كِتَابٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "stone_a",
+              "name": "أَلِفٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "thing"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "ذَلِكَ",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 6
+          },
+          "scope": "outer",
+          "status": "unresolved",
+          "target_ids": []
+        }
+      },
+      "metric_category": "safe_nonresolution",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "حصر قائمة الأشياء لا يعين الإشارة غير المعلنة، حتى لو بقي شيء واحد.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "b75ac735463fcded35a17066433d870678ec8493a5ee732451db32938917ca1f",
+      "expected_sha256": "638c98b693d841a468e5c9f9797a4e477473330137e6285d7a4a3f7d86ad1e19",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-Q01",
+      "family": "quoted",
+      "input": {
+        "text": "قَالَ زَيْدٌ: «أَنَا عَالِمٌ».",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 15,
+            "end": 20
+          },
+          "scope": "quote:1",
+          "status": "resolved",
+          "target_ids": [
+            "person_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1",
+        "MUGHNI-QUOTE"
+      ],
+      "rationale_ar": "أنا المحكية ترجع إلى صاحب القول زيد، لا الراوي عمرو في المقام الخارجي.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "fec38c7148aacf9675b8d50691240e79d794f2d02a4678abb2c8cd991b2fbaed",
+      "expected_sha256": "f87703cf8bceb7a2ee0b024c257cf0cade35f800a544d7270230db8dc8fe2353",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-Q02",
+      "family": "quoted",
+      "input": {
+        "text": "قَالَ عَمْرٌو: «أَنَا عَالِمٌ».",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_a"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 16,
+            "end": 21
+          },
+          "scope": "quote:1",
+          "status": "resolved",
+          "target_ids": [
+            "person_b"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1",
+        "MUGHNI-QUOTE"
+      ],
+      "rationale_ar": "تبديل صاحب القول إلى عمرو يبدل الإحالة المحلية؛ لا تعلق الضمير بالراوي الخارجي زيد.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "5a773a7041f0436384cf99914c6251b73db0e2aa4d2878eee33caf638247a63f",
+      "expected_sha256": "a5f615d77789e377f20a050391320abd3a0e7ec617b8717578d1901aacfe655a",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-Q03",
+      "family": "quoted",
+      "input": {
+        "text": "لَمْ يَقُلْ زَيْدٌ: «أَنَا عَالِمٌ».",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 21,
+            "end": 26
+          },
+          "scope": "quote:1",
+          "status": "resolved",
+          "target_ids": [
+            "person_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1",
+        "MUGHNI-QUOTE"
+      ],
+      "rationale_ar": "النفي يمنع إثبات وقوع القول؛ تعيين صاحب القول المنفي يفسر أنا داخل مضمونه المعروض ولا يثبت حصوله.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "29111f08e0766cd03604c04fa8e32b502868b2218c1b41779d9567ff4c6736c5",
+      "expected_sha256": "92d666261fe6ecd92e6a01f96e5da1c0c44557a642f181dea31fb6d1fa7beecb",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-Q04",
+      "family": "quoted",
+      "input": {
+        "text": "إِنْ قَالَ زَيْدٌ: «أَنَا عَالِمٌ»، صَدَّقَهُ عَمْرٌو.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 20,
+            "end": 25
+          },
+          "scope": "quote:1",
+          "status": "resolved",
+          "target_ids": [
+            "person_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1",
+        "MUGHNI-QUOTE"
+      ],
+      "rationale_ar": "تفسير الضمير محلي داخل قول مفترض لزيد؛ الشرط لا يثبت حصول القول أو صدق العلم.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "1e6d87a4fdc1688713b3266f0f77b955389f392d8ecc1319c23d27a815273929",
+      "expected_sha256": "73eb709805ba8010d0f8b9f098843c05fc16ba0caf44939ba94da6d0b09766e9",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-Q05",
+      "family": "quoted",
+      "input": {
+        "text": "قَالَ زَيْدٌ: «أَنَا عَالِمٌ».",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_b"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 15,
+            "end": 20
+          },
+          "scope": "quote:1",
+          "status": "ambiguous",
+          "target_ids": [
+            "person_a",
+            "person_b"
+          ]
+        }
+      },
+      "metric_category": "alternative_retention",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1",
+        "MUGHNI-QUOTE"
+      ],
+      "rationale_ar": "التباس هوية صاحب القول ينتقل إلى ضميره المحكي؛ لا تحسمه مصادفة تسمية الراوي بزيد.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "d976a9c420d1713dcc6d08c89edebaa8b524a120a7ac2b7d9964042e72552f6e",
+      "expected_sha256": "4f24a2874ab5eaa8707b988fba132beeb987365d0e54b8315529184735baeecb",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-Q06",
+      "family": "quoted",
+      "input": {
+        "text": "«أَنَا عَالِمٌ».",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_a"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 1,
+            "end": 6
+          },
+          "scope": "quote:1",
+          "status": "unresolved",
+          "target_ids": []
+        }
+      },
+      "metric_category": "safe_nonresolution",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1",
+        "MUGHNI-QUOTE"
+      ],
+      "rationale_ar": "الحكاية المنقولة بلا نسبة لا تعين صاحب أنا؛ لا يستعار المتكلم الخارجي لإصلاح نسبة مجهولة.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [],
+      "input_sha256": "bc71ef6e99f8880e360a82dfc363f13287f004334b363b3fec215d067b7d1c08",
+      "expected_sha256": "7e674b9932cb2bd6fb83aec72cd6e2e20a24652853226df3901e994410265f55",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    },
+    {
+      "id": "CR-B01",
+      "family": "partial_clause_boundary",
+      "input": {
+        "text": "أَنَا ظَرْمَشُوقٌ.",
+        "context": {
+          "entities": [
+            {
+              "id": "person_a",
+              "name": "زَيْدٌ",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            },
+            {
+              "id": "person_b",
+              "name": "عَمْرٌو",
+              "gender": "masculine",
+              "number": "singular",
+              "kind": "person"
+            }
+          ],
+          "deixis": [],
+          "closed_reference_scope": true,
+          "speaker": "person_a"
+        }
+      },
+      "expected": {
+        "reference": {
+          "surface": "أَنَا",
+          "occurrence": 0,
+          "span": {
+            "start": 0,
+            "end": 5
+          },
+          "scope": "outer",
+          "status": "resolved",
+          "target_ids": [
+            "person_a"
+          ]
+        }
+      },
+      "metric_category": "positive_binding",
+      "measurement_scope": "REFERENCE_OCCURRENCE_ONLY",
+      "expectation_sources": [
+        "QATR-REFERENCE",
+        "AUTHORED-CONTEXTUAL-ORACLE-V1"
+      ],
+      "rationale_ar": "إحالة أنا المنفصلة قابلة للتعيين بمقام المتكلم، مع بقاء تحليل المحمول المؤلف ومعناه وترخيص الجملة التامة التزامات مستقلة.",
+      "limits": {
+        "asserts_speech_event": false,
+        "asserts_embedded_content_truth": false,
+        "attests_context_names_lexically": false,
+        "asserts_complete_clause_licensing": false
+      },
+      "notes": [
+        "ظَرْمَشُوقٌ لفظ تجريبي مؤلف؛ لا يدعي المرجع استنفاد المعاجم أو برهان استحالة وروده.",
+        "نجاح إحالة الموضع وحدها لا يكسب هذا المحمول شهادة معجمية ولا يثبت سلامة الجملة التامة."
+      ],
+      "input_sha256": "ce3ff0c02cdbd268d3e8dcb49bda89bb457ba33d7f5b7b0b44af104430c6b388",
+      "expected_sha256": "0b788c5a50ef12aca4d7c7dc1ca02891694e65c1b8449c9f8430574919ab43ed",
+      "adjudication": {
+        "status": "provisional_authored",
+        "external_human_review": "pending"
+      }
+    }
+  ]
+}

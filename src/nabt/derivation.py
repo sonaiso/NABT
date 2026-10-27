@@ -32,6 +32,8 @@ MAX_OCCURRENCES = 128
 _BOUNDARIES = frozenset("ٌٍَُِْ")
 
 
+from nabt import foundation
+
 def _wire(value):
     try:
         raw = json.dumps(value, ensure_ascii=False, sort_keys=True,
@@ -243,6 +245,7 @@ def _written_runs(source, partition, scope):
 
 
 def read_derivation(text, *, source_id="input", scope="default", profile="surface_v1"):
+    foundation.require_foundation('nabt.derivation.read_derivation')
     if type(profile) is not str or profile not in PROFILES:
         raise NabtError("UNKNOWN_DERIVATION_PROFILE", "Choose an explicitly versioned exact profile")
     registry = installed_registry()
@@ -319,6 +322,7 @@ def read_derivation(text, *, source_id="input", scope="default", profile="surfac
 
 
 def verify_derivation(report, *, text=None, source_id=None, scope=None, profile=None):
+    foundation.require_foundation('nabt.derivation.verify_derivation')
     try:
         if type(report) is not dict:
             raise ValueError("not a report")

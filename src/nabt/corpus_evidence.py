@@ -39,6 +39,8 @@ ROOT_BW = {k: v for k, v in BW.items() if v in "ءبتثجحخدذرزسشصضط
 ROOT_BW["A"] = "ء"
 
 
+from nabt import foundation
+
 def _wire(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True,
                       separators=(",", ":"), allow_nan=False).encode("utf-8")
@@ -144,6 +146,7 @@ def _validate(raw, excluded_verses, source_id):
 
 
 def learn_qac_lexicon(raw, *, excluded_verses=(), source_id="qac"):
+    foundation.require_foundation('nabt.corpus_evidence.learn_qac_lexicon')
     _validate(raw, excluded_verses, source_id)
     model = QacLexicon(raw, tuple(sorted(excluded_verses)), source_id)
     model.summary()  # Reject malformed corpus input before returning a model.

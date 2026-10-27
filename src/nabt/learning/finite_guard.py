@@ -32,6 +32,8 @@ MAX_LEARNING_CHECKS = 2_000_000
 MAX_QUERY_CHECKS = 2_000_000
 
 
+from nabt import foundation
+
 def _natural(value: int, name: str) -> None:
     if type(value) is not int or value < 0:
         raise ValueError(f"{name} must be a nonnegative integer (not a Boolean)")
@@ -422,6 +424,7 @@ class LearningSession:
         return "no_consistent_rule_in_declared_grammar"
 
     def predict(self, case: FeatureCase) -> Prediction:
+        foundation.require_foundation('nabt.learning.finite_guard.learningsession.predict')
         self._check_query(case)
         missing = tuple(
             name
@@ -458,6 +461,7 @@ class LearningSession:
 
     def choose_query(self, cases: Iterable[FeatureCase]) -> QueryChoice:
         """Balanced disagreement within the supplied pool, never global equivalence."""
+        foundation.require_foundation('nabt.learning.finite_guard.learningsession.choose_query')
         best = QueryChoice(None, None, None, 0, 0, "no_disagreement_in_supplied_pool")
         if not self.survivors:
             return replace(best, reason=self.exhaustion_reason())
