@@ -1,14 +1,15 @@
 (() => {
  'use strict';
  const $=id=>document.getElementById(id);
- const names={lexical_surface:'مطابقة الصيغة المشهودة',lexical_candidates:'المرشحون المعجميون',scope_acquisition:'حدود النطاق والتركيب',discourse_boundary:'حد الاستئناف والتصريح بالقصد',source_inference:'الاستدلال من مصدر محفوظ',lexical_transmission:'جهة النقل المعجمي',classical_control:'معادلة التحكم الصرفي'};
- const samples={lexical_surface:'عَيْنَ',lexical_candidates:'قَرْءُ',scope_acquisition:'قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».',discourse_boundary:'لم أر أسداً قط؛ وأقصد بالأسد الحيوان المعروف.',source_inference:'إن عرف زيد الحق سار زيد. عرف زيد الحق.',lexical_transmission:'فرس'};
+ const names={six_noun_acquisition:'تركيب الأسماء الستة المحدد',lexical_surface:'مطابقة الصيغة المشهودة',lexical_candidates:'المرشحون المعجميون',scope_acquisition:'حدود النطاق والتركيب',discourse_boundary:'حد الاستئناف والتصريح بالقصد',source_inference:'الاستدلال من مصدر محفوظ',lexical_transmission:'جهة النقل المعجمي',classical_control:'معادلة التحكم الصرفي'};
+ const samples={six_noun_acquisition:'جَاءَ أَبُو زَيْدٍ',lexical_surface:'عَيْنَ',lexical_candidates:'قَرْءُ',scope_acquisition:'قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».',discourse_boundary:'لم أر أسداً قط؛ وأقصد بالأسد الحيوان المعروف.',source_inference:'إن عرف زيد الحق سار زيد. عرف زيد الحق.',lexical_transmission:'فرس'};
  const stateLabels={SCOPED_GATEWAY_INSTALLED:'بوابة مثبتة لدعوى محددة؛ الإتاحة تُفحص عند التشغيل',MIGRATED_SCOPED_NATIVE_ADAPTER:'محول أصلي بدعوى محددة',RETAIN_TYPED_PRIMITIVE:'بدائية ذات مجال عددي',RETAIN_NON_AUTHORITATIVE:'تشخيص أو اقتراح بلا سلطة قبول',CHILD_CONTRACT_REVIEW_REQUIRED:'يلزم تدقيق عقد المسار المنقول',ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED:'يلزم إغلاق التحصيل والمطابقة'};
  function operationChanged(){
   const op=$('workflow-operation').value,classical=op==='classical_control',inference=op==='source_inference';
   $('workflow-text-group').hidden=classical;$('workflow-frame-group').hidden=!classical;
   $('workflow-profile-group').hidden=!['lexical_candidates','discourse_boundary'].includes(op);
   $('workflow-scope-help').hidden=op!=='scope_acquisition';
+  $('workflow-six-noun-help').hidden=op!=='six_noun_acquisition';
   $('workflow-discourse-help').hidden=op!=='discourse_boundary';
   $('workflow-inference-help').hidden=!inference;$('workflow-query-group').hidden=!inference;
   $('workflow-context-label').textContent=inference?'نطاق الاستدلال المعلن':'المقام المعلن';
@@ -54,6 +55,14 @@
     const law=document.createElement('p');law.dir='ltr';law.textContent=claim.proof.law_id;
     const details=document.createElement('details'),summary=document.createElement('summary'),pre=document.createElement('pre');
     summary.textContent='المبرهنات والمقدمات وهوية الدعوى';pre.dir='ltr';pre.textContent=JSON.stringify(claim,null,2);details.append(summary,pre);card.append(h,scope,law,details);$('workflow-claims').append(card);
+  }
+  const six=g.operation==='six_noun_acquisition'?g.result:null;
+  $('workflow-six-noun-detail').hidden=!six;
+  $('workflow-six-noun-residuals').replaceChildren();
+  if(six){
+    $('workflow-six-noun-projection').textContent='الإسقاط المباشر للنص إلى الأساس116: '+(six.source_projection_complete?'مكتمل تمثيليًا':'غير مكتمل؛ لا يُرقّى بحفظ الجسر الإملائي')+'؛ جسر الرسم المحدد: '+(six.orthographic_bridge?'مرفق بالقراءة، لا يمنح ترخيصًا إملائيًا عامًا':'غير متاح في هذا الإيصال')+'.';
+    const pending=six.residuals.length?six.residuals:['NO_RESIDUALS_DECLARED'];
+    for(const item of pending){const row=document.createElement('li');row.dir='auto';row.textContent=item;$('workflow-six-noun-residuals').append(row);}
   }
   const transmission=g.result?.source_relationship_status??null;
   $('workflow-transmission').textContent=transmission?'تصنيف النقل في هذا الإيصال: '+String(transmission)+'؛ لا يثبت بذاته التواتر أو صحة الخبر خارجًا.':'لا يمنح هذا المسار وصف التواتر بعدد الشواهد أو بأسماء المؤلفين.';

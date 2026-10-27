@@ -35,8 +35,14 @@ class LegacyMigrationRuntimeFreezeTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(sha256((OLD / name).read_bytes()).hexdigest(), expected)
 
-    def test_current_delta_and_archive_are_exact(self):
-        current = verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
+    def test_published_delta_and_archive_are_exact(self):
+        # This release is historical. Its immutable archive remains evidence,
+        # but its manifest must not authorize a later inventory registration.
+        current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
+        self.assertEqual(sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest(),
+                         "9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b")
+        with self.assertRaises(ValueError):
+            verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
         previous = json.loads((OLD / "code_freeze_v1.json").read_bytes())
         before, after = ({row["path"]: row for row in freeze["files"]}
                          for freeze in (previous, current))
@@ -65,7 +71,7 @@ class LegacyMigrationRuntimeFreezeTests(unittest.TestCase):
 
     def test_policy_preserves_all_material_denominators_and_failures(self):
         previous = json.loads((OLD / "regression_policy_v1.json").read_bytes())
-        current = gate.load_policy()
+        current = json.loads((NEW / "regression_policy_v1.json").read_bytes())
         self.assertEqual(current["suites"], previous["suites"])
         self.assertEqual(current["previous_policy_sha256"], PINS["regression_policy_v1.json"])
         self.assertEqual(current["runtime_file_count"], 104)
@@ -79,10 +85,22 @@ class LegacyMigrationRuntimeFreezeTests(unittest.TestCase):
         changed["snapshot_sha256"] = sha256(json.dumps(
             changed["files"], sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         with tempfile.TemporaryDirectory() as directory:
+            archived_root = Path(directory) / "runtime"
+            archived_root.mkdir()
+            archive_path = NEW / "code_freeze_v1.tar.gz"
+            self.assertEqual(sha256(archive_path.read_bytes()).hexdigest(),
+                             "53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473")
+            with tarfile.open(archive_path, "r:gz") as archive:
+                for member in archive.getmembers():
+                    self.assertTrue(member.isfile())
+                    target = archived_root / member.name
+                    self.assertTrue(target.resolve().is_relative_to(archived_root))
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(archive.extractfile(member).read())
             path = Path(directory) / "omitted.json"
             path.write_text(json.dumps(changed))
             with self.assertRaisesRegex(ValueError, "exactly the authoritative"):
-                verify_code_freeze(path, ROOT)
+                verify_code_freeze(path, archived_root)
 
     def test_continuation_changes_identity_only_not_material_or_scoring(self):
         for stem in ("run_oracle", "run_regression", "review_continuation",
@@ -128,10 +146,13 @@ class LegacyMigrationRuntimeFreezeTests(unittest.TestCase):
         freezer = load_module("legacy_freezer_identity", folder / "freeze_runner_v1.py")
         runner = load_module("legacy_runner_identity", folder / "run_oracle_v1.py")
         path = folder / "runner_freeze_v1.json"
-        checked = runner.check_runner_freeze(path)
+        self.assertEqual(sha256(path.read_bytes()).hexdigest(),
+                         "7a56b93650efa724a33d972d1b761c807ec884ae5a54ecfa217be2a35f656203")
+        with self.assertRaises(ValueError):
+            runner.check_runner_freeze(path)
         record = json.loads(path.read_bytes())
         freezer.check_execution_lifecycle(record)
-        self.assertTrue(checked["files"])
+        self.assertTrue(record["files"])
         for field in ("before_first_new_runtime_oracle_prediction", "blind_evaluation_claimed",
                       "runtime_calls_performed_by_freezer"):
             self.assertIs(record[field], False)
@@ -140,7 +161,7 @@ class LegacyMigrationRuntimeFreezeTests(unittest.TestCase):
                 changed[field] = forged
                 with self.subTest(field=field, forged=forged), self.assertRaises(ValueError):
                     freezer.check_execution_lifecycle(changed)
-        paths = {row["path"] for row in checked["files"]}
+        paths = {row["path"] for row in record["files"]}
         for name in ("src/nabt/transport_contract.py", "tests/_transport_native.py",
                      "tools/linguistic_truth/discourse_boundary.py",
                      "evidence/legacy_migration_v2/independent_review/run_reference.py"):

@@ -32,10 +32,11 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.20.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/legacy_migration_v2/code_freeze_v1.json"
+DEFAULT_FREEZE = "evidence/certified_transition_v1/code_freeze_v1.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
+    '7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8': {'selection': 'certified_transition_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 104, 'future_operator_support': True, 'snapshot_sha256': 'da60d43f8f99c56cedaeca2c04133990ff22654faac5dfbeb3a64bc5a1209831', 'archive_sha256': 'e488e15b491c1d5087b797810d17befcfd79c9bfc7d6493e49d19c69704340eb'},
     '9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b': {'selection': 'legacy_migration_v2', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 104, 'future_operator_support': True, 'snapshot_sha256': 'fa6a18a4b034433ef9d2dd2faf5754b1207b125b1d459831529344d2383b3d85', 'archive_sha256': '53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473'},
     'b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271': {'selection': 'interface_migration_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 102, 'future_operator_support': True, 'snapshot_sha256': '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607', 'archive_sha256': 'd65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5'},
     'ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b': {'selection': 'source_acquisition_v1', 'version': '0.20.0a1', 'profile': 'framework_foundation_v1', 'source_file_count': 102, 'future_operator_support': True, 'snapshot_sha256': 'c913baa9667ce54ae5da2726cb622ecb55fec0557876038989c4c353af541d78', 'archive_sha256': '19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94'},

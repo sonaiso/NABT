@@ -10,8 +10,8 @@ permissions:
 
 # Keep these selectors on an explicitly registered freeze; update them together.
 env:
-  NABT_CODE_FREEZE: evidence/legacy_migration_v2/code_freeze_v1.json
-  NABT_FREEZE_VERSION: legacy_migration_v2
+  NABT_CODE_FREEZE: evidence/certified_transition_v1/code_freeze_v1.json
+  NABT_FREEZE_VERSION: certified_transition_v1
 
 concurrency:
   group: nabt-${{ github.workflow }}-${{ github.ref }}
@@ -121,7 +121,7 @@ jobs:
           PYTHONPATH: src
         run: |
           python -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-          python evidence/legacy_migration_v2/independent_oracle/run_regression_v1.py --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-completion-oracle"
+          python evidence/certified_transition_v1/independent_oracle/run_regression_v1.py --output-dir "${{ github.workspace }}/artifacts/local/ci-arabic-completion-oracle"
       - name: Install and run independently of the source checkout
         run: |
           python -m pip install .
@@ -266,6 +266,8 @@ jobs:
         run: make progressive-rule-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Require native source acquisition and qualified cue licensing
         run: make source-acquisition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Acquire bounded six-noun transitions and preserve scope authority
+        run: make certified-transition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci
       - name: Require scoped interface migration, source envelopes and lexical transmission
         run: make licensed-interface-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Check legacy command contracts and independent boundary authority cases

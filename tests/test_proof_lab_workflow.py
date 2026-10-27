@@ -20,6 +20,16 @@ class WorkflowTransportTests(unittest.TestCase):
     def test_raw_request_preserved(self):
         self.assertEqual(lab.validate_payload(request())["workflow"], WORKFLOW)
 
+    def test_six_noun_admission_preserves_raw_text_and_declared_context(self):
+        value = {"schema": WORKFLOW["schema"], "op": "six_noun_acquisition",
+                 "input": {"text": "جَاءَ أَبُو زَيْدٍ", "source_id": "independent-case", "context": "مقام جديد"}}
+        self.assertEqual(lab.validate_payload(request(value))["workflow"], value)
+        for field in ("grammar_certified", "native_checked", "proof", "reading", "profile_id", "rule_id"):
+            with self.subTest(field=field), self.assertRaises(lab.RequestError):
+                lab.validate_payload(request(value | {"input": value["input"] | {field: True}}))
+        with self.assertRaises(lab.RequestError):
+            lab.validate_payload(request(value | {"input": {"context": "مقام جديد"}}))
+
     def test_admission_rejects_authority_and_arbitrary_operations(self):
         for field in ("proof", "checker", "verified", "native_checked", "manifest"):
             with self.subTest(field=field), self.assertRaises(lab.RequestError):

@@ -166,3 +166,7 @@ lean_exe occurrenceSense where
 @[default_target]
 lean_exe discourseBoundaryCue where
   root := `DiscourseBoundaryCueMain
+
+@[default_target]
+lean_exe sixNounAcquisition where
+  root := `SixNounAcquisitionMain

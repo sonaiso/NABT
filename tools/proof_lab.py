@@ -186,7 +186,8 @@ def validate_payload(payload):
                 or workflow["schema"] != "nabt.licensed-workflow-request.v1"
                 or type(workflow["op"]) is not str
                 or workflow["op"] not in {"lexical_surface", "lexical_candidates", "classical_control",
-                                          "scope_acquisition", "lexical_transmission", "discourse_boundary", "source_inference"}
+                                          "scope_acquisition", "lexical_transmission", "discourse_boundary", "source_inference",
+                                          "six_noun_acquisition"}
                 or type(workflow["input"]) is not dict):
             raise RequestError("INVALID_WORKFLOW_REQUEST")
         from tools.licensed_workflow import _OPERATIONS

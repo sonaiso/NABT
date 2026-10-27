@@ -27,10 +27,11 @@ function lab(mode='benchmark',extra={}){
  return attach({schema:'nabt.proof-lab-result.v1',request_id:'r-independent',payload_sha256:'a'.repeat(64),
   mode,status:'BENCHMARK_COMPLETE',all_arabic_complete:false,world_truth_established:false,...extra});
 }
-function workflow(){
+function workflow(operation='scope_acquisition'){
  const request={schema:'nabt.licensed-workflow-request.v1',op:'scope_acquisition',input:{text:'قَالَ زَيْدٌ: «نَصٌّ»'}};
  const claim={kind:'EXACT_SCOPE_ENVELOPE',scope:'Only the exact declared scope envelope',
   proof:{law_id:'nabt.scope-acquisition.v1',theorems:['Nabt.ScopeAcquisition.acquired_exact']},origin_path:'claims[0]'};
+ if(operation==='six_noun_acquisition'){request.op=operation;request.input.text='جَاءَ أَبُو زَيْدٍ';claim.kind='SOURCE_BOUND_SIX_NOUN_CONSTRUCTION';claim.proof.law_id='nabt.six-noun-acquisition.v1';}
  const gateway=attach({schema:'nabt.licensed-workflow-response.v1',operation:request.op,status:'CHECKED_SCOPE_ENVELOPE',
   claims:[claim],native_checked:true,strict_language_accepted:false,whole_arabic_complete:false,
   tawatur_established:false,world_truth_established:false,request_sha256:sha(canonical(request))},
@@ -158,5 +159,12 @@ test('non-workflow modes cannot borrow a nested named claim',()=>{
 test('transport verifier does not manufacture a proof-authority field',async()=>{
  const report=workflow();await c.verifyDetached(report,LAB);
  assert.equal(Object.hasOwn(report,'proof_authority_established'),false);
+ assert.equal(report.transport_contract.grants_language_license,false);
+});
+
+test('six noun detached transport accepts only its explicitly named scoped claim',async()=>{
+ const report=workflow('six_noun_acquisition');await c.verifyDetached(report,LAB);
+ assert.equal(report.transport_contract.named_claims[0].kind,'SOURCE_BOUND_SIX_NOUN_CONSTRUCTION');
+ assert.equal(report.transport_contract.named_claims[0].law_id,'nabt.six-noun-acquisition.v1');
  assert.equal(report.transport_contract.grants_language_license,false);
 });
