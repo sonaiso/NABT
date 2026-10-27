@@ -30,3 +30,16 @@ orthography positive coverage is 10/18. All 48 downstream measurements remain
 unmeasured, with 29 positive goals counted as misses. The exposed replay after
 relocation preserves these counts. See docs/ACQUISITION_RESULT_AR.md and the
 immutable compressed results; these figures do not certify grammar coverage.
+
+PR 34 (`a3ba5b3`) supplies the existing native source/query inference bridge.
+The composed entry point is `python -m tools.acquired_inference_cli`; its
+contract is docs/ACQUIRED_INFERENCE_CONTRACT.md. It reuses the PR 34 runtime
+and exact original bytes. Complete acquisition, shape licenses, matching
+scope/time and native checked reading/closures are all required for a joined
+answer. A nested bounded inference never fills a missing acquisition license.
+
+After any formal change, regenerate current proof/source crosslinks into a new
+evidence version and move all selectors together in
+integrations/current_proof_references.mk. Preserve historical references.
+Run aligned-acquisition-integration and the existing catalogue/inference gates;
+passing the acquisition-only job does not establish project-wide integration.

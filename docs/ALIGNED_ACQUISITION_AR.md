@@ -82,3 +82,22 @@ make conformance
 
 المراجع: [المواصفة](ACQUISITION_READER_SPEC.md)،
 [مراجعة المصادر وحدود النقل](ALIGNED_ACQUISITION_SOURCES_AR.md).
+## التكامل مع الاستدلال في PR #34
+
+لإعادة استعمال قارئ المصدر والسؤال وشهادات الإغلاق الموجودة، شغّل من جذر
+المستودع بعد بناء `alignedAcquisition` و`licensedInference`:
+
+```sh
+PYTHONPATH=src:. python -m tools.acquired_inference_cli infer source.txt query.txt \
+  --source-id input --revision 1 --scope discourse --time episode1 > joined.json
+PYTHONPATH=src:. python -m tools.acquired_inference_cli verify joined.json source.txt query.txt \
+  --source-id input --revision 1 --scope discourse --time episode1
+make -f tools/aligned_acquisition.mk aligned-acquisition-integration
+```
+
+يحمل المخرج تحصيل المصدر والسؤال، وشهادات الشكل، ونتيجة الاستدلال القديم
+على البايتات الأصلية نفسها. لا يظهر جواب مركب إلا مع اكتمال جميع البوابات.
+يمكن أن يبقى استدلال #34 المحدود صحيحًا في نطاقه وتبقى السلسلة المركبة ناقصة
+التحصيل؛ لا يُستعمل ذلك لسد الفجوة برفع علم أو تبديل النص. حالة `UNKNOWN`
+بعد فحص إغلاق كامل تختلف عن تعذر إكمال سلسلة التحصيل.
+راجع [عقد الربط وحدوده](ACQUIRED_INFERENCE_CONTRACT.md).

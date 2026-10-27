@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: nabt-acquisition-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   acquisition:
     runs-on: ubuntu-24.04
@@ -25,5 +29,17 @@ jobs:
           python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Native contracts and mutation tests
         run: make -f tools/aligned_acquisition.mk aligned-acquisition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Integrate PR 34 inference and current compiled proof references
+        run: make -f tools/aligned_acquisition.mk aligned-acquisition-integration LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-acquisition-integration
       - name: Replay exposed independent matrix with current committed inputs
         run: make -f tools/aligned_acquisition.mk aligned-acquisition-evaluation EVIDENCE_DIR=artifacts/local/ci-acquisition
+      - name: Retain acquisition and PR 34 integration evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: aligned-acquisition-evidence
+          path: |
+            artifacts/local/ci-acquisition/
+            artifacts/local/ci-acquisition-integration/
+          if-no-files-found: warn
+          retention-days: 14
