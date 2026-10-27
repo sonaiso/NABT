@@ -60,12 +60,15 @@ PYTHONPATH=src python -m nabt verify-acquired receipt.json --source input.txt --
 ## التحقق وإعادة التشغيل
 
 ```sh
-make aligned-acquisition-conformance
-make aligned-acquisition-evaluation EVIDENCE_DIR=artifacts/local/acquisition-replay
+make -f tools/aligned_acquisition.mk aligned-acquisition-conformance
+make -f tools/aligned_acquisition.mk aligned-acquisition-evaluation EVIDENCE_DIR=artifacts/local/acquisition-replay
 make test
 make formal
 make conformance
 ```
+
+امتداد `tools/aligned_acquisition.mk` يضيف أيضًا الفحوص إلى هدف `check` عند
+تشغيله به، ويحفظ `Makefile` التاريخي الذي تعتمد عليه سجلات الاختبارات المجمدة.
 
 التشغيل الأول يثبّت التنفيذ قبل فتح المصفوفة؛ تحفظ نتائجه دون استبدال. جميع
 الإعادات التالية على مادة مكشوفة. يفصل المقيم سلامة المصدر والامتناع، وصحة

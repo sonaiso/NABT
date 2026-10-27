@@ -24,6 +24,6 @@ jobs:
           sudo apt-get install --no-install-recommends -y zstd
           python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Native contracts and mutation tests
-        run: make aligned-acquisition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+        run: make -f tools/aligned_acquisition.mk aligned-acquisition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Replay exposed independent matrix with current committed inputs
-        run: make aligned-acquisition-evaluation EVIDENCE_DIR=artifacts/local/ci-acquisition
+        run: make -f tools/aligned_acquisition.mk aligned-acquisition-evaluation EVIDENCE_DIR=artifacts/local/ci-acquisition
