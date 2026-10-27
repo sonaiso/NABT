@@ -133,6 +133,10 @@ class CertifiedTransitionFreezeTests(unittest.TestCase):
                      "evidence/six_noun_acquisition_v1/source_review.json",
                      "evidence/six_noun_acquisition_v1/reference_cases.json"):
             self.assertIn(name, paths)
+        for name in ("proof_catalog.json", "grammar_link_summary.json",
+                     "mantuq_proof_links.json", "linguistic_proof_links.json",
+                     "licensed_proof_links.json"):
+            self.assertIn("evidence/certified_transition_v2/catalog_references/" + name, paths)
 
 
 if __name__ == "__main__":

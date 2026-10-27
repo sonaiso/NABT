@@ -94,6 +94,15 @@ def dependency_paths(snapshot):
     selected.update("evidence/certified_transition_v1/" + name for name in (
         "code_freeze_v1.json", "runtime_migration.json", "evaluator_registration.json",
         "build_runtime_freeze.py", "register_runtime.py"))
+    # These are outputs of the successful native declaration/link checks,
+    # independently pinned here because the standard tests consume them.
+    for name in ("proof_catalog.json", "grammar_link_summary.json",
+                 "mantuq_proof_links.json", "linguistic_proof_links.json",
+                 "licensed_proof_links.json"):
+        path = ROOT / "evidence/certified_transition_v2/catalog_references" / name
+        if not path.is_file():
+            raise ValueError("Required compiled catalogue missing: " + str(path))
+        selected.add(str(path.relative_to(ROOT)))
     # Future release summaries and transport metadata are not evaluator inputs.
     # New linguistic materials are pinned before release replay, not inferred
     # from whichever JSON output happens to be present afterward.
