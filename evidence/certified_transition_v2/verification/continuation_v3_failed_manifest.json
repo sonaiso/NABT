@@ -1,0 +1,146 @@
+{
+  "schema": "nabt.certified-transition.continuation-failed-capture.v1",
+  "archive_path": "evidence/certified_transition_v2/verification/continuation_v3_failed.zip",
+  "archive_sha256": "c0317b374fc80c430f6c5883bf8960fa8f5e1e692a39a1f1e008c78fa38256cc",
+  "files": [
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/regression.json",
+      "bytes": 3012,
+      "sha256": "a15e48ba39db778d1f481dd41875ef204d172b61a992425342afeb9ddde40a79"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/review/review.json",
+      "bytes": 58500,
+      "sha256": "e91ff117ec26477d5db4e66fb99f59b36b6cb843cc9b2a91ef65bc7cc8e1bb83"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples/raw.jsonl.gz",
+      "bytes": 243556,
+      "sha256": "410ed9ada7f01774f70e8167389593b351ded298970ff7a63373c2038bc7d9fb"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples/result.code.tar.gz",
+      "bytes": 23893197,
+      "sha256": "007f6699b9eff49bb6bf472cc78690391394f547b8b538b3b0f321ef06860f68"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples/result.json",
+      "bytes": 439778,
+      "sha256": "810fbed15de0a6b5adb36b69da0d4ae1c406a7bfad56ee94638dc4a007faff1b"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples.stdout.log",
+      "bytes": 180,
+      "sha256": "2f878f4f2589006b013b2b1fb4c46635b7f9bf6b59e41b29f39129eed0ec8837"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/strict/raw.jsonl.gz",
+      "bytes": 1118127,
+      "sha256": "1ac36eedd05c77996955e8d7e666ea41b7fb28a0b9811746e7e04a859eb74202"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/strict/result.code.tar.gz",
+      "bytes": 25006459,
+      "sha256": "8e368ad84e116d78081f434874074f9fe0be121b7cf2b1df782759a30d5f96f2"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/strict/result.json",
+      "bytes": 655364,
+      "sha256": "61e219a66e92e1530949a4f807f310ab28f8ac0ae2eb291778d38a52deb8a67a"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/strict.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/local/certified_transition_v2/continuation_v3/strict.stdout.log",
+      "bytes": 2909,
+      "sha256": "e831e6a41c482e7caded39a22ba8e6a64c4f278b3da1f1a03aa3eb4b61ee3e53"
+    }
+  ],
+  "result": {
+    "schema": "nabt.certified-transition-v2.regression-execution.v3",
+    "completed_utc": "2026-10-27T11:58:36.701409+00:00",
+    "executions": [
+      {
+        "kind": "strict",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "/workspace/scratch/8ead824583ac/NABT-review/evidence/certified_transition_v2/independent_oracle/run_oracle_v3.py",
+          "--output-dir",
+          "/workspace/scratch/8ead824583ac/NABT-review/artifacts/local/certified_transition_v2/continuation_v3/strict"
+        ],
+        "exit": 1
+      },
+      {
+        "kind": "source_counterexamples",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "/workspace/scratch/8ead824583ac/NABT-review/evidence/certified_transition_v2/independent_oracle/run_source_counterexamples_v3.py",
+          "--output-dir",
+          "/workspace/scratch/8ead824583ac/NABT-review/artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples"
+        ],
+        "exit": 0
+      }
+    ],
+    "runtime_freeze_sha256": "12645c013c234d6cd1065a6efb490b923122ca8a3ed88e09b65ecff1e258e71c",
+    "material_freeze_sha256": "78589ad292f747a27b76cf08c56848377f93fe370b6fa9f0229951fa8f443a3f",
+    "dependency_freeze_sha256": "535d3b36c727b434e332f363b102ca26dd012174d016b5c43760ef5c0b6117a1",
+    "source_material_freeze_sha256": "4364eda40400336c3734b190183b9730dc437e0855df5fdd5a004586d3d1a844",
+    "fresh_runtime_prediction_performed": true,
+    "not_a_new_blind_experiment": true,
+    "historical_material_unchanged": true,
+    "historical_files_repinned": false,
+    "strict_result": "artifacts/local/certified_transition_v2/continuation_v3/strict/result.json",
+    "review": "artifacts/local/certified_transition_v2/continuation_v3/review/review.json",
+    "source_counterexample_result": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples/result.json",
+    "source_counterexample_review": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples/review.json",
+    "fixed_cases": {
+      "total": 22,
+      "passed": 14,
+      "failed": 8
+    },
+    "questions": {
+      "total": 29,
+      "observed": 29,
+      "status_matches": 19,
+      "independently_validated": 29
+    },
+    "conditional_provenance": {
+      "total": 2,
+      "outcomes": {
+        "N03": "correct_abstention",
+        "N06": "unresolved_independent_review"
+      },
+      "not_counted_as_language_coverage": true
+    },
+    "exact_historical_public_calls_and_case_records": false,
+    "source_counterexamples": null,
+    "dependencies_unchanged": true,
+    "errors": [
+      {
+        "phase": "source_counterexample_review",
+        "type": "ValueError",
+        "message": "Measured archive changed"
+      }
+    ],
+    "strict_pass": false,
+    "regression_gate_pass": false,
+    "scope": "Retain the same partial 24-case/29-question result under a versioned classical-source runtime, plus six separate source-premise counterexamples. No failure is waived and no universal Arabic completeness is claimed."
+  },
+  "observed_archive_issue": {
+    "path": "artifacts/local/certified_transition_v2/continuation_v3/source_counterexamples/result.code.tar.gz",
+    "declared_sha256": "85c332073b9a68d720f2edef901a19f1c890f61f8f4acd15446bd8b333ed2368",
+    "observed_sha256": "007f6699b9eff49bb6bf472cc78690391394f547b8b538b3b0f321ef06860f68",
+    "gzip_decode_error": "EOFError: Compressed file ended before the end-of-stream marker was reached",
+    "cause": "UNKNOWN_IO_TRUNCATION_NO_REPAIR_OR_RESEAL_PERFORMED"
+  },
+  "authority": "REJECTED_EXECUTION_EVIDENCE_NOT_SOURCE_ORACLE",
+  "added_to_dependency_inputs": false
+}
