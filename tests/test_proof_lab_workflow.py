@@ -17,6 +17,15 @@ def identity():
             "native_binaries_sha256": {"lexicalSurface": None}, "toolchain": "test-fixture"}
 
 class WorkflowTransportTests(unittest.TestCase):
+    def test_workflow_identity_binds_six_noun_native_binary(self):
+        with patch.object(lab, "_code_sha", return_value="a" * 40):
+            observed = lab._workflow_identity()
+        binaries = observed["native_binaries_sha256"]
+        self.assertIn("sixNounAcquisition", binaries)
+        binary = lab.ROOT / "formal/.lake/build/bin/sixNounAcquisition"
+        expected = hashlib.sha256(binary.read_bytes()).hexdigest() if binary.is_file() else None
+        self.assertEqual(binaries["sixNounAcquisition"], expected)
+
     def test_raw_request_preserved(self):
         self.assertEqual(lab.validate_payload(request())["workflow"], WORKFLOW)
 

@@ -35,6 +35,13 @@ on:
       - 'formal/Nabt/DiscourseBoundaryCueBridge.lean'
       - 'formal/DiscourseBoundaryCueMain.lean'
       - 'formal/DiscourseBoundaryCueChecks.lean'
+      - 'formal/Nabt/SixNounAcquisition.lean'
+      - 'formal/SixNounAcquisitionMain.lean'
+      - 'formal/SixNounAcquisitionChecks.lean'
+      - 'evidence/six_noun_acquisition_v1/**'
+      - 'tests/test_six_noun*.py'
+      - 'tests/test_transport_mode_replay.py'
+      - 'tests/test_proof_lab_workflow.py'
       - 'formal/Nabt/ScopeAcquisition.lean'
       - 'formal/ScopeAcquisitionMain.lean'
       - 'formal/Nabt/LexicalTransmission.lean'
@@ -102,7 +109,7 @@ jobs:
         run: python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
       - name: Build the installed native checker
         if: steps.prepare.outputs.valid == 'true'
-        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation epistemicMeasurement contextualReference lexicalSourceRows lexicalSurface linguisticTruth qualifiedCueLicensing lexicalTransmission scopeAcquisition discourseBoundaryCue exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes'
+        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation epistemicMeasurement contextualReference lexicalSourceRows lexicalSurface linguisticTruth qualifiedCueLicensing lexicalTransmission scopeAcquisition sixNounAcquisition discourseBoundaryCue exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes'
       - name: Worker transport and certificate boundary tests
         if: github.event_name != 'workflow_dispatch'
         run: node --test integrations/proof_lab/site/tests/*.test.mjs
@@ -110,6 +117,11 @@ jobs:
         if: steps.prepare.outputs.valid == 'true' && github.event_name != 'workflow_dispatch'
         run: |
           python -m unittest discover -s tests -p test_proof_lab.py -v
+          python -m unittest tests.test_proof_lab_workflow -v
+          NABT_TRANSPORT_REPLAY_OUTPUT="$RUNNER_TEMP/six-noun-replay" NABT_REQUIRE_NATIVE_TRANSPORT=1 python -m unittest tests.test_transport_mode_replay.ActualTransportModeReplay.test_six_noun_gateway_and_lab_replay_checked_and_deferred_constructions tests.test_transport_mode_replay.ActualTransportModeReplay.test_matrix_has_exact_gateway_operations_and_seven_proof_lab_modes -v
+          for six_noun_case in checked unknown_companionship case_mismatch; do
+            node integrations/proof_lab/site/scripts/validate-workflow-report.mjs "$RUNNER_TEMP/six-noun-replay/six_noun_$six_noun_case.json"
+          done
           python -m unittest discover -s tests -p test_lexical_testimony.py -v
           python -m unittest discover -s tests -p 'test_semantic_axes*.py' -v
           python -m unittest discover -s tests -p 'test_attested_lexical_loader.py' -v

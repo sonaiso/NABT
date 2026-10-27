@@ -23,15 +23,15 @@ PRODUCTIVE = ROOT / 'evidence/arabic_completion_v4/code_freeze_v2.json'
 CLASSICAL = ROOT / 'evidence/arabic_completion_v5/code_freeze_v1.json'
 EXTENDED = ROOT / 'evidence/arabic_completion_v6/code_freeze_v1.json'
 FIRST_FOUNDATION = ROOT / 'evidence/framework_foundation_v1/code_freeze_v1.json'
-PREVIOUS_CURRENT = ROOT / 'evidence/legacy_migration_v2/code_freeze_v1.json'
-CURRENT = ROOT / 'evidence/certified_transition_v1/code_freeze_v1.json'
+PREVIOUS_CURRENT = ROOT / 'evidence/certified_transition_v1/code_freeze_v1.json'
+CURRENT = ROOT / 'evidence/certified_transition_v2/code_freeze_v1.json'
 PRE_CORRECTION = ROOT / 'evidence/arabic_completion_v3/code_freeze_v1.json'
 COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v2.json'
 PUBLISHED = ROOT / 'evidence/rational_inquiry/code_freeze_v2.json'
 FIRST_COVERAGE = ROOT / 'evidence/arabic_coverage/code_freeze_v1.json'
 PRE_FIX = ROOT / 'evidence/rational_inquiry/code_freeze_v1.json'
 HISTORICAL = ROOT / 'evidence/constructions/code_freeze_v4.json'
-MANIFEST_SHA256 = '7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8'
+MANIFEST_SHA256 = '12645c013c234d6cd1065a6efb490b923122ca8a3ed88e09b65ecff1e258e71c'
 EXTENDED_SHA256 = '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec'
 PRE_CORRECTION_SHA256 = 'eeb9864b08e8ae25e841b18b0d25858d95268fce2435d51c340d69a41782f089'
 COVERAGE_SHA256 = '1818fc27f076535734d9d9e90a857683f27d464f0a205637e7231cd6e870c40c'
@@ -101,9 +101,9 @@ class InquiryRuntimeFreezeTests(unittest.TestCase):
         verify_code_freeze(CURRENT, ROOT)
 
     def test_all_registered_evaluators_verify_current_bytes_and_archive(self):
-        word_evaluation.verify_implementation_freeze('certified_transition_v1')
+        word_evaluation.verify_implementation_freeze('certified_transition_v2')
         morphology_evaluation.verify_runtime_freeze(
-            morphology_evaluation.snapshot(), 'certified_transition_v1')
+            morphology_evaluation.snapshot(), 'certified_transition_v2')
         inflection_evaluation.runtime_snapshot(CURRENT, ROOT)
         discourse_evaluation.runtime_snapshot(CURRENT, ROOT)
         construction_evaluation.runtime_snapshot(CURRENT, ROOT)

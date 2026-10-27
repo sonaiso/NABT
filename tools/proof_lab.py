@@ -281,7 +281,7 @@ def _workflow_wire(value):
 def _workflow_identity():
     binaries = ("lexicalSourceRows", "lexicalSurface", "linguisticTruth", "exportClassicalHamza",
                 "exportClassicalWeak", "exportClassicalGemination", "exportClassicalBoundaryAffixes", "qualifiedCueLicensing",
-                "scopeAcquisition", "lexicalTransmission", "discourseBoundaryCue", "licensedInference")
+                "scopeAcquisition", "sixNounAcquisition", "lexicalTransmission", "discourseBoundaryCue", "licensedInference")
     native = {name: _sha(path.read_bytes()) if (path := ROOT / "formal/.lake/build/bin" / name).is_file()
               else None for name in binaries}
     return {"code_sha": _code_sha(), "native_sha256": None, "native_binaries_sha256": native,

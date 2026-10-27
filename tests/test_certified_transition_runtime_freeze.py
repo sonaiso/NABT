@@ -11,7 +11,8 @@ from tools.text_evaluation.integrity import verify_code_freeze
 
 ROOT = Path(__file__).resolve().parents[1]
 PREVIOUS = ROOT / "evidence/legacy_migration_v2"
-CURRENT = ROOT / "evidence/certified_transition_v1"
+DEVELOPMENT = ROOT / "evidence/certified_transition_v1"
+CURRENT = ROOT / "evidence/certified_transition_v2"
 PREVIOUS_PINS = {
     "code_freeze_v1.json": "9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b",
     "code_freeze_v1.tar.gz": "53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473",
@@ -26,20 +27,37 @@ class CertifiedTransitionFreezeTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(sha256((PREVIOUS / name).read_bytes()).hexdigest(), digest)
 
-    def test_only_registration_changed_in_packaged_runtime(self):
+    def test_development_identity_is_preserved_and_does_not_authorize_v2(self):
+        for name, digest in {
+            "code_freeze_v1.json": "7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8",
+            "code_freeze_v1.tar.gz": "e488e15b491c1d5087b797810d17befcfd79c9bfc7d6493e49d19c69704340eb",
+            "regression_policy_v1.json": "3ab23c2b16769123ed5d33ac01b5af46fdd82a911d7f6ca22c89b2435db07f7c",
+        }.items():
+            self.assertEqual(sha256((DEVELOPMENT / name).read_bytes()).hexdigest(), digest)
+        with self.assertRaises(ValueError):
+            verify_code_freeze(DEVELOPMENT / "code_freeze_v1.json", ROOT)
+        before = json.loads((DEVELOPMENT / "code_freeze_v1.json").read_bytes())
+        after = verify_code_freeze(CURRENT / "code_freeze_v1.json", ROOT)
+        before_rows = {row["path"]: row for row in before["files"]}
+        self.assertEqual([row["path"] for row in after["files"]
+                          if row != before_rows[row["path"]]],
+                         ["src/nabt/data/transport_command_contracts.json"])
+
+    def test_registration_and_command_metadata_are_the_only_packaged_changes(self):
         current = verify_code_freeze(CURRENT / "code_freeze_v1.json", ROOT)
         previous = json.loads((PREVIOUS / "code_freeze_v1.json").read_bytes())
         old, new = ({row["path"]: row for row in item["files"]}
                     for item in (previous, current))
         self.assertEqual(set(old), set(new))
         self.assertEqual([name for name in old if old[name] != new[name]],
-                         ["src/nabt/data/framework_foundation.json"])
+                         ["src/nabt/data/framework_foundation.json",
+                          "src/nabt/data/transport_command_contracts.json"])
         self.assertEqual(current["changed_runtime_paths"],
-                         ["src/nabt/data/framework_foundation.json"])
+                         ["src/nabt/data/transport_command_contracts.json"])
         self.assertEqual(current["added_runtime_paths"], [])
         self.assertEqual(current["removed_runtime_paths"], [])
         self.assertEqual(current["previous_runtime_manifest_sha256"],
-                         PREVIOUS_PINS["code_freeze_v1.json"])
+                         sha256((DEVELOPMENT / "code_freeze_v1.json").read_bytes()).hexdigest())
         with self.assertRaises(ValueError):
             verify_code_freeze(PREVIOUS / "code_freeze_v1.json", ROOT)
         archive = CURRENT / current["archive_filename"]
@@ -77,7 +95,8 @@ class CertifiedTransitionFreezeTests(unittest.TestCase):
         before = json.loads((PREVIOUS / "regression_policy_v1.json").read_bytes())
         after = gate.load_policy()
         self.assertEqual(after["suites"], before["suites"])
-        self.assertEqual(after["previous_policy_sha256"], PREVIOUS_PINS["regression_policy_v1.json"])
+        self.assertEqual(after["previous_policy_sha256"],
+                         sha256((DEVELOPMENT / "regression_policy_v1.json").read_bytes()).hexdigest())
         self.assertEqual(after["runtime_file_count"], before["runtime_file_count"])
         self.assertEqual(after["runtime_freeze_sha256"],
                          sha256((CURRENT / "code_freeze_v1.json").read_bytes()).hexdigest())
@@ -90,8 +109,8 @@ class CertifiedTransitionFreezeTests(unittest.TestCase):
         for name in ("run_oracle_v1.py", "run_regression_v1.py", "review_continuation_v1.py",
                      "run_source_counterexamples_v1.py", "test_continuation_v1.py"):
             expected = ((PREVIOUS / "independent_oracle" / name).read_text()
-                        .replace("evidence/legacy_migration_v2/", "evidence/certified_transition_v1/")
-                        .replace("nabt.legacy-migration.", "nabt.certified-transition."))
+                        .replace("evidence/legacy_migration_v2/", "evidence/certified_transition_v2/")
+                        .replace("nabt.legacy-migration.", "nabt.certified-transition-v2."))
             if name == "test_continuation_v1.py":
                 expected = (expected.replace(
                     "evidence/interface_migration_v1/independent_oracle/runner_freeze_v5.json",
@@ -99,7 +118,7 @@ class CertifiedTransitionFreezeTests(unittest.TestCase):
                     .replace("0f7ae3bf2cab565b2976aa9b0cca39dc87a452f965dba7987ab95525ce890613",
                              PREVIOUS_PINS["independent_oracle/runner_freeze_v1.json"])
                     .replace("'/legacy_migration_v2/independent_oracle/review_'",
-                             "'/certified_transition_v1/independent_oracle/review_'"))
+                             "'/certified_transition_v2/independent_oracle/review_'"))
             self.assertEqual((CURRENT / "independent_oracle" / name).read_text(), expected)
 
     def test_current_runner_identity_checks_all_declared_dependencies(self):

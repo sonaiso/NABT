@@ -100,7 +100,7 @@ structure Reading where
   complement : Complement
   deriving DecidableEq, BEq, Repr
 
-def Reading.word (r : Reading) : String := word r.lexeme r.ending
+def Reading.word (r : Reading) : String := Nabt.SixNounAcquisition.word r.lexeme r.ending
 def Reading.render (r : Reading) : String :=
   r.governor.prefix ++ r.word ++ " " ++ r.complement.text
 def Reading.canonical (r : Reading) : String :=
@@ -238,10 +238,10 @@ theorem grammar_surface_matches_projection (r : Reading) :
 
 theorem grammar_certified (r : Reading) (h : r.Supported) : Certified (grammar r) sentenceTree := by
   apply Certified.binary
-  · exact Certified.leaf (.lexical 0) (by decide)
+  · exact Certified.leaf (.lexical 0) (by change (0 : Nat) < 3; decide)
   · apply Certified.binary
-    · exact Certified.leaf (.lexical 1) (by decide)
-    · exact Certified.leaf (.lexical 2) (by decide)
+    · exact Certified.leaf (.lexical 1) (by change (1 : Nat) < 3; decide)
+    · exact Certified.leaf (.lexical 2) (by change (2 : Nat) < 3; decide)
     · rfl
     · rfl
     · exact ⟨rfl, rfl⟩

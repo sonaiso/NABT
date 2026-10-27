@@ -25,6 +25,7 @@ CODE_SNAPSHOT_SHA256 = '5b546537c8398eacc5628d5aad1cd8f6f452578a33e834a299a1f689
 # Explicitly approved snapshots, never a caller-recomputed manifest override.
 # Original material and first-run evidence remain byte-for-byte unchanged.
 APPROVED_CODE_FREEZES = {
+    '12645c013c234d6cd1065a6efb490b923122ca8a3ed88e09b65ecff1e258e71c': 'c2deaa58eda943969e5e193094cc4c041bd6f8de7b5cf957e48dbf37094b4771',
     '7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8': 'da60d43f8f99c56cedaeca2c04133990ff22654faac5dfbeb3a64bc5a1209831',
     '9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b': 'fa6a18a4b034433ef9d2dd2faf5754b1207b125b1d459831529344d2383b3d85',
     'b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271': '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607',
@@ -697,7 +698,7 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     repository=Path(__file__).resolve().parents[1]
     parser.add_argument('--material-dir',type=Path,default=repository/'evidence/governors/independent')
-    parser.add_argument('--code-freeze',type=Path,default=repository/'evidence/certified_transition_v1/code_freeze_v1.json')
+    parser.add_argument('--code-freeze',type=Path,default=repository/'evidence/certified_transition_v2/code_freeze_v1.json')
     parser.add_argument('--output-dir',type=Path,required=True)
     parser.add_argument('--profile',choices=('governor','baseline'),default='governor')
     parser.add_argument('--require-regression-gates',action='store_true',

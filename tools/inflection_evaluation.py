@@ -28,6 +28,7 @@ VERSION = "nabt.inflection.independent-evaluation.v1"
 FREEZE_SHA256 = "25b8b89e48c2403b1fa47055045d2bdd4d738dc86493398369da5749131d23db"
 RUNTIME_FREEZE_SHA256 = "fe93f8ebebb21078113462244052da93c102f4d5a673c2636c0cab27e0ffa103"
 PINNED_RUNTIME_FREEZES = {
+    '12645c013c234d6cd1065a6efb490b923122ca8a3ed88e09b65ecff1e258e71c': {'snapshot_sha256': 'c2deaa58eda943969e5e193094cc4c041bd6f8de7b5cf957e48dbf37094b4771', 'archive_sha256': '7af0004dc4989418b441afd2c0757e3b8c0a5249eb13b31f356c456c5c317e3b', 'file_count': 104},
     '7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8': {'snapshot_sha256': 'da60d43f8f99c56cedaeca2c04133990ff22654faac5dfbeb3a64bc5a1209831', 'archive_sha256': 'e488e15b491c1d5087b797810d17befcfd79c9bfc7d6493e49d19c69704340eb', 'file_count': 104},
     '9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b': {'snapshot_sha256': 'fa6a18a4b034433ef9d2dd2faf5754b1207b125b1d459831529344d2383b3d85', 'archive_sha256': '53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473', 'file_count': 104},
     'b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271': {'snapshot_sha256': '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607', 'archive_sha256': 'd65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5', 'file_count': 102},
@@ -953,7 +954,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qac", type=Path, help="Pinned original QAC .txt or .txt.gz (required for the original 74 cases)")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/certified_transition_v1/code_freeze_v1.json")
+    parser.add_argument("--runtime-freeze", type=Path, default=ROOT / "evidence/certified_transition_v2/code_freeze_v1.json")
     parser.add_argument("--runtime-root", type=Path, default=ROOT,
                         help="Measured source checkout or extracted pinned archive; verified against the selected freeze")
     parser.add_argument("--allow-documented-boundaries", action="store_true",
