@@ -41,7 +41,8 @@ class SixNounIndependentInputAttacks(unittest.TestCase):
 
     def test_caller_cannot_supply_acquired_features_or_certificate(self):
         for key in ("reading", "grammar_certified", "proof", "checker", "receipt", "source_review",
-                    "prerequisites", "companion_meaning", "rule_id", "orthographic_bridge"):
+                    "prerequisites", "companion_meaning", "rule_id", "orthographic_bridge",
+                    "node_trace", "nodes", "transition_trace"):
             with self.subTest(key=key), patch.object(adapter, "_native") as native:
                 with self.assertRaises(TypeError):
                     adapter.acquire_six_noun(TEXT, **{key: True})
@@ -92,6 +93,24 @@ class SixNounIndependentInputAttacks(unittest.TestCase):
             self.assertFalse(result["native_checked"])
             self.assertFalse(result["linguistic_rejection"])
             self.assertEqual(result["claims"], [])
+
+    def test_declared_node_passages_exist_in_the_independent_frozen_review(self):
+        # Static documentary cross-reference integrity, not native execution.
+        passages = {row["id"] for row in adapter._review()["passages"]}
+        checked = 0
+        for case in benchmark._load_reference()["cases"]:
+            if case["expected"]["reading_assessment"] != "FULL_FORM_LICENSE_EXPECTED":
+                continue
+            inp = case["input"]
+            replay = adapter._expected(request(inp["text"], source_id=inp["source_id"], context=inp["context"]))
+            self.assertEqual(len(replay["node_trace"]), 5, case["id"])
+            for node in replay["node_trace"]:
+                with self.subTest(case=case["id"], node=node["node_id"]):
+                    self.assertEqual(node["rule_source_review_sha256"], adapter._REVIEW_SHA)
+                    self.assertTrue(node["passage_ids"])
+                    self.assertTrue(set(node["passage_ids"]).issubset(passages))
+                    checked += 1
+        self.assertGreater(checked, 0)
 
 
 class SixNounIndependentTransportAttacks(unittest.TestCase):
@@ -169,6 +188,63 @@ class SixNounIndependentTransportAttacks(unittest.TestCase):
                 patch.object(adapter.subprocess, "run", side_effect=changed_binary), \
                 self.assertRaises(ValueError):
             adapter._native(self.req)
+
+    def test_node_trace_cannot_be_relinked_or_numerically_coerced(self):
+        # These are corruption fixtures, not an alternate linguistic oracle.
+        baseline = adapter._expected(self.req)
+        expected_ids = ["prefix", "noun", "complement", "idafa", "sentence"]
+        self.assertEqual([node["node_id"] for node in baseline["node_trace"]], expected_ids)
+        mutations = []
+        for index, original in enumerate(baseline["node_trace"]):
+            for key, value in (("node_id", "caller-node"), ("rule_id", "caller-rule"),
+                               ("law_id", "another-law"), ("context", "another-context"),
+                               ("start_byte", True), ("end_byte", float(original["end_byte"])),
+                               ("raw", original["raw"] + " "), ("licensed", False),
+                               ("output_number", original["output_number"] + "0"),
+                               ("alphabet_id", "another-alphabet"),
+                               ("number_domain", "another-number-domain"),
+                               ("scope", "ALL_ARABIC_ACCEPTED"),
+                               ("rule_source_review_sha256", "0" * 64),
+                               ("passage_ids", ["caller-authority"]),
+                               ("prerequisites", []),
+                               ("alternatives", ["invented-exclusive-reading"]),
+                               ("unresolved", [])):
+                changed = deepcopy(baseline)
+                changed["node_trace"][index][key] = value
+                if adapter._wire(changed) != adapter._wire(baseline):
+                    mutations.append((original["node_id"] + "." + key, changed))
+            changed = deepcopy(baseline)
+            changed["node_trace"][index]["source"]["id"] = "other-occurrence"
+            mutations.append((original["node_id"] + ".source.id", changed))
+            changed = deepcopy(baseline)
+            changed["node_trace"][index]["output_cells"][0] = float(original["output_cells"][0])
+            mutations.append((original["node_id"] + ".output_cells.type", changed))
+            changed = deepcopy(baseline)
+            changed["node_trace"][index]["output_face"]["state"] = float(original["output_face"]["state"])
+            mutations.append((original["node_id"] + ".output_face.type", changed))
+            changed = deepcopy(baseline)
+            changed["node_trace"][index]["children"] = ["sentence"]
+            mutations.append((original["node_id"] + ".children.cycle", changed))
+            changed = deepcopy(baseline)
+            changed["node_trace"][index]["prerequisites"][0]["state"] = "unknown"
+            mutations.append((original["node_id"] + ".prerequisite.state", changed))
+            changed = deepcopy(baseline)
+            changed["node_trace"][index]["prerequisites"][0]["origin"] = "caller-attestation"
+            mutations.append((original["node_id"] + ".prerequisite.origin", changed))
+            if original["input_cells"]:
+                changed = deepcopy(baseline)
+                changed["node_trace"][index]["input_cells"][0] = []
+                mutations.append((original["node_id"] + ".input_cells.detached", changed))
+        for label, trace in (("missing", baseline["node_trace"][:-1]),
+                             ("duplicate", baseline["node_trace"] + [baseline["node_trace"][0]]),
+                             ("reordered", list(reversed(baseline["node_trace"]))),
+                             ("empty", [])):
+            changed = deepcopy(baseline)
+            changed["node_trace"] = deepcopy(trace)
+            mutations.append((label, changed))
+        for label, changed in mutations:
+            with self.subTest(mutation=label), self.assertRaises(ValueError):
+                self.invoke_wire(adapter._wire(changed) + b"\n")
 
 
 class SixNounIndependentScoreAttacks(unittest.TestCase):
@@ -268,11 +344,48 @@ class SixNounIndependentNativeControls(unittest.TestCase):
             self.assertEqual(result["status"], "DEFER")
             self.assertFalse(result["grammar_certified"])
             self.assertEqual(result["claims"], [])
+            self.assertEqual(result["node_trace"], [])
         unknown_states = {item["name"]: item["state"] for item in unknown["reading"]["prerequisites"]}
         wrong_states = {item["name"]: item["state"] for item in wrong_case["reading"]["prerequisites"]}
         self.assertEqual(unknown_states["dhu_companionship"], "unknown")
         self.assertEqual(unknown_states["required_case_matches_observed_ending"], "affirmed")
         self.assertEqual(wrong_states["required_case_matches_observed_ending"], "denied")
+
+    def test_five_node_trace_preserves_source_and_each_child_output(self):
+        result = adapter.acquire_six_noun(TEXT, source_id="five-node-control", context=CONTEXT)
+        self.assertEqual(result["status"], "CHECKED_SIX_NOUN", result)
+        trace = result["node_trace"]
+        self.assertEqual([n["node_id"] for n in trace], ["prefix", "noun", "complement", "idafa", "sentence"])
+        self.assertEqual(result["native_receipt"]["node_trace"], trace)
+        self.assertEqual(result["claims"][0]["node_trace"], trace)
+        nodes = {node["node_id"]: node for node in trace}
+        raw = TEXT.encode("utf-8")
+        noun_start = len("جَاءَ ".encode("utf-8"))
+        noun_end = noun_start + len("أَبُو".encode("utf-8"))
+        spans = {"prefix": (0, noun_start), "noun": (noun_start, noun_end),
+                 "complement": (noun_end + 1, len(raw)),
+                 "idafa": (noun_start, len(raw)), "sentence": (0, len(raw))}
+        edges = {"prefix": [], "noun": [], "complement": [],
+                 "idafa": ["noun", "complement"], "sentence": ["prefix", "idafa"]}
+        for node in trace:
+            with self.subTest(node=node["node_id"]):
+                self.assertEqual(node["source"], result["source"])
+                self.assertEqual(node["context"], CONTEXT)
+                self.assertIs(node["licensed"], True)
+                self.assertEqual(node["alphabet_id"], "nabt.a116.v1")
+                self.assertEqual(node["number_domain"], "nabt.foundation.projected-cells.bijective116.v1")
+                self.assertEqual(node["scope"], "INSTALLED_EXACT_SPELLING_COMMON_LETTER_PROFILE")
+                self.assertEqual(node["rule_source_review_sha256"], result["source_review"]["sha256"])
+                self.assertTrue(node["passage_ids"])
+                self.assertTrue(set(node["passage_ids"]).issubset(result["source_review"]["passage_ids"]))
+                self.assertEqual((node["start_byte"], node["end_byte"]), spans[node["node_id"]])
+                self.assertEqual(raw[node["start_byte"]:node["end_byte"]], node["raw"].encode("utf-8"))
+                self.assertEqual(node["children"], edges[node["node_id"]])
+                children = [nodes[child] for child in node["children"]]
+                self.assertEqual(node["input_cells"], [child["output_cells"] for child in children])
+                self.assertEqual(node["input_faces"], [child["output_face"] for child in children])
+                if children:
+                    self.assertEqual(node["output_cells"], sum([child["output_cells"] for child in children], []))
 
 
 if __name__ == "__main__":

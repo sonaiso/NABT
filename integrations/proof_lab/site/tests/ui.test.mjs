@@ -553,6 +553,7 @@ test('six noun UI never manufactures a proof from native_checked alone',async()=
  report.gateway_result.claims=[];report.gateway_result.result.claims=[];
  report.gateway_result.status='DEFER';report.gateway_result.result.status='DEFER';report.gateway_result.result.grammar_certified=false;
  report.gateway_result.result.native_receipt.status='DEFER';report.gateway_result.result.native_receipt.grammar_certified=false;
+ report.gateway_result.result.node_trace=[];report.gateway_result.result.native_receipt.node_trace=[];
  report.gateway_result.result.receipt_sha256=workflowHash(report.gateway_result.result.native_receipt);
  report.gateway_result.workflow_status='NO_SCOPED_CLAIMS';
  report.adapter_result_json=wire(report.gateway_result.result);
@@ -563,4 +564,33 @@ test('six noun UI never manufactures a proof from native_checked alone',async()=
  assert.match(ui.get('workflow-native').textContent,/أُعيد تشغيل المحول الأصلي/);
  assert.match(ui.get('workflow-claims').children[0].textContent,/لا توجد دعوى مبرهنة/);
  assert.equal(ui.get('workflow-claims').children[0].tag,'p');
+});
+
+test('six noun node table exposes source-bound transitions and preserves the submitting focus',async()=>{
+ const ui=await harness(),select=ui.get('workflow-operation'),button=ui.get('run-workflow');
+ select.value='six_noun_acquisition';select.fire('change');
+ ui.setResponse({status:'completed',report:workflowReport({op:'six_noun_acquisition'})});
+ button.focus();await ui.submit('licensed_workflow');await ui.poll();
+ assert.equal(ui.activeElement(),button);assert.equal(ui.get('workflow-six-noun-trace').hidden,false);
+ const rows=ui.get('workflow-six-noun-nodes').children;
+ assert.equal(rows.length,5);assert.equal(rows[0].children[0].tag,'th');
+ assert.equal(rows[0].children[0].attrs.scope,'row');
+ assert.equal(rows[1].children[0].children[2].textContent,'أَبُو');
+ assert.match(rows[1].children[1].children.map(x=>x.textContent).join(' '),/NOUN_FULL_FORM_V1/);
+ assert.match(rows[3].children[2].children[0].textContent,/noun، complement/);
+ assert.match(rows[4].children[2].children[0].textContent,/prefix، idafa/);
+ assert.match(rows[0].children[2].children[1].textContent,/مصدر مباشر/);
+ assert.match(ui.get('workflow-six-noun-trace-status').textContent,/ضمن الدعوى المحددة/);
+ const input=ui.get('workflow-text');input.focus();input.value='جَاءَ أَبِي زَيْدٍ';input.fire('input');
+ assert.equal(ui.activeElement(),input);assert.equal(ui.get('workflow-six-noun-trace').hidden,true);
+ assert.equal(ui.get('workflow-six-noun-nodes').children.length,0);
+});
+test('six noun unavailable execution cannot retain a previous licensed node tree',async()=>{
+ const ui=await harness();ui.get('workflow-operation').value='six_noun_acquisition';ui.get('workflow-operation').fire('change');
+ ui.setResponse({status:'completed',report:workflowReport({op:'six_noun_acquisition'})});
+ await ui.submit('licensed_workflow');await ui.poll();assert.equal(ui.get('workflow-six-noun-nodes').children.length,5);
+ ui.setResponse({status:'completed',report:workflowReport({op:'six_noun_acquisition',checked:false})});
+ await ui.submit('licensed_workflow');assert.equal(ui.get('workflow-six-noun-nodes').children.length,0);await ui.poll();
+ assert.equal(ui.get('workflow-six-noun-trace').hidden,true);
+ assert.match(ui.get('workflow-six-noun-trace-status').textContent,/لا يوجد تسلسل عقد مرخّص/);
 });

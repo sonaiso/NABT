@@ -184,15 +184,17 @@ test('six noun recomputes the native request digest even when claim and adapter 
 test('six noun source revision is the exact raw UTF-8 digest, independently of receipt hashes',async()=>{
  const report=workflowReport({op:'six_noun_acquisition'}),r=report.gateway_result.result;
  r.source.revision='0'.repeat(64);r.native_receipt.source.revision=r.source.revision;
+ for(const node of r.node_trace)node.source.revision=r.source.revision;
+ r.native_receipt.node_trace=structuredClone(r.node_trace);
  r.request_sha256=workflowHash({source:r.source,context:r.context});r.receipt_sha256=workflowHash(r.native_receipt);
- const claim=structuredClone(r.claims[0]);claim.source=structuredClone(r.source);
+ const claim=structuredClone(r.claims[0]);claim.source=structuredClone(r.source);claim.node_trace=structuredClone(r.node_trace);
  claim.request_sha256=r.request_sha256;claim.receipt_sha256=r.receipt_sha256;
  replaceSixNounClaim(report,claim);rehashWorkflow(report);
  assert.equal(validateReport(report,expected(report)),report);await assert.rejects(c.verifyEnvelope(report));
 });
 test('six noun checked deferral remains displayable with no grammar claim',async()=>{
  const report=workflowReport({op:'six_noun_acquisition'}),r=report.gateway_result.result;
- r.status='DEFER';r.grammar_certified=false;r.native_receipt.status=r.status;r.native_receipt.grammar_certified=false;
+ r.status='DEFER';r.grammar_certified=false;r.native_receipt.status=r.status;r.native_receipt.grammar_certified=false;r.node_trace=[];r.native_receipt.node_trace=[];
  r.receipt_sha256=workflowHash(r.native_receipt);r.claims=[];
  report.gateway_result.status=r.status;report.gateway_result.claims=[];report.gateway_result.workflow_status='NO_SCOPED_CLAIMS';
  rehashWorkflow(report);await c.verifyEnvelope(report);assert.equal(report.gateway_result.native_checked,true);
@@ -228,5 +230,63 @@ test('six noun positive result has one claim, never duplicate certificates',asyn
  const report=workflowReport({op:'six_noun_acquisition'}),r=report.gateway_result.result;
  r.claims.push(structuredClone(r.claims[0]));
  report.gateway_result.claims.push({...structuredClone(r.claims[1]),origin_path:'claims[1]'});
+ rehashWorkflow(report);await assert.rejects(c.verifyEnvelope(report));
+});
+
+function bindChangedTrace(report){
+ const r=report.gateway_result.result;
+ r.native_receipt.node_trace=structuredClone(r.node_trace);r.receipt_sha256=workflowHash(r.native_receipt);
+ const claim=structuredClone(r.claims[0]);claim.node_trace=structuredClone(r.node_trace);claim.receipt_sha256=r.receipt_sha256;
+ replaceSixNounClaim(report,claim);return rehashWorkflow(report);
+}
+for(const [name,change] of [
+ ['missing node',trace=>trace.pop()],
+ ['duplicate node',trace=>trace[2]=structuredClone(trace[1])],
+ ['changed order',trace=>[trace[0],trace[1]]=[trace[1],trace[0]]],
+ ['substituted rule',trace=>trace[1].rule_id='PREFIX_EXACT_V1'],
+ ['different source',trace=>trace[1].source.id='another source'],
+ ['different context',trace=>trace[1].context='another context'],
+ ['different law',trace=>trace[1].law_id='unlicensed.law'],
+ ['global scope',trace=>trace[1].scope='ALL_ARABIC'],
+ ['different orthographic profile',trace=>trace[1].orthographic_profile='unlicensed.spelling'],
+ ['different alphabet',trace=>trace[1].alphabet_id='unicode'],
+ ['different number domain',trace=>trace[1].number_domain='utf8'],
+ ['different review',trace=>trace[1].rule_source_review_sha256='0'.repeat(64)],
+ ['missing passage',trace=>trace[1].passage_ids=[]],
+ ['wrong passage',trace=>trace[1].passage_ids=['qatr_subject']],
+ ['Boolean span',trace=>trace[1].start_byte=true],
+ ['fractional span',trace=>trace[1].start_byte=11.5],
+ ['different valid slice',trace=>{trace[1].start_byte=0;trace[1].end_byte=11;trace[1].raw='جَاءَ ';}],
+ ['modified raw',trace=>trace[1].raw='أَبِي'],
+ ['child order',trace=>trace[3].children.reverse()],
+ ['unconsumed child output',trace=>trace[3].input_cells[0]=[0]],
+ ['unconsumed child face',trace=>trace[3].input_faces[0].position=0],
+ ['invalid output number',trace=>trace[3].output_number='0'],
+ ['Boolean cell',trace=>trace[1].output_cells[0]=true],
+ ['modified output face',trace=>trace[1].output_face.state=0],
+ ['unknown treated as affirmed',trace=>trace[1].prerequisites[0].state='unknown'],
+ ['lost prerequisites',trace=>trace[4].prerequisites=[]],
+ ['invented alternatives',trace=>trace[1].alternatives=['all readings exhausted']],
+ ['invented residuals',trace=>trace[1].unresolved=['SENSE_PROVED']],
+ ['license contradiction',trace=>trace[1].licensed=false],
+ ['extra authority flag',trace=>trace[1].world_truth_established=true],
+])test('node trace rejects '+name+' even when every trace copy and hash agrees',async()=>{
+ const report=workflowReport({op:'six_noun_acquisition'});change(report.gateway_result.result.node_trace);
+ bindChangedTrace(report);assert.throws(()=>validateReport(report,expected(report)));
+ await assert.rejects(c.verifyEnvelope(report));
+});
+for(const location of ['native_receipt','claim'])test('node trace must match its '+location+' copy',async()=>{
+ const report=workflowReport({op:'six_noun_acquisition'}),r=report.gateway_result.result;
+ if(location==='native_receipt'){r.native_receipt.node_trace[1].raw='أَبِي';r.receipt_sha256=workflowHash(r.native_receipt);
+  const claim=structuredClone(r.claims[0]);claim.receipt_sha256=r.receipt_sha256;replaceSixNounClaim(report,claim);
+ }else{const claim=structuredClone(r.claims[0]);claim.node_trace[1].raw='أَبِي';replaceSixNounClaim(report,claim);}
+ rehashWorkflow(report);assert.throws(()=>validateReport(report,expected(report)));
+ await assert.rejects(c.verifyEnvelope(report));
+});
+test('a deferred receipt cannot retain a positive node license trace',async()=>{
+ const report=workflowReport({op:'six_noun_acquisition'}),r=report.gateway_result.result;
+ r.status='DEFER';r.grammar_certified=false;r.native_receipt.status='DEFER';r.native_receipt.grammar_certified=false;
+ r.receipt_sha256=workflowHash(r.native_receipt);r.claims=[];
+ report.gateway_result.status='DEFER';report.gateway_result.claims=[];report.gateway_result.workflow_status='NO_SCOPED_CLAIMS';
  rehashWorkflow(report);await assert.rejects(c.verifyEnvelope(report));
 });

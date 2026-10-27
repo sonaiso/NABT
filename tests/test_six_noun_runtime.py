@@ -8,9 +8,11 @@ from hashlib import sha256
 import json
 import subprocess
 import unittest
+from unittest.mock import patch
 
 from tools.linguistic_truth import six_noun
 from tests._transport_native import require_native
+from nabt import codec
 
 
 class SixNounSourceReviewTests(unittest.TestCase):
@@ -29,6 +31,27 @@ class SixNounSourceReviewTests(unittest.TestCase):
                 self.assertEqual(result["status"], "INVALID_INPUT")
                 self.assertEqual(result["claims"], [])
                 self.assertFalse(result["native_checked"])
+
+    def test_documentary_link_failure_cannot_issue_a_claim(self):
+        # A synthetic transport fixture isolates the post-replay documentary
+        # membership check. This does not count as execution of native Lean.
+        text = "جَاءَ أَبُو زَيْدٍ"
+        request = {"source": {"id": "test:links", "revision": sha256(text.encode()).hexdigest(),
+                              "text": text}, "context": "documentary guard fixture"}
+        for passages in ([], "qatr_subject", ["missing_passage"], [True],
+                         ["qatr_subject", "missing_passage"]):
+            with self.subTest(passages=passages):
+                fixture = six_noun._expected(request)
+                fixture["node_trace"][0]["passage_ids"] = passages
+                with patch.object(six_noun, "_native", return_value=(fixture, "0" * 64)):
+                    result = six_noun.acquire_six_noun(text, source_id="test:links",
+                                                     context=request["context"])
+                self.assertEqual(result["status"], "VERIFICATION_UNAVAILABLE")
+                self.assertEqual(result["reason"], "SIX_NOUN_DOCUMENTARY_LINK_NOT_IN_REVIEW")
+                self.assertEqual(result["claims"], [])
+                self.assertEqual(result["node_trace"], [])
+                self.assertFalse(result["native_checked"])
+                self.assertFalse(result["grammar_certified"])
 
 
 class SixNounNativeTests(unittest.TestCase):
@@ -80,6 +103,7 @@ class SixNounNativeTests(unittest.TestCase):
                 self.assertFalse(result["grammar_certified"])
                 self.assertFalse(result["linguistic_rejection"])
                 self.assertEqual(result["claims"], [])
+                self.assertEqual(result["node_trace"], [])
                 self.assertNotEqual(result["reading"]["grammatical_case"], result["reading"]["observed_case"])
 
     def test_unimplemented_variants_are_not_accepted_or_declared_bad_arabic(self):
@@ -125,6 +149,31 @@ class SixNounNativeTests(unittest.TestCase):
         self.assertTrue(bridge["raw_reconstruction_checked"])
         self.assertTrue(bridge["canonical_projection_complete"])
         self.assertFalse(result["strict_language_accepted"])
+
+    def test_each_native_node_binds_number_source_and_documentary_rule(self):
+        result = six_noun.acquire_six_noun("مَرَرْتُ بِحَمِي عَمْرٍو",
+                                         source_id="test:nodes", context="لا إثبات لواقعة")
+        self.assertEqual(result["status"], "CHECKED_SIX_NOUN", result)
+        self.assertEqual(result["node_trace"], result["native_receipt"]["node_trace"])
+        self.assertEqual(result["node_trace"], result["claims"][0]["node_trace"])
+        self.assertEqual([n["node_id"] for n in result["node_trace"]],
+                         ["prefix", "noun", "complement", "idafa", "sentence"])
+        known_passages = {p["id"] for p in six_noun._review()["passages"]}
+        for node in result["node_trace"]:
+            with self.subTest(node=node["node_id"]):
+                self.assertEqual(node["source"], result["source"])
+                self.assertEqual(node["context"], result["context"])
+                self.assertEqual(node["scope"], "INSTALLED_EXACT_SPELLING_COMMON_LETTER_PROFILE")
+                self.assertEqual(node["rule_source_review_sha256"], six_noun._REVIEW_SHA)
+                self.assertTrue(node["passage_ids"])
+                self.assertTrue(set(node["passage_ids"]).issubset(known_passages))
+                self.assertEqual(list(codec.decode_number(int(node["output_number"]))), node["output_cells"])
+                self.assertEqual(result["source"]["text"].encode()[node["start_byte"]:node["end_byte"]],
+                                 node["raw"].encode())
+        self.assertEqual(result["node_trace"][-1]["output_cells"], result["orthographic_bridge"]["cells"])
+        self.assertEqual(result["node_trace"][-1]["output_number"], result["orthographic_bridge"]["number"])
+        self.assertIn("Nabt.SixNounAcquisition.certificate_trace_nodes_licensed",
+                      result["claims"][0]["proof"]["theorems"])
 
     def test_native_request_cannot_receive_a_feature_or_certificate(self):
         source = {"id": "s", "revision": "r", "text": "جَاءَ أَبُو زَيْدٍ"}

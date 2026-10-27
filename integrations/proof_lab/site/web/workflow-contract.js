@@ -49,18 +49,53 @@
   if(!Array.isArray(cells)||cells.some(x=>!Number.isInteger(x)||x<0||x>=116)||typeof number!=='string'||!/^(0|[1-9][0-9]*)$/.test(number))deny();
   if(cells.reduce((n,a)=>116n*n+BigInt(a)+1n,0n).toString()!==number)deny();
  }
+ function validateSixNounTrace(r){
+  portable(r.node_trace);
+  if(!Array.isArray(r.node_trace)||r.node_trace.length!==(r.grammar_certified?5:0))deny();
+  if(!r.grammar_certified)return;
+  const reading=r.reading,total=new TextEncoder().encode(r.source.text).length,trace=r.node_trace;
+  const ids=['prefix','noun','complement','idafa','sentence'],rules=['PREFIX_EXACT_V1','NOUN_FULL_FORM_V1','COMPLEMENT_EXACT_V1','IDAFA_EXACT_V1','SIX_NOUN_COMMON_LETTER_V1'];
+  const children=[[],[],[],['noun','complement'],['prefix','idafa']];
+  const bounds=[[0,reading.start_byte],[reading.start_byte,reading.end_byte],[reading.end_byte+1,total],[reading.start_byte,total],[0,total]];
+  const raw=[reading.prefix,reading.word,reading.complement_text,reading.word+' '+reading.complement_text,r.source.text];
+  const governor={arrival:'qatr_subject',seeing:'qatr_object',passing:'qatr_genitive'}[reading.governor];
+  const variant={ab:['alfiyya_variants'],akh:['alfiyya_variants'],ham:['alfiyya_variants'],fu:['alfiyya_dhu_fum'],dhu:['alfiyya_dhu_fum'],han:['alfiyya_han','sibawayhi_han_report']}[reading.lexeme];
+  if(!governor||!variant)deny();
+  const nounPassages=['qatr_six_inventory_case','alfiyya_idafa_non_speaker',...variant];
+  const passages=[[governor],nounPassages,['qatr_genitive'],['qatr_genitive','alfiyya_idafa_non_speaker'],[governor,...nounPassages]];
+  const premise=(name,origin)=>({name,state:'affirmed',origin});
+  const common=[premise('exact_source_interval','native_source_slice'),premise('declared_finite_profile','authored_profile_not_general_classification')];
+  const interfaces=premise('child_interfaces_match','native_grammar');
+  const leaf=[...common,premise('declared_lexical_slot_allowed','native_grammar')];
+  const prerequisites=[leaf,leaf,leaf,[...common,interfaces,premise('ordered_noun_complement_children','native_grammar')],[...common,interfaces,...reading.prerequisites]];
+  const face=(category,state,position)=>({category,state,position,residual:[]});
+  const cases={raf:1,nasb:0,jarr:2};
+  if(!Object.hasOwn(cases,reading.observed_case)||!Object.hasOwn(cases,reading.grammatical_case))deny();
+  const faces=[face('verbPhrase',0,0),face('noun',cases[reading.observed_case],1),face('noun',2,2),face('nounPhrase',cases[reading.observed_case],1),face('verbalClause',cases[reading.grammatical_case],0)];
+  for(let i=0;i<trace.length;i++){
+   const node=trace[i];
+   if(!exactKeys(node,['node_id','law_id','scope','source','context','orthographic_profile','alphabet_id','number_domain','rule_id','children','rule_source_review_sha256','passage_ids','start_byte','end_byte','raw','input_cells','output_cells','output_number','input_faces','output_face','prerequisites','alternatives','unresolved','licensed'])||node.node_id!==ids[i]||node.law_id!==sixNounLaw||node.scope!=='INSTALLED_EXACT_SPELLING_COMMON_LETTER_PROFILE'||!same(node.source,r.source)||node.context!==r.context||node.orthographic_profile!==r.orthographic_bridge.profile||node.alphabet_id!=='nabt.a116.v1'||node.number_domain!=='nabt.foundation.projected-cells.bijective116.v1'||node.rule_id!==rules[i]||!same(node.children,children[i])||node.licensed!==true)deny();
+   if(node.rule_source_review_sha256!==r.source_review.sha256||!same(node.passage_ids,passages[i])||!Array.isArray(r.source_review.passage_ids)||node.passage_ids.some(id=>!r.source_review.passage_ids.includes(id)))deny();
+   if(!Number.isSafeInteger(node.start_byte)||!Number.isSafeInteger(node.end_byte)||!same([node.start_byte,node.end_byte],bounds[i])||node.raw!==raw[i]||!same(Array.from(new TextEncoder().encode(r.source.text).slice(node.start_byte,node.end_byte)),Array.from(new TextEncoder().encode(node.raw))))deny();
+   cellNumber(node.output_cells,node.output_number);
+   const predecessors=children[i].map(id=>trace[ids.indexOf(id)]);
+   if(!same(node.input_cells,predecessors.map(child=>child.output_cells))||!same(node.input_faces,predecessors.map(child=>child.output_face))||!same(node.output_face,faces[i])||!same(node.prerequisites,prerequisites[i])||!same(node.alternatives,reading.alternatives)||!same(node.unresolved,r.native_receipt.unresolved))deny();
+   if(predecessors.length&&!same(node.output_cells,predecessors.flatMap(child=>child.output_cells)))deny();
+  }
+  if(!same(trace[4].output_cells,r.orthographic_bridge.cells)||trace[4].output_number!==r.orthographic_bridge.number)deny();
+ }
  function validateSixNoun(r,request,claims){
-  if(r.law_id!==sixNounLaw||typeof r.grammar_certified!=='boolean'||typeof r.source_projection_complete!=='boolean'||typeof r.foundation_complete!=='boolean'||r.foundation_complete!==r.source_projection_complete||!Array.isArray(r.claims)||!Array.isArray(r.residuals)||r.residuals.some(x=>typeof x!=='string'))deny();
+  if(r.law_id!==sixNounLaw||typeof r.grammar_certified!=='boolean'||typeof r.source_projection_complete!=='boolean'||typeof r.foundation_complete!=='boolean'||r.foundation_complete!==r.source_projection_complete||!Array.isArray(r.claims)||!Array.isArray(r.node_trace)||!Array.isArray(r.residuals)||r.residuals.some(x=>typeof x!=='string'))deny();
   for(const key of ['intended_sense_established','speaker_reference_established','world_truth_established','external_truth_established','tawatur_established','whole_arabic_complete','linguistic_rejection'])if(r[key]!==false)deny();
   if(Object.hasOwn(r,'source')&&(!exactKeys(r.source,['id','revision','text'])||r.source.text!==request.input.text||r.source.id!==(request.input.source_id??'user_text')||!hash(r.source.revision)||r.context!==(request.input.context??'unspecified')))deny();
   if(r.grammar_certified!==(r.status==='CHECKED_SIX_NOUN')||claims.length!==(r.grammar_certified?1:0))deny();
   if(!r.native_checked){
-   if(Object.hasOwn(r,'native_receipt')||claims.length||r.grammar_certified||r.foundation_complete||r.reading!==null||r.orthographic_bridge!==null)deny();
+   if(Object.hasOwn(r,'native_receipt')||claims.length||r.grammar_certified||r.foundation_complete||r.reading!==null||r.orthographic_bridge!==null||r.node_trace.length)deny();
    return;
   }
   const n=r.native_receipt;
-  if(!exactKeys(n,['schema','law_id','source','context','source_projection','status','reading','grammar_certified','foundation_complete','orthographic_bridge','unresolved','source_restored','intended_sense_established','external_truth_established','strict_language_accepted','whole_arabic_complete'])||n.schema!==sixNounLaw||n.law_id!==sixNounLaw||!object(r.source)||!hash(r.request_sha256)||!hash(r.receipt_sha256)||!hash(r.executable_sha256)||r.source_review?.sha256!==sixNounReview)deny();
-  for(const field of ['source','context','status','reading','grammar_certified','foundation_complete','orthographic_bridge','intended_sense_established','external_truth_established','strict_language_accepted','whole_arabic_complete'])if(!same(n[field],r[field]))deny();
+  if(!exactKeys(n,['schema','law_id','source','context','source_projection','status','reading','grammar_certified','node_trace','foundation_complete','orthographic_bridge','unresolved','source_restored','intended_sense_established','external_truth_established','strict_language_accepted','whole_arabic_complete'])||n.schema!==sixNounLaw||n.law_id!==sixNounLaw||!object(r.source)||!hash(r.request_sha256)||!hash(r.receipt_sha256)||!hash(r.executable_sha256)||r.source_review?.sha256!==sixNounReview)deny();
+  for(const field of ['source','context','status','reading','grammar_certified','node_trace','foundation_complete','orthographic_bridge','intended_sense_established','external_truth_established','strict_language_accepted','whole_arabic_complete'])if(!same(n[field],r[field]))deny();
   if(n.source_restored!==true||!Array.isArray(n.unresolved)||n.unresolved.some(x=>typeof x!=='string')||!same(r.residuals,[...sixNounResiduals,...n.unresolved]))deny();
   const projection=n.source_projection;
   if(!exactKeys(projection,['status','alphabet_id','number_domain','cells','number'])||!['COMPLETE','INCOMPLETE','INVALID'].includes(projection.status)||projection.alphabet_id!=='nabt.a116.v1'||projection.number_domain!=='nabt.foundation.projected-cells.bijective116.v1'||r.source_projection_complete!==(projection.status==='COMPLETE'))deny();
@@ -79,9 +114,10 @@
   }
   if(r.grammar_certified&&(r.status!=='CHECKED_SIX_NOUN'||!object(r.reading)||r.orthographic_bridge?.canonical_projection_complete!==true))deny();
   if(claims.length&&(!r.grammar_certified||r.status!=='CHECKED_SIX_NOUN'))deny();
+  validateSixNounTrace(r);
   for(const claim of claims){
    if(claim.id!=='SOURCE_BOUND_SIX_NOUN_CONSTRUCTION'||claim.authority!=='NATIVE_CHECKED'||claim.source_review_sha256!==r.source_review.sha256||!same(claim.unresolved_premises,r.residuals))deny();
-   for(const field of ['source','context','reading','request_sha256','receipt_sha256'])if(!same(claim[field],r[field]))deny();
+   for(const field of ['source','context','reading','node_trace','request_sha256','receipt_sha256'])if(!same(claim[field],r[field]))deny();
   }
  }
  function validateEnvelope(report){

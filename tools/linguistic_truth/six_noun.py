@@ -31,7 +31,10 @@ _THEOREMS = tuple("Nabt.SixNounAcquisition." + name for name in (
     "dhu_has_no_supported_reading", "grammar_certified",
     "grammar_certificate_requires_support", "certificate_preserves_source",
     "certificate_all_nodes_licensed", "certificate_case_sign",
-    "certificate_realization_matches_projection", "certificate_numeric_realization"))
+    "certificate_realization_matches_projection", "certificate_numeric_realization",
+    "trace_node_raw_exact", "trace_node_realization", "trace_node_number_restores",
+    "trace_children_match_derivation",
+    "certificate_trace_nodes_licensed", "certificate_trace_source_exact"))
 
 # A transport replay of the installed finite Lean profile. It cannot authorize
 # a claim without an actual exact native receipt; it is not an Arabic parser.
@@ -108,6 +111,71 @@ def _projection(text):
             **{key: value[key] for key in ("alphabet_id", "number_domain", "cells", "number")}}
 
 
+def _expected_node_trace(request, receipt, canonical_parts):
+    """Replay the native five-node derivation, never accept caller-supplied nodes."""
+    if not receipt["grammar_certified"]:
+        return []
+    reading, source = receipt["reading"], request["source"]
+    raw = source["text"].encode("utf-8")
+    start, end = reading["start_byte"], reading["end_byte"]
+    prefix, word, complement = canonical_parts
+    case_code = {"waw": 1, "alif": 0, "ya": 2}[reading["ending"]]
+    expected_case_code = {"raf": 1, "nasb": 0, "jarr": 2}[reading["grammatical_case"]]
+    governor_passage = {"arrival": "qatr_subject", "seeing": "qatr_object",
+                        "passing": "qatr_genitive"}[reading["governor"]]
+    noun_passages = ["qatr_six_inventory_case", "alfiyya_idafa_non_speaker"] + (
+        ["alfiyya_variants"] if reading["lexeme"] in {"ab", "akh", "ham"} else
+        ["alfiyya_dhu_fum"] if reading["lexeme"] in {"fu", "dhu"} else
+        ["alfiyya_han", "sibawayhi_han_report"])
+    specs = (
+        ("prefix", "PREFIX_EXACT_V1", [], 0, start, prefix,
+         "verbPhrase", 0, 0, [governor_passage]),
+        ("noun", "NOUN_FULL_FORM_V1", [], start, end, word,
+         "noun", case_code, 1, noun_passages),
+        ("complement", "COMPLEMENT_EXACT_V1", [], end + 1, len(raw), complement,
+         "noun", 2, 2, ["qatr_genitive"]),
+        ("idafa", "IDAFA_EXACT_V1", ["noun", "complement"], start, len(raw), word + " " + complement,
+         "nounPhrase", case_code, 1, ["qatr_genitive", "alfiyya_idafa_non_speaker"]),
+        ("sentence", "SIX_NOUN_COMMON_LETTER_V1", ["prefix", "idafa"], 0, len(raw),
+         prefix + word + " " + complement, "verbalClause", expected_case_code, 0,
+         [governor_passage] + noun_passages),
+    )
+    nodes = {}
+    for node_id, rule_id, children, first, last, canonical, category, state, position, passages in specs:
+        projection = _projection(canonical)
+        prerequisites = [
+            {"name": "exact_source_interval", "state": "affirmed", "origin": "native_source_slice"},
+            {"name": "declared_finite_profile", "state": "affirmed",
+             "origin": "authored_profile_not_general_classification"},
+        ]
+        if not children:
+            prerequisites.append({"name": "declared_lexical_slot_allowed", "state": "affirmed",
+                                  "origin": "native_grammar"})
+        else:
+            prerequisites.append({"name": "child_interfaces_match", "state": "affirmed",
+                                  "origin": "native_grammar"})
+            if node_id == "idafa":
+                prerequisites.append({"name": "ordered_noun_complement_children", "state": "affirmed",
+                                      "origin": "native_grammar"})
+            else:
+                prerequisites.extend(deepcopy(reading["prerequisites"]))
+        nodes[node_id] = {"node_id": node_id, "law_id": _LAW,
+            "scope": "INSTALLED_EXACT_SPELLING_COMMON_LETTER_PROFILE",
+            "source": deepcopy(source), "context": request["context"],
+            "orthographic_profile": "nabt.six-noun-exact-spelling.v1",
+            "alphabet_id": projection["alphabet_id"], "number_domain": projection["number_domain"],
+            "rule_id": rule_id, "children": children, "rule_source_review_sha256": _REVIEW_SHA,
+            "passage_ids": list(passages), "start_byte": first, "end_byte": last,
+            "raw": raw[first:last].decode("utf-8"),
+            "input_cells": [deepcopy(nodes[child]["output_cells"]) for child in children],
+            "output_cells": projection["cells"], "output_number": projection["number"],
+            "input_faces": [deepcopy(nodes[child]["output_face"]) for child in children],
+            "output_face": {"category": category, "state": state, "position": position, "residual": []},
+            "prerequisites": prerequisites, "alternatives": list(reading["alternatives"]),
+            "unresolved": list(receipt["unresolved"]), "licensed": True}
+    return list(nodes.values())
+
+
 def _expected(request):
     """Replay every ABI field, preserving the difference between raw and canonical.
 
@@ -119,7 +187,7 @@ def _expected(request):
     original = _projection(source["text"])
     result = {"schema": _LAW, "law_id": _LAW, "source": deepcopy(source), "context": context,
         "source_projection": original, "status": "INVALID_SOURCE" if original["status"] == "INVALID"
-            else "OUTSIDE_EXECUTED_FRAGMENT", "reading": None, "grammar_certified": False,
+            else "OUTSIDE_EXECUTED_FRAGMENT", "reading": None, "grammar_certified": False, "node_trace": [],
         "foundation_complete": original["status"] == "COMPLETE", "orthographic_bridge": None,
         "unresolved": ["INVALID_SOURCE_MARKS_OR_EMPTY" if original["status"] == "INVALID"
                        else "OUTSIDE_EXACT_TEMPLATE_OR_VARIANT_NOT_ACQUIRED"],
@@ -175,6 +243,8 @@ def _expected(request):
                             + (["DHU_COMPANIONSHIP_NOT_ACQUIRED"] if lexeme == "dhu" else [])
                             + (["COMMON_LETTER_CASE_MISMATCH"] if not same_case else [])
                             + (["DECLARED_ORTHOGRAPHIC_PROFILE_INCOMPLETE"] if not complete else []))
+                    result["node_trace"] = _expected_node_trace(request, result,
+                        (canonical_prefix, canonical_word, canonical_complement))
                     return result
     return result
 
@@ -199,6 +269,22 @@ def _native(request):
     return value, identity
 
 
+def _documentary_links_match(receipt, review):
+    """Keep matching authored IDs from silently pointing outside the pinned review."""
+    known = {passage["id"] for passage in review["passages"]}
+    trace = receipt.get("node_trace")
+    if type(trace) is not list:
+        return False
+    for node in trace:
+        if type(node) is not dict:
+            return False
+        passages = node.get("passage_ids")
+        if (type(passages) is not list or not passages
+                or any(type(passage) is not str or passage not in known for passage in passages)):
+            return False
+    return True
+
+
 def acquire_six_noun(text, *, source_id="user_text", context="unspecified"):
     """Acquire a bounded construction; no caller-supplied features or proof flags.
 
@@ -208,7 +294,7 @@ semantic prerequisites are deferred, never declared invalid Arabic.
 """
     foundation.require_foundation("tools.linguistic_truth.six_noun.acquire_six_noun")
     report = {"schema": _SCHEMA, "law_id": _LAW, "status": "DEFER",
-        "native_checked": False, "grammar_certified": False, "claims": [],
+        "native_checked": False, "grammar_certified": False, "claims": [], "node_trace": [],
         "reading": None, "orthographic_bridge": None,
         "source_projection_complete": False, "foundation_complete": False,
         "strict_language_accepted": False, "intended_sense_established": False,
@@ -251,8 +337,12 @@ semantic prerequisites are deferred, never declared invalid Arabic.
         return {**report, "status": "RESOURCE_EXHAUSTED", "reason": str(error)}
     except (OSError, ValueError, KeyError, TypeError, UnicodeError) as error:
         return {**report, "status": "VERIFICATION_UNAVAILABLE", "reason": str(error)}
+    if not _documentary_links_match(receipt, review):
+        return {**report, "status": "VERIFICATION_UNAVAILABLE",
+                "reason": "SIX_NOUN_DOCUMENTARY_LINK_NOT_IN_REVIEW"}
     report.update(status=receipt["status"], native_checked=True,
         grammar_certified=receipt["grammar_certified"], reading=deepcopy(receipt["reading"]),
+        node_trace=deepcopy(receipt["node_trace"]),
         orthographic_bridge=deepcopy(receipt["orthographic_bridge"]),
         source_projection_complete=receipt["source_projection"]["status"] == "COMPLETE",
         foundation_complete=receipt["foundation_complete"], native_receipt=receipt,
@@ -271,6 +361,7 @@ semantic prerequisites are deferred, never declared invalid Arabic.
         "kind": "SOURCE_BOUND_SIX_NOUN_CONSTRUCTION", "authority": "NATIVE_CHECKED",
         "scope": "The installed exact-spelling construction grammar and common letter-substitution convention; lexical intent, external reference, source authenticity and all Arabic excluded",
         "source": source, "context": context, "reading": deepcopy(receipt["reading"]),
+        "node_trace": deepcopy(receipt["node_trace"]),
         "source_review_sha256": _REVIEW_SHA, "request_sha256": report["request_sha256"],
         "receipt_sha256": report["receipt_sha256"], "unresolved_premises": list(report["residuals"]),
         "proof": {"law_id": _LAW, "theorems": list(_THEOREMS)}}]

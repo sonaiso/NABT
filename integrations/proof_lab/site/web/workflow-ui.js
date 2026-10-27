@@ -31,9 +31,36 @@
   const value={schema:'nabt.licensed-workflow-request.v1',op,input};
   globalThis.NabtWorkflowContract.validateRequest(value);return value;
  }
- function reset(message='لم يُنفّذ طلب في المسار الموحّد بعد.'){$('workflow-output').hidden=true;$('workflow-message').textContent=message;$('workflow-claims').replaceChildren();$('download-workflow').disabled=true;}
+ function reset(message='لم يُنفّذ طلب في المسار الموحّد بعد.'){$('workflow-output').hidden=true;$('workflow-message').textContent=message;$('workflow-claims').replaceChildren();$('workflow-six-noun-nodes').replaceChildren();$('workflow-six-noun-trace').hidden=true;$('download-workflow').disabled=true;}
  for(const id of ['workflow-text','workflow-query','workflow-context','workflow-profile','workflow-frame','workflow-rule']){
   for(const event of ['input','change'])$(id).addEventListener(event,()=>reset('تغيّرت مدخلات الطلب؛ النتيجة السابقة لا تثبت المدخل الحالي. أعد الفحص.'));
+ }
+ function renderSixNounTrace(trace){
+  const body=$('workflow-six-noun-nodes');body.replaceChildren();
+  $('workflow-six-noun-trace').hidden=!trace.length;
+  $('workflow-six-noun-trace-status').textContent=trace.length?'أُعيدت خمس عقد متصلة ضمن الدعوى المحددة؛ ترخيصها محصور بمقدماتها ووجه الإعراب المثبت.':'لا يوجد تسلسل عقد مرخّص في هذا الطلب. التأجيل أو غياب التنفيذ لا ينتج شهادة موجبة.';
+  const labels={prefix:'صدر القالب',noun:'الاسم في القالب',complement:'المضاف إليه',idafa:'مركب الإضافة',sentence:'التركيب الكامل'};
+  const states={affirmed:'مثبت في النطاق',denied:'منفي في النطاق',unknown:'غير محصّل',not_applicable:'غير منطبق'};
+  const para=(parent,text,tag='p',dir='auto')=>{const element=document.createElement(tag);element.dir=dir;element.textContent=text;parent.append(element);return element;};
+  for(const node of trace){
+   const row=document.createElement('tr'),name=document.createElement('th');name.setAttribute('scope','row');
+   para(name,labels[node.node_id]);para(name,node.node_id,'code','ltr');para(name,node.raw);
+   const source=document.createElement('td');para(source,node.source.id);para(source,node.source.revision,'code','ltr');
+   para(source,'حدود UTF-8: ['+node.start_byte+', '+node.end_byte+')');para(source,node.rule_id,'code','ltr');para(source,node.law_id,'code','ltr');
+   para(source,'مواضع القاعدة: '+node.passage_ids.join('، '));
+   const transition=document.createElement('td');para(transition,node.children.length?'يستهلك: '+node.children.join('، '):'ورقة من المصدر المحدد');
+   para(transition,'المدخل: '+(node.input_cells.length?node.input_cells.map(cells=>cells.length).join(' + ')+' خلية':'مصدر مباشر')+'؛ المخرج: '+node.output_cells.length+' خلية');
+   para(transition,node.output_number,'code','ltr');para(transition,node.alphabet_id+' / '+node.number_domain,'code','ltr');
+   const details=document.createElement('details'),summary=document.createElement('summary'),pre=document.createElement('pre');
+   summary.textContent='المدخل والمخرج والوجوه والشهادة الكاملة';pre.dir='ltr';pre.textContent=JSON.stringify(node,null,2);details.append(summary,pre);transition.append(details);
+   const limits=document.createElement('td'),premises=document.createElement('ul');
+   for(const premise of node.prerequisites)para(premises,premise.name+' — '+states[premise.state],'li');
+   limits.append(premises);para(limits,'البدائل الباقية: '+(node.alternatives.join('، ')||'لا بديل مسجّل في هذا الإيصال المحدد'));
+   const unresolved=document.createElement('details'),caption=document.createElement('summary'),list=document.createElement('ul');
+   caption.textContent='حدود الدعوى ومقدماتها غير المثبتة';
+   for(const item of node.unresolved)para(list,item,'li');unresolved.append(caption,list);limits.append(unresolved);
+   row.append(name,source,transition,limits);body.append(row);
+  }
  }
  async function render(report){
   if(report.error){reset('تعذّر التنفيذ: '+String(report.status));return;}
@@ -59,6 +86,7 @@
   const six=g.operation==='six_noun_acquisition'?g.result:null;
   $('workflow-six-noun-detail').hidden=!six;
   $('workflow-six-noun-residuals').replaceChildren();
+  renderSixNounTrace(six?.node_trace??[]);
   if(six){
     $('workflow-six-noun-projection').textContent='الإسقاط المباشر للنص إلى الأساس116: '+(six.source_projection_complete?'مكتمل تمثيليًا':'غير مكتمل؛ لا يُرقّى بحفظ الجسر الإملائي')+'؛ جسر الرسم المحدد: '+(six.orthographic_bridge?'مرفق بالقراءة، لا يمنح ترخيصًا إملائيًا عامًا':'غير متاح في هذا الإيصال')+'.';
     const pending=six.residuals.length?six.residuals:['NO_RESIDUALS_DECLARED'];

@@ -43,7 +43,67 @@ def bridgeJson (r : Reading) : Json := Json.mkObj [
   ("canonical", toJson r.canonical), ("cells", toJson (r.projection.cells.map Fin.val)),
   ("number", toJson (toString r.projection.number)),
   ("raw_reconstruction_checked", toJson true),
-  ("canonical_projection_complete", toJson (r.projection.status == .complete))]
+  ("canonical_projection_complete", toJson (r.projection.status == Nabt.Foundation.Status.complete))]
+
+def faceJson (face : Nabt.RecursiveLicensedAlgebra.Face) : Json := Json.mkObj [
+  ("category", toJson (match face.category with
+    | .root3 => "root3" | .root4 => "root4" | .noun => "noun" | .verb => "verb"
+    | .particle => "particle" | .nounPhrase => "nounPhrase" | .verbPhrase => "verbPhrase"
+    | .semiClause => "semiClause" | .nominalClause => "nominalClause"
+    | .verbalClause => "verbalClause" | .clause => "clause" | .pending => "pending")),
+  ("state", toJson face.state), ("position", toJson face.position), ("residual", toJson face.residual)]
+
+def nodePrerequisites (r : Reading) (node : TraceNode) : List Json :=
+  let exact := prerequisite "exact_source_interval" "affirmed" "native_source_slice"
+  let profile := prerequisite "declared_finite_profile" "affirmed" "authored_profile_not_general_classification"
+  let interfaces := prerequisite "child_interfaces_match" "affirmed" "native_grammar"
+  match node with
+  | .prefixNode | .noun | .complement => [exact, profile,
+      prerequisite "declared_lexical_slot_allowed" "affirmed" "native_grammar"]
+  | .idafa => [exact, profile, interfaces,
+      prerequisite "ordered_noun_complement_children" "affirmed" "native_grammar"]
+  | .sentence => [exact, profile, interfaces] ++ prerequisites r
+
+/-- Authored passage linkage only. The runtime verifies bytes of this frozen
+review; Lean does not infer historical authenticity or interpret the books. -/
+def nodePassages (r : Reading) (node : TraceNode) : List String :=
+  let governor := match r.governor with
+    | .arrival => "qatr_subject" | .seeing => "qatr_object" | .passing => "qatr_genitive"
+  let noun := ["qatr_six_inventory_case", "alfiyya_idafa_non_speaker"] ++
+    (match r.lexeme with
+    | .ab | .akh | .ham => ["alfiyya_variants"]
+    | .fu | .dhu => ["alfiyya_dhu_fum"]
+    | .han => ["alfiyya_han", "sibawayhi_han_report"])
+  match node with
+  | .prefixNode => [governor]
+  | .noun => noun
+  | .complement => ["qatr_genitive"]
+  | .idafa => ["qatr_genitive", "alfiyya_idafa_non_speaker"]
+  | .sentence => [governor] ++ noun
+
+def nodeJson (source : Nabt.Foundation.Source) (context : String)
+    (cert : Certificate source context) (node : TraceNode) : Json :=
+  let r := cert.reading
+  Json.mkObj [
+    ("node_id", toJson node.id), ("law_id", toJson lawId),
+    ("source", sourceJson source), ("context", toJson context),
+    ("scope", toJson "INSTALLED_EXACT_SPELLING_COMMON_LETTER_PROFILE"),
+    ("orthographic_profile", toJson orthographicProfile),
+    ("alphabet_id", toJson Nabt.Foundation.alphabetId),
+    ("number_domain", toJson Nabt.Foundation.numberDomain),
+    ("rule_id", toJson node.ruleId), ("children", toJson (node.children.map TraceNode.id)),
+    ("rule_source_review_sha256", toJson "315e6c067d9bacded9661bef043594be90437b73f1f695842d1d087d0dac0b8e"),
+    ("passage_ids", toJson (nodePassages r node)),
+    ("start_byte", toJson (node.startByte r)), ("end_byte", toJson (node.endByte r)),
+    ("raw", toJson (node.raw r)),
+    ("input_cells", toJson (node.children.map fun child => (child.atoms r).map Fin.val)),
+    ("output_cells", toJson ((node.atoms r).map Fin.val)),
+    ("output_number", toJson (toString (node.number r))),
+    ("input_faces", toJson (node.children.map fun child => faceJson (child.tree.face (grammar r)))),
+    ("output_face", faceJson (node.tree.face (grammar r))),
+    ("prerequisites", toJson (nodePrerequisites r node)),
+    ("alternatives", toJson (alternatives r)), ("unresolved", toJson (unresolved r)),
+    ("licensed", toJson true)]
 
 def dispatch (value : Json) : ProbeM Json := do
   let obj ← liftParse value.getObj?
@@ -65,12 +125,12 @@ def dispatch (value : Json) : ProbeM Json := do
   let original := Nabt.Foundation.project source
   let reading := acquire source
   let certificate := certify source context
-  let status := if original.status = .invalid then "INVALID_SOURCE"
+  let status := if original.status = Nabt.Foundation.Status.invalid then "INVALID_SOURCE"
     else if certificate.isSome then "CHECKED_SIX_NOUN"
     else if reading.isSome then "DEFER" else "OUTSIDE_EXECUTED_FRAGMENT"
   let residuals := match reading with
     | some r => unresolved r
-    | none => if original.status = .invalid then ["INVALID_SOURCE_MARKS_OR_EMPTY"]
+    | none => if original.status = Nabt.Foundation.Status.invalid then ["INVALID_SOURCE_MARKS_OR_EMPTY"]
       else ["OUTSIDE_EXACT_TEMPLATE_OR_VARIANT_NOT_ACQUIRED"]
   return Json.mkObj [
     ("schema", toJson lawId), ("law_id", toJson lawId),
@@ -78,7 +138,10 @@ def dispatch (value : Json) : ProbeM Json := do
     ("source_projection", projectionJson source), ("status", toJson status),
     ("reading", match reading with | none => Json.null | some r => readingJson r),
     ("grammar_certified", toJson certificate.isSome),
-    ("foundation_complete", toJson (original.status == .complete)),
+    ("node_trace", match certificate with
+      | none => toJson ([] : List Json)
+      | some cert => toJson (traceNodes.map (nodeJson source context cert))),
+    ("foundation_complete", toJson (original.status == Nabt.Foundation.Status.complete)),
     ("orthographic_bridge", match reading with | none => Json.null | some r => bridgeJson r),
     ("unresolved", toJson residuals), ("source_restored", toJson true),
     ("intended_sense_established", toJson false),

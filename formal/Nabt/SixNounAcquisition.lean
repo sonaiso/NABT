@@ -308,6 +308,120 @@ theorem certificate_numeric_realization (source : Foundation.Source) (context : 
       sentenceTree.surface (grammar cert.reading) := by
   rw [canonical_number_restores_cells, certificate_realization_matches_projection source context cert]
 
+/-! The executable trace is derived from this fixed grammar, not accepted from
+the caller. It is exposed only with a positive Certificate. The prefix node
+is a profile interface (including the preposition in the passing template),
+not a claim that every such string is a universal verb-phrase constituent. -/
+inductive TraceNode where
+  | prefixNode | noun | complement | idafa | sentence
+  deriving DecidableEq, BEq, Repr
+
+def traceNodes : List TraceNode := [.prefixNode, .noun, .complement, .idafa, .sentence]
+
+def TraceNode.id : TraceNode → String
+  | .prefixNode => "prefix" | .noun => "noun" | .complement => "complement"
+  | .idafa => "idafa" | .sentence => "sentence"
+
+def TraceNode.ruleId : TraceNode → String
+  | .prefixNode => "PREFIX_EXACT_V1" | .noun => "NOUN_FULL_FORM_V1"
+  | .complement => "COMPLEMENT_EXACT_V1" | .idafa => "IDAFA_EXACT_V1"
+  | .sentence => "SIX_NOUN_COMMON_LETTER_V1"
+
+def TraceNode.children : TraceNode → List TraceNode
+  | .idafa => [.noun, .complement] | .sentence => [.prefixNode, .idafa] | _ => []
+
+def TraceNode.tree : TraceNode → Tree
+  | .prefixNode => .leaf (.lexical 0) | .noun => .leaf (.lexical 1)
+  | .complement => .leaf (.lexical 2) | .idafa => nounTree | .sentence => sentenceTree
+
+/-- The displayed ordered links are the actual immediate children of the
+certified derivation, not an independently assembled explanation graph. -/
+theorem trace_children_match_derivation (node : TraceNode) :
+    node.children.map TraceNode.tree =
+      (match node.tree with
+      | .leaf _ => [] | .unary _ child => [child] | .binary _ left right => [left, right]) := by
+  cases node <;> rfl
+
+def TraceNode.startByte (r : Reading) : TraceNode → Nat
+  | .prefixNode | .sentence => 0 | .noun | .idafa => r.startByte
+  | .complement => r.endByte + 1
+
+def TraceNode.endByte (r : Reading) : TraceNode → Nat
+  | .prefixNode => r.startByte | .noun => r.endByte | _ => r.render.utf8ByteSize
+
+def TraceNode.raw (r : Reading) : TraceNode → String
+  | .prefixNode => r.governor.prefix | .noun => r.word | .complement => r.complement.text
+  | .idafa => r.word ++ " " ++ r.complement.text | .sentence => r.render
+
+def TraceNode.canonical (r : Reading) : TraceNode → String
+  | .prefixNode => r.governor.canonicalPrefix | .noun => canonicalWord r.lexeme r.ending
+  | .complement => r.complement.canonical
+  | .idafa => canonicalWord r.lexeme r.ending ++ " " ++ r.complement.canonical
+  | .sentence => r.canonical
+
+def TraceNode.atoms (r : Reading) (node : TraceNode) : List Atom :=
+  (Foundation.project ⟨orthographicProfile, lawId, node.canonical r⟩).cells
+
+def TraceNode.number (r : Reading) (node : TraceNode) : Nat := Sequence.encode (node.atoms r)
+
+def TraceNode.RawExact (r : Reading) (node : TraceNode) : Prop :=
+  (r.render.toUTF8.data.toList.drop (node.startByte r)).take
+      (node.endByte r - node.startByte r) = (node.raw r).toUTF8.data.toList ∧
+  node.startByte r < node.endByte r ∧ node.endByte r ≤ r.render.utf8ByteSize
+
+instance (r : Reading) (node : TraceNode) : Decidable (node.RawExact r) := by
+  unfold TraceNode.RawExact
+  infer_instance
+
+set_option maxRecDepth 10000 in
+set_option maxHeartbeats 12000000 in
+/-- Exact raw spans for every one of the five nodes in the installed profile. -/
+theorem trace_node_raw_exact (r : Reading) (node : TraceNode) : node.RawExact r := by
+  rcases r with ⟨g, l, e, c⟩
+  cases g <;> cases l <;> cases e <;> cases c <;> cases node <;> decide +kernel
+
+set_option maxRecDepth 10000 in
+set_option maxHeartbeats 4000000 in
+theorem trace_node_realization (r : Reading) (node : TraceNode) :
+    node.tree.surface (grammar r) = (node.atoms r).map Fin.val := by
+  cases node with
+  | prefixNode => rfl
+  | noun => rfl
+  | complement => rfl
+  | idafa =>
+    rcases r with ⟨g, l, e, c⟩
+    cases g <;> cases l <;> cases e <;> cases c <;> decide +kernel
+  | sentence => exact grammar_surface_matches_projection r
+
+theorem trace_node_number_restores (r : Reading) (node : TraceNode) :
+    Sequence.decode (node.number r) = node.atoms r := Sequence.decode_encode _
+
+theorem certificate_trace_nodes_licensed (source : Foundation.Source) (context : String)
+    (cert : Certificate source context) (node : TraceNode) :
+    Certified (grammar cert.reading) node.tree := by
+  cases node with
+  | prefixNode => exact Certified.leaf (.lexical 0) (by change (0 : Nat) < 3; decide)
+  | noun => exact Certified.leaf (.lexical 1) (by change (1 : Nat) < 3; decide)
+  | complement => exact Certified.leaf (.lexical 2) (by change (2 : Nat) < 3; decide)
+  | idafa =>
+    apply Certified.binary
+    · exact Certified.leaf (.lexical 1) (by change (1 : Nat) < 3; decide)
+    · exact Certified.leaf (.lexical 2) (by change (2 : Nat) < 3; decide)
+    · rfl
+    · rfl
+    · exact ⟨rfl, rfl⟩
+  | sentence => exact cert.licensed
+
+theorem certificate_trace_source_exact (source : Foundation.Source) (context : String)
+    (cert : Certificate source context) (node : TraceNode) :
+    (source.text.toUTF8.data.toList.drop (node.startByte cert.reading)).take
+      (node.endByte cert.reading - node.startByte cert.reading) =
+        (node.raw cert.reading).toUTF8.data.toList ∧
+    node.startByte cert.reading < node.endByte cert.reading ∧
+    node.endByte cert.reading ≤ source.text.utf8ByteSize := by
+  rw [← certificate_preserves_source source context cert]
+  exact trace_node_raw_exact cert.reading node
+
 def alternatives (r : Reading) : List String :=
   match r.lexeme with
   | .ab | .akh | .ham => ["QASR_AND_NAQS_NOT_ENUMERATED_BY_THIS_PROFILE"]
