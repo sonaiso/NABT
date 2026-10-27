@@ -1,0 +1,82 @@
+--- run_01/code_snapshot/formal/ProbeJson.lean
++++ formal/ProbeJson.lean
+@@ -82,10 +82,48 @@
+   | _ :: rest, true => unicodeEscapesValid rest true
+   | character :: rest, false => unicodeEscapesValid rest (character == '"')
+ 
++/-- Reject repeated decoded object keys before Json.parse can replace an
++earlier value. Equal keys written with different JSON escapes are duplicates.
++Only the current object's keys are compared; sibling objects remain independent. -/
++def uniqueObjectKeys (line : String) (duplicateMessage : String := "duplicate object key") : ProbeM Unit := do
++  let mut quoted := false
++  let mut escaped := false
++  let mut token : List Char := []
++  let mut lastString : Option String := none
++  let mut objects : List (List String) := []
++  for c in line.toList do
++    if quoted then
++      token := c :: token
++      if escaped then escaped := false
++      else if c == '\\' then escaped := true
++      else if c == '"' then
++        quoted := false
++        lastString := some (String.ofList token.reverse)
++    else if c == '"' then
++      quoted := true
++      token := ['"']
++      lastString := none
++    else if c == '{' then
++      objects := [] :: objects
++      lastString := none
++    else if c == '}' then
++      objects := objects.tail
++      lastString := none
++    else if c == ':' then
++      let some raw := lastString | return ← invalid "object key missing"
++      let key ← str (← liftParse (Json.parse raw))
++      let keys :: rest := objects | return ← invalid "object key outside object"
++      if keys.contains key then return ← invalid duplicateMessage
++      objects := (key :: keys) :: rest
++      lastString := none
++    else if !c.isWhitespace then lastString := none
++
+ /-- A small lexical boundary check before the general JSON parser prevents
+ unbounded numeric exponents and deeply nested malformed input. Strings and
+ escapes are preserved; interpretation still belongs to Lean's JSON parser. -/
+-def preflight (line : String) : ProbeM Unit := do
++-- The message parameter preserves adapters' existing error envelopes. It is
++-- fixed by each adapter's code; input cannot disable duplicate rejection.
++def preflight (line : String) (duplicateMessage : String := "duplicate object key") : ProbeM Unit := do
+   let characters := line.toList
+   if !unicodeEscapesValid characters false then
+     return ← invalid "invalid Unicode escape or unpaired UTF-16 surrogate"
+@@ -116,6 +154,7 @@
+           if depth > maxDepth then return ← limited "JSON nesting exceeds 64 levels"
+         else if character == ']' || character == '}' then
+           depth := depth - 1
++  uniqueObjectKeys line duplicateMessage
+ 
+ def processLine (dispatch : Json → ProbeM Json) (errorResponse : Failure → Json) (bytes : ByteArray) (oversized : Bool) : Json :=
+   if oversized then errorResponse ⟨"RESOURCE_LIMIT", "input line exceeds 1 MiB"⟩
+--- run_01/code_snapshot/tools/qatr_training/experiment.py
++++ tools/qatr_training/experiment.py
+@@ -240,10 +240,8 @@
+ 
+ def replay(source,executable,model_dir):
+     model_dir=Path(model_dir)
+-    manifest=json.loads((model_dir/'code_manifest.json').read_text())
+-    for rel,digest in manifest.items():
+-        if sha((ROOT/rel).read_bytes())!=digest or sha((model_dir/'code_snapshot'/rel).read_bytes())!=digest:
+-            raise ValueError('experiment implementation changed: '+rel)
++    from tools.check_qatr_artifacts import _verify_implementation
++    implementation=_verify_implementation(ROOT,model_dir)
+     teacher=export_teacher(executable)
+     if teacher!=json.loads((model_dir/'lean_teacher.json').read_text()):raise ValueError('Lean teacher mismatch')
+     examples,intake=prepare(source,teacher)
+@@ -269,4 +267,5 @@
+     if native!=result['native_verification']:raise ValueError('native result mismatch')
+     if book_evaluation(model,vocab,teacher)!=json.loads((model_dir/'book_results.json').read_text()):
+         raise ValueError('book probe replay mismatch')
+-    return dict(ok=True,words=len(actual),native=native,weights_sha256=result['weights_sha256'])
++    return dict(ok=True,words=len(actual),native=native,weights_sha256=result['weights_sha256'],
++                implementation=implementation)

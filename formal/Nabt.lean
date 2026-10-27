@@ -62,6 +62,7 @@ import Nabt.RuleRouting
 import Nabt.QualifiedInference
 
 import Nabt.LinguisticTruth
+import Nabt.CertifiedLexical
 import Nabt.LicensedInference
 import Nabt.LexicalCompletion
 import Nabt.LexicalCompletionCatalog

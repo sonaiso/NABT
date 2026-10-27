@@ -36,7 +36,7 @@ def main() -> int:
     args = parser.parse_args()
     data = args.data_root.resolve()
     output = args.output_dir.resolve()
-    freeze = (args.code_freeze or ROOT / "evidence/attested_mark_recovery_v1/code_freeze_v1.json").resolve()
+    freeze = (args.code_freeze or ROOT / "evidence/certified_natural_use_v1/code_freeze_v1.json").resolve()
     try:
         inputs = verify_published_inputs(data)
         runtime = verify_code_freeze(freeze)

@@ -20,7 +20,7 @@ from nabt.errors import NabtError
 from .calculus import canonical_json, enumerate_candidates, evaluate_request
 
 ROOT = Path(__file__).resolve().parents[2]
-LAW_ID = "nabt.linguistic-truth-acquisition.v4"
+LAW_ID = "nabt.linguistic-truth-acquisition.v5"
 _MARKS = re.compile(r"[\u064b-\u065f\u0670\u0640]")
 _WORDS = re.compile(r"[^\s.!?؛;،؟«»()\[\]\"“”]+")
 _SEPARATORS = re.compile(r"[.!?؛;؟\r\n]+")
@@ -138,6 +138,12 @@ def _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review=None):
             grammar_licenses = [] if mark_review is None else [candidate for candidate in
                 _reviewed_forms(mark_review, token["normal"], "grammar")
                 if _covers_observed_marks(token["text"], candidate["form"])]
+            # New cue spellings have their own pinned lexical/derivational
+            # evidence. A normal-form match alone never licenses a visible
+            # vowel, and these receipts do not establish psychological intent.
+            grammar_licenses.extend(candidate for candidate in parsed.get("syntax_licenses", [])
+                if candidate["start"] == token["start"] and candidate["end"] == token["end"]
+                and _covers_observed_marks(token["text"], candidate["form"]))
             if grammar_licenses:
                 covered.append((token["start"], token["end"]))
                 reading_licenses.extend({**candidate,
@@ -210,7 +216,7 @@ def _form_index(inventory):
     return forms, senses
 
 
-def _occurrence_forms(token, forms):
+def _occurrence_forms(token, forms, *, retrieval_forms=()):
     """Retrieve possible segmentation; this never supplies an intended sense.
 
     A rejected or unsupported clause must not hide an observable known form
@@ -225,10 +231,19 @@ def _occurrence_forms(token, forms):
         for expression in forms.get(normal[len(prefix):], set()):
             matches.setdefault(expression, []).append({"normalized_prefix": prefix,
                 "normalized_form": normal[len(prefix):], "authority": "LEXICAL_RETRIEVAL_PROPOSAL"})
+        # Inflected retrieval forms belong only to this proposal path. Adding
+        # accusative أسداً to designation.forms would also license the false
+        # genitive cue بأسداً through the independent parser's bare form table.
+        for row in retrieval_forms:
+            if normal[len(prefix):] == row["normal"]:
+                matches.setdefault(row["expression"], []).append({"normalized_prefix": prefix,
+                    "normalized_form": row["normal"], "reviewed_form": row["form"],
+                    "passage_ids": row["passage_ids"],
+                    "authority": "LEXICAL_RETRIEVAL_PROPOSAL"})
     return matches
 
 
-def _read_tail(tokens, start, sense_rows, negative):
+def _read_tail(tokens, start, sense_rows, negative, *, cue_verbs=("أعني", "أريد")):
     """Enumerate whole-tail readings; never accept a recognized prefix alone.
 
     Independent expressions joined by و are retained. A standalone لا changes
@@ -268,7 +283,7 @@ def _read_tail(tokens, start, sense_rows, negative):
                 walk(after, positive, found + [evidence])
                 continue
             rest = [t["normal"] for t in tokens[after:]]
-            if rest[:3] in (["ولا", "أعني", "به"], ["ولا", "أريد", "به"]):
+            if len(rest) >= 3 and rest[0] == "ولا" and rest[1] in cue_verbs and rest[2] == "به":
                 walk(after + 3, False, found + [evidence])
             if rest[0] in {"لا", "وليس", "ولا"}:
                 walk(after + 1, False, found + [evidence])
@@ -298,12 +313,18 @@ def _read_tail(tokens, start, sense_rows, negative):
     return list(unique.values())
 
 
-def _parse_clause(tokens, forms, senses):
+def _parse_clause(tokens, forms, senses, *, extension=None):
+    # Only the installed source loader supplies this extension to the public
+    # reader. The private parser's fixture argument carries no authority. A
+    # source witness for a verb does not license unreviewed conjunctions,
+    # quotation scope, other persons, or a free synonym expansion.
+    extension_rows = [] if extension is None else extension["cue_verbs"]
+    cue_verbs = {"أعني", "أريد", *(row["normal"] for row in extension_rows)}
     index = 0
     negative = bool(tokens and tokens[0]["normal"] == "لا")
     if negative:
         index += 1
-    if index >= len(tokens) or tokens[index]["normal"] not in {"أعني", "أريد"}:
+    if index >= len(tokens) or tokens[index]["normal"] not in cue_verbs:
         return None
     index += 1
     if index >= len(tokens) or not tokens[index]["normal"].startswith("ب"):
@@ -321,16 +342,23 @@ def _parse_clause(tokens, forms, senses):
     correction = negative and sum(t["normal"] == "بل" for t in tokens[index + 1:]) == 1
     if correction:
         pivot = next(i for i in range(index + 1, len(tokens)) if tokens[i]["normal"] == "بل")
-        left = _read_tail(tokens[:pivot], index + 1, senses[expression], True)
-        right = _read_tail(tokens[pivot + 1:], 0, senses[expression], False)
+        left = _read_tail(tokens[:pivot], index + 1, senses[expression], True, cue_verbs=cue_verbs)
+        right = _read_tail(tokens[pivot + 1:], 0, senses[expression], False, cue_verbs=cue_verbs)
         readings = [a + b for a in left for b in right
                     if len(a) == len(b) == 1 and not a[0]["positive"] and b[0]["positive"]]
     else:
-        readings = _read_tail(tokens, index + 1, senses[expression], negative)
+        readings = _read_tail(tokens, index + 1, senses[expression], negative, cue_verbs=cue_verbs)
     if not readings:
         return None
+    syntax_licenses = [{"form": form, "role": "grammar", "law_id": extension["law_id"],
+                        "review_sha256": extension["review_sha256"],
+                        "passage_ids": row["passage_ids"], "start": token["start"], "end": token["end"],
+                        "authority": "SOURCE_REPLAYED_BOUNDED_CUE_DERIVATION",
+                        "native_acquisition_proof": False}
+                       for token in tokens for row in extension_rows
+                       if token["normal"] == row["normal"] for form in row["forms"]]
     return {"token_index": index, "expression": expression, "readings": readings,
-            "negative_correction": correction}
+            "negative_correction": correction, "syntax_licenses": syntax_licenses}
 
 
 def _citation(inventory, passage_ids):
@@ -465,6 +493,9 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
             return {**output, "status": "INVALID_INPUT", "reason": "UNKNOWN_PROFILE"}
         forms, senses = _form_index(inventory)
         designations, relations = _native_ledger(inventory)
+        extension = inventory.get("acquisition_extension")
+        if extension is not None:
+            output["acquisition_extension_sha256"] = extension["review_sha256"]
         mark_review = None
         if any(_is_observed_mark(char) for char in text):
             from .marked_forms import _load_review, REVIEW_SHA256
@@ -493,12 +524,18 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
             # turn a mentioned clause into an assertion of intended use.
             barred = quotation_barrier or any(c in text[start:end] for c in '،,\':') or any(
                 ord(c) < 32 and c not in "\t" for c in text[start:end])
-            parsed = None if barred else _parse_clause(tokens, forms, senses)
+            parsed = None if barred else _parse_clause(tokens, forms, senses, extension=extension)
             if parsed is not None:
                 parsed, orthography_issues = _orthography_gate(parsed, tokens, raw, inventory, senses, mark_review)
             if parsed is not None and parsed["orthography_licenses"]:
                 output.setdefault("orthography_evidence", []).append({"clause_span": clause_span,
                     "licenses": parsed["orthography_licenses"],
+                    "authority": "REPLAYED_REVIEW_AND_PYTHON_ACQUISITION",
+                    "native_acquisition_proof": False})
+            if parsed is not None and parsed["syntax_licenses"]:
+                output.setdefault("syntax_evidence", []).append({"law_id": LAW_ID,
+                    "rule": "SOURCE_REPLAYED_EXPLICIT_INTENTION_VERB", "clause_span": clause_span,
+                    "licenses": parsed["syntax_licenses"],
                     "authority": "REPLAYED_REVIEW_AND_PYTHON_ACQUISITION",
                     "native_acquisition_proof": False})
             if parsed is not None and parsed["negative_correction"]:
@@ -520,7 +557,8 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
                     "span": _span(raw, issue["start"], issue["end"])} for issue in orthography_issues]}
                     if orthography_issues else {})})
         for token_index, token in enumerate(tokens):
-            possible_forms = _occurrence_forms(token, forms)
+            possible_forms = _occurrence_forms(token, forms,
+                retrieval_forms=() if extension is None else extension["retrieval_forms"])
             keys = possible_forms.keys()
             if not keys:
                 continue

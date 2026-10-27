@@ -33,7 +33,14 @@ def read_json(path):
 
 
 def lean_code_without_comments_or_strings(source):
-    """Keep token positions while stripping nested Lean comments and strings."""
+    """Keep positions while stripping nested comments, strings and Char literals.
+
+    Char tokens are bounded, exact single-scalar forms, following Lean 4.34.1
+    Parser.Basic.charLitFnAux / quotedCharCoreFn. Never search forward for an
+    apostrophe: a primed identifier or malformed literal must not hide code.
+    This lexical guard is additional to, not a replacement for, Lean parsing.
+    """
+    character_literal = re.compile(r"'(?:[^\\']|\\(?:[\\'\"rnt]|x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}))'")
     result = []
     i, depth = 0, 0
     in_string = False
@@ -70,6 +77,11 @@ def lean_code_without_comments_or_strings(source):
             end = len(source) if end < 0 else end
             result.extend(" " * (end - i))
             i = end
+        elif (char == "'" and
+              (i == 0 or not (source[i - 1].isalnum() or source[i - 1] in "_'!?")) and
+              (literal := character_literal.match(source, i)) is not None):
+            result.extend("\n" if c == "\n" else " " for c in literal.group())
+            i = literal.end()
         elif char == '"':
             in_string = True
             result.append(" ")

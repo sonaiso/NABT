@@ -137,7 +137,7 @@ def failed (status code message : String) : Json := response [
 def evaluate (s : Source) (q : List UInt8) (bytes : ByteArray) : Json :=
   match (do
     let some text := String.fromUTF8? bytes | invalid "certificate must be UTF-8"
-    preflight text
+    preflight text "duplicate JSON object key"
     uniqueObjectKeys text
     parsePackage s (← liftParse (Json.parse text)) : ProbeM Package) with
   | .error e => failed (if e.code == "RESOURCE_LIMIT" then "RESOURCE_EXHAUSTED" else "INVALID_INPUT") e.code e.message

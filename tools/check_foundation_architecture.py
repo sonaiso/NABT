@@ -19,7 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = Path("src/nabt/data/framework_foundation.json")
 GRANT_FIELDS = frozenset({"native_checked", "certificate_checked", "verified",
     "grants_language_license", "reading_licensed", "readings_licensed",
-    "language_certificate_granted", "world_truth_established"})
+    "language_certificate_granted", "world_truth_established",
+    "strict_language_accepted", "certified_from_a116", "candidate_set_checked",
+    "conditional_use_checked"})
 
 
 class ArchitectureError(ValueError):

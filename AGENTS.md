@@ -55,6 +55,16 @@ experiment. Prior research is cited by immutable source references in
 - Regenerate the transition table from Lean. Do not hand-edit its entries.
 - Python proposes/computes and checks certificates against the installed law;
   a caller-provided manifest, hash, or status never grants authority.
+- Use the strict `linguistic_truth certify` surface when requesting proof
+  authority. Keep diagnostic acquisition separate from accepted claims. No
+  caller flag, contributor identity, model confidence, source-author name, or
+  passing benchmark may replace the installed native checker or complete
+  A116 source receipt. A missing checker must fail closed.
+- A proof field must name the exact checked claim and preserve its premises.
+  Conditional ledger soundness and candidate enumeration do not certify
+  Python acquisition, intended sense, an external event, or all Arabic.
+  Keep `strict_language_accepted` false until the entire acquisition/refinement
+  obligation is checked; a native receipt for deferral is not a positive answer.
 - Tests must include independent oracles and boundary/counterexample cases;
   copying a production recurrence into a test is not sufficient evidence.
 

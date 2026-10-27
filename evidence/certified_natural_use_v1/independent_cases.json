@@ -1,0 +1,1065 @@
+{
+  "schema": "nabt.certified-natural-use.independent-gold.v1",
+  "authorship": "independent_evaluation_agent_before_new_implementation_read_or_execution",
+  "evaluation_role": "AUTHORED_DIAGNOSTIC_NOT_BLIND_POPULATION_ACCURACY",
+  "base_commit": "ec7e336e1ebb960c53d1873c3b9f8575fed5e42c",
+  "scope_ar": "ثلاثون حالة مؤلفة لمراقبة الفهم وحفظ البدائل والمقام والنفي والضبط. الأجوبة أهداف قياس لا شهادات معجمية ولا مبرهنات Lean. المتوقع من الحالات غير المشكولة تشخيص منفصل؛ لا تجيز بوابة تمثيل مكتمل من 116. العجز المعلن ينجح سلامة التعليق ولا ينجح هدف الفهم الموجب.",
+  "scoring_contract": {
+    "occurrence_matching": "exact original UTF-8 byte span, not stripped-token equality or global selected senses",
+    "candidate_recall": "required subset; never assert exhaustive two-sense Arabic lexicon",
+    "semantic_positive": "positive target succeeds only when the requested sense is acquired at the exact occurrence and declared scope",
+    "ambiguity": "unresolved occurrence must retain required alternatives without silently granting every candidate intent",
+    "invalid_marks": "must reject before semantic acceptance; proposed candidates do not count as proof",
+    "proof_authority": "no accepted proof without native Lean check bound to exact input, foundation law, A116 representation, occurrence, reading, context and retained premises",
+    "partial_projection": "a partial projection cannot be promoted to complete A116; supported finite encoding bridges must carry explicit independently checked evidence",
+    "world_and_motive": "never inferred solely from word class, explicit meaning, vector distance or true user booleans",
+    "scope_unknown": "lack of an implemented scope adapter is an unmeasured scope obligation, never a passing positive acquisition"
+  },
+  "cases": [
+    {
+      "id": "E01",
+      "family": "explicit_intention",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:E01"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "تصريح معنى العين المضاف إلى الماء؛ ليس إثبات وجود ماء بعينه."
+    },
+    {
+      "id": "E02",
+      "family": "explicit_intention",
+      "input": {
+        "text": "أُرِيدُ بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:E02"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "eye"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "تصريح العين الباصرة مع حفظ تعدد اللفظ قبل التقييد."
+    },
+    {
+      "id": "E03",
+      "family": "explicit_intention",
+      "input": {
+        "text": "أُرِيدُ بِالْأَسَدِ الرَّجُلَ الشُّجَاعَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:E03"
+        }
+      },
+      "target": {
+        "surface": "بِالْأَسَدِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "101deaca996691c9c8eca9f0acdc7ed761d51c9da14dab829b9d2f83806a46df"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [
+          "brave_man"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "استعمال مجازي مصرح به؛ لا يثبت وقوع الشجاعة في الواقع."
+    },
+    {
+      "id": "E04",
+      "family": "explicit_intention",
+      "input": {
+        "text": "أَقْصِدُ بِالْعَيْنِ عَيْنَ الْمَاءِ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:E04"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 17,
+        "end_byte": 39,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "اختبار فعل قصد في تصريح المراد."
+    },
+    {
+      "id": "E05",
+      "family": "explicit_intention",
+      "input": {
+        "text": "أَقْصِدُ بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:E05"
+        }
+      },
+      "target": {
+        "surface": "بِالْأَسَدِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 17,
+        "end_byte": 39,
+        "sha256": "101deaca996691c9c8eca9f0acdc7ed761d51c9da14dab829b9d2f83806a46df"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [
+          "lion"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "اختبار قصد على اسم آخر؛ يمنع الحل المخصص للعين."
+    },
+    {
+      "id": "A01",
+      "family": "ambiguity",
+      "input": {
+        "text": "شَاهَدْتُ عَيْنًا.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:A01"
+        }
+      },
+      "target": {
+        "surface": "عَيْنًا",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 19,
+        "end_byte": 33,
+        "sha256": "3dc3eb6f72664345164d8ac968cc3703c31db7e4b0821b6003ddba4451910879"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "لا يعيّن فعل المشاهدة أحد المعاني؛ الاسترجاع ليس حسمًا."
+    },
+    {
+      "id": "A02",
+      "family": "ambiguity",
+      "input": {
+        "text": "أَبْصَرْتُ أَسَدًا.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:A02"
+        }
+      },
+      "target": {
+        "surface": "أَسَدًا",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 21,
+        "end_byte": 35,
+        "sha256": "85ee5333f117deea2774d3994ae97ac14acc78e8124181f3965e0a5877199321"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "تبقى الحقيقة والمجاز بدائل عند غياب القرينة المخصصة."
+    },
+    {
+      "id": "A03",
+      "family": "ambiguity",
+      "input": {
+        "text": "هَذِهِ عَيْنٌ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:A03"
+        }
+      },
+      "target": {
+        "surface": "عَيْنٌ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 13,
+        "end_byte": 25,
+        "sha256": "d95d9accf7898400a02a2e62aa99f2e3b69634481877acd32600d18164f3bff0"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "التأنيث والإشارة وحدهما لا يميزان العين الباصرة من عين الماء."
+    },
+    {
+      "id": "A04",
+      "family": "ambiguity",
+      "input": {
+        "text": "مَرَرْتُ بِالْأَسَدِ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:A04"
+        }
+      },
+      "target": {
+        "surface": "بِالْأَسَدِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 17,
+        "end_byte": 39,
+        "sha256": "101deaca996691c9c8eca9f0acdc7ed761d51c9da14dab829b9d2f83806a46df"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "جر الاسم لا يحدد المراد ولا وجود المسمى خارج النص."
+    },
+    {
+      "id": "A05",
+      "family": "ambiguity",
+      "input": {
+        "text": "هَلْ رَأَيْتَ عَيْنًا؟",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:A05"
+        }
+      },
+      "target": {
+        "surface": "عَيْنًا",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 26,
+        "end_byte": 40,
+        "sha256": "3dc3eb6f72664345164d8ac968cc3703c31db7e4b0821b6003ddba4451910879"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "السؤال لا يقرر وقوع الرؤية أو أحد المعنيين."
+    },
+    {
+      "id": "S01",
+      "family": "negation_quotation_condition",
+      "input": {
+        "text": "لَا أَعْنِي بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:S01"
+        }
+      },
+      "target": {
+        "surface": "بِالْأَسَدِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 22,
+        "end_byte": 44,
+        "sha256": "101deaca996691c9c8eca9f0acdc7ed761d51c9da14dab829b9d2f83806a46df"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [
+          "lion"
+        ],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "نفي مراد واحد لا يثبت تلقائيًا مرادًا آخر."
+    },
+    {
+      "id": "S02",
+      "family": "negation_quotation_condition",
+      "input": {
+        "text": "لَمْ أَرَ أَسَدًا؛ أَعْنِي بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِسَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:S02"
+        }
+      },
+      "target": {
+        "surface": "بِالْأَسَدِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 50,
+        "end_byte": 72,
+        "sha256": "101deaca996691c9c8eca9f0acdc7ed761d51c9da14dab829b9d2f83806a46df"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [
+          "lion"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "نفي المشاهدة مستقل عن التصريح بمعنى اللفظ؛ لا يتسرب النفي إلى المعنى."
+    },
+    {
+      "id": "S03",
+      "family": "negation_quotation_condition",
+      "input": {
+        "text": "إِنْ قُلْتُ أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ فَلَا تَفْهَمِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:S03"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 37,
+        "end_byte": 59,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "hypothetical",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "التصريح داخل فرض شرطي؛ لا يثبت أن المتكلم أطلق التصريح بالفعل."
+    },
+    {
+      "id": "S04",
+      "family": "negation_quotation_condition",
+      "input": {
+        "text": "قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:narrator",
+          "quoted_speaker_id": "entity:zayd",
+          "utterance_id": "utterance:S04"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 42,
+        "end_byte": 64,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "quoted_speaker",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "معنى مصرح به في القول المحكي لزيد، لا في قول الراوي ولا في الواقع."
+    },
+    {
+      "id": "S05",
+      "family": "negation_quotation_condition",
+      "input": {
+        "text": "لَيْسَ صَحِيحًا أَنِّي أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:S05"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 58,
+        "end_byte": 80,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "negated_embedding",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "النفي الخارجي يمنع قبول الجملة المضمنة كتقرير مراد مثبت."
+    },
+    {
+      "id": "M01",
+      "family": "mark_integrity",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:M01"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "eye"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "ضبط صحيح شاهد موجب مقابل حالات التعارض التالية."
+    },
+    {
+      "id": "M02",
+      "family": "mark_integrity",
+      "input": {
+        "text": "َأَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:M02"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 17,
+        "end_byte": 39,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": false,
+        "required_candidates": [],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "حركة يتيمة في أول المصدر تبطل ترخيصه قبل اقتراح المعنى."
+    },
+    {
+      "id": "M03",
+      "family": "mark_integrity",
+      "input": {
+        "text": "أَعْنِي بِالْعَُيْنِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:M03"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَُيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 39,
+        "sha256": "880411fc4a4cab10afca8ba04796bb3dcd743a6e83bb2f5228446cc2c9eb05d5"
+      },
+      "expected": {
+        "well_formed_marks": false,
+        "required_candidates": [],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "فتحة وضمة متعارضتان على العين؛ لا تجرد العلامات للحصول على نجاح."
+    },
+    {
+      "id": "M04",
+      "family": "mark_integrity",
+      "input": {
+        "text": "أَعْنِي بِالْأَسَدِ الْحَيَوَانَ الْمُفْتَرِِسَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:M04"
+        }
+      },
+      "target": {
+        "surface": "بِالْأَسَدِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "101deaca996691c9c8eca9f0acdc7ed761d51c9da14dab829b9d2f83806a46df"
+      },
+      "expected": {
+        "well_formed_marks": false,
+        "required_candidates": [],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "تكرار الكسرة ليس مسوغًا لاختراع قراءة جديدة؛ يتطلب سياسة علامات معلنة."
+    },
+    {
+      "id": "M05",
+      "family": "mark_integrity",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ الْعَيْنَ الْبَاصِْرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:M05"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": false,
+        "required_candidates": [],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "سكون وكسرة على الصاد؛ رفض بنيوي قبل الحسم."
+    },
+    {
+      "id": "D01",
+      "family": "context_identity",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:salma",
+          "utterance_id": "utterance:shared1"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "المقام الأول له هوية مستقلة ولو تطابقت حروف العبارة."
+    },
+    {
+      "id": "D02",
+      "family": "context_identity",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:omar",
+          "utterance_id": "utterance:shared2"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "تبديل المتكلم لا يجيز إعادة استعمال شهادة مقام سلمى."
+    },
+    {
+      "id": "D03",
+      "family": "context_identity",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ. أُرِيدُ بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:D03"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 15,
+        "end_byte": 37,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "وقوعان مستقلان؛ تصريح اللفظ الأول لا يتبدل بمجرد تصريح الوقوع الثاني."
+    },
+    {
+      "id": "D04",
+      "family": "context_identity",
+      "input": {
+        "text": "أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ. أُرِيدُ بِالْعَيْنِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:D04"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 1,
+        "start_byte": 84,
+        "end_byte": 106,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "eye"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "الوقوع الثاني له مقطع ودليل مستقلان؛ لا يجمعه المقيم مع الأول."
+    },
+    {
+      "id": "D05",
+      "family": "context_identity",
+      "input": {
+        "text": "لَا أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ بَلِ الْعَيْنَ الْبَاصِرَةَ.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:D05"
+        }
+      },
+      "target": {
+        "surface": "بِالْعَيْنِ",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 22,
+        "end_byte": 44,
+        "sha256": "47c4fef0c65b1b9c443590fca40a4127c0ce9a827b7611e473afc4e7f693ebad"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "eye"
+        ],
+        "excluded_senses": [
+          "spring"
+        ],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "بل تصحح المعنى في وقوع واحد؛ ليست جمعًا بين المعنيين."
+    },
+    {
+      "id": "U01",
+      "family": "unvowelized_control",
+      "input": {
+        "text": "أقصد بالعين عين الماء.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:U01"
+        }
+      },
+      "target": {
+        "surface": "بالعين",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 9,
+        "end_byte": 21,
+        "sha256": "5678da26f459dfa1b6012ae26906ace59326f29b7378a44553e2f3d889b585f8"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "هدف فهم تشخيصي؛ نقص الضبط لا يصبح تمثيل A116 مكتملًا اصطناعيًا."
+    },
+    {
+      "id": "U02",
+      "family": "unvowelized_control",
+      "input": {
+        "text": "شاهدت عينا.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:U02"
+        }
+      },
+      "target": {
+        "surface": "عينا",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 11,
+        "end_byte": 19,
+        "sha256": "84485e6dc3e6d30210f56f301c5ccf7e4f8e7752af4acf8d77a6cf8085e7af47"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "رسم غير مشكول ملتبس؛ لا تخترع حركة أو معنى لإغلاق التمثيل."
+    },
+    {
+      "id": "U03",
+      "family": "unvowelized_control",
+      "input": {
+        "text": "أريد بالأسد الرجل الشجاع.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:U03"
+        }
+      },
+      "target": {
+        "surface": "بالأسد",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 9,
+        "end_byte": 21,
+        "sha256": "212822528472dbf71efc56aa23fa3e6dd474a9dc33bfbfb990c734f7eadce18c"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [
+          "brave_man"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "معنى صريح في التشخيص، مع بقاء التمثيل المباشر الجزئي ظاهرًا."
+    },
+    {
+      "id": "U04",
+      "family": "unvowelized_control",
+      "input": {
+        "text": "وقف أسد يخطب في الناس.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:U04"
+        }
+      },
+      "target": {
+        "surface": "أسد",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 7,
+        "end_byte": 13,
+        "sha256": "51a06bfa2417ad3a13bc10f87ada9e1b6af3e0a9f8ec8afa07464e93b8631dd6"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "lion",
+          "brave_man"
+        ],
+        "selected_senses": [],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "السياق وحده يحتمل المجاز والاسم الشخصي والحكاية؛ لا يثبت يقين مراد بلا ترخيص مستقل."
+    },
+    {
+      "id": "U05",
+      "family": "unvowelized_control",
+      "input": {
+        "text": "رأيت عين الماء.",
+        "profile_id": "linguistic",
+        "context": {
+          "speaker_id": "speaker:author",
+          "utterance_id": "utterance:U05"
+        }
+      },
+      "target": {
+        "surface": "عين",
+        "occurrence_index_among_equal_surfaces": 0,
+        "start_byte": 9,
+        "end_byte": 15,
+        "sha256": "d92f3f64663481542b4aee6a962370345d3b0eff80a6377af0590fa8af2efb3d"
+      },
+      "expected": {
+        "well_formed_marks": true,
+        "required_candidates": [
+          "eye",
+          "spring"
+        ],
+        "selected_senses": [
+          "spring"
+        ],
+        "excluded_senses": [],
+        "scope": "current_speaker_asserted",
+        "world_truth_established": false,
+        "motive_established": false,
+        "universal_arabic_completeness": false,
+        "observed_claim": null
+      },
+      "rationale_ar": "الإضافة قرينة لغوية قابلة للترخيص لكنها لا تثبت صدق المشاهدة الخارجية."
+    }
+  ]
+}

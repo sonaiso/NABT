@@ -1,4 +1,8 @@
-"""Inspect the ledger or acquire explicit intended use from raw Arabic text."""
+"""Inspect lexical evidence or request source-bound A116/Lean claim checks.
+
+`certify` is the strict proof entry. `acquire` and `pipeline` expose diagnostic
+acquisition with conditional premises; their success is not end-to-end proof.
+"""
 import argparse
 import json
 from pathlib import Path
@@ -18,7 +22,7 @@ def main():
     search = sub.add_parser("search")
     search.add_argument("query")
     search.add_argument("--limit", type=int, default=10)
-    for operation in ("acquire", "pipeline"):
+    for operation in ("certify", "acquire", "pipeline"):
         intake = sub.add_parser(operation)
         source = intake.add_mutually_exclusive_group(required=True)
         source.add_argument("--text")
@@ -52,7 +56,10 @@ def main():
                        "subject": args.subject, "time": args.time, "context": args.context,
                        "budget": AcquisitionBudget(max_occurrences=args.max_occurrences,
                            max_readings=args.max_readings, max_native_scan=args.max_native_scan)}
-            if args.operation == "pipeline":
+            if args.operation == "certify":
+                from .certified import acquire_certified
+                result = acquire_certified(text, **options)
+            elif args.operation == "pipeline":
                 from .pipeline import run
                 result = run(text, display_limit=args.limit,
                              reverse_candidates=args.reverse_candidates, **options)
@@ -63,6 +70,12 @@ def main():
                   "all_arabic_complete": False}
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
     status = result.get("status", result.get("acquisition", {}).get("status"))
+    if args.operation == "certify":
+        # Exit zero is reserved for actual complete language acceptance. A
+        # checked partial claim or honest deferral cannot masquerade as it.
+        if status in {"INVALID_INPUT", "SOURCE_UNAVAILABLE", "VERIFICATION_UNAVAILABLE"}:
+            return 2
+        return 0 if result.get("strict_language_accepted") is True else 3
     return 2 if status in {"INVALID_INPUT", "SOURCE_UNAVAILABLE", "VERIFICATION_UNAVAILABLE"} else 0
 
 

@@ -16,8 +16,8 @@ from typing import Callable
 ROOT = Path(__file__).resolve().parents[1]
 GOLD_PATH = Path("evidence/mantuq_inference_v1/benchmark_gold.json")
 GOLD_SHA256 = "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a"
-CONTRACT_MIGRATION_PATH = Path("evidence/framework_foundation_v1/mantuq_benchmark_contracts_v1.json")
-CONTRACT_MIGRATION_SHA256 = "a94d5409ec495b69f01921d81c56dee4f8e6023e0167db721adb57da91d4ac9a"
+CONTRACT_MIGRATION_PATH = Path("evidence/certified_natural_use_v1/mantuq_benchmark_contracts_v1.json")
+CONTRACT_MIGRATION_SHA256 = "9b9fbcd74ef45da3149f1af9a42d98e7defc535b1dfc28b0259846e9f8f77ac7"
 OUTCOMES = {"SUPPORTED", "UNKNOWN", "CONFLICT", "INVALID", "RESOURCE_EXHAUSTED"}
 
 

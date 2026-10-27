@@ -1554,7 +1554,19 @@ def theoremManifest : List Name := [
   ``Nabt.Foundation.checked_transform_preserves_binding,
   ``Nabt.Foundation.checked_transform_computes_output,
   ``Nabt.Foundation.checked_append_number,
-  ``Nabt.Foundation.changed_reading_rejected
+  ``Nabt.Foundation.changed_reading_rejected,
+  ``Nabt.CertifiedLexical.candidate_check_exact,
+  ``Nabt.CertifiedLexical.checked_projection_complete,
+  ``Nabt.CertifiedLexical.checked_cells_exact,
+  ``Nabt.CertifiedLexical.checked_source_bound,
+  ``Nabt.CertifiedLexical.partial_source_cannot_certify,
+  ``Nabt.CertifiedLexical.changed_source_cannot_certify,
+  ``Nabt.CertifiedLexical.empty_proposal_cannot_certify,
+  ``Nabt.CertifiedLexical.accepted_exact,
+  ``Nabt.CertifiedLexical.accepted_sound_and_complete,
+  ``Nabt.CertifiedLexical.accepted_requires_usage_premise,
+  ``Nabt.CertifiedLexical.checked_candidates_retain_every_compatible,
+  ``Nabt.CertifiedLexical.checked_cells_reversible
 ]
 
 run_cmd do

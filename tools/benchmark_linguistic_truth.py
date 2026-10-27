@@ -32,7 +32,9 @@ GOLD_PATH=ROOT/'evidence/linguistic_truth_v1/benchmark_gold.json'
 def evidence_snapshot()->dict[str,Any]:
     """Hash the imported runtime closure and exact execution inputs, not reports."""
     from tools.linguistic_truth.marked_forms import REVIEW_PATH, _load_review
+    from tools.linguistic_truth.sources import SUPPLEMENT_PATH, build_inventory
     marked_review = _load_review(ROOT)
+    installed = build_inventory(ROOT)
     modules={}
     for name,module in tuple(sys.modules.items()):
         filename=getattr(module,'__file__',None)
@@ -48,9 +50,8 @@ def evidence_snapshot()->dict[str,Any]:
         if path.suffix!='.py' or not path.is_relative_to(ROOT):continue
         modules[str(path.relative_to(ROOT))]=digest(path)
     inventory_path=ROOT/'evidence/linguistic_truth_v1/source_inventory.json'
-    installed=json.loads(inventory_path.read_text())
     from tools.linguistic_truth.correction import CITATION
-    inputs=[GOLD_PATH,inventory_path,ROOT/CITATION['path']]+[ROOT/s['local_path'] for s in installed['sources']]
+    inputs=[GOLD_PATH,inventory_path,ROOT/SUPPLEMENT_PATH,ROOT/CITATION['path']]+[ROOT/s['local_path'] for s in installed['sources']]
     # The vocalization bridge is a source-replayed acquisition premise. Bind
     # its exact review and source bytes as well as the imported Python code;
     # a checked semantic receipt alone does not attest these spellings.

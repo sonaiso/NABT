@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= attested_mark_recovery_v1
-TEXT_CODE_FREEZE ?= evidence/attested_mark_recovery_v1/code_freeze_v1.json
+RUNTIME_FREEZE_VERSION ?= certified_natural_use_v1
+TEXT_CODE_FREEZE ?= evidence/certified_natural_use_v1/code_freeze_v1.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -26,6 +26,15 @@ foundation-conformance: foundation-architecture
 	$(PYTHON) tools/check_foundation.py --lake $(LAKE) --output $(EVIDENCE_DIR)/foundation-conformance.json
 
 check: foundation-conformance
+
+.PHONY: certified-lexical-conformance
+certified-lexical-conformance: formal
+	cd formal && $(LAKE) build linguisticTruth
+	test -x formal/.lake/build/bin/linguisticTruth
+	$(PYTHON) -m unittest discover -s tests -p 'test_certified_native_protocol.py' -v
+	$(PYTHON) tools/benchmark_certified_natural_use.py --output $(EVIDENCE_DIR)/certified-natural-use.json.gz
+
+check: certified-lexical-conformance
 
 conformance:
 	$(PYTHON) tools/check_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/conformance.json
@@ -128,7 +137,7 @@ arabic-coverage-holdout:
 .PHONY: arabic-completion-oracle
 arabic-completion-oracle:
 	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-	$(PYTHON) evidence/attested_mark_recovery_v1/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
+	$(PYTHON) evidence/certified_natural_use_v1/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json

@@ -238,40 +238,6 @@ def errorJson (error : Failure) : Json := Json.mkObj [
   ("law_id", toJson lawId), ("status", toJson error.code),
   ("reason", toJson error.message), ("certificate_checked", toJson false)]
 
-/-- Reject duplicate decoded keys before Json.parse can collapse them. -/
-def uniqueObjectKeys (line : String) : ProbeM Unit := do
-  let mut quoted := false
-  let mut escaped := false
-  let mut token : List Char := []
-  let mut lastString : Option String := none
-  let mut objects : List (List String) := []
-  for c in line.toList do
-    if quoted then
-      token := c :: token
-      if escaped then escaped := false
-      else if c == '\\' then escaped := true
-      else if c == '"' then
-        quoted := false
-        lastString := some (String.ofList token.reverse)
-    else if c == '"' then
-      quoted := true
-      token := ['"']
-      lastString := none
-    else if c == '{' then
-      objects := [] :: objects
-      lastString := none
-    else if c == '}' then
-      objects := objects.tail
-      lastString := none
-    else if c == ':' then
-      let some raw := lastString | return ← invalid "object key missing"
-      let key ← str (← liftParse (Json.parse raw))
-      let keys :: rest := objects | return ← invalid "object key outside object"
-      if keys.contains key then return ← invalid "duplicate object key"
-      objects := (key :: keys) :: rest
-      lastString := none
-    else if !c.isWhitespace then lastString := none
-
 def processLine (bytes : ByteArray) (oversized : Bool) : Json :=
   if oversized then errorJson ⟨"RESOURCE_LIMIT", "input line exceeds 1 MiB"⟩
   else match String.fromUTF8? bytes with
@@ -279,7 +245,6 @@ def processLine (bytes : ByteArray) (oversized : Bool) : Json :=
     | some line =>
       match (do
         ProbeJson.preflight line
-        uniqueObjectKeys line
         dispatch (← liftParse (Json.parse line)) : ProbeM Json) with
       | .ok result => result
       | .error failure => errorJson failure

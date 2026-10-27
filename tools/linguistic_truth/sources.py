@@ -7,12 +7,74 @@ ledger. Historical mantuq source inventories remain unchanged.
 """
 from pathlib import Path
 import hashlib
+import json
+import re
 
 from tools.mantuq_sources import SourceInventoryError, _replay
 
 ROOT = Path(__file__).resolve().parents[2]
 INVENTORY_PATH = Path('evidence/linguistic_truth_v1/source_inventory.json')
 INVENTORY_SHA256 = '2186d8f4c52d148f13592feef50f617675a8576ff1dfc33f0c9fc6a4bdb56e05'
+SUPPLEMENT_PATH = Path('evidence/natural_use_sources_v1/source_inventory.json')
+SUPPLEMENT_SHA256 = '3e97720bf5e73514c0b3758fd822eeac5a49f9abd6818e0e1756cbfbd5a687a3'
+_MARKS = re.compile(r'[\u064b-\u065f\u0670\u0640]')
+
+
+def _merge_supplement(inventory, root):
+    supplement = _replay(SUPPLEMENT_PATH, SUPPLEMENT_SHA256, root)
+    if (supplement['schema'] != 'nabt.linguistic-source-supplement.v1'
+            or supplement['base_review_sha256'] != INVENTORY_SHA256):
+        raise SourceInventoryError('WRONG_LEXICAL_SUPPLEMENT')
+    passages = {row['passage_id']: row for row in supplement['passages']}
+    _ids(supplement['passages'], 'passage_id')
+    _ids(supplement['sources'], 'source_id')
+    for row in supplement['designations']:
+        _quotes(row, passages)
+    extension = supplement['acquisition_extension']
+    _ids(extension['cue_verbs'], 'normal')
+    if extension['initial_conjunction'] is not None:
+        raise SourceInventoryError('UNREVIEWED_INITIAL_CONJUNCTION')
+    for row in extension['cue_verbs']:
+        if (not row['forms'] or len(row['forms']) != len(set(row['forms']))
+                or any(_MARKS.sub('', form) != row['normal'] for form in row['forms'])
+                or not row['passage_ids'] or not set(row['passage_ids']) <= passages.keys()):
+            raise SourceInventoryError('UNBOUND_CUE_FORM')
+    seen = set()
+    expressions = {row['expression'] for row in
+                   inventory['designations'] + supplement['designations']}
+    for row in extension['retrieval_forms']:
+        key = (row['expression'], row['form'])
+        if (key in seen or row['expression'] not in expressions
+                or _MARKS.sub('', row['form']) != row['normal']
+                or row['authority'] != 'LEXICAL_RETRIEVAL_PROPOSAL'
+                or row['selected_sense'] is not None
+                or not row['passage_ids'] or not set(row['passage_ids']) <= passages.keys()):
+            raise SourceInventoryError('UNBOUND_RETRIEVAL_FORM')
+        seen.add(key)
+    # An exact shared source may be referenced twice by independent reviews.
+    # A duplicate identity with different metadata is not silently overwritten.
+    for name, key in [('sources', 'source_id'), ('passages', 'passage_id'),
+                      ('designations', 'designation_id'), ('relations', 'relation_id')]:
+        known = {row[key]: row for row in inventory[name]}
+        for row in supplement[name]:
+            if row[key] in known:
+                if row != known[row[key]]:
+                    raise SourceInventoryError('SUPPLEMENT_IDENTITY_COLLISION')
+            else:
+                inventory[name].append(row)
+                known[row[key]] = row
+    inventory['base_review_sha256'] = INVENTORY_SHA256
+    inventory['supplement_review_sha256'] = SUPPLEMENT_SHA256
+    inventory['review_sha256'] = hashlib.sha256(json.dumps(
+        [INVENTORY_SHA256, SUPPLEMENT_SHA256], separators=(',', ':')).encode()).hexdigest()
+    inventory['acquisition_extension'] = dict(extension, law_id=supplement['law_id'],
+        review_sha256=SUPPLEMENT_SHA256, authority=supplement['authority'])
+    inventory['extension_scope'] = supplement['scope']
+    inventory['replay'].update(source_files=len(inventory['sources']),
+        passages=len(inventory['passages']),
+        source_bytes_checked=sum(row['bytes'] for row in inventory['sources']),
+        supplemental_sources_replayed=True)
+    return inventory
 
 
 def _ids(rows, key):
@@ -43,6 +105,7 @@ def build_inventory(root=ROOT):
     """Reopen the installed review and every excerpt on each call; no cache."""
     inv = _replay(INVENTORY_PATH, INVENTORY_SHA256, root)
     try:
+        inv = _merge_supplement(inv, root)
         if inv['schema'] != 'nabt.linguistic-truth-inventory.v1':
             raise SourceInventoryError('WRONG_SOURCE_REVIEW_SCHEMA')
         sources = _ids(inv['sources'], 'source_id')

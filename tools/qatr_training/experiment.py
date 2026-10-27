@@ -240,10 +240,8 @@ def train(source,executable,output,protocol_path):
 
 def replay(source,executable,model_dir):
     model_dir=Path(model_dir)
-    manifest=json.loads((model_dir/'code_manifest.json').read_text())
-    for rel,digest in manifest.items():
-        if sha((ROOT/rel).read_bytes())!=digest or sha((model_dir/'code_snapshot'/rel).read_bytes())!=digest:
-            raise ValueError('experiment implementation changed: '+rel)
+    from tools.check_qatr_artifacts import _verify_implementation
+    implementation=_verify_implementation(ROOT,model_dir)
     teacher=export_teacher(executable)
     if teacher!=json.loads((model_dir/'lean_teacher.json').read_text()):raise ValueError('Lean teacher mismatch')
     examples,intake=prepare(source,teacher)
@@ -269,4 +267,5 @@ def replay(source,executable,model_dir):
     if native!=result['native_verification']:raise ValueError('native result mismatch')
     if book_evaluation(model,vocab,teacher)!=json.loads((model_dir/'book_results.json').read_text()):
         raise ValueError('book probe replay mismatch')
-    return dict(ok=True,words=len(actual),native=native,weights_sha256=result['weights_sha256'])
+    return dict(ok=True,words=len(actual),native=native,weights_sha256=result['weights_sha256'],
+                implementation=implementation)
