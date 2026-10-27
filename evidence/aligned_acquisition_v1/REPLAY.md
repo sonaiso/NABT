@@ -12,7 +12,10 @@ The local Git history is preserved in `local_history.bundle`, through commit
 `b2e7ae75682c3da9688fabbf69fc8ce0519dd7e7`. It requires the unchanged upstream
 base `a3ba5b32e67c25b2a71a6c8ebc8635659e6e7f74`. It contains the actual ordered
 specification, independent matrix, implementation, relocations, and result
-commits; local commit IDs are not represented as upstream published commits.
+commits. These original commit IDs were subsequently published unchanged on
+`codex/acquisition-reader-contract` in draft PR
+[52](https://github.com/sonaiso/NABT/pull/52). The bundle remains the immutable
+archive of the measurement history and does not depend on that branch surviving.
 
 From a NABT checkout containing that base:
 
