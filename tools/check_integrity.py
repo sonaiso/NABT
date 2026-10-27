@@ -33,8 +33,14 @@ def read_json(path):
 
 
 def lean_code_without_comments_or_strings(source):
-    """Keep token positions while stripping nested Lean comments and strings."""
+    """Keep token positions while stripping comments, strings and Char literals.
+
+    A double quote inside a character literal must not open a String. Recognize
+    only one scalar/escape between apostrophes; identifiers such as ``foo'``
+    remain code, and malformed literals remain visible to this guard or Lean.
+    """
     result = []
+    character = re.compile(r"'(?:[^'\\\r\n]|\\(?:u\{[0-9a-fA-F]{1,6}\}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2}|[^\r\n]))'")
     i, depth = 0, 0
     in_string = False
     while i < len(source):
@@ -70,6 +76,10 @@ def lean_code_without_comments_or_strings(source):
             end = len(source) if end < 0 else end
             result.extend(" " * (end - i))
             i = end
+        elif (char == "'" and (i == 0 or not (source[i - 1].isalnum() or source[i - 1] in "_'"))
+              and (match := character.match(source, i)) is not None):
+            result.extend(" " * (match.end() - i))
+            i = match.end()
         elif char == '"':
             in_string = True
             result.append(" ")

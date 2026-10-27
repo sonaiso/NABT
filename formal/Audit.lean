@@ -1500,7 +1500,21 @@ def theoremManifest : List Name := [
   ``Nabt.EpistemicMeasurement.common_anchor_translation,
   ``Nabt.EpistemicMeasurement.nominal_eventive_countermodel,
   ``Nabt.EpistemicMeasurement.nonvoluntary_verb_countermodel,
-  ``Nabt.EpistemicMeasurement.succession_without_causal_evidence
+  ``Nabt.EpistemicMeasurement.succession_without_causal_evidence,
+  ``Nabt.AlignedAcquisition.pieceTexts_restore,
+  ``Nabt.AlignedAcquisition.locate_raw,
+  ``Nabt.AlignedAcquisition.locate_contiguous,
+  ``Nabt.AlignedAcquisition.groups_restore,
+  ``Nabt.AlignedAcquisition.expanded_sound,
+  ``Nabt.AlignedAcquisition.tanwinCells_sound,
+  ``Nabt.AlignedAcquisition.acquired_no_pending,
+  ``Nabt.AlignedAcquisition.acquire_spans,
+  ``Nabt.AlignedAcquisition.acquire_restores_source,
+  ``Nabt.AlignedAcquisition.acquire_offsets_contiguous,
+  ``Nabt.AlignedAcquisition.emitted_cells_bounded,
+  ``Nabt.AlignedAcquisition.handoff_complete,
+  ``Nabt.AlignedAcquisition.verified_binding,
+  ``Nabt.AlignedAcquisition.checkedHandoff_sound
 ]
 
 run_cmd do

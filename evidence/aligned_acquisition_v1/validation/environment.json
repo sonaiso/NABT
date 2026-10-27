@@ -1,0 +1,20 @@
+{
+  "schema": "nabt.acquisition-validation-environment.v1",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "lean_official_archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+  "environment_adaptation": {
+    "reason": "The host virtualizes getpid but /proc/self/exe is accessible. Official Lean executable-location lookup used /proc/<getpid>/exe.",
+    "scope": "Only readlink of the caller numeric executable path is redirected to /proc/self/exe; other paths are passed unchanged. This changes no Lean source, theorem, kernel checks or admitted axioms.",
+    "source": "lean_proc_path.c",
+    "source_sha256": "3660bc2e059e2f8f62cc35b44912921952f5cb627eab7749cf4b552d1052c826",
+    "binary_sha256": "eeb89718a51d9b0b006b928267bfb679916be9007d4750a531ce782a8a0440f0",
+    "used_as": "LD_PRELOAD=/tmp/nabt_lean_proc_path.so for lake/lean build and audit commands",
+    "normal_environment": "Do not use this adapter where the official toolchain already locates its executable correctly."
+  },
+  "native": {
+    "alignedAcquisition": "4e4f12ee6aca0dc30e579b23dd689330687ab2f2c9f6f18f529ddf9490c63ae0",
+    "licensedInference": "4f6a5ac6c4005bfd8928b2d855b05b54844cc302699560ebab3986a31fa5a267"
+  }
+}

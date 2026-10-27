@@ -1,0 +1,219 @@
+{
+  "schema": "nabt.aligned-acquisition-independent-result-review.v1",
+  "reviewed_at_utc": "2026-10-27T22:17:09.785488+00:00",
+  "reviewer_role": "Independent pre-implementation gold author, now performing a post-result reporting audit",
+  "assessment": "PASS_WITH_EXPLICIT_COVERAGE_AND_MEASUREMENT_LIMITS",
+  "assessment_scope": "The preserved finite first-result report agrees with the frozen expectations and keeps representation agreement, positive-goal acquisition, and downstream measurement separate. This is not a completion verdict for Arabic reading or downstream semantics.",
+  "implementation_freeze_commit": "b895a52fe76c2f1ec33cd1792df03cc6c18df35e",
+  "original_gold_commit": "e29d11caf2a4fad5ac74a8474cde97103886cc3a",
+  "artifact_sha256": {
+    "evidence/aligned_acquisition_v1/gold.json": "d94bc45073f21e082c345bef0eb3ac4636451a6695cc247ce447241ee6ffedf7",
+    "evidence/aligned_acquisition_v1/authoring.json": "cb6a2cdbe657ec721baf61374c2630ebc894bbdf0d5a311ef9c23fc819b80b9f",
+    "evidence/aligned_acquisition_v1/first_result.json": "c7889e98a4035846fe935b3f885a4655255a7d95252325cc2066bc82d461bfca",
+    "evidence/aligned_acquisition_v1/implementation_freeze_v2.json": "aecb8f5aaa84d387928f2d6198e206323a2b971a8326142c4d376b5fca419ac4",
+    "tools/evaluate_aligned_acquisition.py": "b3c605b87a2cfc4c6a6bb5ea9edd333d95b11b88356634ae4610405d33fb069f"
+  },
+  "review_method": {
+    "engine_rerun": false,
+    "first_result_overwritten": false,
+    "gold_modified": false,
+    "runtime_or_tests_modified_by_reviewer": false,
+    "read_implementation_scope": [
+      "tools/evaluate_aligned_acquisition.py"
+    ],
+    "recomputation": "Used Python standard-library JSON, hashes, arithmetic, and string/byte indexing on preserved artifacts. Did not import or run the evaluator, acquisition engine, or inference engine. A preceding read-only audit call completed the per-row checks listed below before detecting separate current-working-tree hash differences.",
+    "provenance_checks": "Gold digest, first-result digest, manifest digest, matrix-before-implementation git ancestry, and stored before/after snapshot equality were checked.",
+    "independence_limit": "Procedural separation between model agents, not an external human blind study. Post-result access is exposed review. Recorded native-verification claims were inspected but the native engine was deliberately not rerun."
+  },
+  "execution_provenance": {
+    "preserved_result_before_after_snapshot_equal": true,
+    "preserved_result_uncovered_runtime_modules": [],
+    "preserved_result_changed_runtime_files": [],
+    "current_working_file_differences_from_first_run_freeze": [
+      "src/nabt/cli.py",
+      "tests/test_aligned_acquisition.py"
+    ],
+    "current_working_tree_interpretation": "These are post-result working-tree observations, not modifications made by this reviewer. The current tree must not be presented as the exact measured implementation freeze. The preserved first-result file and its recorded snapshots remain unchanged."
+  },
+  "recomputed_counts": {
+    "all": {
+      "cases": 72,
+      "expected_complete": 49,
+      "verified_expected_complete": 49,
+      "positive_goals": 47,
+      "positive_goals_acquired": 32,
+      "positive_goal_nonacquisitions": 15,
+      "hand_cell_oracles": 37,
+      "downstream_cases": 48,
+      "downstream_positive_goals": 29,
+      "downstream_measurement": {
+        "UNMEASURED": 48
+      },
+      "downstream_outcomes": {
+        "MISS": 29,
+        "UNMEASURED": 19
+      }
+    },
+    "orthography": {
+      "cases": 24,
+      "expected_complete": 10,
+      "verified_expected_complete": 10,
+      "positive_goals": 18,
+      "positive_goals_acquired": 10,
+      "positive_goal_nonacquisitions": 8,
+      "hand_cell_oracles": 10,
+      "downstream_cases": 0,
+      "downstream_positive_goals": 0,
+      "downstream_measurement": {},
+      "downstream_outcomes": {}
+    },
+    "category_person": {
+      "cases": 16,
+      "expected_complete": 13,
+      "verified_expected_complete": 13,
+      "positive_goals": 14,
+      "positive_goals_acquired": 12,
+      "positive_goal_nonacquisitions": 2,
+      "hand_cell_oracles": 13,
+      "downstream_cases": 16,
+      "downstream_positive_goals": 14,
+      "downstream_measurement": {
+        "UNMEASURED": 16
+      },
+      "downstream_outcomes": {
+        "MISS": 14,
+        "UNMEASURED": 2
+      }
+    },
+    "predication": {
+      "cases": 16,
+      "expected_complete": 14,
+      "verified_expected_complete": 14,
+      "positive_goals": 10,
+      "positive_goals_acquired": 8,
+      "positive_goal_nonacquisitions": 2,
+      "hand_cell_oracles": 14,
+      "downstream_cases": 16,
+      "downstream_positive_goals": 10,
+      "downstream_measurement": {
+        "UNMEASURED": 16
+      },
+      "downstream_outcomes": {
+        "MISS": 10,
+        "UNMEASURED": 6
+      }
+    },
+    "condition": {
+      "cases": 16,
+      "expected_complete": 12,
+      "verified_expected_complete": 12,
+      "positive_goals": 5,
+      "positive_goals_acquired": 2,
+      "positive_goal_nonacquisitions": 3,
+      "hand_cell_oracles": 0,
+      "downstream_cases": 16,
+      "downstream_positive_goals": 5,
+      "downstream_measurement": {
+        "UNMEASURED": 16
+      },
+      "downstream_outcomes": {
+        "MISS": 5,
+        "UNMEASURED": 11
+      }
+    }
+  },
+  "independent_stored_artifact_checks": {
+    "gold_row_inputs_preserved": 72,
+    "status_matches_gold": 72,
+    "receipt_source_digest": 72,
+    "exact_reader_text_and_digest": 72,
+    "source_partition_restores_text_and_bytes": 72,
+    "acquisition_identity": 72,
+    "piece_intervals_recomputed": 72,
+    "cell_domain_no_booleans": 72,
+    "word_boundaries_and_cells_recomputed": 72,
+    "recorded_native_authority": 72,
+    "verified_acquired_flag_consistent": 72,
+    "no_false_acquisition_license": 72,
+    "acquired_has_complete_words": 72,
+    "complete_word_handoff_and_certificate_binding": 72,
+    "hand_cell_arrays_match": 37,
+    "declared_reasons_match": 7,
+    "conditional_exact_text_and_query": 16,
+    "conditional_outside_fragment_unmeasured": 16
+  },
+  "check_failures": [],
+  "observed_unsafe_counterexamples": [],
+  "findings": [
+    {
+      "id": "R01",
+      "assessment": "PASS",
+      "claim": "All 72 statuses match; 37/37 hand-derived complete cell arrays and 7/7 declared reasons match. No false acquisition license was observed against the 23 expected noncomplete rows.",
+      "limit": "The 12 acquired condition rows have status expectations but no independent complete-cell arrays; native replay is a separate implementation agreement check."
+    },
+    {
+      "id": "R02",
+      "assessment": "PASS_WITH_LABEL_CAUTION",
+      "claim": "The report retains both 49/49 expected-complete acquisition and 32/47 positive-goal acquisition. Orthography positive coverage is 10/18, with eight correctly deferred positive goals remaining misses.",
+      "limit": "Do not present the field named positive_acquisition_coverage as overall positive-goal coverage. Its denominator is expected ACQUIRED rows, including acquired negative downstream controls."
+    },
+    {
+      "id": "R03",
+      "assessment": "PASS_WITH_LABEL_CAUTION",
+      "claim": "Orthography/acquisition SUCCESS=16 consists of ten positive acquisitions and six correct negative boundary outcomes.",
+      "limit": "16/24 is not positive acquisition coverage; the latter is 10/18. The six negative outcomes must not inflate language-understanding success."
+    },
+    {
+      "id": "R04",
+      "assessment": "PASS",
+      "claim": "All 48 downstream measurements are UNMEASURED. All 29 positive downstream goals are coverage MISS, and the 19 negative goals remain UNMEASURED rather than receiving success credit.",
+      "limit": "Person and nominal-syntax goals currently lack exact executable goal contracts. A word-reader result alone does not discharge those authored goals."
+    },
+    {
+      "id": "R05",
+      "assessment": "PASS",
+      "claim": "All 16 conditional results are UNKNOWN/OUTSIDE_FRAGMENT, with native_checked=false and verified=false; none receives downstream SUCCESS. Five positive conditional goals are MISS.",
+      "limit": "This does not measure semantic handling of quotation, negation, changed subjects, or hidden subjects. It observes abstention outside the installed fragment."
+    },
+    {
+      "id": "R06",
+      "assessment": "PASS",
+      "claim": "Stored exact source text, byte/code-point intervals, word boundaries, cell domains, reader text, and complete-word shape handoff bindings passed independent artifact checks for all 72 rows.",
+      "limit": "Source-preserving representation remains distinct from acoustic truth, attestation, grammar, reference, and world truth."
+    },
+    {
+      "id": "R07",
+      "assessment": "PASS_WITH_LABEL_CAUTION",
+      "claim": "The verified_exact count of 49 agrees with all expectations declared for those rows.",
+      "limit": "It must not be described as 49 independently hand-derived exact-cell checks; that count is 37."
+    },
+    {
+      "id": "R08",
+      "assessment": "LIMITATION",
+      "claim": "The matrix records zero resource-exhaustion outcomes.",
+      "limit": "This matrix contains no runtime type or resource-bound invocations. Resource, transport, tampering, and source-withdrawal coverage must be reported from separate suites, not inferred from zero occurrences here."
+    },
+    {
+      "id": "R09",
+      "assessment": "PASS",
+      "claim": "O16 is representation-ACQUIRED while its sound-shape handoff is SHAPE_REJECTED, and the report preserves that distinction.",
+      "limit": "Acquisition completeness is not sound-shape acceptance or lexical attestation."
+    }
+  ],
+  "publication_wording": "Finite first execution: 72/72 representation expectations matched, including 37/37 independent complete-cell arrays and 7/7 declared reasons, with zero observed false acquisition licenses. Positive-goal acquisition was 32/47 overall and 10/18 for orthography. All 48 downstream goals remained unmeasured; 29 positive downstream goals were coverage misses. All 16 conditional probes were outside the installed fragment.",
+  "remaining_obligations": [
+    "Executable source-bound person/category and nominal-syntax goal contracts.",
+    "Measured inference coverage for the frozen conditional examples, including negative scope and reference controls.",
+    "Independent evidence for the authored Arabic interpretation beyond this specification-conditioned matrix.",
+    "Separate recorded resource/type/transport/source-mutation tests and the full repository verification suites.",
+    "Fresh independently authored material for any future generalization claim; later replay of this gold is exposed."
+  ],
+  "integration_followup": {
+    "recorded_at_utc": "2026-10-27T22:17:26.828331+00:00",
+    "status": "FINAL_EXPOSED_REPLAY_PENDING",
+    "reported_by": "Integration owner (/root)",
+    "reported_change": "Post-first-run integration is relocating the new acquisition runtime and CLI from src into tools, and its source-evidence manifest into evidence/aligned_acquisition_v1, to preserve the historical exact inventory of the original src tree. No representation-law behavior change is intended.",
+    "verification_boundary": "This review assesses only the original first-result artifact at implementation freeze b895a52fe76c2f1ec33cd1792df03cc6c18df35e. It does not certify the relocated final runtime. A separately named exposed replay and targeted/full verification results are required for that runtime.",
+    "preservation_requirement": "Keep the original gold, first_result.json, and original implementation-freeze evidence unchanged; record later runtime identities and exposed results separately."
+  }
+}
