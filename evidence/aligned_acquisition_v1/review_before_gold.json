@@ -1,0 +1,1581 @@
+{
+  "schema": "nabt.aligned-acquisition-independent-review.v1",
+  "recorded_at_utc": "2026-10-27T22:11:33.180615+00:00",
+  "reviewer": "source_review",
+  "implementation_commit": "34ea8b8a7ecfd5fdcabfb5ae662a8f7e4564eda2",
+  "file_sha256": {
+    "src/nabt/aligned_acquisition.py": "535aa4f34bb963991aa2a5caab59709f5712521772ac038733586bbf6b02cf6c",
+    "formal/Nabt/AlignedAcquisition.lean": "2edb45268aab5e768effdcd3d85f1a78c2383425e928bea2ecbcbf96c52b2d14",
+    "formal/AlignedAcquisitionMain.lean": "ef39b43451993d2d82d323f0cba15a06b629c78d471a85160f3c98d07d434f23",
+    "docs/ACQUISITION_READER_SPEC.md": "5f8dda47209169b9e3995fc44e3da0bcf1bfc3580fa74a6dbe2afe4cf7687b7f",
+    "src/nabt/data/source_evidence/aligned_acquisition_sources_v1.json": "269f1aa66756aefc6277e5ff0ef4922dc9ad13fdd2a7bab5e9347649c1fa3cc5",
+    "formal/.lake/build/bin/alignedAcquisition": "4e4f12ee6aca0dc30e579b23dd689330687ab2f2c9f6f18f529ddf9490c63ae0"
+  },
+  "independence": "No new gold matrix was read. These are adversarial runtime probes and Python/Lean parity checks; they are not an independent linguistic oracle. The real installed native executable was used without a fallback.",
+  "source_inventory": {
+    "schema": "nabt.aligned-acquisition-sources.v1",
+    "sha256": "269f1aa66756aefc6277e5ff0ef4922dc9ad13fdd2a7bab5e9347649c1fa3cc5",
+    "passages": 23,
+    "conventions": 9,
+    "authority": "AUTHORED_CONVENTIONS_WITH_BOUNDED_SOURCE_EVIDENCE"
+  },
+  "checks": {
+    "random_replay": {
+      "seed": 471519,
+      "count": 128,
+      "result_counts": {
+        "INVALID_INPUT": 67,
+        "DEFER": 51,
+        "ACQUIRED": 10
+      },
+      "cases": [
+        {
+          "text": "إّْ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ىًٰآٰ\nمَّأََءّ«بَّ«",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ـًٰ»آً»ٱّْةًٰ آ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةَٔؤِ»لٰ»",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بٌ«أَٔ🙂ٌ ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "هََ ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بََـٍ«ءّ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xُ ٱْ ءٌاُ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إًٰ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xُ\nلٔلٍ»ٱٍلََءّْ\n",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لِ»",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إَّأْلُ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xلُ ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "نًٰ\nيََ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ََ»نَٰ»اٍبٰ\nلً 🙂ً",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "هْ»مْ«ٱ«ىَٔ\nلٔ ئْ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مَٰنّْـًٰىََبَٰ«ةَ«",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مٍ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "أٔبٍ\nبّ نَٔ«ئّْ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يًٰ«نَٰـٰ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بِ»مً«يّْ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ءْ\nءًٰ«ؤ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱٍ«",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "نَّبّ\nـّإََءٌ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يَٰ«🙂ًٰ أَٰ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ٔ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ْ«ئّبْ\nبِ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ٍ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إَ\nهٰأٰ»🙂ً ـٰ«ٱٰ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يّْ«🙂َ\nإٰهٍ\nلّْ»مَ\n",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لُ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئًإِ نٔ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لِ«أّْ«ىًٰ أَٔ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لًٰ«",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ـً»إٍxَّ ٱٌوَٰ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "وّْ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ءٔ»",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "نٱٰئَّ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ؤًٰ»لَٔئلَٔ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئْ«ئَ«يٰاَٰ«بَٰ»آْ\n",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ؤمً🙂َٰ إٌـٍ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "أٔاِ\nهٰهً\nxّ«ئ\n",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "نَٰ»يّ»ل«نَٰ»",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إَٔٱً\nئَّ»اُـُxُ«",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئٍ🙂ٌوََمٔآَ\n",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مٍ»🙂ًٰ\n",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مّْ\nبٍ ؤُمً«ـٔ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةََ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱٰئّْ\nأُ يًٰمَٰ ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئٔـِ\nىَٰ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "اُ ىَّـَٔ بَٔىَ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "اَ«ـََ\nـٰبّْ ىَٔٱّ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مََxَّ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "أَ هُئْنٍ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "اَّ«هَّوَٰ ٱََ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "أً",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةّ»",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بلًٰxٔ»لّْـًٰمٍ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "وََ»ئَٔ«",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "آََيَٰ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لَٰئَّةٌ\nنٌ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئٌاٰ«نْبٰ🙂َٰ ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مََ ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يّْ»إٍ\nئٌ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إٔ«🙂ٌ»اٍ\n",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إ هّْ\nأَّأّْ\nأَٰمٰ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئّ«ن»ءٔ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يَٰ«ةْ\nٱً«",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "وٌ»م يّؤٌ ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بٌ ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "وِ«ـًٰنًٰ«بِ\n",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةٍ\nأَٔ مََ\nإٔمّْ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مِ»",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "هًٰ\nوًٰ إَ«ىُإََ»",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱٌٱٔاَٰلَأَّأ\n",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةًٰإٍيً لِ ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ؤَّ«🙂\nةّْ ؤًٰ\n",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "هَٰ🙂َٰ»نًٰآَ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "نَٰ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "آٌوَاََ«إٔ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "آَٰأََ أَ«",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بٍ«ٱً\nبُ إَّ«",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "اًٰ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لَٔئّ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يًٰإَٔ»هَأًٰ»xَٰ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "وًٰآئ\nـَّ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ً«آَ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إًهًمْلُ«م»آُ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إَّىََاٌ»ٱٔهّْ\nىٌ ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ىََ»اوٌٱِ«",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ُـً",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "هُ«🙂ََ\nؤْ\n🙂َٰ»أًٰ\nمِ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ىَّ»هَ»بَ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "هٰيََ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةٰ«اٌ»اًxْ»نٰ ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "اً\nهِ\nأّ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂َهّ«xْهٔ»xَ»نُ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إَّ«🙂َهَّ ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إٰ«ل آْ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئَءٌ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "native_exact_replay": true
+        },
+        {
+          "text": "لُ ؤٔ«نًبٰنُ بّْ»",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بُ«بَٰءّْ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إََ«اّْ»لََ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "يَٰ\n🙂ّْ ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "مَٔمََاً»",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xٰ ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂َّ ىّ ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "بْ«ي اًٰ ئْأَ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةٌ«نْبَّؤُ«أ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "نًمىّْءِ\nلً",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "🙂ًٰ»نًٰ»",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "اْٱُxَّ ئًٰ\nهَّ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xٰ«ـُ\nنً\nىًٰمٔ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "إٔلًٰءّْ🙂ّ\nنَ\nهُ»",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱُ»ٱُ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ىّْ\nxْنِءْٱْ»",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ـّْ اٰ ـٍ\nئًٰبََ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xُ«",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ئًٰ\nةّْ\n",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "آـََ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱْ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ةُ»أٰ ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱِإٍ»ـًٰ\n",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ىَٔـَٰنَٔ»بَّ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xَٰئَٔ ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "xٰ🙂ٍ\nأَ\n",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        },
+        {
+          "text": "أًٰ»ةْ إُ»يْمَٔ»ةْ\n",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "native_exact_replay": true
+        },
+        {
+          "text": "ٱٰؤٔ«ٱٰٱَٔئَٔ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "native_exact_replay": true
+        }
+      ],
+      "meaning": "Agreement between the two implementations, not correctness of the linguistic interpretation."
+    },
+    "curated_handoff": {
+      "count": 42,
+      "cases": [
+        {
+          "text": "بَال",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَال",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "مَاءًا",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "مَاءًا",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "وَهَذَا",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "وَهَذَا",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "فَهَذَا",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "فَهَذَا",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "وَلَكِنْ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "وَلَكِنْ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "بَٰا",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَٰا",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَٰى",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَٰى",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "قُمْتُ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "قُمْتُ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "قُمْتَ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "قُمْتَ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "قُمْتِ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "قُمْتِ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "أُولُو",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "أُولُو",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ‮تَ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ‮تَ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "﻿بَ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "﻿بَ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ\n\tتُ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED",
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "بَ\n\tتُ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED",
+            "SHAPE_REJECTED"
+          ]
+        },
+        {
+          "text": "«قُمْتُ»",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "«قُمْتُ»",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": " َبَ",
+          "ending": "wasl",
+          "status": "INVALID_INPUT",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": " َبَ",
+          "ending": "waqf",
+          "status": "INVALID_INPUT",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَٔتُ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَٔتُ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ تُ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ تُ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ ةٌ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED",
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "بَ ةٌ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED",
+            "SHAPE_REJECTED"
+          ]
+        },
+        {
+          "text": "بَ\u0000تَ",
+          "ending": "wasl",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "بَ\u0000تَ",
+          "ending": "waqf",
+          "status": "DEFER",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "ACQUISITION_INCOMPLETE"
+          ]
+        },
+        {
+          "text": "مُدَّ",
+          "ending": "wasl",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        },
+        {
+          "text": "مُدَّ",
+          "ending": "waqf",
+          "status": "ACQUIRED",
+          "exact_original_byte_reader_handoff": true,
+          "shape_statuses": [
+            "SHAPE_LICENSED"
+          ]
+        }
+      ]
+    },
+    "binding_mutations": {
+      "count": 8,
+      "all_rejected": true,
+      "cases": [
+        {
+          "kind": "expected_binding_changed",
+          "field": "revision",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "expected_binding_changed",
+          "field": "scope",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "expected_binding_changed",
+          "field": "source_id",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "expected_binding_changed",
+          "field": "ending",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "expected_binding_changed",
+          "field": "text",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "receipt_changed",
+          "field": "authority",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "receipt_changed",
+          "field": "verified",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        },
+        {
+          "kind": "receipt_changed",
+          "field": "shape_handoffs",
+          "result": {
+            "valid": false,
+            "status": "INVALID_RECEIPT",
+            "error": "REPLAY_MISMATCH"
+          }
+        }
+      ]
+    },
+    "bounds": {
+      "count": 8,
+      "cases": [
+        {
+          "label": "cp_max",
+          "utf8_bytes": 4096,
+          "codepoints": 4096,
+          "source_sha256": "a2e659dacb4691e887ac0139f8893d04764ee197d70fb73d3190d56113d18e3e",
+          "status": "DEFER",
+          "verified": true,
+          "reader_status": "DEFER",
+          "shape_status_counts": {
+            "ACQUISITION_INCOMPLETE": 1
+          },
+          "elapsed_seconds": 0.5199
+        },
+        {
+          "label": "cp_over",
+          "utf8_bytes": 4097,
+          "codepoints": 4097,
+          "source_sha256": "3e97197f4b8d46a893067c94ab15e195e3d97fb5f24eede5ef047b571240d92b",
+          "status": "RESOURCE_EXHAUSTED",
+          "verified": false,
+          "reader_status": null,
+          "shape_status_counts": {},
+          "elapsed_seconds": 0.0004
+        },
+        {
+          "label": "bytes_max",
+          "utf8_bytes": 8192,
+          "codepoints": 4096,
+          "source_sha256": "6e8af54fa5c216fcb10c33e1b503e2bbcc7562a350f5cf111e01a85723653f90",
+          "status": "DEFER",
+          "verified": true,
+          "reader_status": "DEFER",
+          "shape_status_counts": {
+            "ACQUISITION_INCOMPLETE": 1
+          },
+          "elapsed_seconds": 0.6313
+        },
+        {
+          "label": "bytes_over",
+          "utf8_bytes": 8194,
+          "codepoints": 4097,
+          "source_sha256": "54dd95705ae076816710776a886449371e1b06dbb7b2ee27850ee34e65b9a0e2",
+          "status": "RESOURCE_EXHAUSTED",
+          "verified": false,
+          "reader_status": null,
+          "shape_status_counts": {},
+          "elapsed_seconds": 0.0005
+        },
+        {
+          "label": "many_boundaries",
+          "utf8_bytes": 4096,
+          "codepoints": 4096,
+          "source_sha256": "46e4e5b3fe2549da0ecfcf8d067ac060b3b8fd132981043eeb66c7c3be875848",
+          "status": "DEFER",
+          "verified": true,
+          "reader_status": "DEFER",
+          "shape_status_counts": {},
+          "elapsed_seconds": 0.0983
+        },
+        {
+          "label": "full_vocalized_near_max",
+          "utf8_bytes": 8192,
+          "codepoints": 4096,
+          "source_sha256": "bee5659695849048633148a36d3fd317603acc65f82ef55c56c657805569ec5e",
+          "status": "ACQUIRED",
+          "verified": true,
+          "reader_status": "DEFER",
+          "shape_status_counts": {
+            "RESOURCE_EXHAUSTED": 1
+          },
+          "elapsed_seconds": 0.216
+        },
+        {
+          "label": "many_complete_words",
+          "utf8_bytes": 6825,
+          "codepoints": 4095,
+          "source_sha256": "e9d911fc3f8d14f473e0187dbec7bf705a7b2b9007c39d986822ac783d4e7477",
+          "status": "ACQUIRED",
+          "verified": true,
+          "reader_status": "RESOURCE_EXHAUSTED",
+          "shape_status_counts": {
+            "SHAPE_LICENSED": 1365
+          },
+          "elapsed_seconds": 0.1975
+        },
+        {
+          "label": "shape_weight17",
+          "utf8_bytes": 68,
+          "codepoints": 34,
+          "source_sha256": "d2eadf70a6b8dc3147f5ff4ef93e2c4805e35dafc0519c5642864d170b47e462",
+          "status": "ACQUIRED",
+          "verified": true,
+          "reader_status": "DEFER",
+          "shape_status_counts": {
+            "RESOURCE_EXHAUSTED": 1
+          },
+          "elapsed_seconds": 0.0728
+        }
+      ],
+      "interpretation": "The local acquisition budget, downstream word-reader run budget, and shape weight budget have separate outcomes; resource exhaustion is not linguistic rejection."
+    },
+    "metadata_domain": {
+      "count": 8,
+      "cases": [
+        {
+          "label": "unicode_source_id",
+          "arguments_repr": "{'source_id': 'مصدر'}",
+          "status": "ACQUIRED",
+          "verified": true,
+          "reader": {
+            "status": "DEFER",
+            "error": "INVALID_WORD_SOURCE",
+            "authority": "NO_WORD_READING"
+          }
+        },
+        {
+          "label": "hyphen_source_id",
+          "arguments_repr": "{'source_id': 'input-1'}",
+          "status": "ACQUIRED",
+          "verified": true,
+          "reader": {
+            "status": "DEFER",
+            "error": "INVALID_WORD_SOURCE",
+            "authority": "NO_WORD_READING"
+          }
+        },
+        {
+          "label": "long_reader_scope",
+          "arguments_repr": "{'scope': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'}",
+          "status": "ACQUIRED",
+          "verified": true,
+          "reader": {
+            "status": "DEFER",
+            "error": "INVALID_WORD_SCOPE",
+            "authority": "NO_WORD_READING"
+          }
+        },
+        {
+          "label": "empty_source_id",
+          "arguments_repr": "{'source_id': ''}",
+          "status": "INVALID_INPUT",
+          "verified": false,
+          "reader": null
+        },
+        {
+          "label": "boolean_source_id",
+          "arguments_repr": "{'source_id': True}",
+          "status": "INVALID_INPUT",
+          "verified": false,
+          "reader": null
+        },
+        {
+          "label": "overlong_scope",
+          "arguments_repr": "{'scope': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'}",
+          "status": "INVALID_INPUT",
+          "verified": false,
+          "reader": null
+        },
+        {
+          "label": "control_revision",
+          "arguments_repr": "{'revision': '\\x00'}",
+          "status": "INVALID_INPUT",
+          "verified": false,
+          "reader": null
+        },
+        {
+          "label": "surrogate_source_id",
+          "arguments_repr": "{'source_id': '\\ud800'}",
+          "status": "INVALID_INPUT",
+          "verified": false,
+          "reader": null
+        }
+      ],
+      "limitation": "Acquisition accepts bounded Unicode source identities and scope up to 512 characters; the old reader requires ASCII source identifiers and scope <=256. No identity rewriting is performed."
+    },
+    "direct_native_transport": {
+      "count": 9,
+      "all_rejected": true,
+      "cases": [
+        {
+          "label": "duplicate_key",
+          "input_bytes": 108,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "escaped_duplicate_key",
+          "input_bytes": 113,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "extra_key",
+          "input_bytes": 109,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "boolean_text",
+          "input_bytes": 82,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "integer_scope",
+          "input_bytes": 84,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "control_identity",
+          "input_bytes": 97,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "invalid_utf8",
+          "input_bytes": 1,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "unpaired_surrogate",
+          "input_bytes": 86,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "INVALID_INPUT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "INVALID_INPUT"
+          }
+        },
+        {
+          "label": "transport_over_limit",
+          "input_bytes": 1048577,
+          "exit_code": 2,
+          "response": {
+            "alphabet_id": "nabt.a116.v1",
+            "error": "RESOURCE_LIMIT",
+            "law_id": "nabt.aligned-acquisition.v1",
+            "status": "RESOURCE_EXHAUSTED"
+          }
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "replay-mismatches-resolved",
+      "severity": "RESOLVED",
+      "detail": "Previously reported differences for medial alif before bare lam and hamza fathatan before a support alif now replay exactly."
+    },
+    {
+      "id": "clitic-prefix-debt-limit",
+      "severity": "DOCUMENTED_SCOPE_LIMIT",
+      "detail": "Whole-word debt matching does not acquire the conventional omitted-alif reading for وَهَذَا/فَهَذَا/وَلَكِنْ; local representation and shape may succeed. No acoustic or lexical claim is warranted."
+    },
+    {
+      "id": "metadata-reader-domain-gap",
+      "severity": "DOCUMENTED_COVERAGE_LIMIT",
+      "detail": "Some valid acquisition metadata is outside the old word reader domain, reported as NO_WORD_READING."
+    },
+    {
+      "id": "no-new-certificate-binding-defect",
+      "severity": "NO_DEFECT_FOUND_IN_PROBES",
+      "detail": "No incomplete-word shape certificate or loss of original-byte reader handoff was found in these probes. This is bounded empirical evidence, not a proof of universal correctness."
+    }
+  ],
+  "limitations": [
+    "No independent gold was read or executed.",
+    "The earlier fuzz attempt coinciding with a native rebuild was excluded because executable-unavailable outcomes do not measure parity.",
+    "The local shape law is not a lexical or grammatical oracle.",
+    "The Python native transport checks the output file limit after execution; the installed native executable also bounds its serialized result before writing.",
+    "The formal UTF-8/JSON adapter remains an executable adapter rather than a proved JSON-parser refinement."
+  ]
+}
