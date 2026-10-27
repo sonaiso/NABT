@@ -43,6 +43,11 @@ class ProofCatalogTests(unittest.TestCase):
                 paths.append(ROOT / args[args.index("--check") + 1])
         self.assertEqual(len(paths), 5, "all five compiled snapshot checks must remain enabled")
         self.assertEqual(len(set(paths)), 5)
+        current = ROOT / "evidence/progressive_rule_audit_v1/catalog_references"
+        self.assertEqual(set(paths), {current / name for name in (
+            "proof_catalog.json", "grammar_link_summary.json", "mantuq_proof_links.json",
+            "linguistic_proof_links.json", "licensed_proof_links.json")},
+            "CI must check the current compiled snapshot without rewriting old evidence")
         return [json.loads(path.read_text(encoding="utf-8")) for path in paths]
 
     def test_ci_proof_reference_binds_current_manifest_and_sources(self):

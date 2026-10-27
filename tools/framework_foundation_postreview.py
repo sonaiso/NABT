@@ -25,9 +25,9 @@ from tempfile import TemporaryDirectory
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'evidence/arabic_coverage'
 MATERIAL_SHA256 = '127a5870fcbc8f8823b95f2a9f452cf4cd87de22fcfc62b271efd32bc684c106'
-RUNTIME_SHA256 = '1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f'
-RUNTIME_SNAPSHOT_SHA256 = '422ecda54cd92c27b1408feb2d6616eb4011dec751ee8754692eb1a16c08085b'
-RUNTIME_ARCHIVE_SHA256 = '16a6e83e0d8cffe5898789751a221053da1530119ec12871be52fc26e6968d01'
+RUNTIME_SHA256 = 'b184a00c3c19b3204b889f14567b042c987046e7698f657bf9586ff307f01cf5'
+RUNTIME_SNAPSHOT_SHA256 = 'dba50fbcc16fae7bdf2046e56afa55f7daf2657b25b2c0cb7be486d664d9f188'
+RUNTIME_ARCHIVE_SHA256 = '8646f73fef57bd97428cc3686843a0f3c9e12f2cf850342c6462e507c232c8e9'
 TARGET = ('H18', 'question:2:no_grounded_evidence')
 PREVIOUS_ARCHIVE = ROOT / 'evidence/arabic_completion_v3/full_validation_reports_v1.zip'
 PREVIOUS_ARCHIVE_SHA256 = '23062c5cab865a4acfd29aa66928dc3301816fb7816bd712a4d1b5c53ba22d58'
@@ -399,7 +399,7 @@ def run(result_path, raw_path, runtime_path, output):
         runtime = json.loads(runtime_path.read_bytes())
         require(runtime['snapshot_sha256'] == RUNTIME_SNAPSHOT_SHA256
                 and runtime['archive_sha256'] == RUNTIME_ARCHIVE_SHA256
-                and len(runtime['files']) == 101 and sha256(wire(runtime['files'])).hexdigest() == RUNTIME_SNAPSHOT_SHA256,
+                and len(runtime['files']) == 102 and sha256(wire(runtime['files'])).hexdigest() == RUNTIME_SNAPSHOT_SHA256,
                 'Approved runtime manifest contents changed')
         archive = runtime_path.parent / runtime['archive_filename']
         require(file_digest(archive) == RUNTIME_ARCHIVE_SHA256, 'Approved runtime archive changed')
@@ -423,7 +423,7 @@ def run(result_path, raw_path, runtime_path, output):
                                                         'question_answer_validation.py', 'arabic_coverage_gate.py',
                                                         'arabic_completion_gate.py', 'source_name_validation.py')]
         validators.extend([ROOT / 'tools/framework_foundation_gate.py',
-                           ROOT / 'evidence/certified_natural_use_v1/regression_policy_v1.json'])
+                           ROOT / 'evidence/progressive_rule_audit_v1/regression_policy_v1.json'])
         validators.append(FOLDER / 'regression_policy_v1.json')
         validators.extend(sorted((ROOT / 'evidence/arabic_completion_v3').glob('regression_policy_v*.json')))
         validator_ids = [identity(path) for path in validators]

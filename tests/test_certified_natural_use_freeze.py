@@ -1,8 +1,8 @@
 """Current native-admission registration cannot waive historical language failures."""
 from hashlib import sha256
-import importlib.util
 import json
 from pathlib import Path
+import tarfile
 import unittest
 
 from tools.text_evaluation.integrity import verify_code_freeze
@@ -24,7 +24,22 @@ class CertifiedNaturalUseFreezeTests(unittest.TestCase):
                 self.assertEqual(sha256((OLD / name).read_bytes()).hexdigest(), expected)
 
     def test_discovery_is_the_only_packaged_change(self):
-        current = verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
+        current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
+        self.assertEqual(sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest(),
+                         "1b49907b0b0ec2475113daa93366a6ec127b7b303c12d8e3313681c30bbdab0f")
+        archive_path = NEW / "code_freeze_v1.tar.gz"
+        self.assertEqual(sha256(archive_path.read_bytes()).hexdigest(),
+                         "16a6e83e0d8cffe5898789751a221053da1530119ec12871be52fc26e6968d01")
+        by_path = {row["path"]: row for row in current["files"]}
+        with tarfile.open(archive_path, "r:gz") as archive:
+            self.assertEqual({member.name for member in archive.getmembers()}, set(by_path))
+            self.assertEqual(len(archive.getmembers()), len(by_path))
+            for member in archive.getmembers():
+                raw = archive.extractfile(member).read()
+                self.assertEqual((len(raw), sha256(raw).hexdigest()),
+                                 (by_path[member.name]["bytes"], by_path[member.name]["sha256"]))
+        with self.assertRaises(ValueError):
+            verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
         old = json.loads((OLD / "code_freeze_v1.json").read_bytes())
         previous, actual = ({row["path"]: row for row in item["files"]} for item in (old, current))
         self.assertEqual(set(previous), set(actual))
@@ -41,23 +56,21 @@ class CertifiedNaturalUseFreezeTests(unittest.TestCase):
         self.assertEqual(new["runtime_file_count"], old["runtime_file_count"])
         self.assertEqual(new["previous_policy_sha256"], sha256((OLD / "regression_policy_v1.json").read_bytes()).hexdigest())
 
-    def test_holdout_postreview_binds_the_complete_current_identity(self):
+    def test_current_holdout_does_not_relabel_the_historical_identity(self):
         from tools import framework_foundation_postreview as review
         manifest = NEW / "code_freeze_v1.json"
         current = json.loads(manifest.read_bytes())
-        self.assertEqual(review.RUNTIME_SHA256, sha256(manifest.read_bytes()).hexdigest())
-        self.assertEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
-        self.assertEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
+        self.assertNotEqual(review.RUNTIME_SHA256, sha256(manifest.read_bytes()).hexdigest())
+        self.assertNotEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
+        self.assertNotEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
 
-    def test_current_oracle_has_exact_checked_dependency_identity(self):
-        path = NEW / "independent_oracle/run_oracle_v1.py"
-        spec = importlib.util.spec_from_file_location("certified_natural_oracle", path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        frozen_path = path.with_name("runner_freeze_v5.json")
-        receipt = module.check_runner_freeze(frozen_path)
-        self.assertTrue(receipt["files"])
-        frozen = json.loads(frozen_path.read_bytes())
+    def test_previous_oracle_identity_is_preserved_without_repinning(self):
+        frozen_path = NEW / "independent_oracle/runner_freeze_v5.json"
+        raw = frozen_path.read_bytes()
+        self.assertEqual(sha256(raw).hexdigest(),
+                         "7965b7ac4d69fd0ed0cdf73811bad94d25559852a70f249d642eec5a59793eb7")
+        frozen = json.loads(raw)
+        self.assertTrue(frozen["files"])
         self.assertIs(frozen["runtime_calls_performed_by_freezer"], False)
         self.assertIs(frozen["historical_files_repinned"], False)
 
