@@ -1,3 +1,4 @@
+import {inferenceFixture} from './helpers/inference-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash, createCipheriv, createDecipheriv} from 'node:crypto';
@@ -13,8 +14,8 @@ const ENV={NABT_TRANSPORT_KEY:TRANSPORT,NABT_GITHUB_TOKEN:'test-only-not-a-real-
   NABT_REF:'codex/dynamic-proof-lab'};
 const INPUT={schema:SCHEMA,mode:'inference',source_text:'إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.',query_text:'هَلْ سَارَ زَيْدٌ؟'};
 function descriptor(extra={}){return {request_id:ID,payload_sha256:DIGEST,code_sha:CODE,mode:'inference',created:Date.now(),...extra};}
-function successResult(extra={}){return {schema:'nabt.licensed-inference-result.v1',law_id:'nabt.licensed-inference.v1',status:'SUPPORTED',authority:'SOURCE_RELATIVE_CONSEQUENCE',verified:true,native_checked:true,all_readings_complete:true,closures_checked:true,all_arabic_complete:false,world_truth_established:false,readings:[],closure_records:[],...extra};}
-function report(extra={}){return {schema:'nabt.proof-lab-result.v1',...descriptor(),duration_ms:10,status:'SUPPORTED',scope:{whole_arabic:'NOT_PROVED',external_world:'NOT_VERIFIED'},all_arabic_complete:false,world_truth_established:false,result:successResult(),...extra};}
+function successResult(extra={}){return inferenceFixture(ID,CODE,extra);}
+function report(extra={}){return {schema:'nabt.proof-lab-result.v1',...descriptor(),duration_ms:10,native_sha256:DIGEST,status:'SUPPORTED',scope:{whole_arabic:'NOT_PROVED',external_world:'NOT_VERIFIED'},all_arabic_complete:false,world_truth_established:false,result:successResult(),...extra};}
 function expectCode(code){return e=>e?.code===code;}
 const response=v=>new Response(JSON.stringify(v),{headers:{'Content-Type':'application/json'}});
 function request(body=INPUT,headers={}){return new Request('https://lab.example/api/runs',{method:'POST',headers:{'Content-Type':'application/json','Origin':'https://lab.example',...headers},body:typeof body==='string'?body:JSON.stringify(body)});}

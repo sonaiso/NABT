@@ -12,6 +12,9 @@
   <script src="/epistemic-measurement.js" defer></script>
   <script src="/contextual-contract.js" defer></script>
   <script src="/contextual-reference.js" defer></script>
+  <script src="/workflow-contract.js" defer></script>
+  <script src="/workflow-ui.js" defer></script>
+  <script src="/legacy-authority.js" defer></script>
   <script src="/app.js" defer></script>
   <script src="/evidence-audit.js" defer></script>
   <script src="/evidence-sample.js" defer></script>
@@ -43,6 +46,7 @@
         <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1" data-tab="guide"><span class="tab-number">06</span> دليل القراءة</button>
         <button role="tab" id="tab-epistemic_measurement" aria-controls="panel-epistemic_measurement" aria-selected="false" tabindex="-1" data-tab="epistemic_measurement"><span class="tab-number">07</span> القصد والرصد</button>
         <button role="tab" id="tab-contextual_reference" aria-controls="panel-contextual_reference" aria-selected="false" tabindex="-1" data-tab="contextual_reference"><span class="tab-number">08</span> إحالة اللفظ والمقام</button>
+        <button role="tab" id="tab-licensed_workflow" aria-controls="panel-licensed_workflow" aria-selected="false" tabindex="-1" data-tab="licensed_workflow"><span class="tab-number">09</span> المسار المرخّص</button>
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
@@ -94,6 +98,7 @@
               <p class="stale-note" id="stale-note" hidden>تغيّرت المدخلات. هذه النتيجة تخص النص المثبت أدناه، وتحتاج العبارة الحالية إلى فحص جديد.</p>
               <div class="verification-grid"><div><span>فحص Lean</span><b id="native-status">—</b></div><div><span>القراءات ضمن القانون</span><b id="readings-status">—</b></div><div><span>شهادة الإغلاق</span><b id="closure-status">—</b></div><div><span>مطابقة الواقع</span><b>غير مثبتة</b></div></div>
               <div class="reason-box"><span>سبب النتيجة</span><p id="result-reason-explanation"></p><code id="result-reason"></code></div>
+              <section class="card" id="inference-authority" aria-label="نطاق الدعوى المفحوصة"><h4>الدعوى وحدود انتقال السلطة</h4><p id="inference-claim"></p><p id="inference-bridge" class="field-help"></p><details><summary>هوية الدعوى والمقدمات</summary><pre id="inference-claim-json" dir="ltr"></pre></details></section>
               <div class="trace-section"><h4>مسار الاستدلال</h4><div id="proof-trace"></div></div>
               <details class="result-details"><summary>النص الذي خضع للفحص</summary><p class="quoted-source" id="executed-source"></p><p class="quoted-query" id="executed-query"></p></details>
               <details class="result-details"><summary>القراءات والأدلة التفصيلية</summary><pre id="reading-json" dir="ltr"></pre></details>
@@ -147,6 +152,18 @@
           <div class="semantic-workbench"><section class="card"><h3>الدعاوى بمقاماتها</h3><p class="field-help">اختيار الدعوى يعرض الاستعلام والأدلة التي فُحصت والحدود الخاصة بها.</p><div id="epistemic-cases" class="semantic-case-list" aria-label="دعاوى القصد والرصد"></div></section><section class="card" id="epistemic-case-detail" aria-label="تفاصيل الدعوى المختارة" aria-live="polite"></section></div>
           <section class="card"><p id="epistemic-run-identity" class="report-identity"></p><p id="epistemic-reference-identity" class="report-identity" dir="ltr"></p><button type="button" id="download-epistemic-measurement" class="text-button">تنزيل تقرير القصد والرصد JSON ↓</button><details><summary>المدخلات والشهادات الكاملة</summary><pre id="epistemic-json" dir="ltr"></pre></details></section>
         </section>
+      </div>
+      <div role="tabpanel" id="panel-licensed_workflow" aria-labelledby="tab-licensed_workflow" hidden>
+        <section class="card"><p class="eyebrow">مصدر محفوظ · محوّل مثبت · دعوى محددة</p><h2>تسليم السلطة بين الواجهات</h2><p>يشغّل هذا المسار المحولات المسجلة. تعرض كل دعوى مبرهنة مع مقدماتها ونطاقها، وتبقى التشخيصات والبقايا منفصلة. لا يمنح اكتمال الجرد اكتمال العربية.</p>
+          <form id="workflow-form"><label for="workflow-operation">جهة الفحص</label><select id="workflow-operation"><option value="lexical_surface">مطابقة الصيغة المشهودة</option><option value="lexical_candidates">المرشحون المعجميون</option><option value="scope_acquisition">حدود النطاق والتركيب</option><option value="lexical_transmission">جهة النقل المعجمي</option><option value="classical_control">معادلة التحكم الصرفي</option></select>
+          <div id="workflow-text-group"><label for="workflow-text">اللفظ أو النص كما ورد</label><textarea id="workflow-text" aria-describedby="workflow-scope-help" rows="3" maxlength="4096">عَيْنَ</textarea><p id="workflow-scope-help" class="field-help" hidden>نطاق هذه النسخة: «قَالَ اسمٌ: «متن»»، أو «لَيْسَ صَحِيحًا أَنِّي متن»، أو «إِنْ قُلْتُ متن فَلَا جواب»، بنقطة ختامية اختيارية. تحفظ حدود المتن كما ورد؛ لا تقبل اقتباسًا متداخلًا أو جملًا إضافية، ولا تثبت نحو المتن أو مراد قائله. الاقتباس المجرد بلا إطار القول خارج هذا المسار.</p></div>
+          <div id="workflow-profile-group" hidden><label for="workflow-profile">عقد الاستعمال المفروض صراحةً</label><select id="workflow-profile"><option value="linguistic">الاستعمال اللغوي — مقدمة معلنة</option><option value="">غير محسوم — إبقاء التعليق</option></select></div>
+          <label for="workflow-context">المقام المعلن</label><input id="workflow-context" value="مقام جديد غير محسوم" maxlength="512">
+          <div id="workflow-frame-group" hidden><label for="workflow-rule">معرّف القاعدة المثبتة</label><input id="workflow-rule" value="HAMZA-LEXICAL-COMMAND" maxlength="128"><label for="workflow-frame">مقدمات إطار التحكم — تبقى مفروضة صراحة</label><textarea id="workflow-frame" dir="ltr" rows="4">{"root":["ء","ك","ل"],"profile":"all_attested"}</textarea></div>
+          <button id="run-workflow" class="primary-button" type="submit" disabled>نفّذ المسار المرخّص في Lean ←</button></form><p id="workflow-message" role="status" aria-live="polite">لم يُنفّذ طلب في هذا المسار بعد.</p>
+        </section>
+        <div id="workflow-output" hidden><section class="card"><h3 id="workflow-status"></h3><p id="workflow-native"></p><p class="field-help">القبول اللغوي الصارم العام غير مثبت. حسم المراد وصدق الواقع والتواتر التزامات مستقلة.</p><div id="workflow-claims"></div><p id="workflow-transmission"></p></section>
+        <section class="card"><h3>حالة ترحيل الواجهات</h3><p id="workflow-inventory-count"></p><div id="workflow-migration"></div><details><summary>الطلب والإيصال والجرد والمقدمات الكاملة</summary><pre id="workflow-json" dir="ltr"></pre></details><button id="download-workflow" class="text-button" type="button">تنزيل سجل المسار JSON ↓</button></section></div>
       </div>
       <div role="tabpanel" id="panel-contextual_reference" aria-labelledby="tab-contextual_reference" hidden>
         <section class="coverage-heading card"><div><p class="eyebrow">ورود اللفظ · المرشحون · المقام</p><h2>المرجع بحسب المقام.<br>والشهادة بحسب الدعوى.</h2><p>يفحص Lean اختيار المرجع عند الورود الأول للفظ في المقام الخارجي، ضمن المرشحين والسياق المعلنين. تبقى مقارنة التحليل واسترجاع القراءات بالمرجع فحصًا مستقلًا في Python.</p><p class="field-help">وجود شاهد معجمي لا يحسم المعنى في مقام جديد. لا يُثبت هذا المسار تواتر النقل أو الدافع الباطن أو صدق الواقع أو اكتمال العربية.</p></div><button id="run-contextual-reference" class="primary-button" type="button" disabled>أعد فحص الإحالة والمقام <span aria-hidden="true">←</span></button></section>

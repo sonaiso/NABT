@@ -1,0 +1,91 @@
+cd formal && /workspace/scratch/8ead824583ac/lean-driver-v2/lake build lexicalSourceRows lexicalSurface qualifiedCueLicensing linguisticTruth lexicalTransmission scopeAcquisition exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
+Build completed successfully (123 jobs).
+cd formal && /workspace/scratch/8ead824583ac/lean-driver-v2/lake env lean LexicalTransmissionChecks.lean
+cd formal && /workspace/scratch/8ead824583ac/lean-driver-v2/lake env lean ScopeAcquisitionChecks.lean
+/tmp/nabt-neural-ci-review/bin/python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
+{"source": "https://raw.githubusercontent.com/Saleh1967/Alghanem/9d8fa03a51f894416e0abaf3b6821c5ae6441dcd/corpora/qac/quranic-corpus-morphology-0.4.txt.gz", "decoded_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46", "decoded_bytes": 6309503, "compressed_sha256": "bcfed711c720fdcb27e6deb49484ed6488c71040a292ab2e5322393322108514", "output": "artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz", "already_present": true, "scope": "UNMODIFIED_EXTERNAL_SOURCE_NOT_A_RUNTIME_ANSWER_DICTIONARY"}
+test -x formal/.lake/build/bin/lexicalTransmission
+test -x formal/.lake/build/bin/scopeAcquisition
+/tmp/nabt-neural-ci-review/bin/python -m tools.interface_migration_audit --output artifacts/local/interface-migration-v4-targeted/interface-admission-audit.json
+{"schema": "nabt.interface-migration-admission-audit.v1", "ok": true, "surface_count": 179, "runtime_boundary_count": 169, "denied_before_body_count": 169, "separate_primitive_count": 10, "failures": [], "source_acquisition_proved": false, "all_results_kernel_proved": false, "whole_arabic_complete": false, "scope": "All registered direct Python admission guards; not source acquisition, result authority, or semantic completeness."}
+/tmp/nabt-neural-ci-review/bin/python -m unittest discover -s tests -p 'test_licensed_workflow.py' -v
+test_all_five_raw_request_adapters_replay_their_actual_claim_contract (test_licensed_workflow.LicensedWorkflowAllNativeAdaptersTests.test_all_five_raw_request_adapters_replay_their_actual_claim_contract) ... ok
+test_supplied_lexical_budget_is_converted_to_fixed_typed_budget (test_licensed_workflow.LicensedWorkflowAllNativeAdaptersTests.test_supplied_lexical_budget_is_converted_to_fixed_typed_budget) ... ok
+test_default_control_route_executes_native_and_preserves_exact_claim (test_licensed_workflow.LicensedWorkflowNativeControlTests.test_default_control_route_executes_native_and_preserves_exact_claim) ... ok
+test_missing_native_control_returns_no_claim (test_licensed_workflow.LicensedWorkflowNativeControlTests.test_missing_native_control_returns_no_claim) ... ok
+test_later_failure_keeps_only_independently_checked_source_claim (test_licensed_workflow.LicensedWorkflowNativeSourceTests.test_later_failure_keeps_only_independently_checked_source_claim) ... ok
+test_source_and_surface_claims_stay_separate (test_licensed_workflow.LicensedWorkflowNativeSourceTests.test_source_and_surface_claims_stay_separate) ... ok
+test_budget_is_a_bounded_object_and_cannot_carry_flags (test_licensed_workflow.LicensedWorkflowPortableTests.test_budget_is_a_bounded_object_and_cannot_carry_flags) ... ok
+test_caller_cannot_import_result_checker_or_authority (test_licensed_workflow.LicensedWorkflowPortableTests.test_caller_cannot_import_result_checker_or_authority) ... ok
+test_claim_kind_and_law_cannot_be_promoted_while_global_flags_stay_false (test_licensed_workflow.LicensedWorkflowPortableTests.test_claim_kind_and_law_cannot_be_promoted_while_global_flags_stay_false) ... ok
+test_claim_with_false_native_and_universal_promotions_are_rejected (test_licensed_workflow.LicensedWorkflowPortableTests.test_claim_with_false_native_and_universal_promotions_are_rejected) ... ok
+test_direct_api_boundary_is_checked_before_dispatch (test_licensed_workflow.LicensedWorkflowPortableTests.test_direct_api_boundary_is_checked_before_dispatch) ... ok
+test_inventory_covers_each_registered_surface_once_without_promoting_checked_kind (test_licensed_workflow.LicensedWorkflowPortableTests.test_inventory_covers_each_registered_surface_once_without_promoting_checked_kind) ... ok
+test_missing_adapter_registration_blocks_even_existing_callable (test_licensed_workflow.LicensedWorkflowPortableTests.test_missing_adapter_registration_blocks_even_existing_callable) ... ok
+test_native_boolean_alone_is_not_a_proof (test_licensed_workflow.LicensedWorkflowPortableTests.test_native_boolean_alone_is_not_a_proof) ... ok
+test_nonfinite_and_unpaired_surrogate_never_enter_adapters (test_licensed_workflow.LicensedWorkflowPortableTests.test_nonfinite_and_unpaired_surrogate_never_enter_adapters) ... ok
+test_numeric_arguments_reject_bool_float_and_string_without_rounding (test_licensed_workflow.LicensedWorkflowPortableTests.test_numeric_arguments_reject_bool_float_and_string_without_rounding) ... ok
+test_request_resource_limit_is_not_a_linguistic_rejection (test_licensed_workflow.LicensedWorkflowPortableTests.test_request_resource_limit_is_not_a_linguistic_rejection) ... ok
+test_source_or_adapter_error_is_not_blamed_on_input (test_licensed_workflow.LicensedWorkflowPortableTests.test_source_or_adapter_error_is_not_blamed_on_input) ... ok
+test_unknown_operation_is_deferred_not_language_rejected (test_licensed_workflow.LicensedWorkflowPortableTests.test_unknown_operation_is_deferred_not_language_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 11.922s
+
+OK
+/tmp/nabt-neural-ci-review/bin/python -m unittest discover -s tests -p 'test_scope_acquisition.py' -v
+test_changed_observed_mark_is_not_normalized_to_the_wrapper (test_scope_acquisition.ScopeNative.test_changed_observed_mark_is_not_normalized_to_the_wrapper) ... ok
+test_different_speakers_and_body_meanings_do_not_share_identity (test_scope_acquisition.ScopeNative.test_different_speakers_and_body_meanings_do_not_share_identity) ... ok
+test_missing_or_moved_boundaries_and_empty_body_never_license_envelope (test_scope_acquisition.ScopeNative.test_missing_or_moved_boundaries_and_empty_body_never_license_envelope) ... ok
+test_native_receipt_all_fields_and_integer_types_are_bound (test_scope_acquisition.ScopeNative.test_native_receipt_all_fields_and_integer_types_are_bound) ... ok
+test_native_request_cannot_supply_candidate_structure (test_scope_acquisition.ScopeNative.test_native_request_cannot_supply_candidate_structure) ... ok
+test_native_timeout_is_resource_status_and_has_no_claim (test_scope_acquisition.ScopeNative.test_native_timeout_is_resource_status_and_has_no_claim) ... ok
+test_negation_and_hypothesis_are_acquired_without_executing_positive_body_reader (test_scope_acquisition.ScopeNative.test_negation_and_hypothesis_are_acquired_without_executing_positive_body_reader) ... ok
+test_nested_quotes_and_second_sentences_cannot_escape_scope (test_scope_acquisition.ScopeNative.test_nested_quotes_and_second_sentences_cannot_escape_scope) ... ok
+test_nonascii_space_in_opaque_label_is_preserved_not_normalized (test_scope_acquisition.ScopeNative.test_nonascii_space_in_opaque_label_is_preserved_not_normalized) ... ok
+test_opaque_unmarked_body_retains_partial_projection_without_syntax_claim (test_scope_acquisition.ScopeNative.test_opaque_unmarked_body_retains_partial_projection_without_syntax_claim) ... ok
+test_quote_extracts_actual_original_byte_interval (test_scope_acquisition.ScopeNative.test_quote_extracts_actual_original_byte_interval) ... ok
+test_quoted_meaning_is_attributed_without_narrator_or_referent_promotion (test_scope_acquisition.ScopeNative.test_quoted_meaning_is_attributed_without_narrator_or_referent_promotion) ... ok
+test_caller_cannot_supply_scope_speaker_or_native_authority (test_scope_acquisition.ScopePortable.test_caller_cannot_supply_scope_speaker_or_native_authority) ... ok
+test_direct_api_requires_installed_foundation_before_any_native_work (test_scope_acquisition.ScopePortable.test_direct_api_requires_installed_foundation_before_any_native_work) ... ok
+test_foundation_piece_limit_is_not_invalid_arabic (test_scope_acquisition.ScopePortable.test_foundation_piece_limit_is_not_invalid_arabic) ... ok
+test_input_limit_is_resource_status_not_linguistic_rejection (test_scope_acquisition.ScopePortable.test_input_limit_is_resource_status_not_linguistic_rejection) ... ok
+test_invalid_input_is_not_a_scope_deferral_or_false_receipt (test_scope_acquisition.ScopePortable.test_invalid_input_is_not_a_scope_deferral_or_false_receipt) ... ok
+test_missing_native_checker_never_grants_scope_claim (test_scope_acquisition.ScopePortable.test_missing_native_checker_never_grants_scope_claim) ... ok
+test_source_review_is_replayed_not_caller_attested (test_scope_acquisition.ScopePortable.test_source_review_is_replayed_not_caller_attested) ... ok
+test_strict_json_rejects_duplicate_or_nonfinite_claim_fields (test_scope_acquisition.ScopePortable.test_strict_json_rejects_duplicate_or_nonfinite_claim_fields) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 18.028s
+
+OK
+/tmp/nabt-neural-ci-review/bin/python -m unittest discover -s tests -p 'test_lexical_transmission.py' -v
+test_context_is_bound_byte_for_byte_not_interpreted (test_lexical_transmission.LexicalTransmission.test_context_is_bound_byte_for_byte_not_interpreted) ... ok
+test_corrupted_source_is_rejected_before_native (test_lexical_transmission.LexicalTransmission.test_corrupted_source_is_rejected_before_native) ... ok
+test_export_cannot_install_extra_dependency_or_report (test_lexical_transmission.LexicalTransmission.test_export_cannot_install_extra_dependency_or_report) ... ok
+test_individual_report_is_identified_without_truth_grade (test_lexical_transmission.LexicalTransmission.test_individual_report_is_identified_without_truth_grade) ... ok
+test_invalid_inputs_never_invoke_native (test_lexical_transmission.LexicalTransmission.test_invalid_inputs_never_invoke_native) ... ok
+test_mismatched_receipt_or_promoted_rank_never_furnishes_claim (test_lexical_transmission.LexicalTransmission.test_mismatched_receipt_or_promoted_rank_never_furnishes_claim) ... ok
+test_missing_catalogue_has_no_native_authority (test_lexical_transmission.LexicalTransmission.test_missing_catalogue_has_no_native_authority) ... ok
+test_missing_native_cannot_grant_a_documentary_claim (test_lexical_transmission.LexicalTransmission.test_missing_native_cannot_grant_a_documentary_claim) ... ok
+test_multiple_senses_from_one_work_do_not_become_three_sources (test_lexical_transmission.LexicalTransmission.test_multiple_senses_from_one_work_do_not_become_three_sources) ... ok
+test_native_protocol_rejects_caller_grade_and_report (test_lexical_transmission.LexicalTransmission.test_native_protocol_rejects_caller_grade_and_report) ... ok
+test_public_reader_rejects_alternate_root_and_caller_grades (test_lexical_transmission.LexicalTransmission.test_public_reader_rejects_alternate_root_and_caller_grades) ... ok
+test_request_limits_are_resources_not_invalid_arabic (test_lexical_transmission.LexicalTransmission.test_request_limits_are_resources_not_invalid_arabic) ... ok
+test_timeout_is_resource_failure_not_linguistic_rejection (test_lexical_transmission.LexicalTransmission.test_timeout_is_resource_failure_not_linguistic_rejection) ... ok
+test_two_books_are_not_independent_and_different_readings_are_not_collapsed (test_lexical_transmission.LexicalTransmission.test_two_books_are_not_independent_and_different_readings_are_not_collapsed) ... ok
+test_unknown_index_is_measured_empty_not_attested_arabic (test_lexical_transmission.LexicalTransmission.test_unknown_index_is_measured_empty_not_attested_arabic) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 6.896s
+
+OK
+/tmp/nabt-neural-ci-review/bin/python -m unittest discover -s tests -p 'test_interface_migration_audit.py' -v
+test_disappearing_or_bypassed_live_guard_is_detected (test_interface_migration_audit.InterfaceMigrationAuditTests.test_disappearing_or_bypassed_live_guard_is_detected) ... ok
+test_empty_registry_is_not_vacuous_boundary_success (test_interface_migration_audit.InterfaceMigrationAuditTests.test_empty_registry_is_not_vacuous_boundary_success) ... ok
+test_every_registered_runtime_admission_is_denied_before_body (test_interface_migration_audit.InterfaceMigrationAuditTests.test_every_registered_runtime_admission_is_denied_before_body) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.810s
+
+OK

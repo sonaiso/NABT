@@ -1,0 +1,243 @@
+{
+  "schema": "nabt.interface-migration.runner-identity-change.v5",
+  "reason": "The published v4 release passed local full gates but its stdlib CI runtime could not import the proposal entrypoint before checking admission. Move optional neural imports and no_grad inside the admitted call; retain no_grad and identical output.",
+  "previous_published_commit": "3727825da5dde66f9f69909128626c1915edb484",
+  "previous_published_runner_sha256": "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d",
+  "current_sha256": "0f7ae3bf2cab565b2976aa9b0cca39dc87a452f965dba7987ab95525ce890613",
+  "runtime_freeze_sha256": "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271",
+  "runtime_package_changed": false,
+  "formal_changed": false,
+  "ui_changed": false,
+  "gold_or_denominators_changed": false,
+  "historical_verification_resealed": false,
+  "full_local_suite_rerun_for_v5": false,
+  "historical_full_counts_not_current_results": true,
+  "changed_common_dependencies": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "before": {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 29033,
+        "sha256": "566300ad7282d6cf5302bd74a995bf281b7930c5eebcc6a7783a377f48c288af"
+      },
+      "after": {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 29033,
+        "sha256": "9177066546761e3f973f6c76ee2e079f4a8bde5689146afa4b1865ada00eba64"
+      }
+    },
+    {
+      "path": "Makefile",
+      "before": {
+        "path": "Makefile",
+        "bytes": 17143,
+        "sha256": "91b156953908d6ef2f483aea27e750ac2c9d0114dc5c4b04f4a83db69b4d5ed9"
+      },
+      "after": {
+        "path": "Makefile",
+        "bytes": 17143,
+        "sha256": "7c1401969cad850b57b9c1318c8f177ffd0f871e23d7536d13b9e7ce3edfca45"
+      }
+    },
+    {
+      "path": "tests/test_completion_v6_gate.py",
+      "before": {
+        "path": "tests/test_completion_v6_gate.py",
+        "bytes": 2790,
+        "sha256": "6a02db407d29fe2b9caad2c3f02922e0cb066fe32c9338031dcb68f61bc05dac"
+      },
+      "after": {
+        "path": "tests/test_completion_v6_gate.py",
+        "bytes": 2790,
+        "sha256": "f26c56568ea924c13997eb360625ee9ef12e7ed61ba1ca56c1842c95c23e781f"
+      }
+    },
+    {
+      "path": "tests/test_interface_migration_audit.py",
+      "before": {
+        "path": "tests/test_interface_migration_audit.py",
+        "bytes": 2380,
+        "sha256": "732b0417b9875d1394c10c3dab978b1f0e1e79f0205dfc93f36dc9df53ceb747"
+      },
+      "after": {
+        "path": "tests/test_interface_migration_audit.py",
+        "bytes": 5028,
+        "sha256": "fc609bfe6352b770f8731ec227cb8aed58107916774c02d1d7a8f20975fa4d86"
+      }
+    },
+    {
+      "path": "tests/test_interface_migration_runtime_freeze.py",
+      "before": {
+        "path": "tests/test_interface_migration_runtime_freeze.py",
+        "bytes": 11202,
+        "sha256": "01c928ee303cebdee1e342a7e992451e0b2cb99418e908e57fa6711464df63f3"
+      },
+      "after": {
+        "path": "tests/test_interface_migration_runtime_freeze.py",
+        "bytes": 13016,
+        "sha256": "c8df4a841fc2bf04441515e74ea457aaa6d87264c0878f80f8827892630547db"
+      }
+    },
+    {
+      "path": "tests/test_neural_morphology_model.py",
+      "before": {
+        "path": "tests/test_neural_morphology_model.py",
+        "bytes": 8384,
+        "sha256": "a2ed2f12c4531c1041f29a62448d38584331e51d229b3fbdf200a54232965481"
+      },
+      "after": {
+        "path": "tests/test_neural_morphology_model.py",
+        "bytes": 9490,
+        "sha256": "58f0913b3b3dcd05f106838efabcc5a70e57be2156bd6b1519d7fdf22d6a598e"
+      }
+    },
+    {
+      "path": "tools/arabic_training/proposal.py",
+      "before": {
+        "path": "tools/arabic_training/proposal.py",
+        "bytes": 4620,
+        "sha256": "16c0f1abbe48166e1aadda83144e75f8b4f6fe69622530792126487c2d7e7d61"
+      },
+      "after": {
+        "path": "tools/arabic_training/proposal.py",
+        "bytes": 5018,
+        "sha256": "e6b5fb097d321f2e05327e88e2539bca36e9586d8b6ffd418187eae543bfad8b"
+      }
+    }
+  ],
+  "added_dependencies": [
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/failure.json",
+      "bytes": 585,
+      "sha256": "4118eed865622dc6f2fc6623bc4fa209db94ea0fde59625c78727e3cdaee424e"
+    },
+    {
+      "path": "evidence/interface_migration_v1/ci_followup_v5/runtime-python312.log.gz",
+      "bytes": 96068,
+      "sha256": "c717d692b0f1ce8e79b63068bb443647bfb97f7e494cf082d891fe1f893943e2"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/freeze_runner_v5.py",
+      "bytes": 9178,
+      "sha256": "a4edfa1fc4495b5a5aa1a4ce2a67cbd3107fa56d96165112accfdfa66491d0e6"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/review_continuation_v5.py",
+      "bytes": 25192,
+      "sha256": "6e3cfeff698f4eeb9ad3e08f1123124c930657f9c6dc70c09bbee9e89998d392"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_oracle_v5.py",
+      "bytes": 19744,
+      "sha256": "16106668e6aeaf369a74869c67c99a17ce44df23d6e995b51f7939a108e23316"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_regression_v5.py",
+      "bytes": 5508,
+      "sha256": "5f5db1e3cef690e57ad49f7ef211c6f4cc9c30530de71d781087acb06a3c7114"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/run_source_counterexamples_v5.py",
+      "bytes": 21707,
+      "sha256": "a2c2cf72a6a32e23ed53ffb32e8da8869beef46ecd7acb41ae14f9fccf67c898"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/runner_freeze_v4.json",
+      "bytes": 162255,
+      "sha256": "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d"
+    },
+    {
+      "path": "evidence/interface_migration_v1/independent_oracle/test_continuation_v5.py",
+      "bytes": 8490,
+      "sha256": "ac816fad8be0c59768704f9f14d64812dc5a1ac2fb3570dd563f861f68bb954c"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/attempt.json",
+      "bytes": 4241,
+      "sha256": "34c3ca8ac14d775fbd65c00147dd09bc08fa79009ca5ad8c1ff5da6e81aa2346"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/.github/workflows/ci.yml",
+      "bytes": 29033,
+      "sha256": "566300ad7282d6cf5302bd74a995bf281b7930c5eebcc6a7783a377f48c288af"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/Makefile",
+      "bytes": 17143,
+      "sha256": "91b156953908d6ef2f483aea27e750ac2c9d0114dc5c4b04f4a83db69b4d5ed9"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/freeze_runner_v4.py",
+      "bytes": 10125,
+      "sha256": "40f7fb207191eb4e6bcf80a1dd3ac347c8ee3adb3a570345d87c9bd9d56002ed"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/review_continuation_v4.py",
+      "bytes": 25192,
+      "sha256": "bc9996fe6e1a926e728744f50b97c626bb44abf0803ef3941700a69f4ee4cdeb"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/run_oracle_v4.py",
+      "bytes": 19744,
+      "sha256": "8111814e847c2dcf45738e71c804d92638e296adc823948f1ed2ecf0af9bcfdd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/run_regression_v4.py",
+      "bytes": 5508,
+      "sha256": "661792bde0ecd34b0acb994dc939395cc71eef156756b41656c3b75efc9088bd"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/run_source_counterexamples_v4.py",
+      "bytes": 21707,
+      "sha256": "dc947ebc1fc605e03a76522995e2fd5c90e339793cc95f546590627525823765"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/runner_freeze_v4.json",
+      "bytes": 162255,
+      "sha256": "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/evidence/interface_migration_v1/independent_oracle/test_continuation_v4.py",
+      "bytes": 8489,
+      "sha256": "697229b50c8c754e8fc09619f1c80b5b05172be93bba954f9d940591eb639418"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/tests/test_completion_v6_gate.py",
+      "bytes": 2790,
+      "sha256": "6a02db407d29fe2b9caad2c3f02922e0cb066fe32c9338031dcb68f61bc05dac"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/tests/test_interface_migration_audit.py",
+      "bytes": 2380,
+      "sha256": "732b0417b9875d1394c10c3dab978b1f0e1e79f0205dfc93f36dc9df53ceb747"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/tests/test_interface_migration_runtime_freeze.py",
+      "bytes": 11202,
+      "sha256": "01c928ee303cebdee1e342a7e992451e0b2cb99418e908e57fa6711464df63f3"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/tests/test_neural_morphology_model.py",
+      "bytes": 8384,
+      "sha256": "a2ed2f12c4531c1041f29a62448d38584331e51d229b3fbdf200a54232965481"
+    },
+    {
+      "path": "evidence/interface_migration_v1/runner_attempts/04_published_stdlib_dependency_order/files/tools/arabic_training/proposal.py",
+      "bytes": 4620,
+      "sha256": "16c0f1abbe48166e1aadda83144e75f8b4f6fe69622530792126487c2d7e7d61"
+    },
+    {
+      "path": "evidence/interface_migration_v1/verification.json",
+      "bytes": 15600,
+      "sha256": "b13bd58e121f9686974aa24c0e51ff5fb3ac2525d777c86e28e32ba4058bb168"
+    },
+    {
+      "path": "evidence/interface_migration_v1/verification_bundle/manifest.json",
+      "bytes": 55815,
+      "sha256": "f7a5655d13640b3f505e5cc4403b46de4423739a7542341b1efe3075e6936f34"
+    }
+  ],
+  "removed_dependencies": [],
+  "addition_explanation": "Six v5 scripts, the published v4 runner identity, fifteen exact historical source/identity records, and four immutable prior verification/CI evidence references. The 48MB prior verification archive is reused by content hash, not duplicated.",
+  "scope": "Import-order admission correction. No new linguistic law or coverage measurement."
+}

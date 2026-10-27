@@ -5,7 +5,7 @@
   const number = value => Number.isFinite(value) ? value.toLocaleString('ar-JO') : '—';
   const byteLength = value => new TextEncoder().encode(value).length;
   const pendingKey = 'nabt.proof-lab.pending.v1';
-  const state = { config: null, pending: null, timer: null, elapsedTimer: null, failures: 0, inference: null, benchmark: null, semantic_axes: null, epistemic_measurement: null, contextual_reference: null, snapshot: null, submitted: null, pollCount: 0 };
+  const state = { config: null, pending: null, timer: null, elapsedTimer: null, failures: 0, inference: null, benchmark: null, semantic_axes: null, epistemic_measurement: null, contextual_reference: null, licensed_workflow: null, snapshot: null, submitted: null, pollCount: 0 };
   const examples = {
     supported: { source: 'إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.', query: 'هَلْ سَارَ زَيْدٌ؟', note: 'تتحقق مقدمة الشرط في النص، فيُختبر إمكان اشتقاق الجواب.' },
     missing: { source: 'إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ.', query: 'هَلْ سَارَ زَيْدٌ؟', note: 'وجود قاعدة شرطية وحده لا يثبت وقوع مقدمتها أو جوابها.' },
@@ -31,9 +31,9 @@
   function text(id, value) { $(id).textContent = value == null ? '—' : String(value); }
   function showMessage(message) { $('global-message').hidden = !message; text('global-message', message || ''); }
   function switchTab(name, focus = false) {
-    if (!['evidence','inference','coverage','testimony','semantic_axes','guide','epistemic_measurement','contextual_reference'].includes(name)) return;
+    if (!['evidence','inference','coverage','testimony','semantic_axes','guide','epistemic_measurement','contextual_reference','licensed_workflow'].includes(name)) return;
     document.querySelectorAll('[data-tab]').forEach(tab => { const selected = tab.dataset.tab === name; tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1; });
-    ['evidence','inference','coverage','testimony','semantic_axes','guide','epistemic_measurement','contextual_reference'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
+    ['evidence','inference','coverage','testimony','semantic_axes','guide','epistemic_measurement','contextual_reference','licensed_workflow'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
     if (focus) $('tab-' + name).focus();
   }
   document.querySelectorAll('[data-tab]').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
@@ -66,7 +66,7 @@
   }));
   function enableActions() {
     const disabled = !state.config?.ready || !!state.pending;
-    $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled; $('run-testimony').disabled = disabled; $('run-semantic-axes').disabled = disabled; $('run-epistemic-measurement').disabled = disabled; $('run-contextual-reference').disabled = disabled;
+    $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled; $('run-testimony').disabled = disabled; $('run-semantic-axes').disabled = disabled; $('run-epistemic-measurement').disabled = disabled; $('run-contextual-reference').disabled = disabled; $('run-workflow').disabled = disabled;
     $('semantic-lexical-profile').disabled = !!state.pending;
   }
   async function request(path, options = {}) {
@@ -111,6 +111,7 @@
     let payload;
     try {
       payload = {schema:'nabt.proof-lab-request.v1',mode};
+      if(mode==='licensed_workflow'){payload.workflow=globalThis.NabtWorkflowUI.request();}
       if (mode === 'semantic_axes') {
         const profile = $('semantic-lexical-profile').value || 'teaching_v1';
         if (!['teaching_v1','attested_qac_v1'].includes(profile)) throw new Error('المسار المعجمي غير معروف.');
@@ -128,13 +129,17 @@
         payload.target = $('testimony-target').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
         if (!payload.target.length || payload.target.length>64 || byteLength(payload.entry)>128 || payload.target.some(s=>byteLength(s)>4096)) throw new Error('المدخل أو المكونات يتجاوز حدود الشهادة.');
       }
-      $('run-inference').disabled = true; $('run-benchmark').disabled = true; $('run-testimony').disabled = true; $('run-semantic-axes').disabled = true; $('run-epistemic-measurement').disabled = true; $('run-contextual-reference').disabled = true;
+      if(mode==='inference'){state.inference=null;state.snapshot=null;$('inference-output').hidden=true;$('inference-empty').hidden=false;}
+      if(mode==='testimony'){state.testimony=null;$('testimony-output').hidden=true;$('testimony-rows').replaceChildren();}
+      $('run-inference').disabled = true; $('run-benchmark').disabled = true; $('run-testimony').disabled = true; $('run-semantic-axes').disabled = true; $('run-epistemic-measurement').disabled = true; $('run-contextual-reference').disabled = true; $('run-workflow').disabled = true;
+      if(mode==='licensed_workflow'){state.licensed_workflow=null;globalThis.NabtWorkflowUI.reset('جارٍ فحص الطلب؛ لا تعرض دعوى حتى اكتمال مطابقة الإيصال.');}
       if (mode === 'semantic_axes') { state.semantic_axes = null; globalThis.NabtSemanticAxes?.reset('جارٍ طلب قياس جديد؛ لا شهادة معروضة حتى اكتماله.'); }
       if (mode === 'epistemic_measurement') { state.epistemic_measurement = null; globalThis.NabtEpistemicMeasurement?.reset('جارٍ طلب القياس؛ لا شهادة معروضة حتى اكتماله.'); }
       if (mode === 'contextual_reference') { state.contextual_reference = null; globalThis.NabtContextualReference?.reset('جارٍ طلب القياس؛ لا شهادة معروضة حتى اكتماله.'); }
       const result = await request('/api/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       if (typeof result.handle !== 'string' || typeof result.request_id !== 'string') throw new Error('استجابة إرسال غير مكتملة. راجع سجل GitHub قبل إعادة الإرسال لتجنب تكرار الطلب.');
       state.pending = {handle:result.handle,request_id:result.request_id,mode,started:Date.now()};
+      if (mode === 'licensed_workflow') state.pending.workflow_request_sha256=await globalThis.NabtWorkflowContract.digest(globalThis.NabtWorkflowContract.canonical(payload.workflow));
       if (mode === 'semantic_axes') state.pending.lexical_profile = payload.lexical_profile || 'teaching_v1';
       state.submitted = {request_id:result.request_id,payload};
       state.failures=0; state.pollCount=0;
@@ -143,6 +148,7 @@
     } catch (error) { showMessage(error.name === 'TimeoutError' ? 'انتهت مهلة الإرسال. قد يكون GitHub قد استقبل الطلب؛ راجع التنفيذ قبل المحاولة مجددًا.' : error.message); }
     enableActions();
   }
+  $('workflow-form').addEventListener('submit',event=>{event.preventDefault();submit('licensed_workflow');});
   $('inference-form').addEventListener('submit',event=>{event.preventDefault();submit('inference');});
   $('run-benchmark').addEventListener('click',()=>submit('benchmark'));
   $('run-semantic-axes').addEventListener('click',()=>submit('semantic_axes'));
@@ -181,11 +187,13 @@
         if (!result.report || result.report.request_id!==state.pending.request_id || result.report.mode!==state.pending.mode) throw new Error('لا تتطابق هوية التقرير مع الطلب الجاري. لم تُعرض نتيجة.');
         if(result.report.schema!=='nabt.proof-lab-result.v1' || result.report.all_arabic_complete!==false || result.report.world_truth_established!==false) throw new Error('التقرير يخالف نطاق المختبر المعلن؛ لم تُعرض دعوى غير مرخّصة.');
         const mode=state.pending.mode;
+        if(mode==='licensed_workflow'&&result.report.gateway_result&&result.report.workflow_request_sha256!==state.pending.workflow_request_sha256)throw new Error('هوية طلب المسار المرخّص لا تطابق الطلب الجاري.');
         if(mode==='semantic_axes'&&result.report.semantic_axes&&((result.report.semantic_axes.lexical_profile||'teaching_v1')!==(state.pending.lexical_profile||'teaching_v1')||(Object.hasOwn(result.report,'lexical_profile')&&result.report.lexical_profile!==(state.pending.lexical_profile||'teaching_v1'))))throw new Error('المسار المعجمي في النتيجة لا يطابق الطلب؛ لم تُعرض نتيجة بديلة.');
-        if(mode==='inference')renderInference(result.report);else if(mode==='testimony')renderTestimony(result.report);else if(mode==='semantic_axes'){globalThis.NabtSemanticAxes.render(result.report);state.semantic_axes=result.report;}else if(mode==='epistemic_measurement'){await globalThis.NabtEpistemicMeasurement.render(result.report);state.epistemic_measurement=result.report;}else if(mode==='contextual_reference'){await globalThis.NabtContextualReference.render(result.report, {live:true});state.contextual_reference=result.report;}else renderBenchmark(result.report);
+        if(mode==='licensed_workflow'){await globalThis.NabtWorkflowUI.render(result.report);state.licensed_workflow=result.report;}else if(mode==='inference'){if(result.report.result)await globalThis.NabtLegacyAuthority.verifyInferenceDigests(result.report);renderInference(result.report);}else if(mode==='testimony'){if(result.report.testimony)globalThis.NabtLegacyAuthority.validateTestimony(result.report.testimony,result.report.status);renderTestimony(result.report);}else if(mode==='semantic_axes'){globalThis.NabtSemanticAxes.render(result.report);state.semantic_axes=result.report;}else if(mode==='epistemic_measurement'){await globalThis.NabtEpistemicMeasurement.render(result.report);state.epistemic_measurement=result.report;}else if(mode==='contextual_reference'){await globalThis.NabtContextualReference.render(result.report, {live:true});state.contextual_reference=result.report;}else renderBenchmark(result.report);
         text('job-title','اكتمل التنفيذ واستلام التقرير');text('job-description','النتيجة أدناه مرتبطة بمعرف الطلب وإصدار الشفرة. اكتمال التنفيذ لا يعني أن الاستنتاج مدعوم.');
         finishPending(); return;
       } else if (result.status==='failed') {
+        if(state.pending.mode==='licensed_workflow'){state.licensed_workflow=null;globalThis.NabtWorkflowUI.reset('تعذّر التنفيذ؛ لا توجد دعوى جديدة لهذه المحاولة.');}
         if(state.pending.mode==='semantic_axes'){state.semantic_axes=null;globalThis.NabtSemanticAxes?.reset('تعذّر إكمال التنفيذ؛ لا نتيجة أو شهادة لهذه المحاولة.');}
         if(state.pending.mode==='epistemic_measurement'){state.epistemic_measurement=null;globalThis.NabtEpistemicMeasurement?.reset('تعذّر إكمال التنفيذ؛ لا نتيجة أو شهادة لهذه المحاولة.');}
         if(state.pending.mode==='contextual_reference'){state.contextual_reference=null;globalThis.NabtContextualReference?.reset('تعذّر إكمال التنفيذ؛ لا شهادة لهذه المحاولة.');}
@@ -205,7 +213,11 @@
   function addTrace(label,content){const item=document.createElement('div');item.className='trace-item';const heading=document.createElement('span');heading.textContent=label;const p=document.createElement('p');p.textContent=content;item.append(heading,p);$('proof-trace').append(item);}
   function literal(atom){if(!atom||typeof atom.predicate!=='string')return 'قضية غير معروضة';return (atom.positive===false?'نفي: ':'')+atom.predicate+' '+(Array.isArray(atom.arguments)?atom.arguments.map(String).join(' · '):'');}
   function renderInference(report){
+    const authority=report.result?globalThis.NabtLegacyAuthority.validateInference(report):{checked:false,claim:null};
     state.inference=report;const result=report.result||{};
+    text('inference-claim',authority.checked?'دعم الاستعلام أو نقيضه، أو غياب دعمهما، بالنسبة إلى مقدمات النص والقانون المحدود.':'لم تكتمل دعوى استدلال مفحوصة في هذه المحاولة.');
+    text('inference-bridge',authority.checked?'هذه شهادة استدلال مصدرية مشروطة. لا يحمل إيصال المسار القديم دعوى اكتمال تحصيل A116، ولا يثبت المراد العام أو التواتر أو صدق الواقع.':'التعذر أو نفاد الموارد لا يثبت بطلان الجملة في العربية.');
+    text('inference-claim-json',JSON.stringify(authority.claim,null,2));
     const status=result.status||report.status||'VERIFICATION_UNAVAILABLE';const info=statuses[status]||['نتيجة غير مصنفة','راجع التقرير الخام؛ لم تُمنح هذه الحالة وصفًا برهانيًا تلقائيًا.','warning'];
     $('inference-empty').hidden=true;$('inference-output').hidden=false;
     text('result-marker',info[0]);$('result-marker').className='result-marker '+info[2];$('result-verdict').className='result-verdict '+info[2];
@@ -219,7 +231,7 @@
     text('result-reason-explanation',reasonNotes[reason]||'السبب التقني محفوظ أدناه وفي التقرير الكامل. لا يُستبدل حكم مفقود بنتيجة مفترضة.');
     $('proof-trace').replaceChildren();
     const records=Array.isArray(result.closure_records)?result.closure_records:[];
-    if(result.native_checked===true&&result.verified===true&&records.length){
+    if(authority.checked&&records.length){
       const first=records[0];const steps=Array.isArray(first.steps)?first.steps:[];
       const facts=(first.clauses||[]).filter(c=>c.kind==='fact');const rules=(first.clauses||[]).filter(c=>c.kind==='rule');
       steps.slice(0,12).forEach(step=>{if(step.kind==='fact'&&facts[step.index])addTrace('مقدمة من النص',literal(facts[step.index].atom));else if(step.kind==='rule'&&rules[step.index]){const rule=rules[step.index];addTrace('تطبيق قاعدة مرخّصة',(rule.body||[]).map(literal).join(' و ')+' ← '+literal(rule.head));}});
@@ -283,9 +295,10 @@
   }
   $('case-filter').addEventListener('change',renderRows);
   function download(report){if(!report)return;const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='nabt-'+report.mode+'-'+String(report.request_id||'report').replace(/[^a-zA-Z0-9-]/g,'')+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  $('download-workflow').addEventListener('click',()=>download(state.licensed_workflow));
   $('download-inference').addEventListener('click',()=>download(state.inference));$('download-benchmark').addEventListener('click',()=>download(state.benchmark));$('download-testimony').addEventListener('click',()=>download(state.testimony));$('download-semantic-axes').addEventListener('click',()=>download(state.semantic_axes));$('download-epistemic-measurement').addEventListener('click',()=>download(state.epistemic_measurement));$('download-contextual-reference').addEventListener('click',()=>download(state.contextual_reference));
   updateInputState();
   loadConfig().then(()=>{
-    try{const saved=JSON.parse(sessionStorage.getItem(pendingKey)||'null');if(saved&&typeof saved.handle==='string'&&typeof saved.request_id==='string'&&['inference','benchmark','testimony','semantic_axes','epistemic_measurement','contextual_reference'].includes(saved.mode)&&Number.isFinite(saved.started)){state.pending=saved;prepareJob();switchTab(saved.mode==='benchmark'?'coverage':saved.mode);enableActions();poll();}}catch{try{sessionStorage.removeItem(pendingKey);}catch{}}
+    try{const saved=JSON.parse(sessionStorage.getItem(pendingKey)||'null');if(saved&&typeof saved.handle==='string'&&typeof saved.request_id==='string'&&['inference','benchmark','testimony','semantic_axes','epistemic_measurement','contextual_reference','licensed_workflow'].includes(saved.mode)&&Number.isFinite(saved.started)){state.pending=saved;prepareJob();switchTab(saved.mode==='benchmark'?'coverage':saved.mode);enableActions();poll();}}catch{try{sessionStorage.removeItem(pendingKey);}catch{}}
   });
 })();

@@ -122,6 +122,28 @@ class NeuralMorphologyModelTests(unittest.TestCase):
         self.assertEqual(len(result['tokens'][0]['candidates']['tag']),2)
         self.assertEqual(result['tokens'][2]['status'],'UNKNOWN_INPUT_DOMAIN')
 
+    def test_proposal_preserves_no_grad_and_restores_callers_gradient_mode(self):
+        import torch
+        from unittest.mock import patch
+        from tools.arabic_training.proposal import propose
+        self.model.eval()
+        original_forward = self.model.forward
+        observed = []
+
+        def checked_forward(*args, **kwargs):
+            observed.append(torch.is_grad_enabled())
+            return original_forward(*args, **kwargs)
+
+        for enabled in (True, False):
+            with self.subTest(enabled=enabled), torch.set_grad_enabled(enabled):
+                with patch.object(self.model, 'forward', side_effect=checked_forward):
+                    result = propose('كَتَبَ زَيْدٌ'.encode(), self.model, self.vocab, self.receipt)
+                self.assertEqual(torch.is_grad_enabled(), enabled)
+                self.assertEqual(result['authority'], 'NONE')
+                self.assertFalse(result['readings_licensed'])
+        self.assertEqual(observed, [False, False])
+        self.assertTrue(all(parameter.grad is None for parameter in self.model.parameters()))
+
     def test_limits_invalid_input_and_checksum_are_distinct(self):
         from tools.arabic_training.proposal import propose,load_bundle
         self.assertEqual(propose(b'\xff',self.model,self.vocab,self.receipt)['status'],'INVALID_INPUT')

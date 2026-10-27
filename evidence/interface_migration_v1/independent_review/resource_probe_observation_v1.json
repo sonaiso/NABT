@@ -1,0 +1,34 @@
+{
+  "schema": "nabt.review-observation.v1",
+  "timestamp_utc": "2026-10-26T23:00:38.921778+00:00",
+  "origin": "Independent execution after source review, outside the frozen24case denominator",
+  "expression_recipe": "'قَالَ زَيْدٌ: «' + 'ب' * count + '»'",
+  "observed_summaries": [
+    {
+      "count": 3000,
+      "bytes": 6029,
+      "status": "CHECKED_SCOPE_ENVELOPE",
+      "reason": null,
+      "native_checked": true
+    },
+    {
+      "count": 4000,
+      "bytes": 8029,
+      "status": "INVALID_INPUT",
+      "reason": "RESOURCE_LIMIT",
+      "native_checked": false
+    },
+    {
+      "count": 5000,
+      "bytes": 10029,
+      "status": "INVALID_INPUT",
+      "reason": "RESOURCE_LIMIT",
+      "native_checked": false
+    }
+  ],
+  "raw_full_receipts_retained": false,
+  "finding": "Resource exhaustion misclassified as invalid input by foundation.validate_source exception mapping",
+  "expected_for_resource_limit": "RESOURCE_EXHAUSTED",
+  "owner_notified": true,
+  "whole_arabic_complete": false
+}
