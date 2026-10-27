@@ -16,6 +16,8 @@ The initial acquisition law is `nabt.aligned-acquisition.v1`, using
 `nabt.a116.v1`. It licenses representation under the declared rules below,
 not an acoustic observation, attestation, word category, grammatical judgment,
 reference resolution, or world truth. New lexical rules require a later law.
+`wasl` selects local word-ending representation; it does not certify the full
+connected pronunciation across words. Boundary assimilation remains a debt.
 
 ## Exact source and boundaries
 
@@ -47,6 +49,9 @@ Whitespace/punctuation does not assert a syntactic clause or an uttered fact.
    ORTHOGRAPHIC_LEXICON_REQUIRED for the whole word. This is a conservative debt
    registry, NOT ten implemented normalization rules. Explicit dagger alif
    does not supply other missing marks. No source claim of "11 completed laws".
+   Skeletons `أولو أولي أولئك أولاء` always DEFER with
+   SILENT_LETTER_LEXICON_REQUIRED: a written waw is not necessarily pronounced.
+   This is an authored conservative boundary, not a source-proved catalogue.
 3. Canonical 29 carriers with exactly one explicit ordinary mark map to
    `4*carrier_index+state`. Hamza seats أ إ ؤ ئ map to hamza, retaining the raw
    seat. Shadda prepends the same carrier with sukun. Unmarked consonant is
@@ -54,12 +59,16 @@ Whitespace/punctuation does not assert a syntactic clause or an uttered fact.
 4. Bare ا/و/ي is licensed only immediately after a previous piece whose ONE
    short vowel is respectively fatha/damma/kasra, in the same word. It emits
    that long-vowel carrier with sukun. No match across a boundary or unresolved
-   piece. No generic treatment of bare waw/ya as a long vowel.
+   piece. The previous piece's LAST emitted cell must have the matching short
+   vowel state; a piece already expanded by dagger alif cannot license another
+   long vowel. No generic treatment of bare waw/ya as a long vowel.
 5. Dagger alif U+0670 requires exactly one fatha on a canonical/hamza-seat head;
    emits the marked head (and shadda if present), followed by alif+sukun.
    No dagger+sukun/damma/kasra/tanwin; these combinations are INVALID_INPUT.
+   Dagger without any ordinary mark is DEFER/MISSING_VOCALIZATION.
 6. Final ى with no marks, immediately after a licensed fatha piece: alif+sukun,
-   with explicit MAQSURA rule. Other positions/forms DEFER.
+   whose last emitted cell has fatha, with explicit MAQSURA rule. Other
+   positions/forms DEFER.
 7. Tanwin on a supported head: in wasl, marked head followed by nun+sukun.
    At final-word waqf, dammatan/kasratan become head+sukun, fathatan becomes
    head+fatha then alif+sukun. Preserve shadda. A following bare final ا after
@@ -69,7 +78,8 @@ Whitespace/punctuation does not assert a syntactic clause or an uttered fact.
    carrier+sukun (preserving shadda); the raw mark remains in its source piece.
    This implements the declared ordinary sukun pause only, not rawm/ishmam or
    every narrated pause. Final hamza after bare alif with fathatan is DEFER:
-   its exceptional pause is not covered by the generic inserted-alif rule.
+   this spelling has no implemented licence in v1. This deferral does not
+   establish an exceptional phonetic pause.
 8. Final ة requires one explicit vowel or tanwin; wasl uses ta with the stated
    vowel (and tanwin expansion); final-word waqf uses ha+sukun. Other ة DEFER.
 9. آ, ٱ, bare initial alif (including the article), article-lam assimilation,
