@@ -156,6 +156,7 @@
   $('run-contextual-reference').addEventListener('click',()=>submit('contextual_reference'));
   $('testimony-form').addEventListener('submit',event=>{event.preventDefault();submit('testimony');});
   function prepareJob() {
+    if($('job-transport')){$('job-transport').hidden=true;$('job-transport').textContent='';}
     $('job-panel').hidden=false; $('job-spinner').hidden=false; $('resume-poll').hidden=true; $('job-link').hidden=true;
     text('job-id',state.pending.request_id);text('job-title','الطلب في انتظار التنفيذ');text('job-description',state.pending.mode==='semantic_axes'?'سيعيد GitHub تشغيل المقارن المرجعي وفحص Python على النسخة المثبتة. لا يتضمن هذا المسار شهادة Lean للدعاوى.':'سيبني GitHub النسخة المثبتة ويشغّل الفحص. مدة الانتظار ليست دليلًا على قبول النتيجة.');
     if(state.elapsedTimer) clearInterval(state.elapsedTimer);
@@ -184,6 +185,13 @@
       if (result.status==='queued') { text('job-title','الطلب في انتظار GitHub');text('job-description','حُفظ معرف الطلب. ستظهر النتيجة بعد اكتمال الفحص على الخادم.'); }
       else if (result.status==='in_progress') {text('job-title','جارٍ تنفيذ الفحص');text('job-description',state.pending.mode==='semantic_axes'?'تجري إعادة فحص Python والمقارنة بالمقامات المستقلة. لم تنتهِ مطابقة التقرير بالطلب بعد.':'يعمل مسار Lean على النسخة المثبتة. لا توجد نتيجة نهائية حتى انتهاء التنفيذ وفحص هوية التقرير.');}
       else if (result.status==='completed') {
+        const strictTransport=state.config?.branch==='codex/legacy-license-wave1';
+        if(strictTransport||result.report?.transport_contract){
+          await globalThis.NabtTransportContract.verifyDetached(result.report,'tools.proof_lab.run_payload');
+          if(result.report.gateway_result)await globalThis.NabtTransportContract.verifyDetached(result.report.gateway_result,'tools.licensed_workflow.run_request');
+          if($('job-transport')){$('job-transport').hidden=false;$('job-transport').textContent='طابقت الواجهة عقد النقل وبصمات الطلب والنتيجة. هذا فحص سلامة للنقل؛ سلطة كل دعوى تبقى في قانونها المحدد.';}
+        }
+
         if (!result.report || result.report.request_id!==state.pending.request_id || result.report.mode!==state.pending.mode) throw new Error('لا تتطابق هوية التقرير مع الطلب الجاري. لم تُعرض نتيجة.');
         if(result.report.schema!=='nabt.proof-lab-result.v1' || result.report.all_arabic_complete!==false || result.report.world_truth_established!==false) throw new Error('التقرير يخالف نطاق المختبر المعلن؛ لم تُعرض دعوى غير مرخّصة.');
         const mode=state.pending.mode;

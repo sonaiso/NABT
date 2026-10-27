@@ -186,7 +186,7 @@ def validate_payload(payload):
                 or workflow["schema"] != "nabt.licensed-workflow-request.v1"
                 or type(workflow["op"]) is not str
                 or workflow["op"] not in {"lexical_surface", "lexical_candidates", "classical_control",
-                                          "scope_acquisition", "lexical_transmission"}
+                                          "scope_acquisition", "lexical_transmission", "discourse_boundary", "source_inference"}
                 or type(workflow["input"]) is not dict):
             raise RequestError("INVALID_WORKFLOW_REQUEST")
         from tools.licensed_workflow import _OPERATIONS
@@ -280,7 +280,7 @@ def _workflow_wire(value):
 def _workflow_identity():
     binaries = ("lexicalSourceRows", "lexicalSurface", "linguisticTruth", "exportClassicalHamza",
                 "exportClassicalWeak", "exportClassicalGemination", "exportClassicalBoundaryAffixes", "qualifiedCueLicensing",
-                "scopeAcquisition", "lexicalTransmission")
+                "scopeAcquisition", "lexicalTransmission", "discourseBoundaryCue", "licensedInference")
     native = {name: _sha(path.read_bytes()) if (path := ROOT / "formal/.lake/build/bin" / name).is_file()
               else None for name in binaries}
     return {"code_sha": _code_sha(), "native_sha256": None, "native_binaries_sha256": native,
@@ -402,6 +402,27 @@ def _benchmark():
         "execution_integrity": report["execution_evidence"]["integrity"],
         "scope": report["scope"], "rows": rows,
     }
+
+
+def _bind_transport(response):
+    # This only binds a fresh fixed producer's output. It never imports proof
+    # authority from caller-provided receipts or native flags.
+    from nabt.transport_contract import _bind_metadata
+    response.pop("transport_contract", None)
+    paths = []
+    if response.get("mode") == "licensed_workflow" and "gateway_result" in response:
+        paths = [f"gateway_result.claims[{i}]"
+                 for i in range(len(response["gateway_result"]["claims"]))]
+    response["transport_contract"] = _bind_metadata(
+        entrypoint="tools.proof_lab.run_payload", command=response.get("mode"),
+        resolved_request={"request_id": response.get("request_id"),
+                          "payload_sha256": response.get("payload_sha256")},
+        result=response, policy_id="nabt.proof-lab." + (response.get("mode") or "invalid") + ".v1",
+        authority="CHILD_DOMAIN_CONTRACT_RETAINED", input_binding="EXACT_PAYLOAD_DIGEST",
+        claim_paths=paths,
+        unresolved_premises=["TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
+                             "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY"])
+    return response
 
 
 def run_payload(request_id, payload, *, prepare=False):
@@ -544,17 +565,28 @@ def run_payload(request_id, payload, *, prepare=False):
         for field in ("gateway_result", "gateway_result_json", "gateway_result_sha256", "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory"):
             response.pop(field, None)
     response["duration_ms"] = round((time.monotonic() - started) * 1000)
-    encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
-    if len(encoded) >= MAX_RESULT_BYTES:
-        response.pop("result", None)
-        response.pop("benchmark", None)
-        response.pop("testimony", None)
-        response.pop("semantic_axes", None)
-        response.pop("epistemic_measurement", None)
-        response.pop("contextual_reference", None)
-        for field in ("gateway_result", "gateway_result_json", "gateway_result_sha256", "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory"):
+    # Validate and bound the producer before copying canonical bytes. Private
+    # malformed diagnostic values must fail closed, without echoing the child.
+    try:
+        for phase in range(2):
+            encoded = json.dumps(response, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            if len(encoded) >= MAX_RESULT_BYTES:
+                for field in ("result", "benchmark", "testimony", "semantic_axes", "epistemic_measurement",
+                              "contextual_reference", "gateway_result", "gateway_result_json", "gateway_result_sha256",
+                              "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory",
+                              "transport_contract"):
+                    response.pop(field, None)
+                response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
+            if phase == 0 or response.get("transport_contract") is None:
+                _bind_transport(response)
+    except (ValueError, TypeError, UnicodeError, RecursionError):
+        for field in ("result", "benchmark", "testimony", "semantic_axes", "epistemic_measurement",
+                      "contextual_reference", "gateway_result", "gateway_result_json", "gateway_result_sha256",
+                      "adapter_result_json", "workflow_request", "workflow_request_sha256", "migration_inventory",
+                      "transport_contract"):
             response.pop(field, None)
-        response.update(status="RESOURCE_EXHAUSTED", error="RESULT_BYTE_LIMIT")
+        response.update(status="EXECUTION_FAILED", error="INTERNAL_EXECUTION_FAILURE")
+        _bind_transport(response)
     return response
 
 
@@ -604,6 +636,7 @@ def main(argv=None):
             return 2
         result = run_payload(None, None, prepare=args.prepare)
         result["error"] = "INPUT_TRANSPORT_FAILURE"
+        _bind_transport(result)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(result, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     if encrypted:

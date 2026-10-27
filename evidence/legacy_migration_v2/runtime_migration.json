@@ -1,0 +1,27 @@
+{
+  "schema": "nabt.legacy-migration.runtime-migration.v2",
+  "previous_manifest": "evidence/interface_migration_v1/code_freeze_v1.json",
+  "previous_manifest_sha256": "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271",
+  "previous_archive_sha256": "d65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5",
+  "previous_policy_sha256": "da9c90ed0b5d8fbf8be6cf5ebca490c16773af0931e82512a880feb60fd8472e",
+  "current_manifest": "evidence/legacy_migration_v2/code_freeze_v1.json",
+  "current_manifest_sha256": "9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b",
+  "current_archive_sha256": "53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473",
+  "current_policy_sha256": "8dac9b09df6c426446d4597421c15507bc80a15ab264d032e218a0caf5154cdc",
+  "runtime_file_count": 104,
+  "changed_runtime_paths": [
+    "src/nabt/cli.py",
+    "src/nabt/data/framework_foundation.json"
+  ],
+  "added_runtime_paths": [
+    "src/nabt/data/transport_command_contracts.json",
+    "src/nabt/transport_contract.py"
+  ],
+  "removed_runtime_paths": [],
+  "historical_material_changed": false,
+  "historical_thresholds_changed": false,
+  "runtime_calls_performed_by_migration": false,
+  "patch_path": "evidence/legacy_migration_v2/runtime_migration.patch",
+  "patch_sha256": "041373916118f8bc0c08ac108be8b108f8d04970f7c620fba1bf6606ad1cbb63",
+  "scope": "Versioned opt-in transport contracts for legacy commands, with exact child-request/response binding. The packaged delta is the CLI and discovery registry plus the new transport helper and command matrix. Historical cases, questions, scorers, gold, denominators, thresholds and failure signatures are preserved. Default legacy CLI results retain their prior contract; the new envelope is command-specific. Tools, Lean and UI have separate execution identities. Transport integrity and registry coverage do not establish premise acquisition, intended sense, source independence, tawatur or whole Arabic completeness."
+}

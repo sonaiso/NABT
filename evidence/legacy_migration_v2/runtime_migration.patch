@@ -1,0 +1,1850 @@
+--- previous/src/nabt/cli.py
++++ current/src/nabt/cli.py
+@@ -75,0 +76,2 @@
++    result.add_argument("--response-contract", choices=("legacy", "scoped-v1"), default="legacy",
++                        help="Opt in to explicit transport authority; place before the command")
+@@ -259,0 +262,32 @@
++    contract = getattr(args, "response_contract", "legacy")
++    if contract not in {"legacy", "scoped-v1"}:
++        raise NabtError("INVALID_RESPONSE_CONTRACT", "Unknown response contract")
++    if contract == "legacy":
++        return _run_legacy(args)
++    from copy import deepcopy
++    from .transport_contract import _envelope, _claim_paths
++    request = {key: deepcopy(value) for key, value in vars(args).items() if key != "response_contract"}
++    claims, authority = [], "LEGACY_DIAGNOSTIC_OR_CONDITIONAL"
++    binding = "CLI_ARGUMENTS_ONLY"
++    unresolved = ["LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED", "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"]
++    if args.command == "classical-transform":
++        from .classical_certified import evaluate_certified
++        frame = read_certificate(args.frame)
++        request = {"rule_id": args.rule_id, "frame": frame}
++        result = evaluate_certified(args.rule_id, frame)
++        claims = _claim_paths(result, "classical")
++        authority, binding = "SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION", "RESOLVED_CHILD_INPUT"
++        unresolved = ["SOURCE_TO_CONTROL_ACQUISITION", "GENERAL_SURFACE_SPELLING_REFINEMENT"]
++        code = 2 if result["status"] == "VERIFICATION_UNAVAILABLE" else 0 if claims else 3
++    else:
++        result, code = _run_legacy(deepcopy(args))
++        if args.command in {"law", "encode", "decode", "append", "split", "replace", "count", "generate", "rank", "effect", "analyse", "certify", "verify", "transcode"}:
++            authority = "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN"
++            unresolved = ["NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"]
++    return _envelope(entrypoint="nabt.cli.run", command=args.command,
++        resolved_request=request, result=result, policy_id="nabt.cli." + args.command + ".scoped-v1",
++        authority=authority, input_binding=binding, claim_paths=claims,
++        unresolved_premises=unresolved), code
++
++
++def _run_legacy(args) -> tuple[dict, int]:
+@@ -689,0 +724 @@
++    args = None
+@@ -700 +735 @@
+-        print(json.dumps(exc.as_dict(), ensure_ascii=False), file=sys.stderr)
++        print(json.dumps(_failure_output(args, exc.as_dict()), ensure_ascii=False), file=sys.stderr)
+@@ -703 +738 @@
+-        print(json.dumps({"status": "DEFER", "code": "IO_ERROR", "message": str(exc)}, ensure_ascii=False), file=sys.stderr)
++        print(json.dumps(_failure_output(args, {"status": "DEFER", "code": "IO_ERROR", "message": str(exc)}), ensure_ascii=False), file=sys.stderr)
+@@ -704,0 +740,11 @@
++
++
++def _failure_output(args, result):
++    if args is None or getattr(args, "response_contract", "legacy") != "scoped-v1":
++        return result
++    from .transport_contract import _envelope
++    return _envelope(entrypoint="nabt.cli.run", command=args.command,
++        resolved_request={k: v for k, v in vars(args).items() if k != "response_contract"},
++        result=result, policy_id="nabt.cli." + args.command + ".scoped-v1",
++        authority="FAILURE_WITHOUT_CLAIMS", input_binding="CLI_ARGUMENTS_ONLY",
++        unresolved_premises=["CHILD_DID_NOT_RETURN_CHECKED_RESULT"])
+--- previous/src/nabt/data/framework_foundation.json
++++ current/src/nabt/data/framework_foundation.json
+@@ -1174,0 +1175,11 @@
++      "id": "nabt.transport_contract.validate_transport_envelope",
++      "path": "src/nabt/transport_contract.py",
++      "entrypoint": "validate_transport_envelope",
++      "layer": "transport_integrity",
++      "kind": "diagnostic",
++      "identifier_domain": "imported_byte_integrity_without_execution_authority",
++      "status_binding": "installed foundation identity; explicit child claims only; transport integrity is not proof authority",
++      "projection_completeness_established": false,
++      "guard_kind": "runtime_foundation"
++    },
++    {
+@@ -1625,0 +1637,11 @@
++      "id": "tools.linguistic_truth.discourse_boundary.acquire_discourse_boundary",
++      "path": "tools/linguistic_truth/discourse_boundary.py",
++      "entrypoint": "acquire_discourse_boundary",
++      "layer": "discourse_boundary_acquisition",
++      "kind": "checked",
++      "identifier_domain": "exact_utf8_boundary_and_cue_spans",
++      "status_binding": "installed foundation identity; explicit child claims only; transport integrity is not proof authority",
++      "projection_completeness_established": false,
++      "guard_kind": "runtime_foundation"
++    },
++    {
+@@ -1951,0 +1974,11 @@
++      "projection_completeness_established": false,
++      "guard_kind": "runtime_foundation"
++    },
++    {
++      "id": "tools.transport_adapters.certify_inference",
++      "path": "tools/transport_adapters.py",
++      "entrypoint": "certify_inference",
++      "layer": "licensed_source_inference",
++      "kind": "checked",
++      "identifier_domain": "source_relative_finite_inference",
++      "status_binding": "installed foundation identity; explicit child claims only; transport integrity is not proof authority",
+@@ -2078,0 +2112 @@
++      "discourseBoundaryCue",
+@@ -2204,0 +2239 @@
++      "src/nabt/transport_contract.py",
+@@ -2344,0 +2380 @@
++      "tools/linguistic_truth/discourse_boundary.py",
+@@ -2410,0 +2447 @@
++      "tools/transport_adapters.py",
+@@ -2976,0 +3014 @@
++      "src/nabt/transport_contract.py:validate_transport_envelope",
+@@ -3909,0 +3948 @@
++      "tools/linguistic_truth/discourse_boundary.py:acquire_discourse_boundary",
+@@ -4181,0 +4221 @@
++      "tools/transport_adapters.py:certify_inference",
+@@ -4273,0 +4314,7 @@
++      "executable": "discourseBoundaryCue",
++      "layer": "native_checker_or_probe",
++      "identifier_domain": "declared_native_protocol_not_implicit_a116_cells",
++      "status_binding": "compiled_protocol_scope; raw native invocation is not covered by a Python admission guard",
++      "projection_completeness_established": false
++    },
++    {
+--- previous/src/nabt/data/transport_command_contracts.json
++++ current/src/nabt/data/transport_command_contracts.json
+@@ -0,0 +1,1564 @@
++{
++  "schema": "nabt.transport-command-contracts.v1",
++  "authority": "REVIEW_METADATA_NOT_PROOF",
++  "default_legacy_compatibility": true,
++  "whole_surface_migration_claim": false,
++  "rows": [
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "foundation",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "classical-laws",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "classical-transform",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "CLASSICAL_FINITE_CONTROL_EQUATION"
++      ],
++      "authority": "SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION",
++      "unresolved_premises": [
++        "SOURCE_TO_CONTROL_ACQUISITION",
++        "GENERAL_SURFACE_SPELLING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-classical-transform",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "source-lexicon",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "phonology-catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "phonology",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "inquire",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-inquiry",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "encode",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "analyse",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "certify",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "rank",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "effect",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "decode",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "count",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "generate",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "compile",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "run",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-run",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "execute",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "transcode",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "pilot",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-words",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-words",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-morphology",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-morphology",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-text-morphology",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-text-morphology",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "derivation-catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "generate-derivation",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-derivation",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-verb-paradigm",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-derivation",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-verb-paradigm",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "nominal-catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "inflection-catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "discourse-catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "person-catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-discourse",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "ask-discourse",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-discourse",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-discourse-answer",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-person",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "audit-corpus",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "learn-qac-lexicon",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-inflection",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-inflection",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "weak-root-profile",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "number-rule",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-nominal",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-nominal-facts",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "count-source-units",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-count-phrase",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-nominal",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-nominal-facts",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-source-count",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "verify-count-phrase",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-text",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "ask-text",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-arabic",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "ask-arabic",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "read-governors",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "ask-governors",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "LEGACY_AUTHORITY_EXPLICIT_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "LEGACY_DIAGNOSTIC_OR_CONDITIONAL",
++      "unresolved_premises": [
++        "LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED",
++        "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "append",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "split",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "replace",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "nabt.cli.run",
++      "command": "law",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "CLI_ARGUMENTS_ONLY",
++      "migration_state": "TYPED_DOMAIN_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN",
++      "unresolved_premises": [
++        "NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.grammar_catalog.__main__.main",
++      "command": "catalog",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "QUERY_RETRIEVAL_IS_NOT_PREMISE_ACQUISITION",
++        "SOURCE_TO_CONTROL_ACQUISITION_NOT_PROVED",
++        "WHOLE_BOOK_COVERAGE_NOT_PROVED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.grammar_catalog.__main__.main",
++      "command": "search",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "QUERY_RETRIEVAL_IS_NOT_PREMISE_ACQUISITION",
++        "SOURCE_TO_CONTROL_ACQUISITION_NOT_PROVED",
++        "WHOLE_BOOK_COVERAGE_NOT_PROVED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.grammar_catalog.__main__.main",
++      "command": "route",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "CLASSICAL_FINITE_CONTROL_EQUATION"
++      ],
++      "authority": "SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION",
++      "unresolved_premises": [
++        "QUERY_RETRIEVAL_IS_NOT_PREMISE_ACQUISITION",
++        "SOURCE_TO_CONTROL_ACQUISITION_NOT_PROVED",
++        "WHOLE_BOOK_COVERAGE_NOT_PROVED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.grammar_catalog.__main__.main",
++      "command": "route-diagnostic",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "QUERY_RETRIEVAL_IS_NOT_PREMISE_ACQUISITION",
++        "SOURCE_TO_CONTROL_ACQUISITION_NOT_PROVED",
++        "WHOLE_BOOK_COVERAGE_NOT_PROVED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.linguistic_truth.__main__.main",
++      "command": "catalogue",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "PYTHON_ACQUISITION_NOT_KERNEL_PROVED",
++        "INTENDED_SENSE_NOT_ESTABLISHED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.linguistic_truth.__main__.main",
++      "command": "search",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "PYTHON_ACQUISITION_NOT_KERNEL_PROVED",
++        "INTENDED_SENSE_NOT_ESTABLISHED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.linguistic_truth.__main__.main",
++      "command": "certify",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "A116_EXACT_INSTALLED_CANDIDATE_SET",
++        "A116_CONDITIONAL_SUPPORTED_USE"
++      ],
++      "authority": "A116_CONDITIONAL_CANDIDATE_CONTRACT",
++      "unresolved_premises": [
++        "PYTHON_ACQUISITION_NOT_KERNEL_PROVED",
++        "INTENDED_SENSE_NOT_ESTABLISHED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.linguistic_truth.__main__.main",
++      "command": "acquire",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "PYTHON_ACQUISITION_NOT_KERNEL_PROVED",
++        "INTENDED_SENSE_NOT_ESTABLISHED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.linguistic_truth.__main__.main",
++      "command": "pipeline",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "PYTHON_ACQUISITION_NOT_KERNEL_PROVED",
++        "INTENDED_SENSE_NOT_ESTABLISHED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.licensed_inference.__main__.main",
++      "command": "evaluate",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "SOURCE_BOUND_FINITE_INFERENCE"
++      ],
++      "authority": "SOURCE_RELATIVE_FINITE_INFERENCE",
++      "unresolved_premises": [
++        "SOURCE_ASSERTIONS_ARE_PREMISES_NOT_OBSERVATIONS",
++        "INTENDED_SENSE_AND_HISTORICAL_TESTIMONY_NOT_ESTABLISHED"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.mantuq_inference.__main__.main",
++      "command": "catalogue",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "NATIVE_ASSUMPTION_TRANSCRIPT_IS_NOT_ORIGINAL_ARABIC_INTERPRETATION",
++        "TYPED_REQUEST_PREMISES_NOT_ACQUIRED_FROM_FREE_TEXT",
++        "NAMED_CLAIM_BRIDGE_PENDING"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.mantuq_inference.__main__.main",
++      "command": "search",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "EXPLICIT_DIAGNOSTIC_ONLY",
++      "named_claim_kinds": [],
++      "authority": "DIAGNOSTIC_ONLY",
++      "unresolved_premises": [
++        "NATIVE_ASSUMPTION_TRANSCRIPT_IS_NOT_ORIGINAL_ARABIC_INTERPRETATION",
++        "TYPED_REQUEST_PREMISES_NOT_ACQUIRED_FROM_FREE_TEXT",
++        "NAMED_CLAIM_BRIDGE_PENDING"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.mantuq_inference.__main__.main",
++      "command": "evaluate",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "CONDITIONAL_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "EXPLICIT_PREMISE_CONDITIONAL_ONLY",
++      "unresolved_premises": [
++        "NATIVE_ASSUMPTION_TRANSCRIPT_IS_NOT_ORIGINAL_ARABIC_INTERPRETATION",
++        "TYPED_REQUEST_PREMISES_NOT_ACQUIRED_FROM_FREE_TEXT",
++        "NAMED_CLAIM_BRIDGE_PENDING"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.mantuq_inference.__main__.main",
++      "command": "pipeline",
++      "response_contract": "scoped-v1",
++      "default_contract": "legacy",
++      "child_input_binding": "RESOLVED_CHILD_INPUT_ON_SUCCESS; CLI arguments on intake failure",
++      "migration_state": "CONDITIONAL_BRIDGE_PENDING",
++      "named_claim_kinds": [],
++      "authority": "EXPLICIT_PREMISE_CONDITIONAL_ONLY",
++      "unresolved_premises": [
++        "NATIVE_ASSUMPTION_TRANSCRIPT_IS_NOT_ORIGINAL_ARABIC_INTERPRETATION",
++        "TYPED_REQUEST_PREMISES_NOT_ACQUIRED_FROM_FREE_TEXT",
++        "NAMED_CLAIM_BRIDGE_PENDING"
++      ],
++      "failure_policy": "NO_NAMED_CLAIMS; preserve typed failure and exit status"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "discourse_boundary",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE"
++      ],
++      "authority": "EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE",
++      "required_input_fields": [
++        "text"
++      ],
++      "optional_input_fields": [
++        "context",
++        "profile_id",
++        "source_id"
++      ],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "source_inference",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "SOURCE_BOUND_FINITE_INFERENCE"
++      ],
++      "authority": "SOURCE_BOUND_FINITE_INFERENCE",
++      "required_input_fields": [
++        "query",
++        "source"
++      ],
++      "optional_input_fields": [
++        "revision",
++        "scope",
++        "source_id",
++        "time"
++      ],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "lexical_surface",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "EXACT_WITNESSED_FORM_WITH_DECLARED_ANNOTATION"
++      ],
++      "authority": "EXACT_DOCUMENTARY_FORM_AND_SOURCE_FIELDS",
++      "required_input_fields": [
++        "text"
++      ],
++      "optional_input_fields": [
++        "context",
++        "end_byte",
++        "referent",
++        "source_id",
++        "start_byte",
++        "time"
++      ],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "lexical_candidates",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "A116_EXACT_INSTALLED_CANDIDATE_SET",
++        "A116_CONDITIONAL_SUPPORTED_USE"
++      ],
++      "authority": "A116_CONDITIONAL_CANDIDATE_CONTRACT",
++      "required_input_fields": [
++        "text"
++      ],
++      "optional_input_fields": [
++        "budget",
++        "context",
++        "profile_id",
++        "source_id",
++        "subject",
++        "time"
++      ],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "classical_control",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "CLASSICAL_FINITE_CONTROL_EQUATION"
++      ],
++      "authority": "SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION",
++      "required_input_fields": [
++        "frame",
++        "rule_id"
++      ],
++      "optional_input_fields": [],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "scope_acquisition",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "EXACT_SCOPE_ENVELOPE"
++      ],
++      "authority": "EXACT_BOUNDED_SCOPE_ENVELOPE",
++      "required_input_fields": [
++        "text"
++      ],
++      "optional_input_fields": [
++        "context",
++        "profile_id",
++        "source_id"
++      ],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.licensed_workflow.run_request",
++      "command": "lexical_transmission",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_WORKFLOW_REQUEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "SOURCE_BOUND_REPORT_INVENTORY_AND_DEPENDENCY_CLASSIFICATION"
++      ],
++      "authority": "DOCUMENTARY_SOURCE_DEPENDENCY_CLASSIFICATION",
++      "required_input_fields": [
++        "entry"
++      ],
++      "optional_input_fields": [
++        "context"
++      ],
++      "unresolved_premises": [
++        "TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF",
++        "CHILD_CLAIM_PREMISES_RETAINED",
++        "NO_GENERAL_LANGUAGE_ACCEPTANCE"
++      ],
++      "failure_policy": "Exact failure status; only independently checked source claim may survive a later surface failure"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "inference",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "benchmark",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "testimony",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "semantic_axes",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "epistemic_measurement",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "contextual_reference",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "named_claim_kinds": [],
++      "authority": "CHILD_DOMAIN_CONTRACT_RETAINED",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    },
++    {
++      "entrypoint": "tools.proof_lab.run_payload",
++      "command": "licensed_workflow",
++      "response_contract": "nabt.transport-binding.v1",
++      "default_contract": "scoped",
++      "child_input_binding": "EXACT_PAYLOAD_DIGEST",
++      "migration_state": "SCOPED_NATIVE_CHILD_BRIDGE",
++      "named_claim_kinds": [
++        "A116_CONDITIONAL_SUPPORTED_USE",
++        "A116_EXACT_INSTALLED_CANDIDATE_SET",
++        "CLASSICAL_FINITE_CONTROL_EQUATION",
++        "EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE",
++        "EXACT_SCOPE_ENVELOPE",
++        "EXACT_SOURCE_ROW_AND_ANNOTATION_FIELD_EXTRACTION",
++        "EXACT_WITNESSED_FORM_WITH_DECLARED_ANNOTATION",
++        "SOURCE_BOUND_FINITE_INFERENCE",
++        "SOURCE_BOUND_REPORT_INVENTORY_AND_DEPENDENCY_CLASSIFICATION"
++      ],
++      "authority": "SCOPED_CHILD_CLAIMS_ONLY",
++      "unresolved_premises": [
++        "TRANSPORT_BINDING_IS_NOT_KERNEL_PROOF",
++        "EACH_CHILD_RETAINS_ITS_DECLARED_AUTHORITY",
++        "NO_GENERIC_PROOF_FOR_WHOLE_BENCHMARK"
++      ],
++      "failure_policy": "Failure receipt without children is valid; identity drift or result size limit strips all child claims"
++    }
++  ]
++}
+--- previous/src/nabt/transport_contract.py
++++ current/src/nabt/transport_contract.py
+@@ -0,0 +1,162 @@
++"""Versioned transport bindings; metadata is never linguistic proof authority.
++
++Only fresh fixed producer paths select claim paths. Rechecking an imported
++envelope establishes internal byte integrity, not provenance, native execution,
++or permission to display an imported claim as a newly checked proof.
++"""
++from __future__ import annotations
++
++from copy import deepcopy
++from hashlib import sha256
++import json
++from pathlib import Path
++import re
++
++from nabt import foundation
++
++BINDING_SCHEMA = "nabt.transport-binding.v1"
++ENVELOPE_SCHEMA = "nabt.transport-envelope.v1"
++_MAX_BYTES = 64 * 1024 * 1024
++_CLASSICAL_LAWS = {"nabt.classical-weak.v1", "nabt.classical-hamza.v1",
++                   "nabt.classical-gemination.v1", "nabt.classical-boundary-affixes.v1"}
++_CLAIM_POLICIES = {
++    "classical": {"CLASSICAL_FINITE_CONTROL_EQUATION": _CLASSICAL_LAWS},
++    "lexical": {"A116_EXACT_INSTALLED_CANDIDATE_SET": {"nabt.certified-lexical.v1"},
++                "A116_CONDITIONAL_SUPPORTED_USE": {"nabt.certified-lexical.v1"}},
++    "inference": {"SOURCE_BOUND_FINITE_INFERENCE": {"nabt.licensed-inference.v1"}},
++}
++
++
++def _claim_paths(result, policy, prefix=""):
++    """Select named claims only immediately after a fixed fresh adapter call.
++
++    This is not a receipt validator and is deliberately not a public API.
++    The adapter must already have matched its full native postcondition.
++    """
++    claims = result.get("claims", [])
++    if not claims:
++        return []
++    if result.get("native_checked") is not True or type(claims) is not list:
++        raise ValueError("UNCHECKED_TRANSPORT_CLAIMS")
++    allowed = _CLAIM_POLICIES[policy]
++    for claim in claims:
++        proof = claim.get("proof", {})
++        if (proof.get("law_id") not in allowed.get(claim.get("kind"), set())
++                or type(proof.get("theorems")) is not list or not proof["theorems"]
++                or any(type(t) is not str or not t for t in proof["theorems"])):
++            raise ValueError("UNLICENSED_TRANSPORT_CLAIM_KIND_OR_LAW")
++    return [prefix + f"claims[{i}]" for i in range(len(claims))]
++
++
++def _canonical(value):
++    text = json.dumps(value, ensure_ascii=False, sort_keys=True,
++                      separators=(",", ":"), allow_nan=False)
++    raw = text.encode("utf-8", "strict")
++    if len(raw) > _MAX_BYTES:
++        raise ValueError("TRANSPORT_BINDING_RESOURCE_LIMIT")
++    return text, raw
++
++
++def _json_value(value):
++    if type(value) is bytes:
++        return {"encoding": "exact-bytes-hex", "hex": value.hex(),
++                "bytes": len(value), "sha256": sha256(value).hexdigest()}
++    if isinstance(value, Path):
++        return {"path_argument": str(value), "file_bytes_bound": False}
++    if type(value) in (str, int, bool, float) or value is None:
++        return value
++    if type(value) in (list, tuple):
++        return [_json_value(item) for item in value]
++    if type(value) is dict and all(type(key) is str for key in value):
++        return {key: _json_value(item) for key, item in value.items()}
++    raise ValueError("TRANSPORT_REQUEST_REQUIRES_EXPLICIT_JSON_OR_BYTES")
++
++
++def _resolve(value, path):
++    if type(path) is not str or not re.fullmatch(
++            r"[A-Za-z_][A-Za-z_0-9]*(?:\[(?:0|[1-9][0-9]*)\]|\.[A-Za-z_][A-Za-z_0-9]*)*", path):
++        raise ValueError("NONCANONICAL_TRANSPORT_CLAIM_PATH")
++    for token in re.findall(r"[A-Za-z_][A-Za-z_0-9]*|\[(?:0|[1-9][0-9]*)\]", path):
++        if token.startswith("["):
++            if type(value) is not list:
++                raise ValueError("TRANSPORT_CLAIM_PATH_REQUIRES_ARRAY")
++            value = value[int(token[1:-1])]
++        else:
++            if type(value) is not dict:
++                raise ValueError("TRANSPORT_CLAIM_PATH_REQUIRES_OBJECT")
++            value = value[token]
++    return value
++
++
++def _bind_metadata(*, entrypoint, command, resolved_request, result, policy_id,
++                   authority, input_binding="RESOLVED_CHILD_INPUT", claim_paths=(),
++                   unresolved_premises=()):
++    """Internal producer helper; no receipt-import or execution authority.
++
++    The caller must have just run its fixed child and selected paths using its
++    own scoped contract. This helper binds bytes and checks path integrity only.
++    """
++    request = _json_value(resolved_request)
++    request_canonical, request_raw = _canonical(request)
++    response_canonical, response_raw = _canonical(result)
++    if len(claim_paths) != len(set(claim_paths)):
++        raise ValueError("DUPLICATE_TRANSPORT_CLAIM_PATH")
++    claims = []
++    for path in claim_paths:
++        claim = _resolve(result, path)
++        if (type(claim) is not dict or type(claim.get("kind")) is not str
++                or not claim["kind"] or type(claim.get("scope")) is not str or not claim["scope"]
++                or type(claim.get("proof")) is not dict
++                or type(claim["proof"].get("law_id")) is not str
++                or not claim["proof"]["law_id"]
++                or type(claim["proof"].get("theorems")) is not list
++                or not claim["proof"]["theorems"]):
++            raise ValueError("TRANSPORT_PATH_IS_NOT_A_NAMED_SCOPED_CLAIM")
++        claim_canonical, raw = _canonical(claim)
++        claims.append({"child_path": path, "claim_sha256": sha256(raw).hexdigest(),
++                       "claim_canonical": claim_canonical,
++                       "kind": claim["kind"], "law_id": claim["proof"]["law_id"]})
++    return {"schema": BINDING_SCHEMA, "entrypoint": entrypoint, "command": command,
++        "policy_id": policy_id, "authority": authority, "input_binding": input_binding,
++        "request": request, "request_canonical": request_canonical,
++        "request_sha256": sha256(request_raw).hexdigest(),
++        "child_response_canonical": response_canonical,
++        "child_response_sha256": sha256(response_raw).hexdigest(),
++        "child_response_bytes": len(response_raw), "named_claims": claims,
++        "unresolved_premises": list(unresolved_premises),
++        "transport_binding_kernel_proved": False, "grants_language_license": False,
++        "all_arabic_complete": False}
++
++
++def _envelope(**kwargs):
++    result = kwargs["result"]
++    return {"schema": ENVELOPE_SCHEMA,
++            "transport_contract": _bind_metadata(**kwargs), "response": deepcopy(result)}
++
++
++def validate_transport_envelope(envelope):
++    """Check imported byte integrity only; never grant imported proof authority."""
++    foundation.require_foundation("nabt.transport_contract.validate_transport_envelope")
++    report = {"schema": "nabt.transport-envelope-integrity.v1", "integrity_valid": False,
++              "proof_authority_established": False, "fresh_execution_required": True,
++              "grants_language_license": False, "all_arabic_complete": False}
++    try:
++        if type(envelope) is not dict or set(envelope) != {"schema", "transport_contract", "response"}:
++            raise ValueError("EXACT_TRANSPORT_ENVELOPE_FIELDS_REQUIRED")
++        if envelope["schema"] != ENVELOPE_SCHEMA:
++            raise ValueError("UNSUPPORTED_TRANSPORT_ENVELOPE_SCHEMA")
++        binding = envelope["transport_contract"]
++        if type(binding) is not dict or binding.get("schema") != BINDING_SCHEMA:
++            raise ValueError("UNSUPPORTED_TRANSPORT_BINDING")
++        expected = _bind_metadata(entrypoint=binding["entrypoint"], command=binding["command"],
++            resolved_request=binding["request"], result=envelope["response"],
++            policy_id=binding["policy_id"], authority=binding["authority"],
++            input_binding=binding["input_binding"],
++            claim_paths=[row["child_path"] for row in binding["named_claims"]],
++            unresolved_premises=binding["unresolved_premises"])
++        if _canonical(expected) != _canonical(binding):
++            raise ValueError("TRANSPORT_BINDING_MISMATCH")
++        report["integrity_valid"] = True
++    except (ValueError, TypeError, KeyError, IndexError, RecursionError, UnicodeError) as error:
++        report["reason"] = str(error)
++    return report

@@ -12,6 +12,7 @@
   <script src="/epistemic-measurement.js" defer></script>
   <script src="/contextual-contract.js" defer></script>
   <script src="/contextual-reference.js" defer></script>
+  <script src="/transport-contract.js" defer></script>
   <script src="/workflow-contract.js" defer></script>
   <script src="/workflow-ui.js" defer></script>
   <script src="/legacy-authority.js" defer></script>
@@ -50,6 +51,7 @@
       </div>
       <div id="global-message" class="message" role="alert" hidden></div>
       <section class="job-panel" id="job-panel" aria-label="حالة الطلب" aria-live="polite" hidden>
+        <p id="job-transport" class="field-help" hidden></p>
         <div class="job-heading"><span class="spinner" id="job-spinner" aria-hidden="true"></span><div><b id="job-title">الطلب في الانتظار</b><p id="job-description">سيظهر الدليل بعد انتهاء التنفيذ.</p></div><span class="job-elapsed" id="job-elapsed"></span></div>
         <div class="job-meta"><span>الطلب: <code id="job-id"></code></span><a id="job-link" target="_blank" rel="noopener noreferrer" hidden>متابعة التنفيذ في GitHub ↗</a><button class="text-button" id="resume-poll" hidden>استئناف متابعة الطلب</button></div>
       </section>
@@ -155,10 +157,11 @@
       </div>
       <div role="tabpanel" id="panel-licensed_workflow" aria-labelledby="tab-licensed_workflow" hidden>
         <section class="card"><p class="eyebrow">مصدر محفوظ · محوّل مثبت · دعوى محددة</p><h2>تسليم السلطة بين الواجهات</h2><p>يشغّل هذا المسار المحولات المسجلة. تعرض كل دعوى مبرهنة مع مقدماتها ونطاقها، وتبقى التشخيصات والبقايا منفصلة. لا يمنح اكتمال الجرد اكتمال العربية.</p>
-          <form id="workflow-form"><label for="workflow-operation">جهة الفحص</label><select id="workflow-operation"><option value="lexical_surface">مطابقة الصيغة المشهودة</option><option value="lexical_candidates">المرشحون المعجميون</option><option value="scope_acquisition">حدود النطاق والتركيب</option><option value="lexical_transmission">جهة النقل المعجمي</option><option value="classical_control">معادلة التحكم الصرفي</option></select>
-          <div id="workflow-text-group"><label for="workflow-text">اللفظ أو النص كما ورد</label><textarea id="workflow-text" aria-describedby="workflow-scope-help" rows="3" maxlength="4096">عَيْنَ</textarea><p id="workflow-scope-help" class="field-help" hidden>نطاق هذه النسخة: «قَالَ اسمٌ: «متن»»، أو «لَيْسَ صَحِيحًا أَنِّي متن»، أو «إِنْ قُلْتُ متن فَلَا جواب»، بنقطة ختامية اختيارية. تحفظ حدود المتن كما ورد؛ لا تقبل اقتباسًا متداخلًا أو جملًا إضافية، ولا تثبت نحو المتن أو مراد قائله. الاقتباس المجرد بلا إطار القول خارج هذا المسار.</p></div>
+          <form id="workflow-form"><label for="workflow-operation">جهة الفحص</label><select id="workflow-operation"><option value="lexical_surface">مطابقة الصيغة المشهودة</option><option value="lexical_candidates">المرشحون المعجميون</option><option value="scope_acquisition">حدود النطاق والتركيب</option><option value="discourse_boundary">حد الاستئناف والتصريح بالقصد</option><option value="source_inference">الاستدلال من مصدر محفوظ</option><option value="lexical_transmission">جهة النقل المعجمي</option><option value="classical_control">معادلة التحكم الصرفي</option></select>
+          <div id="workflow-text-group"><label for="workflow-text">اللفظ أو النص كما ورد</label><textarea id="workflow-text" aria-describedby="workflow-scope-help workflow-discourse-help workflow-inference-help" rows="3" maxlength="4096">عَيْنَ</textarea><p id="workflow-scope-help" class="field-help" hidden>نطاق هذه النسخة: «قَالَ اسمٌ: «متن»»، أو «لَيْسَ صَحِيحًا أَنِّي متن»، أو «إِنْ قُلْتُ متن فَلَا جواب»، بنقطة ختامية اختيارية. تحفظ حدود المتن كما ورد؛ لا تقبل اقتباسًا متداخلًا أو جملًا إضافية، ولا تثبت نحو المتن أو مراد قائله. الاقتباس المجرد بلا إطار القول خارج هذا المسار.</p><p id="workflow-discourse-help" class="field-help" hidden>يُفحص الغلاف المحدد «لم متن؛ وأقصد متن» أو علامتاه المضبوطتان «لَمْ» و«وَأَقْصِدُ»، مع نقطة ختامية اختيارية. تبقى الواو والحدود محفوظة، ولا ينتقل نفي الجزء الأول إلى التصريح اللاحق. برهان الحدود لا يحسم معنى «الحيوان المعروف» في المثال، ولا يثبت هوية المتكلم أو صدق قوله. يبقى تشخيص المتن منفصلًا ونقص الضبط معلنًا.</p><p id="workflow-inference-help" class="field-help" hidden>المصدر والاستعلام مدخلان منفصلان في القواعد المثبتة ذات الفاعل الصريح. المثال يختبر نتيجة شرط مع مقدمة مكتوبة تحقق شرطه؛ تظل أقوال المصدر مقدمات للاستدلال، وليست مشاهدات تثبت الواقع. يُحفظ النطاق المعلن مع الطلب، وتظهر الدعوى التي فحصتها النواة وحدودها.</p></div>
+          <div id="workflow-query-group" hidden><label for="workflow-query">استعلام الاستدلال كما ورد</label><input id="workflow-query" value="هل سار زيد؟" maxlength="4096" aria-describedby="workflow-inference-help"></div>
           <div id="workflow-profile-group" hidden><label for="workflow-profile">عقد الاستعمال المفروض صراحةً</label><select id="workflow-profile"><option value="linguistic">الاستعمال اللغوي — مقدمة معلنة</option><option value="">غير محسوم — إبقاء التعليق</option></select></div>
-          <label for="workflow-context">المقام المعلن</label><input id="workflow-context" value="مقام جديد غير محسوم" maxlength="512">
+          <label id="workflow-context-label" for="workflow-context">المقام المعلن</label><input id="workflow-context" value="مقام جديد غير محسوم" maxlength="512">
           <div id="workflow-frame-group" hidden><label for="workflow-rule">معرّف القاعدة المثبتة</label><input id="workflow-rule" value="HAMZA-LEXICAL-COMMAND" maxlength="128"><label for="workflow-frame">مقدمات إطار التحكم — تبقى مفروضة صراحة</label><textarea id="workflow-frame" dir="ltr" rows="4">{"root":["ء","ك","ل"],"profile":"all_attested"}</textarea></div>
           <button id="run-workflow" class="primary-button" type="submit" disabled>نفّذ المسار المرخّص في Lean ←</button></form><p id="workflow-message" role="status" aria-live="polite">لم يُنفّذ طلب في هذا المسار بعد.</p>
         </section>

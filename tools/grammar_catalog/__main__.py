@@ -41,6 +41,7 @@ def _frames_json(path):
 def main():
     foundation.require_foundation('tools.grammar_catalog.__main__.main')
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--response-contract", choices=("legacy", "scoped-v1"), default="legacy")
     sub = parser.add_subparsers(dest="command", required=True)
     cat = sub.add_parser("catalog", help="Replay sources and emit the catalogue")
     cat.add_argument("--summary", action="store_true")
@@ -59,6 +60,7 @@ def main():
         route.add_argument("--budget", type=int)
         route.add_argument("--output", type=Path)
     args = parser.parse_args()
+    request = {key: value for key, value in vars(args).items() if key not in {"response_contract", "output"}}
     try:
         if args.command == "catalog":
             result = build_catalog()
@@ -72,26 +74,47 @@ def main():
                 result = found
             else:
                 frames = _frames_json(args.frames)
+                request = dict(query=args.query, ranked_rule_keys=[r["id"] for r in found["candidates"]],
+                    frames=frames, budget=args.budget, catalog_sha256=index.catalog_sha256)
                 evaluate = evaluate_candidates if args.command == "route" else evaluate_diagnostic_candidates
                 result = evaluate(index, [r["id"] for r in found["candidates"]], frames,
                                   budget=args.budget)
                 result["retrieval"] = found
+        code = 0
+        if args.command == "route":
+            code = 2 if result["status"] == "VERIFICATION_UNAVAILABLE" else 0 if result["conditional_evaluation_complete"] else 3
+        if args.response_contract == "scoped-v1":
+            from nabt.transport_contract import _envelope, _claim_paths
+            paths = []
+            if args.command == "route":
+                for i, row in enumerate(result["rows"]):
+                    native = row.get("native_receipt", {})
+                    # Native claims are forwarded only from the actual fixed child;
+                    # the row's legacy diagnostic receipt has no named authority.
+                    if row.get("claims") != native.get("claims", []):
+                        raise ValueError("ROUTING_NATIVE_CLAIM_MISMATCH")
+                    paths.extend(_claim_paths(native, "classical", f"rows[{i}].native_receipt."))
+            result = _envelope(entrypoint="tools.grammar_catalog.__main__.main", command=args.command,
+                resolved_request=request, result=result, policy_id="grammar-catalog." + args.command + ".scoped-v1",
+                authority="SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION" if args.command == "route" else "DIAGNOSTIC_ONLY",
+                claim_paths=paths, unresolved_premises=["QUERY_RETRIEVAL_IS_NOT_PREMISE_ACQUISITION",
+                    "SOURCE_TO_CONTROL_ACQUISITION_NOT_PROVED", "WHOLE_BOOK_COVERAGE_NOT_PROVED"])
         text = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(text, encoding="utf-8")
         else:
             print(text, end="")
-        if args.command == "route":
-            if result["status"] == "VERIFICATION_UNAVAILABLE":
-                return 2
-            # Zero attests only completion of the bounded conditional control
-            # scan, never full linguistic acceptance or premise acquisition.
-            return 0 if result["conditional_evaluation_complete"] else 3
-        return 0
+        return code
     except (CatalogError, RetrievalError, OSError, ValueError) as exc:
-        print(json.dumps({"status": "INPUT_OR_SOURCE_ERROR", "message": str(exc),
-                          "grants_language_license": False}, ensure_ascii=False))
+        result = {"status": "INPUT_OR_SOURCE_ERROR", "message": str(exc), "grants_language_license": False}
+        if args.response_contract == "scoped-v1":
+            from nabt.transport_contract import _envelope
+            result = _envelope(entrypoint="tools.grammar_catalog.__main__.main", command=args.command,
+                resolved_request=request, result=result, policy_id="grammar-catalog." + args.command + ".scoped-v1",
+                authority="FAILURE_WITHOUT_CLAIMS", input_binding="REQUEST_AT_FAILURE",
+                unresolved_premises=["CHILD_DID_NOT_RETURN_CHECKED_RESULT"])
+        print(json.dumps(result, ensure_ascii=False))
         return 2
 
 

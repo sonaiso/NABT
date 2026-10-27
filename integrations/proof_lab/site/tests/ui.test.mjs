@@ -428,3 +428,81 @@ test('scope selector offers an executed envelope and explains its bounded gramma
  select.value='lexical_surface';select.fire('change');
  assert.equal(ui.get('workflow-scope-help').hidden,true);
 });
+
+test('discourse selector preserves its controls and keeps boundary proof separate from intent',async()=>{
+ const ui=await harness(),select=ui.get('workflow-operation'),button=ui.get('run-workflow');
+ select.value='discourse_boundary';select.fire('change');
+ assert.equal(ui.get('workflow-text').value,'لم أر أسداً قط؛ وأقصد بالأسد الحيوان المعروف.');
+ assert.equal(ui.get('workflow-discourse-help').hidden,false);
+ assert.equal(ui.get('workflow-profile-group').hidden,false);
+ assert.equal(ui.get('workflow-query-group').hidden,true);
+ ui.setResponse({status:'completed',report:workflowReport({op:'discourse_boundary'})});
+ await ui.submit('licensed_workflow');await ui.poll();
+ const request=JSON.parse(ui.posts()[0].options.body).workflow;
+ assert.equal(request.op,'discourse_boundary');assert.equal(request.input.profile_id,'linguistic');
+ assert.equal(ui.get('workflow-operation'),select);assert.equal(ui.get('run-workflow'),button);
+ assert.match(ui.get('workflow-claims').children[0].children[0].textContent,/EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE/);
+ select.value='lexical_surface';select.fire('change');
+ assert.equal(ui.get('workflow-discourse-help').hidden,true);
+ assert.equal(ui.get('workflow-output').hidden,true);
+ assert.equal(ui.get('workflow-claims').children.length,0);
+ assert.equal(ui.get('download-workflow').disabled,true);
+});
+
+test('source inference sends separate source and query with explicit scope and stable controls',async()=>{
+ const ui=await harness(),select=ui.get('workflow-operation'),button=ui.get('run-workflow'),query=ui.get('workflow-query');
+ select.value='source_inference';select.fire('change');
+ assert.equal(ui.get('workflow-query-group').hidden,false);
+ assert.equal(ui.get('workflow-inference-help').hidden,false);
+ assert.equal(ui.get('workflow-profile-group').hidden,true);
+ assert.equal(query.value,'هل سار زيد؟');
+ ui.setResponse({status:'completed',report:workflowReport({op:'source_inference'})});
+ await ui.submit('licensed_workflow');await ui.poll();
+ const request=JSON.parse(ui.posts()[0].options.body).workflow;
+ assert.equal(request.op,'source_inference');
+ assert.equal(request.input.source,'إن عرف زيد الحق سار زيد. عرف زيد الحق.');
+ assert.equal(request.input.query,'هل سار زيد؟');
+ assert.equal(request.input.scope,'مقام جديد غير محسوم');assert.equal('context' in request.input,false);
+ assert.equal(ui.get('workflow-operation'),select);assert.equal(ui.get('run-workflow'),button);
+ assert.equal(ui.get('workflow-query'),query);
+ assert.match(ui.get('workflow-claims').children[0].children[0].textContent,/SOURCE_BOUND_FINITE_INFERENCE/);
+ select.value='lexical_surface';select.fire('change');
+ assert.equal(ui.get('workflow-query-group').hidden,true);
+ assert.equal(ui.get('workflow-context-label').textContent,'المقام المعلن');
+});
+
+for(const id of ['workflow-text','workflow-query','workflow-context','workflow-profile','workflow-frame','workflow-rule'])
+test('editing '+id+' clears displayed proof without replacing the keyboard target',async()=>{
+ const ui=await harness(),input=ui.get(id),button=ui.get('run-workflow');
+ ui.setResponse({status:'completed',report:workflowReport()});
+ await ui.submit('licensed_workflow');await ui.poll();
+ assert.equal(ui.get('download-workflow').disabled,false);
+ input.value+=' changed';input.fire('input');
+ assert.equal(ui.get(id),input);assert.equal(ui.get('run-workflow'),button);
+ assert.equal(ui.get('workflow-output').hidden,true);assert.equal(ui.get('workflow-claims').children.length,0);
+ assert.equal(ui.get('download-workflow').disabled,true);
+ assert.match(ui.get('workflow-message').textContent,/النتيجة السابقة لا تثبت المدخل الحالي/);
+});
+
+test('a delayed workflow receipt cannot restore proof beside an edited query',async()=>{
+ const ui=await harness(),select=ui.get('workflow-operation'),query=ui.get('workflow-query');
+ select.value='source_inference';select.fire('change');
+ ui.setResponse({status:'completed',report:workflowReport({op:'source_inference'})});
+ await ui.submit('licensed_workflow');
+ query.value='هل سار عمرو؟';query.fire('input');await ui.poll();
+ assert.equal(ui.get('workflow-query'),query);assert.equal(query.value,'هل سار عمرو؟');
+ assert.equal(ui.get('workflow-output').hidden,true);assert.equal(ui.get('workflow-claims').children.length,0);
+ assert.equal(ui.get('download-workflow').disabled,true);
+ assert.match(ui.get('workflow-message').textContent,/إيصال متحقق لطلب سابق/);
+});
+
+test('unestablished discourse convention sends explicit null instead of a linguistic default',async()=>{
+ const ui=await harness(),select=ui.get('workflow-operation');
+ select.value='discourse_boundary';select.fire('change');
+ ui.get('workflow-profile').value='';ui.get('workflow-profile').fire('change');
+ await ui.submit('licensed_workflow');
+ const request=JSON.parse(ui.posts()[0].options.body).workflow;
+ assert.equal(request.op,'discourse_boundary');
+ assert.equal(Object.hasOwn(request.input,'profile_id'),true);assert.equal(request.input.profile_id,null);
+ assert.equal(ui.get('workflow-claims').children.length,0);
+});

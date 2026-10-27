@@ -7,6 +7,7 @@ from unittest.mock import patch
 from nabt import foundation
 from nabt.errors import NabtError
 from tools import licensed_workflow as workflow
+from tests._transport_native import require_native
 
 ROOT = Path(__file__).resolve().parents[1]
 BIN = ROOT / "formal/.lake/build/bin"
@@ -198,10 +199,12 @@ class LicensedWorkflowNativeSourceTests(unittest.TestCase):
         self.assertEqual(response["workflow_status"], "SCOPED_CLAIMS_AVAILABLE")
 
 
-@unittest.skipUnless(all((BIN / name).is_file() for name in (
-    "exportClassicalHamza", "lexicalSourceRows", "lexicalSurface", "linguisticTruth",
-    "lexicalTransmission", "scopeAcquisition")), "mandatory native gateway CI builds all five adapters")
 class LicensedWorkflowAllNativeAdaptersTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        require_native("exportClassicalHamza", "lexicalSourceRows", "lexicalSurface", "linguisticTruth",
+                       "lexicalTransmission", "scopeAcquisition", "licensedInference", "discourseBoundaryCue")
+
     def test_supplied_lexical_budget_is_converted_to_fixed_typed_budget(self):
         response = workflow.run_request(request("lexical_candidates", text="قَرْءُ",
             profile_id="linguistic", budget={"max_native_scan": 4096}))
@@ -214,7 +217,7 @@ class LicensedWorkflowAllNativeAdaptersTests(unittest.TestCase):
         self.assertEqual(limited["status"], "RESOURCE_EXHAUSTED")
         self.assertEqual(limited["claims"], [])
 
-    def test_all_five_raw_request_adapters_replay_their_actual_claim_contract(self):
+    def test_all_seven_raw_request_adapters_replay_their_actual_claim_contract(self):
         examples = [
             (request(), "CHECKED_CONDITIONAL_CONTROL", "CLASSICAL_FINITE_CONTROL_EQUATION"),
             (request("lexical_surface", text="عَيْنَ", context="مقام جديد"),
@@ -225,6 +228,10 @@ class LicensedWorkflowAllNativeAdaptersTests(unittest.TestCase):
              "DOCUMENTARY_REPORTS", "SOURCE_BOUND_REPORT_INVENTORY_AND_DEPENDENCY_CLASSIFICATION"),
             (request("scope_acquisition", text="قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».",
                      context="قول محكي"), "CHECKED_SCOPE_ENVELOPE", "EXACT_SCOPE_ENVELOPE"),
+            (request("source_inference", source="سار زيد أمامك خلف الدار", query="هل سار زيد أمامك خلف الدار؟"),
+             "SUPPORTED", "SOURCE_BOUND_FINITE_INFERENCE"),
+            (request("discourse_boundary", text="لم يخرج خالد؛ وأقصد بالأسد الحيوان المفترس.",
+                     context="مقام مستقل"), "CHECKED_DISCOURSE_BOUNDARY", "EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE"),
         ]
         self.assertEqual({case[0]["op"] for case in examples}, set(workflow._OPERATIONS))
         for incoming, status, claim_kind in examples:
