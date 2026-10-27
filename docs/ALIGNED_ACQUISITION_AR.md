@@ -11,17 +11,21 @@
 
 ```sh
 lake --dir formal build alignedAcquisition licensedInference
-PYTHONPATH=src python -m nabt read-acquired input.txt --source-id input --revision 1 --scope default --ending wasl > receipt.json
-PYTHONPATH=src python -m nabt verify-acquired receipt.json --source input.txt --source-id input --revision 1 --scope default --ending wasl
+PYTHONPATH=src python -m tools.acquisition_cli read-acquired input.txt --source-id input --revision 1 --scope default --ending wasl > receipt.json
+PYTHONPATH=src python -m tools.acquisition_cli verify-acquired receipt.json --source input.txt --source-id input --revision 1 --scope default --ending wasl
 ```
 
 فاحص الاستلام يحتاج المصدر المستقل والمعرّفات المتوقعة؛ لا يستخرج الثقة من
 حقول الشهادة. عند غياب التنفيذي يعيد `VERIFICATION_UNAVAILABLE`. حزمة Python
-المنفردة لا تحتوي تلقائيًا أداة Lean، وتبقى غير مخوّلة بمنح فحص أصلي دون بنائها.
+المنفردة لا تحتوي مسار أدوات المستودع الجديد؛ التشغيل يتطلب نسخة المستودع
+وبناء أداة Lean، ولا يمنح فحصًا أصليًا دونها.
 
 `propose_acquisition` حساب تشخيصي؛ `acquire` يتطلب إعادة الحساب الأصلية؛
 `read_acquired` يضيف القارئ الموجود وفحص الشكل؛ `verify_acquired` يعيد المسار
 كله. لم يتغير `parse_word` أو قانون الشكل أو ترقيم الخلايا أو القارئ القديم.
+واجهة الأوامر مستقلة أيضًا كي تبقى بايتات `src/nabt/cli.py` مطابقة لسجلات
+التقييم التاريخية المجمدة. وُضع المسار الجديد في `tools/` على نمط محرك
+الاستدلال الموجود، وحُفظت شجرة `src/` كاملة دون تغيير أو إعادة تجميد مراجعها.
 
 ## معنى النتيجة
 

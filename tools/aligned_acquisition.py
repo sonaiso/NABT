@@ -13,23 +13,23 @@ from pathlib import Path
 import subprocess
 import tempfile
 
-from .alphabet import ALPHABET_ID, CARRIERS
-from .certificates import issue_certificate, verify_certificate
-from .errors import NabtError
-from .word_reader import read_words
+from nabt.alphabet import ALPHABET_ID, CARRIERS
+from nabt.certificates import issue_certificate, verify_certificate
+from nabt.errors import NabtError
+from nabt.word_reader import read_words
 
 LAW_ID = "nabt.aligned-acquisition.v1"
 MAX_SOURCE_BYTES = 8192
 MAX_CODEPOINTS = 4096
 MAX_REPORT_BYTES = 8 * 1024 * 1024
-_NATIVE_PATH = Path(__file__).resolve().parents[2] / "formal/.lake/build/bin/alignedAcquisition"
+_NATIVE_PATH = Path(__file__).resolve().parents[1] / "formal/.lake/build/bin/alignedAcquisition"
 _SEPARATORS = frozenset(' \t\r\n.،؛,:!?؟()[]{}«»"“”')
 _VOWELS = "ًٌٍَُِْ"
 _MARKS = frozenset(_VOWELS + "ّٰ")
 _SEATS = frozenset("أإؤئ")
 _OMITTED = frozenset("هذا هذه هذان هذين هؤلاء ذلك لكن إله الله الرحمن".split())
 _SILENT = frozenset("أولو أولي أولئك أولاء".split())
-_SOURCES_PATH = Path(__file__).resolve().parent / "data/source_evidence/aligned_acquisition_sources_v1.json"
+_SOURCES_PATH = Path(__file__).resolve().parents[1] / "evidence/aligned_acquisition_v1/source_evidence.json"
 SOURCE_MANIFEST_SHA256 = "269f1aa66756aefc6277e5ff0ef4922dc9ad13fdd2a7bab5e9347649c1fa3cc5"
 
 

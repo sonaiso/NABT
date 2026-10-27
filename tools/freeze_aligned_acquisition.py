@@ -49,7 +49,8 @@ def build_freeze() -> dict:
              or (name.startswith("formal/") and name.endswith(".lean"))}
     paths.update({SPEC_PATH, INFERENCE_SOURCE_PATH, "formal/lean-toolchain",
                   "formal/lake-manifest.json", "tools/evaluate_aligned_acquisition.py",
-                  "tools/freeze_aligned_acquisition.py", "src/nabt/aligned_acquisition.py"})
+                  "tools/freeze_aligned_acquisition.py", "tools/aligned_acquisition.py",
+                  "evidence/aligned_acquisition_v1/source_evidence.json"})
     # Read the committed inference registry, not a possibly modified working copy.
     links = json.loads(git("show", commit + ":" + INFERENCE_SOURCE_PATH).decode("utf-8"))
     paths.update(item["local_path"] for item in links["sources"])

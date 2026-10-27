@@ -125,15 +125,6 @@ def parser() -> Parser:
     transcode.add_argument("--from-codec", required=True)
     transcode.add_argument("--to-codec", required=True)
     sub.add_parser("pilot")
-    for name in ("read-acquired", "verify-acquired"):
-        acquisition = sub.add_parser(name, help="Native-checked local A116 acquisition and original-source handoff")
-        acquisition.add_argument("document", type=Path)
-        acquisition.add_argument("--source-id", default="input")
-        acquisition.add_argument("--revision", default="1")
-        acquisition.add_argument("--scope", default="default")
-        acquisition.add_argument("--ending", choices=("wasl", "waqf"), default="wasl")
-        if name == "verify-acquired":
-            acquisition.add_argument("--source", type=Path, required=True)
     word_reader = sub.add_parser("read-words")
     word_reader.add_argument("document", type=Path)
     word_reader.add_argument("--scope", default="default")
@@ -528,21 +519,6 @@ def run(args) -> tuple[dict, int]:
             return {"reading": report, "encoding": {"domain": NUMBER_DOMAIN,
                     "number_hex": hex(morphology_number(report)), "authority": "ENCODING_ONLY"}}, code
         return report, code
-    if command in {"read-acquired", "verify-acquired"}:
-        from .aligned_acquisition import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES,
-                                          read_acquired, verify_acquired)
-        path = args.document if command == "read-acquired" else args.source
-        with path.open("rb") as handle:
-            raw = handle.read(MAX_SOURCE_BYTES + 1)
-        binding = {"source_id": args.source_id, "revision": args.revision,
-                   "scope": args.scope, "ending": args.ending}
-        if command == "verify-acquired":
-            report = verify_acquired(read_certificate(args.document, MAX_REPORT_BYTES), text=raw, **binding)
-            return report, 0 if report["valid"] else 3 if report["status"] in {
-                "RESOURCE_EXHAUSTED", "VERIFICATION_UNAVAILABLE", "SOURCE_EVIDENCE_UNAVAILABLE"} else 2
-        report = read_acquired(raw, **binding)
-        return report, 0 if report["status"] == "ACQUIRED" and report["verified"] else 2 if report["status"] in {
-            "INVALID_INPUT", "VERIFICATION_FAILED"} else 3
     if command in {"read-words", "verify-words"}:
         from .word_reader import (MAX_SOURCE_BYTES, MAX_REPORT_BYTES, NUMBER_DOMAIN,
                                   read_words, verify_word_reading, word_reading_number)

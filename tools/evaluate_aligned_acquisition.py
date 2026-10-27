@@ -172,7 +172,8 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
     files, native = freeze.get("files"), freeze.get("native")
     if type(files) is not dict or not files or type(native) is not dict or not native:
         raise ValueError("code freeze requires tracked files and local native hashes")
-    required = {"src/nabt/aligned_acquisition.py", "tools/evaluate_aligned_acquisition.py",
+    required = {"tools/aligned_acquisition.py", "tools/evaluate_aligned_acquisition.py",
+                "evidence/aligned_acquisition_v1/source_evidence.json",
                 SPEC_PATH, INFERENCE_SOURCE_PATH}
     if not required <= set(files):
         raise ValueError("code freeze omits evaluator, implementation or specification")
@@ -453,7 +454,7 @@ def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dic
     gold = load_gold(gold_path)
     before = snapshot(freeze, gold_path)
     sys.path[:0] = [str(ROOT), str(ROOT / "src")]
-    acquisition = importlib.import_module("nabt.aligned_acquisition")
+    acquisition = importlib.import_module("tools.aligned_acquisition")
     inference = importlib.import_module("tools.licensed_inference")
     rows = [evaluate_case(case, acquisition.read_acquired, inference.evaluate) for case in gold["cases"]]
     after = snapshot(freeze, gold_path)

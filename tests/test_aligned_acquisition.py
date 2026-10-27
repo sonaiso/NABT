@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from nabt import aligned_acquisition as aa
+from tools import aligned_acquisition as aa
 from nabt.alphabet import parse_word
 from nabt.errors import NabtError
 from nabt.word_reader import read_words
@@ -183,11 +183,11 @@ class AcquisitionNativeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source, report = Path(directory) / "source.txt", Path(directory) / "report.json"
             source.write_text("بَابٌ", encoding="utf-8")
-            read = subprocess.run([sys.executable, "-m", "nabt", "read-acquired", str(source)],
+            read = subprocess.run([sys.executable, "-m", "tools.acquisition_cli", "read-acquired", str(source)],
                                   capture_output=True, timeout=30)
             self.assertEqual(read.returncode, 0, read.stderr)
             report.write_bytes(read.stdout)
-            verify = subprocess.run([sys.executable, "-m", "nabt", "verify-acquired", str(report), "--source", str(source)],
+            verify = subprocess.run([sys.executable, "-m", "tools.acquisition_cli", "verify-acquired", str(report), "--source", str(source)],
                                     capture_output=True, timeout=30)
             self.assertEqual(verify.returncode, 0, verify.stderr)
             self.assertTrue(json.loads(verify.stdout)["valid"])
