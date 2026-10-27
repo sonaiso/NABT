@@ -121,12 +121,57 @@ class CertifiedTransitionFreezeTests(unittest.TestCase):
                              "'/certified_transition_v2/independent_oracle/review_'"))
             self.assertEqual((CURRENT / "independent_oracle" / name).read_text(), expected)
 
+    def test_first_runner_and_its_sources_are_immutable_but_not_current_authority(self):
+        folder = CURRENT / "independent_oracle"
+        freeze = folder / "runner_freeze_v1.json"
+        self.assertEqual(sha256(freeze.read_bytes()).hexdigest(),
+                         "782655183d5639d461b50c18da35a878a4a1136d6f783fd047919992ec778562")
+        rows = {row["path"]: row for row in json.loads(freeze.read_bytes())["files"]}
+        for stem in ("run_oracle", "run_regression", "review_continuation",
+                     "run_source_counterexamples", "test_continuation", "freeze_runner"):
+            path = folder / (stem + "_v1.py")
+            row = rows[path.relative_to(ROOT).as_posix()]
+            self.assertEqual((len(path.read_bytes()), sha256(path.read_bytes()).hexdigest()),
+                             (row["bytes"], row["sha256"]))
+        spec = importlib.util.spec_from_file_location("preserved_six_noun_runner", folder / "run_oracle_v1.py")
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        with self.assertRaises(ValueError):
+            runner.check_runner_freeze(freeze)
+
+    def test_second_runner_changes_identity_not_material_or_scoring(self):
+        folder = CURRENT / "independent_oracle"
+        stems = ("run_oracle", "run_regression", "review_continuation",
+                 "run_source_counterexamples", "test_continuation", "freeze_runner", "runner_freeze")
+        schemas = ("directed-runner-freeze", "directed-oracle-execution", "directed-regression",
+                   "directed-independent-review", "directed-source-counterexamples",
+                   "continuation-review", "regression-execution")
+        for stem in stems[:5]:
+            expected = (folder / (stem + "_v1.py")).read_text()
+            for name in stems:
+                expected = expected.replace(name + "_v1", name + "_v2")
+            for name in schemas:
+                expected = expected.replace("nabt.certified-transition-v2." + name + ".v1",
+                                            "nabt.certified-transition-v2." + name + ".v2")
+            if stem == "test_continuation":
+                expected = expected.replace(
+                    "evidence/legacy_migration_v2/independent_oracle/runner_freeze_v2.json",
+                    "evidence/certified_transition_v2/independent_oracle/runner_freeze_v1.json").replace(
+                    "7a56b93650efa724a33d972d1b761c807ec884ae5a54ecfa217be2a35f656203",
+                    "782655183d5639d461b50c18da35a878a4a1136d6f783fd047919992ec778562")
+            self.assertEqual((folder / (stem + "_v2.py")).read_text(), expected)
+
     def test_current_runner_identity_checks_all_declared_dependencies(self):
-        path = CURRENT / "independent_oracle/run_oracle_v1.py"
+        path = CURRENT / "independent_oracle/run_oracle_v2.py"
         spec = importlib.util.spec_from_file_location("current_six_noun_freeze_runner", path)
         runner = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(runner)
-        checked = runner.check_runner_freeze(path.with_name("runner_freeze_v1.json"))
+        checked = runner.check_runner_freeze(path.with_name("runner_freeze_v2.json"))
+        record = json.loads(path.with_name("runner_freeze_v2.json").read_bytes())
+        self.assertEqual(record["previous_dependency_freeze_sha256"],
+                         "782655183d5639d461b50c18da35a878a4a1136d6f783fd047919992ec778562")
+        self.assertEqual(record["previous_release_validation"]["workflow_run_id"], 40495273598)
+        self.assertIs(record["previous_release_validation"]["previous_counts_reused_as_current_results"], False)
         paths = {row["path"] for row in checked["files"]}
         for name in ("tools/linguistic_truth/six_noun.py", "formal/Nabt/SixNounAcquisition.lean",
                      "formal/SixNounAcquisitionMain.lean",
