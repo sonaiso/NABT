@@ -251,7 +251,8 @@ def classifyPiece (wordDebt : Option String) (pause initial : Bool)
       if head == 'ا' && final && prev.any (fun e => e.span.raw.head? == some 'و') then
         return deferred "PLURAL_ALIF_REQUIRED"
       return deferred "LONG_VOWEL_CONTEXT_REQUIRED"
-    if head == 'ل' && prev.any (fun e => e.span.raw == ['ا']) then return deferred "ARTICLE_LAM_REQUIRED"
+    if head == 'ل' && prev.any (fun e => e.span.raw == ['ا'] && e.decision.rule == "HAMZAT_WASL_REQUIRED") then
+      return deferred "ARTICLE_LAM_REQUIRED"
     return deferred "MISSING_VOCALIZATION"
   match vs with
   | [] => return deferred "MISSING_VOCALIZATION"
