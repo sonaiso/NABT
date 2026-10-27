@@ -1364,3 +1364,20 @@ examples are outside the existing finite inference vocabulary. A later exposed
 replay after relocating the tools produces the same counts. Neither gate
 certifies general phonology, morphology, syntax, reference, or Arabic coverage.
 See `docs/ACQUISITION_RESULT_AR.md` and `evidence/aligned_acquisition_v1/summary.json`.
+## PR 34 / aligned-acquisition integration follow-up
+
+PR 52 descends from the merged PR 34 but its first publication missed the
+current compiled-proof reference update and had no composed inference entry
+point. GitHub catalogue job 122511356839 exposed the stale reference. Current
+catalogue/source indices now live in `evidence/aligned_acquisition_v1/integration`
+and are selected together by `integrations/current_proof_references.mk`; all
+historical snapshots remain unchanged. The exact prior CI gate command passed
+locally after regeneration, without weakening any exact replay check.
+
+`tools.acquired_inference` reuses both existing native checkers and the original
+source/query bytes. A complete composed answer additionally requires acquired
+cells, licensed shapes and matching source/episode bindings. This is executable
+orchestration, not a new general Lean proof of Python/JSON composition. The
+12-case exposed integration regression matches all expected contracts but has
+only five complete chains, including one of three positive inference cases.
+See `docs/PR34_ACQUISITION_INTEGRATION_AR.md` and retained receipts for scope.

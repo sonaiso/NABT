@@ -970,6 +970,22 @@ make -f Makefile -f integrations/grammar_catalog.mk -f integrations/mantuq_infer
 توفر التخزين والاسترجاع. هذه نتيجة مشروطة بالمقدمات، وليست ترخيصًا تلقائيًا
 لمعنى نص حر أو دليلًا على صدقه في الواقع أو اكتمال العربية.
 
+### التحصيل المتصل بالاستدلال المفحوص
+
+```bash
+lake --dir formal build alignedAcquisition licensedInference
+PYTHONPATH=src:. python -m tools.acquired_inference_cli infer source.txt query.txt --scope discourse --time episode1 > joined.json
+PYTHONPATH=src:. python -m tools.acquired_inference_cli verify joined.json source.txt query.txt --scope discourse --time episode1
+make -f tools/aligned_acquisition.mk aligned-acquisition-conformance aligned-acquisition-integration LAKE=/path/to/lake
+```
+
+يعيد المسار استعمال محرك الاستدلال المضاف في PR #34 على النص والسؤال
+الأصليين، بعد فحص التحصيل والمحاذاة. اكتمال الجواب المركب يحتاج ترخيص
+الشكل والقراءة والإغلاق وربط المقام؛ نجاح استدلال محدود لا يعوض نقص
+التحصيل. [تقرير التكامل](docs/PR34_ACQUISITION_INTEGRATION_AR.md) يبين
+الإصلاح والقياسات، و[عقد الربط](docs/ACQUIRED_INFERENCE_CONTRACT.md) يحدد
+نطاق السلطة وحدود التشغيل.
+
 | المسار | الوظيفة |
 |---|---|
 | `formal/Nabt/` | التعريفات والبراهين العامة وقانون الصيغ المحدد |

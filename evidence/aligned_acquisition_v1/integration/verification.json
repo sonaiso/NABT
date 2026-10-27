@@ -1,0 +1,327 @@
+{
+  "schema": "nabt.pr34-acquisition-integration-validation.v1",
+  "implementation_commit": "b71b95b133585380d9c17b9117b936e5b1c045a0",
+  "tests": {
+    "command": "make test",
+    "exit_code": 0,
+    "collected": 2495,
+    "passed": 2432,
+    "skipped": 63,
+    "seconds": 457.624
+  },
+  "exact_prior_ci_command": {
+    "targets": [
+      "grammar-catalog",
+      "proof-catalog",
+      "routing-conformance",
+      "mantuq-inference",
+      "linguistic-truth",
+      "licensed-inference"
+    ],
+    "exit_code": 0,
+    "log": "pr34-gates.log"
+  },
+  "licensed_inference_conformance": {
+    "total": 683,
+    "source_query_cases": 410,
+    "diagnostic_aggregation_cases": 273,
+    "pass": true,
+    "mismatches": []
+  },
+  "licensed_inference_diagnostic": {
+    "cases": 38,
+    "pass": 37,
+    "fail": 1,
+    "unmeasured": 0,
+    "executed": 38,
+    "families": {
+      "original_unresolved": {
+        "PASS": 1
+      },
+      "conditional_only": {
+        "PASS": 2
+      },
+      "forward": {
+        "PASS": 1
+      },
+      "order_invariance": {
+        "PASS": 1
+      },
+      "front_conditional": {
+        "PASS": 1
+      },
+      "no_inverse": {
+        "PASS": 2
+      },
+      "negative_consequent": {
+        "PASS": 1
+      },
+      "signed_states": {
+        "PASS": 4
+      },
+      "derived_conflict": {
+        "PASS": 1
+      },
+      "no_explosion": {
+        "PASS": 1
+      },
+      "subject_identity": {
+        "PASS": 2
+      },
+      "frame_identity": {
+        "PASS": 2
+      },
+      "preserved_adjuncts": {
+        "PASS": 1
+      },
+      "quote_boundary": {
+        "PASS": 1
+      },
+      "question_boundary": {
+        "PASS": 1
+      },
+      "trailing_input": {
+        "PASS": 1
+      },
+      "partial_condition": {
+        "PASS": 1
+      },
+      "query_boundary": {
+        "PASS": 1
+      },
+      "unknown_vocabulary": {
+        "FAIL": 1
+      },
+      "provenance": {
+        "PASS": 2
+      },
+      "resource": {
+        "PASS": 2
+      },
+      "invalid_input": {
+        "PASS": 2
+      },
+      "aggregation": {
+        "PASS": 6
+      }
+    },
+    "target_observations": {
+      "measured": 28,
+      "exact_matches": 27,
+      "false_supported_literals": 0,
+      "missing_supported_literals": 1
+    },
+    "authority": {
+      "obligations": 76,
+      "measured": 76,
+      "overclaims": 0,
+      "unmeasured": 0
+    }
+  },
+  "original_acquisition_matrix": {
+    "denominator": 72,
+    "executed": 72,
+    "native_verified": 72,
+    "status_matches": 72,
+    "cell_comparisons": {
+      "denominator": 37,
+      "matches": 37
+    },
+    "reason_comparisons": {
+      "denominator": 7,
+      "matches": 7
+    },
+    "representation_matches": 72,
+    "false_licenses": 0,
+    "positive_acquisition_coverage": {
+      "denominator": 49,
+      "verified_acquired": 49,
+      "verified_exact": 49
+    },
+    "positive_goal_acquisition_coverage": {
+      "denominator": 47,
+      "verified_acquired": 32
+    },
+    "goals_by_kind": {
+      "acquisition": {
+        "denominator": 24,
+        "outcomes": {
+          "SUCCESS": 16,
+          "MISS": 8,
+          "UNMEASURED": 0
+        },
+        "measurement": {
+          "MEASURED": 24,
+          "UNMEASURED": 0
+        }
+      },
+      "conditional_inference": {
+        "denominator": 16,
+        "outcomes": {
+          "SUCCESS": 0,
+          "MISS": 5,
+          "UNMEASURED": 11
+        },
+        "measurement": {
+          "MEASURED": 0,
+          "UNMEASURED": 16
+        }
+      },
+      "nominal_syntax": {
+        "denominator": 16,
+        "outcomes": {
+          "SUCCESS": 0,
+          "MISS": 10,
+          "UNMEASURED": 6
+        },
+        "measurement": {
+          "MEASURED": 0,
+          "UNMEASURED": 16
+        }
+      },
+      "person": {
+        "denominator": 16,
+        "outcomes": {
+          "SUCCESS": 0,
+          "MISS": 14,
+          "UNMEASURED": 2
+        },
+        "measurement": {
+          "MEASURED": 0,
+          "UNMEASURED": 16
+        }
+      }
+    },
+    "downstream_goals": {
+      "denominator": 48,
+      "all": {
+        "SUCCESS": 0,
+        "MISS": 29,
+        "UNMEASURED": 19
+      },
+      "positive_denominator": 29,
+      "positive": {
+        "SUCCESS": 0,
+        "MISS": 29,
+        "UNMEASURED": 0
+      },
+      "measurement": {
+        "MEASURED": 0,
+        "UNMEASURED": 48
+      }
+    },
+    "shape_handoff_statuses": {
+      "SHAPE_LICENSED": 159,
+      "ACQUISITION_INCOMPLETE": 25,
+      "SHAPE_REJECTED": 1
+    },
+    "word_reader_statuses": {
+      "DEFER": 67,
+      "READ": 2,
+      "REJECT": 3
+    },
+    "runtime_statuses": {
+      "ACQUIRED": 49,
+      "DEFER": 18,
+      "INVALID_INPUT": 5
+    },
+    "resource_outcomes": {
+      "acquisition": 0,
+      "inference": 0,
+      "word_reader": 0,
+      "shape_handoffs": 0
+    }
+  },
+  "composed_regression": {
+    "schema": "nabt.acquired-inference-regression-result.v1",
+    "fixture_sha256": "985e0be8faa597ca0d1675e3ae7ee5eb7c6f1b086d95c589fadab635275030da",
+    "scope": "exposed integration regression; not a new held-out linguistic matrix",
+    "passed": true,
+    "cases": 12,
+    "matching_contracts": 12,
+    "complete_chains": 5,
+    "positive_inference_cases": 3,
+    "positive_complete_chains": 1,
+    "all_arabic_complete": false,
+    "world_truth_established": false,
+    "uncompressed_sha256": "1a95c707b66bc9e86f883039288d6350e0be6a4072a060c9362e097eb74feabf",
+    "retained_result": "regression.json.gz"
+  },
+  "environment_reference": "../validation/environment.json",
+  "environment_note": "Same official Lean toolchain and disclosed local proc-path LD_PRELOAD adapter; formal source and kernel unchanged.",
+  "limitations": [
+    "No new Lean refinement theorem for adapter composition",
+    "Not a full make check release",
+    "Original unmeasured downstream goals and PR 34 vocabulary miss are retained",
+    "Remote CI belongs to its separately published head"
+  ],
+  "logs": {
+    "full-tests.log": {
+      "bytes": 428133,
+      "sha256": "ffb183307944e977c04f0e8bf1cfd0090fd56c1b7ade0d5872065c4d65824896"
+    },
+    "exposed.log": {
+      "bytes": 13806,
+      "sha256": "b905a416bc8d845edfd58e566630d1599ed34f7883334d918b82b4473e6c72a1"
+    },
+    "original-ci-failure.log": {
+      "bytes": 26625,
+      "sha256": "1cb141339c767c236547b2dbcb5872df0ee85e492e70c3e59adc57db9c24e60f"
+    },
+    "pr34-gates.log": {
+      "bytes": 44132,
+      "sha256": "644882744a00920423badf8bd9c7f836f75c19e43617316da6bd65e7399aed68"
+    },
+    "composed-tests-first.log": {
+      "bytes": 1935,
+      "sha256": "70963866e55f4af2060d9083fc1967f9a45966eb511925d583197c12f0eec7e8"
+    },
+    "reference-tests.log": {
+      "bytes": 498,
+      "sha256": "ba054f5a0574cfea921d4b1d9c3f686b465a786fd790fa2de0aa102bbdf7c734"
+    },
+    "recursive-source-retry.log": {
+      "bytes": 5884,
+      "sha256": "defeff1f77228084c34a99429dd3e99dc63b9e86badc30d56673a20745f3d42a"
+    },
+    "composed-tests.log": {
+      "bytes": 2267,
+      "sha256": "28f729dec316534cfd1581abe0adcb31a44fa19ff00aaec74c1a3003b5781726"
+    },
+    "composed-regression.log": {
+      "bytes": 429,
+      "sha256": "e5b55d3ab51ad144b5a992e0ecc0c0811ddb338237b869a8a2bb0276b8c49783"
+    },
+    "rebuild-links.log": {
+      "bytes": 900,
+      "sha256": "71ce564bb4ca2c8ea5f88d23e885835e2d35b4233f4b9e627cf83a7447ca5482"
+    },
+    "pilot-isolated.log": {
+      "bytes": 2410,
+      "sha256": "606fef03cc2cbee4ed36c70f97f151ac46434bf4ad40509836a13b1033ef31ed"
+    },
+    "full-tests-incomplete.log": {
+      "bytes": 177062,
+      "sha256": "5f5fe492abb7e526ce8222b0f9ac0198cf092a0cdcf30c24e1df4c104630b049"
+    }
+  },
+  "completion_receipt": {
+    "exit_code": 0,
+    "seconds": 459.59482492200004,
+    "summary_present": true,
+    "success_marker_present": true
+  },
+  "incomplete_attempt": {
+    "log": "full-tests-incomplete.log",
+    "scope": "Tool session returned zero but no complete unittest summary was retained; not counted as a passing full suite."
+  },
+  "split_diagnostic": {
+    "files": 171,
+    "initial_summary": "split-diagnostic.json",
+    "incomplete_log": "test_recursive_source_bridge.log",
+    "retry": "recursive-source-retry.log",
+    "retry_tests": 31,
+    "retry_passed": true,
+    "scope": "The final complete make test run is the consolidated validation result."
+  }
+}
