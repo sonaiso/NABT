@@ -8,8 +8,9 @@
   قياسًا لدقة اللغة أو إتاحة كل مشغّل.
 - `code_freeze_v1.json` و`regression_policy_v1.json`: هوية الحزمة المثبتة
   الجديدة وسياسة استمرار المقامات السابقة. لا تغير الذهب أو العتبات.
-- `independent_oracle/runner_freeze_v4.json`: الهوية النهائية لمصدر التنفيذ
-  والمقيم والواجهة والمواد. الجرد بعد التطوير، وليس ادعاء عينة عمياء.
+- `independent_oracle/runner_freeze_v5.json`: هوية متابعة إصلاح ترتيب الاستيراد
+  الاختياري؛ `runner_freeze_v4.json` يحفظ هوية التحقق المحلي الكامل السابق.
+  الجرد بعد التطوير، وليس ادعاء عينة عمياء.
 - `catalog_references/`: فهارس التصريحات وروابطها المعاد توليدها من النواة.
 - `independent_review/`: مرجع تطويري مستقل التأليف،24 حالة ببصمة ثابتة، مع
   المحاولتين الخام ومجسات لاحقة منفصلة. تكرار المرجع لا يضاعف مقامه.
@@ -26,6 +27,9 @@
   محفوظًا، ثم أُعيد التوليد بعد ثبات الوحدة.
 - `baseline_ci.json`: إخفاق CI السابق بسبب المصدر غير المتاح. يحتفظ بسجله
   ولا يغير حالة فشل سابقة إلى نجاح محلي لاحق.
+- `ci_followup_v5/`: إخفاق CI المنشور عند استيراد Torch قبل حارس الترخيص،
+  والفحوص المستهدفة بعد الإصلاح. لا يعاد ختم `verification.json` أو أرشيفه؛
+  أعدادهما المحلية تخصv4، وتُقرأ فحوص GitHub اللاحقة على رأسها الفعلي.
 
 مصادر النطاق وشواهده وإعادة الحالات القديمة محفوظة منفصلة في
 `evidence/scope_acquisition_v1/`. نقل المعجم يستخدم القراءات الثماني عشرة
@@ -49,7 +53,7 @@ make -f Makefile -f integrations/grammar_catalog.mk \
 أوامر استمرار المرجع المصدري عبر الهوية النهائية:
 
 ```bash
-PYTHONPATH=src:. python evidence/interface_migration_v1/independent_oracle/run_regression_v4.py \
+PYTHONPATH=src:. python evidence/interface_migration_v1/independent_oracle/run_regression_v5.py \
   --output-dir artifacts/local/interface-oracle-fresh
 PYTHONPATH=src:. python evidence/interface_migration_v1/independent_review/run.py \
   --output artifacts/local/interface-review-fresh.json.gz

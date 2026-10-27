@@ -4,10 +4,7 @@ from pathlib import Path
 import re
 import unicodedata
 
-import torch
 from .data import TASKS, sha, source_constraints
-from .experiment import encode, collate
-from .model import MorphologyModel, load_weights
 
 
 import sys
@@ -26,17 +23,30 @@ def load_bundle(directory):
         from .model_v2 import MaskedMorphologyModel
         model=MaskedMorphologyModel(vocab)
     elif architecture=='legacy-char-pool-v1':
+        from .model import MorphologyModel
         model=MorphologyModel(vocab)
     else:
         raise ValueError('unsupported model architecture')
+    from .model import load_weights
     load_weights(model,directory/'weights.npz')
     model.eval()
     return model,vocab,receipt
 
 
-@torch.no_grad()
 def propose(raw, model, vocab, receipt):
     foundation.require_foundation('tools.arabic_training.proposal.propose')
+    # Optional numerical dependencies belong behind the same admission guard
+    # as model execution. Importing this public entrypoint must remain possible
+    # in the core-only environment so denial can occur before any learner load.
+    import torch
+    with torch.no_grad():
+        return _propose(raw, model, vocab, receipt)
+
+
+def _propose(raw, model, vocab, receipt):
+    import torch
+    from .experiment import encode, collate
+
     result=dict(schema='nabt.neural-morphology-proposals.v1',input_sha256=sha(raw),
                 input_bytes=len(raw),model_sha256=receipt['files']['weights.npz'],
                 authority='NONE',alternatives_complete=False,calibrated_probabilities=False,

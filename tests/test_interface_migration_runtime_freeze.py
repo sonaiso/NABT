@@ -84,28 +84,28 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
             expected = ((OLD / "independent_oracle" / name).read_text()
                         .replace("evidence/source_acquisition_v1/", "evidence/interface_migration_v1/")
                         .replace("nabt.source-acquisition.", "nabt.interface-migration.")
-                        .replace("runner_freeze_v5.json", "runner_freeze_v4.json"))
+                        .replace("runner_freeze_v5.json", "runner_freeze_v5.json"))
             for stem in ("run_oracle", "run_regression", "review_continuation",
                          "run_source_counterexamples", "test_continuation", "freeze_runner"):
-                expected = expected.replace(stem + "_v1.py", stem + "_v4.py")
+                expected = expected.replace(stem + "_v1.py", stem + "_v5.py")
             for schema in ("directed-runner-freeze", "directed-oracle-execution",
                            "directed-regression", "directed-independent-review",
                            "directed-source-counterexamples", "continuation-review",
                            "regression-execution"):
                 expected = expected.replace("nabt.interface-migration." + schema + ".v1",
-                                            "nabt.interface-migration." + schema + ".v4")
+                                            "nabt.interface-migration." + schema + ".v5")
             if name == "test_continuation_v1.py":
                 # This test's predecessor identity advances with the wrapper;
                 # none of its semantic tamper controls or expected scores change.
                 expected = (expected.replace(
                     "evidence/progressive_rule_audit_v1/independent_oracle/runner_freeze_v1.json",
-                    "evidence/source_acquisition_v1/independent_oracle/runner_freeze_v5.json")
+                    "evidence/interface_migration_v1/independent_oracle/runner_freeze_v4.json")
                     .replace("e3ddc002acc6b9ac951b9c7c36e1c7d42e936b5854aeed97b6b5848abbb411b5",
-                             PREVIOUS["independent_oracle/runner_freeze_v5.json"])
+                             "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d")
                     .replace("'/source_acquisition_v1/independent_oracle/review_'",
                              "'/interface_migration_v1/independent_oracle/review_'"))
             with self.subTest(name=name):
-                self.assertEqual((NEW / "independent_oracle" / name.replace("_v1.py", "_v4.py")).read_text(), expected)
+                self.assertEqual((NEW / "independent_oracle" / name.replace("_v1.py", "_v5.py")).read_text(), expected)
 
     def test_first_attempt_identity_and_recovered_sources_are_preserved(self):
         folder = NEW / "runner_attempts/01_ui_scope_demo_before_correction"
@@ -119,9 +119,9 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
             self.assertEqual(sha256(raw).hexdigest(), row["sha256"])
             if row["path"] in inventory:
                 self.assertEqual(row["sha256"], inventory[row["path"]]["sha256"])
-        freezer = module("interface_dependency_freezer_v2", NEW / "independent_oracle/freeze_runner_v4.py")
+        freezer = module("interface_dependency_freezer_v2", NEW / "independent_oracle/freeze_runner_v5.py")
         self.assertEqual(freezer.PREVIOUS_ATTEMPT_SHA256,
-                         "111fc2619cda93fd0225d7d6b7f602ba61ab538e0974d00173030bd26e81ea16")
+                         "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d")
 
     def test_second_attempt_sources_and_identity_are_preserved(self):
         folder = NEW / "runner_attempts/02_ci_selector_not_advanced"
@@ -154,10 +154,36 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
         self.assertEqual(sha256((folder / "make-check.log").read_bytes()).hexdigest(),
                          gate_record["log_sha256"])
 
+    def test_published_v4_success_and_separate_ci_failure_are_preserved(self):
+        folder = NEW / "runner_attempts/04_published_stdlib_dependency_order"
+        record = json.loads((folder / "attempt.json").read_bytes())
+        previous = NEW / "independent_oracle/runner_freeze_v4.json"
+        self.assertEqual(sha256(previous.read_bytes()).hexdigest(),
+                         "1da2599f895c9e8b58bd1963176a09bae0dbebe5516b225d943b88fca1b3b00d")
+        inventory = {row["path"]: row for row in json.loads(previous.read_bytes())["files"]}
+        for row in record["source_files"]:
+            raw = (folder / "files" / row["path"]).read_bytes()
+            self.assertEqual(sha256(raw).hexdigest(), row["sha256"])
+            if row["path"] in inventory:
+                self.assertEqual(row["sha256"], inventory[row["path"]]["sha256"])
+        for reference in record["references"].values():
+            raw = (ROOT / reference["path"]).read_bytes()
+            self.assertEqual((len(raw), sha256(raw).hexdigest()),
+                             (reference["bytes"], reference["sha256"]))
+        verified = json.loads((NEW / "verification.json").read_bytes())
+        self.assertEqual(verified["dependency_freeze"]["sha256"], record["runner_freeze_sha256"])
+        self.assertTrue(all(gate["returncode"] == 0 for gate in verified["gates"]))
+        failure = json.loads((NEW / "ci_followup_v5/failure.json").read_bytes())
+        self.assertEqual(failure["head"], record["published_commit"])
+        self.assertEqual(failure["failures"], 1)
+        self.assertEqual(failure["failure_surface"], "tools.arabic_training.proposal.propose")
+        self.assertIs(record["prior_counts_are_not_new_v5_results"], True)
+        self.assertIs(record["local_verification_archive_resealed"], False)
+
     def test_dependency_freeze_is_post_development_not_an_unseen_test_claim(self):
-        path = NEW / "independent_oracle/freeze_runner_v4.py"
+        path = NEW / "independent_oracle/freeze_runner_v5.py"
         freezer = module("interface_dependency_freezer", path)
-        record = json.loads(path.with_name("runner_freeze_v4.json").read_bytes())
+        record = json.loads(path.with_name("runner_freeze_v5.json").read_bytes())
         freezer.check_execution_lifecycle(record)
         self.assertIs(record["before_first_new_runtime_oracle_prediction"], False)
         self.assertIs(record["blind_evaluation_claimed"], False)
@@ -171,8 +197,8 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
                     freezer.check_execution_lifecycle(changed)
 
     def test_runner_checks_complete_dependency_inventory_and_runtime_identity(self):
-        runner = module("interface_migration_oracle_test", NEW / "independent_oracle/run_oracle_v4.py")
-        receipt = runner.check_runner_freeze(NEW / "independent_oracle/runner_freeze_v4.json")
+        runner = module("interface_migration_oracle_test", NEW / "independent_oracle/run_oracle_v5.py")
+        receipt = runner.check_runner_freeze(NEW / "independent_oracle/runner_freeze_v5.json")
         self.assertTrue(receipt["files"])
         from tools import framework_foundation_postreview as review
         current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
