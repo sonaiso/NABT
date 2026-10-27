@@ -18,6 +18,7 @@ from nabt.errors import NabtError
 REQUEST_SCHEMA = "nabt.licensed-workflow-request.v1"
 RESPONSE_SCHEMA = "nabt.licensed-workflow-response.v1"
 MAX_REQUEST_BYTES = 131_072
+MAX_RESPONSE_BYTES = 2 * 1024 * 1024
 _BUDGET_LIMITS = {"max_input_bytes": 65536, "max_occurrences": 256,
                   "max_readings": 2048, "max_native_scan": 4096}
 
@@ -26,6 +27,16 @@ class _AdapterContractError(ValueError):
     pass
 
 _OPERATIONS = {
+    "discourse_boundary": {
+        "surface": "tools.linguistic_truth.discourse_boundary.acquire_discourse_boundary",
+        "required": {"text"}, "optional": {"source_id", "context", "profile_id"},
+        "schema": "nabt.discourse-boundary-receipt.v1",
+        "authority": "EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE"},
+    "source_inference": {
+        "surface": "tools.transport_adapters.certify_inference",
+        "required": {"source", "query"}, "optional": {"source_id", "revision", "scope", "time"},
+        "schema": "nabt.scoped-source-inference.v1",
+        "authority": "SOURCE_BOUND_FINITE_INFERENCE"},
     "lexical_surface": {
         "surface": "tools.linguistic_truth.surface.certify_surface",
         "required": {"text"},
@@ -56,6 +67,8 @@ _OPERATIONS = {
 }
 
 _CLAIM_LAWS = {
+    "discourse_boundary": {"EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE": {"nabt.discourse-boundary-cue.v1"}},
+    "source_inference": {"SOURCE_BOUND_FINITE_INFERENCE": {"nabt.licensed-inference.v1"}},
     "lexical_surface": {"EXACT_WITNESSED_FORM_WITH_DECLARED_ANNOTATION":
                         {"nabt.lexical-surface-binding.v1"}},
     "lexical_candidates": {
@@ -145,6 +158,12 @@ def migration_inventory():
 
 def _execute(operation, arguments):
     # Imports and call targets are fixed in code, never selected by the caller.
+    if operation == "discourse_boundary":
+        from tools.linguistic_truth.discourse_boundary import acquire_discourse_boundary
+        return acquire_discourse_boundary(**arguments)
+    if operation == "source_inference":
+        from tools.transport_adapters import certify_inference
+        return certify_inference(**arguments)
     if operation == "lexical_surface":
         from tools.linguistic_truth.surface import certify_surface
         return certify_surface(**arguments)
@@ -213,6 +232,36 @@ def _claims(operation, result):
     return output
 
 
+def _finish(response, request):
+    from nabt.transport_contract import _bind_metadata
+    try:
+        raw = _wire(request)
+        if len(raw) > MAX_REQUEST_BYTES:
+            original_hash = sha256(raw).hexdigest()
+            response["request_sha256"] = original_hash
+            bound_request = {"sha256": original_hash, "bytes": len(raw)}
+            input_binding = "EXACT_WORKFLOW_REQUEST_DIGEST"
+        else:
+            bound_request = request
+            input_binding = "EXACT_WORKFLOW_REQUEST"
+    except (ValueError, TypeError, UnicodeError, RecursionError):
+        bound_request = {"unrepresentable_request": True}
+        input_binding = "UNBOUND_INVALID_INPUT"
+    if len(_wire(response)) >= MAX_RESPONSE_BYTES:
+        for field in ("result", "result_sha256"):
+            response.pop(field, None)
+        response.update(status="RESOURCE_EXHAUSTED", reason="WORKFLOW_RESPONSE_LIMIT",
+                        native_checked=False, claims=[], workflow_status="NO_SCOPED_CLAIMS")
+    response["transport_contract"] = _bind_metadata(
+        entrypoint="tools.licensed_workflow.run_request", command=response.get("operation"),
+        resolved_request=bound_request, result=response,
+        policy_id="nabt.licensed-workflow.named-claims.v1", authority="SCOPED_CHILD_CLAIMS_ONLY",
+        input_binding=input_binding,
+        claim_paths=[f"claims[{i}]" for i in range(len(response["claims"]))],
+        unresolved_premises=["TRANSPORT_METADATA_IS_NOT_KERNEL_PROOF", "CHILD_CLAIM_PREMISES_RETAINED"])
+    return response
+
+
 def run_request(request):
     """Execute only installed raw-request adapters; never import authority.
 
@@ -237,14 +286,14 @@ def run_request(request):
             raise ValueError("INVALID_WORKFLOW_REQUEST_IDENTITY")
         if len(_wire(request)) > MAX_REQUEST_BYTES:
             response.update(status="RESOURCE_EXHAUSTED", reason="WORKFLOW_REQUEST_LIMIT")
-            return response
+            return _finish(response, request)
         response["request_sha256"] = _digest(request)
         operation, arguments = request["op"], request["input"]
         response["operation"] = operation
         if operation not in _OPERATIONS:
             response.update(status="DEFER", reason="UNMIGRATED_OR_UNKNOWN_OPERATION",
                 residuals=["USE_AN_INSTALLED_SCOPED_ADAPTER_OR_COMPLETE_ITS_MIGRATION"])
-            return response
+            return _finish(response, request)
         definition = _OPERATIONS[operation]
         if (type(arguments) is not dict
                 or not definition["required"] <= set(arguments)
@@ -269,7 +318,7 @@ def run_request(request):
         registry, registry_digest = _registry()
         if definition["surface"] not in {row["id"] for row in registry["surfaces"]}:
             response.update(status="VERIFICATION_UNAVAILABLE", reason="ADAPTER_NOT_REGISTERED")
-            return response
+            return _finish(response, request)
         execution_started = True
         if operation == "lexical_candidates":
             response["effective_budget"] = {**_BUDGET_LIMITS, **(arguments.get("budget") or {})}
@@ -302,4 +351,4 @@ def run_request(request):
         response.update(status="VERIFICATION_UNAVAILABLE" if execution_started else "INVALID_INPUT",
                         reason=str(exc) if isinstance(exc, ValueError)
                         else "MALFORMED_WORKFLOW_OR_ADAPTER_RESULT")
-    return response
+    return _finish(response, request)

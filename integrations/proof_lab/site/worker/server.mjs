@@ -1,10 +1,11 @@
+import '../web/transport-contract.js';
 import '../web/workflow-contract.js';
 import '../web/legacy-authority.js';
 import '../web/contextual-contract.js';
 import '../web/epistemic-contract.js';
 const REPOSITORY = 'sonaiso/NABT';
 const WORKFLOW = 'proof-lab.yml';
-const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix','codex/epistemic-measurement','codex/contextual-semantic-licenses','codex/licensed-interface-migration'];
+const ALLOWED_REFS = ['codex/dynamic-proof-lab','codex/attested-testimony-live','codex/semantic-axes-reference','codex/attested-lexical-matrix','codex/epistemic-measurement','codex/contextual-semantic-licenses','codex/licensed-interface-migration','codex/legacy-license-wave1'];
 const REQUEST_SCHEMA = 'nabt.proof-lab-request.v1';
 const MAX_PAYLOAD = 32768;
 const MAX_REPORT = 2 * 1024 * 1024;
@@ -140,6 +141,7 @@ export async function unpackResult(bytes){
   try{return JSON.parse(decoder.decode(result));}catch{fail('ARTIFACT_JSON_INVALID',502);}
 }
 export function validateReport(report,expected){
+  if(report?.transport_contract){try{globalThis.NabtTransportContract.validateDetached(report,'tools.proof_lab.run_payload');}catch{fail('REPORT_TRANSPORT_CONTRACT_INVALID',502);}}
   if(!report||report.schema!=='nabt.proof-lab-result.v1'||report.request_id!==expected.request_id||report.payload_sha256!==expected.payload_sha256||report.code_sha!==expected.code_sha||report.mode!==expected.mode||report.all_arabic_complete!==false||report.world_truth_established!==false)fail('REPORT_BINDING_FAILED',502);
   if(report.mode==='licensed_workflow'&&report.workflow_request_sha256&&report.workflow_request_sha256!==expected.workflow_request_sha256)fail('REPORT_BINDING_FAILED',502);
   if(report.mode==='semantic_axes'&&Object.hasOwn(report,'lexical_profile')&&report.lexical_profile!==(expected.lexical_profile??'teaching_v1'))fail('REPORT_BINDING_FAILED',502);
@@ -156,7 +158,7 @@ export function validateReport(report,expected){
   }
   if(report.contextual_reference)fail('REPORT_AUTHORITY_INVALID',502);
   if(report.mode==='epistemic_measurement'){
-    const allowed=['schema','request_id','payload_sha256','code_sha','native_sha256','generated_at_utc','duration_ms','mode','status','all_arabic_complete','world_truth_established','scope','reference_sha256','source_registry_sha256','runtime_sha256','runner_sha256','measurement_source_sha256','toolchain','epistemic_measurement'];
+    const allowed=['schema','request_id','payload_sha256','code_sha','native_sha256','generated_at_utc','duration_ms','mode','status','all_arabic_complete','world_truth_established','scope','reference_sha256','source_registry_sha256','runtime_sha256','runner_sha256','measurement_source_sha256','toolchain','epistemic_measurement','transport_contract'];
     if(Object.keys(report).some(k=>!allowed.includes(k)))fail('REPORT_AUTHORITY_INVALID',502);
     if(report.result||report.benchmark||report.testimony||report.semantic_axes||report.status!=='EPISTEMIC_MEASUREMENT_COMPLETE')fail('REPORT_AUTHORITY_INVALID',502);
     try{globalThis.NabtEpistemicContract.validateEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}
@@ -315,7 +317,16 @@ async function poll(url,env){
   const items=(artifacts.artifacts??[]).filter(a=>a.name==='nabt-lab-'+expected.request_id&&a.workflow_run?.head_sha===expected.code_sha&&a.workflow_run?.id===run.id);
   if(items.length!==1)fail('ARTIFACT_UNAVAILABLE',502);
   const encrypted=await downloadResult(env,items[0]);
-  const report=validateReport(JSON.parse(await decryptEnvelope(encrypted,env.NABT_TRANSPORT_KEY,expected.request_id)),expected);
+  let report;
+  try{report=globalThis.NabtTransportContract.parseExactJSON(await decryptEnvelope(encrypted,env.NABT_TRANSPORT_KEY,expected.request_id));}
+  catch{fail('ARTIFACT_JSON_INVALID',502);}
+  report=validateReport(report,expected);
+  if(env.NABT_REF==='codex/legacy-license-wave1'||report.transport_contract){
+    try{
+      await globalThis.NabtTransportContract.verifyDetached(report,'tools.proof_lab.run_payload');
+      if(report.gateway_result)await globalThis.NabtTransportContract.verifyDetached(report.gateway_result,'tools.licensed_workflow.run_request');
+    }catch{fail('REPORT_TRANSPORT_CONTRACT_INVALID',502);}
+  }
   if(report.mode==='licensed_workflow'&&report.gateway_result){try{await globalThis.NabtWorkflowContract.verifyEnvelope(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}}
   if(report.mode==='inference'&&report.result){try{await globalThis.NabtLegacyAuthority.verifyInferenceDigests(report);}catch{fail('REPORT_AUTHORITY_INVALID',502);}}
   if(report.contextual_reference){try{await globalThis.NabtContextualContract.verifyIntegrity(report.contextual_reference);}catch{fail('REPORT_BINDING_FAILED',502);}}

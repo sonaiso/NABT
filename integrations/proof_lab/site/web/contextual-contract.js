@@ -247,7 +247,7 @@
     return suite;
   }
   function validateEnvelope(report) {
-    allowed(report, ['schema', 'request_id', 'payload_sha256', 'code_sha', 'native_sha256', 'generated_at_utc', 'duration_ms', 'mode', 'status', 'all_arabic_complete', 'world_truth_established', 'scope', 'law_id', ...DIGESTS, 'runner_sha256', 'measurement_source_sha256', 'toolchain', 'contextual_reference']);
+    allowed(report, ['schema', 'request_id', 'payload_sha256', 'code_sha', 'native_sha256', 'generated_at_utc', 'duration_ms', 'mode', 'status', 'all_arabic_complete', 'world_truth_established', 'scope', 'law_id', ...DIGESTS, 'runner_sha256', 'measurement_source_sha256', 'toolchain', 'contextual_reference', 'transport_contract']);
     if (report.schema !== 'nabt.proof-lab-result.v1' || report.mode !== 'contextual_reference' || report.status !== 'CONTEXTUAL_REFERENCE_COMPLETE' || report.all_arabic_complete !== false || report.world_truth_established !== false) deny('غلاف الإحالة غير صالح.');
     if (own(report, 'law_id') && report.law_id !== LAW) deny('قانون الغلاف يختلف عن الشهادة.');
     if (own(report, 'scope') && !same(report.scope, { law_id: LAW, claim: 'Source-bound initial-occurrence reference relative to declared context', verification_kind: 'NATIVE_REFERENCE_RECEIPT_AND_PYTHON_GOLD_COMPARISON', whole_clause: 'NOT_PROVED', whole_arabic: 'NOT_PROVED', external_world: 'NOT_VERIFIED', tawatur: 'NOT_EVALUATED' })) deny('غلاف يتجاوز حدود الشهادة.');

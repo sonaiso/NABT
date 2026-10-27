@@ -1,0 +1,247 @@
+{
+  "schema": "nabt.legacy-migration.release-capture.v1",
+  "created_utc": "2026-10-27T02:23:28.515779+00:00",
+  "bundle_manifest": {
+    "path": "manifest.json",
+    "sha256": "0215c953fdcc304b0996c31a1cf97d7bcb67d3a078acd276345b4e9047ce037b"
+  },
+  "observed_scopes": {
+    "gates": [
+      {
+        "name": "check",
+        "command": {
+          "cwd": "/workspace/scratch/8ead824583ac/NABT",
+          "argv": [
+            "make",
+            "check",
+            "-o",
+            "test",
+            "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+            "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+            "EVIDENCE_DIR=/workspace/scratch/8ead824583ac/NABT/artifacts/local/legacy-wave1-release-v1/check/results"
+          ],
+          "started_utc": "2026-10-27T01:40:21.427205+00:00",
+          "environment": {
+            "PYTHONPATH": "/workspace/scratch/8ead824583ac/NABT/src:/workspace/scratch/8ead824583ac/NABT",
+            "NABT_REQUIRE_NATIVE_TRANSPORT": "1"
+          }
+        },
+        "result": {
+          "name": "check",
+          "exit_code": 0,
+          "elapsed_seconds": 1146.962,
+          "finished_utc": "2026-10-27T01:59:28.389718+00:00",
+          "log_sha256": "1a1957c9261a6cf88d66f7585a5468410f2575d5988e669ec8f59e47a5a4caa1"
+        }
+      },
+      {
+        "name": "test",
+        "command": {
+          "cwd": "/workspace/scratch/8ead824583ac/NABT",
+          "argv": [
+            "make",
+            "test",
+            "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+            "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+            "EVIDENCE_DIR=/workspace/scratch/8ead824583ac/NABT/artifacts/local/legacy-wave1-release-v1/test/results"
+          ],
+          "started_utc": "2026-10-27T01:59:28.391389+00:00",
+          "environment": {
+            "PYTHONPATH": "/workspace/scratch/8ead824583ac/NABT/src:/workspace/scratch/8ead824583ac/NABT",
+            "NABT_REQUIRE_NATIVE_TRANSPORT": "1"
+          }
+        },
+        "result": {
+          "name": "test",
+          "exit_code": 0,
+          "elapsed_seconds": 881.702,
+          "finished_utc": "2026-10-27T02:14:10.094256+00:00",
+          "log_sha256": "032c1c3f82dbdea686de3945b4f958698e71159a64a0cd09b47d017171d30c2b"
+        }
+      },
+      {
+        "name": "integrations",
+        "command": {
+          "cwd": "/workspace/scratch/8ead824583ac/NABT",
+          "argv": [
+            "make",
+            "-f",
+            "Makefile",
+            "-f",
+            "integrations/grammar_catalog.mk",
+            "-f",
+            "integrations/mantuq_inference.mk",
+            "-f",
+            "integrations/linguistic_truth.mk",
+            "-f",
+            "integrations/licensed_inference.mk",
+            "grammar-catalog",
+            "proof-catalog",
+            "routing-conformance",
+            "mantuq-inference",
+            "linguistic-truth",
+            "licensed-inference",
+            "PYTHON=/tmp/nabt-neural-ci-review/bin/python",
+            "LAKE=/workspace/scratch/8ead824583ac/lean-driver-v2/lake",
+            "EVIDENCE_DIR=/workspace/scratch/8ead824583ac/NABT/artifacts/local/legacy-wave1-release-v1/integrations/results"
+          ],
+          "started_utc": "2026-10-27T02:14:10.102621+00:00",
+          "environment": {
+            "PYTHONPATH": "/workspace/scratch/8ead824583ac/NABT/src:/workspace/scratch/8ead824583ac/NABT",
+            "NABT_REQUIRE_NATIVE_TRANSPORT": "1"
+          }
+        },
+        "result": {
+          "name": "integrations",
+          "exit_code": 0,
+          "elapsed_seconds": 128.319,
+          "finished_utc": "2026-10-27T02:16:18.422522+00:00",
+          "log_sha256": "b91e0d8c6167bed87322463ec2df9a7e0a1cd980e4c849827afe07281715b172"
+        }
+      }
+    ],
+    "full_main_unittests_raw": {
+      "run": 3040,
+      "passed": 3023,
+      "skipped": 17,
+      "failed": 0,
+      "seconds": 879.23
+    },
+    "exact_native_supplement": {
+      "counts": {
+        "run": 17,
+        "passed": 17,
+        "skipped": 0,
+        "failed": 0,
+        "seconds": 3.597
+      },
+      "command": {
+        "argv": [
+          "/tmp/nabt-neural-ci-review/bin/python",
+          "-m",
+          "unittest",
+          "tests.test_lexical_denotation.NativeDenotation",
+          "tests.test_qatr_readings.QatrNativeTests",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/8ead824583ac/NABT",
+        "started_utc": "2026-10-27T02:15:29.597918+00:00",
+        "environment": {
+          "PYTHONPATH": "/workspace/scratch/8ead824583ac/NABT/src:/workspace/scratch/8ead824583ac/NABT",
+          "NABT_REQUIRE_NATIVE_TRANSPORT": "1",
+          "NABT_LEXICAL_DENOTATION": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/lexicalDenotation",
+          "NABT_QATR_READING": "/workspace/scratch/8ead824583ac/NABT/formal/.lake/build/bin/qatrReading"
+        }
+      },
+      "result": {
+        "exit_code": 0,
+        "elapsed_seconds": 3.791906664002454,
+        "log_sha256": "b078ec0e7f0b23c2e48931fe40c67135dfc8451a2c81640a3f972566a47e062e"
+      },
+      "normalization": "Only remove optional tests. package prefix from unittest IDs.",
+      "original_skipped_ids_and_reasons": {
+        "test_lexical_denotation.NativeDenotation.test_all_installed_qalam_senses_retained": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_blindness_mental_association_is_not_external_sight": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_duplicate_does_not_create_an_extra_part": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_empty_target_and_unknown_root": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_installed_catalog_matches_every_byte_and_component": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_no_inverse_or_unrelated_association": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_strict_types_limits_and_extra_authority_flag": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_two_sources_do_not_make_same_root_same_sense": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_whole_and_proper_part": "'native lexicalDenotation executable not configured'",
+        "test_lexical_denotation.NativeDenotation.test_words_inside_gloss_are_not_semantic_parts": "'native lexicalDenotation executable not configured'",
+        "test_qatr_readings.QatrNativeTests.test_boolean_identity_unknown_fields_and_limits_rejected": "'native Lean qatrReading required'",
+        "test_qatr_readings.QatrNativeTests.test_drop_alternative_and_add_foreign_row_rejected": "'native Lean qatrReading required'",
+        "test_qatr_readings.QatrNativeTests.test_each_legal_row_survives_its_observation": "'native Lean qatrReading required'",
+        "test_qatr_readings.QatrNativeTests.test_no_weak_deletion_from_remaining_vowel": "'native Lean qatrReading required'",
+        "test_qatr_readings.QatrNativeTests.test_source_examples_keep_multiple_cases": "'native Lean qatrReading required'",
+        "test_qatr_readings.QatrNativeTests.test_stream_recovers_after_invalid_request": "'native Lean qatrReading required'",
+        "test_qatr_readings.QatrNativeTests.test_unknown_is_not_closed_empty_or_particle": "'native Lean qatrReading required'"
+      },
+      "supplement_passed_ids": [
+        "test_lexical_denotation.NativeDenotation.test_all_installed_qalam_senses_retained",
+        "test_lexical_denotation.NativeDenotation.test_blindness_mental_association_is_not_external_sight",
+        "test_lexical_denotation.NativeDenotation.test_duplicate_does_not_create_an_extra_part",
+        "test_lexical_denotation.NativeDenotation.test_empty_target_and_unknown_root",
+        "test_lexical_denotation.NativeDenotation.test_installed_catalog_matches_every_byte_and_component",
+        "test_lexical_denotation.NativeDenotation.test_no_inverse_or_unrelated_association",
+        "test_lexical_denotation.NativeDenotation.test_strict_types_limits_and_extra_authority_flag",
+        "test_lexical_denotation.NativeDenotation.test_two_sources_do_not_make_same_root_same_sense",
+        "test_lexical_denotation.NativeDenotation.test_whole_and_proper_part",
+        "test_lexical_denotation.NativeDenotation.test_words_inside_gloss_are_not_semantic_parts",
+        "test_qatr_readings.QatrNativeTests.test_boolean_identity_unknown_fields_and_limits_rejected",
+        "test_qatr_readings.QatrNativeTests.test_drop_alternative_and_add_foreign_row_rejected",
+        "test_qatr_readings.QatrNativeTests.test_each_legal_row_survives_its_observation",
+        "test_qatr_readings.QatrNativeTests.test_no_weak_deletion_from_remaining_vowel",
+        "test_qatr_readings.QatrNativeTests.test_source_examples_keep_multiple_cases",
+        "test_qatr_readings.QatrNativeTests.test_stream_recovers_after_invalid_request",
+        "test_qatr_readings.QatrNativeTests.test_unknown_is_not_closed_empty_or_particle"
+      ],
+      "exact_skipped_set_equality": true,
+      "already_passed_main_tests_repeated": false,
+      "native_identity_observed_after_supplement_not_before": true,
+      "native_identity_record": {
+        "path": "artifacts/local/legacy-wave1-native-supplement-v1/native_identity.json",
+        "bytes": 497,
+        "sha256": "8d24247c63dc978ade136642749143e9a3905becf07bcd36ced34e09801ca17e"
+      },
+      "unique_main_tests_checked_across_two_phases": 3040,
+      "main_raw_retains_17_skips": true,
+      "scope": "The main log remains 3040 run / 3023 passed / 17 skipped; the exact 17 skipped tests passed separately with explicit native paths. 3040 distinct tests were checked across two phases, not in one zero-skip run."
+    },
+    "unique_main_tests_checked_across_two_phases": 3040,
+    "separate_mandatory_subset": {
+      "run": 66,
+      "passed": 66,
+      "skipped": 0,
+      "failed": 0,
+      "seconds": 128.68
+    },
+    "development_seven_mode_run": {
+      "tests": 42,
+      "skipped": 0,
+      "reported_git_head": "8b948d8538373a9c69100c79253f58d7b5aa358f",
+      "before_final_freeze": true,
+      "scope": "Historical local development replay, not a new final-head run or production dispatch."
+    },
+    "ui_final_v4": {
+      "tests": 296,
+      "pass": 296,
+      "fail": 0,
+      "skipped": 0,
+      "command_observed_in_log": "npm test -> node --test tests/*.test.mjs",
+      "environment_not_recorded_in_log": true,
+      "build_or_deployment_claimed": false
+    },
+    "test_counts_are_overlapping_and_not_added": true
+  },
+  "identity_after": {
+    "runner_freeze": {
+      "path": "evidence/legacy_migration_v2/independent_oracle/runner_freeze_v1.json",
+      "bytes": 178022,
+      "sha256": "7a56b93650efa724a33d972d1b761c807ec884ae5a54ecfa217be2a35f656203"
+    },
+    "runtime_freeze": {
+      "path": "evidence/legacy_migration_v2/code_freeze_v1.json",
+      "bytes": 19534,
+      "sha256": "9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b"
+    },
+    "verified_dependencies": 963,
+    "output_outside_frozen_dependencies": true
+  },
+  "roundtrip": {
+    "verified_files": 170,
+    "verified_objects": 183,
+    "all_original_bytes_roundtrip_checked": true,
+    "archives": 5
+  },
+  "no_new_tests_run_by_packager": true,
+  "no_network_or_publishing_performed": true,
+  "test_counts_are_overlapping_and_not_added": true,
+  "historical_language_gold_and_thresholds_changed": false,
+  "development_reports_relabelled_as_final_head": false,
+  "whole_arabic_complete": false,
+  "tawatur_established": false,
+  "world_truth_or_motive_established": false,
+  "scope": "Completed local release gates, separate overlapping targeted replay, earlier seven-mode development receipts, local compact replay, and UI test log. Exact metrics remain in their own raw records; neither archival success nor test totals establish linguistic completeness."
+}

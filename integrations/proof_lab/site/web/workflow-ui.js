@@ -1,10 +1,21 @@
 (() => {
  'use strict';
  const $=id=>document.getElementById(id);
- const names={lexical_surface:'مطابقة الصيغة المشهودة',lexical_candidates:'المرشحون المعجميون',scope_acquisition:'حدود النطاق والتركيب',lexical_transmission:'جهة النقل المعجمي',classical_control:'معادلة التحكم الصرفي'};
- const samples={lexical_surface:'عَيْنَ',lexical_candidates:'قَرْءُ',scope_acquisition:'قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».',lexical_transmission:'فرس'};
+ const names={lexical_surface:'مطابقة الصيغة المشهودة',lexical_candidates:'المرشحون المعجميون',scope_acquisition:'حدود النطاق والتركيب',discourse_boundary:'حد الاستئناف والتصريح بالقصد',source_inference:'الاستدلال من مصدر محفوظ',lexical_transmission:'جهة النقل المعجمي',classical_control:'معادلة التحكم الصرفي'};
+ const samples={lexical_surface:'عَيْنَ',lexical_candidates:'قَرْءُ',scope_acquisition:'قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».',discourse_boundary:'لم أر أسداً قط؛ وأقصد بالأسد الحيوان المعروف.',source_inference:'إن عرف زيد الحق سار زيد. عرف زيد الحق.',lexical_transmission:'فرس'};
  const stateLabels={SCOPED_GATEWAY_INSTALLED:'بوابة مثبتة لدعوى محددة؛ الإتاحة تُفحص عند التشغيل',MIGRATED_SCOPED_NATIVE_ADAPTER:'محول أصلي بدعوى محددة',RETAIN_TYPED_PRIMITIVE:'بدائية ذات مجال عددي',RETAIN_NON_AUTHORITATIVE:'تشخيص أو اقتراح بلا سلطة قبول',CHILD_CONTRACT_REVIEW_REQUIRED:'يلزم تدقيق عقد المسار المنقول',ACQUISITION_AND_REFINEMENT_REVIEW_REQUIRED:'يلزم إغلاق التحصيل والمطابقة'};
- function operationChanged(){const op=$('workflow-operation').value;const classical=op==='classical_control';$('workflow-text-group').hidden=classical;$('workflow-frame-group').hidden=!classical;$('workflow-profile-group').hidden=op!=='lexical_candidates';$('workflow-scope-help').hidden=op!=='scope_acquisition';if(samples[op])$('workflow-text').value=samples[op];}
+ function operationChanged(){
+  const op=$('workflow-operation').value,classical=op==='classical_control',inference=op==='source_inference';
+  $('workflow-text-group').hidden=classical;$('workflow-frame-group').hidden=!classical;
+  $('workflow-profile-group').hidden=!['lexical_candidates','discourse_boundary'].includes(op);
+  $('workflow-scope-help').hidden=op!=='scope_acquisition';
+  $('workflow-discourse-help').hidden=op!=='discourse_boundary';
+  $('workflow-inference-help').hidden=!inference;$('workflow-query-group').hidden=!inference;
+  $('workflow-context-label').textContent=inference?'نطاق الاستدلال المعلن':'المقام المعلن';
+  if(samples[op])$('workflow-text').value=samples[op];
+  if(inference)$('workflow-query').value='هل سار زيد؟';
+  reset('تغيّرت جهة الفحص؛ نفّذ الطلب لعرض دعاواه المتحققة.');
+ }
  $('workflow-operation').addEventListener('change',operationChanged);
  function request(){
   const op=$('workflow-operation').value,context=$('workflow-context').value;
@@ -12,16 +23,25 @@
   if(op==='classical_control'){
     let frame;try{frame=JSON.parse($('workflow-frame').value);}catch{throw new Error('إطار التحكم يجب أن يكون JSON صالحًا.');}
     input={rule_id:$('workflow-rule').value,frame};
-  }else input={...(op==='lexical_transmission'?{entry:$('workflow-text').value}:{text:$('workflow-text').value}),context};
+  }else if(op==='source_inference')input={source:$('workflow-text').value,query:$('workflow-query').value,scope:context};
+  else input={...(op==='lexical_transmission'?{entry:$('workflow-text').value}:{text:$('workflow-text').value}),context};
   if(op==='lexical_candidates'&&$('workflow-profile').value)input.profile_id=$('workflow-profile').value;
+  if(op==='discourse_boundary')input.profile_id=$('workflow-profile').value||null;
   const value={schema:'nabt.licensed-workflow-request.v1',op,input};
   globalThis.NabtWorkflowContract.validateRequest(value);return value;
  }
- function reset(message='لم يُنفّذ طلب في المسار الموحّد بعد.'){$('workflow-output').hidden=true;$('workflow-message').textContent=message;$('workflow-claims').replaceChildren();}
+ function reset(message='لم يُنفّذ طلب في المسار الموحّد بعد.'){$('workflow-output').hidden=true;$('workflow-message').textContent=message;$('workflow-claims').replaceChildren();$('download-workflow').disabled=true;}
+ for(const id of ['workflow-text','workflow-query','workflow-context','workflow-profile','workflow-frame','workflow-rule']){
+  for(const event of ['input','change'])$(id).addEventListener(event,()=>reset('تغيّرت مدخلات الطلب؛ النتيجة السابقة لا تثبت المدخل الحالي. أعد الفحص.'));
+ }
  async function render(report){
   if(report.error){reset('تعذّر التنفيذ: '+String(report.status));return;}
   await globalThis.NabtWorkflowContract.verifyEnvelope(report);
+  let currentMatches=false;
+  try{currentMatches=globalThis.NabtWorkflowContract.canonical(request())===globalThis.NabtWorkflowContract.canonical(report.workflow_request);}catch{}
+  if(!currentMatches){reset('وصل إيصال متحقق لطلب سابق؛ لم يُعرض برهان للمدخلات التي تغيّرت. أعد فحص الطلب الحالي.');return;}
   const g=report.gateway_result,inv=report.migration_inventory;
+  $('download-workflow').disabled=false;
   $('workflow-output').hidden=false;$('workflow-message').textContent='اكتمل تشغيل '+names[g.operation]+'. لكل دعوى حدودها؛ اكتمال التنفيذ ليس قبولًا للعربية كلها.';
   $('workflow-status').textContent=g.status;
   $('workflow-native').textContent=g.native_checked?'أُعيد تشغيل المحول الأصلي؛ راجع الدعاوى المسماة أدناه':'لا شهادة نهائية من المحول؛ قد تبقى دعوى جزئية مستقلة محددة أدناه';
@@ -44,4 +64,5 @@
  }
  globalThis.NabtWorkflowUI=Object.freeze({request,reset,render});
  operationChanged();
+ reset();
 })();

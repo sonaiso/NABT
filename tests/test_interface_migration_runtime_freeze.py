@@ -35,8 +35,12 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(sha256((OLD / name).read_bytes()).hexdigest(), expected)
 
-    def test_current_runtime_is_exact_registration_only_and_archived(self):
-        current = verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
+    def test_historical_runtime_is_exact_registration_only_and_archived(self):
+        current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
+        self.assertEqual(sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest(),
+                         "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271")
+        with self.assertRaises(ValueError):
+            verify_code_freeze(NEW / "code_freeze_v1.json", ROOT)
         old = json.loads((OLD / "code_freeze_v1.json").read_bytes())
         before, after = ({row["path"]: row for row in item["files"]} for item in (old, current))
         self.assertEqual(set(before), set(after))
@@ -64,8 +68,8 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
         self.assertEqual(current["suites"], old["suites"])
         self.assertEqual(current["previous_policy_sha256"], PREVIOUS["regression_policy_v1.json"])
         self.assertEqual(current["runtime_file_count"], 102)
-        self.assertEqual(gate.load_policy(), current)
-        self.assertEqual(gate.RUNTIME_SHA256, sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest())
+        self.assertEqual(gate.load_policy()["suites"], current["suites"])
+        self.assertNotEqual(gate.RUNTIME_SHA256, sha256((NEW / "code_freeze_v1.json").read_bytes()).hexdigest())
 
     def test_inventory_omission_is_not_covered_by_rehashed_manifest(self):
         current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
@@ -73,10 +77,22 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
         current["snapshot_sha256"] = sha256(json.dumps(
             current["files"], sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         with tempfile.TemporaryDirectory() as directory:
+            archived_root = Path(directory) / "runtime"
+            archived_root.mkdir()
+            archive_path = NEW / "code_freeze_v1.tar.gz"
+            self.assertEqual(sha256(archive_path.read_bytes()).hexdigest(),
+                             "d65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5")
+            with tarfile.open(archive_path, "r:gz") as archive:
+                for member in archive.getmembers():
+                    self.assertTrue(member.isfile())
+                    target = archived_root / member.name
+                    self.assertTrue(target.resolve().is_relative_to(archived_root))
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(archive.extractfile(member).read())
             path = Path(directory) / "omitted.json"
             path.write_text(json.dumps(current))
             with self.assertRaisesRegex(ValueError, "exactly the authoritative"):
-                verify_code_freeze(path, ROOT)
+                verify_code_freeze(path, archived_root)
 
     def test_continuation_changes_identity_only_not_scoring(self):
         for name in ("run_oracle_v1.py", "run_regression_v1.py", "review_continuation_v1.py",
@@ -196,15 +212,19 @@ class InterfaceMigrationRuntimeFreezeTests(unittest.TestCase):
                 with self.subTest(field=field, fake=fake), self.assertRaises(ValueError):
                     freezer.check_execution_lifecycle(changed)
 
-    def test_runner_checks_complete_dependency_inventory_and_runtime_identity(self):
+    def test_published_runner_cannot_authorize_current_runtime(self):
         runner = module("interface_migration_oracle_test", NEW / "independent_oracle/run_oracle_v5.py")
-        receipt = runner.check_runner_freeze(NEW / "independent_oracle/runner_freeze_v5.json")
-        self.assertTrue(receipt["files"])
+        freeze = NEW / "independent_oracle/runner_freeze_v5.json"
+        self.assertEqual(sha256(freeze.read_bytes()).hexdigest(),
+                         "0f7ae3bf2cab565b2976aa9b0cca39dc87a452f965dba7987ab95525ce890613")
+        with self.assertRaises(ValueError):
+            runner.check_runner_freeze(freeze)
+        self.assertTrue(json.loads(freeze.read_bytes())["files"])
         from tools import framework_foundation_postreview as review
         current = json.loads((NEW / "code_freeze_v1.json").read_bytes())
         self.assertEqual(review.RUNTIME_SHA256, gate.RUNTIME_SHA256)
-        self.assertEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
-        self.assertEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
+        self.assertNotEqual(review.RUNTIME_SNAPSHOT_SHA256, current["snapshot_sha256"])
+        self.assertNotEqual(review.RUNTIME_ARCHIVE_SHA256, current["archive_sha256"])
 
 
 if __name__ == "__main__":

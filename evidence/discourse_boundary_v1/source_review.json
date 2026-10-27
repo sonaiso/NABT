@@ -1,0 +1,66 @@
+{
+  "schema": "nabt.discourse-boundary-source-review.v1",
+  "law_id": "nabt.discourse-boundary-cue.v1",
+  "authority": "EDITORIALLY_SELECTED_BOUNDED_DISCOURSE_ENVELOPE",
+  "sources": [
+    {
+      "id": "mughni",
+      "path": "src/nabt/data/source_evidence/mughni.txt",
+      "sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d",
+      "bytes": 1486890
+    },
+    {
+      "id": "mukhtar",
+      "path": "evidence/arabic_completion_v3/source_review/mukhtar_sihah_openiti_jk000107.txt",
+      "sha256": "e93f4054f3cddb826a7b3fafd01eac8c4b39b25ed2d92ece7ea093b755776691",
+      "bytes": 1540847
+    }
+  ],
+  "passages": [
+    {
+      "id": "lam_negation",
+      "source_id": "mughni",
+      "start_byte": 578020,
+      "end_byte": 578116,
+      "quote": "حرف جزم لنفي المضارع وقلبه ماضيا نحو {لم يلد ولم يولد}",
+      "sha256": "efbc069997f50b7a90e0b733cb44c9c78ccfa1ffdfa0f1adb21894bca07eb361",
+      "interpretation": "The initial لم marker supports a negated clause category; this does not parse its opaque predicate, assert its truth, or transfer its scope to a later clause."
+    },
+    {
+      "id": "waw_resumption",
+      "source_id": "mughni",
+      "start_byte": 745703,
+      "end_byte": 745813,
+      "quote": "إحداهما واو الاستئناف نحو {لنبين لكم ونقر في الأرحام ما نشاء}",
+      "sha256": "d1cf2ab6102db9562a077911f3b30ae555beebfa73646151f54c320f889e5d47",
+      "interpretation": "Resumptive waw is documented. The exact semicolon and spacing grammar is editorial, and this passage does not license every waw as resumptive."
+    },
+    {
+      "id": "negation_scope_contrast",
+      "source_id": "mughni",
+      "start_byte": 746374,
+      "end_byte": 746494,
+      "quote": "وهذا متعين للاستئناف لأن العطف يجعله شريكا في النفي فيلزم التناقض",
+      "sha256": "1ebecbbce2ed1ac49aaf89c677aafc5bcb6e88f562cd0a6a87972affb9be6035",
+      "interpretation": "A source example distinguishes conjunction sharing negation from resumption; the implementation is a bounded text envelope, not a universal scope inference."
+    },
+    {
+      "id": "qasd_word_use",
+      "source_id": "mukhtar",
+      "start_byte": 344611,
+      "end_byte": 344674,
+      "quote": "قصدت به البلد والموضع ذكرته وصرفته",
+      "sha256": "0712fc7af91d74d8f69592488ed957e5ac6a9b1fcb8f817b0bf77c3f850ac012",
+      "interpretation": "Retained lexical evidence for قصدت به. The first-person explicit-cue reading in this adapter remains an editorial interpretation, not a proof of speaker intent."
+    }
+  ],
+  "grammar": "(لم |لَمْ )DENIED؛ (وأقصد |وَأَقْصِدُ )BODY[.]",
+  "limitations": [
+    "Only exact operators, the explicit semicolon boundary and preserved opaque bodies are checked.",
+    "The denied clause is not parsed as an event, and its truth is not asserted.",
+    "The later clause diagnostic does not become a proof of intention, external reference or whole-Arabic completeness.",
+    "Unvocalized/mixed operator envelopes are separate source-structural records; no missing vowels are invented.",
+    "No alias الحيوان المعروف is installed or inferred; a dictionary gloss does not resolve a new-context definite reference.",
+    "Neither source passage asserts that modern punctuation alone determines every Arabic scope."
+  ]
+}

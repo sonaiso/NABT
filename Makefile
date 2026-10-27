@@ -3,8 +3,8 @@ LAKE ?= lake
 LOCAL_RUN := $(shell $(PYTHON) -c 'import time; print(time.time_ns())')
 EVIDENCE_DIR ?= artifacts/local/$(LOCAL_RUN)
 # Change both selectors only after the evaluator registries pin the new freeze.
-RUNTIME_FREEZE_VERSION ?= interface_migration_v1
-TEXT_CODE_FREEZE ?= evidence/interface_migration_v1/code_freeze_v1.json
+RUNTIME_FREEZE_VERSION ?= legacy_migration_v2
+TEXT_CODE_FREEZE ?= evidence/legacy_migration_v2/code_freeze_v1.json
 QAC_SOURCE ?= artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 ARABIC_EVALUATION_DIR ?= artifacts/local/$(LOCAL_RUN)/arabic-regression
 GOVERNOR_EVALUATION_DIR ?= $(EVIDENCE_DIR)/governor-regression
@@ -83,6 +83,22 @@ licensed-interface-conformance:
 	$(PYTHON) -m unittest discover -s tests -p 'test_interface_migration_audit.py' -v
 
 check: licensed-interface-conformance
+
+.PHONY: legacy-migration-conformance
+legacy-migration-conformance:
+	cd formal && $(LAKE) build discourseBoundaryCue linguisticTruth qualifiedCueLicensing licensedInference lexicalDenotation epistemicMeasurement contextualReference lexicalSourceRows lexicalSurface lexicalTransmission scopeAcquisition exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
+	cd formal && $(LAKE) env lean DiscourseBoundaryCueChecks.lean
+	$(PYTHON) tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
+	test -x formal/.lake/build/bin/discourseBoundaryCue
+	test -x formal/.lake/build/bin/linguisticTruth
+	test -x formal/.lake/build/bin/qualifiedCueLicensing
+	test -x formal/.lake/build/bin/licensedInference
+	$(PYTHON) evidence/legacy_migration_v2/build_queue.py --check
+	NABT_REQUIRE_NATIVE_TRANSPORT=1 $(PYTHON) -m unittest tests.test_discourse_boundary_cue tests.test_transport_contract tests.test_legacy_cli_transport tests.test_transport_mode_replay tests.test_legacy_migration_queue tests.test_independent_legacy_migration_attackcases tests.test_live_transport_binding -v
+	mkdir -p $(EVIDENCE_DIR)
+	$(PYTHON) -m evidence.legacy_migration_v2.independent_review.run_reference --output $(EVIDENCE_DIR)/legacy-boundary-authority-reference.json.gz
+
+check: legacy-migration-conformance
 
 conformance:
 	$(PYTHON) tools/check_conformance.py --lake $(LAKE) --output $(EVIDENCE_DIR)/conformance.json
@@ -185,7 +201,7 @@ arabic-coverage-holdout:
 .PHONY: arabic-completion-oracle
 arabic-completion-oracle:
 	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-	$(PYTHON) evidence/interface_migration_v1/independent_oracle/run_regression_v5.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
+	$(PYTHON) evidence/legacy_migration_v2/independent_oracle/run_regression_v1.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json

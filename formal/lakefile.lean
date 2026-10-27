@@ -162,3 +162,7 @@ lean_exe contextualReference where
 @[default_target]
 lean_exe occurrenceSense where
   root := `OccurrenceSenseMain
+
+@[default_target]
+lean_exe discourseBoundaryCue where
+  root := `DiscourseBoundaryCueMain

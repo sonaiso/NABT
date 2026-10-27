@@ -30,7 +30,7 @@ function makeZip(value,{method=0,name='result.json',raw,centralMutator,localMuta
   return Buffer.concat([local,packed,central,end]);
 }
 function completedRun(extra={}){return {id:123,display_title:'NABT Lab · '+ID,head_sha:CODE,event:'workflow_dispatch',head_branch:ENV.NABT_REF,path:'.github/workflows/proof-lab.yml',status:'completed',conclusion:'success',created_at:new Date().toISOString(),...extra};}
-async function pollWith({run=completedRun(),artifactExtra={},zip,reportValue=report(),redirect='https://proof.blob.core.windows.net/result.zip',reportBinding=descriptor(),downloadStatus=200}={},inspect){
+async function pollWith({env=ENV,run=completedRun(),artifactExtra={},zip,reportValue=report(),redirect='https://proof.blob.core.windows.net/result.zip',reportBinding=descriptor(),downloadStatus=200}={},inspect){
   zip ??= makeZip(await encryptEnvelope(JSON.stringify(reportValue),TRANSPORT,reportBinding.request_id));
   const handle=await signHandle(reportBinding,KEY);let downloaded=false;
   const result=await mockedFetch(async(url,options={})=>{
@@ -40,7 +40,7 @@ async function pollWith({run=completedRun(),artifactExtra={},zip,reportValue=rep
     if(url.endsWith('/artifacts/321/zip'))return new Response(null,{status:302,headers:{Location:redirect}});
     if(url===redirect){downloaded=true;return new Response(zip,{status:downloadStatus,headers:downloadStatus>=300?{Location:'https://unapproved.example/result.zip'}:{}});}
     assert.fail('Unexpected URL '+url);
-  },()=>route(new Request('https://lab.example/api/runs?handle='+encodeURIComponent(handle)),ENV,{}));
+  },()=>route(new Request('https://lab.example/api/runs?handle='+encodeURIComponent(handle)),env,{}));
   return {response:result,body:await result.json(),downloaded};
 }
 
@@ -293,4 +293,10 @@ test('private configuration never returns transport or signing secrets',async()=
 test('public configuration identifies the actual pinned testimony branch, never the old default',async()=>{
   const res=await route(new Request('https://lab.example/api/config'),{...ENV,NABT_REF:'codex/attested-testimony-live'},{});
   const c=await res.json();assert.equal(c.ready,true);assert.equal(c.branch,'codex/attested-testimony-live');assert.equal(c.code_sha,CODE);
+});
+
+test('new migration branch rejects otherwise valid legacy receipt without transport binding',async()=>{
+  const out=await pollWith({env:{...ENV,NABT_REF:'codex/legacy-license-wave1'},run:completedRun({head_branch:'codex/legacy-license-wave1'})});
+  assert.equal(out.response.status,502);
+  assert.equal(out.body.error,'REPORT_TRANSPORT_CONTRACT_INVALID');
 });

@@ -73,6 +73,8 @@ def read_certificate(path: Path, maximum_bytes: int = MAX_JSON_BYTES):
 def parser() -> Parser:
     result = Parser(prog="nabt", description="Independent Arabic numerical shape kernel")
     result.add_argument("--version", action="version", version=__version__)
+    result.add_argument("--response-contract", choices=("legacy", "scoped-v1"), default="legacy",
+                        help="Opt in to explicit transport authority; place before the command")
     sub = result.add_subparsers(dest="command", required=True, parser_class=Parser)
     foundation_command = sub.add_parser("foundation", help="Replay the shared Lean A116 source representation contract")
     foundation_command.add_argument("text", nargs="?", help="Exact source; omit to inspect the installed foundation identity")
@@ -257,6 +259,38 @@ def run(args) -> tuple[dict, int]:
     # argparse catches ValueError from type converters. NabtError derives from
     # ValueError, so conversion here preserves RESOURCE_LIMIT as DEFER.
     foundation.require_foundation('nabt.cli.run')
+    contract = getattr(args, "response_contract", "legacy")
+    if contract not in {"legacy", "scoped-v1"}:
+        raise NabtError("INVALID_RESPONSE_CONTRACT", "Unknown response contract")
+    if contract == "legacy":
+        return _run_legacy(args)
+    from copy import deepcopy
+    from .transport_contract import _envelope, _claim_paths
+    request = {key: deepcopy(value) for key, value in vars(args).items() if key != "response_contract"}
+    claims, authority = [], "LEGACY_DIAGNOSTIC_OR_CONDITIONAL"
+    binding = "CLI_ARGUMENTS_ONLY"
+    unresolved = ["LEGACY_CHILD_REFINEMENT_NOT_ESTABLISHED", "FILE_ARGUMENT_IS_NOT_RESOLVED_SOURCE_BYTES"]
+    if args.command == "classical-transform":
+        from .classical_certified import evaluate_certified
+        frame = read_certificate(args.frame)
+        request = {"rule_id": args.rule_id, "frame": frame}
+        result = evaluate_certified(args.rule_id, frame)
+        claims = _claim_paths(result, "classical")
+        authority, binding = "SUPPLIED_FRAME_NATIVE_CONTROL_EQUATION", "RESOLVED_CHILD_INPUT"
+        unresolved = ["SOURCE_TO_CONTROL_ACQUISITION", "GENERAL_SURFACE_SPELLING_REFINEMENT"]
+        code = 2 if result["status"] == "VERIFICATION_UNAVAILABLE" else 0 if claims else 3
+    else:
+        result, code = _run_legacy(deepcopy(args))
+        if args.command in {"law", "encode", "decode", "append", "split", "replace", "count", "generate", "rank", "effect", "analyse", "certify", "verify", "transcode"}:
+            authority = "TYPED_REPRESENTATION_OR_FIXED_MACHINE_DOMAIN"
+            unresolved = ["NO_SOURCE_TO_LINGUISTIC_MEANING_REFINEMENT"]
+    return _envelope(entrypoint="nabt.cli.run", command=args.command,
+        resolved_request=request, result=result, policy_id="nabt.cli." + args.command + ".scoped-v1",
+        authority=authority, input_binding=binding, claim_paths=claims,
+        unresolved_premises=unresolved), code
+
+
+def _run_legacy(args) -> tuple[dict, int]:
     for field in ("number", "left", "right", "weight", "rank", "at", "cell"):
         if hasattr(args, field):
             setattr(args, field, number(getattr(args, field)))
@@ -687,6 +721,7 @@ def run(args) -> tuple[dict, int]:
 
 
 def main(argv=None) -> int:
+    args = None
     try:
         args = parser().parse_args(argv)
         result, code = run(args)
@@ -697,11 +732,22 @@ def main(argv=None) -> int:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         return code
     except NabtError as exc:
-        print(json.dumps(exc.as_dict(), ensure_ascii=False), file=sys.stderr)
+        print(json.dumps(_failure_output(args, exc.as_dict()), ensure_ascii=False), file=sys.stderr)
         return 3 if exc.status == "DEFER" else 2
     except OSError as exc:
-        print(json.dumps({"status": "DEFER", "code": "IO_ERROR", "message": str(exc)}, ensure_ascii=False), file=sys.stderr)
+        print(json.dumps(_failure_output(args, {"status": "DEFER", "code": "IO_ERROR", "message": str(exc)}), ensure_ascii=False), file=sys.stderr)
         return 3
+
+
+def _failure_output(args, result):
+    if args is None or getattr(args, "response_contract", "legacy") != "scoped-v1":
+        return result
+    from .transport_contract import _envelope
+    return _envelope(entrypoint="nabt.cli.run", command=args.command,
+        resolved_request={k: v for k, v in vars(args).items() if k != "response_contract"},
+        result=result, policy_id="nabt.cli." + args.command + ".scoped-v1",
+        authority="FAILURE_WITHOUT_CLAIMS", input_binding="CLI_ARGUMENTS_ONLY",
+        unresolved_premises=["CHILD_DID_NOT_RETURN_CHECKED_RESULT"])
 
 
 if __name__ == "__main__":

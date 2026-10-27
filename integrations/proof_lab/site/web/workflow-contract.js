@@ -11,7 +11,18 @@
   lexical_candidates:{required:['text'],optional:['profile_id','budget','source_id','subject','time','context'],surface:'tools.linguistic_truth.certified.acquire_certified',schema:'nabt.certified-linguistic-acquisition.v1'},
   classical_control:{required:['rule_id','frame'],optional:[],surface:'nabt.classical_certified.evaluate_certified',schema:'nabt.classical-certified-control.v1'},
   scope_acquisition:{required:['text'],optional:['source_id','context','profile_id'],surface:'tools.linguistic_truth.scopes.acquire_scope',schema:'nabt.scope-acquisition-receipt.v1'},
+  discourse_boundary:{required:['text'],optional:['source_id','context','profile_id'],surface:'tools.linguistic_truth.discourse_boundary.acquire_discourse_boundary',schema:'nabt.discourse-boundary-receipt.v1'},
+  source_inference:{required:['source','query'],optional:['source_id','revision','scope','time'],surface:'tools.transport_adapters.certify_inference',schema:'nabt.scoped-source-inference.v1'},
   lexical_transmission:{required:['entry'],optional:['context'],surface:'tools.lexical_transmission.assess_transmission',schema:'nabt.lexical-transmission-receipt.v1'}
+ };
+ const claimLaws={
+  lexical_surface:{EXACT_WITNESSED_FORM_WITH_DECLARED_ANNOTATION:['nabt.lexical-surface-binding.v1']},
+  lexical_candidates:{A116_EXACT_INSTALLED_CANDIDATE_SET:['nabt.certified-lexical.v1'],A116_CONDITIONAL_SUPPORTED_USE:['nabt.certified-lexical.v1']},
+  classical_control:{CLASSICAL_FINITE_CONTROL_EQUATION:['nabt.classical-weak.v1','nabt.classical-hamza.v1','nabt.classical-gemination.v1','nabt.classical-boundary-affixes.v1']},
+  scope_acquisition:{EXACT_SCOPE_ENVELOPE:['nabt.scope-acquisition.v1']},
+  discourse_boundary:{EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE:['nabt.discourse-boundary-cue.v1']},
+  source_inference:{SOURCE_BOUND_FINITE_INFERENCE:['nabt.licensed-inference.v1']},
+  lexical_transmission:{SOURCE_BOUND_REPORT_INVENTORY_AND_DEPENDENCY_CLASSIFICATION:['nabt.lexical-transmission.v1']}
  };
  function portable(v,depth=0){
   if(depth>32)deny();
@@ -50,9 +61,11 @@
     if(!object(claim)||typeof claim.kind!=='string'||typeof claim.scope!=='string'||!claim.scope.trim()||!object(claim.proof)||typeof claim.proof.law_id!=='string'||!Array.isArray(claim.proof.theorems)||!claim.proof.theorems.length||claim.proof.theorems.some(x=>typeof x!=='string'||!x.startsWith('Nabt.'))||origins.has(claim.origin_path))deny();
     origins.add(claim.origin_path);
     if(claim.origin_path==='source_acquisition'){
+     if(claim.proof.law_id!=='nabt.lexical-source-acquisition.v1')deny();
      if(!hasExtraction||r.source_row_extraction_kernel_proved!==true||r.annotation_field_extraction_kernel_proved!==true||claim.kind!=='EXACT_SOURCE_ROW_AND_ANNOTATION_FIELD_EXTRACTION')deny();
      for(const[k,v]of Object.entries(r.source_acquisition))if(!same(claim[k],v))deny();
     }else{
+     if(!Object.hasOwn(claimLaws[request.op],claim.kind)||!claimLaws[request.op][claim.kind].includes(claim.proof.law_id))deny();
      const match=/^claims\[(0|[1-9][0-9]*)\]$/.exec(claim.origin_path||'');
      if(!match||!r.native_checked)deny();const index=Number(match[1]);if(index>=originals.length)deny();
      const copy={...claim};delete copy.origin_path;if(!same(copy,originals[index]))deny();
