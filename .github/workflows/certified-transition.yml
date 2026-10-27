@@ -29,6 +29,8 @@ jobs:
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Kernel, native receipt, and independent measurement
         run: make certified-transition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/transition
+      - name: Require the complete registered gateway matrix before the long replay
+        run: make licensed-interface-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/transition/gateway
       - name: Audit allowed axioms
         run: python tools/check_axioms.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output artifacts/local/transition/axioms.json
       - name: Export candidate compiled catalogue and source links

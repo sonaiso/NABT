@@ -80,14 +80,14 @@ check: certified-transition-conformance
 
 .PHONY: licensed-interface-conformance
 licensed-interface-conformance:
-	cd formal && $(LAKE) build sixNounAcquisition lexicalSourceRows lexicalSurface qualifiedCueLicensing linguisticTruth lexicalTransmission scopeAcquisition exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
+	cd formal && $(LAKE) build sixNounAcquisition lexicalSourceRows lexicalSurface qualifiedCueLicensing linguisticTruth lexicalTransmission scopeAcquisition licensedInference discourseBoundaryCue exportClassicalWeak exportClassicalHamza exportClassicalGemination exportClassicalBoundaryAffixes
 	cd formal && $(LAKE) env lean LexicalTransmissionChecks.lean
 	cd formal && $(LAKE) env lean ScopeAcquisitionChecks.lean
 	$(PYTHON) tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
 	test -x formal/.lake/build/bin/lexicalTransmission
 	test -x formal/.lake/build/bin/scopeAcquisition
 	$(PYTHON) -m tools.interface_migration_audit --output $(EVIDENCE_DIR)/interface-admission-audit.json
-	$(PYTHON) -m unittest discover -s tests -p 'test_licensed_workflow.py' -v
+	NABT_REQUIRE_NATIVE_TRANSPORT=1 $(PYTHON) -m unittest discover -s tests -p 'test_licensed_workflow.py' -v
 	$(PYTHON) -m unittest discover -s tests -p 'test_scope_acquisition.py' -v
 	$(PYTHON) -m unittest discover -s tests -p 'test_lexical_transmission.py' -v
 	$(PYTHON) -m unittest discover -s tests -p 'test_interface_migration_audit.py' -v
@@ -211,7 +211,7 @@ arabic-coverage-holdout:
 .PHONY: arabic-completion-oracle
 arabic-completion-oracle:
 	$(PYTHON) -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
-	$(PYTHON) evidence/certified_transition_v2/independent_oracle/run_regression_v2.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
+	$(PYTHON) evidence/certified_transition_v2/independent_oracle/run_regression_v3.py --output-dir $(EVIDENCE_DIR)/arabic-completion-oracle
 
 source-experiment:
 	$(PYTHON) tools/source_learning_experiment.py --output $(EVIDENCE_DIR)/source-learning.json
