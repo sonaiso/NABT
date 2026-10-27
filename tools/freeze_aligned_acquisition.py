@@ -3,6 +3,8 @@
 
 The independent gold contents are never opened here. Its previously frozen
 digest is copied from the evaluator. Outputs are created exclusively.
+The evaluator owns first-run chronology checks; this content-pinned snapshot
+also works after publication or squash merges replace local commit identities.
 """
 from __future__ import annotations
 
@@ -18,7 +20,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.evaluate_aligned_acquisition import (  # noqa: E402
-    GOLD_SHA256, INFERENCE_SOURCE_PATH, MATRIX_COMMIT, SPEC_PATH,
+    GOLD_SHA256, INFERENCE_SOURCE_PATH, SPEC_PATH, SPEC_SHA256,
 )
 
 
@@ -40,7 +42,6 @@ def local_path(name: str) -> Path:
 
 def build_freeze() -> dict:
     commit = git("rev-parse", "HEAD").decode().strip()
-    git("merge-base", "--is-ancestor", MATRIX_COMMIT, commit)
     tracked = set(git("ls-files", "-z").decode("utf-8").split("\0")) - {""}
     paths = {name for name in tracked if
              (name.startswith("src/nabt/") and (name.endswith(".py") or name.startswith("src/nabt/data/")))
@@ -62,8 +63,8 @@ def build_freeze() -> dict:
         if current != committed:
             raise ValueError("uncommitted runtime input: " + name)
         files[name] = digest(current)
-    if files[SPEC_PATH] != digest(git("show", MATRIX_COMMIT + ":" + SPEC_PATH)):
-        raise ValueError("specification differs from the independent matrix freeze")
+    if files[SPEC_PATH] != SPEC_SHA256:
+        raise ValueError("specification differs from the independent content pin")
     native = {}
     for name in ("alignedAcquisition", "licensedInference"):
         relative = "formal/.lake/build/bin/" + name

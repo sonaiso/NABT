@@ -14,6 +14,12 @@ manifest with this shape::
 Tracked file bytes must equal both the manifest and the named git commit.
 Native binary hashes bind this local run, not every reproducible Lean build.
 The output is exclusively created and never overwritten, including on failure.
+
+The first phase also verifies the local matrix-to-implementation git chronology.
+Exposed replays retain the original matrix ID as historical evidence but do not
+claim that chronology: publication or squash merges may replace commit IDs.
+Both phases still require the fixed gold/spec content pins, exact committed
+runtime files, native build identity, and the same representation checks.
 """
 from __future__ import annotations
 
@@ -37,6 +43,7 @@ GOLD_PATH = ROOT / "evidence/aligned_acquisition_v1/gold.json"
 GOLD_SHA256 = "d94bc45073f21e082c345bef0eb3ac4636451a6695cc247ce447241ee6ffedf7"
 MATRIX_COMMIT = "e29d11caf2a4fad5ac74a8474cde97103886cc3a"
 SPEC_PATH = "docs/ACQUISITION_READER_SPEC.md"
+SPEC_SHA256 = "5f8dda47209169b9e3995fc44e3da0bcf1bfc3580fa74a6dbe2afe4cf7687b7f"
 INFERENCE_SOURCE_PATH = "evidence/licensed_inference_v1/source_links.json"
 SEPARATORS = frozenset(' \t\r\n.،؛,:!?؟()[]{}«»"“”')
 ACQUISITION_STATUSES = {"ACQUIRED", "DEFER", "INVALID_INPUT"}
@@ -151,12 +158,17 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
         raise ValueError("code-freeze commit does not exist")
     if phase == "first" and git("rev-parse", "HEAD") != commit:
         raise ValueError("first run requires HEAD at the implementation freeze")
-    # An implementation snapshot must descend from the independently frozen matrix.
-    git("merge-base", "--is-ancestor", MATRIX_COMMIT, commit)
+    # This chronology claim belongs only to the original local first execution.
+    # Published snapshots and squash merges can preserve exact contents while
+    # assigning new commit identities; their runs are explicitly exposed.
+    if phase == "first":
+        git("merge-base", "--is-ancestor", MATRIX_COMMIT, commit)
     pinned_gold = freeze.get("gold")
     if (type(pinned_gold) is not dict or pinned_gold.get("sha256") != GOLD_SHA256
             or local_path(pinned_gold.get("path")).resolve() != gold_path.resolve()):
         raise ValueError("code-freeze gold path/hash differs from the independent pin")
+    if digest(git("show", commit + ":" + pinned_gold["path"], binary=True)) != GOLD_SHA256:
+        raise ValueError("committed gold differs from the independent content pin")
     files, native = freeze.get("files"), freeze.get("native")
     if type(files) is not dict or not files or type(native) is not dict or not native:
         raise ValueError("code freeze requires tracked files and local native hashes")
@@ -183,9 +195,9 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
     if not linked_sources <= set(files):
         raise ValueError("code freeze omits inference source evidence: " +
                          ", ".join(sorted(linked_sources - set(files))))
-    if files[SPEC_PATH] != freeze.get("spec_sha256"):
-        raise ValueError("specification hash is not pinned consistently")
-    if digest(git("show", MATRIX_COMMIT + ":" + SPEC_PATH, binary=True)) != freeze["spec_sha256"]:
+    if files[SPEC_PATH] != SPEC_SHA256 or freeze.get("spec_sha256") != SPEC_SHA256:
+        raise ValueError("specification differs from the independent content pin")
+    if phase == "first" and digest(git("show", MATRIX_COMMIT + ":" + SPEC_PATH, binary=True)) != SPEC_SHA256:
         raise ValueError("specification differs from the independent matrix freeze")
     # Check the exact first-run native build locally. Later build changes are
     # retained as evidence, never silently interpreted as the original build.
@@ -201,7 +213,11 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
         if phase == "first" and native_current[name] != expected_hash:
             raise ValueError("local native binary differs from first-run freeze: " + name)
     return freeze, {"manifest_sha256": freeze_hash, "commit": commit,
-                    "matrix_commit": MATRIX_COMMIT, "native": native_current,
+                    "original_local_matrix_commit": MATRIX_COMMIT,
+                    "original_matrix_ancestry_verified": phase == "first",
+                    "held_out_first_execution": phase == "first",
+                    "content_pins": {"spec_sha256": SPEC_SHA256, "gold_sha256": GOLD_SHA256},
+                    "committed_content_pins_verified": True, "native": native_current,
                     "native_matches_freeze": native_current == native}
 
 
