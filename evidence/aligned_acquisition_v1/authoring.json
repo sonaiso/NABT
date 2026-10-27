@@ -1,0 +1,194 @@
+{
+  "schema": "nabt.aligned-acquisition-authoring.v1",
+  "frozen_at_utc": "2026-10-27T21:59:01.856399+00:00",
+  "gold_sha256": "d94bc45073f21e082c345bef0eb3ac4636451a6695cc247ce447241ee6ffedf7",
+  "case_count": 72,
+  "family_counts": {
+    "orthography": 24,
+    "category_person": 16,
+    "predication": 16,
+    "condition": 16
+  },
+  "repository_base": "a3ba5b32e67c25b2a71a6c8ebc8635659e6e7f74",
+  "specification_commit": "03abcaed73a92deb4b379cccd2b7b4632bd6a64d",
+  "specification_path": "docs/ACQUISITION_READER_SPEC.md",
+  "specification_sha256": "5f8dda47209169b9e3995fc44e3da0bcf1bfc3580fa74a6dbe2afe4cf7687b7f",
+  "source_review_path_at_authoring": "/tmp/nabt_source_review.md",
+  "source_review_sha256": "08b61ed1a54e5fe80d616f324c47f9f385c45a611078cd68de60a94108d71f12",
+  "independence": {
+    "kind": "procedural_model_author_independence",
+    "author_role": "Separate pre-implementation benchmark author agent",
+    "not_claimed": "This is not an external human blind study, population sample, or independent scholarly adjudication.",
+    "read": [
+      "AGENTS.md",
+      "docs/ACQUISITION_READER_SPEC.md",
+      "/tmp/nabt_source_review.md",
+      "src/nabt/data/source_evidence/qatr.txt",
+      "src/nabt/data/source_evidence/sibawayhi.txt",
+      "src/nabt/data/source_evidence/mukhtar_sihah.txt",
+      "src/nabt/data/source_evidence/mughni.txt"
+    ],
+    "not_read": [
+      "Production source code",
+      "Existing test code",
+      "Any new acquisition implementation"
+    ],
+    "not_run": [
+      "NABT engine",
+      "Production acquisition implementation",
+      "Existing test harness"
+    ],
+    "specification_awareness": "The expected representation results deliberately apply the authored v1 specification, including its bounded ordinary-sukun pause rule. They do not independently validate the Arabic interpretation of that specification.",
+    "exposure_protocol": "Only paths, case counts, hashes, and schema/scope ambiguities are disclosed to the implementation author before implementation freeze. Individual cases and expected outputs are withheld until then.",
+    "future_replay": "After first exposure, this is an exposed regression benchmark; later improvements are not a fresh blind result."
+  },
+  "authorship": {
+    "examples": "All benchmark texts are author-composed examples or deliberate perturbations, informed by the cited passages. They are not asserted to be verbatim quotations from the books.",
+    "representation_oracle": "Each acquisition status and supplied cell list was hand-derived from the frozen specification. No production imports, recurrence copying, engine output, or normalization library were used to derive them.",
+    "canonical_carriers": [
+      "ا",
+      "ب",
+      "ت",
+      "ث",
+      "ج",
+      "ح",
+      "خ",
+      "د",
+      "ذ",
+      "ر",
+      "ز",
+      "س",
+      "ش",
+      "ص",
+      "ض",
+      "ط",
+      "ظ",
+      "ع",
+      "غ",
+      "ف",
+      "ق",
+      "ك",
+      "ل",
+      "م",
+      "ن",
+      "ه",
+      "و",
+      "ي",
+      "ء"
+    ],
+    "state_numbers": {
+      "fatha": 0,
+      "damma": 1,
+      "kasra": 2,
+      "sukun": 3
+    },
+    "cell_rule": "4 * zero_based_carrier_index + state",
+    "manual_cell_case_ids": [
+      "O01",
+      "O04",
+      "O05",
+      "O06",
+      "O07",
+      "O08",
+      "O09",
+      "O10",
+      "O11",
+      "O16",
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P11",
+      "P13",
+      "P14",
+      "P15",
+      "N01",
+      "N02",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "N08",
+      "N09",
+      "N10",
+      "N11",
+      "N13",
+      "N15",
+      "N16"
+    ],
+    "manual_derivation_examples": [
+      "O01: ha index25 fatha=100; dagger alif sukun=3; dhal index8 fatha=32; bare long alif sukun=3.",
+      "O07: mim damma=93; dal fatha=28; shadda ra sukun=39 then ra kasra=38; sin damma=45; tanwin nun sukun=99.",
+      "O08/O09: zay fatha=40; ya sukun=111; dal fatha=28; wasl tanwin adds nun99 and waqf adds alif3; written support alif emits no second cell.",
+      "P04/P07: qaf damma=81; mim sukun=95; ta damma=9 in wasl and ta sukun=11 at final-word waqf.",
+      "N04: subject dal fatha=28 then dual alif sukun=3 and possessive kaf fatha=84; predicate ba fatha=4 then alif3 and nun kasra98.",
+      "N06: shadda lam emits sukun91 then kasra90; subject plural waw after mim damma93 is sukun107 and construct suffix kaf fatha84; predicate nun fatha96 remains.",
+      "N16: nonfinal Zayd keeps dal damma29 plus tanwin nun99; final predicate ba becomes sukun7 and loses the tanwin expansion only in waqf."
+    ],
+    "nominal_example_design": "Positive nominal subjects use proper names, demonstratives, or possessive constructs, rather than relying on an unrestricted bare indefinite subject."
+  },
+  "source_evidence": [
+    {
+      "path": "src/nabt/data/source_evidence/qatr.txt",
+      "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/sibawayhi.txt",
+      "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/mukhtar_sihah.txt",
+      "sha256": "e93f4054f3cddb826a7b3fafd01eac8c4b39b25ed2d92ece7ea093b755776691"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/mughni.txt",
+      "sha256": "f37ac2bb4b273f59169053dd0ac2abf50a52846a7e87ddf689ee5c0b87f77e7d"
+    }
+  ],
+  "source_loci": {
+    "orthography": [
+      "qatr.txt:440-453",
+      "source-review memo: الرسم والنطق"
+    ],
+    "category_person": [
+      "qatr.txt:123-135",
+      "sibawayhi.txt:18170-18173",
+      "mukhtar_sihah.txt:3149-3160"
+    ],
+    "predication": [
+      "qatr.txt:82-95",
+      "qatr.txt:152-164",
+      "mughni.txt:8684-8691",
+      "mughni.txt:8719-8726"
+    ],
+    "condition": [
+      "qatr.txt:115-121",
+      "mughni.txt:8684-8691",
+      "source-review memo: الشرط"
+    ]
+  },
+  "limits_and_interpretation": [
+    "The source loci are digital extraction line numbers, not edition page numbers; OCR and source coverage remain limitations.",
+    "Positive acquisition goals with a correct DEFER representation status are coverage misses, not acquisition successes.",
+    "Category/person, nominal syntax, and conditional inference goals are separately desired downstream capabilities. Correct representation never discharges them; unavailable measurement must be UNMEASURED and expected-positive deferred goals must be misses.",
+    "Negative downstream goals are counterexamples to a specific undesired license. Conservative abstention on them cannot establish broad language understanding.",
+    "Source withdrawal/identity mutations, strict runtime type errors, resource bounds, transport limits, and native checker availability require a separate suite because the fixed gold row schema cannot represent those invocations or RESOURCE_EXHAUSTED.",
+    "Hidden-subject conditional cases intentionally require a separate reference-resolution license; scalar or shape equality cannot provide that license.",
+    "No gold representation result asserts acoustic truth, attestation, grammatical truth, speaker identity, world truth, or formalization of the Arabic books.",
+    "Only the named reasons explicitly fixed by the specification are frozen here; other deferred cases freeze the status rather than guessing an implementation-specific debt code.",
+    "Wasl here is the specification's local word-ending representation; the gold does not certify across-word phonetic assimilation."
+  ],
+  "scoring_requirements": [
+    "Report all four family denominators.",
+    "Report representation agreement and false licenses separately from positive acquisition coverage.",
+    "Report downstream successes, misses, and unmeasured goals separately.",
+    "Record resource outcomes separately.",
+    "Preserve the first implementation run before any fixes."
+  ]
+}
