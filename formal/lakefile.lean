@@ -130,3 +130,6 @@ lean_exe licensedInference where
 @[default_target]
 lean_exe epistemicMeasurement where
   root := `EpistemicMeasurementMain
+
+lean_exe alignedAcquisition where
+  root := `AlignedAcquisitionMain
