@@ -1,0 +1,90 @@
+{
+  "schema": "nabt.acquired-inference-regression.v1",
+  "scope": "exposed integration regression, not an independent held-out linguistic matrix",
+  "cases": [
+    {
+      "id": "fact",
+      "source": "سَارَ زَيْدٌ.",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "SUPPORTED",
+      "chain_complete": true
+    },
+    {
+      "id": "negative",
+      "source": "لَمْ يَسِرْ زَيْدٌ.",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "REFUTED",
+      "chain_complete": true
+    },
+    {
+      "id": "missing_location",
+      "source": "سَارَ زَيْدٌ.",
+      "query": "هَلْ سَارَ زَيْدٌ أَمَامَكَ؟",
+      "inference_status": "UNKNOWN",
+      "chain_complete": true
+    },
+    {
+      "id": "conflict",
+      "source": "سَارَ زَيْدٌ. لَمْ يَسِرْ زَيْدٌ.",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "CONFLICT",
+      "chain_complete": true
+    },
+    {
+      "id": "negative_query",
+      "source": "سَارَ زَيْدٌ.",
+      "query": "هَلْ لَمْ يَسِرْ زَيْدٌ؟",
+      "inference_status": "REFUTED",
+      "chain_complete": true
+    },
+    {
+      "id": "condition_with_premise",
+      "source": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "SUPPORTED",
+      "chain_complete": false
+    },
+    {
+      "id": "condition_without_premise",
+      "source": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ.",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "UNKNOWN",
+      "chain_complete": false
+    },
+    {
+      "id": "negative_antecedent",
+      "source": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. لَمْ يَعْرِفْ زَيْدٌ الْحَقَّ.",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "UNKNOWN",
+      "chain_complete": false
+    },
+    {
+      "id": "different_subject",
+      "source": "إن عرف زيد الحق سار زيد. عرف عمرو الحق.",
+      "query": "هل سار زيد؟",
+      "inference_status": "UNKNOWN",
+      "chain_complete": false
+    },
+    {
+      "id": "quoted",
+      "source": "«سَارَ زَيْدٌ.»",
+      "query": "هَلْ سَارَ زَيْدٌ؟",
+      "inference_status": "UNKNOWN",
+      "chain_complete": false
+    },
+    {
+      "id": "hidden_subject",
+      "source": "سار زيد إن عرف الحق. عرف زيد الحق.",
+      "query": "هل سار زيد؟",
+      "inference_status": "UNKNOWN",
+      "chain_complete": false
+    },
+    {
+      "id": "unmarked_fact",
+      "source": "سار زيد.",
+      "query": "هل سار زيد؟",
+      "inference_status": "SUPPORTED",
+      "chain_complete": false
+    }
+  ]
+}
