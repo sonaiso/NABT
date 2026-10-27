@@ -79,3 +79,4 @@ import Nabt.QualifiedCueLicensing
 import Nabt.LexicalTransmission
 import Nabt.ScopeAcquisition
 import Nabt.DiscourseBoundaryCueBridge
+import Nabt.SixNounAcquisition

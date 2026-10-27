@@ -186,7 +186,8 @@ def validate_payload(payload):
                 or workflow["schema"] != "nabt.licensed-workflow-request.v1"
                 or type(workflow["op"]) is not str
                 or workflow["op"] not in {"lexical_surface", "lexical_candidates", "classical_control",
-                                          "scope_acquisition", "lexical_transmission", "discourse_boundary", "source_inference"}
+                                          "scope_acquisition", "lexical_transmission", "discourse_boundary", "source_inference",
+                                          "six_noun_acquisition"}
                 or type(workflow["input"]) is not dict):
             raise RequestError("INVALID_WORKFLOW_REQUEST")
         from tools.licensed_workflow import _OPERATIONS
@@ -280,7 +281,7 @@ def _workflow_wire(value):
 def _workflow_identity():
     binaries = ("lexicalSourceRows", "lexicalSurface", "linguisticTruth", "exportClassicalHamza",
                 "exportClassicalWeak", "exportClassicalGemination", "exportClassicalBoundaryAffixes", "qualifiedCueLicensing",
-                "scopeAcquisition", "lexicalTransmission", "discourseBoundaryCue", "licensedInference")
+                "scopeAcquisition", "sixNounAcquisition", "lexicalTransmission", "discourseBoundaryCue", "licensedInference")
     native = {name: _sha(path.read_bytes()) if (path := ROOT / "formal/.lake/build/bin" / name).is_file()
               else None for name in binaries}
     return {"code_sha": _code_sha(), "native_sha256": None, "native_binaries_sha256": native,

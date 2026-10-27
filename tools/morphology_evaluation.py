@@ -36,6 +36,8 @@ FREEZE_MANIFEST_SHA256 = "8449c5c4bf32549c6147de006b0586d41cb4c6f656e2764c63e343
 FROZEN_RUNTIME_SHA256 = "4b5c8f4f7c2bb765791e0a9c94e1be279a1a3ad1e186e6346d77546f23a47d46"
 FROZEN_ARCHIVE_SHA256 = "f657df1db06f714789e8bbf64708770a5355b0f9542281798ba43735286a042a"
 CODE_FREEZES = {
+    'certified_transition_v2': ('12645c013c234d6cd1065a6efb490b923122ca8a3ed88e09b65ecff1e258e71c', 'c2deaa58eda943969e5e193094cc4c041bd6f8de7b5cf957e48dbf37094b4771', '7af0004dc4989418b441afd2c0757e3b8c0a5249eb13b31f356c456c5c317e3b'),
+    'certified_transition_v1': ('7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8', 'da60d43f8f99c56cedaeca2c04133990ff22654faac5dfbeb3a64bc5a1209831', 'e488e15b491c1d5087b797810d17befcfd79c9bfc7d6493e49d19c69704340eb'),
     'legacy_migration_v2': ('9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b', 'fa6a18a4b034433ef9d2dd2faf5754b1207b125b1d459831529344d2383b3d85', '53a29f62b4a70382f05ccffaef5410b4f594ffd6260e51bf41e916f2df53f473'),
     'interface_migration_v1': ('b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271', '48f7f637cc489cb50cdc912fe167a7f30efbc200cd0559d199a1801e3111d607', 'd65857512be35a17389dc69b5da5e4ba6b2b5d64f647f4bd49ab9ce2e862c4a5'),
     'source_acquisition_v1': ('ba748dfab327531e79bd0f35814c43e37501315faad9cfdce5835f3939fbec7b', 'c913baa9667ce54ae5da2726cb622ecb55fec0557876038989c4c353af541d78', '19471ac4523c0e829579e71df563ab6703f814101ee20c94c3c7331e14ca3a94'),
@@ -111,6 +113,8 @@ CODE_FREEZES = {
                            "d1661a0abef5f25d048b675270517e400f83c08a1a0b6b3f3c7c399514f94304"),
 }
 CODE_FREEZE_PATHS = {
+    'certified_transition_v2': ROOT / 'evidence/certified_transition_v2/code_freeze_v1.json',
+    'certified_transition_v1': ROOT / 'evidence/certified_transition_v1/code_freeze_v1.json',
     'legacy_migration_v2': ROOT / 'evidence/legacy_migration_v2/code_freeze_v1.json',
     'interface_migration_v1': ROOT / 'evidence/interface_migration_v1/code_freeze_v1.json',
     'source_acquisition_v1': ROOT / 'evidence/source_acquisition_v1/code_freeze_v1.json',
@@ -219,7 +223,7 @@ def loaded_origins():
     return rows
 
 
-def verify_runtime_freeze(actual_snapshot, version="legacy_migration_v2"):
+def verify_runtime_freeze(actual_snapshot, version="certified_transition_v2"):
     manifest_sha, snapshot_sha, archive_sha = CODE_FREEZES[version]
     manifest_path = CODE_FREEZE_PATHS[version]
     raw = manifest_path.read_bytes()
@@ -502,7 +506,7 @@ def regression_gate(results):
     return all(case["passed"] or documented_boundary(case) for case in results)
 
 
-def evaluate(version="v2", *, freeze_version="legacy_migration_v2"):
+def evaluate(version="v2", *, freeze_version="certified_transition_v2"):
     material = load_material(version)
     before = snapshot()
     freeze = verify_runtime_freeze(before, freeze_version)
@@ -533,7 +537,7 @@ def evaluate(version="v2", *, freeze_version="legacy_migration_v2"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--material", choices=tuple(MATERIAL_SHA256), default="v2")
-    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="legacy_migration_v2")
+    parser.add_argument("--freeze-version", choices=tuple(CODE_FREEZES), default="certified_transition_v2")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--diagnostic", action="store_true",
                         help="Preserve failures in a diagnostic report without using them as a release gate")

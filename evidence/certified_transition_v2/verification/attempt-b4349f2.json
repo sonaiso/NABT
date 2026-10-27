@@ -1,0 +1,25 @@
+{
+  "schema": "nabt.certified-transition.execution-attempt.v1",
+  "verified_commit": "b4349f2ff37811a19a83df94e262e91ac1e3ef7f",
+  "workflow_run": 40495273598,
+  "job_id": 122159033361,
+  "conclusion": "failure",
+  "native_kernel_tests": "passed",
+  "axiom_audit": "passed",
+  "compiled_catalogue_exports": "passed",
+  "full_check": "failed",
+  "full_test_counts": {
+    "total": 2807,
+    "failures": 2,
+    "errors": 5,
+    "skipped": 259
+  },
+  "cause": "New workflow ran make check with the general unit-test prerequisite before preparing the frozen QAC source and all native executables. Five missing-source errors and two scoped-sense failures were recorded; no gold answers or thresholds changed.",
+  "log_path": "evidence/certified_transition_v2/verification/native-ci-b4349f2-failed.log.gz",
+  "log_sha256": "669ec790fdf3cc520ffde74a6b439ea014850d7eb59b064314eda51922eed4f7",
+  "preserved_runner_freeze_sha256": "782655183d5639d461b50c18da35a878a4a1136d6f783fd047919992ec778562",
+  "repair": "Acquire hash-pinned QAC first; run every non-test make check prerequisite, then make test on the built native programs; preserve this execution and freeze as a separate attempt.",
+  "artifact_id": 12730283823,
+  "artifact_path": "evidence/certified_transition_v2/verification/native-ci-b4349f2-failed.zip",
+  "artifact_sha256": "5ca84d0cca975b81667228d3e8a462323cdac87e18dde6ed9e8c0e35b5b53c3f"
+}

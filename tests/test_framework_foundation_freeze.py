@@ -12,8 +12,8 @@ from tools.text_evaluation.integrity import verify_code_freeze
 
 ROOT = Path(__file__).resolve().parents[1]
 FIRST_FOUNDATION = ROOT / "evidence/framework_foundation_v1/code_freeze_v1.json"
-PREVIOUS = ROOT / "evidence/interface_migration_v1/code_freeze_v1.json"
-CURRENT = ROOT / "evidence/legacy_migration_v2/code_freeze_v1.json"
+PREVIOUS = ROOT / "evidence/certified_transition_v1/code_freeze_v1.json"
+CURRENT = ROOT / "evidence/certified_transition_v2/code_freeze_v1.json"
 HISTORICAL = ROOT / "evidence/arabic_completion_v6/code_freeze_v1.json"
 HISTORICAL_MANIFEST_SHA = "31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec"
 HISTORICAL_POLICY_SHA = "5e73cfdae07cdb60a2f93c8cc9961a9ee283d85471f24b5b61eabcb3c3647657"
@@ -33,13 +33,13 @@ class FoundationFreezeTests(unittest.TestCase):
         self.assertEqual(current["previous_runtime_manifest_sha256"], sha256(PREVIOUS.read_bytes()).hexdigest())
         self.assertEqual(current["historical_v6_manifest_sha256"], HISTORICAL_MANIFEST_SHA)
         previous = json.loads(PREVIOUS.read_bytes())
-        self.assertEqual(sha256(PREVIOUS.read_bytes()).hexdigest(), "b3a6ddeaf65f0f3c1397a0c265ba3b21fe4dafc0b088498345789b257e4c8271")
-        self.assertEqual(current["changed_runtime_paths"], ["src/nabt/cli.py", "src/nabt/data/framework_foundation.json"])
+        self.assertEqual(sha256(PREVIOUS.read_bytes()).hexdigest(), "7f6b8ace539ec969ecb56939929ac982eb85e064e103a2bd90983bda583104f8")
+        self.assertEqual(current["changed_runtime_paths"], ["src/nabt/data/transport_command_contracts.json"])
         previous_rows = {row["path"]: row for row in previous["files"]}
         self.assertEqual([row["path"] for row in current["files"]
                           if row["path"] in previous_rows and row != previous_rows[row["path"]]],
-                         ["src/nabt/cli.py", "src/nabt/data/framework_foundation.json"])
-        self.assertEqual(current["added_runtime_paths"], ["src/nabt/data/transport_command_contracts.json", "src/nabt/transport_contract.py"])
+                         ["src/nabt/data/transport_command_contracts.json"])
+        self.assertEqual(current["added_runtime_paths"], [])
         with self.assertRaises(ValueError):
             verify_code_freeze(PREVIOUS, ROOT)
         current_paths = {row["path"] for row in current["files"]}
@@ -56,7 +56,7 @@ class FoundationFreezeTests(unittest.TestCase):
     def test_policy_keeps_all_material_denominators_and_failure_signatures(self):
         old, current = historical_gate.load_policy(), current_gate.load_policy()
         self.assertEqual(old["suites"], current["suites"])
-        self.assertEqual(current["previous_policy_sha256"], 'da9c90ed0b5d8fbf8be6cf5ebca490c16773af0931e82512a880feb60fd8472e')
+        self.assertEqual(current["previous_policy_sha256"], '3ab23c2b16769123ed5d33ac01b5af46fdd82a911d7f6ca22c89b2435db07f7c')
         self.assertEqual(current["historical_v6_policy_sha256"], HISTORICAL_POLICY_SHA)
         self.assertEqual(current["runtime_file_count"], 104)
         self.assertEqual(current["runtime_freeze_sha256"], sha256(CURRENT.read_bytes()).hexdigest())

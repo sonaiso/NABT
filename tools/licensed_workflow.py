@@ -27,6 +27,11 @@ class _AdapterContractError(ValueError):
     pass
 
 _OPERATIONS = {
+    "six_noun_acquisition": {
+        "surface": "tools.linguistic_truth.six_noun.acquire_six_noun",
+        "required": {"text"}, "optional": {"source_id", "context"},
+        "schema": "nabt.six-noun-acquisition-receipt.v1",
+        "authority": "SOURCE_BOUND_COMMON_LETTER_SIX_NOUN_READING"},
     "discourse_boundary": {
         "surface": "tools.linguistic_truth.discourse_boundary.acquire_discourse_boundary",
         "required": {"text"}, "optional": {"source_id", "context", "profile_id"},
@@ -67,6 +72,8 @@ _OPERATIONS = {
 }
 
 _CLAIM_LAWS = {
+    "six_noun_acquisition": {"SOURCE_BOUND_SIX_NOUN_CONSTRUCTION":
+                             {"nabt.six-noun-acquisition.v1"}},
     "discourse_boundary": {"EXACT_DISCOURSE_BOUNDARY_AND_CUE_SLICE": {"nabt.discourse-boundary-cue.v1"}},
     "source_inference": {"SOURCE_BOUND_FINITE_INFERENCE": {"nabt.licensed-inference.v1"}},
     "lexical_surface": {"EXACT_WITNESSED_FORM_WITH_DECLARED_ANNOTATION":
@@ -158,6 +165,9 @@ def migration_inventory():
 
 def _execute(operation, arguments):
     # Imports and call targets are fixed in code, never selected by the caller.
+    if operation == "six_noun_acquisition":
+        from tools.linguistic_truth.six_noun import acquire_six_noun
+        return acquire_six_noun(**arguments)
     if operation == "discourse_boundary":
         from tools.linguistic_truth.discourse_boundary import acquire_discourse_boundary
         return acquire_discourse_boundary(**arguments)

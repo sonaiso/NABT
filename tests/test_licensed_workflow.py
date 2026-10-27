@@ -203,7 +203,8 @@ class LicensedWorkflowAllNativeAdaptersTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         require_native("exportClassicalHamza", "lexicalSourceRows", "lexicalSurface", "linguisticTruth",
-                       "lexicalTransmission", "scopeAcquisition", "licensedInference", "discourseBoundaryCue")
+                       "lexicalTransmission", "scopeAcquisition", "licensedInference", "discourseBoundaryCue",
+                       "sixNounAcquisition")
 
     def test_supplied_lexical_budget_is_converted_to_fixed_typed_budget(self):
         response = workflow.run_request(request("lexical_candidates", text="قَرْءُ",
@@ -217,7 +218,7 @@ class LicensedWorkflowAllNativeAdaptersTests(unittest.TestCase):
         self.assertEqual(limited["status"], "RESOURCE_EXHAUSTED")
         self.assertEqual(limited["claims"], [])
 
-    def test_all_seven_raw_request_adapters_replay_their_actual_claim_contract(self):
+    def test_all_registered_raw_request_adapters_replay_their_actual_claim_contract(self):
         examples = [
             (request(), "CHECKED_CONDITIONAL_CONTROL", "CLASSICAL_FINITE_CONTROL_EQUATION"),
             (request("lexical_surface", text="عَيْنَ", context="مقام جديد"),
@@ -228,6 +229,8 @@ class LicensedWorkflowAllNativeAdaptersTests(unittest.TestCase):
              "DOCUMENTARY_REPORTS", "SOURCE_BOUND_REPORT_INVENTORY_AND_DEPENDENCY_CLASSIFICATION"),
             (request("scope_acquisition", text="قَالَ زَيْدٌ: «أَعْنِي بِالْعَيْنِ عَيْنَ الْمَاءِ».",
                      context="قول محكي"), "CHECKED_SCOPE_ENVELOPE", "EXACT_SCOPE_ENVELOPE"),
+            (request("six_noun_acquisition", text="جَاءَ أَبُو زَيْدٍ", context="قراءة إتمام محددة"),
+             "CHECKED_SIX_NOUN", "SOURCE_BOUND_SIX_NOUN_CONSTRUCTION"),
             (request("source_inference", source="سار زيد أمامك خلف الدار", query="هل سار زيد أمامك خلف الدار؟"),
              "SUPPORTED", "SOURCE_BOUND_FINITE_INFERENCE"),
             (request("discourse_boundary", text="لم يخرج خالد؛ وأقصد بالأسد الحيوان المفترس.",

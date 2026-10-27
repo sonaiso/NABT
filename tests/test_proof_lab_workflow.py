@@ -17,8 +17,27 @@ def identity():
             "native_binaries_sha256": {"lexicalSurface": None}, "toolchain": "test-fixture"}
 
 class WorkflowTransportTests(unittest.TestCase):
+    def test_workflow_identity_binds_six_noun_native_binary(self):
+        with patch.object(lab, "_code_sha", return_value="a" * 40):
+            observed = lab._workflow_identity()
+        binaries = observed["native_binaries_sha256"]
+        self.assertIn("sixNounAcquisition", binaries)
+        binary = lab.ROOT / "formal/.lake/build/bin/sixNounAcquisition"
+        expected = hashlib.sha256(binary.read_bytes()).hexdigest() if binary.is_file() else None
+        self.assertEqual(binaries["sixNounAcquisition"], expected)
+
     def test_raw_request_preserved(self):
         self.assertEqual(lab.validate_payload(request())["workflow"], WORKFLOW)
+
+    def test_six_noun_admission_preserves_raw_text_and_declared_context(self):
+        value = {"schema": WORKFLOW["schema"], "op": "six_noun_acquisition",
+                 "input": {"text": "جَاءَ أَبُو زَيْدٍ", "source_id": "independent-case", "context": "مقام جديد"}}
+        self.assertEqual(lab.validate_payload(request(value))["workflow"], value)
+        for field in ("grammar_certified", "native_checked", "proof", "reading", "profile_id", "rule_id"):
+            with self.subTest(field=field), self.assertRaises(lab.RequestError):
+                lab.validate_payload(request(value | {"input": value["input"] | {field: True}}))
+        with self.assertRaises(lab.RequestError):
+            lab.validate_payload(request(value | {"input": {"context": "مقام جديد"}}))
 
     def test_admission_rejects_authority_and_arbitrary_operations(self):
         for field in ("proof", "checker", "verified", "native_checked", "manifest"):

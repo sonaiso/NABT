@@ -1,0 +1,269 @@
+{
+  "schema": "nabt.certified-transition.release-verification.v1",
+  "verified_commit": "513063d117e7a1d6a9064aee38c2c22d8f20af80",
+  "workflow_run": 40500289396,
+  "job_id": 122175997736,
+  "conclusion": "success",
+  "workflow_url": "https://github.com/sonaiso/NABT/actions/runs/40500289396",
+  "artifact": {
+    "id": 12733674522,
+    "path": "evidence/certified_transition_v2/verification/native-ci-513063d.zip",
+    "bytes": 77777761,
+    "sha256": "3c8280a6d22ad71e3ff985218e6b1f5a0c1d50633b78ee966b9a4228fd250fb3",
+    "entries": 123
+  },
+  "job_log": {
+    "path": "evidence/certified_transition_v2/verification/native-ci-513063d.log.gz",
+    "sha256": "4f38c06551564abcea057861f58f3571c9fe05ed59ee2f165bb518dc974e147b"
+  },
+  "runner_freeze": {
+    "path": "evidence/certified_transition_v2/independent_oracle/runner_freeze_v3.json",
+    "sha256": "535d3b36c727b434e332f363b102ca26dd012174d016b5c43760ef5c0b6117a1",
+    "dependencies": 1011
+  },
+  "commands": [
+    "python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz",
+    "make check -o test LAKE=<pinned Lean lake> EVIDENCE_DIR=artifacts/local/transition/full-check",
+    "make test"
+  ],
+  "combined_release_gate_passed": true,
+  "main_unittest": {
+    "total": 3097,
+    "passed": 3007,
+    "skipped": 90,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 696.51,
+    "skip_reasons": {
+      "'requires pinned full Lisan and compiled lexicalCompletion; mandatory in dedicated CI'": 17,
+      "'native lexicalDenotation executable not configured'": 10,
+      "'requires installed sources and both graph/lexical native checkers'": 9,
+      "'optional neural training environment not installed'": 10,
+      "'full pinned QAC/dictionary sources are not installed'": 12,
+      "'native checker and pinned full sources are required'": 13,
+      "'optional encrypted transport dependencies are installed by proof-lab workflow'": 8,
+      "'native Lean qatrReading required'": 7,
+      "'optional pinned torch/numpy required'": 3,
+      "'optional full pinned Lisan source not downloaded'": 1
+    }
+  },
+  "native_feature_tests": {
+    "total": 43,
+    "passed": 43,
+    "skipped": 0
+  },
+  "complete_registered_gateway_operations": 8,
+  "axiom_audit": {
+    "ok": true,
+    "theorem_count": 1669,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true
+  },
+  "browser_transport_tests": {
+    "passed": 389,
+    "failed": 0,
+    "evidence": "transport_verification_v3.json"
+  },
+  "six_noun_reference": {
+    "schema": "nabt.six-noun-reference-measurement.v1",
+    "timestamp_utc": "2026-10-27T12:05:03.808697+00:00",
+    "reference_sha256": "8c0fc8a57def2e430ca9c2a827e3b0a1d1241742c0bd75e3d7bfd2f86c546b3c",
+    "reference_status": "SOURCE_GROUNDED_AUTHORED_REFERENCE_FROZEN_BEFORE_NEW_KERNEL_REVIEW",
+    "held_out": false,
+    "case_count": 45,
+    "axes": {
+      "source_identity": {
+        "passed": 45,
+        "total": 45,
+        "failed_ids": []
+      },
+      "native_source_identity": {
+        "passed": 43,
+        "total": 43,
+        "failed_ids": []
+      },
+      "full_form_analysis": {
+        "passed": 23,
+        "total": 23,
+        "failed_ids": []
+      },
+      "positive_licensed_reading": {
+        "passed": 17,
+        "total": 17,
+        "failed_ids": []
+      },
+      "alternative_specificity": {
+        "passed": 4,
+        "total": 17,
+        "failed_ids": [
+          "D01",
+          "D02",
+          "D03",
+          "U01",
+          "U02",
+          "U03",
+          "U04",
+          "U05",
+          "U06",
+          "U07",
+          "U08",
+          "U09",
+          "U10"
+        ]
+      },
+      "scope_authority_boundary": {
+        "passed": 3,
+        "total": 3,
+        "failed_ids": []
+      },
+      "scope_composition": {
+        "passed": 0,
+        "total": 3,
+        "failed_ids": [
+          "S01",
+          "S02",
+          "S03"
+        ]
+      },
+      "context_binding": {
+        "passed": 2,
+        "total": 2,
+        "failed_ids": []
+      },
+      "malformed_mark_rejection": {
+        "passed": 2,
+        "total": 2,
+        "failed_ids": []
+      },
+      "intended_reference": {
+        "status": "NOT_MEASURED",
+        "passed": null,
+        "total": null
+      },
+      "external_truth": {
+        "status": "NOT_MEASURED",
+        "passed": null,
+        "total": null
+      },
+      "tawatur": {
+        "status": "NOT_MEASURED",
+        "passed": null,
+        "total": null
+      },
+      "whole_arabic_completeness": {
+        "status": "NOT_MEASURED",
+        "passed": null,
+        "total": null
+      }
+    },
+    "native_required_count": 43,
+    "native_execution_complete": true,
+    "historical_metrics": {
+      "natural_use": "Do not replace or relabel the previous 1/6 denominator with this authored profile. Re-run that independent benchmark separately.",
+      "positive_reference_resolution": "Do not replace or relabel the previous 0/5 denominator; this reference supplies no independently identified real-world referents."
+    },
+    "comparison_authority": "Python comparison against independently authored frozen gold; not a Lean completeness theorem"
+  },
+  "independent_30_case_diagnostic": {
+    "artifact_path": "full-check/certified-natural-use.json.gz",
+    "gold_sha256": "d2fcae08a163bf017184a42638a02901d1331704ee0dca4881b880215fb095f3",
+    "summary": {
+      "cases": 30,
+      "semantic_diagnostic_outcomes": {
+        "PASS": 26,
+        "UNMEASURED": 2,
+        "FAIL": 2
+      },
+      "positive_selection": {
+        "numerator": 14,
+        "denominator": 16,
+        "fraction": 0.875
+      },
+      "positive_case_with_scope": {
+        "numerator": 14,
+        "denominator": 16,
+        "fraction": 0.875
+      },
+      "source_identity": {
+        "numerator": 30,
+        "denominator": 30,
+        "fraction": 1.0
+      },
+      "authority_safety": {
+        "numerator": 30,
+        "denominator": 30,
+        "fraction": 1.0
+      },
+      "required_native_execution": {
+        "numerator": 30,
+        "denominator": 30,
+        "fraction": 1.0
+      },
+      "declared_native_checked_cases": {
+        "numerator": 26,
+        "denominator": 30,
+        "fraction": 0.8666666666666667
+      },
+      "native_receipt_cases": {
+        "numerator": 26,
+        "denominator": 30,
+        "fraction": 0.8666666666666667
+      },
+      "strict_language_acceptances": 0,
+      "consistent_named_claims": 0,
+      "locally_executed_named_claims": 0,
+      "families": {
+        "ambiguity": {
+          "PASS": 5
+        },
+        "context_identity": {
+          "PASS": 5
+        },
+        "explicit_intention": {
+          "PASS": 5
+        },
+        "mark_integrity": {
+          "PASS": 5
+        },
+        "negation_quotation_condition": {
+          "PASS": 2,
+          "UNMEASURED": 2,
+          "FAIL": 1
+        },
+        "unvowelized_control": {
+          "PASS": 4,
+          "FAIL": 1
+        }
+      },
+      "motive_assessment": "UNMEASURED",
+      "interpretation": "Native receipts and safe deferrals do not count as successful positive language understanding."
+    },
+    "all_arabic_complete": false,
+    "tawatur_evaluated": false,
+    "native_acquisition_refinement_proved": false,
+    "attribution": "Separate inherited diagnostic reference; not the historical six-case natural-use reference and not an improvement attributed to this change."
+  },
+  "continuation": "continuation_v3_retry1_manifest.json",
+  "rejected_attempts_preserved": [
+    "native-ci-b4349f2-failed.zip",
+    "native-ci-c5bd140-failed.zip",
+    "continuation_v3_failed.zip"
+  ],
+  "historical_metrics_not_remeasured": {
+    "natural_use": {
+      "passed": 1,
+      "total": 6
+    },
+    "positive_intended_reference": {
+      "passed": 0,
+      "total": 5
+    }
+  },
+  "site_deployed": false,
+  "authority_limit": "Source-bound full-form reading in the declared templates; no generic CertifiedBridge, intended reference, external truth, tawatur, or whole-Arabic completeness claim."
+}

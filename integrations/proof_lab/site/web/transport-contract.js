@@ -11,6 +11,7 @@
   lexical_surface:{EXACT_WITNESSED_FORM_WITH_DECLARED_ANNOTATION:['nabt.lexical-surface-binding.v1'],EXACT_SOURCE_ROW_AND_ANNOTATION_FIELD_EXTRACTION:['nabt.lexical-source-acquisition.v1']},
   lexical_candidates:{A116_EXACT_INSTALLED_CANDIDATE_SET:['nabt.certified-lexical.v1'],A116_CONDITIONAL_SUPPORTED_USE:['nabt.certified-lexical.v1']},
   classical_control:{CLASSICAL_FINITE_CONTROL_EQUATION:['nabt.classical-weak.v1','nabt.classical-hamza.v1','nabt.classical-gemination.v1','nabt.classical-boundary-affixes.v1']},
+  six_noun_acquisition:{SOURCE_BOUND_SIX_NOUN_CONSTRUCTION:['nabt.six-noun-acquisition.v1']},
   scope_acquisition:{EXACT_SCOPE_ENVELOPE:['nabt.scope-acquisition.v1']},
   lexical_transmission:{SOURCE_BOUND_REPORT_INVENTORY_AND_DEPENDENCY_CLASSIFICATION:['nabt.lexical-transmission.v1']}
  };

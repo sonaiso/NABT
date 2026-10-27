@@ -13,9 +13,9 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME_SHA256 = '9f0eded8d010dcd349254adbc4cc4726c5c385aff53286dff37f3ba997fdca4b'
-POLICY_PATH = ROOT / 'evidence/legacy_migration_v2/regression_policy_v1.json'
-POLICY_SHA256 = '8dac9b09df6c426446d4597421c15507bc80a15ab264d032e218a0caf5154cdc'
+RUNTIME_SHA256 = '12645c013c234d6cd1065a6efb490b923122ca8a3ed88e09b65ecff1e258e71c'
+POLICY_PATH = ROOT / 'evidence/certified_transition_v2/regression_policy_v1.json'
+POLICY_SHA256 = '3eb5949e13ffe011ed1a9e399a059a073992999c3c691b58b8f3d6420102cd16'
 
 
 def wire(value):
