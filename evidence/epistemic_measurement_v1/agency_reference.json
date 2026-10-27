@@ -1,0 +1,505 @@
+{
+  "schema": "nabt.epistemic-measurement-reference.v1",
+  "version": 1,
+  "title_ar": "تجربة مستقلة لمطابقة الحقل المفضل في لقطة USGS مثبتة",
+  "group": "agency_record",
+  "independence": {
+    "authored_by": "independent_reference_agent",
+    "raw_source_inspected_directly": true,
+    "runtime_implementation_read": false,
+    "runtime_results_read": false,
+    "external_human_adjudication": false,
+    "blind_evaluation": false,
+    "same_team_and_environment": true
+  },
+  "scope": {
+    "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+    "query_origin": "AUTHORED_STRUCTURED_PROBE",
+    "claim_acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+    "natural_language_acquisition_measured": false,
+    "hidden_motive_identification_measured": false,
+    "physical_world_truth_measured": false,
+    "whole_arabic_complete": false,
+    "domain_transfer_measured": false,
+    "source_correspondence_measured": true,
+    "warning_ar": "الشاهد تقرير رصد أصلي من وكالة خارجية، والأسئلة ضوابط مؤلفة. المقاس صحة المطابقة لهذا الحقل في هذه اللقطة؛ لا معايرة المستشعر ولا الصدق الفيزيائي المطلق ولا استخراج الدعوى من العربية الحرة."
+  },
+  "source_binding": {
+    "raw_path": "evidence/epistemic_measurement_v1/observations/usgs_tohoku_raw.json",
+    "raw_sha256": "d9cf0301f748786d5ff881edba71e1b19c5b5008b3abeb893e8e88240433ba4a",
+    "raw_bytes": 113445,
+    "agency": "United States Geological Survey",
+    "source_identity": "USGS:official20110311054624120_30",
+    "source_revision": "1792147089160",
+    "field_pointer": "/properties/mag",
+    "field_value": "9.1",
+    "magnitude_type_pointer": "/properties/magType",
+    "magnitude_type": "mww",
+    "magnitude_unit": "dimensionless",
+    "phenomenon_time_pointer": "/properties/time",
+    "phenomenon_time_epoch_ms": "1299822384120",
+    "update_time_is_not_phenomenon_time": true,
+    "uncertainty": "NOT_DECLARED_FOR_SELECTED_PREFERRED_VALUE",
+    "other_origins_not_merged": true,
+    "native_content_binding": "canonical field projection includes source_sha256,pointer,value,revision; installed adapter rebuilds it from the complete pinned raw capture"
+  },
+  "metric_policy": {
+    "positive_capability": "positive correspondence to installed agency field only",
+    "refutation": "explicit polarity contradiction with the same installed agency field",
+    "safe_abstention": "scope mismatch safety only, not world knowledge",
+    "resource_boundary": "excluded from semantic-capability denominators",
+    "zero_denominator": "null",
+    "external_sensor_validation": "UNMEASURED",
+    "domain_transfer": "UNMEASURED"
+  },
+  "cases": [
+    {
+      "id": "USGS-01",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل القيمة المفضلة لمقدار زلزال توهوكو في اللقطة هي 9.1 من نوع mww؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "SUPPORTED",
+        "support_ids": [
+          "usgs.preferred.magnitude"
+        ],
+        "refutation_ids": [],
+        "selected_ids": [
+          "usgs.preferred.magnitude"
+        ]
+      },
+      "metric_category": "positive_capability",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "مطابقة لحقل /properties/mag المفضل ونوعه وسياقه وزمن الحدث ومكانه؛ ليست إعادة قياس زلزالي.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "8ae6f97167d02eda6042a05219bd2b751be07035e9ae4a579ac2f4ee8d83d0a9",
+      "expected_sha256": "1b47a55fb7ae203931098d958c4e4a0218695babe77e1d4d2035a1342075e3ca"
+    },
+    {
+      "id": "USGS-02",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل تنفي اللقطة المفضلة أن المقدار المسجل هو 9.1 من نوع mww؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": false,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "REFUTED",
+        "support_ids": [],
+        "refutation_ids": [
+          "usgs.preferred.magnitude"
+        ],
+        "selected_ids": [
+          "usgs.preferred.magnitude"
+        ]
+      },
+      "metric_category": "refutation",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "السجل موجب بالقيمة نفسها، فيعارض الدعوى السالبة؛ لا يتعلق بصدق العالم خارج هذا السجل.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "4ce936142783e4634f1fd772bf153d288d06b9ac2421f6a5375a114294bb6c17",
+      "expected_sha256": "3d3a30c1358b19c54e8923ea0e7bd9a565918ece06848b15d919bb09b11eba8e"
+    },
+    {
+      "id": "USGS-03",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل قيمة 9.0 في منشأ آخر هي القيمة المفضلة نفسها؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.0",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "وجود قيمة في منشأ آخر لا ينقلها إلى حقل القيمة المفضلة؛ اختلاف القيمة ليس نفيًا صريحًا للقضية نفسها.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "2950cfef0ad590cc77a841cb430a551c4321a0380fedaa94884fc8e167e07962",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-04",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل يسند الحقل نوع مقدار آخر mw بدل mww؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mw",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "نوع المقدار جزء من هوية المتغير؛ لا يبدل تلقائيًا.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "91efe8b59dbe4a9917d8fe4957cda9645b8180b58aa03421d1bef5fd42c8ddec",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-05",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل وحدة المقدار هي الكيلومتر؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "km",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "المقدار بلا وحدة أبعاد؛ الكيلومتر خاص بعمق المصدر ولا ينقل إلى المقدار.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "f60edf61bbe8817a051897ce9e725f5b60dd57f549e6cb7e1a8ab5ad54db02f4",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-06",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل وقت تحديث سجل الوكالة هو وقت الظاهرة المرصودة؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1792147089160",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "وقت تحديث السجل غير وقت الظاهرة؛ لا تسوية بينهما.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "f7d195dc1e24298f05a8ccfd356d14af9a698ef852334eee08e21c360beff370",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-07",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل تسند اللقطة المقدار نفسه إلى نقطة مكانية أخرى؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,30"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تغير العمق يغير النطاق المكاني في هذا العقد الدقيق؛ لا توجد قاعدة تسامح أو تقريب مرخصة.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "96f69c4b2dc2ee169bdbde98ac96afdd7082c8d608c17ed23fa9f7bce45a1d5e",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-08",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل يسند السجل إلى حدث آخر؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official-other-event",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تطابق المقدار لا ينقل شاهده بين حدثين.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "14fd3b62f83708f7fd0748f2e6a7e6367ad3efeef73d9a7d0819c1e9772a16bf",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-09",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل يثبت السجل دافعًا نفسيًا خفيًا؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "hidden_motive",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "الرصد المؤسسي لا يقيس باطن إنسان؛ هذه حالة امتناع آمن فقط.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "1ef2ea668781d8265df304190f222d5ef3e408fef7680e61646bf73d245c210a",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    },
+    {
+      "id": "USGS-10",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل يمكن اعتماد نتيجة الفحص دون ميزانية لفحص السجل؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.preferred-event.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 0
+      },
+      "expected": {
+        "status": "RESOURCE_LIMIT",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "resource_boundary",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "نفاد المورد منفصل عن غياب الشاهد وعن تكذيب الدعوى.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "255b60a9df8e7ec91bae9bdca0b9bc3caeb4561c6671d6cdea993fee0c71aa8b",
+      "expected_sha256": "9cd23e3a66c7191d6ac691430e28467fea0c03181aef0447c206fd3179d99a85"
+    },
+    {
+      "id": "USGS-11",
+      "family": "agency_snapshot_correspondence",
+      "source_profile": "usgs_snapshot_v1",
+      "data_origin": "INSTITUTIONAL_OBSERVATION_REPORT",
+      "query_origin": "AUTHORED_STRUCTURED_PROBE",
+      "display_text_ar": "هل ينقل الحقل المفضل إلى سياق منشأ ثانوي؟",
+      "input": {
+        "query": {
+          "key": {
+            "axis": "recorded_observation",
+            "entity": "official20110311054624120_30",
+            "predicate": "magnitude:mww",
+            "value": "9.1",
+            "unit": "dimensionless",
+            "context": "usgs.secondary-origin.v1",
+            "time": "1299822384120",
+            "place": "142.373,38.297,29"
+          },
+          "positive": true,
+          "origin": "query"
+        },
+        "budget": 1
+      },
+      "expected": {
+        "status": "UNKNOWN",
+        "support_ids": [],
+        "refutation_ids": [],
+        "selected_ids": []
+      },
+      "metric_category": "safe_abstention",
+      "acquisition": "STRUCTURED_PREINTERPRETED_INPUT",
+      "rationale_ar": "تحفظ حدود السياق والمنتج المصدر؛ عدم التطابق لا يثبت خطأ المنتج الآخر.",
+      "adjudication": {
+        "authorship": "independent_reference_agent_manual_preferred_field_inspection",
+        "external_human_review": "not_performed"
+      },
+      "input_sha256": "2736e3e2a41854e5b62c9db606bd9be47df3d5b35cb40058cc06923543d9f276",
+      "expected_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40"
+    }
+  ]
+}

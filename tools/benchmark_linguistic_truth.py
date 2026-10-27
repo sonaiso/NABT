@@ -40,7 +40,8 @@ def evidence_snapshot()->dict[str,Any]:
         modules[str(path.relative_to(ROOT))]=digest(path)
     inventory_path=ROOT/'evidence/linguistic_truth_v1/source_inventory.json'
     installed=json.loads(inventory_path.read_text())
-    inputs=[GOLD_PATH,inventory_path]+[ROOT/s['local_path'] for s in installed['sources']]
+    from tools.linguistic_truth.correction import CITATION
+    inputs=[GOLD_PATH,inventory_path,ROOT/CITATION['path']]+[ROOT/s['local_path'] for s in installed['sources']]
     native=ROOT/'formal/.lake/build/bin/linguisticTruth'
     toolchain=ROOT/'formal/lean-toolchain'
     return {
@@ -232,7 +233,7 @@ def run(*,execute=execute_request,scenario_execute=run_ranking_scenario)->dict[s
     # Preload the actual entrypoint closure so lazy repository imports are also
     # covered by the before snapshot. Any later newly imported module is a
     # visible integrity difference rather than silently added after execution.
-    for name in ('tools.linguistic_truth','tools.linguistic_truth.inventory','tools.linguistic_truth.sources','tools.linguistic_truth.pipeline'):
+    for name in ('tools.linguistic_truth','tools.linguistic_truth.inventory','tools.linguistic_truth.sources','tools.linguistic_truth.pipeline','tools.linguistic_truth.correction'):
         importlib.import_module(name)
     gold=load_gold();before_evidence=evidence_snapshot();rows=[]
     for c in gold['cases']:

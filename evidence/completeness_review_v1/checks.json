@@ -1,0 +1,56 @@
+{
+  "schema": "nabt.completeness-review-checks.v1",
+  "date_utc": "2026-10-26",
+  "local_checks": [
+    {
+      "command": "python tools/check_completeness_review.py --lake /workspace/scratch/8ead824583ac/lean-driver/lake --output evidence/completeness_review_v1/validation.json",
+      "exit_code": 0,
+      "countermodels": 4,
+      "result": "validation.json",
+      "log": "validation.log"
+    },
+    {
+      "command": "python tools/check_axioms.py --lake /workspace/scratch/8ead824583ac/lean-driver/lake --output evidence/completeness_review_v1/axioms.json",
+      "exit_code": 0,
+      "theorems": 1456,
+      "result": "axioms.json"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_completeness_review.py -v",
+      "exit_code": 0,
+      "tests": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_lexical_graph.py -v",
+      "exit_code": 0,
+      "tests": 29,
+      "failed": 0,
+      "skipped": 0,
+      "includes_finite_synthetic_oracle_cases": 4096,
+      "includes_scc_graph_cases": 512
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "coverage_denominators_unchanged": true,
+  "kernel_semantics_changed": false,
+  "main_language_theorem_catalogue_count": 1456,
+  "new_review_countermodels_in_language_catalogue": false,
+  "live_site_deployed_by_this_review": false,
+  "whole_arabic_completeness_established": false,
+  "previous_head_ci": {
+    "head_sha": "065e1739fdf9f764cac5187db778df5ce466b2f5",
+    "all_four_workflows_completed_successfully": true,
+    "run_ids": [
+      40262444165,
+      40262444030,
+      40262444098,
+      40262444169
+    ],
+    "applies_to_new_head": false
+  }
+}

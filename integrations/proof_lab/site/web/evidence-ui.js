@@ -59,12 +59,19 @@
     if(review.kind==='nabt'){
       const b=review.benchmark;
       $('evidence-metrics').replaceChildren(metric(count(review.metrics.claims),'تصريحات مستوردة','لا تُمنح سلطة بالتنزيل أو الاستيراد'),metric(b?count(b.counts.pass)+' / '+count(b.counts.cases):count(review.metrics.readings),'القياس / القراءات المروية',b?'صفوف مطابقة للتوقع في السجل':'عدد القراءات الواردة في الملف'),metric(b?count(b.counts.fail):count(review.metrics.assumptions),b?'إخفاقات في السجل':'افتراضات معلنة','العدد مشتق من الصفوف الفعلية','amber'),metric('٠','إعادات تحقق Lean هنا','سجل مستقل عن مسار التنفيذ الحي','neutral'));
+      if(review.semantic_axes)$('evidence-metrics').replaceChildren(metric(count(review.semantic_axes.case_count),'حالات مستوردة','لكل حالة مقام معلن'),metric('٥','جهات بمقامات مستقلة','لا متوسط لاكتمال العربية'),metric(count(review.metrics.claims),'تصريحات في السجل','المطابقة المرجعية ليست برهانًا','amber'),metric('٠','إعادات تحقق Lean هنا','الاستيراد لا يمنح سلطة','neutral'));
     }
     renderLayers();renderClaims();renderChecks();renderFindings();renderStages();renderProvenance();renderImportedBenchmark();
     $('evidence-limits').replaceChildren(...review.limits.map(v=>make('li',v)));
     set('evidence-raw',raw);
   }
   function renderImportedBenchmark(){
+    if(review.semantic_axes){
+      const suite=review.semantic_axes;$('evidence-imported-benchmark').hidden=false;$('evidence-imported-rows').replaceChildren();
+      set('evidence-imported-scope',suite.scope+' · سجل مستورد، لم تُعد أي شهادة فيه.');
+      set('evidence-imported-counts',Object.entries(suite.axes).map(([axis,c])=>globalThis.NabtSemanticAxes.AXES[axis]+': '+(c.measured?count(c.passed)+' / '+count(c.measured):'غير مقاس')+'؛ المؤهل '+count(c.eligible)+'؛ غير المقاس '+count(c.unmeasured)).join(' · '));
+      for(const row of suite.cases){const tr=make('tr');tr.append(make('td',row.id+' · '+row.context_id),make('td',row.family),make('td','نتائج مستقلة لكل جهة'));const detail=make('td');detail.append(disclosure('التوقع والمرصود والتصريحات المستوردة',row));tr.append(detail);$('evidence-imported-rows').append(tr);}return;
+    }
     const b=review.benchmark;$('evidence-imported-benchmark').hidden=!b;
     $('evidence-imported-rows').replaceChildren();if(!b)return;
     set('evidence-imported-scope',typeof b.scope==='string'?b.scope:'نطاق مجموعة مستوردة؛ لا قياس لاكتمال العربية.');
@@ -123,7 +130,9 @@
     const target=$('claim-detail');target.replaceChildren();set('claim-detail-title',c?'تفصيل الادعاء':'لا ادعاء محدد');if(!c)return;
     const code=make('code',c.id,'inspector-id');code.dir='ltr';
     target.append(code,make('p',c.label,'inspector-description'));
-    const dl=make('dl',null,'detail-facts');dl.append(fact('الرتبة المنقولة',c.rank||'غير مصرح بها'),fact('إعادة فحص Lean','لم تتم في هذه الصفحة'),fact('حالة البرهان المعلنة',c.declared_passed===true?'ناجح بحسب السجل':c.declared_passed===false?'غير ناجح بحسب السجل':'غير مسجلة'));
+    const dl=make('dl',null,'detail-facts');dl.append(fact('الرتبة المنقولة',c.rank||'غير مصرح بها'),fact('إعادة فحص Lean','لم تتم في هذه الصفحة'));
+    if(review.semantic_axes)dl.append(fact('نوع الفحص المعلن',c.value?.verification?.kind||'غير مسجل'),fact('نتيجة المقارنة المعلنة',c.value?.status||'غير مسجلة'));
+    else dl.append(fact('حالة البرهان المعلنة',c.declared_passed===true?'ناجح بحسب السجل':c.declared_passed===false?'غير ناجح بحسب السجل':'غير مسجلة'));
     target.append(dl,make('h4','الدليل كما ورد'),make('p',c.evidence||'لا مستند مسجل','inspector-evidence'));
     if(Array.isArray(c.axioms)){target.append(make('h4','المسلّمات المعلنة'));const axes=make('div',null,'axiom-list');if(!c.axioms.length)axes.append(make('span','قائمة خالية بحسب السجل'));for(const ax of c.axioms)axes.append(make('code',ax));target.append(axes);}
     target.append(disclosure('القيمة والبنية المسجلة',c.value));

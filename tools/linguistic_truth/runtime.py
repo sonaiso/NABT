@@ -17,7 +17,7 @@ import subprocess
 from .calculus import canonical_json, enumerate_candidates, evaluate_request
 
 ROOT = Path(__file__).resolve().parents[2]
-LAW_ID = "nabt.linguistic-truth-acquisition.v1"
+LAW_ID = "nabt.linguistic-truth-acquisition.v2"
 _MARKS = re.compile(r"[\u064b-\u065f\u0670\u0640]")
 _WORDS = re.compile(r"[^\s.!?؛;،؟«»()\[\]\"“”]+")
 _SEPARATORS = re.compile(r"[.!?؛;؟\r\n]+")
@@ -197,10 +197,23 @@ def _parse_clause(tokens, forms, senses):
     expression = next(iter(expressions))
     if index + 1 == len(tokens):
         return None
-    readings = _read_tail(tokens, index + 1, senses[expression], negative)
+    if len(tokens) > 256:
+        raise OverflowError("cue exceeds the installed 256-token budget")
+    # A deliberately small, versioned negative correction: exactly two known
+    # sense phrases. Positive بل, chained corrections and ellipsis stay unknown.
+    correction = negative and sum(t["normal"] == "بل" for t in tokens[index + 1:]) == 1
+    if correction:
+        pivot = next(i for i in range(index + 1, len(tokens)) if tokens[i]["normal"] == "بل")
+        left = _read_tail(tokens[:pivot], index + 1, senses[expression], True)
+        right = _read_tail(tokens[pivot + 1:], 0, senses[expression], False)
+        readings = [a + b for a in left for b in right
+                    if len(a) == len(b) == 1 and not a[0]["positive"] and b[0]["positive"]]
+    else:
+        readings = _read_tail(tokens, index + 1, senses[expression], negative)
     if not readings:
         return None
-    return {"token_index": index, "expression": expression, "readings": readings}
+    return {"token_index": index, "expression": expression, "readings": readings,
+            "negative_correction": correction}
 
 
 def _citation(inventory, passage_ids):
@@ -348,6 +361,15 @@ def _acquire_profile(text, *, profile_id="linguistic", budget=None, source_id="u
             barred = quotation_barrier or any(c in text[start:end] for c in '،,\':') or any(
                 ord(c) < 32 and c not in "\t" for c in text[start:end])
             parsed = None if barred else _parse_clause(tokens, forms, senses)
+            if parsed is not None and parsed["negative_correction"]:
+                from .correction import replay_correction_source
+                try:
+                    citation = replay_correction_source(root)
+                except (OSError, ValueError):
+                    return {**output, "status": "SOURCE_UNAVAILABLE", "reason": "CORRECTION_SOURCE_UNAVAILABLE"}
+                output.setdefault("syntax_evidence", []).append({"law_id": LAW_ID,
+                    "rule": "NEGATIVE_SINGLE_BAL_CORRECTION", "clause_span": clause_span,
+                    "citation": citation, "authority": "BOUNDED_READING_NOT_ALL_SCHOOLS"})
         except OverflowError as exc:
             return {**output, "status": "RESOURCE_EXHAUSTED", "reason": str(exc)}
         if parsed is None:

@@ -107,6 +107,14 @@ lean_exe qatrReading where
 lean_exe lexicalDenotation where
   root := `LexicalDenotationMain
 
+@[default_target]
+lean_exe lexicalCompletion where
+  root := `LexicalCompletionMain
+
+@[default_target]
+lean_exe lexicalGraph where
+  root := `LexicalGraphMain
+
 lean_exe exportRuleRouting where
   root := `ExportRuleRouting
 
@@ -118,3 +126,7 @@ lean_exe linguisticTruth where
 
 lean_exe licensedInference where
   root := `LicensedInferenceMain
+
+@[default_target]
+lean_exe epistemicMeasurement where
+  root := `EpistemicMeasurementMain

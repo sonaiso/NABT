@@ -5,7 +5,7 @@
   const number = value => Number.isFinite(value) ? value.toLocaleString('ar-JO') : '—';
   const byteLength = value => new TextEncoder().encode(value).length;
   const pendingKey = 'nabt.proof-lab.pending.v1';
-  const state = { config: null, pending: null, timer: null, elapsedTimer: null, failures: 0, inference: null, benchmark: null, snapshot: null, submitted: null, pollCount: 0 };
+  const state = { config: null, pending: null, timer: null, elapsedTimer: null, failures: 0, inference: null, benchmark: null, semantic_axes: null, epistemic_measurement: null, snapshot: null, submitted: null, pollCount: 0 };
   const examples = {
     supported: { source: 'إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.', query: 'هَلْ سَارَ زَيْدٌ؟', note: 'تتحقق مقدمة الشرط في النص، فيُختبر إمكان اشتقاق الجواب.' },
     missing: { source: 'إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ.', query: 'هَلْ سَارَ زَيْدٌ؟', note: 'وجود قاعدة شرطية وحده لا يثبت وقوع مقدمتها أو جوابها.' },
@@ -31,9 +31,9 @@
   function text(id, value) { $(id).textContent = value == null ? '—' : String(value); }
   function showMessage(message) { $('global-message').hidden = !message; text('global-message', message || ''); }
   function switchTab(name, focus = false) {
-    if (!['evidence','inference','coverage','testimony','guide'].includes(name)) return;
+    if (!['evidence','inference','coverage','testimony','semantic_axes','guide','epistemic_measurement'].includes(name)) return;
     document.querySelectorAll('[data-tab]').forEach(tab => { const selected = tab.dataset.tab === name; tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1; });
-    ['evidence','inference','coverage','testimony','guide'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
+    ['evidence','inference','coverage','testimony','semantic_axes','guide','epistemic_measurement'].forEach(tab => { $('panel-' + tab).hidden = tab !== name; });
     if (focus) $('tab-' + name).focus();
   }
   document.querySelectorAll('[data-tab]').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
@@ -66,7 +66,8 @@
   }));
   function enableActions() {
     const disabled = !state.config?.ready || !!state.pending;
-    $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled; $('run-testimony').disabled = disabled;
+    $('run-inference').disabled = disabled; $('run-benchmark').disabled = disabled; $('run-testimony').disabled = disabled; $('run-semantic-axes').disabled = disabled; $('run-epistemic-measurement').disabled = disabled;
+    $('semantic-lexical-profile').disabled = !!state.pending;
   }
   async function request(path, options = {}) {
     const response = await fetch(path, { credentials:'same-origin', cache:'no-store', ...options, headers: { 'Accept':'application/json', ...options.headers }, signal:AbortSignal.timeout(45000) });
@@ -110,6 +111,11 @@
     let payload;
     try {
       payload = {schema:'nabt.proof-lab-request.v1',mode};
+      if (mode === 'semantic_axes') {
+        const profile = $('semantic-lexical-profile').value || 'teaching_v1';
+        if (!['teaching_v1','attested_qac_v1'].includes(profile)) throw new Error('المسار المعجمي غير معروف.');
+        if (profile === 'attested_qac_v1') payload.lexical_profile = profile;
+      }
       if (mode === 'inference') {
         if (!$('inference-form').reportValidity()) return;
         const source = $('source-text').value, query = $('query-text').value;
@@ -122,10 +128,13 @@
         payload.target = $('testimony-target').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
         if (!payload.target.length || payload.target.length>64 || byteLength(payload.entry)>128 || payload.target.some(s=>byteLength(s)>4096)) throw new Error('المدخل أو المكونات يتجاوز حدود الشهادة.');
       }
-      $('run-inference').disabled = true; $('run-benchmark').disabled = true; $('run-testimony').disabled = true;
+      $('run-inference').disabled = true; $('run-benchmark').disabled = true; $('run-testimony').disabled = true; $('run-semantic-axes').disabled = true; $('run-epistemic-measurement').disabled = true;
+      if (mode === 'semantic_axes') { state.semantic_axes = null; globalThis.NabtSemanticAxes?.reset('جارٍ طلب قياس جديد؛ لا شهادة معروضة حتى اكتماله.'); }
+      if (mode === 'epistemic_measurement') { state.epistemic_measurement = null; globalThis.NabtEpistemicMeasurement?.reset('جارٍ طلب القياس؛ لا شهادة معروضة حتى اكتماله.'); }
       const result = await request('/api/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       if (typeof result.handle !== 'string' || typeof result.request_id !== 'string') throw new Error('استجابة إرسال غير مكتملة. راجع سجل GitHub قبل إعادة الإرسال لتجنب تكرار الطلب.');
       state.pending = {handle:result.handle,request_id:result.request_id,mode,started:Date.now()};
+      if (mode === 'semantic_axes') state.pending.lexical_profile = payload.lexical_profile || 'teaching_v1';
       state.submitted = {request_id:result.request_id,payload};
       state.failures=0; state.pollCount=0;
       try { sessionStorage.setItem(pendingKey,JSON.stringify(state.pending)); } catch { /* Polling still works without browser persistence. */ }
@@ -135,10 +144,12 @@
   }
   $('inference-form').addEventListener('submit',event=>{event.preventDefault();submit('inference');});
   $('run-benchmark').addEventListener('click',()=>submit('benchmark'));
+  $('run-semantic-axes').addEventListener('click',()=>submit('semantic_axes'));
+  $('run-epistemic-measurement').addEventListener('click',()=>submit('epistemic_measurement'));
   $('testimony-form').addEventListener('submit',event=>{event.preventDefault();submit('testimony');});
   function prepareJob() {
     $('job-panel').hidden=false; $('job-spinner').hidden=false; $('resume-poll').hidden=true; $('job-link').hidden=true;
-    text('job-id',state.pending.request_id);text('job-title','الطلب في انتظار التنفيذ');text('job-description','سيبني GitHub النسخة المثبتة ويشغّل الفحص. مدة الانتظار ليست دليلًا على قبول النتيجة.');
+    text('job-id',state.pending.request_id);text('job-title','الطلب في انتظار التنفيذ');text('job-description',state.pending.mode==='semantic_axes'?'سيعيد GitHub تشغيل المقارن المرجعي وفحص Python على النسخة المثبتة. لا يتضمن هذا المسار شهادة Lean للدعاوى.':'سيبني GitHub النسخة المثبتة ويشغّل الفحص. مدة الانتظار ليست دليلًا على قبول النتيجة.');
     if(state.elapsedTimer) clearInterval(state.elapsedTimer);
     state.elapsedTimer=setInterval(updateElapsed,1000); updateElapsed();
   }
@@ -163,15 +174,18 @@
       state.pollCount++;
       if (typeof result.run_url==='string' && /^https:\/\/github\.com\/sonaiso\/NABT\/actions\/runs\/\d+$/.test(result.run_url)) { $('job-link').href=result.run_url;$('job-link').hidden=false; }
       if (result.status==='queued') { text('job-title','الطلب في انتظار GitHub');text('job-description','حُفظ معرف الطلب. ستظهر النتيجة بعد اكتمال الفحص على الخادم.'); }
-      else if (result.status==='in_progress') {text('job-title','جارٍ تنفيذ الفحص');text('job-description','يعمل مسار Lean على النسخة المثبتة. لا توجد نتيجة نهائية حتى انتهاء التنفيذ وفحص هوية التقرير.');}
+      else if (result.status==='in_progress') {text('job-title','جارٍ تنفيذ الفحص');text('job-description',state.pending.mode==='semantic_axes'?'تجري إعادة فحص Python والمقارنة بالمقامات المستقلة. لم تنتهِ مطابقة التقرير بالطلب بعد.':'يعمل مسار Lean على النسخة المثبتة. لا توجد نتيجة نهائية حتى انتهاء التنفيذ وفحص هوية التقرير.');}
       else if (result.status==='completed') {
         if (!result.report || result.report.request_id!==state.pending.request_id || result.report.mode!==state.pending.mode) throw new Error('لا تتطابق هوية التقرير مع الطلب الجاري. لم تُعرض نتيجة.');
         if(result.report.schema!=='nabt.proof-lab-result.v1' || result.report.all_arabic_complete!==false || result.report.world_truth_established!==false) throw new Error('التقرير يخالف نطاق المختبر المعلن؛ لم تُعرض دعوى غير مرخّصة.');
         const mode=state.pending.mode;
-        if(mode==='inference')renderInference(result.report);else if(mode==='testimony')renderTestimony(result.report);else renderBenchmark(result.report);
+        if(mode==='semantic_axes'&&result.report.semantic_axes&&((result.report.semantic_axes.lexical_profile||'teaching_v1')!==(state.pending.lexical_profile||'teaching_v1')||(Object.hasOwn(result.report,'lexical_profile')&&result.report.lexical_profile!==(state.pending.lexical_profile||'teaching_v1'))))throw new Error('المسار المعجمي في النتيجة لا يطابق الطلب؛ لم تُعرض نتيجة بديلة.');
+        if(mode==='inference')renderInference(result.report);else if(mode==='testimony')renderTestimony(result.report);else if(mode==='semantic_axes'){globalThis.NabtSemanticAxes.render(result.report);state.semantic_axes=result.report;}else if(mode==='epistemic_measurement'){await globalThis.NabtEpistemicMeasurement.render(result.report);state.epistemic_measurement=result.report;}else renderBenchmark(result.report);
         text('job-title','اكتمل التنفيذ واستلام التقرير');text('job-description','النتيجة أدناه مرتبطة بمعرف الطلب وإصدار الشفرة. اكتمال التنفيذ لا يعني أن الاستنتاج مدعوم.');
         finishPending(); return;
       } else if (result.status==='failed') {
+        if(state.pending.mode==='semantic_axes'){state.semantic_axes=null;globalThis.NabtSemanticAxes?.reset('تعذّر إكمال التنفيذ؛ لا نتيجة أو شهادة لهذه المحاولة.');}
+        if(state.pending.mode==='epistemic_measurement'){state.epistemic_measurement=null;globalThis.NabtEpistemicMeasurement?.reset('تعذّر إكمال التنفيذ؛ لا نتيجة أو شهادة لهذه المحاولة.');}
         text('job-title','تعذّر إكمال التنفيذ');text('job-description',typeof result.error==='string'?result.error:'راجع سجل GitHub. لم تُنتج هذه المحاولة شهادة مقبولة.');
         finishPending(); return;
       } else throw new Error('حالة تشغيل غير معروفة من الخادم.');
@@ -266,9 +280,9 @@
   }
   $('case-filter').addEventListener('change',renderRows);
   function download(report){if(!report)return;const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='nabt-'+report.mode+'-'+String(report.request_id||'report').replace(/[^a-zA-Z0-9-]/g,'')+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  $('download-inference').addEventListener('click',()=>download(state.inference));$('download-benchmark').addEventListener('click',()=>download(state.benchmark));$('download-testimony').addEventListener('click',()=>download(state.testimony));
+  $('download-inference').addEventListener('click',()=>download(state.inference));$('download-benchmark').addEventListener('click',()=>download(state.benchmark));$('download-testimony').addEventListener('click',()=>download(state.testimony));$('download-semantic-axes').addEventListener('click',()=>download(state.semantic_axes));$('download-epistemic-measurement').addEventListener('click',()=>download(state.epistemic_measurement));
   updateInputState();
   loadConfig().then(()=>{
-    try{const saved=JSON.parse(sessionStorage.getItem(pendingKey)||'null');if(saved&&typeof saved.handle==='string'&&typeof saved.request_id==='string'&&['inference','benchmark','testimony'].includes(saved.mode)&&Number.isFinite(saved.started)){state.pending=saved;prepareJob();switchTab(saved.mode==='benchmark'?'coverage':saved.mode);enableActions();poll();}}catch{try{sessionStorage.removeItem(pendingKey);}catch{}}
+    try{const saved=JSON.parse(sessionStorage.getItem(pendingKey)||'null');if(saved&&typeof saved.handle==='string'&&typeof saved.request_id==='string'&&['inference','benchmark','testimony','semantic_axes','epistemic_measurement'].includes(saved.mode)&&Number.isFinite(saved.started)){state.pending=saved;prepareJob();switchTab(saved.mode==='benchmark'?'coverage':saved.mode);enableActions();poll();}}catch{try{sessionStorage.removeItem(pendingKey);}catch{}}
   });
 })();

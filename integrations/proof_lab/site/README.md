@@ -46,3 +46,32 @@
 فرع التنفيذ المثبت لهذه الإضافة `codex/attested-testimony-live`، مع إلزام
 `NABT_CODE_SHA` بمطابقة رأسه قبل أي إرسال. لا يقبل المتصفح فرعًا بديلًا
 أو قواعد أو تعريفات أو أعلام تحقق من المستخدم.
+
+## Semantic axes reference
+
+The `semantic_axes` mode runs the pinned 25-case authored reference on
+`codex/semantic-axes-reference`. It measures syntax, reading recovery, reference
+resolution, motive understanding and external truth separately. The last two
+are currently unmeasured. This route emits Python replay receipts, never Lean
+proofs, and preserves the previous live Lean routes. Each measured comparison
+binds its claim ID and exact input/context digest. Imported reports remain
+unverified declarations. See `docs/SEMANTIC_AXES_AR.md` in the NABT repository.
+
+Validate an actual output against both Worker and UI consumers with:
+
+```sh
+node scripts/validate-semantic-report.mjs /absolute/path/to/measurement.json
+```
+
+The optional `lexical_profile` selects only an installed profile:
+`teaching_v1` (the historical default) or `attested_qac_v1`. The latter sends
+`{"schema":"nabt.proof-lab-request.v1","mode":"semantic_axes","lexical_profile":"attested_qac_v1"}`.
+The signed handle binds this selection; a report from another profile is
+rejected. The `codex/attested-lexical-matrix` branch is allowed only when its
+exact SHA is pinned by the deployment configuration.
+
+The UI displays source/model counts and the lexical matrix separately from
+the unchanged semantic-axis denominators. Token coverage is reconciled with
+the same case's actual replay observations; it counts tokens with lexical
+readings, not successful sentence interpretations. Source annotation and
+cross-source alignment confer no sense, world-truth, or Lean-proof authority.

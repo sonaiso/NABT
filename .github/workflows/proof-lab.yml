@@ -7,6 +7,19 @@ on:
   pull_request:
     paths:
       - 'tools/proof_lab.py'
+      - 'tools/semantic_axes.py'
+      - 'tools/benchmark_semantic_axes.py'
+      - 'tools/*epistemic_measurement.py'
+      - 'tests/test_epistemic*.py'
+      - 'evidence/epistemic_measurement_v1/**'
+      - 'formal/Nabt/EpistemicMeasurement.lean'
+      - 'formal/EpistemicMeasurementMain.lean'
+      - 'tools/attested_lexical_loader.py'
+      - 'tests/test_attested_lexical_loader.py'
+      - 'tests/test_lexical_loading*.py'
+      - 'evidence/lexical_loading_v1/**'
+      - 'tests/test_semantic_axes*.py'
+      - 'evidence/semantic_axes_v1/**'
       - 'tools/lexical_testimony.py'
       - 'tests/test_lexical_testimony.py'
       - 'tests/test_proof_lab.py'
@@ -58,9 +71,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y zstd
           python tools/bootstrap_lean.py --destination "$RUNNER_TEMP/nabt-tools"
+      - name: Acquire unchanged pinned annotation source for the selected profile
+        if: steps.prepare.outputs.valid == 'true' && (steps.prepare.outputs.attested_source == 'true' || github.event_name != 'workflow_dispatch')
+        run: python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
       - name: Build the installed native checker
         if: steps.prepare.outputs.valid == 'true'
-        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation'
+        run: '"$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build licensedInference lexicalDenotation epistemicMeasurement'
       - name: Worker transport and certificate boundary tests
         if: github.event_name != 'workflow_dispatch'
         run: node --test integrations/proof_lab/site/tests/*.test.mjs
@@ -69,6 +85,19 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_proof_lab.py -v
           python -m unittest discover -s tests -p test_lexical_testimony.py -v
+          python -m unittest discover -s tests -p 'test_semantic_axes*.py' -v
+          python -m unittest discover -s tests -p 'test_attested_lexical_loader.py' -v
+          python -m unittest discover -s tests -p 'test_lexical_loading*.py' -v
+          python -m unittest discover -s tests -p 'test_epistemic*.py' -v
+      - name: Replay the frozen reference through both transport consumers
+        if: steps.prepare.outputs.valid == 'true' && github.event_name != 'workflow_dispatch'
+        run: |
+          python tools/benchmark_semantic_axes.py --output "$RUNNER_TEMP/semantic-axes.json"
+          node integrations/proof_lab/site/scripts/validate-semantic-report.mjs "$RUNNER_TEMP/semantic-axes.json"
+          python tools/benchmark_semantic_axes.py --lexical-profile attested_qac_v1 --output "$RUNNER_TEMP/semantic-axes-attested.json"
+          node integrations/proof_lab/site/scripts/validate-semantic-report.mjs "$RUNNER_TEMP/semantic-axes-attested.json"
+          python tools/benchmark_epistemic_measurement.py --require-native --output "$RUNNER_TEMP/epistemic-measurement.json"
+          node integrations/proof_lab/site/scripts/validate-epistemic-report.mjs "$RUNNER_TEMP/epistemic-measurement.json"
       - name: Execute the exact request and retain its receipt
         if: always() && steps.prepare.outputs.valid == 'true'
         env:
