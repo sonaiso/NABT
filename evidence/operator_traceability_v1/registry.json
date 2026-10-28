@@ -1,0 +1,499 @@
+{
+  "schema": "nabt.operator-traceability.v1",
+  "authority": "AUTHORED_EXPLICIT_OPERATOR_REFERENCES_NOT_SOURCE_FIDELITY_OR_RUNTIME_PROOF",
+  "base_crosswalk": {
+    "path": "evidence/arabic_completion_v6/rule_implementation_crosswalk.json",
+    "sha256": "52f27b7e00e730525c4278d7600f3668495ef75cf327f19a6fe7a81759b4c8a6"
+  },
+  "scope": "Exactly the 24 new_scoped_conditional_operator entries in the pinned historical crosswalk. This additive registry completes their explicit metadata links; it does not add grammar semantics or close the other policy entries.",
+  "statement_scope": "Literal current Lean declaration-header bytes, including binders and proposition, excluding := and proof term. This is source identity; compiled type and kernel validation remain separate.",
+  "claims": {
+    "source_translation_fidelity_established": false,
+    "free_text_premise_acquisition_established": false,
+    "python_lean_refinement_established": false,
+    "whole_source_rule_complete": false,
+    "whole_arabic_complete": false
+  },
+  "rows": [
+    {
+      "rule_id": "AFFIX-LIGHT-NUN-PAUSE",
+      "implementation_path": "src/nabt/classical_boundary_affixes.py",
+      "implemented_scope": "Eight structural profiles; light nun alif replacement, glide/mood-nun restoration, connected onset deletion; Khalil/Yunus alternatives and analogy provenance preserved.",
+      "formal_specialization": "LightFrame",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalBoundaryAffixes.light_exact",
+          "source_path": "formal/Nabt/ClassicalBoundaryAffixes.lean",
+          "source_sha256": "0ee10e7e4b74eed9127c5d7c4098832328a0a89fe90cfe9b31fafd57ba7ff292",
+          "statement_start_byte": 7796,
+          "statement_end_byte": 7904,
+          "statement_start_line": 188,
+          "statement_end_line": 189,
+          "statement_source_text": "theorem light_exact (f : LightFrame) (out : Alternative) :\n out ∈ lightEnumerate f ↔ LightLicensed f out",
+          "statement_source_sha256": "8e318637db833d975a618d13b98d18e34682fe9547fd589f602d7a721e2ef66a",
+          "proof_scope": "Exact rendered Alternative enumeration relative to LightLicensed, preserving supplied shape, source profile, ending and light-nun premises. Source-reported and analogy evidence tags remain distinct. No free-text nun/subject/mood classification, full heavy/feminine-nun grammar or Python refinement is established."
+        }
+      ]
+    },
+    {
+      "rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "implemented_scope": "Source-adjudicated symbolic n-sukun to m before adjacent ba, within word or interword connection, never across interword pause.",
+      "formal_specialization": "NunAdmissible left right connection",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalGemination.nun_exact",
+          "source_path": "formal/Nabt/ClassicalGemination.lean",
+          "source_sha256": "ec3f7d3cf081afbcf9ec78fbe8a759952125c5e246602b0961124032809faf39",
+          "statement_start_byte": 9027,
+          "statement_end_byte": 9171,
+          "statement_start_line": 220,
+          "statement_end_line": 221,
+          "statement_source_text": "theorem nun_exact (left right : Cell) (c : Connection) :\n    nunToMim left right c = some (⟨\"م\", .s⟩, right) ↔ NunAdmissible left right c",
+          "statement_source_sha256": "b96459b947d8128863112ebae92d43909a030521bcab9f55a4c824aa89c13d3f",
+          "proof_scope": "The symbolic nunToMim result equals the mim-sukun/right-cell pair exactly when NunAdmissible holds: silent nun, following ba, and no interword pause. This does not adjudicate the preserved textual discrepancy, establish a raw-text segmentation, or prove the Python adapter."
+        }
+      ]
+    },
+    {
+      "rule_id": "CMD-WEAK-DELETE",
+      "implementation_path": "src/nabt/classical_boundary_affixes.py",
+      "implemented_scope": "Conditional weak-final 2MS imperative deletion on retained symbolic stem, w/u or y/i and open-vowel branch; other subjects and suffixes blocked.",
+      "formal_specialization": "WeakFrame",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalBoundaryAffixes.weak_exact",
+          "source_path": "formal/Nabt/ClassicalBoundaryAffixes.lean",
+          "source_sha256": "0ee10e7e4b74eed9127c5d7c4098832328a0a89fe90cfe9b31fafd57ba7ff292",
+          "statement_start_byte": 2708,
+          "statement_end_byte": 2812,
+          "statement_start_line": 65,
+          "statement_end_line": 66,
+          "statement_source_text": "theorem weak_exact (f : WeakFrame) (out : Alternative) :\n out ∈ weakEnumerate f ↔ WeakLicensed f out",
+          "statement_source_sha256": "22edb1bb8bb79ba129af3917745d51d73da92423c8925a7df973d9037a5979ec",
+          "proof_scope": "Exact Alternative enumeration relative to WeakLicensed: supplied masculine-singular person, no suffix and compatible radical/long-vowel class, preserving the supplied stem. No root/person acquisition, arbitrary imperative paradigm or Python refinement is established."
+        }
+      ]
+    },
+    {
+      "rule_id": "GEM-EXCLAMATION",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "implemented_scope": "Conditional exact af-il exclamation shape splits; exact hallumma shape retains contraction. Semantic construction membership is an external premise.",
+      "formal_specialization": "Rule.exclamation",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalGemination.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalGemination.lean",
+          "source_sha256": "ec3f7d3cf081afbcf9ec78fbe8a759952125c5e246602b0961124032809faf39",
+          "statement_start_byte": 3206,
+          "statement_end_byte": 3389,
+          "statement_start_line": 83,
+          "statement_end_line": 84,
+          "statement_source_text": "theorem enumeration_exact (r : Rule) (c : Context) (d : Dialect) (preceding last : Vowel)\n    (a : Action) : a ∈ enumerate r c d preceding last ↔ Admissible r c d preceding last a",
+          "statement_source_sha256": "c8eb5c9c543944669eb34c0dcc0304f3b007ed9cf40ea1157bf711036925dcea",
+          "proof_scope": "Exact Action enumeration for supplied Rule, Context, Dialect and preceding/final vowels. This control theorem does not establish identical radical alignment, bind a Payload, prove Python shape checks/projection, or identify the construction/dialect from text. Bakr unvocalized action does not imply a completed surface."
+        }
+      ]
+    },
+    {
+      "rule_id": "GEM-FEMININE-SUFFIX",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "implemented_scope": "Conditional majority splitting before actual feminine nun; Bakr contraction reading retained with null surface because final vowel is unestablished.",
+      "formal_specialization": "Rule.feminine",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalGemination.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalGemination.lean",
+          "source_sha256": "ec3f7d3cf081afbcf9ec78fbe8a759952125c5e246602b0961124032809faf39",
+          "statement_start_byte": 3206,
+          "statement_end_byte": 3389,
+          "statement_start_line": 83,
+          "statement_end_line": 84,
+          "statement_source_text": "theorem enumeration_exact (r : Rule) (c : Context) (d : Dialect) (preceding last : Vowel)\n    (a : Action) : a ∈ enumerate r c d preceding last ↔ Admissible r c d preceding last a",
+          "statement_source_sha256": "c8eb5c9c543944669eb34c0dcc0304f3b007ed9cf40ea1157bf711036925dcea",
+          "proof_scope": "Exact Action enumeration for supplied Rule, Context, Dialect and preceding/final vowels. This control theorem does not establish identical radical alignment, bind a Payload, prove Python shape checks/projection, or identify the construction/dialect from text. Bakr unvocalized action does not imply a completed surface."
+        }
+      ]
+    },
+    {
+      "rule_id": "GEM-JUSSIVE-VARIANTS",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "implemented_scope": "Conditional command/jussive pair with no suffix/contact: Hijaz split, Tamim opening/following, Kab/Ghani kasra; actual preceding vowel and immediate wasl handling.",
+      "formal_specialization": "Rule.jussive",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalGemination.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalGemination.lean",
+          "source_sha256": "ec3f7d3cf081afbcf9ec78fbe8a759952125c5e246602b0961124032809faf39",
+          "statement_start_byte": 3206,
+          "statement_end_byte": 3389,
+          "statement_start_line": 83,
+          "statement_end_line": 84,
+          "statement_source_text": "theorem enumeration_exact (r : Rule) (c : Context) (d : Dialect) (preceding last : Vowel)\n    (a : Action) : a ∈ enumerate r c d preceding last ↔ Admissible r c d preceding last a",
+          "statement_source_sha256": "c8eb5c9c543944669eb34c0dcc0304f3b007ed9cf40ea1157bf711036925dcea",
+          "proof_scope": "Exact Action enumeration for supplied Rule, Context, Dialect and preceding/final vowels. This control theorem does not establish identical radical alignment, bind a Payload, prove Python shape checks/projection, or identify the construction/dialect from text. Bakr unvocalized action does not imply a completed surface."
+        }
+      ]
+    },
+    {
+      "rule_id": "GEM-VOWELED-FINAL",
+      "implementation_path": "src/nabt/classical_gemination.py",
+      "implemented_scope": "Conditional symbolic contraction of validated identical consonantal root pairs in an asserted verb frame, with moving final vowel, preserving both identities and suffix.",
+      "formal_specialization": "Rule.voweled",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalGemination.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalGemination.lean",
+          "source_sha256": "ec3f7d3cf081afbcf9ec78fbe8a759952125c5e246602b0961124032809faf39",
+          "statement_start_byte": 3206,
+          "statement_end_byte": 3389,
+          "statement_start_line": 83,
+          "statement_end_line": 84,
+          "statement_source_text": "theorem enumeration_exact (r : Rule) (c : Context) (d : Dialect) (preceding last : Vowel)\n    (a : Action) : a ∈ enumerate r c d preceding last ↔ Admissible r c d preceding last a",
+          "statement_source_sha256": "c8eb5c9c543944669eb34c0dcc0304f3b007ed9cf40ea1157bf711036925dcea",
+          "proof_scope": "Exact Action enumeration for supplied Rule, Context, Dialect and preceding/final vowels. This control theorem does not establish identical radical alignment, bind a Payload, prove Python shape checks/projection, or identify the construction/dialect from text. Bakr unvocalized action does not imply a completed surface."
+        }
+      ]
+    },
+    {
+      "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "implemented_scope": "Conditional faail medial substitution from declared hollow-verb illal; retained/unknown medial not transformed.",
+      "formal_specialization": "Frame.active",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalHamza.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalHamza.lean",
+          "source_sha256": "0761ab5bcf1e430972f908482de6a70735be0006a79bab6d6e63df0cec8162c9",
+          "statement_start_byte": 3802,
+          "statement_end_byte": 3901,
+          "statement_start_line": 91,
+          "statement_end_line": 92,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (op : Operation) :\n    op ∈ enumerate f ↔ Admissible f op",
+          "statement_source_sha256": "fc7a50ed9d847364ae9882518bc9c196aafef426665dca95be3b3181f1330a60",
+          "proof_scope": "Exact one-step Operation enumeration relative to the supplied Frame and Admissible relation. Opaque string atoms and origin, template, source profile or grammatical analysis are premises. This theorem does not prove the Python boundary, lexical validity, later transformations, hamza seating or acoustics."
+        }
+      ]
+    },
+    {
+      "rule_id": "HAMZA-BROKEN-PLURAL",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "implemented_scope": "Conditional four-atom singular with optional feminine ta, actual third madd and added origin, aligned to mafail; one step only.",
+      "formal_specialization": "Frame.broken",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalHamza.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalHamza.lean",
+          "source_sha256": "0761ab5bcf1e430972f908482de6a70735be0006a79bab6d6e63df0cec8162c9",
+          "statement_start_byte": 3802,
+          "statement_end_byte": 3901,
+          "statement_start_line": 91,
+          "statement_end_line": 92,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (op : Operation) :\n    op ∈ enumerate f ↔ Admissible f op",
+          "statement_source_sha256": "fc7a50ed9d847364ae9882518bc9c196aafef426665dca95be3b3181f1330a60",
+          "proof_scope": "Exact one-step Operation enumeration relative to the supplied Frame and Admissible relation. Opaque string atoms and origin, template, source profile or grammatical analysis are premises. This theorem does not prove the Python boundary, lexical validity, later transformations, hamza seating or acoustics."
+        }
+      ]
+    },
+    {
+      "rule_id": "HAMZA-FINAL-LONG",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "implemented_scope": "Conditional final waw/ya after added alif; suffix prevents final status and unknown origin defers.",
+      "formal_specialization": "Frame.finalLong",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalHamza.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalHamza.lean",
+          "source_sha256": "0761ab5bcf1e430972f908482de6a70735be0006a79bab6d6e63df0cec8162c9",
+          "statement_start_byte": 3802,
+          "statement_end_byte": 3901,
+          "statement_start_line": 91,
+          "statement_end_line": 92,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (op : Operation) :\n    op ∈ enumerate f ↔ Admissible f op",
+          "statement_source_sha256": "fc7a50ed9d847364ae9882518bc9c196aafef426665dca95be3b3181f1330a60",
+          "proof_scope": "Exact one-step Operation enumeration relative to the supplied Frame and Admissible relation. Opaque string atoms and origin, template, source profile or grammatical analysis are premises. This theorem does not prove the Python boundary, lexical validity, later transformations, hamza seating or acoustics."
+        }
+      ]
+    },
+    {
+      "rule_id": "HAMZA-INTERROGATIVE-AL",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "implemented_scope": "Conditional interrogative + article onset in ibtida/wasl with both symbolic options; no acoustics or parser.",
+      "formal_specialization": "Frame.interrogative",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalHamza.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalHamza.lean",
+          "source_sha256": "0761ab5bcf1e430972f908482de6a70735be0006a79bab6d6e63df0cec8162c9",
+          "statement_start_byte": 3802,
+          "statement_end_byte": 3901,
+          "statement_start_line": 91,
+          "statement_end_line": 92,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (op : Operation) :\n    op ∈ enumerate f ↔ Admissible f op",
+          "statement_source_sha256": "fc7a50ed9d847364ae9882518bc9c196aafef426665dca95be3b3181f1330a60",
+          "proof_scope": "Exact one-step Operation enumeration relative to the supplied Frame and Admissible relation. Opaque string atoms and origin, template, source profile or grammatical analysis are premises. This theorem does not prove the Python boundary, lexical validity, later transformations, hamza seating or acoustics."
+        }
+      ]
+    },
+    {
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "implemented_scope": "Closed source passage roots ءخذ/ءكل/ءمر and source-profile alternatives; unrelated roots defer, no full imperative paradigm.",
+      "formal_specialization": "Frame.lexical",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalHamza.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalHamza.lean",
+          "source_sha256": "0761ab5bcf1e430972f908482de6a70735be0006a79bab6d6e63df0cec8162c9",
+          "statement_start_byte": 3802,
+          "statement_end_byte": 3901,
+          "statement_start_line": 91,
+          "statement_end_line": 92,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (op : Operation) :\n    op ∈ enumerate f ↔ Admissible f op",
+          "statement_source_sha256": "fc7a50ed9d847364ae9882518bc9c196aafef426665dca95be3b3181f1330a60",
+          "proof_scope": "Exact one-step Operation enumeration relative to the supplied Frame and Admissible relation. Opaque string atoms and origin, template, source profile or grammatical analysis are premises. This theorem does not prove the Python boundary, lexical validity, later transformations, hamza seating or acoustics."
+        }
+      ]
+    },
+    {
+      "rule_id": "HAMZA-TWO-GLIDES",
+      "implementation_path": "src/nabt/classical_hamza.py",
+      "implemented_scope": "Conditional five-atom mafail with two physically present glides; mafail-long and shape mismatches blocked.",
+      "formal_specialization": "Frame.twoGlides",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalHamza.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalHamza.lean",
+          "source_sha256": "0761ab5bcf1e430972f908482de6a70735be0006a79bab6d6e63df0cec8162c9",
+          "statement_start_byte": 3802,
+          "statement_end_byte": 3901,
+          "statement_start_line": 91,
+          "statement_end_line": 92,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (op : Operation) :\n    op ∈ enumerate f ↔ Admissible f op",
+          "statement_source_sha256": "fc7a50ed9d847364ae9882518bc9c196aafef426665dca95be3b3181f1330a60",
+          "proof_scope": "Exact one-step Operation enumeration relative to the supplied Frame and Admissible relation. Opaque string atoms and origin, template, source profile or grammatical analysis are premises. This theorem does not prove the Python boundary, lexical validity, later transformations, hamza seating or acoustics."
+        }
+      ]
+    },
+    {
+      "rule_id": "MUGHNI-ANA-BOUNDARY",
+      "implementation_path": "src/nabt/classical_boundary_affixes.py",
+      "implemented_scope": "Majority connected fatha and pausal alif, reported minority connected sukun, explicit unknown minority pause.",
+      "formal_specialization": "AnaFrame",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalBoundaryAffixes.ana_exact",
+          "source_path": "formal/Nabt/ClassicalBoundaryAffixes.lean",
+          "source_sha256": "0ee10e7e4b74eed9127c5d7c4098832328a0a89fe90cfe9b31fafd57ba7ff292",
+          "statement_start_byte": 10798,
+          "statement_end_byte": 10898,
+          "statement_start_line": 256,
+          "statement_end_line": 257,
+          "statement_source_text": "theorem ana_exact (f : AnaFrame) (out : Alternative) :\n out ∈ anaEnumerate f ↔ AnaLicensed f out",
+          "statement_source_sha256": "7c5eec57a0e4cdb01ab907bbacce99eba37d1e7af010148f6db37225bedae54d",
+          "proof_scope": "Exact rendered Alternative enumeration relative to AnaLicensed for a supplied speaker analysis, majority/minority profile and boundary. Minority pause has no licensed output. No pronoun/particle disambiguation, all-dialect completeness or Python refinement is established."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-AFWAL-BLOCK",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional preservation of moving medial waw/ya after fatha in a supplied original-vowel afal-quality context; the semantic quality class is not acquired from spelling.",
+      "formal_specialization": "Frame.afal",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-IFTIAL-RECIPROCAL",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional reciprocal-iftial frame with visible alif-kasra, silent first radical and ta-fatha prefix: preserve moving medial waw, change moving medial ya to alif; original origin, moving follower and reciprocal meaning remain prerequisites.",
+      "formal_specialization": "Frame.reciprocal",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-INITIAL-OPEN-EXCEPTION",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional deletion before fatha only for the visibly aligned named roots وطء, وسع and وضع in the four-cell simple-imperfect frame; not a general open-vowel deletion law.",
+      "formal_specialization": "Frame.initialOpen",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-INITIAL-WAW",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional deletion of silent initial waw before kasra in an original-vowel, four-cell simple-imperfect frame beginning ya+fatha; root alignment and lexical membership remain supplied premises.",
+      "formal_specialization": "Frame.initial",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-MOVE-TO-ALIF",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "One-step original moving waw/ya after fatha to alif in supplied ordinary contexts: medial position requires a moving follower; final position excludes following alif/double-ya. Competing double-weak and special-context branches are blocked.",
+      "formal_specialization": "Frame.alif",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-NOMINAL-SUFFIX-BLOCK",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional preservation of original moving medial waw/ya after fatha with a visible final alif-nun nominal augment, excluding the named ماهان and داران cases; nominal class and root alignment are supplied.",
+      "formal_specialization": "Frame.nominal",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-TWO-ELIGIBLE",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional adjacent moving weak radicals after fatha: regular profile changes the second; the separately named and visibly aligned غاية reverse profile changes the first. Final alif/double-ya blockers and original-vowel premise remain required.",
+      "formal_specialization": "Frame.doubleWeak",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-VOWEL-TRANSFER",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional transfer of an original moving medial waw/ya vowel to an actual silent sound predecessor in a supplied verb frame; sound nonrepeated following radical required. Both carriers are preserved; no final orthography or free-text premise acquisition.",
+      "formal_specialization": "Frame.transfer",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-WAW-TO-YA",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "One-step silent-waw to ya substitution after an actual kasra predecessor, with original vowel origin supplied; no general root, lexical or final-spelling acquisition.",
+      "formal_specialization": "Frame.wawYa",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    },
+    {
+      "rule_id": "WEAK-YA-TO-WAW",
+      "implementation_path": "src/nabt/classical_weak.py",
+      "implemented_scope": "Conditional silent-ya after damma: change ya to waw for supplied singular context, or lower the preceding vowel to kasra for supplied ful-plural context; other number contexts defer.",
+      "formal_specialization": "Frame.yaWaw",
+      "formal_references": [
+        {
+          "declaration": "Nabt.ClassicalWeak.enumeration_exact",
+          "source_path": "formal/Nabt/ClassicalWeak.lean",
+          "source_sha256": "37872765cc120514d401b7875db92a1ae764eea5f628b38f7ee465011e1765d0",
+          "statement_start_byte": 4935,
+          "statement_end_byte": 5025,
+          "statement_start_line": 87,
+          "statement_end_line": 87,
+          "statement_source_text": "theorem enumeration_exact (f : Frame) (a : Action) : a ∈ candidates f ↔ Admissible f a",
+          "statement_source_sha256": "24b3a34cf00e38f94693325a4ee3763f8691e94dbfc538605fdfdb45f15d75de",
+          "proof_scope": "Exact action enumeration relative to the supplied Frame and Admissible relation. The bound flag carries structural/lexical premises. This theorem does not bind a Frame to a cell Window, prove the Python control_frame/transform adapter, or acquire root alignment, lexical class or vowel origin from text."
+        }
+      ]
+    }
+  ]
+}

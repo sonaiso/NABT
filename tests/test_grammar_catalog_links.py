@@ -37,6 +37,20 @@ def fixtures():
 
 
 class GrammarCatalogLinkTests(unittest.TestCase):
+    def test_operator_scope_survives_join_without_promoting_claims(self):
+        source, compiled = fixtures()
+        row = source["rules"][0]
+        row["implemented_scope"] = "Conditional fixture only"
+        row["operator_traceability"] = {
+            "formal_specialization": "Fixture frame",
+            "claims": {"python_lean_refinement_established": False},
+        }
+        report = links._compose(source, compiled)
+        node = next(n for n in report["source_nodes"] if n["kind"] == "rule")
+        self.assertEqual(node["implemented_scope"], "Conditional fixture only")
+        self.assertFalse(node["operator_traceability"]["claims"]["python_lean_refinement_established"])
+        self.assertFalse(report["claims"]["source_translation_fidelity_established"])
+
     def test_alias_is_one_proof_node_with_two_explicit_edges(self):
         source, compiled = fixtures()
         report = links._compose(source, compiled)
