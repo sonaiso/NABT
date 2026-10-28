@@ -11,6 +11,8 @@ aligned-acquisition-conformance:
 	test -x $(CURDIR)/formal/.lake/build/bin/alignedAcquisition
 	test -x $(CURDIR)/formal/.lake/build/bin/licensedInference
 	$(PYTHON) -B -m unittest discover -s tests -p test_aligned_acquisition.py -v
+	$(PYTHON) -B -m unittest discover -s tests -p test_aligned_acquisition_evaluator.py -v
+	$(PYTHON) -B -m unittest discover -s tests -p test_aligned_acquisition_imports.py -v
 	$(PYTHON) -B -m unittest discover -s tests -p test_acquired_inference.py -v
 	$(PYTHON) -B -m unittest discover -s tests -p test_current_proof_references.py -v
 
