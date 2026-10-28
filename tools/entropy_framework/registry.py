@@ -7,14 +7,24 @@ from pathlib import Path
 import re
 
 
-SCHEMA = "nabt.entropy-framework.registry.v1"
+SCHEMA = "nabt.entropy-framework.registry.v2"
 MAX_JSON_BYTES = 8 * 1024 * 1024
 MAX_INTEGER_DIGITS = 4096
 DEFAULT_REGISTRY = Path(__file__).with_name("registry.json")
 WORK_STATES = {
     "PLANNED", "READY", "IN_PROGRESS", "IN_REVIEW", "DELIVERED", "BLOCKED",
 }
-GATE_STATES = {"NOT_MEASURED", "PASS", "FAIL", "STALE", "NOT_APPLICABLE"}
+MEASUREMENT_STATES = {"NOT_MEASURED", "MEASURED", "STALE", "NOT_APPLICABLE"}
+AUTHORITY_FIELDS = {
+    "admission", "authority", "semantic_authority", "evidence_verified",
+    "authenticated", "release_admission", "verification_status",
+}
+MIGRATION_SOURCE = {
+    "source_schema": "nabt.entropy-framework.registry.v1",
+    "source_commit": "c2c072e17802b62c13109cee7c087b7b58895a1a",
+    "source_path": "tools/entropy_framework/registry.json",
+    "source_sha256": "09ad43d5602e5f00fa3ea50b8bae89dbea2aa064b77a604dea1a80a910a8c8bb",
+}
 
 
 class FrameworkError(ValueError):
@@ -191,16 +201,84 @@ def _dataset(dataset, where):
         require(frames > 0 and variants > 0 and
                 frames * variants == dataset.get("slices", {}).get("positive_in_scope"),
                 f"{where}: frame and surface denominators differ")
+    if "additional_denominators" in dataset:
+        denominators = object_value(dataset["additional_denominators"], f"{where}.additional_denominators")
+        require(bool(denominators), f"{where}: empty additional denominators")
+        for name, count in denominators.items():
+            nonempty_string(name, f"{where}.denominator name")
+            natural(count, f"{where}.additional_denominators.{name}")
+
+
+def _no_authority_fields(row, where):
+    require(not (AUTHORITY_FIELDS & row.keys()), f"{where}: authority is not an input field")
+
+
+def _measurement(gate, evidence):
+    where = f"gate {gate['id']}.measurement"
+    value = object_value(gate.get("measurement"), where)
+    _no_authority_fields(value, where)
+    require(set(value) == {"state", "reported_outcome", "evidence_ids", "reason"},
+            f"{where}: exact measurement fields required")
+    state = enum_value(value["state"], MEASUREMENT_STATES, f"{where}.state")
+    reason = value["reason"]
+    if reason is not None:
+        nonempty_string(reason, f"{where}.reason")
+    ids = strings(value["evidence_ids"], f"{where}.evidence_ids")
+    require(set(ids) <= evidence.keys(), f"{where}: dangling evidence reference")
+    for identity in ids:
+        item = evidence[identity]
+        require(item["gate_id"] == gate["id"] and item["scope"] == gate["scope"],
+                f"{where}: evidence bound to a different gate or scope")
+    if state in {"NOT_MEASURED", "NOT_APPLICABLE"}:
+        require(value["reported_outcome"] is None and not ids,
+                f"{where}: unmeasured state cannot carry a result")
+    else:
+        outcome = enum_value(value["reported_outcome"], {"PASS", "FAIL"},
+                             f"{where}.reported_outcome")
+        require(bool(ids), f"{where}: reported result needs evidence references")
+        outcomes = [evidence[identity]["reported_outcome"] for identity in ids]
+        require((outcome == "PASS" and all(item == "PASS" for item in outcomes)) or
+                (outcome == "FAIL" and "FAIL" in outcomes),
+                f"{where}: outcome differs from selected evidence")
+    if state in {"STALE", "NOT_APPLICABLE"}:
+        require(reason is not None, f"{where}: state requires a reason")
+    if state == "MEASURED":
+        dataset = gate["dataset"]
+        require(dataset["status"] == "frozen", f"{where}: measurement before dataset freeze")
+        for identity in ids:
+            run = evidence[identity]["run_identity"]
+            require(run["dataset_sha256"] == dataset["sha256"] and
+                    run["suite_version"] == dataset["version"],
+                    f"{where}: evidence dataset identity differs")
+
+
+def _migration(value, known_ids):
+    row = object_value(value, "migration")
+    # Lock the declared ancestry to the installed v2 contract. Equality here
+    # does not read Git, authenticate old bytes, or verify any evidence record.
+    for key, expected in MIGRATION_SOURCE.items():
+        require(row.get(key) == expected, f"migration.{key}: differs from the installed source identity")
+    changes = indexed(row.get("changes"), "migration.changes")
+    require(bool(changes), "migration: no recorded changes")
+    for identity, change in changes.items():
+        require(set(change) == {"id", "affected_ids", "reason"},
+                f"migration {identity}: exact change fields required")
+        nonempty_string(change["reason"], f"migration {identity}.reason")
+        affected = strings(change["affected_ids"], f"migration {identity}.affected_ids")
+        require(bool(affected) and set(affected) <= known_ids,
+                f"migration {identity}: empty or unknown affected ids")
 
 
 def validate_registry(registry):
-    """Validate metadata consistency only, including declared PASS obligations.
+    """Validate metadata consistency, separating measurement from readiness.
 
     Evidence records remain supplied descriptions. No file hash, executable,
     theorem, linguistic interpretation, or result is authenticated here.
     """
     object_value(registry, "registry")
     require(registry.get("schema") == SCHEMA, "unsupported registry schema")
+    require(registry.get("schema_version") == "0.2.0", "unsupported framework version")
+    require("gate_states" not in registry, "v1 gate_states is not a v2 field")
     nonempty_string(registry.get("framework_id"), "framework_id")
     baseline = object_value(registry.get("baseline"), "baseline")
     sha(baseline.get("nabt_commit"), "baseline.nabt_commit")
@@ -209,8 +287,8 @@ def validate_registry(registry):
             sha(baseline[key], f"baseline.{key}")
     require(set(strings(registry.get("work_states"), "work_states")) == WORK_STATES,
             "work_states differs from the installed registry schema")
-    require(set(strings(registry.get("gate_states"), "gate_states")) == GATE_STATES,
-            "gate_states differs from the installed registry schema")
+    require(set(strings(registry.get("measurement_states"), "measurement_states")) == MEASUREMENT_STATES,
+            "measurement_states differs from the installed registry schema")
     roles = indexed(registry.get("roles"), "roles")
     layers = indexed(registry.get("layers"), "layers")
     gates = indexed(registry.get("gates"), "gates")
@@ -220,7 +298,21 @@ def validate_registry(registry):
     require(bool(roles) and bool(layers) and bool(gates), "roles, layers and gates must be nonempty")
     gate_order = dependency_order(gates, "gates")
     task_order = dependency_order(tasks, "tasks")
+    parents = {}
+    children = {identity: [] for identity in tasks}
+    for identity, row in tasks.items():
+        require("parent_task_id" in row, f"task {identity}: parent_task_id is required")
+        parent = row["parent_task_id"]
+        require(parent is None or (type(parent) is str and parent in tasks),
+                f"task {identity}: unknown parent")
+        parents[identity] = {"depends_on": [] if parent is None else [parent]}
+        if parent is not None:
+            children[parent].append(identity)
+    dependency_order(parents, "task parents")
+    _migration(registry.get("migration"), set(roles) | set(layers) | set(gates) |
+               set(tasks) | set(capabilities) | {"registry"})
     for identity, row in evidence.items():
+        _no_authority_fields(row, f"evidence {identity}")
         require(type(row.get("gate_id")) is str and row["gate_id"] in gates,
                 f"evidence {identity}: unknown gate")
         enum_value(row.get("reported_outcome"), {"PASS", "FAIL"}, f"evidence {identity}.reported_outcome")
@@ -240,36 +332,15 @@ def validate_registry(registry):
                     counts["failed"] == counts["skipped"] == counts["missing"] == 0,
                     f"evidence {identity}: reported PASS has empty or unexecuted required checks")
     for identity, row in gates.items():
+        _no_authority_fields(row, f"gate {identity}")
+        require(not ({"status", "evidence_ids", "baseline"} & row.keys()),
+                f"gate {identity}: legacy gate status/evidence/baseline fields")
         nonempty_string(row.get("title"), f"gate {identity}.title")
         nonempty_string(row.get("scope"), f"gate {identity}.scope")
-        enum_value(row.get("status"), GATE_STATES, f"gate {identity}.status")
         requirements = strings(row.get("requirements"), f"gate {identity}.requirements")
         require(bool(requirements), f"gate {identity}: no acceptance requirements")
         _dataset(row.get("dataset"), f"gate {identity}.dataset")
-        ids = strings(row.get("evidence_ids"), f"gate {identity}.evidence_ids")
-        require(set(ids) <= evidence.keys(), f"gate {identity}: dangling evidence reference")
-        for item in ids:
-            require(evidence[item]["gate_id"] == identity and
-                    evidence[item]["scope"] == row["scope"],
-                    f"gate {identity}: evidence bound to a different gate or scope")
-        if row["status"] == "NOT_MEASURED":
-            require(not ids and row.get("baseline") is None,
-                    f"gate {identity}: unmeasured target has measured evidence/baseline")
-        if row["status"] in {"PASS", "FAIL", "STALE"}:
-            require(bool(ids), f"gate {identity}: reported result needs evidence references")
-        if row["status"] == "PASS":
-            require(row["dataset"]["status"] == "frozen", f"gate {identity}: PASS before dataset freeze")
-            require(all(gates[dep]["status"] == "PASS" for dep in row["depends_on"]),
-                    f"gate {identity}: PASS with an unsatisfied prerequisite")
-            require(all(evidence[item]["reported_outcome"] == "PASS" for item in ids),
-                    f"gate {identity}: PASS with failing evidence")
-            for item in ids:
-                run = evidence[item]["run_identity"]
-                require(run["dataset_sha256"] == row["dataset"]["sha256"] and
-                        run["suite_version"] == row["dataset"]["version"],
-                        f"gate {identity}: evidence dataset identity differs")
-        if row["status"] == "NOT_APPLICABLE":
-            nonempty_string(row.get("not_applicable_reason"), f"gate {identity}.not_applicable_reason")
+        _measurement(row, evidence)
     for identity, row in capabilities.items():
         enum_value(row.get("state"), {"PLANNED", "SOURCES_FROZEN", "IMPLEMENTED_AWAITING_EVALUATION", "EVALUATED"},
                    f"capability {identity}.state")
@@ -284,46 +355,58 @@ def validate_registry(registry):
             require(evidence[item]["gate_id"] == row["gate_id"] and
                     evidence[item]["scope"] == row["scope"],
                     f"capability {identity}: evidence scope mismatch")
-            dataset = gates[row["gate_id"]]["dataset"]
+            gate = gates[row["gate_id"]]
+            dataset = gate["dataset"]
             run = evidence[item]["run_identity"]
-            require(dataset["status"] == "frozen" and
-                    run["dataset_sha256"] == dataset["sha256"] and
-                    run["suite_version"] == dataset["version"],
-                    f"capability {identity}: evidence dataset identity differs")
+            require(gate["measurement"]["state"] in {"MEASURED", "STALE"} and
+                    item in gate["measurement"]["evidence_ids"],
+                    f"capability {identity}: run is not part of its gate measurement")
+            if gate["measurement"]["state"] == "MEASURED":
+                require(dataset["status"] == "frozen" and
+                        run["dataset_sha256"] == dataset["sha256"] and
+                        run["suite_version"] == dataset["version"],
+                        f"capability {identity}: evidence dataset identity differs")
         if row["state"] == "EVALUATED":
             require(bool(ids), f"capability {identity}: evaluated state needs reported run")
         else:
             require(not ids, f"capability {identity}: unevaluated state has run evidence")
     for identity, row in tasks.items():
+        require(not ({"gate_status", "scoped_evidence_ids"} & row.keys()),
+                f"task {identity}: legacy task gate/evidence fields")
         nonempty_string(row.get("title"), f"task {identity}.title")
         nonempty_string(row.get("deliverable"), f"task {identity}.deliverable")
+        nonempty_string(row.get("scope"), f"task {identity}.scope")
         require(type(row.get("owner_role")) is str and row["owner_role"] in roles,
                 f"task {identity}: unknown owner")
         require(type(row.get("reviewer_role")) is str and row["reviewer_role"] in roles,
                 f"task {identity}: unknown reviewer")
         require(row["owner_role"] != row["reviewer_role"], f"task {identity}: reviewer equals owner")
         enum_value(row.get("work_status"), WORK_STATES, f"task {identity}.work_status")
-        enum_value(row.get("gate_status"), GATE_STATES, f"task {identity}.gate_status")
         ids = strings(row.get("evidence_ids"), f"task {identity}.evidence_ids")
         require(set(ids) <= evidence.keys(), f"task {identity}: dangling evidence reference")
         links = strings(row.get("gates"), f"task {identity}.gates")
         require(set(links) <= gates.keys(), f"task {identity}: unknown gate")
+        require(all(evidence[item]["gate_id"] in links for item in ids),
+                f"task {identity}: evidence belongs to an unlinked gate")
         strings(row.get("blockers"), f"task {identity}.blockers")
-        if row["gate_status"] == "PASS":
-            require(bool(links) and all(gates[g]["status"] == "PASS" for g in links),
-                    f"task {identity}: PASS without passing linked gates")
-        if row["work_status"] == "READY":
-            require(all(tasks[dep]["work_status"] == "DELIVERED" for dep in row["depends_on"]),
-                    f"task {identity}: READY before prerequisites delivered")
+        if "delivery_references" in row:
+            strings(row["delivery_references"], f"task {identity}.delivery_references")
+        if row["work_status"] in {"READY", "DELIVERED"}:
+            require(all(tasks[dep].get("work_status") == "DELIVERED" for dep in row["depends_on"]),
+                    f"task {identity}: {row['work_status']} before prerequisites delivered")
+        if row["work_status"] == "DELIVERED":
+            require(all(tasks[child].get("work_status") == "DELIVERED" for child in children[identity]),
+                    f"task {identity}: DELIVERED before children delivered")
     release = object_value(registry.get("release_policy"), "release_policy")
     require(type(release.get("required_skips_allowed")) is int and
             release["required_skips_allowed"] == 0, "required skips must be zero")
     for key in ("empty_required_suite_allowed", "stale_required_evidence_allowed",
                 "optional_omissions_count_as_success", "nabt_depends_on_mashru_release"):
         require(release.get(key) is False, f"release_policy.{key} must be false")
-    return {"schema": "nabt.entropy-framework.validation.v1", "valid": True,
+    return {"schema": "nabt.entropy-framework.validation.v2", "valid": True,
             "authority": "METADATA_CONSISTENCY_ONLY", "semantic_authority": "NONE",
             "evidence_verified": False, "gate_execution": "NOT_PERFORMED",
+            "release_admission": "NOT_EVALUATED",
             "roles": len(roles), "layers": len(layers), "gates": len(gates),
             "tasks": len(tasks), "capabilities": len(capabilities),
             "gate_order": gate_order, "task_order": task_order}
@@ -333,28 +416,50 @@ def report_registry(registry):
     validation = validate_registry(registry)
     gates = {row["id"]: row for row in registry["gates"]}
     tasks = {row["id"]: row for row in registry["tasks"]}
+    children = {identity: [] for identity in tasks}
+    for identity, task in tasks.items():
+        if task["parent_task_id"] is not None:
+            children[task["parent_task_id"]].append(identity)
+    admissions = {}
+    for identity in validation["gate_order"]:
+        gate = gates[identity]
+        measurement = gate["measurement"]
+        blockers = [dep for dep in gate["depends_on"]
+                    if admissions[dep]["readiness"] != "READY_FOR_REVIEW"]
+        if measurement["state"] != "MEASURED" or measurement["reported_outcome"] != "PASS":
+            readiness = "BLOCKED_MEASUREMENT"
+        elif blockers:
+            readiness = "BLOCKED_DEPENDENCIES"
+        else:
+            readiness = "READY_FOR_REVIEW"
+        admissions[identity] = {"readiness": readiness, "blockers": blockers,
+                                "decision": "NOT_EVALUATED", "evidence_verified": False}
     return {
-        "schema": "nabt.entropy-framework.report.v1",
+        "schema": "nabt.entropy-framework.report.v2",
         "authority": "DECLARED_RECORDS_ONLY", "semantic_authority": "NONE",
         "release_admission": "NOT_EVALUATED", "evidence_verified": False,
         "validation": validation, "baseline": registry["baseline"],
+        "migration": registry["migration"],
         "scoped_capabilities": [{"id": row["id"], "state": row["state"],
                                  "gate_id": row["gate_id"], "scope": row["scope"],
                                  "evidence_ids": row["evidence_ids"],
                                  "evidence_verified": False,
-                                 "parent_gate_admission": "NOT_EVALUATED"}
+                                 "measurement": gates[row["gate_id"]]["measurement"],
+                                 "admission": admissions[row["gate_id"]]}
                                 for row in registry.get("capabilities", [])],
         "gates": [{"id": identity, "title": gates[identity]["title"],
                    "scope": gates[identity]["scope"],
-                   "reported_status": gates[identity]["status"],
+                   "measurement": gates[identity]["measurement"],
+                   "admission": admissions[identity],
                    "verification_status": "NOT_PERFORMED",
-                   "dataset": gates[identity]["dataset"],
-                   "evidence_ids": gates[identity]["evidence_ids"],
-                   "unpassed_prerequisites": [dep for dep in gates[identity]["depends_on"]
-                                              if gates[dep]["status"] != "PASS"]}
+                   "dataset": gates[identity]["dataset"]}
                   for identity in validation["gate_order"]],
         "tasks": [{"id": identity, "title": tasks[identity]["title"],
                    "work_status": tasks[identity]["work_status"],
+                   "scope": tasks[identity]["scope"],
+                   "parent_task_id": tasks[identity]["parent_task_id"],
+                   "children": children[identity],
+                   "gates": tasks[identity]["gates"],
                    "owner_role": tasks[identity]["owner_role"],
                    "reviewer_role": tasks[identity]["reviewer_role"],
                    "undelivered_prerequisites": [dep for dep in tasks[identity]["depends_on"]

@@ -1578,7 +1578,31 @@ def theoremManifest : List Name := [
   ``Nabt.ProductiveClauseV1.unsupported_mode_defers,
   ``Nabt.ProductiveClauseV1.verified_binding,
   ``Nabt.ProductiveClauseV1.verified_reading_sound,
-  ``Nabt.ProductiveClauseV1.changed_binding_rejected
+  ``Nabt.ProductiveClauseV1.changed_binding_rejected,
+  ``Nabt.EvidenceLifecycleV1.dependency_ready_exact,
+  ``Nabt.EvidenceLifecycleV1.projected_admissible_exact,
+  ``Nabt.EvidenceLifecycleV1.selected_refines_em,
+  ``Nabt.EvidenceLifecycleV1.selected_is_dependency_ready,
+  ``Nabt.EvidenceLifecycleV1.ready_transitive_source_active,
+  ``Nabt.EvidenceLifecycleV1.inactive_ancestor_blocks,
+  ``Nabt.EvidenceLifecycleV1.grammar_not_selected,
+  ``Nabt.EvidenceLifecycleV1.ranked_parent_decreases,
+  ``Nabt.EvidenceLifecycleV1.ranked_path_nonincreasing,
+  ``Nabt.EvidenceLifecycleV1.ranked_no_cycle,
+  ``Nabt.EvidenceLifecycleV1.original_budget_preserved,
+  ``Nabt.EvidenceLifecycleV1.availability_preserves_ledger,
+  ``Nabt.EvidenceLifecycleV1.withdrawn_source_absent,
+  ``Nabt.EvidenceLifecycleV1.withdrawal_ready_refines,
+  ``Nabt.EvidenceLifecycleV1.withdrawal_creates_no_selected_evidence,
+  ``Nabt.EvidenceLifecycleV1.withdrawal_creates_no_polarity,
+  ``Nabt.EvidenceLifecycleV1.withdrawal_does_not_invent_negation,
+  ``Nabt.EvidenceLifecycleV1.unaffected_ready_survives,
+  ``Nabt.EvidenceLifecycleV1.replacement_does_not_reactivate_old,
+  ``Nabt.EvidenceLifecycleV1.selected_preserves_qualified_key,
+  ``Nabt.EvidenceLifecycleV1.verified_exact,
+  ``Nabt.EvidenceLifecycleV1.evaluated_binding,
+  ``Nabt.EvidenceLifecycleV1.verified_episode_binding,
+  ``Nabt.EvidenceLifecycleV1.changed_episode_rejected
 ]
 
 run_cmd do
