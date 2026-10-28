@@ -5,7 +5,7 @@ SOURCED_PHASE ?= exposed
 SOURCED_LINK_REFERENCE ?= $(NABT_PROOF_REFERENCE_DIR)/sourced_proof_links.json
 
 .PHONY: sourced-acquisition-native sourced-acquisition-conformance sourced-acquisition-evaluation
-sourced-acquisition-native: article-acquisition-evaluation
+sourced-acquisition-native: article-acquisition-evaluation linguistic-truth
 	cd formal && $(LAKE) build connectedAcquisitionV3 acquiredSyntaxV3 linguisticTruth
 	test -x $(CURDIR)/formal/.lake/build/bin/connectedAcquisitionV3
 	test -x $(CURDIR)/formal/.lake/build/bin/acquiredSyntaxV3
