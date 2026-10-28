@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.evaluate_aligned_acquisition import (  # noqa: E402
     GOLD_SHA256, INFERENCE_SOURCE_PATH, SPEC_PATH, SPEC_SHA256,
+    REQUIRED_NATIVE_PATHS, parse_json, required_freeze_paths,
 )
 
 
@@ -43,18 +44,10 @@ def local_path(name: str) -> Path:
 def build_freeze() -> dict:
     commit = git("rev-parse", "HEAD").decode().strip()
     tracked = set(git("ls-files", "-z").decode("utf-8").split("\0")) - {""}
-    paths = {name for name in tracked if
-             (name.startswith("src/nabt/") and (name.endswith(".py") or name.startswith("src/nabt/data/")))
-             or (name.startswith(("tools/", "tests/")) and name.endswith(".py"))
-             or (name.startswith("formal/") and name.endswith(".lean"))}
-    paths.update({SPEC_PATH, INFERENCE_SOURCE_PATH, "formal/lean-toolchain",
-                  "formal/lake-manifest.json", "tools/evaluate_aligned_acquisition.py",
-                  "tools/freeze_aligned_acquisition.py", "tools/aligned_acquisition.py",
-                  "evidence/aligned_acquisition_v1/source_evidence.json"})
+    committed = set(git("ls-tree", "-r", "--name-only", "-z", commit).decode("utf-8").split("\0")) - {""}
     # Read the committed inference registry, not a possibly modified working copy.
-    links = json.loads(git("show", commit + ":" + INFERENCE_SOURCE_PATH).decode("utf-8"))
-    paths.update(item["local_path"] for item in links["sources"])
-    paths.update(item["path"] for item in links["source_registries"])
+    links = parse_json(git("show", commit + ":" + INFERENCE_SOURCE_PATH))
+    paths = required_freeze_paths(tracked | committed, links)
     if not paths <= tracked:
         raise ValueError("runtime inputs must be tracked: " + ", ".join(sorted(paths - tracked)))
     files = {}
@@ -67,8 +60,7 @@ def build_freeze() -> dict:
     if files[SPEC_PATH] != SPEC_SHA256:
         raise ValueError("specification differs from the independent content pin")
     native = {}
-    for name in ("alignedAcquisition", "licensedInference"):
-        relative = "formal/.lake/build/bin/" + name
+    for relative in sorted(REQUIRED_NATIVE_PATHS):
         path = local_path(relative)
         if not path.is_file() or not os.access(path, os.X_OK):
             raise ValueError("build the required native executable: " + relative)

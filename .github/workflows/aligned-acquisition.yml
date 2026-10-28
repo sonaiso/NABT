@@ -22,24 +22,22 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.12'
+      - name: Static architecture boundary and descriptive entropy audit
+        run: |
+          PYTHONPATH=src:. python -B -m unittest discover -s tests -p test_code_entropy.py -v
+          python tools/code_entropy.py --check --output artifacts/local/ci-acquisition/code-entropy.json
       - name: Install decompressor and hash-verified Lean
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y zstd
           python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
-      - name: Native contracts and mutation tests
-        run: make -f tools/aligned_acquisition.mk aligned-acquisition-conformance LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
-      - name: Integrate PR 34 inference and current compiled proof references
-        run: make -f tools/aligned_acquisition.mk aligned-acquisition-integration LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-acquisition-integration
-      - name: Replay exposed independent matrix with current committed inputs
-        run: make -f tools/aligned_acquisition.mk aligned-acquisition-evaluation EVIDENCE_DIR=artifacts/local/ci-acquisition
+      - name: Ordered native contracts, PR 34 integration and frozen matrix replay
+        run: make -f tools/aligned_acquisition.mk aligned-acquisition-evaluation LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-acquisition
       - name: Retain acquisition and PR 34 integration evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: aligned-acquisition-evidence
-          path: |
-            artifacts/local/ci-acquisition/
-            artifacts/local/ci-acquisition-integration/
+          path: artifacts/local/ci-acquisition/
           if-no-files-found: warn
           retention-days: 14

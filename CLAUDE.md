@@ -56,3 +56,16 @@ preloaded tools/nabt modules, and own both namespace origins. `-B` alone does
 not prevent reading stale bytecode. Keep real-import cache/shadowing tests and
 package-data compatibility. Source/native paths must be disjoint and checked
 independently. Compare proof-reference command arguments as complete tokens.
+
+Strategic entropy/coherence work follows docs/CODE_ENTROPY_CONTRACT.md. Static
+import topology, Shannon edge-distribution entropy and exact AST clone groups
+are separate descriptive observations; none is an overall quality or Arabic
+coverage score. Preserve independent oracles and historical versions. The static
+core-to-tooling boundary is enforced; existing core SCCs are reported separately.
+
+Use one freeze-inventory policy in producer and verifier. Native readiness,
+conformance and integration precede freezing/evaluation. Keep empirical coverage
+debts visible in docs/STRATEGIC_COHERENCE_AR.md: the current conditional language
+requires الحق, which acquisition v1 defers at its initial alif. A future bridge
+needs a sourced versioned law and a fresh preimplementation matrix; this audit
+does not implement that law or certify nominal/person acquisition.
