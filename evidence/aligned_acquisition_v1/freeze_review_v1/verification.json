@@ -1,0 +1,197 @@
+{
+  "schema": "nabt.acquisition-freeze-review.v1",
+  "base_commit": "2b595f92d56b2311d961d13a02d0aa03e88b891e",
+  "code_commit": "07f89d6482e45da8915bb6463d06cd924d04d08d",
+  "review_threads": [
+    "https://github.com/sonaiso/NABT/pull/52#discussion_r4395009635",
+    "https://github.com/sonaiso/NABT/pull/52#discussion_r4395009687"
+  ],
+  "before_fix_regression": {
+    "tests": 9,
+    "failures": 7,
+    "errors": 0,
+    "note": "Controlled file mutation reproductions with real git/hash validation; language computation stubbed. A first-run HEAD test was added after this reproduction."
+  },
+  "current_boundary_tests": {
+    "tests": 10,
+    "passed": 10
+  },
+  "proof_reference_tests": {
+    "tests": 3,
+    "passed": 3
+  },
+  "full_tests": {
+    "exit_code": 0,
+    "seconds": 402.32539192900003,
+    "summary_present": true,
+    "success_marker_present": true,
+    "collected": 2506,
+    "passed": 2443,
+    "skipped": 63
+  },
+  "integration_command": {
+    "command": "make -f tools/aligned_acquisition.mk aligned-acquisition-conformance grammar-catalog mantuq-inference linguistic-truth aligned-acquisition-integration LAKE=/path/to/lean-4.34.1-linux/bin/lake EVIDENCE_DIR=<new-output-directory>",
+    "exit_code_observed": 0,
+    "scope": "Includes compiled proof catalogue, grammar/source links, routing, mantuq, linguistic and PR34 inference gates plus acquisition mutation tests and exposed composition regression."
+  },
+  "acquisition_replay": {
+    "command": "make -f tools/aligned_acquisition.mk aligned-acquisition-evaluation EVIDENCE_DIR=<new-output-directory>",
+    "exit_code_observed": 0,
+    "summary": {
+      "denominator": 72,
+      "executed": 72,
+      "native_verified": 72,
+      "status_matches": 72,
+      "cell_comparisons": {
+        "denominator": 37,
+        "matches": 37
+      },
+      "reason_comparisons": {
+        "denominator": 7,
+        "matches": 7
+      },
+      "representation_matches": 72,
+      "false_licenses": 0,
+      "positive_acquisition_coverage": {
+        "denominator": 49,
+        "verified_acquired": 49,
+        "verified_exact": 49
+      },
+      "positive_goal_acquisition_coverage": {
+        "denominator": 47,
+        "verified_acquired": 32
+      },
+      "goals_by_kind": {
+        "acquisition": {
+          "denominator": 24,
+          "outcomes": {
+            "SUCCESS": 16,
+            "MISS": 8,
+            "UNMEASURED": 0
+          },
+          "measurement": {
+            "MEASURED": 24,
+            "UNMEASURED": 0
+          }
+        },
+        "conditional_inference": {
+          "denominator": 16,
+          "outcomes": {
+            "SUCCESS": 0,
+            "MISS": 5,
+            "UNMEASURED": 11
+          },
+          "measurement": {
+            "MEASURED": 0,
+            "UNMEASURED": 16
+          }
+        },
+        "nominal_syntax": {
+          "denominator": 16,
+          "outcomes": {
+            "SUCCESS": 0,
+            "MISS": 10,
+            "UNMEASURED": 6
+          },
+          "measurement": {
+            "MEASURED": 0,
+            "UNMEASURED": 16
+          }
+        },
+        "person": {
+          "denominator": 16,
+          "outcomes": {
+            "SUCCESS": 0,
+            "MISS": 14,
+            "UNMEASURED": 2
+          },
+          "measurement": {
+            "MEASURED": 0,
+            "UNMEASURED": 16
+          }
+        }
+      },
+      "downstream_goals": {
+        "denominator": 48,
+        "all": {
+          "SUCCESS": 0,
+          "MISS": 29,
+          "UNMEASURED": 19
+        },
+        "positive_denominator": 29,
+        "positive": {
+          "SUCCESS": 0,
+          "MISS": 29,
+          "UNMEASURED": 0
+        },
+        "measurement": {
+          "MEASURED": 0,
+          "UNMEASURED": 48
+        }
+      },
+      "shape_handoff_statuses": {
+        "SHAPE_LICENSED": 159,
+        "ACQUISITION_INCOMPLETE": 25,
+        "SHAPE_REJECTED": 1
+      },
+      "word_reader_statuses": {
+        "DEFER": 67,
+        "READ": 2,
+        "REJECT": 3
+      },
+      "runtime_statuses": {
+        "ACQUIRED": 49,
+        "DEFER": 18,
+        "INVALID_INPUT": 5
+      },
+      "resource_outcomes": {
+        "acquisition": 0,
+        "inference": 0,
+        "word_reader": 0,
+        "shape_handoffs": 0
+      }
+    },
+    "initial_snapshot_matches_freeze": true,
+    "integrity_valid": true
+  },
+  "native_pr34_conformance": {
+    "total": 683,
+    "mismatches": [],
+    "passed": true
+  },
+  "exposed_composition": {
+    "schema": "nabt.acquired-inference-regression-result.v1",
+    "fixture_sha256": "985e0be8faa597ca0d1675e3ae7ee5eb7c6f1b086d95c589fadab635275030da",
+    "scope": "exposed integration regression; not a new held-out linguistic matrix",
+    "passed": true,
+    "cases": 12,
+    "matching_contracts": 12,
+    "complete_chains": 5,
+    "positive_inference_cases": 3,
+    "positive_complete_chains": 1,
+    "all_arabic_complete": false,
+    "world_truth_established": false
+  },
+  "preserved_paths_against_base": [
+    "src",
+    "formal",
+    "Makefile",
+    "tools/licensed_inference",
+    "integrations/current_proof_references.mk",
+    "evidence/aligned_acquisition_v1/integration"
+  ],
+  "proof_reference_note": "All five current snapshots were already refreshed in b71b95b and merged through PR52; exact comparison gates pass without changing those snapshots or the Lean manifest.",
+  "environment_note": "Lean 4.34.1; same documented /proc executable-path shim via LD_PRELOAD=/tmp/nabt_lean_proc_path.so. See evidence/aligned_acquisition_v1/validation/environment.json and lean_proc_path.c. No Lean or kernel change.",
+  "limits": [
+    "Sampled disk hashes do not provide atomic isolation against a concurrent adversarial writer.",
+    "No new grammar law, general Python/Lean refinement theorem, or all-Arabic coverage claim.",
+    "Original downstream goals remain separately measured; positive abstention remains a coverage miss.",
+    "This is not a release and make check was not run as one complete release command."
+  ],
+  "artifacts": {
+    "acquisition-freeze.json": "0b5b8bf8b6887780351e158c5f621d65a5618fe22dd8f3e24d75973a22142efa",
+    "acquisition-regression.json.gz": "c9bf83d63516a4b5985be7eeb4b5589a72a743b9f44c00a8dc2bb98ce5f35b86",
+    "gate_reports.zip": "791d40ea0c07de59e32f936e7b611a46af52252f6e3a9631db8dfb506ceb9365",
+    "validation_logs.zip": "9f565ceddb4e69b4f0ea675aabe7a907b72ccee9f58a77815ff64d76f6d0ef42"
+  }
+}
