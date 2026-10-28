@@ -38,8 +38,14 @@ PINS = {
     GOLD_PATH: GOLD_SHA256,
     "evidence/sourced_acquisition_v3/GOLD_METHOD.md": "0e2913621fee3cab9e76d3fca729d332646769dff7e39d1294dab28f1bb5c8d2",
 }
-SCHEMA = "nabt.sourced-acquisition-code-freeze.v3"
-RESULT_SCHEMA = "nabt.sourced-acquisition-evaluation.v3"
+ERRATUM_PATH = "evidence/sourced_acquisition_v3/gold_erratum_v1.json"
+ERRATUM_SHA256 = "49074e4171a3b2c365018e41c3b9e7af2a03ec0c1915c77628b3e25958014633"
+REVIEW_PINS = {ERRATUM_PATH: ERRATUM_SHA256}
+ORACLE_REVIEW = {"base_gold_sha256": GOLD_SHA256, "erratum_path": ERRATUM_PATH,
+                 "erratum_sha256": ERRATUM_SHA256, "exposure": "exposed",
+                 "scope": "Six literal A116 cells only; original gold and first result preserved."}
+SCHEMA = "nabt.sourced-acquisition-code-freeze.v3.review1"
+RESULT_SCHEMA = "nabt.sourced-acquisition-evaluation.v3.review1"
 SCOPE = "independent-sourced-v3"
 FAMILIES = {"orthography": 50, "person_category": 27,
             "nominal_predication": 34, "conditional_inference": 50}
@@ -50,16 +56,13 @@ NATIVE_PATHS = frozenset("formal/.lake/build/bin/" + name for name in
 REFERENCES = frozenset("evidence/sourced_acquisition_v3/integration/" + name + ".json" for name in
     ("proof_catalog", "grammar_link_summary", "mantuq_proof_links", "linguistic_proof_links",
      "licensed_proof_links", "article_proof_links", "sourced_proof_links"))
-EXTRA_PATHS = frozenset(PINS) | REFERENCES | frozenset({
+EXTRA_PATHS = frozenset(PINS) | frozenset(REVIEW_PINS) | REFERENCES | frozenset({
     "evidence/aligned_acquisition_v1/gold.json", "evidence/article_acquisition_v2/source_evidence.json",
     "evidence/operator_traceability_v1/registry.json", "formal/theorems.json", "Makefile",
     "tools/aligned_acquisition.mk", "tools/article_acquisition.mk", "tools/sourced_acquisition_v3.mk",
     "integrations/current_proof_references.mk", "integrations/grammar_catalog.mk",
     "integrations/mantuq_inference.mk", "integrations/linguistic_truth.mk",
     "integrations/licensed_inference.mk", ".github/workflows/aligned-acquisition.yml"})
-NEW_PRODUCTION = ("tools/connected_acquisition_v3.py", "tools/acquired_person_nominal_v3.py",
-                  "tools/natural_acquisition_v3.py", "formal/Nabt/ConnectedAcquisitionV3.lean",
-                  "formal/Nabt/AcquiredSyntaxV3.lean")
 
 
 def wire(value):
@@ -106,10 +109,13 @@ def packets_at(guard, commit):
 
 
 def verify_freeze(path, phase):
+    if phase != "exposed":
+        raise ValueError("review1 uses an exposed oracle correction; the first execution is preserved at ab8640b")
     guard = load_bootstrap()
     envelope, fingerprint = guard.load_json(path)
-    if (phase not in {"first", "exposed"} or envelope.get("schema") != SCHEMA or
+    if (envelope.get("schema") != SCHEMA or
             envelope.get("content_pins") != PINS or
+            envelope.get("review_pins") != REVIEW_PINS or envelope.get("oracle_review") != ORACLE_REVIEW or
             envelope.get("source_commit") != SOURCE_COMMIT or
             envelope.get("matrix_commit") != MATRIX_COMMIT or
             envelope.get("bootstrap") != {"path": BOOTSTRAP_PATH, "sha256": BOOTSTRAP_SHA256}):
@@ -128,27 +134,13 @@ def verify_freeze(path, phase):
     required = required_paths(guard, inventory, inference, packets_at(guard, commit))
     if not required <= set(inner["files"]):
         raise ValueError("missing required frozen inputs: " + ", ".join(sorted(required - set(inner["files"]))))
-    for name, expected in {**PINS, BOOTSTRAP_PATH: BOOTSTRAP_SHA256}.items():
+    for name, expected in {**PINS, **REVIEW_PINS, BOOTSTRAP_PATH: BOOTSTRAP_SHA256}.items():
         if inner["files"].get(name) != expected:
             raise ValueError("frozen content pin differs: " + name)
-    if phase == "first":
-        if guard.git("rev-parse", "HEAD") != commit:
-            raise ValueError("first execution requires HEAD at its implementation freeze")
-        guard.git("merge-base", "--is-ancestor", SOURCE_COMMIT, MATRIX_COMMIT)
-        guard.git("merge-base", "--is-ancestor", MATRIX_COMMIT, commit)
-        for name, expected in PINS.items():
-            if digest(guard.git("show", MATRIX_COMMIT + ":" + name, binary=True)) != expected:
-                raise ValueError("matrix-time pin differs: " + name)
-            if name.startswith("docs/") or name.endswith(("source_evidence.json", "natural_sources.json")):
-                if digest(guard.git("show", SOURCE_COMMIT + ":" + name, binary=True)) != expected:
-                    raise ValueError("source-time pin differs: " + name)
-        matrix_files = set(guard.git("ls-tree", "-r", "--name-only", "-z", MATRIX_COMMIT).split("\0"))
-        if matrix_files.intersection(NEW_PRODUCTION):
-            raise ValueError("new production implementation already existed at matrix freeze")
     return envelope, {"manifest_sha256": fingerprint, "commit": commit,
         "source_commit": SOURCE_COMMIT, "matrix_commit": MATRIX_COMMIT,
-        "chronology_verified": phase == "first", "requested_first_execution": phase == "first",
-        "chronology_scope": "Git ancestry and content only; not secrecy or absence of undisclosed prior runs.",
+        "chronology_verified": False, "requested_first_execution": False,
+        "chronology_scope": "Exposed replay. Original first-execution chronology evidence remains archived at ab8640b.",
         "baseline": evidence}
 
 
@@ -215,6 +207,47 @@ def load_gold(guard):
     return gold
 
 
+def apply_oracle_review(gold, erratum):
+    """Apply only the independently reviewed six scalars to a separate copy."""
+    if (erratum.get("schema") != "nabt.sourced-acquisition-gold-erratum.v1" or
+            erratum.get("original_gold", {}).get("sha256") != GOLD_SHA256):
+        raise ValueError("oracle review base or schema differs")
+    locations = {(case, projection, index) for case in ("o_ayn_u", "o_ayn_a", "o_ayn_i")
+                 for projection, index in (("/realization/phrase_cells", 4),
+                                           ("/acquisition/words/1/cells", 2))}
+    patches = erratum.get("patches")
+    if type(patches) is not list or len(patches) != len(locations):
+        raise ValueError("oracle review requires exactly six patches")
+    reviewed = json.loads(wire(gold))
+    cases = {case["id"]: case for case in reviewed["cases"]}
+    seen = set()
+    for row in patches:
+        if (type(row) is not dict or set(row) != {"case_id", "projection", "array_index", "before", "after"}
+                or any(type(row[key]) is not int for key in ("array_index", "before", "after"))
+                or any(type(row[key]) is not str for key in ("case_id", "projection"))):
+            raise ValueError("malformed typed oracle patch")
+        location = (row["case_id"], row["projection"], row["array_index"])
+        if location not in locations or location in seen or (row["before"], row["after"]) != (64, 68):
+            raise ValueError("oracle patch exceeds reviewed correction")
+        seen.add(location)
+        cells = cases[row["case_id"]]["expected"][row["projection"]]
+        index = row["array_index"]
+        if type(cells) is not list or index >= len(cells) or type(cells[index]) is not int or cells[index] != 64:
+            raise ValueError("oracle patch precondition differs")
+        cells[index] = 68
+    return reviewed
+
+
+def reviewed_gold(guard, original):
+    erratum, actual = guard.load_json(ROOT / ERRATUM_PATH)
+    if actual != ERRATUM_SHA256:
+        raise ValueError("code-owned oracle erratum pin differs")
+    for row in erratum["proof_basis"]:
+        if digest(guard.local_path(row["path"]).read_bytes()) != row["sha256"]:
+            raise ValueError("oracle correction basis changed: " + row["path"])
+    return apply_oracle_review(original, erratum)
+
+
 def initial_snapshot(guard, inner, phase):
     before = guard.snapshot(inner, ROOT / GOLD_PATH)
     bad = [name for hashes in (inner["files"], inner["native"]) for name, expected in hashes.items()
@@ -278,6 +311,10 @@ def evaluate_case(case, modules):
         grants = True
         claim_matches = False
     safe = source_safe and chain_safe and claim_safe
+    false_authorization = grants and not (claim_matches and safe)
+    # A goal may project only status; structural safety cannot turn a wrong
+    # licensed reading into positive coverage or a credited complete chain.
+    credit = safe and not false_authorization
     required_candidates = case["expected"].get("/candidate_sense_ids")
     candidate_measurement = None
     if type(required_candidates) is list:
@@ -291,12 +328,12 @@ def evaluate_case(case, modules):
     return {"id": case["id"], "family": case["family"], "entry_point": entry,
         "goal_kind": case["goal"]["kind"], "positive": case["goal"]["positive"],
         "expected_checks": expected, "goal_checks": goal, "contract_match": contract,
-        "goal_projection_matches": all(goal.values()), "goal_acquired": all(goal.values()) and safe,
+        "goal_projection_matches": all(goal.values()), "goal_acquired": all(goal.values()) and credit,
         "source_checks": audit["source_checks"], "realization_checks": audit["realization_checks"],
         "binding_checks": audit["binding_checks"], "candidate_measurement": candidate_measurement,
         "source_safe": source_safe, "chain_safe": chain_safe, "claim_safe": claim_safe,
-        "false_authorization": grants and not (claim_matches and safe),
-        "chain_claimed": chain, "chain_complete": chain and safe, "raw_result": report}
+        "false_authorization": false_authorization,
+        "chain_claimed": chain, "chain_complete": chain and credit, "raw_result": report}
 
 
 def counts(rows):
@@ -319,7 +356,8 @@ def counts(rows):
 def run(envelope, evidence, phase):
     guard = load_bootstrap(); inner = envelope["baseline"]
     before = initial_snapshot(guard, inner, phase)
-    gold = load_gold(guard)
+    original_gold = load_gold(guard)
+    gold = reviewed_gold(guard, original_gold)
     with guard.frozen_runtime(inner) as imports:
         modules = {key: importlib.import_module(path) for key, path in {
             "connected": "tools.connected_acquisition_v3",
@@ -328,6 +366,9 @@ def run(envelope, evidence, phase):
             "conditional_pr34": "tools.acquired_inference_v2",
             "checks": "tools.sourced_acquisition_v3_checks"}.items()}
         rows = [evaluate_case(case, modules) for case in gold["cases"]]
+        for case, row in zip(original_gold["cases"], rows, strict=True):
+            row["original_expected_checks"] = matches(row["raw_result"], case["expected"])
+            row["original_contract_match"] = all(row["original_expected_checks"].values())
         after = guard.snapshot(inner, ROOT / GOLD_PATH)
         imports.audit_origins()
         wrong = sorted(name for name, actual in imports.executed.items() if inner["files"].get(name) != actual)
@@ -342,7 +383,12 @@ def run(envelope, evidence, phase):
     loaded_wrong = sorted(name for name, actual in loaded.items() if inner["files"].get(name) != actual)
     integrity = before == after and not wrong and not uncovered and not loaded_wrong
     unsafe = [row["id"] for row in rows if not row["source_safe"] or not row["chain_safe"] or not row["claim_safe"] or row["false_authorization"]]
-    return {"schema": RESULT_SCHEMA, "phase": phase, "measured_at_utc": datetime.now(timezone.utc).isoformat(),
+    return {"schema": RESULT_SCHEMA, "phase": phase, "oracle_review": ORACLE_REVIEW,
+        "original_gold_projection_gate": {
+            "passed": all(row["original_contract_match"] for row in rows),
+            "contract_matches": sum(row["original_contract_match"] for row in rows),
+            "failures": [row["id"] for row in rows if not row["original_contract_match"]]},
+        "measured_at_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "Finite four-family independent matrix. Positive coverage, restraint, lexical reading and complete chains have separate denominators; no overall Arabic completeness claim.",
         "summary": counts(rows),
         "families": {family: counts([r for r in rows if r["family"] == family]) for family in FAMILIES},

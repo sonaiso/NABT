@@ -109,6 +109,15 @@ Natural lexical reading, actual author intention, and world truth remain separat
 Positive required abstentions remain coverage misses. Preserve every first
 evaluation attempt and label later repair runs as exposed.
 
+The first v3 execution on ab8640b is preserved under
+evidence/sourced_acquisition_v3/validation/first-matrix-ab8640b. Original gold
+has three A116 literal-array errors (six cells: ayin+fatha is 68, not 64).
+gold_erratum_v1.json records the independently reviewed correction; never edit
+the original gold or first outputs. Evaluator review1 binds the erratum in its
+freeze, accepts exposed replays only, and reports original projections alongside
+reviewed projections. A false-authorized result earns neither positive coverage
+nor complete-chain credit, even if its status-only goal matches.
+
 The additive evidence/operator_traceability_v1 registry completes explicit
 scope/theorem metadata for the 24 designated classical operators. It preserves
 the historical crosswalk, and states each theorem's conditional scope. Finite

@@ -77,5 +77,90 @@ class FrozenEvaluatorBoundaries(unittest.TestCase):
                 self.assertEqual(target.read_bytes(), original)
 
 
+class GoalAccounting(unittest.TestCase):
+    """Separate structural safety, correctness, and narrower legitimate goals."""
+
+    def evaluate(self, entry, report, expected, success):
+        case = {"id": "synthetic-accounting", "family": "synthetic", "entry_point": entry,
+                "text": "source", "ending": "wasl", "onset": "word_initial",
+                "expected": expected, "goal": {"kind": "synthetic", "positive": True,
+                                                "success": success}}
+        # Native/structural checks can pass while an independent literal or
+        # semantic expectation fails. This test targets the accounting boundary.
+        checks = SimpleNamespace(audit_report=lambda *args, **kwargs: {
+            "source_safe": True, "chain_safe": True, "claim_safe": True,
+            "source_checks": [], "realization_checks": [], "binding_checks": {}})
+        with patch.object(evaluator, "dispatch", return_value=report):
+            return evaluator.evaluate_case(case, {"checks": checks})
+
+    def test_false_authorized_cells_do_not_earn_status_only_positive_goal(self):
+        report = {"status": "ACQUIRED", "verified": True, "shape_verified": True,
+                  "acquisition": {"words": [{"cells": [4, 9]}]}}
+        row = self.evaluate("connected", report,
+            {"/status": "ACQUIRED", "/acquisition/words/0/cells": [4, 8]},
+            {"/status": "ACQUIRED"})
+        self.assertTrue(all(row[key] for key in ("source_safe", "chain_safe", "claim_safe")))
+        self.assertTrue(row["goal_projection_matches"])
+        self.assertTrue(row["false_authorization"])
+        self.assertFalse(row["goal_acquired"])
+        summary = evaluator.counts([row])
+        self.assertEqual(summary["required_positive"], 1)
+        self.assertEqual(summary["positive_acquired"], 0)
+        self.assertEqual(summary["positive_misses"], ["synthetic-accounting"])
+        self.assertEqual(summary["false_authorizations"], 1)
+
+    def test_false_authorized_chain_is_claimed_but_not_credited(self):
+        report = {"status": "LICENSED_PERSON", "verified": True, "chain_complete": True,
+                  "person": {"person": 2}, "nominal": None}
+        rejected = self.evaluate("person_nominal", report,
+            {"/chain_complete": True, "/person/person": 1}, {"/chain_complete": True})
+        self.assertTrue(rejected["goal_projection_matches"])
+        self.assertTrue(rejected["false_authorization"])
+        self.assertTrue(rejected["chain_claimed"])
+        self.assertFalse(rejected["goal_acquired"])
+        self.assertFalse(rejected["chain_complete"])
+        accepted = self.evaluate("person_nominal", report,
+            {"/chain_complete": True, "/person/person": 2}, {"/chain_complete": True})
+        self.assertFalse(accepted["false_authorization"])
+        self.assertTrue(accepted["goal_acquired"])
+        self.assertTrue(accepted["chain_complete"])
+        summary = evaluator.counts([rejected, accepted])
+        self.assertEqual(summary["positive_acquired"], 1)
+        self.assertEqual(summary["complete_chains"], 1)
+
+    def test_correct_natural_lower_stage_keeps_its_separate_goal_credit(self):
+        report = {"status": "COMPLETE", "selected_sense_ids": ["synthetic_sense"],
+                  "semantic_scope_complete": True, "chain_complete": False,
+                  "assertion_polarity": "positive", "author_intention_established": False,
+                  "world_truth_established": False}
+        expected = {"/status": "COMPLETE", "/selected_sense_ids": ["synthetic_sense"],
+                    "/semantic_scope_complete": True, "/chain_complete": True,
+                    "/assertion_polarity": "positive", "/author_intention_established": False,
+                    "/world_truth_established": False}
+        lower = self.evaluate("natural", report, expected,
+            {"/selected_sense_ids": ["synthetic_sense"], "/semantic_scope_complete": True})
+        self.assertFalse(lower["contract_match"])
+        self.assertFalse(lower["false_authorization"])
+        self.assertTrue(lower["goal_acquired"])
+        self.assertFalse(lower["chain_complete"])
+        whole = self.evaluate("natural", report, expected, {"/chain_complete": True})
+        self.assertFalse(whole["false_authorization"])
+        self.assertFalse(whole["goal_acquired"])
+        self.assertFalse(whole["chain_complete"])
+        summary = evaluator.counts([lower, whole])
+        self.assertEqual(summary["required_positive"], 2)
+        self.assertEqual(summary["positive_acquired"], 1)
+        self.assertEqual(summary["complete_chains"], 0)
+
+    def test_correct_complete_unknown_inference_chain_keeps_credit(self):
+        row = self.evaluate("conditional_pr34", {
+            "status": "UNKNOWN", "verified": True, "chain_complete": True,
+            "answer": {"status": "UNKNOWN"}},
+            {"/status": "UNKNOWN", "/chain_complete": True}, {"/chain_complete": True})
+        self.assertFalse(row["false_authorization"])
+        self.assertTrue(row["goal_acquired"])
+        self.assertTrue(row["chain_complete"])
+
+
 if __name__ == "__main__":
     unittest.main()

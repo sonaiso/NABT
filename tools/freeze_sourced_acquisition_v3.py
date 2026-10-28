@@ -28,7 +28,8 @@ def build_freeze():
         if raw != guard.git("show", commit + ":" + name, binary=True):
             raise ValueError("runtime input differs from committed freeze: " + name)
         files[name] = evaluator.digest(raw)
-    for name, value in {**evaluator.PINS, evaluator.BOOTSTRAP_PATH: evaluator.BOOTSTRAP_SHA256,
+    for name, value in {**evaluator.PINS, **evaluator.REVIEW_PINS,
+                        evaluator.BOOTSTRAP_PATH: evaluator.BOOTSTRAP_SHA256,
                         guard.SPEC_PATH: guard.SPEC_SHA256,
                         guard.GOLD_PATH.relative_to(ROOT).as_posix(): guard.GOLD_SHA256}.items():
         if files.get(name) != value:
@@ -47,6 +48,7 @@ def build_freeze():
         raise ValueError("runtime inputs changed while freezing")
     return {"schema": evaluator.SCHEMA, "source_commit": evaluator.SOURCE_COMMIT,
         "matrix_commit": evaluator.MATRIX_COMMIT, "content_pins": evaluator.PINS,
+        "review_pins": evaluator.REVIEW_PINS, "oracle_review": evaluator.ORACLE_REVIEW,
         "bootstrap": {"path": evaluator.BOOTSTRAP_PATH, "sha256": evaluator.BOOTSTRAP_SHA256},
         "baseline": {"schema": "nabt.aligned-acquisition-code-freeze.v1", "commit": commit,
             "spec_sha256": guard.SPEC_SHA256,
