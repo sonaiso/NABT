@@ -43,3 +43,10 @@ evidence version and move all selectors together in
 integrations/current_proof_references.mk. Preserve historical references.
 Run aligned-acquisition-integration and the existing catalogue/inference gates;
 passing the acquisition-only job does not establish project-wide integration.
+
+The evaluator must bind the initial execution snapshot directly to validated
+source and native hashes before importing the runtime. Matching before/after
+snapshots alone is insufficient. Keep mutation tests for this boundary in the
+acquisition CI gate, and compare loaded Python source hashes with the same
+freeze. These checks detect sampled file changes; they do not claim atomic
+execution isolation from a concurrent adversarial writer.

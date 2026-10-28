@@ -20,6 +20,8 @@ Exposed replays retain the original matrix ID as historical evidence but do not
 claim that chronology: publication or squash merges may replace commit IDs.
 Both phases still require the fixed gold/spec content pins, exact committed
 runtime files, native build identity, and the same representation checks.
+The initial execution snapshot must itself match the validated freeze before
+runtime imports; equality between two snapshots is not evidence of that match.
 """
 from __future__ import annotations
 
@@ -451,8 +453,17 @@ def representation_gate(rows: list[dict], contract_passed: bool) -> dict:
 
 
 def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dict:
-    gold = load_gold(gold_path)
     before = snapshot(freeze, gold_path)
+    frozen_hashes = {**freeze["files"], **freeze["native"]}
+    initial_mismatches = sorted(name for name in set(frozen_hashes) | set(before["files"])
+                                if before["files"].get(name) != frozen_hashes.get(name))
+    if before["gold_sha256"] != GOLD_SHA256:
+        initial_mismatches.append("independent gold")
+    if phase == "first" and before["head"] != freeze["commit"]:
+        initial_mismatches.append("first-run HEAD")
+    if initial_mismatches:
+        raise ValueError("initial snapshot differs from validated freeze: " + ", ".join(initial_mismatches))
+    gold = load_gold(gold_path)
     sys.path[:0] = [str(ROOT), str(ROOT / "src")]
     acquisition = importlib.import_module("tools.aligned_acquisition")
     inference = importlib.import_module("tools.licensed_inference")
@@ -467,9 +478,12 @@ def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dic
         if path.suffix == ".py" and path.is_relative_to(ROOT):
             loaded[path.relative_to(ROOT).as_posix()] = digest(path.read_bytes())
     uncovered = sorted(name for name in loaded if name not in freeze["files"])
+    loaded_mismatches = sorted(name for name, actual_hash in loaded.items()
+                               if name in freeze["files"] and actual_hash != freeze["files"][name])
     changed = sorted(name for name in set(before["files"]) | set(after["files"])
                      if before["files"].get(name) != after["files"].get(name))
-    integrity = (before == after and not uncovered and freeze_evidence["native_matches_freeze"])
+    integrity = (before == after and not uncovered and not loaded_mismatches
+                 and freeze_evidence["native_matches_freeze"])
     families = {family: counts([row for row in rows if row["family"] == family])
                 for family in sorted({row["family"] for row in rows})}
     source_failures = [row["id"] for row in rows if row.get("observed", {}).get("verified")
@@ -483,7 +497,9 @@ def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dic
             "scope": "Finite independent-agent matrix; exposed after the first execution. Acquisition, shape, lexical reading, syntax, and inference are distinct claims.",
             "summary": counts(rows), "families": families,
             "execution_evidence": {**freeze_evidence, "before": before, "after": after,
+                "initial_snapshot_matches_freeze": True,
                 "loaded_repository_python": loaded, "uncovered_modules": uncovered,
+                "loaded_hash_mismatches": loaded_mismatches,
                 "changed_files": changed, "integrity_valid": integrity,
                 "python": sys.version, "platform": platform.platform()},
             "contract_gate": {"passed": contract_passed,
