@@ -1,0 +1,9 @@
+{
+  "code_commit": "3d42187e7491e6e74ce89d8f2792efe40ce7d5f8",
+  "probe": "JSON integer with 5000 decimal digits",
+  "source_bytes": 5006,
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/7802d128cb40/nabt_build/tools/entropy_framework/__main__.py\", line 37, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/scratch/7802d128cb40/nabt_build/tools/entropy_framework/__main__.py\", line 24, in main\n    result = measure_candidates(load_json(args.input))\n                                ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7802d128cb40/nabt_build/tools/entropy_framework/registry.py\", line 93, in load_json\n    result = json.loads(raw.decode(\"utf-8\", errors=\"strict\"), object_pairs_hook=pairs,\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py\", line 359, in loads\n    return cls(**kw).decode(s)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 354, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ^^^^^^^^^^^^^^^^^^^^^^\nValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit\n",
+  "scope": "Pre-repair diagnostic reproduction; not a linguistic acceptance case"
+}
