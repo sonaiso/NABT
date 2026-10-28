@@ -1514,7 +1514,17 @@ def theoremManifest : List Name := [
   ``Nabt.AlignedAcquisition.emitted_cells_bounded,
   ``Nabt.AlignedAcquisition.handoff_complete,
   ``Nabt.AlignedAcquisition.verified_binding,
-  ``Nabt.AlignedAcquisition.checkedHandoff_sound
+  ``Nabt.AlignedAcquisition.checkedHandoff_sound,
+  ``Nabt.AlignedAcquisitionV2.acquire_spans,
+  ``Nabt.AlignedAcquisitionV2.acquire_restores_source,
+  ``Nabt.AlignedAcquisitionV2.acquire_offsets_contiguous,
+  ``Nabt.AlignedAcquisitionV2.acquired_no_pending,
+  ``Nabt.AlignedAcquisitionV2.licensed_override_has_finite_witness,
+  ``Nabt.AlignedAcquisitionV2.article_onset_cells,
+  ``Nabt.AlignedAcquisitionV2.verified_binding,
+  ``Nabt.AlignedAcquisitionV2.connected_no_handoff,
+  ``Nabt.AlignedAcquisitionV2.checkedHandoff_sound,
+  ``Nabt.AlignedAcquisitionV2.silent_initial_rejected
 ]
 
 run_cmd do
