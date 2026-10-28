@@ -182,3 +182,12 @@ source independence and N6-b remain open. T11 preparation contains existing
 source/designation projections, not new usage judgments or a 120-case matrix.
 The historical src/ tree and original Makefile remain unchanged. All seven
 current proof/source selectors now point to evidence/evidence_lifecycle_v1/integration.
+
+Preserve the eight failed CI checks on d9ce75b and the environment repair in
+validation/ci_repair_692c3a4.zip. Python-only discovery may skip absent native
+boundaries, but the dedicated lifecycle conformance recipe explicitly sets
+NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE=1 and must fail if native is absent.
+Inventory-schema tests use current HEAD in shallow checkouts; production
+first-execution chronology remains mandatory. The repair's 54 native tests
+and shallow Python-only 2,658 tests (197 skips) are separate from first-run
+counts. Require all checks on the final published head before merging.

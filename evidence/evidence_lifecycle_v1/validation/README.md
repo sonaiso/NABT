@@ -14,6 +14,13 @@
   2,890 tests with 55 documented skips; no new lifecycle test was skipped.
   Post-measurement framework conformance on `57f80e6` is identified separately.
   Exact-head remote CI is a separate prerequisite, not inferred from this log.
+- `ci_repair_692c3a4.zip` and `ci_repair_observations.json`: the eight failed
+  checks on `d9ce75b`, both original acquisition artifacts, and local validation
+  of the test-profile repair. Native-required conformance passes 54 tests with
+  no skips. A genuinely shallow Python-only checkout passes 2,461 of 2,658
+  tests with 197 explicit skips. A missing-native negative control fails the
+  dedicated gate before freeze. Kernel, runtime, evaluator and gold are unchanged;
+  neither failed acquisition job reached lifecycle freezing or the forty cases.
 
 Each ZIP has an `archive_manifest.json` with byte counts and SHA-256 digests.
 Only the lifecycle matrix is first execution in the successful archive; the
