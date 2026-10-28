@@ -113,6 +113,20 @@ class AlignedAcquisitionEvaluatorTests(unittest.TestCase):
         self.assertFalse(evidence["native_matches_freeze"])
         self.assert_initial_rejected(freeze, evidence, "exposed")
 
+    def test_native_map_cannot_override_a_validated_source_hash(self):
+        freeze, evidence = self.validated("exposed")
+        replacement = b"# conflicting native entry\n"
+        freeze["native"][self.source] = evaluator.digest(replacement)
+        (self.root / self.source).write_bytes(replacement)
+        self.assert_initial_rejected(freeze, evidence, "exposed")
+
+    def test_freeze_rejects_source_native_overlap_in_both_phases(self):
+        self.freeze["native"][self.source] = self.freeze["files"][self.source]
+        self.manifest.write_text(json.dumps(self.freeze))
+        for phase in ("first", "exposed"):
+            with self.subTest(phase=phase), self.assertRaisesRegex(ValueError, "must not overlap"):
+                self.validated(phase)
+
     def test_gold_changed_after_validation_is_rejected_before_import(self):
         freeze, evidence = self.validated()
         self.gold.write_bytes(b'{"replacement": true}\n')

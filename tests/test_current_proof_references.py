@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import unittest
 
@@ -52,10 +53,15 @@ class CurrentProofReferencesTests(unittest.TestCase):
                 command.extend(gates[name][0] for name in names)
                 result = subprocess.run(command, cwd=ROOT, env=env, capture_output=True,
                                         text=True, check=True, timeout=30)
+                references = []
+                for line in result.stdout.splitlines():
+                    tokens = shlex.split(line)
+                    references.extend(tokens[i + 1] for i, token in enumerate(tokens[:-1])
+                                      if token == "--check")
                 for name in names:
                     for snapshot in gates[name][1]:
                         relative = (CURRENT / (snapshot + ".json")).relative_to(ROOT).as_posix()
-                        self.assertIn("--check " + relative, result.stdout)
+                        self.assertIn(relative, references)
 
     def test_existing_inference_contracts_remain_resolvable_after_acquisition(self):
         compiled = json.loads((CURRENT / "proof_catalog.json").read_text())

@@ -27,9 +27,14 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
 import importlib
+from importlib.abc import Loader, MetaPathFinder
+from importlib.machinery import ModuleSpec
+from importlib.resources.abc import TraversableResources
+from importlib.util import spec_from_file_location
 import json
 import os
 from pathlib import Path
@@ -174,6 +179,8 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
     files, native = freeze.get("files"), freeze.get("native")
     if type(files) is not dict or not files or type(native) is not dict or not native:
         raise ValueError("code freeze requires tracked files and local native hashes")
+    if set(files) & set(native):
+        raise ValueError("source and native freeze paths must not overlap")
     required = {"tools/aligned_acquisition.py", "tools/evaluate_aligned_acquisition.py",
                 "evidence/aligned_acquisition_v1/source_evidence.json",
                 SPEC_PATH, INFERENCE_SOURCE_PATH}
@@ -229,6 +236,117 @@ def snapshot(freeze: dict, gold_path: Path) -> dict:
     return {"files": {name: digest(local_path(name).read_bytes())
                        if local_path(name).is_file() else None for name in sorted(paths)},
             "gold_sha256": digest(gold_path.read_bytes()), "head": git("rev-parse", "HEAD")}
+
+
+def runtime_module(name: str) -> bool:
+    return name in {"tools", "nabt"} or name.startswith(("tools.", "nabt."))
+
+
+class FrozenPackageResources(TraversableResources):
+    """Preserve repository package-data access for the existing NABT readers."""
+    def __init__(self, directory: Path):
+        self.directory = directory
+
+    def files(self):
+        return self.directory
+
+
+class FrozenSourceLoader(Loader):
+    """Compile the checked bytes directly; never read or write a .pyc file."""
+    def __init__(self, owner, relative: str | None, directory: Path | None):
+        self.owner, self.relative, self.directory = owner, relative, directory
+
+    def create_module(self, spec):
+        return None
+
+    def get_resource_reader(self, fullname):
+        return FrozenPackageResources(self.directory) if self.directory is not None else None
+
+    def exec_module(self, module):
+        if self.relative is None:
+            return  # A repository-owned namespace, with no executable initializer.
+        path = local_path(self.relative)
+        raw = path.read_bytes()
+        if digest(raw) != self.owner.files[self.relative]:
+            raise ImportError("runtime source differs from validated freeze: " + self.relative)
+        code = compile(raw, str(path), "exec", dont_inherit=True)
+        self.owner.executed[self.relative] = digest(raw)
+        exec(code, module.__dict__)
+
+
+class FrozenSourceFinder(MetaPathFinder):
+    """Own tools/nabt imports, including packages, without ambient fallback."""
+    def __init__(self, files: dict):
+        self.files = files
+        self.executed = {}
+        self.loaders = {}
+
+    def find_spec(self, fullname, path=None, target=None):
+        if not runtime_module(fullname):
+            return None
+        base = ("src/" if fullname.split(".")[0] == "nabt" else "") + fullname.replace(".", "/")
+        package, source = base + "/__init__.py", base + ".py"
+        if package in self.files:
+            relative, directory = package, local_path(base)
+        elif source in self.files:
+            relative, directory = source, None
+        elif any(name.startswith(base + "/") and name.endswith(".py") for name in self.files):
+            relative, directory = None, local_path(base)
+            # Never silently turn an unlisted initializer into a namespace.
+            if (directory / "__init__.py").exists():
+                raise ImportError("unfrozen package initializer: " + package)
+        else:
+            raise ModuleNotFoundError("runtime module absent from validated freeze: " + fullname)
+        loader = FrozenSourceLoader(self, relative, directory)
+        self.loaders[fullname] = loader
+        if relative is None:
+            spec = ModuleSpec(fullname, loader, is_package=True)
+            spec.submodule_search_locations = [str(directory)]
+            return spec
+        return spec_from_file_location(fullname, local_path(relative), loader=loader,
+            submodule_search_locations=[str(directory)] if directory is not None else None)
+
+    def audit_origins(self):
+        for name, module in tuple(sys.modules.items()):
+            if not runtime_module(name):
+                continue
+            loader = self.loaders.get(name)
+            spec = getattr(module, "__spec__", None)
+            if loader is None or spec is None or spec.loader is not loader:
+                raise ImportError("runtime module was not loaded from frozen source: " + name)
+            expected_file = str(local_path(loader.relative)) if loader.relative else None
+            if getattr(module, "__file__", None) != expected_file or spec.origin != expected_file:
+                raise ImportError("runtime module origin changed: " + name)
+            expected_path = [str(loader.directory)] if loader.directory is not None else None
+            actual_path = getattr(module, "__path__", None)
+            if (list(actual_path) if actual_path is not None else None) != expected_path:
+                raise ImportError("runtime package path changed: " + name)
+
+
+@contextmanager
+def frozen_runtime(freeze: dict):
+    """Fresh, source-only repository imports for this single-threaded evaluator.
+
+Quarantine all preloaded tools/nabt modules: a matching __file__ cannot prove
+what code an existing module object executed. Restore the caller's cache only
+after evaluation, including on error. The interpreter/stdlib remain trusted.
+"""
+    previous = {name: module for name, module in tuple(sys.modules.items()) if runtime_module(name)}
+    previous_path = sys.path[:]
+    for name in previous:
+        del sys.modules[name]
+    finder = FrozenSourceFinder(freeze["files"])
+    sys.meta_path.insert(0, finder)
+    try:
+        yield finder
+        finder.audit_origins()
+    finally:
+        sys.meta_path.remove(finder)
+        for name in tuple(sys.modules):
+            if runtime_module(name):
+                del sys.modules[name]
+        sys.modules.update(previous)
+        sys.path[:] = previous_path
 
 
 def source_checks(acquisition: Any, text: str, source_id: str, ending: str) -> dict:
@@ -454,9 +572,9 @@ def representation_gate(rows: list[dict], contract_passed: bool) -> dict:
 
 def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dict:
     before = snapshot(freeze, gold_path)
-    frozen_hashes = {**freeze["files"], **freeze["native"]}
-    initial_mismatches = sorted(name for name in set(frozen_hashes) | set(before["files"])
-                                if before["files"].get(name) != frozen_hashes.get(name))
+    initial_mismatches = sorted({name for hashes in (freeze["files"], freeze["native"])
+                                for name, expected in hashes.items()
+                                if before["files"].get(name) != expected})
     if before["gold_sha256"] != GOLD_SHA256:
         initial_mismatches.append("independent gold")
     if phase == "first" and before["head"] != freeze["commit"]:
@@ -464,19 +582,19 @@ def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dic
     if initial_mismatches:
         raise ValueError("initial snapshot differs from validated freeze: " + ", ".join(initial_mismatches))
     gold = load_gold(gold_path)
-    sys.path[:0] = [str(ROOT), str(ROOT / "src")]
-    acquisition = importlib.import_module("tools.aligned_acquisition")
-    inference = importlib.import_module("tools.licensed_inference")
-    rows = [evaluate_case(case, acquisition.read_acquired, inference.evaluate) for case in gold["cases"]]
-    after = snapshot(freeze, gold_path)
-    loaded = {}
-    for module in tuple(sys.modules.values()):
-        module_file = getattr(module, "__file__", None)
-        if not module_file:
-            continue
-        path = Path(module_file).resolve()
-        if path.suffix == ".py" and path.is_relative_to(ROOT):
-            loaded[path.relative_to(ROOT).as_posix()] = digest(path.read_bytes())
+    with frozen_runtime(freeze) as imports:
+        acquisition = importlib.import_module("tools.aligned_acquisition")
+        inference = importlib.import_module("tools.licensed_inference")
+        rows = [evaluate_case(case, acquisition.read_acquired, inference.evaluate) for case in gold["cases"]]
+        after = snapshot(freeze, gold_path)
+        loaded = {}
+        for module in tuple(sys.modules.values()):
+            module_file = getattr(module, "__file__", None)
+            if not module_file:
+                continue
+            path = Path(module_file).resolve()
+            if path.suffix == ".py" and path.is_relative_to(ROOT):
+                loaded[path.relative_to(ROOT).as_posix()] = digest(path.read_bytes())
     uncovered = sorted(name for name in loaded if name not in freeze["files"])
     loaded_mismatches = sorted(name for name, actual_hash in loaded.items()
                                if name in freeze["files"] and actual_hash != freeze["files"][name])
@@ -498,6 +616,8 @@ def run(gold_path: Path, freeze: dict, freeze_evidence: dict, phase: str) -> dic
             "summary": counts(rows), "families": families,
             "execution_evidence": {**freeze_evidence, "before": before, "after": after,
                 "initial_snapshot_matches_freeze": True,
+                "runtime_import_policy": "fresh-frozen-source-only.v1",
+                "executed_repository_python": imports.executed,
                 "loaded_repository_python": loaded, "uncovered_modules": uncovered,
                 "loaded_hash_mismatches": loaded_mismatches,
                 "changed_files": changed, "integrity_valid": integrity,
