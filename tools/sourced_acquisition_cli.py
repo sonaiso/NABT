@@ -35,7 +35,8 @@ def main(argv=None):
         result = {key: value for key, value in result.items() if key in keys}
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
     return 2 if result.get("status") in {"INVALID_INPUT", "RESOURCE_EXHAUSTED", "VERIFICATION_FAILED",
-        "VERIFICATION_UNAVAILABLE", "SOURCE_UNAVAILABLE", "SOURCE_EVIDENCE_UNAVAILABLE"} else 0
+        "VERIFICATION_UNAVAILABLE", "SOURCE_UNAVAILABLE", "SOURCE_EVIDENCE_UNAVAILABLE",
+        "SHAPE_CHECK_FAILED"} else 0
 
 
 if __name__ == "__main__":
