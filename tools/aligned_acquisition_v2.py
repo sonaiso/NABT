@@ -110,6 +110,9 @@ def _native(request):
         if output_path.stat().st_size > MAX_REPORT_BYTES:
             raise OverflowError("native response byte budget")
         response = _load(output_path.read_bytes())
+    if (result.returncode == 2 and type(response) is dict and
+            _wire(response) == _wire(_failure("RESOURCE_EXHAUSTED", "RESOURCE_LIMIT"))):
+        raise OverflowError("native acquisition resource limit")
     if result.returncode != 0 or type(response) is not dict:
         raise ValueError("native transport rejected the valid proposal input")
     return response

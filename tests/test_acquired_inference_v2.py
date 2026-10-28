@@ -40,6 +40,21 @@ class ArticleCompositeInputTests(unittest.TestCase):
         object.__setattr__(budget, "max_readings", True)
         self.assertEqual(bridge.evaluate(SOURCE, QUERY, budget=budget)["status"], "INVALID_INPUT")
 
+    def test_invalid_endings_produce_unbound_serializable_failures(self):
+        invalid = (None, True, 1, [], {}, b"wasl", object(), "", "connected", "\ud800")
+        with patch.object(acquisition, "read_acquired") as acquire_call, \
+                patch.object(inference, "evaluate") as inference_call:
+            for key in ("source_ending", "query_ending"):
+                for value in invalid:
+                    with self.subTest(key=key, value=repr(value)):
+                        result = bridge.evaluate(SOURCE, QUERY, **{**BINDING, key: value})
+                        self.assertEqual(result["status"], "INVALID_INPUT")
+                        self.assertFalse(result["chain_complete"])
+                        self.assertNotIn("binding", result)
+                        json.dumps(result, ensure_ascii=False, allow_nan=False).encode("utf-8", "strict")
+        acquire_call.assert_not_called()
+        inference_call.assert_not_called()
+
     def test_missing_v2_native_never_inherits_pr34_authority(self):
         with patch.object(acquisition, "_native", side_effect=FileNotFoundError), \
                 patch.object(inference, "evaluate") as call:

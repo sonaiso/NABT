@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -137,6 +138,30 @@ class ArticleProposalTests(unittest.TestCase):
                 report = aa.acquire("الْحَقَّ")
             self.assertEqual(report["status"], "VERIFICATION_FAILED", mutation)
             self.assertFalse(report["verified"])
+
+    def test_only_exact_native_resource_failure_keeps_resource_status(self):
+        failure = aa._failure("RESOURCE_EXHAUSTED", "RESOURCE_LIMIT")
+        cases = [(failure, 2, "RESOURCE_EXHAUSTED")]
+        for key, value in (("law_id", v1.LAW_ID), ("alphabet_id", "other"),
+                           ("status", "INVALID_INPUT"), ("error", "OTHER"),
+                           ("verified", True), ("status", True)):
+            cases.append(({**failure, key: value}, 2, "VERIFICATION_FAILED"))
+        cases.extend((failure, code, "VERIFICATION_FAILED") for code in (0, 1, -9))
+        cases.append(({key: value for key, value in failure.items() if key != "law_id"},
+                      2, "VERIFICATION_FAILED"))
+        for response, code, expected in cases:
+            with self.subTest(response=response, code=code):
+                def transport(*args, **kwargs):
+                    kwargs["stdout"].write(aa._wire(response).encode("utf-8"))
+                    return SimpleNamespace(returncode=code)
+                # The stub exercises the real bounded JSON transport path; this
+                # existing file satisfies the installed-path presence guard only.
+                with patch.object(aa, "_NATIVE_PATH", Path(__file__)), \
+                        patch.object(aa.subprocess, "run", side_effect=transport):
+                    report = aa.acquire("الْحَقَّ")
+                self.assertEqual(report["status"], expected)
+                self.assertFalse(report["verified"])
+                self.assertEqual(report["authority"], "UNVERIFIED_PROPOSAL")
 
     def test_pins_cover_base_and_additive_evidence(self):
         inventory = aa.source_inventory()

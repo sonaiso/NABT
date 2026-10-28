@@ -28,6 +28,9 @@ def evaluate(source, query, *, source_id="input", revision="1", scope="default",
     try:
         for value in (source_id, revision, scope, time):
             v1._metadata(value)
+        for ending in (source_ending, query_ending):
+            if type(ending) is not str or ending not in ("wasl", "waqf"):
+                raise ValueError("invalid ending")
         if type(onset) is not str or onset not in ("word_initial", "connected"):
             raise ValueError("invalid onset")
         if budget is None:
