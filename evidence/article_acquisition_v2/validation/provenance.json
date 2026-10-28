@@ -1,0 +1,68 @@
+{
+  "schema": "nabt.article-acquisition-validation-provenance.v2",
+  "specification_commit": "6981674d2162c4b251d79a5a585742171e648725",
+  "independent_matrix_commit": "5b9ad2faa958aacf971454eff500a74d2dbeb800",
+  "implementation_commit": "25050281dcb585edbbab367fe28873245a46646f",
+  "attempts": [
+    {
+      "path": "native-gates.log",
+      "outcome": "pre-evaluation integration failure",
+      "reason": "Audit.lean still held 1504 declarations while manifest contained 1514; repaired without reading gold."
+    },
+    {
+      "path": "first-ready",
+      "effective_phase": "first",
+      "raw_phase": "first",
+      "outcome": "passed",
+      "raw_result_sha256": "3ebd901054ff475a74935a7f809a350b0525badf8e0e28ff255fb3fac034a77e",
+      "initial_snapshot_matches_freeze": true,
+      "final_snapshot_matches": true
+    },
+    {
+      "path": "first-final",
+      "effective_phase": "exposed",
+      "raw_phase": "first",
+      "outcome": "passed",
+      "reason": "Redundant pipeline started before the first completion was observed. Its accidental first flag is retained, not treated as independent evidence.",
+      "raw_result_sha256": "45db14e344d72cc6ea1acd5152f2a2994bfe846e1602bd3f31928d59e20c9794"
+    }
+  ],
+  "files": {
+    "code_entropy.json.gz": {
+      "bytes": 105860,
+      "sha256": "7eb21cc4981ed6d87fc8e126b677f864c894d6c902060a32e6706b248071c075"
+    },
+    "environment.json": {
+      "bytes": 1523,
+      "sha256": "e4bdaa65ee0765dce8a479d9a4e597a9d068ec74d16b8cae871363dd7fb454c0"
+    },
+    "execution_logs.zip": {
+      "bytes": 195720,
+      "sha256": "3c668ad73970d1ee9c4bdaa34f2fabae0dd9ba44b5a8aae234218629a00385d8"
+    },
+    "first_freeze.json": {
+      "bytes": 73398,
+      "sha256": "46e92b3aa0576f514cde3fb84b55a865a67d197131cf0f02c8697c6317cb6274"
+    },
+    "first_result.json.gz": {
+      "bytes": 456833,
+      "sha256": "950bcc42f71bc8e400edbd9ac6d030916eaa9505b02ef425d87fd3d8ce74e2e6"
+    },
+    "gate_reports.zip": {
+      "bytes": 1672043,
+      "sha256": "f43efc6149cb16a43e7109ac381e2e56070b0fa035f332a2df918bea1f817bf3"
+    },
+    "replay_freeze.json": {
+      "bytes": 73398,
+      "sha256": "46e92b3aa0576f514cde3fb84b55a865a67d197131cf0f02c8697c6317cb6274"
+    },
+    "replay_result.json.gz": {
+      "bytes": 456830,
+      "sha256": "974e45a5a4bfead375c6aceaa42b800cddd07bd0233b3874e0b1f98fea23da38"
+    },
+    "summary.json": {
+      "bytes": 13635,
+      "sha256": "376045f0823d5f478c1abe6f4724cce72cf49c2c5a803fb751b2390c7130e37e"
+    }
+  }
+}

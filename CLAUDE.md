@@ -65,7 +65,30 @@ core-to-tooling boundary is enforced; existing core SCCs are reported separately
 
 Use one freeze-inventory policy in producer and verifier. Native readiness,
 conformance and integration precede freezing/evaluation. Keep empirical coverage
-debts visible in docs/STRATEGIC_COHERENCE_AR.md: the current conditional language
-requires الحق, which acquisition v1 defers at its initial alif. A future bridge
-needs a sourced versioned law and a fresh preimplementation matrix; this audit
-does not implement that law or certify nominal/person acquisition.
+debts visible in docs/STRATEGIC_COHERENCE_AR.md: the conditional language
+requires الحق, which acquisition v1 still defers at its initial alif. The v2
+bridge below implements a separate sourced law with a preimplementation matrix;
+the historical entropy audit itself did not implement that law or certify
+nominal/person acquisition.
+
+Article acquisition v2 follows docs/ARTICLE_ACQUISITION_V2_SPEC.md. Its source
+scope was frozen in 6981674 and its independent 89-case matrix in 5b9ad2f before
+implementation. Preserve those contents and the first result. Only the three
+complete finite readings ARTICLE_HAQQ/QAWM/GHULAM can supply citation-onset
+hamza+fatha; an alif-lam prefix alone is ambiguous with imperatives. Stem marks
+are required input. Onset word_initial is independent of ending wasl/waqf;
+connected onset remains deferred. Never change original input for PR 34 or
+promote a nested inference into a complete composite when acquisition/shape
+or source identity is missing. Keep v1 outcomes and new measurements separate.
+
+The first v2 result on 2505028 is preserved in
+evidence/article_acquisition_v2/validation: 89/89 representation outcomes,
+87/87 independent source-cell comparisons (including partial/empty arrays),
+19/25 positive acquisition goals, 21/21 conditional contracts, 13 complete
+chains, and 8/12 required positive conditional goals. All 24 person/nominal
+goals remain unmeasured, including 20 positive misses. No observed false
+licenses/chains/supports is a finite result, not grammar certification.
+The fifth raw conditional MISS is the correctly expected nonpositive CONFLICT
+control; it is separate from four positive coverage misses. A redundant run
+retains an accidental first flag and is documented as exposed replay, not
+additional independent evidence. Preserve raw results and this distinction.

@@ -42,8 +42,10 @@ is preferred as canonical; otherwise a documented lexical tie break is used.
 The historical `evidence/grammar_catalog_v1/proof_catalog.json` snapshot contains
 1,372 advertised declarations and 1,369 distinct normalized statement ASTs.
 The current reference selected by `integrations/current_proof_references.mk`
-is `evidence/aligned_acquisition_v1/integration/proof_catalog.json`: 1,504
-declarations and 1,501 statement groups as of 2026-10-28. The selector, rather
+is `evidence/article_acquisition_v2/integration/proof_catalog.json`: 1,514
+declarations and 1,511 statement groups as of 2026-10-28. The preceding
+`evidence/aligned_acquisition_v1/integration/proof_catalog.json` retains its
+1,504 declarations and 1,501 groups as historical evidence. The selector, rather
 than this dated count, identifies the current snapshot. All dependent source
 link references move together when a new evidence version is introduced;
 historical snapshots remain unchanged. Both snapshots retain these three

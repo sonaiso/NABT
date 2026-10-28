@@ -1,0 +1,2892 @@
+{
+  "schema": "nabt.article-acquisition-gold.v1",
+  "authorship": {
+    "role": "INDEPENDENT_PREIMPLEMENTATION_MATRIX_AUTHOR",
+    "contract_source_commit": "6981674d2162c4b251d79a5a585742171e648725",
+    "repository_base": "ddf92947dd84172f7200ce3b3041287b9031e150",
+    "alphabet_id": "nabt.a116.v1",
+    "law_id": "nabt.aligned-acquisition.v2",
+    "source_registry_sha256": "d5d348e17fd3f34eaa69e5a031956972860dd8dbf3eee25674a265ee4578543c",
+    "new_implementation_read": false,
+    "producer_or_runtime_executed": false,
+    "reviewed_input_sha256": {
+      "AGENTS.md": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b",
+      "CLAUDE.md": "e022fb628adee4fae8ce1cb9bc3c91ed2bdd3886535aa018b720b9472aa03aa7",
+      "docs/ARTICLE_ACQUISITION_V2_SPEC.md": "48d2c5aa8887a44924e0561d7168d662d071cb940956fcdefbb3bee30173fb71",
+      "evidence/article_acquisition_v2/source_evidence.json": "d5d348e17fd3f34eaa69e5a031956972860dd8dbf3eee25674a265ee4578543c",
+      "docs/ACQUISITION_READER_SPEC.md": "5f8dda47209169b9e3995fc44e3da0bcf1bfc3580fa74a6dbe2afe4cf7687b7f",
+      "docs/ACQUIRED_INFERENCE_CONTRACT.md": "14e21ad54faac8480ff38611782c286403d1195bc88d916824cf93da030d0901",
+      "docs/ALIGNED_ACQUISITION_SOURCES_AR.md": "089e69e6253e196bc6e67dce9b0f00404d9f47e4e4215bb9c3fd3ca49065c6e3",
+      "docs/LICENSED_INFERENCE_AR.md": "31eb797e28f6c732a98da1bb3c647fe8228f26a99203f4427a56aaaaff2461ce",
+      "docs/LICENSED_INFERENCE_SOURCES_AR.md": "9c99d70cb2cd8a5ae47f70b384c2627980e5e9b4578da027b5cd51cd3dcf310f",
+      "formal/Nabt/Cell.lean": "43a0651ccf01136c179d11c79ed41905201e5a78a6b0cd31e34521bb31edbf3d",
+      "src/nabt/alphabet.py": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+      "formal/Nabt/LicensedInference.lean": "f23a995b6977a9a856bdb38c596438deb177af0bca4eec1dced7a6086aa3368e",
+      "formal/Nabt/Law.lean": "08372b61bde5904922948ee8a98d027e682c08259056f4b16b897d5d9322850a",
+      "formal/Nabt/Transition.lean": "a36ccc129c35f1fec7bbad0f68972acbffdf0e364b414394bdcac28ed1a9ed00"
+    }
+  },
+  "method": {
+    "independence": "Authored after the contract/source freeze and before any new runtime, native implementation, or evaluator. No new implementation was read and no acquisition/inference runtime was executed.",
+    "cell_derivation": "Hand-derived literal complete-word arrays using the declared carrier order and cell=4*index+state; literal word arrays reused in authored clause sequences. No classifier, source-normalizer, transition simulator, or runtime oracle generated expected cells.",
+    "conditional_derivation": "Existing PR34 finite generative token grammar, signed forward rules, and explicit shape law were read as specifications. Query spelling remains exact; raw mark-order and U+0671 acquisition variants do not enter PR34 automatically.",
+    "coverage": "Every finite stem has all three explicit ordinary ending vowels under wasl and waqf, and each stem has a connected-onset contrast under both endings. Initial scalar/mark conventions and both haqq shadda/vowel orders occur. This is preimplementation independence over known finite vocabulary, not a fresh held-out lexicon.",
+    "goal_policy": "Positive acquisition goals include finite connected-onset representations still required but unimplemented. Positive person/nominal requirements remain UNMEASURED and coverage misses. Positive conditional goals include known supported readings blocked by connected acquisition or exact PR34 spelling coverage; they remain misses unless the full chain supports the exact query.",
+    "negative_policy": "Ambiguous/out-of-registry malformed article inputs are counterexample controls. Missing/negated premises, changed subjects, quotation, unresolved references, conflict, and altered active/passive marks must not yield unwarranted supported chains.",
+    "boundary_policy": "Type, resource, source-id/revision/scope/time binding, missing native checker, source inventory, and receipt mutation tests are separate boundary tests and do not inflate these linguistic denominators.",
+    "measurement_limits": "Person/category and nominal syntax have no implemented evaluator; neither representations nor cell equality establish those goals. Source hashes identify retained evidence, not semantic truth. First execution must be retained, including failures; repairs are exposed replay, never relabeling."
+  },
+  "cases": [
+    {
+      "id": "o_haqq_0_wasl",
+      "family": "orthography",
+      "text": "الْحَقَّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_0_waqf",
+      "family": "orthography",
+      "text": "الْحَقَّ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            83
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_1_wasl",
+      "family": "orthography",
+      "text": "ٱلْحَقُّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            81
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_1_waqf",
+      "family": "orthography",
+      "text": "ٱلْحَقُّ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            83
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_2_wasl",
+      "family": "orthography",
+      "text": "اَلْحَقِّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            82
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_2_waqf",
+      "family": "orthography",
+      "text": "اَلْحَقِّ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            83
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_connected_wasl",
+      "family": "orthography",
+      "text": "ٱلْحَقُّ",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_haqq_connected_waqf",
+      "family": "orthography",
+      "text": "ٱلْحَقُّ",
+      "ending": "waqf",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_0_wasl",
+      "family": "orthography",
+      "text": "ٱَلْقَوْمَ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            92
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_0_waqf",
+      "family": "orthography",
+      "text": "ٱَلْقَوْمَ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_1_wasl",
+      "family": "orthography",
+      "text": "الْقَوْمُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            93
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_1_waqf",
+      "family": "orthography",
+      "text": "الْقَوْمُ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_2_wasl",
+      "family": "orthography",
+      "text": "ٱلْقَوْمِ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            94
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_2_waqf",
+      "family": "orthography",
+      "text": "ٱلْقَوْمِ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_connected_wasl",
+      "family": "orthography",
+      "text": "الْقَوْمُ",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_qawm_connected_waqf",
+      "family": "orthography",
+      "text": "الْقَوْمُ",
+      "ending": "waqf",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_0_wasl",
+      "family": "orthography",
+      "text": "اَلْغُلَامَ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            92
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_0_waqf",
+      "family": "orthography",
+      "text": "اَلْغُلَامَ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_1_wasl",
+      "family": "orthography",
+      "text": "ٱَلْغُلَامُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            93
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_1_waqf",
+      "family": "orthography",
+      "text": "ٱَلْغُلَامُ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_2_wasl",
+      "family": "orthography",
+      "text": "الْغُلَامِ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            94
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_2_waqf",
+      "family": "orthography",
+      "text": "الْغُلَامِ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_connected_wasl",
+      "family": "orthography",
+      "text": "ٱَلْغُلَامُ",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_ghulam_connected_waqf",
+      "family": "orthography",
+      "text": "ٱَلْغُلَامُ",
+      "ending": "waqf",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "o_imperative",
+      "family": "orthography",
+      "text": "الْعَبْ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_imperative_wasla",
+      "family": "orthography",
+      "text": "ٱلْعَبْ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_weak_imperative",
+      "family": "orthography",
+      "text": "الْقَ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_lam_missing_sukun",
+      "family": "orthography",
+      "text": "الحَقَّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_terminal_missing_vowel",
+      "family": "orthography",
+      "text": "الْحَقّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_haqq_missing_shadda",
+      "family": "orthography",
+      "text": "الْحَقَ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_haqq_changed_internal",
+      "family": "orthography",
+      "text": "الْحُقَّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_initial_kasra",
+      "family": "orthography",
+      "text": "اِلْحَقَّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_terminal_sukun",
+      "family": "orthography",
+      "text": "الْقَوْمْ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_terminal_tanwin",
+      "family": "orthography",
+      "text": "الْقَوْمٌ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_waw_missing_sukun",
+      "family": "orthography",
+      "text": "الْقَومُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_marked_medial_alif",
+      "family": "orthography",
+      "text": "الْغُلَاْمُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_duplicate_vowel",
+      "family": "orthography",
+      "text": "الْحَقََّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "INVALID_INPUT",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_shadda_sukun",
+      "family": "orthography",
+      "text": "الْحَقّْ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "INVALID_INPUT",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_dagger_conflict",
+      "family": "orthography",
+      "text": "اُٰلْحَقَّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "INVALID_INPUT",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_unlisted_moon_word",
+      "family": "orthography",
+      "text": "الْبَيْتُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_sun_word",
+      "family": "orthography",
+      "text": "الشَّمْسُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_duplicate_shadda_connected",
+      "family": "orthography",
+      "text": "ٱلْحَقَّّ",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "INVALID_INPUT",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_clitic_prefix",
+      "family": "orthography",
+      "text": "بِالْحَقِّ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER"
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": false
+      }
+    },
+    {
+      "id": "o_boundaries_final_pause",
+      "family": "orthography",
+      "text": "«الْحَقُّ»،\tالْقَوْمُ.\nالْغُلَامُ؟",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            81
+          ],
+          [
+            112,
+            91,
+            80,
+            107,
+            93
+          ],
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            95
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "acquisition",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_first_person",
+      "family": "person_category",
+      "text": "قُمْتُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            81,
+            95,
+            9
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_second_masculine",
+      "family": "person_category",
+      "text": "قُمْتَ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            81,
+            95,
+            8
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_second_feminine",
+      "family": "person_category",
+      "text": "قُمْتِ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            81,
+            95,
+            10
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_first_person_pause",
+      "family": "person_category",
+      "text": "قُمْتُ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            81,
+            95,
+            11
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_feminine_pause",
+      "family": "person_category",
+      "text": "قُمْتِ",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            81,
+            95,
+            11
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_hama_maqsura",
+      "family": "person_category",
+      "text": "حَمَى",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            20,
+            92,
+            3
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_hamiya",
+      "family": "person_category",
+      "text": "حَمِيَ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            20,
+            94,
+            108
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_hama_alif",
+      "family": "person_category",
+      "text": "حَمَا",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            20,
+            92,
+            3
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_ghulam_category",
+      "family": "person_category",
+      "text": "الْغُلَامُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            93
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_qawm_category",
+      "family": "person_category",
+      "text": "الْقَوْمُ",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            93
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_connected",
+      "family": "person_category",
+      "text": "قُمْتُ",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          []
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": true
+      }
+    },
+    {
+      "id": "p_quoted_person_not_bound",
+      "family": "person_category",
+      "text": "«قُمْتُ»",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            81,
+            95,
+            9
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "person",
+        "positive": false
+      }
+    },
+    {
+      "id": "n_subject_first",
+      "family": "nominal_predication",
+      "text": "الْحَقُّ ثَابِتٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            81
+          ],
+          [
+            12,
+            3,
+            6,
+            9,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_predicate_first",
+      "family": "nominal_predication",
+      "text": "ثَابِتٌ الْحَقُّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            12,
+            3,
+            6,
+            9,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            81
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_collective_plural",
+      "family": "nominal_predication",
+      "text": "الْقَوْمُ حَاضِرُونَ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            93
+          ],
+          [
+            20,
+            3,
+            58,
+            37,
+            107,
+            96
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_singular",
+      "family": "nominal_predication",
+      "text": "الْغُلَامُ حَاضِرٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            93
+          ],
+          [
+            20,
+            3,
+            58,
+            37,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_changed_accusative",
+      "family": "nominal_predication",
+      "text": "الْغُلَامَ حَاضِرٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            92
+          ],
+          [
+            20,
+            3,
+            58,
+            37,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": false
+      }
+    },
+    {
+      "id": "n_changed_genitive",
+      "family": "nominal_predication",
+      "text": "الْقَوْمِ حَاضِرُونَ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            80,
+            107,
+            94
+          ],
+          [
+            20,
+            3,
+            58,
+            37,
+            107,
+            96
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": false
+      }
+    },
+    {
+      "id": "n_missing_predicate",
+      "family": "nominal_predication",
+      "text": "الْغُلَامُ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            93
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": false
+      }
+    },
+    {
+      "id": "n_quoted_clause",
+      "family": "nominal_predication",
+      "text": "«الْحَقُّ ثَابِتٌ».",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            20,
+            83,
+            81
+          ],
+          [
+            12,
+            3,
+            6,
+            9,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_singular_pause",
+      "family": "nominal_predication",
+      "text": "الْغُلَامُ حَاضِرٌ.",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            112,
+            91,
+            73,
+            88,
+            3,
+            93
+          ],
+          [
+            20,
+            3,
+            58,
+            39
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_connected",
+      "family": "nominal_predication",
+      "text": "الْقَوْمُ حَاضِرُونَ.",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          [],
+          []
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_dual_not_installed",
+      "family": "nominal_predication",
+      "text": "الْغُلَامَانِ حَاضِرَانِ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          [],
+          [
+            20,
+            3,
+            58,
+            36,
+            3,
+            98
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "n_omitted_alif_debt",
+      "family": "nominal_predication",
+      "text": "الرَّحْمَنُ حَاضِرٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          [],
+          [
+            20,
+            3,
+            58,
+            37,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "nominal_syntax",
+        "positive": true
+      }
+    },
+    {
+      "id": "c_front_supported",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_post_supported",
+      "family": "conditional_inference",
+      "text": "سَارَ زَيْدٌ إِنْ عَرَفَ زَيْدٌ الْحَقَّ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_absent_premise",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "UNKNOWN",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_negative_premise_no_inverse",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. لَمْ يَعْرِفْ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            88,
+            95
+          ],
+          [
+            108,
+            71,
+            38,
+            79
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "UNKNOWN",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_changed_premise_subject",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ عَمْرٌو الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER"
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_quoted_premise",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. «عَرَفَ زَيْدٌ الْحَقَّ».",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_hidden_subject",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_conflict",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ. لَمْ يَسِرْ زَيْدٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            88,
+            95
+          ],
+          [
+            108,
+            46,
+            39
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "CONFLICT",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_negative_consequence",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ لَمْ يَسِرْ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            88,
+            95
+          ],
+          [
+            108,
+            46,
+            39
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "REFUTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_negative_query_supported",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ لَمْ يَسِرْ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            88,
+            95
+          ],
+          [
+            108,
+            46,
+            39
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ لَمْ يَسِرْ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_negative_condition_supported",
+      "family": "conditional_inference",
+      "text": "إِنْ لَمْ يَعْرِفْ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. لَمْ يَعْرِفْ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            88,
+            95
+          ],
+          [
+            108,
+            71,
+            38,
+            79
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            88,
+            95
+          ],
+          [
+            108,
+            71,
+            38,
+            79
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_connected_required_positive",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "connected",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_source_pause",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "waqf",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            83
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_query_pause",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "waqf",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_raw_mark_order_not_pr34",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_wasla_not_pr34",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ ٱلْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ ٱلْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_explicit_premise_query",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ عَرَفَ زَيْدٌ الْحَقَّ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_no_converse_after_source_change",
+      "family": "conditional_inference",
+      "text": "سَارَ زَيْدٌ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ عَرَفَ زَيْدٌ الْحَقَّ؟",
+        "query_ending": "wasl",
+        "expected_status": "UNKNOWN",
+        "expected_chain_complete": true
+      }
+    },
+    {
+      "id": "c_passive_marks_no_active_reading",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ. عُرِفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            69,
+            38,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": false,
+        "query": "هَلْ سَارَ زَيْدٌ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_sun_article_frame_required_positive",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ خَلْفَ الدَّارِ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "DEFER",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            24,
+            91,
+            76
+          ],
+          [],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ خَلْفَ الدَّارِ؟",
+        "query_ending": "wasl",
+        "expected_status": "DEFER",
+        "expected_chain_complete": false
+      }
+    },
+    {
+      "id": "c_explicit_frame_supported",
+      "family": "conditional_inference",
+      "text": "إِنْ عَرَفَ زَيْدٌ الْحَقَّ سَارَ زَيْدٌ أَمَامَكَ. عَرَفَ زَيْدٌ الْحَقَّ.",
+      "ending": "wasl",
+      "onset": "word_initial",
+      "expected": {
+        "acquisition_status": "ACQUIRED",
+        "word_cells": [
+          [
+            114,
+            99
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ],
+          [
+            44,
+            3,
+            36
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            92,
+            3,
+            92,
+            84
+          ],
+          [
+            68,
+            36,
+            76
+          ],
+          [
+            40,
+            111,
+            29,
+            99
+          ],
+          [
+            112,
+            91,
+            20,
+            83,
+            80
+          ]
+        ]
+      },
+      "goal": {
+        "kind": "conditional_inference",
+        "positive": true,
+        "query": "هَلْ سَارَ زَيْدٌ أَمَامَكَ؟",
+        "query_ending": "wasl",
+        "expected_status": "SUPPORTED",
+        "expected_chain_complete": true
+      }
+    }
+  ]
+}

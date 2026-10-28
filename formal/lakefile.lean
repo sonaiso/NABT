@@ -133,3 +133,6 @@ lean_exe epistemicMeasurement where
 
 lean_exe alignedAcquisition where
   root := `AlignedAcquisitionMain
+
+lean_exe alignedAcquisitionV2 where
+  root := `AlignedAcquisitionV2Main
