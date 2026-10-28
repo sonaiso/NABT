@@ -1,0 +1,42 @@
+[
+  {
+    "command": [
+      "python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_article_acquisition_evaluator.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 10.60967824600084
+  },
+  {
+    "command": [
+      "python",
+      "tools/freeze_article_acquisition.py",
+      "--output",
+      "artifacts/local/article-v2/alignment-review/freeze.json"
+    ],
+    "exit_code": 0,
+    "seconds": 6.358170565996261
+  },
+  {
+    "command": [
+      "python",
+      "tools/evaluate_article_acquisition.py",
+      "--phase",
+      "exposed",
+      "--code-freeze",
+      "artifacts/local/article-v2/alignment-review/freeze.json",
+      "--output",
+      "artifacts/local/article-v2/alignment-review/result.json"
+    ],
+    "exit_code": 0,
+    "seconds": 23.481849644995236
+  }
+]
