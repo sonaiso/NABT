@@ -12,7 +12,8 @@ import unittest
 from tools.entropy_framework import (FrameworkError, load_json, measure_candidates,
                                      report_registry, validate_registry)
 from tools.entropy_framework.__main__ import main
-from tools.entropy_framework.registry import DEFAULT_REGISTRY, MAX_JSON_BYTES
+from tools.entropy_framework.registry import (DEFAULT_REGISTRY, MAX_JSON_BYTES,
+                                             MAX_INTEGER_DIGITS, FrameworkResourceError)
 
 
 def ledger():
@@ -348,8 +349,44 @@ class StrictJSONAndCLI(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "input.json"
             path.write_bytes(b" " * (MAX_JSON_BYTES + 1))
-            with self.assertRaisesRegex(FrameworkError, "8 MiB"):
+            with self.assertRaisesRegex(FrameworkResourceError, "8 MiB"):
                 load_json(path)
+
+    def test_integer_budget_preserves_supported_large_integers(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "input.json"
+            for sign in ("", "-"):
+                path.write_text('{"n":' + sign + "9" * MAX_INTEGER_DIGITS + "}")
+                self.assertIs(type(load_json(path)["n"]), int)
+            path.write_text('{"n":' + "9" * (MAX_INTEGER_DIGITS + 1) + "}")
+            with self.assertRaises(FrameworkResourceError):
+                load_json(path)
+
+    def test_cli_resource_budgets_do_not_become_invalid_or_linguistic_rejection(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "input.json"
+            for raw in ('{"n":' + "9" * 5000 + "}", " " * (MAX_JSON_BYTES + 1)):
+                path.write_text(raw)
+                output = StringIO()
+                with redirect_stdout(output):
+                    code = main(["measure", str(path)])
+                report = json.loads(output.getvalue())
+                self.assertEqual(code, 3)
+                self.assertEqual(report["status"], "RESOURCE_EXHAUSTED")
+                self.assertEqual(report["semantic_authority"], "NONE")
+
+    def test_duplicate_surrogate_error_is_itself_scalar_utf8(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "input.json"
+            path.write_text('{"\\ud800":1,"\\ud800":2}')
+            output = StringIO()
+            with redirect_stdout(output):
+                code = main(["measure", str(path)])
+            encoded = output.getvalue().encode("utf-8", "strict")
+            report = json.loads(encoded)
+            report["reason"].encode("utf-8", "strict")
+            self.assertEqual(code, 2)
+            self.assertEqual(report["status"], "INVALID_INPUT")
 
     def test_cli_success_describes_tool_execution_only(self):
         for command in ("validate", "report"):

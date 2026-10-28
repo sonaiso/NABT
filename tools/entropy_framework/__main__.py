@@ -6,8 +6,16 @@ import json
 import sys
 
 from .measurement import measure_candidates
-from .registry import (DEFAULT_REGISTRY, FrameworkError, load_json,
+from .registry import (DEFAULT_REGISTRY, FrameworkError, FrameworkResourceError, load_json,
                        report_registry, validate_registry)
+
+
+def _failure(status, error, code):
+    # Diagnostics must remain scalar UTF-8 even when the rejected input is not.
+    reason = str(error).encode("utf-8", "backslashreplace").decode("utf-8")
+    print(json.dumps({"status": status, "reason": reason,
+                      "semantic_authority": "NONE"}, ensure_ascii=False))
+    return code
 
 
 def main(argv=None):
@@ -25,10 +33,10 @@ def main(argv=None):
         else:
             registry = load_json(args.registry)
             result = (validate_registry if args.command == "validate" else report_registry)(registry)
+    except FrameworkResourceError as error:
+        return _failure("RESOURCE_EXHAUSTED", error, 3)
     except (FrameworkError, OSError) as error:
-        print(json.dumps({"status": "INVALID_INPUT", "reason": str(error),
-                          "semantic_authority": "NONE"}, ensure_ascii=False))
-        return 2
+        return _failure("INVALID_INPUT", error, 2)
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
     return 0
 

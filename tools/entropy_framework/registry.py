@@ -9,6 +9,7 @@ import re
 
 SCHEMA = "nabt.entropy-framework.registry.v1"
 MAX_JSON_BYTES = 8 * 1024 * 1024
+MAX_INTEGER_DIGITS = 4096
 DEFAULT_REGISTRY = Path(__file__).with_name("registry.json")
 WORK_STATES = {
     "PLANNED", "READY", "IN_PROGRESS", "IN_REVIEW", "DELIVERED", "BLOCKED",
@@ -18,6 +19,10 @@ GATE_STATES = {"NOT_MEASURED", "PASS", "FAIL", "STALE", "NOT_APPLICABLE"}
 
 class FrameworkError(ValueError):
     """Malformed or inconsistent organizational/measurement input."""
+
+
+class FrameworkResourceError(FrameworkError):
+    """Input processing exceeded a declared or interpreter resource budget."""
 
 
 def require(condition, message):
@@ -72,12 +77,13 @@ def load_json(path):
     path = Path(path)
     with path.open("rb") as handle:
         raw = handle.read(MAX_JSON_BYTES + 1)
-    require(len(raw) <= MAX_JSON_BYTES, "JSON exceeds the declared 8 MiB input limit")
+    if len(raw) > MAX_JSON_BYTES:
+        raise FrameworkResourceError("JSON exceeds the declared 8 MiB input limit")
 
     def pairs(items):
         result = {}
         for key, value in items:
-            require(key not in result, f"duplicate JSON key: {key}")
+            require(key not in result, f"duplicate JSON key: {key!r}")
             result[key] = value
         return result
 
@@ -89,9 +95,18 @@ def load_json(path):
         require(math.isfinite(number), f"nonfinite JSON number: {value}")
         return number
 
+    def bounded_integer(value):
+        if len(value.lstrip("-")) > MAX_INTEGER_DIGITS:
+            raise FrameworkResourceError("JSON integer exceeds the 4096-digit input budget")
+        try:
+            return int(value)
+        except ValueError as error:
+            raise FrameworkResourceError("JSON integer exceeds the interpreter conversion budget") from error
+
     try:
         result = json.loads(raw.decode("utf-8", errors="strict"), object_pairs_hook=pairs,
-                            parse_constant=constant, parse_float=finite_float)
+                            parse_constant=constant, parse_float=finite_float,
+                            parse_int=bounded_integer)
         # Escaped lone surrogates are accepted by Python's JSON decoder, but
         # cannot be represented as UTF-8. Inspect metadata too, not only fields
         # interpreted by the registry validator.
@@ -106,7 +121,9 @@ def load_json(path):
                 pending.extend(item.keys())
                 pending.extend(item.values())
         return result
-    except (UnicodeError, json.JSONDecodeError, RecursionError) as error:
+    except RecursionError as error:
+        raise FrameworkResourceError("JSON nesting exceeds the interpreter budget") from error
+    except (UnicodeError, json.JSONDecodeError) as error:
         raise FrameworkError(f"invalid JSON: {error}") from error
 
 

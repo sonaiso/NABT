@@ -45,7 +45,8 @@ def build_freeze():
             evaluator.digest(guard.local_path(name).read_bytes()) != value
             for hashes in (files, native) for name, value in hashes.items()):
         raise ValueError("runtime inputs changed while freezing")
-    return {"schema": evaluator.SCHEMA, "source_commit": evaluator.SOURCE_COMMIT,
+    return {"schema": evaluator.SCHEMA, "evaluator_id": evaluator.EVALUATOR_ID,
+        "evaluator_review": evaluator.EVALUATOR_REVIEW, "source_commit": evaluator.SOURCE_COMMIT,
         "matrix_commit": evaluator.MATRIX_COMMIT, "content_pins": evaluator.PINS,
         "bootstrap": {"path": evaluator.BOOTSTRAP_PATH, "sha256": evaluator.BOOTSTRAP_SHA256},
         "baseline": {"schema": "nabt.aligned-acquisition-code-freeze.v1", "commit": commit,

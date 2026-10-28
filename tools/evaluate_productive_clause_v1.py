@@ -39,8 +39,15 @@ MATRIX_PINS = {
     "evidence/productive_clause_v1/GOLD_METHOD.md": "e67aa0570e65138e5c2bfbed366f1bbe41519141f87086c1c56ba9a33bfd3748",
 }
 PINS = {**SOURCE_PINS, **MATRIX_PINS}
-SCHEMA = "nabt.productive-clause-code-freeze.v1"
-RESULT_SCHEMA = "nabt.productive-clause-evaluation.v1"
+EVALUATOR_ID = "nabt.productive-clause-evaluator.v1.review1"
+EVALUATOR_REVIEW = {
+    "original_commit": "3d42187e7491e6e74ce89d8f2792efe40ce7d5f8",
+    "original_evaluator_sha256": "3fb9e43ec2ffa1f8e9992bfc5fac291b69db8b7f118d998a9a1edb07635c394d",
+    "change": "Order projected roles by source word_index; preserve gold and producer outputs.",
+    "validation_phase": "exposed_only",
+}
+SCHEMA = "nabt.productive-clause-code-freeze.v1.review1"
+RESULT_SCHEMA = "nabt.productive-clause-evaluation.v1.review1"
 LAW_ID = "nabt.productive-clause.v1"
 COMPOSITE_LAW_ID = "nabt.acquired-productive-clause.v1"
 SLICE_COUNTS = {"positive_in_scope": 100, "negative_in_scope": 50, "outside_scope": 50}
@@ -118,11 +125,12 @@ def required_paths(guard, inventory, inference_sources, packets):
 
 
 def verify_freeze(path, phase):
-    if phase not in {"first", "exposed"}:
-        raise ValueError("unknown evaluation phase")
+    if phase != "exposed":
+        raise ValueError("evaluator review1 accepts exposed reruns only; preserve original first attempts")
     guard = load_bootstrap()
     envelope, fingerprint = guard.load_json(path)
-    if (envelope.get("schema") != SCHEMA or envelope.get("content_pins") != PINS or
+    if (envelope.get("schema") != SCHEMA or envelope.get("evaluator_id") != EVALUATOR_ID or
+            envelope.get("evaluator_review") != EVALUATOR_REVIEW or envelope.get("content_pins") != PINS or
             envelope.get("source_commit") != SOURCE_COMMIT or envelope.get("matrix_commit") != MATRIX_COMMIT or
             envelope.get("bootstrap") != {"path": BOOTSTRAP_PATH, "sha256": BOOTSTRAP_SHA256}):
         raise ValueError("freeze schema, chronology or code-owned pins differ")
@@ -161,6 +169,8 @@ def verify_freeze(path, phase):
             if digest(guard.git("show", MATRIX_COMMIT + ":" + name, binary=True)) != expected:
                 raise ValueError("matrix-phase content differs: " + name)
     return envelope, {"manifest_sha256": fingerprint, "commit": commit,
+        "evaluator_id": EVALUATOR_ID, "evaluator_review": EVALUATOR_REVIEW,
+        "evaluator_sha256": inner["files"]["tools/evaluate_productive_clause_v1.py"],
         "source_commit": SOURCE_COMMIT, "matrix_commit": MATRIX_COMMIT,
         "local_source_matrix_implementation_chronology_verified": phase == "first",
         "requested_first_execution": phase == "first", "blind": False, "held_out_lexemes": False,
@@ -297,7 +307,8 @@ def reading_projection(native):
     return {"reading": {"verb_id": reading.get("verb_lexeme"), "tense": reading.get("tense"),
         "voice": reading.get("voice"), "order": reading.get("order"),
         "agent_word_index": indices[1], "patient_word_index": indices[2]},
-        "roles": roles, "role_spans_valid": bool(aligned)}
+        # The frozen oracle lists role assignments in source-occurrence order.
+        "roles": sorted(roles, key=lambda row: row["word_index"]), "role_spans_valid": bool(aligned)}
 
 
 def expected_reading_id(expected):
@@ -500,7 +511,9 @@ def run(envelope, evidence, phase):
     loaded_wrong = sorted(name for name, actual in loaded.items() if inner["files"].get(name) != actual)
     integrity = before == after and not wrong and not uncovered and not loaded_wrong
     summary = counts(rows)
-    return {"schema": RESULT_SCHEMA, "phase": phase, "measured_at_utc": datetime.now(timezone.utc).isoformat(),
+    return {"schema": RESULT_SCHEMA, "evaluator_id": EVALUATOR_ID,
+        "evaluator_review": EVALUATOR_REVIEW, "phase": phase,
+        "measured_at_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "Authored exposed finite grammar: 200 cases, 100 positive surfaces over 50 frames; no held-out lexeme or all-Arabic completeness claim.",
         "summary": summary, "acceptance_gate": acceptance(summary, bool(integrity)),
         "execution_evidence": {**evidence, "before": before, "after": after,
@@ -522,7 +535,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as stream:
-        report = {"schema": RESULT_SCHEMA, "phase": args.phase, "status": "ATTEMPT_STARTED",
+        report = {"schema": RESULT_SCHEMA, "evaluator_id": EVALUATOR_ID,
+                  "evaluator_review": EVALUATOR_REVIEW, "phase": args.phase, "status": "ATTEMPT_STARTED",
                   "started_at_utc": datetime.now(timezone.utc).isoformat(), "gold_sha256": GOLD_SHA256}
         stream.write(wire(report) + "\n"); stream.flush(); os.fsync(stream.fileno())
         stage = "preflight"
