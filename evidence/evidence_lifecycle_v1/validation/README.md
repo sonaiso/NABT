@@ -17,10 +17,15 @@
 - `ci_repair_692c3a4.zip` and `ci_repair_observations.json`: the eight failed
   checks on `d9ce75b`, both original acquisition artifacts, and local validation
   of the test-profile repair. Native-required conformance passes 54 tests with
-  no skips. A genuinely shallow Python-only checkout passes 2,461 of 2,658
-  tests with 197 explicit skips. A missing-native negative control fails the
+  no skips. A genuinely shallow Python-only checkout reports 2,658 tests:
+  2,484 successful methods and 174 skipped methods, plus 23 skipped classes
+  outside `testsRun` (197 skip reports in total). A missing-native control fails the
   dedicated gate before freeze. Kernel, runtime, evaluator and gold are unchanged;
   neither failed acquisition job reached lifecycle freezing or the forty cases.
+- `unittest_count_erratum_v1.json`: corrects the earlier erroneous subtraction
+  of all 197 skip reports from 2,658. The raw logs, archive manifest and original
+  observation fields are retained unchanged; this erratum supersedes their
+  derived 2,461 executed count. The first release's 2,835/2,890 count is unaffected.
 
 Each ZIP has an `archive_manifest.json` with byte counts and SHA-256 digests.
 Only the lifecycle matrix is first execution in the successful archive; the

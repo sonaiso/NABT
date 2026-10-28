@@ -189,5 +189,8 @@ boundaries, but the dedicated lifecycle conformance recipe explicitly sets
 NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE=1 and must fail if native is absent.
 Inventory-schema tests use current HEAD in shallow checkouts; production
 first-execution chronology remains mandatory. The repair's 54 native tests
-and shallow Python-only 2,658 tests (197 skips) are separate from first-run
-counts. Require all checks on the final published head before merging.
+and shallow Python-only results are separate from first-run counts. Apply
+validation/unittest_count_erratum_v1.json: 2,658 testsRun comprises 2,484
+successful methods and 174 skipped methods; 23 additional class skips make
+197 skip reports. Do not subtract class skips from testsRun. Require all
+checks on the final published head before merging.
