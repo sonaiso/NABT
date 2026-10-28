@@ -92,3 +92,25 @@ The fifth raw conditional MISS is the correctly expected nonpositive CONFLICT
 control; it is separate from four positive coverage misses. A redundant run
 retains an accidental first flag and is documented as exposed replay, not
 additional independent evidence. Preserve raw results and this distinction.
+
+Sourced acquisition v3 follows docs/SOURCED_ACQUISITION_V3_SPEC.md and its four
+component specifications. Freeze their source packets first, then the independent
+matrix, before accepted-language implementation. Historical results above remain
+version-specific. Exact finite aliases are authored reading conventions; they
+are not generic vowel recovery or verbatim quotations. Never promote a lexical
+candidate, a source hash, or an incomplete nested diagnostic to a complete chain.
+
+Person evidence preserves the original ta vowel even under pause; grammatical
+person never identifies a speaker. Nominal subject/predicate roles require the
+whole declared finite frame and keep WALAD's individual/collective alternatives.
+Connected realization retains source/word boundaries and checks one complete
+phrase; do not issue standalone shape licenses for elided article onsets.
+Natural lexical reading, actual author intention, and world truth remain separate.
+Positive required abstentions remain coverage misses. Preserve every first
+evaluation attempt and label later repair runs as exposed.
+
+The additive evidence/operator_traceability_v1 registry completes explicit
+scope/theorem metadata for the 24 designated classical operators. It preserves
+the historical crosswalk, and states each theorem's conditional scope. Finite
+action enumeration does not prove the Python recognizer or linguistic fidelity.
+Use entropy to select dependency/interface reviews, never as a completion target.
