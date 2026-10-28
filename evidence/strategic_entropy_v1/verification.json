@@ -1,0 +1,414 @@
+{
+  "schema": "nabt.strategic-entropy-verification.v1",
+  "base_commit": "a14332afb934bedd4f35bf2fb3d34c9004df52b7",
+  "implementation_commit": "180c198d233a6bf90f1968d6958a6771d234a7d2",
+  "full_tests": {
+    "exit_code": 0,
+    "seconds": 420.5289054210007,
+    "summary_present": true,
+    "success_marker_present": true,
+    "collected": 2540,
+    "passed": 2477,
+    "skipped": 63
+  },
+  "static_audit": {
+    "method_sha256": "322be25d0704f1181fdea1974f4ae1afc0518cc91122645f2af12677f0f7e429",
+    "same_method_for_both_commits": true,
+    "boundary_passed": true,
+    "before_population": {
+      "excluded_path_component": "tests",
+      "file_count": 265,
+      "physical_lines": 62914,
+      "prefixes": [
+        "src/nabt/",
+        "tools/",
+        "integrations/"
+      ],
+      "suffix": ".py",
+      "untracked_files": "excluded"
+    },
+    "after_population": {
+      "excluded_path_component": "tests",
+      "file_count": 266,
+      "physical_lines": 63290,
+      "prefixes": [
+        "src/nabt/",
+        "tools/",
+        "integrations/"
+      ],
+      "suffix": ".py",
+      "untracked_files": "excluded"
+    },
+    "all_literal_import_graph": {
+      "vertex_count": 266,
+      "directed_edge_count": 557,
+      "multi_node_strong_components": [
+        [
+          "nabt.arabic_reader",
+          "nabt.governor_reader",
+          "nabt.semantics"
+        ],
+        [
+          "nabt.construction_complements",
+          "nabt.construction_reader",
+          "nabt.discourse_reader"
+        ],
+        [
+          "nabt.counting",
+          "nabt.nominal"
+        ]
+      ],
+      "outdegree_entropy": {
+        "bits": 7.1413542402975025,
+        "distribution": "outgoing distinct directed edges / all distinct directed edges",
+        "edge_denominator": 557,
+        "interpretation": "descriptive only; neither direction implies better quality",
+        "positive_support": 195
+      },
+      "layer_edge_counts": {
+        "core->core": 233,
+        "core->integrations": 0,
+        "core->tools": 0,
+        "integrations->core": 0,
+        "integrations->integrations": 5,
+        "integrations->tools": 7,
+        "tools->core": 134,
+        "tools->integrations": 0,
+        "tools->tools": 178
+      }
+    },
+    "interpretation": "No entropy decrease or quality score claimed; the new analyzer adds one module."
+  },
+  "freeze_inventory_counterexample": {
+    "cases": 13,
+    "phases": 2,
+    "implementations": 2,
+    "matching_expected_observations": 52,
+    "newly_rejected_omission_categories": 7,
+    "scope": "Synthetic Git-backed verify_freeze only; dummy native bytes never execute and pins/ancestry are fixture overrides."
+  },
+  "native_gates": {
+    "command": "make -f tools/aligned_acquisition.mk grammar-catalog mantuq-inference linguistic-truth aligned-acquisition-evaluation LAKE=/path/to/lean-4.34.1-linux/bin/lake EVIDENCE_DIR=<new-output-directory>",
+    "exit_code_observed": 0,
+    "pr34_conformance_total": 683,
+    "pr34_conformance_passed": true,
+    "diagnostic": {
+      "cases": 38,
+      "pass": 37,
+      "fail": 1,
+      "unmeasured": 0,
+      "executed": 38,
+      "families": {
+        "original_unresolved": {
+          "PASS": 1
+        },
+        "conditional_only": {
+          "PASS": 2
+        },
+        "forward": {
+          "PASS": 1
+        },
+        "order_invariance": {
+          "PASS": 1
+        },
+        "front_conditional": {
+          "PASS": 1
+        },
+        "no_inverse": {
+          "PASS": 2
+        },
+        "negative_consequent": {
+          "PASS": 1
+        },
+        "signed_states": {
+          "PASS": 4
+        },
+        "derived_conflict": {
+          "PASS": 1
+        },
+        "no_explosion": {
+          "PASS": 1
+        },
+        "subject_identity": {
+          "PASS": 2
+        },
+        "frame_identity": {
+          "PASS": 2
+        },
+        "preserved_adjuncts": {
+          "PASS": 1
+        },
+        "quote_boundary": {
+          "PASS": 1
+        },
+        "question_boundary": {
+          "PASS": 1
+        },
+        "trailing_input": {
+          "PASS": 1
+        },
+        "partial_condition": {
+          "PASS": 1
+        },
+        "query_boundary": {
+          "PASS": 1
+        },
+        "unknown_vocabulary": {
+          "FAIL": 1
+        },
+        "provenance": {
+          "PASS": 2
+        },
+        "resource": {
+          "PASS": 2
+        },
+        "invalid_input": {
+          "PASS": 2
+        },
+        "aggregation": {
+          "PASS": 6
+        }
+      },
+      "target_observations": {
+        "measured": 28,
+        "exact_matches": 27,
+        "false_supported_literals": 0,
+        "missing_supported_literals": 1
+      },
+      "authority": {
+        "obligations": 76,
+        "measured": 76,
+        "overclaims": 0,
+        "unmeasured": 0
+      }
+    },
+    "exposed_composition": {
+      "schema": "nabt.acquired-inference-regression-result.v1",
+      "fixture_sha256": "985e0be8faa597ca0d1675e3ae7ee5eb7c6f1b086d95c589fadab635275030da",
+      "scope": "exposed integration regression; not a new held-out linguistic matrix",
+      "passed": true,
+      "cases": 12,
+      "matching_contracts": 12,
+      "complete_chains": 5,
+      "positive_inference_cases": 3,
+      "positive_complete_chains": 1,
+      "all_arabic_complete": false,
+      "world_truth_established": false
+    }
+  },
+  "acquisition_replay": {
+    "summary": {
+      "denominator": 72,
+      "executed": 72,
+      "native_verified": 72,
+      "status_matches": 72,
+      "cell_comparisons": {
+        "denominator": 37,
+        "matches": 37
+      },
+      "reason_comparisons": {
+        "denominator": 7,
+        "matches": 7
+      },
+      "representation_matches": 72,
+      "false_licenses": 0,
+      "positive_acquisition_coverage": {
+        "denominator": 49,
+        "verified_acquired": 49,
+        "verified_exact": 49
+      },
+      "positive_goal_acquisition_coverage": {
+        "denominator": 47,
+        "verified_acquired": 32
+      },
+      "goals_by_kind": {
+        "acquisition": {
+          "denominator": 24,
+          "outcomes": {
+            "SUCCESS": 16,
+            "MISS": 8,
+            "UNMEASURED": 0
+          },
+          "measurement": {
+            "MEASURED": 24,
+            "UNMEASURED": 0
+          }
+        },
+        "conditional_inference": {
+          "denominator": 16,
+          "outcomes": {
+            "SUCCESS": 0,
+            "MISS": 5,
+            "UNMEASURED": 11
+          },
+          "measurement": {
+            "MEASURED": 0,
+            "UNMEASURED": 16
+          }
+        },
+        "nominal_syntax": {
+          "denominator": 16,
+          "outcomes": {
+            "SUCCESS": 0,
+            "MISS": 10,
+            "UNMEASURED": 6
+          },
+          "measurement": {
+            "MEASURED": 0,
+            "UNMEASURED": 16
+          }
+        },
+        "person": {
+          "denominator": 16,
+          "outcomes": {
+            "SUCCESS": 0,
+            "MISS": 14,
+            "UNMEASURED": 2
+          },
+          "measurement": {
+            "MEASURED": 0,
+            "UNMEASURED": 16
+          }
+        }
+      },
+      "downstream_goals": {
+        "denominator": 48,
+        "all": {
+          "SUCCESS": 0,
+          "MISS": 29,
+          "UNMEASURED": 19
+        },
+        "positive_denominator": 29,
+        "positive": {
+          "SUCCESS": 0,
+          "MISS": 29,
+          "UNMEASURED": 0
+        },
+        "measurement": {
+          "MEASURED": 0,
+          "UNMEASURED": 48
+        }
+      },
+      "shape_handoff_statuses": {
+        "SHAPE_LICENSED": 159,
+        "ACQUISITION_INCOMPLETE": 25,
+        "SHAPE_REJECTED": 1
+      },
+      "word_reader_statuses": {
+        "DEFER": 67,
+        "READ": 2,
+        "REJECT": 3
+      },
+      "runtime_statuses": {
+        "ACQUIRED": 49,
+        "DEFER": 18,
+        "INVALID_INPUT": 5
+      },
+      "resource_outcomes": {
+        "acquisition": 0,
+        "inference": 0,
+        "word_reader": 0,
+        "shape_handoffs": 0
+      }
+    },
+    "contract_gate": {
+      "passed": true,
+      "source_check_failures": [],
+      "native_verification_failures": [],
+      "scope": "Execution integrity, native replay availability, source/domain checks, and absence of false acquisition licenses; not positive coverage or all-Arabic completeness."
+    },
+    "representation_gate": {
+      "passed": true,
+      "denominator": 72,
+      "failures": [],
+      "scope": "All frozen representation status, cell, and reason expectations; downstream goals remain separate."
+    },
+    "initial_snapshot_matches_freeze": true,
+    "no_loaded_hash_mismatches": true,
+    "fresh_held_out_matrix": false
+  },
+  "source_traceability": {
+    "source_linkage": {
+      "scope": "AUTHORED_SOURCE_CATALOGUE_LINKS_NOT_RUNTIME_REFINEMENT",
+      "source_policy_rules": 125,
+      "source_policy_rules_with_supplied_theorem_links": 6,
+      "runtime_operator_records": 24,
+      "runtime_operator_records_with_supplied_theorem_links": 6,
+      "runtime_operator_ids_without_supplied_theorem_links": [
+        "AFFIX-LIGHT-NUN-PAUSE",
+        "ASSIM-NUN-B-BLOCKED-TEXT",
+        "CMD-WEAK-DELETE",
+        "GEM-EXCLAMATION",
+        "GEM-FEMININE-SUFFIX",
+        "GEM-JUSSIVE-VARIANTS",
+        "GEM-VOWELED-FINAL",
+        "MUGHNI-ANA-BOUNDARY",
+        "WEAK-AFWAL-BLOCK",
+        "WEAK-IFTIAL-RECIPROCAL",
+        "WEAK-INITIAL-OPEN-EXCEPTION",
+        "WEAK-INITIAL-WAW",
+        "WEAK-MOVE-TO-ALIF",
+        "WEAK-NOMINAL-SUFFIX-BLOCK",
+        "WEAK-TWO-ELIGIBLE",
+        "WEAK-VOWEL-TRANSFER",
+        "WEAK-WAW-TO-YA",
+        "WEAK-YA-TO-WAW"
+      ],
+      "runtime_operator_ids_without_implemented_scope": [
+        "WEAK-AFWAL-BLOCK",
+        "WEAK-IFTIAL-RECIPROCAL",
+        "WEAK-INITIAL-OPEN-EXCEPTION",
+        "WEAK-INITIAL-WAW",
+        "WEAK-MOVE-TO-ALIF",
+        "WEAK-NOMINAL-SUFFIX-BLOCK",
+        "WEAK-TWO-ELIGIBLE",
+        "WEAK-VOWEL-TRANSFER",
+        "WEAK-WAW-TO-YA",
+        "WEAK-YA-TO-WAW"
+      ],
+      "unresolved_supplied_names": [],
+      "missing_link_implies_missing_theorem": false
+    },
+    "source_files": 5,
+    "exact_passages": 23,
+    "scope": "Source-matching stored compiled catalogue and replayed source metadata; standalone script does not rebuild Lean."
+  },
+  "preserved_paths_against_base": [
+    "src",
+    "formal",
+    "Makefile",
+    "tools/licensed_inference",
+    "integrations/current_proof_references.mk",
+    "evidence/aligned_acquisition_v1/integration"
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "native_adapter": "LD_PRELOAD=/tmp/nabt_lean_proc_path.so",
+    "adapter_sha256": "eeb89718a51d9b0b006b928267bfb679916be9007d4750a531ce782a8a0440f0",
+    "adapter_explanation": "evidence/aligned_acquisition_v1/validation/environment.json",
+    "native_hashes": {
+      "formal/.lake/build/bin/alignedAcquisition": "4e4f12ee6aca0dc30e579b23dd689330687ab2f2c9f6f18f529ddf9490c63ae0",
+      "formal/.lake/build/bin/licensedInference": "4f6a5ac6c4005bfd8928b2d855b05b54844cc302699560ebab3986a31fa5a267"
+    }
+  },
+  "limitations": [
+    "No new Arabic law, person or nominal goal contract, or general Python/Lean refinement theorem.",
+    "Graphs omit dynamic/native/data and implicit package-initialization dependencies; mathematical graph invariants are descriptive.",
+    "Missing authored links do not establish missing theorems; supplied-link resolution does not establish completeness.",
+    "Sequential source hashes do not guarantee atomic isolation from concurrent writers.",
+    "This is not a release and make check was not run as a single complete release command."
+  ],
+  "artifacts": {
+    "acquisition-freeze.json": "baa73a08ecfdfb11d7092de7bd14c9bf57b109e7403d77e6555fde10b8579da1",
+    "acquisition-regression.json.gz": "45d454a5ab86a6d565046e22809d20ee033a5411f8d8b89d13e088ca9462f5ac",
+    "after.json.gz": "fbd6c714774f7b65b217af5b5361ae345f8ee81a540a722a9af6594c0029d3ff",
+    "before.json.gz": "7937c9ed00ebc3b7ffb518120773f55cba78d9112fee39ebc141635f399520dc",
+    "gate_reports.zip": "afc677dcf47e7e1c9b761073d952b8a57bf6070c2affd5b34e5aab122e50611a",
+    "inventory_regression.zip": "de6d786b9053e2b0f304ba34b787cd187b4d36bbd0999410bf662f64a496c45d",
+    "reproduce_traceability.py": "9c7a8be9257a2dbc2dba2efa603fe004365c22905118130761d4f5f4d3b37fea",
+    "traceability.json.gz": "1b3d32c7f1bfa94217cc460c87035e0e5ca02c8979de5e1e75fcd9ba4bfa8670",
+    "validation_logs.zip": "4f978cd746cee20346b8180607454ce6a2a51a7ed44f819ae631ef666d88deb0"
+  }
+}

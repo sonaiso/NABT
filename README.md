@@ -1,7 +1,8 @@
 # NABT — نواة جبرية مستقلة للغة المرخّصة
 
 تدقيق الترابط الاستراتيجي للشيفرة في
-[مواصفة القياس](docs/CODE_ENTROPY_CONTRACT.md) و
+[مواصفة القياس](docs/CODE_ENTROPY_CONTRACT.md)، و
+[نتيجة تدقيق الانتروبيا](docs/CODE_ENTROPY_AR.md)، و
 [مراجعة المصدر والتحصيل والقراءة](docs/STRATEGIC_COHERENCE_AR.md).
 يقيس `python tools/code_entropy.py --check --output artifacts/local/code-entropy.json`
 رسم الاستيراد الساكن والتكرار الحرفي، ويفرض حد اعتماد النواة على أدواتها.
