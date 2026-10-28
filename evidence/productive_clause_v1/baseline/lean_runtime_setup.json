@@ -1,0 +1,23 @@
+{
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "official_archive_url": "https://github.com/leanprover/lean4/releases/download/v4.34.1/lean-4.34.1-linux.tar.zst",
+  "official_archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+  "matches_repository_bootstrap_sha256": true,
+  "lean_binary": "/workspace/scratch/7802d128cb40/lean-tools/lean-4.34.1-linux/bin/lean",
+  "lake_binary": "/workspace/scratch/7802d128cb40/lean-tools/lean-4.34.1-linux/bin/lake",
+  "bootstrap_limitation": "sandbox permits /proc/self/exe but denies /proc/<getpid()>/exe",
+  "compatibility_shim": "/workspace/scratch/7802d128cb40/lean-tools/self_exe_compat.so",
+  "compatibility_shim_sha256": "8b6b5036e8daf7368ba903f40e5f451a98839ec27c13f28d5e0d104bd12d0d16",
+  "compatibility_source_sha256": "ab61d83c89cc926ab4349db15bbb48a029ffbd6cd2aa4a7206c46e5403e442a6",
+  "shim_behavior": "translate exactly the calling process own numeric /proc/PID/exe readlink to /proc/self/exe; delegate every other readlink unchanged",
+  "kernel_modified": false,
+  "official_libraries_modified": false,
+  "version_checks": {
+    "lean_version": "PASS",
+    "lake_env_lean_version": "PASS"
+  },
+  "required_environment": {
+    "LD_PRELOAD": "/workspace/scratch/7802d128cb40/lean-tools/self_exe_compat.so",
+    "LEAN_NUM_THREADS": "4"
+  }
+}

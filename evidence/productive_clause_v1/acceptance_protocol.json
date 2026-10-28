@@ -1,0 +1,199 @@
+{
+  "schema": "nabt.productive-clause.acceptance-protocol.v1",
+  "law_id": "nabt.productive-clause.v1",
+  "base_commit": "b7442580e7e681a68a85f40bc247be8ee286e7e3",
+  "source_scope_path": "evidence/productive_clause_v1/source_scope.json",
+  "source_scope_sha256": "eb3a1d93730c4a402bce2561afb8934d1f76853ca31fe8ad1167c33ed08d4f17",
+  "cases_path": "evidence/productive_clause_v1/cases.json",
+  "chronology": [
+    "source/spec/protocol frozen in first commit",
+    "independent literal expected matrix and GOLD_METHOD frozen in second commit",
+    "accepted-language implementation begins only afterwards",
+    "first actual evaluation attempt retained; subsequent attempts labeled exposed"
+  ],
+  "independence": {
+    "authored": true,
+    "exposed_to_implementers": true,
+    "blind": false,
+    "held_out_lexemes": false,
+    "expected_data_from_runtime": false,
+    "source_scope_does_not_prove_linguistic_completeness": true,
+    "test_role": "finite compositional/source-binding acceptance; no generalization estimate"
+  },
+  "matrix": {
+    "total_cases": 200,
+    "positive_in_scope": 100,
+    "positive_distinct_frames": 50,
+    "surface_variants": [
+      "no_full_stop",
+      "full_stop"
+    ],
+    "negative_in_scope": 50,
+    "outside_scope": 50,
+    "negative_breakdown": {
+      "nominative_nominative": 25,
+      "accusative_accusative": 25
+    },
+    "outside_breakdown": {
+      "unsupported_verb_or_voice": 10,
+      "unsupported_name_or_case": 10,
+      "unsupported_structure_or_operator": 10,
+      "unsupported_marks_or_boundary": 10,
+      "unsupported_mode": 10
+    },
+    "frame_identity": [
+      "subject_lexeme",
+      "object_lexeme",
+      "order"
+    ],
+    "frame_success": "both surface variants must meet their full positive target",
+    "same_name_policy": "a lexical ID may recur; roles bind word indices, never external co-reference"
+  },
+  "case_schema": {
+    "required": [
+      "id",
+      "slice",
+      "family",
+      "frame_id",
+      "surface_variant",
+      "source_refs",
+      "input",
+      "expected"
+    ],
+    "input_fields": [
+      "text",
+      "source_id",
+      "revision",
+      "scope",
+      "ending",
+      "onset"
+    ],
+    "expected_fields": [
+      "syntax_status",
+      "word_cells",
+      "word_spans",
+      "roles",
+      "reading",
+      "establishes_world_truth",
+      "entails_exclusivity"
+    ],
+    "word_span_fields": [
+      "raw",
+      "start",
+      "end",
+      "byte_start",
+      "byte_end"
+    ],
+    "word_span_convention": "zero-based half-open Unicode codepoint and UTF-8 byte coordinates",
+    "role_fields": [
+      "role",
+      "word_index",
+      "lexeme_id",
+      "nominal_case"
+    ],
+    "role_labels": [
+      "verb",
+      "agent",
+      "patient"
+    ],
+    "nominal_case_labels": [
+      "nom",
+      "acc",
+      null
+    ],
+    "reading_fields": [
+      "verb_id",
+      "tense",
+      "voice",
+      "order",
+      "agent_word_index",
+      "patient_word_index"
+    ],
+    "null_projection": "UNMEASURED on that axis, not a pass; syntax target remains applicable"
+  },
+  "outcomes": {
+    "positive_in_scope": "LICENSED_CLAUSE",
+    "negative_in_scope": "REJECTED_IN_SCOPE",
+    "outside_scope": "DEFER",
+    "negative_and_outside_roles": [],
+    "negative_and_outside_reading": null,
+    "world_truth": "never established",
+    "exclusivity": "never entailed"
+  },
+  "measures": [
+    {
+      "id": "positive_complete_surfaces",
+      "numerator": "exact supported positive outcomes with source/acquisition/shape/native/source-scope chain, matching independent expected role/spans/cells/reading",
+      "denominator": 100,
+      "target_minimum": 95
+    },
+    {
+      "id": "positive_complete_frames",
+      "numerator": "positive frame pairs whose two surfaces both pass positive_complete_surfaces",
+      "denominator": 50,
+      "target_minimum": 48
+    },
+    {
+      "id": "negative_false_authorizations",
+      "numerator": "negative inputs issued a licensed or complete joined clause",
+      "denominator": 50,
+      "target_maximum": 0
+    },
+    {
+      "id": "outside_false_authorizations",
+      "numerator": "outside inputs issued a licensed or complete joined clause",
+      "denominator": 50,
+      "target_maximum": 0
+    },
+    {
+      "id": "syntax_contracts",
+      "numerator": "all cases whose exact independent bounded syntax projection matches",
+      "denominator": 200,
+      "target_minimum": 195
+    },
+    {
+      "id": "negative_contracts",
+      "numerator": "negative cases with REJECTED_IN_SCOPE and no reading/roles",
+      "denominator": 50,
+      "target_minimum": 50
+    },
+    {
+      "id": "outside_contracts",
+      "numerator": "outside cases with DEFER and no reading/roles",
+      "denominator": 50,
+      "target_minimum": 50
+    }
+  ],
+  "separate_technical_checks": [
+    "invalid API values",
+    "duplicate JSON fields",
+    "invalid UTF-8",
+    "tampered source identity or spans",
+    "source packet mutation",
+    "native mismatch or unavailable binary",
+    "resource exhaustion",
+    "cross-scope replay",
+    "stale module/binary snapshot"
+  ],
+  "no_credit": [
+    "missing native checker",
+    "native replay mismatch",
+    "shape certificate replay failure",
+    "source packet/span failure",
+    "positive required defer",
+    "false-authorized output despite a matching superficial status",
+    "unmeasured projection"
+  ],
+  "replay_identity": [
+    "code_commit",
+    "source_scope_digest",
+    "case_matrix_digest",
+    "protocol_digest",
+    "evaluator_digest",
+    "native_executable_digest",
+    "toolchain",
+    "input_identity",
+    "actual command"
+  ],
+  "publication": "Never edit the original expected matrix or first output after execution; publish an independent erratum and both projections if needed."
+}

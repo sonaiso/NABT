@@ -1,0 +1,159 @@
+{
+  "schema": "nabt.productive-clause-review1-observations.v1",
+  "code_commit": "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623",
+  "evaluator_id": "nabt.productive-clause-evaluator.v1.review1",
+  "phase": "exposed",
+  "result_sha256": "ce8714004f0c578fa373faddace44b245a2c2d614e125e7c5d045ca3213010df",
+  "archive": {
+    "path": "evidence/productive_clause_v1/validation/exposed_review1_c694a5a.zip",
+    "sha256": "b9eea915d410e7ed7b3de1e734cef4845ed2a55bfdcbe8ca1126fe2e546a6852",
+    "bytes": 591450
+  },
+  "acceptance_gate": {
+    "passed": true,
+    "checks": {
+      "execution_integrity": true,
+      "matrix_population": true,
+      "positive_surfaces": true,
+      "positive_frames": true,
+      "syntax_contracts": true,
+      "candidate_diagnostic_consistency": true,
+      "negative_controls": true,
+      "outside_controls": true,
+      "no_observed_false_authorizations": true
+    }
+  },
+  "summary": {
+    "cases": 200,
+    "syntax_contracts": 200,
+    "candidate_space_consistent": 200,
+    "positive_surfaces": {
+      "required": 100,
+      "complete": 100,
+      "misses": []
+    },
+    "positive_frames": {
+      "required": 50,
+      "complete": 50,
+      "outcomes": {
+        "DARABA:BAKR:AMR:VOS": true,
+        "DARABA:BAKR:AMR:VSO": true,
+        "DARABA:BAKR:BAKR:VOS": true,
+        "DARABA:BAKR:BAKR:VSO": true,
+        "DARABA:BAKR:KHALID:VOS": true,
+        "DARABA:BAKR:KHALID:VSO": true,
+        "DARABA:BAKR:SAID:VOS": true,
+        "DARABA:BAKR:SAID:VSO": true,
+        "DARABA:BAKR:ZAYD:VOS": true,
+        "DARABA:BAKR:ZAYD:VSO": true,
+        "DARABA:KHALID:AMR:VOS": true,
+        "DARABA:KHALID:AMR:VSO": true,
+        "DARABA:KHALID:BAKR:VOS": true,
+        "DARABA:KHALID:BAKR:VSO": true,
+        "DARABA:KHALID:KHALID:VOS": true,
+        "DARABA:KHALID:KHALID:VSO": true,
+        "DARABA:KHALID:SAID:VOS": true,
+        "DARABA:KHALID:SAID:VSO": true,
+        "DARABA:KHALID:ZAYD:VOS": true,
+        "DARABA:KHALID:ZAYD:VSO": true,
+        "DARABA:QAYS:AMR:VOS": true,
+        "DARABA:QAYS:AMR:VSO": true,
+        "DARABA:QAYS:BAKR:VOS": true,
+        "DARABA:QAYS:BAKR:VSO": true,
+        "DARABA:QAYS:KHALID:VOS": true,
+        "DARABA:QAYS:KHALID:VSO": true,
+        "DARABA:QAYS:SAID:VOS": true,
+        "DARABA:QAYS:SAID:VSO": true,
+        "DARABA:QAYS:ZAYD:VOS": true,
+        "DARABA:QAYS:ZAYD:VSO": true,
+        "DARABA:SAID:AMR:VOS": true,
+        "DARABA:SAID:AMR:VSO": true,
+        "DARABA:SAID:BAKR:VOS": true,
+        "DARABA:SAID:BAKR:VSO": true,
+        "DARABA:SAID:KHALID:VOS": true,
+        "DARABA:SAID:KHALID:VSO": true,
+        "DARABA:SAID:SAID:VOS": true,
+        "DARABA:SAID:SAID:VSO": true,
+        "DARABA:SAID:ZAYD:VOS": true,
+        "DARABA:SAID:ZAYD:VSO": true,
+        "DARABA:ZAYD:AMR:VOS": true,
+        "DARABA:ZAYD:AMR:VSO": true,
+        "DARABA:ZAYD:BAKR:VOS": true,
+        "DARABA:ZAYD:BAKR:VSO": true,
+        "DARABA:ZAYD:KHALID:VOS": true,
+        "DARABA:ZAYD:KHALID:VSO": true,
+        "DARABA:ZAYD:SAID:VOS": true,
+        "DARABA:ZAYD:SAID:VSO": true,
+        "DARABA:ZAYD:ZAYD:VOS": true,
+        "DARABA:ZAYD:ZAYD:VSO": true
+      }
+    },
+    "positive_acquisition": {
+      "required": 100,
+      "complete": 100,
+      "misses": []
+    },
+    "negative_in_scope": {
+      "required": 50,
+      "correct": 50,
+      "false_authorizations": 0
+    },
+    "outside_scope": {
+      "required": 50,
+      "correct": 50,
+      "false_authorizations": 0
+    },
+    "false_authorizations": 0,
+    "projection_axes": {
+      "word_cells_match": {
+        "measured": 150,
+        "correct": 150,
+        "unmeasured": 50
+      },
+      "word_spans_match": {
+        "measured": 150,
+        "correct": 150,
+        "unmeasured": 50
+      },
+      "roles_match": {
+        "measured": 200,
+        "correct": 200,
+        "unmeasured": 0
+      },
+      "reading_match": {
+        "measured": 200,
+        "correct": 200,
+        "unmeasured": 0
+      }
+    },
+    "statuses": {
+      "LICENSED_CLAUSE": 100,
+      "REJECTED_IN_SCOPE": 50,
+      "DEFER": 50
+    }
+  },
+  "all_200_producer_payloads_equal_to_first": true,
+  "native_hashes_identical_to_first": true,
+  "changed_frozen_files": [
+    "tests/test_entropy_framework.py",
+    "tests/test_productive_clause_evaluator.py",
+    "tools/entropy_framework/__main__.py",
+    "tools/entropy_framework/registry.py",
+    "tools/evaluate_productive_clause_v1.py",
+    "tools/freeze_productive_clause_v1.py"
+  ],
+  "targeted_tests": {
+    "framework": {
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0
+    },
+    "evaluator": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "development_test_note": "Initial added resource test incorrectly assumed 3000 nested arrays exceed this JSON decoder. The decoder parsed them successfully and rejected the non-object ledger. Removed that unsupported test assumption; actual integer and byte-budget regressions pass. Both logs are retained.",
+  "scope_limit": "Exposed finite authored matrix; no new linguistic rule, gold modification, external referent, world truth or exclusivity."
+}
