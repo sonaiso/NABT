@@ -542,11 +542,14 @@
         "G1"
       ],
       "deliverable": "حفظ trace؛ معالجة التكافؤ النصي المعلن؛ لا إسقاط mawadi عند التسليم",
-      "work_status": "IN_REVIEW",
+      "work_status": "DELIVERED",
       "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "وصل التحصيل بالقراءة منفذ في الجزء الفعلي فقط؛ أول تقييم لم يبدأ."
+      "delivery_scope_note": "وصل التحصيل بالقراءة مقاس في الجزء productive-clause-v1: مئة سلسلة موجبة كاملة؛ لا تعميم إلى كل القراءات.",
+      "scoped_evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ]
     },
     {
       "id": "T08",
@@ -565,7 +568,10 @@
       "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "مصدر وقواعد daraba والأعلام والترتيبين مجمدة؛ التنفيذ المحدود موجود."
+      "delivery_scope_note": "قواعد daraba والأعلام والترتيبين مجمدة ومنفذة ومقاسة على الخمسين إطارًا؛ لا معجم محجوب.",
+      "scoped_evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ]
     },
     {
       "id": "T09",
@@ -580,11 +586,14 @@
         "G1"
       ],
       "deliverable": "سلامة وتمام بالنسبة إلى المواصفة؛ عدم إسقاط البديل المعلق أو مضاعفة المعنى بتعدد براهينه",
-      "work_status": "IN_REVIEW",
+      "work_status": "DELIVERED",
       "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "مواصفة الجزء الرسمي والفاحص موجودان؛ التقييم المستقل للسلسلة لم يبدأ."
+      "delivery_scope_note": "المواصفة والفاحص الرسميان وصلا بالتحصيل في تقييم الجزء؛ لا دعوى تمام العربية أو G0 العام.",
+      "scoped_evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ]
     },
     {
       "id": "T10",
@@ -600,13 +609,14 @@
         "G1"
       ],
       "deliverable": "شهادة متصلة؛ نتيجة كل حالة، أول إخفاق، والتأجيل؛ لا حصر ولا دعوى واقع مجانية",
-      "work_status": "PLANNED",
+      "work_status": "DELIVERED",
       "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
-      "blockers": [
-        "FIRST_EVALUATION_NOT_STARTED"
-      ],
-      "delivery_scope_note": "مجموعة200 مجمدة والتنفيذ موجود؛ ينتظر أول تقييم مسند وحفظ نتيجته."
+      "blockers": [],
+      "delivery_scope_note": "اكتملت إعادة review1 المكشوفة:200 عقد،100 سطح موجب،50 إطارًا،50 مضادًا،50 خارج النطاق،صفر ترخيص خاطئ مشاهد.",
+      "scoped_evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ]
     },
     {
       "id": "T11",
@@ -788,7 +798,107 @@
     "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
   ],
   "schema": "nabt.entropy-framework.registry.v1",
-  "evidence_records": [],
+  "evidence_records": [
+    {
+      "id": "productive-clause-v1.exposed-review1.c694a5a",
+      "gate_id": "G1",
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "reported_outcome": "PASS",
+      "reference": "evidence/productive_clause_v1/validation/exposed_review1_c694a5a.zip#productive-clause-result.json",
+      "phase": "exposed",
+      "measured_at_utc": "2026-10-28T15:12:56.897842+00:00",
+      "result_sha256": "ce8714004f0c578fa373faddace44b245a2c2d614e125e7c5d045ca3213010df",
+      "run_identity": {
+        "code_commit": "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623",
+        "toolchain": "leanprover/lean4:v4.34.1",
+        "suite_version": "nabt.productive-clause.cases.v1",
+        "evaluator_version": "nabt.productive-clause-evaluator.v1.review1",
+        "dataset_sha256": "5a6de98a71551c3a1dc0870c15de52b10f50e5233c145c033664c7c500b008f1",
+        "gold_sha256": "5a6de98a71551c3a1dc0870c15de52b10f50e5233c145c033664c7c500b008f1",
+        "evaluator_sha256": "02283f363e27d403ee69a013023a1f2b283126996c463c1dcd18abd38618de73",
+        "manifest_sha256": "a879352867a64be60ef2e02c2a1530e1c548d7821afbcf9652cfbb9eeccaa9f2",
+        "native_executable_sha256": "25962d0c43254bfcd9e931aa33b38e14c8665f53f55199b526943644cf835502",
+        "protocol_sha256": "8adfb5b35af609e152c1c19879fa328ae97e365838e72994ee22500e7db27c25",
+        "command": [
+          "tools/evaluate_productive_clause_v1.py",
+          "--phase",
+          "exposed",
+          "--code-freeze",
+          "artifacts/local/productive-review1-c694a5a/productive-clause-freeze.json",
+          "--output",
+          "artifacts/local/productive-review1-c694a5a/productive-clause-result.json"
+        ]
+      },
+      "required_checks": {
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "missing": 0
+      },
+      "required_checks_scope": "nine acceptance checks of the frozen productive-clause matrix; not the full project release suite",
+      "reported_measurements": {
+        "syntax_contracts": {
+          "correct": 200,
+          "total": 200
+        },
+        "positive_surfaces": {
+          "complete": 100,
+          "required": 100
+        },
+        "positive_frames": {
+          "complete": 50,
+          "required": 50
+        },
+        "negative_in_scope": {
+          "required": 50,
+          "correct": 50,
+          "false_authorizations": 0
+        },
+        "outside_scope": {
+          "required": 50,
+          "correct": 50,
+          "false_authorizations": 0
+        },
+        "false_authorizations": 0,
+        "projection_axes": {
+          "word_cells_match": {
+            "measured": 150,
+            "correct": 150,
+            "unmeasured": 50
+          },
+          "word_spans_match": {
+            "measured": 150,
+            "correct": 150,
+            "unmeasured": 50
+          },
+          "roles_match": {
+            "measured": 200,
+            "correct": 200,
+            "unmeasured": 0
+          },
+          "reading_match": {
+            "measured": 200,
+            "correct": 200,
+            "unmeasured": 0
+          }
+        },
+        "execution_integrity": true
+      },
+      "limitations": [
+        "Exposed authored matrix; not blind and no held-out lexemes.",
+        "100 positive surfaces represent 50 correlated frame pairs.",
+        "Outside-scope acquisition cell/span projections remain unmeasured for 50 cases.",
+        "No real-world reference, world truth, exclusivity or all-Arabic completeness established.",
+        "This component result does not admit general G0/GM/G1 or a project release."
+      ],
+      "review_change": {
+        "original_commit": "3d42187e7491e6e74ce89d8f2792efe40ce7d5f8",
+        "original_evaluator_sha256": "3fb9e43ec2ffa1f8e9992bfc5fac291b69db8b7f118d998a9a1edb07635c394d",
+        "change": "Order projected roles by source word_index; preserve gold and producer outputs.",
+        "validation_phase": "exposed_only"
+      }
+    }
+  ],
   "implementation_note": {
     "tooling": "tools/entropy_framework",
     "scope": "metadata consistency and descriptive counts over a supplied finite ledger",
@@ -803,22 +913,26 @@
   "development_checkpoints": {
     "source_protocol_commit": "34acd468c2568b3236818d1f72b92b9651a6f070",
     "independent_gold_commit": "7ca87dcda09427641ad346fa1108eb2c87382f22",
-    "implementation_state": "IMPLEMENTED_AWAITING_FIRST_EVALUATION",
-    "evaluation_started": false
+    "implementation_state": "EVALUATED_EXPOSED_REVIEW1",
+    "evaluation_started": true,
+    "latest_scoped_evaluation_commit": "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623",
+    "latest_scoped_evaluation_reference": "evidence/productive_clause_v1/validation/exposed_review1_c694a5a.zip#productive-clause-result.json"
   },
   "capabilities": [
     {
       "id": "productive-clause-v1",
-      "state": "IMPLEMENTED_AWAITING_EVALUATION",
+      "state": "EVALUATED",
       "implemented_scope": "nabt.productive-clause.v1: exact vocalized daraba, finite proper-name readings, VSO/VOS; authored finite law, no world reference or exclusivity",
       "proposal": "daraba only with a finite declared proper-name lexicon; VSO/VOS",
       "positive_surface_design": "100 positive surfaces = 50 underlying frames x 2 declared written forms",
       "negative_cases": 50,
       "outside_scope_cases": 50,
-      "caution": "Source/spec/protocol and literal gold are frozen before implementation. Evaluation has not started; no coverage PASS or full G0 claim is recorded.",
+      "caution": "The authored 200-case matrix was measured in exposed review1. Its nine acceptance checks passed; global gate admission, full release, world truth and broader Arabic coverage are not established.",
       "gate_id": "G1",
       "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ],
       "source_protocol_commit": "34acd468c2568b3236818d1f72b92b9651a6f070",
       "independent_gold_commit": "7ca87dcda09427641ad346fa1108eb2c87382f22",
       "implementation_paths": [
@@ -827,7 +941,9 @@
         "tools/productive_clause_v1.py",
         "tools/productive_clause_cli.py"
       ],
-      "evaluation_status": "NOT_STARTED"
+      "evaluation_status": "EXPOSED_REPLAY_PASSED",
+      "evaluation_commit": "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623",
+      "evaluation_reference": "evidence/productive_clause_v1/validation/exposed_review1_c694a5a.zip#productive-clause-result.json"
     }
   ],
   "roadmap_alignment": [

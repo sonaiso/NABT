@@ -130,3 +130,27 @@ scope/theorem metadata for the 24 designated classical operators. It preserves
 the historical crosswalk, and states each theorem's conditional scope. Finite
 action enumeration does not prove the Python recognizer or linguistic fidelity.
 Use entropy to select dependency/interface reviews, never as a completion target.
+
+The productive clause milestone follows docs/PRODUCTIVE_CLAUSE_V1_SPEC.md.
+Its source/protocol commit is 34acd46 and independent authored matrix commit
+7ca87dc, preceding implementation 3d42187. The law is finite DARABA with five
+nominative and five accusative forms, VSO/VOS, word-initial onset and wasl.
+The joined tool checks nine source/acquisition/shape/native/scope gates. A
+syntactic reading with incomplete acquisition stays pending; scoped counts
+never establish reference, intention, exclusivity or external truth.
+
+Preserve the first CI push run 40705785054, following PR run 40705964905 and
+first local result in evidence/productive_clause_v1/validation. The original
+evaluator misordered VOS role lists and reported 50 false authorizations; raw
+producer roles were correct. review1 repairs only the evaluator projection,
+uses a new freeze/schema, and permits exposed reruns only. On c694a5a it measured
+200/200 contracts, 100/100 positive surfaces over 50 order-sensitive frames,
+50/50 negatives, 50/50 outside controls and zero observed false authorizations.
+All 200 raw producer outputs and all four native hashes equal the local first
+run. These authored exposed results are not blind or open-Arabic accuracy.
+
+The entropy framework is organizational metadata plus a supplied-ledger count;
+it cannot authenticate its own evidence records or grant release authority.
+Current work is reconciled with N0–N6 in docs/NABT_DELIVERY_PLAN_AR.md and
+docs/NABT_HISTORICAL_ASSESSMENT_AR.md. Future 120 customary-meaning cases,
+80 well-formedness/negation pairs and 40 world scenarios remain unmeasured.

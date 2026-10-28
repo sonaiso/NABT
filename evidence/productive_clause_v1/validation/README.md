@@ -1,5 +1,11 @@
 # Preserved first executions
 
+The exposed review1 run on `c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623` is
+retained separately in `exposed_review1_c694a5a.zip`. Its 200 contracts pass;
+all 200 producer payloads and all four native hashes match the local first
+run. `review1_observations.json` records the exact comparison and test limits.
+The original reports below remain unchanged.
+
 The earliest full matrix execution was GitHub push run **40705785054** on
 `3d42187e7491e6e74ce89d8f2792efe40ce7d5f8`. PR run **40705964905** followed on
 GitHub's merge commit `260d6e52e7c00e9d995a3d60f51be4f8b0b1a4e0`.

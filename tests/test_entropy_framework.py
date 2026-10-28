@@ -60,7 +60,7 @@ def declared_pass():
             "evaluator_sha256": "d" * 64,
         },
         "required_checks": {"passed": 1, "failed": 0, "skipped": 0, "missing": 0},
-    }]
+    }, *value["evidence_records"]]
     return value
 
 
@@ -175,7 +175,7 @@ class FiniteCandidateMeasurements(unittest.TestCase):
 
 
 class RegistryContracts(unittest.TestCase):
-    def test_current_plan_reconciles_v3_without_claiming_target_measurement(self):
+    def test_current_plan_preserves_baseline_and_records_scoped_measurement(self):
         value = registry()
         result = validate_registry(value)
         self.assertEqual(value["baseline"]["nabt_commit"], "b7442580e7e681a68a85f40bc247be8ee286e7e3")
@@ -189,7 +189,17 @@ class RegistryContracts(unittest.TestCase):
         self.assertEqual(g1["dataset"]["positive_distinct_frames"], 50)
         self.assertEqual(value["development_checkpoints"]["independent_gold_commit"],
                          "7ca87dcda09427641ad346fa1108eb2c87382f22")
-        self.assertFalse(value["development_checkpoints"]["evaluation_started"])
+        self.assertTrue(value["development_checkpoints"]["evaluation_started"])
+        cap = value["capabilities"][0]
+        self.assertEqual(cap["state"], "EVALUATED")
+        measured = next(row for row in value["evidence_records"] if row["id"] in cap["evidence_ids"])
+        self.assertEqual(measured["phase"], "exposed")
+        self.assertEqual(measured["run_identity"]["code_commit"],
+                         "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623")
+        self.assertEqual(measured["reported_measurements"]["syntax_contracts"],
+                         {"correct": 200, "total": 200})
+        self.assertEqual(measured["required_checks"],
+                         {"passed": 9, "failed": 0, "skipped": 0, "missing": 0})
         self.assertFalse(result["evidence_verified"])
 
     def test_scoped_run_does_not_close_global_gates_or_rewrite_baseline(self):
