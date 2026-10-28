@@ -2,10 +2,12 @@
 
 All episodes below are synthetic protocol fixtures authored from the frozen
 specification. This module never imports or reads the frozen forty scenarios.
-Native tests deliberately fail readiness when the required executable is absent.
+The dedicated gate requires native tests; general Python-only discovery may
+report their absence as a skip, without claiming native conformance.
 """
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
 import subprocess
 import unittest
@@ -280,8 +282,13 @@ class LifecycleWireBoundaryTests(unittest.TestCase):
 class LifecycleNativeBoundaryTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        requirement = os.environ.get("NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE", "")
+        if requirement not in ("", "1"):
+            raise AssertionError("NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE must be unset or 1")
         if not lifecycle.NATIVE.is_file():
-            raise AssertionError("Required evidenceLifecycleV1 executable is absent; this is not a passing skip")
+            if requirement == "1":
+                raise AssertionError("Required evidenceLifecycleV1 executable is absent; this is not a passing skip")
+            raise unittest.SkipTest("native lifecycle boundaries require the dedicated lifecycle conformance gate")
 
     def call_raw(self, encoded):
         completed = subprocess.run([str(lifecycle.NATIVE)], input=encoded + b"\n",
@@ -446,6 +453,27 @@ class LifecycleNativeBoundaryTests(unittest.TestCase):
         checked = lifecycle.verify_episode(report, expected_episode=value)
         self.assertIs(checked["valid"], False)
         self.assertIs(checked["replay_matches"], False)
+
+
+class NativeReadinessPolicyTests(unittest.TestCase):
+    def test_python_only_discovery_reports_unavailable_native_without_authority(self):
+        with patch.object(lifecycle, "NATIVE") as native, patch.dict(
+                os.environ, {"NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE": ""}):
+            native.is_file.return_value = False
+            with self.assertRaises(unittest.SkipTest):
+                LifecycleNativeBoundaryTests.setUpClass()
+
+    def test_required_gate_cannot_skip_an_absent_native(self):
+        with patch.object(lifecycle, "NATIVE") as native, patch.dict(
+                os.environ, {"NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE": "1"}):
+            native.is_file.return_value = False
+            with self.assertRaisesRegex(AssertionError, "Required evidenceLifecycleV1"):
+                LifecycleNativeBoundaryTests.setUpClass()
+
+    def test_unknown_readiness_setting_is_not_a_soft_fallback(self):
+        with patch.dict(os.environ, {"NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE": "typo"}):
+            with self.assertRaisesRegex(AssertionError, "must be unset or 1"):
+                LifecycleNativeBoundaryTests.setUpClass()
 
 
 if __name__ == "__main__":

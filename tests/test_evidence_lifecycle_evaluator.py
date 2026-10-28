@@ -219,7 +219,10 @@ class FreezeBoundaryTests(unittest.TestCase):
 
     def test_frozen_source_inventory_includes_both_retained_path_schemas(self):
         guard = evaluator.load_bootstrap()
-        commit = evaluator.MATRIX_COMMIT
+        # Inventory is a property of the checked-out source packets. Historical
+        # ancestry is checked separately by first-execution freeze verification;
+        # ordinary runtime CI intentionally uses a shallow checkout.
+        commit = guard.git("rev-parse", "HEAD")
         inference = guard.parse_json(guard.git("show", commit + ":" + guard.INFERENCE_SOURCE_PATH, binary=True))
         inventory = set(guard.git("ls-files", "-z").split("\0"))
         paths = evaluator.required_paths(guard, inventory, inference, evaluator.packets_at(guard, commit))

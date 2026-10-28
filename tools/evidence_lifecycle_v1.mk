@@ -9,7 +9,7 @@ evidence-lifecycle-native: productive-clause-evaluation
 	test -x $(CURDIR)/formal/.lake/build/bin/evidenceLifecycleV1
 
 evidence-lifecycle-conformance: evidence-lifecycle-native
-	PYTHONPATH=src:. $(PYTHON) -B -m unittest discover -s tests -p 'test_evidence_lifecycle*.py' -v
+	NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE=1 PYTHONPATH=src:. $(PYTHON) -B -m unittest discover -s tests -p 'test_evidence_lifecycle*.py' -v
 	PYTHONPATH=src:. $(PYTHON) -B -m unittest discover -s tests -p 'test_productive_lifecycle*.py' -v
 
 evidence-lifecycle-evaluation: evidence-lifecycle-conformance
