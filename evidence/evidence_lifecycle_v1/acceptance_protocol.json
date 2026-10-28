@@ -1,0 +1,14 @@
+{
+  "schema": "nabt.evidence-lifecycle.acceptance-protocol.v1",
+  "law_id": "nabt.evidence-lifecycle.v1",
+  "baseline_commit": "c2c072e17802b62c13109cee7c087b7b58895a1a",
+  "spec_path": "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+  "population": {"scenarios": 40, "families": {"withdrawal": 8, "lineage": 8, "conflict": 8, "qualified_key": 8, "revision_and_absence": 8}},
+  "acceptance": {"scenario_contracts": 40, "all_expected_steps_required": true, "observed_false_authorizations": 0, "required_skips": 0},
+  "freeze_order": ["source_spec_protocol", "independent_scenario_gold", "implementation", "execution_freeze", "first_execution"],
+  "independence": {"author_reads_implementation": false, "authored_controls": true, "blind": false, "exposed_after_freeze": true, "actual_world_observations": false},
+  "axes": ["input_contract", "complete_episode_binding", "source_state_per_step", "ordered_witnesses_per_step", "dependency_ready_and_blocked", "affected_ids", "historical_receipt_validity", "current_receipt_validity", "source_identity_revision_content", "resource_outcome"],
+  "denominators": "Report scenarios and episode steps separately; all steps must match for scenario credit. Wire boundary tests and productive-clause integration tests are separate.",
+  "first_result_policy": "Retain every first result and failure. Never edit gold to repair implementation. Later reruns are exposed and separately identified.",
+  "nonclaims": ["external-world truth", "sensor or collector authenticity", "statistical independence", "all-Arabic completeness", "general candidate-space recovery", "completion of G2 or G3", "general G0/G4 admission"]
+}
