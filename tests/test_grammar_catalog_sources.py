@@ -91,9 +91,15 @@ class GrammarCatalogSourceTests(unittest.TestCase):
         names = set(json.loads((ROOT / "formal/theorems.json").read_text())["theorems"])
         for row in self.catalog["rules"] + self.catalog["items"]:
             self.assertTrue(set(row["theorem_names"]) <= names)
-        self.assertEqual(sum(bool(r["theorem_names"]) for r in self.catalog["rules"]), 6)
+        self.assertEqual(sum(bool(r["theorem_names"]) for r in self.catalog["rules"]), 24)
         self.assertEqual({n for r in self.catalog["rules"] for n in r["theorem_names"]},
-                         {"Nabt.ClassicalHamza.enumeration_exact"})
+                         {"Nabt.ClassicalHamza.enumeration_exact",
+                          "Nabt.ClassicalWeak.enumeration_exact",
+                          "Nabt.ClassicalGemination.enumeration_exact",
+                          "Nabt.ClassicalGemination.nun_exact",
+                          "Nabt.ClassicalBoundaryAffixes.weak_exact",
+                          "Nabt.ClassicalBoundaryAffixes.light_exact",
+                          "Nabt.ClassicalBoundaryAffixes.ana_exact"})
         self.assertEqual(self.rules["nabt.classical-rule-inventory.v1::CMD-SOUND-2MS"]["theorem_names"], [])
 
     def test_docket_obligations_are_open_and_separate(self):

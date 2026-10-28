@@ -1,0 +1,154 @@
+{
+  "schema": "nabt.sourced-acquisition-gold-erratum.v1",
+  "erratum_id": "A116_AYN_FATHA_LITERAL_INDEX",
+  "exposure": "EXPOSED_AFTER_FIRST_MATRIX_EXECUTION",
+  "original_gold": {
+    "path": "evidence/sourced_acquisition_v3/gold.json",
+    "sha256": "c61c971adc4e88e4626a890f3fb304dfdeafcc3ac6b312e46854e1f3a67ccbee",
+    "schema": "nabt.sourced-acquisition-gold.v3",
+    "matrix_commit": "286651fb860e808b2f51b604803f7e177ac9febd"
+  },
+  "source_spec_freeze": "d597b8583f21a6b31d709f79ffc8c5008ebc5f80",
+  "preserved_first_result": {
+    "archive_path": "evidence/sourced_acquisition_v3/validation/first-matrix-ab8640b/sourced-result.json.gz",
+    "archive_sha256": "3cc94b3318268c758c7eaa6194207b22144fbda964690c4420da7f4d3745dea1",
+    "decompressed_sha256": "4eb4bf2b7b8d3ec85efd1ba53e9ccd98796ebaa159741a23aef01ab9471b67cd",
+    "implementation_commit": "ab8640bd27196de75c10a59e005fe3ad9e88e3bd",
+    "stored_contract_matches": 158,
+    "stored_positive_acquired": 90,
+    "stored_false_authorization_flags": 3
+  },
+  "reason": "The independent matrix author manually used the preceding carrier index16 for ayin. This encoded za+fatha instead of ayin+fatha in six literal array elements across three cases. The frozen alphabet and exact source spelling establish the correction without trusting producer output.",
+  "derivation": {
+    "alphabet_id": "nabt.a116.v1",
+    "index_convention": "zero_based",
+    "encoding": "cell = 4 * carrier_index + mark_index",
+    "intended_carrier": "ع",
+    "intended_carrier_index": 17,
+    "mark": "َ",
+    "mark_index": 0,
+    "correct_cell": 68,
+    "erroneous_cell": 64,
+    "erroneous_carrier": "ظ",
+    "erroneous_carrier_index": 16
+  },
+  "proof_basis": [
+    {
+      "path": "formal/Nabt/Cell.lean",
+      "sha256": "43a0651ccf01136c179d11c79ed41905201e5a78a6b0cd31e34521bb31edbf3d",
+      "locators": [
+        "Cell.encode, lines 19-20",
+        "canonicalCarriers, lines 72-74"
+      ],
+      "scope": "A116 carrier order and encoding are normative representation definitions; ayin is index17 and fatha state0."
+    },
+    {
+      "path": "src/nabt/alphabet.py",
+      "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+      "locators": [
+        "ALPHABET_ID/CARRIERS/HARAKAT, lines 14-18"
+      ],
+      "scope": "The unchanged declared Python alphabet agrees with the Lean order and four states; this file was read as a declaration and not imported."
+    },
+    {
+      "path": "docs/SOURCED_ACQUISITION_V3_CONNECTED.md",
+      "sha256": "59e5965501abe71d95c7a94f3a73dc6e75da5212ca507aab3c3e2f8b72caf517",
+      "locators": [
+        "Canonical family table, AYN row",
+        "Citation acquisition: unchanged carrier/mark rules"
+      ],
+      "scope": "The frozen grammar installs the exact eye-word case variants and retains unchanged A116 cell identities."
+    },
+    {
+      "path": "evidence/sourced_acquisition_v3/source_evidence.json",
+      "sha256": "64d6d40943ed59a34d16a58de92e11f8672cbdc7ed47ec15f4e341d07594e423",
+      "locators": [
+        "finite_registry.readings[id=ARTICLE_AYN_U].canonical",
+        "finite_registry.readings[id=ARTICLE_AYN_A].canonical",
+        "finite_registry.readings[id=ARTICLE_AYN_I].canonical"
+      ],
+      "scope": "Every cited canonical surface contains ayin with fatha, not za with fatha. The source packet does not redefine the alphabet."
+    }
+  ],
+  "patches": [
+    {
+      "case_id": "o_ayn_u",
+      "projection": "/realization/phrase_cells",
+      "array_index": 4,
+      "before": 64,
+      "after": 68
+    },
+    {
+      "case_id": "o_ayn_u",
+      "projection": "/acquisition/words/1/cells",
+      "array_index": 2,
+      "before": 64,
+      "after": 68
+    },
+    {
+      "case_id": "o_ayn_a",
+      "projection": "/realization/phrase_cells",
+      "array_index": 4,
+      "before": 64,
+      "after": 68
+    },
+    {
+      "case_id": "o_ayn_a",
+      "projection": "/acquisition/words/1/cells",
+      "array_index": 2,
+      "before": 64,
+      "after": 68
+    },
+    {
+      "case_id": "o_ayn_i",
+      "projection": "/realization/phrase_cells",
+      "array_index": 4,
+      "before": 64,
+      "after": 68
+    },
+    {
+      "case_id": "o_ayn_i",
+      "projection": "/acquisition/words/1/cells",
+      "array_index": 2,
+      "before": 64,
+      "after": 68
+    }
+  ],
+  "unchanged_contract": {
+    "original_gold_bytes_preserved": true,
+    "original_first_result_bytes_preserved": true,
+    "case_ids_and_texts_unchanged": true,
+    "case_count": 161,
+    "required_positive_count": 109,
+    "negative_control_count": 52,
+    "goal_predicates_unchanged": true,
+    "statuses_unchanged": true,
+    "other_expected_values_unchanged": true,
+    "source_spec_and_runtime_unchanged": true
+  },
+  "independent_static_rescore": {
+    "input_decompressed_sha256": "4eb4bf2b7b8d3ec85efd1ba53e9ccd98796ebaa159741a23aef01ab9471b67cd",
+    "before": {
+      "contract_matches": 158,
+      "positive_goal_predicates_matched": 90,
+      "positive_goal_predicates_and_contract_matched": 87,
+      "negative_contract_matches": 52
+    },
+    "after": {
+      "contract_matches": 161,
+      "positive_goal_predicates_matched": 90,
+      "positive_goal_predicates_and_contract_matched": 90,
+      "negative_contract_matches": 52
+    },
+    "method": "In-memory six-scalar overlay followed by independent JSON-pointer traversal and recursive exact-type equality over every stored raw result. No production module imported, no native executable invoked, and no new runtime result generated. These projection counts do not independently rerun native/source safety checks.",
+    "runtime_executed": false,
+    "production_imported": false,
+    "new_linguistic_behavior_claimed": false
+  },
+  "application_contract": [
+    "Verify the exact original-gold and code-owned erratum hashes before overlaying a copy; keep original files immutable.",
+    "Require exactly these six distinct case/projection/index locations with strict integer before/after values, never Boolean coercion.",
+    "A replay using this overlay is exposed. Label the original158/161 and corrected161/161 projection measurements separately.",
+    "This correction changes oracle scoring only; it does not add linguistic coverage, prove semantic fidelity, establish author intention, or establish world truth."
+  ]
+}

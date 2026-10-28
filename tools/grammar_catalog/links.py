@@ -82,6 +82,9 @@ def _compose(source: dict, compiled: dict) -> dict:
                 "scope": row.get("scope", row.get("description", "")),
                 "reference_scope": "authored_explicit_reference_not_source_fidelity_proof",
             })
+            if "operator_traceability" in row:
+                nodes[-1]["implemented_scope"] = row["implemented_scope"]
+                nodes[-1]["operator_traceability"] = row["operator_traceability"]
             linked_passages.update(pids)
             for name in sorted(references):
                 if name not in declarations:

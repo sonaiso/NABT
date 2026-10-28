@@ -1,0 +1,34 @@
+test_direct_v3_requires_successful_linguistic_native_dependency (__main__.SourcedBuildOrder.test_direct_v3_requires_successful_linguistic_native_dependency) ... FAIL
+test_parallel_linguistic_native_failure_blocks_v3_freeze (__main__.SourcedBuildOrder.test_parallel_linguistic_native_failure_blocks_v3_freeze) ... FAIL
+test_parallel_linguistic_native_rebuild_finishes_before_v3 (__main__.SourcedBuildOrder.test_parallel_linguistic_native_rebuild_finishes_before_v3) ... FAIL
+test_v3_native_failure_never_freezes_or_scores (__main__.SourcedBuildOrder.test_v3_native_failure_never_freezes_or_scores) ... ok
+test_v3_waits_for_historical_replays_native_checks_and_links (__main__.SourcedBuildOrder.test_v3_waits_for_historical_replays_native_checks_and_links) ... ok
+
+======================================================================
+FAIL: test_direct_v3_requires_successful_linguistic_native_dependency (__main__.SourcedBuildOrder.test_direct_v3_requires_successful_linguistic_native_dependency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/nabt-actual-make-graph-review-mnbxhhth/tests/test_sourced_acquisition_v3_build_order.py", line 117, in test_direct_v3_requires_successful_linguistic_native_dependency
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_parallel_linguistic_native_failure_blocks_v3_freeze (__main__.SourcedBuildOrder.test_parallel_linguistic_native_failure_blocks_v3_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/nabt-actual-make-graph-review-mnbxhhth/tests/test_sourced_acquisition_v3_build_order.py", line 126, in test_parallel_linguistic_native_failure_blocks_v3_freeze
+    self.assertFalse(any("tools/freeze_sourced_acquisition_v3.py" in row or
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_parallel_linguistic_native_rebuild_finishes_before_v3 (__main__.SourcedBuildOrder.test_parallel_linguistic_native_rebuild_finishes_before_v3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/nabt-actual-make-graph-review-mnbxhhth/tests/test_sourced_acquisition_v3_build_order.py", line 112, in test_parallel_linguistic_native_rebuild_finishes_before_v3
+    self.assertLess(linguistic, native)
+AssertionError: 226 not less than 212
+
+----------------------------------------------------------------------
+Ran 5 tests in 14.675s
+
+FAILED (failures=3)

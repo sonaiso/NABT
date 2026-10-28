@@ -13,14 +13,17 @@ import json
 from pathlib import Path
 from typing import Any
 
+from . import operator_traceability
+
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_DIR = "src/nabt/data/source_evidence"
-SCHEMA = "nabt.grammar-retrieval-catalog.v1"
+SCHEMA = "nabt.grammar-retrieval-catalog.v2"
 AUTHORITY = "RETRIEVAL_ONLY"
 
 # Code-owned installed input identities. A submitted hash/manifest cannot change
 # these. A new edition/selection requires a reviewed version change here.
 INPUT_SHA256 = {
+    'evidence/operator_traceability_v1/registry.json': '90b4e8c186a3a050c55fcdcd8658c819f99e53ce7648820c3db2b00e791f92c1',
     'evidence/arabic_completion_v6/books/book_source_index_v1.json': 'e7a12c55f5ebaa38297ec63f2236d32e0b20b480c982e23eb59b783e01456054',
     'evidence/arabic_completion_v6/books/qatr_semantic_docket_v1.json': '7ed896f324824271ee67d15676831fb1dc34e252b2f6925b75ef6fc8527ff68a',
     'evidence/arabic_completion_v6/rule_implementation_crosswalk.json': '52f27b7e00e730525c4278d7600f3668495ef75cf327f19a6fe7a81759b4c8a6',
@@ -55,6 +58,7 @@ LOCAL_SOURCE_FILES = {
 BOOK_INDEX = "evidence/arabic_completion_v6/books/book_source_index_v1.json"
 QATR_DOCKET = "evidence/arabic_completion_v6/books/qatr_semantic_docket_v1.json"
 CROSSWALK = "evidence/arabic_completion_v6/rule_implementation_crosswalk.json"
+OPERATOR_TRACEABILITY = "evidence/operator_traceability_v1/registry.json"
 
 
 class CatalogError(ValueError):
@@ -258,6 +262,13 @@ def build_catalog(root: Path = ROOT) -> dict:
                    if r["status"] == "new_scoped_conditional_operator"}
     if len(runtime_ids) != 24:
         raise CatalogError("installed conditional operator crosswalk changed")
+    try:
+        operator_rows, operator_inputs = operator_traceability.validate_registry(
+            documents[OPERATOR_TRACEABILITY], crosswalk, CROSSWALK, known_theorems,
+            lambda path: _read(root, path))
+    except (operator_traceability.TraceabilityError, UnicodeError) as exc:
+        raise CatalogError(str(exc)) from exc
+    inputs.extend(operator_inputs)
 
     def add_rule(registry: str, local_id: str, record: dict, pids: list[str],
                  scope: str, *, theorem_refs: list[str] | None = None,
@@ -303,11 +314,22 @@ def build_catalog(root: Path = ROOT) -> dict:
         rid = r["rule_id"]
         pids = [add_passage(s, f"{inventory['schema']}::{rid}", "selected_rule_witness") for s in r["source_spans"]]
         linked = crosswalk_by_id[rid]
-        names = [linked["formal_exactness_theorem"]] if "formal_exactness_theorem" in linked else []
+        current = operator_rows.get(rid)
+        names = ([ref["declaration"] for ref in current["formal_references"]] if current else
+                 [linked["formal_exactness_theorem"]] if "formal_exactness_theorem" in linked else [])
         add_rule(inventory["schema"], rid, r, pids, inventory["scope"],
                  theorem_refs=names, runtime_id=rid if rid in runtime_ids else None)
         rules[-1]["implementation_status"] = linked["status"]
-        rules[-1]["implemented_scope"] = linked["implemented_scope"]
+        rules[-1]["implemented_scope"] = (current or linked)["implemented_scope"]
+        if current:
+            rules[-1]["operator_traceability"] = {
+                "registry_path": OPERATOR_TRACEABILITY,
+                "registry_schema": operator_traceability.SCHEMA,
+                "implementation_path": current["implementation_path"],
+                "formal_specialization": current["formal_specialization"],
+                "formal_references": current["formal_references"],
+                "claims": documents[OPERATOR_TRACEABILITY]["claims"],
+            }
 
     for name in ("construction_policy.json", "discourse_policy.json", "governor_policy.json", "inflection_policy.json"):
         policy = doc(name)
@@ -402,6 +424,9 @@ def build_catalog(root: Path = ROOT) -> dict:
             "book_partition_bytes": book_partition_bytes,
             "unique_passages": len(passages), "namespaced_policy_entries": len(rules),
             "installed_conditional_operators": len(runtime_ids),
+            "operators_with_explicit_scoped_theorem": sum(
+                bool(r["runtime_rule_id"] and r.get("implemented_scope") and r["theorem_names"])
+                for r in rules),
             "evidence_items": len(items),
             "rule_denominator_scope": "125 installed namespaced entries, not distinct semantic rules or all Arabic",
             "theorem_manifest_scope": "advertised name resolution only; compile audit is separate",

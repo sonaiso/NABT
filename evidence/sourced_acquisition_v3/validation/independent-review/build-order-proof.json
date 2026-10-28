@@ -1,0 +1,34 @@
+{
+  "commit": "2463c6c0fc592fff5de10f33b2493df1e53d8e1e",
+  "scope": "Actual make -qp reachability plus isolated minimal scheduling witness; no real repository recipe or native binary executed.",
+  "actual_prerequisites": {
+    "sourced-acquisition-native": [
+      "article-acquisition-evaluation"
+    ],
+    "sourced-acquisition-conformance": [
+      "sourced-acquisition-native"
+    ],
+    "sourced-acquisition-evaluation": [
+      "sourced-acquisition-conformance"
+    ],
+    "linguistic-truth": [
+      "formal"
+    ]
+  },
+  "linguistic_gate_precedes_v3_freeze": false,
+  "observations": {
+    "current_graph": {
+      "other_native_rebuild_active": true
+    },
+    "with_prerequisite": {
+      "other_native_rebuild_active": false
+    }
+  },
+  "inputs": {
+    "tools/sourced_acquisition_v3.mk": "8ed3f01a00157326b21dd11407a223a651fa6da9fa213972715a7af116f71ebc",
+    "integrations/linguistic_truth.mk": "ebe51139caf8f0898062872c67dd9218275e81a7ab2580dd9a861fd20755d9f6",
+    "tools/check_linguistic_truth.py": "236b4f65ced4423f65b4e396e77a0910416be05df5f53649b5a08846936ab6cf"
+  },
+  "suggested_change": "sourced-acquisition-native: article-acquisition-evaluation linguistic-truth",
+  "impact": "A separately scheduled measured-native rebuild can overlap the v3 freeze/evaluation under make -j check. This is an ordering/reproducibility defect; snapshot checks fail closed when changed bytes persist."
+}

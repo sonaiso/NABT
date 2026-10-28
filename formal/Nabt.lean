@@ -71,3 +71,6 @@ import Nabt.EpistemicMeasurement
 import Nabt.AlignedAcquisition
 
 import Nabt.AlignedAcquisitionV2
+
+import Nabt.ConnectedAcquisitionV3
+import Nabt.AcquiredSyntaxV3
