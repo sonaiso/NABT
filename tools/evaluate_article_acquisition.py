@@ -227,7 +227,8 @@ def source_checks(guard, acquisition, text, source_id, scope, onset, ending):
         members = [p for p in pieces if type(p.get("start")) is int and start <= p["start"] < end]
         valid = valid and all(type(word.get(k)) is int and word[k] == v for k, v in
             (("start", start), ("end", end), ("byte_start", offsets[start]), ("byte_end", offsets[end])))
-        valid = valid and bool(members) and word.get("cells") == [c for p in members for c in p.get("cells", [])]
+        valid = (valid and bool(members) and members[0]["start"] == start and members[-1]["end"] == end
+                 and word.get("cells") == [c for p in members for c in p.get("cells", [])])
     checks["words"] = bool(valid)
     return checks
 

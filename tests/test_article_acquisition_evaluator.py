@@ -275,6 +275,34 @@ class ArticleEvaluatorTests(unittest.TestCase):
                 checks = evaluator.source_checks(guard, mutant, "بَ", "fixture", "fixture", "word_initial", "wasl")
                 self.assertFalse(all(checks.values()))
 
+    def test_source_pieces_cannot_cross_independent_word_boundaries(self):
+        guard = evaluator.load_bootstrap()
+        acquisition, _ = self.modules()
+        text = "بَ بَ"
+        report = acquisition.read_acquired("بَ", source_id="fixture", revision="1", scope="fixture",
+                                            onset="word_initial", ending="wasl")["acquisition"]
+        report.update(text=text, words=[
+            {"start": 0, "end": 2, "byte_start": 0, "byte_end": 4, "cells": [4], "status": "ACQUIRED"},
+            {"start": 3, "end": 5, "byte_start": 5, "byte_end": 9, "cells": [4], "status": "ACQUIRED"}])
+        # All partitions restore the source and have valid UTF-8 intervals and
+        # A116 cells. Only the first partition respects both word boundaries.
+        partitions = (
+            (True, [(0, 2, [4]), (2, 3, []), (3, 5, [4])]),
+            (False, [(0, 4, [4]), (4, 5, [4])]),  # Exact reported counterexample.
+            (False, [(0, 3, [4]), (3, 5, [4])]),  # Wrong last member end only.
+            (False, [(0, 2, [4]), (2, 4, []), (4, 5, [4])]),  # Wrong first member start only.
+        )
+        for expected, intervals in partitions:
+            with self.subTest(intervals=intervals):
+                report["pieces"] = [{"start": start, "end": end,
+                    "byte_start": len(text[:start].encode("utf-8")),
+                    "byte_end": len(text[:end].encode("utf-8")), "raw": text[start:end],
+                    "cells": cells, "status": "LICENSED" if cells else "BOUNDARY", "rule": "FIXTURE"}
+                    for start, end, cells in intervals]
+                checks = evaluator.source_checks(guard, report, text, "fixture", "fixture", "word_initial", "wasl")
+                self.assertTrue(all(value for key, value in checks.items() if key != "words"))
+                self.assertIs(checks["words"], expected)
+
     def test_conditional_query_mode_full_chain_and_unmeasured_goals_are_separate(self):
         guard = evaluator.load_bootstrap()
         acquisition, composite = self.modules()
