@@ -404,9 +404,11 @@
       ],
       "scope": "nabt.evidence-lifecycle.v1",
       "measurement": {
-        "state": "NOT_MEASURED",
-        "reported_outcome": null,
-        "evidence_ids": [],
+        "state": "MEASURED",
+        "reported_outcome": "PASS",
+        "evidence_ids": [
+          "evidence-lifecycle-v1.first.e2d0c2f"
+        ],
         "reason": null
       },
       "scope_note": "Authored conditional source/evidence lifecycle contracts; exact qualified keys and polarity. No source authenticity, world truth, general Omega recovery, interval time or unit conversion. Productive-clause integration checks are separate.",
@@ -787,7 +789,7 @@
         "G4"
       ],
       "deliverable": "قواعد التناقض بحسب المحمول؛ مؤيد/منقوض/متعارض/غير معلوم؛ مراجعة التوابع",
-      "work_status": "PLANNED",
+      "work_status": "IN_PROGRESS",
       "evidence_ids": [],
       "blockers": [],
       "scope": "qualified conflict and withdrawal across the wider project contract; open parent",
@@ -938,13 +940,17 @@
         "G4"
       ],
       "deliverable": "تنفيذ السحب والتنشيط والاستبدال وفصل الإيصال التاريخي عن الحالي؛ استعادة Ω العامة خارج النطاق.",
-      "work_status": "IN_REVIEW",
-      "evidence_ids": [],
+      "work_status": "DELIVERED",
+      "evidence_ids": [
+        "evidence-lifecycle-v1.first.e2d0c2f"
+      ],
       "blockers": [],
       "scope": "nabt.evidence-lifecycle.v1",
       "parent_task_id": "T06",
       "delivery_references": [
-        "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md"
+        "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+        "docs/EVIDENCE_LIFECYCLE_V1_RESULTS_AR.md",
+        "evidence/evidence_lifecycle_v1/validation/first_e2d0c2f.zip#evidence-lifecycle-result.json"
       ]
     },
     {
@@ -960,15 +966,19 @@
       "gates": [
         "G4"
       ],
-      "deliverable": "حفظ أول تشغيل ومقارنة كل خطوة وفق الذهب المستقل؛ لا نتيجة قياس مسجلة بعد.",
-      "work_status": "PLANNED",
-      "evidence_ids": [],
+      "deliverable": "حفظ أول تشغيل ناجح للأربعين، مع 79 خطوة و73 زوج تحقق و7 خطوات تاريخية منفصلة؛ ليس قبولًا عامًا للواقع.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [
+        "evidence-lifecycle-v1.first.e2d0c2f"
+      ],
       "blockers": [],
       "scope": "nabt.evidence-lifecycle.v1",
       "parent_task_id": "T16",
       "delivery_references": [
         "evidence/evidence_lifecycle_v1/acceptance_protocol.json",
-        "evidence/evidence_lifecycle_v1/cases.json"
+        "evidence/evidence_lifecycle_v1/cases.json",
+        "docs/EVIDENCE_LIFECYCLE_V1_RESULTS_AR.md",
+        "evidence/evidence_lifecycle_v1/validation/first_e2d0c2f.zip#evidence-lifecycle-result.json"
       ]
     },
     {
@@ -1132,6 +1142,87 @@
         "change": "Order projected roles by source word_index; preserve gold and producer outputs.",
         "validation_phase": "exposed_only"
       }
+    },
+    {
+      "id": "evidence-lifecycle-v1.first.e2d0c2f",
+      "gate_id": "G4",
+      "scope": "nabt.evidence-lifecycle.v1",
+      "reported_outcome": "PASS",
+      "reference": "evidence/evidence_lifecycle_v1/validation/first_e2d0c2f.zip#evidence-lifecycle-result.json",
+      "phase": "first",
+      "measured_at_utc": "2026-10-28T17:19:06.280504+00:00",
+      "result_sha256": "b7af10ef0fac0652d0f866a5bac510557767fd7583359cc914d6c8d53325e3b7",
+      "run_identity": {
+        "code_commit": "e2d0c2fa735295625e809a2e0d3f5ac34912b9c1",
+        "toolchain": "leanprover/lean4:v4.34.1",
+        "suite_version": "nabt.evidence-lifecycle.cases.v1",
+        "evaluator_version": "nabt.evidence-lifecycle-evaluator.v1",
+        "dataset_sha256": "04609a848ddd4336d600253997b0d79523b28f6475be47f064845769083486be",
+        "gold_sha256": "04609a848ddd4336d600253997b0d79523b28f6475be47f064845769083486be",
+        "evaluator_sha256": "af0069b6a07734cf9db604d488796ea57479ab8af2a9c9dfc41e78e8ca9714e8",
+        "manifest_sha256": "d7eb8abec0b29cfbc53ea18fdc2fe0df1f2846377222dc3a95af6ecea53977d0",
+        "native_executable_sha256": "aac536edf83f44957b5977cfb68e769040765af6ec15e10bb999f04294f29781",
+        "protocol_sha256": "a7586ec40111e318caf23082b427743c57f50ec87cfdc8b5dc4bdb3993c24e32",
+        "command": [
+          "tools/evaluate_evidence_lifecycle_v1.py",
+          "--phase",
+          "first",
+          "--code-freeze",
+          "artifacts/local/lifecycle-first-e2d0c2f-resume1/evidence-lifecycle-freeze.json",
+          "--output",
+          "artifacts/local/lifecycle-first-e2d0c2f-resume1/evidence-lifecycle-result.json"
+        ]
+      },
+      "required_checks": {
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "missing": 0
+      },
+      "required_checks_scope": "Nine acceptance checks of the independently authored forty-scenario lifecycle matrix; not the full project release suite.",
+      "reported_measurements": {
+        "scenarios": 40,
+        "scenario_contracts": 40,
+        "by_family": {
+          "withdrawal": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "lineage": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "conflict": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "qualified_key": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "revision_and_absence": {
+            "scenarios": 8,
+            "contracts": 8
+          }
+        },
+        "main_episode_steps": 79,
+        "matched_main_episode_steps": 79,
+        "verification_pairs": 73,
+        "matched_verification_pairs": 73,
+        "auxiliary_historical_steps": 7,
+        "matched_auxiliary_historical_steps": 7,
+        "native_error_contracts": 6,
+        "matched_native_error_contracts": 6,
+        "observed_false_authorizations": 0,
+        "required_skips": 0
+      },
+      "limitations": [
+        "Authored conditional scenarios; exposed after preimplementation gold freeze, not blind.",
+        "No source authenticity, referent identity, physical-world truth or statistical independence established.",
+        "Exact qualified-key and polarity contracts only; no interval-time or unit conversion or functional-value conflict calculus.",
+        "Productive-clause source integration and fifty target controls are separate from the forty scenarios.",
+        "No general candidate regeneration, G2/G3, G0, N6-b or project release admission."
+      ]
     }
   ],
   "implementation_note": {
@@ -1182,13 +1273,15 @@
     },
     {
       "id": "evidence-lifecycle-v1",
-      "state": "IMPLEMENTED_AWAITING_EVALUATION",
+      "state": "EVALUATED",
       "gate_id": "G4",
       "scope": "nabt.evidence-lifecycle.v1",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "evidence-lifecycle-v1.first.e2d0c2f"
+      ],
       "source_protocol_commit": "4b1812127acf452ed72e57686ec02486bebc472c",
       "independent_gold_commit": "1295da3349b50190dc6f68606f918054e7bbfdf2",
-      "evaluation_status": "NOT_MEASURED",
+      "evaluation_status": "MEASURED",
       "scope_note": "Authored conditional source/evidence lifecycle contracts; exact qualified keys and polarity. No source authenticity, world truth, general Omega recovery, interval time or unit conversion. Productive-clause integration checks are separate."
     }
   ],

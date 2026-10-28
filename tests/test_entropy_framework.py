@@ -224,7 +224,7 @@ class RegistryContracts(unittest.TestCase):
                          "09ad43d5602e5f00fa3ea50b8bae89dbea2aa064b77a604dea1a80a910a8c8bb")
         self.assertEqual(migration["previous_g4_proposal"]["dataset"]["status"], "not_created")
 
-    def test_frozen_lifecycle_population_is_not_a_run(self):
+    def test_measured_lifecycle_population_does_not_admit_general_gate(self):
         value = registry()
         g4 = row(value, "gates", "G4")
         self.assertEqual(g4["scope"], "nabt.evidence-lifecycle.v1")
@@ -236,10 +236,18 @@ class RegistryContracts(unittest.TestCase):
         self.assertEqual(g4["dataset"]["additional_denominators"],
                          {"episode_steps": 79, "verification_pairs": 73,
                           "separate_historical_prefix_steps": 7})
-        self.assertEqual(g4["measurement"]["state"], "NOT_MEASURED")
-        self.assertEqual(g4["measurement"]["evidence_ids"], [])
-        self.assertEqual(row(value, "capabilities", "evidence-lifecycle-v1")["state"], "IMPLEMENTED_AWAITING_EVALUATION")
-        self.assertNotEqual(row(value, "tasks", "T16-LC1")["work_status"], "DELIVERED")
+        self.assertEqual(g4["measurement"]["state"], "MEASURED")
+        self.assertEqual(g4["measurement"]["evidence_ids"], ["evidence-lifecycle-v1.first.e2d0c2f"])
+        evidence = row(value, "evidence_records", g4["measurement"]["evidence_ids"][0])
+        self.assertEqual(evidence["reported_measurements"]["scenario_contracts"], 40)
+        self.assertEqual(evidence["reported_measurements"]["verification_pairs"], 73)
+        self.assertEqual(row(value, "capabilities", "evidence-lifecycle-v1")["state"], "EVALUATED")
+        self.assertEqual(row(value, "tasks", "T16-LC1")["work_status"], "DELIVERED")
+        self.assertNotEqual(row(value, "tasks", "T16")["work_status"], "DELIVERED")
+        admission = row(report_registry(value), "gates", "G4")["admission"]
+        self.assertEqual(admission["readiness"], "BLOCKED_DEPENDENCIES")
+        self.assertEqual(admission["decision"], "NOT_EVALUATED")
+        self.assertFalse(admission["evidence_verified"])
 
     def test_scoped_measurement_and_blocked_admission_are_separate(self):
         value = registry()
