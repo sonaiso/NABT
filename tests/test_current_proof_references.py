@@ -9,7 +9,7 @@ import unittest
 from tools import proof_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
-CURRENT = ROOT / "evidence/aligned_acquisition_v1/integration"
+CURRENT = ROOT / "evidence/article_acquisition_v2/integration"
 
 
 class CurrentProofReferencesTests(unittest.TestCase):
@@ -73,3 +73,4 @@ class CurrentProofReferencesTests(unittest.TestCase):
             self.assertEqual(reference["source_sha256"], compiled["inputs"][reference["source_path"]])
         self.assertIn("Nabt.LicensedInference.verified_execution", declarations)
         self.assertIn("Nabt.AlignedAcquisition.verified_binding", declarations)
+        self.assertIn("Nabt.AlignedAcquisitionV2.verified_binding", declarations)

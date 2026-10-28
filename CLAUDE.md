@@ -69,3 +69,13 @@ debts visible in docs/STRATEGIC_COHERENCE_AR.md: the current conditional languag
 requires الحق, which acquisition v1 defers at its initial alif. A future bridge
 needs a sourced versioned law and a fresh preimplementation matrix; this audit
 does not implement that law or certify nominal/person acquisition.
+
+Article acquisition v2 follows docs/ARTICLE_ACQUISITION_V2_SPEC.md. Its source
+scope was frozen in 6981674 and its independent 89-case matrix in 5b9ad2f before
+implementation. Preserve those contents and the first result. Only the three
+complete finite readings ARTICLE_HAQQ/QAWM/GHULAM can supply citation-onset
+hamza+fatha; an alif-lam prefix alone is ambiguous with imperatives. Stem marks
+are required input. Onset word_initial is independent of ending wasl/waqf;
+connected onset remains deferred. Never change original input for PR 34 or
+promote a nested inference into a complete composite when acquisition/shape
+or source identity is missing. Keep v1 outcomes and new measurements separate.

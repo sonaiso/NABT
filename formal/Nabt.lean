@@ -69,3 +69,5 @@ import Nabt.AttestedLexicalLoading
 import Nabt.EpistemicMeasurement
 
 import Nabt.AlignedAcquisition
+
+import Nabt.AlignedAcquisitionV2
