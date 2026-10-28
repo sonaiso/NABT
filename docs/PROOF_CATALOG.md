@@ -39,9 +39,15 @@ rules. A shared witness or similar wording is not a reason to merge rules.
 Public theorem names are preserved. Within a group the unique dependency sink
 is preferred as canonical; otherwise a documented lexical tie break is used.
 
-The present catalogue contains 1,372 advertised declarations and 1,369 distinct
-normalized statement ASTs. Three existing names are retained as aliases of
-canonical proofs:
+The historical `evidence/grammar_catalog_v1/proof_catalog.json` snapshot contains
+1,372 advertised declarations and 1,369 distinct normalized statement ASTs.
+The current reference selected by `integrations/current_proof_references.mk`
+is `evidence/aligned_acquisition_v1/integration/proof_catalog.json`: 1,504
+declarations and 1,501 statement groups as of 2026-10-28. The selector, rather
+than this dated count, identifies the current snapshot. All dependent source
+link references move together when a new evidence version is introduced;
+historical snapshots remain unchanged. Both snapshots retain these three
+existing names as aliases of canonical proofs:
 
 | Public alias | Canonical proof |
 | --- | --- |
@@ -56,8 +62,8 @@ names is counted as an additional distinct statement.
 ## Reproduction
 
 ```sh
-python3 tools/proof_catalog.py --output evidence/grammar_catalog_v1/proof_catalog.json
-python3 tools/proof_catalog.py --check evidence/grammar_catalog_v1/proof_catalog.json
+python3 tools/proof_catalog.py --output artifacts/local/proof-catalog.json
+make -f Makefile -f integrations/grammar_catalog.mk proof-catalog EVIDENCE_DIR=artifacts/local/proof-catalog
 python3 tools/check_axioms.py --output artifacts/local/proof-catalog-axioms.json
 python3 tools/check_rule_routing.py --output artifacts/local/routing-conformance.json
 python3 -m unittest discover -s tests -p test_proof_catalog.py -v
@@ -65,7 +71,10 @@ python3 -m unittest discover -s tests -p test_proof_catalog.py -v
 
 All three tools accept `--lake /path/to/lake`. The pinned Lean toolchain is
 read from `formal/lean-toolchain`; `proof_catalog.py` rebuilds current sources
-before inspection. The stored JSON is a review snapshot, not proof authority.
+before inspection. The Make target uses the current proof and grammar-link
+selectors and accepts `LAKE=/path/to/lake`. Regenerated output goes under
+`artifacts/local/`; do not overwrite a historical evidence snapshot to make a
+comparison pass. The stored JSON is a review snapshot, not proof authority.
 
 The finite routing conformance suite compares Python with Lean for all 341
 rankings of length zero through four over three installed IDs and one unknown

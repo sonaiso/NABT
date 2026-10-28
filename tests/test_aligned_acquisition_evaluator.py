@@ -15,6 +15,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from tools import evaluate_aligned_acquisition as evaluator
+from tools import freeze_aligned_acquisition as freezer
 
 
 class AlignedAcquisitionEvaluatorTests(unittest.TestCase):
@@ -28,8 +29,20 @@ class AlignedAcquisitionEvaluatorTests(unittest.TestCase):
         files = {
             self.source: b"# frozen acquisition fixture\n",
             "tools/evaluate_aligned_acquisition.py": b"# frozen evaluator fixture\n",
+            "tools/freeze_aligned_acquisition.py": b"# frozen producer fixture\n",
+            "tools/unused_runtime.py": b"# tracked even when this matrix does not import it\n",
+            "tests/test_fixture.py": b"# frozen test fixture\n",
+            "src/nabt/data/fixture.json": b"{}\n",
+            "formal/Fixture.lean": b"-- frozen formal source\n",
+            "formal/lean-toolchain": b"leanprover/lean4:fixture\n",
+            "formal/lake-manifest.json": b"{}\n",
             evaluator.SPEC_PATH: b"frozen specification\n",
-            evaluator.INFERENCE_SOURCE_PATH: b'{"sources": [], "source_registries": []}\n',
+            evaluator.INFERENCE_SOURCE_PATH: json.dumps({
+                "sources": [{"local_path": "evidence/fixture/source.txt"}],
+                "source_registries": [{"path": "evidence/fixture/registry.json"}],
+            }).encode(),
+            "evidence/fixture/source.txt": b"retained source\n",
+            "evidence/fixture/registry.json": b"{}\n",
             "evidence/aligned_acquisition_v1/source_evidence.json": b"{}\n",
         }
         native = {self.native: b"frozen acquisition executable\n",
@@ -38,9 +51,12 @@ class AlignedAcquisitionEvaluatorTests(unittest.TestCase):
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(raw)
+            if name in native:
+                target.chmod(0o755)
         def git(*args):
             return subprocess.run(["git", "-C", str(self.root), *args], check=True,
                                   capture_output=True, text=True).stdout.strip()
+        self.git = git
         git("init", "-q")
         git("add", *files, "gold.json")
         git("-c", "user.name=Freeze test", "-c", "user.email=freeze@example.invalid",
@@ -91,6 +107,70 @@ class AlignedAcquisitionEvaluatorTests(unittest.TestCase):
                 self.assertTrue(report["execution_evidence"]["integrity_valid"])
                 self.assertTrue(report["contract_gate"]["passed"])
                 self.assertTrue(report["representation_gate"]["passed"])
+
+    def test_producer_covers_the_independently_declared_fixture_inventory(self):
+        with patch.multiple(freezer, ROOT=self.root, SPEC_SHA256=self.freeze["spec_sha256"]):
+            produced = freezer.build_freeze()
+        self.assertEqual(produced["files"], self.freeze["files"])
+        self.assertEqual(produced["native"], self.freeze["native"])
+
+    def test_omitted_producer_inputs_are_rejected_before_runtime_imports(self):
+        for name in ("formal/Fixture.lean", "formal/lean-toolchain", "formal/lake-manifest.json",
+                     "tools/freeze_aligned_acquisition.py", "tools/unused_runtime.py",
+                     "tests/test_fixture.py", "src/nabt/data/fixture.json",
+                     "evidence/fixture/source.txt", "evidence/fixture/registry.json"):
+            for phase in ("first", "exposed"):
+                with self.subTest(path=name, phase=phase):
+                    omitted = {**self.freeze, "files": {p: value for p, value in
+                               self.freeze["files"].items() if p != name}}
+                    self.manifest.write_text(json.dumps(omitted))
+                    with self.assertRaisesRegex(ValueError, "omits required runtime inputs") as error:
+                        self.validated(phase)
+                    self.assertIn(name, str(error.exception))
+        self.import_runtime.assert_not_called()
+        self.evaluate.assert_not_called()
+
+    def test_staged_deletion_cannot_hide_a_committed_required_input(self):
+        name = "tools/unused_runtime.py"
+        self.git("rm", "--cached", name)
+        del self.freeze["files"][name]
+        self.manifest.write_text(json.dumps(self.freeze))
+        with self.assertRaisesRegex(ValueError, "omits required runtime inputs") as error:
+            self.validated("exposed")
+        self.assertIn(name, str(error.exception))
+
+    def test_newly_tracked_runtime_input_cannot_be_omitted(self):
+        name = "tools/new_runtime.py"
+        (self.root / name).write_text("# newly tracked input\n")
+        self.git("add", name)
+        with self.assertRaisesRegex(ValueError, "omits required runtime inputs") as error:
+            self.validated("exposed")
+        self.assertIn(name, str(error.exception))
+
+    def test_working_registry_cannot_shrink_the_committed_source_inventory(self):
+        raw = b'{"sources": [], "source_registries": []}\n'
+        (self.root / evaluator.INFERENCE_SOURCE_PATH).write_bytes(raw)
+        self.freeze["files"][evaluator.INFERENCE_SOURCE_PATH] = evaluator.digest(raw)
+        del self.freeze["files"]["evidence/fixture/source.txt"]
+        self.manifest.write_text(json.dumps(self.freeze))
+        with self.assertRaisesRegex(ValueError, "omits required runtime inputs") as error:
+            self.validated("exposed")
+        self.assertIn("evidence/fixture/source.txt", str(error.exception))
+
+    def test_committed_source_registry_uses_strict_json(self):
+        raw = b'{"sources": [], "sources": [], "source_registries": []}\n'
+        (self.root / evaluator.INFERENCE_SOURCE_PATH).write_bytes(raw)
+        self.git("add", evaluator.INFERENCE_SOURCE_PATH)
+        self.git("-c", "user.name=Freeze test", "-c", "user.email=freeze@example.invalid",
+                 "-c", "commit.gpgsign=false", "commit", "-qm", "Ambiguous source registry")
+        self.freeze["commit"] = self.git("rev-parse", "HEAD")
+        self.freeze["files"][evaluator.INFERENCE_SOURCE_PATH] = evaluator.digest(raw)
+        self.manifest.write_text(json.dumps(self.freeze))
+        with self.assertRaisesRegex(ValueError, "duplicate JSON key"):
+            self.validated("exposed")
+        with patch.multiple(freezer, ROOT=self.root, SPEC_SHA256=self.freeze["spec_sha256"]), \
+                self.assertRaisesRegex(ValueError, "duplicate JSON key"):
+            freezer.build_freeze()
 
     def test_source_replaced_after_validation_is_rejected_before_import(self):
         freeze, evidence = self.validated()

@@ -56,6 +56,8 @@ SEPARATORS = frozenset(' \t\r\n.،؛,:!?؟()[]{}«»"“”')
 ACQUISITION_STATUSES = {"ACQUIRED", "DEFER", "INVALID_INPUT"}
 GOAL_KINDS = {"acquisition", "person", "nominal_syntax", "conditional_inference"}
 HEX = re.compile(r"[0-9a-f]{64}\Z")
+REQUIRED_NATIVE_PATHS = frozenset({"formal/.lake/build/bin/alignedAcquisition",
+                                   "formal/.lake/build/bin/licensedInference"})
 
 
 def digest(raw: bytes) -> str:
@@ -76,8 +78,7 @@ def unique_object(pairs: list[tuple[str, Any]]) -> dict:
     return result
 
 
-def load_json(path: Path) -> tuple[dict, str]:
-    raw = path.read_bytes()
+def parse_json(raw: bytes) -> dict:
     if len(raw) > 16 * 1024 * 1024:
         raise ValueError("input JSON exceeds evaluator budget")
     result = json.loads(raw.decode("utf-8", "strict"), object_pairs_hook=unique_object,
@@ -85,7 +86,42 @@ def load_json(path: Path) -> tuple[dict, str]:
                             ValueError("nonfinite JSON number: " + value)))
     if type(result) is not dict:
         raise ValueError("JSON document must be an object")
-    return result, digest(raw)
+    return result
+
+
+def load_json(path: Path) -> tuple[dict, str]:
+    raw = path.read_bytes()
+    return parse_json(raw), digest(raw)
+
+
+def required_freeze_paths(inventory: set[str], inference_sources: dict) -> set[str]:
+    """Select the same committed runtime evidence for freezing and verification.
+
+    Callers supply the union of the named commit tree and the current index:
+    staging a deletion must not hide a committed input, and newly tracked
+    runtime inputs must not silently fall outside the snapshot. Source links
+    come from the named commit's registry, never a second mutable file read.
+    This is inventory policy only; native replay and alignment remain separate.
+    """
+    paths = {name for name in inventory if
+             (name.startswith("src/nabt/") and (name.endswith(".py") or name.startswith("src/nabt/data/")))
+             or (name.startswith(("tools/", "tests/")) and name.endswith(".py"))
+             or (name.startswith("formal/") and name.endswith(".lean"))}
+    paths.update({SPEC_PATH, INFERENCE_SOURCE_PATH, "formal/lean-toolchain",
+                  "formal/lake-manifest.json", "tools/evaluate_aligned_acquisition.py",
+                  "tools/freeze_aligned_acquisition.py", "tools/aligned_acquisition.py",
+                  "evidence/aligned_acquisition_v1/source_evidence.json"})
+    for group, field in (("sources", "local_path"), ("source_registries", "path")):
+        entries = inference_sources.get(group)
+        if type(entries) is not list:
+            raise ValueError("inference source registry requires a list: " + group)
+        for entry in entries:
+            name = entry.get(field) if type(entry) is dict else None
+            if (type(name) is not str or not name or Path(name).is_absolute()
+                    or Path(name).as_posix() != name or ".." in Path(name).parts):
+                raise ValueError("invalid inference source inventory path")
+            paths.add(name)
+    return paths
 
 
 def git(*args: str, binary: bool = False) -> str | bytes:
@@ -181,16 +217,13 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
         raise ValueError("code freeze requires tracked files and local native hashes")
     if set(files) & set(native):
         raise ValueError("source and native freeze paths must not overlap")
-    required = {"tools/aligned_acquisition.py", "tools/evaluate_aligned_acquisition.py",
-                "evidence/aligned_acquisition_v1/source_evidence.json",
-                SPEC_PATH, INFERENCE_SOURCE_PATH}
+    tracked = set(git("ls-files", "-z").split("\0")) - {""}
+    committed = set(git("ls-tree", "-r", "--name-only", "-z", commit).split("\0")) - {""}
+    inference_sources = parse_json(git("show", commit + ":" + INFERENCE_SOURCE_PATH, binary=True))
+    required = required_freeze_paths(tracked | committed, inference_sources)
     if not required <= set(files):
-        raise ValueError("code freeze omits evaluator, implementation or specification")
-    tracked = set(git("ls-files", "-z").split("\0"))
-    data_files = {name for name in tracked if name.startswith("src/nabt/data/")}
-    if not data_files <= set(files):
-        raise ValueError("code freeze omits installed runtime data: " +
-                         ", ".join(sorted(data_files - set(files))))
+        raise ValueError("code freeze omits required runtime inputs: " +
+                         ", ".join(sorted(required - set(files))))
     for name, expected_hash in files.items():
         file_path = local_path(name)
         if name not in tracked or type(expected_hash) is not str or not HEX.fullmatch(expected_hash):
@@ -199,20 +232,13 @@ def verify_freeze(path: Path, phase: str, gold_path: Path) -> tuple[dict, dict]:
             raise ValueError("working file differs from implementation freeze: " + name)
         if digest(git("show", commit + ":" + name, binary=True)) != expected_hash:
             raise ValueError("file is not committed at implementation freeze: " + name)
-    inference_sources, _ = load_json(local_path(INFERENCE_SOURCE_PATH))
-    linked_sources = {item["local_path"] for item in inference_sources["sources"]}
-    linked_sources.update(item["path"] for item in inference_sources["source_registries"])
-    if not linked_sources <= set(files):
-        raise ValueError("code freeze omits inference source evidence: " +
-                         ", ".join(sorted(linked_sources - set(files))))
     if files[SPEC_PATH] != SPEC_SHA256 or freeze.get("spec_sha256") != SPEC_SHA256:
         raise ValueError("specification differs from the independent content pin")
     if phase == "first" and digest(git("show", MATRIX_COMMIT + ":" + SPEC_PATH, binary=True)) != SPEC_SHA256:
         raise ValueError("specification differs from the independent matrix freeze")
     # Check the exact first-run native build locally. Later build changes are
     # retained as evidence, never silently interpreted as the original build.
-    required_native = {"formal/.lake/build/bin/alignedAcquisition", "formal/.lake/build/bin/licensedInference"}
-    if not required_native <= set(native):
+    if not REQUIRED_NATIVE_PATHS <= set(native):
         raise ValueError("code freeze omits a native acquisition or inference binary")
     native_current = {}
     for name, expected_hash in native.items():
