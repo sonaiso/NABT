@@ -18,6 +18,17 @@ These are distinct attempts; no failed result was overwritten or relabelled.
   before/after checks passed. The three rows contain the independently confirmed
   A116 gold typo documented in `../gold_erratum_v1.json`; raw evidence remains
   unchanged. Every subsequent evaluation is exposed.
+- `exposed-review1-eee0016`: all 114 targeted checks passed, the reviewed matrix
+  passed 161/161 contracts with 90/109 positive goals, 52/52 negative controls,
+  zero false authorizations and 45 complete chains. All 161 producer reports
+  are identical to their first-run counterparts. Original projections remain
+  158/161 alongside the corrected projections. The resumed Make check and its
+  final integrity recipe exited 0; the command records the 57 previously
+  completed root prerequisites. No gate was waived or its assertion weakened.
+
+`measured_summary.json` provides the measured denominators and the 19 misses.
+`entropy/` contains independently recomputed descriptive coupling measurements
+at the exact measured commit; entropy is not a quality/completeness threshold.
 
 Each directory includes the exact command, elapsed time, exit status, original
 log SHA, gzip-compressed stdout, artifact inventory, and outcome archive.

@@ -118,6 +118,13 @@ freeze, accepts exposed replays only, and reports original projections alongside
 reviewed projections. A false-authorized result earns neither positive coverage
 nor complete-chain credit, even if its status-only goal matches.
 
+The exposed review1 run on eee0016 measured 161/161 corrected contracts,
+90/109 positive goals, 52/52 negative controls, zero observed false
+authorizations, and 45 complete chains. All 161 producer payloads equal the
+first-run payloads. See docs/SOURCED_ACQUISITION_V3_RESULTS_AR.md and the
+retained validation packages; the 19 positive misses stay explicit. These
+figures are versioned observations, not a new language or completeness law.
+
 The additive evidence/operator_traceability_v1 registry completes explicit
 scope/theorem metadata for the 24 designated classical operators. It preserves
 the historical crosswalk, and states each theorem's conditional scope. Finite
