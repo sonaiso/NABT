@@ -8,6 +8,12 @@
 - `interrupted_prerequisites_e2d0c2f.zip`: an earlier interrupted prerequisite
   attempt. It stopped during exposed v3 evaluation and did not reach the
   lifecycle freeze or matrix; its ATTEMPT_STARTED result is retained unchanged.
+- `release_e2d0c2f.zip` and `release_observations.json`: successful original
+  `make formal check` in an isolated implementation checkout, retaining all raw
+  reports and generated code snapshots. General unit discovery ran 2,835 of
+  2,890 tests with 55 documented skips; no new lifecycle test was skipped.
+  Post-measurement framework conformance on `57f80e6` is identified separately.
+  Exact-head remote CI is a separate prerequisite, not inferred from this log.
 
 Each ZIP has an `archive_manifest.json` with byte counts and SHA-256 digests.
 Only the lifecycle matrix is first execution in the successful archive; the
