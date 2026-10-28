@@ -2,7 +2,7 @@
 include tools/aligned_acquisition.mk
 
 ARTICLE_PHASE ?= exposed
-ARTICLE_LINK_REFERENCE ?= evidence/article_acquisition_v2/integration/article_proof_links.json
+ARTICLE_LINK_REFERENCE ?= $(NABT_PROOF_REFERENCE_DIR)/article_proof_links.json
 
 .PHONY: article-acquisition-native article-acquisition-conformance article-acquisition-evaluation
 article-acquisition-native: aligned-acquisition-evaluation

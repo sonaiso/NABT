@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import re
 import shlex
 import subprocess
 import unittest
@@ -9,7 +10,8 @@ import unittest
 from tools import proof_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
-CURRENT = ROOT / "evidence/article_acquisition_v2/integration"
+_selector = (ROOT / "integrations/current_proof_references.mk").read_text()
+CURRENT = ROOT / re.search(r"^NABT_PROOF_REFERENCE_DIR \?= (\S+)$", _selector, re.M).group(1)
 
 
 class CurrentProofReferencesTests(unittest.TestCase):
@@ -19,7 +21,9 @@ class CurrentProofReferencesTests(unittest.TestCase):
         fields = {"grammar_link_summary": "compiled_proof_catalog_sha256",
                   "mantuq_proof_links": "compiled_catalog_sha256",
                   "linguistic_proof_links": "compiled_catalog_sha256",
-                  "licensed_proof_links": "compiled_catalog_sha256"}
+                  "licensed_proof_links": "compiled_catalog_sha256",
+                  "article_proof_links": "compiled_proof_catalog_sha256",
+                  "sourced_proof_links": "compiled_proof_catalog_sha256"}
         for name, field in fields.items():
             with self.subTest(index=name):
                 report = json.loads((CURRENT / (name + ".json")).read_text())
@@ -74,3 +78,5 @@ class CurrentProofReferencesTests(unittest.TestCase):
         self.assertIn("Nabt.LicensedInference.verified_execution", declarations)
         self.assertIn("Nabt.AlignedAcquisition.verified_binding", declarations)
         self.assertIn("Nabt.AlignedAcquisitionV2.verified_binding", declarations)
+        self.assertIn("Nabt.ConnectedAcquisitionV3.verified_phrase_sourceful", declarations)
+        self.assertIn("Nabt.AcquiredSyntaxV3.parser_exact", declarations)

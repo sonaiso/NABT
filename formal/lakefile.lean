@@ -136,3 +136,9 @@ lean_exe alignedAcquisition where
 
 lean_exe alignedAcquisitionV2 where
   root := `AlignedAcquisitionV2Main
+
+lean_exe connectedAcquisitionV3 where
+  root := `ConnectedAcquisitionV3Main
+
+lean_exe acquiredSyntaxV3 where
+  root := `AcquiredSyntaxV3Main

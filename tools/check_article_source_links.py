@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "nabt.article-acquisition-proof-links.v2"
 SOURCE_PATH = "evidence/article_acquisition_v2/source_evidence.json"
 SOURCE_SHA256 = "d5d348e17fd3f34eaa69e5a031956972860dd8dbf3eee25674a265ee4578543c"
-PROOF_REFERENCE = "evidence/article_acquisition_v2/integration/proof_catalog.json"
+PROOF_REFERENCE = "evidence/sourced_acquisition_v3/integration/proof_catalog.json"
 LAW_ID = "nabt.aligned-acquisition.v2"
 SOURCE_HASHES = {
     "qatr": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
