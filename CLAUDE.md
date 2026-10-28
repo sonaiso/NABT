@@ -152,5 +152,45 @@ run. These authored exposed results are not blind or open-Arabic accuracy.
 The entropy framework is organizational metadata plus a supplied-ledger count;
 it cannot authenticate its own evidence records or grant release authority.
 Current work is reconciled with N0–N6 in docs/NABT_DELIVERY_PLAN_AR.md and
-docs/NABT_HISTORICAL_ASSESSMENT_AR.md. Future 120 customary-meaning cases,
-80 well-formedness/negation pairs and 40 world scenarios remain unmeasured.
+docs/NABT_HISTORICAL_ASSESSMENT_AR.md. The 120 customary-meaning cases and
+80 well-formedness/negation pairs are not created or measured.
+
+Evidence lifecycle v1 follows docs/EVIDENCE_LIFECYCLE_V1_SPEC.md and the
+installed productive-clause adapter specification. Source/protocol 4b18121 and
+independent authored gold 1295da3 precede implementation e2d0c2f. Preserve their
+contents and the preacceptance projection/transport notes; do not rewrite old
+EM laws or infer world truth from dependency readiness. Historical receipts
+replay against a separately supplied historical episode, never as current
+authority merely because a final state happens to match.
+
+First execution on e2d0c2f passed 40/40 scenarios, 79/79 main steps, 73/73
+verification pairs, 7/7 separate historical steps and 6/6 native error controls,
+with zero observed false authorizations and required skips. The first ordered
+prerequisite attempt was interrupted during exposed v3, before lifecycle
+freezing/evaluation; retain it alongside the successful restart. These authored
+controls became exposed after freeze; they are not blind or physical observations.
+Results are in evidence/evidence_lifecycle_v1/validation and
+docs/EVIDENCE_LIFECYCLE_V1_RESULTS_AR.md. All 200 productive raw outputs still
+equal prior review1. The installed adapter checks all fifty withdrawal targets,
+keeps missing-source candidates pending and never turns grammar into observation.
+
+Framework v2 distinguishes measured outcome from gate admission. G4 is measured
+PASS in this lifecycle scope but remains blocked on G0; record scoped T06-LC1
+and T16-LC1 delivery without closing their parent tasks. General candidate
+regeneration, interval time, unit conversion, functional-value conflicts, actual
+source independence and N6-b remain open. T11 preparation contains existing
+source/designation projections, not new usage judgments or a 120-case matrix.
+The historical src/ tree and original Makefile remain unchanged. All seven
+current proof/source selectors now point to evidence/evidence_lifecycle_v1/integration.
+
+Preserve the eight failed CI checks on d9ce75b and the environment repair in
+validation/ci_repair_692c3a4.zip. Python-only discovery may skip absent native
+boundaries, but the dedicated lifecycle conformance recipe explicitly sets
+NABT_REQUIRE_EVIDENCE_LIFECYCLE_NATIVE=1 and must fail if native is absent.
+Inventory-schema tests use current HEAD in shallow checkouts; production
+first-execution chronology remains mandatory. The repair's 54 native tests
+and shallow Python-only results are separate from first-run counts. Apply
+validation/unittest_count_erratum_v1.json: 2,658 testsRun comprises 2,484
+successful methods and 174 skipped methods; 23 additional class skips make
+197 skip reports. Do not subtract class skips from testsRun. Require all
+checks on the final published head before merging.

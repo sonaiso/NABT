@@ -1,7 +1,7 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.2.0",
   "framework_id": "nabt.entropy-framework",
-  "document_status": "IMPLEMENTED_TOOLING_WITH_PLANNED_TARGETS",
+  "document_status": "IMPLEMENTED_V2_METADATA_WITH_SCOPED_MEASUREMENTS_AND_OPEN_TARGETS",
   "date": "2026-10-28",
   "timezone": "Asia/Amman",
   "baseline": {
@@ -156,13 +156,6 @@
     "DELIVERED",
     "BLOCKED"
   ],
-  "gate_states": [
-    "NOT_MEASURED",
-    "PASS",
-    "FAIL",
-    "STALE",
-    "NOT_APPLICABLE"
-  ],
   "evidence_dimensions": [
     "source_integrity",
     "replay_conformance",
@@ -242,15 +235,18 @@
         "unit": "certificate mutation",
         "size": null
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "لكل دعوى معتمدة مسار إلى المصدر والموضع والقاعدة والشاهد مع النسخ",
         "حذف كل شرط إلزامي أو تبديل المقام أو النسخة يوقف الاعتماد",
         "لا قبول ببيان حالة أو hash مقدم من المستدعي وحده"
       ],
       "scope": "source-binding-and-certificate-continuity.v1",
-      "evidence_ids": []
+      "measurement": {
+        "state": "NOT_MEASURED",
+        "reported_outcome": null,
+        "evidence_ids": [],
+        "reason": null
+      }
     },
     {
       "id": "GM",
@@ -263,15 +259,18 @@
         "unit": "independent finite model",
         "size": null
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "تطابق العد مع مرجع مستقل في فضاءات مصغرة وعدم تكرار عناصر العد",
         "تمييز المجهول والفارغ والاستنفاد والحدود التقريبية",
         "لا مقارنة مباشرة بين توقيعَي قياس مختلفين بلا عقد تحويل"
       ],
       "scope": "declared-finite-candidate-ledger-measurement.v1",
-      "evidence_ids": []
+      "measurement": {
+        "state": "NOT_MEASURED",
+        "reported_outcome": null,
+        "evidence_ids": [],
+        "reason": null
+      }
     },
     {
       "id": "G1",
@@ -296,8 +295,6 @@
         "positive_distinct_frames": 50,
         "positive_surface_variants": 2
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "قراءة كاملة صحيحة مسندة في 95 سطحًا موجبًا على الأقل من 100، و48 إطارًا على الأقل من 50؛ نجاح الإطار يتطلب نسختيه",
         "صفر اعتماد خاطئ مشاهد في 50 حالة مضادة وفي50 حالة خارج النطاق",
@@ -305,7 +302,14 @@
         "بقية المتطلبات والمقامات وهوية الإعادة وفق acceptance_protocol.json المجمد؛ لا تعميم للعربية ولا إحالة خارجية"
       ],
       "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
-      "evidence_ids": []
+      "measurement": {
+        "state": "MEASURED",
+        "reported_outcome": "PASS",
+        "evidence_ids": [
+          "productive-clause-v1.exposed-review1.c694a5a"
+        ],
+        "reason": null
+      }
     },
     {
       "id": "G2",
@@ -324,8 +328,6 @@
           "changed_convention_or_context": 40
         }
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "مطابقة مجموعة المرشحين المرجعية في 114 حالة على الأقل من 120",
         "صفر تعيين منفرد بلا قرينة ضمن المجموعة",
@@ -333,7 +335,12 @@
         "المشترك أو الناقص يبقى متعددًا أو معلقًا وفق المرجع"
       ],
       "scope": "convention-relative-usage-target.v1: proposed 120-case suite",
-      "evidence_ids": []
+      "measurement": {
+        "state": "NOT_MEASURED",
+        "reported_outcome": null,
+        "evidence_ids": [],
+        "reason": null
+      }
     },
     {
       "id": "G3",
@@ -348,8 +355,6 @@
         "size": 80,
         "individual_inputs": 160
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "نجاح 76 زوجًا على الأقل من 80؛ نجاح الزوج يتطلب صحة الطرفين والفرق المطلوب",
         "صفر حصر من إثبات مجرد في شريحة الحصر",
@@ -357,7 +362,12 @@
         "نشر نتيجة الأزواج 80 ونتيجة الأفراد 160 منفصلتين"
       ],
       "scope": "istiqama-negation-exclusivity-target.v1: proposed 80 minimal pairs",
-      "evidence_ids": []
+      "measurement": {
+        "state": "NOT_MEASURED",
+        "reported_outcome": null,
+        "evidence_ids": [],
+        "reason": null
+      }
     },
     {
       "id": "G4",
@@ -366,27 +376,43 @@
         "G0"
       ],
       "dataset": {
-        "status": "not_created",
+        "status": "frozen",
         "unit": "scenario",
         "size": 40,
         "slices": {
           "withdrawal": 8,
-          "dependent_sources": 8,
-          "qualified_conflict": 8,
-          "legitimate_time_or_unit_difference": 8,
-          "missing_or_changed_scope": 8
+          "lineage": 8,
+          "conflict": 8,
+          "qualified_key": 8,
+          "revision_and_absence": 8
+        },
+        "version": "nabt.evidence-lifecycle.cases.v1",
+        "path": "evidence/evidence_lifecycle_v1/cases.json",
+        "sha256": "04609a848ddd4336d600253997b0d79523b28f6475be47f064845769083486be",
+        "frozen_commit": "1295da3349b50190dc6f68606f918054e7bbfdf2",
+        "additional_denominators": {
+          "episode_steps": 79,
+          "verification_pairs": 73,
+          "separate_historical_prefix_steps": 7
         }
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "مطابقة الحالات الأربعين المرجعية بما فيها الامتناع المشروع",
         "كشف التعارض المشروط دون اختراع نفي من اختلاف قيم غير مقيدة",
         "سحب السند يعلق النتائج التابعة أو يعيد تسويغها بسند مستقل باقٍ",
         "الدمج النهائي مع النص ينتظر G2 وG3؛ يمكن تطوير عقد الشواهد بالتوازي"
       ],
-      "scope": "qualified-world-evidence-target.v1: proposed 40 scenarios",
-      "evidence_ids": []
+      "scope": "nabt.evidence-lifecycle.v1",
+      "measurement": {
+        "state": "MEASURED",
+        "reported_outcome": "PASS",
+        "evidence_ids": [
+          "evidence-lifecycle-v1.first.e2d0c2f"
+        ],
+        "reason": null
+      },
+      "scope_note": "Authored conditional source/evidence lifecycle contracts; exact qualified keys and polarity. No source authenticity, world truth, general Omega recovery, interval time or unit conversion. Productive-clause integration checks are separate.",
+      "protocol_reference": "evidence/evidence_lifecycle_v1/acceptance_protocol.json"
     },
     {
       "id": "GR",
@@ -404,8 +430,6 @@
         "unit": "release_profile",
         "size": null
       },
-      "baseline": null,
-      "status": "NOT_MEASURED",
       "requirements": [
         "جميع الفحوص الإلزامية منفذة على الهوية المعتمدة وصفر fail/error/skip",
         "لا سجل فارغ أو نتيجة قديمة أو binary غير مربوط ببنائه",
@@ -413,7 +437,12 @@
         "الإصدار لا يتوقف على تشغيل Mashru؛ تكامل Mashru يصدر بعقد منفصل"
       ],
       "scope": "joined-bounded-machine-release.v1",
-      "evidence_ids": []
+      "measurement": {
+        "state": "NOT_MEASURED",
+        "reported_outcome": null,
+        "evidence_ids": [],
+        "reason": null
+      }
     }
   ],
   "tasks": [
@@ -428,10 +457,15 @@
       ],
       "deliverable": "سجل لهوية النواة والقانون والمعجم والمقيّم والبيانات؛ فصل الموجود عن المخطط",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "سجل العقود والإصدارات والبوابات منفذ؛ المصدر/البروتوكول ثم الذهب لهما commit مستقل."
+      "delivery_scope_note": "سجل العقود والإصدارات والبوابات منفذ؛ المصدر/البروتوكول ثم الذهب لهما commit مستقل.",
+      "scope": "framework contracts, version identities and retained baseline metadata",
+      "parent_task_id": null,
+      "delivery_references": [
+        "docs/ENTROPY_FRAMEWORK_V2_SPEC.md",
+        "tools/entropy_framework/registry.json"
+      ]
     },
     {
       "id": "T02",
@@ -445,11 +479,12 @@
         "G0"
       ],
       "deliverable": "ربط كل عقدة بمواضع المصدر ومقدماتها؛ فاحص لا يثق بالحقول المعلنة وحدها",
-      "work_status": "IN_REVIEW",
-      "gate_status": "NOT_MEASURED",
+      "work_status": "IN_PROGRESS",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "شهادة المصدر implemented في productive-clause-v1 فقط؛ G0 العام لم يختبر."
+      "delivery_scope_note": "الامتداد العام مفتوح؛ شهادة PCV1 مسلمة في T02-PCV1، وG0 غير مقاسة.",
+      "scope": "project source-certificate extension across all declared layers; open parent",
+      "parent_task_id": null
     },
     {
       "id": "T03",
@@ -464,10 +499,15 @@
       ],
       "deliverable": "قانون تمييز المرشحين، pending/refuted/licensed، ومجال التمام",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "عقد السجل المحدود وحالات المرشح منفذ في أدوات القياس؛ لا يدعي التمام اللغوي."
+      "delivery_scope_note": "عقد السجل المحدود وحالات المرشح منفذ في أدوات القياس؛ لا يدعي التمام اللغوي.",
+      "scope": "nabt.candidate-ledger.v1: identity and states of a supplied finite ledger",
+      "parent_task_id": null,
+      "delivery_references": [
+        "tools/entropy_framework/measurement.py",
+        "docs/ENTROPY_FRAMEWORK_AR.md"
+      ]
     },
     {
       "id": "T04",
@@ -483,12 +523,13 @@
         "G3",
         "G4"
       ],
-      "deliverable": "مواصفات 200/120/80 زوجًا/40؛ تقسيم محجوب وخطة الفصل؛ الحالات نفسها لم تُنشأ بعد",
+      "deliverable": "بروتوكولات وذهب مستقل لمجموعات200/120/80 زوجًا/40، مع التصريح بحجب الاختبار أو انكشافه وحدود الاستقلال.",
       "work_status": "IN_PROGRESS",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "جمدت مجموعة G1 ذات200 حالة؛ مجموعات G2/G3/G4 لم تنشأ بعد."
+      "delivery_scope_note": "جمد ذهب G1 وG4 في تسليمين جزئيين؛ G2/G3 لم تنشأ مجموعتاهما بعد.",
+      "scope": "independent acceptance protocols and frozen gold for G1/G2/G3/G4; open parent",
+      "parent_task_id": null
     },
     {
       "id": "T05",
@@ -496,7 +537,6 @@
       "owner_role": "R2",
       "reviewer_role": "R5",
       "depends_on": [
-        "T02",
         "T03"
       ],
       "gates": [
@@ -504,10 +544,15 @@
       ],
       "deliverable": "عدد دقيق أو حد موثق، null للحالة غير المقيسة، وتوقيع المقارنة",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
       "blockers": [],
-      "delivery_scope_note": "validate/report/measure منفذة؛ عد وصفي للسجل دون سلطة دلالية."
+      "delivery_scope_note": "validate/report/measure منفذة؛ عد وصفي للسجل دون سلطة دلالية.",
+      "scope": "COUNTED_SUPPLIED_LEDGER: exact counts of supplied IDs; source and candidate states unverified",
+      "parent_task_id": null,
+      "delivery_references": [
+        "tools/entropy_framework/measurement.py",
+        "tests/test_entropy_framework.py"
+      ]
     },
     {
       "id": "T06",
@@ -523,10 +568,12 @@
         "G4"
       ],
       "deliverable": "تحديد التوابع؛ عودة البدائل عند سحب القيد؛ الاحتفاظ بالتاريخ",
-      "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
+      "work_status": "IN_PROGRESS",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "project evidence dependencies, withdrawal and general candidate regeneration; open parent",
+      "parent_task_id": null,
+      "delivery_scope_note": "بدأ جزء lifecycle-v1؛ استعادة Ω العامة وإعادة توليد المرشحين تبقيان مفتوحتين."
     },
     {
       "id": "T07",
@@ -534,8 +581,8 @@
       "owner_role": "R2",
       "reviewer_role": "R1",
       "depends_on": [
-        "T02",
-        "T04"
+        "T02-PCV1",
+        "T04-PCV1"
       ],
       "gates": [
         "G0",
@@ -543,12 +590,16 @@
       ],
       "deliverable": "حفظ trace؛ معالجة التكافؤ النصي المعلن؛ لا إسقاط mawadi عند التسليم",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ],
       "blockers": [],
       "delivery_scope_note": "وصل التحصيل بالقراءة مقاس في الجزء productive-clause-v1: مئة سلسلة موجبة كاملة؛ لا تعميم إلى كل القراءات.",
-      "scoped_evidence_ids": [
-        "productive-clause-v1.exposed-review1.c694a5a"
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "parent_task_id": null,
+      "delivery_references": [
+        "tools/productive_clause_v1.py",
+        "docs/PRODUCTIVE_CLAUSE_V1_SPEC.md"
       ]
     },
     {
@@ -558,19 +609,23 @@
       "reviewer_role": "R1",
       "depends_on": [
         "T03",
-        "T04"
+        "T04-PCV1"
       ],
       "gates": [
         "G1"
       ],
       "deliverable": "تعريف جزء معلوم VSO/VOS ومعجم تعدية؛ فصل تنوين العلم عن التنكير",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ],
       "blockers": [],
       "delivery_scope_note": "قواعد daraba والأعلام والترتيبين مجمدة ومنفذة ومقاسة على الخمسين إطارًا؛ لا معجم محجوب.",
-      "scoped_evidence_ids": [
-        "productive-clause-v1.exposed-review1.c694a5a"
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "parent_task_id": null,
+      "delivery_references": [
+        "formal/Nabt/ProductiveClauseV1.lean",
+        "docs/PRODUCTIVE_CLAUSE_V1_SPEC.md"
       ]
     },
     {
@@ -587,12 +642,16 @@
       ],
       "deliverable": "سلامة وتمام بالنسبة إلى المواصفة؛ عدم إسقاط البديل المعلق أو مضاعفة المعنى بتعدد براهينه",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ],
       "blockers": [],
       "delivery_scope_note": "المواصفة والفاحص الرسميان وصلا بالتحصيل في تقييم الجزء؛ لا دعوى تمام العربية أو G0 العام.",
-      "scoped_evidence_ids": [
-        "productive-clause-v1.exposed-review1.c694a5a"
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "parent_task_id": null,
+      "delivery_references": [
+        "formal/Nabt/ProductiveClauseV1.lean",
+        "tools/productive_clause_v1.py"
       ]
     },
     {
@@ -602,7 +661,6 @@
       "reviewer_role": "R5",
       "depends_on": [
         "T05",
-        "T06",
         "T09"
       ],
       "gates": [
@@ -610,12 +668,15 @@
       ],
       "deliverable": "شهادة متصلة؛ نتيجة كل حالة، أول إخفاق، والتأجيل؛ لا حصر ولا دعوى واقع مجانية",
       "work_status": "DELIVERED",
-      "gate_status": "NOT_MEASURED",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ],
       "blockers": [],
       "delivery_scope_note": "اكتملت إعادة review1 المكشوفة:200 عقد،100 سطح موجب،50 إطارًا،50 مضادًا،50 خارج النطاق،صفر ترخيص خاطئ مشاهد.",
-      "scoped_evidence_ids": [
-        "productive-clause-v1.exposed-review1.c694a5a"
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "parent_task_id": null,
+      "delivery_references": [
+        "evidence/productive_clause_v1/validation/exposed_review1_c694a5a.zip#productive-clause-result.json"
       ]
     },
     {
@@ -631,10 +692,12 @@
         "G2"
       ],
       "deliverable": "معنى ومجتمع ومجال وزمن وموضع شاهد؛ مراجعة مستقلة لتأويل المصدر",
-      "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
+      "work_status": "IN_PROGRESS",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "source-grounded designation and contextual usage/convention registry; open parent",
+      "parent_task_id": null,
+      "delivery_scope_note": "إعداد مصادر الأوضاع مسلم بنطاق T11-PREP1؛ لا حالات استعمال عرفي جديدة ولا قياس G2."
     },
     {
       "id": "T12",
@@ -650,9 +713,10 @@
       ],
       "deliverable": "مجموعة المعاني وقرائنها؛ منع استعارة شاهد مقام آخر",
       "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "convention-relative-usage-target.v1: proposed 120-case suite",
+      "parent_task_id": null
     },
     {
       "id": "T13",
@@ -668,9 +732,10 @@
       ],
       "deliverable": "تعريف تشغيلي مسند لكل محور؛ عدم وصف قصور القارئ بالهذيان",
       "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "istiqama-negation-exclusivity-target.v1: proposed 80 minimal pairs",
+      "parent_task_id": null
     },
     {
       "id": "T14",
@@ -686,9 +751,10 @@
       ],
       "deliverable": "نطاق مضبوط للنفي والزمن والحصر؛ نجاح الطرفين والتغير المتوقع",
       "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "istiqama-negation-exclusivity-target.v1: proposed 80 minimal pairs",
+      "parent_task_id": null
     },
     {
       "id": "T15",
@@ -703,10 +769,12 @@
         "G4"
       ],
       "deliverable": "إعادة استخدام EpistemicMeasurement؛ نسب الأصول، وصلاحية الزمن، ووحدات القياس",
-      "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
+      "work_status": "IN_PROGRESS",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "qualified-world evidence including future interval time and unit conversion; open parent",
+      "parent_task_id": null,
+      "delivery_scope_note": "عقد lifecycle-v1 المجمد مسلم في T15-LC1؛ توسعة الزمن والوحدات ليست مسلمة."
     },
     {
       "id": "T16",
@@ -721,10 +789,11 @@
         "G4"
       ],
       "deliverable": "قواعد التناقض بحسب المحمول؛ مؤيد/منقوض/متعارض/غير معلوم؛ مراجعة التوابع",
-      "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
+      "work_status": "IN_PROGRESS",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "qualified conflict and withdrawal across the wider project contract; open parent",
+      "parent_task_id": null
     },
     {
       "id": "T17",
@@ -742,9 +811,10 @@
       ],
       "deliverable": "فحوص مطلوبة منفذة، صلاحية الأدلة، نطاق الإصدار وحدوده، تقرير مولد",
       "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "joined-bounded-machine-release.v1",
+      "parent_task_id": null
     },
     {
       "id": "T18",
@@ -758,9 +828,180 @@
       "gates": [],
       "deliverable": "تثبيت نسخة NABT ومصفوفة توافق؛ لا اعتماد عكسي للتشغيل أو لإصدار NABT",
       "work_status": "PLANNED",
-      "gate_status": "NOT_MEASURED",
       "evidence_ids": [],
-      "blockers": []
+      "blockers": [],
+      "scope": "optional separately versioned Mashru integration; NABT runtime/release independent",
+      "parent_task_id": null
+    },
+    {
+      "id": "T02-PCV1",
+      "title": "شهادة المصدر في الجزء الفعلي",
+      "owner_role": "R1",
+      "reviewer_role": "R2",
+      "depends_on": [
+        "T01"
+      ],
+      "gates": [
+        "G0",
+        "G1"
+      ],
+      "deliverable": "اتصال المصدر والتحصيل والقراءة ضمن بوابات الجزء التسع؛ لا إغلاق G0 العام.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [
+        "productive-clause-v1.exposed-review1.c694a5a"
+      ],
+      "blockers": [],
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "parent_task_id": "T02",
+      "delivery_references": [
+        "tools/productive_clause_v1.py",
+        "docs/PRODUCTIVE_CLAUSE_V1_SPEC.md"
+      ]
+    },
+    {
+      "id": "T04-PCV1",
+      "title": "تجميد بروتوكول وذهب الجزء الفعلي",
+      "owner_role": "R5",
+      "reviewer_role": "R3",
+      "depends_on": [
+        "T01"
+      ],
+      "gates": [
+        "G1"
+      ],
+      "deliverable": "بروتوكول مصدر34acd46 وذهب7ca87dc:200حالة،50إطارًا و100سطح موجب.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [],
+      "blockers": [],
+      "scope": "productive-clause-v1: authored daraba transitive frames and finite proper-name lexicon; VSO/VOS",
+      "parent_task_id": "T04",
+      "delivery_references": [
+        "evidence/productive_clause_v1/acceptance_protocol.json",
+        "evidence/productive_clause_v1/cases.json"
+      ]
+    },
+    {
+      "id": "T04-LC1",
+      "title": "تجميد بروتوكول وذهب دورة حياة الشاهد",
+      "owner_role": "R5",
+      "reviewer_role": "R3",
+      "depends_on": [
+        "T01"
+      ],
+      "gates": [
+        "G4"
+      ],
+      "deliverable": "مصدر4b181212 ثم ذهب1295da3:40سيناريو،79خطوة و73زوج تحقق و7خطوات بادئة منفصلة.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [],
+      "blockers": [],
+      "scope": "nabt.evidence-lifecycle.v1",
+      "parent_task_id": "T04",
+      "delivery_references": [
+        "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+        "evidence/evidence_lifecycle_v1/acceptance_protocol.json",
+        "evidence/evidence_lifecycle_v1/cases.json"
+      ]
+    },
+    {
+      "id": "T15-LC1",
+      "title": "عقد الشاهد المؤهل في دورة الحياة",
+      "owner_role": "R4",
+      "reviewer_role": "R1",
+      "depends_on": [
+        "T01",
+        "T04-LC1"
+      ],
+      "gates": [
+        "G4"
+      ],
+      "deliverable": "عقد مجمد لإعادة استخدام Source وEpistemicMeasurement والأصول المعلنة؛ تسليم مواصفة، لا قياس تنفيذ.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [],
+      "blockers": [],
+      "scope": "nabt.evidence-lifecycle.v1: frozen source-qualified contract",
+      "parent_task_id": "T15",
+      "delivery_references": [
+        "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+        "evidence/evidence_lifecycle_v1/source_scope.json"
+      ]
+    },
+    {
+      "id": "T06-LC1",
+      "title": "تنفيذ اعتماد الشواهد والسحب المحدود",
+      "owner_role": "R1",
+      "reviewer_role": "R4",
+      "depends_on": [
+        "T15-LC1",
+        "T03"
+      ],
+      "gates": [
+        "G0",
+        "G4"
+      ],
+      "deliverable": "تنفيذ السحب والتنشيط والاستبدال وفصل الإيصال التاريخي عن الحالي؛ استعادة Ω العامة خارج النطاق.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [
+        "evidence-lifecycle-v1.first.e2d0c2f"
+      ],
+      "blockers": [],
+      "scope": "nabt.evidence-lifecycle.v1",
+      "parent_task_id": "T06",
+      "delivery_references": [
+        "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+        "docs/EVIDENCE_LIFECYCLE_V1_RESULTS_AR.md",
+        "evidence/evidence_lifecycle_v1/validation/first_e2d0c2f.zip#evidence-lifecycle-result.json"
+      ]
+    },
+    {
+      "id": "T16-LC1",
+      "title": "قياس الأربعين لدورة حياة الشاهد",
+      "owner_role": "R4",
+      "reviewer_role": "R5",
+      "depends_on": [
+        "T04-LC1",
+        "T06-LC1",
+        "T15-LC1"
+      ],
+      "gates": [
+        "G4"
+      ],
+      "deliverable": "حفظ أول تشغيل ناجح للأربعين، مع 79 خطوة و73 زوج تحقق و7 خطوات تاريخية منفصلة؛ ليس قبولًا عامًا للواقع.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [
+        "evidence-lifecycle-v1.first.e2d0c2f"
+      ],
+      "blockers": [],
+      "scope": "nabt.evidence-lifecycle.v1",
+      "parent_task_id": "T16",
+      "delivery_references": [
+        "evidence/evidence_lifecycle_v1/acceptance_protocol.json",
+        "evidence/evidence_lifecycle_v1/cases.json",
+        "docs/EVIDENCE_LIFECYCLE_V1_RESULTS_AR.md",
+        "evidence/evidence_lifecycle_v1/validation/first_e2d0c2f.zip#evidence-lifecycle-result.json"
+      ]
+    },
+    {
+      "id": "T11-PREP1",
+      "title": "إعداد مصادر الأوضاع قبل قياس الاستعمال",
+      "owner_role": "R3",
+      "reviewer_role": "R4",
+      "depends_on": [
+        "T01"
+      ],
+      "gates": [
+        "G2"
+      ],
+      "deliverable": "فهرس مصدر مجمد وإسقاطات الأوضاع الموجودة؛ مجهول الجماعة والزمن محفوظ، ولا judgment.used جديد.",
+      "work_status": "DELIVERED",
+      "evidence_ids": [],
+      "blockers": [],
+      "scope": "convention-preparation-v1: retained source inventory and existing Designation projections",
+      "parent_task_id": "T11",
+      "delivery_references": [
+        "docs/CONVENTION_PREPARATION_V1_AR.md",
+        "evidence/convention_preparation_v1/source_packet.json"
+      ]
     }
   ],
   "evidence_freshness": {
@@ -795,9 +1036,13 @@
     "https://www.w3.org/TR/prov-dm/",
     "https://lean-lang.org/doc/reference/latest/Elaboration-and-Compilation/",
     "https://semver.org/",
-    "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+    "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+    "docs/ENTROPY_FRAMEWORK_V2_SPEC.md",
+    "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+    "evidence/evidence_lifecycle_v1/acceptance_protocol.json",
+    "evidence/evidence_lifecycle_v1/cases.json"
   ],
-  "schema": "nabt.entropy-framework.registry.v1",
+  "schema": "nabt.entropy-framework.registry.v2",
   "evidence_records": [
     {
       "id": "productive-clause-v1.exposed-review1.c694a5a",
@@ -897,11 +1142,92 @@
         "change": "Order projected roles by source word_index; preserve gold and producer outputs.",
         "validation_phase": "exposed_only"
       }
+    },
+    {
+      "id": "evidence-lifecycle-v1.first.e2d0c2f",
+      "gate_id": "G4",
+      "scope": "nabt.evidence-lifecycle.v1",
+      "reported_outcome": "PASS",
+      "reference": "evidence/evidence_lifecycle_v1/validation/first_e2d0c2f.zip#evidence-lifecycle-result.json",
+      "phase": "first",
+      "measured_at_utc": "2026-10-28T17:19:06.280504+00:00",
+      "result_sha256": "b7af10ef0fac0652d0f866a5bac510557767fd7583359cc914d6c8d53325e3b7",
+      "run_identity": {
+        "code_commit": "e2d0c2fa735295625e809a2e0d3f5ac34912b9c1",
+        "toolchain": "leanprover/lean4:v4.34.1",
+        "suite_version": "nabt.evidence-lifecycle.cases.v1",
+        "evaluator_version": "nabt.evidence-lifecycle-evaluator.v1",
+        "dataset_sha256": "04609a848ddd4336d600253997b0d79523b28f6475be47f064845769083486be",
+        "gold_sha256": "04609a848ddd4336d600253997b0d79523b28f6475be47f064845769083486be",
+        "evaluator_sha256": "af0069b6a07734cf9db604d488796ea57479ab8af2a9c9dfc41e78e8ca9714e8",
+        "manifest_sha256": "d7eb8abec0b29cfbc53ea18fdc2fe0df1f2846377222dc3a95af6ecea53977d0",
+        "native_executable_sha256": "aac536edf83f44957b5977cfb68e769040765af6ec15e10bb999f04294f29781",
+        "protocol_sha256": "a7586ec40111e318caf23082b427743c57f50ec87cfdc8b5dc4bdb3993c24e32",
+        "command": [
+          "tools/evaluate_evidence_lifecycle_v1.py",
+          "--phase",
+          "first",
+          "--code-freeze",
+          "artifacts/local/lifecycle-first-e2d0c2f-resume1/evidence-lifecycle-freeze.json",
+          "--output",
+          "artifacts/local/lifecycle-first-e2d0c2f-resume1/evidence-lifecycle-result.json"
+        ]
+      },
+      "required_checks": {
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "missing": 0
+      },
+      "required_checks_scope": "Nine acceptance checks of the independently authored forty-scenario lifecycle matrix; not the full project release suite.",
+      "reported_measurements": {
+        "scenarios": 40,
+        "scenario_contracts": 40,
+        "by_family": {
+          "withdrawal": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "lineage": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "conflict": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "qualified_key": {
+            "scenarios": 8,
+            "contracts": 8
+          },
+          "revision_and_absence": {
+            "scenarios": 8,
+            "contracts": 8
+          }
+        },
+        "main_episode_steps": 79,
+        "matched_main_episode_steps": 79,
+        "verification_pairs": 73,
+        "matched_verification_pairs": 73,
+        "auxiliary_historical_steps": 7,
+        "matched_auxiliary_historical_steps": 7,
+        "native_error_contracts": 6,
+        "matched_native_error_contracts": 6,
+        "observed_false_authorizations": 0,
+        "required_skips": 0
+      },
+      "limitations": [
+        "Authored conditional scenarios; exposed after preimplementation gold freeze, not blind.",
+        "No source authenticity, referent identity, physical-world truth or statistical independence established.",
+        "Exact qualified-key and polarity contracts only; no interval-time or unit conversion or functional-value conflict calculus.",
+        "Productive-clause source integration and fifty target controls are separate from the forty scenarios.",
+        "No general candidate regeneration, G2/G3, G0, N6-b or project release admission."
+      ]
     }
   ],
   "implementation_note": {
     "tooling": "tools/entropy_framework",
-    "scope": "metadata consistency and descriptive counts over a supplied finite ledger",
+    "scope": "v2 metadata consistency, scoped work delivery and measured-vs-review-ready reporting; descriptive counts remain supplied-ledger only",
     "not_performed": [
       "native proof replay",
       "linguistic-completeness verification",
@@ -944,6 +1270,19 @@
       "evaluation_status": "EXPOSED_REPLAY_PASSED",
       "evaluation_commit": "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623",
       "evaluation_reference": "evidence/productive_clause_v1/validation/exposed_review1_c694a5a.zip#productive-clause-result.json"
+    },
+    {
+      "id": "evidence-lifecycle-v1",
+      "state": "EVALUATED",
+      "gate_id": "G4",
+      "scope": "nabt.evidence-lifecycle.v1",
+      "evidence_ids": [
+        "evidence-lifecycle-v1.first.e2d0c2f"
+      ],
+      "source_protocol_commit": "4b1812127acf452ed72e57686ec02486bebc472c",
+      "independent_gold_commit": "1295da3349b50190dc6f68606f918054e7bbfdf2",
+      "evaluation_status": "MEASURED",
+      "scope_note": "Authored conditional source/evidence lifecycle contracts; exact qualified keys and polarity. No source authenticity, world truth, general Omega recovery, interval time or unit conversion. Productive-clause integration checks are separate."
     }
   ],
   "roadmap_alignment": [
@@ -967,5 +1306,91 @@
       "contribution": "none claimed",
       "remaining": "external truth and independent-world evidence remain open"
     }
-  ]
+  ],
+  "measurement_states": [
+    "NOT_MEASURED",
+    "MEASURED",
+    "STALE",
+    "NOT_APPLICABLE"
+  ],
+  "migration": {
+    "source_schema": "nabt.entropy-framework.registry.v1",
+    "source_commit": "c2c072e17802b62c13109cee7c087b7b58895a1a",
+    "source_path": "tools/entropy_framework/registry.json",
+    "source_sha256": "09ad43d5602e5f00fa3ea50b8bae89dbea2aa064b77a604dea1a80a910a8c8bb",
+    "source_git_blob": "99a6b2c2b82ad316eee5ab3a5222763dee547a17",
+    "changes": [
+      {
+        "id": "separate-measurement-and-admission",
+        "affected_ids": [
+          "registry",
+          "G1"
+        ],
+        "reason": "Registry/report v2 separates scoped reported measurement from computed review readiness and unevaluated admission. Existing PCV1 exposed review1 is MEASURED/PASS while G0/GM block readiness; no new execution or evidence authentication."
+      },
+      {
+        "id": "scoped-deliveries",
+        "affected_ids": [
+          "T02",
+          "T04",
+          "T02-PCV1",
+          "T04-PCV1",
+          "T07",
+          "T08"
+        ],
+        "reason": "Unfinished parent tasks stay open. PCV1 delivery dependencies name their delivered child scopes rather than treating the project parents as complete."
+      },
+      {
+        "id": "ledger-tool-dependency",
+        "affected_ids": [
+          "T05",
+          "T03"
+        ],
+        "reason": "The supplied-ledger counter depends on the declared candidate contract. It does not authenticate source bindings; remove its erroneous dependency on completion of general T02."
+      },
+      {
+        "id": "static-pcv1-run-dependency",
+        "affected_ids": [
+          "T10",
+          "T06"
+        ],
+        "reason": "The retained static snapshot evaluation did not perform source withdrawal. Remove T06 as a hard prerequisite of T10 without declaring T06 complete or changing the historical result."
+      },
+      {
+        "id": "freeze-world-contract-scenarios",
+        "affected_ids": [
+          "G4",
+          "evidence-lifecycle-v1",
+          "T04-LC1",
+          "T15-LC1",
+          "T06-LC1",
+          "T16-LC1"
+        ],
+        "reason": "Replace the unmeasured proposed 40-scenario profile with the source-qualified conditional lifecycle contract and independently frozen authored 40-scenario gold. Preserve the former proposal below; do not predeclare evaluation or admission."
+      },
+      {
+        "id": "convention-source-preparation",
+        "affected_ids": [
+          "T11",
+          "T11-PREP1"
+        ],
+        "reason": "Record frozen source inventory and existing Designation projections as a scoped delivery; contextual usage, 120 cases and completion of the parent remain open."
+      }
+    ],
+    "previous_g4_proposal": {
+      "scope": "qualified-world-evidence-target.v1: proposed 40 scenarios",
+      "dataset": {
+        "status": "not_created",
+        "unit": "scenario",
+        "size": 40,
+        "slices": {
+          "withdrawal": 8,
+          "dependent_sources": 8,
+          "qualified_conflict": 8,
+          "legitimate_time_or_unit_difference": 8,
+          "missing_or_changed_scope": 8
+        }
+      }
+    }
+  }
 }

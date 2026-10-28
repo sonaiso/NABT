@@ -1,0 +1,401 @@
+{
+  "scope": "Synthetic new-law wire parity checks; no acceptance matrix execution",
+  "checks": [
+    {
+      "label": "NBSP-only-content",
+      "expected": "INVALID_INPUT",
+      "actual": {
+        "all_arabic_complete": false,
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "reason": "empty source content",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "status": "INVALID_INPUT",
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "NBSP-only-episode_id",
+      "expected": "INVALID_INPUT",
+      "actual": {
+        "all_arabic_complete": false,
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "reason": "empty or ASCII-control-bearing identity",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "status": "INVALID_INPUT",
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "FIGURE_SPACE-only-content",
+      "expected": "INVALID_INPUT",
+      "actual": {
+        "all_arabic_complete": false,
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "reason": "empty source content",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "status": "INVALID_INPUT",
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "FIGURE_SPACE-only-episode_id",
+      "expected": "INVALID_INPUT",
+      "actual": {
+        "all_arabic_complete": false,
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "reason": "empty or ASCII-control-bearing identity",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "status": "INVALID_INPUT",
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "IDEOGRAPHIC_SPACE-only-content",
+      "expected": "INVALID_INPUT",
+      "actual": {
+        "all_arabic_complete": false,
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "reason": "empty source content",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "status": "INVALID_INPUT",
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "IDEOGRAPHIC_SPACE-only-episode_id",
+      "expected": "INVALID_INPUT",
+      "actual": {
+        "all_arabic_complete": false,
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "reason": "empty or ASCII-control-bearing identity",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "status": "INVALID_INPUT",
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "mixed-NBSP+A-content",
+      "expected": "SUPPORTED_EXACT_BINDING",
+      "actual": {
+        "all_arabic_complete": false,
+        "binding": {
+          "active_sources": [
+            {
+              "content": " A",
+              "identity": "origin",
+              "revision": "r1"
+            },
+            {
+              "content": " A",
+              "identity": "copy",
+              "revision": "r1"
+            },
+            {
+              "content": " A",
+              "identity": "query",
+              "revision": "r1"
+            }
+          ],
+          "bindings": [
+            {
+              "origin_id": "origin",
+              "rank": 0,
+              "source": {
+                "content": " A",
+                "identity": "origin",
+                "revision": "r1"
+              }
+            },
+            {
+              "origin_id": "copy",
+              "rank": 1,
+              "source": {
+                "content": " A",
+                "identity": "copy",
+                "revision": "r1"
+              }
+            },
+            {
+              "origin_id": "query",
+              "rank": 0,
+              "source": {
+                "content": " A",
+                "identity": "query",
+                "revision": "r1"
+              }
+            }
+          ],
+          "budget": 1,
+          "episode_id": "synthetic-native-smoke",
+          "interpretations": [
+            {
+              "ancestry": [
+                "origin",
+                "copy"
+              ],
+              "id": "copied-evidence",
+              "key": {
+                "axis": "recorded_observation",
+                "context": "synthetic",
+                "entity": "E",
+                "place": "p",
+                "predicate": "P",
+                "time": "0",
+                "unit": "u",
+                "value": "7"
+              },
+              "kind": "observation",
+              "origin": "copy",
+              "positive": true,
+              "source": {
+                "content": " A",
+                "identity": "copy",
+                "revision": "r1"
+              }
+            }
+          ],
+          "origins": [
+            {
+              "id": "origin",
+              "parents": []
+            },
+            {
+              "id": "copy",
+              "parents": [
+                "origin"
+              ]
+            },
+            {
+              "id": "query",
+              "parents": []
+            }
+          ],
+          "query": {
+            "key": {
+              "axis": "recorded_observation",
+              "context": "synthetic",
+              "entity": "E",
+              "place": "p",
+              "predicate": "P",
+              "time": "0",
+              "unit": "u",
+              "value": "7"
+            },
+            "origin": "query",
+            "positive": true
+          },
+          "schema": "nabt.evidence-lifecycle.episode.v1",
+          "updates": []
+        },
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "steps": [
+          {
+            "active_sources": [
+              {
+                "content": " A",
+                "identity": "origin",
+                "revision": "r1"
+              },
+              {
+                "content": " A",
+                "identity": "copy",
+                "revision": "r1"
+              },
+              {
+                "content": " A",
+                "identity": "query",
+                "revision": "r1"
+              }
+            ],
+            "affected_ids": [],
+            "dependency_blocked_ids": [],
+            "dependency_ready_ids": [
+              "copied-evidence"
+            ],
+            "event_id": null,
+            "receipt": {
+              "refutation_ids": [],
+              "selected_ids": [
+                "copied-evidence"
+              ],
+              "status": "SUPPORTED",
+              "support_ids": [
+                "copied-evidence"
+              ]
+            },
+            "step": 0
+          }
+        ],
+        "world_truth_established": false
+      }
+    },
+    {
+      "label": "mixed-NBSP+A-episode_id",
+      "expected": "SUPPORTED_EXACT_BINDING",
+      "actual": {
+        "all_arabic_complete": false,
+        "binding": {
+          "active_sources": [
+            {
+              "content": "Synthetic origin r1",
+              "identity": "origin",
+              "revision": "r1"
+            },
+            {
+              "content": "Synthetic copy r1",
+              "identity": "copy",
+              "revision": "r1"
+            },
+            {
+              "content": "Synthetic query r1",
+              "identity": "query",
+              "revision": "r1"
+            }
+          ],
+          "bindings": [
+            {
+              "origin_id": "origin",
+              "rank": 0,
+              "source": {
+                "content": "Synthetic origin r1",
+                "identity": "origin",
+                "revision": "r1"
+              }
+            },
+            {
+              "origin_id": "copy",
+              "rank": 1,
+              "source": {
+                "content": "Synthetic copy r1",
+                "identity": "copy",
+                "revision": "r1"
+              }
+            },
+            {
+              "origin_id": "query",
+              "rank": 0,
+              "source": {
+                "content": "Synthetic query r1",
+                "identity": "query",
+                "revision": "r1"
+              }
+            }
+          ],
+          "budget": 1,
+          "episode_id": " A",
+          "interpretations": [
+            {
+              "ancestry": [
+                "origin",
+                "copy"
+              ],
+              "id": "copied-evidence",
+              "key": {
+                "axis": "recorded_observation",
+                "context": "synthetic",
+                "entity": "E",
+                "place": "p",
+                "predicate": "P",
+                "time": "0",
+                "unit": "u",
+                "value": "7"
+              },
+              "kind": "observation",
+              "origin": "copy",
+              "positive": true,
+              "source": {
+                "content": "Synthetic copy r1",
+                "identity": "copy",
+                "revision": "r1"
+              }
+            }
+          ],
+          "origins": [
+            {
+              "id": "origin",
+              "parents": []
+            },
+            {
+              "id": "copy",
+              "parents": [
+                "origin"
+              ]
+            },
+            {
+              "id": "query",
+              "parents": []
+            }
+          ],
+          "query": {
+            "key": {
+              "axis": "recorded_observation",
+              "context": "synthetic",
+              "entity": "E",
+              "place": "p",
+              "predicate": "P",
+              "time": "0",
+              "unit": "u",
+              "value": "7"
+            },
+            "origin": "query",
+            "positive": true
+          },
+          "schema": "nabt.evidence-lifecycle.episode.v1",
+          "updates": []
+        },
+        "law_id": "nabt.evidence-lifecycle.v1",
+        "referents_established": false,
+        "source_authenticity_established": false,
+        "steps": [
+          {
+            "active_sources": [
+              {
+                "content": "Synthetic origin r1",
+                "identity": "origin",
+                "revision": "r1"
+              },
+              {
+                "content": "Synthetic copy r1",
+                "identity": "copy",
+                "revision": "r1"
+              },
+              {
+                "content": "Synthetic query r1",
+                "identity": "query",
+                "revision": "r1"
+              }
+            ],
+            "affected_ids": [],
+            "dependency_blocked_ids": [],
+            "dependency_ready_ids": [
+              "copied-evidence"
+            ],
+            "event_id": null,
+            "receipt": {
+              "refutation_ids": [],
+              "selected_ids": [
+                "copied-evidence"
+              ],
+              "status": "SUPPORTED",
+              "support_ids": [
+                "copied-evidence"
+              ]
+            },
+            "step": 0
+          }
+        ],
+        "world_truth_established": false
+      }
+    }
+  ],
+  "native_sha256": "aac536edf83f44957b5977cfb68e769040765af6ec15e10bb999f04294f29781",
+  "main_sha256": "f892069ebfe37650fcf1452116301e4e685f512d6d25affbc8ba364b58e9b04d"
+}

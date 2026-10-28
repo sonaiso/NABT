@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 from contextlib import redirect_stdout
 from io import StringIO
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -42,25 +43,33 @@ def registry():
     return load_json(DEFAULT_REGISTRY)
 
 
-def declared_pass():
+def row(value, kind, identity):
+    return next(item for item in value[kind] if item["id"] == identity)
+
+
+def declared_pass(gate_id="G0", value=None):
     """Invented, self-consistent claims: deliberately no real proof or run."""
-    value = registry()
-    gate = value["gates"][0]
-    gate["dataset"] = {"status": "frozen", "unit": "synthetic-check", "size": 1,
-                       "version": "test-suite.v1", "sha256": "a" * 64}
-    gate["status"] = "PASS"
-    gate["evidence_ids"] = ["invented-evidence"]
-    value["evidence_records"] = [{
-        "id": "invented-evidence", "gate_id": gate["id"], "scope": gate["scope"],
+    value = registry() if value is None else value
+    gate = row(value, "gates", gate_id)
+    if gate["dataset"]["status"] != "frozen":
+        gate["dataset"] = {"status": "frozen", "unit": "synthetic-check", "size": 1,
+                           "version": "test-suite.v1", "sha256": "a" * 64}
+    identity = f"invented-{gate_id}"
+    gate["measurement"] = {
+        "state": "MEASURED", "reported_outcome": "PASS", "reason": None,
+        "evidence_ids": [identity, *gate["measurement"]["evidence_ids"]],
+    }
+    value["evidence_records"].insert(0, {
+        "id": identity, "gate_id": gate["id"], "scope": gate["scope"],
         "reported_outcome": "PASS", "reference": "not-a-real-run.json",
         "run_identity": {
             "code_commit": "b" * 40, "toolchain": "test-toolchain",
-            "suite_version": "test-suite.v1", "evaluator_version": "test-evaluator.v1",
-            "dataset_sha256": "a" * 64, "gold_sha256": "c" * 64,
+            "suite_version": gate["dataset"]["version"], "evaluator_version": "test-evaluator.v1",
+            "dataset_sha256": gate["dataset"]["sha256"], "gold_sha256": "c" * 64,
             "evaluator_sha256": "d" * 64,
         },
         "required_checks": {"passed": 1, "failed": 0, "skipped": 0, "missing": 0},
-    }, *value["evidence_records"]]
+    })
     return value
 
 
@@ -178,21 +187,17 @@ class RegistryContracts(unittest.TestCase):
     def test_current_plan_preserves_baseline_and_records_scoped_measurement(self):
         value = registry()
         result = validate_registry(value)
+        self.assertEqual(result["schema"], "nabt.entropy-framework.validation.v2")
         self.assertEqual(value["baseline"]["nabt_commit"], "b7442580e7e681a68a85f40bc247be8ee286e7e3")
         self.assertEqual(result["gates"], 7)
-        self.assertEqual(result["tasks"], 18)
-        self.assertTrue(all(g["status"] == "NOT_MEASURED" for g in value["gates"]))
-        for g in value["gates"]:
-            self.assertIsNone(g["baseline"])
-        g1 = next(g for g in value["gates"] if g["id"] == "G1")
-        self.assertEqual(g1["dataset"]["status"], "frozen")
+        self.assertEqual(result["tasks"], 25)
+        g1 = row(value, "gates", "G1")
+        self.assertEqual(g1["measurement"]["state"], "MEASURED")
+        self.assertEqual(g1["measurement"]["reported_outcome"], "PASS")
         self.assertEqual(g1["dataset"]["positive_distinct_frames"], 50)
-        self.assertEqual(value["development_checkpoints"]["independent_gold_commit"],
-                         "7ca87dcda09427641ad346fa1108eb2c87382f22")
-        self.assertTrue(value["development_checkpoints"]["evaluation_started"])
-        cap = value["capabilities"][0]
+        cap = row(value, "capabilities", "productive-clause-v1")
         self.assertEqual(cap["state"], "EVALUATED")
-        measured = next(row for row in value["evidence_records"] if row["id"] in cap["evidence_ids"])
+        measured = row(value, "evidence_records", cap["evidence_ids"][0])
         self.assertEqual(measured["phase"], "exposed")
         self.assertEqual(measured["run_identity"]["code_commit"],
                          "c694a5ae1e8ad851fd1aaded6ab6c00b0aea3623")
@@ -202,41 +207,112 @@ class RegistryContracts(unittest.TestCase):
                          {"passed": 9, "failed": 0, "skipped": 0, "missing": 0})
         self.assertFalse(result["evidence_verified"])
 
-    def test_scoped_run_does_not_close_global_gates_or_rewrite_baseline(self):
+    def test_historical_baseline_and_evidence_objects_are_unchanged(self):
+        # Fixed digests of the parsed objects at c2c072e, independent of v2 logic.
         value = registry()
-        original_baseline = copy.deepcopy(value["baseline"])
-        cap = value["capabilities"][0]
-        evidence = declared_pass()["evidence_records"][0]
-        evidence["gate_id"] = cap["gate_id"]
-        evidence["scope"] = cap["scope"]
-        dataset = next(g["dataset"] for g in value["gates"] if g["id"] == cap["gate_id"])
-        evidence["run_identity"]["dataset_sha256"] = dataset["sha256"]
-        evidence["run_identity"]["suite_version"] = dataset["version"]
-        value["evidence_records"] = [evidence]
-        cap["state"] = "EVALUATED"
-        cap["evidence_ids"] = [evidence["id"]]
+        cap = row(value, "capabilities", "productive-clause-v1")
+        historical = [row(value, "evidence_records", cap["evidence_ids"][0])]
+        for obj, expected in (
+            (value["baseline"], "3d6a9c189cfd19090d5c335797d5a38ed325e18296ca499522e03d4411d33358"),
+            (historical, "d5625a6e345132ef27f0a7504f9790a31104a926c9358fb6d232d234a1aa29c2"),
+        ):
+            raw = json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
+        migration = value["migration"]
+        self.assertEqual(migration["source_commit"], "c2c072e17802b62c13109cee7c087b7b58895a1a")
+        self.assertEqual(migration["source_sha256"],
+                         "09ad43d5602e5f00fa3ea50b8bae89dbea2aa064b77a604dea1a80a910a8c8bb")
+        self.assertEqual(migration["previous_g4_proposal"]["dataset"]["status"], "not_created")
+
+    def test_measured_lifecycle_population_does_not_admit_general_gate(self):
+        value = registry()
+        g4 = row(value, "gates", "G4")
+        self.assertEqual(g4["scope"], "nabt.evidence-lifecycle.v1")
+        self.assertEqual(g4["dataset"]["status"], "frozen")
+        self.assertEqual(g4["dataset"]["size"], 40)
+        self.assertEqual(g4["dataset"]["frozen_commit"], "1295da3349b50190dc6f68606f918054e7bbfdf2")
+        self.assertEqual(g4["dataset"]["sha256"],
+                         "04609a848ddd4336d600253997b0d79523b28f6475be47f064845769083486be")
+        self.assertEqual(g4["dataset"]["additional_denominators"],
+                         {"episode_steps": 79, "verification_pairs": 73,
+                          "separate_historical_prefix_steps": 7})
+        self.assertEqual(g4["measurement"]["state"], "MEASURED")
+        self.assertEqual(g4["measurement"]["evidence_ids"], ["evidence-lifecycle-v1.first.e2d0c2f"])
+        evidence = row(value, "evidence_records", g4["measurement"]["evidence_ids"][0])
+        self.assertEqual(evidence["reported_measurements"]["scenario_contracts"], 40)
+        self.assertEqual(evidence["reported_measurements"]["verification_pairs"], 73)
+        self.assertEqual(row(value, "capabilities", "evidence-lifecycle-v1")["state"], "EVALUATED")
+        self.assertEqual(row(value, "tasks", "T16-LC1")["work_status"], "DELIVERED")
+        self.assertNotEqual(row(value, "tasks", "T16")["work_status"], "DELIVERED")
+        admission = row(report_registry(value), "gates", "G4")["admission"]
+        self.assertEqual(admission["readiness"], "BLOCKED_DEPENDENCIES")
+        self.assertEqual(admission["decision"], "NOT_EVALUATED")
+        self.assertFalse(admission["evidence_verified"])
+
+    def test_scoped_measurement_and_blocked_admission_are_separate(self):
+        value = registry()
+        original = copy.deepcopy(value)
         report = report_registry(value)
-        self.assertEqual(report["baseline"], original_baseline)
-        self.assertTrue(all(g["reported_status"] == "NOT_MEASURED" for g in report["gates"]))
-        self.assertEqual(report["scoped_capabilities"][0]["state"], "EVALUATED")
-        self.assertEqual(report["scoped_capabilities"][0]["parent_gate_admission"], "NOT_EVALUATED")
-        self.assertFalse(report["scoped_capabilities"][0]["evidence_verified"])
+        gate = row(report, "gates", "G1")
+        self.assertEqual(gate["measurement"]["reported_outcome"], "PASS")
+        self.assertEqual(gate["admission"], {
+            "readiness": "BLOCKED_DEPENDENCIES", "blockers": ["G0", "GM"],
+            "decision": "NOT_EVALUATED", "evidence_verified": False,
+        })
+        cap = row(report, "scoped_capabilities", "productive-clause-v1")
+        self.assertEqual(cap["measurement"], gate["measurement"])
+        self.assertEqual(cap["admission"], gate["admission"])
+        self.assertEqual(report["baseline"], original["baseline"])
+        self.assertEqual(value, original)  # Reporting itself is read-only.
+
+    def test_synthetic_lifecycle_result_does_not_admit_other_goals(self):
+        value = declared_pass("G4")
+        cap = row(value, "capabilities", "evidence-lifecycle-v1")
+        cap["state"] = "EVALUATED"
+        cap["evidence_ids"] = ["invented-G4"]
+        report = report_registry(value)
+        self.assertEqual(row(report, "gates", "G4")["admission"]["readiness"], "BLOCKED_DEPENDENCIES")
+        for identity in ("G2", "G3"):
+            self.assertEqual(row(report, "gates", identity)["measurement"]["state"], "NOT_MEASURED")
+        self.assertTrue(all(g["admission"]["decision"] == "NOT_EVALUATED" for g in report["gates"]))
+        self.assertEqual(report["release_admission"], "NOT_EVALUATED")
 
     def test_order_respects_all_dependency_edges(self):
         value = registry()
         result = validate_registry(value)
         for kind, key in (("tasks", "task_order"), ("gates", "gate_order")):
             positions = {i: n for n, i in enumerate(result[key])}
-            for row in value[kind]:
-                for dependency in row["depends_on"]:
-                    self.assertLess(positions[dependency], positions[row["id"]])
+            for item in value[kind]:
+                for dependency in item["depends_on"]:
+                    self.assertLess(positions[dependency], positions[item["id"]])
+
+    def test_dependency_readiness_propagates_and_preserves_direct_blocker_order(self):
+        value = registry()
+        value["gates"].reverse()  # Input order cannot become execution order.
+        self.assertEqual(row(report_registry(value), "gates", "G1")["admission"]["blockers"], ["G0", "GM"])
+        declared_pass("G0", value)
+        report = report_registry(value)
+        self.assertEqual(row(report, "gates", "G1")["admission"]["blockers"], ["GM"])
+        self.assertEqual(row(report, "gates", "GM")["admission"]["readiness"], "BLOCKED_MEASUREMENT")
+        declared_pass("GM", value)
+        report = report_registry(value)
+        self.assertEqual(row(report, "gates", "G1")["admission"]["readiness"], "READY_FOR_REVIEW")
+        self.assertEqual(row(report, "gates", "G1")["admission"]["decision"], "NOT_EVALUATED")
+        row(value, "gates", "G0")["measurement"].update(state="STALE", reason="source changed")
+        report = report_registry(value)
+        self.assertEqual(row(report, "gates", "GM")["admission"]["readiness"], "BLOCKED_DEPENDENCIES")
+        self.assertEqual(row(report, "gates", "G1")["admission"]["blockers"], ["G0", "GM"])
 
     def test_duplicate_ids_and_references_are_rejected(self):
-        for kind in ("roles", "layers", "gates", "tasks"):
+        for kind in ("roles", "layers", "gates", "tasks", "capabilities", "evidence_records"):
             value = registry()
             value[kind].append(copy.deepcopy(value[kind][0]))
             with self.subTest(kind=kind), self.assertRaisesRegex(FrameworkError, "duplicate id"):
                 validate_registry(value)
+        value = registry()
+        row(value, "gates", "G1")["measurement"]["evidence_ids"] *= 2
+        with self.assertRaisesRegex(FrameworkError, "duplicate member"):
+            validate_registry(value)
 
     def test_unknown_dependency_and_cycle_are_rejected(self):
         for kind in ("tasks", "gates"):
@@ -252,14 +328,17 @@ class RegistryContracts(unittest.TestCase):
                 validate_registry(value)
 
     def test_population_denominators_and_pair_units_are_checked(self):
-        for field in ("slice", "pair", "boolean"):
+        for field in ("slice", "pair", "boolean", "step_boolean", "step_negative"):
             value = registry()
             if field == "slice":
-                value["gates"][2]["dataset"]["slices"]["positive_in_scope"] = 99
+                row(value, "gates", "G1")["dataset"]["slices"]["positive_in_scope"] = 99
             elif field == "pair":
-                value["gates"][4]["dataset"]["individual_inputs"] = 80
+                row(value, "gates", "G3")["dataset"]["individual_inputs"] = 80
+            elif field == "boolean":
+                row(value, "gates", "G1")["dataset"]["size"] = True
             else:
-                value["gates"][2]["dataset"]["size"] = True
+                row(value, "gates", "G4")["dataset"]["additional_denominators"]["episode_steps"] = (
+                    True if field == "step_boolean" else -1)
             with self.subTest(field=field), self.assertRaises(FrameworkError):
                 validate_registry(value)
 
@@ -272,19 +351,62 @@ class RegistryContracts(unittest.TestCase):
         value["tasks"][0]["evidence_ids"] = ["missing"]
         with self.assertRaises(FrameworkError):
             validate_registry(value)
-
-    def test_delivered_code_does_not_mark_gate_passed(self):
         value = registry()
-        value["tasks"][0]["work_status"] = "DELIVERED"
-        report = report_registry(value)
-        self.assertEqual(report["tasks"][0]["work_status"], "DELIVERED")
-        self.assertEqual(report["gates"][0]["reported_status"], "NOT_MEASURED")
+        value["tasks"][0]["evidence_ids"] = ["productive-clause-v1.exposed-review1.c694a5a"]
+        with self.assertRaisesRegex(FrameworkError, "unlinked gate"):
+            validate_registry(value)
+
+    def test_delivered_scope_does_not_complete_parent_or_gate(self):
+        report = report_registry(registry())
+        child = row(report, "tasks", "T02-PCV1")
+        parent = row(report, "tasks", "T02")
+        self.assertEqual(child["work_status"], "DELIVERED")
+        self.assertEqual(child["parent_task_id"], "T02")
+        self.assertIn("T02-PCV1", parent["children"])
+        self.assertEqual(parent["work_status"], "IN_PROGRESS")
+        self.assertEqual(row(report, "gates", "G0")["measurement"]["state"], "NOT_MEASURED")
         self.assertEqual(report["release_admission"], "NOT_EVALUATED")
+
+    def test_delivery_and_ready_require_explicit_prerequisites(self):
+        for state in ("READY", "DELIVERED"):
+            value = registry()
+            row(value, "tasks", "T01")["work_status"] = "IN_PROGRESS"
+            row(value, "tasks", "T02-PCV1")["work_status"] = state
+            with self.subTest(state=state), self.assertRaisesRegex(FrameworkError, "before prerequisites"):
+                validate_registry(value)
+        value = registry()
+        row(value, "tasks", "T10")["depends_on"].append("T06")
+        with self.assertRaisesRegex(FrameworkError, "T10: DELIVERED before prerequisites"):
+            validate_registry(value)
+
+    def test_parent_delivery_waits_for_children(self):
+        value = registry()
+        row(value, "tasks", "T04")["work_status"] = "DELIVERED"
+        row(value, "tasks", "T04-LC1")["work_status"] = "IN_PROGRESS"
+        with self.assertRaisesRegex(FrameworkError, "before children"):
+            validate_registry(value)
+
+    def test_parent_references_and_hierarchy_cycles_are_checked_separately(self):
+        for parent in ("missing", [], "T02-PCV1"):
+            value = registry()
+            row(value, "tasks", "T02-PCV1")["parent_task_id"] = parent
+            with self.subTest(parent=parent), self.assertRaises(FrameworkError):
+                validate_registry(value)
+        value = registry()
+        row(value, "tasks", "T02")["parent_task_id"] = "T02-PCV1"
+        with self.assertRaisesRegex(FrameworkError, "task parents: dependency cycle"):
+            validate_registry(value)
+        value = registry()
+        del row(value, "tasks", "T02-PCV1")["scope"]
+        with self.assertRaisesRegex(FrameworkError, "scope"):
+            validate_registry(value)
 
     def test_consistent_but_invented_pass_is_still_not_verified(self):
         report = report_registry(declared_pass())
-        gate = next(g for g in report["gates"] if g["id"] == "G0")
-        self.assertEqual(gate["reported_status"], "PASS")
+        gate = row(report, "gates", "G0")
+        self.assertEqual(gate["measurement"]["reported_outcome"], "PASS")
+        self.assertEqual(gate["admission"]["readiness"], "READY_FOR_REVIEW")
+        self.assertEqual(gate["admission"]["decision"], "NOT_EVALUATED")
         self.assertEqual(gate["verification_status"], "NOT_PERFORMED")
         self.assertFalse(report["evidence_verified"])
         self.assertEqual(report["semantic_authority"], "NONE")
@@ -294,7 +416,7 @@ class RegistryContracts(unittest.TestCase):
         for field in ("draft", "empty", "skipped", "missing", "failed"):
             value = declared_pass()
             if field == "draft":
-                value["gates"][0]["dataset"]["status"] = "draft"
+                row(value, "gates", "G0")["dataset"]["status"] = "draft"
             elif field == "empty":
                 value["evidence_records"][0]["required_checks"]["passed"] = 0
             else:
@@ -303,21 +425,114 @@ class RegistryContracts(unittest.TestCase):
                 validate_registry(value)
 
     def test_cannot_borrow_evidence_from_another_scope_or_suite(self):
-        for field in ("scope", "suite_version", "dataset_sha256"):
+        for field in ("scope", "suite_version", "dataset_sha256", "gate_id"):
             value = declared_pass()
             evidence = value["evidence_records"][0]
-            if field == "scope":
-                evidence[field] = "other-scope"
+            if field in ("scope", "gate_id"):
+                evidence[field] = "G1" if field == "gate_id" else "other-scope"
             else:
                 evidence["run_identity"][field] = "e" * 64 if field.endswith("sha256") else "other.v1"
             with self.subTest(field=field), self.assertRaises(FrameworkError):
                 validate_registry(value)
 
-    def test_unmeasured_target_cannot_take_old_diagnostic_baseline(self):
-        value = registry()
-        value["gates"][2]["baseline"] = {"reading_correct": 1, "cases": 25}
-        with self.assertRaises(FrameworkError):
+    def test_measurement_states_are_consistent_with_selected_results(self):
+        for change in ({"state": "NOT_MEASURED"}, {"state": "NOT_APPLICABLE", "reason": "excluded"},
+                       {"reported_outcome": "FAIL"}, {"evidence_ids": []}, {"extra_status": "verified"}):
+            value = declared_pass()
+            row(value, "gates", "G0")["measurement"].update(change)
+            with self.subTest(change=change), self.assertRaises(FrameworkError):
+                validate_registry(value)
+        value = declared_pass()
+        value["evidence_records"][0]["reported_outcome"] = "FAIL"
+        value["evidence_records"][0]["required_checks"]["failed"] = 1
+        with self.assertRaisesRegex(FrameworkError, "outcome differs"):
             validate_registry(value)
+        row(value, "gates", "G0")["measurement"]["reported_outcome"] = "FAIL"
+        self.assertEqual(row(report_registry(value), "gates", "G0")["admission"]["readiness"],
+                         "BLOCKED_MEASUREMENT")
+
+    def test_stale_evidence_keeps_history_without_satisfying_new_dataset(self):
+        value = declared_pass()
+        gate = row(value, "gates", "G0")
+        gate["dataset"]["sha256"] = "f" * 64
+        gate["measurement"].update(state="STALE", reason="independently revised dataset")
+        report = report_registry(value)
+        self.assertEqual(row(report, "gates", "G0")["admission"]["readiness"], "BLOCKED_MEASUREMENT")
+        gate["measurement"]["reason"] = None
+        with self.assertRaisesRegex(FrameworkError, "requires a reason"):
+            validate_registry(value)
+
+    def test_not_applicable_does_not_waive_dependencies(self):
+        value = registry()
+        row(value, "gates", "G0")["measurement"].update(state="NOT_APPLICABLE", reason="caller exemption")
+        report = report_registry(value)
+        self.assertEqual(row(report, "gates", "G1")["admission"]["blockers"], ["G0", "GM"])
+        self.assertEqual(row(report, "gates", "G0")["admission"]["readiness"], "BLOCKED_MEASUREMENT")
+
+    def test_cannot_claim_authority_as_registry_input(self):
+        for place in ("gate", "measurement", "evidence"):
+            for field in ("admission", "evidence_verified", "semantic_authority", "authenticated"):
+                value = declared_pass()
+                target = {"gate": row(value, "gates", "G0"),
+                          "measurement": row(value, "gates", "G0")["measurement"],
+                          "evidence": value["evidence_records"][0]}[place]
+                target[field] = True
+                with self.subTest(place=place, field=field), self.assertRaisesRegex(FrameworkError, "authority"):
+                    validate_registry(value)
+
+    def test_capability_cannot_carry_a_result_absent_from_gate_measurement(self):
+        value = registry()
+        row(value, "gates", "G1")["measurement"] = {
+            "state": "NOT_MEASURED", "reported_outcome": None, "evidence_ids": [], "reason": None}
+        with self.assertRaisesRegex(FrameworkError, "not part of its gate measurement"):
+            validate_registry(value)
+        value = registry()
+        row(value, "capabilities", "productive-clause-v1")["scope"] = "another-law"
+        with self.assertRaisesRegex(FrameworkError, "scope differs"):
+            validate_registry(value)
+
+    def test_v1_schema_and_obsolete_overloaded_fields_are_rejected(self):
+        value = registry()
+        value["schema"] = "nabt.entropy-framework.registry.v1"
+        with self.assertRaisesRegex(FrameworkError, "unsupported registry schema"):
+            validate_registry(value)
+        for kind, field in (("gates", "status"), ("gates", "baseline"), ("gates", "evidence_ids"),
+                            ("tasks", "gate_status"), ("tasks", "scoped_evidence_ids")):
+            value = registry()
+            value[kind][0][field] = None
+            with self.subTest(kind=kind, field=field), self.assertRaisesRegex(FrameworkError, "legacy"):
+                validate_registry(value)
+
+    def test_migration_requires_identity_unique_changes_and_known_affected_items(self):
+        for mutation in ("source", "hash", "empty", "duplicate", "unknown", "reason"):
+            value = registry()
+            migration = value["migration"]
+            if mutation == "source":
+                migration["source_schema"] = "unknown"
+            elif mutation == "hash":
+                migration["source_sha256"] = "0" * 63
+            elif mutation == "empty":
+                migration["changes"] = []
+            elif mutation == "duplicate":
+                migration["changes"].append(copy.deepcopy(migration["changes"][0]))
+            elif mutation == "unknown":
+                migration["changes"][0]["affected_ids"] = ["missing"]
+            else:
+                migration["changes"][0]["reason"] = " "
+            with self.subTest(mutation=mutation), self.assertRaises(FrameworkError):
+                validate_registry(value)
+
+    def test_migration_rejects_well_formed_but_alternate_history(self):
+        for field, alternate in (
+            ("source_schema", "nabt.entropy-framework.registry.v2"),
+            ("source_commit", "1" * 40),
+            ("source_path", "tools/entropy_framework/alternate_registry.json"),
+            ("source_sha256", "f" * 64),
+        ):
+            value = registry()
+            value["migration"][field] = alternate
+            with self.subTest(field=field), self.assertRaisesRegex(FrameworkError, "installed source identity"):
+                validate_registry(value)
 
     def test_nabt_release_independence_is_enforced_in_registry_contract(self):
         value = registry()
@@ -329,11 +544,18 @@ class RegistryContracts(unittest.TestCase):
         for field in ("status", "owner"):
             value = registry()
             if field == "status":
-                value["gates"][0]["status"] = []
+                value["gates"][0]["measurement"]["state"] = []
             else:
                 value["tasks"][0]["owner_role"] = []
             with self.subTest(field=field), self.assertRaises(FrameworkError):
                 validate_registry(value)
+
+    def test_missing_dependency_state_is_a_diagnostic_regardless_of_row_order(self):
+        value = registry()
+        value["tasks"].reverse()
+        del row(value, "tasks", "T01")["work_status"]
+        with self.assertRaises(FrameworkError):
+            validate_registry(value)
 
 
 class StrictJSONAndCLI(unittest.TestCase):

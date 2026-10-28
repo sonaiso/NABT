@@ -145,3 +145,6 @@ lean_exe acquiredSyntaxV3 where
 
 lean_exe productiveClauseV1 where
   root := `ProductiveClauseV1Main
+
+lean_exe evidenceLifecycleV1 where
+  root := `EvidenceLifecycleV1Main

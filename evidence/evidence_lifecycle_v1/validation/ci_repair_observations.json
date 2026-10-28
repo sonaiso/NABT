@@ -1,0 +1,54 @@
+{
+  "schema": "nabt.validation-archive.v1",
+  "failed_ci_commit": "d9ce75b3d92c00f7f72be39029413c9e08a8726d",
+  "repair_commit": "692c3a4349bff822828a81a1e970ccca78c7ce70",
+  "failed_ci_checks": 8,
+  "successful_ci_checks_at_failed_head": 7,
+  "causes": [
+    "Native boundary setUpClass required a built executable in Python-only runtime discovery.",
+    "Inventory test requested a historical matrix commit unavailable in the default shallow checkout."
+  ],
+  "changes": [
+    "Scope optional native discovery to the general Python job; the dedicated conformance recipe explicitly requires native readiness and cannot skip it.",
+    "Inventory-schema test uses current HEAD; production first-execution chronology checks remain unchanged."
+  ],
+  "unchanged": [
+    "formal kernel",
+    "production runtime",
+    "acceptance evaluator",
+    "independent gold",
+    "historical acceptance outputs"
+  ],
+  "validation": {
+    "native_required_tests": 54,
+    "native_skips": 0,
+    "shallow_python_discovery": 2658,
+    "shallow_python_executed": 2461,
+    "shallow_python_skips": 197,
+    "shallow_python_exit_code": 0,
+    "required_missing_native_expected_exit_code": 2,
+    "required_missing_native_stopped_before_freeze": true
+  },
+  "artifacts": [
+    {
+      "run_id": 40738438967,
+      "artifact_id": 12837619686,
+      "path": "ci-pr59-d9-acquisition.zip",
+      "sha256": "9e8a0d3435e7064e86d3bcdb444eb61d4e70a82269a406d874dea6a5aea682f0"
+    },
+    {
+      "run_id": 40738324347,
+      "artifact_id": 12837888944,
+      "path": "ci-push-d9-acquisition.zip",
+      "sha256": "41fddc2f0e169b1f0cc753d74340cbd5216e468769e5b0ff89aca77884126396"
+    }
+  ],
+  "notes": [
+    "Decoded job logs retained through the GitHub connector; original artifact ZIP hashes match their upload digests.",
+    "Both failed acquisition jobs had already passed the productive 200-case gate but stopped during unit conformance before any lifecycle freeze or forty-case result.",
+    "The 54 native-required methods include three new readiness-policy controls; historical first-run counts remain unchanged.",
+    "No production or oracle change; subsequent remote evaluation remains exposed."
+  ],
+  "archive_sha256": "947192050434fa65f9912ccb6de6acb7e0c209f00f5ea6fc82ec4cf2840b014f",
+  "archive_bytes": 5886533
+}

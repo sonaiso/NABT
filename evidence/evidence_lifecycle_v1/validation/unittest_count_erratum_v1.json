@@ -1,0 +1,45 @@
+{
+  "schema": "nabt.validation-count-erratum.v1",
+  "applies_to_commit": "adcb5252cd9c6489484353380755caa7deaf3cf4",
+  "repair_execution_commit": "692c3a4349bff822828a81a1e970ccca78c7ce70",
+  "source_archive": "ci_repair_692c3a4.zip",
+  "source_member": "repair/python-only.log",
+  "source_sha256": "2d61679d85233b13557f704f74440c4f44034e9831d45cf00a44e52419992b74",
+  "reason": "unittest class-level skips are reported in skipped but do not increment testsRun. Subtracting all skip reports from testsRun undercounts successful methods.",
+  "supersedes": [
+    {
+      "path": "ci_repair_observations.json",
+      "field": "validation.shallow_python_executed",
+      "previous_value": 2461
+    },
+    {
+      "path": "ci_repair_observations.json",
+      "field": "validation.shallow_python_discovery",
+      "previous_value": 2658,
+      "correction": "The raw count is testsRun, not total discovered methods."
+    },
+    {
+      "path": "ci_repair_692c3a4.zip!archive_manifest.json",
+      "field": "validation.shallow_python_executed",
+      "previous_value": 2461
+    }
+  ],
+  "corrected_counts": {
+    "unittest_tests_run": 2658,
+    "successful_test_methods": 2484,
+    "skipped_test_methods": 174,
+    "skipped_test_classes": 23,
+    "total_skip_reports": 197,
+    "failures": 0,
+    "errors": 0
+  },
+  "preserved": [
+    "raw execution logs",
+    "original archive and manifest",
+    "original observation JSON",
+    "native 54 tests and zero skips",
+    "first release 2835 successful methods and 55 method skips within 2890 testsRun",
+    "all acceptance outputs and gold"
+  ],
+  "review": "Read-only independent archive review; counts independently reproduced from the raw log by the implementing maintainer."
+}

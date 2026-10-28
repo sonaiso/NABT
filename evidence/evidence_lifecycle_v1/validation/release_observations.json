@@ -1,0 +1,69 @@
+{
+  "schema": "nabt.evidence-lifecycle.release-observations.v1",
+  "tested_code_commit": "e2d0c2fa735295625e809a2e0d3f5ac34912b9c1",
+  "command": [
+    "make",
+    "formal",
+    "check",
+    "LAKE=/workspace/scratch/7802d128cb40/lean-tools/lean-4.34.1-linux/bin/lake",
+    "EVIDENCE_DIR=artifacts/local/lifecycle-release-e2d0c2f",
+    "ARABIC_EVALUATION_DIR=artifacts/local/lifecycle-release-e2d0c2f/arabic-regression"
+  ],
+  "make_formal_check_exit_code": 0,
+  "archive_sha256": "db1e12413145d0c9752715ab087a8f7fe042fb776912ec7c4302eab00202e6ca",
+  "unit_discovery": {
+    "discovered": 2890,
+    "executed": 2835,
+    "skipped": 55,
+    "seconds": 1129.707,
+    "failures": 0,
+    "errors": 0,
+    "skip_reasons": {
+      "'requires pinned full Lisan and compiled lexicalCompletion; mandatory in dedicated CI'": 17,
+      "'native lexicalDenotation executable not configured'": 10,
+      "'requires installed sources and both graph/lexical native checkers'": 9,
+      "'optional neural training environment not installed'": 8,
+      "'native Lean qatrReading required'": 7,
+      "'optional pinned torch/numpy required'": 3,
+      "'optional full pinned Lisan source not downloaded'": 1
+    }
+  },
+  "axiom_audit": {
+    "ok": true,
+    "theorem_count": 1592,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true
+  },
+  "unit_batches": [
+    "Ran 2890 tests in 1129.707s\n\nOK (skipped=55)",
+    "Ran 7 tests in 0.386s\n\nOK",
+    "Ran 25 tests in 1.602s\n\nOK",
+    "Ran 12 tests in 1.506s\n\nOK",
+    "Ran 23 tests in 1.566s\n\nOK",
+    "Ran 31 tests in 5.237s\n\nOK",
+    "Ran 10 tests in 3.607s\n\nOK",
+    "Ran 13 tests in 6.132s\n\nOK",
+    "Ran 16 tests in 7.009s\n\nOK",
+    "Ran 16 tests in 9.048s\n\nOK",
+    "Ran 17 tests in 2.983s\n\nOK",
+    "Ran 6 tests in 5.931s\n\nOK",
+    "Ran 17 tests in 39.314s\n\nOK",
+    "Ran 13 tests in 3.617s\n\nOK"
+  ],
+  "post_measurement_framework": {
+    "code_commit": "57f80e6cb139c5c6dd27bbd1f42de48cba5a7ffa",
+    "files": {
+      "tests/test_entropy_framework.py": "388126c88460531af87f55f59800a5d440cf888ba088bab6e13dc1ad118af100",
+      "tools/entropy_framework/registry.py": "a9d2c0f70e1b30d1629742b5178199b79a545211901323abab8f4db57a8f4ef6",
+      "tools/entropy_framework/registry.json": "adf09c4f98a1c1eef991a161545ff7dd3fdd894f8f46f5802ddc1ebad3d606e4"
+    },
+    "tests": 51,
+    "skips": 0
+  },
+  "remote_ci": "Required on the final published head; not asserted by these local records."
+}
