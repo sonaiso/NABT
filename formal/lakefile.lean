@@ -142,3 +142,6 @@ lean_exe connectedAcquisitionV3 where
 
 lean_exe acquiredSyntaxV3 where
   root := `AcquiredSyntaxV3Main
+
+lean_exe productiveClauseV1 where
+  root := `ProductiveClauseV1Main

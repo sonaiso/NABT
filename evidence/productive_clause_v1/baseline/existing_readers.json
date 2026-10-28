@@ -1,0 +1,33 @@
+{
+  "base_commit": "b7442580e7e681a68a85f40bc247be8ee286e7e3",
+  "scope": "existing v3 acquisition plus existing discourse reader, no new law",
+  "rows": [
+    {
+      "text": "ضَرَبَ زَيْدٌ عَمْرًا.",
+      "acquisition": {
+        "status": "ACQUIRED",
+        "verified": true,
+        "shape_verified": true
+      },
+      "discourse": {
+        "status": "DEFER",
+        "claims": []
+      }
+    },
+    {
+      "text": "ضَرَبَ عَمْرًا زَيْدٌ.",
+      "acquisition": {
+        "status": "ACQUIRED",
+        "verified": true,
+        "shape_verified": true
+      },
+      "discourse": {
+        "status": "DEFER",
+        "claims": []
+      }
+    }
+  ],
+  "evidence_kind": "observed local native acquisition and existing Python discourse",
+  "command": "PYTHONPATH=src:. python -B; tools.connected_acquisition_v3.read_acquired; nabt.discourse.read_discourse",
+  "interpretation": "Existing v3 acquires both original inputs with native/shape replay but discourse yields no claim. This is not the 200-case matrix baseline."
+}
