@@ -1,0 +1,361 @@
+{
+  "schema": "nabt.meaning-preservation.local-release-summary.v1",
+  "recorded_at_utc": "2026-10-31T10:42:37.814885+00:00",
+  "repository": "sonaiso/NABT",
+  "branch": "codex/meaning-preservation-v1",
+  "base_commit": "3dbe335a21ac838db3717f03ca2a5b5889e16e54",
+  "tested_commit": "e8d9dc87963bd0835b519c7b9198e2fb19f4fe7d",
+  "delivery_changes_after_check": "The follow-up delivery adds documentation and retained validation evidence only; the handoff builder verifies the final commit diff against the tested commit.",
+  "full_check": {
+    "schema": "nabt.local-verification-command.v1",
+    "command": [
+      "make",
+      "-f",
+      "tools/meaning_preservation_v1.mk",
+      "check",
+      "LAKE=/workspace/scratch/9ce8f0093ca4/nabt-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/meaning-preservation-v1/full-check-e8d9dc8"
+    ],
+    "commit": "e8d9dc87963bd0835b519c7b9198e2fb19f4fe7d",
+    "started_at_utc": "2026-10-31T10:14:28.098467+00:00",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+    "status": "PASS",
+    "returncode": 0,
+    "finished_at_utc": "2026-10-31T10:41:45.735658+00:00"
+  },
+  "verification_archive": {
+    "path": "evidence/meaning_preservation_v1/validation/release_e8d9dc8.zip",
+    "bytes": 45983186,
+    "sha256": "c0b1e4cdd4682ca89aedde7b39da096c4272c768b4b0daefc3d4d10afba5cbe3",
+    "files": 147
+  },
+  "general_discovery": {
+    "tests_run": 2905,
+    "successful_methods": 2819,
+    "skipped_methods": 86,
+    "class_skip_reports": 5,
+    "all_skip_reports": 91,
+    "elapsed_seconds": 499.252,
+    "skip_reasons": {
+      "'build alignedAcquisitionV2 and licensedInference'": 10,
+      "'build connectedAcquisitionV3 and acquiredSyntaxV3'": 4,
+      "'build acquiredSyntaxV3'": 5,
+      "'build alignedAcquisitionV2 for native integration'": 5,
+      "'Explicitly acquire the pinned external QAC source for source replay'": 1,
+      "'requires pinned full Lisan and compiled lexicalCompletion; mandatory in dedicated CI'": 17,
+      "'native lexicalDenotation executable not configured'": 10,
+      "'requires installed sources and both graph/lexical native checkers'": 9,
+      "'optional pinned QAC corpus not downloaded'": 7,
+      "'native linguisticTruth not built'": 1,
+      "'optional native linguisticTruth checker not built'": 1,
+      "'build linguisticTruth and connectedAcquisitionV3'": 1,
+      "'build the existing linguisticTruth native target'": 1,
+      "'optional neural training environment not installed'": 8,
+      "'native Lean qatrReading required'": 7,
+      "'optional pinned torch/numpy required'": 3,
+      "'optional full pinned Lisan source not downloaded'": 1
+    },
+    "scope": "Initial general discovery. Subsequent dedicated invocations overlap and are not added as unique methods; optional/missing dependencies were explicitly skipped here."
+  },
+  "dedicated_meaning_methods": {
+    "runtime": 29,
+    "evaluator": 18,
+    "inventory": 7,
+    "total": 54,
+    "required_skips": 0
+  },
+  "first_measurement": {
+    "commit": "c5046478f5f2b57d4913427900f6f1f12ae1822e",
+    "phase": "first",
+    "summary": {
+      "cases": 73,
+      "contracts": 73,
+      "by_family": {
+        "preservation_positive": {
+          "cases": 15,
+          "contracts": 15
+        },
+        "counterexamples": {
+          "cases": 20,
+          "contracts": 20
+        },
+        "input_integrity": {
+          "cases": 26,
+          "contracts": 26
+        },
+        "scope_resource_and_authority": {
+          "cases": 12,
+          "contracts": 12
+        }
+      },
+      "by_layer": {
+        "public_contract": {
+          "cases": 65,
+          "contracts": 65
+        },
+        "wrapper": {
+          "cases": 2,
+          "contracts": 2
+        },
+        "productive_adapter": {
+          "cases": 6,
+          "contracts": 6
+        }
+      },
+      "positive_goals": 15,
+      "positive_goals_met": 15,
+      "direct_native_required": 69,
+      "direct_native_matched": 69,
+      "direct_native_errors_required": 34,
+      "direct_native_errors_matched": 34,
+      "receipt_replays_required": 37,
+      "receipt_replays_matched": 37,
+      "productive_complete_required": 4,
+      "productive_complete_matched": 4,
+      "observed_false_authorizations": 0,
+      "required_skips": 0
+    },
+    "gate": {
+      "passed": true,
+      "checks": {
+        "all_authored_contracts": true,
+        "family_denominators": true,
+        "layer_denominators": true,
+        "all_positive_goals": true,
+        "all_direct_native": true,
+        "direct_native_errors": true,
+        "receipt_replays": true,
+        "productive_complete": true,
+        "no_observed_false_authorizations": true,
+        "no_required_skips": true,
+        "execution_integrity": true
+      },
+      "authority": "AUTHORED_FINITE_CONTRACT_MATRIX_ONLY",
+      "world_truth_established": false,
+      "source_authenticity_established": false,
+      "referents_established": false,
+      "all_arabic_complete": false,
+      "human_interpretation_agreement_established": false
+    },
+    "result": {
+      "bytes": 974041,
+      "sha256": "1a965eaba6b552ba56ffc301afe8f7087ae83f372e3c6dd6de4f7e3162902dd3"
+    }
+  },
+  "exposed_replay": {
+    "commit": "e8d9dc87963bd0835b519c7b9198e2fb19f4fe7d",
+    "phase": "exposed",
+    "summary": {
+      "cases": 73,
+      "contracts": 73,
+      "by_family": {
+        "preservation_positive": {
+          "cases": 15,
+          "contracts": 15
+        },
+        "counterexamples": {
+          "cases": 20,
+          "contracts": 20
+        },
+        "input_integrity": {
+          "cases": 26,
+          "contracts": 26
+        },
+        "scope_resource_and_authority": {
+          "cases": 12,
+          "contracts": 12
+        }
+      },
+      "by_layer": {
+        "public_contract": {
+          "cases": 65,
+          "contracts": 65
+        },
+        "wrapper": {
+          "cases": 2,
+          "contracts": 2
+        },
+        "productive_adapter": {
+          "cases": 6,
+          "contracts": 6
+        }
+      },
+      "positive_goals": 15,
+      "positive_goals_met": 15,
+      "direct_native_required": 69,
+      "direct_native_matched": 69,
+      "direct_native_errors_required": 34,
+      "direct_native_errors_matched": 34,
+      "receipt_replays_required": 37,
+      "receipt_replays_matched": 37,
+      "productive_complete_required": 4,
+      "productive_complete_matched": 4,
+      "observed_false_authorizations": 0,
+      "required_skips": 0
+    },
+    "gate": {
+      "passed": true,
+      "checks": {
+        "all_authored_contracts": true,
+        "family_denominators": true,
+        "layer_denominators": true,
+        "all_positive_goals": true,
+        "all_direct_native": true,
+        "direct_native_errors": true,
+        "receipt_replays": true,
+        "productive_complete": true,
+        "no_observed_false_authorizations": true,
+        "no_required_skips": true,
+        "execution_integrity": true
+      },
+      "authority": "AUTHORED_FINITE_CONTRACT_MATRIX_ONLY",
+      "world_truth_established": false,
+      "source_authenticity_established": false,
+      "referents_established": false,
+      "all_arabic_complete": false,
+      "human_interpretation_agreement_established": false
+    },
+    "result": {
+      "bytes": 974329,
+      "sha256": "a54257c3d0f4473fdf84d18e7c206a84e5d806b5ed48017eb55d988d967efec5"
+    },
+    "not_additional_independent_sample": true
+  },
+  "formal": {
+    "new_declarations": 13,
+    "project_declarations": 1605,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true,
+    "catalog_counts": {
+      "advertised_declarations": 1605,
+      "normalized_statement_groups": 1602,
+      "same_statement_groups_with_multiple_names": 3,
+      "redundant_statement_names": 3
+    },
+    "parser_refinement_proved": false
+  },
+  "core_conformance": {
+    "ok": true,
+    "primitive_transitions_checked": 11252,
+    "lean_sources_guarded": 133
+  },
+  "research_denominators": {
+    "morphology_families": 51,
+    "composition_groups": 34,
+    "interpretation_contracts": 15,
+    "nominal_templates": 20
+  },
+  "independent_record_reviews": {
+    "first_result": {
+      "bytes": 10717,
+      "sha256": "eca419acdfb6f198fc38f39068d83812d299f9bbd28af14e433f83b6403618ef"
+    },
+    "unit_counts": {
+      "bytes": 27689,
+      "sha256": "221d8d779467d20b76b35d25d648ebeccedfdb586d23c03c6f2b23263c7e7a3e"
+    },
+    "not_new_experiments": true
+  },
+  "historical_preservation": {
+    "src_byte_identical_to_base": true,
+    "original_makefile_byte_identical_to_base": true,
+    "first_result_not_rewritten": true,
+    "source_and_matrix_freezes_not_rewritten": true
+  },
+  "legacy_gate_boundary": "PASS is the existing regression gate result. Historical raw coverage misses, documented boundaries and unmeasured goals remain in the archived reports and are not relabelled as linguistic successes.",
+  "remote_publication": {
+    "status": "BLOCKED",
+    "github_integration_http_status": 403,
+    "git_credentials_available": false,
+    "pull_request_created": false,
+    "merged": false,
+    "published_head_ci_run": false
+  },
+  "claims_not_established": [
+    "all-Arabic completeness",
+    "source authenticity",
+    "external referents",
+    "world truth",
+    "actual human interpretation agreement",
+    "formal refinement of the JSON parser"
+  ],
+  "log_integrity": {
+    "complete_log_bytes": 794314,
+    "complete_log_sha256": "790ddf134992a4bc2cc91728dd32a5c862968c3b3d851a2c1ca913ae509d8103",
+    "original_path_snapshot_bytes": 579970,
+    "original_path_snapshot_sha256": "ac07be0a9cebe9de6decb753249f2ffcb580d838052012a11161d9dc996b31a2",
+    "first_unittest_prefix_preserved": true,
+    "test_execution_restarted": false,
+    "recovery_report_in_archive": "log_recovery.json",
+    "replacement_mechanism_established": false
+  },
+  "retained_legacy_results": {
+    "sourced_v3": {
+      "cases": 161,
+      "contract_matches": 161,
+      "required_positive": 109,
+      "positive_acquired": 90,
+      "false_authorizations": 0
+    },
+    "productive_clause_v1": {
+      "cases": 200,
+      "syntax_contracts": 200,
+      "positive_surfaces": {
+        "required": 100,
+        "complete": 100,
+        "misses": []
+      },
+      "false_authorizations": 0
+    },
+    "evidence_lifecycle_v1": {
+      "scenarios": 40,
+      "scenario_contracts": 40,
+      "by_family": {
+        "withdrawal": {
+          "scenarios": 8,
+          "contracts": 8
+        },
+        "lineage": {
+          "scenarios": 8,
+          "contracts": 8
+        },
+        "conflict": {
+          "scenarios": 8,
+          "contracts": 8
+        },
+        "qualified_key": {
+          "scenarios": 8,
+          "contracts": 8
+        },
+        "revision_and_absence": {
+          "scenarios": 8,
+          "contracts": 8
+        }
+      },
+      "main_episode_steps": 79,
+      "matched_main_episode_steps": 79,
+      "verification_pairs": 73,
+      "matched_verification_pairs": 73,
+      "auxiliary_historical_steps": 7,
+      "matched_auxiliary_historical_steps": 7,
+      "native_error_contracts": 6,
+      "matched_native_error_contracts": 6,
+      "observed_false_authorizations": 0,
+      "required_skips": 0
+    },
+    "morphology_documented_raw_score": {
+      "passed": 39,
+      "total": 43
+    },
+    "word_documented_raw_score": {
+      "passed": 27,
+      "total": 30
+    }
+  }
+}
