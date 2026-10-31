@@ -6,6 +6,8 @@
 التنفيذ هو [OPERATOR_CONTEXT_V1_SPEC.md](OPERATOR_CONTEXT_V1_SPEC.md)،
 ومصفوفة القبول المستقلة في
 [acceptance_cases.json](../evidence/operator_context_v1/acceptance_cases.json).
+نتائج التنفيذ والمراجعة الأولى والإصلاح والمثال العامل في
+[OPERATOR_CONTEXT_V1_RESULTS_AR.md](OPERATOR_CONTEXT_V1_RESULTS_AR.md).
 
 ## ١. الوصلة التي يعالجها التغيير
 

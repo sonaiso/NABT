@@ -1624,3 +1624,30 @@ orchestration, not a new general Lean proof of Python/JSON composition. The
 12-case exposed integration regression matches all expected contracts but has
 only five complete chains, including one of three positive inference cases.
 See `docs/PR34_ACQUISITION_INTEGRATION_AR.md` and retained receipts for scope.
+
+
+## Operator source-context routing (2026-11-01 Asia/Amman)
+
+The existing conditional-routing path now projects the pinned source scope,
+blockers, diagnostic examples and passages beside every examined operator row.
+V2 whole-report replay binds the independently supplied raw query, complete
+frame mapping and requested budget; legacy v1 output remains available.
+The original classical receipt owners and catalogue projection are unchanged.
+
+On committed implementation `d812f37`, 272 distinct local test methods passed:
+19 context/review methods, 47 existing catalogue methods, 157 owner methods and
+49 reuse methods, with no skips. The frozen 90-file dependency and 99-file
+runtime profiles, source inventories and preimplementation gold all matched.
+The first 17-test observation, two failing pre-fix resource regressions, focused
+allocation-order correction, and independent post-fix probes remain preserved.
+An incomplete first owner log is recorded as an evidence-integrity anomaly;
+the final owner result uses its complete hash-checked sequential replay.
+
+These are exposed Python/source-replay checks. The local environment had no
+`lake` or `exportRuleRouting`; no fresh local Lean build or complete `make check`
+is claimed. The existing final-head CI must rebuild the kernel and run native
+routing conformance before the authorized merge. The new projection introduces
+no Lean theorem, Python refinement proof, acquired free-text premise, rule
+adoption event, external truth or action authority. Actual grammar application
+trees and the existing `CertifiedBridge` realization obligations remain open.
+See [OPERATOR_CONTEXT_V1_RESULTS_AR.md](OPERATOR_CONTEXT_V1_RESULTS_AR.md).

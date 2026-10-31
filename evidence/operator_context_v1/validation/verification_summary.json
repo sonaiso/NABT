@@ -1,0 +1,138 @@
+{
+  "schema": "nabt.operator-context.verification-summary.v1",
+  "generated_utc": "2026-10-31T21:46:55.219278+00:00",
+  "local_result": "PASS_WITH_DECLARED_SCOPE",
+  "verified_code_commit": "d812f37013b09950e38f203e4ccfad0910ac1812",
+  "groups": [
+    {
+      "group": "routing_and_catalog_tests",
+      "record": "evidence/operator_context_v1/validation/routing_and_catalog_tests.json",
+      "record_sha256": "0431a5e290e491bf44514388fc2a91fd5f8077fda8ceb33199a88fd224b3bf1f",
+      "log": "evidence/operator_context_v1/validation/routing_and_catalog_tests.log",
+      "log_sha256": "5bdfddcc36b299416acf3b1f7a54db5dc0eb92a7108d6fa3feda66170a13804f",
+      "passed_tests_from_unchanged_log": 66,
+      "unittest_seconds": 401.003,
+      "recorded_elapsed_seconds": 401.525,
+      "skipped_method_lines": 0,
+      "inputs_unchanged": true,
+      "git_head": "d812f37013b09950e38f203e4ccfad0910ac1812"
+    },
+    {
+      "group": "classical_owner_tests_sequential_replay",
+      "record": "evidence/operator_context_v1/validation/classical_owner_tests_sequential_replay.json",
+      "record_sha256": "cc15f55d943653f6b79674416eccbb73b120daceb67740ccdc07c81d61dba61c",
+      "log": "evidence/operator_context_v1/validation/classical_owner_tests_sequential_replay.log",
+      "log_sha256": "7a9252c3aed6be373537a8acdd6900b7495796b15dc718e0e0ecf41204632e05",
+      "passed_tests_from_unchanged_log": 157,
+      "unittest_seconds": 2.273,
+      "recorded_elapsed_seconds": 2.389,
+      "skipped_method_lines": 0,
+      "inputs_unchanged": true,
+      "git_head": "d812f37013b09950e38f203e4ccfad0910ac1812"
+    },
+    {
+      "group": "reuse_metadata_tests",
+      "record": "evidence/operator_context_v1/validation/reuse_metadata_tests.json",
+      "record_sha256": "a4a8827d9481c0e701f9a9844e31c9342fa0d6cfcb063ae113a2baff6c956acd",
+      "log": "evidence/operator_context_v1/validation/reuse_metadata_tests.log",
+      "log_sha256": "cc386a95b0637b297fec18440e684116aaef9dae317d2d644d87fe6d97343026",
+      "passed_tests_from_unchanged_log": 49,
+      "unittest_seconds": 86.245,
+      "recorded_elapsed_seconds": 86.375,
+      "skipped_method_lines": 0,
+      "inputs_unchanged": true,
+      "git_head": "d812f37013b09950e38f203e4ccfad0910ac1812"
+    }
+  ],
+  "distinct_passing_tests": 272,
+  "breakdown": {
+    "new_operator_context_methods": 19,
+    "original_acceptance_methods": 17,
+    "resource_review_supplements": 2,
+    "existing_catalogue_methods": 47,
+    "existing_owner_methods": 157,
+    "existing_reuse_methods": 49
+  },
+  "skipped_tests": 0,
+  "bookkeeping_observations": [
+    "The first concurrent run wrappers preserved tests_ran=null because their summary-count regular expression was over-escaped. These unchanged records and logs are retained. Final counts are parsed from each unittest summary and cross-checked against distinct method identities.",
+    "The original owner run returned success, but a later inspection found its on-disk log incomplete and inconsistent with its recorded digest. Both were preserved unchanged and the cause remains unestablished. Only that group was replayed sequentially into new files; the final counts use the complete hash-checked replay log. See classical_owner_log_integrity_observation.json."
+  ],
+  "first_acceptance": {
+    "record": "evidence/operator_context_v1/validation/first_acceptance_run.json",
+    "methods": 17,
+    "result": "PASS",
+    "elapsed_seconds": 334.838,
+    "inputs_unchanged": true,
+    "implementation_checkpoint": "031dae61bab8ef6e950daf4679bc5fee4602a841",
+    "execution_phase": "Uncommitted implementation source hashes on preimplementation HEAD; preserved before resource fix."
+  },
+  "resource_review": {
+    "red_checkpoint": "511e6c898522261826774ff934cb837dff28a795",
+    "fix_commit": "d812f37013b09950e38f203e4ccfad0910ac1812",
+    "expected_pre_fix_failures": 2,
+    "post_fix_methods_passed_in_final_group": 2,
+    "preserved_independent_probes": "evidence/operator_context_v1/resource_review/review_summary.json"
+  },
+  "immutable_inputs": {
+    "record": "evidence/operator_context_v1/validation/immutable_inputs_check.json",
+    "oracle_dependency_files": 90,
+    "runtime_freeze_files": 99,
+    "mismatches": 0,
+    "preimplementation_contract_and_gold_unchanged": true,
+    "src_formal_makefile_main_ci_catalogue_projection_unchanged": true
+  },
+  "legacy_control": {
+    "path": "evidence/operator_context_v1/baseline/route_before.json",
+    "bytes": 30462,
+    "sha256": "f0f71647f43b3c469aa557c141ad0833ee83053ad049d91c7b84d0ef03213592",
+    "exact_cli_byte_comparison": "Passed in original and final OC14 CLI acceptance."
+  },
+  "example": {
+    "run_record": "evidence/operator_context_v1/validation/example_execution.json",
+    "report": "evidence/operator_context_v1/validation/example_route_v2.json",
+    "replay": "evidence/operator_context_v1/validation/example_replay_v2.json",
+    "report_schema": "nabt.conditional-rule-routing.v2",
+    "examined_rows": 24,
+    "rows_with_source_context": 24,
+    "checked_conditional_rules": [
+      "HAMZA-LEXICAL-COMMAND"
+    ],
+    "missing_premise_rows": 23,
+    "alternative_count": 2,
+    "status": "INCOMPLETE_PREMISES_OR_RESULTS",
+    "verified": true,
+    "report_canonical_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+    "semantic_authority": "NONE",
+    "action_authority": "NONE",
+    "premises_established_from_free_text": false
+  },
+  "other_checks": {
+    "entropy_check": "evidence/operator_context_v1/validation/entropy_check.json",
+    "entropy_lossless_log": "evidence/operator_context_v1/validation/entropy_check.log.gz",
+    "reuse_report": "evidence/operator_context_v1/validation/reuse_rule_routing_summary.json",
+    "compiled_snapshot_source_identity_matches": true,
+    "fresh_local_lean_build": false,
+    "local_exportRuleRouting_available": false,
+    "full_local_make_check": false,
+    "reuse_complete_report": "evidence/operator_context_v1/validation/reuse_rule_routing.json.gz",
+    "reuse_lossless_storage": "evidence/operator_context_v1/validation/reuse_report_storage.json"
+  },
+  "release_gate": {
+    "state": "REQUIRES_ALL_TRIGGERED_CI_ON_FINAL_PUBLISHED_HEAD",
+    "expected_feature_push_workflows": 6,
+    "expected_feature_push_jobs": 9,
+    "expected_pr_workflows": 7,
+    "expected_pr_jobs": 11,
+    "explicit_native_routing_job": "catalog-proof-links",
+    "kernel_rebuild_job": "formal",
+    "note": "Workflow-definition expectations, not observed remote success or branch-protection requirements."
+  },
+  "limits": [
+    "Independent exposed engineering acceptance; no held-out Arabic evaluation.",
+    "No new rule, theorem, source-to-formal fidelity or Python/Lean refinement proof.",
+    "Authored source examples and scope are not acquired application premises.",
+    "Current source replay is sampled consistency, not an atomic filesystem snapshot.",
+    "No rule-adoption event, CertifiedBridge discharge, external truth or action license follows from this report."
+  ]
+}

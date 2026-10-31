@@ -19,6 +19,17 @@ oracle recovery note. Tests use the existing grammar-catalog discovery paths;
 no new registry, evaluator, Lean claim or CI bypass is authorized by metadata.
 Record actual implementation and verification results before release; current
 acceptance is not an independent holdout or proof of external applicability.
+Current source-context implementation is committed at `d812f37`. The first
+17-method acceptance is retained at `031dae61`; two independent resource-order
+regressions failed before correction at `511e6c8`. Final local groups pass
+272 distinct methods (19 new context, 47 existing catalogue, 157 owners,
+49 reuse) with no skips. See `docs/OPERATOR_CONTEXT_V1_RESULTS_AR.md` and
+`evidence/operator_context_v1/validation/verification_summary.json`.
+Preserve the first owner-log integrity anomaly and count-extraction note;
+the final owner evidence is its complete sequential replay, not the partial
+original log. All 90/99 frozen inputs and the preimplementation gold match.
+Local Lean/native routing was unavailable; all final-head CI, including the
+PR-only `catalog-proof-links` native-routing gate, must pass before merge.
 
 Current rule/policy organization work: follow
 `docs/NABT_RULE_POLICY_ORGANIZATION_AR.md` and the preimplementation contract

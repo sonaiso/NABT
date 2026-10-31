@@ -1,0 +1,134 @@
+{
+  "schema": "nabt.operator-context.independent-resource-review.v1",
+  "scope": "Focused static review of the JSON resource patch and exactly two preserved tiny-budget Python probes; no broad semantic suite, fresh Lean build, native evaluation, or new authority claim.",
+  "frozen_contract_commit": "50e3f51d0be598e67cf37ab27b08c562a52a354c",
+  "preserved_pre_fix_probe_checkpoint": "031dae61bab8ef6e950daf4679bc5fee4602a841",
+  "preserved_red_regression_checkpoint": "511e6c898522261826774ff934cb837dff28a795",
+  "reviewed_resource_fix_commit": "d812f37013b09950e38f203e4ccfad0910ac1812",
+  "reviewed_routing_sha256": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+  "static_review": {
+    "verdict": "NO_BLOCKER_FOUND_IN_FOCUSED_PATCH",
+    "findings": [
+      "Cumulative canonical byte accounting precedes whole-document serialization and includes JSON structure, string escaping, UTF-8 width, and scalar spelling.",
+      "The integer bit-length calculation supplies a conservative decimal-length lower bound before decimal conversion.",
+      "The pretty writer reserves the final newline and checks each emitted chunk before retaining it or assembling the complete output.",
+      "The patch changes only JSON resource helpers; owner, request, report schema, authority, receipt, source-context, and v1 routing logic are unchanged."
+    ],
+    "limits": [
+      "The saved pretty probe observes whole-document json.dumps calls; bounded iterator consumption is supported by static review and the separately owned supplemental regression.",
+      "Tiny substituted byte limits demonstrate allocation ordering, not an operating-system memory benchmark or atomic source snapshot guarantee."
+    ]
+  },
+  "observations": [
+    {
+      "id": "aggregate",
+      "script": "evidence/operator_context_v1/resource_review/probe_aggregate_budget.py",
+      "script_sha256": "d57f4fcb7b88b45d257725e749e1bb5720796171673161cc47d97a597cc4fcef",
+      "script_bytes_equal_preserved_checkpoint": true,
+      "command": "python -B evidence/operator_context_v1/resource_review/probe_aggregate_budget.py --output evidence/operator_context_v1/resource_review/aggregate_budget_post_fix.json",
+      "pre_fix": {
+        "path": "evidence/operator_context_v1/resource_review/aggregate_budget_pre_fix.json",
+        "sha256": "baf10de92ff77019fc8f8c1c3fd1632d909e2a6ff7408b3fefb48121555c66fb",
+        "repository_head": "50e3f51d0be598e67cf37ab27b08c562a52a354c"
+      },
+      "post_fix": {
+        "path": "evidence/operator_context_v1/resource_review/aggregate_budget_post_fix.json",
+        "sha256": "1b6da508cd8ec94656e085e8a4273758716a73b06069e6d488e4b63ac5adfae8",
+        "repository_head": "d812f37013b09950e38f203e4ccfad0910ac1812"
+      },
+      "literal_input_and_temporary_budget_unchanged": true,
+      "source_bytes_unchanged_during_each_probe": true,
+      "changed_source_paths_between_observations": [
+        "tools/grammar_catalog/routing.py"
+      ],
+      "before_outcome": {
+        "type": "NabtError",
+        "message": "aggregate budget probe exceeds its byte budget",
+        "structured": {
+          "status": "DEFER",
+          "code": "RESOURCE_LIMIT",
+          "message": "aggregate budget probe exceeds its byte budget",
+          "details": {
+            "maximum_bytes": 128
+          }
+        }
+      },
+      "after_outcome": {
+        "type": "NabtError",
+        "message": "aggregate budget probe exceeds its byte budget",
+        "structured": {
+          "status": "DEFER",
+          "code": "RESOURCE_LIMIT",
+          "message": "aggregate budget probe exceeds its byte budget",
+          "details": {
+            "maximum_bytes": 128
+          }
+        }
+      },
+      "before_observation": {
+        "canonical_bytes": 202,
+        "whole_document_serializer_calls": 1
+      },
+      "after_observation": {
+        "canonical_bytes": 202,
+        "whole_document_serializer_calls": 0
+      }
+    },
+    {
+      "id": "pretty",
+      "script": "evidence/operator_context_v1/resource_review/probe_pretty_budget.py",
+      "script_sha256": "33913ff816cf799899229ba168ae8f85d3381b580fe30c37f90b5b2625d87388",
+      "script_bytes_equal_preserved_checkpoint": true,
+      "command": "python -B evidence/operator_context_v1/resource_review/probe_pretty_budget.py --output evidence/operator_context_v1/resource_review/pretty_budget_post_fix.json",
+      "pre_fix": {
+        "path": "evidence/operator_context_v1/resource_review/pretty_budget_pre_fix.json",
+        "sha256": "00eb278a8dbcd916060a1d6e8a2ce27372f98c50be1d1775d16676eb67e1370d",
+        "repository_head": "50e3f51d0be598e67cf37ab27b08c562a52a354c"
+      },
+      "post_fix": {
+        "path": "evidence/operator_context_v1/resource_review/pretty_budget_post_fix.json",
+        "sha256": "b21865ce20f99698e2d17257bb7c07520f6fa4715d4379cc7b942f4d8bb72aa4",
+        "repository_head": "d812f37013b09950e38f203e4ccfad0910ac1812"
+      },
+      "literal_input_and_temporary_budget_unchanged": true,
+      "source_bytes_unchanged_during_each_probe": true,
+      "changed_source_paths_between_observations": [
+        "tools/grammar_catalog/routing.py"
+      ],
+      "before_outcome": {
+        "type": "NabtError",
+        "message": "Routing output file exceeds its byte budget",
+        "structured": {
+          "status": "DEFER",
+          "code": "RESOURCE_LIMIT",
+          "message": "Routing output file exceeds its byte budget",
+          "details": {
+            "maximum_bytes": 128
+          }
+        }
+      },
+      "after_outcome": {
+        "type": "NabtError",
+        "message": "Routing output file exceeds its byte budget",
+        "structured": {
+          "status": "DEFER",
+          "code": "RESOURCE_LIMIT",
+          "message": "Routing output file exceeds its byte budget",
+          "details": {
+            "maximum_bytes": 128
+          }
+        }
+      },
+      "before_observation": {
+        "canonical_bytes": 50,
+        "pretty_bytes_with_final_newline": 195,
+        "oversized_pretty_json_fully_materialized": true
+      },
+      "after_observation": {
+        "canonical_bytes": 50,
+        "pretty_bytes_with_final_newline": 195,
+        "oversized_pretty_json_fully_materialized": false
+      }
+    }
+  ]
+}
