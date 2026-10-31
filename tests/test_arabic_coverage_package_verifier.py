@@ -20,6 +20,22 @@ SPEC.loader.exec_module(VERIFIER)
 
 
 class ArabicCoveragePackageVerifierTests(unittest.TestCase):
+    def test_current_receipt_profile_keeps_the_historical_grammar(self):
+        old = VERIFIER.RELEASE_PROFILES['arabic_completion_v6']
+        current = VERIFIER.RELEASE_PROFILES['interpretive_links_v1']
+        self.assertEqual(old['reader_version'], 'nabt.discourse-reader.v7')
+        self.assertEqual(current['reader_version'], 'nabt.discourse-reader.v8')
+        self.assertEqual(current['answer_schema'], 'nabt.discourse-answer.v3')
+        for field in ('language_id', 'table_sha256', 'policy_sha256',
+                      'discourse_policy_sha256', 'supplementary_registry_sha256'):
+            self.assertEqual(current[field], old[field])
+        raw = (ROOT / VERIFIER.DEFAULT_FREEZE).read_bytes()
+        pin = VERIFIER.CODE_FREEZE_PINS[sha256(raw).hexdigest()]
+        self.assertEqual((pin['version'], pin['profile']), ('0.21.0a1', 'interpretive_links_v1'))
+        freeze = json.loads(raw)
+        self.assertEqual(freeze['snapshot_sha256'], pin['snapshot_sha256'])
+        self.assertEqual(len(freeze['files']), pin['source_file_count'])
+
     def test_historical_coverage_profiles_match_their_own_archived_bytes(self):
         for version in (1, 2):
             with self.subTest(freeze_version=version):
@@ -84,7 +100,7 @@ class ArabicCoveragePackageVerifierTests(unittest.TestCase):
         profile = self._assert_archive_profile(freeze_path, "0.17.0a1", 80, "v6", 25)
         pin = VERIFIER.CODE_FREEZE_PINS[sha256(freeze_path.read_bytes()).hexdigest()]
         self.assertEqual((pin["selection"], pin["profile"]), ("arabic_completion_v3_review2", "arabic_completion_v3"))
-        self.assertEqual(VERIFIER.DEFAULT_FREEZE, "evidence/arabic_completion_v6/code_freeze_v1.json")
+        self.assertEqual(VERIFIER.DEFAULT_FREEZE, "evidence/interpretive_links_v1/code_freeze_v1.json")
         self.assertEqual(profile["supplementary_source_ids"], ["mukhtar_sihah", "sabban"])
         self.assertEqual(set(VERIFIER.supplementary_file_hashes(profile)), {
             "nabt/data/source_evidence/construction_supplementary_sources_v2.json",
@@ -146,7 +162,7 @@ class ArabicCoveragePackageVerifierTests(unittest.TestCase):
         text, question = "زيدٌ حكيمٌ. هندٌ حكيمةٌ.", "من صبورٌ؟"
         report = read_discourse(text, lexical_model=model, context=context)
         answer = ask_discourse(text, question, lexical_model=model, context=context)
-        args = ("fixture", text, question, answer, VERIFIER.RELEASE_PROFILES["arabic_completion_v4"],
+        args = ("fixture", text, question, answer, VERIFIER.RELEASE_PROFILES["interpretive_links_v1"],
                 sha256(raw).hexdigest(), report["context"]["sha256"])
         VERIFIER.inspect_consensus_unknown_answer(*args)
         self.assertTrue(verify_discourse_answer(answer, text=text, question=question,

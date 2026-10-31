@@ -1,0 +1,401 @@
+{
+  "schema": "nabt.proof-reuse.consumer-runs.v1",
+  "scope": "EXPOSED_EXISTING_ROUTE_EXERCISES_NOT_ARABIC_COVERAGE",
+  "source_frontdoor": {
+    "tools/entropy_framework/reuse_run.py": "495e8e8895758e45e8a2b1cdcc8ee8cc02356ccb6a6a0b3e2c6040d9d0f9e79e",
+    "tools/entropy_framework/reuse.py": "bc79d63d6180e2f5ebf1bf8a4c4f231c39ee4458e2577fa15daafa2243366507",
+    "tools/entropy_framework/__main__.py": "b6fd3ea1a6c6e4d99ae9ee5cf3a4651c832f4423787a9aa74f3319b4e58820fc",
+    "tools/entropy_framework/registry.json": "a8ef79841e3c1eea5a423b404e607d20b1344564317161b0a6343d3a63356c50"
+  },
+  "semantic_authority_from_dispatch": "NONE",
+  "runs": [
+    {
+      "id": "01_program_compile",
+      "entrypoint_id": "core",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "core",
+        "--",
+        "compile",
+        "examples/source_learning_revision.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.473,
+      "stdout": "01_program_compile.stdout",
+      "stderr": "01_program_compile.stderr",
+      "stdout_sha256": "1990e4e152e710dbb7d0a4c354979a71c5f966f2e232856f1653cf3055bd2650",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "examples/source_learning_revision.json": "164df1dcf2897cadb68b0e761235bc7f03619833c914a5af980fa6e656416940"
+      },
+      "observed": {}
+    },
+    {
+      "id": "02_program_run",
+      "entrypoint_id": "core",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "core",
+        "--",
+        "run",
+        "examples/source_learning_revision.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.573,
+      "stdout": "02_program_run.stdout",
+      "stderr": "02_program_run.stderr",
+      "stdout_sha256": "c10c410027aee555f3878d70ce78a0bac8a51c1d0d4a03f01f475ea09e252a67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "examples/source_learning_revision.json": "164df1dcf2897cadb68b0e761235bc7f03619833c914a5af980fa6e656416940"
+      },
+      "observed": {
+        "run_status": "COMPLETED"
+      }
+    },
+    {
+      "id": "03_program_verify",
+      "entrypoint_id": "core",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "core",
+        "--",
+        "verify-run",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/02_program_run.stdout"
+      ],
+      "exit_code": 0,
+      "seconds": 2.573,
+      "stdout": "03_program_verify.stdout",
+      "stderr": "03_program_verify.stderr",
+      "stdout_sha256": "1044af429beca58f1ac381d733498a5af6231a9b915500fb8463c24c5f454659",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/02_program_run.stdout": "c10c410027aee555f3878d70ce78a0bac8a51c1d0d4a03f01f475ea09e252a67"
+      },
+      "observed": {
+        "status": "VERIFIED_REPLAY",
+        "valid": true
+      }
+    },
+    {
+      "id": "04_program_numeric_execute",
+      "entrypoint_id": "core",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "core",
+        "--",
+        "execute",
+        "0x17b22616269223a312c22636f6465223a5b5b31302c315d2c5b31312c227369626177617968695f68616e5f6861646861225d2c5b31312c227369626177617968695f68616e5f726161797475225d2c5b31312c227369626177617968695f68616e5f6d6172617274755f6261225d2c5b31332c5b22d985d8b1d8b1d8aa222c22d8a8225d2c2273616d652d7175657374696f6e225d2c5b31322c227369626177617968695f68616e5f6d6172617274755f6261225d2c5b31332c5b22d985d8b1d8b1d8aa222c22d8a8225d2c2273616d652d7175657374696f6e225d2c5b31312c227369626177617968695f68616e5f6d6172617274755f6261225d2c5b31332c5b22d985d8b1d8b1d8aa222c22d8a8225d2c2273616d652d7175657374696f6e225d2c5b31332c5b22d8a5d8b4d8a7d8b1d8a920d8acd8afd98ad8afd8a9225d2c22756e7265736f6c7665642d637565225d5d7d"
+      ],
+      "exit_code": 0,
+      "seconds": 2.573,
+      "stdout": "04_program_numeric_execute.stdout",
+      "stderr": "04_program_numeric_execute.stderr",
+      "stdout_sha256": "c10c410027aee555f3878d70ce78a0bac8a51c1d0d4a03f01f475ea09e252a67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/01_program_compile.stdout": "1990e4e152e710dbb7d0a4c354979a71c5f966f2e232856f1653cf3055bd2650"
+      },
+      "observed": {
+        "run_status": "COMPLETED"
+      }
+    },
+    {
+      "id": "05_learned_conformance",
+      "entrypoint_id": "learned-conformance",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "learned-conformance",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 4.377,
+      "stdout": "05_learned_conformance.stdout",
+      "stderr": "05_learned_conformance.stderr",
+      "stdout_sha256": "a4835e9e3d1c2a9435ed04fbb09ba68671f6e892ed8e5120d67842b68e18d851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {},
+      "observed": {}
+    },
+    {
+      "id": "06_licensed_inference",
+      "entrypoint_id": "licensed-inference",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "licensed-inference",
+        "--",
+        "examples/licensed_inference_source.txt",
+        "examples/licensed_inference_query.txt"
+      ],
+      "exit_code": 0,
+      "seconds": 2.625,
+      "stdout": "06_licensed_inference.stdout",
+      "stderr": "06_licensed_inference.stderr",
+      "stdout_sha256": "56ce10e98abbacfc8a7f1e3846897ecf3c7858598a97d8f22c987ec8190ce727",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "examples/licensed_inference_source.txt": "e1c0818cec654a1a31d13703da66531fca56ced1232f76e5a79b63ec1df1315c",
+        "examples/licensed_inference_query.txt": "7a7d31494ab343aea8e9fdf8c3181024e83a0abd428814e0e4f2147538c088cc"
+      },
+      "observed": {
+        "schema": "nabt.licensed-inference-result.v1",
+        "status": "SUPPORTED",
+        "verified": true,
+        "native_checked": true
+      }
+    },
+    {
+      "id": "07_productive_transport",
+      "entrypoint_id": "meaning-preservation",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "meaning-preservation",
+        "--",
+        "productive",
+        "--request",
+        "examples/meaning_preservation_v1/productive.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.875,
+      "stdout": "07_productive_transport.stdout",
+      "stderr": "07_productive_transport.stderr",
+      "stdout_sha256": "8b6440fa8f4d8f574f8264ed347e015ba48af32ac35d514d4c23b61b8cdf2247",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "examples/meaning_preservation_v1/productive.json": "7e4f2bc83955aec25a0baf770e1096fe8433e8f94cafa1c4e3186a902a7b7680"
+      },
+      "observed": {
+        "schema": "nabt.meaning-preservation.result.v1",
+        "status": "FINITE_CONTRACT_VERIFIED",
+        "verified": true,
+        "native_checked": true,
+        "chain_complete": true,
+        "producer_chain_complete": true
+      }
+    },
+    {
+      "id": "08_transport_verify",
+      "entrypoint_id": "meaning-preservation",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "meaning-preservation",
+        "--",
+        "verify",
+        "--request",
+        "examples/meaning_preservation_v1/productive.json",
+        "--receipt",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/07_productive_transport.stdout",
+        "--mode",
+        "productive"
+      ],
+      "exit_code": 0,
+      "seconds": 2.723,
+      "stdout": "08_transport_verify.stdout",
+      "stderr": "08_transport_verify.stderr",
+      "stdout_sha256": "6a64e1c12301b34ef18e12b771f3fd217e1bc788780bfa044f00ec9b5dfa3d19",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "examples/meaning_preservation_v1/productive.json": "7e4f2bc83955aec25a0baf770e1096fe8433e8f94cafa1c4e3186a902a7b7680",
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/07_productive_transport.stdout": "8b6440fa8f4d8f574f8264ed347e015ba48af32ac35d514d4c23b61b8cdf2247"
+      },
+      "observed": {
+        "schema": "nabt.meaning-preservation.verification.v1",
+        "status": "VERIFIED_RECEIPT",
+        "valid": true,
+        "replay_matches": true
+      }
+    },
+    {
+      "id": "09_lifecycle_read",
+      "entrypoint_id": "productive-lifecycle",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "productive-lifecycle",
+        "--",
+        "read",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_source.txt",
+        "--events",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_events.json",
+        "--source-id",
+        "reuse-demo",
+        "--scope",
+        "exposed-demo"
+      ],
+      "exit_code": 3,
+      "seconds": 4.778,
+      "stdout": "09_lifecycle_read.stdout",
+      "stderr": "09_lifecycle_read.stderr",
+      "stdout_sha256": "c2570176c2ca6ae070441de2b1558b7a901e28f3b1db1ab849092f1706693eb2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_source.txt": "65219b50d17bac149e09d4c329a606d68007c10437c43ef9d35f66f9b0cf4f01",
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_events.json": "ecb54fe6d4a8cf105ddf2283d6dffc9002cbe641213ea4d6536667e7e300ec40"
+      },
+      "observed": {
+        "schema": "nabt.productive-clause-lifecycle-result.v1",
+        "status": "DEFER",
+        "verified": false,
+        "chain_complete": false,
+        "chain_history": [
+          {
+            "step": 0,
+            "status": "DEFER",
+            "chain_complete": false
+          },
+          {
+            "step": 1,
+            "status": "DEFER",
+            "chain_complete": false
+          },
+          {
+            "step": 2,
+            "status": "DEFER",
+            "chain_complete": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "10_lifecycle_verify",
+      "entrypoint_id": "productive-lifecycle",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "productive-lifecycle",
+        "--",
+        "verify",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/09_lifecycle_read.stdout",
+        "--source",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_source.txt",
+        "--events",
+        "/workspace/scratch/84dbb26f30e1/NABT/evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_events.json",
+        "--source-id",
+        "reuse-demo",
+        "--scope",
+        "exposed-demo"
+      ],
+      "exit_code": 3,
+      "seconds": 4.636,
+      "stdout": "10_lifecycle_verify.stdout",
+      "stderr": "10_lifecycle_verify.stderr",
+      "stdout_sha256": "a883eabe748a5b8cbef5974bfa238aad83a1398113ac8a7eae78613cff07a4ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_source.txt": "65219b50d17bac149e09d4c329a606d68007c10437c43ef9d35f66f9b0cf4f01",
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/lifecycle_events.json": "ecb54fe6d4a8cf105ddf2283d6dffc9002cbe641213ea4d6536667e7e300ec40",
+        "evidence/proof_reuse_v1/validation/consumer_runs_v1/09_lifecycle_read.stdout": "c2570176c2ca6ae070441de2b1558b7a901e28f3b1db1ab849092f1706693eb2"
+      },
+      "observed": {
+        "status": "DEFER",
+        "valid": false,
+        "replay_matches": true
+      }
+    },
+    {
+      "id": "11_rational_inquiry",
+      "entrypoint_id": "core",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "core",
+        "--",
+        "inquire",
+        "examples/rational_inquiry/plan.json",
+        "--sources",
+        "examples/rational_inquiry/sources.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.432,
+      "stdout": "11_rational_inquiry.stdout",
+      "stderr": "11_rational_inquiry.stderr",
+      "stdout_sha256": "a6c509e62d781ae455164cc6d721afad7c4865e83ad984a52e65b8a03f62a9a9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": {
+        "examples/rational_inquiry/plan.json": "5390517da358d9e7062a08fadfa2f475a0dd52016cb408538ecf87fd244b4c67",
+        "examples/rational_inquiry/sources.json": "456d46d08ad998439b9acb10bb6ac429553a058e5102fe4ec4c54ff6cb68dcff"
+      },
+      "observed": {
+        "status": "LICENSED",
+        "authorized_rank": 2
+      }
+    }
+  ],
+  "execution_integrity": {
+    "frontdoor_unchanged": false,
+    "changed_paths": [
+      "tools/entropy_framework/reuse.py"
+    ],
+    "after_frontdoor": {
+      "tools/entropy_framework/reuse_run.py": "495e8e8895758e45e8a2b1cdcc8ee8cc02356ccb6a6a0b3e2c6040d9d0f9e79e",
+      "tools/entropy_framework/reuse.py": "20e2db89c27863ca37c6a41a255bebdf44c73d4139c8e2f8633ce3fd40858add",
+      "tools/entropy_framework/__main__.py": "b6fd3ea1a6c6e4d99ae9ee5cf3a4651c832f4423787a9aa74f3319b4e58820fc",
+      "tools/entropy_framework/registry.json": "a8ef79841e3c1eea5a423b404e607d20b1344564317161b0a6343d3a63356c50"
+    },
+    "measurement_admitted_as_stable_run": false
+  },
+  "relocation": {
+    "original_directory": "evidence/proof_reuse_v1/validation/consumer_runs_v1",
+    "retained_directory": "evidence/capability_reuse_v1/validation/consumer_runs_v1/first_attempt",
+    "raw_outputs_unchanged": true,
+    "note": "Recorded argv remains the actual historical execution argv."
+  },
+  "known_outcomes": [
+    "The lifecycle input ended with a newline; native finite reading deferred with finite_grammar_reading missing.",
+    "All raw first outputs and nonzero statuses retained.",
+    "A concurrent final frontdoor edit was detected; this attempt is not the stable final run."
+  ]
+}

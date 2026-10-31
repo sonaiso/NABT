@@ -16,6 +16,12 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_SHA256 = '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec'
 POLICY_PATH = ROOT / 'evidence/arabic_completion_v6/regression_policy_v1.json'
 POLICY_SHA256 = '5e73cfdae07cdb60a2f93c8cc9961a9ee283d85471f24b5b61eabcb3c3647657'
+# Preserve the historical default; current runtime revisions register a distinct
+# immutable policy here and reuse these same complete-inventory safety checks.
+POLICIES = {
+    RUNTIME_SHA256: (POLICY_PATH, POLICY_SHA256),
+    '1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda': (ROOT / 'evidence/interpretive_links_v1/regression_policy_v1.json', '4467ec654f37f41fc78bb2a43522e000872216a798a6a859b252788a75236e0d'),
+}
 
 
 def wire(value):
@@ -25,7 +31,9 @@ def wire(value):
 
 def load_policy(path=POLICY_PATH):
     payload = path.read_bytes()
-    if sha256(payload).hexdigest() != POLICY_SHA256:
+    expected = next((pin for registered, pin in POLICIES.values()
+                     if registered == path), POLICY_SHA256)
+    if sha256(payload).hexdigest() != expected:
         raise ValueError('Arabic coverage regression policy bytes changed')
     return json.loads(payload)
 
@@ -35,11 +43,15 @@ def gate_decision(suite, result, allow_documented_boundaries=False):
     integrity, documented, unexpected = [], [], []
     strict = False
     approved = False
+    runtime = None
+    policy_sha256 = POLICY_SHA256
     try:
-        policy = load_policy()
-        expected = policy['suites'][suite]
         snapshot = result['snapshot']
-        approved = snapshot['runtime_freeze_sha256'] == RUNTIME_SHA256
+        runtime = snapshot['runtime_freeze_sha256']
+        approved = runtime in POLICIES
+        policy_path, policy_sha256 = POLICIES.get(runtime, (POLICY_PATH, POLICY_SHA256))
+        policy = load_policy(policy_path)
+        expected = policy['suites'][suite]
         for field in ('runtime_freeze_sha256', 'runtime_snapshot_sha256', 'runtime_file_count'):
             if wire(snapshot[field]) != wire(policy[field]):
                 integrity.append('runtime_pin_mismatch:' + field)
@@ -149,11 +161,11 @@ def gate_decision(suite, result, allow_documented_boundaries=False):
         'gate_mode': 'documented_partial_coverage_arabic_v4' if allow_documented_boundaries else 'strict',
         'coverage_complete': strict and not integrity,
         'all_arabic_completeness_established': False,
-        'documented_boundary_runtime_sha256': RUNTIME_SHA256 if approved else None,
+        'documented_boundary_runtime_sha256': runtime if approved else None,
         'documented_boundary_failures': documented,
         'unexpected_failures': unexpected,
         'gate_integrity_errors': integrity,
-        'documented_boundary_inventory_sha256': POLICY_SHA256,
+        'documented_boundary_inventory_sha256': policy_sha256,
         'boundary_policy': 'EXACT_RESIDUAL_FAILURE_PAYLOADS_COMPLETE_INVENTORIES_NO_SAFETY_WAIVER',
         'boundary_policy_revision': 'arabic_completion_v4_preserved_residuals_v1',
         'boundary_policy_runtime_approved': approved,

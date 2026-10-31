@@ -449,12 +449,13 @@ def _operator_gate(reader, tokens, operator, head, readings, assignments, obliga
 
 
 def _build(reader, tokens, *, frame, force, parts, claims, readings=(), assignments=(),
-           relations=(), obligations=(), supports=(), operator=None, operator_head=None):
+           relations=(), obligations=(), supports=(), operator=None, operator_head=None, claim_bindings=()):
     if any(p.get("substitution_unresolved") for p in parts):
         # The proposed substitute's denotation has not been acquired. Even
         # diagnostic candidate claims must not restate its judgment about
         # the whole/head merely because that earlier reference is known.
         claims = []
+        claim_bindings = []
     refs = [r for p in parts for r in p["refs"]]
     all_assignments = [a for p in parts for a in p["assignments"]] + list(assignments)
     all_readings = [r for p in parts for r in p["readings"]] + list(readings)
@@ -484,6 +485,7 @@ def _build(reader, tokens, *, frame, force, parts, claims, readings=(), assignme
             all_obligations.append("CONSTRUCTION_LAW_GATE")
     return reader.analysis(tokens, frame=frame, force=force, refs=refs, assignments=all_assignments,
         readings=all_readings, claims=claims, relations=all_relations,
+        claim_bindings=claim_bindings,
         obligations=all_obligations, supports=all_supports)
 
 
@@ -725,15 +727,18 @@ def _nominal_operator(reader, tokens, body, operator, head, prefix, force, wh=No
             embedded = reader.claim(predicate["lexical_features"]["lemma"], [subject["entity"]], positive,
                 tense, qtime, qplace, restriction + subject["restriction"])
             claims = [embedded]
+            binding = reader.predication_binding(subject["assignment"], assigned, subject["reference"])
             if operator["scope"] not in (None, "wish", "hope"):
                 claims = _scoped(reader, operator, [embedded], [subject["entity"]], tense=tense,
                                   time=qtime, place=qplace)
+                binding["claim_path"] = ["restriction", 0, "embedded", 0]
             extra_part = {"refs": complement["refs"], "assignments": complement["assignments"],
                 "readings": complement["readings"], "relations": [], "restriction": [],
                 "obligations": [], "supports": complement["supports"]}
             row = _build(reader, tokens, frame=family + "_construction", force=local_force,
                 parts=[subject, extra_part], readings=[operator["reading"], predicate], assignments=[assigned],
                 claims=claims, obligations=obligations,
+                claim_bindings=[binding] if claims else [],
                 relations=[_operator_relation(operator, head, subject, predicate_token["span"])],
                 supports=[_support(reader, family + "_sisters"), _support(reader, "tense_aspect")],
                 operator=operator, operator_head=head)
@@ -859,6 +864,8 @@ def _zanna(reader, tokens, body, operator, head, prefix, force):
             row = _build(reader, tokens, frame="zanna_two_object_construction", force=force,
                 parts=[subject, obj], readings=[operator["reading"], predicate], assignments=[assigned],
                 claims=claims, obligations=obligations, relations=relations, supports=supports,
+                claim_bindings=[reader.predication_binding(obj["assignment"], assigned, obj["reference"],
+                    claim_path=("restriction", 0, "embedded", 0))] if claims else [],
                 operator=operator, operator_head=head)
             results.append(_with_question(row))
             _limit(results)
@@ -1004,6 +1011,7 @@ def nominal_frames(reader, tokens, *, force):
                               "unspecified", [], [], subject["restriction"])
         row = _build(reader, tokens, frame="composed_nominal_predication", force=force,
             parts=[subject], readings=[predicate], assignments=[assigned], claims=[claim],
+            claim_bindings=[reader.predication_binding(subject["assignment"], assigned, subject["reference"])],
             obligations=_reading_obligations(predicate), supports=[reader.support("nominal_predication")])
         results.append(_with_question(row))
         _limit(results)
@@ -1066,6 +1074,7 @@ def _extend(reader, tokens, base, *, readings=(), assignments=(), refs=(), relat
         refs=base["references"] + list(refs), assignments=base["assignments"] + list(assignments),
         readings=[r for r in selected if r is not None] + list(readings),
         claims=deepcopy(base["claims"] if claims is None else claims),
+        claim_bindings=base["claim_bindings"],
         relations=base["relations"] + list(relations), obligations=base["obligations"] + list(obligations),
         supports=base["supports"] + list(supports)), base.get("question_kind"))
 

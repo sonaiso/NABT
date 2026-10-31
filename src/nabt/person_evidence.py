@@ -25,7 +25,7 @@ from .corpus_evidence import (MASKED_FEATURES, VOWELS, buckwalter_to_arabic,
 from .errors import NabtError, resource_limit
 
 LAW_ID = "nabt.person-evidence.v1"
-READER_VERSION = "nabt.source-person-bridge.v2"
+READER_VERSION = "nabt.source-person-bridge.v3"
 EXPECTED_TABLE_SHA256 = "f77c9b65b3a7b638166b5807fff1218cb30079d2d301c815b1b512a665858d15"
 MAX_SURFACE_BYTES = 8192
 MAX_CANDIDATES = 512
@@ -169,6 +169,7 @@ def _candidate(entry, profile, family):
                   entry["aspect"], "separate_pronoun" if entry["pos"] == "PRON" else "nominal"),
               "aspect": entry["aspect"], "voice": voice, "voice_basis": basis,
               "lemma": entry["lemma"], "lemma_bw": entry["lemma_bw"], "root": entry["root"],
+              "nominal_derivation_features": deepcopy(entry.get("nominal_derivation_features", [])),
               "lexical_gender": entry.get("gender"), "lexical_number": entry.get("number"),
               "construction": entry["construction"], "class_candidates": list(entry["class_candidates"]),
               "possible_cases": list(entry["possible_cases"]), "variant": entry["variant"],

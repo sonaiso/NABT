@@ -57,6 +57,7 @@ VERSION = 'nabt.constructions.independent-evaluation.v3'
 GOLD_FREEZE_SHA256 = '5e4e9856b00ee648888e58c84e62c0a334cd3875d14cea326273d7c0f732254e'
 SOURCE_ID = 'construction_authored_lexicon'
 PINS = {
+    '1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda': {'snapshot_sha256': 'b084bc16aa0b6dcb4d17f9b149345f99995e63f52207c2b8307a146501cfd70d', 'archive_sha256': 'abf2e4f92eac94b4c6557a35af35c97a0ed17963443879b01f4f4d56c338f6be', 'file_count': 99, 'version': '0.21.0a1'},
     '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec': {'snapshot_sha256': '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23', 'archive_sha256': '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922', 'file_count': 99, 'version': '0.20.0a1'},
     '06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57': {'snapshot_sha256': '1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c', 'archive_sha256': 'a377cba60bfd1491351322b6543678e023ac83b18ec0cb2543f181f046d318ed', 'file_count': 94, 'version': '0.19.0a1'},
     'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9': {'snapshot_sha256': '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', 'archive_sha256': '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43', 'file_count': 83, 'version': '0.18.0a1'},
@@ -501,7 +502,7 @@ def validate_answer(answer, document, inquiry, inputs, question):
     require(answer['world_truth'] == 'NOT_ESTABLISHED', 'Answer promoted world truth')
     require(answer['status'] in ('SUPPORTED', 'REFUTED', 'CONFLICT', 'UNKNOWN', 'DEFER', 'OUT_OF_SCOPE'),
             'Unknown answer status')
-    if answer.get('schema') == 'nabt.discourse-answer.v2' or 'question_interpretations' in answer:
+    if answer.get('schema') in ('nabt.discourse-answer.v2', 'nabt.discourse-answer.v3') or 'question_interpretations' in answer:
         question_validation.validate_interpretations(answer, document, inquiry, inputs, claim_view=claim_view)
         return
     if answer['proofs'] or answer['counterproofs'] or answer['bindings']:
@@ -1350,7 +1351,8 @@ def runtime_snapshot(manifest_path,runtime_root):
                  ROOT/'tests/test_arabic_completion_gate.py', Path(__file__).with_name('productive_form_validation.py'),
                  Path(__file__).with_name('arabic_completion_v4_gate.py'), productive_gate.POLICY_PATH,
                  Path(__file__).with_name('arabic_completion_v5_gate.py'), classical_gate.POLICY_PATH,
-                 Path(__file__).with_name('arabic_completion_v6_gate.py'), extension_gate.POLICY_PATH,
+                 Path(__file__).with_name('arabic_completion_v6_gate.py'),
+                 *(path for path, _ in extension_gate.POLICIES.values()),
                  Path(__file__).with_name('imperative_paradigm_validation.py')):
         data=path.read_bytes();files.append({'path':str(path.relative_to(ROOT)),'bytes':len(data),'sha256':sha256(data).hexdigest()})
     return {'runtime_root':str(runtime_root),'runtime_freeze':str(manifest_path.relative_to(ROOT)),
@@ -1361,7 +1363,7 @@ def runtime_snapshot(manifest_path,runtime_root):
 
 def gate_decision(result, allow_documented_boundaries=False):
     """Optional regression acceptance; never relabel a failed linguistic check."""
-    if result['snapshot']['runtime_freeze_sha256'] == extension_gate.RUNTIME_SHA256:
+    if result['snapshot']['runtime_freeze_sha256'] in extension_gate.POLICIES:
         return extension_gate.gate_decision('construction', result, allow_documented_boundaries)
     if result['snapshot']['runtime_freeze_sha256'] == classical_gate.RUNTIME_SHA256:
         return classical_gate.gate_decision('construction', result, allow_documented_boundaries)
@@ -1518,7 +1520,7 @@ def evaluate(output,manifest_path,runtime_root,allow_documented_boundaries=False
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,default=ROOT)
-    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/arabic_completion_v6/code_freeze_v1.json')
+    parser.add_argument('--runtime-freeze',type=Path,default=ROOT/'evidence/interpretive_links_v1/code_freeze_v1.json')
     parser.add_argument('--allow-documented-boundaries',action='store_true',
                         help='Accept only explicitly reviewed v2 coverage failures; strict_pass remains false.')
     parser.add_argument('--output',type=Path,required=True)

@@ -29,13 +29,14 @@ from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.20.0a1"
+VERSION = "0.21.0a1"
 LAW_ID = "nabt.discourse-evidence.v1"
 TABLE_SHA256 = "30d990bf93aa436d9452e5a0a4172349727c9e5bb2c6fd1491e53d518b546325"
-DEFAULT_FREEZE = "evidence/arabic_completion_v6/code_freeze_v1.json"
+DEFAULT_FREEZE = "evidence/interpretive_links_v1/code_freeze_v1.json"
 # Every source byte must match this approved freeze, including the exact
 # inventory. The expected count belongs to the pin, not to the verifier code.
 CODE_FREEZE_PINS = {
+    '1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda': {'selection': 'interpretive_links_v1', 'version': '0.21.0a1', 'profile': 'interpretive_links_v1', 'source_file_count': 99, 'future_operator_support': True, 'snapshot_sha256': 'b084bc16aa0b6dcb4d17f9b149345f99995e63f52207c2b8307a146501cfd70d', 'archive_sha256': 'abf2e4f92eac94b4c6557a35af35c97a0ed17963443879b01f4f4d56c338f6be'},
     '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec': {'selection': 'arabic_completion_v6', 'version': '0.20.0a1', 'profile': 'arabic_completion_v6', 'source_file_count': 99, 'future_operator_support': True, 'snapshot_sha256': '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23', 'archive_sha256': '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922'},
     '06f4f774c5637936b41be95360b07ad6cfe8aaeaa9fee1514396db501112ce57': {'selection': 'arabic_completion_v5', 'version': '0.19.0a1', 'profile': 'arabic_completion_v5', 'source_file_count': 94, 'future_operator_support': True, 'snapshot_sha256': '1ad20efd09752b7f66aae30ceeac1b442c5b520bcf494e528f8a9097bd5de68c', 'archive_sha256': 'a377cba60bfd1491351322b6543678e023ac83b18ec0cb2543f181f046d318ed'},
     'eda208c3e092a8185a3223ba8f0848ff6d0232aca3b8c3e94645482233d7dcb9': {'selection': 'arabic_completion_v4_review2', 'version': '0.18.0a1', 'profile': 'arabic_completion_v4', 'source_file_count': 83, 'future_operator_support': True, 'snapshot_sha256': '5338e35cd0575996e5df0f8d00a6319add42c610764ece7f8bc898d79a30e797', 'archive_sha256': '614377594215e73cc2ecd0e3b2ce12e19da64d4dd6f8f4aa4e55e5604ef52d43'},
@@ -243,6 +244,12 @@ RELEASE_PROFILES["arabic_completion_v5"] = {
 RELEASE_PROFILES["arabic_completion_v6"] = {
     **RELEASE_PROFILES["arabic_completion_v5"],
     "extra_package_files": RELEASE_PROFILES["arabic_completion_v5"]["extra_package_files"] | {'nabt/classical_gemination.py', 'nabt/classical_weak.py', 'nabt/classical_laws.py', 'nabt/classical_hamza.py', 'nabt/classical_boundary_affixes.py'},
+}
+RELEASE_PROFILES["interpretive_links_v1"] = {
+    **RELEASE_PROFILES["arabic_completion_v6"],
+    # Receipt transport changed; the accepted grammar and its sources did not.
+    "reader_version": "nabt.discourse-reader.v8",
+    "answer_schema": "nabt.discourse-answer.v3",
 }
 REQUIRED_PACKAGE_FILES = {
     "nabt/person_evidence.py", "nabt/discourse.py", "nabt/discourse_reader.py",
@@ -522,7 +529,8 @@ def inspect_consensus_unknown_answer(name, text, question, answer, profile, lexi
             and answer["language_id"] == profile["language_id"]
             and answer["reader_version"] == profile["reader_version"],
             name + ": consensus answer identity differs")
-    require(answer["schema"] == "nabt.discourse-answer.v2" and answer["status"] == "UNKNOWN"
+    require(answer["schema"] == profile.get("answer_schema", "nabt.discourse-answer.v2")
+            and answer["status"] == "UNKNOWN"
             and answer["kind"] == "subject" and answer["query"] is None
             and answer["answer_basis"] == "ALL_COMPLETE_QUERY_INTERPRETATIONS_AGREE"
             and not answer["proofs"] and not answer["counterproofs"] and not answer["bindings"]

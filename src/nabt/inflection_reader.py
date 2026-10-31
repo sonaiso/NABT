@@ -20,7 +20,7 @@ from .text_ir import span_dict
 from .word_reader import _scan, _source, _span, replay_policy
 
 LANGUAGE_ID = "nabt.arabic-inflection-frames.v1"
-READER_VERSION = "nabt.inflection-reader.v2"
+READER_VERSION = "nabt.inflection-reader.v3"
 MAX_READINGS = 128
 MAX_REPORT_BYTES = 8 * 1024 * 1024
 _UNSET = object()
@@ -298,7 +298,8 @@ def _read_run(source, scope, run, index, model_summary, policy):
                                  "basis": "SOURCE_ANNOTATED_STEM_SUFFIX_PARTITION" if annotation_only else "TRAINING_LEXICAL_WITNESS_AND_DECLARED_FORM_RULE", "form_rule": entry["form_rule"],
                                  "support_ids": [s["record_id"] for s in entry["supports"]]},
                 "stem_span": stem_part["span"], "stem_surface": stem_text,
-                "lexical_features": {k: entry[k] for k in ("pos", "lemma", "root", "gender", "number", "person", "aspect", "voice", "nominal_form", "singular_witnesses")},
+                "lexical_features": {**{k: entry[k] for k in ("pos", "lemma", "root", "gender", "number", "person", "aspect", "voice", "nominal_form", "singular_witnesses")},
+                                     "nominal_derivation_features": deepcopy(entry.get("nominal_derivation_features", []))},
                 "weak_root_profile": weakness, "class_candidates": entry["class_candidates"],
                 "variant": entry["variant"], "base_form": entry.get("base_form"), "nun_readings": nuns,
                 "support_records": entry["supports"], "construction_supports": entry.get("construction_supports", entry["supports"]),

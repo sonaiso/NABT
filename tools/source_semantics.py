@@ -75,7 +75,8 @@ def attest_sources(*, probe=None):
     return rows
 
 
-def audit_discourse(text, training: bytes, context, *, source_id="input", scope="default", report=None, probe=None):
+def audit_discourse(text, training: bytes, context, *, source_id="input", scope="default", report=None, probe=None,
+                    lexical_text=None, lexical_source_id="lexical"):
     """Read original bytes afresh. A supplied report never defines the source.
 
     Whole semantic records (including time/place/restriction/sign/force) are
@@ -84,13 +85,21 @@ def audit_discourse(text, training: bytes, context, *, source_id="input", scope=
     and the Python-to-JSON projection are explicitly outside its proof.
     """
     model = learn_qac_lexicon(training)
-    fresh = read_discourse(text, lexical_model=model, context=context, source_id=source_id, scope=scope)
+    fresh = read_discourse(text, lexical_model=model, context=context, source_id=source_id, scope=scope,
+                           lexical_text=lexical_text, lexical_source_id=lexical_source_id)
     if report is not None and report != fresh:
         raise ValueError("REPORT_CHANGED: differs from independently replayed source/context/lexicon")
-    if not verify_discourse(fresh, lexical_model=model, context=context)["valid"]:
+    if not verify_discourse(fresh, lexical_model=model, context=context,
+                            lexical_text=lexical_text, lexical_source_id=lexical_source_id)["valid"]:
         raise ValueError("REPLAY_FAILED")
+    # SourceBinding has one opaque lexicon field. Put both original sources
+    # inside it rather than adding an ignored JSON key to native requests.
+    lexicon = training.decode("utf-8")
+    if fresh["nominal_morphology"] is not None:
+        lexicon = wire({"schema": "nabt.discourse-lexical-sources.v1", "qac": lexicon,
+                        "nominal_descriptions": fresh["nominal_morphology"]["lexical_source"]})
     binding = {"source": fresh["source_text"], "source_id": source_id, "scope": scope,
-               "context": wire(context), "lexicon": training.decode("utf-8")}
+               "context": wire(context), "lexicon": lexicon}
     requests, clauses, references, unmeasured_references = [], [], [], []
     for clause in fresh["clauses"]:
         viable = [a for a in clause["analyses"] if not a["rejected_candidate"]]
@@ -133,6 +142,9 @@ def audit_discourse(text, training: bytes, context, *, source_id="input", scope=
             "all_arabic_complete": False, "world_truth_established": False,
             "classical_rule_interpretation_proved": False,
             "definition_parser_refinement_proved": False,
+            "nominal_description_source_sha256": None if fresh["nominal_morphology"] is None else
+                fresh["nominal_morphology"]["lexical_source"]["sha256"],
+            "consensus_scope": "QUALIFIED_CLAIMS_NOT_DESCRIPTIVE_TO_CORPUS_SENSE_EQUIVALENCE",
             "scope": "Lean consensus and closed-reference checks on the replayed free-reader candidate set"}
 
 
@@ -141,10 +153,14 @@ def main():
     parser.add_argument("source", type=Path)
     parser.add_argument("--training", type=Path, required=True)
     parser.add_argument("--context", type=Path, required=True)
+    parser.add_argument("--lexical-source", type=Path)
+    parser.add_argument("--lexical-source-id", default="lexical")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     result = audit_discourse(args.source.read_bytes(), args.training.read_bytes(),
-                            json.loads(args.context.read_text()))
+                            json.loads(args.context.read_text()),
+                            lexical_text=None if args.lexical_source is None else args.lexical_source.read_bytes(),
+                            lexical_source_id=args.lexical_source_id)
     result["source_passages"] = attest_sources()
     result["selected_laws"] = native([{"op": "rules"}])[0]
     args.output.parent.mkdir(parents=True, exist_ok=True)

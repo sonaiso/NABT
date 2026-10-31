@@ -1,0 +1,630 @@
+{
+  "schema": "nabt.proof-reuse-report.v1",
+  "authority": "REUSE_NAVIGATION_ONLY",
+  "semantic_authority": "NONE",
+  "catalogue": {
+    "path": "evidence/meaning_preservation_v1/integration/proof_catalog.json",
+    "sha256": "801d30155dc3e41ace10ceecf54bc435c3455eab1a1946f4c1beff60b8f592dc",
+    "selector_policy": "INSTALLED_LITERAL_DEFAULT; Make/environment overrides are not inferred",
+    "typed_content_sha256": "d0d66b7678aec31ef692d080217c2953c1a4396918d4596911f44b86b9d8c602",
+    "source_inputs_match": true,
+    "verification": "RECORDED_COMPILED_SNAPSHOT_WITH_CURRENT_SOURCE_MATCH",
+    "compiled_this_run": false
+  },
+  "population": {
+    "formal_modules": 82,
+    "theorem_bearing_modules": 80,
+    "data_or_definition_modules": 2,
+    "advertised_declarations": 1605,
+    "normalized_statement_groups": 1602,
+    "families": 39
+  },
+  "selection": {
+    "family": null,
+    "module": null,
+    "formal_modules": 82,
+    "declarations": 1605
+  },
+  "runtime_execution_performed": false,
+  "all_capabilities_executed": false,
+  "open_bridge_debt_count": 44,
+  "detail_command": "python -m tools.entropy_framework reuse --family FAMILY_ID (or --module Nabt.Module)",
+  "families": [
+    {
+      "id": "identity",
+      "title_ar": "هوية الخلية والتسلسل والجسور الأبجدية",
+      "formal_modules": [
+        "Nabt.Cell",
+        "Nabt.Sequence",
+        "Nabt.Bridges"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "transition-law",
+      "title_ar": "قانون الانتقال وأثر القطعة والعد المرخص",
+      "formal_modules": [
+        "Nabt.Transition",
+        "Nabt.Law",
+        "Nabt.Count",
+        "Nabt.BoundedLaw"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportTable": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "learned-transition",
+      "title_ar": "اكتساب تنفيذ مطابق لقانون الانتقال",
+      "formal_modules": [
+        "Nabt.Acquisition",
+        "Nabt.LearnedModel",
+        "Nabt.LearnedModelData"
+      ],
+      "entrypoint_ids": [
+        "core",
+        "learned-conformance"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "progressive-units",
+      "title_ar": "الوحدات والجبر المرخص التدريجي",
+      "formal_modules": [
+        "Nabt.UnitCarrier",
+        "Nabt.LicensedDerivation",
+        "Nabt.ProsodicUnits",
+        "Nabt.BinaryUnitDomain"
+      ],
+      "entrypoint_ids": [
+        "progressive"
+      ],
+      "open_debt_count": 2,
+      "native_availability": {
+        "progressiveUnitProbe": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "closure-boundary",
+      "title_ar": "حدود الاختزال والادعاء بالإغلاق",
+      "formal_modules": [
+        "Nabt.FourSlotClosure"
+      ],
+      "entrypoint_ids": [
+        "proof-catalog"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "recursive-source",
+      "title_ar": "الجبر العودي وربط الأصل بالمصدر",
+      "formal_modules": [
+        "Nabt.RecursiveLicensedAlgebra",
+        "Nabt.RecursiveSourceBridge"
+      ],
+      "entrypoint_ids": [
+        "recursive",
+        "recursive-native"
+      ],
+      "open_debt_count": 2,
+      "native_availability": {
+        "recursiveBridgeProbe": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "unit-discovery",
+      "title_ar": "استنفاد التقسيمات وفحص ولادة الوحدة",
+      "formal_modules": [
+        "Nabt.UnitDiscovery"
+      ],
+      "entrypoint_ids": [
+        "unit-discovery"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "unitDiscoveryProbe": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "rule-learning",
+      "title_ar": "تعلم القواعد وإعادة فتح البدائل",
+      "formal_modules": [
+        "Nabt.RuleLearning"
+      ],
+      "entrypoint_ids": [
+        "core",
+        "source-learning"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "properties-obligations",
+      "title_ar": "هوية الخاصية والمقدمات والبقايا",
+      "formal_modules": [
+        "Nabt.PropertyEvidence",
+        "Nabt.Obligations"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "numeric-program",
+      "title_ar": "البرنامج العددي القابل لإعادة التنفيذ",
+      "formal_modules": [
+        "Nabt.Program"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "word-kinds",
+      "title_ar": "قسم الكلمة وعلاماتها",
+      "formal_modules": [
+        "Nabt.Words"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "text-kind-evidence",
+      "title_ar": "تفعيل قرائن النص المقيدة بالوقوع",
+      "formal_modules": [
+        "Nabt.TextEvidence"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "morphology",
+      "title_ar": "شروط التصريف والدلالة الاسمية",
+      "formal_modules": [
+        "Nabt.Morphology"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    },
+    {
+      "id": "derivation-patterns",
+      "title_ar": "الجذور والأوزان والمصادر واللواصق",
+      "formal_modules": [
+        "Nabt.Derivation",
+        "Nabt.NominalPatterns",
+        "Nabt.AffixFunctions"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportDerivation": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "nominal",
+      "title_ar": "الأجناس والجامد والمشتق والعدد",
+      "formal_modules": [
+        "Nabt.NominalEvidence"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportNominalEvidence": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "inflection",
+      "title_ar": "الإعراب بوصفه علاقة مشروطة",
+      "formal_modules": [
+        "Nabt.InflectionEvidence"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportInflectionEvidence": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "person-reference",
+      "title_ar": "الشخص والإحالة المقيدة بالشاهد",
+      "formal_modules": [
+        "Nabt.PersonEvidence"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportPersonEvidence": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "discourse",
+      "title_ar": "القضية والسؤال وشاهد الإسناد",
+      "formal_modules": [
+        "Nabt.DiscourseEvidence"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportDiscourseEvidence": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "construction",
+      "title_ar": "العوامل والإسناد والتقييد والتركيب",
+      "formal_modules": [
+        "Nabt.ConstructionEvidence"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportConstructionEvidence": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "arabic-governors",
+      "title_ar": "القراءة العربية والعوامل والإنشاء",
+      "formal_modules": [
+        "Nabt.ArabicReading",
+        "Nabt.Governors",
+        "Nabt.ArabicInnaFragment"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "arabicInnaFragmentProbe": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "classical-transforms",
+      "title_ar": "الإعلال والهمز والإدغام والحدود الصوتية",
+      "formal_modules": [
+        "Nabt.ClassicalWeak",
+        "Nabt.ClassicalHamza",
+        "Nabt.ClassicalGemination",
+        "Nabt.ClassicalBoundaryAffixes",
+        "Nabt.ImperativeParadigm",
+        "Nabt.PhonologicalModes"
+      ],
+      "entrypoint_ids": [
+        "core",
+        "grammar-catalog"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportClassicalWeak": "PRESENT_NOT_RUN",
+        "exportClassicalHamza": "PRESENT_NOT_RUN",
+        "exportClassicalGemination": "PRESENT_NOT_RUN",
+        "exportClassicalBoundaryAffixes": "PRESENT_NOT_RUN",
+        "exportImperativeParadigm": "PRESENT_NOT_RUN",
+        "exportPhonologicalModes": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "classical-source-rules",
+      "title_ar": "الشواهد الأصلية والقواعد المنقولة",
+      "formal_modules": [
+        "Nabt.ClassicalLanguageEvidence",
+        "Nabt.ClassicalReferenceReadings",
+        "Nabt.SibawayhiRules",
+        "Nabt.QatrRules",
+        "Nabt.AwamilInventory",
+        "Nabt.AwamilRules",
+        "Nabt.MaqayisRules",
+        "Nabt.ThinkingRules",
+        "Nabt.Shakhsiyya1Rules",
+        "Nabt.Shakhsiyya3Rules",
+        "Nabt.LisanRules"
+      ],
+      "entrypoint_ids": [
+        "grammar-catalog",
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportClassicalLanguageEvidence": "UNAVAILABLE",
+        "exportClassicalReferenceReadings": "PRESENT_NOT_RUN",
+        "classicalSemanticProbe": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "signed-inference",
+      "title_ar": "الاستدلال المسند والتعارض وتعداد القراءات",
+      "formal_modules": [
+        "Nabt.SemanticInference",
+        "Nabt.VerifiedReading",
+        "Nabt.ReadingEnumeration",
+        "Nabt.SourceSemantics",
+        "Nabt.QatrReading"
+      ],
+      "entrypoint_ids": [
+        "explainable-pilot",
+        "core",
+        "certificate-ranker",
+        "certificate-ranker-v2"
+      ],
+      "open_debt_count": 3,
+      "native_availability": {
+        "verifiedReading": "PRESENT_NOT_RUN",
+        "classicalSemanticProbe": "PRESENT_NOT_RUN",
+        "qatrReading": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "lexical-denotation",
+      "title_ar": "الوضع والدلالة المطابقة والتضمن والالتزام",
+      "formal_modules": [
+        "Nabt.LexicalDenotation",
+        "Nabt.LexicalCatalog",
+        "Nabt.MaqayisDenotation",
+        "Nabt.AttestedLexicalLoading"
+      ],
+      "entrypoint_ids": [
+        "lexical-testimony"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "lexicalDenotation": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "lexical-completion",
+      "title_ar": "استكمال القراءة المعجمية مع البدائل",
+      "formal_modules": [
+        "Nabt.LexicalCompletion",
+        "Nabt.LexicalCompletionCatalog"
+      ],
+      "entrypoint_ids": [
+        "lexical-completion"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "lexicalCompletion": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "lexical-graph",
+      "title_ar": "العلاقات المعجمية والإغلاق والدورات",
+      "formal_modules": [
+        "Nabt.LexicalGraph"
+      ],
+      "entrypoint_ids": [
+        "lexical-graph"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "lexicalGraph": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "mantuq-mafhum",
+      "title_ar": "المنطوق والمفهوم وبوابات الانتقال",
+      "formal_modules": [
+        "Nabt.MantuqMafhum",
+        "Nabt.QualifiedInference"
+      ],
+      "entrypoint_ids": [
+        "mantuq-inference"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "classicalSemanticProbe": "PRESENT_NOT_RUN",
+        "exportQualifiedInference": "UNAVAILABLE"
+      }
+    },
+    {
+      "id": "linguistic-truth",
+      "title_ar": "الوضع والعرف وواقعة الاستعمال",
+      "formal_modules": [
+        "Nabt.LinguisticTruth"
+      ],
+      "entrypoint_ids": [
+        "linguistic-truth"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "linguisticTruth": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "licensed-inference",
+      "title_ar": "الاستدلال المرخص من النص والسؤال الأصليين",
+      "formal_modules": [
+        "Nabt.LicensedInference"
+      ],
+      "entrypoint_ids": [
+        "licensed-inference",
+        "proof-lab"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "licensedInference": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "rational-inquiry",
+      "title_ar": "تعيين الدعوى وسندها ورتبتها",
+      "formal_modules": [
+        "Nabt.RationalInquiry"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportRationalInquiry": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "epistemic-measurement",
+      "title_ar": "قياس الدليل واستقلاله ومحاور الحكم",
+      "formal_modules": [
+        "Nabt.EpistemicMeasurement"
+      ],
+      "entrypoint_ids": [
+        "epistemic-native",
+        "proof-lab"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "epistemicMeasurement": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "aligned-acquisition",
+      "title_ar": "تحصيل المصدر ومحاذاة خلايا A116",
+      "formal_modules": [
+        "Nabt.AlignedAcquisition",
+        "Nabt.AlignedAcquisitionV2"
+      ],
+      "entrypoint_ids": [
+        "acquisition",
+        "acquired-inference",
+        "article-acquisition"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "alignedAcquisition": "PRESENT_NOT_RUN",
+        "alignedAcquisitionV2": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "sourced-acquisition",
+      "title_ar": "التحصيل المتصل والقراءة الاسمية من المصادر",
+      "formal_modules": [
+        "Nabt.ConnectedAcquisitionV3",
+        "Nabt.AcquiredSyntaxV3"
+      ],
+      "entrypoint_ids": [
+        "sourced-acquisition"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "connectedAcquisitionV3": "PRESENT_NOT_RUN",
+        "acquiredSyntaxV3": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "productive-forms",
+      "title_ar": "التوليد الصرفي المنتج ضمن القالب المثبت",
+      "formal_modules": [
+        "Nabt.ProductiveForms"
+      ],
+      "entrypoint_ids": [
+        "core"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportProductiveForms": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "productive-clause",
+      "title_ar": "الجملة الفعلية المنتجة المتصلة بمقدماتها",
+      "formal_modules": [
+        "Nabt.ProductiveClauseV1"
+      ],
+      "entrypoint_ids": [
+        "productive-clause"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "productiveClauseV1": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "evidence-lifecycle",
+      "title_ar": "تحديث الدليل والسحب والتفعيل والتاريخ",
+      "formal_modules": [
+        "Nabt.EvidenceLifecycleV1"
+      ],
+      "entrypoint_ids": [
+        "evidence-lifecycle",
+        "productive-lifecycle"
+      ],
+      "open_debt_count": 2,
+      "native_availability": {
+        "evidenceLifecycleV1": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "meaning-preservation",
+      "title_ar": "حفظ المعنى وإعادة البناء لدى المتلقي",
+      "formal_modules": [
+        "Nabt.MeaningPreservation"
+      ],
+      "entrypoint_ids": [
+        "meaning-preservation"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "meaningPreservationV1": "PRESENT_NOT_RUN"
+      }
+    },
+    {
+      "id": "rule-routing",
+      "title_ar": "الاسترجاع وجدولة جميع القواعد المنصبة",
+      "formal_modules": [
+        "Nabt.RuleRouting"
+      ],
+      "entrypoint_ids": [
+        "grammar-catalog",
+        "mantuq-inference"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {
+        "exportRuleRouting": "UNAVAILABLE"
+      }
+    },
+    {
+      "id": "coverage-boundaries",
+      "title_ar": "كفاية التمثيل وجرد التغطية وحدودها",
+      "formal_modules": [
+        "Nabt.ArabicCoverage",
+        "Nabt.BookCoverage"
+      ],
+      "entrypoint_ids": [
+        "grammar-catalog",
+        "proof-catalog"
+      ],
+      "open_debt_count": 1,
+      "native_availability": {}
+    }
+  ]
+}

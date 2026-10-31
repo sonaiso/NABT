@@ -42,8 +42,12 @@ is preferred as canonical; otherwise a documented lexical tie break is used.
 The historical `evidence/grammar_catalog_v1/proof_catalog.json` snapshot contains
 1,372 advertised declarations and 1,369 distinct normalized statement ASTs.
 The current reference selected by `integrations/current_proof_references.mk`
-is `evidence/article_acquisition_v2/integration/proof_catalog.json`: 1,514
-declarations and 1,511 statement groups as of 2026-10-28. The preceding
+is `evidence/meaning_preservation_v1/integration/proof_catalog.json`: 1,605
+declarations and 1,602 statement groups as checked on 2026-10-31. They belong
+to 80 theorem-bearing modules; the two additional `formal/Nabt` modules
+`LearnedModelData` and `LexicalCompletionCatalog` provide data. The historical
+`evidence/article_acquisition_v2/integration/proof_catalog.json` retains its
+1,514 declarations and 1,511 statement groups. The preceding
 `evidence/aligned_acquisition_v1/integration/proof_catalog.json` retains its
 1,504 declarations and 1,501 groups as historical evidence. The selector, rather
 than this dated count, identifies the current snapshot. All dependent source
@@ -60,6 +64,20 @@ existing names as aliases of canonical proofs:
 The first alias now calls its existing canonical proof rather than proving the
 same statement again. The other two already delegated. None of these alias
 names is counted as an additional distinct statement.
+
+## Permanent use of the existing contracts
+
+`python -m tools.entropy_framework reuse` consumes this same selected catalogue,
+checks its current inputs, and connects formal modules to the installed
+implementations, native interfaces, tests, and explicit bridge obligations.
+The authored routing metadata lives in the existing framework registry; it
+does not duplicate the theorem manifest. Compiled proof/type dependencies,
+module imports, declared consumers, and execution results stay distinct.
+
+See [the operational workflow](NABT_CAPABILITY_REUSE_AR.md) and
+[the foundation and progressive-algebra map](NABT_FOUNDATION_REUSE_AR.md).
+The reuse tests are discovered by the existing test gate, so an unclassified
+formal module or a broken consumer reference becomes a visible failure.
 
 ## Reproduction
 

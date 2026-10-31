@@ -17,6 +17,40 @@ ROOT = Path(__file__).resolve().parents[1]
 GOLD_PATH = Path("evidence/mantuq_inference_v1/benchmark_gold.json")
 GOLD_SHA256 = "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a"
 OUTCOMES = {"SUPPORTED", "UNKNOWN", "CONFLICT", "INVALID", "RESOURCE_EXHAUSTED"}
+HISTORICAL_GUIDANCE = {
+    "contract_path": "AGENTS.md",
+    "resolved_path": "evidence/capability_reuse_v1/historical_contract_inputs/agents_at_f48012e.txt",
+    "sha256": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b",
+    "origin_commit": "f48012ec15aa30746c38c706512fc1403101df3d",
+}
+
+
+def contract_input_bindings(gold: dict, root: Path = ROOT) -> list[dict]:
+    """Bind the frozen authoring guidance and still-current semantic sources.
+
+    The original independent gold includes the workflow document in force at
+    authoring time. That exact document is now retained as an immutable asset,
+    while the live AGENTS.md may evolve as project instructions. This is one
+    named archival relocation, never a caller-selected remapping or a fallback
+    to new hashes. All semantic laws and source material remain current-byte
+    checks against the original gold.
+    """
+    bindings = []
+    for source in gold["contract_inputs"]:
+        historical = source["path"] == HISTORICAL_GUIDANCE["contract_path"]
+        if historical and source["sha256"] != HISTORICAL_GUIDANCE["sha256"]:
+            raise ValueError("Frozen guidance identity differs from its retained origin")
+        resolved = HISTORICAL_GUIDANCE["resolved_path"] if historical else source["path"]
+        actual = sha256((root / resolved).read_bytes()).hexdigest()
+        if actual != source["sha256"]:
+            raise ValueError("Frozen contract input changed: " + source["path"])
+        bindings.append({
+            "contract_path": source["path"], "resolved_path": resolved,
+            "sha256": actual,
+            "role": "FROZEN_AUTHORING_GUIDANCE" if historical else "CURRENT_SEMANTIC_OR_SOURCE_CONTRACT",
+            **({"origin_commit": HISTORICAL_GUIDANCE["origin_commit"]} if historical else {}),
+        })
+    return bindings
 
 
 def execution_inputs(root: Path = ROOT) -> dict:
@@ -33,6 +67,7 @@ def execution_inputs(root: Path = ROOT) -> dict:
         "tools/mantuq_mafhum.py", "tools/verified_reading.py", "tools/source_semantics.py",
         "formal/Nabt/MantuqMafhum.lean", "formal/Nabt/VerifiedReading.lean",
         "formal/Nabt/QualifiedInference.lean", "formal/lean-toolchain",
+        "AGENTS.md", HISTORICAL_GUIDANCE["resolved_path"],
     ]
     files = [{"path": path, "sha256": sha256((root / path).read_bytes()).hexdigest()}
              for path in paths]
@@ -57,6 +92,12 @@ def execution_inputs(root: Path = ROOT) -> dict:
             record.update(sha256=digest.hexdigest(), bytes=path.stat().st_size)
         binaries.append(record)
     return {"files": files, "inventory_sha256": inventory_sha256(inventory),
+            "contract_input_policy": "ORIGINAL_FROZEN_GUIDANCE_AND_CURRENT_FROZEN_SEMANTIC_SOURCES",
+            "contract_inputs": contract_input_bindings(load_gold(root), root),
+            "live_workflow_guidance": {
+                "path": "AGENTS.md", "sha256": sha256((root / "AGENTS.md").read_bytes()).hexdigest(),
+                "role": "CURRENT_AGENT_INSTRUCTIONS_NOT_SUBSTITUTED_FOR_FROZEN_GOLD_CONTRACT",
+            },
             "inventory_counts": {"sources": len(inventory["sources"]), "passages": len(inventory["passages"]),
                                  "policies": len(inventory["rules"])},
             "sources": [{"source_id": source["source_id"], "path": source["local_path"],
@@ -71,9 +112,7 @@ def load_gold(root: Path = ROOT, path: Path | None = None) -> dict:
     if sha256(raw).hexdigest() != GOLD_SHA256:
         raise ValueError("Frozen inference gold changed; use a new benchmark version")
     gold = json.loads(raw)
-    for source in gold["contract_inputs"]:
-        if sha256((root / source["path"]).read_bytes()).hexdigest() != source["sha256"]:
-            raise ValueError("Frozen contract input changed: " + source["path"])
+    contract_input_bindings(gold, root)
     cases = gold["cases"]
     if len({case["id"] for case in cases}) != len(cases):
         raise ValueError("Duplicate benchmark case identity")
