@@ -1,4 +1,5 @@
 from copy import deepcopy
+from hashlib import sha256
 import json
 import os
 from pathlib import Path
@@ -129,6 +130,8 @@ class NativeTrainingContracts(unittest.TestCase):
     def test_setup_failure_keeps_every_planned_attempt_and_stops_training(self):
         with tempfile.TemporaryDirectory() as temp:
             result = training.execute(Path(temp) / 'new-run', Path('/nonexistent/nabt-training-checker'))
+            self.assertEqual(result['code_sha256']['tools/explainable_contracts.py'],
+                             sha256((training.ROOT / 'tools/explainable_contracts.py').read_bytes()).hexdigest())
             self.assertEqual(result['planned_examples'], 90)
             self.assertEqual(result['measurements'], {'UNMEASURED': 90})
             self.assertFalse(result['training_executed'])

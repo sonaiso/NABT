@@ -128,7 +128,8 @@ def evaluate(*, checker=None, repeats=3):
         ablation_rows.append(row)
     dependencies = sorted((ROOT / "src/nabt").rglob("*.py")) + sorted((ROOT / "formal").glob("*.lean"))
     dependencies += sorted((ROOT / "formal/Nabt").glob("*.lean"))
-    dependencies += [ROOT / p for p in ("tools/explainable_pilot.py", "tools/evaluate_explainable_pilot.py",
+    dependencies += [ROOT / p for p in ("tools/explainable_pilot.py", "tools/explainable_contracts.py",
+                                      "tools/evaluate_explainable_pilot.py",
                                       "tools/verified_reading.py", "formal/lean-toolchain")]
     dependencies += sorted(p for p in (ROOT / "src/nabt/data").rglob("*") if p.is_file())
     dependencies += [CASES, ROOT / "evidence/explainable_pilot/goals.json",

@@ -1,6 +1,7 @@
 """Contract, source attribution and adversarial replay tests; no LLM calls."""
 from copy import deepcopy
 from contextlib import redirect_stdout
+from hashlib import sha256
 import io
 import json
 import os
@@ -166,6 +167,8 @@ class NativeAnswerContract(unittest.TestCase):
     def test_evaluation_denominators(self):
         report = evaluation.evaluate(checker=BINARY, repeats=1)
         self.assertTrue(report["passed"])
+        self.assertEqual(report["input_hashes"]["tools/explainable_contracts.py"],
+                         sha256((ROOT / "tools/explainable_contracts.py").read_bytes()).hexdigest())
         self.assertEqual(report["metrics"]["status_exact"], evaluation.metric(14, 14))
         self.assertEqual(report["metrics"]["tampering_rejected"], evaluation.metric(14, 14))
         self.assertEqual(report["metrics"]["source_ablation"], evaluation.metric(4, 4))
