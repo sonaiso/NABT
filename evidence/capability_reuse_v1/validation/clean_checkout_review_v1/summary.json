@@ -1,0 +1,83 @@
+{
+  "schema": "nabt.capability-reuse-clean-checkout-review.v1",
+  "scope": "Local exact CI command reproduction on Python 3.12 in an isolated copy. No remote GitHub Actions execution and no new Lean compilation claimed.",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "source_root": "/workspace/scratch/84dbb26f30e1/NABT",
+  "isolated_copy": "/tmp/nabt-reuse-clean-ci-qkd13wtu/NABT",
+  "copied_file_count": 1002,
+  "copied_source_bytes": 28092186,
+  "selected_reference_directory": "evidence/meaning_preservation_v1/integration",
+  "git_metadata_present": false,
+  "lake_directory_present_before_and_after": false,
+  "root_source_changes_observed": [],
+  "results": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "tools.entropy_framework",
+        "reuse"
+      ],
+      "cwd": "/tmp/nabt-reuse-clean-ci-qkd13wtu/NABT",
+      "environment": {
+        "PYTHONPATH": "src",
+        "removed_NABT_and_Make_reference_overrides": true
+      },
+      "returncode": 0,
+      "elapsed_seconds": 2.438,
+      "stdout": "01.stdout.txt",
+      "stderr": "01.stderr.txt",
+      "stdout_sha256": "ae6df6c5441a063d83d78ab5c3cb75a2d9dbdb4f968d01fc0f46d8ecdeb3a000",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_proof_reuse*.py",
+        "-v"
+      ],
+      "cwd": "/tmp/nabt-reuse-clean-ci-qkd13wtu/NABT",
+      "environment": {
+        "PYTHONPATH": "src",
+        "removed_NABT_and_Make_reference_overrides": true
+      },
+      "returncode": 0,
+      "elapsed_seconds": 3.15,
+      "stdout": "02.stdout.txt",
+      "stderr": "02.stderr.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0f29fdf4b467c40e6185015ddd10c6d8a5504d7dc1ddfa7ff83f2375af485c42"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_current_proof_references.py",
+        "-v"
+      ],
+      "cwd": "/tmp/nabt-reuse-clean-ci-qkd13wtu/NABT",
+      "environment": {
+        "PYTHONPATH": "src",
+        "removed_NABT_and_Make_reference_overrides": true
+      },
+      "returncode": 0,
+      "elapsed_seconds": 0.207,
+      "stdout": "03.stdout.txt",
+      "stderr": "03.stderr.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "400d375a9361cc10f1b15b6f445d75f09ae9bb02f834ca0fe5cd822a61bbafd6"
+    }
+  ],
+  "all_commands_passed": true
+}

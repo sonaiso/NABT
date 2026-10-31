@@ -1392,5 +1392,1347 @@
         }
       }
     }
+  },
+  "reuse": {
+    "schema": "nabt.proof-reuse.v1",
+    "families": [
+      {
+        "id": "identity",
+        "title_ar": "هوية الخلية والتسلسل والجسور الأبجدية",
+        "formal_modules": [
+          "Nabt.Cell",
+          "Nabt.Sequence",
+          "Nabt.Bridges"
+        ],
+        "runtime_paths": [
+          "src/nabt/alphabet.py",
+          "src/nabt/codec.py",
+          "src/nabt/bridges.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_integrity.py"
+        ],
+        "test_paths": [
+          "tests/test_codec.py",
+          "tests/test_bridges.py"
+        ],
+        "doc_paths": [
+          "docs/BRIDGES.md",
+          "docs/TAAQOL_FOUNDATION.md"
+        ],
+        "scope": "A116 is 29 carriers times four declared marks; reversible sequence numbering and versioned alphabet conversion preserve the selected representation.",
+        "open_debts": [
+          "Cell/sequence identity does not establish licensed pronunciation, attested usage, lexical meaning or external truth."
+        ]
+      },
+      {
+        "id": "transition-law",
+        "title_ar": "قانون الانتقال وأثر القطعة والعد المرخص",
+        "formal_modules": [
+          "Nabt.Transition",
+          "Nabt.Law",
+          "Nabt.Count",
+          "Nabt.BoundedLaw"
+        ],
+        "runtime_paths": [
+          "src/nabt/machine.py",
+          "src/nabt/counting.py",
+          "src/nabt/certificates.py"
+        ],
+        "native_targets": [
+          "exportTable"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_conformance.py",
+          "tools/check_integrity.py"
+        ],
+        "test_paths": [
+          "tests/test_machine.py",
+          "tests/test_counting_review_fixes.py"
+        ],
+        "doc_paths": [
+          "docs/ARCHITECTURE.md",
+          "docs/TAAQOL_FOUNDATION.md"
+        ],
+        "scope": "The installed 97-state law computes transition/cost effects, compositional execution and exact bounded enumeration/rank/unrank.",
+        "open_debts": [
+          "Accepted shapes are not automatically attested words; bounded enumeration does not enumerate all Arabic meanings."
+        ]
+      },
+      {
+        "id": "learned-transition",
+        "title_ar": "اكتساب تنفيذ مطابق لقانون الانتقال",
+        "formal_modules": [
+          "Nabt.Acquisition",
+          "Nabt.LearnedModel",
+          "Nabt.LearnedModelData"
+        ],
+        "runtime_paths": [
+          "src/nabt/acquisition.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core",
+          "learned-conformance"
+        ],
+        "checker_paths": [
+          "tools/export_learned_model.py",
+          "tools/foundation_experiment.py"
+        ],
+        "test_paths": [
+          "tests/test_acquisition.py"
+        ],
+        "doc_paths": [
+          "docs/TAAQOL_FOUNDATION.md"
+        ],
+        "scope": "TransitionPredictor.Faithful is the pointwise premise; the installed learned decision DAG is checked over all 97 by 116 inputs. LearnedModelData is generated support data.",
+        "open_debts": [
+          "Learning this implementation does not discover a new Arabic law or justify unobserved semantic generalization."
+        ]
+      },
+      {
+        "id": "progressive-units",
+        "title_ar": "الوحدات والجبر المرخص التدريجي",
+        "formal_modules": [
+          "Nabt.UnitCarrier",
+          "Nabt.LicensedDerivation",
+          "Nabt.ProsodicUnits",
+          "Nabt.BinaryUnitDomain"
+        ],
+        "runtime_paths": [
+          "src/nabt/machine.py"
+        ],
+        "native_targets": [
+          "progressiveUnitProbe"
+        ],
+        "entrypoint_ids": [
+          "progressive"
+        ],
+        "checker_paths": [
+          "tools/check_progressive_units.py"
+        ],
+        "test_paths": [
+          "tests/test_progressive_unit_probe.py",
+          "tests/test_progressive_unit_checker.py",
+          "tests/test_binary_unit_domain_probe.py"
+        ],
+        "doc_paths": [
+          "docs/PROGRESSIVE_UNITS.md",
+          "docs/PROGRESSIVE_UNIT_SOURCE_AUDIT.md"
+        ],
+        "scope": "Exact payload restoration, effect composition and licensed atom/join/wrap/substitute/lift derivations are exercised by the installed native probe. Machine effects implement the lower operational projection.",
+        "open_debts": [
+          "Generic progressive derivations are not yet the common parse representation of every default reader.",
+          "Grade, source scope, boundary conditions and semantic premises cannot be inferred from a large numeric address."
+        ]
+      },
+      {
+        "id": "closure-boundary",
+        "title_ar": "حدود الاختزال والادعاء بالإغلاق",
+        "formal_modules": [
+          "Nabt.FourSlotClosure"
+        ],
+        "runtime_paths": [],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "proof-catalog"
+        ],
+        "checker_paths": [
+          "tools/check_axioms.py"
+        ],
+        "test_paths": [
+          "tests/test_proof_catalog.py"
+        ],
+        "doc_paths": [
+          "docs/FOUR_SLOT_CLOSURE.md"
+        ],
+        "scope": "Formal conditional quotient/reduction results and countermodels constrain claims of four-slot closure; this family is a proof-side boundary, not a production classifier.",
+        "open_debts": [
+          "A finite alphabet does not imply a finite effect quotient or a four-slot stabilization bound; a separate equivalence and reduction proof are required."
+        ]
+      },
+      {
+        "id": "recursive-source",
+        "title_ar": "الجبر العودي وربط الأصل بالمصدر",
+        "formal_modules": [
+          "Nabt.RecursiveLicensedAlgebra",
+          "Nabt.RecursiveSourceBridge"
+        ],
+        "runtime_paths": [
+          "tools/recursive_bridge.py"
+        ],
+        "native_targets": [
+          "recursiveBridgeProbe"
+        ],
+        "entrypoint_ids": [
+          "recursive",
+          "recursive-native"
+        ],
+        "checker_paths": [
+          "tools/check_recursive_bridge.py"
+        ],
+        "test_paths": [
+          "tests/test_recursive_source_bridge.py",
+          "tests/test_recursive_bridge_probe.py",
+          "tests/test_recursive_bridge_checker.py"
+        ],
+        "doc_paths": [
+          "docs/RECURSIVE_SOURCE_BRIDGE.md",
+          "docs/PROVENANCE.md"
+        ],
+        "scope": "The imported licensed recursive algebra and installed bridge preserve original source leaves, premise dependencies and reconstructed boundaries. Python forwards exact source proposals for native bridge checks.",
+        "open_debts": [
+          "A source-spine projection does not reconstruct all original syntax or instantiate every CertifiedBridge semantic premise.",
+          "Full default-reader adoption of recursive derivation witnesses remains an explicit integration task."
+        ]
+      },
+      {
+        "id": "unit-discovery",
+        "title_ar": "استنفاد التقسيمات وفحص ولادة الوحدة",
+        "formal_modules": [
+          "Nabt.UnitDiscovery"
+        ],
+        "runtime_paths": [],
+        "native_targets": [
+          "unitDiscoveryProbe"
+        ],
+        "entrypoint_ids": [
+          "unit-discovery"
+        ],
+        "checker_paths": [
+          "tools/check_unit_discovery.py"
+        ],
+        "test_paths": [
+          "tests/test_unit_discovery_probe.py",
+          "tests/test_unit_discovery_checker.py"
+        ],
+        "doc_paths": [
+          "docs/UNIT_DISCOVERY.md",
+          "docs/UNIT_DISCOVERY_SOURCE_AUDIT.md"
+        ],
+        "scope": "Complete finite partition enumeration, exact source spans, conditional unit assessments and strict information progress are exposed by the existing native probe.",
+        "open_debts": [
+          "Interpreted evidence remains a premise; partition exhaustion does not by itself establish a linguistic unit or meaning."
+        ]
+      },
+      {
+        "id": "rule-learning",
+        "title_ar": "تعلم القواعد وإعادة فتح البدائل",
+        "formal_modules": [
+          "Nabt.RuleLearning"
+        ],
+        "runtime_paths": [
+          "src/nabt/learning/finite_guard.py",
+          "src/nabt/learning/arabic_six_nouns.py",
+          "src/nabt/program.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core",
+          "source-learning"
+        ],
+        "checker_paths": [
+          "tools/source_learning_experiment.py"
+        ],
+        "test_paths": [
+          "tests/test_source_learning.py",
+          "tests/test_program.py"
+        ],
+        "doc_paths": [
+          "docs/SOURCE_LEARNING.md"
+        ],
+        "scope": "The learner retains the complete declared signed-conjunction hypothesis language, updates only from replayed observations and recomputes after withdrawal.",
+        "open_debts": [
+          "Consensus is conditional on a sufficient hypothesis language and correct interpreted judgments; it grants neither ProofRank nor world truth."
+        ]
+      },
+      {
+        "id": "properties-obligations",
+        "title_ar": "هوية الخاصية والمقدمات والبقايا",
+        "formal_modules": [
+          "Nabt.PropertyEvidence",
+          "Nabt.Obligations"
+        ],
+        "runtime_paths": [
+          "src/nabt/learning/source_evidence.py",
+          "src/nabt/obligations.py",
+          "src/nabt/morphology.py",
+          "src/nabt/program.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_property_evidence_table.py"
+        ],
+        "test_paths": [
+          "tests/test_obligations.py",
+          "tests/test_source_learning.py"
+        ],
+        "doc_paths": [
+          "docs/OBLIGATIONS.md",
+          "docs/SOURCE_LEARNING.md"
+        ],
+        "scope": "Full proposition identities bind source, occurrence, reading, context and policy; positive/negative support and minimal missing obligations remain separate.",
+        "open_debts": [
+          "Declared source identity and well-formed property records do not authenticate their linguistic or external content."
+        ]
+      },
+      {
+        "id": "numeric-program",
+        "title_ar": "البرنامج العددي القابل لإعادة التنفيذ",
+        "formal_modules": [
+          "Nabt.Program"
+        ],
+        "runtime_paths": [
+          "src/nabt/program.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_integrity.py"
+        ],
+        "test_paths": [
+          "tests/test_program.py",
+          "tests/test_text_program.py"
+        ],
+        "doc_paths": [
+          "docs/INTEGRATION.md"
+        ],
+        "scope": "The existing inert instruction language compiles and replays shape, learning, source revision and controlled text-query workflows with typed domains.",
+        "open_debts": [
+          "Program serialization and domain preservation do not prove a full refinement of the Python interpreter or confer theorem authority on a number."
+        ]
+      },
+      {
+        "id": "word-kinds",
+        "title_ar": "قسم الكلمة وعلاماتها",
+        "formal_modules": [
+          "Nabt.Words"
+        ],
+        "runtime_paths": [
+          "src/nabt/words.py",
+          "src/nabt/word_reader.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_word_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_words.py",
+          "tests/test_word_reader.py",
+          "tests/test_word_reader_review.py"
+        ],
+        "doc_paths": [
+          "docs/WORD_READING.md"
+        ],
+        "scope": "Declared noun/verb/particle evidence and conditional declension classes are consumed by the existing word reader with unresolved cases retained.",
+        "open_debts": [
+          "Installed source cues and lexical support do not exhaust all words or resolve every referent."
+        ]
+      },
+      {
+        "id": "text-kind-evidence",
+        "title_ar": "تفعيل قرائن النص المقيدة بالوقوع",
+        "formal_modules": [
+          "Nabt.TextEvidence"
+        ],
+        "runtime_paths": [
+          "src/nabt/text_evidence.py",
+          "src/nabt/text_morphology.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_text_evidence_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_text_morphology.py",
+          "tests/test_text_morphology_review.py"
+        ],
+        "doc_paths": [
+          "docs/TEXT_MORPHOLOGY.md"
+        ],
+        "scope": "Source-replayed noun signs, verb witnesses and particle witnesses preserve occurrence, reading, activation and blocking conditions.",
+        "open_debts": [
+          "A raw prefix or apparent pattern does not supply its own lexical kind, root, case or contextual role."
+        ]
+      },
+      {
+        "id": "morphology",
+        "title_ar": "شروط التصريف والدلالة الاسمية",
+        "formal_modules": [
+          "Nabt.Morphology"
+        ],
+        "runtime_paths": [
+          "src/nabt/morphology.py",
+          "src/nabt/morphology_reader.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_morphology_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_morphology.py",
+          "tests/test_morphology_domain_review.py"
+        ],
+        "doc_paths": [
+          "docs/MORPHOLOGY_READING.md",
+          "docs/MORPHOLOGY_FORMAL_CONTRACTS.md"
+        ],
+        "scope": "Conditional property algebra and source-bound morphology receipts preserve assumptions and distinguish construction from nominal denotation.",
+        "open_debts": [
+          "No nominal denotation is obtained solely from a construction; missing lexical premises remain missing."
+        ]
+      },
+      {
+        "id": "derivation-patterns",
+        "title_ar": "الجذور والأوزان والمصادر واللواصق",
+        "formal_modules": [
+          "Nabt.Derivation",
+          "Nabt.NominalPatterns",
+          "Nabt.AffixFunctions"
+        ],
+        "runtime_paths": [
+          "src/nabt/derivation.py",
+          "src/nabt/verb_paradigm.py"
+        ],
+        "native_targets": [
+          "exportDerivation"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_derivation_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_derivation.py",
+          "tests/test_derivation_review.py"
+        ],
+        "doc_paths": [
+          "docs/DERIVATION.md",
+          "docs/DERIVATION_SOURCE_AUDIT.md"
+        ],
+        "scope": "Installed pattern rendering and recovery preserve radical slots, additions and inflectional distinctions; surface candidates retain their witnesses.",
+        "open_debts": [
+          "A matching faail pattern does not establish syntactic agency; lexical use, valency, relational roles and sense need their own evidence."
+        ]
+      },
+      {
+        "id": "nominal",
+        "title_ar": "الأجناس والجامد والمشتق والعدد",
+        "formal_modules": [
+          "Nabt.NominalEvidence"
+        ],
+        "runtime_paths": [
+          "src/nabt/nominal.py"
+        ],
+        "native_targets": [
+          "exportNominalEvidence"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_nominal_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_nominal.py",
+          "tests/test_nominal_laws.py",
+          "tests/test_nominal_review.py"
+        ],
+        "doc_paths": [
+          "docs/NOMINAL.md",
+          "docs/NOMINAL_SOURCE_AUDIT.md"
+        ],
+        "scope": "Existing nominal profiles, gender/cardinality constraints and descriptive evidence are evaluated with source-scoped alternatives.",
+        "open_debts": [
+          "Unknown denotation is not jamid; spelling identity does not establish descriptive-to-corpus sense correspondence."
+        ]
+      },
+      {
+        "id": "inflection",
+        "title_ar": "الإعراب بوصفه علاقة مشروطة",
+        "formal_modules": [
+          "Nabt.InflectionEvidence"
+        ],
+        "runtime_paths": [
+          "src/nabt/inflection.py",
+          "src/nabt/inflection_reader.py"
+        ],
+        "native_targets": [
+          "exportInflectionEvidence"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_inflection_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_inflection_laws.py",
+          "tests/test_inflection_reader.py",
+          "tests/test_inflection_review.py"
+        ],
+        "doc_paths": [
+          "docs/INFLECTION_READING.md",
+          "docs/INFLECTION_SOURCE_AUDIT.md"
+        ],
+        "scope": "Case/mood/sign equations consume lexical class and licensed construction evidence while preserving nominal derivation features.",
+        "open_debts": [
+          "Observed endings alone do not identify every syntactic function, reference or semantic relation."
+        ]
+      },
+      {
+        "id": "person-reference",
+        "title_ar": "الشخص والإحالة المقيدة بالشاهد",
+        "formal_modules": [
+          "Nabt.PersonEvidence"
+        ],
+        "runtime_paths": [
+          "src/nabt/person_evidence.py",
+          "src/nabt/discourse_context.py",
+          "src/nabt/context_name_witness.py"
+        ],
+        "native_targets": [
+          "exportPersonEvidence"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_person_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_person_evidence.py",
+          "tests/test_arabic_query_context.py"
+        ],
+        "doc_paths": [
+          "docs/DISCOURSE_READING.md",
+          "docs/SOURCED_ACQUISITION_V3_PERSON_NOMINAL.md"
+        ],
+        "scope": "Person features, explicit context and source-name witnesses bind grammatical readings to declared reference candidates.",
+        "open_debts": [
+          "Grammatical person does not identify the real speaker; unrestricted reference acquisition remains open."
+        ]
+      },
+      {
+        "id": "discourse",
+        "title_ar": "القضية والسؤال وشاهد الإسناد",
+        "formal_modules": [
+          "Nabt.DiscourseEvidence"
+        ],
+        "runtime_paths": [
+          "src/nabt/discourse_reader.py",
+          "src/nabt/discourse.py"
+        ],
+        "native_targets": [
+          "exportDiscourseEvidence"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_discourse_conformance.py",
+          "tools/question_answer_validation.py"
+        ],
+        "test_paths": [
+          "tests/test_discourse_reader.py",
+          "tests/test_claim_predication_bindings.py",
+          "tests/test_nominal_interpretation_validation.py"
+        ],
+        "doc_paths": [
+          "docs/DISCOURSE_READING.md",
+          "docs/INTERPRETIVE_LINKS_V1_AR.md"
+        ],
+        "scope": "Existing reading/query paths preserve complete scoped claims; claim_bindings select each predicate witness and predicate_interpretations carry acquired noun and derivation evidence.",
+        "open_debts": [
+          "A scoped or believed predicate cannot become a bare assertion; enriched descriptions retain unproved sense correspondence and world truth."
+        ]
+      },
+      {
+        "id": "construction",
+        "title_ar": "العوامل والإسناد والتقييد والتركيب",
+        "formal_modules": [
+          "Nabt.ConstructionEvidence"
+        ],
+        "runtime_paths": [
+          "src/nabt/construction_reader.py",
+          "src/nabt/construction_laws.py",
+          "src/nabt/construction_nominals.py",
+          "src/nabt/construction_complements.py"
+        ],
+        "native_targets": [
+          "exportConstructionEvidence"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_construction_conformance.py"
+        ],
+        "test_paths": [
+          "tests/test_construction_reader.py",
+          "tests/test_construction_laws.py",
+          "tests/test_construction_attachment_review.py"
+        ],
+        "doc_paths": [
+          "docs/CONSTRUCTIONS.md",
+          "docs/CONSTRUCTIONS_SOURCE_AUDIT.md"
+        ],
+        "scope": "Installed construction frames bind selected readings, agreement relations, operator scopes and source-qualified graph edges.",
+        "open_debts": [
+          "Conditional construction laws and finite recognizers do not establish open-Arabic completeness or semantic role from weight alone."
+        ]
+      },
+      {
+        "id": "arabic-governors",
+        "title_ar": "القراءة العربية والعوامل والإنشاء",
+        "formal_modules": [
+          "Nabt.ArabicReading",
+          "Nabt.Governors",
+          "Nabt.ArabicInnaFragment"
+        ],
+        "runtime_paths": [
+          "src/nabt/arabic_reader.py",
+          "src/nabt/governors.py",
+          "src/nabt/governor_reader.py"
+        ],
+        "native_targets": [
+          "arabicInnaFragmentProbe"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_arabic_conformance.py",
+          "tools/check_governor_conformance.py",
+          "tools/check_arabic_inna_fragment.py"
+        ],
+        "test_paths": [
+          "tests/test_arabic_syntax.py",
+          "tests/test_governors.py",
+          "tests/test_arabic_inna_fragment_probe.py"
+        ],
+        "doc_paths": [
+          "docs/ARABIC_SYNTAX.md",
+          "docs/GOVERNOR_FORMAL_CONTRACTS.md"
+        ],
+        "scope": "Existing finite syntax readers preserve force and governing conditions and distinguish completed assertion from questions, commands and unresolved readings.",
+        "open_debts": [
+          "A valid symbolic reading is not evidence of speaker intent or external reality."
+        ]
+      },
+      {
+        "id": "classical-transforms",
+        "title_ar": "الإعلال والهمز والإدغام والحدود الصوتية",
+        "formal_modules": [
+          "Nabt.ClassicalWeak",
+          "Nabt.ClassicalHamza",
+          "Nabt.ClassicalGemination",
+          "Nabt.ClassicalBoundaryAffixes",
+          "Nabt.ImperativeParadigm",
+          "Nabt.PhonologicalModes"
+        ],
+        "runtime_paths": [
+          "src/nabt/classical_laws.py",
+          "src/nabt/classical_weak.py",
+          "src/nabt/classical_hamza.py",
+          "src/nabt/classical_gemination.py",
+          "src/nabt/classical_boundary_affixes.py",
+          "src/nabt/imperative_paradigm.py",
+          "src/nabt/phonological_modes.py"
+        ],
+        "native_targets": [
+          "exportClassicalWeak",
+          "exportClassicalHamza",
+          "exportClassicalGemination",
+          "exportClassicalBoundaryAffixes",
+          "exportImperativeParadigm",
+          "exportPhonologicalModes"
+        ],
+        "entrypoint_ids": [
+          "core",
+          "grammar-catalog"
+        ],
+        "checker_paths": [
+          "tools/check_classical_laws.py",
+          "tools/check_imperative_paradigm.py",
+          "tools/check_phonological_modes.py"
+        ],
+        "test_paths": [
+          "tests/test_classical_weak.py",
+          "tests/test_classical_hamza.py",
+          "tests/test_classical_gemination.py",
+          "tests/test_classical_boundary_affixes.py",
+          "tests/test_phonological_modes.py"
+        ],
+        "doc_paths": [
+          "docs/CLASSICAL_LAWS_REVIEW.md",
+          "docs/PHONOLOGICAL_MODES.md"
+        ],
+        "scope": "Source-backed conditional frames and named transformations preserve explicit premises, onset/ending and alternatives.",
+        "open_debts": [
+          "The symbolic transformation alphabet is distinct from A116; finite action enumeration does not prove arbitrary-text recognition."
+        ]
+      },
+      {
+        "id": "classical-source-rules",
+        "title_ar": "الشواهد الأصلية والقواعد المنقولة",
+        "formal_modules": [
+          "Nabt.ClassicalLanguageEvidence",
+          "Nabt.ClassicalReferenceReadings",
+          "Nabt.SibawayhiRules",
+          "Nabt.QatrRules",
+          "Nabt.AwamilInventory",
+          "Nabt.AwamilRules",
+          "Nabt.MaqayisRules",
+          "Nabt.ThinkingRules",
+          "Nabt.Shakhsiyya1Rules",
+          "Nabt.Shakhsiyya3Rules",
+          "Nabt.LisanRules"
+        ],
+        "runtime_paths": [
+          "tools/classical_language_evidence.py",
+          "tools/grammar_catalog/__main__.py",
+          "tools/classical_rule_inventory.py"
+        ],
+        "native_targets": [
+          "exportClassicalLanguageEvidence",
+          "exportClassicalReferenceReadings",
+          "classicalSemanticProbe"
+        ],
+        "entrypoint_ids": [
+          "grammar-catalog",
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_classical_language_evidence.py",
+          "tools/check_classical_reference_readings.py"
+        ],
+        "test_paths": [
+          "tests/test_classical_language_evidence.py",
+          "tests/test_classical_reference_readings.py",
+          "tests/test_classical_rule_inventory.py"
+        ],
+        "doc_paths": [
+          "docs/CLASSICAL_LANGUAGE_EVIDENCE.md",
+          "docs/CLASSICAL_REFERENCE_READINGS.md",
+          "docs/CLASSICAL_RULE_INVENTORY.md"
+        ],
+        "scope": "Retained source quotations and explicit interpreted finite rules remain linked to their source versions and compiled contracts.",
+        "open_debts": [
+          "Quotation integrity, historical interpretation, occurrence applicability and world truth are separate obligations; source books are not wholly encoded."
+        ]
+      },
+      {
+        "id": "signed-inference",
+        "title_ar": "الاستدلال المسند والتعارض وتعداد القراءات",
+        "formal_modules": [
+          "Nabt.SemanticInference",
+          "Nabt.VerifiedReading",
+          "Nabt.ReadingEnumeration",
+          "Nabt.SourceSemantics",
+          "Nabt.QatrReading"
+        ],
+        "runtime_paths": [
+          "src/nabt/semantics.py",
+          "tools/verified_reading.py",
+          "tools/source_semantics.py",
+          "tools/explainable_pilot.py",
+          "tools/train_certificate_ranker.py",
+          "tools/train_certificate_ranker_v2.py"
+        ],
+        "native_targets": [
+          "verifiedReading",
+          "classicalSemanticProbe",
+          "qatrReading"
+        ],
+        "entrypoint_ids": [
+          "explainable-pilot",
+          "core",
+          "certificate-ranker",
+          "certificate-ranker-v2"
+        ],
+        "checker_paths": [
+          "tools/check_qualified_inference.py"
+        ],
+        "test_paths": [
+          "tests/test_semantics.py",
+          "tests/test_source_semantics.py",
+          "tests/test_reading_enumeration.py",
+          "tests/test_qatr_readings.py",
+          "tests/test_explainable_pilot.py"
+        ],
+        "doc_paths": [
+          "docs/SEMANTICS.md",
+          "docs/VERIFIED_READING.md",
+          "docs/READING_ENUMERATION.md",
+          "docs/SOURCE_SEMANTICS.md",
+          "docs/TRAINING_PLAN_AR.md",
+          "docs/TRAINING_REVIEW_V2_AR.md"
+        ],
+        "scope": "Signed proof DAGs, conflict-clean consequence, complete supplied reading enumeration and exact raw-source replay preserve independent scopes and premises.",
+        "open_debts": [
+          "model_sound requires true facts and preserving rules for the supplied meaning map; the theorem does not acquire that map or authenticate facts.",
+          "These installed finite readers are distinct laws; successful routes cannot be silently composed across unsupported grammar.",
+          "The existing learned certificate rankers order proposals only; their model score never substitutes for native certificate acceptance."
+        ]
+      },
+      {
+        "id": "lexical-denotation",
+        "title_ar": "الوضع والدلالة المطابقة والتضمن والالتزام",
+        "formal_modules": [
+          "Nabt.LexicalDenotation",
+          "Nabt.LexicalCatalog",
+          "Nabt.MaqayisDenotation",
+          "Nabt.AttestedLexicalLoading"
+        ],
+        "runtime_paths": [
+          "tools/lexical_testimony.py",
+          "tools/attested_lexical_loader.py",
+          "tools/build_lexical_catalog.py"
+        ],
+        "native_targets": [
+          "lexicalDenotation"
+        ],
+        "entrypoint_ids": [
+          "lexical-testimony"
+        ],
+        "checker_paths": [
+          "tools/check_linguistic_truth.py"
+        ],
+        "test_paths": [
+          "tests/test_lexical_denotation.py",
+          "tests/test_lexical_testimony.py",
+          "tests/test_attested_lexical_loader.py"
+        ],
+        "doc_paths": [
+          "docs/LEXICAL_DENOTATION.md",
+          "docs/LEXICAL_TESTIMONY_AR.md",
+          "docs/ATTESTED_LEXICAL_LOADING_AR.md"
+        ],
+        "scope": "Compiled lexical senses and exact retained source passages support conditional matching, proper inclusion and explicitly licensed entailment.",
+        "open_debts": [
+          "Lexical denotation does not choose the intended sense of a new occurrence or license a root-wide universal certificate."
+        ]
+      },
+      {
+        "id": "lexical-completion",
+        "title_ar": "استكمال القراءة المعجمية مع البدائل",
+        "formal_modules": [
+          "Nabt.LexicalCompletion",
+          "Nabt.LexicalCompletionCatalog"
+        ],
+        "runtime_paths": [
+          "tools/lexical_completion.py",
+          "tools/build_lexical_completion.py"
+        ],
+        "native_targets": [
+          "lexicalCompletion"
+        ],
+        "entrypoint_ids": [
+          "lexical-completion"
+        ],
+        "checker_paths": [
+          "tools/measure_lexical_loading.py"
+        ],
+        "test_paths": [
+          "tests/test_lexical_completion.py",
+          "tests/test_lexical_loading_adversarial.py"
+        ],
+        "doc_paths": [
+          "docs/LEXICAL_COMPLETION_AR.md"
+        ],
+        "scope": "The installed completion catalog supplies a finite slot domain; exact enumeration and native checking retain uncertainty. LexicalCompletionCatalog is generated support data.",
+        "open_debts": [
+          "Finite slot completeness does not prove whole-lexicon or Arabic coverage; installed full source requirements remain explicit."
+        ]
+      },
+      {
+        "id": "lexical-graph",
+        "title_ar": "العلاقات المعجمية والإغلاق والدورات",
+        "formal_modules": [
+          "Nabt.LexicalGraph"
+        ],
+        "runtime_paths": [
+          "tools/lexical_graph.py",
+          "tools/build_lexical_graph.py"
+        ],
+        "native_targets": [
+          "lexicalGraph"
+        ],
+        "entrypoint_ids": [
+          "lexical-graph"
+        ],
+        "checker_paths": [
+          "tools/benchmark_lexical_graph.py"
+        ],
+        "test_paths": [
+          "tests/test_lexical_graph.py"
+        ],
+        "doc_paths": [
+          "docs/LEXICAL_GRAPH_AR.md",
+          "docs/LEXICAL_GRAPH_SOURCE_REVIEW_AR.md"
+        ],
+        "scope": "Graph closure, exact dependencies and SCC diagnostics reuse the completion engine and native lexical checks under declared assumptions.",
+        "open_debts": [
+          "Cycles do not authenticate each other; new semantic edges need independently licensed evidence."
+        ]
+      },
+      {
+        "id": "mantuq-mafhum",
+        "title_ar": "المنطوق والمفهوم وبوابات الانتقال",
+        "formal_modules": [
+          "Nabt.MantuqMafhum",
+          "Nabt.QualifiedInference"
+        ],
+        "runtime_paths": [
+          "tools/mantuq_mafhum.py",
+          "tools/mantuq_inference/evaluator.py",
+          "tools/mantuq_inference/pipeline.py"
+        ],
+        "native_targets": [
+          "classicalSemanticProbe",
+          "exportQualifiedInference"
+        ],
+        "entrypoint_ids": [
+          "mantuq-inference"
+        ],
+        "checker_paths": [
+          "tools/check_qualified_inference.py"
+        ],
+        "test_paths": [
+          "tests/test_mantuq_mafhum.py",
+          "tests/test_mantuq_inference_runtime.py",
+          "tests/test_mantuq_inference_pipeline.py"
+        ],
+        "doc_paths": [
+          "docs/MANTUQ_MAFHUM.md",
+          "docs/MANTUQ_INFERENCE_AR.md"
+        ],
+        "scope": "Explicit mantuq/mafhum gates, blockers, qualified scopes and complete policy scans preserve suspended plans even when retrieval ranks them low.",
+        "open_debts": [
+          "No mafhum is generated from a query without the policy-specific structured premises and absence of blockers."
+        ]
+      },
+      {
+        "id": "linguistic-truth",
+        "title_ar": "الوضع والعرف وواقعة الاستعمال",
+        "formal_modules": [
+          "Nabt.LinguisticTruth"
+        ],
+        "runtime_paths": [
+          "tools/linguistic_truth/__main__.py",
+          "tools/linguistic_truth/runtime.py"
+        ],
+        "native_targets": [
+          "linguisticTruth"
+        ],
+        "entrypoint_ids": [
+          "linguistic-truth"
+        ],
+        "checker_paths": [
+          "tools/check_linguistic_truth.py"
+        ],
+        "test_paths": [
+          "tests/test_linguistic_truth_runtime.py",
+          "tests/test_linguistic_truth_calculus.py"
+        ],
+        "doc_paths": [
+          "docs/LINGUISTIC_TRUTH_AR.md",
+          "docs/LINGUISTIC_TRUTH_SECURITY_REVIEW_AR.md"
+        ],
+        "scope": "Existing convention profiles and occurrence records keep source usage, interpretation, and linguistic consistency distinct.",
+        "open_debts": [
+          "Finite installed conventional readings do not authenticate current speaker intention or cover all historical communities."
+        ]
+      },
+      {
+        "id": "licensed-inference",
+        "title_ar": "الاستدلال المرخص من النص والسؤال الأصليين",
+        "formal_modules": [
+          "Nabt.LicensedInference"
+        ],
+        "runtime_paths": [
+          "tools/licensed_inference/runtime.py",
+          "tools/licensed_inference/parser.py",
+          "tools/proof_lab.py"
+        ],
+        "native_targets": [
+          "licensedInference"
+        ],
+        "entrypoint_ids": [
+          "licensed-inference",
+          "proof-lab"
+        ],
+        "checker_paths": [
+          "tools/check_licensed_inference.py"
+        ],
+        "test_paths": [
+          "tests/test_licensed_inference_runtime.py",
+          "tests/test_licensed_inference_security.py",
+          "tests/test_licensed_inference_links.py"
+        ],
+        "doc_paths": [
+          "docs/LICENSED_INFERENCE_AR.md",
+          "docs/LICENSED_INFERENCE_SOURCES_AR.md"
+        ],
+        "scope": "Native Lean independently parses source/query, checks every signed and clean closure, and preserves within-reading conflict versus cross-reading disagreement.",
+        "open_debts": [
+          "The explicit-subject finite active-voice grammar retains unresolved references; premise truth and source historical interpretation are not established."
+        ]
+      },
+      {
+        "id": "rational-inquiry",
+        "title_ar": "تعيين الدعوى وسندها ورتبتها",
+        "formal_modules": [
+          "Nabt.RationalInquiry"
+        ],
+        "runtime_paths": [
+          "src/nabt/rational_inquiry.py"
+        ],
+        "native_targets": [
+          "exportRationalInquiry"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_rational_inquiry.py"
+        ],
+        "test_paths": [
+          "tests/test_rational_inquiry.py",
+          "tests/test_rational_inquiry_report_budget.py"
+        ],
+        "doc_paths": [
+          "docs/RATIONAL_INQUIRY.md"
+        ],
+        "scope": "Existing inquiry executes exact snapshot or source-entailment checks, scopes evidence, audits alternatives and bounds the authorized rank by available support.",
+        "open_debts": [
+          "Declared provenance is not authentication; no external world-correspondence observer is installed in inquiry v1."
+        ]
+      },
+      {
+        "id": "epistemic-measurement",
+        "title_ar": "قياس الدليل واستقلاله ومحاور الحكم",
+        "formal_modules": [
+          "Nabt.EpistemicMeasurement"
+        ],
+        "runtime_paths": [
+          "tools/epistemic_measurement.py"
+        ],
+        "native_targets": [
+          "epistemicMeasurement"
+        ],
+        "entrypoint_ids": [
+          "epistemic-native",
+          "proof-lab"
+        ],
+        "checker_paths": [
+          "tools/benchmark_epistemic_measurement.py"
+        ],
+        "test_paths": [
+          "tests/test_epistemic_measurement.py",
+          "tests/test_epistemic_measurement_adversarial.py"
+        ],
+        "doc_paths": [
+          "docs/EPISTEMIC_MEASUREMENT_AR.md",
+          "docs/EPISTEMIC_INDEPENDENT_REVIEW_AR.md"
+        ],
+        "scope": "Exact active-source and closed-ancestry checks enumerate all admissible evidence for the complete axis/entity/predicate/value/unit/context/time/place key.",
+        "open_debts": [
+          "Hidden motive has no installed evidence license; matching an agency record does not establish sensor calibration or physical world truth."
+        ]
+      },
+      {
+        "id": "aligned-acquisition",
+        "title_ar": "تحصيل المصدر ومحاذاة خلايا A116",
+        "formal_modules": [
+          "Nabt.AlignedAcquisition",
+          "Nabt.AlignedAcquisitionV2"
+        ],
+        "runtime_paths": [
+          "tools/aligned_acquisition.py",
+          "tools/aligned_acquisition_v2.py",
+          "tools/acquired_inference.py",
+          "tools/acquired_inference_v2.py"
+        ],
+        "native_targets": [
+          "alignedAcquisition",
+          "alignedAcquisitionV2"
+        ],
+        "entrypoint_ids": [
+          "acquisition",
+          "acquired-inference",
+          "article-acquisition"
+        ],
+        "checker_paths": [
+          "tools/check_acquired_inference.py",
+          "tools/check_article_source_links.py"
+        ],
+        "test_paths": [
+          "tests/test_aligned_acquisition.py",
+          "tests/test_article_acquisition_v2.py",
+          "tests/test_acquired_inference.py",
+          "tests/test_acquired_inference_v2.py"
+        ],
+        "doc_paths": [
+          "docs/ACQUISITION_READER_SPEC.md",
+          "docs/ARTICLE_ACQUISITION_V2_SPEC.md",
+          "docs/ACQUIRED_INFERENCE_CONTRACT.md"
+        ],
+        "scope": "Source bytes, transformations, boundaries and typed A116 cells are carried through native replay into the existing inference bridge when all acquisition and shape gates close.",
+        "open_debts": [
+          "Article v2 supplies only declared finite article readings; incomplete acquisition cannot borrow authority from a nested inference result."
+        ]
+      },
+      {
+        "id": "sourced-acquisition",
+        "title_ar": "التحصيل المتصل والقراءة الاسمية من المصادر",
+        "formal_modules": [
+          "Nabt.ConnectedAcquisitionV3",
+          "Nabt.AcquiredSyntaxV3"
+        ],
+        "runtime_paths": [
+          "tools/connected_acquisition_v3.py",
+          "tools/acquired_person_nominal_v3.py",
+          "tools/natural_acquisition_v3.py"
+        ],
+        "native_targets": [
+          "connectedAcquisitionV3",
+          "acquiredSyntaxV3"
+        ],
+        "entrypoint_ids": [
+          "sourced-acquisition"
+        ],
+        "checker_paths": [
+          "tools/check_sourced_acquisition_links.py"
+        ],
+        "test_paths": [
+          "tests/test_connected_acquisition_v3.py",
+          "tests/test_acquired_person_nominal_v3.py",
+          "tests/test_natural_acquisition_v3.py"
+        ],
+        "doc_paths": [
+          "docs/SOURCED_ACQUISITION_V3_ARCHITECTURE.md",
+          "docs/SOURCED_ACQUISITION_V3_SPEC.md"
+        ],
+        "scope": "Versioned source conventions bind connected realization, grammatical person, finite nominal frames and natural lexical candidates to their original passages.",
+        "open_debts": [
+          "Authored aliases are reading conventions, not generic vowel recovery; unrestricted person/reference acquisition and all-Arabic nominal syntax remain open."
+        ]
+      },
+      {
+        "id": "productive-forms",
+        "title_ar": "التوليد الصرفي المنتج ضمن القالب المثبت",
+        "formal_modules": [
+          "Nabt.ProductiveForms"
+        ],
+        "runtime_paths": [
+          "src/nabt/productive_forms.py"
+        ],
+        "native_targets": [
+          "exportProductiveForms"
+        ],
+        "entrypoint_ids": [
+          "core"
+        ],
+        "checker_paths": [
+          "tools/check_productive_forms.py"
+        ],
+        "test_paths": [
+          "tests/test_productive_forms.py"
+        ],
+        "doc_paths": [
+          "docs/ARABIC_COMPLETENESS_V5.md"
+        ],
+        "scope": "Existing productive form equations and source-bound controls generate and check their declared finite morphological forms.",
+        "open_debts": [
+          "Pattern productivity does not attest arbitrary roots or license semantic relations absent from the source scope."
+        ]
+      },
+      {
+        "id": "productive-clause",
+        "title_ar": "الجملة الفعلية المنتجة المتصلة بمقدماتها",
+        "formal_modules": [
+          "Nabt.ProductiveClauseV1"
+        ],
+        "runtime_paths": [
+          "tools/productive_clause_v1.py"
+        ],
+        "native_targets": [
+          "productiveClauseV1"
+        ],
+        "entrypoint_ids": [
+          "productive-clause"
+        ],
+        "checker_paths": [
+          "tools/evaluate_productive_clause_v1.py"
+        ],
+        "test_paths": [
+          "tests/test_productive_clause_v1.py",
+          "tests/test_productive_clause_evaluator.py"
+        ],
+        "doc_paths": [
+          "docs/PRODUCTIVE_CLAUSE_V1_SPEC.md",
+          "docs/PRODUCTIVE_CLAUSE_V1_RESULTS_AR.md"
+        ],
+        "scope": "The existing composed reader checks exact source/acquisition/shape/native/scope gates for fifty order-sensitive DARABA frames and their VSO/VOS surfaces.",
+        "open_debts": [
+          "The finite productive frame does not establish real-world referents, exclusivity, intentions or open-Arabic completeness."
+        ]
+      },
+      {
+        "id": "evidence-lifecycle",
+        "title_ar": "تحديث الدليل والسحب والتفعيل والتاريخ",
+        "formal_modules": [
+          "Nabt.EvidenceLifecycleV1"
+        ],
+        "runtime_paths": [
+          "tools/evidence_lifecycle_v1.py",
+          "tools/productive_lifecycle_v1.py"
+        ],
+        "native_targets": [
+          "evidenceLifecycleV1"
+        ],
+        "entrypoint_ids": [
+          "evidence-lifecycle",
+          "productive-lifecycle"
+        ],
+        "checker_paths": [
+          "tools/evaluate_evidence_lifecycle_v1.py"
+        ],
+        "test_paths": [
+          "tests/test_evidence_lifecycle_v1.py",
+          "tests/test_evidence_lifecycle_boundaries.py",
+          "tests/test_productive_lifecycle_v1.py"
+        ],
+        "doc_paths": [
+          "docs/EVIDENCE_LIFECYCLE_V1_SPEC.md",
+          "docs/PRODUCTIVE_LIFECYCLE_V1_SPEC.md"
+        ],
+        "scope": "The existing lifecycle evaluates explicit source episodes, rank-ordered dependency graphs and withdrawal/reactivation; the productive adapter retains pending candidates until dependencies return.",
+        "open_debts": [
+          "Historical receipts replay against an independently supplied historical episode; present equality does not revive old authority.",
+          "General candidate regeneration, unit conversions and interval-time reasoning remain outside this version."
+        ]
+      },
+      {
+        "id": "meaning-preservation",
+        "title_ar": "حفظ المعنى وإعادة البناء لدى المتلقي",
+        "formal_modules": [
+          "Nabt.MeaningPreservation"
+        ],
+        "runtime_paths": [
+          "tools/meaning_preservation_v1.py"
+        ],
+        "native_targets": [
+          "meaningPreservationV1"
+        ],
+        "entrypoint_ids": [
+          "meaning-preservation"
+        ],
+        "checker_paths": [
+          "tools/evaluate_meaning_preservation_v1.py"
+        ],
+        "test_paths": [
+          "tests/test_meaning_preservation_v1.py",
+          "tests/test_meaning_preservation_evaluator.py"
+        ],
+        "doc_paths": [
+          "docs/MEANING_PRESERVATION_V1_AR.md",
+          "docs/MEANING_PRESERVATION_V1_FORMAL_SPEC.md"
+        ],
+        "scope": "The finite faithful transport contract preserves declared joint observations and source context; productive mode obtains its packet by rerunning the existing source-bound clause producer.",
+        "open_debts": [
+          "Actual agreement among human interpreters, complete lexical convention and open-Arabic representation adequacy require independent evidence."
+        ]
+      },
+      {
+        "id": "rule-routing",
+        "title_ar": "الاسترجاع وجدولة جميع القواعد المنصبة",
+        "formal_modules": [
+          "Nabt.RuleRouting"
+        ],
+        "runtime_paths": [
+          "tools/grammar_catalog/routing.py",
+          "tools/grammar_catalog/catalog.py",
+          "tools/mantuq_inference/pipeline.py"
+        ],
+        "native_targets": [
+          "exportRuleRouting"
+        ],
+        "entrypoint_ids": [
+          "grammar-catalog",
+          "mantuq-inference"
+        ],
+        "checker_paths": [
+          "tools/check_rule_routing.py"
+        ],
+        "test_paths": [
+          "tests/test_mantuq_inference_pipeline.py",
+          "tests/test_grammar_catalog_sources.py"
+        ],
+        "doc_paths": [
+          "docs/GRAMMAR_CATALOG_AR.md"
+        ],
+        "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
+        "open_debts": [
+          "Complete inventory routing cannot manufacture missing source premises or establish applicability of every retrieved rule."
+        ]
+      },
+      {
+        "id": "coverage-boundaries",
+        "title_ar": "كفاية التمثيل وجرد التغطية وحدودها",
+        "formal_modules": [
+          "Nabt.ArabicCoverage",
+          "Nabt.BookCoverage"
+        ],
+        "runtime_paths": [
+          "tools/book_rule_coverage.py",
+          "tools/completeness_metrics.py"
+        ],
+        "native_targets": [],
+        "entrypoint_ids": [
+          "grammar-catalog",
+          "proof-catalog"
+        ],
+        "checker_paths": [
+          "tools/check_completeness_review.py"
+        ],
+        "test_paths": [
+          "tests/test_book_rule_coverage.py",
+          "tests/test_arabic_coverage_gate.py"
+        ],
+        "doc_paths": [
+          "docs/BOOK_RULE_COVERAGE.md",
+          "docs/ARABIC_COMPLETENESS.md"
+        ],
+        "scope": "Formal coverage obligations distinguish soundness, completeness, domain restriction and reference adequacy; book inventories retain unencoded passages and unresolved coverage.",
+        "open_debts": [
+          "Finite evaluations, file counts, compiled theorem counts and routing completeness do not establish complete Arabic or interpretation of every human text."
+        ]
+      }
+    ]
   }
 }

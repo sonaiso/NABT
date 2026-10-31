@@ -3,6 +3,19 @@
 Read and obey AGENTS.md; it remains the repository-wide authority. This file
 records the current task, not a second constitution or a list of proved laws.
 
+Current capability-reuse work (user-authorized): follow the startup workflow
+in AGENTS.md and `docs/NABT_CAPABILITY_REUSE_AR.md`. The existing compiled
+proof catalogue and current-reference selector remain authoritative for proof
+identity. The existing entropy-framework entry point exposes the installed
+consumers and their boundaries; it does not create another grammar, inference
+engine, or authority rank. Preserve A116 identity, progressive licensed units,
+the owner-supplied recursive algebra, and the still-open CertifiedBridge
+realization obligation described in `docs/NABT_FOUNDATION_REUSE_AR.md`.
+New use metadata is checked automatically by discovered tests; execution
+receipts remain distinct from availability and historical measurements.
+The two interpretive-link repairs below are checkpointed at `12d08e8`; their
+runtime/dependency freezes and original results remain unchanged.
+
 Current interpretive-links repair (user-authorized): evolve the existing reader
 and answer paths under `docs/INTERPRETIVE_LINKS_V1_AR.md`. The historical `src/`
 freeze statements below describe their delivered milestones, not the current

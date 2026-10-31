@@ -1,0 +1,103 @@
+{
+  "schema": "nabt.capability-reuse.independent-historical-guidance-review.v1",
+  "reviewer": "nabt_foundation_audit",
+  "created_utc": "2026-10-31T14:50:35.167171+00:00",
+  "status": "NO_BLOCKER_FOUND_WITHIN_HISTORICAL_GUIDANCE_MIGRATION_SCOPE",
+  "authority": "REVIEW_OBSERVATION_NOT_SEMANTIC_OR_RELEASE_AUTHORITY",
+  "supplements": "evidence/capability_reuse_v1/validation/independent_review.json",
+  "reviewed_inputs": {
+    "tools/benchmark_mantuq_inference.py": "f799428b89596113fce16464265d4cbe81c97a6a011f36ed848d62c145828f43",
+    "tests/test_mantuq_historical_guidance.py": "d4a920bbc618437864a6be0ade45e823d4c17e9123a6aa0e8ff564734686bb0f",
+    "tests/test_mantuq_inference_benchmark.py": "5be2e98ed423821a704ce9963ef8884fee05529a08a6ab8f55ba7024311e6aa9",
+    "evidence/mantuq_inference_v1/benchmark_gold.json": "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a",
+    "evidence/capability_reuse_v1/historical_contract_inputs/agents_at_f48012e.txt": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b",
+    "AGENTS.md": "57ffc143aa56f634c92fae67bec25ee25cf4bf13e6e69dc98a5f02424c629c73",
+    "CLAUDE.md": "04e63f77780d758b361e5a42cb204bce66579e33406dbbda403ce7f021e386cd"
+  },
+  "inputs_unchanged_during_review": true,
+  "origin_check": {
+    "origin_commit": "f48012ec15aa30746c38c706512fc1403101df3d",
+    "checkpoint_commit": "12d08e8de24170ba00f487b10de9adacbc211d37",
+    "archive": "evidence/capability_reuse_v1/historical_contract_inputs/agents_at_f48012e.txt",
+    "bytes": 2076,
+    "sha256": "1206aa452a00f5a3280123500a08c1c4be35e6191552eccd7526e57e9cbfa14b",
+    "git_origin_archive_and_checkpoint_byte_identical": true,
+    "current_guidance_is_insertions_only_over_original_lines": true,
+    "insertions": [
+      {
+        "old_line": 6,
+        "new_lines": [
+          6,
+          40
+        ]
+      }
+    ],
+    "limitation": "Literal retention does not prove semantic equivalence of arbitrary later guidance or authorize future rule changes."
+  },
+  "gold_sha256": "a33105c62684171b4daedafa75a4fea5fe159fe4769cbdf04642d45d8eaf374a",
+  "gold_bytes_unchanged": true,
+  "current_semantic_contracts": [
+    {
+      "path": "formal/Nabt/Shakhsiyya3Rules.lean",
+      "sha256": "3a7f01d8d7a83133594e56e1c7b9175499aeac2edabd9eefde155e92e38fb223",
+      "historically_pinned_current_bytes_match": true
+    },
+    {
+      "path": "formal/Nabt/MantuqMafhum.lean",
+      "sha256": "0f1506dbb6b50347479a47fcc45732c5e7b06a3d484c1a8f21e0dde82fa67ba7",
+      "historically_pinned_current_bytes_match": true
+    },
+    {
+      "path": "formal/Nabt/SemanticInference.lean",
+      "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2",
+      "historically_pinned_current_bytes_match": true
+    },
+    {
+      "path": "evidence/mantuq_mafhum/sources.json",
+      "sha256": "5d61103fc26d64bee8a766dec337a3f343b938582bf9e528197803dcb872a9e0",
+      "historically_pinned_current_bytes_match": true
+    }
+  ],
+  "scoring_function_source_unchanged": {
+    "score_observation": true,
+    "run_benchmark": true
+  },
+  "design_assessment": [
+    "Only the frozen authoring guidance AGENTS.md is resolved to one code-owned archive path with the same original digest; no generalized remapping, hash allowlist, discovery, or fallback is used.",
+    "All four frozen semantic/source contracts still resolve to their current repository paths and exact historical bytes.",
+    "The original gold remains byte-locked and is verified before contract binding.",
+    "Actual current instructions and effective historical guidance are separately fingerprinted in execution_inputs and its before/after comparison.",
+    "Corrupt or absent historical guidance fails closed even when live guidance has the original historical bytes.",
+    "This relocates historical benchmark provenance; it does not license changes in expected outcomes, semantic inputs, source laws, or world-truth status."
+  ],
+  "independently_executed_tests": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "test_mantuq_historical_guidance",
+      "test_mantuq_inference_benchmark",
+      "-v"
+    ],
+    "cwd": "/workspace/scratch/84dbb26f30e1/NABT",
+    "environment_overrides": {
+      "PYTHONPATH": "src:tests:."
+    },
+    "exit_code": 0,
+    "modules": [
+      "test_mantuq_historical_guidance",
+      "test_mantuq_inference_benchmark"
+    ],
+    "reported_test_methods": 19,
+    "scope": "Seven archival boundary methods (including four current semantic/source mutation subtests) and twelve original frozen-gold/scoring methods.",
+    "stdout": "evidence/capability_reuse_v1/validation/independent_historical_guidance_tests.stdout",
+    "stderr": "evidence/capability_reuse_v1/validation/independent_historical_guidance_tests.stderr"
+  },
+  "limits": [
+    "No new full-suite or remote CI claim is made by this review.",
+    "No Lean proof, source law, runtime inference semantics, benchmark expectations, or historical results were changed by the reviewed migration.",
+    "The benchmark does not enforce the substance of future agent instructions; repository instruction authority remains separate.",
+    "File hashing records sampled bytes, not atomic isolation from concurrent adversarial mutation."
+  ]
+}

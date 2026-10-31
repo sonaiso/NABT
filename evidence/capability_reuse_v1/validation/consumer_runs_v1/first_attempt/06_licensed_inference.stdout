@@ -1,0 +1,568 @@
+{
+  "schema": "nabt.licensed-inference-result.v1",
+  "law_id": "nabt.licensed-inference.v1",
+  "authority": "SOURCE_RELATIVE_CONSEQUENCE",
+  "verified": true,
+  "native_checked": true,
+  "accepted_language": "nabt.explicit-subject-active.v1",
+  "reading_scope": "all readings of the installed finite active-voice grammar",
+  "assumptions": [
+    "fixed active-voice lexical interpretation",
+    "one abstract discourse episode",
+    "symbolic addressee and spatial frame",
+    "lexical objects remain symbolic tokens",
+    "source assertions are premises, not world observations"
+  ],
+  "all_readings_complete": true,
+  "closures_checked": true,
+  "all_arabic_complete": false,
+  "world_truth_established": false,
+  "premise_world_truth_established": false,
+  "source_interpretation_historically_proved": false,
+  "readings": [
+    {
+      "clauses": [
+        {
+          "body": [
+            {
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true,
+              "predicate": "عرف"
+            }
+          ],
+          "head": {
+            "arguments": [
+              "زيد",
+              "أمامك_خلف_الدار"
+            ],
+            "positive": true,
+            "predicate": "سار"
+          },
+          "kind": "rule"
+        },
+        {
+          "atom": {
+            "arguments": [
+              "زيد",
+              "الحق"
+            ],
+            "positive": true,
+            "predicate": "عرف"
+          },
+          "kind": "fact"
+        }
+      ],
+      "clean_negative": false,
+      "clean_positive": true,
+      "negative": false,
+      "positive": true,
+      "query": {
+        "arguments": [
+          "زيد",
+          "أمامك_خلف_الدار"
+        ],
+        "positive": true,
+        "predicate": "سار"
+      },
+      "status": "SUPPORTED"
+    }
+  ],
+  "closure_records": [
+    {
+      "clauses": [
+        {
+          "kind": "rule",
+          "body": [
+            {
+              "predicate": "عرف",
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true
+            }
+          ],
+          "head": {
+            "predicate": "سار",
+            "arguments": [
+              "زيد",
+              "أمامك_خلف_الدار"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "kind": "fact",
+          "atom": {
+            "predicate": "عرف",
+            "arguments": [
+              "زيد",
+              "الحق"
+            ],
+            "positive": true
+          }
+        }
+      ],
+      "query": {
+        "predicate": "سار",
+        "arguments": [
+          "زيد",
+          "أمامك_خلف_الدار"
+        ],
+        "positive": true
+      },
+      "steps": [
+        {
+          "kind": "fact",
+          "index": 0
+        },
+        {
+          "kind": "rule",
+          "index": 0
+        }
+      ],
+      "known": [
+        {
+          "predicate": "عرف",
+          "arguments": [
+            "زيد",
+            "الحق"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "سار",
+          "arguments": [
+            "زيد",
+            "أمامك_خلف_الدار"
+          ],
+          "positive": true
+        }
+      ],
+      "clean_steps": [
+        {
+          "kind": "fact",
+          "index": 0
+        },
+        {
+          "kind": "rule",
+          "index": 0
+        }
+      ],
+      "clean_known": [
+        {
+          "predicate": "عرف",
+          "arguments": [
+            "زيد",
+            "الحق"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "سار",
+          "arguments": [
+            "زيد",
+            "أمامك_خلف_الدار"
+          ],
+          "positive": true
+        }
+      ]
+    }
+  ],
+  "unclassified_spans": [],
+  "source": {
+    "source_id": "user_text",
+    "revision": "1",
+    "raw_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق.\nعرف زيد الحق.\n",
+    "bytes": 96,
+    "sha256": "e1c0818cec654a1a31d13703da66531fca56ced1232f76e5a79b63ec1df1315c"
+  },
+  "query": {
+    "raw_text": "هل سار زيد أمامك خلف الدار؟\n",
+    "bytes": 50,
+    "sha256": "7a7d31494ab343aea8e9fdf8c3181024e83a0abd428814e0e4f2147538c088cc"
+  },
+  "binding": {
+    "source_id": "user_text",
+    "revision": "1",
+    "scope": "default",
+    "time": "unspecified",
+    "native_scope": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+    "authority": "EXPLICIT_DISCOURSE_BINDING"
+  },
+  "source_review_sha256": "e4da54a815ecb4fbce4ba2365177aa9ae588d3e8c0ab8c536452702e9352b79d",
+  "source_segments": [
+    {
+      "span": {
+        "start_byte": 0,
+        "end_byte": 70,
+        "sha256": "c7ca3e5a7166cd88e2934e6140d997c101fd0a3c48d6d53113c280c1374244b6",
+        "raw_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق"
+      },
+      "tokens": [
+        {
+          "span": {
+            "start_byte": 0,
+            "end_byte": 6,
+            "sha256": "5e481d08cefdba4bd2f8e72350cee89068c68e9ff00d92f3dc8214140a1f7eaa",
+            "raw_text": "سار"
+          },
+          "canonical": "سار"
+        },
+        {
+          "span": {
+            "start_byte": 7,
+            "end_byte": 13,
+            "sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159",
+            "raw_text": "زيد"
+          },
+          "canonical": "زيد"
+        },
+        {
+          "span": {
+            "start_byte": 14,
+            "end_byte": 24,
+            "sha256": "0745172916e0e87c19c26fbd2e6d31d8434a5d9532581a7bc1577a3ee578ff5a",
+            "raw_text": "أمامك"
+          },
+          "canonical": "أمامك"
+        },
+        {
+          "span": {
+            "start_byte": 25,
+            "end_byte": 31,
+            "sha256": "3ccdce00aad224fb5ebfb2a56770eddccf1bce9414a8ac999c93f2629f41c491",
+            "raw_text": "خلف"
+          },
+          "canonical": "خلف"
+        },
+        {
+          "span": {
+            "start_byte": 32,
+            "end_byte": 42,
+            "sha256": "002f4e877b1e3efa0fb9fb60fa695b4bac8047712f00d297d3d38852702bec3a",
+            "raw_text": "الدار"
+          },
+          "canonical": "الدار"
+        },
+        {
+          "span": {
+            "start_byte": 43,
+            "end_byte": 47,
+            "sha256": "1287d1f6f1310727b2978bdf61de7379f3b6032df5dd52f4d5b2bc6aeed608d2",
+            "raw_text": "إن"
+          },
+          "canonical": "إن"
+        },
+        {
+          "span": {
+            "start_byte": 48,
+            "end_byte": 54,
+            "sha256": "60428e6ba944cec9b71afe8cee81ba3e72bb03f7c98eebd0a0230ad63b509d45",
+            "raw_text": "عرف"
+          },
+          "canonical": "عرف"
+        },
+        {
+          "span": {
+            "start_byte": 55,
+            "end_byte": 61,
+            "sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159",
+            "raw_text": "زيد"
+          },
+          "canonical": "زيد"
+        },
+        {
+          "span": {
+            "start_byte": 62,
+            "end_byte": 70,
+            "sha256": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+            "raw_text": "الحق"
+          },
+          "canonical": "الحق"
+        }
+      ],
+      "proposal": {
+        "kind": "rule",
+        "body": [
+          {
+            "predicate": "عرف",
+            "arguments": [
+              "زيد",
+              "الحق"
+            ],
+            "positive": true
+          }
+        ],
+        "head": {
+          "predicate": "سار",
+          "arguments": [
+            "زيد",
+            "أمامك_خلف_الدار"
+          ],
+          "positive": true
+        }
+      },
+      "status": "PROPOSED",
+      "reason": null
+    },
+    {
+      "span": {
+        "start_byte": 71,
+        "end_byte": 94,
+        "sha256": "f300215cb9307b63d755d5271d72b4637b442bb30458236b1706cb0486775dc6",
+        "raw_text": "\nعرف زيد الحق"
+      },
+      "tokens": [
+        {
+          "span": {
+            "start_byte": 72,
+            "end_byte": 78,
+            "sha256": "60428e6ba944cec9b71afe8cee81ba3e72bb03f7c98eebd0a0230ad63b509d45",
+            "raw_text": "عرف"
+          },
+          "canonical": "عرف"
+        },
+        {
+          "span": {
+            "start_byte": 79,
+            "end_byte": 85,
+            "sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159",
+            "raw_text": "زيد"
+          },
+          "canonical": "زيد"
+        },
+        {
+          "span": {
+            "start_byte": 86,
+            "end_byte": 94,
+            "sha256": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+            "raw_text": "الحق"
+          },
+          "canonical": "الحق"
+        }
+      ],
+      "proposal": {
+        "kind": "fact",
+        "atom": {
+          "predicate": "عرف",
+          "arguments": [
+            "زيد",
+            "الحق"
+          ],
+          "positive": true
+        }
+      },
+      "status": "PROPOSED",
+      "reason": null
+    }
+  ],
+  "parse_status": "CHECKED_COMPLETE_READING",
+  "parse_reason": null,
+  "proposal": {
+    "law_id": "nabt.licensed-inference.v1",
+    "source": {
+      "identity": "user_text",
+      "revision": "1",
+      "scope": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+      "text": "سار زيد أمامك خلف الدار إن عرف زيد الحق.\nعرف زيد الحق.\n"
+    },
+    "query_text": "هل سار زيد أمامك خلف الدار؟\n",
+    "readings": [
+      {
+        "clauses": [
+          {
+            "kind": "rule",
+            "body": [
+              {
+                "predicate": "عرف",
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true
+              }
+            ],
+            "head": {
+              "predicate": "سار",
+              "arguments": [
+                "زيد",
+                "أمامك_خلف_الدار"
+              ],
+              "positive": true
+            }
+          },
+          {
+            "kind": "fact",
+            "atom": {
+              "predicate": "عرف",
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true
+            }
+          }
+        ],
+        "query": {
+          "predicate": "سار",
+          "arguments": [
+            "زيد",
+            "أمامك_خلف_الدار"
+          ],
+          "positive": true
+        },
+        "steps": [
+          {
+            "kind": "fact",
+            "index": 0
+          },
+          {
+            "kind": "rule",
+            "index": 0
+          }
+        ],
+        "known": [
+          {
+            "predicate": "عرف",
+            "arguments": [
+              "زيد",
+              "الحق"
+            ],
+            "positive": true
+          },
+          {
+            "predicate": "سار",
+            "arguments": [
+              "زيد",
+              "أمامك_خلف_الدار"
+            ],
+            "positive": true
+          }
+        ],
+        "clean_steps": [
+          {
+            "kind": "fact",
+            "index": 0
+          },
+          {
+            "kind": "rule",
+            "index": 0
+          }
+        ],
+        "clean_known": [
+          {
+            "predicate": "عرف",
+            "arguments": [
+              "زيد",
+              "الحق"
+            ],
+            "positive": true
+          },
+          {
+            "predicate": "سار",
+            "arguments": [
+              "زيد",
+              "أمامك_خلف_الدار"
+            ],
+            "positive": true
+          }
+        ]
+      }
+    ]
+  },
+  "status": "SUPPORTED",
+  "aggregate": {
+    "credulous_clean_negative": false,
+    "credulous_clean_positive": true,
+    "credulous_negative": false,
+    "credulous_positive": true,
+    "cross_reading_opposition": false,
+    "skeptical_clean_negative": false,
+    "skeptical_clean_positive": true,
+    "skeptical_negative": false,
+    "skeptical_positive": true,
+    "within_reading_conflict": false
+  },
+  "native_result": {
+    "aggregate": {
+      "credulous_clean_negative": false,
+      "credulous_clean_positive": true,
+      "credulous_negative": false,
+      "credulous_positive": true,
+      "cross_reading_opposition": false,
+      "skeptical_clean_negative": false,
+      "skeptical_clean_positive": true,
+      "skeptical_negative": false,
+      "skeptical_positive": true,
+      "within_reading_conflict": false
+    },
+    "all_arabic_complete": false,
+    "authority": "SOURCE_RELATIVE_CONSEQUENCE",
+    "law_id": "nabt.licensed-inference.v1",
+    "query_text": "هل سار زيد أمامك خلف الدار؟\n",
+    "reading_count": 1,
+    "revision": "1",
+    "rows": [
+      {
+        "clauses": [
+          {
+            "body": [
+              {
+                "arguments": [
+                  "زيد",
+                  "الحق"
+                ],
+                "positive": true,
+                "predicate": "عرف"
+              }
+            ],
+            "head": {
+              "arguments": [
+                "زيد",
+                "أمامك_خلف_الدار"
+              ],
+              "positive": true,
+              "predicate": "سار"
+            },
+            "kind": "rule"
+          },
+          {
+            "atom": {
+              "arguments": [
+                "زيد",
+                "الحق"
+              ],
+              "positive": true,
+              "predicate": "عرف"
+            },
+            "kind": "fact"
+          }
+        ],
+        "clean_negative": false,
+        "clean_positive": true,
+        "negative": false,
+        "positive": true,
+        "query": {
+          "arguments": [
+            "زيد",
+            "أمامك_خلف_الدار"
+          ],
+          "positive": true,
+          "predicate": "سار"
+        },
+        "status": "SUPPORTED"
+      }
+    ],
+    "source_id": "user_text",
+    "source_scope": "{\"scope\":\"default\",\"time\":\"unspecified\"}",
+    "source_text": "سار زيد أمامك خلف الدار إن عرف زيد الحق.\nعرف زيد الحق.\n",
+    "status": "SUPPORTED",
+    "verified": true,
+    "world_truth_established": false
+  },
+  "reason": "CHECKED_INSTALLED_GRAMMAR_AND_SOURCE_THEORY"
+}
