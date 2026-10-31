@@ -140,7 +140,7 @@ class InflectionReaderRevisionTests(unittest.TestCase):
         reading, = content_readings(changed)
         reading["nun_readings"][1]["span"] = reading["nun_readings"][0]["span"]
         self.assertFalse(verify_inflection(changed, lexical_model=self.model)["valid"])
-        self.assertEqual(report["reader_version"], "nabt.inflection-reader.v2")
+        self.assertEqual(report["reader_version"], "nabt.inflection-reader.v3")
 
 
 if __name__ == "__main__":

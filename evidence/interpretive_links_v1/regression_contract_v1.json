@@ -1,0 +1,24 @@
+{
+  "schema": "nabt.interpretive-links.regression-contract.v1",
+  "base_commit": "de2e479300424c6804d159fbcdd05c1227d2761d",
+  "scope": "AUTHORED_EXPOSED_RUNTIME_BRIDGE_REGRESSIONS_NOT_BLIND_ARABIC_COVERAGE",
+  "training": "examples/construction_training.tsv",
+  "context": "examples/construction_context.json",
+  "cases": [
+    {"id": "single", "source": "زيدٌ حكيمٌ.", "question": "من حكيمٌ؟", "expected_status": "SUPPORTED", "expected_persons": ["zayd"]},
+    {"id": "joined", "source": "زيدٌ حكيمٌ و سالمٌ حكيمٌ.", "question": "من حكيمٌ؟", "expected_status": "SUPPORTED", "expected_persons": ["salim", "zayd"]},
+    {"id": "separate", "source": "زيدٌ حكيمٌ. سالمٌ حكيمٌ.", "question": "من حكيمٌ؟", "expected_status": "SUPPORTED", "expected_persons": ["salim", "zayd"]},
+    {"id": "belief_outer", "source": "ظن زيدٌ سالمًا حكيمًا.", "question": "هل ظن زيدٌ سالمًا حكيمًا؟", "expected_status": "SUPPORTED", "expected_persons": []},
+    {"id": "belief_inner", "source": "ظن زيدٌ سالمًا حكيمًا.", "question": "هل سالمٌ حكيمٌ؟", "expected_status": "UNKNOWN", "expected_persons": []}
+  ],
+  "additional_obligations": [
+    "A predication witness belongs to one selected local claim and its own subject/predicate readings and reference.",
+    "Equivalent semantic readings may use different local proof identities.",
+    "Relative or embedded belief predicates cannot license an unrelated outer assertion.",
+    "Missing, swapped, altered, or stale evidence cannot silently yield a supported constrained answer.",
+    "Nominal derivation features survive both lexical-reading producers and reach answer explanation.",
+    "Description-based nominal alternatives retain source and occurrence bindings, uncertainty, conflict, and the missing lexical-sense bridge.",
+    "Withdrawing or replacing an explicit description rejects its old report and answer on fresh replay.",
+    "Generated shape alone supplies neither nominal meaning nor external truth."
+  ]
+}

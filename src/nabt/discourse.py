@@ -11,7 +11,7 @@ from dataclasses import asdict
 from .discourse_context import identity, read_context, wire
 from .discourse_laws import (LAW_ID, EXPECTED_TABLE_SHA256, claim_projection_allowed,
                              installed_registry, replay_discourse_policy)
-from .discourse_reader import (LANGUAGE_ID, READER_VERSION, _OPERATORS,
+from .discourse_reader import (LANGUAGE_ID, READER_VERSION, PREDICATION_BINDING_SCHEMA, _OPERATORS,
                                read_discourse, verify_discourse)
 from .errors import NabtError
 
@@ -28,6 +28,7 @@ def discourse_catalog():
     governors = installed_table()
     return {"law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
             "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
+            "claim_binding_schema": PREDICATION_BINDING_SCHEMA,
             "law": installed_registry(), "grammar_sources": replay_discourse_policy(),
             "constructions": {"law": construction_registry(),
                 "grammar_sources": replay_construction_policy(), "operators": operator_catalog(),
@@ -113,6 +114,11 @@ def _query_agreement_witnesses(pattern, claim, bindings, document):
         return None
     analyses = {(c["clause_id"], a["analysis_id"]): a for c in document["clauses"]
                 if c["status"] == "LICENSED" for a in c["analyses"]}
+    readings = {row["reading_id"]: row for occurrence in document["occurrences"]
+                for row in occurrence["readings"]}
+    readings.update({row["reading_id"]: row for row in document["derived_readings"]})
+    pairs = {"nominal_predicate": "nominal_subject", "kana_predicate": "kana_subject",
+             "inna_predicate": "inna_subject"}
     receipts = []
     for index, constraint in constraints:
         entity_id = bindings[constraint["name"]]
@@ -120,24 +126,68 @@ def _query_agreement_witnesses(pattern, claim, bindings, document):
         witnesses = []
         for proof in claim["proofs"]:
             analysis = analyses.get((proof["clause_id"], proof["analysis_id"]))
+            claim_index = proof.get("claim_index")
             if (analysis is None or analysis["rejected_candidate"] or not analysis["licensed_syntax"] or
                     not analysis["references_complete"] or not analysis["assertion_allowed"] or
-                    not any(all(row[k] == claim[k] for k in _FIELDS) for row in analysis["claims"])):
+                    analysis["force"] != "ASSERT" or type(claim_index) is not int or
+                    not 0 <= claim_index < len(analysis["claims"]) or
+                    any(analysis["claims"][claim_index][k] != claim[k] for k in _FIELDS)):
                 continue
-            # A composed analysis can contain differently qualified claims
-            # and scoped internal predicates. Its agreement edges do not yet
-            # carry a general claim-edge identity. Require one semantic claim
-            # shape before attributing an edge; even a different outer lemma
-            # can conceal a matching adjective in another operator's scope.
-            if any(any(row[k] != claim[k] for k in _FIELDS) for row in analysis["claims"]):
-                continue
-            for relation in analysis["relations"]:
+            # Only the producer's explicit direct-claim selector may connect
+            # an agreement edge to this proposition. A hash is checked against
+            # the selected objects; it never replaces those checks or replay.
+            for binding in analysis.get("claim_bindings", []):
+                if (type(binding) is not dict or binding.get("schema") != PREDICATION_BINDING_SCHEMA or
+                        type(binding.get("claim_index")) is not int or binding["claim_index"] != claim_index or
+                        binding.get("claim_path") != [] or binding.get("force") != "ASSERT" or
+                        binding.get("source_id") != document["source_id"] or
+                        binding.get("source_sha256") != document["source_sha256"] or
+                        binding.get("scope") != document["scope"] or
+                        binding.get("claim_key") != identity(analysis["claims"][claim_index]) or
+                        binding.get("owner_claim_key") != identity(analysis["claims"][claim_index]) or
+                        binding.get("binding_id") != identity({k: v for k, v in binding.items() if k != "binding_id"}) or
+                        binding["binding_id"] not in proof.get("predication_binding_ids", [])):
+                    continue
+                relations = [relation for relation in analysis["relations"]
+                             if identity(relation) == binding.get("agreement_relation_id")]
+                if len(relations) != 1:
+                    continue
+                relation = relations[0]
                 if (relation.get("kind") != "predicate_agreement" or relation.get("status") != "confirmed" or
+                        relation.get("regime_licensed") is not True or
                         relation.get("predicate_lemma") != claim["predicate"] or
+                        relation.get("head_reading_id") != binding.get("subject_reading_id") or
+                        relation.get("dependent_reading_id") != binding.get("predicate_reading_id") or
+                        relation.get("head_span") != binding.get("subject_span") or
+                        relation.get("dependent_span") != binding.get("predicate_span") or
+                        relation.get("subject_role") != binding.get("subject_role") or
+                        relation.get("predicate_role") != binding.get("predicate_role") or
+                        relation.get("predicate_role") not in pairs or
+                        pairs[relation["predicate_role"]] != relation.get("subject_role") or
+                        type(binding.get("subject_reference_ids")) is not list or
+                        len(binding["subject_reference_ids"]) != 1 or
+                        any(type(value) is not str or value not in relation.get("subject_reference_ids", [])
+                            for value in binding["subject_reference_ids"]) or
+                        any(relation.get("axes", {}).get(axis) != "confirmed" for axis in required) or
                         any(relation.get("subject_profile", {}).get(axis) != value
                             for axis, value in required.items()) or
                         any(relation.get("predicate_profile", {}).get(axis) != value
                             for axis, value in required.items())):
+                    continue
+                predicate = readings.get(binding["predicate_reading_id"])
+                if (predicate is None or predicate.get("kind") != "noun" or
+                        predicate.get("lexical_features", {}).get("pos") != "ADJ" or
+                        predicate["lexical_features"].get("lemma") != claim["predicate"] or
+                        any(binding[key] not in analysis["reading_ids"] for key in
+                            ("subject_reading_id", "predicate_reading_id"))):
+                    continue
+                assigned = [[a for a in analysis["assignments"] if a.get("activated") is True and
+                             a.get("compatible") is True and a.get("reading_id") == binding[side + "_reading_id"] and
+                             a.get("span") == binding[side + "_span"] and a.get("role") == binding[side + "_role"]]
+                            for side in ("subject", "predicate")]
+                if not any((p.get("head_span") == s["span"] if p["role"] == "nominal_predicate" else
+                            p.get("head_span") is not None and p["head_span"] == s.get("head_span"))
+                           for s in assigned[0] for p in assigned[1]):
                     continue
                 if any(scoped.get("kind") == "relative_clause"
                        and scoped.get("inner_predicate_reading_id") == relation.get("dependent_reading_id")
@@ -150,8 +200,11 @@ def _query_agreement_witnesses(pattern, claim, bindings, document):
                 for reference in analysis["references"]:
                     if (reference.get("status") == "RESOLVED" and reference["bound_entity_id"] == entity_id and
                             reference["span"] == relation["head_span"] and
+                            reference.get("context_sha256") == document["context"]["sha256"] and
+                            reference["reference_id"] in binding.get("subject_reference_ids", []) and
                             reference["reference_id"] in relation["subject_reference_ids"]):
                         witness = {"clause_id": proof["clause_id"], "analysis_id": proof["analysis_id"],
+                            "predication_binding_id": binding["binding_id"],
                             "head_reading_id": relation["head_reading_id"],
                             "dependent_reading_id": relation["dependent_reading_id"],
                             "reference_id": reference["reference_id"]}
@@ -165,9 +218,104 @@ def _query_agreement_witnesses(pattern, claim, bindings, document):
     return receipts
 
 
-def _evaluate_interpretation(interpretation, document, inquiry, entities):
+def _predicate_interpretations(claim, document):
+    """Explain each selected nominal predicate using its own replayed sources.
+
+    Corpus derivation tags belong to the selected lexical reading. Descriptive
+    morphology readings only share an exact source occurrence: they remain
+    conditional alternatives until a separate sense correspondence is known.
+    Neither axis changes a grammatical claim into a real-world judgment.
+    """
+    analyses = {(c["clause_id"], a["analysis_id"]): a for c in document["clauses"]
+                if c["status"] == "LICENSED" for a in c["analyses"]}
+    readings = {r["reading_id"]: r for o in document["occurrences"] for r in o["readings"]}
+    readings.update({r["reading_id"]: r for r in document["derived_readings"]})
+    morphology = document.get("nominal_morphology")
+    occurrences = [] if morphology is None else morphology["occurrences"]
+    explanations = []
+    for proof in claim["proofs"]:
+        analysis = analyses.get((proof["clause_id"], proof["analysis_id"]))
+        if (analysis is None or analysis["rejected_candidate"] or not analysis["licensed_syntax"]
+                or not analysis["references_complete"] or not analysis["assertion_allowed"]):
+            continue
+        index = proof.get("claim_index")
+        if (type(index) is not int or not 0 <= index < len(analysis["claims"])
+                or any(analysis["claims"][index][k] != claim[k] for k in _FIELDS)):
+            continue
+        for binding in analysis.get("claim_bindings", []):
+            if (binding["binding_id"] not in proof.get("predication_binding_ids", [])
+                    or binding["claim_index"] != index):
+                continue
+            selected = analysis["claims"][index]
+            path = binding["claim_path"]
+            if path:
+                if (len(path) != 4 or path[0] != "restriction" or path[2] != "embedded"
+                        or type(path[1]) is not int or type(path[3]) is not int
+                        or not 0 <= path[1] < len(selected["restriction"])):
+                    continue
+                scoped = selected["restriction"][path[1]]
+                if (type(scoped) is not dict or scoped.get("kind") != "operator_scope"
+                        or not 0 <= path[3] < len(scoped.get("embedded", []))):
+                    continue
+                selected = scoped["embedded"][path[3]]
+            if selected["predicate_kind"] != "property":
+                continue
+            reading = readings.get(binding["predicate_reading_id"])
+            if reading is None or reading["kind"] != "noun":
+                continue
+            features = reading["lexical_features"]
+            if features.get("lemma") != selected["predicate"]:
+                continue
+            candidates = [o for o in occurrences if o["span"] == binding["predicate_span"]]
+            alternatives = []
+            for occurrence in candidates:
+                for row in occurrence["readings"]:
+                    if row["lexical_link"] is None:
+                        continue
+                    alternatives.append({"reading_id": row["reading_id"],
+                        "identity": deepcopy(row["identity"]),
+                        "lexical_link": deepcopy(row["lexical_link"]),
+                        "kind": deepcopy(row["axes"]["kind"]),
+                        "nominal_semantics": deepcopy(row["axes"]["nominal_semantics"]),
+                        "premises": deepcopy([p for p in row["linked_properties"]
+                            if p["property"] in ("independent", "time_in_form", "universal", "property_bearing")]),
+                        "blockers": deepcopy(row["blockers"]),
+                        "condition": "IF_THIS_DESCRIPTIVE_READING_IS_THE_SELECTED_PREDICATE_SENSE"})
+            tags = deepcopy(features.get("nominal_derivation_features") or [])
+            missing = (["LEXICAL_UNIVERSAL_AND_PROPERTY_BEARING_WITNESS"] if not alternatives
+                       else ["DESCRIPTIVE_READING_TO_LEXICAL_SENSE_CORRESPONDENCE"])
+            explanation = {"schema": "nabt.nominal-predicate-interpretation.v1",
+                "clause_id": proof["clause_id"], "analysis_id": proof["analysis_id"],
+                "predication_binding_id": binding["binding_id"],
+                "owner_claim_id": claim["claim_id"], "claim_path": deepcopy(path),
+                "predicate_claim": deepcopy(selected),
+                "assertion_scope": "EMBEDDED_IN_OWNER_CLAIM_NOT_ASSERTED_SEPARATELY" if path else
+                    "ASSERTED_SOURCE_CLAIM",
+                "predicate_reading_id": reading["reading_id"],
+                "predicate_span": deepcopy(binding["predicate_span"]),
+                "predicate": selected["predicate"],
+                "source_lexical_id": reading.get("identity", {}).get("lexical_id") or
+                    reading.get("person_evidence", {}).get("source_lexical_id"),
+                "grammatical_kind": reading["kind"],
+                "grammatical_profile": {k: features.get(k) for k in ("gender", "number", "person")},
+                "derivation": {"status": "SOURCE_QUALIFIED" if tags else "DEFER",
+                    "features": tags, "support_records": deepcopy(reading["support_records"]),
+                    "missing": [] if tags else ["NOMINAL_DERIVATION_SOURCE_FEATURES"],
+                    "authority": "ANNOTATED_LEXICAL_READING_NOT_WEIGHT_INFERENCE"},
+                "nominal_denotation": {"status": "SOURCE_READING_CANDIDATES" if alternatives else "DEFER",
+                    "alternatives": alternatives, "missing": missing,
+                    "sense_equivalence_established": False,
+                    "authority": "EXACT_OCCURRENCE_DESCRIPTIVE_ALTERNATIVES_NOT_CORPUS_SENSE_IDENTITY"},
+                "world_truth": "NOT_ESTABLISHED"}
+            explanation["interpretation_id"] = identity(explanation)
+            explanations.append(explanation)
+    return explanations
+
+
+def _evaluate_interpretation(interpretation, document, inquiry, entities, nominal_cache, nominal_used):
     """Evaluate one complete question reading against the same full source."""
     positive, negative, grouped = [], [], {}
+    missing = []
     pattern = interpretation["query"]
     opposite = {**deepcopy(pattern), "positive": not pattern["positive"]}
     for claim in document["claims"]:
@@ -177,6 +325,7 @@ def _evaluate_interpretation(interpretation, document, inquiry, entities):
                 continue
             agreement = _query_agreement_witnesses(desired, claim, bindings, document)
             if agreement is None:
+                missing.append("CLAIM_PREDICATION_AGREEMENT_WITNESS_REQUIRED")
                 continue
             proof = {"claim_id": claim["claim_id"], "document_report_id": document["report_id"],
                      "question_report_id": inquiry["report_id"],
@@ -185,10 +334,17 @@ def _evaluate_interpretation(interpretation, document, inquiry, entities):
                      "rule": "EXACT_SIGNED_QUALIFIED_CLAIM_WITH_EXPLICIT_VARIABLE_SUBSTITUTION"}
             if agreement:
                 proof["predicate_agreement_bindings"] = agreement
+            if claim["claim_id"] not in nominal_cache:
+                nominal_cache[claim["claim_id"]] = _predicate_interpretations(claim, document)
+            nominal = nominal_cache[claim["claim_id"]]
+            if nominal:
+                proof["predicate_interpretation_ids"] = [row["interpretation_id"] for row in nominal]
+                nominal_used.update({row["interpretation_id"]: row for row in nominal})
             target.append(proof)
             key = wire(bindings)
             grouped.setdefault(key, {"values": bindings, "proofs": [], "counterproofs": []})[sign].append(proof)
     interpretation["proofs"], interpretation["counterproofs"] = positive, negative
+    interpretation["missing_premises"] = sorted(set(missing))
     if interpretation["kind"] == "polar":
         interpretation["status"] = _status(positive, negative)
     else:
@@ -216,20 +372,25 @@ def _interpretation_outcome(interpretation):
 
 
 def ask_discourse(text, question, *, lexical_model=None, context=None,
-                  source_id="input", scope="default"):
+                  source_id="input", scope="default", lexical_text=None, lexical_source_id="lexical"):
     document = read_discourse(text, lexical_model=lexical_model, context=context,
-                              source_id=source_id, scope=scope)
+                              source_id=source_id, scope=scope, lexical_text=lexical_text,
+                              lexical_source_id=lexical_source_id)
     inquiry = read_discourse(question, lexical_model=lexical_model, context=context,
-                             source_id="question", scope=scope)
-    result = {"schema": "nabt.discourse-answer.v2", "law_id": LAW_ID,
+                             source_id="question", scope=scope, lexical_text=lexical_text,
+                             lexical_source_id=lexical_source_id)
+    result = {"schema": "nabt.discourse-answer.v3", "law_id": LAW_ID,
               "law_sha256": EXPECTED_TABLE_SHA256, "language_id": LANGUAGE_ID,
               "reader_version": READER_VERSION, "source_id": source_id, "scope": scope,
               "source_text": document["source_text"], "question_text": inquiry["source_text"],
               "source_sha256": document["source_sha256"], "question_sha256": inquiry["source_sha256"],
               "document_report_id": document["report_id"], "question_report_id": inquiry["report_id"],
               "context_sha256": document["context"]["sha256"], "lexical_model": document["lexical_model"],
+              "nominal_description_source": None if document["nominal_morphology"] is None else
+                  deepcopy(document["nominal_morphology"]["lexical_source"]),
               "status": "DEFER", "kind": None, "query": None, "bindings": [],
               "question_interpretations": [], "answer_basis": None,
+              "predicate_interpretations": [],
               "proofs": [], "counterproofs": [], "missing_premises": [],
               "authority": "SOURCE_RELATIVE_ANSWER_REPLAY_NOT_WORLD_TRUTH", "world_truth": "NOT_ESTABLISHED"}
     if document["status"] != "LICENSED_DISCOURSE":
@@ -251,7 +412,7 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
             result["question_interpretations"] = [
                 {"clause_id": clause["clause_id"], "analysis_id": a["analysis_id"],
                  "kind": a.get("question_kind") or "polar", "query": deepcopy(a["claims"][0]),
-                 "status": "DEFER", "bindings": [], "proofs": [], "counterproofs": []}
+                 "status": "DEFER", "bindings": [], "proofs": [], "counterproofs": [], "missing_premises": []}
                 for a in analyses]
             kinds = {a["kind"] for a in result["question_interpretations"]}
             queries = {wire(a["query"]) for a in result["question_interpretations"]}
@@ -262,8 +423,12 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
     if not result["missing_premises"]:
         entities = {e["id"]: e for e in read_context(context)["value"]["entities"]}
         interpretations = result["question_interpretations"]
+        nominal_cache, nominal_used = {}, {}
         for interpretation in interpretations:
-            _evaluate_interpretation(interpretation, document, inquiry, entities)
+            _evaluate_interpretation(interpretation, document, inquiry, entities, nominal_cache, nominal_used)
+        result["predicate_interpretations"] = [nominal_used[key] for key in sorted(nominal_used)]
+        result["missing_premises"].extend(sorted({premise for interpretation in interpretations
+                                                 for premise in interpretation["missing_premises"]}))
         if len({_interpretation_outcome(a) for a in interpretations}) != 1:
             result["missing_premises"].append("QUESTION_INTERPRETATION_OUTCOMES_DISAGREE")
         else:
@@ -285,7 +450,8 @@ def ask_discourse(text, question, *, lexical_model=None, context=None,
 
 
 def verify_discourse_answer(report, *, text=_UNSET, question=_UNSET, lexical_model=None,
-                            context=None, source_id=None, scope=None):
+                            context=None, source_id=None, scope=None, lexical_text=None,
+                            lexical_source_id="lexical"):
     try:
         if type(report) is not dict:
             return {"valid": False, "status": "REJECT", "code": "INVALID_DISCOURSE_ANSWER"}
@@ -293,7 +459,8 @@ def verify_discourse_answer(report, *, text=_UNSET, question=_UNSET, lexical_mod
                              report["question_text"] if question is _UNSET else question,
                              lexical_model=lexical_model, context=context,
                              source_id=report["source_id"] if source_id is None else source_id,
-                             scope=report["scope"] if scope is None else scope)
+                             scope=report["scope"] if scope is None else scope,
+                             lexical_text=lexical_text, lexical_source_id=lexical_source_id)
         if wire(report) != wire(fresh):
             return {"valid": False, "status": "REJECT", "code": "DISCOURSE_ANSWER_REPLAY_MISMATCH"}
         return {"valid": True, "status": "VERIFIED", "answer_id": fresh["answer_id"],

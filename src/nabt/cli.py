@@ -183,6 +183,9 @@ def parser() -> Parser:
             command.add_argument("--context", type=Path, help="Explicit entity/participant/deixis JSON premises")
             command.add_argument("--scope", default="default")
             command.add_argument("--source-id", default="input")
+            command.add_argument("--lexical-source", type=Path,
+                                 help="Original nominal descriptions; exact-surface reading candidates only")
+            command.add_argument("--lexical-source-id", default="lexical")
         command.add_argument("--qac", type=Path, help="Original lexical QAC TSV, optionally gzip")
         command.add_argument("--exclude-verse", action="append", default=[])
         if name == "ask-discourse":
@@ -327,6 +330,13 @@ def run(args) -> tuple[dict, int]:
             _source(raw, args.source_id, args.scope)
             if command in ("ask-discourse", "verify-discourse-answer"):
                 _source(args.question, "question", args.scope)
+            lexical = None
+            if args.lexical_source is not None:
+                from .morphology_reader import MAX_SOURCE_BYTES as MAX_LEXICAL_BYTES
+                with args.lexical_source.open("rb") as stream:
+                    lexical = stream.read(MAX_LEXICAL_BYTES + 1)
+                if len(lexical) > MAX_LEXICAL_BYTES:
+                    raise resource_limit("Lexical source exceeds its byte budget")
         model = None
         if args.qac is not None:
             import gzip
@@ -344,7 +354,8 @@ def run(args) -> tuple[dict, int]:
             rows = person_candidates(args.word, lexical_model=model)
             return {"status": "SOURCE_QUALIFIED_ALTERNATIVES" if rows else "DEFER", "surface": args.word,
                     "readings": rows, "authority": "MORPHOLOGICAL_CANDIDATES_NOT_CASE_ROLE_OR_REFERENCE"}, 0 if rows else 3
-        kwargs = {"lexical_model": model, "context": context, "source_id": args.source_id, "scope": args.scope}
+        kwargs = {"lexical_model": model, "context": context, "source_id": args.source_id, "scope": args.scope,
+                  "lexical_text": lexical, "lexical_source_id": args.lexical_source_id}
         if command == "verify-discourse":
             result = verify_discourse(report, text=raw, **kwargs)
         elif command == "verify-discourse-answer":

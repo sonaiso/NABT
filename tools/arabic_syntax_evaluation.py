@@ -23,7 +23,7 @@ from text_evaluation.integrity import (
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED = ROOT / "evidence/arabic_syntax/independent"
-DEFAULT_FREEZE = ROOT / "evidence/arabic_completion_v6/code_freeze_v1.json"
+DEFAULT_FREEZE = ROOT / "evidence/interpretive_links_v1/code_freeze_v1.json"
 ARTIFACT_MANIFEST_SHA256 = "d42eab25417d1bac2659337c78769dfc9a299b808379752236bf016cfff50429"
 FIRST_SNAPSHOT = "4662ac75ded649b9f1d5d4d0e152fa292e4b63e72e6ce55ec924bad9b65e6524"
 PREVIOUSLY_COMPLETE = frozenset({"s01", "s02", "s04", "s05", "s06", "s07", "s09", "s12"})

@@ -1,0 +1,426 @@
+{
+  "schema": "nabt.interpretive-links.verification-summary.v1",
+  "created_utc": "2026-10-31T14:02:40.245037+00:00",
+  "base_commit": "de2e479300424c6804d159fbcdd05c1227d2761d",
+  "local_branch": "codex/interpretive-links-v1",
+  "delivery": "LOCAL_REVIEWABLE_WORKTREE_CHANGES",
+  "package_version": "0.21.0a1",
+  "python_version": "3.12.14",
+  "runtime_freeze": {
+    "path": "evidence/interpretive_links_v1/code_freeze_v1.json",
+    "sha256": "1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda",
+    "files": 99
+  },
+  "oracle_dependency_freeze": {
+    "path": "evidence/interpretive_links_v1/oracle_dependency_freeze_v1.json",
+    "sha256": "ddfd3329295e196dd96c68d3bb507a0c791cff1a621045f9524f0a65fc0a155e",
+    "files": 90
+  },
+  "formal": {
+    "command": "make formal LAKE=/workspace/scratch/84dbb26f30e1/audit-tools/lean-4.34.1-linux/bin/lake",
+    "exit_code": 0,
+    "build_jobs": 225,
+    "formal_files_changed": false,
+    "new_theorems_claimed": 0
+  },
+  "conformance": {
+    "ok": true,
+    "table_sha256": "14e32ae208ac5ed2f754e83506e72133d0962756ef0c944d12370746febddcdd",
+    "primitive_transitions_checked": 11252,
+    "lean_sources_guarded": 133,
+    "fresh_lean_export_compared": true,
+    "governor_table_sha256": "708eebc31f9600fded7a7dd33e89d77170c451c1fe2779740178b52fe50382e0",
+    "governor_inventory_rows": 100,
+    "governor_source_policy_sha256": "26fdd34913ccca180bb1bf19bd58d725881117c0d01027f51374fd29d578dfa6",
+    "word_table_sha256": "e3e796e849386dedd6abc3a473cb15dcece2e7b35583c45d16139d3c183dbcc3",
+    "word_declension_classes": 15,
+    "word_class_case_rows": 60,
+    "word_source_policy_sha256": "c03134674fb8702af2d0ff4ce91c06d6b6b2f1422373da52e6449f24d1efd5f1",
+    "word_lexical_entries": 16,
+    "morphology_qualified_cause_rows": 2048,
+    "morphology_source_rules": 7,
+    "text_evidence_kind_rows": 8,
+    "text_evidence_activation_rows": 64,
+    "derivation_patterns": 71,
+    "verb_paradigm_rows": 64,
+    "nominal_profiles": 22,
+    "nominal_receipt_rows": 128,
+    "cardinal_rules": 202,
+    "weak_root_masks": 8,
+    "manqus_rows": 32,
+    "pronoun_projection_rows": 14,
+    "inflection_sign_rows": 45,
+    "inflection_conditional_relations": 11,
+    "inflection_grammar_sha256": "87d28b0d9a23ea3300f033aeef38884132d4863f4906e57dda1ee490c1365f09",
+    "person_law_id": "nabt.person-evidence.v1",
+    "discourse_law_id": "nabt.discourse-evidence.v1",
+    "discourse_reference_rows": 2304,
+    "discourse_assertion_rows": 576,
+    "discourse_grammar_rules": 24,
+    "discourse_grammar_sha256": "584dce90517121ba5e1fad8015f50e14b1adad437c6af879753038703222b3b7",
+    "construction_law_id": "nabt.construction-evidence.v3",
+    "construction_table_sha256": "0d846cea228391001dfb9667dbd7358e994b012ee80fd35835ba85c2af8cd9ad",
+    "construction_operator_rows": 4,
+    "construction_role_rows": 68,
+    "construction_agreement_rows": 81,
+    "construction_predicate_agreement_rows": 18,
+    "construction_idafa_rows": 256,
+    "construction_an_rows": 7,
+    "construction_activation_rows": 256,
+    "construction_identity_rows": 16,
+    "construction_scope_rows": 88,
+    "construction_grammar_rules": 25,
+    "construction_grammar_sha256": "2faa90be033475c458eeabe61cda472c7856a0342803325bef6474c6c88b13f5",
+    "scope": "Lean kernel build and complete table conformance; not a full Python refinement proof",
+    "kernel_build_checked": true
+  },
+  "full_unit_suite": {
+    "command": "make test",
+    "tests_run": 2980,
+    "successful_methods": 2925,
+    "skipped_methods": 55,
+    "skipped_classes": 0,
+    "skip_reports": 55,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 630.764,
+    "log": "validation/full_tests.log",
+    "skip_reasons": {
+      "'requires pinned full Lisan and compiled lexicalCompletion; mandatory in dedicated CI'": 17,
+      "'native lexicalDenotation executable not configured'": 10,
+      "'requires installed sources and both graph/lexical native checkers'": 9,
+      "'optional neural training environment not installed'": 8,
+      "'native Lean qatrReading required'": 7,
+      "'optional pinned torch/numpy required'": 3,
+      "'optional full pinned Lisan source not downloaded'": 1
+    }
+  },
+  "native_semantic_integration": {
+    "methods": 67,
+    "successful": 67,
+    "skips": 0,
+    "errors": 0,
+    "failures": 0,
+    "log": "validation/native_semantic_tests.log"
+  },
+  "final_gate_boundaries": {
+    "methods": 25,
+    "successful": 25,
+    "skips": 0,
+    "log": "validation/final_gate_tests.log",
+    "note": "Latest current-oracle snapshot refactor was additionally checked by 13/13 methods before the final dependency freeze and the full journal execution."
+  },
+  "integration": {
+    "schema": "nabt.interpretive-links.integration-result.v1",
+    "scope": "AUTHORED_EXPOSED_RUNTIME_BRIDGE_REGRESSIONS_NOT_BLIND_ARABIC_COVERAGE",
+    "runtime_freeze_sha256": "1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda",
+    "regression_contract_sha256": "7b3c0000a0d9c5061fd624021634f17068fec693285eca27771ec5ad6ec4b4a4",
+    "claim_link_cases": [
+      {
+        "id": "single",
+        "status": "SUPPORTED",
+        "persons": [
+          "zayd"
+        ],
+        "contract_pass": true,
+        "replay_valid": true,
+        "independent_answer_projection_valid": true,
+        "missing_premises": [],
+        "explanations": 4,
+        "seconds": 0.618
+      },
+      {
+        "id": "joined",
+        "status": "SUPPORTED",
+        "persons": [
+          "salim",
+          "zayd"
+        ],
+        "contract_pass": true,
+        "replay_valid": true,
+        "independent_answer_projection_valid": true,
+        "missing_premises": [],
+        "explanations": 32,
+        "seconds": 0.756
+      },
+      {
+        "id": "separate",
+        "status": "SUPPORTED",
+        "persons": [
+          "salim",
+          "zayd"
+        ],
+        "contract_pass": true,
+        "replay_valid": true,
+        "independent_answer_projection_valid": true,
+        "missing_premises": [],
+        "explanations": 8,
+        "seconds": 0.61
+      },
+      {
+        "id": "belief_outer",
+        "status": "SUPPORTED",
+        "persons": [],
+        "contract_pass": true,
+        "replay_valid": true,
+        "independent_answer_projection_valid": true,
+        "missing_premises": [],
+        "explanations": 8,
+        "seconds": 0.69
+      },
+      {
+        "id": "belief_inner",
+        "status": "UNKNOWN",
+        "persons": [],
+        "contract_pass": true,
+        "replay_valid": true,
+        "independent_answer_projection_valid": true,
+        "missing_premises": [],
+        "explanations": 0,
+        "seconds": 0.681
+      }
+    ],
+    "nominal_cases": [
+      {
+        "question": "هل زَيْدٌ رَجُلٌ؟",
+        "status": "SUPPORTED",
+        "description_candidates": [
+          "jins_jamid"
+        ],
+        "derivation_features": [],
+        "contract_pass": true,
+        "independent_answer_projection_valid": true,
+        "replay_valid": true,
+        "withdrawn_description_replay_valid": false,
+        "sense_equivalence_established": false,
+        "missing_correspondence": [
+          "DESCRIPTIVE_READING_TO_LEXICAL_SENSE_CORRESPONDENCE"
+        ],
+        "world_truth": "NOT_ESTABLISHED"
+      },
+      {
+        "question": "هل سَالِمٌ كَاتِبٌ؟",
+        "status": "SUPPORTED",
+        "description_candidates": [
+          "mushtaq"
+        ],
+        "derivation_features": [
+          "ACT",
+          "PCPL"
+        ],
+        "contract_pass": true,
+        "independent_answer_projection_valid": true,
+        "replay_valid": true,
+        "withdrawn_description_replay_valid": false,
+        "sense_equivalence_established": false,
+        "missing_correspondence": [
+          "DESCRIPTIVE_READING_TO_LEXICAL_SENSE_CORRESPONDENCE"
+        ],
+        "world_truth": "NOT_ESTABLISHED"
+      }
+    ],
+    "all_contracts_pass": true,
+    "world_truth_established": false,
+    "all_arabic_complete": false
+  },
+  "construction_regression": {
+    "total": 86,
+    "passed": 82,
+    "measurement_valid": true,
+    "strict_pass": false,
+    "false_accept_count": 0,
+    "gate_pass": true,
+    "coverage_complete": false,
+    "unexpected_failures": [],
+    "gate_integrity_errors": []
+  },
+  "discourse_regression": {
+    "total": 86,
+    "passed": 68,
+    "measurement_valid": true,
+    "strict_pass": false,
+    "false_accept_count": 0,
+    "gate_pass": true,
+    "coverage_complete": false,
+    "unexpected_failures": [],
+    "gate_integrity_errors": []
+  },
+  "historical_holdout": {
+    "original_case_score": {
+      "passed": 35,
+      "total": 36
+    },
+    "postreview_case_score": {
+      "passed": 36,
+      "total": 36
+    },
+    "question_count": 63,
+    "replayed_certificates": 103,
+    "gate_pass": true,
+    "review": "validation/holdout/arabic-holdout-postreview/review.json"
+  },
+  "directed_oracle": {
+    "summary": {
+      "fixed_cases": {
+        "total": 22,
+        "passed": 14
+      },
+      "questions": {
+        "total": 29,
+        "status_matches": 19,
+        "independently_validated": 29
+      },
+      "conditional_provenance": {
+        "total": 2,
+        "outcomes": {
+          "N03": "correct_abstention",
+          "N06": "unresolved_independent_review"
+        },
+        "not_counted_as_language_coverage": true
+      },
+      "residuals": {
+        "G01": [],
+        "G02": [],
+        "G03": [],
+        "G04": [],
+        "G05": [],
+        "G06": [],
+        "N01": [],
+        "N02": [],
+        "N03": [],
+        "N04": [
+          "claims_min",
+          "document_status",
+          "question_status:0",
+          "required_claim:0",
+          "same_claim_adjective_agreement:0"
+        ],
+        "N05": [],
+        "N06": [
+          "conditional_provenance"
+        ],
+        "T01": [],
+        "T02": [
+          "claims_min",
+          "document_status",
+          "question_status:0",
+          "question_status:1",
+          "required_claim:0",
+          "same_claim_relation:0"
+        ],
+        "T03": [
+          "claims_min",
+          "document_status",
+          "question_status:0",
+          "required_claim:0",
+          "same_claim_relation:0"
+        ],
+        "T04": [],
+        "T05": [],
+        "T06": [],
+        "P01": [
+          "claims_min",
+          "complete_attached_host_evidence_exposed",
+          "document_status",
+          "question_status:0",
+          "question_status:1",
+          "reference_binding:0",
+          "reference_candidates:0",
+          "reference_exposed:0",
+          "required_claim:1"
+        ],
+        "P02": [
+          "reference_binding:0",
+          "reference_candidates:0",
+          "reference_exposed:0"
+        ],
+        "P03": [],
+        "P04": [
+          "claims_min",
+          "complete_attached_host_evidence_exposed",
+          "document_status",
+          "question_status:0",
+          "question_status:1",
+          "required_claim:0"
+        ],
+        "P05": [
+          "claims_min",
+          "complete_attached_host_evidence_exposed",
+          "document_status",
+          "question_status:0",
+          "required_claim:0"
+        ],
+        "P06": [
+          "clause_forces",
+          "complete_attached_host_evidence_exposed",
+          "document_status",
+          "question_status:0"
+        ]
+      },
+      "unsafe_check_failures": [],
+      "independent_integrity_failures": [],
+      "mutation_outcomes": {
+        "V-G01": "PASS",
+        "V-G02": "PASS",
+        "V-G03": "PASS",
+        "V-G04": "PASS",
+        "V-N01": "PASS",
+        "V-N02": "PASS",
+        "V-N03": "PASS",
+        "V-N04": "PASS",
+        "V-T01": "UNEXERCISED",
+        "V-T02": "PASS",
+        "V-T03": "PASS",
+        "V-T04": "PASS",
+        "V-T05": "UNEXERCISED",
+        "V-P01": "UNEXERCISED",
+        "V-P02": "PASS",
+        "V-P03": "PASS",
+        "V-P04": "UNEXERCISED",
+        "V-P05": "UNEXERCISED"
+      },
+      "source_counterexamples": {
+        "total": 6,
+        "positive_controls": 2,
+        "negative_cases": 4,
+        "passed": 6,
+        "questions": 4,
+        "status_matches": 4,
+        "independently_validated": 4,
+        "unsafe_check_failures": [],
+        "independent_integrity_failures": [],
+        "gate_pass": true,
+        "not_added_to_historical_denominators": true
+      },
+      "public_calls": {
+        "directed": 171,
+        "source_counterexamples": 34
+      },
+      "measurement_valid": true,
+      "strict_pass": false,
+      "regression_gate_pass": true
+    },
+    "raw_rows": 254,
+    "public_calls": 205,
+    "fresh_process_review_matches": true,
+    "new_runtime_calls_in_review": 0,
+    "result": "validation/directed_oracle_first_attempt/result.json",
+    "review": "validation/directed_oracle_first_attempt/review.json"
+  },
+  "first_full_attempt": {
+    "tests_run": 2968,
+    "errors": 1,
+    "preserved_log": "validation/full_tests_first_attempt.log",
+    "cause": "Historical dependency test compared frozen v6 checker/CI bytes with current v0.21 tooling. Fixed by verifying and executing the unchanged historical test under its captured archived root, while retaining rejection of the current tree under the old freeze."
+  },
+  "historical_evidence_files_changed": [],
+  "full_make_check_executed": false,
+  "remote_ci_for_changed_tree_established": false,
+  "boundaries": [
+    "AUTHORED_EXPOSED_REGRESSIONS_NOT_BLIND_ARABIC_COVERAGE",
+    "EXISTING_LEAN_CONTRACTS_NOT_FULL_PYTHON_REFINEMENT_PROOF",
+    "DESCRIPTIVE_TO_CORPUS_SENSE_CORRESPONDENCE_NOT_ESTABLISHED",
+    "WORLD_TRUTH_NOT_ESTABLISHED",
+    "HISTORICAL_UNEXERCISED_MUTATIONS_RETAINED"
+  ]
+}

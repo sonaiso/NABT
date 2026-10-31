@@ -15,8 +15,8 @@ def main():
     parser.add_argument('--output-dir', type=Path, required=True)
     args = parser.parse_args()
     package = json.loads(args.package_validation.read_bytes())
-    if package['version'] != '0.20.0a1':
-        raise ValueError('Expected the v6 installed package')
+    if package['version'] not in ('0.20.0a1', '0.21.0a1'):
+        raise ValueError('Expected a registered package with the v6 classical interfaces')
     python = Path(package['isolation']['venv']) / 'bin/python'
     cwd = Path(package['isolation']['cwd'])
     output = args.output_dir.resolve()

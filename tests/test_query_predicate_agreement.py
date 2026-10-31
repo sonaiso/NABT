@@ -39,7 +39,8 @@ class QueryPredicateAgreementTests(unittest.TestCase):
         answer = ask_discourse(case["text"], case["question"], **options)
         self.assertEqual(document["status"], expected["document_status"])
         self.assertEqual(inquiry["status"], expected["inquiry_status"])
-        if case_id == "WHR05" and answer["schema"] == "nabt.discourse-answer.v2":
+        if case_id == "WHR05" and answer["schema"] in (
+                "nabt.discourse-answer.v2", "nabt.discourse-answer.v3"):
             # The historical gold is unchanged: this versioned contract change
             # is recorded in arabic_coverage/answer_contract_review_v1. Both
             # grammatical-gender readings have the identical empty answer;

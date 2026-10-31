@@ -28,7 +28,8 @@ from .construction_laws import (LAW_ID as CONSTRUCTION_LAW_ID,
     role_case as construction_role_case, predicate_agreement_status)
 
 LANGUAGE_ID = "nabt.arabic-discourse-frames.v7"
-READER_VERSION = "nabt.discourse-reader.v7"
+READER_VERSION = "nabt.discourse-reader.v8"
+PREDICATION_BINDING_SCHEMA = "nabt.claim-predication-binding.v1"
 MAX_ANALYSES = 128
 MAX_CLAUSES = 32
 _UNSET = object()
@@ -138,7 +139,7 @@ def _synthetic_reading(token, *, pos, profile=None, construction="built", classe
 
 
 class _Reader:
-    def __init__(self, source, scope, lexical_model, context):
+    def __init__(self, source, scope, lexical_model, context, lexical_text=None, lexical_source_id="lexical"):
         self.source, self.scope, self.model = source, scope, lexical_model
         self.context = read_context(context)
         self.index, self.model_summary = ({}, None) if lexical_model is None else lexical_index(lexical_model)
@@ -148,6 +149,15 @@ class _Reader:
         self.entities = {e["id"]: e for e in self.context["value"]["entities"]}
         self.analysis_count = 0
         self.source_prefix_complete = True
+        # Reuse the source-bound morphology reader, retaining its correlated
+        # descriptive readings. Exact surface linkage proposes a reading; it
+        # does not equate that reading's sense with a corpus lexical entry.
+        self.nominal_morphology = None
+        if lexical_text is not None:
+            from .text_morphology import read_text_morphology
+            self.nominal_morphology = read_text_morphology(source.raw_bytes,
+                source_id=source.source_id, scope=scope, lexical_text=lexical_text,
+                lexical_source_id=lexical_source_id)
 
     def support(self, rule):
         return {"kind": "source_grammar", "rule": rule, "policy_sha256": self.policy["policy_sha256"],
@@ -178,7 +188,8 @@ class _Reader:
             row = {"reading_id": identity([token["token_id"], candidate["id"]]), "kind": kind,
                    "construction": candidate.get("construction"),
                    "class_candidates": candidate.get("class_candidates", []),
-                   "lexical_features": {k: candidate.get(k) for k in ("pos", "lemma", "root", "aspect", "voice")},
+                   "lexical_features": {k: deepcopy(candidate.get(k)) for k in
+                       ("pos", "lemma", "root", "aspect", "voice", "nominal_derivation_features")},
                    "person_evidence": candidate, "support_records": candidate.get("supports", []),
                    "stem_surface": token["surface"], "stem_span": token["span"],
                    "variant": candidate.get("variant", "attested"), "al_evidence": 2,
@@ -491,8 +502,63 @@ class _Reader:
                 "passage": self.construction_policy["rules"][rule]})
         return obligations, relations, supports
 
+    @staticmethod
+    def predication_binding(subject, predicate, reference, *, claim_index=0, claim_path=()):
+        """Retain the exact producer-selected edge, independently of meaning.
+
+        The selector is local to one analysis. In particular a repeated lemma
+        is not a license to borrow a predicate from an embedded proposition.
+        Rebuilds retain these anchors and bind the current qualified claim.
+        """
+        return {"claim_index": claim_index, "claim_path": list(claim_path),
+                "subject_reading_id": subject["reading_id"], "subject_span": deepcopy(subject["span"]),
+                "subject_role": subject["role"],
+                "predicate_reading_id": predicate["reading_id"], "predicate_span": deepcopy(predicate["span"]),
+                "predicate_role": predicate["role"],
+                "subject_reference_ids": [reference["reference_id"]]}
+
+    def _bind_predications(self, claims, bindings, relations, *, force):
+        """Bind retained selectors to this rebuild, never infer them by lemma."""
+        result = []
+        anchor_fields = ("claim_index", "claim_path", "subject_reading_id", "subject_span", "subject_role",
+                         "predicate_reading_id", "predicate_span", "predicate_role", "subject_reference_ids")
+        for original in bindings:
+            binding = {key: deepcopy(original[key]) for key in anchor_fields}
+            index, path = binding["claim_index"], binding["claim_path"]
+            if type(index) is not int or not 0 <= index < len(claims):
+                raise NabtError("INVALID_CLAIM_PREDICATION_BINDING", "Claim binding index is outside its analysis")
+            selected = claims[index]
+            # The only embedded route emitted here is an operator's retained
+            # proposition. Reject arbitrary object traversal and boolean IDs.
+            if path:
+                if (len(path) != 4 or path[0] != "restriction" or path[2] != "embedded" or
+                        type(path[1]) is not int or type(path[3]) is not int or
+                        not 0 <= path[1] < len(selected["restriction"])):
+                    raise NabtError("INVALID_CLAIM_PREDICATION_BINDING", "Unsupported embedded claim path")
+                scoped = selected["restriction"][path[1]]
+                if (type(scoped) is not dict or scoped.get("kind") != "operator_scope" or
+                        not 0 <= path[3] < len(scoped.get("embedded", []))):
+                    raise NabtError("INVALID_CLAIM_PREDICATION_BINDING", "Missing scoped proposition")
+                selected = scoped["embedded"][path[3]]
+            matches = [r for r in relations if r.get("kind") == "predicate_agreement" and
+                       r.get("head_reading_id") == binding["subject_reading_id"] and
+                       r.get("dependent_reading_id") == binding["predicate_reading_id"] and
+                       r.get("head_span") == binding["subject_span"] and
+                       r.get("dependent_span") == binding["predicate_span"] and
+                       r.get("subject_role") == binding["subject_role"] and
+                       r.get("predicate_role") == binding["predicate_role"] and
+                       set(binding["subject_reference_ids"]) <= set(r.get("subject_reference_ids", []))]
+            binding.update(schema=PREDICATION_BINDING_SCHEMA, source_id=self.source.source_id,
+                source_sha256=self.source.sha256, scope=self.scope, force=force,
+                owner_claim_key=identity(claims[index]), claim_key=identity(selected),
+                agreement_relation_id=identity(matches[0]) if len(matches) == 1 else None)
+            binding["binding_id"] = identity(binding)
+            if binding not in result:
+                result.append(binding)
+        return result
+
     def analysis(self, tokens, *, frame, force, refs, assignments, readings, claims,
-                 obligations=(), supports=(), relations=()):
+                 obligations=(), supports=(), relations=(), claim_bindings=()):
         self.analysis_count += 1
         if self.analysis_count > MAX_ANALYSES * MAX_CLAUSES:
             raise resource_limit("Discourse composition budget exceeded")
@@ -553,6 +619,7 @@ class _Reader:
                   "reading_ids": [r["reading_id"] for r in readings],
                   "references": deepcopy(refs), "assignments": assignments,
                   "relations": list(relations), "claims": claims,
+                  "claim_bindings": self._bind_predications(claims, claim_bindings, relations, force=force),
                   "licensed_syntax": syntax_complete, "references_complete": references_complete,
                   "rejected_candidate": rejected,
                   "assertion_allowed": allowed, "obligations": sorted(set(missing)),
@@ -580,6 +647,7 @@ class _Reader:
             result.append(self.analysis(tokens, frame="nominal_predication", force=force,
                 refs=[subject["reference"]], assignments=[subject["assignment"], assignment],
                 readings=[subject["reading"], predicate], claims=[claim],
+                claim_bindings=[self.predication_binding(subject["assignment"], assignment, subject["reference"])],
                 supports=[self.support("nominal_predication")]))
         return result
 
@@ -860,6 +928,7 @@ class _Reader:
                     result.append(self.analysis(tokens, frame="idafa_subject_predication", force=force,
                         refs=[headref, complement["reference"]], assignments=assignments, readings=[noun, complement["reading"], predicate],
                         claims=[claim], relations=[relation],
+                        claim_bindings=[self.predication_binding(assignments[0], assignments[-1], headref)],
                         supports=[self.support("idafa"), self.support("nominal_predication")]))
         return result
 
@@ -880,11 +949,12 @@ class _Reader:
             for predicate in self.predicates(tokens[1]):
                 claim = self.claim(predicate["lexical_features"]["lemma"], [headref["bound_entity_id"]], positive,
                     tense, time, place, restriction + [{"kind": "idafa", "complement": complement["entity"]}])
+                assignments = [self.assignment(tokens[0], noun, subject_role, head=head, idhafa=True),
+                    complement["assignment"], self.assignment(tokens[1], predicate, predicate_role, head=tokens[0])]
                 result.append(self.analysis(tokens, frame="attached_idafa_subject_predication", force=force,
-                    refs=[headref, complement["reference"]], assignments=[
-                        self.assignment(tokens[0], noun, subject_role, head=head, idhafa=True), complement["assignment"],
-                        self.assignment(tokens[1], predicate, predicate_role, head=tokens[0])],
+                    refs=[headref, complement["reference"]], assignments=assignments,
                     readings=[noun, complement["reading"], predicate], claims=[claim],
+                    claim_bindings=[self.predication_binding(assignments[0], assignments[-1], headref)],
                     relations=[{"kind": "idafa", "head_span": noun["stem_span"],
                                 "complement_span": complement["reference"]["span"], "ownership_asserted": False}],
                     supports=[self.support("idafa"), self.support("nominal_predication")]))
@@ -932,11 +1002,13 @@ class _Reader:
                                     "verb_span": tokens[2]["span"], "antecedent_span": tokens[0]["span"],
                                     "return_kind": "qualified_implicit_third_singular_subject",
                                     "return_reference": ret["reference_id"], "separate_world_assertion": False}
+                        assigned = self.assignment(tokens[3], predicate, predicate_role, head=tokens[0])
                         result.append(self.analysis(tokens, frame="relative_subject_predication", force=force,
                             refs=[subject["reference"], relref, ret], assignments=[subject["assignment"],
                                   self.assignment(tokens[2], verb, "imperfect_indicative"),
-                                  self.assignment(tokens[3], predicate, predicate_role, head=tokens[0])],
+                                  assigned],
                             readings=[subject["reading"], relative, verb, predicate], claims=[claim], relations=[relation],
+                            claim_bindings=[self.predication_binding(subject["assignment"], assigned, subject["reference"])],
                             obligations=obligations, supports=[self.support("relative_return"),
                                 self.support("imperfect_indicative"), self.support("nominal_predication")]))
         return result
@@ -985,13 +1057,15 @@ class _Reader:
                             "inner_predicate_lemma": inner["lexical_features"]["lemma"],
                             "return_kind": "explicit_third_person_nominal_subject",
                             "return_reference": returned["reference_id"], "separate_world_assertion": False}
+                        assigned = self.assignment(tokens[4], outer, predicate_role, head=head or tokens[0])
                         result.append(self.analysis(tokens, frame="nominal_relative_subject_predication", force=force,
                             refs=[subject["reference"], relref, returned],
                             assignments=[subject["assignment"],
                                 self.assignment(tokens[2], pronoun, "nominal_subject"),
                                 self.assignment(tokens[3], inner, "nominal_predicate", head=tokens[2]),
-                                self.assignment(tokens[4], outer, predicate_role, head=head or tokens[0])],
+                                assigned],
                             readings=[subject_row, relative, pronoun, inner, outer], claims=[claim],
+                            claim_bindings=[self.predication_binding(subject["assignment"], assigned, subject["reference"])],
                             relations=[relation], obligations=obligations,
                             supports=[self.support("relative_return"), self.support("nominal_predication")]))
         return result
@@ -1090,6 +1164,7 @@ class _Reader:
                     refs=row["references"], assignments=row["assignments"],
                     readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
                     claims=row["claims"], obligations=obligations,
+                    claim_bindings=row["claim_bindings"],
                     supports=row["supports"] + supports, relations=row["relations"])
                 rebuilt["question_kind"] = row.get("question_kind")
                 rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
@@ -1147,6 +1222,7 @@ class _Reader:
                     refs=row["references"] + complement["refs"],
                     assignments=row["assignments"] + complement["assignments"], readings=readings,
                     claims=row["claims"], obligations=row["obligations"] + extra + complement["obligations"],
+                    claim_bindings=row["claim_bindings"],
                     supports=row["supports"] + supports + complement["supports"], relations=row["relations"])
                 rebuilt["question_kind"] = wh or "polar" if rebuilt["force"] == "QUESTION" else None
                 rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
@@ -1164,6 +1240,7 @@ class _Reader:
                     refs=row["references"], assignments=row["assignments"],
                     readings=[r for rid in row["reading_ids"] if (r := self._reading_by_id(rid)) is not None],
                     claims=row["claims"], obligations=row["obligations"], supports=row["supports"] + supports,
+                    claim_bindings=row["claim_bindings"],
                     relations=row["relations"])
                 rebuilt["question_kind"] = "polar" if rebuilt["force"] == "QUESTION" else None
                 rebuilt["analysis_id"] = identity({k: v for k, v in rebuilt.items() if k != "analysis_id"})
@@ -1199,9 +1276,13 @@ class _Reader:
                         readings=[r for rid in lrow["reading_ids"] + rrow["reading_ids"]
                                   if (r := self._reading_by_id(rid)) is not None],
                         claims=lrow["claims"] + rrow["claims"] if permitted else [],
+                        claim_bindings=(deepcopy(lrow["claim_bindings"]) +
+                            [{**deepcopy(binding), "claim_index": len(lrow["claims"]) + binding["claim_index"]}
+                             for binding in rrow["claim_bindings"]]) if permitted else [],
                         obligations=lrow["obligations"] + rrow["obligations"],
                         supports=lrow["supports"] + rrow["supports"] + [self.support("clause_conjunction")],
-                        relations=[{"kind": "AND", "span": connector_span, "scope": "two_complete_clauses"}])
+                        relations=lrow["relations"] + rrow["relations"] +
+                            [{"kind": "AND", "span": connector_span, "scope": "two_complete_clauses"}])
                     row["question_kind"] = None
                     row["analysis_id"] = identity({k: v for k, v in row.items() if k != "analysis_id"})
                     results.append(row)
@@ -1239,10 +1320,11 @@ def _semantic_key(analysis):
                  "question_kind": analysis.get("question_kind")})
 
 
-def read_discourse(text, *, lexical_model=None, context=None, source_id="input", scope="default"):
+def read_discourse(text, *, lexical_model=None, context=None, source_id="input", scope="default",
+                   lexical_text=None, lexical_source_id="lexical"):
     """Read complete bounded clauses, retaining original bytes and alternatives."""
     source = _source(text, source_id, scope)
-    engine = _Reader(source, scope, lexical_model, context)
+    engine = _Reader(source, scope, lexical_model, context, lexical_text, lexical_source_id)
     segments = _scan(source)
     reports, claims = [], []
     for tokens, interrogative in _clauses(source, segments):
@@ -1263,10 +1345,12 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
         if licensed:
             for analysis in complete:
                 if analysis["assertion_allowed"]:
-                    for claim in analysis["claims"]:
+                    for claim_index, claim in enumerate(analysis["claims"]):
                         claim_id = identity([source.source_id, source.sha256, scope, engine.context["sha256"], claim])
                         existing = next((c for c in claims if c["claim_id"] == claim_id), None)
-                        evidence = {"clause_id": clause["clause_id"], "analysis_id": analysis["analysis_id"], "span": span}
+                        evidence = {"clause_id": clause["clause_id"], "analysis_id": analysis["analysis_id"], "span": span,
+                            "claim_index": claim_index, "predication_binding_ids": [binding["binding_id"]
+                                for binding in analysis["claim_bindings"] if binding["claim_index"] == claim_index]}
                         if existing is None:
                             claims.append({"claim_id": claim_id, **deepcopy(claim), "proofs": [evidence]})
                         else:
@@ -1299,7 +1383,8 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
                                 "authority": "GRAMMATICAL_CANDIDATE_REQUIRING_COMPLETE_FRAME"}],
                             "governor_candidates": [] if key is None or len(key) > 128 else [asdict(e) for e in lookup(key)]})
     status = "LICENSED_DISCOURSE" if reports and all(c["status"] != "DEFER" for c in reports) else "DEFER"
-    result = {"schema": "nabt.discourse-report.v1", "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
+    result = {"schema": "nabt.discourse-report.v2", "language_id": LANGUAGE_ID, "reader_version": READER_VERSION,
+              "claim_binding_schema": PREDICATION_BINDING_SCHEMA,
               "law_id": LAW_ID, "law_sha256": EXPECTED_TABLE_SHA256,
               "policy_sha256": engine.policy["policy_sha256"],
               "construction_law_id": CONSTRUCTION_LAW_ID,
@@ -1308,6 +1393,7 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
               "source_id": source.source_id, "source_sha256": source.sha256,
               "source_text": source.raw_bytes.decode("utf-8"), "scope": scope,
               "context": engine.context, "lexical_model": engine.model_summary,
+              "nominal_morphology": engine.nominal_morphology,
               "partition": segments, "occurrences": occurrences,
               "derived_readings": [deepcopy(r) for rid, r in engine.derived.items()
                                    if not any(rid == existing["reading_id"] for o in occurrences for existing in o["readings"])],
@@ -1321,7 +1407,7 @@ def read_discourse(text, *, lexical_model=None, context=None, source_id="input",
 
 
 def verify_discourse(report, *, text=_UNSET, lexical_model=None, context=None,
-                     source_id=None, scope=None):
+                     source_id=None, scope=None, lexical_text=None, lexical_source_id="lexical"):
     """Recompute from original sources; supplied successes and hashes are inert."""
     try:
         if type(report) is not dict:
@@ -1329,7 +1415,8 @@ def verify_discourse(report, *, text=_UNSET, lexical_model=None, context=None,
         raw = report["source_text"] if text is _UNSET else text
         fresh = read_discourse(raw, lexical_model=lexical_model, context=context,
                                source_id=report["source_id"] if source_id is None else source_id,
-                               scope=report["scope"] if scope is None else scope)
+                               scope=report["scope"] if scope is None else scope,
+                               lexical_text=lexical_text, lexical_source_id=lexical_source_id)
         if wire(report) != wire(fresh):
             return {"valid": False, "status": "REJECT", "code": "DISCOURSE_REPLAY_MISMATCH"}
         return {"valid": True, "status": "VERIFIED", "report_id": fresh["report_id"],

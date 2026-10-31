@@ -30,6 +30,10 @@ MATERIAL_SHA256 = '127a5870fcbc8f8823b95f2a9f452cf4cd87de22fcfc62b271efd32bc684c
 RUNTIME_SHA256 = '31bd37d919364742033a08ab4cb557e93b92280539dd7a55364763cae236dfec'
 RUNTIME_SNAPSHOT_SHA256 = '8d2e24747ee0a4ba454c1eaeb4936ba510945a24992653a47db9664348029d23'
 RUNTIME_ARCHIVE_SHA256 = '15bfc5ffdd08667cb79bf530d3b5baecd49f1c0493b8bf252f934b5fea55a922'
+RUNTIME_PINS = {
+    '1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda': ('b084bc16aa0b6dcb4d17f9b149345f99995e63f52207c2b8307a146501cfd70d', 'abf2e4f92eac94b4c6557a35af35c97a0ed17963443879b01f4f4d56c338f6be', 99),
+    RUNTIME_SHA256: (RUNTIME_SNAPSHOT_SHA256, RUNTIME_ARCHIVE_SHA256, 99),
+}
 TARGET = ('H18', 'question:2:no_grounded_evidence')
 PREVIOUS_ARCHIVE = ROOT / 'evidence/arabic_completion_v3/full_validation_reports_v1.zip'
 PREVIOUS_ARCHIVE_SHA256 = '23062c5cab865a4acfd29aa66928dc3301816fb7816bd712a4d1b5c53ba22d58'
@@ -393,18 +397,20 @@ def run(result_path, raw_path, runtime_path, output):
             'created_utc': datetime.now(timezone.utc).isoformat(), 'code': identity(Path(__file__)),
             'source_inputs': source_inputs, 'preserved_original_files': preserved,
             'review_mode': 'Post-execution rescore of stored predictions with fresh pinned-runtime certificate replay; not a new blind test.',
-            'continuation_scope': 'Same 36 frozen cases/63 questions; new classical-source runtime and new public trace; no new blind sample.',
+            'continuation_scope': 'Same 36 frozen cases/63 questions; explicitly pinned versioned runtime and new public trace; no new blind sample.',
             'original_result_rewritten': False, 'frozen_harness_or_gold_changed': False,
             'historical_v3_gate_modified': False}
     try:
-        require(file_digest(runtime_path) == RUNTIME_SHA256, 'Runtime freeze is not the approved post-review completion v2 snapshot')
+        runtime_sha256 = file_digest(runtime_path)
+        require(runtime_sha256 in RUNTIME_PINS, 'Runtime freeze is not an approved post-review snapshot')
+        snapshot_sha256, archive_sha256, file_count = RUNTIME_PINS[runtime_sha256]
         runtime = json.loads(runtime_path.read_bytes())
-        require(runtime['snapshot_sha256'] == RUNTIME_SNAPSHOT_SHA256
-                and runtime['archive_sha256'] == RUNTIME_ARCHIVE_SHA256
-                and len(runtime['files']) == 99 and sha256(wire(runtime['files'])).hexdigest() == RUNTIME_SNAPSHOT_SHA256,
+        require(runtime['snapshot_sha256'] == snapshot_sha256
+                and runtime['archive_sha256'] == archive_sha256
+                and len(runtime['files']) == file_count and sha256(wire(runtime['files'])).hexdigest() == snapshot_sha256,
                 'Approved runtime manifest contents changed')
         archive = runtime_path.parent / runtime['archive_filename']
-        require(file_digest(archive) == RUNTIME_ARCHIVE_SHA256, 'Approved runtime archive changed')
+        require(file_digest(archive) == archive_sha256, 'Approved runtime archive changed')
         freeze_path = FOLDER / 'holdout_v2/freeze.json'
         require(file_digest(freeze_path) == MATERIAL_SHA256, 'Holdout v2 material freeze changed')
         freeze = json.loads(freeze_path.read_bytes())
@@ -435,7 +441,7 @@ def run(result_path, raw_path, runtime_path, output):
         require([identity(path) for path in validators] == validator_ids, 'Independent validators changed during review')
         require([identity(path) for path in source_paths] == source_inputs,
                 'Original evidence changed during review')
-        require(file_digest(freeze_path) == MATERIAL_SHA256 and file_digest(archive) == RUNTIME_ARCHIVE_SHA256,
+        require(file_digest(freeze_path) == MATERIAL_SHA256 and file_digest(archive) == archive_sha256,
                 'Pinned inputs changed during review')
         for item in freeze['files']:
             require(file_digest(ROOT / item['path']) == item['sha256'], 'Frozen oracle/harness changed during review')
@@ -443,7 +449,7 @@ def run(result_path, raw_path, runtime_path, output):
             postreview_case_score={'passed': 36, 'total': 36}, unchanged_question_total=63,
             unchanged_question_status_counts=result['question_status_by_expectation'],
             original_unsafe_acceptances=result['unsafe_acceptances'], reclassified_checker_false_alarms=unsafe,
-            remaining_unsafe_acceptances=[], runtime_freeze_sha256=RUNTIME_SHA256,
+            remaining_unsafe_acceptances=[], runtime_freeze_sha256=runtime_sha256,
             material_freeze_sha256=MATERIAL_SHA256, independent_validators=validator_ids,
             independent_validation=validations, replayed_certificate_count=len(receipts),
             raw_record_count=len(records), runtime_unchanged_during_replay=True,

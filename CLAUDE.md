@@ -3,6 +3,18 @@
 Read and obey AGENTS.md; it remains the repository-wide authority. This file
 records the current task, not a second constitution or a list of proved laws.
 
+Current interpretive-links repair (user-authorized): evolve the existing reader
+and answer paths under `docs/INTERPRETIVE_LINKS_V1_AR.md`. The historical `src/`
+freeze statements below describe their delivered milestones, not the current
+runtime. Preserve those manifests, archives, first results and source laws.
+Register the changed current runtime separately as `interpretive_links_v1`.
+The repair binds each claim to its own predication witness and carries acquired
+nominal/derivational evidence into answer explanation. It does not add an Arabic
+grammar law, equate homographic lexical senses, or prove Python reader refinement.
+Keep local proof identity separate from semantic identity; explicit lexical
+description sources must be resupplied for replay. See the versioned regression
+contract and retained baseline under `evidence/interpretive_links_v1`.
+
 The acquisition/reader milestone follows docs/ACQUISITION_READER_SPEC.md.
 Freeze an independent four-family matrix before new implementation; preserve
 the first result, separate safety from coverage, and publish actual replay
