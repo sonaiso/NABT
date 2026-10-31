@@ -1,0 +1,238 @@
+{
+  "schema": "nabt.explainable-answer.v1",
+  "binding": {
+    "source_id": "text",
+    "revision": "1",
+    "scope": "default",
+    "source_sha256": "3579e83c7fe074bc6f134388864903f83ace5f186aab22191ce7eaae766105fc",
+    "query_sha256": "016b8edff2f12a32d0ca67ed9b8bf38c43af32b541b26c49e355da4d7b668258",
+    "source_bytes": 85,
+    "query_bytes": 30
+  },
+  "answer": {
+    "status": "SUPPORTED",
+    "text_ar": "السؤال مؤيد بدليل خال من التعارض وفق قواعد المصدر.",
+    "question_ar": "هل سالم هو عالم؟\n",
+    "scope_ar": "الحكم تابع لمقدمات المصدر وللقواعد المضبوطة، ولا يثبت صدق المصدر في العالم."
+  },
+  "analysis_certificate": {
+    "schema": "nabt.analysis-certificate.v1",
+    "source_clauses": [
+      {
+        "id": "c0",
+        "byte_start": 0,
+        "byte_end": 24,
+        "text": "سالم هو حكيم.\n"
+      },
+      {
+        "id": "c1",
+        "byte_start": 24,
+        "byte_end": 85,
+        "text": "إذا سالم هو حكيم فإن سالم هو عالم.\n"
+      }
+    ],
+    "traces": {
+      "full": [
+        {
+          "id": "f0",
+          "clause_id": "c0",
+          "premises": [],
+          "atom": {
+            "predicate": "حكيم",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          },
+          "text_ar": "سالم هو حكيم"
+        },
+        {
+          "id": "f1",
+          "clause_id": "c1",
+          "premises": [
+            "f0"
+          ],
+          "atom": {
+            "predicate": "عالم",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          },
+          "text_ar": "سالم هو عالم"
+        }
+      ],
+      "clean": [
+        {
+          "id": "k0",
+          "clause_id": "c0",
+          "premises": [],
+          "atom": {
+            "predicate": "حكيم",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          },
+          "text_ar": "سالم هو حكيم"
+        },
+        {
+          "id": "k1",
+          "clause_id": "c1",
+          "premises": [
+            "k0"
+          ],
+          "atom": {
+            "predicate": "عالم",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          },
+          "text_ar": "سالم هو عالم"
+        }
+      ]
+    },
+    "roots": {
+      "full": {
+        "query": "f1",
+        "opposite_query": null
+      },
+      "clean": {
+        "query": "k1",
+        "opposite_query": null
+      }
+    },
+    "kernel_certificate": {
+      "law_id": "nabt.verified-ground-reading.v1",
+      "source": {
+        "identity": "text",
+        "revision": "1",
+        "scope": "default",
+        "text": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n"
+      },
+      "query_text": "هل سالم هو عالم؟\n",
+      "clauses": [
+        {
+          "kind": "fact",
+          "atom": {
+            "predicate": "حكيم",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "kind": "rule",
+          "body": [
+            {
+              "predicate": "حكيم",
+              "arguments": [
+                "سالم"
+              ],
+              "positive": true
+            }
+          ],
+          "head": {
+            "predicate": "عالم",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          }
+        }
+      ],
+      "query": {
+        "predicate": "عالم",
+        "arguments": [
+          "سالم"
+        ],
+        "positive": true
+      },
+      "known": [
+        {
+          "predicate": "حكيم",
+          "arguments": [
+            "سالم"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "عالم",
+          "arguments": [
+            "سالم"
+          ],
+          "positive": true
+        }
+      ],
+      "steps": [
+        {
+          "kind": "fact",
+          "index": 0
+        },
+        {
+          "kind": "rule",
+          "index": 0
+        }
+      ],
+      "clean_known": [
+        {
+          "predicate": "حكيم",
+          "arguments": [
+            "سالم"
+          ],
+          "positive": true
+        },
+        {
+          "predicate": "عالم",
+          "arguments": [
+            "سالم"
+          ],
+          "positive": true
+        }
+      ],
+      "clean_steps": [
+        {
+          "kind": "fact",
+          "index": 0
+        },
+        {
+          "kind": "rule",
+          "index": 0
+        }
+      ]
+    },
+    "span_unit": "UTF-8 byte; zero-based; end-exclusive",
+    "trace_minimality_proved": false,
+    "renderer_formally_proved": false
+  },
+  "verification": {
+    "native_receipt": {
+      "all_arabic_complete": false,
+      "clean_negative": false,
+      "clean_positive": true,
+      "law_id": "nabt.verified-ground-reading.v1",
+      "negative": false,
+      "positive": true,
+      "query_text": "هل سالم هو عالم؟\n",
+      "revision": "1",
+      "scope": "canonical_ground_source_entailment",
+      "source_id": "text",
+      "source_scope": "default",
+      "source_text": "سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n",
+      "status": "SUPPORTED",
+      "verified": true,
+      "world_truth_established": false
+    },
+    "checker_sha256": "77645150db4cbfd56adc9d4e4e22534b80efb0278357049dc3c492a1582b0888"
+  },
+  "limits": {
+    "language": "canonical_ground_source_entailment",
+    "all_arabic_complete": false,
+    "world_truth_established": false,
+    "neural_model_measured": false,
+    "explanation_kind": "source_and_derivation_trace",
+    "model_internal_causality_proved": false
+  }
+}
