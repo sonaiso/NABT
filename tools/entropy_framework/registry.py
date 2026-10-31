@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from hashlib import sha256
 import math
 from pathlib import Path
 import re
@@ -19,6 +20,23 @@ AUTHORITY_FIELDS = {
     "admission", "authority", "semantic_authority", "evidence_verified",
     "authenticated", "release_admission", "verification_status",
 }
+RULE_REQUIRED_FIELDS = (
+    "id", "version", "operation_kind", "source_refs", "interpretation_id", "scope",
+    "preconditions", "exceptions", "input_type", "output_type", "implementation_ref",
+    "proof_refs", "open_assumptions", "test_suite_ref", "dependencies", "review_state",
+)
+OPERATION_KINDS = ("FILTER", "TRANSFORM", "BIND", "INFER", "MEASURE")
+RULE_PROVENANCE_POLICY = "record source integrity separately from interpretation validity"
+FRESHNESS_IDENTITY_FIELDS = (
+    "code_commit", "build_id", "toolchain", "binary_digest", "source_digests",
+    "rules_versions", "dataset_digest", "gold_digest", "evaluator_digest",
+    "configuration", "scope",
+)
+FRESHNESS_POLICY = (
+    "retain historical result; invalidate current applicability only along affected "
+    "dependencies; revalidate or recompute"
+)
+FRESHNESS_ABSENCE_POLICY = "missing evidence suspends support; it does not prove negation"
 MIGRATION_SOURCE = {
     "source_schema": "nabt.entropy-framework.registry.v1",
     "source_commit": "c2c072e17802b62c13109cee7c087b7b58895a1a",
@@ -82,8 +100,12 @@ def sha(value, where, length=40):
             f"{where}: lowercase {length}-digit hexadecimal identity required")
 
 
-def load_json(path):
-    """Read strict UTF-8 JSON, rejecting repeated keys and nonfinite numbers."""
+def load_json(path, *, with_sha256=False):
+    """Read strict UTF-8 JSON, rejecting repeated keys and nonfinite numbers.
+
+    Optional identity is the digest of the same bounded byte buffer that was
+    parsed, never a separate file read that could identify a different snapshot.
+    """
     path = Path(path)
     with path.open("rb") as handle:
         raw = handle.read(MAX_JSON_BYTES + 1)
@@ -130,7 +152,7 @@ def load_json(path):
             elif type(item) is dict:
                 pending.extend(item.keys())
                 pending.extend(item.values())
-        return result
+        return (result, sha256(raw).hexdigest()) if with_sha256 else result
     except RecursionError as error:
         raise FrameworkResourceError("JSON nesting exceeds the interpreter budget") from error
     except (UnicodeError, json.JSONDecodeError) as error:
@@ -169,6 +191,43 @@ def dependency_order(nodes, where):
                 queue.append(child)
     require(len(result) == len(nodes), f"{where}: dependency cycle")
     return result
+
+
+def validate_base_contracts(registry):
+    """Check installed metadata invariants, never a caller-selected lower bar.
+
+    The optional organization is separately versioned. Its owner references do
+    not belong to this base projection, including when the base is referenced.
+    """
+    object_value(registry, "registry")
+    rule = object_value(registry.get("rule_contract"), "rule_contract")
+    require(set(rule) - {"organization"} ==
+            {"required", "operation_kinds", "provenance_policy"},
+            "rule_contract: exact base fields and optional organization required")
+    for field, expected in (("required", RULE_REQUIRED_FIELDS),
+                            ("operation_kinds", OPERATION_KINDS)):
+        actual = strings(rule.get(field), "rule_contract." + field)
+        require(set(actual) == set(expected),
+                "rule_contract." + field + ": differs from installed vocabulary")
+    enum_value(rule["provenance_policy"], (RULE_PROVENANCE_POLICY,),
+               "rule_contract.provenance_policy")
+    freshness = object_value(registry.get("evidence_freshness"), "evidence_freshness")
+    require(set(freshness) == {"identity", "policy", "absence_policy"},
+            "evidence_freshness: exact fields required")
+    identity = strings(freshness.get("identity"), "evidence_freshness.identity")
+    require(set(identity) == set(FRESHNESS_IDENTITY_FIELDS),
+            "evidence_freshness.identity: differs from installed vocabulary")
+    enum_value(freshness["policy"], (FRESHNESS_POLICY,), "evidence_freshness.policy")
+    enum_value(freshness["absence_policy"], (FRESHNESS_ABSENCE_POLICY,),
+               "evidence_freshness.absence_policy")
+    return {
+        "rule_contract": {"required": list(rule["required"]),
+                          "operation_kinds": list(rule["operation_kinds"]),
+                          "provenance_policy": rule["provenance_policy"]},
+        "evidence_freshness": {"identity": list(freshness["identity"]),
+                               "policy": freshness["policy"],
+                               "absence_policy": freshness["absence_policy"]},
+    }
 
 
 def _dataset(dataset, where):
@@ -278,6 +337,14 @@ def validate_registry(registry):
     object_value(registry, "registry")
     require(registry.get("schema") == SCHEMA, "unsupported registry schema")
     require(registry.get("schema_version") == "0.2.0", "unsupported framework version")
+    validate_base_contracts(registry)
+    organization_state = "NOT_DECLARED"
+    if "organization" in registry["rule_contract"]:
+        # Ordinary validation checks shape only. Resolving owners is the
+        # explicitly requested organization view, not an implicit catalogue load.
+        from .organization import validate_organization_structure
+        validate_organization_structure(registry["rule_contract"]["organization"])
+        organization_state = "DECLARED_REFERENCES_NOT_RESOLVED"
     require("gate_states" not in registry, "v1 gate_states is not a v2 field")
     nonempty_string(registry.get("framework_id"), "framework_id")
     baseline = object_value(registry.get("baseline"), "baseline")
@@ -407,6 +474,7 @@ def validate_registry(registry):
             "authority": "METADATA_CONSISTENCY_ONLY", "semantic_authority": "NONE",
             "evidence_verified": False, "gate_execution": "NOT_PERFORMED",
             "release_admission": "NOT_EVALUATED",
+            "organization_state": organization_state,
             "roles": len(roles), "layers": len(layers), "gates": len(gates),
             "tasks": len(tasks), "capabilities": len(capabilities),
             "gate_order": gate_order, "task_order": task_order}
@@ -439,6 +507,8 @@ def report_registry(registry):
         "authority": "DECLARED_RECORDS_ONLY", "semantic_authority": "NONE",
         "release_admission": "NOT_EVALUATED", "evidence_verified": False,
         "validation": validation, "baseline": registry["baseline"],
+        "base_contracts": validate_base_contracts(registry),
+        "organization_state": validation["organization_state"],
         "migration": registry["migration"],
         "scoped_capabilities": [{"id": row["id"], "state": row["state"],
                                  "gate_id": row["gate_id"], "scope": row["scope"],

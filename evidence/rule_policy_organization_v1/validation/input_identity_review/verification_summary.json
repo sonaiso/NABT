@@ -1,0 +1,117 @@
+{
+  "schema": "nabt.rule-organization.input-identity-followup.v1",
+  "review_url": "https://github.com/sonaiso/NABT/pull/64#discussion_r4433077476",
+  "scope": "Repeated helper-file reads must agree with previously observed owner input identity. No atomic filesystem snapshot, semantic authority, new owner or schema is asserted.",
+  "semantic_authority": "NONE",
+  "action_authority": "NONE",
+  "first_published_head": "062e89fd26067db8c638e27ee66fc6c5014f43ad",
+  "pre_fix_regression_commit": "8b27b6b",
+  "corrected_implementation_commit": "267963b914cb4516a35ae710e2aa9e97e4174239",
+  "production_file": "tools/entropy_framework/organization.py",
+  "production_sha256": "0ae35731d1ba05fcca26d7ca75778fd9fe086bb152a0a9f03b8efab480754206",
+  "test_file_sha256": "ac59fedac6377c485736c67d427bba0577bc994df31832b3592f50c6b45428ac",
+  "before_fix": {
+    "clean_control": "RESOLVED",
+    "mutated_temporary_copy": "INCORRECTLY_RESOLVED_WITH_CHANGED_IDENTITY",
+    "targeted_regression": "FAILED_AS_REQUIRED_BEFORE_FIX",
+    "installed_files_unchanged": true,
+    "execution_sentinel_calls": 0
+  },
+  "after_fix": {
+    "clean_control": "RESOLVED",
+    "mutated_temporary_copy": "REJECTED_BY_FRAMEWORK_ERROR",
+    "targeted_regression": "PASSED",
+    "installed_files_unchanged": true,
+    "execution_sentinel_calls": 0
+  },
+  "worktree_observation_note": "post_fix_worktree_observation.json records pre-fix HEAD8b27b6b with corrected but then-uncommitted code hash; committed-source results are post_fix_observation.json and post_fix_regression.json at267963b.",
+  "final_local_tests": {
+    "reuse_methods": 49,
+    "organization_methods": 19,
+    "frozen_groups": 14,
+    "supplemental_review_methods": 5,
+    "existing_reuse_methods": 30,
+    "owner_framework_methods": 98,
+    "distinct_methods": 147,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "inputs_unchanged": true
+  },
+  "independent_static_review": {
+    "scope": "Only existing helper-input loop; absent and identical digests preserve behavior, conflicting repeated digest raises existing FrameworkError before assignment. No authority, schema, dispatch or phase-event changes.",
+    "reviewed_production_sha256": "0ae35731d1ba05fcca26d7ca75778fd9fe086bb152a0a9f03b8efab480754206",
+    "blockers": [],
+    "test_methods_added_by_static_reviewer": 0
+  },
+  "preserved_inputs": {
+    "code_commit": "267963b914cb4516a35ae710e2aa9e97e4174239",
+    "oracle_dependency_files": 90,
+    "oracle_dependency_freeze_sha256": "ddfd3329295e196dd96c68d3bb507a0c791cff1a621045f9524f0a65fc0a155e",
+    "runtime_files": 99,
+    "runtime_mismatches": [],
+    "spec_sha256": "ee396385b7a235436d7fcfecbaf9893adb3df39981c03caa1fa54054023ac9c8",
+    "gold_sha256": "9a04a167259cd2f6993a81c4863fba16c298485b4110afc634c9d03ef9e4f82f"
+  },
+  "fresh_lean_build": false,
+  "full_make_check_run_locally": false,
+  "publication_status": "Exact new published-head CI and merge remain separate.",
+  "artifacts": {
+    "first_observation.json": {
+      "sha256": "8475c326990b3cd240a5d9e0fe71fb0f4dd8e13028231c82c64a047fa1d362b5",
+      "bytes": 4984
+    },
+    "organization_entrypoint.json": {
+      "sha256": "538a8cad715bec181268acdc4880190257fb22993de3ed76db2f6108a1110c55",
+      "bytes": 527
+    },
+    "organization_report.json": {
+      "sha256": "4ea3120069ba494d4e1dc0c7f8c0575641fafaf29ba5d8755012cf29f436788d",
+      "bytes": 489890
+    },
+    "organization_summary.json": {
+      "sha256": "773c5bc7c72c12c920dc94d58854fa10517a0efd6839349efcaab8281300e1b2",
+      "bytes": 12511
+    },
+    "owner_regression_configured.json": {
+      "sha256": "2f387f93e16f8ea64df8bbf455d5421d48a48450710c63456764482f15096564",
+      "bytes": 4783
+    },
+    "owner_regression_configured.log": {
+      "sha256": "c6fca0656fecf9ca6fec94baf802bd3ecd5e97bd285ab4098b91e716e161d6a9",
+      "bytes": 16987
+    },
+    "post_fix_observation.json": {
+      "sha256": "58743f73b54c0efcc7180b8f644e0ec03276ad6a2821a2da78339b15d90645b1",
+      "bytes": 4901
+    },
+    "post_fix_regression.json": {
+      "sha256": "4479ccee8c4b6b3460398a161589a2a9dafc4ffaec494ff4d0a1c64d18d6a30a",
+      "bytes": 2394
+    },
+    "post_fix_worktree_observation.json": {
+      "sha256": "dde60f831dbee005dd50fd8167ee85696c2e71d7618c0570bb6fcfcc8098be0e",
+      "bytes": 4901
+    },
+    "pre_fix_regression.json": {
+      "sha256": "8899120081facc383d8d45d17b2aeda2326018bbb953b82f20146aa934190135",
+      "bytes": 3488
+    },
+    "preserved_inputs.json": {
+      "sha256": "e809c0ac2f0b7cf385d5f1cebccb96590f789e1e61bc3ec023af637e95cdc111",
+      "bytes": 423
+    },
+    "probe.py": {
+      "sha256": "8b781c0c0091661f617fc91fb281b4d1a66456a1985232b8b7c5f8caf904f447",
+      "bytes": 6395
+    },
+    "reuse_regression.json": {
+      "sha256": "7637010f86a5f22689019ca1daca0c76efa44825efac1416bd3c13b26fe3dfee",
+      "bytes": 4529
+    },
+    "reuse_regression.log": {
+      "sha256": "ad3bfbccd348193f41fc474e529d371fc6d81a2bf1f3c52c320291643cb09f59",
+      "bytes": 9044
+    }
+  }
+}

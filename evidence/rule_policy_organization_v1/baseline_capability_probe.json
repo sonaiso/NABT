@@ -1,0 +1,3688 @@
+{
+  "schema": "nabt.rule-policy-baseline-capability-probes.v1",
+  "recorded_at_utc": "2026-10-31T19:28:22.876160+00:00",
+  "scope": {
+    "evidence_class": "EXPOSED_ENGINEERING_BASELINE",
+    "expectations_already_exposed": true,
+    "independently_frozen_evaluation": false,
+    "fresh_lean_build_performed": false,
+    "full_test_suite_run": false,
+    "all_capabilities_executed": false,
+    "semantic_authority": "NONE",
+    "world_truth_established": false,
+    "whole_arabic_complete": false,
+    "note": "Six previously executed bounded probes; no new engine, inference license, or rule adoption. Expected projections never enter the runtime requests."
+  },
+  "run_identity": {
+    "audit_base_commit": "181dec466ccfad5b6a63ec9750f149ea58829eda",
+    "observed_head_commit": "181dec466ccfad5b6a63ec9750f149ea58829eda",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+    "pinned_toolchain": "leanprover/lean4:v4.34.1",
+    "code_paths": [
+      "evidence/rule_policy_organization_v1/baseline_capability_probe.py",
+      "src/nabt/__init__.py",
+      "src/nabt/alphabet.py",
+      "src/nabt/certificates.py",
+      "src/nabt/classical_laws.py",
+      "src/nabt/codec.py",
+      "src/nabt/errors.py",
+      "src/nabt/learning/__init__.py",
+      "src/nabt/learning/arabic_six_nouns.py",
+      "src/nabt/learning/finite_guard.py",
+      "src/nabt/learning/source_evidence.py",
+      "src/nabt/machine.py",
+      "src/nabt/rational_inquiry.py",
+      "src/nabt/semantics.py",
+      "src/nabt/text_ir.py",
+      "src/nabt/text_reader.py",
+      "tests/__init__.py",
+      "tests/test_epistemic_measurement.py",
+      "tests/test_evidence_lifecycle_v1.py",
+      "tests/test_rational_inquiry.py",
+      "tools/benchmark_epistemic_measurement.py",
+      "tools/epistemic_measurement.py",
+      "tools/evidence_lifecycle_v1.py",
+      "tools/grammar_catalog/__init__.py",
+      "tools/grammar_catalog/catalog.py",
+      "tools/grammar_catalog/operator_traceability.py",
+      "tools/grammar_catalog/retrieval.py",
+      "tools/grammar_catalog/routing.py"
+    ],
+    "formal_contract_paths": [
+      "formal/lean-toolchain",
+      "formal/lakefile.lean",
+      "formal/EpistemicMeasurementMain.lean",
+      "formal/EvidenceLifecycleV1Main.lean",
+      "formal/Nabt/RuleLearning.lean",
+      "formal/Nabt/PropertyEvidence.lean",
+      "formal/Nabt/SourceSemantics.lean",
+      "formal/Nabt/SemanticInference.lean",
+      "formal/Nabt/VerifiedReading.lean",
+      "formal/Nabt/RationalInquiry.lean",
+      "formal/Nabt/EpistemicMeasurement.lean",
+      "formal/Nabt/EvidenceLifecycleV1.lean",
+      "formal/Nabt/RuleRouting.lean"
+    ],
+    "source_paths": [
+      "src/nabt/data/source_evidence/qatr.txt",
+      "src/nabt/data/source_evidence/alfiyya.txt",
+      "src/nabt/data/source_evidence/sibawayhi.txt"
+    ],
+    "native_paths": [
+      "formal/.lake/build/bin/epistemicMeasurement",
+      "formal/.lake/build/bin/evidenceLifecycleV1"
+    ],
+    "files_before": {
+      "evidence/rule_policy_organization_v1/baseline_capability_probe.py": {
+        "sha256": "58d96f0850199c65963fc0cb3faf73753d5d93a0ab12a3759590ab614459ca53",
+        "bytes": 16400
+      },
+      "formal/.lake/build/bin/epistemicMeasurement": {
+        "sha256": "41a2a13641e221fc4c0a40acdac1ed9e5445b0f4e7c3694abd1f2dd116f2c3b9",
+        "bytes": 122142168
+      },
+      "formal/.lake/build/bin/evidenceLifecycleV1": {
+        "sha256": "aac536edf83f44957b5977cfb68e769040765af6ec15e10bb999f04294f29781",
+        "bytes": 122204184
+      },
+      "formal/EpistemicMeasurementMain.lean": {
+        "sha256": "132383eb80c5e535c8b9cf14b134b56b80d698b206865175e45105a66362aa40",
+        "bytes": 10816
+      },
+      "formal/EvidenceLifecycleV1Main.lean": {
+        "sha256": "f892069ebfe37650fcf1452116301e4e685f512d6d25affbc8ba364b58e9b04d",
+        "bytes": 15495
+      },
+      "formal/Nabt/EpistemicMeasurement.lean": {
+        "sha256": "7cdd74ba7c39875da6486a0ae20b87ceec1f394fa9d6c7f941d916424903b755",
+        "bytes": 16229
+      },
+      "formal/Nabt/EvidenceLifecycleV1.lean": {
+        "sha256": "d4a4aef90dee50a143fa268ef557cebc7db58420bf5816e2069c008ae8bb8e09",
+        "bytes": 19116
+      },
+      "formal/Nabt/PropertyEvidence.lean": {
+        "sha256": "82d26ffce5fedf0750cb6742c84a6631569dd93ca47da10b1ed4a13ff1b96701",
+        "bytes": 11642
+      },
+      "formal/Nabt/RationalInquiry.lean": {
+        "sha256": "01081c4fec11fff797ecfd8f7bab64e3ee8264f6ed0b13c29571153a5a2634b8",
+        "bytes": 15011
+      },
+      "formal/Nabt/RuleLearning.lean": {
+        "sha256": "05dccacb234ed1f33fdda2091f7ea048ed874c69dd84891411e26c6cd15c3d63",
+        "bytes": 8955
+      },
+      "formal/Nabt/RuleRouting.lean": {
+        "sha256": "c5f991dff8731c340a135fb985d2c9f744d74f9e2eb8d8e2e3747dca58c3adec",
+        "bytes": 1992
+      },
+      "formal/Nabt/SemanticInference.lean": {
+        "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2",
+        "bytes": 17067
+      },
+      "formal/Nabt/SourceSemantics.lean": {
+        "sha256": "5030b52cb47f8ea36fb6709f9b7a42d3f601b1169c01e3a498660d751ffc5416",
+        "bytes": 11898
+      },
+      "formal/Nabt/VerifiedReading.lean": {
+        "sha256": "73c1399223313071ed7fc5da8526d06671b509355174ea75f0194b1be9ddb364",
+        "bytes": 15021
+      },
+      "formal/lakefile.lean": {
+        "sha256": "8ec72d0b11f47cdfeaed446db90bc6c8e5ea739cebf15570ff4a93e0eeb42d41",
+        "bytes": 3359
+      },
+      "formal/lean-toolchain": {
+        "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "bytes": 25
+      },
+      "src/nabt/__init__.py": {
+        "sha256": "a7134530a38dea186365a854fe3b11de3f3b57d64d4146d1b5b1e7dd58d55ddd",
+        "bytes": 950
+      },
+      "src/nabt/alphabet.py": {
+        "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+        "bytes": 4777
+      },
+      "src/nabt/certificates.py": {
+        "sha256": "3645425d1d2af2a67faeed4d94a181fdb4496a6810980f06a09fa6677869a0f9",
+        "bytes": 8219
+      },
+      "src/nabt/classical_laws.py": {
+        "sha256": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+        "bytes": 7325
+      },
+      "src/nabt/codec.py": {
+        "sha256": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1",
+        "bytes": 4992
+      },
+      "src/nabt/data/source_evidence/alfiyya.txt": {
+        "sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+        "bytes": 97798
+      },
+      "src/nabt/data/source_evidence/qatr.txt": {
+        "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+        "bytes": 40168
+      },
+      "src/nabt/data/source_evidence/sibawayhi.txt": {
+        "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+        "bytes": 2639395
+      },
+      "src/nabt/errors.py": {
+        "sha256": "bbe25cbd5eae2c81cc226c2897dc9600d74c26d740567d90fde72bc3174e0974",
+        "bytes": 1436
+      },
+      "src/nabt/learning/__init__.py": {
+        "sha256": "bb5ede45c2a48dcdc1b8ab404a50a43e03e3b65854567598ce021ffa378e3d8c",
+        "bytes": 1845
+      },
+      "src/nabt/learning/arabic_six_nouns.py": {
+        "sha256": "472ffd3f83334e4650abccfe35d3423043969ca07b2949e04fb6cd856a690a7a",
+        "bytes": 19834
+      },
+      "src/nabt/learning/finite_guard.py": {
+        "sha256": "d1df31c5055fa876b210ae53461233a687d56d24526b53ddd1bcb5c6571d248c",
+        "bytes": 19500
+      },
+      "src/nabt/learning/source_evidence.py": {
+        "sha256": "7598c2c51990364778e9b22bc1cd62558c166311d984321ff316b8ce5210f354",
+        "bytes": 13418
+      },
+      "src/nabt/machine.py": {
+        "sha256": "676e79ec353204ea9eab3324ebeec8381964de6b3655b9904109acad2d47826e",
+        "bytes": 12576
+      },
+      "src/nabt/rational_inquiry.py": {
+        "sha256": "a00dac231514ad7829b333ec4411cf5c31b97c48706b3a0dc4118acffd82981e",
+        "bytes": 23749
+      },
+      "src/nabt/semantics.py": {
+        "sha256": "b4c6bd2a8b4b8279f31e1337a2d15a581b6f7c79f2ed6f5db3fb54d4a1b9d516",
+        "bytes": 42789
+      },
+      "src/nabt/text_ir.py": {
+        "sha256": "0270e39c46833d3b9691ca5e5acf0137a1ba3a4f4940b8e4b60b948e5da68af8",
+        "bytes": 6700
+      },
+      "src/nabt/text_reader.py": {
+        "sha256": "80ace3fb4378fd0bf0cd54c094da8683c9e90abe6419b43f7086585d4522bbd3",
+        "bytes": 18274
+      },
+      "tests/__init__.py": {
+        "sha256": "e1ab7618d6d15849df878de2ffde5f4e78fc635f73ecc5a37ee45c527f92219a",
+        "bytes": 71
+      },
+      "tests/test_epistemic_measurement.py": {
+        "sha256": "4fc10250a4609418bb61a340a0dfaadc34e729c710f6e96cd3676eab45f19846",
+        "bytes": 12446
+      },
+      "tests/test_evidence_lifecycle_v1.py": {
+        "sha256": "ffe9f3a524897d2ff1872e082ed954072f1b08b903a66815bde00468b953fc9c",
+        "bytes": 6819
+      },
+      "tests/test_rational_inquiry.py": {
+        "sha256": "904a8c463ef058873508afc3e99c8d575d461581dac07b2375ce94170e6e8047",
+        "bytes": 31114
+      },
+      "tools/benchmark_epistemic_measurement.py": {
+        "sha256": "2d75eaec3ce8e85a407a1277e15f533316b44b7d219db49aa721cf66b3844ba0",
+        "bytes": 9585
+      },
+      "tools/epistemic_measurement.py": {
+        "sha256": "a1f7f4e9a5b26690af0117b84b1c623fbffb6288bb9e4bb87c48f81f92446f2f",
+        "bytes": 20342
+      },
+      "tools/evidence_lifecycle_v1.py": {
+        "sha256": "5cb5b15b30157553273ce457c8f10859824f1e9a6572ad84ed5ed9699b9923f0",
+        "bytes": 20384
+      },
+      "tools/grammar_catalog/__init__.py": {
+        "sha256": "aae1bf7c19b833e51d13a6737b318fec48a97a33c9cd0e99df0421532a17db75",
+        "bytes": 80
+      },
+      "tools/grammar_catalog/catalog.py": {
+        "sha256": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+        "bytes": 25278
+      },
+      "tools/grammar_catalog/operator_traceability.py": {
+        "sha256": "c1c7057cc554074d769155df424737b7827f2b0de9bdcd6b20008a0fe9960f4f",
+        "bytes": 6245
+      },
+      "tools/grammar_catalog/retrieval.py": {
+        "sha256": "875f81305bb67712e99683f099067db101811999f42048126bb6e4c8e781a96a",
+        "bytes": 11884
+      },
+      "tools/grammar_catalog/routing.py": {
+        "sha256": "f3a7450ba290ab3424253d34aabaa484d436055c6d503d7cd8634e02693b672b",
+        "bytes": 4289
+      }
+    },
+    "files_after": {
+      "evidence/rule_policy_organization_v1/baseline_capability_probe.py": {
+        "sha256": "58d96f0850199c65963fc0cb3faf73753d5d93a0ab12a3759590ab614459ca53",
+        "bytes": 16400
+      },
+      "formal/.lake/build/bin/epistemicMeasurement": {
+        "sha256": "41a2a13641e221fc4c0a40acdac1ed9e5445b0f4e7c3694abd1f2dd116f2c3b9",
+        "bytes": 122142168
+      },
+      "formal/.lake/build/bin/evidenceLifecycleV1": {
+        "sha256": "aac536edf83f44957b5977cfb68e769040765af6ec15e10bb999f04294f29781",
+        "bytes": 122204184
+      },
+      "formal/EpistemicMeasurementMain.lean": {
+        "sha256": "132383eb80c5e535c8b9cf14b134b56b80d698b206865175e45105a66362aa40",
+        "bytes": 10816
+      },
+      "formal/EvidenceLifecycleV1Main.lean": {
+        "sha256": "f892069ebfe37650fcf1452116301e4e685f512d6d25affbc8ba364b58e9b04d",
+        "bytes": 15495
+      },
+      "formal/Nabt/EpistemicMeasurement.lean": {
+        "sha256": "7cdd74ba7c39875da6486a0ae20b87ceec1f394fa9d6c7f941d916424903b755",
+        "bytes": 16229
+      },
+      "formal/Nabt/EvidenceLifecycleV1.lean": {
+        "sha256": "d4a4aef90dee50a143fa268ef557cebc7db58420bf5816e2069c008ae8bb8e09",
+        "bytes": 19116
+      },
+      "formal/Nabt/PropertyEvidence.lean": {
+        "sha256": "82d26ffce5fedf0750cb6742c84a6631569dd93ca47da10b1ed4a13ff1b96701",
+        "bytes": 11642
+      },
+      "formal/Nabt/RationalInquiry.lean": {
+        "sha256": "01081c4fec11fff797ecfd8f7bab64e3ee8264f6ed0b13c29571153a5a2634b8",
+        "bytes": 15011
+      },
+      "formal/Nabt/RuleLearning.lean": {
+        "sha256": "05dccacb234ed1f33fdda2091f7ea048ed874c69dd84891411e26c6cd15c3d63",
+        "bytes": 8955
+      },
+      "formal/Nabt/RuleRouting.lean": {
+        "sha256": "c5f991dff8731c340a135fb985d2c9f744d74f9e2eb8d8e2e3747dca58c3adec",
+        "bytes": 1992
+      },
+      "formal/Nabt/SemanticInference.lean": {
+        "sha256": "73ec39e1a1c7325c58692e60064607281a4d81f301214e8e94813915356c12c2",
+        "bytes": 17067
+      },
+      "formal/Nabt/SourceSemantics.lean": {
+        "sha256": "5030b52cb47f8ea36fb6709f9b7a42d3f601b1169c01e3a498660d751ffc5416",
+        "bytes": 11898
+      },
+      "formal/Nabt/VerifiedReading.lean": {
+        "sha256": "73c1399223313071ed7fc5da8526d06671b509355174ea75f0194b1be9ddb364",
+        "bytes": 15021
+      },
+      "formal/lakefile.lean": {
+        "sha256": "8ec72d0b11f47cdfeaed446db90bc6c8e5ea739cebf15570ff4a93e0eeb42d41",
+        "bytes": 3359
+      },
+      "formal/lean-toolchain": {
+        "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "bytes": 25
+      },
+      "src/nabt/__init__.py": {
+        "sha256": "a7134530a38dea186365a854fe3b11de3f3b57d64d4146d1b5b1e7dd58d55ddd",
+        "bytes": 950
+      },
+      "src/nabt/alphabet.py": {
+        "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe",
+        "bytes": 4777
+      },
+      "src/nabt/certificates.py": {
+        "sha256": "3645425d1d2af2a67faeed4d94a181fdb4496a6810980f06a09fa6677869a0f9",
+        "bytes": 8219
+      },
+      "src/nabt/classical_laws.py": {
+        "sha256": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+        "bytes": 7325
+      },
+      "src/nabt/codec.py": {
+        "sha256": "6f0c5a9dd7a04a340e3d28fa74b6ec18dd4e24e875ddc933c37e3aaf568756b1",
+        "bytes": 4992
+      },
+      "src/nabt/data/source_evidence/alfiyya.txt": {
+        "sha256": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+        "bytes": 97798
+      },
+      "src/nabt/data/source_evidence/qatr.txt": {
+        "sha256": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+        "bytes": 40168
+      },
+      "src/nabt/data/source_evidence/sibawayhi.txt": {
+        "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+        "bytes": 2639395
+      },
+      "src/nabt/errors.py": {
+        "sha256": "bbe25cbd5eae2c81cc226c2897dc9600d74c26d740567d90fde72bc3174e0974",
+        "bytes": 1436
+      },
+      "src/nabt/learning/__init__.py": {
+        "sha256": "bb5ede45c2a48dcdc1b8ab404a50a43e03e3b65854567598ce021ffa378e3d8c",
+        "bytes": 1845
+      },
+      "src/nabt/learning/arabic_six_nouns.py": {
+        "sha256": "472ffd3f83334e4650abccfe35d3423043969ca07b2949e04fb6cd856a690a7a",
+        "bytes": 19834
+      },
+      "src/nabt/learning/finite_guard.py": {
+        "sha256": "d1df31c5055fa876b210ae53461233a687d56d24526b53ddd1bcb5c6571d248c",
+        "bytes": 19500
+      },
+      "src/nabt/learning/source_evidence.py": {
+        "sha256": "7598c2c51990364778e9b22bc1cd62558c166311d984321ff316b8ce5210f354",
+        "bytes": 13418
+      },
+      "src/nabt/machine.py": {
+        "sha256": "676e79ec353204ea9eab3324ebeec8381964de6b3655b9904109acad2d47826e",
+        "bytes": 12576
+      },
+      "src/nabt/rational_inquiry.py": {
+        "sha256": "a00dac231514ad7829b333ec4411cf5c31b97c48706b3a0dc4118acffd82981e",
+        "bytes": 23749
+      },
+      "src/nabt/semantics.py": {
+        "sha256": "b4c6bd2a8b4b8279f31e1337a2d15a581b6f7c79f2ed6f5db3fb54d4a1b9d516",
+        "bytes": 42789
+      },
+      "src/nabt/text_ir.py": {
+        "sha256": "0270e39c46833d3b9691ca5e5acf0137a1ba3a4f4940b8e4b60b948e5da68af8",
+        "bytes": 6700
+      },
+      "src/nabt/text_reader.py": {
+        "sha256": "80ace3fb4378fd0bf0cd54c094da8683c9e90abe6419b43f7086585d4522bbd3",
+        "bytes": 18274
+      },
+      "tests/__init__.py": {
+        "sha256": "e1ab7618d6d15849df878de2ffde5f4e78fc635f73ecc5a37ee45c527f92219a",
+        "bytes": 71
+      },
+      "tests/test_epistemic_measurement.py": {
+        "sha256": "4fc10250a4609418bb61a340a0dfaadc34e729c710f6e96cd3676eab45f19846",
+        "bytes": 12446
+      },
+      "tests/test_evidence_lifecycle_v1.py": {
+        "sha256": "ffe9f3a524897d2ff1872e082ed954072f1b08b903a66815bde00468b953fc9c",
+        "bytes": 6819
+      },
+      "tests/test_rational_inquiry.py": {
+        "sha256": "904a8c463ef058873508afc3e99c8d575d461581dac07b2375ce94170e6e8047",
+        "bytes": 31114
+      },
+      "tools/benchmark_epistemic_measurement.py": {
+        "sha256": "2d75eaec3ce8e85a407a1277e15f533316b44b7d219db49aa721cf66b3844ba0",
+        "bytes": 9585
+      },
+      "tools/epistemic_measurement.py": {
+        "sha256": "a1f7f4e9a5b26690af0117b84b1c623fbffb6288bb9e4bb87c48f81f92446f2f",
+        "bytes": 20342
+      },
+      "tools/evidence_lifecycle_v1.py": {
+        "sha256": "5cb5b15b30157553273ce457c8f10859824f1e9a6572ad84ed5ed9699b9923f0",
+        "bytes": 20384
+      },
+      "tools/grammar_catalog/__init__.py": {
+        "sha256": "aae1bf7c19b833e51d13a6737b318fec48a97a33c9cd0e99df0421532a17db75",
+        "bytes": 80
+      },
+      "tools/grammar_catalog/catalog.py": {
+        "sha256": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+        "bytes": 25278
+      },
+      "tools/grammar_catalog/operator_traceability.py": {
+        "sha256": "c1c7057cc554074d769155df424737b7827f2b0de9bdcd6b20008a0fe9960f4f",
+        "bytes": 6245
+      },
+      "tools/grammar_catalog/retrieval.py": {
+        "sha256": "875f81305bb67712e99683f099067db101811999f42048126bb6e4c8e781a96a",
+        "bytes": 11884
+      },
+      "tools/grammar_catalog/routing.py": {
+        "sha256": "f3a7450ba290ab3424253d34aabaa484d436055c6d503d7cd8634e02693b672b",
+        "bytes": 4289
+      }
+    },
+    "inputs_unchanged_during_run": true,
+    "additional_loaded_project_code": {},
+    "native_build_provenance": "Existing binary bytes measured; no fresh compilation or binary-to-current-source refinement asserted."
+  },
+  "probes": [
+    {
+      "id": "finite-guard-withdrawal-restoration",
+      "expected": {
+        "counts": [
+          8,
+          4,
+          2,
+          1
+        ],
+        "prediction": "conditional_consensus",
+        "withdrawn_count": 2,
+        "withdrawn_prediction": "underdetermined",
+        "restored_count": 1,
+        "restored_revision": true,
+        "degree3_survivors": 5
+      },
+      "input": {
+        "schema": {
+          "domain": "observed_text.sibawayhi_han",
+          "version": "2e282394195b0ee37b2ab9476b508150be25c465f63e2fc0c757957717e27395",
+          "predicates": [
+            "cue_is_hadha",
+            "cue_is_raaytu",
+            "cue_is_marartu_ba"
+          ]
+        },
+        "degrees": [
+          1,
+          3
+        ],
+        "observations": [
+          {
+            "evidence_id": "3d2a133b6387d581802e420c6b184f40480f849811529a2399ce431c5b5cc592",
+            "source_id": "sha256:a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+            "case": {
+              "case_id": "1e1cdf12c566bc704862297747f8818cd066789b1fdd9b169cb5c51386f75b59",
+              "analysis_id": "4efd6155d45e7045a0dbfb4327aaf284ddbfd8575cd34c88842bd699721acb31",
+              "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+              "width": 3,
+              "known": 7,
+              "value": 1
+            },
+            "label": true
+          },
+          {
+            "evidence_id": "fcfe0e31be70af6875ca4289aad377d97e40a5b858d5758e894cdf4c9378262c",
+            "source_id": "sha256:a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+            "case": {
+              "case_id": "751499f2127a982c34d9babff7fa5eae2b508cfa0a51a4a7d706c84e6a79a25d",
+              "analysis_id": "cb38d20c9a26731c4b4f9af161cc4a0cf789a77bf7af4480169363301f1c0cbf",
+              "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+              "width": 3,
+              "known": 7,
+              "value": 2
+            },
+            "label": false
+          },
+          {
+            "evidence_id": "eb870ee3ec593decc8d5e3003349fe891036e4bb119d17c5758a9a0171a849da",
+            "source_id": "sha256:a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+            "case": {
+              "case_id": "b7072f249eac4f2d5cf46f6e717316f159905f1a816e80214fcd3dc1d0911546",
+              "analysis_id": "5e098574835c518c2fdc9312fb2f45fd0abc73a315f7570ff2f0c8a34d38705e",
+              "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+              "width": 3,
+              "known": 7,
+              "value": 4
+            },
+            "label": false
+          }
+        ],
+        "withdrawn_evidence_id": "eb870ee3ec593decc8d5e3003349fe891036e4bb119d17c5758a9a0171a849da",
+        "query_case": {
+          "case_id": "b7072f249eac4f2d5cf46f6e717316f159905f1a816e80214fcd3dc1d0911546",
+          "analysis_id": "5e098574835c518c2fdc9312fb2f45fd0abc73a315f7570ff2f0c8a34d38705e",
+          "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+          "width": 3,
+          "known": 7,
+          "value": 4
+        }
+      },
+      "input_sha256": "1c6134496e4769a89456872105a4d741f8592bba9ee961c7fb2d9b5aefe67ef8",
+      "observed": {
+        "counts": [
+          8,
+          4,
+          2,
+          1
+        ],
+        "prediction": "conditional_consensus",
+        "withdrawn_count": 2,
+        "withdrawn_prediction": "underdetermined",
+        "restored_count": 1,
+        "restored_revision": true,
+        "degree3_survivors": 5
+      },
+      "details": {
+        "source_records": [
+          {
+            "record_id": "sibawayhi_han_hadha",
+            "kind": "observed_example",
+            "binding": {
+              "occurrence_id": "1e1cdf12c566bc704862297747f8818cd066789b1fdd9b169cb5c51386f75b59",
+              "reading_id": "4efd6155d45e7045a0dbfb4327aaf284ddbfd8575cd34c88842bd699721acb31",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "context_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a",
+              "definition_id": "2e282394195b0ee37b2ab9476b508150be25c465f63e2fc0c757957717e27395",
+              "policy_id": "47f840782327932d1c60cd04019fd53345d7e782b0bb045d328641c2bfe22310",
+              "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+              "checker_version": "nabt-six-nouns-source-v1"
+            },
+            "known": 7,
+            "value": 1,
+            "label": true,
+            "width": 3,
+            "context_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460416,
+              "end": 1460684,
+              "span_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a"
+            },
+            "cue_spans": [
+              {
+                "source_id": "sibawayhi",
+                "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+                "start": 1460448,
+                "end": 1460454,
+                "span_sha256": "2d323c34022e819500efb48fe7035cfcaba2032a875c93c00b196ea7198670bc"
+              }
+            ],
+            "target_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460455,
+              "end": 1460463,
+              "span_sha256": "dce0222059b91db692cfbce496a76691ecd71c6adffdb76502d766675454b46e"
+            },
+            "marker_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460459,
+              "end": 1460461,
+              "span_sha256": "6245b4d08f3f2a9905b0ea09e27274fc55ae4d807d46623baaf9467c3d66fa4c"
+            },
+            "cue": "هذا",
+            "target": "هنوك",
+            "marker": "و",
+            "interpretation_note": "literal cue and observed carrier before kaf; no grammatical case inferred"
+          },
+          {
+            "record_id": "sibawayhi_han_raaytu",
+            "kind": "observed_example",
+            "binding": {
+              "occurrence_id": "751499f2127a982c34d9babff7fa5eae2b508cfa0a51a4a7d706c84e6a79a25d",
+              "reading_id": "cb38d20c9a26731c4b4f9af161cc4a0cf789a77bf7af4480169363301f1c0cbf",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "context_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a",
+              "definition_id": "2e282394195b0ee37b2ab9476b508150be25c465f63e2fc0c757957717e27395",
+              "policy_id": "47f840782327932d1c60cd04019fd53345d7e782b0bb045d328641c2bfe22310",
+              "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+              "checker_version": "nabt-six-nouns-source-v1"
+            },
+            "known": 7,
+            "value": 2,
+            "label": false,
+            "width": 3,
+            "context_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460416,
+              "end": 1460684,
+              "span_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a"
+            },
+            "cue_spans": [
+              {
+                "source_id": "sibawayhi",
+                "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+                "start": 1460466,
+                "end": 1460474,
+                "span_sha256": "67096b5c89079175278542cc752fcb17f2c39da6d35f87282a14bcf712158484"
+              }
+            ],
+            "target_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460475,
+              "end": 1460483,
+              "span_sha256": "989c6523779fb24972ec14da96f00dd2dae776596f75b675a5cfd67c96866e76"
+            },
+            "marker_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460479,
+              "end": 1460481,
+              "span_sha256": "be0fa08bb8f12a376ccebf5e748b860328f74eca15696fb2653f984fbfe67ba5"
+            },
+            "cue": "رأيت",
+            "target": "هناك",
+            "marker": "ا",
+            "interpretation_note": "literal cue and observed carrier before kaf; no grammatical case inferred"
+          },
+          {
+            "record_id": "sibawayhi_han_marartu_ba",
+            "kind": "observed_example",
+            "binding": {
+              "occurrence_id": "b7072f249eac4f2d5cf46f6e717316f159905f1a816e80214fcd3dc1d0911546",
+              "reading_id": "5e098574835c518c2fdc9312fb2f45fd0abc73a315f7570ff2f0c8a34d38705e",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "context_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a",
+              "definition_id": "2e282394195b0ee37b2ab9476b508150be25c465f63e2fc0c757957717e27395",
+              "policy_id": "47f840782327932d1c60cd04019fd53345d7e782b0bb045d328641c2bfe22310",
+              "schema_id": "7d3d04ae3e9d5123ebe6e070b61c8b89f9e1626b1b6d9813dc4d2e9a68d370b7",
+              "checker_version": "nabt-six-nouns-source-v1"
+            },
+            "known": 7,
+            "value": 4,
+            "label": false,
+            "width": 3,
+            "context_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460416,
+              "end": 1460684,
+              "span_sha256": "a85164fea6a5b2f90c460d19fda816c2085d9213bd901308f78bc34799db197a"
+            },
+            "cue_spans": [
+              {
+                "source_id": "sibawayhi",
+                "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+                "start": 1460486,
+                "end": 1460494,
+                "span_sha256": "9abc5443cb84bd5dc6f9fdc970ab415fe8b9597f4643ab93aaf6ef954c6f1179"
+              },
+              {
+                "source_id": "sibawayhi",
+                "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+                "start": 1460495,
+                "end": 1460497,
+                "span_sha256": "cb22e4a914210546de5c63b4579dcc3f664cc9f557205acff170b62d0f9a4c15"
+              }
+            ],
+            "target_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460497,
+              "end": 1460505,
+              "span_sha256": "a77c218e1ddd0afff15b9f4eb32a2a599d1cd4802366d29fccab523ba12e7d43"
+            },
+            "marker_span": {
+              "source_id": "sibawayhi",
+              "source_sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625",
+              "start": 1460501,
+              "end": 1460503,
+              "span_sha256": "68a74b81692467b80aeb4002c75e955209240d2fd3c879b359a33e24471b3d13"
+            },
+            "cue": "مررت ب",
+            "target": "هنيك",
+            "marker": "ي",
+            "interpretation_note": "literal cue and observed carrier before kaf; no grammatical case inferred"
+          }
+        ],
+        "approved_source_pins": {
+          "qatr": "2d9241beca1b138187ace8f6782d5eed68f3864f402ec1d5fc90fdeb306ceb9d",
+          "alfiyya": "13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0",
+          "sibawayhi": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625"
+        },
+        "revisions": [
+          "a3327d64137dcf34a155e18148371a81c69483f516c56e0e5ddcbae56a2d228c",
+          "4576601579be21c52069a025b1c396a10a504afd69276c33bba4fef157004f31",
+          "00260b5589f70b203c3ca063803689a1b39d90cfbec6a4df8fdf63df72fe801c",
+          "8e042603e37911d5787715e3ee4b641d6eddf8c502107a25e25f851c566143cb"
+        ],
+        "withdrawn_revision": "00260b5589f70b203c3ca063803689a1b39d90cfbec6a4df8fdf63df72fe801c",
+        "restored_revision": "8e042603e37911d5787715e3ee4b641d6eddf8c502107a25e25f851c566143cb",
+        "survivor_codes": [
+          1
+        ],
+        "withdrawn_survivor_codes": [
+          1,
+          6
+        ],
+        "degree3_survivor_codes": [
+          1,
+          7,
+          19,
+          24,
+          25
+        ],
+        "independent_heldout_examples": 0,
+        "new_linguistic_rule_adopted": false
+      },
+      "matches_expected": true,
+      "error": null
+    },
+    {
+      "id": "concept-definition-application-withdrawal",
+      "expected": {
+        "admitted": true,
+        "case_status": "SUPPORTED",
+        "new_instance_status": "UNKNOWN",
+        "certificate_accepted": true,
+        "after_withdrawal": "UNKNOWN",
+        "old_certificate_accepted": false
+      },
+      "input": {
+        "definition": "تعريف نوع هو أول و ثان.",
+        "case": "زيد هو أول. زيد هو ثان.",
+        "definition_source_id": "definition",
+        "case_source_id": "case",
+        "scope": "default",
+        "query": "هل زيد هو نوع؟",
+        "new_instance_query": "هل جديد هو نوع؟"
+      },
+      "input_sha256": "b2355af079a04ff62c53fa28396a15a79947f1b9dbea8792c6f113fb04adb170",
+      "observed": {
+        "admitted": true,
+        "case_status": "SUPPORTED",
+        "new_instance_status": "UNKNOWN",
+        "certificate_accepted": true,
+        "after_withdrawal": "UNKNOWN",
+        "old_certificate_accepted": false
+      },
+      "details": {
+        "definition_admission": {
+          "accepted": true,
+          "status": "ADMITTED",
+          "source_id": "definition",
+          "scope": "default",
+          "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+          "program_sha256": "8dd25bedeb1e2654e51dd89d1788936437e8dd3491ddeb7364cb9271791a2fd7",
+          "residuals": [],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "case_admission": {
+          "accepted": true,
+          "status": "ADMITTED",
+          "source_id": "case",
+          "scope": "default",
+          "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+          "program_sha256": "3f23c178923c7d86a9ca6efe134bf415d1a704d11c869b20137c646b6980b172",
+          "residuals": [],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "before": {
+          "status": "SUPPORTED",
+          "reason": "CLEAN_DERIVATION",
+          "scope": "default",
+          "query": {
+            "predicate": "نوع",
+            "args": [
+              "زيد"
+            ],
+            "positive": true
+          },
+          "positive_support": true,
+          "negative_support": false,
+          "proofs": {
+            "query": {
+              "version": "nabt.semantic-certificate.v1",
+              "scope": "default",
+              "query": {
+                "predicate": "نوع",
+                "args": [
+                  "زيد"
+                ],
+                "positive": true
+              },
+              "proof_kind": "clean",
+              "program_sha256": "3f23c178923c7d86a9ca6efe134bf415d1a704d11c869b20137c646b6980b172",
+              "steps": [
+                {
+                  "atom": {
+                    "predicate": "أول",
+                    "args": [
+                      "زيد"
+                    ],
+                    "positive": true
+                  },
+                  "clause": {
+                    "clause_id": "29858ec55cb7960f709376b432bfce27d09fe5dcdc4d947d23e9cc2ab0c7dd27",
+                    "scope": "default",
+                    "source_id": "case",
+                    "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                    "span": {
+                      "source_id": "case",
+                      "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                      "start": 0,
+                      "end": 18,
+                      "span_sha256": "0981faa4379bc001e7ffe01c4d5ac2bc0a22836ba3290ad5784008f56a50cf2c"
+                    },
+                    "component_spans": [
+                      {
+                        "source_id": "case",
+                        "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                        "start": 0,
+                        "end": 6,
+                        "span_sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159"
+                      },
+                      {
+                        "source_id": "case",
+                        "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                        "start": 7,
+                        "end": 11,
+                        "span_sha256": "82376ab5417bcfa01ae1986f517afc12977c44c19ea77f2171ea0f15ba7e2cbf"
+                      },
+                      {
+                        "source_id": "case",
+                        "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                        "start": 12,
+                        "end": 18,
+                        "span_sha256": "bef66b8cfe4c2fcbff59579f00223f4e939d0d1fbd4bb4b6cc3e1a3b2a90ef70"
+                      }
+                    ],
+                    "analysis_id": "581d16132748cc4a7488d2eee62b54110d2096bb69f7d4e160c9a1eb14b18ecb",
+                    "kind": "fact",
+                    "atom": {
+                      "predicate": "أول",
+                      "args": [
+                        "زيد"
+                      ],
+                      "positive": true
+                    }
+                  },
+                  "binding": {},
+                  "premises": []
+                },
+                {
+                  "atom": {
+                    "predicate": "ثان",
+                    "args": [
+                      "زيد"
+                    ],
+                    "positive": true
+                  },
+                  "clause": {
+                    "clause_id": "b06ba820429d424763a038e2c442765cf3204551c805caf35dd949d3bdd0119a",
+                    "scope": "default",
+                    "source_id": "case",
+                    "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                    "span": {
+                      "source_id": "case",
+                      "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                      "start": 20,
+                      "end": 38,
+                      "span_sha256": "713a06f1b919a85886d656cb9c192a313e6ea7d7df005c7973fac82119bfc4c8"
+                    },
+                    "component_spans": [
+                      {
+                        "source_id": "case",
+                        "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                        "start": 20,
+                        "end": 26,
+                        "span_sha256": "1c7686f3fc24a8b5f23bdb7efc0926c740ed519002dfc7466374aea2e89e1159"
+                      },
+                      {
+                        "source_id": "case",
+                        "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                        "start": 27,
+                        "end": 31,
+                        "span_sha256": "82376ab5417bcfa01ae1986f517afc12977c44c19ea77f2171ea0f15ba7e2cbf"
+                      },
+                      {
+                        "source_id": "case",
+                        "source_sha256": "8e13622200ef2c50b2a1d2d528c0ba57565a9493926a0ea23f2437337f8494dc",
+                        "start": 32,
+                        "end": 38,
+                        "span_sha256": "4b75b855d7ff2338c55e52e0e1a906afd7b41a0a24f46a44857887d9fb5946ed"
+                      }
+                    ],
+                    "analysis_id": "3d785d939984c2c84a366dc9aceae7859ff399de5cc951eecbeac10e7a59798e",
+                    "kind": "fact",
+                    "atom": {
+                      "predicate": "ثان",
+                      "args": [
+                        "زيد"
+                      ],
+                      "positive": true
+                    }
+                  },
+                  "binding": {},
+                  "premises": []
+                },
+                {
+                  "atom": {
+                    "predicate": "نوع",
+                    "args": [
+                      "زيد"
+                    ],
+                    "positive": true
+                  },
+                  "clause": {
+                    "clause_id": "e432d64869fb1d54b13da87fa23d501099aa58d1e7ac94b7a724eccbfe35ae6b",
+                    "scope": "default",
+                    "source_id": "definition",
+                    "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                    "span": {
+                      "source_id": "definition",
+                      "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                      "start": 0,
+                      "end": 39,
+                      "span_sha256": "14df1a6f2bbeb0ead94000999bf4a4888554e03cb75b40c29305e77d21609db9"
+                    },
+                    "component_spans": [
+                      {
+                        "source_id": "definition",
+                        "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                        "start": 0,
+                        "end": 10,
+                        "span_sha256": "d525d72998f712add5c5ea3f44d819b4dda8822ba4b94e113982a97fea27c2a1"
+                      },
+                      {
+                        "source_id": "definition",
+                        "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                        "start": 11,
+                        "end": 17,
+                        "span_sha256": "b55501074dc5aabc733323d7a1f43e69c88e94ae17bf27c06d66cbed9990acf2"
+                      },
+                      {
+                        "source_id": "definition",
+                        "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                        "start": 18,
+                        "end": 22,
+                        "span_sha256": "82376ab5417bcfa01ae1986f517afc12977c44c19ea77f2171ea0f15ba7e2cbf"
+                      },
+                      {
+                        "source_id": "definition",
+                        "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                        "start": 23,
+                        "end": 29,
+                        "span_sha256": "bef66b8cfe4c2fcbff59579f00223f4e939d0d1fbd4bb4b6cc3e1a3b2a90ef70"
+                      },
+                      {
+                        "source_id": "definition",
+                        "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                        "start": 30,
+                        "end": 32,
+                        "span_sha256": "6245b4d08f3f2a9905b0ea09e27274fc55ae4d807d46623baaf9467c3d66fa4c"
+                      },
+                      {
+                        "source_id": "definition",
+                        "source_sha256": "eb666ac9ca73372ba42b55a8e3b7dd2b9c8742fc325b00c794dccfc8048bb5b8",
+                        "start": 33,
+                        "end": 39,
+                        "span_sha256": "4b75b855d7ff2338c55e52e0e1a906afd7b41a0a24f46a44857887d9fb5946ed"
+                      }
+                    ],
+                    "analysis_id": "fb791b9a7b30a6cca4ed908e4a29190ef3031449c3b2572ac3f4f67bb7fd3260",
+                    "kind": "rule",
+                    "body": [
+                      {
+                        "predicate": "أول",
+                        "args": [
+                          "?x"
+                        ],
+                        "positive": true
+                      },
+                      {
+                        "predicate": "ثان",
+                        "args": [
+                          "?x"
+                        ],
+                        "positive": true
+                      }
+                    ],
+                    "head": {
+                      "predicate": "نوع",
+                      "args": [
+                        "?x"
+                      ],
+                      "positive": true
+                    },
+                    "rule_kind": "definition_reverse"
+                  },
+                  "binding": {
+                    "?x": "زيد"
+                  },
+                  "premises": [
+                    0,
+                    1
+                  ]
+                }
+              ],
+              "conclusion": 2,
+              "world_truth": "NOT_ESTABLISHED"
+            }
+          },
+          "missing_premises": [],
+          "missing_complete": true,
+          "missing_policy": "bounded_grounded_backward_plans_active_and_query_constants.v1",
+          "contested_premises": [],
+          "world_truth": "NOT_ESTABLISHED",
+          "interpretation_status": "READ",
+          "semantic_version": "nabt.signed-horn.v1",
+          "program_sha256": "3f23c178923c7d86a9ca6efe134bf415d1a704d11c869b20137c646b6980b172",
+          "atom_number": {
+            "namespace": "nabt.scoped-atom",
+            "version": 1,
+            "domain": "scoped-signed-atom",
+            "encoding": "canonical-json-utf8-big-endian",
+            "value_hex": "15b226e6162742e73656d616e7469632d69722e7631222c2264656661756c74222c22d986d988d8b9222c5b22d8b2d98ad8af225d2c747275655d"
+          },
+          "stats": {
+            "join_steps": 12,
+            "groundings": 8,
+            "rounds": 4
+          }
+        },
+        "new_instance": {
+          "status": "UNKNOWN",
+          "reason": "NO_SUPPORTED_SIGN",
+          "scope": "default",
+          "query": {
+            "predicate": "نوع",
+            "args": [
+              "جديد"
+            ],
+            "positive": true
+          },
+          "positive_support": false,
+          "negative_support": false,
+          "proofs": {},
+          "missing_premises": [
+            {
+              "atoms": [
+                {
+                  "predicate": "أول",
+                  "args": [
+                    "جديد"
+                  ],
+                  "positive": true
+                },
+                {
+                  "predicate": "ثان",
+                  "args": [
+                    "جديد"
+                  ],
+                  "positive": true
+                }
+              ],
+              "via_rules": [
+                "e432d64869fb1d54b13da87fa23d501099aa58d1e7ac94b7a724eccbfe35ae6b"
+              ],
+              "validation": "counterfactual_signed_and_clean_replay.v1"
+            }
+          ],
+          "missing_complete": true,
+          "missing_policy": "bounded_grounded_backward_plans_active_and_query_constants.v1",
+          "contested_premises": [],
+          "world_truth": "NOT_ESTABLISHED",
+          "interpretation_status": "READ",
+          "semantic_version": "nabt.signed-horn.v1",
+          "program_sha256": "3f23c178923c7d86a9ca6efe134bf415d1a704d11c869b20137c646b6980b172",
+          "atom_number": {
+            "namespace": "nabt.scoped-atom",
+            "version": 1,
+            "domain": "scoped-signed-atom",
+            "encoding": "canonical-json-utf8-big-endian",
+            "value_hex": "15b226e6162742e73656d616e7469632d69722e7631222c2264656661756c74222c22d986d988d8b9222c5b22d8acd8afd98ad8af225d2c747275655d"
+          },
+          "stats": {
+            "join_steps": 93,
+            "groundings": 47,
+            "rounds": 12
+          }
+        },
+        "certificate_verification": {
+          "accepted": true,
+          "status": "VERIFIED",
+          "checked_steps": 3,
+          "program_sha256": "3f23c178923c7d86a9ca6efe134bf415d1a704d11c869b20137c646b6980b172",
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "revision": {
+          "accepted": true,
+          "status": "REMOVED",
+          "source_id": "case",
+          "before_program_sha256": "3f23c178923c7d86a9ca6efe134bf415d1a704d11c869b20137c646b6980b172",
+          "program_sha256": "8dd25bedeb1e2654e51dd89d1788936437e8dd3491ddeb7364cb9271791a2fd7",
+          "removed_supports": [
+            {
+              "scope": "default",
+              "atom": {
+                "predicate": "أول",
+                "args": [
+                  "زيد"
+                ],
+                "positive": true
+              }
+            },
+            {
+              "scope": "default",
+              "atom": {
+                "predicate": "ثان",
+                "args": [
+                  "زيد"
+                ],
+                "positive": true
+              }
+            },
+            {
+              "scope": "default",
+              "atom": {
+                "predicate": "نوع",
+                "args": [
+                  "زيد"
+                ],
+                "positive": true
+              }
+            }
+          ],
+          "residuals": [],
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "after": {
+          "status": "UNKNOWN",
+          "reason": "NO_SUPPORTED_SIGN",
+          "scope": "default",
+          "query": {
+            "predicate": "نوع",
+            "args": [
+              "زيد"
+            ],
+            "positive": true
+          },
+          "positive_support": false,
+          "negative_support": false,
+          "proofs": {},
+          "missing_premises": [
+            {
+              "atoms": [
+                {
+                  "predicate": "أول",
+                  "args": [
+                    "زيد"
+                  ],
+                  "positive": true
+                },
+                {
+                  "predicate": "ثان",
+                  "args": [
+                    "زيد"
+                  ],
+                  "positive": true
+                }
+              ],
+              "via_rules": [
+                "e432d64869fb1d54b13da87fa23d501099aa58d1e7ac94b7a724eccbfe35ae6b"
+              ],
+              "validation": "counterfactual_signed_and_clean_replay.v1"
+            }
+          ],
+          "missing_complete": true,
+          "missing_policy": "bounded_grounded_backward_plans_active_and_query_constants.v1",
+          "contested_premises": [],
+          "world_truth": "NOT_ESTABLISHED",
+          "interpretation_status": "READ",
+          "semantic_version": "nabt.signed-horn.v1",
+          "program_sha256": "8dd25bedeb1e2654e51dd89d1788936437e8dd3491ddeb7364cb9271791a2fd7",
+          "atom_number": {
+            "namespace": "nabt.scoped-atom",
+            "version": 1,
+            "domain": "scoped-signed-atom",
+            "encoding": "canonical-json-utf8-big-endian",
+            "value_hex": "15b226e6162742e73656d616e7469632d69722e7631222c2264656661756c74222c22d986d988d8b9222c5b22d8b2d98ad8af225d2c747275655d"
+          },
+          "stats": {
+            "join_steps": 41,
+            "groundings": 23,
+            "rounds": 10
+          }
+        },
+        "stale_certificate_verification": {
+          "accepted": false,
+          "status": "REJECT",
+          "reason": "STALE_OR_FORGED_CLAUSE",
+          "checked_steps": 0,
+          "program_sha256": "8dd25bedeb1e2654e51dd89d1788936437e8dd3491ddeb7364cb9271791a2fd7",
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "native_checked": false,
+        "execution_kind": "EXISTING_PYTHON_SEMANTIC_KERNEL"
+      },
+      "matches_expected": true,
+      "error": null
+    },
+    {
+      "id": "inquiry-world-boundary",
+      "expected": {
+        "status": "LICENSED",
+        "authorized_rank": 2,
+        "verified": {
+          "valid": true,
+          "status": "VERIFIED",
+          "claim_status": "LICENSED",
+          "authority": "EXACT_INQUIRY_REPLAY",
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "world_status": "DEFER",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED"
+      },
+      "input": {
+        "plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "reading-17",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "عدد السجلات ثلاثة.",
+            "scope": {
+              "domain": "bounded-text-record",
+              "referent": "record-17",
+              "time": "snapshot-1",
+              "unit": "exact-utf8-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "formation",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "التحقق من قراءة سجل محدد",
+            "interpretation": "القضية عن محتوى السجل، لا عن عدد أشياء العالم",
+            "inference": "مقارنة النص المقترح بكامل نص السجل المرجعي",
+            "prior": []
+          },
+          "review": {
+            "depth": "DEEP",
+            "context": [],
+            "conditions": [],
+            "alternatives": [
+              {
+                "alternative_id": "four-records",
+                "candidate": "عدد السجلات أربعة."
+              }
+            ],
+            "limitations": [
+              "المطابقة تخص السجل المقدم ونسبته المصرح بها فقط"
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        },
+        "sources": [
+          {
+            "source_id": "formation",
+            "revision": 1,
+            "scope": {
+              "domain": "bounded-text-record",
+              "referent": "record-17",
+              "time": "snapshot-1",
+              "unit": "exact-utf8-text"
+            },
+            "content": "قراءة مرشحة تحتاج إلى مقارنة مستقلة.",
+            "origin": "proposal-run-A",
+            "parents": [],
+            "role": "MATERIAL",
+            "active": true
+          },
+          {
+            "source_id": "reference",
+            "revision": 1,
+            "scope": {
+              "domain": "bounded-text-record",
+              "referent": "record-17",
+              "time": "snapshot-1",
+              "unit": "exact-utf8-text"
+            },
+            "content": "عدد السجلات ثلاثة.",
+            "origin": "record-snapshot-B",
+            "parents": [],
+            "role": "REFERENCE",
+            "active": true
+          }
+        ],
+        "world_plan": {
+          "version": "nabt.rational-inquiry.v1",
+          "claim": {
+            "claim_id": "reading-17",
+            "kind": "WORLD_CORRESPONDENCE",
+            "candidate": "عدد السجلات ثلاثة.",
+            "scope": {
+              "domain": "bounded-text-record",
+              "referent": "record-17",
+              "time": "snapshot-1",
+              "unit": "exact-utf8-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "formation",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "التحقق من قراءة سجل محدد",
+            "interpretation": "القضية عن محتوى السجل، لا عن عدد أشياء العالم",
+            "inference": "مقارنة النص المقترح بكامل نص السجل المرجعي",
+            "prior": []
+          },
+          "review": {
+            "depth": "DEEP",
+            "context": [],
+            "conditions": [],
+            "alternatives": [
+              {
+                "alternative_id": "four-records",
+                "candidate": "عدد السجلات أربعة."
+              }
+            ],
+            "limitations": [
+              "المطابقة تخص السجل المقدم ونسبته المصرح بها فقط"
+            ],
+            "unresolved": []
+          },
+          "requested_rank": 2
+        }
+      },
+      "input_sha256": "1dc6ee037e30b502a265bedf67bf00fa99d56da3b2d9e2cd44646b0da790ba48",
+      "observed": {
+        "status": "LICENSED",
+        "authorized_rank": 2,
+        "verified": {
+          "valid": true,
+          "status": "VERIFIED",
+          "claim_status": "LICENSED",
+          "authority": "EXACT_INQUIRY_REPLAY",
+          "world_truth": "NOT_ESTABLISHED"
+        },
+        "world_status": "DEFER",
+        "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED"
+      },
+      "details": {
+        "fixture": "tests/test_rational_inquiry.py::sample",
+        "report": {
+          "version": "nabt.rational-inquiry.v1",
+          "status": "LICENSED",
+          "authorized_rank": 2,
+          "authority": "SNAPSHOT_COMPARISON",
+          "world_truth": "NOT_ESTABLISHED",
+          "external_truth_certified": false,
+          "box_opened": true,
+          "checks_performed": 2,
+          "checks_expected": 2,
+          "review_complete": true,
+          "coverage_complete": true,
+          "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+          "plan_digest": "1f5230bb5f69e9e71e6939774d44d75696977b3da9a80b941c81c6d79d6791eb",
+          "input_digest": "bfb16379f740b6c98eb2b40cacadd621924daaf03c0f6eb759b3a76787494181",
+          "claim": {
+            "claim_id": "reading-17",
+            "kind": "TEXT_CORRESPONDENCE",
+            "candidate": "عدد السجلات ثلاثة.",
+            "scope": {
+              "domain": "bounded-text-record",
+              "referent": "record-17",
+              "time": "snapshot-1",
+              "unit": "exact-utf8-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "formation",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "التحقق من قراءة سجل محدد",
+            "interpretation": "القضية عن محتوى السجل، لا عن عدد أشياء العالم",
+            "inference": "مقارنة النص المقترح بكامل نص السجل المرجعي",
+            "prior": []
+          },
+          "review": {
+            "depth": "DEEP",
+            "context": [],
+            "conditions": [],
+            "alternatives": [
+              {
+                "alternative_id": "four-records",
+                "candidate": "عدد السجلات أربعة."
+              }
+            ],
+            "limitations": [
+              "المطابقة تخص السجل المقدم ونسبته المصرح بها فقط"
+            ],
+            "unresolved": []
+          },
+          "gates": {
+            "formed": true,
+            "reviewed": true,
+            "provenance": true,
+            "scopeCovered": true,
+            "supported": true,
+            "counterevidence": false,
+            "requiresWorldBridge": false,
+            "worldBridge": false,
+            "exhausted": false,
+            "requestedRank": 2,
+            "evidenceRank": 2
+          },
+          "checks": [
+            {
+              "protocol": "exact-text-v1",
+              "purpose": "claim",
+              "target": "reading-17",
+              "source_id": "reference",
+              "revision": 1,
+              "passed": true,
+              "expected_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "actual_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "detector": "Unequal exact UTF-8 text in the bound snapshot"
+            },
+            {
+              "protocol": "exact-text-v1",
+              "purpose": "alternative",
+              "target": "four-records",
+              "source_id": "reference",
+              "revision": 1,
+              "passed": false,
+              "expected_sha256": "9db74c1b6e410d7f874990e4d03d181fd40d3cf6eb1296f0ef381b622101c1a4",
+              "actual_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "detector": "Unequal exact UTF-8 text in the bound snapshot"
+            }
+          ],
+          "sources_used": [
+            {
+              "source_id": "formation",
+              "revision": 1,
+              "content_sha256": "66682158666e5076635dcd956f57888ad7b581dadbf594915b53cb4bc77d0515",
+              "record_digest": "a5d17e6430fc331857b3cc9683961f547e18037aeb962f5879d0eb0fe97851b4",
+              "scope": {
+                "domain": "bounded-text-record",
+                "referent": "record-17",
+                "time": "snapshot-1",
+                "unit": "exact-utf8-text"
+              },
+              "declared_origins": [
+                "proposal-run-A"
+              ]
+            },
+            {
+              "source_id": "reference",
+              "revision": 1,
+              "content_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "record_digest": "9f95f00df3e24a1a32cc079620b371e0aefdde507e2cc53d481ce2559118bedf",
+              "scope": {
+                "domain": "bounded-text-record",
+                "referent": "record-17",
+                "time": "snapshot-1",
+                "unit": "exact-utf8-text"
+              },
+              "declared_origins": [
+                "record-snapshot-B"
+              ]
+            }
+          ],
+          "residuals": [],
+          "provenance": {
+            "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+            "candidate_origins": [
+              "proposal-run-A"
+            ],
+            "reference_origins": {
+              "reference": [
+                "record-snapshot-B"
+              ]
+            }
+          },
+          "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+          "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+          "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+        },
+        "world_report": {
+          "version": "nabt.rational-inquiry.v1",
+          "status": "DEFER",
+          "authorized_rank": 0,
+          "authority": "WORLD_BRIDGE_REQUIRED",
+          "world_truth": "NOT_ESTABLISHED",
+          "external_truth_certified": false,
+          "box_opened": false,
+          "checks_performed": 2,
+          "checks_expected": 2,
+          "review_complete": true,
+          "coverage_complete": true,
+          "coverage_scope": "Only the declared live reference inventory at the exact domain/referent/time/unit",
+          "plan_digest": "9a3237c681e8c6b8c1c60f8d0e296141d70dc8033a2d659503b21712e6e0c6ae",
+          "input_digest": "8a2285220a9b75c7456204e111de1d41aa19b4fef020fda3d75ec8b3622a601b",
+          "claim": {
+            "claim_id": "reading-17",
+            "kind": "WORLD_CORRESPONDENCE",
+            "candidate": "عدد السجلات ثلاثة.",
+            "scope": {
+              "domain": "bounded-text-record",
+              "referent": "record-17",
+              "time": "snapshot-1",
+              "unit": "exact-utf8-text"
+            },
+            "origin_sources": [
+              {
+                "source_id": "formation",
+                "revision": 1
+              }
+            ]
+          },
+          "formation": {
+            "purpose": "التحقق من قراءة سجل محدد",
+            "interpretation": "القضية عن محتوى السجل، لا عن عدد أشياء العالم",
+            "inference": "مقارنة النص المقترح بكامل نص السجل المرجعي",
+            "prior": []
+          },
+          "review": {
+            "depth": "DEEP",
+            "context": [],
+            "conditions": [],
+            "alternatives": [
+              {
+                "alternative_id": "four-records",
+                "candidate": "عدد السجلات أربعة."
+              }
+            ],
+            "limitations": [
+              "المطابقة تخص السجل المقدم ونسبته المصرح بها فقط"
+            ],
+            "unresolved": []
+          },
+          "gates": {
+            "formed": true,
+            "reviewed": true,
+            "provenance": true,
+            "scopeCovered": true,
+            "supported": true,
+            "counterevidence": false,
+            "requiresWorldBridge": true,
+            "worldBridge": false,
+            "exhausted": false,
+            "requestedRank": 2,
+            "evidenceRank": 2
+          },
+          "checks": [
+            {
+              "protocol": "exact-text-v1",
+              "purpose": "claim",
+              "target": "reading-17",
+              "source_id": "reference",
+              "revision": 1,
+              "passed": true,
+              "expected_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "actual_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "detector": "Unequal exact UTF-8 text in the bound snapshot"
+            },
+            {
+              "protocol": "exact-text-v1",
+              "purpose": "alternative",
+              "target": "four-records",
+              "source_id": "reference",
+              "revision": 1,
+              "passed": false,
+              "expected_sha256": "9db74c1b6e410d7f874990e4d03d181fd40d3cf6eb1296f0ef381b622101c1a4",
+              "actual_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "detector": "Unequal exact UTF-8 text in the bound snapshot"
+            }
+          ],
+          "sources_used": [
+            {
+              "source_id": "formation",
+              "revision": 1,
+              "content_sha256": "66682158666e5076635dcd956f57888ad7b581dadbf594915b53cb4bc77d0515",
+              "record_digest": "a5d17e6430fc331857b3cc9683961f547e18037aeb962f5879d0eb0fe97851b4",
+              "scope": {
+                "domain": "bounded-text-record",
+                "referent": "record-17",
+                "time": "snapshot-1",
+                "unit": "exact-utf8-text"
+              },
+              "declared_origins": [
+                "proposal-run-A"
+              ]
+            },
+            {
+              "source_id": "reference",
+              "revision": 1,
+              "content_sha256": "4f06428b6e1494afc8d7bc5031ee140dc6fd8880fbae726b40b9b8be90ff72ce",
+              "record_digest": "9f95f00df3e24a1a32cc079620b371e0aefdde507e2cc53d481ce2559118bedf",
+              "scope": {
+                "domain": "bounded-text-record",
+                "referent": "record-17",
+                "time": "snapshot-1",
+                "unit": "exact-utf8-text"
+              },
+              "declared_origins": [
+                "record-snapshot-B"
+              ]
+            }
+          ],
+          "residuals": [
+            {
+              "code": "WORLD_BRIDGE_UNAVAILABLE",
+              "detail": "No external observation authority is installed in v1"
+            }
+          ],
+          "provenance": {
+            "authority": "DECLARED_GRAPH_ONLY_NOT_AUTHENTICATED_ACQUISITION",
+            "candidate_origins": [
+              "proposal-run-A"
+            ],
+            "reference_origins": {
+              "reference": [
+                "record-snapshot-B"
+              ]
+            }
+          },
+          "review_authority": "FINITE_PROCEDURAL_PROFILE_NOT_HUMAN_THOUGHT_OR_CERTAINTY",
+          "formation_authority": "DECLARED_SOURCE_LINKS_NOT_PROOF_OF_HOW_THE_CANDIDATE_WAS_PRODUCED",
+          "temporal_authority": "REPLAY_BINDING_NOT_PROOF_OF_PRE_REGISTERED_OR_UNSEEN_VALIDATION"
+        },
+        "native_checked": false
+      },
+      "matches_expected": true,
+      "error": null
+    },
+    {
+      "id": "native-epistemic-conflict-hidden-motive",
+      "expected": {
+        "native_checked": true,
+        "supported": {
+          "status": "SUPPORTED",
+          "support_ids": [
+            "witness"
+          ],
+          "refutation_ids": [],
+          "selected_ids": [
+            "witness"
+          ]
+        },
+        "conflict": {
+          "status": "CONFLICT",
+          "support_ids": [
+            "witness"
+          ],
+          "refutation_ids": [
+            "negative"
+          ],
+          "selected_ids": [
+            "witness",
+            "negative"
+          ]
+        },
+        "hidden_motive": {
+          "status": "UNKNOWN",
+          "support_ids": [],
+          "refutation_ids": [],
+          "selected_ids": []
+        }
+      },
+      "input": {
+        "supported": {
+          "query": {
+            "key": {
+              "axis": "reported_motive",
+              "entity": "speaker",
+              "predicate": "declared_goal",
+              "value": "study",
+              "unit": "purpose",
+              "context": "occasion-a",
+              "time": "-1",
+              "place": "hall"
+            },
+            "positive": true,
+            "origin": "query"
+          },
+          "active_sources": [
+            {
+              "identity": "declared-source",
+              "revision": "v1",
+              "content": "Authored self-report premise."
+            }
+          ],
+          "origins": [
+            {
+              "id": "query",
+              "parents": []
+            },
+            {
+              "id": "record",
+              "parents": []
+            }
+          ],
+          "interpretations": [
+            {
+              "id": "witness",
+              "source": {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content": "Authored self-report premise."
+              },
+              "key": {
+                "axis": "reported_motive",
+                "entity": "speaker",
+                "predicate": "declared_goal",
+                "value": "study",
+                "unit": "purpose",
+                "context": "occasion-a",
+                "time": "-1",
+                "place": "hall"
+              },
+              "positive": true,
+              "kind": "self_report",
+              "origin": "record",
+              "ancestry": [
+                "record"
+              ]
+            }
+          ],
+          "budget": 128,
+          "certificate": null
+        },
+        "conflict": {
+          "query": {
+            "key": {
+              "axis": "reported_motive",
+              "entity": "speaker",
+              "predicate": "declared_goal",
+              "value": "study",
+              "unit": "purpose",
+              "context": "occasion-a",
+              "time": "-1",
+              "place": "hall"
+            },
+            "positive": true,
+            "origin": "query"
+          },
+          "active_sources": [
+            {
+              "identity": "declared-source",
+              "revision": "v1",
+              "content": "Authored self-report premise."
+            }
+          ],
+          "origins": [
+            {
+              "id": "query",
+              "parents": []
+            },
+            {
+              "id": "record",
+              "parents": []
+            }
+          ],
+          "interpretations": [
+            {
+              "id": "witness",
+              "source": {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content": "Authored self-report premise."
+              },
+              "key": {
+                "axis": "reported_motive",
+                "entity": "speaker",
+                "predicate": "declared_goal",
+                "value": "study",
+                "unit": "purpose",
+                "context": "occasion-a",
+                "time": "-1",
+                "place": "hall"
+              },
+              "positive": true,
+              "kind": "self_report",
+              "origin": "record",
+              "ancestry": [
+                "record"
+              ]
+            },
+            {
+              "id": "negative",
+              "source": {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content": "Authored self-report premise."
+              },
+              "key": {
+                "axis": "reported_motive",
+                "entity": "speaker",
+                "predicate": "declared_goal",
+                "value": "study",
+                "unit": "purpose",
+                "context": "occasion-a",
+                "time": "-1",
+                "place": "hall"
+              },
+              "positive": false,
+              "kind": "self_report",
+              "origin": "record",
+              "ancestry": [
+                "record"
+              ]
+            }
+          ],
+          "budget": 128,
+          "certificate": null
+        },
+        "hidden_motive": {
+          "query": {
+            "key": {
+              "axis": "hidden_motive",
+              "entity": "speaker",
+              "predicate": "declared_goal",
+              "value": "study",
+              "unit": "purpose",
+              "context": "occasion-a",
+              "time": "-1",
+              "place": "hall"
+            },
+            "positive": true,
+            "origin": "query"
+          },
+          "active_sources": [
+            {
+              "identity": "declared-source",
+              "revision": "v1",
+              "content": "Authored self-report premise."
+            }
+          ],
+          "origins": [
+            {
+              "id": "query",
+              "parents": []
+            },
+            {
+              "id": "record",
+              "parents": []
+            }
+          ],
+          "interpretations": [
+            {
+              "id": "witness",
+              "source": {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content": "Authored self-report premise."
+              },
+              "key": {
+                "axis": "reported_motive",
+                "entity": "speaker",
+                "predicate": "declared_goal",
+                "value": "study",
+                "unit": "purpose",
+                "context": "occasion-a",
+                "time": "-1",
+                "place": "hall"
+              },
+              "positive": true,
+              "kind": "self_report",
+              "origin": "record",
+              "ancestry": [
+                "record"
+              ]
+            },
+            {
+              "id": "negative",
+              "source": {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content": "Authored self-report premise."
+              },
+              "key": {
+                "axis": "reported_motive",
+                "entity": "speaker",
+                "predicate": "declared_goal",
+                "value": "study",
+                "unit": "purpose",
+                "context": "occasion-a",
+                "time": "-1",
+                "place": "hall"
+              },
+              "positive": false,
+              "kind": "self_report",
+              "origin": "record",
+              "ancestry": [
+                "record"
+              ]
+            }
+          ],
+          "budget": 128,
+          "certificate": null
+        }
+      },
+      "input_sha256": "2120866f71719cec95e91cd15d591e9e1141bb8e40fd918c8933f9822c94b482",
+      "observed": {
+        "native_checked": true,
+        "supported": {
+          "status": "SUPPORTED",
+          "support_ids": [
+            "witness"
+          ],
+          "refutation_ids": [],
+          "selected_ids": [
+            "witness"
+          ]
+        },
+        "conflict": {
+          "status": "CONFLICT",
+          "support_ids": [
+            "witness"
+          ],
+          "refutation_ids": [
+            "negative"
+          ],
+          "selected_ids": [
+            "witness",
+            "negative"
+          ]
+        },
+        "hidden_motive": {
+          "status": "UNKNOWN",
+          "support_ids": [],
+          "refutation_ids": [],
+          "selected_ids": []
+        }
+      },
+      "details": {
+        "fixture": "tests/test_epistemic_measurement.py::ledger",
+        "reports": {
+          "supported": {
+            "status": "SUPPORTED",
+            "observed": {
+              "status": "SUPPORTED",
+              "support_ids": [
+                "witness"
+              ],
+              "refutation_ids": [],
+              "selected_ids": [
+                "witness"
+              ]
+            },
+            "native_checked": true,
+            "certificate_checked": true,
+            "source_bindings": [
+              {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content_sha256": "7834848dd9f50590b550bb77d716e2881c7a6ad128f76bc705a8935ca772d3f0",
+                "raw_sha256": null,
+                "raw_path": null,
+                "field_pointer": null
+              }
+            ],
+            "proof_scope": "Conditional classification of the complete supplied AUTHORED_SCENARIO ledger under the installed law; no real self-report authentication, Arabic acquisition, hidden motive, or external-world truth is proved.",
+            "evidence_class": "AUTHORED_SCENARIO",
+            "execution": {
+              "input": {
+                "query": {
+                  "key": {
+                    "axis": "reported_motive",
+                    "entity": "speaker",
+                    "predicate": "declared_goal",
+                    "value": "study",
+                    "unit": "purpose",
+                    "context": "occasion-a",
+                    "time": "-1",
+                    "place": "hall"
+                  },
+                  "positive": true,
+                  "origin": "query"
+                },
+                "active_sources": [
+                  {
+                    "identity": "declared-source",
+                    "revision": "v1",
+                    "content": "Authored self-report premise."
+                  }
+                ],
+                "origins": [
+                  {
+                    "id": "query",
+                    "parents": []
+                  },
+                  {
+                    "id": "record",
+                    "parents": []
+                  }
+                ],
+                "interpretations": [
+                  {
+                    "id": "witness",
+                    "source": {
+                      "identity": "declared-source",
+                      "revision": "v1",
+                      "content": "Authored self-report premise."
+                    },
+                    "key": {
+                      "axis": "reported_motive",
+                      "entity": "speaker",
+                      "predicate": "declared_goal",
+                      "value": "study",
+                      "unit": "purpose",
+                      "context": "occasion-a",
+                      "time": "-1",
+                      "place": "hall"
+                    },
+                    "positive": true,
+                    "kind": "self_report",
+                    "origin": "record",
+                    "ancestry": [
+                      "record"
+                    ]
+                  }
+                ],
+                "budget": 128,
+                "certificate": {
+                  "status": "SUPPORTED",
+                  "support_ids": [
+                    "witness"
+                  ],
+                  "refutation_ids": [],
+                  "selected_ids": [
+                    "witness"
+                  ]
+                }
+              },
+              "input_sha256": "281a8b07e4a41fd6443ce724fb4d0781ae6818c0e8e2dc4db86953b0f1ccaf56",
+              "proposal_sha256": "ae9a387043264b71c0f9209334af73f325c0f45767069a9e452171ec35d46959",
+              "native_result_sha256": "918ad84247662bfe83345aeb6cc3a203b64c2be195c07173149ee3545c9af7bc",
+              "native_sha256": "41a2a13641e221fc4c0a40acdac1ed9e5445b0f4e7c3694abd1f2dd116f2c3b9",
+              "proposal": {
+                "status": "SUPPORTED",
+                "support_ids": [
+                  "witness"
+                ],
+                "refutation_ids": [],
+                "selected_ids": [
+                  "witness"
+                ]
+              },
+              "native_result": {
+                "all_arabic_complete": false,
+                "certificate_checked": true,
+                "hidden_motive_established": false,
+                "law_id": "nabt.epistemic-measurement.v1",
+                "observed_status": "SUPPORTED",
+                "refutation_ids": [],
+                "selected_ids": [
+                  "witness"
+                ],
+                "status": "SUPPORTED",
+                "support_ids": [
+                  "witness"
+                ],
+                "world_truth_established": false
+              },
+              "error": null,
+              "source_profile": "authored_controls_v1"
+            },
+            "world_truth_established": false,
+            "hidden_motive_established": false,
+            "free_arabic_acquisition_measured": false,
+            "whole_arabic_complete": false,
+            "receipt_sha256": "8ddb4093fa1c73427afc7c84d6bd931cc3c3922752a69694ac11e75092b1ddfb"
+          },
+          "conflict": {
+            "status": "CONFLICT",
+            "observed": {
+              "status": "CONFLICT",
+              "support_ids": [
+                "witness"
+              ],
+              "refutation_ids": [
+                "negative"
+              ],
+              "selected_ids": [
+                "witness",
+                "negative"
+              ]
+            },
+            "native_checked": true,
+            "certificate_checked": true,
+            "source_bindings": [
+              {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content_sha256": "7834848dd9f50590b550bb77d716e2881c7a6ad128f76bc705a8935ca772d3f0",
+                "raw_sha256": null,
+                "raw_path": null,
+                "field_pointer": null
+              }
+            ],
+            "proof_scope": "Conditional classification of the complete supplied AUTHORED_SCENARIO ledger under the installed law; no real self-report authentication, Arabic acquisition, hidden motive, or external-world truth is proved.",
+            "evidence_class": "AUTHORED_SCENARIO",
+            "execution": {
+              "input": {
+                "query": {
+                  "key": {
+                    "axis": "reported_motive",
+                    "entity": "speaker",
+                    "predicate": "declared_goal",
+                    "value": "study",
+                    "unit": "purpose",
+                    "context": "occasion-a",
+                    "time": "-1",
+                    "place": "hall"
+                  },
+                  "positive": true,
+                  "origin": "query"
+                },
+                "active_sources": [
+                  {
+                    "identity": "declared-source",
+                    "revision": "v1",
+                    "content": "Authored self-report premise."
+                  }
+                ],
+                "origins": [
+                  {
+                    "id": "query",
+                    "parents": []
+                  },
+                  {
+                    "id": "record",
+                    "parents": []
+                  }
+                ],
+                "interpretations": [
+                  {
+                    "id": "witness",
+                    "source": {
+                      "identity": "declared-source",
+                      "revision": "v1",
+                      "content": "Authored self-report premise."
+                    },
+                    "key": {
+                      "axis": "reported_motive",
+                      "entity": "speaker",
+                      "predicate": "declared_goal",
+                      "value": "study",
+                      "unit": "purpose",
+                      "context": "occasion-a",
+                      "time": "-1",
+                      "place": "hall"
+                    },
+                    "positive": true,
+                    "kind": "self_report",
+                    "origin": "record",
+                    "ancestry": [
+                      "record"
+                    ]
+                  },
+                  {
+                    "id": "negative",
+                    "source": {
+                      "identity": "declared-source",
+                      "revision": "v1",
+                      "content": "Authored self-report premise."
+                    },
+                    "key": {
+                      "axis": "reported_motive",
+                      "entity": "speaker",
+                      "predicate": "declared_goal",
+                      "value": "study",
+                      "unit": "purpose",
+                      "context": "occasion-a",
+                      "time": "-1",
+                      "place": "hall"
+                    },
+                    "positive": false,
+                    "kind": "self_report",
+                    "origin": "record",
+                    "ancestry": [
+                      "record"
+                    ]
+                  }
+                ],
+                "budget": 128,
+                "certificate": {
+                  "status": "CONFLICT",
+                  "support_ids": [
+                    "witness"
+                  ],
+                  "refutation_ids": [
+                    "negative"
+                  ],
+                  "selected_ids": [
+                    "witness",
+                    "negative"
+                  ]
+                }
+              },
+              "input_sha256": "5302911551913e5df72b9728dca13e5cfac245dc7728a005a850d2818be57801",
+              "proposal_sha256": "6bd810c6489d4b3143f385eda75fd1c81ca822b5d35bfea2bbe516cd6e15f3e3",
+              "native_result_sha256": "d006040f057a7b343ccce88aa903946afbdcb862fac5b82249dd48f563c111f4",
+              "native_sha256": "41a2a13641e221fc4c0a40acdac1ed9e5445b0f4e7c3694abd1f2dd116f2c3b9",
+              "proposal": {
+                "status": "CONFLICT",
+                "support_ids": [
+                  "witness"
+                ],
+                "refutation_ids": [
+                  "negative"
+                ],
+                "selected_ids": [
+                  "witness",
+                  "negative"
+                ]
+              },
+              "native_result": {
+                "all_arabic_complete": false,
+                "certificate_checked": true,
+                "hidden_motive_established": false,
+                "law_id": "nabt.epistemic-measurement.v1",
+                "observed_status": "CONFLICT",
+                "refutation_ids": [
+                  "negative"
+                ],
+                "selected_ids": [
+                  "witness",
+                  "negative"
+                ],
+                "status": "CONFLICT",
+                "support_ids": [
+                  "witness"
+                ],
+                "world_truth_established": false
+              },
+              "error": null,
+              "source_profile": "authored_controls_v1"
+            },
+            "world_truth_established": false,
+            "hidden_motive_established": false,
+            "free_arabic_acquisition_measured": false,
+            "whole_arabic_complete": false,
+            "receipt_sha256": "7b496da52f15031027cfa295b6ecded9a389e28705c98b7e8103444c6e13543b"
+          },
+          "hidden_motive": {
+            "status": "UNKNOWN",
+            "observed": {
+              "status": "UNKNOWN",
+              "support_ids": [],
+              "refutation_ids": [],
+              "selected_ids": []
+            },
+            "native_checked": true,
+            "certificate_checked": true,
+            "source_bindings": [
+              {
+                "identity": "declared-source",
+                "revision": "v1",
+                "content_sha256": "7834848dd9f50590b550bb77d716e2881c7a6ad128f76bc705a8935ca772d3f0",
+                "raw_sha256": null,
+                "raw_path": null,
+                "field_pointer": null
+              }
+            ],
+            "proof_scope": "Conditional classification of the complete supplied AUTHORED_SCENARIO ledger under the installed law; no real self-report authentication, Arabic acquisition, hidden motive, or external-world truth is proved.",
+            "evidence_class": "AUTHORED_SCENARIO",
+            "execution": {
+              "input": {
+                "query": {
+                  "key": {
+                    "axis": "hidden_motive",
+                    "entity": "speaker",
+                    "predicate": "declared_goal",
+                    "value": "study",
+                    "unit": "purpose",
+                    "context": "occasion-a",
+                    "time": "-1",
+                    "place": "hall"
+                  },
+                  "positive": true,
+                  "origin": "query"
+                },
+                "active_sources": [
+                  {
+                    "identity": "declared-source",
+                    "revision": "v1",
+                    "content": "Authored self-report premise."
+                  }
+                ],
+                "origins": [
+                  {
+                    "id": "query",
+                    "parents": []
+                  },
+                  {
+                    "id": "record",
+                    "parents": []
+                  }
+                ],
+                "interpretations": [
+                  {
+                    "id": "witness",
+                    "source": {
+                      "identity": "declared-source",
+                      "revision": "v1",
+                      "content": "Authored self-report premise."
+                    },
+                    "key": {
+                      "axis": "reported_motive",
+                      "entity": "speaker",
+                      "predicate": "declared_goal",
+                      "value": "study",
+                      "unit": "purpose",
+                      "context": "occasion-a",
+                      "time": "-1",
+                      "place": "hall"
+                    },
+                    "positive": true,
+                    "kind": "self_report",
+                    "origin": "record",
+                    "ancestry": [
+                      "record"
+                    ]
+                  },
+                  {
+                    "id": "negative",
+                    "source": {
+                      "identity": "declared-source",
+                      "revision": "v1",
+                      "content": "Authored self-report premise."
+                    },
+                    "key": {
+                      "axis": "reported_motive",
+                      "entity": "speaker",
+                      "predicate": "declared_goal",
+                      "value": "study",
+                      "unit": "purpose",
+                      "context": "occasion-a",
+                      "time": "-1",
+                      "place": "hall"
+                    },
+                    "positive": false,
+                    "kind": "self_report",
+                    "origin": "record",
+                    "ancestry": [
+                      "record"
+                    ]
+                  }
+                ],
+                "budget": 128,
+                "certificate": {
+                  "status": "UNKNOWN",
+                  "support_ids": [],
+                  "refutation_ids": [],
+                  "selected_ids": []
+                }
+              },
+              "input_sha256": "6cf1a2aad5c891a4ef38b6bca196db0fd2c4d542a9c61a734e831b805df67b2c",
+              "proposal_sha256": "64d6c482ab56223b0604ab7bd630dea0b28c67dd150af2d851673f888bc49c40",
+              "native_result_sha256": "3a88a3e3f635cf23a9266c3f3dc7563b82aba526a545170d02f9b51c3ad12a8c",
+              "native_sha256": "41a2a13641e221fc4c0a40acdac1ed9e5445b0f4e7c3694abd1f2dd116f2c3b9",
+              "proposal": {
+                "status": "UNKNOWN",
+                "support_ids": [],
+                "refutation_ids": [],
+                "selected_ids": []
+              },
+              "native_result": {
+                "all_arabic_complete": false,
+                "certificate_checked": true,
+                "hidden_motive_established": false,
+                "law_id": "nabt.epistemic-measurement.v1",
+                "observed_status": "UNKNOWN",
+                "refutation_ids": [],
+                "selected_ids": [],
+                "status": "UNKNOWN",
+                "support_ids": [],
+                "world_truth_established": false
+              },
+              "error": null,
+              "source_profile": "authored_controls_v1"
+            },
+            "world_truth_established": false,
+            "hidden_motive_established": false,
+            "free_arabic_acquisition_measured": false,
+            "whole_arabic_complete": false,
+            "receipt_sha256": "656f040806f4ac375a7f1494131c9656661c1982c7bd84ce3280026bb199572f"
+          }
+        },
+        "all_three_native_checked": true,
+        "native_transport_retained_as": "EXISTING_ADAPTER_INPUT_AND_PARSED_NATIVE_RESULT_WITH_HASHES"
+      },
+      "matches_expected": true,
+      "error": null
+    },
+    {
+      "id": "native-lifecycle-replay-changed-episode",
+      "expected": {
+        "native_checked": true,
+        "statuses": [
+          "SUPPORTED",
+          "UNKNOWN",
+          "SUPPORTED"
+        ],
+        "verified": true,
+        "changed_episode_verified": false
+      },
+      "input": {
+        "episode": {
+          "schema": "nabt.evidence-lifecycle.episode.v1",
+          "episode_id": "development-only",
+          "query": {
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "fixture",
+              "predicate": "flag",
+              "value": "on",
+              "unit": "state",
+              "context": "development-control",
+              "time": "3",
+              "place": "fixture"
+            },
+            "positive": true,
+            "origin": "question"
+          },
+          "active_sources": [
+            {
+              "identity": "question",
+              "revision": "1",
+              "content": "A question, not its evidence."
+            },
+            {
+              "identity": "record",
+              "revision": "1",
+              "content": "A synthetic record."
+            },
+            {
+              "identity": "copy",
+              "revision": "1",
+              "content": "A declared copy of record."
+            }
+          ],
+          "origins": [
+            {
+              "id": "question",
+              "parents": []
+            },
+            {
+              "id": "record",
+              "parents": []
+            },
+            {
+              "id": "copy",
+              "parents": [
+                "record"
+              ]
+            }
+          ],
+          "bindings": [
+            {
+              "origin_id": "question",
+              "source": {
+                "identity": "question",
+                "revision": "1",
+                "content": "A question, not its evidence."
+              },
+              "rank": 0
+            },
+            {
+              "origin_id": "record",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "rank": 0
+            },
+            {
+              "origin_id": "copy",
+              "source": {
+                "identity": "copy",
+                "revision": "1",
+                "content": "A declared copy of record."
+              },
+              "rank": 1
+            }
+          ],
+          "interpretations": [
+            {
+              "id": "copied-evidence",
+              "source": {
+                "identity": "copy",
+                "revision": "1",
+                "content": "A declared copy of record."
+              },
+              "key": {
+                "axis": "recorded_observation",
+                "entity": "fixture",
+                "predicate": "flag",
+                "value": "on",
+                "unit": "state",
+                "context": "development-control",
+                "time": "3",
+                "place": "fixture"
+              },
+              "positive": true,
+              "kind": "observation",
+              "origin": "copy",
+              "ancestry": [
+                "record",
+                "copy"
+              ]
+            }
+          ],
+          "budget": 1,
+          "updates": [
+            {
+              "event_id": "w",
+              "kind": "withdraw",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "replacement": null,
+              "reason": "Synthetic development operation."
+            },
+            {
+              "event_id": "a",
+              "kind": "activate",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "replacement": null,
+              "reason": "Synthetic development operation."
+            }
+          ]
+        },
+        "changed_episode": {
+          "schema": "nabt.evidence-lifecycle.episode.v1",
+          "episode_id": "development-only",
+          "query": {
+            "key": {
+              "axis": "recorded_observation",
+              "entity": "fixture",
+              "predicate": "flag",
+              "value": "on",
+              "unit": "state",
+              "context": "development-control",
+              "time": "3",
+              "place": "fixture"
+            },
+            "positive": true,
+            "origin": "question"
+          },
+          "active_sources": [
+            {
+              "identity": "question",
+              "revision": "1",
+              "content": "A question, not its evidence."
+            },
+            {
+              "identity": "record",
+              "revision": "1",
+              "content": "A synthetic record."
+            },
+            {
+              "identity": "copy",
+              "revision": "1",
+              "content": "A declared copy of record."
+            }
+          ],
+          "origins": [
+            {
+              "id": "question",
+              "parents": []
+            },
+            {
+              "id": "record",
+              "parents": []
+            },
+            {
+              "id": "copy",
+              "parents": [
+                "record"
+              ]
+            }
+          ],
+          "bindings": [
+            {
+              "origin_id": "question",
+              "source": {
+                "identity": "question",
+                "revision": "1",
+                "content": "A question, not its evidence."
+              },
+              "rank": 0
+            },
+            {
+              "origin_id": "record",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "rank": 0
+            },
+            {
+              "origin_id": "copy",
+              "source": {
+                "identity": "copy",
+                "revision": "1",
+                "content": "A declared copy of record."
+              },
+              "rank": 1
+            }
+          ],
+          "interpretations": [
+            {
+              "id": "copied-evidence",
+              "source": {
+                "identity": "copy",
+                "revision": "1",
+                "content": "A declared copy of record."
+              },
+              "key": {
+                "axis": "recorded_observation",
+                "entity": "fixture",
+                "predicate": "flag",
+                "value": "on",
+                "unit": "state",
+                "context": "development-control",
+                "time": "3",
+                "place": "fixture"
+              },
+              "positive": true,
+              "kind": "observation",
+              "origin": "copy",
+              "ancestry": [
+                "record",
+                "copy"
+              ]
+            }
+          ],
+          "budget": 1,
+          "updates": [
+            {
+              "event_id": "w",
+              "kind": "withdraw",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "replacement": null,
+              "reason": "Synthetic development operation."
+            },
+            {
+              "event_id": "a",
+              "kind": "activate",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "replacement": null,
+              "reason": "Synthetic development operation."
+            },
+            {
+              "event_id": "noop",
+              "kind": "activate",
+              "source": {
+                "identity": "record",
+                "revision": "1",
+                "content": "A synthetic record."
+              },
+              "replacement": null,
+              "reason": "Synthetic development operation."
+            }
+          ]
+        }
+      },
+      "input_sha256": "b9240b44cc48d3bf4430966e2262fbef50d843d682976553db2c9bb89984cf5d",
+      "observed": {
+        "native_checked": true,
+        "statuses": [
+          "SUPPORTED",
+          "UNKNOWN",
+          "SUPPORTED"
+        ],
+        "verified": true,
+        "changed_episode_verified": false
+      },
+      "details": {
+        "fixture": "tests/test_evidence_lifecycle_v1.py::scenario,event",
+        "report": {
+          "schema": "nabt.evidence-lifecycle.result.v1",
+          "law_id": "nabt.evidence-lifecycle.v1",
+          "status": "SUPPORTED",
+          "native_checked": true,
+          "decision_complete": true,
+          "evidence_class": "AUTHORED_SCENARIO",
+          "observed": {
+            "all_arabic_complete": false,
+            "binding": {
+              "active_sources": [
+                {
+                  "content": "A question, not its evidence.",
+                  "identity": "question",
+                  "revision": "1"
+                },
+                {
+                  "content": "A synthetic record.",
+                  "identity": "record",
+                  "revision": "1"
+                },
+                {
+                  "content": "A declared copy of record.",
+                  "identity": "copy",
+                  "revision": "1"
+                }
+              ],
+              "bindings": [
+                {
+                  "origin_id": "question",
+                  "rank": 0,
+                  "source": {
+                    "content": "A question, not its evidence.",
+                    "identity": "question",
+                    "revision": "1"
+                  }
+                },
+                {
+                  "origin_id": "record",
+                  "rank": 0,
+                  "source": {
+                    "content": "A synthetic record.",
+                    "identity": "record",
+                    "revision": "1"
+                  }
+                },
+                {
+                  "origin_id": "copy",
+                  "rank": 1,
+                  "source": {
+                    "content": "A declared copy of record.",
+                    "identity": "copy",
+                    "revision": "1"
+                  }
+                }
+              ],
+              "budget": 1,
+              "episode_id": "development-only",
+              "interpretations": [
+                {
+                  "ancestry": [
+                    "record",
+                    "copy"
+                  ],
+                  "id": "copied-evidence",
+                  "key": {
+                    "axis": "recorded_observation",
+                    "context": "development-control",
+                    "entity": "fixture",
+                    "place": "fixture",
+                    "predicate": "flag",
+                    "time": "3",
+                    "unit": "state",
+                    "value": "on"
+                  },
+                  "kind": "observation",
+                  "origin": "copy",
+                  "positive": true,
+                  "source": {
+                    "content": "A declared copy of record.",
+                    "identity": "copy",
+                    "revision": "1"
+                  }
+                }
+              ],
+              "origins": [
+                {
+                  "id": "question",
+                  "parents": []
+                },
+                {
+                  "id": "record",
+                  "parents": []
+                },
+                {
+                  "id": "copy",
+                  "parents": [
+                    "record"
+                  ]
+                }
+              ],
+              "query": {
+                "key": {
+                  "axis": "recorded_observation",
+                  "context": "development-control",
+                  "entity": "fixture",
+                  "place": "fixture",
+                  "predicate": "flag",
+                  "time": "3",
+                  "unit": "state",
+                  "value": "on"
+                },
+                "origin": "question",
+                "positive": true
+              },
+              "schema": "nabt.evidence-lifecycle.episode.v1",
+              "updates": [
+                {
+                  "event_id": "w",
+                  "kind": "withdraw",
+                  "reason": "Synthetic development operation.",
+                  "replacement": null,
+                  "source": {
+                    "content": "A synthetic record.",
+                    "identity": "record",
+                    "revision": "1"
+                  }
+                },
+                {
+                  "event_id": "a",
+                  "kind": "activate",
+                  "reason": "Synthetic development operation.",
+                  "replacement": null,
+                  "source": {
+                    "content": "A synthetic record.",
+                    "identity": "record",
+                    "revision": "1"
+                  }
+                }
+              ]
+            },
+            "law_id": "nabt.evidence-lifecycle.v1",
+            "referents_established": false,
+            "source_authenticity_established": false,
+            "steps": [
+              {
+                "active_sources": [
+                  {
+                    "content": "A question, not its evidence.",
+                    "identity": "question",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A synthetic record.",
+                    "identity": "record",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A declared copy of record.",
+                    "identity": "copy",
+                    "revision": "1"
+                  }
+                ],
+                "affected_ids": [],
+                "dependency_blocked_ids": [],
+                "dependency_ready_ids": [
+                  "copied-evidence"
+                ],
+                "event_id": null,
+                "receipt": {
+                  "refutation_ids": [],
+                  "selected_ids": [
+                    "copied-evidence"
+                  ],
+                  "status": "SUPPORTED",
+                  "support_ids": [
+                    "copied-evidence"
+                  ]
+                },
+                "step": 0
+              },
+              {
+                "active_sources": [
+                  {
+                    "content": "A question, not its evidence.",
+                    "identity": "question",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A declared copy of record.",
+                    "identity": "copy",
+                    "revision": "1"
+                  }
+                ],
+                "affected_ids": [
+                  "copied-evidence"
+                ],
+                "dependency_blocked_ids": [
+                  "copied-evidence"
+                ],
+                "dependency_ready_ids": [],
+                "event_id": "w",
+                "receipt": {
+                  "refutation_ids": [],
+                  "selected_ids": [],
+                  "status": "UNKNOWN",
+                  "support_ids": []
+                },
+                "step": 1
+              },
+              {
+                "active_sources": [
+                  {
+                    "content": "A question, not its evidence.",
+                    "identity": "question",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A declared copy of record.",
+                    "identity": "copy",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A synthetic record.",
+                    "identity": "record",
+                    "revision": "1"
+                  }
+                ],
+                "affected_ids": [
+                  "copied-evidence"
+                ],
+                "dependency_blocked_ids": [],
+                "dependency_ready_ids": [
+                  "copied-evidence"
+                ],
+                "event_id": "a",
+                "receipt": {
+                  "refutation_ids": [],
+                  "selected_ids": [
+                    "copied-evidence"
+                  ],
+                  "status": "SUPPORTED",
+                  "support_ids": [
+                    "copied-evidence"
+                  ]
+                },
+                "step": 2
+              }
+            ],
+            "world_truth_established": false
+          },
+          "execution": {
+            "input": {
+              "schema": "nabt.evidence-lifecycle.episode.v1",
+              "episode_id": "development-only",
+              "query": {
+                "key": {
+                  "axis": "recorded_observation",
+                  "entity": "fixture",
+                  "predicate": "flag",
+                  "value": "on",
+                  "unit": "state",
+                  "context": "development-control",
+                  "time": "3",
+                  "place": "fixture"
+                },
+                "positive": true,
+                "origin": "question"
+              },
+              "active_sources": [
+                {
+                  "identity": "question",
+                  "revision": "1",
+                  "content": "A question, not its evidence."
+                },
+                {
+                  "identity": "record",
+                  "revision": "1",
+                  "content": "A synthetic record."
+                },
+                {
+                  "identity": "copy",
+                  "revision": "1",
+                  "content": "A declared copy of record."
+                }
+              ],
+              "origins": [
+                {
+                  "id": "question",
+                  "parents": []
+                },
+                {
+                  "id": "record",
+                  "parents": []
+                },
+                {
+                  "id": "copy",
+                  "parents": [
+                    "record"
+                  ]
+                }
+              ],
+              "bindings": [
+                {
+                  "origin_id": "question",
+                  "source": {
+                    "identity": "question",
+                    "revision": "1",
+                    "content": "A question, not its evidence."
+                  },
+                  "rank": 0
+                },
+                {
+                  "origin_id": "record",
+                  "source": {
+                    "identity": "record",
+                    "revision": "1",
+                    "content": "A synthetic record."
+                  },
+                  "rank": 0
+                },
+                {
+                  "origin_id": "copy",
+                  "source": {
+                    "identity": "copy",
+                    "revision": "1",
+                    "content": "A declared copy of record."
+                  },
+                  "rank": 1
+                }
+              ],
+              "interpretations": [
+                {
+                  "id": "copied-evidence",
+                  "source": {
+                    "identity": "copy",
+                    "revision": "1",
+                    "content": "A declared copy of record."
+                  },
+                  "key": {
+                    "axis": "recorded_observation",
+                    "entity": "fixture",
+                    "predicate": "flag",
+                    "value": "on",
+                    "unit": "state",
+                    "context": "development-control",
+                    "time": "3",
+                    "place": "fixture"
+                  },
+                  "positive": true,
+                  "kind": "observation",
+                  "origin": "copy",
+                  "ancestry": [
+                    "record",
+                    "copy"
+                  ]
+                }
+              ],
+              "budget": 1,
+              "updates": [
+                {
+                  "event_id": "w",
+                  "kind": "withdraw",
+                  "source": {
+                    "identity": "record",
+                    "revision": "1",
+                    "content": "A synthetic record."
+                  },
+                  "replacement": null,
+                  "reason": "Synthetic development operation."
+                },
+                {
+                  "event_id": "a",
+                  "kind": "activate",
+                  "source": {
+                    "identity": "record",
+                    "revision": "1",
+                    "content": "A synthetic record."
+                  },
+                  "replacement": null,
+                  "reason": "Synthetic development operation."
+                }
+              ]
+            },
+            "proposal": {
+              "law_id": "nabt.evidence-lifecycle.v1",
+              "binding": {
+                "schema": "nabt.evidence-lifecycle.episode.v1",
+                "episode_id": "development-only",
+                "query": {
+                  "key": {
+                    "axis": "recorded_observation",
+                    "entity": "fixture",
+                    "predicate": "flag",
+                    "value": "on",
+                    "unit": "state",
+                    "context": "development-control",
+                    "time": "3",
+                    "place": "fixture"
+                  },
+                  "positive": true,
+                  "origin": "question"
+                },
+                "active_sources": [
+                  {
+                    "identity": "question",
+                    "revision": "1",
+                    "content": "A question, not its evidence."
+                  },
+                  {
+                    "identity": "record",
+                    "revision": "1",
+                    "content": "A synthetic record."
+                  },
+                  {
+                    "identity": "copy",
+                    "revision": "1",
+                    "content": "A declared copy of record."
+                  }
+                ],
+                "origins": [
+                  {
+                    "id": "question",
+                    "parents": []
+                  },
+                  {
+                    "id": "record",
+                    "parents": []
+                  },
+                  {
+                    "id": "copy",
+                    "parents": [
+                      "record"
+                    ]
+                  }
+                ],
+                "bindings": [
+                  {
+                    "origin_id": "question",
+                    "source": {
+                      "identity": "question",
+                      "revision": "1",
+                      "content": "A question, not its evidence."
+                    },
+                    "rank": 0
+                  },
+                  {
+                    "origin_id": "record",
+                    "source": {
+                      "identity": "record",
+                      "revision": "1",
+                      "content": "A synthetic record."
+                    },
+                    "rank": 0
+                  },
+                  {
+                    "origin_id": "copy",
+                    "source": {
+                      "identity": "copy",
+                      "revision": "1",
+                      "content": "A declared copy of record."
+                    },
+                    "rank": 1
+                  }
+                ],
+                "interpretations": [
+                  {
+                    "id": "copied-evidence",
+                    "source": {
+                      "identity": "copy",
+                      "revision": "1",
+                      "content": "A declared copy of record."
+                    },
+                    "key": {
+                      "axis": "recorded_observation",
+                      "entity": "fixture",
+                      "predicate": "flag",
+                      "value": "on",
+                      "unit": "state",
+                      "context": "development-control",
+                      "time": "3",
+                      "place": "fixture"
+                    },
+                    "positive": true,
+                    "kind": "observation",
+                    "origin": "copy",
+                    "ancestry": [
+                      "record",
+                      "copy"
+                    ]
+                  }
+                ],
+                "budget": 1,
+                "updates": [
+                  {
+                    "event_id": "w",
+                    "kind": "withdraw",
+                    "source": {
+                      "identity": "record",
+                      "revision": "1",
+                      "content": "A synthetic record."
+                    },
+                    "replacement": null,
+                    "reason": "Synthetic development operation."
+                  },
+                  {
+                    "event_id": "a",
+                    "kind": "activate",
+                    "source": {
+                      "identity": "record",
+                      "revision": "1",
+                      "content": "A synthetic record."
+                    },
+                    "replacement": null,
+                    "reason": "Synthetic development operation."
+                  }
+                ]
+              },
+              "steps": [
+                {
+                  "step": 0,
+                  "event_id": null,
+                  "active_sources": [
+                    {
+                      "identity": "question",
+                      "revision": "1",
+                      "content": "A question, not its evidence."
+                    },
+                    {
+                      "identity": "record",
+                      "revision": "1",
+                      "content": "A synthetic record."
+                    },
+                    {
+                      "identity": "copy",
+                      "revision": "1",
+                      "content": "A declared copy of record."
+                    }
+                  ],
+                  "receipt": {
+                    "status": "SUPPORTED",
+                    "support_ids": [
+                      "copied-evidence"
+                    ],
+                    "refutation_ids": [],
+                    "selected_ids": [
+                      "copied-evidence"
+                    ]
+                  },
+                  "dependency_ready_ids": [
+                    "copied-evidence"
+                  ],
+                  "dependency_blocked_ids": [],
+                  "affected_ids": []
+                },
+                {
+                  "step": 1,
+                  "event_id": "w",
+                  "active_sources": [
+                    {
+                      "identity": "question",
+                      "revision": "1",
+                      "content": "A question, not its evidence."
+                    },
+                    {
+                      "identity": "copy",
+                      "revision": "1",
+                      "content": "A declared copy of record."
+                    }
+                  ],
+                  "receipt": {
+                    "status": "UNKNOWN",
+                    "support_ids": [],
+                    "refutation_ids": [],
+                    "selected_ids": []
+                  },
+                  "dependency_ready_ids": [],
+                  "dependency_blocked_ids": [
+                    "copied-evidence"
+                  ],
+                  "affected_ids": [
+                    "copied-evidence"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "event_id": "a",
+                  "active_sources": [
+                    {
+                      "identity": "question",
+                      "revision": "1",
+                      "content": "A question, not its evidence."
+                    },
+                    {
+                      "identity": "copy",
+                      "revision": "1",
+                      "content": "A declared copy of record."
+                    },
+                    {
+                      "identity": "record",
+                      "revision": "1",
+                      "content": "A synthetic record."
+                    }
+                  ],
+                  "receipt": {
+                    "status": "SUPPORTED",
+                    "support_ids": [
+                      "copied-evidence"
+                    ],
+                    "refutation_ids": [],
+                    "selected_ids": [
+                      "copied-evidence"
+                    ]
+                  },
+                  "dependency_ready_ids": [
+                    "copied-evidence"
+                  ],
+                  "dependency_blocked_ids": [],
+                  "affected_ids": [
+                    "copied-evidence"
+                  ]
+                }
+              ],
+              "world_truth_established": false,
+              "source_authenticity_established": false,
+              "referents_established": false,
+              "all_arabic_complete": false
+            },
+            "native_result": {
+              "all_arabic_complete": false,
+              "binding": {
+                "active_sources": [
+                  {
+                    "content": "A question, not its evidence.",
+                    "identity": "question",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A synthetic record.",
+                    "identity": "record",
+                    "revision": "1"
+                  },
+                  {
+                    "content": "A declared copy of record.",
+                    "identity": "copy",
+                    "revision": "1"
+                  }
+                ],
+                "bindings": [
+                  {
+                    "origin_id": "question",
+                    "rank": 0,
+                    "source": {
+                      "content": "A question, not its evidence.",
+                      "identity": "question",
+                      "revision": "1"
+                    }
+                  },
+                  {
+                    "origin_id": "record",
+                    "rank": 0,
+                    "source": {
+                      "content": "A synthetic record.",
+                      "identity": "record",
+                      "revision": "1"
+                    }
+                  },
+                  {
+                    "origin_id": "copy",
+                    "rank": 1,
+                    "source": {
+                      "content": "A declared copy of record.",
+                      "identity": "copy",
+                      "revision": "1"
+                    }
+                  }
+                ],
+                "budget": 1,
+                "episode_id": "development-only",
+                "interpretations": [
+                  {
+                    "ancestry": [
+                      "record",
+                      "copy"
+                    ],
+                    "id": "copied-evidence",
+                    "key": {
+                      "axis": "recorded_observation",
+                      "context": "development-control",
+                      "entity": "fixture",
+                      "place": "fixture",
+                      "predicate": "flag",
+                      "time": "3",
+                      "unit": "state",
+                      "value": "on"
+                    },
+                    "kind": "observation",
+                    "origin": "copy",
+                    "positive": true,
+                    "source": {
+                      "content": "A declared copy of record.",
+                      "identity": "copy",
+                      "revision": "1"
+                    }
+                  }
+                ],
+                "origins": [
+                  {
+                    "id": "question",
+                    "parents": []
+                  },
+                  {
+                    "id": "record",
+                    "parents": []
+                  },
+                  {
+                    "id": "copy",
+                    "parents": [
+                      "record"
+                    ]
+                  }
+                ],
+                "query": {
+                  "key": {
+                    "axis": "recorded_observation",
+                    "context": "development-control",
+                    "entity": "fixture",
+                    "place": "fixture",
+                    "predicate": "flag",
+                    "time": "3",
+                    "unit": "state",
+                    "value": "on"
+                  },
+                  "origin": "question",
+                  "positive": true
+                },
+                "schema": "nabt.evidence-lifecycle.episode.v1",
+                "updates": [
+                  {
+                    "event_id": "w",
+                    "kind": "withdraw",
+                    "reason": "Synthetic development operation.",
+                    "replacement": null,
+                    "source": {
+                      "content": "A synthetic record.",
+                      "identity": "record",
+                      "revision": "1"
+                    }
+                  },
+                  {
+                    "event_id": "a",
+                    "kind": "activate",
+                    "reason": "Synthetic development operation.",
+                    "replacement": null,
+                    "source": {
+                      "content": "A synthetic record.",
+                      "identity": "record",
+                      "revision": "1"
+                    }
+                  }
+                ]
+              },
+              "law_id": "nabt.evidence-lifecycle.v1",
+              "referents_established": false,
+              "source_authenticity_established": false,
+              "steps": [
+                {
+                  "active_sources": [
+                    {
+                      "content": "A question, not its evidence.",
+                      "identity": "question",
+                      "revision": "1"
+                    },
+                    {
+                      "content": "A synthetic record.",
+                      "identity": "record",
+                      "revision": "1"
+                    },
+                    {
+                      "content": "A declared copy of record.",
+                      "identity": "copy",
+                      "revision": "1"
+                    }
+                  ],
+                  "affected_ids": [],
+                  "dependency_blocked_ids": [],
+                  "dependency_ready_ids": [
+                    "copied-evidence"
+                  ],
+                  "event_id": null,
+                  "receipt": {
+                    "refutation_ids": [],
+                    "selected_ids": [
+                      "copied-evidence"
+                    ],
+                    "status": "SUPPORTED",
+                    "support_ids": [
+                      "copied-evidence"
+                    ]
+                  },
+                  "step": 0
+                },
+                {
+                  "active_sources": [
+                    {
+                      "content": "A question, not its evidence.",
+                      "identity": "question",
+                      "revision": "1"
+                    },
+                    {
+                      "content": "A declared copy of record.",
+                      "identity": "copy",
+                      "revision": "1"
+                    }
+                  ],
+                  "affected_ids": [
+                    "copied-evidence"
+                  ],
+                  "dependency_blocked_ids": [
+                    "copied-evidence"
+                  ],
+                  "dependency_ready_ids": [],
+                  "event_id": "w",
+                  "receipt": {
+                    "refutation_ids": [],
+                    "selected_ids": [],
+                    "status": "UNKNOWN",
+                    "support_ids": []
+                  },
+                  "step": 1
+                },
+                {
+                  "active_sources": [
+                    {
+                      "content": "A question, not its evidence.",
+                      "identity": "question",
+                      "revision": "1"
+                    },
+                    {
+                      "content": "A declared copy of record.",
+                      "identity": "copy",
+                      "revision": "1"
+                    },
+                    {
+                      "content": "A synthetic record.",
+                      "identity": "record",
+                      "revision": "1"
+                    }
+                  ],
+                  "affected_ids": [
+                    "copied-evidence"
+                  ],
+                  "dependency_blocked_ids": [],
+                  "dependency_ready_ids": [
+                    "copied-evidence"
+                  ],
+                  "event_id": "a",
+                  "receipt": {
+                    "refutation_ids": [],
+                    "selected_ids": [
+                      "copied-evidence"
+                    ],
+                    "status": "SUPPORTED",
+                    "support_ids": [
+                      "copied-evidence"
+                    ]
+                  },
+                  "step": 2
+                }
+              ],
+              "world_truth_established": false
+            },
+            "input_sha256": "4ba7469a2bfd2c3b3b578bdfe82988a663e9cf51b1a1b7ec63ded3f029885187",
+            "proposal_sha256": "2d000e62f93d18c1ced7f05f3cd5aa1ecd41faae39cfe2447352b6d460fcc06c",
+            "native_result_sha256": "2d000e62f93d18c1ced7f05f3cd5aa1ecd41faae39cfe2447352b6d460fcc06c",
+            "run_identity": {
+              "code": {
+                "tools/epistemic_measurement.py": "a1f7f4e9a5b26690af0117b84b1c623fbffb6288bb9e4bb87c48f81f92446f2f",
+                "tools/evidence_lifecycle_v1.py": "5cb5b15b30157553273ce457c8f10859824f1e9a6572ad84ed5ed9699b9923f0"
+              },
+              "native": {
+                "formal/.lake/build/bin/evidenceLifecycleV1": "aac536edf83f44957b5977cfb68e769040765af6ec15e10bb999f04294f29781"
+              }
+            },
+            "error": null
+          },
+          "world_truth_established": false,
+          "source_authenticity_established": false,
+          "referents_established": false,
+          "all_arabic_complete": false
+        },
+        "verification": {
+          "replay_matches": true,
+          "valid": true,
+          "status": "SUPPORTED"
+        },
+        "changed_episode_verification": {
+          "replay_matches": false,
+          "valid": false,
+          "status": "INVALID_RECEIPT"
+        },
+        "native_transport_retained_as": "EXISTING_ADAPTER_INPUT_AND_PARSED_NATIVE_RESULT_WITH_HASHES"
+      },
+      "matches_expected": true,
+      "error": null
+    },
+    {
+      "id": "routing-complete-declared-inventory",
+      "expected": {
+        "schedule": [
+          "r2",
+          "r1",
+          "r3"
+        ]
+      },
+      "input": {
+        "inventory": [
+          "r1",
+          "r2",
+          "r3"
+        ],
+        "ranked": [
+          "unknown",
+          "r2",
+          "r2"
+        ]
+      },
+      "input_sha256": "6ad182ff5270832ffd64545d775f467f89cfad0c19b9564d354121d4df1bfb1c",
+      "observed": {
+        "schedule": [
+          "r2",
+          "r1",
+          "r3"
+        ]
+      },
+      "details": {
+        "scope": "Authored three-ID inventory; not a scan of the installed Arabic rule inventory.",
+        "native_checked": false
+      },
+      "matches_expected": true,
+      "error": null
+    }
+  ],
+  "summary": {
+    "probe_count": 6,
+    "matching_expected_probes": 6,
+    "all_expected_projections_match": true,
+    "inputs_unchanged_during_run": true
+  },
+  "replay_command": "python -B evidence/rule_policy_organization_v1/baseline_capability_probe.py --output /tmp/nabt-rule-policy-baseline-replay.json"
+}

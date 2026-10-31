@@ -1,0 +1,277 @@
+{
+  "schema": "nabt.rule-policy-organization.independent-scope-review.v1",
+  "reviewer": "rule_formation_foundations",
+  "base_commit": "181dec466ccfad5b6a63ec9750f149ea58829eda",
+  "scope": "Independent bounded organizational metadata and identity review; no new semantic engine, no native checker execution, no fresh Lean build, no broad semantic suites.",
+  "fresh_lean_build": false,
+  "native_checker_execution_performed": false,
+  "code_and_spec_sha256_before": {
+    "tools/entropy_framework/organization.py": "24cb9fa527a110ea29dd2f4fadaa5daeaec9d0de16b6f74754ad412c6df760cd",
+    "tools/entropy_framework/registry.py": "9a048cf4e8260df2551397fed6139307cb14c20d624884c5583bd423db7bb2c9",
+    "tools/entropy_framework/__main__.py": "472e50ea203a7832472fa7f2c5956a4bfb89743a2e5098ced7a24a4f3d06513e",
+    "tools/entropy_framework/registry.json": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+    "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md": "ee396385b7a235436d7fcfecbaf9893adb3df39981c03caa1fa54054023ac9c8"
+  },
+  "code_and_spec_sha256_after": {
+    "tools/entropy_framework/organization.py": "24cb9fa527a110ea29dd2f4fadaa5daeaec9d0de16b6f74754ad412c6df760cd",
+    "tools/entropy_framework/registry.py": "9a048cf4e8260df2551397fed6139307cb14c20d624884c5583bd423db7bb2c9",
+    "tools/entropy_framework/__main__.py": "472e50ea203a7832472fa7f2c5956a4bfb89743a2e5098ced7a24a4f3d06513e",
+    "tools/entropy_framework/registry.json": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+    "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md": "ee396385b7a235436d7fcfecbaf9893adb3df39981c03caa1fa54054023ac9c8"
+  },
+  "reviewed_inputs_unchanged": true,
+  "historical_finding": {
+    "id": "present_empty_run_was_treated_as_absent",
+    "command": "python -B -m tools.entropy_framework reuse --organization --run '' --summary",
+    "observed_before_fix": {
+      "exit_code": 0,
+      "schema": "nabt.rule-organization.summary.v1",
+      "status": "RESOLVED",
+      "authority": "ORGANIZATIONAL_REFERENCE_MAP_ONLY",
+      "runtime_execution_performed": false
+    },
+    "exact_before_code_sha256": null,
+    "hash_limit": "Historical command was reproduced before code hashes were captured. No before-fix code hash is invented.",
+    "severity": "CLI option-contract inconsistency; no execution or semantic authority granted."
+  },
+  "final_checks": [
+    {
+      "id": "ordinary_validation_no_owner_claim",
+      "expected": "DECLARED_REFERENCES_NOT_RESOLVED",
+      "observed": "DECLARED_REFERENCES_NOT_RESOLVED",
+      "passed": true,
+      "method": "Actual validate_registry on installed metadata."
+    },
+    {
+      "id": "base_vocabularies_order_preserved",
+      "expected": true,
+      "observed": true,
+      "passed": true,
+      "method": "Reverse the three declared lists; require exact vocabulary membership and retain authored order in base projection."
+    },
+    {
+      "id": "missing_rule_contract",
+      "expected": "FrameworkError",
+      "observed": "FrameworkError",
+      "passed": true,
+      "method": {
+        "type": "FrameworkError",
+        "reason": "rule_contract: object required"
+      }
+    },
+    {
+      "id": "missing_evidence_freshness",
+      "expected": "FrameworkError",
+      "observed": "FrameworkError",
+      "passed": true,
+      "method": {
+        "type": "FrameworkError",
+        "reason": "evidence_freshness: object required"
+      }
+    },
+    {
+      "id": "mixed_dependency_cycle",
+      "expected": "FrameworkError",
+      "observed": "FrameworkError",
+      "passed": true,
+      "method": {
+        "type": "FrameworkError",
+        "reason": "rule_contract.organization: prerequisite cycle: rule_contract.organization.prerequisites: dependency cycle"
+      }
+    },
+    {
+      "id": "nondependency_cycle",
+      "expected": "ACCEPTED",
+      "observed": "ACCEPTED",
+      "passed": true,
+      "method": {
+        "type": "ACCEPTED"
+      }
+    },
+    {
+      "id": "reference_scope_override",
+      "expected": "FrameworkError",
+      "observed": "FrameworkError",
+      "passed": true,
+      "method": {
+        "type": "FrameworkError",
+        "reason": "rule_contract.organization.profile.subject reference: exact fields required"
+      }
+    },
+    {
+      "id": "lifecycle_event_injection",
+      "expected": "FrameworkError",
+      "observed": "FrameworkError",
+      "passed": true,
+      "method": {
+        "type": "FrameworkError",
+        "reason": "rule_contract.organization.profile: exact fields required"
+      }
+    },
+    {
+      "id": "complete_catalogue_rows_preserved",
+      "expected": true,
+      "observed": true,
+      "passed": true,
+      "method": "Compare every original catalogue row field against the fresh existing owner result captured during real report construction."
+    },
+    {
+      "id": "direct_subject_mapping_only",
+      "expected": [
+        "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+        "nabt.morphology.source-policy.v1::word_kind"
+      ],
+      "observed": [
+        "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+        "nabt.morphology.source-policy.v1::word_kind"
+      ],
+      "passed": true,
+      "method": "Only exact direct catalogue subjects should classify rows."
+    },
+    {
+      "id": "coverage_partition",
+      "expected": true,
+      "observed": true,
+      "passed": true,
+      "method": "Check disjoint complete partition of exact catalogue population."
+    },
+    {
+      "id": "no_event_authority_or_scope_upgrade",
+      "expected": true,
+      "observed": true,
+      "passed": true,
+      "method": "Inspect actual full report and all eleven lifecycle projections."
+    },
+    {
+      "id": "installed_registry_identity_matches_parsed_bytes",
+      "expected": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+      "observed": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+      "passed": true,
+      "method": "The real installed registry report digest must match the originally consumed raw bytes."
+    },
+    {
+      "id": "compiled_owner_snapshot_boundaries",
+      "expected": true,
+      "observed": true,
+      "passed": true,
+      "method": "Retain recorded-snapshot qualifier and exact source digest for each direct compiled-declaration subject."
+    },
+    {
+      "id": "load_json_same_buffer_identity",
+      "expected": {
+        "object": {
+          "marker": "first"
+        },
+        "sha256": "4f192f2a60a253603c766e4715a8814170061167d6968404b62749275b9c5075"
+      },
+      "observed": {
+        "object": {
+          "marker": "first"
+        },
+        "sha256": "4f192f2a60a253603c766e4715a8814170061167d6968404b62749275b9c5075"
+      },
+      "passed": true,
+      "method": "Isolated file changes from first to second while json.loads executes after the original raw read; returned parsed object and SHA must identify first."
+    },
+    {
+      "id": "installed_registry_changed_bytes_rejected",
+      "expected": {
+        "type": "FrameworkError",
+        "reason": "rule organization installed registry changed during resolution"
+      },
+      "observed": {
+        "type": "FrameworkError",
+        "reason": "rule organization installed registry changed during resolution"
+      },
+      "passed": true,
+      "method": "All owners run unchanged; append harmless whitespace only to isolated redirected registry after catalogue construction, before final same-buffer digest check."
+    },
+    {
+      "id": "scope_budget_cli_resource_exit",
+      "expected": {
+        "exit_code": 3,
+        "status": "RESOURCE_EXHAUSTED",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "runtime_execution_performed": false
+      },
+      "observed": {
+        "exit_code": 3,
+        "status": "RESOURCE_EXHAUSTED",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "runtime_execution_performed": false
+      },
+      "passed": true,
+      "method": "Actual CLI main receives isolated registry with scope exactly MAX_SCOPE_BYTES + 1; no owner resolution needed."
+    },
+    {
+      "id": "empty_run_selector_rejected",
+      "expected": {
+        "exit_code": 2,
+        "status": "INVALID_INPUT",
+        "reason": "reuse --organization is separate from --run",
+        "runtime_execution_performed": false
+      },
+      "observed": {
+        "exit_code": 2,
+        "status": "INVALID_INPUT",
+        "reason": "reuse --organization is separate from --run",
+        "runtime_execution_performed": false
+      },
+      "passed": true,
+      "method": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "-m",
+          "tools.entropy_framework",
+          "reuse",
+          "--organization",
+          "--run",
+          "",
+          "--summary"
+        ],
+        "stderr": ""
+      }
+    }
+  ],
+  "all_final_checks_passed": true,
+  "observed_population": {
+    "profiles": 11,
+    "rules": 125,
+    "mapped_rules": 2,
+    "unmapped_rules": 123,
+    "compiled_catalogue": "evidence/meaning_preservation_v1/integration/proof_catalog.json"
+  },
+  "retained_boundary_examples": {
+    "word_kind": {
+      "rule_key": "nabt.morphology.source-policy.v1::word_kind",
+      "scope": "Conditional inference from explicit qualified descriptive clauses; no dictionary answers, no external lexical truth, no unrestricted Arabic parser. Time in form differs from event time. Genitive realization is conditional, not an observed syntactic case.",
+      "owner_scope": "Conditional inference from explicit qualified descriptive clauses; no dictionary answers, no external lexical truth, no unrestricted Arabic parser. Time in form differs from event time. Genitive realization is conditional, not an observed syntactic case.",
+      "source_status": "authored_selected_policy",
+      "runtime_rule_id": null,
+      "theorem_names": [],
+      "mapping_status": "MAPPED",
+      "scope_relation_established": false
+    },
+    "nun_before_ba": {
+      "rule_key": "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+      "scope": "المتن المحلي يقول قبل يا بينما الشرح يقول قبل با",
+      "owner_scope": "المتن المحلي يقول قبل يا بينما الشرح يقول قبل با",
+      "source_status": "textual_discrepancy",
+      "runtime_rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+      "theorem_names": [
+        "Nabt.ClassicalGemination.nun_exact"
+      ],
+      "mapping_status": "MAPPED",
+      "scope_relation_established": false
+    }
+  },
+  "remaining_blockers": [],
+  "limits": [
+    "Final checks identify the recorded code snapshot only.",
+    "Reference resolution is navigation, not evidence of formation, adoption, application or revision.",
+    "The initial registry-race risk was confirmed by code inspection; the final isolated changed-bytes probe verifies rejection, without altering the installed registry."
+  ]
+}

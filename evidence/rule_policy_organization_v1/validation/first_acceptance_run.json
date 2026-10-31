@@ -1,0 +1,84 @@
+{
+  "schema": "nabt.rule-policy-organization.first-acceptance-run.v1",
+  "phase": "EXPOSED_FROZEN_ACCEPTANCE_FIRST_RUN",
+  "authority": "RECORDED_TEST_PROCESS_OBSERVATION_ONLY",
+  "semantic_authority": "NONE",
+  "action_authority": "NONE",
+  "frozen_spec_gold_commit": "5dca9ada9b251400036db5359cb55e938ff1dec4",
+  "command": "PYTHONPATH=src:. python -B -m unittest tests.test_proof_reuse_organization -v",
+  "working_directory": "/workspace/scratch/84dbb26f30e1/NABT",
+  "tool_session_id": 15358,
+  "evaluator": {
+    "path": "tests/test_proof_reuse_organization.py",
+    "sha256": "0c602d9e88e3f6f34a28b1cf8e25666eaccea9412d724e31e46778bccc9e924d",
+    "identity_capture": "Captured while first acceptance process was active, before supplemental tests were added."
+  },
+  "oracle": {
+    "path": "evidence/rule_policy_organization_v1/acceptance_cases.json",
+    "sha256": "9a04a167259cd2f6993a81c4863fba16c298485b4110afc634c9d03ef9e4f82f"
+  },
+  "implementation_inputs": {
+    "status": "NOT_CAPTURED",
+    "hashes": null,
+    "reason": "No production-file digest snapshot was captured for this first process. Working-tree implementation edits were in progress. Do not substitute later hashes for this historical observation."
+  },
+  "result": {
+    "exit_code": 0,
+    "tests_run": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unittest_reported_seconds": 62.996,
+    "status": "PASS"
+  },
+  "coverage": {
+    "frozen_group_ids": [
+      "RPO01",
+      "RPO02",
+      "RPO03",
+      "RPO04",
+      "RPO05",
+      "RPO06",
+      "RPO07",
+      "RPO08",
+      "RPO09",
+      "RPO10",
+      "RPO11",
+      "RPO12",
+      "RPO13",
+      "RPO14"
+    ],
+    "supplemental_tests_included": false
+  },
+  "capture": {
+    "kind": "VERBATIM_TOOL_OUTPUT_CHUNKS_TRANSCRIBED_IN_ORIGINAL_ORDER",
+    "stdout_stderr_separately_captured": false,
+    "chunks": [
+      {
+        "chunk_id": "4e794b",
+        "output": "test_rpo01_exact_owner_references_base_contracts_and_nonexecution (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo01_exact_owner_references_base_contracts_and_nonexecution) ... "
+      },
+      {
+        "chunk_id": "f9ed25",
+        "output": "ok\ntest_rpo02_legacy_omission_is_explicit_and_every_rule_remains_visible (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo02_legacy_omission_is_explicit_and_every_rule_remains_visible) ... ok\ntest_rpo03_missing_or_weakened_base_rule_contract_always_rejects (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo03_missing_or_weakened_base_rule_contract_always_rejects) ... ok\ntest_rpo04_operation_kind_is_not_a_caller_defined_execution_vocabulary (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo04_operation_kind_is_not_a_caller_defined_execution_vocabulary) ... ok\ntest_rpo05_freshness_contract_cannot_omit_source_identity (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo05_freshness_contract_cannot_omit_source_identity) ... ok\ntest_rpo06_duplicates_are_rejected_without_deduplication (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo06_duplicates_are_rejected_without_deduplication) ... ok\ntest_rpo07_exact_owner_resolution_is_distinct_from_structure_validation (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo07_exact_owner_resolution_is_distinct_from_structure_validation) ... "
+      },
+      {
+        "chunk_id": "ead2c1",
+        "output": "ok\ntest_rpo08_authored_annotation_cannot_override_owner_scope (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo08_authored_annotation_cannot_override_owner_scope) ... ok\ntest_rpo09_version_overrides_and_actual_source_loader_tampering_fail (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo09_version_overrides_and_actual_source_loader_tampering_fail) ... "
+      },
+      {
+        "chunk_id": "4badb2",
+        "output": "ok\ntest_rpo10_combined_prerequisite_justification_cycles_are_rejected (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo10_combined_prerequisite_justification_cycles_are_rejected) ... ok\ntest_rpo11_reference_inference_and_conflict_cycles_remain_metadata (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo11_reference_inference_and_conflict_cycles_remain_metadata) ... ok\ntest_rpo12_closed_shapes_and_execution_sentinels_keep_authority_none (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo12_closed_shapes_and_execution_sentinels_keep_authority_none) ... ok\ntest_rpo13_exact_population_permutation_and_distinct_source_statuses (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo13_exact_population_permutation_and_distinct_source_statuses) ... ok\ntest_rpo14_actual_cli_views_conflicts_exclusive_output_and_legacy_reuse (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_rpo14_actual_cli_views_conflicts_exclusive_output_and_legacy_reuse) ... "
+      },
+      {
+        "chunk_id": "c88cc7",
+        "output": "ok\n\n----------------------------------------------------------------------\nRan 14 tests in 62.996s\n\nOK\n"
+      }
+    ],
+    "exact_start_timestamp": "NOT_CAPTURED"
+  },
+  "limits": [
+    "This record preserves the first fourteen-group run; later supplemental checks and final code-bound verification are separate.",
+    "No source texts, semantic kernels or native proof programs were changed or exercised by this metadata acceptance suite."
+  ]
+}
