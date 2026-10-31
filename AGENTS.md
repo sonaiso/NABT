@@ -17,6 +17,12 @@ or orchestration layer:
    module or family. This command derives declarations from the current
    compiled catalogue selected by `integrations/current_proof_references.mk`;
    it is not a second theorem registry or a grant of semantic authority.
+   For rule, concept or policy work, also run
+   `python -m tools.entropy_framework reuse --organization --summary` and read
+   `docs/NABT_RULE_POLICY_ORGANIZATION_AR.md`. Keep formation, adoption,
+   application and revision contracts separate from evidence that those events
+   occurred. Unmapped catalogue records remain available; a resolved reference
+   does not authorize an inference, external-world claim or action.
 3. Inspect the existing implementation, input premises, native checker, replay
    entry point, counterexamples, and recorded open bridge obligations. Extend
    that path when it meets the task. Explain a concrete unmet obligation before

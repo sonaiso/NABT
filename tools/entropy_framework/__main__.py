@@ -11,11 +11,14 @@ from .registry import (DEFAULT_REGISTRY, FrameworkError, FrameworkResourceError,
                        report_registry, validate_registry)
 
 
-def _failure(status, error, code):
+def _failure(status, error, code, *, organization=False):
     # Diagnostics must remain scalar UTF-8 even when the rejected input is not.
     reason = str(error).encode("utf-8", "backslashreplace").decode("utf-8")
-    print(json.dumps({"status": status, "reason": reason,
-                      "semantic_authority": "NONE"}, ensure_ascii=False))
+    result = {"status": status, "reason": reason, "semantic_authority": "NONE"}
+    if organization:
+        result.update(action_authority="NONE", runtime_execution_performed=False,
+                      scope_relation_established=False)
+    print(json.dumps(result, ensure_ascii=False))
     return code
 
 
@@ -31,6 +34,8 @@ def main(argv=None):
     selection = command.add_mutually_exclusive_group()
     selection.add_argument("--family", help="existing reuse-family identity")
     selection.add_argument("--module", help="exact existing Nabt.Module identity")
+    selection.add_argument("--organization", action="store_true",
+                           help="resolve existing rule/policy organization without executing owners")
     command.add_argument("--summary", action="store_true", help="compact agent startup view")
     command.add_argument("--output", type=Path, help="save the full resolved use map")
     command.add_argument("--run", metavar="ENTRYPOINT", help="delegate to an allowlisted existing CLI")
@@ -39,9 +44,15 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == "reuse":
-            from .reuse import build_reuse_report, summary
-            result = build_reuse_report(family=args.family, module=args.module)
-            if args.run:
+            if args.organization:
+                if args.run is not None:
+                    raise FrameworkError("reuse --organization is separate from --run")
+                from .organization import build_organization_report, summary
+                result = build_organization_report()
+            else:
+                from .reuse import build_reuse_report, summary
+                result = build_reuse_report(family=args.family, module=args.module)
+            if args.run is not None:
                 if args.family or args.module or args.output or args.summary:
                     raise FrameworkError("reuse --run is separate from report selection/output")
                 from .reuse_run import run_entry
@@ -55,7 +66,8 @@ def main(argv=None):
                 args.output.parent.mkdir(parents=True, exist_ok=True)
                 with args.output.open("x", encoding="utf-8") as handle:
                     handle.write(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
-            if args.summary or args.output or (args.family is None and args.module is None):
+            if args.summary or args.output or (not args.organization and
+                                               args.family is None and args.module is None):
                 result = summary(result)
         elif args.command == "measure":
             result = measure_candidates(load_json(args.input))
@@ -63,9 +75,11 @@ def main(argv=None):
             registry = load_json(args.registry)
             result = (validate_registry if args.command == "validate" else report_registry)(registry)
     except FrameworkResourceError as error:
-        return _failure("RESOURCE_EXHAUSTED", error, 3)
+        return _failure("RESOURCE_EXHAUSTED", error, 3,
+                        organization=args.command == "reuse" and args.organization)
     except (FrameworkError, OSError) as error:
-        return _failure("INVALID_INPUT", error, 2)
+        return _failure("INVALID_INPUT", error, 2,
+                        organization=args.command == "reuse" and args.organization)
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
     return 0
 

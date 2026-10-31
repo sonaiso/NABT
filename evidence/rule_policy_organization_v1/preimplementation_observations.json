@@ -1,0 +1,29 @@
+{
+  "schema": "nabt.rule-policy-preimplementation-observation.v1",
+  "base_commit": "181dec466ccfad5b6a63ec9750f149ea58829eda",
+  "input_sha256": {
+    "tools/entropy_framework/registry.py": "a9d2c0f70e1b30d1629742b5178199b79a545211901323abab8f4db57a8f4ef6",
+    "tools/entropy_framework/registry.json": "e3b7cbe3b4793f1b7c71e35da983c4d11361104f368bbc5b37a6afc7d4eb9dd1"
+  },
+  "observations": [
+    {
+      "case": "missing_rule_contract",
+      "validator_returned_valid": true,
+      "semantic_authority": "NONE",
+      "authority": "METADATA_CONSISTENCY_ONLY"
+    },
+    {
+      "case": "unrecognized_operation",
+      "validator_returned_valid": true,
+      "semantic_authority": "NONE",
+      "authority": "METADATA_CONSISTENCY_ONLY"
+    },
+    {
+      "case": "missing_freshness",
+      "validator_returned_valid": true,
+      "semantic_authority": "NONE",
+      "authority": "METADATA_CONSISTENCY_ONLY"
+    }
+  ],
+  "interpretation": "Organizational declarations are not validated; this does not demonstrate semantic-authority escalation because the output already denies such authority."
+}
