@@ -5,6 +5,7 @@ from the producer or a copy of its recurrence. Native integration is separately
 identified and is mandatory when NABT_REQUIRE_MEANING_PRESERVATION_NATIVE=1.
 """
 from copy import deepcopy
+from hashlib import sha256
 import io
 import json
 import os
@@ -330,6 +331,34 @@ class MeaningNativeTests(unittest.TestCase):
         self.assertEqual(run.returncode, 2)
         report = json.loads(run.stdout)
         self.assertEqual(report["status"], "INVALID_INPUT")
+
+    def test_case_id_uniqueness_follows_complete_packet_validation(self):
+        # Four literal controls frozen in b1621ed before the Python correction.
+        # This regression does not change or rescore the original 73-case gold.
+        fixture = json.loads((meaning.ROOT / "evidence/meaning_preservation_v1/runtime_review1/cases.json")
+                             .read_text(encoding="utf-8"))
+        self.assertEqual([(row["id"], row["expected_status"]) for row in fixture["cases"]], [
+            ("duplicate_and_resource", "RESOURCE_EXHAUSTED"),
+            ("duplicate_only", "INVALID_INPUT"),
+            ("resource_only", "RESOURCE_EXHAUSTED"),
+            ("valid_two_distinct", "FINITE_CONTRACT_VERIFIED")])
+        for row in fixture["cases"]:
+            with self.subTest(case_id=row["id"]):
+                raw = json.dumps(row["request"], ensure_ascii=False, sort_keys=True,
+                                 separators=(",", ":")).encode("utf-8")
+                self.assertEqual(sha256(raw).hexdigest(), row["request_sha256"])
+                run = subprocess.run([str(meaning.NATIVE)], input=raw + b"\n",
+                                     capture_output=True, timeout=30, check=False)
+                native = json.loads(run.stdout)
+                accepted = row["expected_status"] == "FINITE_CONTRACT_VERIFIED"
+                self.assertEqual(run.returncode, 0 if accepted else 2)
+                self.assertEqual(native["status"], row["expected_status"])
+                self.assertEqual(meaning.propose(row["request"])["status"], row["expected_status"])
+                result = meaning.evaluate_authored(row["request"])
+                self.assertEqual(result["status"], row["expected_status"])
+                self.assertIs(result["verified"], accepted)
+                for flag in meaning.FLAGS:
+                    self.assertIs(result[flag], False)
 
 
 class MeaningProductiveNativeTests(unittest.TestCase):

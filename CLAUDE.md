@@ -180,8 +180,9 @@ and T16-LC1 delivery without closing their parent tasks. General candidate
 regeneration, interval time, unit conversion, functional-value conflicts, actual
 source independence and N6-b remain open. T11 preparation contains existing
 source/designation projections, not new usage judgments or a 120-case matrix.
-The historical src/ tree and original Makefile remain unchanged. All seven
-current proof/source selectors now point to evidence/evidence_lifecycle_v1/integration.
+The historical src/ tree and original Makefile remain unchanged. In the lifecycle
+delivery, the seven proof/source references were recorded in
+evidence/evidence_lifecycle_v1/integration; those references remain historical.
 
 Preserve the eight failed CI checks on d9ce75b and the environment repair in
 validation/ci_repair_692c3a4.zip. Python-only discovery may skip absent native
@@ -194,3 +195,34 @@ validation/unittest_count_erratum_v1.json: 2,658 testsRun comprises 2,484
 successful methods and 174 skipped methods; 23 additional class skips make
 197 skip reports. Do not subtract class skips from testsRun. Require all
 checks on the final published head before merging.
+
+Meaning preservation v1 is documented in
+[the implementation guide](docs/MEANING_PRESERVATION_V1_AR.md) and
+[the measured results](docs/MEANING_PRESERVATION_V1_RESULTS_AR.md). Source/spec
+168eec4 and independent authored matrix 02f48d6 precede implementation c504647.
+Its retained first result is 73/73 contracts: 65 public, two wrapper controls
+and six productive-adapter cases. The initial delivery contained 13 proved declarations
+and 54 dedicated test methods; these are separate denominators. The full check
+and exposed replay on e8d9dc8 passed, with the historical first result preserved.
+All seven current proof/source references are selected through
+integrations/current_proof_references.mk from
+evidence/meaning_preservation_v1/integration.
+
+This is a scoped N6-a transport contract over declared joint observations and
+the existing productive reader. T11/T12, the uncreated 120 customary cases and
+80 well-formedness/negation pairs, and the wider N6-b obligations remain open.
+The [research inventory](docs/MEANING_PRESERVATION_RESEARCH_AR.md) keeps its
+51 morphology families, 34 composition groups, 15 interpretation contracts
+and 20 nominal templates separate from installed language laws and test cases.
+The local measurements do not establish open-Arabic completeness, world truth,
+source authenticity or agreement between human interpreters. Publication,
+merge and final-head CI status come from the actual pull request and its checks,
+not from these historical local results.
+
+Runtime review1 freezes its four exposed diagnostic controls in b1621ed before
+the Python correction. The repeated-case-ID check now follows validation of
+all original packets and decoding of all payloads, as in native dispatch. Its
+55 dedicated methods pass without skips; the original 73-case gold and first
+result remain unchanged. This repair does not claim universal precedence for
+every combination of malformed input. Records are in
+evidence/meaning_preservation_v1/runtime_review1.

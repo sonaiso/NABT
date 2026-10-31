@@ -252,11 +252,12 @@ def validate_request(request):
     for row in request["cases"]:
         _fields(row, ("case_id", "original", "transported_payload"), "case")
         _text(row["case_id"], "case ID")
-        if row["case_id"] in seen:
-            raise InputError("Duplicate case ID")
         seen.add(row["case_id"])
         validate_packet(row["original"])
         decode_packet(row["transported_payload"])
+    # Match native dispatch: parse every case before checking distinct IDs.
+    if len(seen) != len(request["cases"]):
+        raise InputError("Duplicate case ID")
     return deepcopy(request)
 
 
