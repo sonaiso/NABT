@@ -80,6 +80,7 @@ class SearchIndex:
     """Build once from source replay; retain no caller-owned mutable state."""
 
     def __init__(self, catalog=None, *, root=ROOT):
+        self._root = Path(root).resolve()
         self._catalog = (build_catalog(root) if catalog is None else
                          validate_catalog(catalog, root))
         self.catalog_sha256 = catalog_sha256(self._catalog)

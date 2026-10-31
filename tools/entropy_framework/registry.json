@@ -3043,6 +3043,8 @@
         ],
         "runtime_paths": [
           "tools/grammar_catalog/routing.py",
+          "tools/grammar_catalog/retrieval.py",
+          "tools/grammar_catalog/__main__.py",
           "tools/grammar_catalog/catalog.py",
           "tools/mantuq_inference/pipeline.py",
           "tools/entropy_framework/organization.py"
@@ -3055,19 +3057,24 @@
           "mantuq-inference"
         ],
         "checker_paths": [
-          "tools/check_rule_routing.py"
+          "tools/check_rule_routing.py",
+          "tools/grammar_catalog/routing.py"
         ],
         "test_paths": [
           "tests/test_mantuq_inference_pipeline.py",
           "tests/test_grammar_catalog_sources.py",
+          "tests/test_grammar_catalog_retrieval.py",
+          "tests/test_grammar_catalog_operator_context.py",
           "tests/test_proof_reuse_organization.py"
         ],
         "doc_paths": [
           "docs/GRAMMAR_CATALOG_AR.md",
+          "docs/OPERATOR_CONTEXT_V1_SPEC.md",
+          "docs/OPERATOR_CONTEXT_V1_AR.md",
           "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md",
           "docs/NABT_RULE_POLICY_ORGANIZATION_AR.md"
         ],
-        "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
+        "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately. Routing v2 projects pinned source context beside unchanged conditional receipts and replays the complete report against an independently supplied query, all frames and requested budget; v1 remains an explicit output compatibility mode.",
         "open_debts": [
           "Complete inventory routing cannot manufacture missing source premises or establish applicability of every retrieved rule."
         ]

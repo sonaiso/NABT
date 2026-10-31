@@ -23,6 +23,11 @@ or orchestration layer:
    application and revision contracts separate from evidence that those events
    occurred. Unmapped catalogue records remain available; a resolved reference
    does not authorize an inference, external-world claim or action.
+   For conditional operator routing, consult `docs/OPERATOR_CONTEXT_V1_AR.md`:
+   source scope, blockers and diagnostics belong beside the unchanged receipt.
+   Recheck v2 reports against the external query, complete frame mapping and
+   requested budget. Legacy v1 output is not an original-request certificate;
+   source diagnostics are not application premises or universal rejections.
 3. Inspect the existing implementation, input premises, native checker, replay
    entry point, counterexamples, and recorded open bridge obligations. Extend
    that path when it meets the task. Explain a concrete unmet obligation before
