@@ -197,6 +197,7 @@ explainable-pilot-conformance:
 	cd formal && $(LAKE) build verifiedReading
 	test -x $(CURDIR)/formal/.lake/build/bin/verifiedReading
 	NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_explainable_pilot.py -v
+	NABT_VERIFIED_READING=$(CURDIR)/formal/.lake/build/bin/verifiedReading $(PYTHON) -B -m unittest discover -s tests -p test_explainable_contracts.py -v
 
 explainable-pilot: explainable-pilot-conformance
 	$(PYTHON) tools/evaluate_explainable_pilot.py --output $(EVIDENCE_DIR)/explainable-pilot.json

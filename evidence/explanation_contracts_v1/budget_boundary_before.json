@@ -1,0 +1,98 @@
+{
+  "schema": "nabt.explanation-budget-boundary-before.v1",
+  "base_commit": "345713c2934333fe9c71e5e82212c46cae5a5213",
+  "scope": "Exposed engineering regression for the existing CLI byte budget; no linguistic coverage or completeness measurement.",
+  "issue": "The pre-fix answer CLI checked compact wire size but wrote indent=2 JSON. A valid answer could exceed the verifier file limit after successful creation.",
+  "recipe": {
+    "atom": {
+      "predicate": "p",
+      "arguments": [
+        "a"
+      ],
+      "positive": true
+    },
+    "rule_body_copies": 16,
+    "rule_head": {
+      "predicate": "p",
+      "arguments": [
+        "a"
+      ],
+      "positive": true
+    },
+    "source_rule_copies": 256,
+    "source_expression": "('إذا ' + ' و '.join(['a هو p'] * 16) + ' فإن a هو p.\\n').encode('utf-8') * 256",
+    "query_expression": "'هل a هو p؟\\n'.encode('utf-8')",
+    "certificate_binding": {
+      "identity": "text",
+      "revision": "1",
+      "scope": "default"
+    },
+    "certificate_clauses": "256 copies of {kind: rule, body: sixteen copies of atom, head: atom}",
+    "certificate_query": "atom",
+    "certificate_known": [],
+    "certificate_steps": [],
+    "certificate_clean_known": [],
+    "certificate_clean_steps": [],
+    "why_empty_closures_are_valid": "Every rule requires the same unseeded atom as its own head. No fact supplies that atom.",
+    "canonical_serializer": "json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False).encode('utf-8')",
+    "pre_fix_cli_serializer": "(json.dumps(bundle, ensure_ascii=False, indent=2) + '\\n').encode('utf-8')"
+  },
+  "first_observation": {
+    "source_bytes": 54528,
+    "certificate_compact_bytes": 289557,
+    "answer_compact_bytes": 2022093,
+    "cli_pretty_bytes": 5070207,
+    "bundle_budget_bytes": 4194304,
+    "answer_status": "UNKNOWN",
+    "api_replay_verified": true,
+    "strict_json_pretty_error": "RESOURCE_LIMIT",
+    "observation_provenance": "Read-only reviewer probe before requested CLI repair; code and output hashes were not captured in that first probe."
+  },
+  "captured_reproduction": {
+    "source": {
+      "bytes": 54528,
+      "sha256": "b9ac15228e1b57216a74f744daa24eb183870787b246b89e130a3117301a08d8"
+    },
+    "query": {
+      "bytes": 16,
+      "sha256": "b08461558c154f2897246f1ded8699dc5f669e4e5d75a3ef8223d2e00e46168f"
+    },
+    "certificate": {
+      "bytes": 289557,
+      "sha256": "a4252c7137527e2b997f060f89c5e1073d96f59c5edadd943d620e6779986ddf"
+    },
+    "answer_compact": {
+      "bytes": 2022076,
+      "sha256": "1399c2c8084feaa2830683a295fa0a026c91d6633574167944a21a9260f78ac5"
+    },
+    "pre_fix_cli_serialization": {
+      "bytes": 5070190,
+      "sha256": "e2466b8cce71951282013db9bfd437d6fc05c2aee6f7e254277368930c55e2d7"
+    },
+    "answer_status": "UNKNOWN",
+    "api_replay": {
+      "schema": "nabt.answer-replay.v2",
+      "verified": true,
+      "status": "UNKNOWN",
+      "answer_schema": "nabt.explainable-answer.v2",
+      "explanation_schema": "nabt.explanation-contract.v1"
+    },
+    "strict_json_pretty_error": {
+      "code": "RESOURCE_LIMIT",
+      "message": "answer exceeds 4 MiB"
+    },
+    "case_applicability_status": "SCOPED_GROUND_MATCHING_ONLY",
+    "code_sha256_before": {
+      "tools/explainable_pilot.py": "95582215e7875ad3aaa423584298d775cad4e2f1816779f87aa3ee71ab552ca1",
+      "tools/explainable_contracts.py": "711078f94e74c6227b83ff26d7fecbc101ff75eeee293fa876c9d56b076db6ec"
+    },
+    "code_sha256_after": {
+      "tools/explainable_pilot.py": "95582215e7875ad3aaa423584298d775cad4e2f1816779f87aa3ee71ab552ca1",
+      "tools/explainable_contracts.py": "711078f94e74c6227b83ff26d7fecbc101ff75eeee293fa876c9d56b076db6ec"
+    },
+    "code_stable_during_probe": true,
+    "native_checker_sha256": "77645150db4cbfd56adc9d4e4e22534b80efb0278357049dc3c492a1582b0888",
+    "actual_cli_source_still_uses_pretty_json": false,
+    "note": "The pre-fix serialization expression is exercised explicitly here. Code hashes describe this capture, not an invented earlier snapshot."
+  }
+}

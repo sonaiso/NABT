@@ -258,6 +258,7 @@ jobs:
         run: |
           test -x "$NABT_VERIFIED_READING"
           python -B -m unittest discover -s tests -p test_explainable_pilot.py -v
+          python -B -m unittest discover -s tests -p test_explainable_contracts.py -v
           python tools/evaluate_explainable_pilot.py --output artifacts/local/ci/explainable-pilot.json
       - name: Train and audit bounded CPU certificate proposals
         env:

@@ -3,6 +3,20 @@
 Read and obey AGENTS.md; it remains the repository-wide authority. This file
 records the current task, not a second constitution or a list of proved laws.
 
+Current explanatory-method work: follow
+`docs/NABT_EXPLANATORY_METHOD_PLAN_AR.md`,
+`docs/EXPLANATION_SOURCE_AUDIT_AR.md`, and the preimplementation contract
+`docs/EXPLANATION_CONTRACTS_V1_SPEC.md`. Extend the existing pilot answer/replay
+path; its v2 explanation projects native-accepted clauses and witnesses rather
+than adding an inference engine. Preserve legacy v1 replay and strict checker
+identity. Required conditions, conflict exclusions and missing evidence remain
+separate from source truth, external case applicability and action authority.
+The nine authored acceptance cases and their first observations live under
+`evidence/explanation_contracts_v1`; keep historical pilot evidence unchanged.
+Classical book-operation contracts already exist. The next catalogue task is
+to project existing blockers/examples beside existing runtime receipts, not
+to invent another registry or claim an unproved book-to-ground-rule bridge.
+
 Current capability-reuse work (user-authorized): follow the startup workflow
 in AGENTS.md and `docs/NABT_CAPABILITY_REUSE_AR.md`. The existing compiled
 proof catalogue and current-reference selector remain authoritative for proof
