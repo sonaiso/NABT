@@ -1,0 +1,207 @@
+{
+  "schema": "nabt.explanation-contract-acceptance.v1",
+  "base_commit": "345713c2934333fe9c71e5e82212c46cae5a5213",
+  "authorship": "Independently authored expectations frozen before the explanation-contract implementation; no production closure or renderer was used to calculate these expectations.",
+  "scope": "Exact canonical ground-source entailment under nabt.verified-ground-reading.v1. These are public engineering acceptance controls, not blind Arabic coverage, source authenticity, world truth, action authority, or complete natural-language reading enumeration.",
+  "expectation_notation": {
+    "clause_indices": "Zero-based positions in exact source order; independent of filtered clean-theory indices.",
+    "full_and_clean": "The four booleans are relative to the exact query polarity, with explicit negation treated separately.",
+    "contested_atoms": "Both signed atoms must remain visible when both are derivable in the full closure.",
+    "blocked_clauses": "All source clauses excluded from the clean theory because their fact, head, or body mentions a contested signed atom.",
+    "missing_premises": "Local antecedents absent from the complete full closure. These are diagnostic conditions, not claims that adding them is a unique or minimal repair."
+  },
+  "cases": [
+    {
+      "id": "EC01-direct-support",
+      "source": "سالم هو عالم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "SUPPORTED",
+        "full_positive": true,
+        "full_negative": false,
+        "clean_positive": true,
+        "clean_negative": false,
+        "full_query_clause": 0,
+        "clean_query_clause": 0,
+        "required_rule_premises": [],
+        "contested_atoms": [],
+        "blocked_clauses": [],
+        "missing_premises": []
+      }
+    },
+    {
+      "id": "EC02-two-premise-chain",
+      "source": "سالم هو حكيم.\nسالم هو عادل.\nإذا سالم هو حكيم و سالم هو عادل فإن سالم هو عالم.\nإذا سالم هو عالم فإن سالم هو حاضر.\n",
+      "query": "هل سالم هو حاضر؟\n",
+      "expected": {
+        "status": "SUPPORTED",
+        "full_positive": true,
+        "full_negative": false,
+        "clean_positive": true,
+        "clean_negative": false,
+        "full_query_clause": 3,
+        "clean_query_clause": 3,
+        "required_rule_premises": [
+          {"clause": 2, "atoms": ["سالم هو حكيم", "سالم هو عادل"]},
+          {"clause": 3, "atoms": ["سالم هو عالم"]}
+        ],
+        "contested_atoms": [],
+        "blocked_clauses": [],
+        "missing_premises": []
+      }
+    },
+    {
+      "id": "EC03-one-missing-antecedent",
+      "source": "سالم هو حكيم.\nإذا سالم هو حكيم و سالم هو عادل فإن سالم هو عالم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "UNKNOWN",
+        "full_positive": false,
+        "full_negative": false,
+        "clean_positive": false,
+        "clean_negative": false,
+        "full_query_clause": null,
+        "clean_query_clause": null,
+        "required_rule_premises": [
+          {"clause": 1, "atoms": ["سالم هو حكيم", "سالم هو عادل"]}
+        ],
+        "contested_atoms": [],
+        "blocked_clauses": [],
+        "missing_premises": [
+          {"clause": 1, "atoms": ["سالم هو عادل"]}
+        ]
+      }
+    },
+    {
+      "id": "EC04-explicit-conflict",
+      "source": "سالم هو عالم.\nليس سالم هو عالم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "CONFLICT",
+        "full_positive": true,
+        "full_negative": true,
+        "clean_positive": false,
+        "clean_negative": false,
+        "full_query_clause": 0,
+        "clean_query_clause": null,
+        "required_rule_premises": [],
+        "contested_atoms": ["سالم هو عالم", "ليس سالم هو عالم"],
+        "blocked_clauses": [0, 1],
+        "missing_premises": []
+      }
+    },
+    {
+      "id": "EC05-contested-only-support",
+      "source": "سالم هو حكيم.\nليس سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "DEFER",
+        "full_positive": true,
+        "full_negative": false,
+        "clean_positive": false,
+        "clean_negative": false,
+        "full_query_clause": 2,
+        "clean_query_clause": null,
+        "required_rule_premises": [
+          {"clause": 2, "atoms": ["سالم هو حكيم"]}
+        ],
+        "contested_atoms": ["سالم هو حكيم", "ليس سالم هو حكيم"],
+        "blocked_clauses": [0, 1, 2],
+        "missing_premises": []
+      }
+    },
+    {
+      "id": "EC06-clean-alternate-support",
+      "source": "سالم هو حكيم.\nليس سالم هو حكيم.\nإذا سالم هو حكيم فإن سالم هو عالم.\nسالم هو عالم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "SUPPORTED",
+        "full_positive": true,
+        "full_negative": false,
+        "clean_positive": true,
+        "clean_negative": false,
+        "full_query_clause": 3,
+        "clean_query_clause": 3,
+        "required_rule_premises": [
+          {"clause": 2, "atoms": ["سالم هو حكيم"]}
+        ],
+        "contested_atoms": ["سالم هو حكيم", "ليس سالم هو حكيم"],
+        "blocked_clauses": [0, 1, 2],
+        "missing_premises": []
+      }
+    },
+    {
+      "id": "EC07-same-predicate-wrong-entity",
+      "source": "سالم هو عالم.\n",
+      "query": "هل سهيل هو عالم؟\n",
+      "expected": {
+        "status": "UNKNOWN",
+        "full_positive": false,
+        "full_negative": false,
+        "clean_positive": false,
+        "clean_negative": false,
+        "full_query_clause": null,
+        "clean_query_clause": null,
+        "required_rule_premises": [],
+        "contested_atoms": [],
+        "blocked_clauses": [],
+        "missing_premises": []
+      }
+    },
+    {
+      "id": "EC08-changed-rule-antecedent",
+      "source": "سالم هو حكيم.\nإذا سالم هو عادل فإن سالم هو عالم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "UNKNOWN",
+        "full_positive": false,
+        "full_negative": false,
+        "clean_positive": false,
+        "clean_negative": false,
+        "full_query_clause": null,
+        "clean_query_clause": null,
+        "required_rule_premises": [
+          {"clause": 1, "atoms": ["سالم هو عادل"]}
+        ],
+        "contested_atoms": [],
+        "blocked_clauses": [],
+        "missing_premises": [
+          {"clause": 1, "atoms": ["سالم هو عادل"]}
+        ]
+      }
+    },
+    {
+      "id": "EC09-unsupported-rule-cycle",
+      "source": "إذا سالم هو حكيم فإن سالم هو عالم.\nإذا سالم هو عالم فإن سالم هو حكيم.\n",
+      "query": "هل سالم هو عالم؟\n",
+      "expected": {
+        "status": "UNKNOWN",
+        "full_positive": false,
+        "full_negative": false,
+        "clean_positive": false,
+        "clean_negative": false,
+        "full_query_clause": null,
+        "clean_query_clause": null,
+        "required_rule_premises": [
+          {"clause": 0, "atoms": ["سالم هو حكيم"]},
+          {"clause": 1, "atoms": ["سالم هو عالم"]}
+        ],
+        "contested_atoms": [],
+        "blocked_clauses": [],
+        "missing_premises": [
+          {"clause": 0, "atoms": ["سالم هو حكيم"]},
+          {"clause": 1, "atoms": ["سالم هو عالم"]}
+        ]
+      }
+    }
+  ],
+  "acceptance_boundaries": [
+    {"id": "EC10-substituted-source-or-certificate", "expected": "Exact source/query/id/revision/scope mismatch must reject; the answer's own binding is never authority."},
+    {"id": "EC11-omitted-premise-or-blocker", "expected": "Deleting a displayed required premise, proof edge, contested atom, or excluded clause must make replay reject the whole answer."},
+    {"id": "EC12-dishonest-status-or-authority", "expected": "Changed status, world-truth flag, action-authorization claim, or source-authenticity claim must reject; faithful source entailment alone grants none of these authorities."},
+    {"id": "EC13-missing-native", "expected": "Unavailable native checker produces CHECKER_UNAVAILABLE, no successful explanation bundle and no UNKNOWN or DEFER semantic substitute."},
+    {"id": "EC14-version-hash-and-replay", "expected": "The explanation contract identifies an installed version; altered version, source/query/checker digest, or stale source revision rejects replay. Valid byte-identical replay succeeds."},
+    {"id": "EC15-reading-scope", "expected": "The new explanation describes this canonical finite reading only; it cannot claim completeness of Arabic interpretations or collapse the existing ReadingEnumeration obligations."}
+  ],
+  "preservation": "This matrix is a new versioned artifact. Existing evidence/explainable_pilot cases, goals, first results, and all other historical gold remain unchanged."
+}

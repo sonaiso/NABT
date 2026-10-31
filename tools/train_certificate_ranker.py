@@ -301,7 +301,8 @@ def execute(output, checker):
               'base_head': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
               'protocol_sha256': digest(PROTOCOL.read_bytes()), 'cases_sha256': digest(CASES.read_bytes()),
               'code_sha256': {str(p.relative_to(ROOT)): digest(p.read_bytes()) for p in
-                              [Path(__file__), ROOT / 'tools/training_readiness.py', ROOT / 'tools/verified_reading.py', ROOT / 'tools/explainable_pilot.py']},
+                              [Path(__file__), ROOT / 'tools/training_readiness.py', ROOT / 'tools/verified_reading.py',
+                               ROOT / 'tools/explainable_pilot.py', ROOT / 'tools/explainable_contracts.py']},
               'environment': machine(), 'timing': timings,
               'planned_examples': len(rows), 'planned_source_cases': len(definitions),
               'measurements': dict(Counter(r['measurement'] for r in rows)),

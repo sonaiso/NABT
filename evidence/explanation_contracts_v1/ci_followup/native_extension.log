@@ -1,0 +1,52 @@
+cd formal && /workspace/scratch/84dbb26f30e1/audit-tools/lean-4.34.1-linux/bin/lake build verifiedReading
+Build completed successfully (10 jobs).
+test -x /workspace/scratch/84dbb26f30e1/NABT/formal/.lake/build/bin/verifiedReading
+NABT_VERIFIED_READING=/workspace/scratch/84dbb26f30e1/NABT/formal/.lake/build/bin/verifiedReading python3 -B -m unittest discover -s tests -p test_explainable_pilot.py -v
+test_bad_inputs_remain_distinct_from_unknown (test_explainable_pilot.InputContract.test_bad_inputs_remain_distinct_from_unknown) ... ok
+test_cli_error_has_no_semantic_status (test_explainable_pilot.InputContract.test_cli_error_has_no_semantic_status) ... ok
+test_duplicate_keys_and_nonfinite_json (test_explainable_pilot.InputContract.test_duplicate_keys_and_nonfinite_json) ... ok
+test_invalid_replay_values_fail_before_native_execution (test_explainable_pilot.InputContract.test_invalid_replay_values_fail_before_native_execution) ... ok
+test_missing_certificate_is_not_reproposed (test_explainable_pilot.InputContract.test_missing_certificate_is_not_reproposed) ... ok
+test_no_checker_never_grants_authority (test_explainable_pilot.InputContract.test_no_checker_never_grants_authority) ... ok
+test_unsigned_numeric_tokens_are_checked_before_normalization (test_explainable_pilot.InputContract.test_unsigned_numeric_tokens_are_checked_before_normalization) ... ok
+test_adversarial_replay (test_explainable_pilot.NativeAnswerContract.test_adversarial_replay) ... ok
+test_cli_rejects_negative_zero_offsets_and_certificate_indices (test_explainable_pilot.NativeAnswerContract.test_cli_rejects_negative_zero_offsets_and_certificate_indices) ... ok
+test_evaluation_denominators (test_explainable_pilot.NativeAnswerContract.test_evaluation_denominators) ... ok
+test_external_proposal_must_verify (test_explainable_pilot.NativeAnswerContract.test_external_proposal_must_verify) ... ok
+test_filtered_indices_map_back_to_original_source (test_explainable_pilot.NativeAnswerContract.test_filtered_indices_map_back_to_original_source) ... ok
+test_human_authored_trace_oracle (test_explainable_pilot.NativeAnswerContract.test_human_authored_trace_oracle) ... ok
+test_negative_question_roots_are_relative_to_query (test_explainable_pilot.NativeAnswerContract.test_negative_question_roots_are_relative_to_query) ... ok
+test_proposer_failures_write_reports_with_all_denominators (test_explainable_pilot.NativeAnswerContract.test_proposer_failures_write_reports_with_all_denominators) ... ok
+test_repository_matrix (test_explainable_pilot.NativeAnswerContract.test_repository_matrix) ... ok
+test_resource_exhaustion_is_not_unknown (test_explainable_pilot.NativeAnswerContract.test_resource_exhaustion_is_not_unknown) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 28.367s
+
+OK
+test -x /workspace/scratch/84dbb26f30e1/NABT/formal/.lake/build/bin/verifiedReading
+NABT_VERIFIED_READING=/workspace/scratch/84dbb26f30e1/NABT/formal/.lake/build/bin/verifiedReading NABT_REQUIRE_EXPLANATION_CONTRACTS_NATIVE=1 python3 -B -m unittest discover -s tests -p test_explainable_contracts.py -v
+test_clean_alternate_proof_keeps_contested_rule_and_uses_its_actual_fact (test_explainable_contracts.ExplanationContractAcceptance.test_clean_alternate_proof_keeps_contested_rule_and_uses_its_actual_fact) ... ok
+test_conjunction_and_actual_dependencies_preserve_every_required_premise (test_explainable_contracts.ExplanationContractAcceptance.test_conjunction_and_actual_dependencies_preserve_every_required_premise) ... ok
+test_contract_and_binding_versions_and_hashes_are_replayed_not_trusted (test_explainable_contracts.ExplanationContractAcceptance.test_contract_and_binding_versions_and_hashes_are_replayed_not_trusted) ... ok
+test_four_axes_do_not_promote_source_support_to_world_or_action_authority (test_explainable_contracts.ExplanationContractAcceptance.test_four_axes_do_not_promote_source_support_to_world_or_action_authority) ... ok
+test_historical_v1_checker_identity_is_not_silently_rewritten (test_explainable_contracts.ExplanationContractAcceptance.test_historical_v1_checker_identity_is_not_silently_rewritten) ... ok
+test_large_cli_answer_fits_its_own_reader_budget_and_replays (test_explainable_contracts.ExplanationContractAcceptance.test_large_cli_answer_fits_its_own_reader_budget_and_replays) ... ok
+test_mocked_native_status_and_polarities_cannot_contradict_the_accepted_certificate (test_explainable_contracts.ExplanationContractAcceptance.test_mocked_native_status_and_polarities_cannot_contradict_the_accepted_certificate) ... ok
+test_mocked_native_success_requires_exact_field_shape_and_boolean_types (test_explainable_contracts.ExplanationContractAcceptance.test_mocked_native_success_requires_exact_field_shape_and_boolean_types) ... ok
+test_nine_independent_source_grounded_cases (test_explainable_contracts.ExplanationContractAcceptance.test_nine_independent_source_grounded_cases) ... ok
+test_omitted_premises_blockers_or_forged_explanation_fail_whole_bundle_replay (test_explainable_contracts.ExplanationContractAcceptance.test_omitted_premises_blockers_or_forged_explanation_fail_whole_bundle_replay) ... ok
+test_repeated_native_steps_keep_prior_witnesses_and_actual_derivation_edges (test_explainable_contracts.ExplanationContractAcceptance.test_repeated_native_steps_keep_prior_witnesses_and_actual_derivation_edges) ... ok
+test_substituted_source_certificate_query_and_revision_never_rebind_an_answer (test_explainable_contracts.ExplanationContractAcceptance.test_substituted_source_certificate_query_and_revision_never_rebind_an_answer) ... ok
+test_unknown_and_cycles_explain_missing_premises_without_promising_a_repair (test_explainable_contracts.ExplanationContractAcceptance.test_unknown_and_cycles_explain_missing_premises_without_promising_a_repair) ... ok
+test_v1_reconstruction_is_compatible_but_explicit_v2_prevents_downgrade (test_explainable_contracts.ExplanationContractAcceptance.test_v1_reconstruction_is_compatible_but_explicit_v2_prevents_downgrade) ... ok
+test_acceptance_matrix_and_preimplementation_v1_are_unchanged (test_explainable_contracts.FrozenContractInputs.test_acceptance_matrix_and_preimplementation_v1_are_unchanged) ... ok
+test_historical_pilot_gold_and_answer_are_unchanged (test_explainable_contracts.FrozenContractInputs.test_historical_pilot_gold_and_answer_are_unchanged) ... ok
+test_missing_native_never_returns_an_explanation_or_semantic_status (test_explainable_contracts.FrozenContractInputs.test_missing_native_never_returns_an_explanation_or_semantic_status) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 16.964s
+
+OK
+NABT_VERIFIED_READING=/workspace/scratch/84dbb26f30e1/NABT/formal/.lake/build/bin/verifiedReading python3 -B tools/evaluate_explainable_pilot.py --output artifacts/local/explanation-publication/ci-repair-native/explainable-pilot.json
+{"metrics":{"decisive_coverage":{"passed":9,"rate":0.6428571428571429,"total":14},"decisive_precision":{"passed":9,"rate":1.0,"total":9},"independent_native_replay":{"passed":14,"rate":1.0,"total":14},"source_ablation":{"passed":4,"rate":1.0,"total":4},"source_byte_roundtrip":{"passed":14,"rate":1.0,"total":14},"status_exact":{"passed":14,"rate":1.0,"total":14},"tampering_rejected":{"passed":14,"rate":1.0,"total":14}},"passed":true,"report":"artifacts/local/explanation-publication/ci-repair-native/explainable-pilot.json"}

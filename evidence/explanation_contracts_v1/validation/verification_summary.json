@@ -1,0 +1,147 @@
+{
+  "schema": "nabt.explanation-contract-verification.v1",
+  "base_commit": "345713c2934333fe9c71e5e82212c46cae5a5213",
+  "preimplementation_contract_commit": "80fb97595f9ec86d17d08d7a84de6447b5201246",
+  "implementation_commit": "c7ebc6b083431208fdb88c24edf76e6e8bb583dc",
+  "answer_schema": "nabt.explainable-answer.v2",
+  "explanation_schema": "nabt.explanation-contract.v1",
+  "native_law_unchanged": "nabt.verified-ground-reading.v1",
+  "formal_and_src_changed": false,
+  "current_proof_catalogue": {
+    "path": "evidence/meaning_preservation_v1/integration/proof_catalog.json",
+    "sha256": "801d30155dc3e41ace10ceecf54bc435c3455eab1a1946f4c1beff60b8f592dc",
+    "selector_policy": "INSTALLED_LITERAL_DEFAULT; Make/environment overrides are not inferred",
+    "typed_content_sha256": "d0d66b7678aec31ef692d080217c2953c1a4396918d4596911f44b86b9d8c602",
+    "source_inputs_match": true,
+    "verification": "RECORDED_COMPILED_SNAPSHOT_WITH_CURRENT_SOURCE_MATCH",
+    "compiled_this_run": false
+  },
+  "input_sha256": {
+    "tools/explainable_pilot.py": "95582215e7875ad3aaa423584298d775cad4e2f1816779f87aa3ee71ab552ca1",
+    "tools/explainable_contracts.py": "711078f94e74c6227b83ff26d7fecbc101ff75eeee293fa876c9d56b076db6ec",
+    "tools/verified_reading.py": "80ddaf9c352ee030e27a45ae4c53c1bf3ae377c11037f3f41dbae6b6944ef62c",
+    "tools/entropy_framework/registry.json": "d8f6cc64381cea95b824f9f9fbcdfd7f704d8f762f2fbe351e957829b13677ef",
+    "tests/test_explainable_contracts.py": "36b6ae4a275879a2fd38a8d8633e3eb654bd478f2cef61b181c42ca13593b17e",
+    "Makefile": "817c2030b6653e941d6cbaca32dcd527d98de4bcef93823c26f65c23fe5d5f32",
+    ".github/workflows/ci.yml": "0861439ce1b198b2d2a8d63838867a15fa247bd38a7f5b33506f06b6240d5eab",
+    "docs/EXPLANATION_CONTRACTS_V1_SPEC.md": "eb7599e088811130f2295ca3531fdefb27cb82da55cfc8f48b36ee2608014c94",
+    "docs/NABT_EXPLANATORY_METHOD_PLAN_AR.md": "44b03101bd854ce62f0063ca9f42beda7917d5ce0e927086e5a50a01d8b8a1e4",
+    "docs/EXPLANATION_SOURCE_AUDIT_AR.md": "61701a32f55c6dc371440cbc18a1bb8a9867249cb18ae1405ede18d280649699",
+    "evidence/explanation_contracts_v1/acceptance_cases.json": "e5bdc1e1707ca5f610f56ac2e4e3f6af6c2f54f4e7f02842c1b6161d606f0b6a",
+    "evidence/explanation_contracts_v1/baseline_answer_v1.json": "a1f9c0d84a68bf36e15bcb1e9e0eab77b0a077c74a52965052d5319f25d19cb3"
+  },
+  "native_sha256": "77645150db4cbfd56adc9d4e4e22534b80efb0278357049dc3c492a1582b0888",
+  "verification": {
+    "independent_authored_cases": {
+      "passed": 9,
+      "total": 9,
+      "blind": false,
+      "covered_by": "tests.test_explainable_contracts.ExplanationContractAcceptance.test_nine_independent_source_grounded_cases"
+    },
+    "native_required_pilot_gate": {
+      "passed": true,
+      "existing_test_methods": 17,
+      "new_test_methods": 17,
+      "skips": 0,
+      "record": "native_gate_environment_retry.json"
+    },
+    "existing_integration_tests": {
+      "passed": true,
+      "test_methods": 164,
+      "skips": 0,
+      "record": "existing_integration_tests.json"
+    },
+    "existing_pilot_evaluator": {
+      "passed": true,
+      "metrics": {
+        "status_exact": {
+          "passed": 14,
+          "total": 14,
+          "rate": 1.0
+        },
+        "independent_native_replay": {
+          "passed": 14,
+          "total": 14,
+          "rate": 1.0
+        },
+        "source_byte_roundtrip": {
+          "passed": 14,
+          "total": 14,
+          "rate": 1.0
+        },
+        "decisive_precision": {
+          "passed": 9,
+          "total": 9,
+          "rate": 1.0
+        },
+        "decisive_coverage": {
+          "passed": 9,
+          "total": 14,
+          "rate": 0.6428571428571429
+        },
+        "tampering_rejected": {
+          "passed": 14,
+          "total": 14,
+          "rate": 1.0
+        },
+        "source_ablation": {
+          "passed": 4,
+          "total": 4,
+          "rate": 1.0
+        }
+      },
+      "hidden": false,
+      "record": "existing_pilot_evaluation.json"
+    },
+    "cli_reuse_replay": {
+      "passed": true,
+      "commands": 6,
+      "record": "cli_replay.json"
+    },
+    "catalogue_reuse": {
+      "source_inputs_match": true,
+      "selected_modules": 5,
+      "selected_declarations": 100,
+      "record": "reuse_signed_inference.json"
+    }
+  },
+  "retained_review_findings": [
+    {
+      "record": "../receipt_boundary_before.json",
+      "kind": "MOCKED_PROCESS_PROTOCOL_BOUNDARY",
+      "repair": "Reject receipt shape, polarity or verdict inconsistent with independently bound accepted certificate."
+    },
+    {
+      "record": "../budget_boundary_before.json",
+      "kind": "ACTUAL_ACCEPTED_INPUT_SERIALIZATION_BOUNDARY",
+      "repair": "Write canonical JSON and bound actual file bytes including final newline."
+    },
+    {
+      "kind": "APPLICABILITY_STATUS_SCOPE",
+      "repair": "SCOPED_GROUND_MATCHING_ONLY names the policy; exact success and missing producer remain visible in targets."
+    }
+  ],
+  "environment_attempts": {
+    "first": "native_gate_first.json",
+    "first_result": "Lake configuration unavailable in restricted sandbox, before tests",
+    "retry": "native_gate_environment_retry.json",
+    "retry_result": "Same command and pinned toolchain passed in approved execution environment"
+  },
+  "limits": {
+    "full_project_make_check_run": false,
+    "remote_ci_run": false,
+    "renderer_formally_proved": false,
+    "all_books_exhaustively_reviewed": false,
+    "all_arabic_complete": false,
+    "external_world_truth_established": false,
+    "external_case_applicability_established": false,
+    "llm_service_added": false,
+    "book_policy_to_ground_rule_bridge_established": false,
+    "certified_recursive_grammar_bridge_closed": false
+  },
+  "notes": [
+    "Do not add repeated runs or nested case matrices into a single independent sample count.",
+    "The current native build and installed proof-source identity were checked; no Lean source or packaged src runtime changed.",
+    "The following evidence/documentation commit may add results without changing the tested implementation."
+  ]
+}

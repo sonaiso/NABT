@@ -20,9 +20,11 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools import verified_reading as ground
+from tools.explainable_contracts import explanation
 from nabt.errors import NabtError
 
-ANSWER_SCHEMA = "nabt.explainable-answer.v1"
+ANSWER_SCHEMAS = {"v1": "nabt.explainable-answer.v1", "v2": "nabt.explainable-answer.v2"}
+ANSWER_SCHEMA = ANSWER_SCHEMAS["v2"]
 ANALYSIS_SCHEMA = "nabt.analysis-certificate.v1"
 MAX_BUNDLE_BYTES = 4 * 1048576
 STATUSES = {"SUPPORTED", "REFUTED", "CONFLICT", "UNKNOWN", "DEFER"}
@@ -125,6 +127,38 @@ def validate_inputs(raw, query, identity, revision, scope, timeout):
         raise PilotError("INVALID_INPUT", "timeout must be a number in (0, 60] seconds")
 
 
+def _check_receipt(receipt, certificate, raw, query, identity, revision, scope):
+    """Check native protocol coherence, after the native success boundary.
+
+    Membership is projected from the certificate already accepted by Lean.
+    This does not replay inference or grant authority to an unchecked proposal.
+    The verdict ordering is the installed SemanticInference.classify contract.
+    """
+    expected = {"law_id": ground.LAW_ID, "source_id": identity, "revision": revision,
+                "source_scope": scope, "source_text": raw.decode(), "query_text": query.decode(),
+                "scope": "canonical_ground_source_entailment", "verified": True,
+                "all_arabic_complete": False, "world_truth_established": False}
+    try:
+        target = ground.key(certificate["query"])
+        opposite = ground.opposite(target)
+        full = {ground.key(atom) for atom in certificate["known"]}
+        clean = {ground.key(atom) for atom in certificate["clean_known"]}
+    except (KeyError, TypeError, ValueError) as exc:
+        raise PilotError("CHECKER_PROTOCOL_ERROR", "accepted certificate has no readable closure") from exc
+    positive, negative = target in full, opposite in full
+    clean_positive, clean_negative = target in clean, opposite in clean
+    expected.update(positive=positive, negative=negative,
+                    clean_positive=clean_positive, clean_negative=clean_negative)
+    expected["status"] = ("CONFLICT" if positive and negative else
+                          "SUPPORTED" if clean_positive else
+                          "REFUTED" if clean_negative else
+                          "DEFER" if positive or negative else "UNKNOWN")
+    # Exact canonical comparison also rejects 0/1 in Boolean protocol fields,
+    # extra claims, missing polarities and an inconsistent advertised verdict.
+    if (not clean <= full or wire(receipt) != wire(expected)):
+        raise PilotError("CHECKER_PROTOCOL_ERROR", "native receipt differs from accepted evidence or independent inputs")
+
+
 def native(raw, query, certificate, identity, revision, scope, checker, timeout):
     try:
         encoded = wire(certificate).encode("utf-8")
@@ -157,11 +191,7 @@ def native(raw, query, certificate, identity, revision, scope, checker, timeout)
     if run.returncode != 0 or receipt.get("verified") is not True:
         code = "RESOURCE_LIMIT" if receipt.get("error") == "RESOURCE_LIMIT" else "CERTIFICATE_REJECTED"
         raise PilotError(code, "native Lean checker rejected the certificate")
-    expected = {"law_id": ground.LAW_ID, "source_id": identity, "revision": revision,
-                "source_scope": scope, "source_text": raw.decode(), "query_text": query.decode(),
-                "all_arabic_complete": False, "world_truth_established": False}
-    if any(wire(receipt.get(k)) != wire(v) for k, v in expected.items()) or receipt.get("status") not in STATUSES:
-        raise PilotError("CHECKER_PROTOCOL_ERROR", "native receipt differs from independent inputs")
+    _check_receipt(receipt, certificate, raw, query, identity, revision, scope)
     return receipt, fingerprint
 
 
@@ -221,7 +251,9 @@ def propose_certificate(raw, query, identity="text", revision="1", scope="defaul
 
 
 def answer(raw, query, *, identity="text", revision="1", scope="default",
-           certificate=None, checker=None, timeout=20):
+           certificate=None, checker=None, timeout=20, answer_version="v2"):
+    if type(answer_version) is not str or answer_version not in ANSWER_SCHEMAS:
+        raise PilotError("INVALID_INPUT", "answer version must be v1 or v2")
     validate_inputs(raw, query, identity, revision, scope, timeout)
     if certificate is None:
         certificate = propose_certificate(raw, query, identity, revision, scope)
@@ -231,7 +263,7 @@ def answer(raw, query, *, identity="text", revision="1", scope="default",
     except (KeyError, IndexError, TypeError) as exc:
         raise PilotError("RENDERER_ERROR", "accepted trace cannot be rendered") from exc
     result = {
-        "schema": ANSWER_SCHEMA,
+        "schema": ANSWER_SCHEMAS[answer_version],
         "binding": {"source_id": identity, "revision": revision, "scope": scope,
                     "source_sha256": sha(raw), "query_sha256": sha(query),
                     "source_bytes": len(raw), "query_bytes": len(query)},
@@ -244,6 +276,11 @@ def answer(raw, query, *, identity="text", revision="1", scope="default",
                    "world_truth_established": False, "neural_model_measured": False,
                    "explanation_kind": "source_and_derivation_trace", "model_internal_causality_proved": False},
     }
+    if answer_version == "v2":
+        try:
+            result["explanation"] = explanation(certificate, evidence, receipt, result["binding"])
+        except (KeyError, IndexError, TypeError, ValueError) as exc:
+            raise PilotError("RENDERER_ERROR", "accepted evidence cannot be explained") from exc
     if len(wire(result).encode()) > MAX_BUNDLE_BYTES:
         raise PilotError("RESOURCE_LIMIT", "rendered answer exceeds 4 MiB")
     return result
@@ -255,8 +292,12 @@ def verify(raw, query, bundle, **options):
     Canonical JSON comparison is type-sensitive (True != 1 here), unlike Python
     container equality. Extra fields, changed display, spans or claims all fail.
     """
-    if not isinstance(bundle, dict) or bundle.get("schema") != ANSWER_SCHEMA:
+    if not isinstance(bundle, dict) or bundle.get("schema") not in tuple(ANSWER_SCHEMAS.values()):
         raise PilotError("ANSWER_REJECTED", "unsupported answer schema")
+    version = next(version for version, schema in ANSWER_SCHEMAS.items() if schema == bundle["schema"])
+    expected_version = options.pop("answer_version", version)
+    if type(expected_version) is not str or expected_version != version:
+        raise PilotError("ANSWER_REJECTED", "answer does not have the independently required version")
     try:
         encoded = wire(bundle).encode("utf-8")
     except (ValueError, TypeError, RecursionError) as exc:
@@ -269,10 +310,14 @@ def verify(raw, query, bundle, **options):
         raise PilotError("ANSWER_REJECTED", "missing analysis certificate") from exc
     if certificate is None:
         raise PilotError("ANSWER_REJECTED", "missing kernel certificate")
-    fresh = answer(raw, query, certificate=certificate, **options)
+    fresh = answer(raw, query, certificate=certificate, answer_version=version, **options)
     if encoded != wire(fresh).encode("utf-8"):
         raise PilotError("ANSWER_REJECTED", "answer, explanation, binding or checker differs from replay")
-    return {"schema": "nabt.answer-replay.v1", "verified": True, "status": fresh["answer"]["status"]}
+    replay = {"schema": "nabt.answer-replay." + version, "verified": True,
+              "status": fresh["answer"]["status"]}
+    if version == "v2":
+        replay.update(answer_schema=fresh["schema"], explanation_schema=fresh["explanation"]["schema"])
+    return replay
 
 
 def main():
@@ -287,6 +332,9 @@ def main():
         p.add_argument("--scope", default="default")
         p.add_argument("--checker", type=Path)
         p.add_argument("--timeout", type=float, default=20)
+        p.add_argument("--answer-version", choices=("v1", "v2"),
+                       default="v2" if operation == "answer" else None,
+                       help="output version for answer; required bundle version for verify")
         if operation == "answer":
             p.add_argument("--certificate", type=Path, help="untrusted external proposal; optional")
             p.add_argument("--output", type=Path, required=True)
@@ -297,13 +345,20 @@ def main():
         raw, query = read_bounded(args.source, 65536), read_bounded(args.query, 8192)
         options = dict(identity=args.source_id, revision=args.revision, scope=args.scope,
                        checker=args.checker, timeout=args.timeout)
+        if args.answer_version is not None:
+            options["answer_version"] = args.answer_version
         if args.operation == "answer":
             proposal = strict_json(read_bounded(args.certificate, 1048576)) if args.certificate else None
             if args.certificate and proposal is None:
                 raise PilotError("INVALID_INPUT", "external certificate cannot be null")
             result = answer(raw, query, certificate=proposal, **options)
             args.output.parent.mkdir(parents=True, exist_ok=True)
-            args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            # Bound the actual file bytes, not a smaller serialization than the
+            # one written. An accepted answer must remain readable by verify.
+            encoded = (wire(result) + "\n").encode("utf-8")
+            if len(encoded) > MAX_BUNDLE_BYTES:
+                raise PilotError("RESOURCE_LIMIT", "serialized answer exceeds 4 MiB")
+            args.output.write_bytes(encoded)
             print(wire({"answer_written": str(args.output), "status": result["answer"]["status"]}))
         else:
             print(wire(verify(raw, query, strict_json(read_bounded(args.bundle, MAX_BUNDLE_BYTES)), **options)))

@@ -1,0 +1,233 @@
+{
+  "schema": "nabt.explanation-ci-repair-summary.v1",
+  "source_parent": "ca9e5a84622d22c6e04be67458477af2b0600285",
+  "input_sha256": {
+    "Makefile": "8780e1d59bb3b4aaa2bbc7a564d910e4cbb01c678071fdfb1122f52a3dac4612",
+    ".github/workflows/ci.yml": "f60f6cb068d05cef1de6f5613149484f0238d73871f7512cae48663f2a7872ba",
+    "tools/explanation_contracts_v1.mk": "7d2ae6c33451cbb3e2f27c34a7c5534271d8359bd0e058c91aefbb10930ec561",
+    ".github/workflows/explanation-contracts.yml": "17707f554aa240075f16c8d2de0cd425692c35d606272db509f2877fe2229a7a",
+    "tools/explainable_pilot.py": "95582215e7875ad3aaa423584298d775cad4e2f1816779f87aa3ee71ab552ca1",
+    "tools/explainable_contracts.py": "711078f94e74c6227b83ff26d7fecbc101ff75eeee293fa876c9d56b076db6ec",
+    "tools/evaluate_explainable_pilot.py": "4490c4506591bfcebe4f7a348f467a8f4f2250c301b8fcf5d552c3e66f9a0782",
+    "tests/test_explainable_pilot.py": "0e7019a4fc2dfe1a02bc924a0ed21a46eddc2e226c04c40e13c65dd15a53406f",
+    "tests/test_explainable_contracts.py": "36b6ae4a275879a2fd38a8d8633e3eb654bd478f2cef61b181c42ca13593b17e",
+    "evidence/interpretive_links_v1/oracle_dependency_freeze_v1.json": "ddfd3329295e196dd96c68d3bb507a0c791cff1a621045f9524f0a65fc0a155e"
+  },
+  "dependency_profile": {
+    "sha256": "ddfd3329295e196dd96c68d3bb507a0c791cff1a621045f9524f0a65fc0a155e",
+    "entries": 90,
+    "all_match": true
+  },
+  "runs": [
+    {
+      "name": "native_extension",
+      "record": "evidence/explanation_contracts_v1/ci_followup/native_extension.json",
+      "sha256": "0542530f8e0ade72c847e8e9dd69997d632e07358562d8422f66de396c1a07a6",
+      "exit_code": 0
+    },
+    {
+      "name": "oracle_replay",
+      "record": "evidence/explanation_contracts_v1/ci_followup/oracle_replay.json",
+      "sha256": "3dfc6ef16293841be4f7be0832e6c24ad47f8e839baeec93dd1880e41d0a9ddb",
+      "exit_code": 0
+    }
+  ],
+  "native_suites": [
+    {
+      "module": "test_explainable_pilot.py",
+      "tests": 17,
+      "skipped_methods": 0,
+      "passed": true
+    },
+    {
+      "module": "test_explainable_contracts.py",
+      "tests": 17,
+      "skipped_methods": 0,
+      "passed": true
+    }
+  ],
+  "evaluator": {
+    "metrics": {
+      "status_exact": {
+        "passed": 14,
+        "total": 14,
+        "rate": 1.0
+      },
+      "independent_native_replay": {
+        "passed": 14,
+        "total": 14,
+        "rate": 1.0
+      },
+      "source_byte_roundtrip": {
+        "passed": 14,
+        "total": 14,
+        "rate": 1.0
+      },
+      "decisive_precision": {
+        "passed": 9,
+        "total": 9,
+        "rate": 1.0
+      },
+      "decisive_coverage": {
+        "passed": 9,
+        "total": 14,
+        "rate": 0.6428571428571429
+      },
+      "tampering_rejected": {
+        "passed": 14,
+        "total": 14,
+        "rate": 1.0
+      },
+      "source_ablation": {
+        "passed": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "passed": true,
+    "report_sha256": "c1de701b0bf73e98c3594574c7fe9aee3c1edbe83ebd7d0cdb0b9531eb2bb325",
+    "complete_report_committed": false,
+    "metrics_retained_in_native_log": true
+  },
+  "oracle": {
+    "fixed_cases": {
+      "total": 22,
+      "passed": 14
+    },
+    "questions": {
+      "total": 29,
+      "status_matches": 19,
+      "independently_validated": 29
+    },
+    "conditional_provenance": {
+      "total": 2,
+      "outcomes": {
+        "N03": "correct_abstention",
+        "N06": "unresolved_independent_review"
+      },
+      "not_counted_as_language_coverage": true
+    },
+    "residuals": {
+      "G01": [],
+      "G02": [],
+      "G03": [],
+      "G04": [],
+      "G05": [],
+      "G06": [],
+      "N01": [],
+      "N02": [],
+      "N03": [],
+      "N04": [
+        "claims_min",
+        "document_status",
+        "question_status:0",
+        "required_claim:0",
+        "same_claim_adjective_agreement:0"
+      ],
+      "N05": [],
+      "N06": [
+        "conditional_provenance"
+      ],
+      "T01": [],
+      "T02": [
+        "claims_min",
+        "document_status",
+        "question_status:0",
+        "question_status:1",
+        "required_claim:0",
+        "same_claim_relation:0"
+      ],
+      "T03": [
+        "claims_min",
+        "document_status",
+        "question_status:0",
+        "required_claim:0",
+        "same_claim_relation:0"
+      ],
+      "T04": [],
+      "T05": [],
+      "T06": [],
+      "P01": [
+        "claims_min",
+        "complete_attached_host_evidence_exposed",
+        "document_status",
+        "question_status:0",
+        "question_status:1",
+        "reference_binding:0",
+        "reference_candidates:0",
+        "reference_exposed:0",
+        "required_claim:1"
+      ],
+      "P02": [
+        "reference_binding:0",
+        "reference_candidates:0",
+        "reference_exposed:0"
+      ],
+      "P03": [],
+      "P04": [
+        "claims_min",
+        "complete_attached_host_evidence_exposed",
+        "document_status",
+        "question_status:0",
+        "question_status:1",
+        "required_claim:0"
+      ],
+      "P05": [
+        "claims_min",
+        "complete_attached_host_evidence_exposed",
+        "document_status",
+        "question_status:0",
+        "required_claim:0"
+      ],
+      "P06": [
+        "clause_forces",
+        "complete_attached_host_evidence_exposed",
+        "document_status",
+        "question_status:0"
+      ]
+    },
+    "unsafe_check_failures": [],
+    "independent_integrity_failures": [],
+    "mutation_outcomes": {
+      "V-G01": "PASS",
+      "V-G02": "PASS",
+      "V-G03": "PASS",
+      "V-G04": "PASS",
+      "V-N01": "PASS",
+      "V-N02": "PASS",
+      "V-N03": "PASS",
+      "V-N04": "PASS",
+      "V-T01": "UNEXERCISED",
+      "V-T02": "PASS",
+      "V-T03": "PASS",
+      "V-T04": "PASS",
+      "V-T05": "UNEXERCISED",
+      "V-P01": "UNEXERCISED",
+      "V-P02": "PASS",
+      "V-P03": "PASS",
+      "V-P04": "UNEXERCISED",
+      "V-P05": "UNEXERCISED"
+    },
+    "source_counterexamples": {
+      "total": 6,
+      "positive_controls": 2,
+      "negative_cases": 4,
+      "passed": 6,
+      "questions": 4,
+      "status_matches": 4,
+      "independently_validated": 4,
+      "unsafe_check_failures": [],
+      "independent_integrity_failures": [],
+      "gate_pass": true,
+      "not_added_to_historical_denominators": true
+    },
+    "public_calls": {
+      "directed": 171,
+      "source_counterexamples": 34
+    },
+    "measurement_valid": true,
+    "strict_pass": false,
+    "regression_gate_pass": true
+  },
+  "scope": "CI integration repair only; no broadened linguistic coverage, rewritten frozen input, or full local make check. Final remote CI is a later observation."
+}

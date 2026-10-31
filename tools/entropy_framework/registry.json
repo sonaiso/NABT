@@ -2159,6 +2159,7 @@
           "tools/verified_reading.py",
           "tools/source_semantics.py",
           "tools/explainable_pilot.py",
+          "tools/explainable_contracts.py",
           "tools/train_certificate_ranker.py",
           "tools/train_certificate_ranker_v2.py"
         ],
@@ -2181,21 +2182,28 @@
           "tests/test_source_semantics.py",
           "tests/test_reading_enumeration.py",
           "tests/test_qatr_readings.py",
-          "tests/test_explainable_pilot.py"
+          "tests/test_explainable_pilot.py",
+          "tests/test_explainable_contracts.py"
         ],
         "doc_paths": [
           "docs/SEMANTICS.md",
           "docs/VERIFIED_READING.md",
           "docs/READING_ENUMERATION.md",
           "docs/SOURCE_SEMANTICS.md",
+          "docs/EXPLAINABLE_PILOT.md",
+          "docs/EXPLANATION_CONTRACTS_V1_SPEC.md",
+          "docs/EXPLANATION_CONTRACTS_CI_FOLLOWUP_AR.md",
+          "docs/EXPLANATION_SOURCE_AUDIT_AR.md",
+          "docs/NABT_EXPLANATORY_METHOD_PLAN_AR.md",
           "docs/TRAINING_PLAN_AR.md",
           "docs/TRAINING_REVIEW_V2_AR.md"
         ],
-        "scope": "Signed proof DAGs, conflict-clean consequence, complete supplied reading enumeration and exact raw-source replay preserve independent scopes and premises.",
+        "scope": "Signed proof DAGs, conflict-clean consequence, complete supplied reading enumeration and exact raw-source replay preserve independent scopes and premises. The versioned pilot explanation projects the accepted clauses, conditions, conflict exclusions and remaining obligations; it does not authorize a new inference.",
         "open_debts": [
           "model_sound requires true facts and preserving rules for the supplied meaning map; the theorem does not acquire that map or authenticate facts.",
           "These installed finite readers are distinct laws; successful routes cannot be silently composed across unsupported grammar.",
-          "The existing learned certificate rankers order proposals only; their model score never substitutes for native certificate acceptance."
+          "The existing learned certificate rankers order proposals only; their model score never substitutes for native certificate acceptance.",
+          "The pilot explanation renderer is replay-checked and tested, not formally refined. Exact ground application does not establish external case applicability, source truth or action authority; a book-policy-to-ground-rule bridge is not supplied."
         ]
       },
       {

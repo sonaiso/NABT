@@ -1,0 +1,128 @@
+{
+  "schema": "nabt.explanation-contract-cli-replay.v1",
+  "implementation_commit": "c7ebc6b083431208fdb88c24edf76e6e8bb583dc",
+  "commands": [
+    {
+      "name": "propose_existing",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "tools.verified_reading",
+        "examples/verified_reading/source.txt",
+        "examples/verified_reading/query.txt",
+        "--output",
+        "evidence/explanation_contracts_v1/validation/examples/external_proposal.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.069,
+      "stdout_sha256": "1d6cbef761fa4994b0c635b71d9efd68b9d98232324ba1c390084f0730acd70a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "external_proposal_answer",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "explainable-pilot",
+        "--",
+        "answer",
+        "examples/verified_reading/source.txt",
+        "examples/verified_reading/query.txt",
+        "--certificate",
+        "evidence/explanation_contracts_v1/validation/examples/external_proposal.json",
+        "--answer-version",
+        "v2",
+        "--output",
+        "evidence/explanation_contracts_v1/validation/examples/supported_answer_v2.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.623,
+      "stdout_sha256": "93800cd8f6f9d24b10ead2b056df334dc68b07ee537b02c3f91184008d4f4d9b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "external_proposal_replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "explainable-pilot",
+        "--",
+        "verify",
+        "examples/verified_reading/source.txt",
+        "examples/verified_reading/query.txt",
+        "evidence/explanation_contracts_v1/validation/examples/supported_answer_v2.json",
+        "--answer-version",
+        "v2"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.654,
+      "stdout_sha256": "4161926835c2dcc9db30aa3889ea92cb2f948ec4b298c9a630c899c5a00c73ae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "missing_premise_answer",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "explainable-pilot",
+        "--",
+        "answer",
+        "examples/explanation_contracts/source.txt",
+        "examples/explanation_contracts/query.txt",
+        "--output",
+        "evidence/explanation_contracts_v1/validation/examples/missing_premise_answer_v2.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.611,
+      "stdout_sha256": "152e18018de36557b356a98d3a10f8e68d3c7c98e378cb4ea09a673e3967b117",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "missing_premise_replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--run",
+        "explainable-pilot",
+        "--",
+        "verify",
+        "examples/explanation_contracts/source.txt",
+        "examples/explanation_contracts/query.txt",
+        "evidence/explanation_contracts_v1/validation/examples/missing_premise_answer_v2.json",
+        "--answer-version",
+        "v2"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.683,
+      "stdout_sha256": "c17850982e40262bee586d62aea0f76c42f2bdb263fa15bd43f0340894cb846a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "existing_pilot_evaluation",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "tools/evaluate_explainable_pilot.py",
+        "--repeats",
+        "1",
+        "--output",
+        "evidence/explanation_contracts_v1/validation/existing_pilot_evaluation.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.959,
+      "stdout_sha256": "f53c23f73696842a96959477ef23c68ddf18fe1247f2e6a3a2adfbc236982d84",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "all_passed": true
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "nabt.explanation-contract-receipt-boundary-before.v1",
+  "base_commit": "345713c2934333fe9c71e5e82212c46cae5a5213",
+  "acceptance_matrix_sha256": "e5bdc1e1707ca5f610f56ac2e4e3f6af6c2f54f4e7f02842c1b6161d606f0b6a",
+  "classification": "Mocked native-process protocol counterexample observed before the Python receipt validation repair. This is not a result emitted by the Lean checker and not a claim that its semantic law is unsound.",
+  "source": "سالم هو عالم.\n",
+  "query": "هل سالم هو عالم؟\n",
+  "procedure": [
+    "Call tools.explainable_pilot.answer with the exact source and query to obtain a genuine native receipt.",
+    "Copy that receipt and change only its status field from SUPPORTED to REFUTED.",
+    "Patch tools.explainable_pilot.subprocess.run to return returncode=0, stdout=wire(changed_receipt).encode(), stderr=b''. Keep all source, query, identity, revision, scope, law, and world-truth fields unchanged.",
+    "Call answer again and inspect the returned answer status, native polarity fields, and clean query trace root."
+  ],
+  "observed_before": {
+    "genuine_status": "SUPPORTED",
+    "altered_status": "REFUTED",
+    "altered_native_positive": true,
+    "altered_native_clean_positive": true,
+    "altered_clean_query_root": "k0",
+    "rejected": false
+  },
+  "required_after": {
+    "error": "CHECKER_PROTOCOL_ERROR",
+    "successful_answer_returned": false,
+    "semantic_status_returned": false
+  },
+  "extension_controls": [
+    {
+      "id": "ER01-status-polarity-disagreement",
+      "mutation": "Change only a successful native status to the opposite verdict.",
+      "required": "Reject protocol incoherence before rendering."
+    },
+    {
+      "id": "ER02-coherent-false-polarity",
+      "mutation": "Change native status and polarity booleans together so they agree with each other but disagree with the accepted certificate's known and clean_known memberships.",
+      "required": "Reject protocol incoherence before rendering; the four booleans must match the accepted certificate."
+    },
+    {
+      "id": "ER03-native-shape-and-types",
+      "mutation": "Replace an evidence boolean with an integer, omit a required receipt field, or add an unsolicited authority field.",
+      "required": "Reject the malformed success receipt."
+    }
+  ],
+  "scope": "Defense at the existing Python/native interface. Native certificate acceptance remains mandatory; checking its returned shape and consistency supplies no replacement derivability authority. Only ER01's failing before observation is measured here."
+}
