@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections import Counter
 from copy import deepcopy
+from functools import lru_cache
 import math
 from pathlib import Path
 import re
@@ -25,9 +26,15 @@ class RetrievalError(ValueError):
     """Malformed proposal input; not a rejection of Arabic."""
 
 
+@lru_cache(maxsize=4096)
+def _is_mark(char):
+    """Cache only single-character Unicode classification, never source evidence."""
+    return unicodedata.category(char).startswith("M")
+
+
 def tokens(text):
     """Search-only projection: marks/tatweel removed, alif variants unified."""
-    text = "".join(c for c in text if not unicodedata.category(c).startswith("M") and c != "ـ")
+    text = "".join(c for c in text if not _is_mark(c) and c != "ـ")
     text = text.translate(str.maketrans("أإآٱ", "اااا")).casefold()
     return re.findall(r"[^\W_]+", text, re.UNICODE)
 
