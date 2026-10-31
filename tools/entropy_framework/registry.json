@@ -223,7 +223,366 @@
       "INFER",
       "MEASURE"
     ],
-    "provenance_policy": "record source integrity separately from interpretation validity"
+    "provenance_policy": "record source integrity separately from interpretation validity",
+    "organization": {
+      "schema": "nabt.rule-organization.references.v1",
+      "profiles": [
+        {
+          "id": "guard-formation",
+          "role": "FORMATION_METHOD",
+          "operation_kind": "FILTER",
+          "subject": {
+            "kind": "reuse_family",
+            "id": "rule-learning"
+          },
+          "family_ids": [
+            "rule-learning"
+          ],
+          "scope": "Finite guard formation by filtering the declared hypothesis language under supplied observations. The source-adapter path separately replays ready observations; generic observations remain supplied judgments. No surviving guard is adopted as a new linguistic law by this profile.",
+          "phase_contract_refs": {
+            "formation": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RuleLearning.mem_update_iff"
+              },
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RuleLearning.consensus_some_iff"
+              }
+            ],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RuleLearning.consensus_correct_of_true_member"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "reuse_family",
+                "id": "rule-learning"
+              }
+            ]
+          }
+        },
+        {
+          "id": "inquiry-review",
+          "role": "EVIDENCE_ADMISSION_POLICY",
+          "operation_kind": null,
+          "subject": {
+            "kind": "reuse_family",
+            "id": "rational-inquiry"
+          },
+          "family_ids": [
+            "rational-inquiry"
+          ],
+          "scope": "Existing finite inquiry review of declared source links and scoped support. Formation fields are retained references, not a verified history of candidate production; inquiry licensing is not a general candidate-rule adoption procedure.",
+          "phase_contract_refs": {
+            "formation": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RationalInquiry.licensed_requires_formation"
+              }
+            ],
+            "adoption": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RationalInquiry.assess_licensed_iff"
+              }
+            ],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RationalInquiry.unbridged_world_is_deferred"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.RationalInquiry.accepted_after_withdrawal_iff"
+              }
+            ]
+          }
+        },
+        {
+          "id": "property-identities",
+          "role": "DEFINITION_OR_TYPE",
+          "operation_kind": null,
+          "subject": {
+            "kind": "reuse_family",
+            "id": "properties-obligations"
+          },
+          "family_ids": [
+            "properties-obligations"
+          ],
+          "scope": "Existing source, occurrence, reading, context, definition, policy, schema and checker identity fields. Their names and fingerprints preserve distinct bindings without authenticating primitive meanings or source content.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.PropertyEvidence.binding_cannot_transfer"
+              }
+            ],
+            "revision": []
+          }
+        },
+        {
+          "id": "source-record-admission",
+          "role": "EVIDENCE_ADMISSION_POLICY",
+          "operation_kind": "FILTER",
+          "subject": {
+            "kind": "compiled_declaration",
+            "id": "Nabt.PropertyEvidence.accepts_ready_iff"
+          },
+          "family_ids": [
+            "properties-obligations"
+          ],
+          "scope": "Exact ready-record admission relative to an independently replayed expected record. This admits the bound source observation; it does not adopt an induced grammar rule or prove source authenticity, interpretation fidelity, or world truth.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.PropertyEvidence.accepts_ready_iff"
+              }
+            ],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.PropertyEvidence.ready_admission_binds_record"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.PropertyEvidence.changed_replay_refuses_stale_record"
+              }
+            ]
+          }
+        },
+        {
+          "id": "concept-definition",
+          "role": "DEFINITION_OR_TYPE",
+          "operation_kind": "TRANSFORM",
+          "subject": {
+            "kind": "compiled_declaration",
+            "id": "Nabt.SourceSemantics.definition_expansion"
+          },
+          "family_ids": [
+            "signed-inference"
+          ],
+          "scope": "Hygienic expansion of an explicitly supplied concept definition in the supplied model. Expansion does not discover a definition, assert an individual instance, or establish the adequacy of the model and primitive interpretation.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.SourceSemantics.definition_expansion"
+              },
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.SourceSemantics.definition_is_not_an_instance"
+              }
+            ],
+            "revision": []
+          }
+        },
+        {
+          "id": "morphology-word-kind",
+          "role": "DEFINITION_OR_TYPE",
+          "operation_kind": null,
+          "subject": {
+            "kind": "catalogue_rule",
+            "id": "nabt.morphology.source-policy.v1::word_kind"
+          },
+          "family_ids": [
+            "morphology"
+          ],
+          "scope": "The installed source-policy entry links selected noun, verb and particle definitions to exact passages. Its absent runtime/theorem mapping remains absent here; this classification does not infer applicability to an arbitrary word.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [],
+            "revision": []
+          }
+        },
+        {
+          "id": "nun-before-ba",
+          "role": "LANGUAGE_INTERPRETATION_RULE",
+          "operation_kind": "TRANSFORM",
+          "subject": {
+            "kind": "catalogue_rule",
+            "id": "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT"
+          },
+          "family_ids": [
+            "classical-transforms"
+          ],
+          "scope": "The installed conditional symbolic silent-nun to mim-before-ba operator and its retained textual-discrepancy source record. The conditional theorem does not adjudicate the textual discrepancy or acquire raw-text segmentation and occurrence premises.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.ClassicalGemination.nun_exact"
+              }
+            ],
+            "revision": []
+          }
+        },
+        {
+          "id": "signed-model-soundness",
+          "role": "INFERENCE_LICENSE",
+          "operation_kind": "INFER",
+          "subject": {
+            "kind": "compiled_declaration",
+            "id": "Nabt.SemanticInference.model_sound"
+          },
+          "family_ids": [
+            "signed-inference"
+          ],
+          "scope": "Source-relative signed derivability and model soundness under the separate factsTrue and rulesPreserve premises. Exact replay and clean closures do not supply those premises, external case applicability, or action authority.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.SemanticInference.accepts_sound"
+              },
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.SemanticInference.model_sound"
+              },
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.QualifiedInference.supported_rule_derivable"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.SemanticInference.withdrawal_rejects_stale_certificate"
+              }
+            ]
+          }
+        },
+        {
+          "id": "source-revision",
+          "role": "EVIDENCE_ADMISSION_POLICY",
+          "operation_kind": "FILTER",
+          "subject": {
+            "kind": "reuse_family",
+            "id": "evidence-lifecycle"
+          },
+          "family_ids": [
+            "evidence-lifecycle"
+          ],
+          "scope": "The existing episode law filters dependency-ready interpreted evidence under exact active source identities and rank-ordered ancestry. Withdrawal, reactivation and replacement remain scoped to that law; no universal revision coordinator or candidate regeneration is supplied.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.EvidenceLifecycleV1.projected_admissible_exact"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.EvidenceLifecycleV1.withdrawal_does_not_invent_negation"
+              },
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.EvidenceLifecycleV1.changed_episode_rejected"
+              }
+            ]
+          }
+        },
+        {
+          "id": "framework-freshness",
+          "role": "EVIDENCE_ADMISSION_POLICY",
+          "operation_kind": null,
+          "subject": {
+            "kind": "framework_contract",
+            "id": "evidence_freshness"
+          },
+          "family_ids": [],
+          "scope": "The existing organizational freshness policy names the complete identity dimensions and separates historical retention from current applicability. Valid metadata does not authenticate a run or execute invalidation.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [],
+            "revision": [
+              {
+                "kind": "framework_contract",
+                "id": "evidence_freshness"
+              }
+            ]
+          }
+        },
+        {
+          "id": "lifecycle-evaluation",
+          "role": "EVALUATION_GATE",
+          "operation_kind": "MEASURE",
+          "subject": {
+            "kind": "evaluation_gate",
+            "id": "G4"
+          },
+          "family_ids": [
+            "evidence-lifecycle"
+          ],
+          "scope": "Existing G4 evaluation metadata for nabt.evidence-lifecycle.v1. Dataset and declared measurement references remain distinct from execution, evidence authentication, release admission and semantic authority.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "reuse_family",
+                "id": "evidence-lifecycle"
+              }
+            ],
+            "revision": []
+          }
+        }
+      ],
+      "relations": [
+        {
+          "from": "guard-formation",
+          "to": "source-record-admission",
+          "kind": "REFERENCE",
+          "phase": "formation"
+        },
+        {
+          "from": "source-record-admission",
+          "to": "property-identities",
+          "kind": "PREREQUISITE",
+          "phase": "adoption"
+        },
+        {
+          "from": "inquiry-review",
+          "to": "signed-model-soundness",
+          "kind": "REFERENCE",
+          "phase": "application"
+        },
+        {
+          "from": "source-revision",
+          "to": "framework-freshness",
+          "kind": "REFERENCE",
+          "phase": "revision"
+        },
+        {
+          "from": "lifecycle-evaluation",
+          "to": "source-revision",
+          "kind": "REFERENCE",
+          "phase": "application"
+        }
+      ]
+    }
   },
   "gates": [
     {
@@ -2685,7 +3044,8 @@
         "runtime_paths": [
           "tools/grammar_catalog/routing.py",
           "tools/grammar_catalog/catalog.py",
-          "tools/mantuq_inference/pipeline.py"
+          "tools/mantuq_inference/pipeline.py",
+          "tools/entropy_framework/organization.py"
         ],
         "native_targets": [
           "exportRuleRouting"
@@ -2699,10 +3059,13 @@
         ],
         "test_paths": [
           "tests/test_mantuq_inference_pipeline.py",
-          "tests/test_grammar_catalog_sources.py"
+          "tests/test_grammar_catalog_sources.py",
+          "tests/test_proof_reuse_organization.py"
         ],
         "doc_paths": [
-          "docs/GRAMMAR_CATALOG_AR.md"
+          "docs/GRAMMAR_CATALOG_AR.md",
+          "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md",
+          "docs/NABT_RULE_POLICY_ORGANIZATION_AR.md"
         ],
         "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
         "open_debts": [

@@ -3,6 +3,27 @@
 Read and obey AGENTS.md; it remains the repository-wide authority. This file
 records the current task, not a second constitution or a list of proved laws.
 
+Current rule/policy organization work: follow
+`docs/NABT_RULE_POLICY_ORGANIZATION_AR.md` and the preimplementation contract
+`docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md`. Specification, independent exposed
+acceptance and six existing-capability probes were frozen at `5dca9ad` before
+implementation. Reuse the existing entropy registry, compiled declaration
+catalogue, source catalogue and family routes. `reuse --organization` resolves
+authored references; it performs no native execution and grants no semantic or
+action authority. Validate the existing `rule_contract` and `evidence_freshness`
+policies; retain all catalogue records, including unmapped ones, owner scopes
+and source-review statuses. Phase references are available contracts, with
+events `NOT_OBSERVED`, not a candidate-adoption history.
+This organization precedes the catalogue projection task below. Afterwards,
+bounded candidate adoption/application and existing operator condition/example
+projection can proceed in parallel, with original grammar application trees
+and `CertifiedBridge` obligations following the latter. Do not replace the
+finite learner, concept-definition model, qualified inference or revision
+owners with a general engine merely because their names differ. Preserve the
+90-file oracle dependency profile, 99-file runtime freeze, original Makefile,
+main CI workflow and exposed gold. New tests use the existing
+`test_proof_reuse*.py` discovery route.
+
 Current explanatory-method work: follow
 `docs/NABT_EXPLANATORY_METHOD_PLAN_AR.md`,
 `docs/EXPLANATION_SOURCE_AUDIT_AR.md`, and the preimplementation contract
