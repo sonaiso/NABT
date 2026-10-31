@@ -1,0 +1,100 @@
+{
+  "schema": "nabt.token-equivalence.oracle-provenance.v1",
+  "recorded_utc": "2026-10-31T22:20:52.694780+00:00",
+  "baseline_head": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+  "upstream_sources": [
+    {
+      "unicode_version": "14.0.0",
+      "name": "UnicodeData.txt",
+      "url": "https://www.unicode.org/Public/14.0.0/ucd/UnicodeData.txt",
+      "bytes": 1897793,
+      "sha256": "36018e68657fdcb3485f636630ffe8c8532e01c977703d2803f5b89d6c5feafb",
+      "retained_as": "derived compact mark ranges"
+    },
+    {
+      "unicode_version": "14.0.0",
+      "name": "CaseFolding.txt",
+      "url": "https://www.unicode.org/Public/14.0.0/ucd/CaseFolding.txt",
+      "bytes": 84688,
+      "sha256": "a566cd48687b2cd897e02501118b2413c14ae86d318f9abbbba97feb84189f0f",
+      "retained_as": "provenance only; no general casefold oracle added"
+    },
+    {
+      "unicode_version": "15.0.0",
+      "name": "UnicodeData.txt",
+      "url": "https://www.unicode.org/Public/15.0.0/ucd/UnicodeData.txt",
+      "bytes": 1913704,
+      "sha256": "806e9aed65037197f1ec85e12be6e8cd870fc5608b4de0fffd990f689f376a73",
+      "retained_as": "derived compact mark ranges"
+    },
+    {
+      "unicode_version": "15.0.0",
+      "name": "CaseFolding.txt",
+      "url": "https://www.unicode.org/Public/15.0.0/ucd/CaseFolding.txt",
+      "bytes": 84690,
+      "sha256": "cdd49e55eae3bbf1f0a3f6580c974a0263cb86a6a08daa10fbf705b4808a56f7",
+      "retained_as": "provenance only; no general casefold oracle added"
+    },
+    {
+      "unicode_version": "15.1.0",
+      "name": "UnicodeData.txt",
+      "url": "https://www.unicode.org/Public/15.1.0/ucd/UnicodeData.txt",
+      "bytes": 1914200,
+      "sha256": "2fc713e6a31a87c4850a37fe2caffa4218180fadb5de86b43a143ddb4581fb86",
+      "retained_as": "derived compact mark ranges"
+    },
+    {
+      "unicode_version": "15.1.0",
+      "name": "CaseFolding.txt",
+      "url": "https://www.unicode.org/Public/15.1.0/ucd/CaseFolding.txt",
+      "bytes": 84870,
+      "sha256": "4e55acfdc32825a22e87670e9056a3bf94ad7c5400065778e9e10f8314372bcf",
+      "retained_as": "provenance only; no general casefold oracle added"
+    }
+  ],
+  "derivation": "Read the third semicolon field General_Category in each versioned UnicodeData.txt, expand any matching First/Last range, retain exactly Mn/Mc/Me code points, then merge consecutive points into inclusive integer ranges. The identical15.0/15.1 range sets are stored once. This extraction did not import retrieval.tokens or unicodedata.category.",
+  "runtime_version_selection": "Tests use unicodedata.unidata_version only to select the pinned external table; no category result from that module is an expected value.",
+  "casefold_source_use": "The full C/F entries in the fetched CaseFolding files were reviewed only for representative literal order examples and to confirm all mappings are nonempty and shorter than the record marker. They are not stored as another general engine.",
+  "source_bytes_committed": false,
+  "license": {
+    "url": "https://www.unicode.org/license.txt",
+    "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+    "notice": "UNICODE LICENSE V3\n\nCOPYRIGHT AND PERMISSION NOTICE\n\nCopyright \u00a9 1991-2026 Unicode, Inc.\n\nNOTICE TO USER: Carefully read the following legal agreement. BY\nDOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR\nSOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE\nTERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT\nDOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.\n\nPermission is hereby granted, free of charge, to any person obtaining a\ncopy of data files and any associated documentation (the \"Data Files\") or\nsoftware and any associated documentation (the \"Software\") to deal in the\nData Files or Software without restriction, including without limitation\nthe rights to use, copy, modify, merge, publish, distribute, and/or sell\ncopies of the Data Files or Software, and to permit persons to whom the\nData Files or Software are furnished to do so, provided that either (a)\nthis copyright and permission notice appear with all copies of the Data\nFiles or Software, or (b) this copyright and permission notice appear in\nassociated Documentation.\n\nTHE DATA FILES AND SOFTWARE ARE PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY\nKIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF\nTHIRD PARTY RIGHTS.\n\nIN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE\nBE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,\nOR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,\nWHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,\nARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA\nFILES OR SOFTWARE.\n\nExcept as contained in this notice, the name of a copyright holder shall\nnot be used in advertising or otherwise to promote the sale, use or other\ndealings in these Data Files or Software without prior written\nauthorization of the copyright holder.\n"
+  },
+  "references": [
+    "https://www.unicode.org/reports/tr44/",
+    "https://www.unicode.org/Public/14.0.0/ucd/UnicodeData.txt",
+    "https://www.unicode.org/Public/15.0.0/ucd/UnicodeData.txt",
+    "https://www.unicode.org/Public/15.1.0/ucd/UnicodeData.txt"
+  ],
+  "limits": [
+    "The exhaustive assertion is Unicode mark deletion in anchored token contexts, including unassigned points and lone surrogates.",
+    "Literal mixed-script, ordering and token-boundary cases sample the unchanged downstream transformations; they do not exhaust all strings.",
+    "The actual catalogue/ranking comparison is a regression against an existing exposed frozen result, not a new independent linguistic or held-out benchmark.",
+    "No performance result or cached implementation output supplies expected semantics.",
+    "The semantic acceptance suite does not require memoization, so it can run unchanged before and after the optimization."
+  ],
+  "casefold_mapping_length_bounds": {
+    "14.0.0": {
+      "minimum": 1,
+      "maximum": 3
+    },
+    "15.0.0": {
+      "minimum": 1,
+      "maximum": 3
+    },
+    "15.1.0": {
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "prerelease_fixture_review": {
+    "review": "Before the first test run, root identified that a JSON escaped surrogate pair is decoded by json.loads into one supplementary character.",
+    "initial_contract_sha256": "e8d40c03a911d0e88a493944bddfd63fe86e6c725c6155ac5316ec02a676540f",
+    "affected_case": "surrogate_pair_is_not_decoded",
+    "correction": "Store explicit integer codepoints [65, 55357, 56832, 90]; the evaluator constructs the Python string with chr for each integer.",
+    "linguistic_expectation_changed": false,
+    "first_test_execution_before_correction": false,
+    "unchanged_coverage": "All-codepoint anchored classification, all lone surrogates, and the separate actual-emoji boundary case."
+  }
+}
