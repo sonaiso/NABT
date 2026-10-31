@@ -23,6 +23,14 @@ owners with a general engine merely because their names differ. Preserve the
 90-file oracle dependency profile, 99-file runtime freeze, original Makefile,
 main CI workflow and exposed gold. New tests use the existing
 `test_proof_reuse*.py` discovery route.
+Local organization implementation is checkpointed at `9815d4a`; results are in
+`docs/RULE_POLICY_ORGANIZATION_V1_RESULTS_AR.md` and
+`evidence/rule_policy_organization_v1/validation/verification_summary.json`.
+The final local groups passed 48 reuse tests (18 organization, 30 existing)
+and 98 owner/framework tests. Preserve the initial owner-run import error;
+its complete rerun uses `PYTHONPATH=src:.`. No local full `make check` or fresh
+Lean compilation is claimed by these organizational results. Publication must
+check all triggered CI on the exact final branch head before merging.
 
 Current explanatory-method work: follow
 `docs/NABT_EXPLANATORY_METHOD_PLAN_AR.md`,
