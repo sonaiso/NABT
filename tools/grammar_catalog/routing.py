@@ -35,19 +35,39 @@ def _integer_limit():
 def _snapshot_document(value, label="routing document"):
     """Copy exact finite JSON before hashing or use, with explicit resource bounds."""
     nodes = 0
+    used_bytes = 0
     active = set()
 
+    def charge(size):
+        nonlocal used_bytes
+        used_bytes += size
+        if used_bytes > MAX_ROUTING_DOCUMENT_BYTES:
+            raise resource_limit(label + " exceeds its byte budget",
+                                 maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
+
     def string(text):
-        if len(text) > MAX_ROUTING_DOCUMENT_BYTES:
+        remaining = MAX_ROUTING_DOCUMENT_BYTES - used_bytes
+        if len(text) + 2 > remaining:
             raise resource_limit(label + " exceeds its byte budget",
                                  maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
-        try:
-            size = len(text.encode("utf-8"))
-        except UnicodeError as exc:
-            raise RetrievalError(label + " must contain valid UTF-8") from exc
-        if size > MAX_ROUTING_DOCUMENT_BYTES:
-            raise resource_limit(label + " exceeds its byte budget",
-                                 maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
+        # Count canonical ensure_ascii=False JSON bytes without materializing
+        # an escaped copy. Repeated shared strings consume the same total
+        # budget as distinct strings, before the next value is copied.
+        size = 2  # quotation marks
+        for char in text:
+            code = ord(char)
+            if 0xD800 <= code <= 0xDFFF:
+                raise RetrievalError(label + " must contain valid UTF-8")
+            if code in (8, 9, 10, 12, 13, 34, 92):
+                size += 2
+            elif code < 0x20:
+                size += 6
+            else:
+                size += 1 if code < 0x80 else 2 if code < 0x800 else 3 if code < 0x10000 else 4
+            if size > remaining:
+                raise resource_limit(label + " exceeds its byte budget",
+                                     maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
+        charge(size)
         return text
 
     def copy(value, depth):
@@ -64,28 +84,51 @@ def _snapshot_document(value, label="routing document"):
             identity = id(value)
             if identity in active:
                 raise RetrievalError(label + " must not contain cyclic containers")
+            charge(2)  # opening and closing brackets/braces
             active.add(identity)
             try:
                 if kind is list:
-                    return [copy(item, depth + 1) for item in value]
+                    result = []
+                    for position, item in enumerate(value):
+                        if position:
+                            charge(1)
+                        result.append(copy(item, depth + 1))
+                    return result
                 if any(type(key) is not str for key in value):
                     raise RetrievalError(label + " object keys must be strings")
-                return {string(key): copy(item, depth + 1) for key, item in value.items()}
+                result = {}
+                for position, (key, item) in enumerate(value.items()):
+                    if position:
+                        charge(1)
+                    key = string(key)
+                    charge(1)  # colon
+                    result[key] = copy(item, depth + 1)
+                return result
             finally:
                 active.remove(identity)
         if kind is str:
             return string(value)
         if kind is int:
+            # 0.30102 < log10(2): this lower bound is safe before decimal
+            # conversion, including when the interpreter's own limit is off.
+            bits = value.bit_length()
+            minimum_digits = (bits - 1) * 30102 // 100000 + 1 if bits else 1
+            if minimum_digits + (1 if value < 0 else 0) > MAX_ROUTING_DOCUMENT_BYTES - used_bytes:
+                raise resource_limit(label + " exceeds its byte budget",
+                                     maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
             try:
-                str(value)
+                spelling = str(value)
             except ValueError as exc:
                 raise _integer_limit() from exc
+            charge(len(spelling))
             return value
         if kind is float:
             if not math.isfinite(value):
                 raise RetrievalError(label + " numbers must be finite")
+            charge(len(repr(value)))
             return value
         if value is None or kind is bool:
+            charge(4 if value is None or value is True else 5)
             return value
         raise RetrievalError(label + " permits only ordinary JSON containers and scalars")
 
@@ -142,11 +185,23 @@ def read_routing_document(path):
 def routing_document_text(value):
     """Check the actual emitted bytes, including indentation and final newline."""
     snapshot, _ = _snapshot_document(value)
-    text = json.dumps(snapshot, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
-    if len(text.encode("utf-8")) > MAX_ROUTING_DOCUMENT_BYTES:
-        raise resource_limit("Routing output file exceeds its byte budget",
-                             maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
-    return text
+    parts = []
+    size = 1  # reserve the final newline before accumulating any output
+    encoder = json.JSONEncoder(ensure_ascii=False, indent=2, allow_nan=False)
+    try:
+        for part in encoder.iterencode(snapshot):
+            size += len(part.encode("utf-8"))
+            if size > MAX_ROUTING_DOCUMENT_BYTES:
+                raise resource_limit("Routing output file exceeds its byte budget",
+                                     maximum_bytes=MAX_ROUTING_DOCUMENT_BYTES)
+            parts.append(part)
+    except ValueError as exc:
+        if isinstance(exc, NabtError):
+            raise
+        if "integer string conversion" in str(exc):
+            raise _integer_limit() from exc
+        raise RetrievalError("Routing output is not finite JSON") from exc
+    return "".join(parts) + "\n"
 
 
 def _version(report_version, *, verifying=False):
