@@ -1,0 +1,14 @@
+{
+  "schema": "nabt.meaning-preservation.runtime-review1.protocol.v1",
+  "baseline_commit": "093ff687691ca51518c1d793c84e6b582016afdf",
+  "finding": "Case ID uniqueness was checked before decoding later case fields in Python; native checks uniqueness after every case has parsed.",
+  "expected_order": "Validate every original and decode every transported payload before rejecting repeated case IDs.",
+  "scope": "Four authored exposed diagnostic controls; no new language or blind sample. No change to accepted well-formed inputs, formal law, native executable, frozen73-case gold or first result. No claim of universal precedence for all multiply-invalid inputs.",
+  "expected_statuses": {
+    "duplicate_and_resource": "RESOURCE_EXHAUSTED",
+    "duplicate_only": "INVALID_INPUT",
+    "resource_only": "RESOURCE_EXHAUSTED",
+    "valid_two_distinct": "FINITE_CONTRACT_VERIFIED"
+  },
+  "implementation_changed": false
+}
