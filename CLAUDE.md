@@ -16,6 +16,12 @@ The nine authored acceptance cases and their first observations live under
 Classical book-operation contracts already exist. The next catalogue task is
 to project existing blockers/examples beside existing runtime receipts, not
 to invent another registry or claim an unproved book-to-ground-rule bridge.
+Results and exact denominators are in
+`docs/EXPLANATION_CONTRACTS_V1_RESULTS_AR.md` and
+`evidence/explanation_contracts_v1/validation/verification_summary.json`.
+Native-required pilot conformance and targeted integration passed on `c7ebc6b`;
+this batch did not run the entire `make check` or remote CI. Keep those scopes
+separate from the prior merged capability-reuse release and its CI results.
 
 Current capability-reuse work (user-authorized): follow the startup workflow
 in AGENTS.md and `docs/NABT_CAPABILITY_REUSE_AR.md`. The existing compiled
