@@ -1,0 +1,2396 @@
+{
+  "schema": "nabt.rule-policy-organization.acceptance.v1",
+  "authority": "AUTHORED_ACCEPTANCE_EXPECTATIONS_ONLY",
+  "semantic_authority": "NONE",
+  "action_authority": "NONE",
+  "base_commit": "181dec466ccfad5b6a63ec9750f149ea58829eda",
+  "branch": "codex/rule-policy-organization-v1",
+  "authored_date": "2026-10-31",
+  "authored_before_implementation": true,
+  "visibility": "EXPOSED_PREIMPLEMENTATION_ACCEPTANCE_NOT_HOLDOUT",
+  "scope": "Organizational metadata validation, exact owner resolution and opt-in reporting; no semantic-kernel, inference, adoption-bridge or action behavior change.",
+  "fixtures": {
+    "legacy_registry": {
+      "source_path": "tools/entropy_framework/registry.json",
+      "source_commit": "181dec466ccfad5b6a63ec9750f149ea58829eda",
+      "schema_version": "0.2.0",
+      "preparation": "Keep the valid baseline base contracts and remove rule_contract.organization if present."
+    },
+    "prepared_registry": {
+      "base": "legacy_registry",
+      "set_path": "/rule_contract/organization",
+      "value_fixture": "organization"
+    },
+    "organization": {
+      "schema": "nabt.rule-organization.references.v1",
+      "profiles": [
+        {
+          "id": "definition",
+          "role": "DEFINITION_OR_TYPE",
+          "operation_kind": null,
+          "subject": {
+            "kind": "compiled_declaration",
+            "id": "Nabt.Cell.decode_encode"
+          },
+          "family_ids": [
+            "identity"
+          ],
+          "scope": "Authored fixture: identity definition reference only.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [],
+            "revision": []
+          }
+        },
+        {
+          "id": "formation",
+          "role": "FORMATION_METHOD",
+          "operation_kind": null,
+          "subject": {
+            "kind": "reuse_family",
+            "id": "rule-learning"
+          },
+          "family_ids": [
+            "rule-learning"
+          ],
+          "scope": "Authored fixture: installed learning contract; no discovery event asserted.",
+          "phase_contract_refs": {
+            "formation": [
+              {
+                "kind": "reuse_family",
+                "id": "classical-source-rules"
+              }
+            ],
+            "adoption": [
+              {
+                "kind": "framework_contract",
+                "id": "rule_contract"
+              }
+            ],
+            "application": [],
+            "revision": [
+              {
+                "kind": "framework_contract",
+                "id": "evidence_freshness"
+              }
+            ]
+          }
+        },
+        {
+          "id": "language_rule",
+          "role": "LANGUAGE_INTERPRETATION_RULE",
+          "operation_kind": "TRANSFORM",
+          "subject": {
+            "kind": "catalogue_rule",
+            "id": "nabt.classical-rule-inventory.v1::HAMZA-LEXICAL-COMMAND"
+          },
+          "family_ids": [
+            "classical-transforms"
+          ],
+          "scope": "Authored fixture: selected command application; containment is not established.",
+          "phase_contract_refs": {
+            "formation": [
+              {
+                "kind": "framework_contract",
+                "id": "rule_contract"
+              }
+            ],
+            "adoption": [
+              {
+                "kind": "framework_contract",
+                "id": "release_policy"
+              }
+            ],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.ClassicalHamza.enumeration_exact"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "framework_contract",
+                "id": "evidence_freshness"
+              }
+            ]
+          }
+        },
+        {
+          "id": "inference_license",
+          "role": "INFERENCE_LICENSE",
+          "operation_kind": "INFER",
+          "subject": {
+            "kind": "reuse_family",
+            "id": "signed-inference"
+          },
+          "family_ids": [
+            "signed-inference"
+          ],
+          "scope": "Authored fixture: conditional inference contract reference only.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "compiled_declaration",
+                "id": "Nabt.SemanticInference.accepts_sound"
+              }
+            ],
+            "revision": [
+              {
+                "kind": "framework_contract",
+                "id": "evidence_freshness"
+              }
+            ]
+          }
+        },
+        {
+          "id": "evidence_admission",
+          "role": "EVIDENCE_ADMISSION_POLICY",
+          "operation_kind": "FILTER",
+          "subject": {
+            "kind": "framework_contract",
+            "id": "evidence_freshness"
+          },
+          "family_ids": [
+            "evidence-lifecycle"
+          ],
+          "scope": "Authored fixture: freshness policy; no evidence authenticated.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [],
+            "application": [
+              {
+                "kind": "reuse_family",
+                "id": "evidence-lifecycle"
+              }
+            ],
+            "revision": []
+          }
+        },
+        {
+          "id": "action_policy",
+          "role": "NORMATIVE_ACTION_POLICY",
+          "operation_kind": null,
+          "subject": {
+            "kind": "framework_contract",
+            "id": "release_policy"
+          },
+          "family_ids": [],
+          "scope": "Authored fixture: release policy reference; no action permission granted.",
+          "phase_contract_refs": {
+            "formation": [],
+            "adoption": [
+              {
+                "kind": "evaluation_gate",
+                "id": "G0"
+              }
+            ],
+            "application": [],
+            "revision": []
+          }
+        },
+        {
+          "id": "evaluation_gate",
+          "role": "EVALUATION_GATE",
+          "operation_kind": "MEASURE",
+          "subject": {
+            "kind": "evaluation_gate",
+            "id": "G0"
+          },
+          "family_ids": [],
+          "scope": "Authored fixture: gate metadata; no check executed.",
+          "phase_contract_refs": {
+            "formation": [
+              {
+                "kind": "framework_contract",
+                "id": "rule_contract"
+              }
+            ],
+            "adoption": [],
+            "application": [],
+            "revision": []
+          }
+        }
+      ],
+      "relations": []
+    },
+    "organization_sha256": "2d5da7a039317d66afa5b430e8e1af9faf0507859cf54aeb8c5d2b2be1db5fc4",
+    "reversed_profiles": [
+      {
+        "id": "evaluation_gate",
+        "role": "EVALUATION_GATE",
+        "operation_kind": "MEASURE",
+        "subject": {
+          "kind": "evaluation_gate",
+          "id": "G0"
+        },
+        "family_ids": [],
+        "scope": "Authored fixture: gate metadata; no check executed.",
+        "phase_contract_refs": {
+          "formation": [
+            {
+              "kind": "framework_contract",
+              "id": "rule_contract"
+            }
+          ],
+          "adoption": [],
+          "application": [],
+          "revision": []
+        }
+      },
+      {
+        "id": "action_policy",
+        "role": "NORMATIVE_ACTION_POLICY",
+        "operation_kind": null,
+        "subject": {
+          "kind": "framework_contract",
+          "id": "release_policy"
+        },
+        "family_ids": [],
+        "scope": "Authored fixture: release policy reference; no action permission granted.",
+        "phase_contract_refs": {
+          "formation": [],
+          "adoption": [
+            {
+              "kind": "evaluation_gate",
+              "id": "G0"
+            }
+          ],
+          "application": [],
+          "revision": []
+        }
+      },
+      {
+        "id": "evidence_admission",
+        "role": "EVIDENCE_ADMISSION_POLICY",
+        "operation_kind": "FILTER",
+        "subject": {
+          "kind": "framework_contract",
+          "id": "evidence_freshness"
+        },
+        "family_ids": [
+          "evidence-lifecycle"
+        ],
+        "scope": "Authored fixture: freshness policy; no evidence authenticated.",
+        "phase_contract_refs": {
+          "formation": [],
+          "adoption": [],
+          "application": [
+            {
+              "kind": "reuse_family",
+              "id": "evidence-lifecycle"
+            }
+          ],
+          "revision": []
+        }
+      },
+      {
+        "id": "inference_license",
+        "role": "INFERENCE_LICENSE",
+        "operation_kind": "INFER",
+        "subject": {
+          "kind": "reuse_family",
+          "id": "signed-inference"
+        },
+        "family_ids": [
+          "signed-inference"
+        ],
+        "scope": "Authored fixture: conditional inference contract reference only.",
+        "phase_contract_refs": {
+          "formation": [],
+          "adoption": [],
+          "application": [
+            {
+              "kind": "compiled_declaration",
+              "id": "Nabt.SemanticInference.accepts_sound"
+            }
+          ],
+          "revision": [
+            {
+              "kind": "framework_contract",
+              "id": "evidence_freshness"
+            }
+          ]
+        }
+      },
+      {
+        "id": "language_rule",
+        "role": "LANGUAGE_INTERPRETATION_RULE",
+        "operation_kind": "TRANSFORM",
+        "subject": {
+          "kind": "catalogue_rule",
+          "id": "nabt.classical-rule-inventory.v1::HAMZA-LEXICAL-COMMAND"
+        },
+        "family_ids": [
+          "classical-transforms"
+        ],
+        "scope": "Authored fixture: selected command application; containment is not established.",
+        "phase_contract_refs": {
+          "formation": [
+            {
+              "kind": "framework_contract",
+              "id": "rule_contract"
+            }
+          ],
+          "adoption": [
+            {
+              "kind": "framework_contract",
+              "id": "release_policy"
+            }
+          ],
+          "application": [
+            {
+              "kind": "compiled_declaration",
+              "id": "Nabt.ClassicalHamza.enumeration_exact"
+            }
+          ],
+          "revision": [
+            {
+              "kind": "framework_contract",
+              "id": "evidence_freshness"
+            }
+          ]
+        }
+      },
+      {
+        "id": "formation",
+        "role": "FORMATION_METHOD",
+        "operation_kind": null,
+        "subject": {
+          "kind": "reuse_family",
+          "id": "rule-learning"
+        },
+        "family_ids": [
+          "rule-learning"
+        ],
+        "scope": "Authored fixture: installed learning contract; no discovery event asserted.",
+        "phase_contract_refs": {
+          "formation": [
+            {
+              "kind": "reuse_family",
+              "id": "classical-source-rules"
+            }
+          ],
+          "adoption": [
+            {
+              "kind": "framework_contract",
+              "id": "rule_contract"
+            }
+          ],
+          "application": [],
+          "revision": [
+            {
+              "kind": "framework_contract",
+              "id": "evidence_freshness"
+            }
+          ]
+        }
+      },
+      {
+        "id": "definition",
+        "role": "DEFINITION_OR_TYPE",
+        "operation_kind": null,
+        "subject": {
+          "kind": "compiled_declaration",
+          "id": "Nabt.Cell.decode_encode"
+        },
+        "family_ids": [
+          "identity"
+        ],
+        "scope": "Authored fixture: identity definition reference only.",
+        "phase_contract_refs": {
+          "formation": [],
+          "adoption": [],
+          "application": [],
+          "revision": []
+        }
+      }
+    ],
+    "reversed_organization_sha256": "99a48188d6e7a4752fcd0cdadaf57b6b75bc2f2f6e31b5e08b07de4781433cdc",
+    "base_rule_contract": {
+      "required": [
+        "id",
+        "version",
+        "operation_kind",
+        "source_refs",
+        "interpretation_id",
+        "scope",
+        "preconditions",
+        "exceptions",
+        "input_type",
+        "output_type",
+        "implementation_ref",
+        "proof_refs",
+        "open_assumptions",
+        "test_suite_ref",
+        "dependencies",
+        "review_state"
+      ],
+      "operation_kinds": [
+        "FILTER",
+        "TRANSFORM",
+        "BIND",
+        "INFER",
+        "MEASURE"
+      ],
+      "provenance_policy": "record source integrity separately from interpretation validity"
+    },
+    "base_evidence_freshness": {
+      "identity": [
+        "code_commit",
+        "build_id",
+        "toolchain",
+        "binary_digest",
+        "source_digests",
+        "rules_versions",
+        "dataset_digest",
+        "gold_digest",
+        "evaluator_digest",
+        "configuration",
+        "scope"
+      ],
+      "policy": "retain historical result; invalidate current applicability only along affected dependencies; revalidate or recompute",
+      "absence_policy": "missing evidence suspends support; it does not prove negation"
+    },
+    "baseline_catalogue_rule_keys": [
+      "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+      "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+      "nabt.classical-rule-inventory.v1::CMD-FEMININE-NUN",
+      "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE",
+      "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+      "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS",
+      "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+      "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION",
+      "nabt.classical-rule-inventory.v1::GEM-FEMININE-SUFFIX",
+      "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+      "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+      "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+      "nabt.classical-rule-inventory.v1::HAMZA-BROKEN-PLURAL",
+      "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG",
+      "nabt.classical-rule-inventory.v1::HAMZA-INTERROGATIVE-AL",
+      "nabt.classical-rule-inventory.v1::HAMZA-LEXICAL-COMMAND",
+      "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV",
+      "nabt.classical-rule-inventory.v1::HAMZA-TWO-GLIDES",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-NOUNS",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+      "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE",
+      "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+      "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+      "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+      "nabt.classical-rule-inventory.v1::WAQF-HA-ONE-RADICAL",
+      "nabt.classical-rule-inventory.v1::WEAK-AFWAL-BLOCK",
+      "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+      "nabt.classical-rule-inventory.v1::WEAK-IFTIAL-RECIPROCAL",
+      "nabt.classical-rule-inventory.v1::WEAK-INITIAL-OPEN-EXCEPTION",
+      "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+      "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+      "nabt.classical-rule-inventory.v1::WEAK-NOMINAL-SUFFIX-BLOCK",
+      "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+      "nabt.classical-rule-inventory.v1::WEAK-VOWEL-TRANSFER",
+      "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+      "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+      "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+      "nabt.construction-grammar-sources.v4::badal_identity",
+      "nabt.construction-grammar-sources.v4::counted_tens_forms",
+      "nabt.construction-grammar-sources.v4::counted_tens_paradigm",
+      "nabt.construction-grammar-sources.v4::counted_tens_specification",
+      "nabt.construction-grammar-sources.v4::explanatory_apposition",
+      "nabt.construction-grammar-sources.v4::hal_attachment",
+      "nabt.construction-grammar-sources.v4::idafa_chain",
+      "nabt.construction-grammar-sources.v4::inception_sharaa",
+      "nabt.construction-grammar-sources.v4::inna_sisters",
+      "nabt.construction-grammar-sources.v4::kada_complement",
+      "nabt.construction-grammar-sources.v4::kana_sisters",
+      "nabt.construction-grammar-sources.v4::matrix_ma_negation",
+      "nabt.construction-grammar-sources.v4::naat_agreement",
+      "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+      "nabt.construction-grammar-sources.v4::prepositional_attachment",
+      "nabt.construction-grammar-sources.v4::same_form_nominal_inflection",
+      "nabt.construction-grammar-sources.v4::tamyiz_measure",
+      "nabt.construction-grammar-sources.v4::tamyiz_nisba",
+      "nabt.construction-grammar-sources.v4::tamyiz_taba_nafs",
+      "nabt.construction-grammar-sources.v4::tawkeed_reference",
+      "nabt.construction-grammar-sources.v4::temporal_spatial_attachment",
+      "nabt.construction-grammar-sources.v4::tense_aspect",
+      "nabt.construction-grammar-sources.v4::vocalized_hasiba_sense",
+      "nabt.construction-grammar-sources.v4::zanna_sisters",
+      "nabt.discourse-grammar-sources.v2::active_subject",
+      "nabt.discourse-grammar-sources.v2::built_noun_exceptions",
+      "nabt.discourse-grammar-sources.v2::cause",
+      "nabt.discourse-grammar-sources.v2::clause_conjunction",
+      "nabt.discourse-grammar-sources.v2::deictic_adverbs",
+      "nabt.discourse-grammar-sources.v2::demonstrative",
+      "nabt.discourse-grammar-sources.v2::five_verb_nun",
+      "nabt.discourse-grammar-sources.v2::force_nonassertive",
+      "nabt.discourse-grammar-sources.v2::idafa",
+      "nabt.discourse-grammar-sources.v2::imperfect_indicative",
+      "nabt.discourse-grammar-sources.v2::imperfect_prefix",
+      "nabt.discourse-grammar-sources.v2::independent_pronouns",
+      "nabt.discourse-grammar-sources.v2::inna_case",
+      "nabt.discourse-grammar-sources.v2::kana_case",
+      "nabt.discourse-grammar-sources.v2::laysa_negation",
+      "nabt.discourse-grammar-sources.v2::nominal_predication",
+      "nabt.discourse-grammar-sources.v2::place_time_complements",
+      "nabt.discourse-grammar-sources.v2::polar_interrogative",
+      "nabt.discourse-grammar-sources.v2::relative_ayy_exception",
+      "nabt.discourse-grammar-sources.v2::relative_return",
+      "nabt.discourse-grammar-sources.v2::restriction",
+      "nabt.discourse-grammar-sources.v2::temporal_ams_built",
+      "nabt.discourse-grammar-sources.v2::temporal_noun_examples",
+      "nabt.discourse-grammar-sources.v2::wh_subject",
+      "nabt.governor-source-cues.v1::declension_and_substitute_marks",
+      "nabt.governor-source-cues.v1::estimated_declension",
+      "nabt.governor-source-cues.v1::inna_roles_and_force",
+      "nabt.governor-source-cues.v1::inna_scopes_and_blockers",
+      "nabt.governor-source-cues.v1::noun_marks",
+      "nabt.inflection-grammar-sources.v1::inflection_signs",
+      "nabt.inflection-grammar-sources.v1::subjunctive_lan",
+      "nabt.morphology.source-policy.v1::diptote_genitive",
+      "nabt.morphology.source-policy.v1::noun_construction",
+      "nabt.morphology.source-policy.v1::particle_construction",
+      "nabt.morphology.source-policy.v1::qualified_diptote_causes",
+      "nabt.morphology.source-policy.v1::universal_nominal_denotation",
+      "nabt.morphology.source-policy.v1::verb_construction",
+      "nabt.morphology.source-policy.v1::word_kind",
+      "nabt.word-source-policy.v1::alfiyya_construction",
+      "nabt.word-source-policy.v1::alfiyya_particles",
+      "nabt.word-source-policy.v1::alfiyya_pronouns",
+      "nabt.word-source-policy.v1::basic_case_endings",
+      "nabt.word-source-policy.v1::conditional_words",
+      "nabt.word-source-policy.v1::imperfect_signs",
+      "nabt.word-source-policy.v1::inna_activation",
+      "nabt.word-source-policy.v1::lam_activation",
+      "nabt.word-source-policy.v1::min_preposition",
+      "nabt.word-source-policy.v1::minimal_composition",
+      "nabt.word-source-policy.v1::noun_and_pronoun_types",
+      "nabt.word-source-policy.v1::noun_inflection",
+      "nabt.word-source-policy.v1::particle_kinds",
+      "nabt.word-source-policy.v1::past_signs",
+      "nabt.word-source-policy.v1::qama_past_attestation",
+      "nabt.word-source-policy.v1::relative_and_interrogative_man",
+      "nabt.word-source-policy.v1::sibawayhi_conditional_in",
+      "nabt.word-source-policy.v1::sibawayhi_daraba_past",
+      "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+      "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+      "nabt.word-source-policy.v1::sibawayhi_particles",
+      "nabt.word-source-policy.v1::sibawayhi_word_kinds",
+      "nabt.word-source-policy.v1::word_kinds",
+      "nabt.word-source-policy.v1::zayd_proper_name"
+    ],
+    "baseline_unmapped_rule_keys": [
+      "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+      "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+      "nabt.classical-rule-inventory.v1::CMD-FEMININE-NUN",
+      "nabt.classical-rule-inventory.v1::CMD-NUN-DELETE",
+      "nabt.classical-rule-inventory.v1::CMD-PRONOUN-SUFFIX",
+      "nabt.classical-rule-inventory.v1::CMD-SOUND-2MS",
+      "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+      "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION",
+      "nabt.classical-rule-inventory.v1::GEM-FEMININE-SUFFIX",
+      "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+      "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+      "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+      "nabt.classical-rule-inventory.v1::HAMZA-BROKEN-PLURAL",
+      "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG",
+      "nabt.classical-rule-inventory.v1::HAMZA-INTERROGATIVE-AL",
+      "nabt.classical-rule-inventory.v1::HAMZA-QAT-FORM-IV",
+      "nabt.classical-rule-inventory.v1::HAMZA-TWO-GLIDES",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-JOIN",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-NOUNS",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-START",
+      "nabt.classical-rule-inventory.v1::HAMZA-WASL-VOWEL",
+      "nabt.classical-rule-inventory.v1::MUGHNI-AN-INTERPRETIVE",
+      "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+      "nabt.classical-rule-inventory.v1::ORTHO-COLLECTIVE-ALIF",
+      "nabt.classical-rule-inventory.v1::WAQF-HA-DEFECTIVE",
+      "nabt.classical-rule-inventory.v1::WAQF-HA-ONE-RADICAL",
+      "nabt.classical-rule-inventory.v1::WEAK-AFWAL-BLOCK",
+      "nabt.classical-rule-inventory.v1::WEAK-HOLLOW-SHORT",
+      "nabt.classical-rule-inventory.v1::WEAK-IFTIAL-RECIPROCAL",
+      "nabt.classical-rule-inventory.v1::WEAK-INITIAL-OPEN-EXCEPTION",
+      "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+      "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+      "nabt.classical-rule-inventory.v1::WEAK-NOMINAL-SUFFIX-BLOCK",
+      "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+      "nabt.classical-rule-inventory.v1::WEAK-VOWEL-TRANSFER",
+      "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+      "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+      "nabt.construction-grammar-sources.v4::attested_accusative_alif",
+      "nabt.construction-grammar-sources.v4::badal_identity",
+      "nabt.construction-grammar-sources.v4::counted_tens_forms",
+      "nabt.construction-grammar-sources.v4::counted_tens_paradigm",
+      "nabt.construction-grammar-sources.v4::counted_tens_specification",
+      "nabt.construction-grammar-sources.v4::explanatory_apposition",
+      "nabt.construction-grammar-sources.v4::hal_attachment",
+      "nabt.construction-grammar-sources.v4::idafa_chain",
+      "nabt.construction-grammar-sources.v4::inception_sharaa",
+      "nabt.construction-grammar-sources.v4::inna_sisters",
+      "nabt.construction-grammar-sources.v4::kada_complement",
+      "nabt.construction-grammar-sources.v4::kana_sisters",
+      "nabt.construction-grammar-sources.v4::matrix_ma_negation",
+      "nabt.construction-grammar-sources.v4::naat_agreement",
+      "nabt.construction-grammar-sources.v4::predicate_adjectival_agreement",
+      "nabt.construction-grammar-sources.v4::prepositional_attachment",
+      "nabt.construction-grammar-sources.v4::same_form_nominal_inflection",
+      "nabt.construction-grammar-sources.v4::tamyiz_measure",
+      "nabt.construction-grammar-sources.v4::tamyiz_nisba",
+      "nabt.construction-grammar-sources.v4::tamyiz_taba_nafs",
+      "nabt.construction-grammar-sources.v4::tawkeed_reference",
+      "nabt.construction-grammar-sources.v4::temporal_spatial_attachment",
+      "nabt.construction-grammar-sources.v4::tense_aspect",
+      "nabt.construction-grammar-sources.v4::vocalized_hasiba_sense",
+      "nabt.construction-grammar-sources.v4::zanna_sisters",
+      "nabt.discourse-grammar-sources.v2::active_subject",
+      "nabt.discourse-grammar-sources.v2::built_noun_exceptions",
+      "nabt.discourse-grammar-sources.v2::cause",
+      "nabt.discourse-grammar-sources.v2::clause_conjunction",
+      "nabt.discourse-grammar-sources.v2::deictic_adverbs",
+      "nabt.discourse-grammar-sources.v2::demonstrative",
+      "nabt.discourse-grammar-sources.v2::five_verb_nun",
+      "nabt.discourse-grammar-sources.v2::force_nonassertive",
+      "nabt.discourse-grammar-sources.v2::idafa",
+      "nabt.discourse-grammar-sources.v2::imperfect_indicative",
+      "nabt.discourse-grammar-sources.v2::imperfect_prefix",
+      "nabt.discourse-grammar-sources.v2::independent_pronouns",
+      "nabt.discourse-grammar-sources.v2::inna_case",
+      "nabt.discourse-grammar-sources.v2::kana_case",
+      "nabt.discourse-grammar-sources.v2::laysa_negation",
+      "nabt.discourse-grammar-sources.v2::nominal_predication",
+      "nabt.discourse-grammar-sources.v2::place_time_complements",
+      "nabt.discourse-grammar-sources.v2::polar_interrogative",
+      "nabt.discourse-grammar-sources.v2::relative_ayy_exception",
+      "nabt.discourse-grammar-sources.v2::relative_return",
+      "nabt.discourse-grammar-sources.v2::restriction",
+      "nabt.discourse-grammar-sources.v2::temporal_ams_built",
+      "nabt.discourse-grammar-sources.v2::temporal_noun_examples",
+      "nabt.discourse-grammar-sources.v2::wh_subject",
+      "nabt.governor-source-cues.v1::declension_and_substitute_marks",
+      "nabt.governor-source-cues.v1::estimated_declension",
+      "nabt.governor-source-cues.v1::inna_roles_and_force",
+      "nabt.governor-source-cues.v1::inna_scopes_and_blockers",
+      "nabt.governor-source-cues.v1::noun_marks",
+      "nabt.inflection-grammar-sources.v1::inflection_signs",
+      "nabt.inflection-grammar-sources.v1::subjunctive_lan",
+      "nabt.morphology.source-policy.v1::diptote_genitive",
+      "nabt.morphology.source-policy.v1::noun_construction",
+      "nabt.morphology.source-policy.v1::particle_construction",
+      "nabt.morphology.source-policy.v1::qualified_diptote_causes",
+      "nabt.morphology.source-policy.v1::universal_nominal_denotation",
+      "nabt.morphology.source-policy.v1::verb_construction",
+      "nabt.morphology.source-policy.v1::word_kind",
+      "nabt.word-source-policy.v1::alfiyya_construction",
+      "nabt.word-source-policy.v1::alfiyya_particles",
+      "nabt.word-source-policy.v1::alfiyya_pronouns",
+      "nabt.word-source-policy.v1::basic_case_endings",
+      "nabt.word-source-policy.v1::conditional_words",
+      "nabt.word-source-policy.v1::imperfect_signs",
+      "nabt.word-source-policy.v1::inna_activation",
+      "nabt.word-source-policy.v1::lam_activation",
+      "nabt.word-source-policy.v1::min_preposition",
+      "nabt.word-source-policy.v1::minimal_composition",
+      "nabt.word-source-policy.v1::noun_and_pronoun_types",
+      "nabt.word-source-policy.v1::noun_inflection",
+      "nabt.word-source-policy.v1::particle_kinds",
+      "nabt.word-source-policy.v1::past_signs",
+      "nabt.word-source-policy.v1::qama_past_attestation",
+      "nabt.word-source-policy.v1::relative_and_interrogative_man",
+      "nabt.word-source-policy.v1::sibawayhi_conditional_in",
+      "nabt.word-source-policy.v1::sibawayhi_daraba_past",
+      "nabt.word-source-policy.v1::sibawayhi_eight_functions_four_shapes",
+      "nabt.word-source-policy.v1::sibawayhi_inna_particle",
+      "nabt.word-source-policy.v1::sibawayhi_particles",
+      "nabt.word-source-policy.v1::sibawayhi_word_kinds",
+      "nabt.word-source-policy.v1::word_kinds",
+      "nabt.word-source-policy.v1::zayd_proper_name"
+    ],
+    "baseline_owner_source": {
+      "source_id": "sibawayhi",
+      "local_path": "src/nabt/data/source_evidence/sibawayhi.txt",
+      "sha256": "a160f940bb194e6fe7e6655d2c7f28e41f1fc648c4c5e340cc4e42306d5cb625"
+    },
+    "default_slice_original_catalogue_records": {
+      "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT": {
+        "rule_key": "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+        "registry_id": "nabt.classical-rule-inventory.v1",
+        "local_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+        "title": "اختلاف نص الألفية في الباء/الياء",
+        "description": "Keep the local bytes unchanged. Corroborating Ibn Aqil lines 9438–9443 read با and explicitly explain الباء; correction is recorded, never silently substituted.",
+        "keywords": [
+          "ASSIM-NUN-B-BLOCKED-TEXT",
+          "gemination"
+        ],
+        "source_passage_ids": [
+          "passage:3144c73607682ff0adf49765c35abae053745ef4a344746ab25b52f47a1aa1ad",
+          "passage:325500409a8818a410b4c652058e953a13b8887c9c03567da087ad6c9a0d0fbc"
+        ],
+        "theorem_names": [
+          "Nabt.ClassicalGemination.nun_exact"
+        ],
+        "theorem_link_status": "explicit_reference_only_not_source_fidelity_proof",
+        "runtime_rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+        "source_status": "textual_discrepancy",
+        "scope": "المتن المحلي يقول قبل يا بينما الشرح يقول قبل با",
+        "full_source_rule_complete": false,
+        "implementation_status": "new_scoped_conditional_operator",
+        "implemented_scope": "Source-adjudicated symbolic n-sukun to m before adjacent ba, within word or interword connection, never across interword pause.",
+        "operator_traceability": {
+          "registry_path": "evidence/operator_traceability_v1/registry.json",
+          "registry_schema": "nabt.operator-traceability.v1",
+          "implementation_path": "src/nabt/classical_gemination.py",
+          "formal_specialization": "NunAdmissible left right connection",
+          "formal_references": [
+            {
+              "declaration": "Nabt.ClassicalGemination.nun_exact",
+              "source_path": "formal/Nabt/ClassicalGemination.lean",
+              "source_sha256": "ec3f7d3cf081afbcf9ec78fbe8a759952125c5e246602b0961124032809faf39",
+              "statement_start_byte": 9027,
+              "statement_end_byte": 9171,
+              "statement_start_line": 220,
+              "statement_end_line": 221,
+              "statement_source_text": "theorem nun_exact (left right : Cell) (c : Connection) :\n    nunToMim left right c = some (⟨\"م\", .s⟩, right) ↔ NunAdmissible left right c",
+              "statement_source_sha256": "b96459b947d8128863112ebae92d43909a030521bcab9f55a4c824aa89c13d3f",
+              "proof_scope": "The symbolic nunToMim result equals the mim-sukun/right-cell pair exactly when NunAdmissible holds: silent nun, following ba, and no interword pause. This does not adjudicate the preserved textual discrepancy, establish a raw-text segmentation, or prove the Python adapter."
+            }
+          ],
+          "claims": {
+            "source_translation_fidelity_established": false,
+            "free_text_premise_acquisition_established": false,
+            "python_lean_refinement_established": false,
+            "whole_source_rule_complete": false,
+            "whole_arabic_complete": false
+          }
+        }
+      },
+      "nabt.morphology.source-policy.v1::word_kind": {
+        "rule_key": "nabt.morphology.source-policy.v1::word_kind",
+        "registry_id": "nabt.morphology.source-policy.v1",
+        "local_id": "word_kind",
+        "title": "word kind",
+        "description": "Conditional inference from explicit qualified descriptive clauses; no dictionary answers, no external lexical truth, no unrestricted Arabic parser. Time in form differs from event time. Genitive realization is conditional, not an observed syntactic case.",
+        "keywords": [
+          "word_kind"
+        ],
+        "source_passage_ids": [
+          "passage:57a9d45e53ebbce83d616efb7cb965d5fc555de20eef7ea61235a2a0aab1fed4",
+          "passage:a11bcdb1bc1847d9009f955d47d02f0d88003d26a08f48a770a252debe578232",
+          "passage:c4bd2d9903e035d2783e20e7e0c070be869feb7dade63881e23439ff683110dd"
+        ],
+        "theorem_names": [],
+        "theorem_link_status": "explicit_reference_only_not_source_fidelity_proof",
+        "runtime_rule_id": null,
+        "source_status": "authored_selected_policy",
+        "scope": "Conditional inference from explicit qualified descriptive clauses; no dictionary answers, no external lexical truth, no unrestricted Arabic parser. Time in form differs from event time. Genitive realization is conditional, not an observed syntactic case.",
+        "full_source_rule_complete": false
+      }
+    }
+  },
+  "contract": {
+    "organization_schema": "nabt.rule-organization.references.v1",
+    "roles": [
+      "DEFINITION_OR_TYPE",
+      "FORMATION_METHOD",
+      "LANGUAGE_INTERPRETATION_RULE",
+      "INFERENCE_LICENSE",
+      "EVIDENCE_ADMISSION_POLICY",
+      "NORMATIVE_ACTION_POLICY",
+      "EVALUATION_GATE"
+    ],
+    "operation_kinds": [
+      null,
+      "FILTER",
+      "TRANSFORM",
+      "BIND",
+      "INFER",
+      "MEASURE"
+    ],
+    "reference_kinds": [
+      "catalogue_rule",
+      "reuse_family",
+      "compiled_declaration",
+      "framework_contract",
+      "evaluation_gate"
+    ],
+    "reference_input_keys": [
+      "kind",
+      "id"
+    ],
+    "phases": [
+      "formation",
+      "adoption",
+      "application",
+      "revision"
+    ],
+    "relation_kinds": [
+      "JUSTIFICATION",
+      "PREREQUISITE",
+      "REFERENCE",
+      "CONFLICT",
+      "INFERENCE"
+    ],
+    "acyclic_relation_kinds": [
+      "JUSTIFICATION",
+      "PREREQUISITE"
+    ],
+    "scope_relation_established": false,
+    "unclassified_catalogue_records_remain_visible": true
+  },
+  "interpretation": {
+    "registry_patches": "RFC 6902 add/remove/replace/copy; each variant starts from a fresh fixture.",
+    "expectation_values": "Literal authored expectations; fixture-key references designate the frozen values above, not runtime-generated gold.",
+    "owner_snapshot": "The existing preimplementation grammar catalogue supplied only its complete ID population and existing owner labels. No future organization resolver was run.",
+    "negative_result": "A metadata rejection is not a linguistic rejection or proof of negation.",
+    "count_unit": "14 authored acceptance groups, with named subcases; not 14 Arabic rules or a semantic benchmark.",
+    "terminology": "No new alias facility is required. Existing source-qualified terminology must survive owner projection; raw aliases must not be invented or globally equated.",
+    "target_specific_expectations": "report_equals and catalogue/profile assertions apply only to organization_report. validation_expected applies only to validate_registry. Structural acceptance is never RESOLVED.",
+    "base_contract_projection": "base_contracts.rule_contract excludes nested organization; framework_contract rule_contract resolves to that same base shape, avoiding organization self-embedding."
+  },
+  "cases": [
+    {
+      "id": "RPO01",
+      "purpose": "Valid authored references resolve all five owner kinds without becoming events or authority.",
+      "fixture": "prepared_registry",
+      "targets": [
+        "validate_registry",
+        "organization_report"
+      ],
+      "expected": {
+        "result": "ACCEPT",
+        "report_equals": {
+          "schema": "nabt.rule-organization.report.v1",
+          "authority": "ORGANIZATIONAL_REFERENCE_MAP_ONLY",
+          "semantic_authority": "NONE",
+          "action_authority": "NONE",
+          "runtime_execution_performed": false,
+          "scope_relation_established": false,
+          "status": "RESOLVED",
+          "organization_schema": "nabt.rule-organization.references.v1",
+          "organization_sha256": "2d5da7a039317d66afa5b430e8e1af9faf0507859cf54aeb8c5d2b2be1db5fc4",
+          "role_counts": {
+            "DEFINITION_OR_TYPE": 1,
+            "FORMATION_METHOD": 1,
+            "LANGUAGE_INTERPRETATION_RULE": 1,
+            "INFERENCE_LICENSE": 1,
+            "EVIDENCE_ADMISSION_POLICY": 1,
+            "NORMATIVE_ACTION_POLICY": 1,
+            "EVALUATION_GATE": 1
+          }
+        },
+        "profile_ids": [
+          "definition",
+          "formation",
+          "language_rule",
+          "inference_license",
+          "evidence_admission",
+          "action_policy",
+          "evaluation_gate"
+        ],
+        "profile_count": 7,
+        "relations": [],
+        "prerequisite_order_set": [
+          "definition",
+          "formation",
+          "language_rule",
+          "inference_license",
+          "evidence_admission",
+          "action_policy",
+          "evaluation_gate"
+        ],
+        "base_contracts": {
+          "rule_contract": {
+            "required": [
+              "id",
+              "version",
+              "operation_kind",
+              "source_refs",
+              "interpretation_id",
+              "scope",
+              "preconditions",
+              "exceptions",
+              "input_type",
+              "output_type",
+              "implementation_ref",
+              "proof_refs",
+              "open_assumptions",
+              "test_suite_ref",
+              "dependencies",
+              "review_state"
+            ],
+            "operation_kinds": [
+              "FILTER",
+              "TRANSFORM",
+              "BIND",
+              "INFER",
+              "MEASURE"
+            ],
+            "provenance_policy": "record source integrity separately from interpretation validity"
+          },
+          "evidence_freshness": {
+            "identity": [
+              "code_commit",
+              "build_id",
+              "toolchain",
+              "binary_digest",
+              "source_digests",
+              "rules_versions",
+              "dataset_digest",
+              "gold_digest",
+              "evaluator_digest",
+              "configuration",
+              "scope"
+            ],
+            "policy": "retain historical result; invalidate current applicability only along affected dependencies; revalidate or recompute",
+            "absence_policy": "missing evidence suspends support; it does not prove negation"
+          }
+        },
+        "every_profile": {
+          "scope_relation_established": false,
+          "lifecycle_evidence": {
+            "formation": "NOT_OBSERVED",
+            "adoption": "NOT_OBSERVED",
+            "application": "NOT_OBSERVED",
+            "revision": "NOT_OBSERVED"
+          }
+        },
+        "unmapped_capability_profile_ids": [
+          "action_policy",
+          "evaluation_gate"
+        ],
+        "owner_scopes_by_profile": {
+          "definition": null,
+          "formation": "The learner retains the complete declared signed-conjunction hypothesis language, updates only from replayed observations and recomputes after withdrawal.",
+          "language_rule": "أفعال مسماة في النص وليست قانون حذف لكل مهموز",
+          "inference_license": "Signed proof DAGs, conflict-clean consequence, complete supplied reading enumeration and exact raw-source replay preserve independent scopes and premises. The versioned pilot explanation projects the accepted clauses, conditions, conflict exclusions and remaining obligations; it does not authorize a new inference.",
+          "evidence_admission": null,
+          "action_policy": null,
+          "evaluation_gate": "source-binding-and-certificate-continuity.v1"
+        },
+        "dispatch_calls": 0,
+        "input_registry_unchanged": true
+      },
+      "validation_expected": {
+        "schema": "nabt.entropy-framework.validation.v2",
+        "valid": true,
+        "organization_state": "DECLARED_REFERENCES_NOT_RESOLVED",
+        "authority": "METADATA_CONSISTENCY_ONLY",
+        "semantic_authority": "NONE",
+        "evidence_verified": false,
+        "gate_execution": "NOT_PERFORMED"
+      }
+    },
+    {
+      "id": "RPO02",
+      "purpose": "A valid legacy base has explicit absent organization, with no guessed profiles or classifications.",
+      "fixture": "legacy_registry",
+      "targets": [
+        "validate_registry",
+        "organization_report"
+      ],
+      "expected": {
+        "result": "ACCEPT",
+        "report_equals": {
+          "schema": "nabt.rule-organization.report.v1",
+          "authority": "ORGANIZATIONAL_REFERENCE_MAP_ONLY",
+          "semantic_authority": "NONE",
+          "action_authority": "NONE",
+          "runtime_execution_performed": false,
+          "scope_relation_established": false,
+          "status": "NOT_DECLARED",
+          "organization_schema": null,
+          "organization_sha256": null,
+          "profiles": [],
+          "relations": [],
+          "prerequisite_order": []
+        },
+        "role_counts_zero_for": [
+          "DEFINITION_OR_TYPE",
+          "FORMATION_METHOD",
+          "LANGUAGE_INTERPRETATION_RULE",
+          "INFERENCE_LICENSE",
+          "EVIDENCE_ADMISSION_POLICY",
+          "NORMATIVE_ACTION_POLICY",
+          "EVALUATION_GATE"
+        ],
+        "catalogue_rule_count": 125,
+        "mapped_rule_keys": [],
+        "unmapped_rule_keys_fixture": "baseline_catalogue_rule_keys",
+        "mapped_rule_count": 0,
+        "unmapped_rule_count": 125,
+        "dispatch_calls": 0,
+        "input_registry_unchanged": true
+      },
+      "validation_expected": {
+        "schema": "nabt.entropy-framework.validation.v2",
+        "valid": true,
+        "organization_state": "NOT_DECLARED",
+        "authority": "METADATA_CONSISTENCY_ONLY",
+        "semantic_authority": "NONE",
+        "evidence_verified": false,
+        "gate_execution": "NOT_PERFORMED"
+      }
+    },
+    {
+      "id": "RPO03",
+      "purpose": "Base rule_contract is mandatory even when legacy organization is absent.",
+      "variants": [
+        {
+          "id": "legacy_missing_contract",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "remove",
+              "path": "/rule_contract"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "rule_contract",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          },
+          "fixture": "legacy_registry"
+        },
+        {
+          "id": "organized_missing_contract",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "remove",
+              "path": "/rule_contract"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "rule_contract",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          },
+          "fixture": "prepared_registry"
+        },
+        {
+          "id": "missing_required_exception_slot",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "remove",
+              "path": "/rule_contract/required/7"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "rule_contract",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          },
+          "fixture": "prepared_registry"
+        }
+      ]
+    },
+    {
+      "id": "RPO04",
+      "purpose": "Neither declared operation vocabulary nor a profile can invent an executable operation kind.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "counterfeit_contract_kind",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/operation_kinds/-",
+              "value": "EVAL_SHELL"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "rule_contract",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "counterfeit_profile_kind",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/operation_kind",
+              "value": "EVAL_SHELL"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "operation_kind",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "boolean_profile_kind",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/operation_kind",
+              "value": true
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "operation_kind",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "RPO05",
+      "purpose": "Freshness policy and its complete identity vocabulary are validated for legacy and organized registries.",
+      "variants": [
+        {
+          "id": "legacy_missing_freshness",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "remove",
+              "path": "/evidence_freshness"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "evidence_freshness",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          },
+          "fixture": "legacy_registry"
+        },
+        {
+          "id": "organized_missing_freshness",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "remove",
+              "path": "/evidence_freshness"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "evidence_freshness",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          },
+          "fixture": "prepared_registry"
+        },
+        {
+          "id": "missing_source_digest_dimension",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "remove",
+              "path": "/evidence_freshness/identity/4"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "evidence_freshness",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          },
+          "fixture": "prepared_registry"
+        }
+      ]
+    },
+    {
+      "id": "RPO06",
+      "purpose": "Exact duplicate IDs, references, family links and relations cannot be silently deduplicated.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "duplicate_profile",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "copy",
+              "from": "/rule_contract/organization/profiles/0",
+              "path": "/rule_contract/organization/profiles/-"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "duplicate",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "duplicate_phase_reference",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "copy",
+              "from": "/rule_contract/organization/profiles/2/phase_contract_refs/application/0",
+              "path": "/rule_contract/organization/profiles/2/phase_contract_refs/application/-"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "duplicate",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "duplicate_family_link",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/family_ids/-",
+              "value": "classical-transforms"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "duplicate",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "duplicate_relation",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/relations",
+              "value": [
+                {
+                  "from": "definition",
+                  "to": "language_rule",
+                  "kind": "REFERENCE",
+                  "phase": "formation"
+                },
+                {
+                  "from": "definition",
+                  "to": "language_rule",
+                  "kind": "REFERENCE",
+                  "phase": "formation"
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "duplicate",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "RPO07",
+      "purpose": "Owner identities, family links and relation endpoints resolve exactly; names never fuzzy-match.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "dangling_catalogue_rule",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/subject/id",
+              "value": "nabt.classical-rule-inventory.v1::HAMZA-NOT-INSTALLED"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "dangling_compiled_declaration",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/0/subject/id",
+              "value": "Nabt.Cell.notInstalled"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "dangling_gate",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/6/subject/id",
+              "value": "G-NOT-INSTALLED"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "dangling_family",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/family_ids/0",
+              "value": "classical-transformz"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "dangling_relation_endpoint",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/relations",
+              "value": [
+                {
+                  "from": "definition",
+                  "to": "absent_profile",
+                  "kind": "REFERENCE",
+                  "phase": "formation"
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        }
+      ],
+      "structure_only_control": {
+        "variant": "dangling_catalogue_rule",
+        "target": "validate_registry",
+        "expected": {
+          "result": "ACCEPT",
+          "organization_state": "DECLARED_REFERENCES_NOT_RESOLVED",
+          "semantic_authority": "NONE",
+          "evidence_verified": false
+        },
+        "reason": "An exact but unresolved external owner ID passes shape validation only; organization_report must resolve and reject it."
+      }
+    },
+    {
+      "id": "RPO08",
+      "purpose": "An authored annotation cannot overwrite the independent owner scope or assert containment.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "empty_profile_scope",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/scope",
+              "value": "   "
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "scope",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "scope_override_inside_reference",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/subject/scope",
+              "value": "all Arabic"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "different_authored_scope_is_preserved",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/scope",
+              "value": "A deliberately different authored annotation."
+            }
+          ],
+          "expected": {
+            "result": "ACCEPT",
+            "profile_id": "language_rule",
+            "scope": "A deliberately different authored annotation.",
+            "subject_owner.owner_scope": "أفعال مسماة في النص وليست قانون حذف لكل مهموز",
+            "scope_relation_established": false,
+            "dispatch_calls": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "RPO09",
+      "purpose": "Wrong versions and caller source identities cannot replace an installed owner or its replay gate.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "wrong_organization_schema",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/schema",
+              "value": "nabt.rule-organization.references.v999"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "rule_contract",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "wrong_catalogue_version_in_exact_id",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/subject/id",
+              "value": "nabt.classical-rule-inventory.v999::HAMZA-LEXICAL-COMMAND"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "version_override",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/subject/version",
+              "value": "v999"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "source_id_override",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/subject/source_id",
+              "value": "caller-selected-source"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "source_hash_override",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/subject/source_sha256",
+              "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "tampered_owner_source",
+          "targets": [
+            "organization_report"
+          ],
+          "registry_patch": [],
+          "workspace_patch": {
+            "operation": "append_bytes_in_isolated_copy",
+            "path": "src/nabt/data/source_evidence/sibawayhi.txt",
+            "utf8": "\n"
+          },
+          "expected": {
+            "result": "REJECT",
+            "owner_replay_rejection_required": true,
+            "dispatch_calls": 0,
+            "successful_organization_report": false
+          },
+          "reuse_existing_owner_test_instead_of_duplicating_if_available": true
+        }
+      ]
+    },
+    {
+      "id": "RPO10",
+      "purpose": "The union of justification and prerequisite edges is acyclic; checking each edge type separately is insufficient.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "mixed_cycle",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/relations",
+              "value": [
+                {
+                  "from": "definition",
+                  "to": "language_rule",
+                  "kind": "JUSTIFICATION",
+                  "phase": "formation"
+                },
+                {
+                  "from": "language_rule",
+                  "to": "definition",
+                  "kind": "PREREQUISITE",
+                  "phase": "adoption"
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "cycle",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "self_prerequisite",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/relations",
+              "value": [
+                {
+                  "from": "definition",
+                  "to": "definition",
+                  "kind": "PREREQUISITE",
+                  "phase": "formation"
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "cycle",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "RPO11",
+      "purpose": "Reference, inference and conflict cycles are retained as metadata, without an invented evidence or scheduling result.",
+      "fixture": "prepared_registry",
+      "targets": [
+        "validate_registry",
+        "organization_report"
+      ],
+      "registry_patch": [
+        {
+          "op": "replace",
+          "path": "/rule_contract/organization/relations",
+          "value": [
+            {
+              "from": "definition",
+              "to": "language_rule",
+              "kind": "REFERENCE",
+              "phase": "formation"
+            },
+            {
+              "from": "language_rule",
+              "to": "definition",
+              "kind": "REFERENCE",
+              "phase": "formation"
+            },
+            {
+              "from": "definition",
+              "to": "language_rule",
+              "kind": "INFERENCE",
+              "phase": "application"
+            },
+            {
+              "from": "language_rule",
+              "to": "definition",
+              "kind": "INFERENCE",
+              "phase": "application"
+            },
+            {
+              "from": "definition",
+              "to": "language_rule",
+              "kind": "CONFLICT",
+              "phase": "revision"
+            },
+            {
+              "from": "language_rule",
+              "to": "definition",
+              "kind": "CONFLICT",
+              "phase": "revision"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "result": "ACCEPT",
+        "relation_count": 6,
+        "relations_equal_input": true,
+        "report_equals": {
+          "schema": "nabt.rule-organization.report.v1",
+          "authority": "ORGANIZATIONAL_REFERENCE_MAP_ONLY",
+          "semantic_authority": "NONE",
+          "action_authority": "NONE",
+          "runtime_execution_performed": false,
+          "scope_relation_established": false
+        },
+        "prerequisite_order_set": [
+          "definition",
+          "formation",
+          "language_rule",
+          "inference_license",
+          "evidence_admission",
+          "action_policy",
+          "evaluation_gate"
+        ],
+        "every_lifecycle_phase": "NOT_OBSERVED",
+        "dispatch_calls": 0
+      },
+      "validation_expected": {
+        "schema": "nabt.entropy-framework.validation.v2",
+        "valid": true,
+        "organization_state": "DECLARED_REFERENCES_NOT_RESOLVED",
+        "authority": "METADATA_CONSISTENCY_ONLY",
+        "semantic_authority": "NONE",
+        "evidence_verified": false,
+        "gate_execution": "NOT_PERFORMED"
+      }
+    },
+    {
+      "id": "RPO12",
+      "purpose": "Closed shapes prevent authority, event and command injection; reporting performs no native execution or action dispatch.",
+      "fixture": "prepared_registry",
+      "variants": [
+        {
+          "id": "semantic_authority_in_profile",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/semantic_authority",
+              "value": "PROVED"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "profile",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "action_authority_in_profile",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/5/action_authority",
+              "value": "EXECUTE"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "profile",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "command_in_reference",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "add",
+              "path": "/rule_contract/organization/profiles/2/subject/command",
+              "value": "printf should-never-run"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "adoption_event_in_phase_slot",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/2/phase_contract_refs/adoption",
+              "value": {
+                "event": "ADOPTED",
+                "approved": true
+              }
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "phase_contract_refs",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "nonobject_reference",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/0/subject",
+              "value": "Nabt.Cell.decode_encode"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "id": "counterfeit_reference_kind",
+          "targets": [
+            "validate_registry",
+            "organization_report"
+          ],
+          "registry_patch": [
+            {
+              "op": "replace",
+              "path": "/rule_contract/organization/profiles/0/subject/kind",
+              "value": "shell_command"
+            }
+          ],
+          "expected": {
+            "result": "REJECT",
+            "exception": "FrameworkError",
+            "error_contains": "reference",
+            "cli_if_exercised": {
+              "exit_code": 2,
+              "status": "INVALID_INPUT",
+              "semantic_authority": "NONE"
+            },
+            "dispatch_calls": 0
+          }
+        }
+      ],
+      "positive_control": "RPO01",
+      "execution_sentinels": [
+        "reuse_run.run_entry",
+        "native checker invocation",
+        "Lean compilation",
+        "action dispatch"
+      ],
+      "sentinel_expectation": "none called by organization report"
+    },
+    {
+      "id": "RPO13",
+      "purpose": "Exact subject classification preserves the complete catalogue, including unclassified records and original source-qualified fields.",
+      "fixture": "prepared_registry",
+      "targets": [
+        "organization_report"
+      ],
+      "expected": {
+        "result": "ACCEPT",
+        "catalogue_schema": "nabt.grammar-retrieval-catalog.v2",
+        "catalogue_rule_count": 125,
+        "mapped_rule_count": 1,
+        "unmapped_rule_count": 124,
+        "mapped_rule_keys": [
+          "nabt.classical-rule-inventory.v1::HAMZA-LEXICAL-COMMAND"
+        ],
+        "unmapped_rule_keys_fixture": "baseline_unmapped_rule_keys",
+        "all_rule_keys_fixture": "baseline_catalogue_rule_keys",
+        "mapped_rule": {
+          "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-LEXICAL-COMMAND",
+          "profile_ids": [
+            "language_rule"
+          ],
+          "mapping_status": "MAPPED",
+          "owner_scope": "أفعال مسماة في النص وليست قانون حذف لكل مهموز",
+          "scope_relation_established": false,
+          "title": "خذ وكل ومر مع حفظ الاستثناء المنقول",
+          "source_passage_ids": [
+            "passage:1bf1e7d5b7a3b500b9dfce8fc2683c9bc7c14756b04ca99afff9b89d985b8297"
+          ],
+          "theorem_names": [
+            "Nabt.ClassicalHamza.enumeration_exact"
+          ]
+        },
+        "every_unmapped_rule": {
+          "profile_ids": [],
+          "mapping_status": "UNMAPPED",
+          "scope_relation_established": false
+        },
+        "family_reference_propagates_classification": false,
+        "original_catalogue_fields_unchanged": true,
+        "no_alias_feature_assumed": true
+      },
+      "permutation_control": {
+        "replace_profiles_with_fixture": "reversed_profiles",
+        "organization_sha256": "99a48188d6e7a4752fcd0cdadaf57b6b75bc2f2f6e31b5e08b07de4781433cdc",
+        "same_rule_keys": true,
+        "same_coverage_counts": true,
+        "same_role_counts": true,
+        "same_profiles_by_id": true,
+        "same_original_catalogue_fields": true,
+        "input_registry_unchanged": true
+      },
+      "installed_slice": {
+        "source_of_expectation": "Preimplementation specification section 6; literal baseline catalogue owner records.",
+        "fixture": "future installed registry, without generating gold from that registry",
+        "expected": {
+          "profile_count": 11,
+          "catalogue_rule_count": 125,
+          "mapped_rule_count": 2,
+          "unmapped_rule_count": 123,
+          "mapped_rule_keys": [
+            "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+            "nabt.morphology.source-policy.v1::word_kind"
+          ],
+          "all_rule_keys_fixture": "baseline_catalogue_rule_keys",
+          "original_owner_records_fixture": "default_slice_original_catalogue_records",
+          "profile_role_by_id": {
+            "inquiry-review": "EVIDENCE_ADMISSION_POLICY"
+          },
+          "discrepancy_record": {
+            "rule_key": "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+            "source_status": "textual_discrepancy",
+            "runtime_rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+            "implementation_status": "new_scoped_conditional_operator",
+            "theorem_names": [
+              "Nabt.ClassicalGemination.nun_exact"
+            ],
+            "full_source_rule_complete": false,
+            "operator_claims": {
+              "source_translation_fidelity_established": false,
+              "free_text_premise_acquisition_established": false,
+              "python_lean_refinement_established": false,
+              "whole_source_rule_complete": false,
+              "whole_arabic_complete": false
+            }
+          },
+          "word_kind_record": {
+            "rule_key": "nabt.morphology.source-policy.v1::word_kind",
+            "source_status": "authored_selected_policy",
+            "runtime_rule_id": null,
+            "theorem_names": [],
+            "full_source_rule_complete": false
+          },
+          "semantic_authority": "NONE",
+          "action_authority": "NONE",
+          "runtime_execution_performed": false,
+          "scope_relation_established": false
+        },
+        "authority_boundary": "The retained textual discrepancy and the existing conditional runtime reference remain distinct; neither is substituted for the other."
+      }
+    },
+    {
+      "id": "RPO14",
+      "purpose": "The existing front door exposes opt-in organization and rejects conflicting execution or selection requests.",
+      "cli_cases": [
+        {
+          "argv": [
+            "reuse",
+            "--organization"
+          ],
+          "expected": {
+            "exit_code": 0,
+            "report_equals": {
+              "schema": "nabt.rule-organization.report.v1",
+              "authority": "ORGANIZATIONAL_REFERENCE_MAP_ONLY",
+              "semantic_authority": "NONE",
+              "action_authority": "NONE",
+              "runtime_execution_performed": false,
+              "scope_relation_established": false
+            },
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "argv": [
+            "reuse",
+            "--organization",
+            "--summary"
+          ],
+          "expected": {
+            "exit_code": 0,
+            "semantic_authority": "NONE",
+            "action_authority": "NONE",
+            "runtime_execution_performed": false,
+            "dispatch_calls": 0,
+            "schema": "nabt.rule-organization.summary.v1"
+          }
+        },
+        {
+          "argv": [
+            "reuse",
+            "--organization",
+            "--output",
+            "<fresh-temporary-report-path>"
+          ],
+          "expected": {
+            "exit_code": 0,
+            "file_contains_full_organization_report": true,
+            "dispatch_calls": 0
+          }
+        },
+        {
+          "argv": [
+            "reuse",
+            "--organization",
+            "--family",
+            "identity"
+          ],
+          "expected": {
+            "nonzero_exit": true,
+            "dispatch_calls": 0,
+            "successful_organization_report": false
+          }
+        },
+        {
+          "argv": [
+            "reuse",
+            "--organization",
+            "--module",
+            "Nabt.Cell"
+          ],
+          "expected": {
+            "nonzero_exit": true,
+            "dispatch_calls": 0,
+            "successful_organization_report": false
+          }
+        },
+        {
+          "argv": [
+            "reuse",
+            "--organization",
+            "--run",
+            "core"
+          ],
+          "expected": {
+            "nonzero_exit": true,
+            "dispatch_calls": 0,
+            "successful_organization_report": false
+          }
+        },
+        {
+          "argv": [
+            "reuse",
+            "--organization",
+            "--summary",
+            "--output",
+            "<fresh-temporary-report-path>"
+          ],
+          "expected": {
+            "exit_code": 0,
+            "display_schema": "nabt.rule-organization.summary.v1",
+            "file_schema": "nabt.rule-organization.report.v1",
+            "file_contains_full_organization_report": true,
+            "dispatch_calls": 0
+          }
+        }
+      ],
+      "standard_reuse_regression": {
+        "fixture": "existing tests.test_proof_reuse.make_root with its tiny reuse-only registry",
+        "organization_requested": false,
+        "expected": "existing navigation report remains valid; no organization/catalogue load required"
+      },
+      "existing_output_exclusivity_policy": "A prior output report is never overwritten."
+    }
+  ],
+  "downstream_boundaries_reused_not_reimplemented": [
+    {
+      "file": "tests/test_mantuq_inference_runtime.py",
+      "tests": [
+        "test_no_bridge_cannot_be_created_from_complete_guards",
+        "test_missing_negative_blocker_is_not_default_negation",
+        "test_opposed_obligation_does_not_refute_conclusion",
+        "test_opposition_needs_typed_necessity_not_forward_rule",
+        "test_analogy_missing_transfer_and_actual_branch",
+        "test_budget_exhaustion_distinct_from_unknown"
+      ]
+    },
+    {
+      "file": "tests/test_semantics.py",
+      "tests": [
+        "test_negation_is_explicit_and_has_no_contraposition",
+        "test_conflict_taints_descendants_but_clean_alternative_survives",
+        "test_definition_missing_components_and_recursive_cycles",
+        "test_retraction_replacement_and_alternate_sources"
+      ]
+    },
+    {
+      "file": "tests/test_epistemic_measurement_adversarial.py",
+      "tests": [
+        "test_metadata_cannot_make_hidden_motive_or_world_truth",
+        "test_source_content_and_revision_are_not_replaceable_by_the_same_id",
+        "test_a_different_scalar_is_not_the_negation_of_the_original",
+        "test_resource_limit_is_not_empty_complete_evidence"
+      ]
+    },
+    {
+      "file": "tests/test_recursive_source_bridge.py",
+      "tests": [
+        "test_source_scope_and_revision_are_external_replay_authority",
+        "test_false_success_and_forged_source_digest_are_rejected_on_replay",
+        "test_actual_qualified_roles_roundtrip_without_synthetic_grammar_certificate"
+      ]
+    },
+    {
+      "file": "tests/test_mantuq_sources.py",
+      "tests": [
+        "test_changed_source_and_self_reported_manifest_cannot_authorize",
+        "test_original_recheck_and_policy_context_remain_distinct"
+      ]
+    },
+    {
+      "file": "tests/test_operator_traceability.py",
+      "tests": [
+        "test_forged_type_names_path_offsets_hashes_and_claims_fail"
+      ]
+    },
+    {
+      "file": "tests/test_proof_reuse.py",
+      "tests": [
+        "test_stale_source_does_not_disappear_under_selection",
+        "test_authority_and_execution_fields_are_not_route_inputs",
+        "test_relations_keep_compiled_static_and_authored_evidence_separate"
+      ]
+    },
+    {
+      "file": "tests/test_proof_reuse_run.py",
+      "tests": [
+        "test_only_code_owned_entries_select_programs",
+        "test_description_is_detached_from_dispatch",
+        "test_raw_streams_stdin_and_nonzero_status_are_not_reinterpreted"
+      ]
+    }
+  ],
+  "implementation_interface": {
+    "module": "tools.entropy_framework.organization",
+    "builder": "build_organization_report(root=ROOT, *, registry=None)",
+    "structure_validator": "validate_organization_structure(value)",
+    "existing_validator": "tools.entropy_framework.registry.validate_registry",
+    "front_door": "python -m tools.entropy_framework reuse --organization",
+    "summary_schema": "nabt.rule-organization.summary.v1"
+  }
+}
