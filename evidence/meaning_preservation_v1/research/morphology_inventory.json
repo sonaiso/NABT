@@ -1,0 +1,2950 @@
+{
+  "schema": "nabt.morphological-foundation-inventory.v1",
+  "reviewed_on": "2026-10-31",
+  "language": "ar",
+  "scope": "جرد محدود مع مراجعة مواضع أصلية لعائلات المفرد والعمليات الصرفية والاسمية. لا هو استقراء جميع مفردات العربية ولا برهان اكتمال أنطولوجيا العالم.",
+  "counts": {
+    "families": 51,
+    "source_records": 25,
+    "nominal_stem_candidate_patterns": 20,
+    "minimum_alfiya_families": 19,
+    "entries_with_scanned_printed_page_verification": 0,
+    "nominal_stem_patterns_printed_verified": 20,
+    "nominal_stem_patterns_pending_printed_verification": 0,
+    "nominal_stem_evidence_pages_visually_reviewed": 11
+  },
+  "methodology": {
+    "reviewed": "نص المؤلف: سيبويه وابن مالك وابن هشام؛ وكتاب الغلاييني والمعجم الوسيط مصادر تكميلية مصرح بها.",
+    "not_reviewed_here": "لم يجر استقصاء كامل لكل الكتاب أو لكل استعمال. روجعت صور مواضع أبنية الاسم المجرد المحددة في سجل المقابلة فقط؛ لم تراجع صور جميع مصادر الفئات الإحدى والخمسين. مراجعة مغني اللبيب يغطيها مسار آخر من الحزمة.",
+    "locator_semantics": "page_locator_verified يعني أن رقم الصفحة ظاهر في صفحة النص المسترجعة؛ لا يعني مقابلة صورة المطبوع. chapter_locator_verified يميز الموضع المحقق ولو لم يتحقق ترقيم الطبعة.",
+    "evidence_status": "SOURCE_REVIEWED_FAMILY = وجود الأسرة ومعاييرها الأساسية في الموضع؛ SOURCE_INFORMED_DESIGN_CONTRACT = فصل تمثيلي مقترح يستند إلى الشواهد، لا قول منسوب للمؤلف.",
+    "variants": "الملف النحوي/الاصطلاحي جزء من الترخيص. لا تدمج اختلاف التعريف أو القياس والسماع بصمت.",
+    "closed_fragment": "إغلاق هذه المصفوفة يعني وجود صف لكل عائلة مقررة داخل النطاق، لا إغلاق الاستعمال العربي المفتوح.",
+    "exact_form_qa": "قوبلت قوالب الاسم المجرد العشرون وحركات مواقعها بصور مطبوعة محددة: الكتاب ج4 ص242–244 و288–289 و301–302، وإيجاز التعريف بتحقيق محمد عثمان ص71–74. لا تعد هذه المقابلة تحقيقًا لكل أمثلة الجرد أو الأوزان الأخرى أو لجميع الاستعمالات الدلالية؛ لم يلزم تغيير قالب أو حركة موقع في الجدول الحالي.",
+    "examples": "الأمثلة التطبيقية عقود تحليل مقترحة؛ لا تقرر حقائق خارجية ولا تحقق إحالات فعلية."
+  },
+  "independent_axes": [
+    {
+      "id": "lexical",
+      "fields": [
+        "lexeme_id",
+        "sense_id",
+        "word_class",
+        "lexicalization",
+        "attestation"
+      ]
+    },
+    {
+      "id": "morphological",
+      "fields": [
+        "root_slots",
+        "root_status",
+        "stem_template",
+        "derivational_status",
+        "operations",
+        "surface_realization"
+      ]
+    },
+    {
+      "id": "syntactic",
+      "fields": [
+        "construction",
+        "governor",
+        "argument_roles",
+        "case",
+        "declension",
+        "binding"
+      ]
+    },
+    {
+      "id": "gender",
+      "fields": [
+        "grammatical_gender",
+        "feminine_marker",
+        "semantic_basis",
+        "referent_sex_or_not_applicable"
+      ]
+    },
+    {
+      "id": "number",
+      "fields": [
+        "morphological_number",
+        "collective_kind",
+        "reference_cardinality",
+        "count_unit",
+        "ordinal_rank"
+      ]
+    },
+    {
+      "id": "semantic",
+      "fields": [
+        "entity_kind",
+        "event_type",
+        "property",
+        "capacity",
+        "relation",
+        "proposition"
+      ]
+    },
+    {
+      "id": "reference",
+      "fields": [
+        "kind_id",
+        "individual_id",
+        "naming_history",
+        "deixis",
+        "anaphora",
+        "identity_evidence"
+      ]
+    },
+    {
+      "id": "epistemic",
+      "fields": [
+        "scope",
+        "linguistic_license",
+        "interpretation_status",
+        "world_truth_evidence",
+        "unknown_reason"
+      ]
+    }
+  ],
+  "relation_contracts": [
+    {
+      "relation": "instance_of",
+      "domain": "individual",
+      "range": "kind",
+      "contrast": "subclass_of",
+      "example": "زيد فرد من الإنسان",
+      "rule": "لا تجعل الفرد نوعًا لمجرد وضعه أسفل شجرة الأجناس."
+    },
+    {
+      "relation": "subclass_of",
+      "domain": "kind",
+      "range": "kind",
+      "contrast": "instance_of",
+      "example": "نوع فرعي تحت نوع أعم",
+      "rule": "التوارث النوعي لا يثبت كل خاصية عارضة لكل فرد."
+    },
+    {
+      "relation": "part_of",
+      "domain": "entity_or_event",
+      "range": "entity_or_event",
+      "contrast": "member_of",
+      "example": "الغصن جزء الشجرة",
+      "rule": "الجزء ليس بالضرورة من جنس الكل."
+    },
+    {
+      "relation": "member_of",
+      "domain": "individual",
+      "range": "collection",
+      "contrast": "part_of",
+      "example": "فرد في قوم",
+      "rule": "المجموعة والعضو لهما هويتان وعدّان مختلفان."
+    },
+    {
+      "relation": "has_property",
+      "domain": "bearer",
+      "range": "property_assertion",
+      "contrast": "named_by",
+      "example": "خالد طويل",
+      "rule": "الخاصية المسندة تحتاج دليلاً وزمنًا/نطاقًا، والاسم خالد لا يثبت خلودًا."
+    },
+    {
+      "relation": "denotes",
+      "domain": "licensed_use",
+      "range": "representation",
+      "contrast": "exists_in_world",
+      "example": "اسم جنس أو اسم علم",
+      "rule": "تمثيل الدلالة لا يستلزم تحقق المسمى في الخارج."
+    }
+  ],
+  "reviewed_sources": [
+    {
+      "source_id": "ALF",
+      "book": "ألفية ابن مالك",
+      "author": "محمد بن عبد الله ابن مالك",
+      "url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "kind": "PRIMARY_AUTHOR_TEXT_TRANSCRIPTION",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "chapter_locator_verified": true,
+      "note": "راجعت أبوابًا محددة في النص الإلكتروني، لا نسخة مصورة كاملة؛ توجد أخطاء ضبط/نسخ إلكتروني في بعض الأبيات."
+    },
+    {
+      "source_id": "SIB_328",
+      "book": "الكتاب",
+      "author": "سيبويه",
+      "url": "https://ablibrary.net/book_content/b/5760/328?lang=ar",
+      "kind": "PRIMARY_AUTHOR_TEXT_TRANSCRIPTION",
+      "page_locator": "ج4 ص328، طبعة دار الجيل/تحقيق عبد السلام هارون بحسب بيانات الموقع",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "SIB_289",
+      "book": "الكتاب",
+      "author": "سيبويه",
+      "url": "https://ablibrary.net/book_content/b/5760/289?lang=ar",
+      "kind": "PRIMARY_AUTHOR_TEXT_TRANSCRIPTION",
+      "page_locator": "ج4 ص289 بحسب صفحة النص",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "SIB_301",
+      "book": "الكتاب",
+      "author": "سيبويه",
+      "url": "https://ablibrary.net/book_content/b/5760/301?lang=ar",
+      "kind": "PRIMARY_AUTHOR_TEXT_TRANSCRIPTION",
+      "page_locator": "ج4 ص301 بحسب صفحة النص",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "SIB_ALL",
+      "book": "الكتاب",
+      "author": "سيبويه",
+      "url": "https://www.arabic-keyboard.info/books/ar/read-book/الكتاب-لسيبويه",
+      "kind": "PRIMARY_AUTHOR_TEXT_TRANSCRIPTION",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "chapter_locator_verified": true,
+      "note": "مقابلة الألفاظ المضبوطة على الصورة المطبوعة لم تنجز؛ يعتمد اسم الباب والأمثلة الواضحة."
+    },
+    {
+      "source_id": "SIB_8",
+      "book": "الكتاب",
+      "author": "سيبويه",
+      "url": "https://ar.wikisource.org/wiki/الكتاب_(سيبويه)/الجزء_الثامن",
+      "kind": "PRIMARY_AUTHOR_TEXT_TRANSCRIPTION",
+      "page_locator": "القسم الإلكتروني المسمى الجزء الثامن؛ ليس ترقيم المجلدات المطبوعة",
+      "page_locator_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "QATR",
+      "book": "شرح قطر الندى وبل الصدى",
+      "author": "عبد الله بن يوسف ابن هشام الأنصاري",
+      "url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "kind": "PRIMARY_AUTHOR_SELF_COMMENTARY_TRANSCRIPTION",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "chapter_locator_verified": true,
+      "note": "شرح المؤلف نفسه، لا شرح معاصر. تنقل العقود شروط التحليل ولا تجزم بصحة جميع اجتهادات المدرسة."
+    },
+    {
+      "source_id": "G225",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-225",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية 225 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G226",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-226",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية226 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G227",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-227",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية227 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G228",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-228",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية228 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G229",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-229",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية229 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true,
+      "note": "أخطاء تشكيل ظاهرة في نص الوزن، منها وزن صرد وبرثن؛ لم تعتمد صورة الوزن المخطوءة."
+    },
+    {
+      "source_id": "G230",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-230",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية230 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true,
+      "note": "أخطاء ضبط ظاهرة؛ العد والشرح النثري أوثق من الحركات المطبعية في هذا النص الإلكتروني."
+    },
+    {
+      "source_id": "G231",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-231",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية231 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G91",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-91",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية91 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G102",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-102",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية102 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "G154",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.islamarchive.cc/ketab_content/4020/p-154",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "الصفحة الإلكترونية154 من839",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "GPDF",
+      "book": "جامع الدروس العربية",
+      "author": "مصطفى الغلاييني",
+      "url": "https://www.cia.gov/library/abbottabad-compound/D8/D8125D2873A8E52C791645C9DE991381_%C3%B1%C6%92%CE%A9%CF%80%20%C6%92%CE%98%C2%BA%E2%8C%90%CF%86%C2%BD%20%C6%92%CE%98%CF%80%E2%8C%90%C3%A1%E2%88%A9%C3%AD%20%CE%98%CE%98%CE%A3%CE%98%C6%92%E2%88%A9%E2%88%A9%CE%B4%CE%B5.pdf",
+      "kind": "SUPPLEMENTARY_PRIMARY_TEXT_PDF_EXTRACTION",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "chapter_locator_verified": true,
+      "note": "نسخة مكتبة مشكاة، النص المستخرج معيب موضعيًا. لم تتحقق الصفحات المصورة؛ تستعمل الشواهد الواضحة بحذر، ولا تعتمد أخطاء OCR. ترقيم (1/192) الظاهر ترقيم الملف لا أُثبته كصفحة طبعة."
+    },
+    {
+      "source_id": "CAIRO",
+      "book": "المعجم الوسيط",
+      "author": "مجمع اللغة العربية بالقاهرة",
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/معجم/dic-19/المصدر%20الصناعي",
+      "kind": "SUPPLEMENTARY_OFFICIAL_PRIMARY_DICTIONARY",
+      "page_locator": "مدخل المصدر الصناعي؛ قاموس إلكتروني",
+      "page_locator_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "IJAZ42",
+      "book": "إيجاز التعريف في علم التصريف",
+      "author": "محمد بن عبد الله ابن مالك",
+      "url": "https://najafdesertlibrary.com/book/إيجاز-التعريف-في-علم-التصريف/v/1/p/42",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "ص42 بحسب صفحة النص",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "IJAZ46",
+      "book": "إيجاز التعريف في علم التصريف",
+      "author": "محمد بن عبد الله ابن مالك",
+      "url": "https://najafdesertlibrary.com/book/إيجاز-التعريف-في-علم-التصريف/v/1/p/46",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "ص46 بحسب صفحة النص",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true,
+      "note": "حساب أبنية القسمة العقلية في الحاشية لا ينسب إلى متن المؤلف."
+    },
+    {
+      "source_id": "IJAZ50",
+      "book": "إيجاز التعريف في علم التصريف",
+      "author": "محمد بن عبد الله ابن مالك",
+      "url": "https://najafdesertlibrary.com/book/إيجاز-التعريف-في-علم-التصريف/v/1/p/50",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "ص50 بحسب صفحة النص",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "IJAZ51",
+      "book": "إيجاز التعريف في علم التصريف",
+      "author": "محمد بن عبد الله ابن مالك",
+      "url": "https://najafdesertlibrary.com/book/إيجاز-التعريف-في-علم-التصريف/v/1/p/51",
+      "kind": "SUPPLEMENTARY_PRIMARY_AUTHOR_TEXT",
+      "page_locator": "ص51 بحسب صفحة النص",
+      "page_locator_verified": true,
+      "printed_image_verified": false,
+      "chapter_locator_verified": true
+    },
+    {
+      "source_id": "SIB_V4_SCAN",
+      "book": "الكتاب",
+      "author": "سيبويه",
+      "url": "https://www.darulkutub.co/pages/updatecounter.php?action=download_part&file=318472965-04.pdf&item_id=296&part_id=755",
+      "landing_url": "https://www.darulkutub.co/pages/bookdetails.php?id=296",
+      "kind": "PRIMARY_AUTHOR_PRINTED_SCAN",
+      "edition": "تحقيق عبد السلام محمد هارون؛ مكتبة الخانجي بالقاهرة، 1988، بحسب بيانات صفحة الإتاحة",
+      "edition_metadata_verified_from_scan": false,
+      "page_locator": "ج4 ص242–244، 288–289، 301–302؛ أرقام PDF مطابقة للأرقام المطبوعة في هذه النسخة",
+      "page_locator_verified": true,
+      "printed_image_verified": true,
+      "chapter_locator_verified": true,
+      "chapters": [
+        "ما بنت العرب من الأسماء والصفات والأفعال: بنات الثلاثة من غير الأفعال",
+        "تمثيل ما بنت العرب من بنات الأربعة في الأسماء والصفات غير مزيدة",
+        "تمثيل ما بنت العرب من الأسماء والصفات من بنات الخمسة"
+      ],
+      "pdf_sha256": "52d6ce6ac5f47d4fa57ce60ddb9447558716a8c18768be749a524a79ca8f112c",
+      "verification_scope": "قوالب المجرد التسعة عشر وحركات مواضعها؛ عوين متن المؤلف في الصور المحددة، لا مجموع الكتاب أو جميع الاستعمالات."
+    },
+    {
+      "source_id": "IJAZ_PRINTED_SCAN",
+      "book": "إيجاز التعريف في علم التصريف",
+      "author": "محمد بن عبد الله ابن مالك",
+      "url": "https://saaid.org/book/downloadurl.php?id=9564&type=rar",
+      "landing_url": "https://saaid.org/book/open.php?book=9564",
+      "kind": "PRIMARY_AUTHOR_PRINTED_SCAN",
+      "edition": "تحقيق محمد عثمان، مكتبة الثقافة الدينية؛ اسم المحقق والناشر مقروءان من صورة الغلاف، ولم يتحقق تاريخ الطبعة",
+      "edition_metadata_verified_from_scan": true,
+      "page_locator": "ص71–74 من متن المؤلف، تقابل صفحات PDF73–76؛ ترقيم مغاير للطبعة الإلكترونية المستخدمة في IJAZ42/IJAZ46/IJAZ50/IJAZ51",
+      "page_locator_verified": true,
+      "printed_image_verified": true,
+      "chapter_locator_verified": true,
+      "chapters": [
+        "فصل في التصريف: الثلاثي المجرد",
+        "فصل في الرباعي المجرد",
+        "فصل في الخماسي المجرد"
+      ],
+      "pdf_sha256": "1811c8bca30b9cce5928beb1e72b5e350c72e815fd181270acb6d3a35cdfbeb2",
+      "verification_scope": "الأوزان وحركات المواضع من متن ابن مالك ص71–74؛ لا تنسب مقدمة المحقق ولا حواشيه للمؤلف. نص فُعْلَل الرباعي في ص73، ومناقشة أصالته أو فرعيته في ص74."
+    }
+  ],
+  "entries": [
+    {
+      "id": "M001",
+      "family": "القسم النحوي: اسم/فعل/حرف",
+      "operation_or_type": "القسم النحوي: اسم/فعل/حرف",
+      "source_ids": [
+        "QATR",
+        "ALF",
+        "SIB_ALL"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "تعريف الكلمة وأقسامها",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "القسمة الثلاثية تصنف الكلمة المستعملة في هذا الاصطلاح.",
+      "example": "رجل؛ كتب؛ في.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "القسمة النحوية لا تحصر بذاتها جميع أنواع الموجودات أو المعاني، ولا تميز كل استعمال من الرسم وحده.",
+      "representation_contract": [
+        "part_of_speech",
+        "lexeme_id",
+        "use_id",
+        "grammar_profile"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M002",
+      "family": "الجامد/المشتق الصرفي",
+      "operation_or_type": "الجامد/المشتق الصرفي",
+      "source_ids": [
+        "G225",
+        "G226"
+      ],
+      "source_url": "https://www.islamarchive.cc/ketab_content/4020/p-225",
+      "book": "جامع الدروس العربية",
+      "chapter": "تصريف الأسماء: الجامد والمشتق",
+      "page_locator": "الصفحة الإلكترونية 225 من839",
+      "page_locator_verified": true,
+      "claim": "تمييز المصدر المأخوذ منه عن الاشتقاق يتبع تعريف المصنف.",
+      "example": "حجر؛ عالم؛ قراءة؛ استغفار.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "ملف الغلاييني يعد مصادر الثلاثي المجرد غير الميمية جامدة، ويعد مصادر المزيد والرباعي مشتقة؛ لا يعمم هذا على كل مدرسة.",
+      "representation_contract": [
+        "derivational_status",
+        "base_lexeme",
+        "derivation_profile"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M003",
+      "family": "اسم العين/اسم المعنى",
+      "operation_or_type": "اسم العين/اسم المعنى",
+      "source_ids": [
+        "SIB_ALL",
+        "G154"
+      ],
+      "source_url": "https://www.arabic-keyboard.info/books/ar/read-book/الكتاب-لسيبويه",
+      "book": "الكتاب",
+      "chapter": "الاسم وأقسامه؛ علم الكلم وأحداث الأسماء",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "تمييز الذات عن الحدث/المعنى محور دلالي لازم للتمثيل.",
+      "example": "حجر؛ ماء؛ علم؛ ضرب.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "هذه أسماء لمحتويات التصور؛ ورود الاسم لا يثبت وجود فرد خارجي، ولا يساوي جامد=محسوس ومشتق=معنوي.",
+      "representation_contract": [
+        "denotation_kind",
+        "reference_mode",
+        "existence_commitment"
+      ],
+      "coverage_status": "SOURCE_INFORMED_DESIGN_CONTRACT",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M004",
+      "family": "اسم الجنس والكلي",
+      "operation_or_type": "اسم الجنس والكلي",
+      "source_ids": [
+        "G102"
+      ],
+      "source_url": "https://www.islamarchive.cc/ketab_content/4020/p-102",
+      "book": "جامع الدروس العربية",
+      "chapter": "اسم الجنس واسم العلم",
+      "page_locator": "الصفحة الإلكترونية102 من839",
+      "page_locator_verified": true,
+      "claim": "اسم الجنس صالح لأفراد، والعلم يعين بحسب وضعه.",
+      "example": "رجل؛ إنسان؛ كتاب.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الجنس المنطقي والجنس البيولوجي واسم الجنس النحوي ثلاث علاقات مختلفة؛ تصنيف الغلاييني لأدوات الإحالة داخل اسم الجنس اصطلاح خاص ينبغي تسميته.",
+      "representation_contract": [
+        "kind_id",
+        "predicate_intension",
+        "extension_domain",
+        "taxonomy_profile"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M005",
+      "family": "علم الشخص",
+      "operation_or_type": "علم الشخص",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "العلم",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "العلم يختص بالتعيين، وقد يكون مفردًا أو مركبًا.",
+      "example": "جعفر؛ عبد الله؛ تأبط شرًا.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الفرد يحمل instance_of لا subclass_of؛ والاسم المشترك بين أشخاص يحتاج هوية مرجعية مستقلة عن سلسلة الحروف.",
+      "representation_contract": [
+        "referent_id",
+        "naming_event",
+        "name_form",
+        "instance_of"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M006",
+      "family": "علم الجنس",
+      "operation_or_type": "علم الجنس",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "العلم",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "علم الجنس معرف لفظًا مع عموم مدلوله في اصطلاح النحاة.",
+      "example": "ثعالة للثعلب؛ برّة للمبرّة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "علم الجنس لا يصبح شخصًا واحدًا لمجرد حكم العلمية، ولا يساوي كل اسم جنس.",
+      "representation_contract": [
+        "proper_name_kind",
+        "generic_reference",
+        "agreement_features"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M007",
+      "family": "العلم المنقول والمرتجل",
+      "operation_or_type": "العلم المنقول والمرتجل",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "العلم؛ المعرف بأداة التعريف",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "النقل إلى العلمية يغير وظيفة الاسم الدلالية.",
+      "example": "فضل اسمًا لشخص؛ الحارث علمًا.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "خالد اسم شخص لا يثبت الخلود، وسعيد لا يثبت السعادة؛ تحفظ قصة النقل دون استنتاج الصفات من هيئة الاسم.",
+      "representation_contract": [
+        "original_lexeme",
+        "current_name_use",
+        "lexicalization_record"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M008",
+      "family": "المعرفة والنكرة",
+      "operation_or_type": "المعرفة والنكرة",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "المعرفة والنكرة",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "التعريف والتنكير غير تقسيم الجامد والمشتق.",
+      "example": "رجل؛ الرجل؛ زيد؛ أنا.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "التعريف النحوي ليس ضمان معرفة المتلقي بالمسمى أو وجوده الواقعي.",
+      "representation_contract": [
+        "definiteness",
+        "discourse_accessibility",
+        "referent_resolution"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M009",
+      "family": "أسماء الإحالة والأسماء المشتركة",
+      "operation_or_type": "أسماء الإحالة والأسماء المشتركة",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "الضمير؛ اسم الإشارة؛ الموصول",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الإحالة تحتاج سمات وسياقًا وعائدًا أو صلة بحسب النوع.",
+      "example": "أنا؛ هو؛ هذا؛ الذي؛ من جاء.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "«من» الموصولة قد تحيل إلى مفرد أو مثنى أو جمع؛ لا تستخرج عدد المرجع أو هويته من لفظها وحده.",
+      "representation_contract": [
+        "deixis",
+        "person",
+        "anaphora",
+        "relative_binding",
+        "referent_number"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M010",
+      "family": "الإعراب والبناء",
+      "operation_or_type": "الإعراب والبناء",
+      "source_ids": [
+        "QATR",
+        "SIB_ALL"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "المعرب والمبني؛ مجاري أواخر الكلم",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الإعراب والبناء تصنيف سلوكي لأواخر الألفاظ في التركيب.",
+      "example": "جاء زيدٌ/رأيت زيدًا؛ هؤلاءِ.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا تستبدل علاقة العامل/الموقع بعلاقة الجنس/الخاصية؛ المبني له محل إعرابي أحيانًا وإن لم تتغير نهايته.",
+      "representation_contract": [
+        "declension_class",
+        "case_feature",
+        "surface_ending",
+        "syntactic_position"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M011",
+      "family": "طول الأصول: ثلاثي/رباعي/خماسي",
+      "operation_or_type": "طول الأصول: ثلاثي/رباعي/خماسي",
+      "source_ids": [
+        "SIB_328",
+        "G226"
+      ],
+      "source_url": "https://ablibrary.net/book_content/b/5760/328?lang=ar",
+      "book": "الكتاب",
+      "chapter": "تمييز بنات الأربعة والخمسة من الثلاثة",
+      "page_locator": "ج4 ص328، طبعة دار الجيل/تحقيق عبد السلام هارون بحسب بيانات الموقع",
+      "page_locator_verified": true,
+      "claim": "تمييز الأصول عن الزيادة يسبق تعيين وزن الاسم المتمكن.",
+      "example": "حجر؛ جعفر؛ سفرجل.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "هذه حدود المجرد المتمكن في ملف تقليدي، لا حدود أسماء الأعلام الأجنبية أو المركبات أو الأسماء المبنية.",
+      "representation_contract": [
+        "root_slots",
+        "stem_template",
+        "stem_status",
+        "native_adaptation"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M012",
+      "family": "وزن الجذع/وزن الاشتقاق/وزن العملية",
+      "operation_or_type": "وزن الجذع/وزن الاشتقاق/وزن العملية",
+      "source_ids": [
+        "ALF",
+        "G228"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "التصريف؛ موازين الأسماء",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "يمكن اشتراك هيئة بين وظيفة جذع وعملية صرفية مختلفة.",
+      "example": "جَعْفَر؛ كاتب؛ كُتَيِّب.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الوزن وصف شكلي، ولا يكفي لإثبات معنى أو جنس أو مشتق معين. تحفظ مستويات الوزن منفصلة.",
+      "representation_contract": [
+        "stem_pattern",
+        "derivation_pattern",
+        "operation_pattern",
+        "surface_form"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "M013",
+      "family": "الأصل والزيادة والإلحاق",
+      "operation_or_type": "الأصل والزيادة والإلحاق",
+      "source_ids": [
+        "ALF",
+        "SIB_328",
+        "SIB_ALL"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "التصريف؛ ما يلحق بنات الأربعة",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "زيادة الحرف تحتاج دليلًا صرفيًا، والإلحاق باب مستقل.",
+      "example": "جدول ملحق بالأربعة في التحليل التقليدي.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "وجود حرف من سألتمونيها لا يكفي لعده زائدًا؛ لا يستنتج جذر مستعمل بمجرد قابلية الفصل.",
+      "representation_contract": [
+        "root_evidence",
+        "augmentation_evidence",
+        "ilhāq_target"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "G001",
+      "family": "الجنس النحوي",
+      "operation_or_type": "الجنس النحوي",
+      "source_ids": [
+        "G91",
+        "ALF"
+      ],
+      "source_url": "https://www.islamarchive.cc/ketab_content/4020/p-91",
+      "book": "جامع الدروس العربية",
+      "chapter": "المذكر والمؤنث؛ التأنيث",
+      "page_locator": "الصفحة الإلكترونية91 من839",
+      "page_locator_verified": true,
+      "claim": "التذكير والتأنيث النحويان ينظمان المطابقة.",
+      "example": "هذا كتاب؛ هذه شمس.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا تستنتج ذكرًا أو أنثى بيولوجيين من النوع النحوي؛ يصرح بالغير منطبق في غير الأحياء.",
+      "representation_contract": [
+        "grammatical_gender",
+        "agreement_gender",
+        "natural_sex"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "G002",
+      "family": "حقيقي/مجازي في جنس الاسم",
+      "operation_or_type": "حقيقي/مجازي في جنس الاسم",
+      "source_ids": [
+        "G91"
+      ],
+      "source_url": "https://www.islamarchive.cc/ketab_content/4020/p-91",
+      "book": "جامع الدروس العربية",
+      "chapter": "المذكر والمؤنث",
+      "page_locator": "الصفحة الإلكترونية91 من839",
+      "page_locator_verified": true,
+      "claim": "الحقيقي يحيل إلى الذكر/الأنثى من الإنسان أو الحيوان في هذا التقسيم.",
+      "example": "رجل/امرأة؛ قمر/شمس.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "هذا اصطلاح في الجنس النحوي، و«مجازي التأنيث» لا يثبت أن استعمال «الشمس» استعارة.",
+      "representation_contract": [
+        "gender_semantic_basis",
+        "literal_figurative_status"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "G003",
+      "family": "لفظي/معنوي في علامة التأنيث",
+      "operation_or_type": "لفظي/معنوي في علامة التأنيث",
+      "source_ids": [
+        "ALF",
+        "G91"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "التأنيث",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "وجود علامة التأنيث غير تعيين مرجع أنثى.",
+      "example": "حمزة؛ فاطمة؛ كتف.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "يجب تسجيل العلامة، والمطابقة، وجنس المرجع في حقول مستقلة؛ ولا يختزل اللفظي/المعنوي والحقيقي/المجازي في أربعة صناديق متنافية.",
+      "representation_contract": [
+        "feminine_marker",
+        "gender_agreement",
+        "referent_sex"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N001",
+      "family": "المفرد",
+      "operation_or_type": "المفرد",
+      "source_ids": [
+        "QATR"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "المثنى وجمع المذكر السالم وما حمل عليه",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الإفراد قيمة صرفية، تتداخل مع أنواع دلالية متعددة.",
+      "example": "رجل؛ ماء؛ قوم.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "صيغة مفردة قد تحمل معنى جماعيًا أو جنسيًا أو اسم عدد؛ لا تعني دائمًا فردًا خارجيًا واحدًا.",
+      "representation_contract": [
+        "morphological_number",
+        "semantic_number",
+        "reference_cardinality"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N002",
+      "family": "التثنية والملحق بها",
+      "operation_or_type": "التثنية والملحق بها",
+      "source_ids": [
+        "QATR",
+        "G231"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "المثنى وجمع المذكر السالم وما حمل عليه",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "تثنية الاسم عملية لها علامات وشروط وملحقات.",
+      "example": "رجلان/رجلين؛ كلاهما؛ اثنان.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "تثنية العلم أو التغليب تحتاج معجمًا/عرفًا؛ «الأبوان» قد يشمل الأب والأم فلا يولد المدلول من تكرار الجذع آليًا.",
+      "representation_contract": [
+        "dual_operator",
+        "case_allomorph",
+        "lexicalized_dual",
+        "collective_members"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N003",
+      "family": "جمع المذكر السالم والملحق",
+      "operation_or_type": "جمع المذكر السالم والملحق",
+      "source_ids": [
+        "QATR"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "المثنى وجمع المذكر السالم وما حمل عليه",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "علامة الجمع والإعراب لها شروط وملحقات.",
+      "example": "كاتبون؛ كاتبين؛ عشرون.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "عشرون ملحق إعرابيًا؛ ليس جمعًا دلاليًا لمفرد اسمه عشر. لا ينتقل حكم المطابقة مباشرة إلى عدد المرجع.",
+      "representation_contract": [
+        "plural_type",
+        "agreement_class",
+        "number_value",
+        "case_allomorph"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N004",
+      "family": "الجمع بالألف والتاء",
+      "operation_or_type": "الجمع بالألف والتاء",
+      "source_ids": [
+        "QATR",
+        "ALF"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "إعراب الأسماء؛ جمع ما بألف وتاء",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "بناء الألف والتاء لا يساوي جنسًا طبيعيًا مؤنثًا.",
+      "example": "مسلمات؛ اجتماعات.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "النوع الطبيعي غير منطبق على اجتماعات؛ تحفظ شروط الجمع والإعلال والملحق والسماع منفصلة.",
+      "representation_contract": [
+        "plural_type",
+        "base_form",
+        "inflection_rule",
+        "exception"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N005",
+      "family": "جمع التكسير",
+      "operation_or_type": "جمع التكسير",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "جمع التكسير",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "جمع التكسير يغير بناء المفرد وله أوزان متعددة.",
+      "example": "كتاب/كتب؛ درهم/دراهم.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا يكفي تحديد قالب الجمع لرد مفرد وحيد؛ قد تشترك القراءات وتختلف السماعات.",
+      "representation_contract": [
+        "plural_template",
+        "singular_candidates",
+        "attestation",
+        "ambiguity_set"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N006",
+      "family": "اسم الجمع",
+      "operation_or_type": "اسم الجمع",
+      "source_ids": [
+        "SIB_ALL",
+        "GPDF"
+      ],
+      "source_url": "https://www.arabic-keyboard.info/books/ar/read-book/الكتاب-لسيبويه",
+      "book": "الكتاب",
+      "chapter": "ما هو اسم يقع على الجميع لم يكسر عليه واحده",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الاسم الجماعي غير عملية تكسير مفرد.",
+      "example": "قوم؛ نفر؛ ركب.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "قاعدة «لا واحد له من لفظه» لا تشمل بلا نزاع ركب/راكب؛ سيبويه يميز الاسم الواقع على الجميع عن جمع التكسير ولو اتصل لفظه بلفظ الواحد.",
+      "representation_contract": [
+        "collective_entity",
+        "member_type",
+        "collective_vs_members",
+        "grammar_profile"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N007",
+      "family": "اسم الجنس الجمعي",
+      "operation_or_type": "اسم الجنس الجمعي",
+      "source_ids": [
+        "SIB_ALL"
+      ],
+      "source_url": "https://www.arabic-keyboard.info/books/ar/read-book/الكتاب-لسيبويه",
+      "book": "الكتاب",
+      "chapter": "ما كان واحدًا يقع للجميع",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "قد يميز الواحد عن اسم الجنس الجمعي بالتاء.",
+      "example": "تمر/تمرة؛ نخل/نخلة؛ شجر/شجرة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "التاء هنا تؤدي وحدة الجنس، فلا تفسرها وحدها كأنثى بيولوجية أو عملية تأنيث صفة.",
+      "representation_contract": [
+        "collective_kind",
+        "singulative_operator",
+        "unit_type"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N008",
+      "family": "اسم الجنس الإفرادي",
+      "operation_or_type": "اسم الجنس الإفرادي",
+      "source_ids": [
+        "GPDF"
+      ],
+      "source_url": "https://www.cia.gov/library/abbottabad-compound/D8/D8125D2873A8E52C791645C9DE991381_%C3%B1%C6%92%CE%A9%CF%80%20%C6%92%CE%98%C2%BA%E2%8C%90%CF%86%C2%BD%20%C6%92%CE%98%CF%80%E2%8C%90%C3%A1%E2%88%A9%C3%AD%20%CE%98%CE%98%CE%A3%CE%98%C6%92%E2%88%A9%E2%88%A9%CE%B4%CE%B5.pdf",
+      "book": "جامع الدروس العربية",
+      "chapter": "اسم الجنس الجمعي والإفرادي",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الأسماء المادية مثل الماء تصدق على القليل والكثير.",
+      "example": "ماء؛ لبن؛ عسل.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "المفرد هنا لا يثبت cardinality=1؛ العد يتطلب وحدة قياس/وعاء/نوع يصرح بها السياق.",
+      "representation_contract": [
+        "mass_kind",
+        "measure_dimension",
+        "portion",
+        "counting_unit"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N009",
+      "family": "العد والمعدود",
+      "operation_or_type": "العد والمعدود",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "العدد؛ كم وكأين وكذا",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "تركيب العدد يربط قيمته وتمييزه وجنس مفرد المعدود.",
+      "example": "ثلاثة كتب؛ ثلاث صفحات؛ عشرون كتابًا.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "صيغة التمييز المفرد لا تجعل عدد المعدود واحدًا؛ العدد اللغوي والقيمة الرياضية والمقيس ثلاث طبقات.",
+      "representation_contract": [
+        "cardinal_value",
+        "counted_type",
+        "unit",
+        "numeral_agreement",
+        "tamyiiz_case"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N010",
+      "family": "العدد الترتيبي",
+      "operation_or_type": "العدد الترتيبي",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "العدد",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "تشتق الصفة الترتيبية في باب العدد.",
+      "example": "ثالث؛ ثالثة؛ حادي عشر.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الترتيب يحتاج مجموعة مرتبة ووجه ترتيب؛ لا يستلزم حدثًا فاعليًا لأن قالب فاعل مشترك.",
+      "representation_contract": [
+        "ordinal_rank",
+        "ordered_set",
+        "order_relation"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "N011",
+      "family": "الفرد والنوع والجمع والجزء",
+      "operation_or_type": "الفرد والنوع والجمع والجزء",
+      "source_ids": [
+        "ALF",
+        "SIB_ALL"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "العلم؛ اسم الجنس؛ أبواب الجمع",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "هذه العلاقات لا تختزل في علاقة تصنيف واحدة.",
+      "example": "زيد فرد إنسان؛ تمرة وحدة تمر؛ غصن جزء شجرة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "instance_of وsubclass_of وpart_of وmember_of علاقات مختلفة؛ جعل كل جزئي نوعًا يمحو التعيين والتمييز اللذين يطلبهما المشروع.",
+      "representation_contract": [
+        "instance_of",
+        "subclass_of",
+        "part_of",
+        "member_of",
+        "identity"
+      ],
+      "coverage_status": "SOURCE_INFORMED_DESIGN_CONTRACT",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D001",
+      "family": "المصدر الحدثي",
+      "operation_or_type": "المصدر الحدثي",
+      "source_ids": [
+        "ALF",
+        "QATR",
+        "G154"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "المفعول المطلق؛ المصدر",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "المصدر يسمي الحدث دون تعيين زمن بالوضع الصرفي.",
+      "example": "ضرب؛ إكرام؛ قيام.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "عدم الزمن المعين في صيغته لا يمنع تقييده: «قيام زيد أمس». يميز الزمن المعجمي عن زمن الحدث المفسر.",
+      "representation_contract": [
+        "event_type",
+        "lexical_tense:none",
+        "contextual_event_time",
+        "event_participants"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D002",
+      "family": "مصدر الثلاثي المجرد",
+      "operation_or_type": "مصدر الثلاثي المجرد",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "أبنية المصادر",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "مصادر الثلاثي تجمع قياسًا وسماعًا بحسب الباب.",
+      "example": "رد/ردّ؛ فرح/فرح؛ قعد/قعود.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "قائمة الوزن تولد مرشحات ولا تثبت كل مادة؛ الاستثناء والمصدر المتعدد يثبتان بالشاهد.",
+      "representation_contract": [
+        "verbal_lemma",
+        "masdar_lexeme",
+        "source_pattern",
+        "attestation"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D003",
+      "family": "مصادر المزيد والرباعي",
+      "operation_or_type": "مصادر المزيد والرباعي",
+      "source_ids": [
+        "ALF",
+        "SIB_8"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "أبنية المصادر؛ مصادر ما تلحقه الزيادة",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "مصادر غير الثلاثي لها أبنية قياسية مع فروق.",
+      "example": "أكرم/إكرام؛ قدّس/تقديس؛ دحرج/دحرجة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "وجود قالب مصدر قياسي لا يثبت وجود كل فعل يمكن تشكيله؛ علاقة البنيتين قيد توافق بعد ترخيص اللفظ.",
+      "representation_contract": [
+        "verb_masdar_pair",
+        "augmentation_class",
+        "formation_rule",
+        "lexical_license"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D004",
+      "family": "مصدر المرة ومصدر الهيئة",
+      "operation_or_type": "مصدر المرة ومصدر الهيئة",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "أبنية المصادر",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "المرة والهيئة تميزان الحدث من حيث العدد والكيفية.",
+      "example": "جَلْسة؛ جِلْسة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "«هيئة الحدث» هنا كيفية وقوعه، ليست الماضي/الحاضر؛ ولا تضبط بحركات الرسم غير المشكول وحدها.",
+      "representation_contract": [
+        "event_count",
+        "manner",
+        "vocalization",
+        "context"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D005",
+      "family": "المصدر الميمي",
+      "operation_or_type": "المصدر الميمي",
+      "source_ids": [
+        "SIB_8",
+        "G226"
+      ],
+      "source_url": "https://ar.wikisource.org/wiki/الكتاب_(سيبويه)/الجزء_الثامن",
+      "book": "الكتاب",
+      "chapter": "اشتقاق الأسماء للمواضع؛ المصدر الميمي",
+      "page_locator": "القسم الإلكتروني المسمى الجزء الثامن؛ ليس ترقيم المجلدات المطبوعة",
+      "page_locator_verified": false,
+      "claim": "قد تشترك صيغة المصدر الميمي مع المكان وغيره.",
+      "example": "مَدْخَل؛ مُنْطَلَق.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "تشابه الوزن لا يجيز دمج حدث ومكان؛ يبقى تعيين الوظيفة من المعجم والتركيب والسياق.",
+      "representation_contract": [
+        "reading_type",
+        "event_nominal",
+        "place_nominal",
+        "homography"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D006",
+      "family": "اسم المصدر",
+      "operation_or_type": "اسم المصدر",
+      "source_ids": [
+        "GPDF",
+        "SIB_8"
+      ],
+      "source_url": "https://www.cia.gov/library/abbottabad-compound/D8/D8125D2873A8E52C791645C9DE991381_%C3%B1%C6%92%CE%A9%CF%80%20%C6%92%CE%98%C2%BA%E2%8C%90%CF%86%C2%BD%20%C6%92%CE%98%CF%80%E2%8C%90%C3%A1%E2%88%A9%C3%AD%20%CE%98%CE%98%CE%A3%CE%98%C6%92%E2%88%A9%E2%88%A9%CE%B4%CE%B5.pdf",
+      "book": "جامع الدروس العربية",
+      "chapter": "اسم المصدر؛ ما جاء المصدر فيه على غير الفعل",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "اسم المصدر يشارك في الحدث ويختلف في البنية.",
+      "example": "تكلّم/كلام؛ توضأ/وضوء.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا يستنتج عدم المعنى من نقص حروف المصدر القياسي؛ يحفظ التحليل المعجمي والمدرسة.",
+      "representation_contract": [
+        "event_name",
+        "masdar_relation",
+        "morphological_reduction",
+        "grammar_profile"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D007",
+      "family": "المصدر الصناعي",
+      "operation_or_type": "المصدر الصناعي",
+      "source_ids": [
+        "CAIRO",
+        "GPDF"
+      ],
+      "source_url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/معجم/dic-19/المصدر%20الصناعي",
+      "book": "المعجم الوسيط",
+      "chapter": "مدخل المصدر الصناعي",
+      "page_locator": "مدخل المصدر الصناعي؛ قاموس إلكتروني",
+      "page_locator_verified": false,
+      "claim": "الصناعي يصاغ من أسماء ومشتقات وأدوات أيضًا.",
+      "example": "إنسانية؛ مسؤولية؛ كمية؛ كيفية.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "ليس خاصًا بالجامد، وليس كل منتهٍ بـيّة مصدرًا صناعيًا؛ «اللغة العربية» صفة نسبة، والنقل الاسمي/السياق يحسم.",
+      "representation_contract": [
+        "nominalization_base",
+        "iyah_operator",
+        "abstract_property",
+        "use_type"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D008",
+      "family": "اسم الفاعل",
+      "operation_or_type": "اسم الفاعل",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "أبنية أسماء الفاعلين والمفعولين؛ إعمال اسم الفاعل",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "لصوغ اسم الفاعل وعمله شروط معجمية وتركيبية.",
+      "example": "كاتب؛ مُكرِم؛ مُستخرِج.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الصيغة لا تثبت فعلًا وقع أو فاعلًا خارجيًا، وعمل الوصف دون أل مقيد في ملف ابن هشام بالحال/الاستقبال والاعتماد.",
+      "representation_contract": [
+        "event_role:agent_or_bearer",
+        "tense_reading",
+        "government_license"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D009",
+      "family": "اسم المفعول",
+      "operation_or_type": "اسم المفعول",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "أبنية أسماء الفاعلين والمفعولين؛ اسم المفعول",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "اسم المفعول يربط بالحدث وجهة المفعول/نائب الفاعل.",
+      "example": "مكتوب؛ مُكرَم؛ ممرور به.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "المجرور اللازم أو المعجم قد يستكمل المعنى؛ لا يستنتج مفعول خارجي محقق من الصيغة وحدها.",
+      "representation_contract": [
+        "patient_or_undergoer",
+        "event_type",
+        "valency",
+        "oblique_completion"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D010",
+      "family": "صيغ المبالغة",
+      "operation_or_type": "صيغ المبالغة",
+      "source_ids": [
+        "QATR",
+        "ALF"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "إعمال اسم الفاعل؛ أمثلة المبالغة",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "المبالغة فئة وصفية لها أوزان وسماع وشروط عمل.",
+      "example": "غفّار؛ صبور؛ سميع.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا يحول القالب وحده إلى عدد رياضي ثابت للتكرار، وقد تتعدد الوظيفة المعجمية للقالب.",
+      "representation_contract": [
+        "intensity_or_frequency",
+        "lexical_sense",
+        "government_profile"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D011",
+      "family": "الصفة المشبهة",
+      "operation_or_type": "الصفة المشبهة",
+      "source_ids": [
+        "QATR",
+        "ALF"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "الصفة المشبهة باسم الفاعل",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الثبوت في الوصف مميز عن عرض الحدث المتجدد.",
+      "example": "حسن الوجه؛ كريم؛ طويل.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الثبوت الوصفي لا يثبت الدوام الأبدي ولا قانونًا طبيعيًا؛ الخاصية والصفة المسندة وزمن الحكم يجب أن تفصل.",
+      "representation_contract": [
+        "property",
+        "property_bearer",
+        "stative_view",
+        "valid_time"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D012",
+      "family": "اسم التفضيل",
+      "operation_or_type": "اسم التفضيل",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "أفعل التفضيل",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "التفضيل يقتضي جهة مقارنة وتركيبًا مقيدًا.",
+      "example": "أكبر من؛ أفضل القوم.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا يقاس من كل فعل ولا يفسر كل أفعل كتفضيل: أحمر باب مختلف، وأكرم قد يكون فعلًا أو اسمًا بحسب السياق.",
+      "representation_contract": [
+        "comparison_dimension",
+        "degree",
+        "standard",
+        "morphological_reading"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D013",
+      "family": "اسم المكان واسم الزمان",
+      "operation_or_type": "اسم المكان واسم الزمان",
+      "source_ids": [
+        "SIB_8",
+        "ALF"
+      ],
+      "source_url": "https://ar.wikisource.org/wiki/الكتاب_(سيبويه)/الجزء_الثامن",
+      "book": "الكتاب",
+      "chapter": "اشتقاق الأسماء لمواضع بنات الثلاثة؛ المفعول فيه",
+      "page_locator": "القسم الإلكتروني المسمى الجزء الثامن؛ ليس ترقيم المجلدات المطبوعة",
+      "page_locator_verified": false,
+      "claim": "الأسماء المكانية والزمانية ترتبط بالحدث وبالسياق.",
+      "example": "مجلس؛ موعد؛ مُلتقى.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "قد تشترك الصيغة في المكان والزمان والمصدر أو اسم المفعول؛ لا يساوي اسم المكان مجرد وجود مكان معين.",
+      "representation_contract": [
+        "place_role",
+        "time_role",
+        "event_link",
+        "sense_disambiguation"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D014",
+      "family": "اسم الآلة",
+      "operation_or_type": "اسم الآلة",
+      "source_ids": [
+        "SIB_8",
+        "G226"
+      ],
+      "source_url": "https://ar.wikisource.org/wiki/الكتاب_(سيبويه)/الجزء_الثامن",
+      "book": "الكتاب",
+      "chapter": "باب ما عالجت به",
+      "page_locator": "القسم الإلكتروني المسمى الجزء الثامن؛ ليس ترقيم المجلدات المطبوعة",
+      "page_locator_verified": false,
+      "claim": "الآلة علاقة استعمال لا يثبتها كل قالب وحده.",
+      "example": "مِفتاح؛ مِقصّ؛ مِخرز.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الأشياء المستعملة آلات قد تسمى بأسماء جامدة كحجر؛ لا تختزل فئة أدوات العالم في أوزان اسم الآلة.",
+      "representation_contract": [
+        "instrument_role",
+        "tool_entity",
+        "affordance",
+        "derived_name_status"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D015",
+      "family": "النسب",
+      "operation_or_type": "النسب",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "النسب",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "النسب عملية صرفية ذات أحكام تحويل وسماع.",
+      "example": "مكة/مكي؛ مصر/مصري.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "النسبة أوسع من فاعلية حدث؛ نوع الرابط، كالمكان أو الحرفة أو المادة، يحتاج المدلول والسياق.",
+      "representation_contract": [
+        "nisba_base",
+        "relation_type",
+        "morphophonology",
+        "attestation"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D016",
+      "family": "التصغير",
+      "operation_or_type": "التصغير",
+      "source_ids": [
+        "ALF"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "التصغير",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "التصغير عملية لها قوالب وشروط وتحولات.",
+      "example": "كتاب/كتيب؛ درهم/دريهم.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "ليس اسم دور حدثي مشتقًا من مصدر في معنى فاعل/مفعول؛ وتفسير التصغير تداوليًا لا يحصر بصغر الحجم.",
+      "representation_contract": [
+        "diminution_operation",
+        "base_form",
+        "pragmatic_force",
+        "formation_constraints"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "D017",
+      "family": "الإعلال والإبدال والإدغام",
+      "operation_or_type": "الإعلال والإبدال والإدغام",
+      "source_ids": [
+        "ALF",
+        "SIB_ALL"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "الإبدال؛ الإدغام؛ التصريف",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "الحرف الظاهر قد لا يطابق الأصل الصرفي مباشرة.",
+      "example": "قال؛ قائم؛ باع؛ مبيع.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا تجعل قالب السطح سجل الجذر؛ يربط التحليل بالتحولات المعللة ومعاني الكلمات.",
+      "representation_contract": [
+        "underlying_form",
+        "surface_form",
+        "rewrite_steps",
+        "root_provenance"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "V001",
+      "family": "الماضي والمضارع والأمر",
+      "operation_or_type": "الماضي والمضارع والأمر",
+      "source_ids": [
+        "SIB_ALL",
+        "ALF"
+      ],
+      "source_url": "https://www.arabic-keyboard.info/books/ar/read-book/الكتاب-لسيبويه",
+      "book": "الكتاب",
+      "chapter": "علم الكلم؛ علامات الفعل",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "صيغ الفعل تدخل تقابلات زمنية وجهية وطلبية.",
+      "example": "كتب؛ يكتب؛ اكتب.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الماضي مع الشرط قد يؤول مستقبلًا؛ تصنيف الصيغة لا يغني عن زمن الحدث في الخطاب.",
+      "representation_contract": [
+        "tense_morphology",
+        "aspect",
+        "mood",
+        "speech_act",
+        "reference_time"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "V002",
+      "family": "اللزوم والتعدي والتكافؤ",
+      "operation_or_type": "اللزوم والتعدي والتكافؤ",
+      "source_ids": [
+        "ALF",
+        "SIB_8"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "تعدي الفعل ولزومه؛ أبنية الفعل",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "تعدي الفعل يرتبط باستعماله وبنيته ومعموله.",
+      "example": "جلس؛ كتب الرسالة؛ أعلم زيدًا الخبر.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا تتحدد كل أطر التعدي من وزن واحد؛ والمتعدي بحرف يحتاج نوع العلاقة لا عدًا آليًا للمفاعيل فقط.",
+      "representation_contract": [
+        "valency_frame",
+        "argument_roles",
+        "prepositions",
+        "sense_id"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "V003",
+      "family": "المجرد والمزيد",
+      "operation_or_type": "المجرد والمزيد",
+      "source_ids": [
+        "SIB_8",
+        "ALF"
+      ],
+      "source_url": "https://ar.wikisource.org/wiki/الكتاب_(سيبويه)/الجزء_الثامن",
+      "book": "الكتاب",
+      "chapter": "أبنية الأفعال وما لحقته الزيادة",
+      "page_locator": "القسم الإلكتروني المسمى الجزء الثامن؛ ليس ترقيم المجلدات المطبوعة",
+      "page_locator_verified": false,
+      "claim": "للزيادة وظائف متعددة وقد يستعمل المزيد دون مجرد مستعمل.",
+      "example": "سافر؛ استقر؛ استخرج.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "لا تجعل العثور على قالب مصدر شرطًا كافيًا أو برهانًا لسماع الفعل؛ تفرق إمكانية الصياغة من الترخيص ومن تفسيرها.",
+      "representation_contract": [
+        "augmentation_form",
+        "lexical_existence",
+        "productive_rule",
+        "attestation",
+        "meaning_license"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "V004",
+      "family": "السببية والمطاوعة والمشاركة",
+      "operation_or_type": "السببية والمطاوعة والمشاركة",
+      "source_ids": [
+        "SIB_8"
+      ],
+      "source_url": "https://ar.wikisource.org/wiki/الكتاب_(سيبويه)/الجزء_الثامن",
+      "book": "الكتاب",
+      "chapter": "دخول الزيادة للمعاني؛ ما طاوع الذي فعله؛ استفعلت",
+      "page_locator": "القسم الإلكتروني المسمى الجزء الثامن؛ ليس ترقيم المجلدات المطبوعة",
+      "page_locator_verified": false,
+      "claim": "قالب المزيد قد يحقق سببية أو مطاوعة أو غيرهما.",
+      "example": "دخل/أدخل؛ كسر/انكسر؛ سافر؛ استحسن.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "سافر لا يلزم منه فاعلان، واستفعل لا يساوي الطلب دائمًا؛ سبب/مسبب دور دلالي لا زوج أوزان اسمي مطرد مستقل.",
+      "representation_contract": [
+        "causer",
+        "caused_event",
+        "undergoer",
+        "reciprocity",
+        "pattern_sense"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "V005",
+      "family": "المعلوم والمجهول",
+      "operation_or_type": "المعلوم والمجهول",
+      "source_ids": [
+        "QATR",
+        "ALF"
+      ],
+      "source_url": "https://www.islamicbook.ws/adab/la/shrh-qtr-alnda.html",
+      "book": "شرح قطر الندى وبل الصدى",
+      "chapter": "النائب عن الفاعل؛ ما لم يسم فاعله",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "البناء للمجهول يعيد توزيع المواقع النحوية.",
+      "example": "كتب زيد الرسالة؛ كُتبت الرسالة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "نائب الفاعل ليس بالضرورة محدث الفعل؛ غياب تسمية الفاعل لا يبيح اختلاق هويته. الفاعل النحوي في «مات زيد» ليس علة الموت.",
+      "representation_contract": [
+        "voice",
+        "syntactic_subject",
+        "semantic_role",
+        "agent_known:false"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "V006",
+      "family": "التصرف والجمود الفعلي",
+      "operation_or_type": "التصرف والجمود الفعلي",
+      "source_ids": [
+        "ALF",
+        "QATR"
+      ],
+      "source_url": "https://sources.marefa.org/ألفية_بن_مالك",
+      "book": "ألفية ابن مالك",
+      "chapter": "الفعل وأقسامه؛ أفعال المقاربة والمدح والذم",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "ليس لكل فعل جدول تصريف منتج كامل.",
+      "example": "ليس؛ نعم؛ عسى.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الجمود الفعلي غير الاسم الجامد؛ لا تولد كل الصيغ النظرية لفعل جامد.",
+      "representation_contract": [
+        "verb_paradigm",
+        "missing_forms",
+        "lexical_license"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    },
+    {
+      "id": "X001",
+      "family": "الفصل بين صحة اللفظ والمعنى والواقع",
+      "operation_or_type": "الفصل بين صحة اللفظ والمعنى والواقع",
+      "source_ids": [
+        "SIB_ALL"
+      ],
+      "source_url": "https://www.arabic-keyboard.info/books/ar/read-book/الكتاب-لسيبويه",
+      "book": "الكتاب",
+      "chapter": "اللفظ للمعاني؛ الاستقامة من الكلام والإحالة",
+      "page_locator": null,
+      "page_locator_verified": false,
+      "claim": "سلامة بناء العبارة لا تساوي صدق خبرها.",
+      "example": "«حملت الجبل» في باب المستقيم الكذب؛ استعارة تحتاج قرينة.",
+      "example_status": "توضيح محلل؛ ليس نقلًا حرفيًا ما لم يذكر خلافه",
+      "boundary": "الجهل بلفظ أو عدم العثور على معنى ليس شهادة إهمال. يحتفظ النظام بغير المحسوم والاسم الجديد والاقتباس والاصطلاح.",
+      "representation_contract": [
+        "form_wellformedness",
+        "meaning_status",
+        "world_truth",
+        "license_scope",
+        "unknown_reason"
+      ],
+      "coverage_status": "SOURCE_REVIEWED_FAMILY",
+      "proof_obligation": "استقراء الشواهد والاستثناءات داخل النطاق المعلن، وربط كل تطبيق بتحليل ومصدر وقيد ترخيص؛ اكتمال هذه العائلة لا يثبت اكتمال العربية."
+    }
+  ],
+  "nominal_stem_inventory": {
+    "status": "BOUNDED_TRADITIONAL_CLASSIFICATION_PRINTED_TEMPLATE_VERIFIED",
+    "domain": "الأسماء العربية المتمكنة المجردة في الملف الموصوف، مع فصل الصفات في مواضع المصنفين؛ ليس الجامد وحده وليس كل الأسماء الحالية.",
+    "pattern_slot_notation": "0=سكون؛ a=فتح؛ i=كسر؛ u=ضم. كل خانة موقع أصلي مستقل، والحركة الإعرابية الأخيرة خارجة عن وصف الوزن.",
+    "counted_profiles": [
+      {
+        "profile": "SIBAWAYH_CORE_RECONSTRUCTION",
+        "triliteral": 10,
+        "quadriliteral": 5,
+        "quinqueliteral": 4,
+        "total": 19,
+        "status": "قوبلت القوالب التسعة عشر وحركات مواضعها بصور الكتاب ج4 ص242–244 و288–289 و301–302؛ لا يثبت ذلك حصر ألفاظ العربية أو دلالاتها."
+      },
+      {
+        "profile": "IBN_MALIK_IJAZ_AND_GHALAYINI",
+        "triliteral": 10,
+        "quadriliteral": 6,
+        "quinqueliteral": 4,
+        "total": 20,
+        "status": "قوبلت القوالب العشرون وحركات مواضعها بمتن إيجاز التعريف، طبعة محمد عثمان ص71–74؛ يصرح المؤلف بعشرين مثالًا في ص74، ويعرض هناك احتمال فرعية فُعْلَل من فُعْلُل. الخلاف في عد الأصل محفوظ."
+      }
+    ],
+    "patterns": [
+      {
+        "id": "T01",
+        "root_slots": 3,
+        "expanded_template": "فَعْل",
+        "slot_vowels": [
+          "a",
+          "0"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "كَعْب",
+        "source_ids": [
+          "IJAZ42",
+          "G228",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 242,
+            "pdf_page_one_based": 242,
+            "visually_reviewed": true,
+            "matching_printed_example": "صَقْر",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 71,
+            "pdf_page_one_based": 73,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T02",
+        "root_slots": 3,
+        "expanded_template": "فَعَل",
+        "slot_vowels": [
+          "a",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "فَرَس",
+        "source_ids": [
+          "IJAZ42",
+          "G228",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 243,
+            "pdf_page_one_based": 243,
+            "visually_reviewed": true,
+            "matching_printed_example": "جَبَل",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 71,
+            "pdf_page_one_based": 73,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T03",
+        "root_slots": 3,
+        "expanded_template": "فَعِل",
+        "slot_vowels": [
+          "a",
+          "i"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "كَبِد",
+        "source_ids": [
+          "IJAZ42",
+          "G228",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 243,
+            "pdf_page_one_based": 243,
+            "visually_reviewed": true,
+            "matching_printed_example": "كَبِد",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 71,
+            "pdf_page_one_based": 73,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T04",
+        "root_slots": 3,
+        "expanded_template": "فَعُل",
+        "slot_vowels": [
+          "a",
+          "u"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "رَجُل",
+        "source_ids": [
+          "IJAZ42",
+          "G228",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 243,
+            "pdf_page_one_based": 243,
+            "visually_reviewed": true,
+            "matching_printed_example": "رَجُل",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 71,
+            "pdf_page_one_based": 73,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T05",
+        "root_slots": 3,
+        "expanded_template": "فِعْل",
+        "slot_vowels": [
+          "i",
+          "0"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "عِدْل",
+        "source_ids": [
+          "IJAZ42",
+          "G229",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 242,
+            "pdf_page_one_based": 242,
+            "visually_reviewed": true,
+            "matching_printed_example": "جِذْع",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T06",
+        "root_slots": 3,
+        "expanded_template": "فِعَل",
+        "slot_vowels": [
+          "i",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "عِنَب",
+        "source_ids": [
+          "G229",
+          "SIB_ALL",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 244,
+            "pdf_page_one_based": 244,
+            "visually_reviewed": true,
+            "matching_printed_example": "عِنَب",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T07",
+        "root_slots": 3,
+        "expanded_template": "فِعِل",
+        "slot_vowels": [
+          "i",
+          "i"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "إِبِل",
+        "source_ids": [
+          "G229",
+          "SIB_ALL",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 244,
+            "pdf_page_one_based": 244,
+            "visually_reviewed": true,
+            "matching_printed_example": "إِبِل",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T08",
+        "root_slots": 3,
+        "expanded_template": "فُعْل",
+        "slot_vowels": [
+          "u",
+          "0"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "قُفْل",
+        "source_ids": [
+          "G229",
+          "SIB_ALL",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 242,
+            "pdf_page_one_based": 242,
+            "visually_reviewed": true,
+            "matching_printed_example": "بُرْد",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T09",
+        "root_slots": 3,
+        "expanded_template": "فُعَل",
+        "slot_vowels": [
+          "u",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "صُرَد",
+        "source_ids": [
+          "G229",
+          "SIB_ALL",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 243,
+            "pdf_page_one_based": 243,
+            "visually_reviewed": true,
+            "matching_printed_example": "صُرَد",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "T10",
+        "root_slots": 3,
+        "expanded_template": "فُعُل",
+        "slot_vowels": [
+          "u",
+          "u"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "عُنُق",
+        "source_ids": [
+          "G229",
+          "SIB_ALL",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 243,
+            "pdf_page_one_based": 243,
+            "visually_reviewed": true,
+            "matching_printed_example": "عُنُق",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "Q01",
+        "root_slots": 4,
+        "expanded_template": "فَعْلَل",
+        "slot_vowels": [
+          "a",
+          "0",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "جَعْفَر",
+        "source_ids": [
+          "G229",
+          "IJAZ46",
+          "SIB_328",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 288,
+            "pdf_page_one_based": 288,
+            "visually_reviewed": true,
+            "matching_printed_example": "جَعْفَر",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "Q02",
+        "root_slots": 4,
+        "expanded_template": "فِعْلِل",
+        "slot_vowels": [
+          "i",
+          "0",
+          "i"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "زِبْرِج",
+        "source_ids": [
+          "G229",
+          "SIB_289",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 289,
+            "pdf_page_one_based": 289,
+            "visually_reviewed": true,
+            "matching_printed_example": "زِبْرِج",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "Q03",
+        "root_slots": 4,
+        "expanded_template": "فِعْلَل",
+        "slot_vowels": [
+          "i",
+          "0",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "دِرْهَم",
+        "source_ids": [
+          "G229",
+          "SIB_289",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 289,
+            "pdf_page_one_based": 289,
+            "visually_reviewed": true,
+            "matching_printed_example": "دِرْهَم",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 72,
+            "pdf_page_one_based": 74,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "Q04",
+        "root_slots": 4,
+        "expanded_template": "فُعْلُل",
+        "slot_vowels": [
+          "u",
+          "0",
+          "u"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "بُرْثُن",
+        "source_ids": [
+          "G229",
+          "G230",
+          "SIB_ALL",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 288,
+            "pdf_page_one_based": 288,
+            "visually_reviewed": true,
+            "matching_printed_example": "بُرْثُن",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 73,
+            "pdf_page_one_based": 75,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "Q05",
+        "root_slots": 4,
+        "expanded_template": "فِعَلْل",
+        "slot_vowels": [
+          "i",
+          "a",
+          "0"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "قِمَطْر",
+        "source_ids": [
+          "G230",
+          "SIB_289",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 289,
+            "pdf_page_one_based": 289,
+            "visually_reviewed": true,
+            "matching_printed_example": "قِمَطْر",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 73,
+            "pdf_page_one_based": 75,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "Q06",
+        "root_slots": 4,
+        "expanded_template": "فُعْلَل",
+        "slot_vowels": [
+          "u",
+          "0",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "جُخْدَب",
+        "source_ids": [
+          "G230",
+          "IJAZ51",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "variant_or_separate_root_profile_dependent",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 73,
+            "pdf_page_one_based": 75,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق.",
+            "matching_printed_examples": [
+              "بُرْقَع",
+              "جُرْشَع"
+            ],
+            "profile_discussion_printed_page": 74,
+            "profile_discussion_pdf_page_one_based": 76,
+            "profile_discussion_local_image": "Internal review file; public source URL and locator retained separately.",
+            "profile_note": "ثبوت ضبط فُعْلَل لا يحسم الخلاف في عده أصلًا مستقلًا أو فرعًا من فُعْلُل؛ حُفظ الملف الاختلافي السابق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "P01",
+        "root_slots": 5,
+        "expanded_template": "فَعَلْلَل",
+        "slot_vowels": [
+          "a",
+          "a",
+          "0",
+          "a"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "سَفَرْجَل",
+        "source_ids": [
+          "IJAZ50",
+          "SIB_301",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 301,
+            "pdf_page_one_based": 301,
+            "visually_reviewed": true,
+            "matching_printed_example": "سَفَرْجَل",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 74,
+            "pdf_page_one_based": 76,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "P02",
+        "root_slots": 5,
+        "expanded_template": "فَعْلَلِل",
+        "slot_vowels": [
+          "a",
+          "0",
+          "a",
+          "i"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "جَحْمَرِش",
+        "source_ids": [
+          "IJAZ50",
+          "G230",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 302,
+            "pdf_page_one_based": 302,
+            "visually_reviewed": true,
+            "matching_printed_example": "جَحْمَرِش",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 74,
+            "pdf_page_one_based": 76,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "P03",
+        "root_slots": 5,
+        "expanded_template": "فُعَلْلِل",
+        "slot_vowels": [
+          "u",
+          "a",
+          "0",
+          "i"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "قُذَعْمِل",
+        "source_ids": [
+          "IJAZ51",
+          "G230",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 302,
+            "pdf_page_one_based": 302,
+            "visually_reviewed": true,
+            "matching_printed_example": "قُذَعْمِل",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 74,
+            "pdf_page_one_based": 76,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      },
+      {
+        "id": "P04",
+        "root_slots": 5,
+        "expanded_template": "فِعْلَلْل",
+        "slot_vowels": [
+          "i",
+          "0",
+          "a",
+          "0"
+        ],
+        "final_vowel": "CASE_NOT_PART_OF_TEMPLATE",
+        "example": "قِرْطَعْب",
+        "source_ids": [
+          "IJAZ51",
+          "G231",
+          "SIB_V4_SCAN",
+          "IJAZ_PRINTED_SCAN"
+        ],
+        "profile": "core",
+        "normalization_note": "اللامات المتتالية تمثل مواقع أصلية منفصلة؛ تجنبت ضغطها بشدة كي لا يلتبس عدد الأصول. قوبلت حركات المواقع والقالب بصور المطبوع؛ توسيع اللامات اصطلاح تمثيلي مكافئ، لا ادعاء نسخ الرسم الطباعي حرفيًا.",
+        "page_locator_verified": true,
+        "printed_image_verified": true,
+        "diacritic_collation_status": "VERIFIED_AGAINST_PRINTED_PAGE_IMAGES_FOR_TEMPLATE_AND_SLOT_VOWELS",
+        "scan_collation": [
+          {
+            "source_id": "SIB_V4_SCAN",
+            "printed_volume": 4,
+            "printed_page": 302,
+            "pdf_page_one_based": 302,
+            "visually_reviewed": true,
+            "matching_printed_example": "قِرْطَعْب",
+            "scope": "مطابقة بنية القالب وحركات المواقع الأصلية مع القالب والمثال في متن المؤلف؛ حركة الإعراب الأخيرة مستبعدة."
+          },
+          {
+            "source_id": "IJAZ_PRINTED_SCAN",
+            "printed_page": 74,
+            "pdf_page_one_based": 76,
+            "visually_reviewed": true,
+            "scope": "مطابقة القالب وحركات مواضعه مع بيان المؤلف وأمثلته؛ لا تشمل حواشي المحقق."
+          }
+        ],
+        "display_example_verification_scope": "المقابلة المعتمدة هنا للقالب وحركات مواضعه. المثال الأصلي في حقل example محفوظ من الجرد السابق؛ الأمثلة المقروءة بصريًا تسجل على حدة عند ذكرها، فلا تنتقل شهادة الصورة تلقائيًا إلى كل مثال سابق."
+      }
+    ],
+    "edge_cases": [
+      {
+        "case": "فِعُل في الثلاثي",
+        "status": "excluded_in_standard_core",
+        "warning": "الاستبعاد داخل ملف الأوزان ولا يحكم بإهمال كل رسم جديد يشبهه."
+      },
+      {
+        "case": "فُعِل في الأسماء",
+        "status": "rare_or_disputed_outside_core",
+        "warning": "ينبغي سجل مستقل للسماع والنقل من الفعل والأسماء الأعجمية؛ لا أزعم مراجعة جميع شواهده."
+      },
+      {
+        "case": "فُعْلَل الرباعي",
+        "status": "PROFILE_DEPENDENT",
+        "sources": [
+          "G230",
+          "IJAZ51"
+        ],
+        "warning": "عدّه بعضهم مستقلًا وبعضهم فرعًا من فُعْلُل؛ يتغير العدد بتعريف الأصل."
+      },
+      {
+        "case": "الملحق والمزيد والمحذوف والمركب والأعجمي",
+        "status": "NOT_REJECTED_BY_CORE_TEMPLATE_FAILURE",
+        "sources": [
+          "G231",
+          "SIB_ALL"
+        ],
+        "warning": "الخروج عن قوالب المجرد يستدعي أحد مسارات التحليل الأخرى أو عدم الحسم."
+      }
+    ],
+    "scan_validation": {
+      "completed_on": "2026-10-31",
+      "patterns_compared": 20,
+      "matching_without_template_or_vowel_change": 20,
+      "pending_pattern_collations": 0,
+      "family_rows_unchanged": 51,
+      "legacy_family_scan_count_scope": "counts.entries_with_scanned_printed_page_verification يعد صفوف الفئات الإحدى والخمسين، ولم تغيرها هذه الجولة؛ عدد القوالب المحققة مصورًا في nominal_stem_patterns_printed_verified.",
+      "sibawayh_printed_pages": [
+        242,
+        243,
+        244,
+        288,
+        289,
+        301,
+        302
+      ],
+      "ijaz_printed_pages": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "review_method": "عُرضت صور الصفحات المطبوعة فعليًا وفُحصت بصريًا؛ لم يعتمد نص OCR وحده لإعلان التحقق.",
+      "verification_boundary": "التحقق من الأشكال والحركات داخل تقسيـمين تقليديين معلنين؛ لا شهادة باستيعاب المفردات أو سلامة كل استعمال أو اكتمال تفسير العربية."
+    }
+  },
+  "minimum_alfiya_coverage": [
+    {
+      "family": "أقسام الكلمة",
+      "chapter": "الكلام وما يتألف منه",
+      "entry_ids": [
+        "M001"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الإعراب والبناء",
+      "chapter": "المعرب والمبني؛ إعراب الأفعال",
+      "entry_ids": [
+        "M010"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الأعلام والتعيين",
+      "chapter": "العلم",
+      "entry_ids": [
+        "M005",
+        "M006",
+        "M007"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "التعريف والتنكير",
+      "chapter": "المعرفة والنكرة؛ المعرف بأداة التعريف",
+      "entry_ids": [
+        "M008"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الضمير",
+      "chapter": "المعرفة والنكرة",
+      "entry_ids": [
+        "M009"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الإشارة",
+      "chapter": "اسم الإشارة",
+      "entry_ids": [
+        "M009"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الموصول والعائد",
+      "chapter": "الموصول",
+      "entry_ids": [
+        "M009"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "التأنيث",
+      "chapter": "التأنيث؛ الفاعل",
+      "entry_ids": [
+        "G001",
+        "G002",
+        "G003"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "التثنية وجمعا التصحيح",
+      "chapter": "المعرب والمبني؛ جمع المؤنث",
+      "entry_ids": [
+        "N002",
+        "N003",
+        "N004"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "التكسير",
+      "chapter": "جمع التكسير",
+      "entry_ids": [
+        "N005"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "العدد والتمييز",
+      "chapter": "العدد؛ كم وكأين وكذا",
+      "entry_ids": [
+        "N009",
+        "N010"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "المصدر وأنواعه وعمله",
+      "chapter": "المفعول المطلق؛ إعمال المصدر؛ أبنية المصادر",
+      "entry_ids": [
+        "D001",
+        "D002",
+        "D003",
+        "D004"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الفاعل والمفعول والمبالغة",
+      "chapter": "إعمال اسم الفاعل؛ أبنية أسماء الفاعلين والمفعولين",
+      "entry_ids": [
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الثبوت والمقارنة",
+      "chapter": "الصفة المشبهة؛ أفعل التفضيل",
+      "entry_ids": [
+        "D011",
+        "D012"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "المكان والزمان",
+      "chapter": "المفعول فيه",
+      "entry_ids": [
+        "D013"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "التصغير",
+      "chapter": "التصغير",
+      "entry_ids": [
+        "D016"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "النسب",
+      "chapter": "النسب",
+      "entry_ids": [
+        "D015"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الموازين والتحولات",
+      "chapter": "التصريف؛ الإبدال؛ الإدغام",
+      "entry_ids": [
+        "M011",
+        "M012",
+        "M013",
+        "D017"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    },
+    {
+      "family": "الزمن والتعدي والجهة",
+      "chapter": "الكلام وما يتألف منه؛ تعدي الفعل ولزومه؛ النائب عن الفاعل",
+      "entry_ids": [
+        "V001",
+        "V002",
+        "V005"
+      ],
+      "source_id": "ALF",
+      "scope": "حضور الباب ومعاييره الأساسية؛ لا استقصاء كل حكم وكل شاهد"
+    }
+  ],
+  "necessary_corrections": [
+    {
+      "claim": "المصدر في ذاته دال على زمن معين بهيئته",
+      "result": "REQUIRES_REVISION",
+      "replacement": "يفصل المصدر الحدثي عن الزمن المعين في دلالته الصرفية، ثم يربط بزمان في التركيب/السياق. ومصدر الهيئة يعني كيفية الحدث."
+    },
+    {
+      "claim": "المصدر أصل اشتقاق متفق عليه لكل باب",
+      "result": "PROFILE_DEPENDENT",
+      "replacement": "يمكن اختياره أساسًا تمثيليًا؛ أصلية الاشتقاق المدرسية تسجل كملف، ولا تساوي ترتيبًا وجوديًا أو تاريخيًا."
+    },
+    {
+      "claim": "وزن مصدر جديد يكفي لترخيص الفعل المزيد",
+      "result": "INSUFFICIENT",
+      "replacement": "الوزن شرط توافق شكلي؛ يلزم مادة معجمية/إنتاجية مصرح بها، وشاهد أو قاعدة تكوين، ومعنى وسياق."
+    },
+    {
+      "claim": "سبب ومسبب زوج أوزان أسماء مطرد عام",
+      "result": "NOT_ESTABLISHED",
+      "replacement": "يمثلان دوريْن دلاليين قد تؤديهما صيغ متعددة؛ لا تثبت قالبين اسميين مطردين بمجرد التسمية."
+    },
+    {
+      "claim": "التصغير والنسب من مشتقات المصدر كاسم الفاعل",
+      "result": "CATEGORY_MIXING",
+      "replacement": "توضعان كعمليتين صرفيتين لهما معنى تركيبي/تداولي، ويستقلان عن توزيع أدوار الحدث."
+    },
+    {
+      "claim": "كل جزئي نوع أخير في شجرة الأجناس",
+      "result": "LOSES_NEEDED_DISTINCTIONS",
+      "replacement": "توجد أنواع وأفراد وأجزاء ومجموعات؛ يفصل instance_of عن subclass_of وpart_of وmember_of."
+    },
+    {
+      "claim": "اكتمال الدال المفرد يكشف مدلولًا واحدًا بالضرورة",
+      "result": "FALSE_WITHOUT_CONTEXT",
+      "replacement": "اللفظ والوزن يحددان مجموعة مرشحات مرخصة؛ السياق والمعجم والإحالة يحسمان أو يبقيان اللبس."
+    },
+    {
+      "claim": "نقص عائلة واحدة يمنع تفسير كل نص",
+      "result": "OVERSTRONG",
+      "replacement": "نقص عنصر تتوقف عليه قراءة بعينها يمنع اعتماد تلك القراءة، ولا يمنع كل قراءة لكل نص."
+    }
+  ],
+  "preservation_obligations": [
+    {
+      "id": "P1",
+      "requirement": "لا يدمج النقل بين المبنيات اختلاف المقولات والأنواع والأفراد والعدد والجنس وأدوار الحدث."
+    },
+    {
+      "id": "P2",
+      "requirement": "كل تحويل صرفي يسجل المدخل والمخرج والقيد والاستثناء، ولا يثبت معنى خارجيًا من صورة الوزن."
+    },
+    {
+      "id": "P3",
+      "requirement": "عند تعدد التحليل تحفظ مجموعة القراءات، أو تسجل قرينة اختيار إحداها."
+    },
+    {
+      "id": "P4",
+      "requirement": "يحمل النقل بين العقول معرفات الألفاظ والمعاني والمرجع ونسخة الملف النحوي والمعطيات المعتمدة."
+    },
+    {
+      "id": "P5",
+      "requirement": "شهادة الاكتمال محلية لقائمة القواعد والقراءات المعلنة، ولا ترخص تعميم الحصر على العربية المفتوحة."
+    }
+  ],
+  "open_obligations": [
+    "اكتملت مقابلة قوالب الاسم المجرد العشرين وحركات مواقعها بالصور المسجلة. تبقى مقابلة الأوزان والأمثلة الأخرى في بقية العائلات، وإتمام تحقيق الشواهد والاستثناءات؛ لا تعمم شهادة القوالب العشرين عليها.",
+    "حصر قواعد كل عائلة واستثناءاتها ومجالات القياس والسماع في نسخة معلنة، يتجاوز مجرد وجود باب لها.",
+    "إنشاء معجم شواهد وجذور ومصادر وتعدد دلالي؛ المصفوفة الحالية ليست هذا المعجم.",
+    "استقراء أسماء الأعلام والاقتراض والنقل والمركبات والاستعمالات الحديثة ضمن مجال معلن.",
+    "إثبات تمام المقابلة بين النحو ودلالة التراكيب؛ هذا الملف يمد الأصول والقيود ولا ينجز البرهان الدلالي كله.",
+    "اختبار النقل الدلالي باستخدام أمثلة متقابلة تكشف الفروق، لا الاكتفاء باستعادة الرسم."
+  ],
+  "no_claims": [
+    "all_arabic_lexemes_enumerated",
+    "all_word_uses_closed",
+    "all_world_ontology_proven",
+    "every_template_has_one_meaning",
+    "all_printed_pages_visually_verified",
+    "all_sources_entirely_read",
+    "missing_one_family_blocks_every_text"
+  ]
+}

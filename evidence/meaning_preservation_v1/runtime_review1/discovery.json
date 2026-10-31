@@ -1,0 +1,127 @@
+{
+  "head": "093ff687691ca51518c1d793c84e6b582016afdf",
+  "scenario": "duplicate_case_id_and_over_budget_second_predicate",
+  "request_bytes": 3023,
+  "request_sha256": "91b6ca3c86e00dd69a3bfde112c0976ac755ca9d35fb4d57d9a49867948af5a6",
+  "request": {
+    "law_id": "nabt.meaning-preservation.v1",
+    "query_id": "joint-readings.v1",
+    "codec_id": "strict-json-packet.v1",
+    "cases": [
+      {
+        "case_id": "source-context",
+        "original": {
+          "binding": {
+            "source_id": "authored-indexical-example",
+            "revision": "1",
+            "scope": "authored-symbolic-example",
+            "source_text": "أنا هنا الآن",
+            "convention": "authored-context.v1"
+          },
+          "source_context": {
+            "speaker": "speaker-source",
+            "addressee": "addressee-source",
+            "time": "time-source",
+            "place": "place-source"
+          },
+          "alternatives": [
+            {
+              "predicate": "LOCATED",
+              "subject": {
+                "kind": "speaker",
+                "value": ""
+              },
+              "object": {
+                "kind": "place",
+                "value": ""
+              },
+              "positive": true,
+              "tense": "present",
+              "voice": "unspecified",
+              "force": "asserted"
+            }
+          ]
+        },
+        "transported_payload": "{\"alternatives\":[{\"force\":\"asserted\",\"object\":{\"kind\":\"place\",\"value\":\"\"},\"positive\":true,\"predicate\":\"LOCATED\",\"subject\":{\"kind\":\"speaker\",\"value\":\"\"},\"tense\":\"present\",\"voice\":\"unspecified\"}],\"binding\":{\"convention\":\"authored-context.v1\",\"revision\":\"1\",\"scope\":\"authored-symbolic-example\",\"source_id\":\"authored-indexical-example\",\"source_text\":\"أنا هنا الآن\"},\"source_context\":{\"addressee\":\"addressee-source\",\"place\":\"place-source\",\"speaker\":\"speaker-source\",\"time\":\"time-source\"}}"
+      },
+      {
+        "case_id": "source-context",
+        "original": {
+          "binding": {
+            "source_id": "authored-indexical-example",
+            "revision": "1",
+            "scope": "authored-symbolic-example",
+            "source_text": "أنا هنا الآن",
+            "convention": "authored-context.v1"
+          },
+          "source_context": {
+            "speaker": "speaker-source",
+            "addressee": "addressee-source",
+            "time": "time-source",
+            "place": "place-source"
+          },
+          "alternatives": [
+            {
+              "predicate": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "subject": {
+                "kind": "speaker",
+                "value": ""
+              },
+              "object": {
+                "kind": "place",
+                "value": ""
+              },
+              "positive": true,
+              "tense": "present",
+              "voice": "unspecified",
+              "force": "asserted"
+            }
+          ]
+        },
+        "transported_payload": "{\"alternatives\":[{\"force\":\"asserted\",\"object\":{\"kind\":\"place\",\"value\":\"\"},\"positive\":true,\"predicate\":\"LOCATED\",\"subject\":{\"kind\":\"speaker\",\"value\":\"\"},\"tense\":\"present\",\"voice\":\"unspecified\"}],\"binding\":{\"convention\":\"authored-context.v1\",\"revision\":\"1\",\"scope\":\"authored-symbolic-example\",\"source_id\":\"authored-indexical-example\",\"source_text\":\"أنا هنا الآن\"},\"source_context\":{\"addressee\":\"addressee-source\",\"place\":\"place-source\",\"speaker\":\"speaker-source\",\"time\":\"time-source\"}}"
+      }
+    ],
+    "recipient_context": {
+      "speaker": "speaker-recipient",
+      "addressee": "addressee-recipient",
+      "time": "time-recipient",
+      "place": "place-recipient"
+    }
+  },
+  "python_proposal": {
+    "schema": "nabt.meaning-preservation.native-response.v1",
+    "law_id": "nabt.meaning-preservation.v1",
+    "query_id": "joint-readings.v1",
+    "codec_id": "strict-json-packet.v1",
+    "status": "INVALID_INPUT",
+    "reason": "INVALID_REQUEST",
+    "case_id": null,
+    "other_case_id": null,
+    "case_count": 0,
+    "world_truth_established": false,
+    "whole_arabic_completeness_established": false
+  },
+  "python_runtime_summary": {
+    "status": "INVALID_INPUT",
+    "reason": "INVALID_REQUEST",
+    "verified": false,
+    "native_checked": false,
+    "authority": "NO_FINITE_CONTRACT_AUTHORITY"
+  },
+  "native_response": {
+    "case_count": 0,
+    "case_id": null,
+    "codec_id": "strict-json-packet.v1",
+    "law_id": "nabt.meaning-preservation.v1",
+    "other_case_id": null,
+    "query_id": "joint-readings.v1",
+    "reason": "RESOURCE_LIMIT",
+    "schema": "nabt.meaning-preservation.native-response.v1",
+    "status": "RESOURCE_EXHAUSTED",
+    "whole_arabic_completeness_established": false,
+    "world_truth_established": false
+  },
+  "native_exit": 2,
+  "native_stderr": "",
+  "scope": "One deliberately multiply-invalid packet; no positive acceptance and no gold execution."
+}

@@ -76,3 +76,4 @@ import Nabt.ConnectedAcquisitionV3
 import Nabt.AcquiredSyntaxV3
 import Nabt.ProductiveClauseV1
 import Nabt.EvidenceLifecycleV1
+import Nabt.MeaningPreservation

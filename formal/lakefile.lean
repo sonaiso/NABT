@@ -148,3 +148,6 @@ lean_exe productiveClauseV1 where
 
 lean_exe evidenceLifecycleV1 where
   root := `EvidenceLifecycleV1Main
+
+lean_exe meaningPreservationV1 where
+  root := `MeaningPreservationV1Main
