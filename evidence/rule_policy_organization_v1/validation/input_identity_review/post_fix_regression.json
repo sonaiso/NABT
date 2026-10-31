@@ -1,0 +1,35 @@
+{
+  "all_recorded_installed_files_unchanged": true,
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity"
+  ],
+  "duration_seconds": 6.677795487004914,
+  "expected_observation": "The same regression passes: clean control resolves; the late owner-input mismatch raises FrameworkError.",
+  "file_sha256_after": {
+    "tests/test_proof_reuse_organization.py": "ac59fedac6377c485736c67d427bba0577bc994df31832b3592f50c6b45428ac",
+    "tools/entropy_framework/organization.py": "0ae35731d1ba05fcca26d7ca75778fd9fe086bb152a0a9f03b8efab480754206",
+    "tools/entropy_framework/registry.json": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+    "tools/entropy_framework/registry.py": "9a048cf4e8260df2551397fed6139307cb14c20d624884c5583bd423db7bb2c9",
+    "tools/entropy_framework/reuse.py": "20e2db89c27863ca37c6a41a255bebdf44c73d4139c8e2f8633ce3fd40858add"
+  },
+  "file_sha256_before": {
+    "tests/test_proof_reuse_organization.py": "ac59fedac6377c485736c67d427bba0577bc994df31832b3592f50c6b45428ac",
+    "tools/entropy_framework/organization.py": "0ae35731d1ba05fcca26d7ca75778fd9fe086bb152a0a9f03b8efab480754206",
+    "tools/entropy_framework/registry.json": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+    "tools/entropy_framework/registry.py": "9a048cf4e8260df2551397fed6139307cb14c20d624884c5583bd423db7bb2c9",
+    "tools/entropy_framework/reuse.py": "20e2db89c27863ca37c6a41a255bebdf44c73d4139c8e2f8633ce3fd40858add"
+  },
+  "finished_at_utc": "2026-10-31T19:54:37.027682+00:00",
+  "git_head": "267963b914cb4516a35ae710e2aa9e97e4174239",
+  "phase": "POST_FIX",
+  "returncode": 0,
+  "schema": "nabt.input-identity-review.regression-run.v1",
+  "started_at_utc": "2026-10-31T19:54:30.347930+00:00",
+  "stderr": "test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity)\nPR64 supplement: a later code read must agree with its real owner. ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 6.532s\n\nOK\n",
+  "stdout": ""
+}
