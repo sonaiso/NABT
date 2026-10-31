@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity"
+  ],
+  "duration_seconds": 6.484092834005423,
+  "expected_observation": "The new regression fails on the reviewed old implementation because no FrameworkError is raised.",
+  "file_sha256_after": {
+    "tests/test_proof_reuse_organization.py": "ac59fedac6377c485736c67d427bba0577bc994df31832b3592f50c6b45428ac",
+    "tools/entropy_framework/organization.py": "24cb9fa527a110ea29dd2f4fadaa5daeaec9d0de16b6f74754ad412c6df760cd",
+    "tools/entropy_framework/registry.json": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+    "tools/entropy_framework/registry.py": "9a048cf4e8260df2551397fed6139307cb14c20d624884c5583bd423db7bb2c9",
+    "tools/entropy_framework/reuse.py": "20e2db89c27863ca37c6a41a255bebdf44c73d4139c8e2f8633ce3fd40858add"
+  },
+  "file_sha256_before": {
+    "tests/test_proof_reuse_organization.py": "ac59fedac6377c485736c67d427bba0577bc994df31832b3592f50c6b45428ac",
+    "tools/entropy_framework/organization.py": "24cb9fa527a110ea29dd2f4fadaa5daeaec9d0de16b6f74754ad412c6df760cd",
+    "tools/entropy_framework/registry.json": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+    "tools/entropy_framework/registry.py": "9a048cf4e8260df2551397fed6139307cb14c20d624884c5583bd423db7bb2c9",
+    "tools/entropy_framework/reuse.py": "20e2db89c27863ca37c6a41a255bebdf44c73d4139c8e2f8633ce3fd40858add"
+  },
+  "finished_at_utc": "2026-10-31T19:53:02.158811+00:00",
+  "git_head": "062e89fd26067db8c638e27ee66fc6c5014f43ad",
+  "phase": "PRE_FIX",
+  "returncode": 1,
+  "schema": "nabt.input-identity-review.regression-run.v1",
+  "started_at_utc": "2026-10-31T19:52:55.672504+00:00",
+  "stderr": "test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity)\nPR64 supplement: a later code read must agree with its real owner. ... \n  test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity) (mutate_temporary_copy=True)\nPR64 supplement: a later code read must agree with its real owner. ... FAIL\n\n======================================================================\nFAIL: test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity (tests.test_proof_reuse_organization.RuleOrganizationAcceptance.test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity) (mutate_temporary_copy=True)\nPR64 supplement: a later code read must agree with its real owner.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/84dbb26f30e1/NABT/tests/test_proof_reuse_organization.py\", line 625, in test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity\n    with self.assertRaisesRegex(FrameworkError,\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: FrameworkError not raised\n\n----------------------------------------------------------------------\nRan 1 test in 6.347s\n\nFAILED (failures=1)\n",
+  "stdout": ""
+}

@@ -588,6 +588,56 @@ class RuleOrganizationAcceptance(unittest.TestCase):
             self.assert_exact(json.loads(changed), json.loads(original_raw))
         self.assertEqual(hashlib.sha256(DEFAULT_REGISTRY.read_bytes()).hexdigest(), original_digest)
 
+    def test_review_runtime_input_byte_change_cannot_replace_prior_owner_identity(self):
+        """PR64 supplement: a later code read must agree with its real owner."""
+        relative = "tools/entropy_framework/organization.py"
+        installed = ROOT / relative
+        original_raw = installed.read_bytes()
+        original_digest = hashlib.sha256(original_raw).hexdigest()
+        actual_file = reuse._file
+        actual_reuse = reuse.build_reuse_report
+        actual_catalogue = source_catalogue.build_catalog
+        for mutate in (False, True):
+            with self.subTest(mutate_temporary_copy=mutate), tempfile.TemporaryDirectory() as temporary:
+                captured = Path(temporary) / "organization.py"
+                captured.write_bytes(original_raw)
+                prior = {}
+
+                def redirected_file(root, path):
+                    return captured if path == relative else actual_file(root, path)
+
+                def capture_reuse(*args, **kwargs):
+                    result = actual_reuse(*args, **kwargs)
+                    prior["sha256"] = result["inputs"].get(relative)
+                    return result
+
+                def catalogue_then_change(*args, **kwargs):
+                    result = actual_catalogue(*args, **kwargs)
+                    if mutate:
+                        captured.write_bytes(original_raw + b"\n# Isolated input-identity review mutation.\n")
+                    return result
+
+                with patch.object(reuse, "_file", side_effect=redirected_file), \
+                     patch.object(reuse, "build_reuse_report", side_effect=capture_reuse), \
+                     patch.object(source_catalogue, "build_catalog", side_effect=catalogue_then_change), \
+                     no_execution():
+                    if mutate:
+                        with self.assertRaisesRegex(FrameworkError,
+                                                    "input changed during resolution: " + re.escape(relative)):
+                            organization.build_organization_report(ROOT)
+                    else:
+                        report = organization.build_organization_report(ROOT)
+                        self.assertEqual(report["status"], "RESOLVED")
+                        self.assertEqual(report["inputs"][relative], original_digest)
+                self.assertEqual(prior["sha256"], original_digest,
+                                 "The actual reuse owner must already have recorded this input")
+                late_digest = hashlib.sha256(captured.read_bytes()).hexdigest()
+                if mutate:
+                    self.assertNotEqual(late_digest, original_digest)
+                else:
+                    self.assertEqual(late_digest, original_digest)
+        self.assertEqual(hashlib.sha256(installed.read_bytes()).hexdigest(), original_digest)
+
     def test_review_scope_byte_budget_is_resource_exhaustion_not_invalid_or_unknown(self):
         value = self.fixture()
         value["rule_contract"]["organization"]["profiles"][0]["scope"] = "أ" * 4096
