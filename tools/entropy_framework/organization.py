@@ -292,7 +292,10 @@ def build_organization_report(root=ROOT, *, registry=None):
                 "rule organization owner input changed during resolution: " + path)
         inputs[path] = digest
     for path in ("tools/entropy_framework/organization.py", "tools/entropy_framework/registry.py"):
-        inputs[path] = sha256(_file(root, path).read_bytes()).hexdigest()
+        digest = sha256(_file(root, path).read_bytes()).hexdigest()
+        require(path not in inputs or inputs[path] == digest,
+                "rule organization owner input changed during resolution: " + path)
+        inputs[path] = digest
     if not supplied:
         _, current_sha = load_json(_file(root, REGISTRY), with_sha256=True)
         require(current_sha == registry_sha,
