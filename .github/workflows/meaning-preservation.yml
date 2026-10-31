@@ -1,0 +1,39 @@
+name: Meaning preservation contracts
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-meaning-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  meaning-preservation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Install pinned and digest-checked Lean
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zstd
+          python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+      - name: Replay existing gates and the frozen meaning contract
+        run: make -f tools/meaning_preservation_v1.mk meaning-preservation-evaluation LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-meaning
+      - name: Retain results, scoped counts and execution identity
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: meaning-preservation-evidence
+          path: artifacts/local/ci-meaning/
+          if-no-files-found: warn
+          retention-days: 14

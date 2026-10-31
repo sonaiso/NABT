@@ -1,0 +1,215 @@
+{
+  "schema": "nabt.meaning-preservation.formal-scope.v1",
+  "module": "formal/Nabt/MeaningPreservation.lean",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "source_spec_commit": "168eec4ec205509ef74825c207b0dcef35a23b4a",
+  "independent_gold_commit": "02f48d67f2804295ad8c2cc668d95629709b1d61",
+  "compiled_theorem_count": 13,
+  "compile_status": "PASS",
+  "axiom_audit_status": "PASS",
+  "parser_refinement_proved": false,
+  "world_truth_established": false,
+  "whole_arabic_completeness_established": false,
+  "human_interpretation_agreement_established": false,
+  "theorems": [
+    {
+      "name": "Nabt.MeaningPreservation.eval_transport",
+      "kind": "GENERAL_CONDITIONAL_THEOREM",
+      "premises": [
+        "Two supplied partial algebras over the existing finite structural Tree",
+        "A total carrier map h",
+        "Hom equations for every seed, unary operation and ordered binary operation, as equalities of complete Option results"
+      ],
+      "conclusion": "Evaluation of every finite Tree commutes with Option.map h.",
+      "limits": "Single-carrier algebra; no intrinsic typed-signature calculus, linguistic adequacy, binder semantics, or correspondence between evaluation definedness and grammar Certified is assumed or established.",
+      "compiled_statement_sha256": "99a6ce1baf3328964dcaade69d4b350283c682e83b0f6f441d8c2541530adfc8",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": []
+    },
+    {
+      "name": "Nabt.MeaningPreservation.eval_definedness_iff",
+      "kind": "GENERAL_CONDITIONAL_COROLLARY",
+      "premises": [
+        "The same partial-algebra Hom equations"
+      ],
+      "conclusion": "Source evaluation is none exactly when target evaluation is none for the same finite Tree.",
+      "limits": "Undefinedness is relative to the supplied operations; it is not a judgment that an Arabic expression has no meaning.",
+      "compiled_statement_sha256": "611803b9b4b194723ff0751eb37e0872466058abbabef7957cc42ddfc619a659",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.observed_eval_preserved",
+      "kind": "GENERAL_CONDITIONAL_THEOREM",
+      "premises": [
+        "Hom equations",
+        "Independently supplied source and target observation functions",
+        "Explicit Faithful equation for every carrier value and query"
+      ],
+      "conclusion": "Optional observed evaluation results are exactly equal for each declared query.",
+      "limits": "Homomorphism alone is insufficient. Adequacy and contextual completeness of the observation family remain separate obligations; world truth is not concluded.",
+      "compiled_statement_sha256": "cceda277f279e4a36a6c82c85fac198026a8a3b641927cf406d1bca36c7c225a",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": []
+    },
+    {
+      "name": "Nabt.MeaningPreservation.unique_decoder_on_image_iff",
+      "kind": "GENERAL_CHARACTERIZATION_THEOREM",
+      "premises": [
+        "Arbitrary total encode : X -> R and query : X -> Y"
+      ],
+      "conclusion": "A decoder correct and unique on the image of encode exists iff query is constant on every encoding fiber.",
+      "limits": "Decoder restricted to the image, including the empty-domain case. Existence may use standard Classical.choice; no executable decoder extraction or human cognition claim. Reuses the existing ArabicCoverage collision boundary instead of duplicating its impossibility theorem.",
+      "compiled_statement_sha256": "0af748ec8e6e6e7ae2e79a59d5e082feb5ae5ea0248cd900b6d91f7db7dbaa64",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.observations_exact_with_transport",
+      "kind": "GENERAL_CONDITIONAL_REFERENCE_BRIDGE",
+      "premises": [
+        "Independently supplied domain and reference relation",
+        "Existing ArabicCoverage.ExactWithin for the source recognizer",
+        "Target relation exactly equals the transported image of all recognized source readings within the domain",
+        "Independent Faithful observation equation"
+      ],
+      "conclusion": "The target relation of whole observation functions is exact relative to the reference observation relation on that domain.",
+      "limits": "Does not establish parser completeness, linguistic reference adequacy or all-Arabic coverage. A whole observation function belongs to one reading; existential projections are not independently recombined.",
+      "compiled_statement_sha256": "65896e5739616536415b7a1ca6ab9a59ea33bfe7a86cc8ad2e5b425f8ac138d2",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.same_observations_iff_query_eq",
+      "kind": "INSTALLED_FINITE_QUERY_BRIDGE",
+      "premises": [
+        "Two typed Packets"
+      ],
+      "conclusion": "Bidirectional membership of the complete Observation tuples is equivalent to equality of the installed query predicates.",
+      "limits": "The query preserves tagged resolved arguments, polarity, tense, voice, force, scope, convention, source time and place. It is not the entire meaning of Arabic.",
+      "compiled_statement_sha256": "8833c23c39bde3dcc5a5f2f2470059d8600657df8fea42e8dacab508b5c00289",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound",
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.local_violation_none_iff",
+      "kind": "EXECUTABLE_DECISION_REFINEMENT",
+      "premises": [
+        "A typed DecodedCase"
+      ],
+      "conclusion": "The local diagnostic scan returns none iff exact source binding, exact source context and the complete observation set are preserved.",
+      "limits": "The adapter actually supplies decoded from the payload. This theorem does not prove JSON parsing refinement.",
+      "compiled_statement_sha256": "20ec9e346243efbb0ead8ce427828cef3dd767bdd4f6bc6e53b09f7dbd7b7f80",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.collision_for_none_iff",
+      "kind": "EXECUTABLE_DECISION_REFINEMENT",
+      "premises": [
+        "A finite supplied list of typed DecodedCase values and one first case"
+      ],
+      "conclusion": "The collision scan returns none iff every list case sharing the complete transported string has the same original observation set.",
+      "limits": "Full string equality, not a hash or label, determines fibers. This says nothing about unsupplied cases.",
+      "compiled_statement_sha256": "3f6f424bd121021873db536e7884a4c8ce37726202f3e5ff784fe6f274d3e57d",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound",
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.first_violation_none_iff",
+      "kind": "EXECUTABLE_DECISION_REFINEMENT",
+      "premises": [
+        "A finite supplied list of typed DecodedCase values"
+      ],
+      "conclusion": "The actual native semantic scan returns none iff the independently stated FiniteContract holds: all fibers are compatible and every case is locally preserved.",
+      "limits": "Semantic decisions follow complete strict decoding. Wire validity, resource limits and case-ID uniqueness are independently enforced by the adapter.",
+      "compiled_statement_sha256": "dca291ac3176e83f3d55a994d02f54de7c0cc28181a5cceacac852af3398e0ea",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound",
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.finite_check_exact",
+      "kind": "EXECUTABLE_DECISION_REFINEMENT",
+      "premises": [
+        "A finite supplied list of typed DecodedCase values"
+      ],
+      "conclusion": "The Boolean check is true iff FiniteContract holds.",
+      "limits": "The mathematical contract is vacuously true on an empty list; the native wire parser rejects empty case and reading arrays, so this cannot certify a positive textual interpretation.",
+      "compiled_statement_sha256": "3a485e537fa1fc6d7e3248f731140b3b97b978b492aad545802a03aad82e7050",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound",
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.finite_check_preserves_each",
+      "kind": "FINITE_ACCEPTANCE_CONSEQUENCE",
+      "premises": [
+        "The finite check accepts",
+        "A case belongs to the supplied list"
+      ],
+      "conclusion": "That case preserves its complete binding, complete source context and joint observation set.",
+      "limits": "Readings in authored mode are modeling premises. The theorem does not acquire them from arbitrary natural text or authenticate their source.",
+      "compiled_statement_sha256": "fd53e49a97ebc0e851ea61ed7ec4405dc01b3f33dbee698c3e5119b1b46237ff",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound",
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.finite_check_fiber_compatible",
+      "kind": "FINITE_TO_GENERAL_CONTRACT_BRIDGE",
+      "premises": [
+        "The finite check accepts"
+      ],
+      "conclusion": "FiberCompatible holds for the full-string encoder and installed query on the subtype of supplied cases.",
+      "limits": "The source domain is precisely the supplied finite subtype. Sample agreement is not generalized to an open domain.",
+      "compiled_statement_sha256": "69297119af6ac97915269ff4516f3e291e7a50165958c8582e0b0f8e4d0c75b0",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Quot.sound",
+        "propext"
+      ]
+    },
+    {
+      "name": "Nabt.MeaningPreservation.finite_check_decoder_on_image",
+      "kind": "FINITE_ACCEPTANCE_CONSEQUENCE",
+      "premises": [
+        "The finite check accepts"
+      ],
+      "conclusion": "A correct unique query decoder exists on the image of the supplied finite payload encoder.",
+      "limits": "Mathematical existence/uniqueness theorem, distinct from the native adapter's actual JSON decoder. Does not prove universal ontology decoding, human agreement, or external truth.",
+      "compiled_statement_sha256": "79a6edb07cfbdff2e0a974cbf2d77184acbd569ba6a8a55d31f7cc0a6003e4bc",
+      "module_source_sha256": "8cfc07aa3348528b20bb72acd082dadb747e72c41c5a987b8b963ac9a72d7bb8",
+      "compiled_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ]
+    }
+  ],
+  "axiom_audit_reference": "validation/pre_measurement_axioms.json",
+  "axiom_audit_declarations": 1605,
+  "compiled_catalog_sha256": "d0d66b7678aec31ef692d080217c2953c1a4396918d4596911f44b86b9d8c602",
+  "meaning_scope_relation": "DECLARATION_AND_SOURCE_IDENTITY; SCOPE SUMMARIES ARE REVIEWED DOCUMENTATION, NOT A NEW LINGUISTIC LAW"
+}

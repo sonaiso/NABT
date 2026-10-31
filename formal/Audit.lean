@@ -1602,7 +1602,20 @@ def theoremManifest : List Name := [
   ``Nabt.EvidenceLifecycleV1.verified_exact,
   ``Nabt.EvidenceLifecycleV1.evaluated_binding,
   ``Nabt.EvidenceLifecycleV1.verified_episode_binding,
-  ``Nabt.EvidenceLifecycleV1.changed_episode_rejected
+  ``Nabt.EvidenceLifecycleV1.changed_episode_rejected,
+  ``Nabt.MeaningPreservation.eval_transport,
+  ``Nabt.MeaningPreservation.eval_definedness_iff,
+  ``Nabt.MeaningPreservation.observed_eval_preserved,
+  ``Nabt.MeaningPreservation.unique_decoder_on_image_iff,
+  ``Nabt.MeaningPreservation.observations_exact_with_transport,
+  ``Nabt.MeaningPreservation.same_observations_iff_query_eq,
+  ``Nabt.MeaningPreservation.local_violation_none_iff,
+  ``Nabt.MeaningPreservation.collision_for_none_iff,
+  ``Nabt.MeaningPreservation.first_violation_none_iff,
+  ``Nabt.MeaningPreservation.finite_check_exact,
+  ``Nabt.MeaningPreservation.finite_check_preserves_each,
+  ``Nabt.MeaningPreservation.finite_check_fiber_compatible,
+  ``Nabt.MeaningPreservation.finite_check_decoder_on_image
 ]
 
 run_cmd do
