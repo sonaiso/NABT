@@ -1,8 +1,10 @@
-"""Independent operator-context checks frozen before implementation at 50e3f51.
+"""Independent checks against the contract/oracle frozen at 50e3f51.
 
 The literal oracle comes from the original inventory and separately authored
 source diagnostics. Existing runtime equality is regression evidence; these
 checks do not establish premise acquisition, source fidelity or Arabic coverage.
+This test file was authored later. Supplemental review tests are separate from
+the fourteen frozen acceptance groups and do not revise their gold.
 """
 from __future__ import annotations
 
@@ -594,6 +596,85 @@ class OperatorContextAcceptance(unittest.TestCase):
         self.assert_exact(again["rows"][0]["source_context"], self.contexts["HAMZA-LEXICAL-COMMAND"])
         self.assertEqual(catalog.catalog_sha256(self.original_catalogue),
                          self.groups["OC01"]["expected"]["catalogue_sha256"])
+
+    def test_review_aggregate_byte_budget_precedes_whole_serialization(self):
+        """Supplement: reject aggregate expansion before serializing it whole."""
+        shared = "x" * 64
+        payload = [shared, shared, shared]
+        self.assertIs(payload[0], payload[1])
+        self.assertEqual(len(wire(payload)), 202)
+        limit = 128
+        with patch.object(routing, "MAX_ROUTING_DOCUMENT_BYTES", limit):
+            control, encoded = routing._snapshot_document([shared], "small aggregate control")
+        self.assert_exact(control, [shared])
+        self.assertEqual(encoded, b'["' + b"x" * 64 + b'"]')
+        self.assertEqual(len(encoded), 68)
+
+        actual_dumps = json.dumps
+        aggregate_calls = []
+
+        def observe_dumps(value, *args, **kwargs):
+            if (type(value) is list and len(value) == 3 and
+                    all(type(item) is str and item == shared for item in value)):
+                aggregate_calls.append(dict(kwargs))
+            return actual_dumps(value, *args, **kwargs)
+
+        with patch.object(routing, "MAX_ROUTING_DOCUMENT_BYTES", limit), \
+             patch.object(routing.json, "dumps", side_effect=observe_dumps):
+            with self.assertRaises(NabtError) as caught:
+                routing._snapshot_document(payload, "aggregate budget review")
+        self.assertEqual((caught.exception.code, caught.exception.status),
+                         ("RESOURCE_LIMIT", "DEFER"))
+        self.assertEqual(aggregate_calls, [],
+                         "A late error after serializing all 202 bytes does not enforce the 128-byte bound")
+
+    def test_review_pretty_byte_budget_stops_before_complete_output(self):
+        """Supplement: stop pretty output at the bound, before full materialization."""
+        payload = "x" * 32
+        for _ in range(8):
+            payload = [payload]
+        self.assertEqual(len(wire(payload)), 50)
+        limit = 128
+        with patch.object(routing, "MAX_ROUTING_DOCUMENT_BYTES", limit):
+            control = routing.routing_document_text(["x" * 32])
+        self.assert_exact(json.loads(control), ["x" * 32])
+        self.assertTrue(control.endswith("\n"))
+        self.assertLessEqual(len(control.encode("utf-8")), limit)
+
+        actual_dumps = json.dumps
+        actual_iterencode = json.JSONEncoder.iterencode
+        oversized_complete_dumps = []
+        pretty_streams = []
+
+        def observe_dumps(value, *args, **kwargs):
+            result = actual_dumps(value, *args, **kwargs)
+            if kwargs.get("indent") == 2 and len(result.encode("utf-8")) > limit:
+                oversized_complete_dumps.append(len(result.encode("utf-8")))
+            return result
+
+        def observe_iterencode(encoder, value, *args, **kwargs):
+            stream = actual_iterencode(encoder, value, *args, **kwargs)
+            if encoder.indent != 2:
+                yield from stream
+                return
+            observation = {"utf8_bytes": 0, "completed": False}
+            pretty_streams.append(observation)
+            for chunk in stream:
+                observation["utf8_bytes"] += len(chunk.encode("utf-8"))
+                yield chunk
+            observation["completed"] = True
+
+        with patch.object(routing, "MAX_ROUTING_DOCUMENT_BYTES", limit), \
+             patch.object(routing.json, "dumps", side_effect=observe_dumps), \
+             patch.object(json.JSONEncoder, "iterencode", new=observe_iterencode):
+            with self.assertRaises(NabtError) as caught:
+                routing.routing_document_text(payload)
+        self.assertEqual((caught.exception.code, caught.exception.status),
+                         ("RESOURCE_LIMIT", "DEFER"))
+        self.assertEqual(oversized_complete_dumps, [],
+                         "The 194-byte pretty string must not be built before rejecting the 128-byte limit")
+        self.assertTrue(all(not row["completed"] for row in pretty_streams),
+                        "Replacing dumps with complete iterator consumption still exceeds the output budget")
 
 
 if __name__ == "__main__":
