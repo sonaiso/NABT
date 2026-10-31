@@ -23,6 +23,17 @@ Native-required pilot conformance and targeted integration passed on `c7ebc6b`;
 this batch did not run the entire `make check` or remote CI. Keep those scopes
 separate from the prior merged capability-reuse release and its CI results.
 
+Publication follow-up: the initial head `ca9e5a8` failed the directed-oracle
+dependency gate because adding test commands changed the frozen Makefile and
+main CI workflow. Preserve that failure and the original dependency freeze.
+Use `make -f tools/explanation_contracts_v1.mk explanation-contracts-evaluation`
+for the current native-required extension; it reuses the original pilot target
+before the new suite and evaluator. The separate `explanation-contracts` CI job
+checks the unchanged 90-file dependency profile first. The original Makefile
+and main CI workflow are restored exactly. See
+`docs/EXPLANATION_CONTRACTS_CI_FOLLOWUP_AR.md`; require that new job and all
+other triggered checks on the final published head before merging.
+
 Current capability-reuse work (user-authorized): follow the startup workflow
 in AGENTS.md and `docs/NABT_CAPABILITY_REUSE_AR.md`. The existing compiled
 proof catalogue and current-reference selector remain authoritative for proof

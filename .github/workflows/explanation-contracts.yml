@@ -1,0 +1,47 @@
+name: NABT explanation contracts
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-explanation-contracts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  explanation-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Preserve frozen oracle build and workflow dependencies
+        run: |
+          python -B - <<'PY'
+          from tools.interpretive_links_regression import check_dependencies
+          snapshot = check_dependencies()
+          print({"dependency_freeze_sha256": snapshot["sha256"], "files": len(snapshot["files"])})
+          PY
+      - name: Install hash-verified Lean toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zstd
+          python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+      - name: Run existing pilot and explanation contracts with native verification
+        run: make -f tools/explanation_contracts_v1.mk explanation-contracts-evaluation LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-explanation-contracts
+      - name: Retain current pilot evaluation
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: explanation-contracts-evidence
+          path: artifacts/local/ci-explanation-contracts/
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,25 @@
+{
+  "schema": "nabt.explanation-required-native-control.v1",
+  "command": [
+    "python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_explainable_contracts.py",
+    "-v"
+  ],
+  "environment_overrides": {
+    "PYTHONPATH": "src",
+    "NABT_VERIFIED_READING": "/nonexistent/nabt-explanation-required-native",
+    "NABT_REQUIRE_EXPLANATION_CONTRACTS_NATIVE": "1"
+  },
+  "exit_code": 1,
+  "expected_nonzero": true,
+  "passed": true,
+  "stdout": "",
+  "stderr": "test_explainable_contracts (unittest.loader._FailedTest.test_explainable_contracts) ... ERROR\n\n======================================================================\nERROR: test_explainable_contracts (unittest.loader._FailedTest.test_explainable_contracts)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_explainable_contracts\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 396, in _find_test_path\n    module = self._get_module_from_name(name)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 339, in _get_module_from_name\n    __import__(name)\n  File \"/workspace/scratch/84dbb26f30e1/NABT/tests/test_explainable_contracts.py\", line 30, in <module>\n    raise RuntimeError(\"Explanation-contract acceptance requires the built verifiedReading executable\")\nRuntimeError: Explanation-contract acceptance requires the built verifiedReading executable\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
+}

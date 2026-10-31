@@ -136,6 +136,20 @@ JSON كاملًا مقارنة تراعي الأنواع. تُرفض الحقو�
 
 ## القياس الحالي والأهداف
 
+بوابة عقود الشرح الحالية تستدعي الهدف الأصلي من امتداد يحفظ ملفات
+البناء المثبتة في الانحدار التاريخي:
+
+```bash
+make -f tools/explanation_contracts_v1.mk explanation-contracts-evaluation \
+  LAKE=/path/to/lean-4.34.1-linux/bin/lake \
+  EVIDENCE_DIR=artifacts/local/explanation-contracts
+```
+
+تشغّل بوابة CI المسماة `explanation-contracts` هذا الأمر بعد فحص
+الاعتمادات التاريخية. سبب نقل إضافة الاختبار من ملف CI الرئيسي،
+والإخفاق الذي كشف الحاجة إليه، موثقان في
+[متابعة النشر](EXPLANATION_CONTRACTS_CI_FOLLOWUP_AR.md).
+
 تشغّل `tools/evaluate_explainable_pilot.py` أربع عشرة حالة معلومة، بينها
 مثال المستودع والحالات الخمس والعلاقات والنفي والتشكيل والتكرار؛ ثم أربع
 حالات حذف مقدمات، وأربع عشرة محاولة تلاعب مسماة. مصادرها من أمثلة

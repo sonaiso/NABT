@@ -1,0 +1,46 @@
+2026-10-31T17:34:17.7256602Z ##[group]Run python -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v
+2026-10-31T17:34:17.7257088Z [36;1mpython -B -m unittest discover -s evidence/arabic_completion_v3/independent_oracle/continuation_v3 -p 'test_*.py' -v[0m
+2026-10-31T17:34:17.7257567Z [36;1mpython -B tools/interpretive_links_regression.py --output-dir "/home/runner/work/NABT/NABT/artifacts/local/ci-arabic-completion-oracle"[0m
+2026-10-31T17:34:17.7273395Z shell: /usr/bin/bash -e {0}
+2026-10-31T17:34:17.7273535Z env:
+2026-10-31T17:34:17.7273696Z   NABT_CODE_FREEZE: evidence/interpretive_links_v1/code_freeze_v1.json
+2026-10-31T17:34:17.7273905Z   NABT_FREEZE_VERSION: interpretive_links_v1
+2026-10-31T17:34:17.7274251Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-31T17:34:17.7274478Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-31T17:34:17.7274718Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-31T17:34:17.7274921Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-31T17:34:17.7275125Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-31T17:34:17.7275330Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-31T17:34:17.7275510Z   PYTHONPATH: src
+2026-10-31T17:34:17.7275626Z ##[endgroup]
+2026-10-31T17:34:18.4566066Z test_every_historical_public_call_and_case_record_is_exact (test_continuation_v3.ContinuationTests.test_every_historical_public_call_and_case_record_is_exact) ... ok
+2026-10-31T17:34:18.6664277Z test_fresh_independent_scores_preserve_all_24_observations (test_continuation_v3.ContinuationTests.test_fresh_independent_scores_preserve_all_24_observations) ... ok
+2026-10-31T17:34:18.6674094Z test_missing_report_is_an_integrity_failure_not_a_negative_pass (test_continuation_v3.ContinuationTests.test_missing_report_is_an_integrity_failure_not_a_negative_pass) ... ok
+2026-10-31T17:34:18.6675146Z test_no_production_runtime_is_imported_by_static_review (test_continuation_v3.ContinuationTests.test_no_production_runtime_is_imported_by_static_review) ... ok
+2026-10-31T17:34:18.6676117Z test_raw_canonical_form_cannot_be_replaced_by_equal_json (test_continuation_v3.ContinuationTests.test_raw_canonical_form_cannot_be_replaced_by_equal_json) ... ok
+2026-10-31T17:34:18.6678585Z test_raw_source_predicate_rejects_missing_and_competing_profiles (test_continuation_v3.ContinuationTests.test_raw_source_predicate_rejects_missing_and_competing_profiles) ... ok
+2026-10-31T17:34:18.6680480Z test_snapshot_allows_only_absolute_checkout_relocation (test_continuation_v3.ContinuationTests.test_snapshot_allows_only_absolute_checkout_relocation) ... ok
+2026-10-31T17:34:18.6689816Z test_source_counterexample_material_has_two_controls_and_four_refusals (test_continuation_v3.ContinuationTests.test_source_counterexample_material_has_two_controls_and_four_refusals) ... ok
+2026-10-31T17:34:18.6742672Z test_source_saved_review_rejects_forged_call_binding_before_scoring (test_continuation_v3.ContinuationTests.test_source_saved_review_rejects_forged_call_binding_before_scoring) ... ok
+2026-10-31T17:34:20.1390863Z test_trace_rejects_added_authority_changed_input_and_boolean_call_id (test_continuation_v3.ContinuationTests.test_trace_rejects_added_authority_changed_input_and_boolean_call_id) ... ok
+2026-10-31T17:34:20.1392063Z 
+2026-10-31T17:34:20.1392217Z ----------------------------------------------------------------------
+2026-10-31T17:34:20.1392520Z Ran 10 tests in 2.342s
+2026-10-31T17:34:20.1392639Z 
+2026-10-31T17:34:20.1392714Z OK
+2026-10-31T17:34:20.2563708Z Traceback (most recent call last):
+2026-10-31T17:34:20.2571685Z   File "/home/runner/work/NABT/NABT/tools/interpretive_links_regression.py", line 598, in <module>
+2026-10-31T17:34:20.2572187Z     raise SystemExit(main())
+2026-10-31T17:34:20.2572395Z                      ^^^^^^
+2026-10-31T17:34:20.2572776Z   File "/home/runner/work/NABT/NABT/tools/interpretive_links_regression.py", line 592, in main
+2026-10-31T17:34:20.2573665Z     result = execute(args.output_dir.resolve())
+2026-10-31T17:34:20.2573919Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-31T17:34:20.2574536Z   File "/home/runner/work/NABT/NABT/tools/interpretive_links_regression.py", line 527, in execute
+2026-10-31T17:34:20.2574932Z     dependencies = check_dependencies()
+2026-10-31T17:34:20.2575151Z                    ^^^^^^^^^^^^^^^^^^^^
+2026-10-31T17:34:20.2575557Z   File "/home/runner/work/NABT/NABT/tools/interpretive_links_regression.py", line 177, in check_dependencies
+2026-10-31T17:34:20.2576057Z     require(file_row(ROOT / path) == row, "Oracle dependency changed: " + row["path"])
+2026-10-31T17:34:20.2576540Z   File "/home/runner/work/NABT/NABT/tools/interpretive_links_regression.py", line 55, in require
+2026-10-31T17:34:20.2576921Z     raise ValueError(message)
+2026-10-31T17:34:20.2577203Z ValueError: Oracle dependency changed: .github/workflows/ci.yml
+2026-10-31T17:34:20.2632254Z ##[error]Process completed with exit code 1.
