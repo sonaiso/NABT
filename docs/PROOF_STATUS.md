@@ -1651,3 +1651,29 @@ no Lean theorem, Python refinement proof, acquired free-text premise, rule
 adoption event, external truth or action authority. Actual grammar application
 trees and the existing `CertifiedBridge` realization obligations remain open.
 See [OPERATOR_CONTEXT_V1_RESULTS_AR.md](OPERATOR_CONTEXT_V1_RESULTS_AR.md).
+
+The first published head `d3cfba90` completed 16 checks successfully, including
+the formal and native routing jobs, but four runtime jobs exceeded their
+unchanged 20-minute deadline. Each had already completed the full unit step
+with 2,844 discovered methods and 221 skips; these are distinct from the local
+272-method targeted run with no skips. Exact annotations and scoped coverage
+debts remain in `performance_followup/ci_first_observation.json`.
+
+After freezing independent Unicode equivalence controls at `c340702`,
+`fd02910` adds only a 4,096-entry deterministic character-classification cache
+inside the existing retrieval tokenizer. Fresh source/index/receipt checks
+remain intact. Four offline methods passed before and after the change;
+exhaustiveness covers the anchored deletion property of 1,114,112 code points,
+not arbitrary strings or Arabic interpretation. One local paired end-to-end
+observation improved by 15.8% with identical complete reports. That observation
+is not a CI timing guarantee; the exact final head must pass all original gates.
+
+The post-cache targeted replay on `fd02910` passed all original 272 methods
+in 473.282 seconds with no skips and unchanged monitored inputs. Together
+with the separate four-method Unicode acceptance, this gives 276 distinct
+passing methods on the final production source. The wrapper initially counted
+267 inline outcomes: five methods put their `ok` on a following description
+line. The unchanged full log, complete footer and all 272 declared identities
+were checked independently; the separate count-review record preserves that
+bookkeeping limitation. Entropy and immutable-input checks also passed.
+See `evidence/operator_context_v1/performance_followup/verification_summary.json`.

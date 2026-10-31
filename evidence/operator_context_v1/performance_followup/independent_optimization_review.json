@@ -1,0 +1,140 @@
+{
+  "schema": "nabt.operator-context.independent-optimization-review.v1",
+  "reviewed_utc": "2026-10-31T22:27:23.511470+00:00",
+  "reviewer_role": "Independent read-only architecture and formal-scope review",
+  "verdict": "NO_BLOCKER_FOUND_IN_BOUNDED_MARK_PREDICATE_PATCH",
+  "baseline_ci_head": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+  "preimplementation_freeze_commit": "c340702321530472c82edd15844ed57bfc0557d9",
+  "local_head_at_review": "fd029105754b7d00a3a3e3661bcf2f58e2bf100e",
+  "production_review": {
+    "path": "tools/grammar_catalog/retrieval.py",
+    "before_sha256": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+    "reviewed_after_sha256": "f72c4529a19194d056bc3f09daed4e094fdf01280611bee9b9780f60d915204b",
+    "diff_against_freeze_sha256": "78f50e89c6f0b33344b75b7baabc50ebab06b7ff9d40646124c797ab81dacafe",
+    "only_changes": "Import functools.lru_cache, add a private maxsize=4096 single-character Unicode-mark boolean predicate, and call it from the existing token-filter generator.",
+    "maximum_cache_entries": 4096,
+    "cached_input": "One character obtained by iterating the existing input string.",
+    "cached_result": "Immutable bool: unicodedata.category(char).startswith(\"M\").",
+    "unchanged_transform_order": [
+      "Remove Unicode Mn/Mc/Me marks and tatweel",
+      "Translate the existing four alif variants",
+      "Apply casefold",
+      "Apply the existing Unicode word regular expression"
+    ],
+    "fresh_public_result": "tokens still executes re.findall and returns a fresh list; no result list is cached.",
+    "all_other_top_level_retrieval_ast_unchanged": true,
+    "no_catalogue_index_source_receipt_cache": true,
+    "freshness_reason": "SearchIndex still replays or validates its supplied catalogue and rebuilds current document term frequencies. Routing still constructs and compares a fresh index, evaluates current frames, verifies receipts through their owners, and rechecks sources. The only shared state is bounded Unicode-character classification.",
+    "no_new_authority_fields_or_events": true
+  },
+  "frozen_supplement_identities": [
+    {
+      "path": "tests/test_grammar_catalog_token_equivalence.py",
+      "sha256": "f305d316cee2be8354cea566209e03dcd202a618012d11df2d3ddd2554da2657",
+      "equal_to_preimplementation_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_contract.json",
+      "sha256": "31b5b6d09c9c9db42e6953ac148b34dd28083e6a1a5c065600078aae91004c05",
+      "equal_to_preimplementation_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_unicode_marks.json",
+      "sha256": "f73328c6ea539387d9e7f5b212a7c784a4447247576ff89e300dcba98e19a950",
+      "equal_to_preimplementation_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_oracle_provenance.json",
+      "sha256": "fea8cfb62e0ee71291d3c4ad2a0a398edf801bb0ba0c6fbc75f16000c8f9082b",
+      "equal_to_preimplementation_freeze": true
+    }
+  ],
+  "oracle_review": {
+    "provenance": "Versioned official UnicodeData.txt hashes and derived inclusive Mn/Mc/Me ranges; test expected values are not supplied by retrieval.tokens or unicodedata.category.",
+    "profiles": [
+      {
+        "unicode_version": "14.0.0",
+        "mark_count": 2408,
+        "range_count": 299,
+        "ranges_canonical": true,
+        "source_url": "https://www.unicode.org/Public/14.0.0/ucd/UnicodeData.txt",
+        "source_sha256": "36018e68657fdcb3485f636630ffe8c8532e01c977703d2803f5b89d6c5feafb",
+        "source_digest_matches_pinned_provenance": true
+      },
+      {
+        "unicode_version": "15.0.0",
+        "mark_count": 2450,
+        "range_count": 310,
+        "ranges_canonical": true,
+        "source_url": "https://www.unicode.org/Public/15.0.0/ucd/UnicodeData.txt",
+        "source_sha256": "806e9aed65037197f1ec85e12be6e8cd870fc5608b4de0fffd990f689f376a73",
+        "source_digest_matches_pinned_provenance": true
+      },
+      {
+        "unicode_version": "15.1.0",
+        "mark_count": 2450,
+        "range_count": 310,
+        "ranges_canonical": true,
+        "source_url": "https://www.unicode.org/Public/15.1.0/ucd/UnicodeData.txt",
+        "source_sha256": "2fc713e6a31a87c4850a37fe2caffa4218180fadb5de86b43a143ddb4581fb86",
+        "source_digest_matches_pinned_provenance": true
+      }
+    ],
+    "unsupported_unicode_version": "The test raises an assertion requiring a separately reviewed table.",
+    "upstream_download_repeated_by_this_reviewer": false,
+    "upstream_verification_limit": "This review inspected retained provenance and the compact tables, their canonical ranges, counts, and source-hash correspondence. It did not independently redownload or regenerate the upstream Unicode files.",
+    "surrogate_fixture_correction": "The retained provenance records the pre-first-run JSON surrogate-pair representation issue. Explicit codepoints now construct the intended separate Python surrogate characters; the expected token list and coverage claim were not changed."
+  },
+  "actual_test_scopes": [
+    {
+      "method": "test_01_all_code_points_match_external_mark_deletion_property",
+      "scope": "All 1,114,112 code points, including 2,048 lone surrogates, in independently delimited anchored deletion contexts. This exhausts that input-character property, not arbitrary strings."
+    },
+    {
+      "method": "test_02_literal_order_mixed_scripts_and_token_boundaries",
+      "scope": "36 fixed literal inputs with expected ordered token lists, including transformation ordering, mixed scripts, marks, surrogates, and boundaries."
+    },
+    {
+      "method": "test_03_history_and_returned_list_mutation_do_not_change_tokens",
+      "scope": "The same 36 literal cases in reverse history, with caller mutation of returned lists and repeated output comparison."
+    },
+    {
+      "method": "test_04_actual_catalogue_ranking_matches_existing_frozen_report",
+      "scope": "Two equivalent query spellings against one pre-existing frozen retrieval report, comparing canonical JSON including candidates, scores, records, and authority fields. This is a bounded exposed regression, not all possible queries or a new linguistic gold."
+    }
+  ],
+  "prior_execution_records_inspected": [
+    {
+      "phase": "PRE_OPTIMIZATION",
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_baseline_run.json",
+      "sha256": "da39f397c68ed426fbc003c3a07eb026782ef69a4540a606a324511c931bf805",
+      "recorded_methods": 4,
+      "recorded_result": "PASS",
+      "reviewer_execution": false,
+      "note": "Previously recorded execution inspected; this reviewer did not rerun it."
+    },
+    {
+      "phase": "POST_OPTIMIZATION",
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_after_cache_run.json",
+      "sha256": "2566560ce1f7395c0f3d822751e3edcdccf313ed362e9a3d9b81afa0c4cf3fd8",
+      "recorded_methods": 4,
+      "recorded_result": "PASS",
+      "reviewer_execution": false,
+      "note": "Previously recorded execution inspected; this reviewer did not rerun it."
+    }
+  ],
+  "protected_inputs": {
+    "comparison_base": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+    "changed_protected_paths": [],
+    "scope": "Tracked src/formal/Makefile/all CI workflows/catalogue/routing/CLI/original operator spec-gold-provenance-baseline/interpretive-links freeze tree and all pre-existing tests remain unchanged. Only the additive frozen token-equivalence test is excluded from this old-test comparison.",
+    "manifest_contents_not_rehashed_wholesale_by_this_review": true
+  },
+  "limits": [
+    "This reviewer ran no semantic test suite, timing benchmark, new native executable, or Lean build.",
+    "The two recorded four-method executions are inspected evidence from their original runners, not fresh executions by this reviewer.",
+    "The semantic suite works before and after memoization and does not require the optimization to exist; cache capacity is verified by this focused implementation review.",
+    "No speedup magnitude or end-to-end CI deadline satisfaction follows from this static review or from comparing the two short acceptance-run durations.",
+    "The historical four 20-minute CI cancellations remain failures to complete the release gate. The newly published exact head still requires all triggered checks under unchanged CI settings.",
+    "No new Arabic coverage, learned-rule adoption, source-to-formal fidelity, Python refinement theorem, CertifiedBridge discharge, or action authority is claimed."
+  ]
+}
