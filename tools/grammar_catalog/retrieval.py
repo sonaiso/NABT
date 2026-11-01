@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections import Counter
 from copy import deepcopy
+from functools import lru_cache
 import math
 from pathlib import Path
 import re
@@ -25,9 +26,18 @@ class RetrievalError(ValueError):
     """Malformed proposal input; not a rejection of Arabic."""
 
 
+@lru_cache(maxsize=4096)
+def _is_mark(char):
+    """Cache only single-character Unicode classification, never source evidence."""
+    return unicodedata.category(char).startswith("M")
+
+
 def tokens(text):
     """Search-only projection: marks/tatweel removed, alif variants unified."""
-    text = "".join(c for c in text if not unicodedata.category(c).startswith("M") and c != "ـ")
+    # Skip an identity removal pass only for ordinary strings. Subclasses and
+    # other iterables retain the original iteration and conversion behavior.
+    if type(text) is not str or any(_is_mark(c) or c == "ـ" for c in set(text)):
+        text = "".join(c for c in text if not _is_mark(c) and c != "ـ")
     text = text.translate(str.maketrans("أإآٱ", "اااا")).casefold()
     return re.findall(r"[^\W_]+", text, re.UNICODE)
 
@@ -80,6 +90,7 @@ class SearchIndex:
     """Build once from source replay; retain no caller-owned mutable state."""
 
     def __init__(self, catalog=None, *, root=ROOT):
+        self._root = Path(root).resolve()
         self._catalog = (build_catalog(root) if catalog is None else
                          validate_catalog(catalog, root))
         self.catalog_sha256 = catalog_sha256(self._catalog)

@@ -1,0 +1,64 @@
+{
+  "schema": "nabt.operator-context.example-execution.v1",
+  "git_head": "d812f37013b09950e38f203e4ccfad0910ac1812",
+  "environment_adjustment": {
+    "PYTHONPATH": "src:."
+  },
+  "runs": [
+    {
+      "command": [
+        "python",
+        "-B",
+        "-m",
+        "tools.grammar_catalog",
+        "route",
+        "همزة الأمر",
+        "--frames",
+        "examples/operator_context_frames.json",
+        "--output",
+        "evidence/operator_context_v1/validation/example_route_v2.json"
+      ],
+      "started_utc": "2026-10-31T21:39:10.044108+00:00",
+      "elapsed_seconds": 8.13,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "-m",
+        "tools.grammar_catalog",
+        "verify-route",
+        "evidence/operator_context_v1/validation/example_route_v2.json",
+        "--query",
+        "همزة الأمر",
+        "--frames",
+        "examples/operator_context_frames.json",
+        "--output",
+        "evidence/operator_context_v1/validation/example_replay_v2.json"
+      ],
+      "started_utc": "2026-10-31T21:39:18.174424+00:00",
+      "elapsed_seconds": 3.532,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "files": {
+    "examples/operator_context_frames.json": {
+      "bytes": 99,
+      "sha256": "2e2ad524fd911ee648fa50a5673e05b8e0cffc5c5111dbb219c792314d978b2f"
+    },
+    "evidence/operator_context_v1/validation/example_route_v2.json": {
+      "bytes": 106752,
+      "sha256": "764332f858ca94de4adbfb9280d75e1de24f9a0a1339afe1919896dc2e6ca12e"
+    },
+    "evidence/operator_context_v1/validation/example_replay_v2.json": {
+      "bytes": 569,
+      "sha256": "f9fbc0c27f715f81a5a7979485b074e8f42fe2664e60e5ae3b44d3475c452398"
+    }
+  },
+  "scope": "Authored explicit-premise example, not premise acquisition from free text."
+}

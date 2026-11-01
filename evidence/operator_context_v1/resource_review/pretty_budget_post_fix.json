@@ -1,0 +1,60 @@
+{
+  "schema": "nabt.operator-context.pretty-budget-observation.v1",
+  "repository_head": "d812f37013b09950e38f203e4ccfad0910ac1812",
+  "scope": "Tiny-budget Python output probe; no large allocation, native run, or semantic evaluation.",
+  "code_and_spec_sha256_before": {
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "tools/grammar_catalog/retrieval.py": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+    "tools/grammar_catalog/__main__.py": "d163a9a33a81fcbce5ed1d362c9d2776e03330c8f5c58dd9091fff3066b5f917",
+    "docs/OPERATOR_CONTEXT_V1_SPEC.md": "1a8f42dbca82acca837de64f2197e142b5274c2a7b14f1428e924bc10e44947b"
+  },
+  "code_and_spec_sha256_after": {
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "tools/grammar_catalog/retrieval.py": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+    "tools/grammar_catalog/__main__.py": "d163a9a33a81fcbce5ed1d362c9d2776e03330c8f5c58dd9091fff3066b5f917",
+    "docs/OPERATOR_CONTEXT_V1_SPEC.md": "1a8f42dbca82acca837de64f2197e142b5274c2a7b14f1428e924bc10e44947b"
+  },
+  "sources_unchanged": true,
+  "temporary_document_byte_budget": 128,
+  "literal_input": [
+    [
+      [
+        [
+          [
+            [
+              [
+                [
+                  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  "canonical_bytes": 50,
+  "pretty_bytes_before_final_newline": 194,
+  "pretty_bytes_with_final_newline": 195,
+  "expected_preflight_behavior": "RESOURCE_LIMIT without materializing the complete oversized pretty document",
+  "observed_json_dumps_calls": [
+    {
+      "indent": null,
+      "serialized_utf8_bytes": 50
+    }
+  ],
+  "oversized_pretty_json_fully_materialized": false,
+  "observed_outcome": {
+    "type": "NabtError",
+    "message": "Routing output file exceeds its byte budget",
+    "structured": {
+      "status": "DEFER",
+      "code": "RESOURCE_LIMIT",
+      "message": "Routing output file exceeds its byte budget",
+      "details": {
+        "maximum_bytes": 128
+      }
+    }
+  },
+  "interpretation": "The oversized pretty output was rejected with RESOURCE_LIMIT without whole-document json.dumps materialization."
+}

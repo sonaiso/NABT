@@ -1,0 +1,53 @@
+{
+  "schema": "nabt.operator-context.aggregate-budget-observation.v1",
+  "repository_head": "50e3f51d0be598e67cf37ab27b08c562a52a354c",
+  "scope": "Tiny-budget Python API probe; no large allocation, native run, or semantic evaluation.",
+  "code_and_spec_sha256_before": {
+    "tools/grammar_catalog/routing.py": "f0c4653e66044b943db0e15af38bb583637b457db2fa72cd8464591edf894594",
+    "tools/grammar_catalog/retrieval.py": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+    "tools/grammar_catalog/__main__.py": "d163a9a33a81fcbce5ed1d362c9d2776e03330c8f5c58dd9091fff3066b5f917",
+    "docs/OPERATOR_CONTEXT_V1_SPEC.md": "1a8f42dbca82acca837de64f2197e142b5274c2a7b14f1428e924bc10e44947b"
+  },
+  "code_and_spec_sha256_after": {
+    "tools/grammar_catalog/routing.py": "f0c4653e66044b943db0e15af38bb583637b457db2fa72cd8464591edf894594",
+    "tools/grammar_catalog/retrieval.py": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+    "tools/grammar_catalog/__main__.py": "d163a9a33a81fcbce5ed1d362c9d2776e03330c8f5c58dd9091fff3066b5f917",
+    "docs/OPERATOR_CONTEXT_V1_SPEC.md": "1a8f42dbca82acca837de64f2197e142b5274c2a7b14f1428e924bc10e44947b"
+  },
+  "sources_unchanged": true,
+  "temporary_document_byte_budget": 128,
+  "literal_input": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  ],
+  "input_unique_string_objects": 1,
+  "expected_canonical_bytes": 202,
+  "expected_canonical_sha256": "4330b3834311ec7652305e28415ec40be0ee57eba596c9bc42ac3d870d3467d5",
+  "expected_preflight_behavior": "RESOURCE_LIMIT before aggregate serialization",
+  "observed_serializer_calls": [
+    {
+      "value_count": 3,
+      "unique_string_objects": 1,
+      "string_bytes": [
+        64,
+        64,
+        64
+      ]
+    }
+  ],
+  "oversized_aggregate_reached_serializer": true,
+  "observed_outcome": {
+    "type": "NabtError",
+    "message": "aggregate budget probe exceeds its byte budget",
+    "structured": {
+      "status": "DEFER",
+      "code": "RESOURCE_LIMIT",
+      "message": "aggregate budget probe exceeds its byte budget",
+      "details": {
+        "maximum_bytes": 128
+      }
+    }
+  },
+  "interpretation": "Pre-fix behavior enters JSON serialization with an aggregate already over the declared byte limit; the final error is correct but occurs after allocation/work that may amplify shared strings."
+}

@@ -1,0 +1,2212 @@
+{
+  "schema": "nabt.operator-context.acceptance-cases.v1",
+  "baseline_head": "cebb5c472451a1d541ed9b93f56bb6cd2e9d606e",
+  "authorship": "Independent preimplementation source-context and boundary expectations; source fields copied only from pinned original inventory, literal linguistic expectations from primary spans and pre-existing independently authored controls. Not a held-out or blind experiment.",
+  "group_count": 14,
+  "context_population": "24 installed operators only; all examined v2 rows; pending remain IDs; unchanged catalogue125",
+  "fixtures": {
+    "ordered_operator_ids": [
+      "CMD-WEAK-DELETE",
+      "HAMZA-INTERROGATIVE-AL",
+      "HAMZA-FINAL-LONG",
+      "HAMZA-ACTIVE-PARTICIPLE",
+      "HAMZA-BROKEN-PLURAL",
+      "HAMZA-TWO-GLIDES",
+      "HAMZA-LEXICAL-COMMAND",
+      "WEAK-INITIAL-WAW",
+      "WEAK-INITIAL-OPEN-EXCEPTION",
+      "WEAK-WAW-TO-YA",
+      "WEAK-YA-TO-WAW",
+      "WEAK-MOVE-TO-ALIF",
+      "WEAK-AFWAL-BLOCK",
+      "WEAK-IFTIAL-RECIPROCAL",
+      "WEAK-TWO-ELIGIBLE",
+      "WEAK-NOMINAL-SUFFIX-BLOCK",
+      "WEAK-VOWEL-TRANSFER",
+      "GEM-VOWELED-FINAL",
+      "GEM-JUSSIVE-VARIANTS",
+      "GEM-FEMININE-SUFFIX",
+      "GEM-EXCLAMATION",
+      "AFFIX-LIGHT-NUN-PAUSE",
+      "MUGHNI-ANA-BOUNDARY",
+      "ASSIM-NUN-B-BLOCKED-TEXT"
+    ],
+    "source_context_by_rule_id": {
+      "CMD-WEAK-DELETE": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::CMD-WEAK-DELETE",
+        "rule_id": "CMD-WEAK-DELETE",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "المعتل اللام بلا لواحق ترد اللام",
+        "source_blockers": "لا تعمم الحذف على المثنى ونون النسوة",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "اِرْمِ",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "اِرْمِيْ للمفرد المذكر",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "qatr",
+            "line_start": 59,
+            "line_end": 63,
+            "start": 2558,
+            "end": 2945,
+            "sha256": "2ffa1f8ea709fb84c320ee712cc6c8ffaca468b8e21077e2e465ed770dde63dc",
+            "raw_text": "# وأمر: ويعرف بدلالته على الطلب مع قبوله ياء المخاطبة. وبناؤه على السكون\n~~ك\"اضرب\"، إلا المعتل فعلى حذف آخره ك\"اغز واخش وارم\"، ونحو قوما\n# PageV01P004\n# وقوموا وقومي فعلى حذف النون. ومنه هلم في لغة تميم، وهات وتعال في\n~~الأصح.\n",
+            "page_markers_in_span": [
+              "PageV01P004"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "HAMZA-INTERROGATIVE-AL": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-INTERROGATIVE-AL",
+        "rule_id": "HAMZA-INTERROGATIVE-AL",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "دخول الاستفهام على أل: مد أو تسهيل في هذا التقرير",
+        "source_blockers": "الحذف المطلق يلتبس فيه الاستفهام والخبر",
+        "boundary_mode": "ibtida",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "آلأمير قائم؟ / تسهيل الهمزة",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "الأمير قائم بعد إسقاط فارق الاستفهام",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9191,
+            "line_end": 9196,
+            "start": 854514,
+            "end": 855022,
+            "sha256": "cc5d727584d11166be0c083a6cee4202a191b4f243b7f38befe118222a86882e",
+            "raw_text": "# ولم تحفظ في الحروف إلا في أل ولما كانت الهمزة مع أل مفتوحة وكانت همزة\n~~الاستفهام مفتوحة لم يجز حذف همزة الاستفهام لئلا يلتبس الاستفهام بالخبر\n~~بل وجب إبدال همزة الوصل ألفا نحو الأمير قائم أو تسهيلها ومنه قوله:\n### | 358 - \n# أألحق إن دار الرباب تباعدت ... أو انبت حبل أن قلبك طائر\n# PageV04P209\n",
+            "page_markers_in_span": [
+              "PageV04P209"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "HAMZA-FINAL-LONG": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-FINAL-LONG",
+        "rule_id": "HAMZA-FINAL-LONG",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "واو أو ياء متطرفة بعد ألف زائدة",
+        "source_blockers": "الألف الأصلية أو عدم التطرف مانعان",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "دعاء / بناء",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "راية / تعاون",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9207,
+            "line_end": 9210,
+            "start": 855890,
+            "end": 856295,
+            "sha256": "829313435aa38994a17c93340887a7f08c45e162832cfaab1bd5dbfab92c6d95",
+            "raw_text": "# أصيلال فتبدل الهمزة من كل واو أو ياء تطرفتا ووقعتا بعد ألف زائدة نحو\n~~دعاء وبناء والأصل دعاو وبناي.\n# فإن كانت الألف التي قبل الياء أو الواو غير زائدة لم تبدل نحو آية وراية\n~~وكذلك إن لم ms291 تتطرف الياء أو الواو كتباين وتعاون.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "HAMZA-ACTIVE-PARTICIPLE": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-ACTIVE-PARTICIPLE",
+        "rule_id": "HAMZA-ACTIVE-PARTICIPLE",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "عين واوية أو يائية لاسم فاعل أعلت في الفعل",
+        "source_blockers": "إذا صحت في الفعل تصح في فاعل",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "قائل / بائع",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "عاور لا عائر من عور في هذه القاعدة",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9211,
+            "line_end": 9216,
+            "start": 856295,
+            "end": 856938,
+            "sha256": "b7c74fec19bf078ad8f9fedbe016de33ecc9f47ece02b81df2ce69664d0180fe",
+            "raw_text": "# وأشار بقوله وفي فاعل ما أعل عينا ذا اقتفى إلى أن الهمزة تبدل من الياء\n~~والواو قياسا متبعا إذا وقعت كل منهما عين اسم فاعل وأعلت في فعله نحو قائل\n~~وبائع وأصلهما قاول وبايع ولكن أعلو حملا على الفعل فكما قالوا قال وباع\n~~فقلبوا العين ألفا قالوا قائل وبائع فقلبوا عين اسم الفاعل همزة.\n# فإن لم تعل العين في الفعل صحت في اسم الفاعل نحو عور فهو عاور وعين فهو\n~~عاين.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "HAMZA-BROKEN-PLURAL": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-BROKEN-PLURAL",
+        "rule_id": "HAMZA-BROKEN-PLURAL",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "المد ثالث زائد في المفرد ويقع بعد ألف مفاعل",
+        "source_blockers": "غير المد أو الأصلي لا يقاس؛ مصائب سماع مستقل",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "قلائد / صحائف / عجائز",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "معايش لا يقاس عليه معائش",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9217,
+            "line_end": 9222,
+            "start": 856938,
+            "end": 857550,
+            "sha256": "d0765387866b325d172162132cec11f9ff1c3de7fa5d337254968ec0c01dbf94",
+            "raw_text": "# والمد زيد ثالثا في الواحد ... همزا يرى في مثل كالقلائد\n# PageV04P211\n# تبدل الهمزة أيضا مما وألف الجمع الذي على مثال مفاعل إن كان مدة مزيدة\n~~في الواحد نحو قلادة وقلائد وصحيفة وصحائف وعجوز وعجائز فلو كان غير مدة لم\n~~تبدل نحو قسورة وقساور وهكذا إن كان مدة غير زائدة نحو مفازة ومفاوز ومعيشة\n~~ومعايش إلا فيما سمع فيحفظ ولا يقاس عليه نحو مصيبة ومصائب.\n",
+            "page_markers_in_span": [
+              "PageV04P211"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "HAMZA-TWO-GLIDES": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-TWO-GLIDES",
+        "rule_id": "HAMZA-TWO-GLIDES",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "لينان بينهما ألف مفاعل",
+        "source_blockers": "مد مفاعيل مانع",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "أوائل",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "طواويس لا طوائس",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9223,
+            "line_end": 9229,
+            "start": 857550,
+            "end": 858160,
+            "sha256": "1e820ae813cea8eafd044d72f6943ef97983b17682f31056f393a8591aff3cbe",
+            "raw_text": "# كذاك ثاني لينين اكتنفا ... مد مفاعل كجمع نيفا\n# أي كذلك تبدل الهمزة من ثاني حرفين لينين توسط بينهما مدة مفاعل كما لو\n~~سميت رجلا بنيف ثم كسرته فإنك تقول نيائف بإبدال الياء\n# PageV04P212\n# الواقعة بعد ألف الجمع همزة ومثله أول وأوائل.\n# فلو توسط بينهما مدة مفاعيل امتنع قلب الثاني منهما همزة كطواويس ولهذا\n~~قيد المصنف رحمة الله تعالى ذلك بمدة مفاعل.\n",
+            "page_markers_in_span": [
+              "PageV04P212"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "HAMZA-LEXICAL-COMMAND": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::HAMZA-LEXICAL-COMMAND",
+        "rule_id": "HAMZA-LEXICAL-COMMAND",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "أفعال مسماة في النص وليست قانون حذف لكل مهموز",
+        "source_blockers": "ينقل النص أوكل عن بعض العرب؛ لا يصح نفيه مطلقًا",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "خذ / كل / مر",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "احذف همزة كل مهموز؛ أو ارفض أوكل في كل لهجة",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 18359,
+            "line_end": 18373,
+            "start": 2196526,
+            "end": 2198425,
+            "sha256": "85914846ad443d7f92f7feb9ac7d2928e00e17b7a50e0aab17d82a89c841e8db",
+            "raw_text": "~~سوى الاسم المظهر PageV04P218 ولا يكون شيء من الفعل على حرف واحد لأن منه\n~~ما يضارع الاسم وهو يتصرف ويبنى أبنية وهو الذي يلي الاسم فلما قرب هذا\n~~القرب لم يجحف به إلا أن تدرك الفعل علة مطردة في كلامهم في موضع واحد\n~~فيصير على حرف فإذا جاوزت ذلك الموضع رددت ما حذفت ولم يلزمها أن تكون على\n~~حرف واحد إلا في ذلك الموضوع وذلك قولك ع كلاما وعه وشه وقه من الوقاء | ثم\n~~الذي يلي ما يكون على حرف ما يكون على حرفين وقد تكون عليها الأسماء\n~~المظهرة المتمكنة والأفعال المتصرفة وذلك قليل لأنه إخلال عندهم بهن لأنه\n~~حذف من أقل الحروف عددا | فمن الأسماء التي وصفت لك يد ودم وحر وست وسه\n~~يعني الأست ودد وهو اللهو وعند بعضهم هو الحين فإذا ألحقتها الهاء كثرت\n~~لأنها تقوى وتصير عدتها ثلاثة أحرف | وأما ما جاء من الأفعال فخذ وكل ومر\n~~وبعض العرب يقول ms777 أوكل فيتم كما أن بعضهم يقول في غد غدو PageV04P219 فهذا\n~~ما جاء من الأفعال والأسماء على حرفين وإن كان شذ شيء فقليل ولا يكون من\n~~الأفعال شيء على حرفين إلا ما ذكرت لك إلا أن تلحق الفعل علة مطردة في\n~~كلامهم فتصيره على حرفين في موضع واحد ثم إذا جاوزت ذلك الموضوع رددت إليه\n~~ما حذفت منه وذلك قولك قل وإن تق أقه | وما لحقته الهاء من الحرفين أقل مما\n",
+            "page_markers_in_span": [
+              "PageV04P218",
+              "PageV04P219"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-INITIAL-WAW": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-INITIAL-WAW",
+        "rule_id": "WEAK-INITIAL-WAW",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "الفئات المفسرة والشواهد المسموعة مع معرفة حركة المضارع",
+        "source_blockers": "وجل يوجل صحيح؛ الياء الأولى ليست الواو؛ قراءات ورم/ورع تحتاج تسمية",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "يعد / يزن",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "حذف واو يوجل أو ياء ييأس بلا قيد",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 16404,
+            "line_end": 16426,
+            "start": 1958992,
+            "end": 1961914,
+            "sha256": "a289a283d0d532b3c164d4a69e49e674bdf9877e65940191536ed3f6b92fba8d",
+            "raw_text": "# | ( هذا باب نظائر بعض ما ذكرنا من بنات الواو التي الواو فيهن فاء )\n# تقول وعدته فأنا أعده وعدا ووزنته فأنا أزنه وزنا ووأدته فأنا أئده وأدا\n~~كما قالوا كسرته فأنا أكسره كسرا | ولا يجيء في هذا الباب يفعل وسأخبرك عن\n~~ذلك إن شاء الله | واعلم أن ذا أصله على قتل يقتل وضرب يضرب فلما كان من\n~~كلامهم استثقال الواو مع الياء حتى قالوا ياجل وييجل كانت الواو مع الضمة\n~~أثقل فصرفوا هذا الباب إلى يفعل فلما صرفوه إليه كرهوا الواو بين\n~~PageV04P052 ياء وكسرة إذ كرهوها مع ياء فحذفوها فهم كأنهم ms695 إنما يحذفونها\n~~من يفعل فعلى هذا بناء ما كان على فعل من هذا الباب | وقد قال ناس من العرب\n~~وجد يجد كأنهم حذفوها من يوجد وهذا لا يكاد يوجد في الكلام | وقالوا ورد\n~~يرد ورودا ووجب يجب وجوبا كما قالوا خرج يخرج خروجا وجلس يجلس جلوسا |\n~~وقالوا وجل يوجل وهو وجل فأتموها لأنها لا كسرة بعدها فلم تحذف فرقوا بينها\n~~وبين يفعل | وقالوا وضؤ يوضؤ ووضع يوضع فأتموا ما كان على فعل كما أتموا ما\n~~كان على فعل لأنهم لم يجدوا في فعل مصرفا إلى يفعل كما وجدوه في باب فعل\n~~نحو ضرب وقتل وحسب فلما لم يكن يدخله هذه الأشياء وجرى PageV04P053 على\n~~مثال واحد سلموه وكرهوا الحذف لئلا يدخل في باب ما يختلف يفعل منه فألزموه\n~~التسليم لذلك | وقالوا ورم يرم وورع يرع ورعا ورما ويورع لغة ووغر صدره يغر\n~~ووحر يحر وحرا ووغرا ووجد يجد وجدا ويوغر ويوحر أكثر وأجود يقال يوغر ويوحر\n~~ولا يقال يورم وولي يلي أصل هذا يفعل فلما كانت الواو في يفعل لازمة\n~~وتستثقل صرفوه من باب فعل يفعل إلى باب يلزمه الحذف فشركت هذه الحروف وعد\n~~كما شركت حسب يحسب وأخواتها ضرب يضرب وجلس يجلس فلما كان هذا في غير المعتل\n~~كان في المعتل أقوى | وأما ما كان من الياء فإنه لا يحذف منه وذلك قولك يئس\n~~ييئس ويسر ييسر ويمن ييمن وذلك أن الياء أخف عليهم ولأنهم قد يفرون من\n~~استثقال الواو مع الياء إلى الياء في غير هذا الموضع ولا يفرون من الياء\n",
+            "page_markers_in_span": [
+              "PageV04P052",
+              "PageV04P053"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-INITIAL-OPEN-EXCEPTION": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-INITIAL-OPEN-EXCEPTION",
+        "rule_id": "WEAK-INITIAL-OPEN-EXCEPTION",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "وطئ ووسع ووضع مسماة مع أصل الكسرة في تفسير النص",
+        "source_blockers": "لا تعامل كل مضارع مفتوح العين على أنه نظير يوجل",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "يطأ / يسع / يضع",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "إرجاع الواو تلقائيًا لأن العين مفتوحة",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 16428,
+            "line_end": 16435,
+            "start": 1962041,
+            "end": 1962972,
+            "sha256": "a38b2f1d0d980ae9c736a49c9ca192cfb3e4322c82a38c515513131c313021a5",
+            "raw_text": "~~وزعموا أن بعض العرب يقول يئس يئس فاعلم فحذفوا الياء من يفعل لاستثقال\n~~الياءات ههنا مع الكسرات فحذف كما حذف الواو فهذه في القلة كيجد | وإنما قل\n~~مثل يجد لأنهم كرهوا الضمة بعد الياء كما كرهوا الواو بعد الياء فيما ذكرت\n~~لك فكذلك ما هو منها فكانت الكسرة مع الياء أخف PageV04P054 عليهم كما ms696 أن\n~~الياء مع الياء أخف عليهم في مواضع ستبين لك إن شاء الله من الواو | وأما\n~~وطئت ووطىء يطأ ووسع يسع فمثل ورم يرم وومق يمق ولكنهم فتحوا يفعل وأصله\n~~الكسر كما قالوا قلع يقلع وقرأ يقرأ فتحوا جميع الهمزة وعامة بنات العين |\n~~ومثله وضع يضع |\n",
+            "page_markers_in_span": [
+              "PageV04P054"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-WAW-TO-YA": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-WAW-TO-YA",
+        "rule_id": "WEAK-WAW-TO-YA",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "واو ساكنة بعد كسرة وفق الباب",
+        "source_blockers": "لا تعمم على كل واو متحركة أو في اسم له سماع مخالف",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "ميزان / ميعاد",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "موزان بوصفه القياس في هذا الباب",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 19820,
+            "line_end": 19825,
+            "start": 2379256,
+            "end": 2380002,
+            "sha256": "b0bf436891ba51e70f02739b2c476179569ceacab8a21e9f83a736cc7ce913b0",
+            "raw_text": "# | ( هذا باب ما تقلب فيه الواو ياء وذلك إذا سكنت وقبلها كسرة )\n# فمن ذلك قولهم الميزان والميعاد وإنما كرهوا ذلك كما كرهوا الواو مع\n~~الياء في ليلة وسيد ونحوهما وكما يكرهون الضمة بعد الكسرة حتى إنه ليس في\n~~الكلام أن يكسروا أول حرف ويضموا الثاني نحو فعل ولا يكون ذلك لازما في غير\n~~الأول أيضا إلا أن يدركه الإعراب نحو قولك فخذ كما ترى وأشباهه | وترك\n~~الواو في موزان أثقل من قبل أنه ساكن فليس يحجزه عن الكسر شيء ألا ترى أنك\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-YA-TO-WAW": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-YA-TO-WAW",
+        "rule_id": "WEAK-YA-TO-WAW",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "ياء ساكنة في مفرد بعد ضمة",
+        "source_blockers": "المتحركة لا تعل؛ جمع بيض/هيم يكسر أوله بدل القلب",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "موقن / موسر",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "قلب ياء بيض واوًا قياسًا على موقن",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9355,
+            "line_end": 9363,
+            "start": 870460,
+            "end": 871434,
+            "sha256": "ae533176095fcdcffddaf3d9388cdbf216bbdeab1551a5c5a58a31f7517a7df0",
+            "raw_text": "~~إذا وقعت بعد ضمة كقولك في بايع بويع وفي ضارب ضورب.\n# وقوله يا كموقن بذالها اعترف معناه أن الياء ms296 إذا سكنت في مفرد بعد ضمة\n~~وجب إبدالها واوا نحو موقن وموسر أصلهما ميقن وميسر لأنهما من لأيقن وأيسر\n~~فلو تحركت الياء لم تعل نحو هيام.\n# ويكسر المضموم في جمع كما ... يقال هيم عند جمع أهيما\n# يجمع فعلاء وأفعل على فعل بضم الفاء وسكون العين كما سبق في التكسير\n~~كحمراء وحمر وأحمر وحمر فإذا اعتلت عين هذا النوع من الجمع بالياء قلبت\n~~الضمة كسرة لتصح الياء نحو هيماء وهيم وبيضاء وبيض ولم تقلب الياء واوا كما\n~~فعلوا في المفرد كموقن استثقالا لذلك في الجمع.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-MOVE-TO-ALIF": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-MOVE-TO-ALIF",
+        "rule_id": "WEAK-MOVE-TO-ALIF",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "حركة أصلية وفتح متصل مع شروط موضع الحرف وما يليه",
+        "source_blockers": "الحركة العارضة؛ سكون التالي في غير اللام؛ ألف/ياء مشددة بعد اللام",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "قال / باع",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "بيان / طويل / رميا",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9402,
+            "line_end": 9415,
+            "start": 874657,
+            "end": 875927,
+            "sha256": "53efddf294feedb333f462a00a45bd1ea9db5adf1e68050972e630726aef17d5",
+            "raw_text": "# من ياء أو واو بتحريك أصل ... ألفا أبدل بعد فتح متصل\n# PageV04P228\n# إن حرك التالي وإن سكن كف ... إعلال غير اللام وهي لا يكف\n# إعلالها بساكن غير ألف ... أو ياء التشديد فيها قد ألف\n# إذا وقعت الواو والياء متحركة بعد فتحة قلبت ألفا نحو قال وباع أصلهما\n~~قول وبيع فقلبت الواو والياء ألفا لتحركها وانفتاح ما قبلها.\n# هذا إن كانت حركتهما أصلية فإن كانت عارضة لم يعتد بها كجيل وتوم أصلهما\n~~جيأل وتوأم نقلت حركة الهمزة إلى الياء والواو فصار جيلا وتوما.\n# فلو سكن ما بعد الياء أو الواو ولم تكن لاما وجب التصحيح نحو بيان وطويل\n~~فإن كانتا لاما وجب الإعلال ما لم يكن الساكن بعدهما ألفا\n# PageV04P229\n# أو ياء\n# مشددة كرميا وعلوى وذلك نحو يخشون أصله يخشيون فقلبت الياء ألفا لتحركها\n~~وانفتاح ما قبلها ثم حذفت لالتقائها ساكنة مع الواو الساكنة.\n",
+            "page_markers_in_span": [
+              "PageV04P228",
+              "PageV04P229"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-AFWAL-BLOCK": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-AFWAL-BLOCK",
+        "rule_id": "WEAK-AFWAL-BLOCK",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "فعل وصفه على أفعل في الأمثلة المسماة",
+        "source_blockers": "لا تسوّى عور بقال لمجرد تحرك الواو وفتح السابق",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "عور / غيد",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "قلب عين عور إلى ألف بلا تمييز الفئة",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9416,
+            "line_end": 9419,
+            "start": 875927,
+            "end": 876305,
+            "sha256": "bf6a0c687b02c7304a393e5b3c87df5691dafa59569f476755ecd311333cdaa5",
+            "raw_text": "# وصح عين فعل وفعلا ... ذا أفعل كأغيد وأحولا\n# كل فعل كان اسم الفاعل منه على وزن أفعل فإنه يلزم عينه التصحيح نحو عور\n~~فهو أعور وهيف فهو أهيف وغيد فهو أغيد وحول فهو أحول وحمل المصدر على فعله\n~~نحو هيف وغيد وعور وحول.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-IFTIAL-RECIPROCAL": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-IFTIAL-RECIPROCAL",
+        "rule_id": "WEAK-IFTIAL-RECIPROCAL",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "افتعل واوي العين يفيد تفاعل",
+        "source_blockers": "اليائي لا يأخذ الترخيص نفسه",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "اشتوروا",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "تصحيح ابتاعوا بإطلاق",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9420,
+            "line_end": 9426,
+            "start": 876305,
+            "end": 876912,
+            "sha256": "ae579c3547cc3b3724cb6447ad8980e4900d88d28f222db7d6cbea35294cdbb3",
+            "raw_text": "# وإن بين تفاعل من افتعل ... والعين واو سلمت ولم تعل\n# إذا كان ms298 افتعل معتل العين فحقه أن تبدل عينه ألفا نحو اعتاد وارتاد\n~~لتحركها وانفتاح ما قبلها فإن أبان افتعل معنى تفاعل وهو\n# PageV04P230\n# الاشتراك في\n# الفاعلية والمفعولية حمل عليه في التصحيح إن كان واويا نحو اشتوروا فإن\n~~كانت العين ياء وجب إعلالها نحو ابتاعوا واستافو أي تضاربوا بالسيوف.\n",
+            "page_markers_in_span": [
+              "PageV04P230"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-TWO-ELIGIBLE": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-TWO-ELIGIBLE",
+        "rule_id": "WEAK-TWO-ELIGIBLE",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "حرفا علة كل منهما متحرك مفتوح ما قبله",
+        "source_blockers": "إعلالهما معًا ممنوع في التقرير؛ غاية نقل شاذ مستقل",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "الحيا / الهوى",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "قلب العين واللام كليهما إلى ألف",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9427,
+            "line_end": 9432,
+            "start": 876912,
+            "end": 877619,
+            "sha256": "16e57cbc1801841b4bb78b41760cd636a89b6fa305b20c2a7572d47443a40825",
+            "raw_text": "# وإن لحرفين ذا الإعلال استحق ... صحح أول وعكس قد يحق\n# إذا كان في كلمة حرفا علة كل واحد متحرك مفتوح ما قبله لم يجز إعلالهما\n~~معا لئلا يتوالى في كلمة واحدة إعلالان فيجب إعلال أحدهما وتصحيح الآخر\n~~والأحق منهما بالإعلال الثاني نحو الحيا والهوى والأصل حيى وهوى فوجد في كل\n~~من العين واللام سبب الإعلال فعمل به في اللام وحدها لكونها طرفا والأطراف\n~~محل التغيير وشد إعلال العين وتصحيح اللام نحو غاية.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-NOMINAL-SUFFIX-BLOCK": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-NOMINAL-SUFFIX-BLOCK",
+        "rule_id": "WEAK-NOMINAL-SUFFIX-BLOCK",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "عين متحركة مفتوح ما قبلها مع زيادة تخص الاسم",
+        "source_blockers": "ماهان وداران نقل شاذ لا تعميم",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "جولان / هيمان",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "إعلال جولان قياسًا على قال",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9434,
+            "line_end": 9437,
+            "start": 877633,
+            "end": 878052,
+            "sha256": "82c4923f9a82e7f939e68785d58481e4f66e112475ad0dd11d31f8f742b00610",
+            "raw_text": "# وعين ما آخره قد زيد ما ... يخص الاسم واجب أن يسلما\n# إذا كان عين الكلمة واوا متحركة مفتوحا ما قبلها أو ياء متحركة مفتوحا ما\n~~قبلها وكان في آخرها زيادة تخص الاسم لم يجز قلبها ألفا بل يجب تصحيحها\n~~وذلك نحو جولان وهيمان وشذ ماهان وداران.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "WEAK-VOWEL-TRANSFER": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::WEAK-VOWEL-TRANSFER",
+        "rule_id": "WEAK-VOWEL-TRANSFER",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "عين ياء/واو متحركة وقبلها صحيح ساكن",
+        "source_blockers": "غير الصحيح؛ التعجب؛ التضعيف؛ اعتلال اللام",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "يقوم / يبين",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "نقل الحركة في ما أقومه أو أهوى",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9445,
+            "line_end": 9455,
+            "start": 878539,
+            "end": 879592,
+            "sha256": "4a8fa21602254babbf1082080df0f6a81c11b00bbe07a1ae78b33a2f547339bb",
+            "raw_text": "# لساكن صح انقل التحريك من ... ذي لين آت عين فعل كأبن\n# إذا كانت عين الفعل ياء أو واوا متحركة وكان ما قبلها ساكنا صحيحا وجب\n~~نقل حركة العين إلى الساكن قبلها نحو يبين ويقوم والأصل يبين ويقوم بكسر\n~~الياء وضم الواو فنقلت حركتهما إلى الساكن قبلهما وهو الباء والقاف وكذلك\n~~في أبن.\n# فإن كان الساكن غير صحيح لم تنقل الحركة نحو بايع وبين وعوق.\n# PageV04P233\n# ما لم يكن فعل تعجب ولا ... كأبيض أو أهوى بلام عللا\n# أي إنما تنقل حركة العين إلى الساكن الصحيح قبلها إذا لم ms299 يكن الفعل\n~~للتعجب أو مضاعفا أو معتل اللام فإن كان كذلك فلا نقل نحو ما أبين الشيء\n~~وأبين به وما أقومه وأقوم به ونحو أبيض واسود ونحو أهوى.\n",
+            "page_markers_in_span": [
+              "PageV04P233"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "GEM-VOWELED-FINAL": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::GEM-VOWELED-FINAL",
+        "rule_id": "GEM-VOWELED-FINAL",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "العين واللام من مخرج واحد واللام متحركة في الأبنية المذكورة",
+        "source_blockers": "لا يتجاوز القيد إلى ساكنة اللام أو كل تكرار حرفين",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "ردي / ردا / ردوا",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "حذف أحد أصلين من غير توثيق البنية",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 14377,
+            "line_end": 14384,
+            "start": 1706931,
+            "end": 1707917,
+            "sha256": "f63e2e4956899f888a3a9a3e7748ac22cd5db758bf19bcbe31776c0713465d25",
+            "raw_text": "# | ( هذا باب مضاعف الفعل واختلاف العرب فيه )\n# والتضعيف أن يكون آخر الفعل حرفان من موضع واحد وذلك نحو PageV03P529\n~~رددت ووددت واجتررت وانقددت واستعددت وضاررت وتراددنا واحمررت واحماررت\n~~واطمأننت فإذا تحرك الحرف الآخر فالعرب ms609 مجمعون على الإدغام وذلك فيما زعم\n~~الخليل أولى به لأنه لما كانا من موضع واحد ثقل عليهم أن يرفعوا ألسنتهم من\n~~موضع ثم يعيدوها إلى ذلك الموضع للحرف الآخر فلما ثقل عليهم ذلك أرادوا أن\n~~يرفعوا رفعة واحدة وذلك قولهم ردى واجترا وانقدوا واستعدى وضارى زيدا وهما\n~~يرادان واحمر واحمار وهو يطمئن فإذا كان حرف من هذه الحروف في موضع تسكن\n",
+            "page_markers_in_span": [
+              "PageV03P529"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "GEM-JUSSIVE-VARIANTS": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::GEM-JUSSIVE-VARIANTS",
+        "rule_id": "GEM-JUSSIVE-VARIANTS",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "سكون اللام للأمر أو الجزم؛ الحجاز/تميم مرخصان بعلامة اللهجة",
+        "source_blockers": "لا تجعل الإدغام أو الفك الوجه الوحيد لكل العرب؛ موضع همزة الوصل يقيد حذفها",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "اردد / ردّ",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "إسقاط همزة اطمئن لأن رد أسقط همزته",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 14385,
+            "line_end": 14411,
+            "start": 1707917,
+            "end": 1711414,
+            "sha256": "517ba46594452e3323fc26f59b4cde78129ad8e10828f24431965c6a6bfb3168",
+            "raw_text": "~~فيه لام الفعل فإن أهل الحجاز يضاعفون لأنهم أسكنوا الآخر فلم يكن بد من\n~~تحريك الذي قبله لأنه لا يلتقي ساكنان وذلك قولك اردد واجترر وإن تضارر\n~~أضارر وإن تستعدد أستعدد وكذلك جميع هذه الحروف | ويقولون اردد الرجل وإن\n~~تستعدد اليوم أستعدد يدعونه على حاله ولا يدغمون لأن هذا التحريك ليس بلازم\n~~لها إنما حركوا في هذا الموضع لالتقاء الساكنين وليس الساكن الذي بعده في\n~~الفعل مبنيا عليه كالنون الثقيلة والخفيفة | وأما بنو تميم فيدغمون المجزوم\n~~كما أدغموا إذ كان الحرفان متحركين لما ذكرنا من المتحركين فيسكنون الأول\n~~ويحركون الآخر لأنهما لا يسكنان جميعا وهو قول غيرهم من العرب وهم كثير\n~~PageV03P530 فإذا كان الحرف الذي قبل الحرف الأول من الحرفين ساكنا ألقيت\n~~حركة الأول عليه إن كان مكسورا فاكسره وإن كان مضموما فضمه وإن كان مفتوحا\n~~فافتحه وإن كان قبل الذي تلقى عليه الحركة ألف وصل حذفتها لأنه قد استغني\n~~عنها حيث حرك وإنما احتيج إليها لسكون ما بعدها وذلك قولك رد وفر وعض وإن\n~~تردا رد ألقيت حركة الأول منهما على الساكن الذي قبله وحذفت الألف كما فعلت\n~~ذلك في غير الجزم وذلك قولك ردا وردوا | وإن كان الساكن الذي قبل الأول\n~~بينه وبين الألف حاجز ألقيت عليه حركة الأول لأن كل واحد منهما يتحول في\n~~حال صاحبه عن الأصل كما فعلت ذلك في رد وفر وعض ولا تحذف الألف لأن الحرف\n~~الذي بعد ألف الوصل ساكن وذلك قولك اطمأن واقشعر وإن تشمئز أشمئز فصارت\n~~الألف في الإدغام والجزم مثلها في الخبر وذلك قولك اطمئنوا واطمئنا ومثل\n~~ذلك ms610 استعد | وإن كان الذي قبل الأول متحركا وكان في الحرف ألف وصل لم تغيره\n~~الحركة عن حاله لأنه لم يكن حرفا يضطر إلى تحريكه ولا تذهب الألف لأن الذي\n~~بعدها لم يحرك وذلك قولك اجتر واحمر وانقد وإن تنقد أنقد فصار في الإدغام\n~~وثبات الألف مثله في غير الجزم | وإذا كان قبل الأول ألف لم تغير لأن الألف\n~~قد يكون بعدها الساكن المدغم فيحتمل ذلك وتكون ألف الوصل في هذا الحرف لأن\n~~PageV03P531 الساكن الذي بعدها لا يحرك وذلك احمار واشهاب وإن تدهام أدهام\n~~فصار في الإدغام وثبات الألف مثله في غير الجزم | وإن كان قبل الأول ألف\n~~ولم يكن في ذلك الحرف حرف وصل لم يغير عن بنائه وعن الإدغام في غير الجزم\n~~وذلك قولك ماد ولا تضار ولا تجار وكذلك ما كانت ألفه مقطوعة نحو أمد وأعد |\n",
+            "page_markers_in_span": [
+              "PageV03P530",
+              "PageV03P531"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "GEM-FEMININE-SUFFIX": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::GEM-FEMININE-SUFFIX",
+        "rule_id": "GEM-FEMININE-SUFFIX",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "الفك مع السكون اللازم قبل نون النسوة في الجمهور",
+        "source_blockers": "بكر بن وائل له نقل مختلف؛ ليس نفيًا كليًا عبر اللهجات",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "ارددن / رددن",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "ردن خارج الجمهور؛ لا يوسم مستحيلًا في كل العربية",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 14440,
+            "line_end": 14454,
+            "start": 1714820,
+            "end": 1716752,
+            "sha256": "4dc9f041e64f009afcb0c1357d030972b96ac1416c16d4416543faa0c8f48f3f",
+            "raw_text": "~~يكسر كعب وغني | وأهل الحجاز وغيرهم مجتمعون على أنهم يقولون للنساء ارددن\n~~وذلك لأن الدال لم تسكن ههنا لأمر ولا نهي وكذلك كل حرف قبل نون النساء لا\n~~يسكن لأمر ولا لحرف يجزم ألا ترى أن السكون لازم له في حال النصب والرفع\n~~وذلك قولك رددن وهن يرددن وعلى أن يرددن وكذلك يجري غير المضاعف قبل نون\n~~النساء لا يحرك في حال وذلك قولك ضربن ويضربن ويذهبن فلما كان هذا الحرف\n~~يلزمه السكون في كل موضع وكان السكون حاجزا عنه ما سواه من الإعراب وتمكن\n~~فيه ما لم يتمكن في غيره من الفعل كرهوا أن يجعلوا بمنزلة ما يجزم لأمر أو\n~~لحرف الجزم فلم يلزمه السكون كلزوم هذا الذي هو غير مضاعف | ومثل ذلك قولهم\n~~رددت ومددت لأن ms612 الحرف بني على هذه التاء PageV03P534 كما بني على النون\n~~وصار السكون فيه بمنزلته فيما فيه نون النساء يدلك على ذلك أنه في موضع فتح\n~~| وزعم الخليل أن ناسا من بكر بن وائل يقولون ردن ومدن وردت جعلوه بمنزلة\n~~رد ومد وكذلك جميع المضاعف يجري كما ذكرت لك في لغة أهل الحجاز وغيرهم\n~~والبكريين وأما ردد ويردد فلم يدغموه لأنه لا يجوز أن يسكن حرفان فيلتقيا\n~~ولم يكونوا ليحركوا العين الأولى لأنهم لو فعلوا ذلك لم ينجوا من أن يرفعوا\n~~ألسنتهم مرتين فلما كان ذلك لا ينجيهم أجروه على الأصل ولم يجز غيره |\n",
+            "page_markers_in_span": [
+              "PageV03P534"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "GEM-EXCLAMATION": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::GEM-EXCLAMATION",
+        "rule_id": "GEM-EXCLAMATION",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "أفعل في التعجب لا الأمر العادي",
+        "source_blockers": "هلم له إدغام ملزم في التقرير",
+        "boundary_mode": "morphology",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "أحبب بزيد",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "أحبّ بزيد على أنها الصيغة نفسها",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9611,
+            "line_end": 9614,
+            "start": 893077,
+            "end": 893536,
+            "sha256": "f19fad62e031cf58e253ed7fd9b11edca216b1882496e470b075dfae0d796b88",
+            "raw_text": "# وفك أفعل في التعجب التزم ... والتزم الإدغام أيضا في هلم\n# ولما ذكر أن فعل الأمر يجوز فيه وجهان نحو احلل وحل استثنى من ذلك شيئين:\n# أحدهما: أفعل في التعجب فإنه يجب فكه نحو أحبب بزيد وأشدد ببياض وجهه\n# الثاني: هلم فإنهم التزموا إدغامه والله سبحانه وتعالى أعلم.\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "AFFIX-LIGHT-NUN-PAUSE": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::AFFIX-LIGHT-NUN-PAUSE",
+        "rule_id": "AFFIX-LIGHT-NUN-PAUSE",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "نون توكيد خفيفة: الألف بعد فتح، واسترجاع ضمير محذوف بحسب السياق",
+        "source_blockers": "ليست نون النسوة ولا الثقيلة؛ اختلاف يونس والخليل مصرح به",
+        "boundary_mode": "waqf",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "اضربا / اضربي / اضربوا في الوقف على الخفيفة",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "إجراء هذا الحذف على النون الثقيلة",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "sibawayhi",
+            "line_start": 14270,
+            "line_end": 14297,
+            "start": 1693583,
+            "end": 1697110,
+            "sha256": "fc4ce65ae02a40ce7f2b97e68badc785a8e30a2f8871489139fac439e0ff4e7e",
+            "raw_text": "# | ( هذا باب الوقف عند النون الخفيفة )\n# اعلم أنه إذا كان الحرف الذي قبلها مفتوحا ثم وقفت جعلت مكانها ألفا كما\n~~فعلت ذلك في الأسماء المنصرفة حين وقفت وذلك لأن النون الخفيفة والتنوين من\n~~موضع واحد وهما حرفان زائدان والنون الخفيفة ساكنة كما أن التنوين ساكن وهي\n~~علامة توكيد كما أن التنوين علامة المتمكن فلما كانت كذلك أجريت مجراها في\n~~الوقف وذلك قولك اضربا إذا أمرت الواحد وأردت الخفيفة وهذا تفسير الخليل |\n~~وإذا وقفت عندها وقد أذهبت علامة الإضمار التي تذهب إذا كان بعدها ألف\n~~خفيفة أو ألف ولام رددتها كما ترد الألف التي في هذا مثنى PageV03P521 كما\n~~ترى إذا سكت وذلك قولك للمرأة وأنت تريد الخفيفة اضربي وللجميع اضربوا\n~~وارموا وللمرأة ارمي واغزي فهذا تفسير الخليل وهو قول العرب ويونس | وقال\n~~الخليل إذا كان ما قبلها مكسورا أو مضموما ثم وقفت عندها لم تجعل مكانها\n~~ياء ولا واوا وذلك قولك للمرأة وأنت تريد الخفيفة اخشي وللجميع وأنت تريد\n~~النون الخفيفة اخشوا وقال هو بمنزلة التنوين إذا كان ما قبله مجرورا أو\n~~مرفوعا | وأما يونس فيقول اخشيي واخشووا يزيد الياء والواو بدلا من النون\n~~الخفيفة من أجل الضمة والكسرة | فقال الخليل لا أرى ذاك إلا على قول من قال\n~~هذا عمرو ومررت بعمري وقول العرب على قول الخليل | وإذا وقفت ms605 عند النون\n~~الخفيفة في فعل مرتفع لجميع رددت النون التي تثبت في الرفع وذلك قولك وأنت\n~~تريد الخفيفة هل تضربين وهل تضربون وهل تضربان ولا تقول هل تضربونا فتجريها\n~~مجرى التي تثبت مع الخفيفة في الصلة PageV03P522 وينبغي لمن قال بقول يونس\n~~في اخشيي واخشووا إذا أراد الخفيفة أن يقول هل تضربوا يجعل الواو مكان\n~~الخفيفة كما فعل ذلك في اخشيي لأن ما قبلها في الوصل مرتفع إذا كان الفعل\n~~للجمع ومنكسر إذا كان للمؤنث ولا يرد النون مع ما هو بدل من الخفيفة كما لم\n~~تثبت في الصلة فإنما ينبغي لمن قال بذا أن يجريها مجراها في المجزوم لأن\n~~نون الجميع ذاهبة في الوصل كما تذهب في المجزوم وفعل الاثنين المرتفع\n~~بمنزلة فعل الجميع المرتفع | فأما الثقيلة فلا تتغير في الوقف لأنها لا\n~~تشبه التنوين | وإذا كان بعد الخفيفة ألف ولام أو ألف الوصل ذهبت كما تذهب\n~~واو يقل لالتقاء الساكنين ولم يجعلوها كالتنوين هنا فرقوا بين الاسم والفعل\n~~وكان في الاسم أقوى لأن الاسم أقوى من الفعل وأشد تمكنا\n",
+            "page_markers_in_span": [
+              "PageV03P521",
+              "PageV03P522"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "MUGHNI-ANA-BOUNDARY": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::MUGHNI-ANA-BOUNDARY",
+        "rule_id": "MUGHNI-ANA-BOUNDARY",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "ضمير المتكلم في النقل المذكور عند الأكثرين",
+        "source_blockers": "النص ينقل أن بسكون النون لبعضهم؛ ليس حكمًا على كل أن الحرفية",
+        "boundary_mode": "waqf_wasl",
+        "source_text_status": "reviewed",
+        "interpretation_note": "The rule statement and diagnostics are authored interpretations of the cited text. Source replay is not a proof of linguistic completeness.",
+        "positive_cases": [
+          {
+            "surface": "أنا في الوقف",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "معاملة أن المصدرية مثل ضمير المتكلم",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "mughni",
+            "line_start": 477,
+            "line_end": 482,
+            "start": 43368,
+            "end": 43862,
+            "sha256": "1010bb6ba5f20982d805d9d36610c575fa02d99ef92d95da51e5b1ba2d77cd0d",
+            "raw_text": "### | أن المفتوحة الهمزة الساكنة النون\n# على وجهين اسم وحرف\n# والاسم على وجهين ضمير المتكلم في قول بعضهم أن فعلت بسكون النون\n~~والأكثرون على فتحها وصلا وعلى الإتيان بالألف وقفا وضمير المخاطب في قولك\n~~أنت وأنت وأنتما وأنتم وأنتن على قول الجمهور إن الضمير هو أن والتاء حرف\n~~خطاب\n",
+            "page_markers_in_span": []
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      },
+      "ASSIM-NUN-B-BLOCKED-TEXT": {
+        "schema": "nabt.classical-rule-source-context.v1",
+        "authority": "AUTHORED_SOURCE_CONTEXT_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "rule_key": "nabt.classical-rule-inventory.v1::ASSIM-NUN-B-BLOCKED-TEXT",
+        "rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+        "owner": {
+          "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+          "schema": "nabt.classical-rule-inventory.v1",
+          "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+        },
+        "source_scope": "المتن المحلي يقول قبل يا بينما الشرح يقول قبل با",
+        "source_blockers": "ممنوع توليد قاعدة نون قبل ياء تصبح ميمًا من النص المختلف",
+        "boundary_mode": "wasl",
+        "source_text_status": "textual_discrepancy",
+        "interpretation_note": "Keep the local bytes unchanged. Corroborating Ibn Aqil lines 9438–9443 read با and explicitly explain الباء; correction is recorded, never silently substituted.",
+        "positive_cases": [
+          {
+            "surface": "من بت: قراءة الباء تؤيدها نسخة الشرح",
+            "scope": "authored diagnostic based on cited passage; vocalization may be editorial"
+          }
+        ],
+        "negative_cases": [
+          {
+            "surface": "نون ساكنة قبل ياء تصبح ميمًا",
+            "scope": "contrast/outside this rule, not necessarily ungrammatical Arabic"
+          }
+        ],
+        "source_spans": [
+          {
+            "source_id": "alfiyya",
+            "line_start": 1248,
+            "line_end": 1248,
+            "start": 95037,
+            "end": 95134,
+            "sha256": "bf01fdbde1d23f2a10db757de3a7f69dc125cd9b56654a7ff39e5442bf11442a",
+            "raw_text": "# وقبل يا اقلب ميما النون إذا ... كان مسكنا كمن بت انبذا\n",
+            "page_markers_in_span": []
+          },
+          {
+            "source_id": "ibn_aqil",
+            "line_start": 9438,
+            "line_end": 9443,
+            "start": 878052,
+            "end": 878530,
+            "sha256": "141696c039418e2bb3eae3b6ad0192bafba95b6a8e1bf2ce0649b9997849f2c0",
+            "raw_text": "# وقبل با أقلب ميما النون إذا ... كان مسكنا كمن بت انبذا\n# لما كان النطق بالنون الساكنة قبل الباء عسرا وجب قلب النون ميما\n# PageV04P232\n# ولا\n# فرق في ذلك بين المتصلة والمنفصلة ويجمعهما قوله من بت أنبذا أي من قطعك\n~~فألقه عن بالك وأطرحه وألف انبذا مبدلة من نون التوكيد الخفيفة.\n",
+            "page_markers_in_span": [
+              "PageV04P232"
+            ]
+          }
+        ],
+        "premises_established_from_free_text": false,
+        "grants_language_license": false
+      }
+    },
+    "query": "همزة الأمر",
+    "lexical_frame": {
+      "root": [
+        "ء",
+        "ك",
+        "ل"
+      ],
+      "profile": "all_attested"
+    },
+    "report_boundaries": {
+      "schema": "nabt.conditional-rule-routing.v2",
+      "authority": "CONDITIONAL_TRANSFORMATION_ONLY",
+      "premises_established_from_free_text": false,
+      "grants_language_license": false,
+      "exhaustive_language_claim": false,
+      "whole_book_completeness": false
+    },
+    "request_keys_direct": [
+      "ranked_rule_keys",
+      "frames_sha256",
+      "budget"
+    ],
+    "request_keys_whole": [
+      "ranked_rule_keys",
+      "frames_sha256",
+      "budget",
+      "query"
+    ]
+  },
+  "cases": [
+    {
+      "id": "OC01",
+      "title": "Exact 24-owner projection and unchanged catalogue population",
+      "expected": {
+        "catalogue_schema": "nabt.grammar-retrieval-catalog.v2",
+        "catalogue_sha256": "941e07ef6aba31b4693e328357417f48fe85074c877ac519ed324e2b72d8c3c9",
+        "catalogue_rule_count": 125,
+        "inventory_rule_count": 38,
+        "installed_operator_count": 24,
+        "source_context_in_catalogue": false,
+        "source_context_on_every_examined_v2_row": true
+      },
+      "context_oracle": "fixtures.source_context_by_rule_id",
+      "ordered_operator_oracle": "fixtures.ordered_operator_ids"
+    },
+    {
+      "id": "OC02",
+      "title": "Unknown hamza premise remains distinct from explicit scoped blockers",
+      "rule_id": "HAMZA-FINAL-LONG",
+      "cases": [
+        {
+          "id": "added_final",
+          "frame": {
+            "prefix": [
+              "د",
+              "ع"
+            ],
+            "glide": "waw",
+            "alif_origin": "added",
+            "suffix": []
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "CONDITIONAL_TRANSFORM",
+          "operations": [
+            "hamzate_final"
+          ],
+          "outputs": [
+            [
+              "د",
+              "ع",
+              "ا",
+              "ء"
+            ]
+          ]
+        },
+        {
+          "id": "unknown_origin",
+          "frame": {
+            "prefix": [
+              "د",
+              "ع"
+            ],
+            "glide": "waw",
+            "alif_origin": "unknown",
+            "suffix": []
+          },
+          "route_status": "PARTIAL",
+          "result_status": "DEFER",
+          "operations": [],
+          "outputs": []
+        },
+        {
+          "id": "original_alif",
+          "frame": {
+            "prefix": [
+              "د",
+              "ع"
+            ],
+            "glide": "waw",
+            "alif_origin": "radical",
+            "suffix": []
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "BLOCKED",
+          "operations": [],
+          "outputs": []
+        },
+        {
+          "id": "nonfinal_glide",
+          "frame": {
+            "prefix": [
+              "د",
+              "ع"
+            ],
+            "glide": "waw",
+            "alif_origin": "added",
+            "suffix": [
+              "ن"
+            ]
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "BLOCKED",
+          "operations": [],
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "id": "OC03",
+      "title": "Dialect alternatives retain their separate operations and surfaces",
+      "rule_id": "GEM-JUSSIVE-VARIANTS",
+      "cases": [
+        {
+          "id": "hijaz",
+          "frame": {
+            "prefix": [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ]
+            ],
+            "first": [
+              "د",
+              "u"
+            ],
+            "second": [
+              "د",
+              "s"
+            ],
+            "suffix": [],
+            "context": "command",
+            "dialect": "hijaz"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "operations": [
+            "split"
+          ],
+          "outputs": [
+            [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ],
+              [
+                "د",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "tamim",
+          "frame": {
+            "prefix": [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ]
+            ],
+            "first": [
+              "د",
+              "u"
+            ],
+            "second": [
+              "د",
+              "s"
+            ],
+            "suffix": [],
+            "context": "command",
+            "dialect": "tamim"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "operations": [
+            "contract_a",
+            "contract_u"
+          ],
+          "outputs": [
+            [
+              [
+                "ر",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ],
+              [
+                "د",
+                "a"
+              ]
+            ],
+            [
+              [
+                "ر",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ],
+              [
+                "د",
+                "u"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "attested_union",
+          "frame": {
+            "prefix": [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ]
+            ],
+            "first": [
+              "د",
+              "u"
+            ],
+            "second": [
+              "د",
+              "s"
+            ],
+            "suffix": [],
+            "context": "command",
+            "dialect": "attested_union"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "operations": [
+            "split",
+            "contract_a",
+            "contract_i",
+            "contract_u"
+          ],
+          "outputs": [
+            [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ],
+              [
+                "د",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ]
+            ],
+            [
+              [
+                "ر",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ],
+              [
+                "د",
+                "a"
+              ]
+            ],
+            [
+              [
+                "ر",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ],
+              [
+                "د",
+                "i"
+              ]
+            ],
+            [
+              [
+                "ر",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ],
+              [
+                "د",
+                "u"
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OC04",
+      "title": "Nun source discrepancy survives successful scoped execution and blocked contexts",
+      "rule_id": "ASSIM-NUN-B-BLOCKED-TEXT",
+      "expected_context_status": "textual_discrepancy",
+      "expected_receipt_status": "textual_discrepancy",
+      "context_source_ids": [
+        "alfiyya",
+        "ibn_aqil"
+      ],
+      "runtime_source_ids": [
+        "alfiyya",
+        "ibn_aqil",
+        "sibawayhi"
+      ],
+      "literal_source_fragments": {
+        "alfiyya": "وقبل يا",
+        "ibn_aqil": "وقبل با"
+      },
+      "cases": [
+        {
+          "id": "ba_in_wasl",
+          "frame": {
+            "left": [
+              "ن",
+              "s"
+            ],
+            "right": [
+              "ب",
+              "a"
+            ],
+            "connection": "word_boundary_wasl"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "CONDITIONAL",
+          "outputs": [
+            [
+              [
+                "م",
+                "s"
+              ],
+              [
+                "ب",
+                "a"
+              ]
+            ]
+          ],
+          "textual_discrepancy_retained": true
+        },
+        {
+          "id": "ya_in_wasl",
+          "frame": {
+            "left": [
+              "ن",
+              "s"
+            ],
+            "right": [
+              "ي",
+              "a"
+            ],
+            "connection": "word_boundary_wasl"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "OUTSIDE_SCOPE",
+          "outputs": []
+        },
+        {
+          "id": "ba_across_pause",
+          "frame": {
+            "left": [
+              "ن",
+              "s"
+            ],
+            "right": [
+              "ب",
+              "a"
+            ],
+            "connection": "word_boundary_waqf"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "OUTSIDE_SCOPE",
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "id": "OC05",
+      "title": "Bakr feminine contraction remains an unresolved surface, not an invented vowel",
+      "rule_id": "GEM-FEMININE-SUFFIX",
+      "cases": [
+        {
+          "id": "bakr",
+          "frame": {
+            "prefix": [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ]
+            ],
+            "first": [
+              "د",
+              "u"
+            ],
+            "second": [
+              "د",
+              "s"
+            ],
+            "suffix": [
+              [
+                "ن",
+                "a"
+              ]
+            ],
+            "context": "feminine",
+            "dialect": "bakr"
+          },
+          "route_status": "PARTIAL",
+          "operations": [
+            "bakr_contraction_unvocalized"
+          ],
+          "outputs": [
+            null
+          ],
+          "segments": [
+            null
+          ],
+          "surface_complete": [
+            false
+          ]
+        },
+        {
+          "id": "union",
+          "frame": {
+            "prefix": [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ]
+            ],
+            "first": [
+              "د",
+              "u"
+            ],
+            "second": [
+              "د",
+              "s"
+            ],
+            "suffix": [
+              [
+                "ن",
+                "a"
+              ]
+            ],
+            "context": "feminine",
+            "dialect": "attested_union"
+          },
+          "route_status": "PARTIAL",
+          "operations": [
+            "split",
+            "bakr_contraction_unvocalized"
+          ],
+          "outputs": [
+            [
+              [
+                "ٱ",
+                "u"
+              ],
+              [
+                "ر",
+                "s"
+              ],
+              [
+                "د",
+                "u"
+              ],
+              [
+                "د",
+                "s"
+              ],
+              [
+                "ن",
+                "a"
+              ]
+            ],
+            null
+          ],
+          "surface_complete": [
+            true,
+            false
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OC06",
+      "title": "Light-nun partial profiles remain visible beside their source boundary",
+      "rule_id": "AFFIX-LIGHT-NUN-PAUSE",
+      "cases": [
+        {
+          "id": "both",
+          "frame": {
+            "segments": [
+              "ت",
+              "a",
+              "ض",
+              "ر",
+              "i",
+              "ب",
+              "a:",
+              "ن",
+              "i"
+            ],
+            "start": "ibtida",
+            "end": "waqf",
+            "shape": "indicative_dual",
+            "profile": "both",
+            "nun_kind": "light",
+            "following": "none"
+          },
+          "route_status": "PARTIAL",
+          "result_status": "CONDITIONAL",
+          "outputs": [
+            [
+              "ت",
+              "a",
+              "ض",
+              "ر",
+              "i",
+              "ب",
+              "a:",
+              "ن"
+            ]
+          ],
+          "unresolved_profiles": [
+            "yunus_indicative_dual"
+          ],
+          "alternatives_complete_within_requested_profile": false
+        },
+        {
+          "id": "yunus",
+          "frame": {
+            "segments": [
+              "ت",
+              "a",
+              "ض",
+              "ر",
+              "i",
+              "ب",
+              "a:",
+              "ن",
+              "i"
+            ],
+            "start": "ibtida",
+            "end": "waqf",
+            "shape": "indicative_dual",
+            "profile": "yunus",
+            "nun_kind": "light",
+            "following": "none"
+          },
+          "route_status": "PARTIAL",
+          "result_status": "DEFER",
+          "outputs": [],
+          "unresolved_profiles": [
+            "yunus_indicative_dual"
+          ],
+          "alternatives_complete_within_requested_profile": false
+        },
+        {
+          "id": "khalil",
+          "frame": {
+            "segments": [
+              "ت",
+              "a",
+              "ض",
+              "ر",
+              "i",
+              "ب",
+              "a:",
+              "ن",
+              "i"
+            ],
+            "start": "ibtida",
+            "end": "waqf",
+            "shape": "indicative_dual",
+            "profile": "khalil",
+            "nun_kind": "light",
+            "following": "none"
+          },
+          "route_status": "CHECKED_CONDITIONAL",
+          "result_status": "CONDITIONAL",
+          "outputs": [
+            [
+              "ت",
+              "a",
+              "ض",
+              "ر",
+              "i",
+              "ب",
+              "a:",
+              "ن"
+            ]
+          ],
+          "unresolved_profiles": [],
+          "alternatives_complete_within_requested_profile": true
+        }
+      ]
+    },
+    {
+      "id": "OC07",
+      "title": "Missing frames and pending budgets never receive invented receipts or completion",
+      "cases": [
+        {
+          "id": "no_frames",
+          "ranked_rule_keys": [],
+          "frames_by_rule": {},
+          "budget": null,
+          "status": "INCOMPLETE_PREMISES_OR_RESULTS",
+          "examined_rule_count": 24,
+          "row_status": "MISSING_PREMISES",
+          "source_context_count": 24,
+          "receipt_count": 0,
+          "inventory_exhausted": true,
+          "conditional_evaluation_complete": false,
+          "pending_rule_count": 0
+        },
+        {
+          "id": "zero_budget",
+          "ranked_rule_keys": [],
+          "frames_by_rule": {},
+          "budget": 0,
+          "status": "RESOURCE_EXHAUSTED",
+          "examined_rule_count": 0,
+          "source_context_count": 0,
+          "receipt_count": 0,
+          "inventory_exhausted": false,
+          "conditional_evaluation_complete": false,
+          "pending_rule_count": 24
+        }
+      ],
+      "pending_are_rule_ids_only": true
+    },
+    {
+      "id": "OC08",
+      "title": "Invalid frames, frame resource exhaustion and source failure remain distinct",
+      "cases": [
+        {
+          "id": "extra_flag",
+          "rule_id": "HAMZA-FINAL-LONG",
+          "frame": {
+            "approved": true
+          },
+          "route_status": "FRAME_ERROR",
+          "error_code": "INVALID_CLASSICAL_HAMZA_FRAME",
+          "error_status": "REJECT",
+          "receipt_present": false,
+          "source_context_present": true
+        },
+        {
+          "id": "finite_float",
+          "rule_id": "HAMZA-FINAL-LONG",
+          "frame": {
+            "prefix": [
+              "د",
+              "ع"
+            ],
+            "glide": 1.0,
+            "alif_origin": "added",
+            "suffix": []
+          },
+          "route_status": "FRAME_ERROR",
+          "error_code": "INVALID_CLASSICAL_FRAME",
+          "error_status": "REJECT",
+          "receipt_present": false,
+          "source_context_present": true
+        },
+        {
+          "id": "tail_budget",
+          "rule_id": "HAMZA-INTERROGATIVE-AL",
+          "frame": {
+            "tail": [
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر",
+              "ر"
+            ],
+            "boundary": "ibtida"
+          },
+          "route_status": "FRAME_ERROR",
+          "error_code": "RESOURCE_LIMIT",
+          "error_status": "DEFER",
+          "receipt_present": false,
+          "source_context_present": true
+        }
+      ]
+    },
+    {
+      "id": "OC09",
+      "title": "Existing receipts and replay remain identical and rank-independent",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "frame": {
+        "root": [
+          "ء",
+          "ك",
+          "ل"
+        ],
+        "profile": "all_attested"
+      },
+      "operations": [
+        "short_command",
+        "full_dialect_command"
+      ],
+      "outputs": [
+        [
+          "ك",
+          "ل"
+        ],
+        [
+          "ء",
+          "و",
+          "ك",
+          "ل"
+        ]
+      ],
+      "receipt_sha256": "cfc18cfddccb284b991178fda76165b5762672802c877f2eae0f33c1b6c29406",
+      "assertions": [
+        "v2 row minus source_context is canonical-byte-identical to v1 row",
+        "runtime receipt is canonical-byte-identical to classical_laws.evaluate",
+        "verification is canonical-byte-identical to classical_laws.verify",
+        "duplicate ranked keys do not duplicate operators",
+        "reverse ordering preserves complete rows by rule_id",
+        "request retains exact duplicate ranked keys even when schedule deduplicates"
+      ]
+    },
+    {
+      "id": "OC10",
+      "title": "Valid metadata from the wrong operator cannot be substituted",
+      "report_rule_id": "HAMZA-LEXICAL-COMMAND",
+      "substitute_context_rule_id": "HAMZA-FINAL-LONG",
+      "mutations": [
+        "replace_entire_source_context_with_other_valid_context",
+        "change_context_rule_id_only",
+        "change_context_rule_key_only",
+        "change_row_rule_id_only"
+      ],
+      "expected_error_type": "RetrievalError",
+      "expected_verification": "REJECT_WHOLE_REPORT"
+    },
+    {
+      "id": "OC11",
+      "title": "Scope, blockers, examples and provenance are bound to the exact source owner",
+      "rule_id": "HAMZA-LEXICAL-COMMAND",
+      "mutations": [
+        {
+          "path": "source_scope",
+          "value": "Every hamza in every word"
+        },
+        {
+          "path": "source_blockers",
+          "value": "No blockers"
+        },
+        {
+          "path": "boundary_mode",
+          "value": "waqf"
+        },
+        {
+          "path": "positive_cases/0/surface",
+          "value": "invented example"
+        },
+        {
+          "path": "negative_cases/0/scope",
+          "value": "ungrammatical in all Arabic"
+        },
+        {
+          "path": "interpretation_note",
+          "value": "Verified universal source interpretation"
+        },
+        {
+          "path": "owner/sha256",
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "path": "source_spans/0/raw_text",
+          "append": " fabricated"
+        },
+        {
+          "path": "premises_established_from_free_text",
+          "value": true
+        },
+        {
+          "path": "grants_language_license",
+          "value": true
+        }
+      ],
+      "expected_error_type": "RetrievalError",
+      "caller_recomputed_hash_does_not_repair_tampering": true
+    },
+    {
+      "id": "OC12",
+      "title": "Whole-report replay binds receipts, query, every frame and requested budget",
+      "query": "همزة الأمر",
+      "equivalent_search_query": "هَمْزَةُ الأَمْرِ",
+      "cases": [
+        "unchanged_v2_report_verifies",
+        "tampered_runtime_receipt_rejected_by_runtime_and_whole_verifier",
+        "changed_raw_query_rejected_even_when_search_ranking_equal",
+        "changed_unexamined_frame_rejected_at_budget_zero",
+        "budget_none_and_24_not_interchangeable",
+        "changed_ranked_key_binding_rejected",
+        "v1_rejected_by_whole_request_verifier"
+      ],
+      "runtime_tamper_error_code": "CLASSICAL_RECEIPT_MISMATCH",
+      "expected_error_type": "RetrievalError",
+      "unused_rule_id": "HAMZA-FINAL-LONG",
+      "unused_frame": {
+        "prefix": [
+          "د",
+          "ع"
+        ],
+        "glide": "waw",
+        "alif_origin": "unknown",
+        "suffix": []
+      },
+      "changed_unused_frame": {
+        "prefix": [
+          "د",
+          "ع"
+        ],
+        "glide": "waw",
+        "alif_origin": "radical",
+        "suffix": []
+      },
+      "verification_equals": {
+        "schema": "nabt.conditional-rule-routing-verification.v1",
+        "valid": true,
+        "report_schema": "nabt.conditional-rule-routing.v2",
+        "authority": "ROUTING_REPLAY_ONLY",
+        "semantic_authority": "NONE",
+        "action_authority": "NONE",
+        "premises_established_from_free_text": false,
+        "grants_language_license": false,
+        "exhaustive_language_claim": false,
+        "whole_book_completeness": false
+      },
+      "verification_identity_fields": [
+        "report_sha256",
+        "catalog_sha256"
+      ]
+    },
+    {
+      "id": "OC13",
+      "title": "Actual original-source mutation fails replay, with no installed-byte changes",
+      "source_path": "src/nabt/data/source_evidence/sibawayhi.txt",
+      "mutation": "replace first byte with ASCII X, preserve length",
+      "steps": [
+        "clean real source loader control succeeds",
+        "fresh whole-report verifier rejects temporary redirected changed source",
+        "already-built index does not bypass current source-owner validation for v2",
+        "source failure is not returned as an ordinary FRAME_ERROR row"
+      ],
+      "catalogue_source_error_type": "CatalogError",
+      "runtime_source_error_code": "INSTALLED_CONTRACT_FAILED",
+      "runtime_source_error_status": "DEFER",
+      "installed_source_unchanged": true,
+      "oracle_or_runtime_manifest_modified": false
+    },
+    {
+      "id": "OC14",
+      "title": "CLI compatibility, strict shapes, authority and defensive copies",
+      "query": "همزة الأمر",
+      "legacy_baseline": "evidence/operator_context_v1/baseline/route_before.json",
+      "legacy_raw_sha256": "f0f71647f43b3c469aa557c141ad0833ee83053ad049d91c7b84d0ef03213592",
+      "legacy_canonical_sha256": "0e232c9e5f24acc3bc8c891c4c12bc430d1d7e002082057a0e7b73463ea5aba4",
+      "frames_baseline": "evidence/operator_context_v1/baseline/frames.json",
+      "frames_raw_sha256": "629a2e980992de15b234eedd79c5fa67f551dcc8e6adbfee1f91c477c177aa23",
+      "cli_cases": [
+        "route defaults to v2",
+        "route --legacy exactly reproduces old CLI bytes",
+        "route --output writes the whole v2 report",
+        "verify-route verifies using external query and frames",
+        "verify-route rejects changed context",
+        "verify-route rejects duplicate JSON keys"
+      ],
+      "shape_cases": [
+        "bool report version is not 1",
+        "boolean budget is not integer1",
+        "context edits cannot mutate future calls or original owner",
+        "returned request frame digest cannot be replaced by supplied authority",
+        "nonfinite/coercive report values reject",
+        "finite retrieval scores remain supported",
+        "over-budget routing document returns RESOURCE_LIMIT/DEFER"
+      ],
+      "limits": {
+        "routing_document_bytes": 8388608,
+        "routing_document_nodes": 1000000,
+        "routing_document_depth": 64,
+        "ranked_rule_keys": 1000,
+        "query_bytes": 16384
+      },
+      "expected_input_exit_code": 2,
+      "expected_input_status": "INPUT_OR_SOURCE_ERROR"
+    }
+  ]
+}

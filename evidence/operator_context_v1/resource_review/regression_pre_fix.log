@@ -1,0 +1,44 @@
+test_review_aggregate_byte_budget_precedes_whole_serialization (test_grammar_catalog_operator_context.OperatorContextAcceptance.test_review_aggregate_byte_budget_precedes_whole_serialization)
+Supplement: reject aggregate expansion before serializing it whole. ... FAIL
+test_review_pretty_byte_budget_stops_before_complete_output (test_grammar_catalog_operator_context.OperatorContextAcceptance.test_review_pretty_byte_budget_stops_before_complete_output)
+Supplement: stop pretty output at the bound, before full materialization. ... FAIL
+
+======================================================================
+FAIL: test_review_aggregate_byte_budget_precedes_whole_serialization (test_grammar_catalog_operator_context.OperatorContextAcceptance.test_review_aggregate_byte_budget_precedes_whole_serialization)
+Supplement: reject aggregate expansion before serializing it whole.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT/tests/test_grammar_catalog_operator_context.py", line 628, in test_review_aggregate_byte_budget_precedes_whole_serialization
+    self.assertEqual(aggregate_calls, [],
+AssertionError: Lists differ: [{'ensure_ascii': False, 'sort_keys': True[43 chars]lse}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'ensure_ascii': False, 'sort_keys': True, 'separators': (',', ':'), 'allow_nan': False}
+
++ []
+- [{'allow_nan': False,
+-   'ensure_ascii': False,
+-   'separators': (',', ':'),
+-   'sort_keys': True}] : A late error after serializing all 202 bytes does not enforce the 128-byte bound
+
+======================================================================
+FAIL: test_review_pretty_byte_budget_stops_before_complete_output (test_grammar_catalog_operator_context.OperatorContextAcceptance.test_review_pretty_byte_budget_stops_before_complete_output)
+Supplement: stop pretty output at the bound, before full materialization.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT/tests/test_grammar_catalog_operator_context.py", line 674, in test_review_pretty_byte_budget_stops_before_complete_output
+    self.assertEqual(oversized_complete_dumps, [],
+AssertionError: Lists differ: [194] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+194
+
+- [194]
++ [] : The 194-byte pretty string must not be built before rejecting the 128-byte limit
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.903s
+
+FAILED (failures=2)

@@ -1,0 +1,328 @@
+{
+  "schema": "nabt.token-equivalence.acceptance-contract.v1",
+  "baseline_head": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+  "scope": "Semantics-preserving reuse of single-character Unicode mark classification in the existing retrieval.tokens path.",
+  "authorized_change": "Bounded deterministic Unicode mark predicate memoization only; preserve the existing tatweel removal, alif mapping, casefold and token-boundary order.",
+  "preservation": [
+    "All earlier oracle/gold/freeze/test files and CI files remain unchanged.",
+    "No catalogue/index/source-validation or runtime receipt cache.",
+    "No networking during tests.",
+    "No arbitrary speed thresholds or new timing-based acceptance."
+  ],
+  "cache_contract_if_introduced": {
+    "predicate_result": "one boolean per single input character",
+    "maximum_entries": 4096,
+    "semantics_tests_require_cache_to_exist": false,
+    "capacity_and_performance_observation": "Separate implementation review/benchmark, not manufactured semantic gold."
+  },
+  "exhaustive_classification": {
+    "code_point_count": 1114112,
+    "interval_inclusive": [
+      0,
+      1114111
+    ],
+    "includes_lone_surrogate_count": 2048,
+    "unicode_versions": [
+      "14.0.0",
+      "15.0.0",
+      "15.1.0"
+    ],
+    "batch_size": 4096,
+    "left_anchor": "A",
+    "right_anchor": "Z",
+    "record_marker": "qzxmarkboundary",
+    "expected_deleted_tokens": [
+      "az"
+    ],
+    "deleted_iff": "code point is in the independently pinned Unicode Mn/Mc/Me ranges, or is the explicitly separate tatweel U+0640",
+    "scope_limit": "Exhaustive input-character deletion/classification coverage in anchored contexts; not an exhaustive test of arbitrary strings or a replacement Unicode normalization engine."
+  },
+  "literal_cases": [
+    {
+      "id": "empty",
+      "input": "",
+      "expected_tokens": []
+    },
+    {
+      "id": "arabic_vowel_marks",
+      "input": "\u0623\u064e\u0643\u0652\u0631\u0650\u0645\u0652 \u0625\u0650\u0643\u0652\u0631\u064e\u0627\u0645\u064b\u0627",
+      "expected_tokens": [
+        "\u0627\u0643\u0631\u0645",
+        "\u0627\u0643\u0631\u0627\u0645\u0627"
+      ]
+    },
+    {
+      "id": "arabic_tatweel",
+      "input": "\u0633\u0640\u0640\u064a\u0628\u0648\u064a\u0647",
+      "expected_tokens": [
+        "\u0633\u064a\u0628\u0648\u064a\u0647"
+      ]
+    },
+    {
+      "id": "all_four_alif_variants",
+      "input": "\u0623\u0625\u0622\u0671 \u0627",
+      "expected_tokens": [
+        "\u0627\u0627\u0627\u0627",
+        "\u0627"
+      ]
+    },
+    {
+      "id": "combining_nonspacing",
+      "input": "A\u0301B",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "spacing_combining",
+      "input": "A\u093eB",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "enclosing_mark",
+      "input": "A\u20ddB",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "supplementary_mark",
+      "input": "A\ud83a\udd44B",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "variation_selector",
+      "input": "A\ufe0fB",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "supplementary_variation_selector",
+      "input": "A\udb40\udd00B",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "tatweel_joins_letters",
+      "input": "A\u0640B",
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "underscore_is_boundary",
+      "input": "A_B",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "connector_punctuation_is_boundary",
+      "input": "A\u203fB",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "joiner_is_not_a_mark",
+      "input": "A\u200dB",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "nonjoiner_is_not_a_mark",
+      "input": "A\u200cB",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "modifier_letter_is_not_a_mark",
+      "input": "A\u02b0B",
+      "expected_tokens": [
+        "a\u02b0b"
+      ]
+    },
+    {
+      "id": "spacing_accent_is_not_a_mark",
+      "input": "A\u00b4B",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "casefold_introduces_separator",
+      "input": "\u0130X",
+      "expected_tokens": [
+        "i",
+        "x"
+      ]
+    },
+    {
+      "id": "input_mark_removed_before_casefold",
+      "input": "I\u0307X",
+      "expected_tokens": [
+        "ix"
+      ]
+    },
+    {
+      "id": "casefold_introduces_below_mark",
+      "input": "A\u1e96Z",
+      "expected_tokens": [
+        "ah",
+        "z"
+      ]
+    },
+    {
+      "id": "full_casefold_expansions",
+      "input": "Stra\u00dfe \u03a3\u03c2 \ufb03 \u1e9e",
+      "expected_tokens": [
+        "strasse",
+        "\u03c3\u03c3",
+        "ffi",
+        "ss"
+      ]
+    },
+    {
+      "id": "not_canonical_normalization",
+      "input": "\u00e9 e\u0301",
+      "expected_tokens": [
+        "\u00e9",
+        "e"
+      ]
+    },
+    {
+      "id": "not_arabic_presentation_normalization",
+      "input": "\ufefb \u0644\u0627",
+      "expected_tokens": [
+        "\ufefb",
+        "\u0644\u0627"
+      ]
+    },
+    {
+      "id": "not_width_normalization",
+      "input": "\uff21\uff22\uff23",
+      "expected_tokens": [
+        "\uff41\uff42\uff43"
+      ]
+    },
+    {
+      "id": "mixed_scripts_are_not_separate_tokens",
+      "input": "Latin\u0391\u03bb\u03c6\u03b1\u0639\u0631\u0628\u064a\u0967\u0968\u0969\u0661\u0662\u0663",
+      "expected_tokens": [
+        "latin\u03b1\u03bb\u03c6\u03b1\u0639\u0631\u0628\u064a\u0967\u0968\u0969\u0661\u0662\u0663"
+      ]
+    },
+    {
+      "id": "unicode_numeric_categories",
+      "input": "A\u00b2\u2167\u0663Z",
+      "expected_tokens": [
+        "a\u00b2\u2177\u0663z"
+      ]
+    },
+    {
+      "id": "english_punctuation_boundaries",
+      "input": "can't well-being",
+      "expected_tokens": [
+        "can",
+        "t",
+        "well",
+        "being"
+      ]
+    },
+    {
+      "id": "nul_boundary",
+      "input": "A\u0000Z",
+      "expected_tokens": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "unassigned_boundary",
+      "input": "A\u0378Z",
+      "expected_tokens": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "lone_high_surrogate",
+      "input": "A\ud800Z",
+      "expected_tokens": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "lone_low_surrogate",
+      "input": "A\udfffZ",
+      "expected_tokens": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "surrogate_only",
+      "input": "\ud800",
+      "expected_tokens": []
+    },
+    {
+      "id": "surrogate_pair_is_not_decoded",
+      "expected_tokens": [
+        "a",
+        "z"
+      ],
+      "input_codepoints": [
+        65,
+        55357,
+        56832,
+        90
+      ]
+    },
+    {
+      "id": "emoji_boundary",
+      "input": "A\ud83d\ude00Z",
+      "expected_tokens": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "marks_only",
+      "input": "\u0301\u093e\u20dd",
+      "expected_tokens": []
+    },
+    {
+      "id": "format_and_mark_order",
+      "input": "A\u200d\u0301Z",
+      "expected_tokens": [
+        "a",
+        "z"
+      ]
+    }
+  ],
+  "state_equivalence": "Repeat literal cases in reverse order and mutate a returned list; future outputs must still match the same literals.",
+  "catalogue_control": {
+    "path": "evidence/operator_context_v1/baseline/route_before.json",
+    "raw_sha256": "f0f71647f43b3c469aa557c141ad0833ee83053ad049d91c7b84d0ef03213592",
+    "catalogue_sha256": "941e07ef6aba31b4693e328357417f48fe85074c877ac519ed324e2b72d8c3c9",
+    "query": "\u0647\u0645\u0632\u0629 \u0627\u0644\u0623\u0645\u0631",
+    "equivalent_query": "\u0647\u064e\u0645\u0652\u0632\u064e\u0629\u064f \u0627\u0644\u0623\u064e\u0645\u0652\u0631\u0650",
+    "kind": "rule",
+    "limit": 10,
+    "compare": "Entire retrieval report against the pre-existing frozen baseline, including exact candidates, scores, records and authority flags."
+  }
+}

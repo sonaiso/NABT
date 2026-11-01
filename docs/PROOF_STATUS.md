@@ -1624,3 +1624,110 @@ orchestration, not a new general Lean proof of Python/JSON composition. The
 12-case exposed integration regression matches all expected contracts but has
 only five complete chains, including one of three positive inference cases.
 See `docs/PR34_ACQUISITION_INTEGRATION_AR.md` and retained receipts for scope.
+
+
+## Operator source-context routing (2026-11-01 Asia/Amman)
+
+The existing conditional-routing path now projects the pinned source scope,
+blockers, diagnostic examples and passages beside every examined operator row.
+V2 whole-report replay binds the independently supplied raw query, complete
+frame mapping and requested budget; legacy v1 output remains available.
+The original classical receipt owners and catalogue projection are unchanged.
+
+On committed implementation `d812f37`, 272 distinct local test methods passed:
+19 context/review methods, 47 existing catalogue methods, 157 owner methods and
+49 reuse methods, with no skips. The frozen 90-file dependency and 99-file
+runtime profiles, source inventories and preimplementation gold all matched.
+The first 17-test observation, two failing pre-fix resource regressions, focused
+allocation-order correction, and independent post-fix probes remain preserved.
+An incomplete first owner log is recorded as an evidence-integrity anomaly;
+the final owner result uses its complete hash-checked sequential replay.
+
+These are exposed Python/source-replay checks. The local environment had no
+`lake` or `exportRuleRouting`; no fresh local Lean build or complete `make check`
+is claimed. The existing final-head CI must rebuild the kernel and run native
+routing conformance before the authorized merge. The new projection introduces
+no Lean theorem, Python refinement proof, acquired free-text premise, rule
+adoption event, external truth or action authority. Actual grammar application
+trees and the existing `CertifiedBridge` realization obligations remain open.
+See [OPERATOR_CONTEXT_V1_RESULTS_AR.md](OPERATOR_CONTEXT_V1_RESULTS_AR.md).
+
+The first published head `d3cfba90` completed 16 checks successfully, including
+the formal and native routing jobs, but four runtime jobs exceeded their
+unchanged 20-minute deadline. Each had already completed the full unit step
+with 2,844 discovered methods and 221 skips; these are distinct from the local
+272-method targeted run with no skips. Exact annotations and scoped coverage
+debts remain in `performance_followup/ci_first_observation.json`.
+
+After freezing independent Unicode equivalence controls at `c340702`,
+`fd02910` adds only a 4,096-entry deterministic character-classification cache
+inside the existing retrieval tokenizer. Fresh source/index/receipt checks
+remain intact. Four offline methods passed before and after the change;
+exhaustiveness covers the anchored deletion property of 1,114,112 code points,
+not arbitrary strings or Arabic interpretation. One local paired end-to-end
+observation improved by 15.8% with identical complete reports. That observation
+is not a CI timing guarantee; the exact final head must pass all original gates.
+
+The post-cache targeted replay on `fd02910` passed all original 272 methods
+in 473.282 seconds with no skips and unchanged monitored inputs. Together
+with the separate four-method Unicode acceptance, this gives 276 distinct
+passing methods on the final production source. The wrapper initially counted
+267 inline outcomes: five methods put their `ok` on a following description
+line. The unchanged full log, complete footer and all 272 declared identities
+were checked independently; the separate count-review record preserves that
+bookkeeping limitation. Entropy and immutable-input checks also passed.
+See `evidence/operator_context_v1/performance_followup/verification_summary.json`.
+
+### متابعة تحسين التنفيذ مع حفظ الفحص (2026-11-01 UTC)
+
+تخص نتائج الفقرة السابقة محاولة النشر الأولى لتحسين تصنيف المحارف.
+أما الرصد المحفوظ للرأس `1535ca84b7433c2d19b16a2dedc4e26d09c12f9a`
+فيسجل 16 فحصًا ناجحًا وأربع مهام تنفيذ تجاوزت مهلة العشرين دقيقة.
+تبقى تلك النتائج محفوظة في
+[رصد المحاولة التالية](../evidence/operator_context_v1/performance_followup_v2/ci_first_observation.json)،
+ولا ينقل نجاح الفحوص الصورية أو اختبار محلي إلى المهام التي لم تكتمل.
+
+بعد تثبيت العقود والاختبارات والملاحظات السابقة للتعديل في
+`ada53b1c38f53d17e34407158b38986a6b9970b5`، يضم التنفيذ المحلي
+`c2fcbe583f88ac5ab79602f18beb7b5e561c6776` تحسينين محدودين. تستعمل
+`_fresh_index` المقارن الموجود `nabt.corpus_sources._same_json` لنجاح
+مطابقة صفوف صاحب الفهرس الجديدة والمتحقق منها، وهي بيانات JSON
+محددة الأنواع وخالية من الأعداد العائمة. يبقى شرط النوع الدقيق
+لـ`Counter` وفحص مفاتيحه الصريحة وقيمها، وتبقى المقارنة بالتسلسل
+المحدد والتشخيصات الأصلية مسارًا لكل حالة لا يجيزها المقارن.
+لا يشمل هذا الاستعمال بيانات JSON عامة ذات أعداد عائمة.
+
+ويقتصر تجاوز مرور إزالة العلامات والتطويل في `tokens` على قيمة من
+النوع `str` نفسه بعد إثبات أن المرور لن يحذف منها شيئًا. تستعمل
+السلاسل المحتوية محارف للحذف العملية الأصلية، وكذلك الأنواع المشتقة
+من `str` والمدخلات القابلة للتكرار الأخرى. يبقى ترتيب بقية التطبيع
+وملكية قائمة النتيجة كما كانا. لم يضف التعديل مخزنًا جديدًا، ولم يغير
+حد مخزن تصنيف المحرف السابق. تبقى إعادة بناء الفهرس وقراءة المصادر
+وفحصها ومقارنة الحالة الكاملة وإعادة فحص الإيصالات والمصادر النهائية
+ضمن المسار نفسه.
+
+نجحت عشر طرائق قبول دون تخط في تشغيل واحد مدته 9.850 ثانية:
+ست جديدة، منها أربع لحالة الفهرس واثنتان لحدود مدخلات إزالة العلامات،
+ومعها الأربع السابقة لـUnicode والترتيب. تحفظ
+[ملاحظة القبول](../evidence/operator_context_v1/performance_followup_v2/acceptance_after_optimization.json)
+المخرجات والبصمات كاملة. وتثبت
+[المراجعة المستقلة](../evidence/operator_context_v1/performance_followup_v2/independent_implementation_review.json)
+حدود المقارنة وإبقاء المسارات الأصلية، بوصفها مراجعة ساكنة للشيفرة
+والأدلة المحفوظة دون تشغيل اختبارات جديد. يعرض
+[سجل النتائج](OPERATOR_CONTEXT_V1_RESULTS_AR.md) القياس المقارن المحلي
+والملاحظات السابقة دون استبدالها.
+
+هذه اختبارات Python مكشوفة ومراجعة محدودة؛ لا تضيف مبرهنة Lean أو
+برهان تنقيح عام أو توسعًا مثبتًا في فهم العربية. اكتملت
+[إعادة المجموعة الأصلية](../evidence/operator_context_v1/performance_followup_v2/existing_272_after_optimization.json)
+على `c2fcbe5` بنجاح طرائقها الـ272 دون تخط، مع مطابقة هويات الاختبارات
+السابقة وخاتمة نجاح كاملة وثبات المدخلات. سجلت 387.012 ثانية للاختبار
+و387.858 ثانية للتشغيل كله. ومع طرائق القبول العشر يصبح الإجمالي
+**282 طريقة متميزة ناجحة دون تخط**. لا تعد فروق أزمنة التشغيل بين
+مناسبات مختلفة مقارنة أداء مضبوطة؛ القياس المقارن السابق مستقل عنها.
+
+نجح [فحص entropy](../evidence/operator_context_v1/performance_followup_v2/entropy_after_optimization.json)،
+وأكدت [مراجعة المدخلات المثبتة](../evidence/operator_context_v1/performance_followup_v2/immutable_inputs_after_optimization.json)
+مطابقة ملفات الاعتمادات الـ90 ومدخلات التنفيذ الـ99 والعقود الـ13.
+لم يثبت بعد اجتياز جميع بوابات CI على رأس النشر النهائي؛ يظل ذلك
+شرط الدمج بعد النشر، مع بقاء المهلة والبوابات الأصلية دون تعديل.

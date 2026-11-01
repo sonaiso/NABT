@@ -1,0 +1,39 @@
+{
+  "schema": "nabt.operator-context.design-review.v1",
+  "baseline_head": "cebb5c472451a1d541ed9b93f56bb6cd2e9d606e",
+  "phase": "PREIMPLEMENTATION_READ_ONLY",
+  "formal_build_or_tests_performed_by_this_review": false,
+  "source_owners": [
+    "src/nabt/classical_laws.py",
+    "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+    "tools/grammar_catalog/catalog.py",
+    "tools/grammar_catalog/retrieval.py",
+    "tools/grammar_catalog/routing.py"
+  ],
+  "existing_formal_contracts": [
+    "Nabt.RuleRouting.schedule_exact",
+    "Nabt.RuleRouting.checked_schedule_exact",
+    "Nabt.RuleRouting.exhausted_budget_not_complete"
+  ],
+  "decisions": [
+    "Project original inventory context only for the 24 installed operators, beside unchanged receipts; keep the 38 inventory and 125 catalogue populations distinct.",
+    "Default routing v2 binds raw query, exact ranked keys, all supplied frames and requested budget; explicit v1 is output compatibility only.",
+    "V2 whole-report verification rebuilds fresh source-validated owners from independently supplied request inputs and rejects legacy verification.",
+    "Validate cached source/index data against fresh owners, then use the fresh data; repeated identities must agree before insertion.",
+    "V2 source-contract/produced-receipt failures are global; invalid or resource-limited caller frames retain their existing row records.",
+    "Keep original source diagnostics, runtime alternatives, textual discrepancy, partial profiles and external authority limits.",
+    "Use existing source/retrieval/routing modules and CI discovery, preserving current 90/99 freezes, Makefile and main CI."
+  ],
+  "review_corrections": [
+    "An initial reviewer message overstated classical_laws.catalog fields. Corrected by direct source read: it exposes scope/blockers/status and compact spans; boundary/examples are owned by replay_inventory.",
+    "Draft wording native Python verification was corrected to Python owner/replay verification; no new Lean check is asserted."
+  ],
+  "final_spec": "docs/OPERATOR_CONTEXT_V1_SPEC.md",
+  "independent_oracle": "evidence/operator_context_v1/acceptance_cases.json",
+  "existing_boundary_observation": "evidence/operator_context_v1/preimplementation_boundary_observation.json",
+  "remaining_obligations": [
+    "Candidate adoption and external applicability are not supplied.",
+    "CertifiedBridge and RealizationContracts remain independently required for actual grammar application trees.",
+    "Python/source-interpretation refinement is not proved by this projection."
+  ]
+}

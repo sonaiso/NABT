@@ -1,0 +1,173 @@
+{
+  "schema": "nabt.operator-context.predicate-cache-performance.v1",
+  "started_utc": "2026-10-31T22:18:11.244848+00:00",
+  "finished_utc": "2026-10-31T22:18:50.797644+00:00",
+  "reference_head": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+  "observed_start_head": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+  "observed_end_head": "d3cfba90e9cdbdc75faaaaf3a09866d12a243b9f",
+  "reference_retrieval_sha256": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+  "final_retrieval_sha256": "520b2cf2de18a08535cf473c9f179335567ca80a60ab96710b076b5f9f57acba",
+  "production_files_changed": false,
+  "production_tokens_binding_restored": true,
+  "copied_baseline_source_matches_observed_production": true,
+  "script_sha256": "e1bf35cd0fd1c1b96bef1332405fed0910daee9823bce4a5f6afa857cc79d9b5",
+  "python": "3.12.14",
+  "unicode_version": "15.0.0",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "cache_maxsize": 4096,
+  "corpus": {
+    "catalog_sha256": "941e07ef6aba31b4693e328357417f48fe85074c877ac519ed324e2b72d8c3c9",
+    "document_count": 9821,
+    "input_codepoints": 6463234,
+    "input_utf8_bytes": 11093852,
+    "distinct_codepoints": 138,
+    "byte_scope": "Exact strings supplied to tokens, including retrieval descriptions and repeated source excerpts; not unique book bytes."
+  },
+  "direct_document_list_equality": {
+    "checked": 9821,
+    "mismatches": []
+  },
+  "corpus_rounds": [
+    {
+      "round": 1,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "tokenization_seconds": 1.7205669583418057,
+        "wall_including_output_digest_seconds": 1.8511225109978113,
+        "total_tokens": 1159080,
+        "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965"
+      },
+      "candidate": {
+        "tokenization_seconds": 1.3956688242251403,
+        "wall_including_output_digest_seconds": 1.520508173001872,
+        "total_tokens": 1159080,
+        "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965",
+        "cache_after": {
+          "hits": 6463096,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        }
+      }
+    },
+    {
+      "round": 2,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "tokenization_seconds": 1.499118610881851,
+        "wall_including_output_digest_seconds": 1.6409448630001862,
+        "total_tokens": 1159080,
+        "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965",
+        "cache_after": {
+          "hits": 6463096,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        }
+      },
+      "baseline": {
+        "tokenization_seconds": 1.8018941856498714,
+        "wall_including_output_digest_seconds": 1.9440478019969305,
+        "total_tokens": 1159080,
+        "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965"
+      }
+    },
+    {
+      "round": 3,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "tokenization_seconds": 1.7509665208417573,
+        "wall_including_output_digest_seconds": 1.8859983470028965,
+        "total_tokens": 1159080,
+        "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965"
+      },
+      "candidate": {
+        "tokenization_seconds": 1.3807894810233847,
+        "wall_including_output_digest_seconds": 1.507407675999275,
+        "total_tokens": 1159080,
+        "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965",
+        "cache_after": {
+          "hits": 6463096,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        }
+      }
+    }
+  ],
+  "candidate_warm_corpus": {
+    "tokenization_seconds": 1.391867112244654,
+    "wall_including_output_digest_seconds": 1.518627679994097,
+    "total_tokens": 1159080,
+    "output_sha256": "93bce4e0b5062e59e8f1d274f52310b9a7fb31d79d6da8f78865d58ba5de7965",
+    "cache_after": {
+      "hits": 12926330,
+      "misses": 138,
+      "maxsize": 4096,
+      "currsize": 138
+    }
+  },
+  "corpus_summary": {
+    "baseline_median_tokenization_seconds": 1.7509665208417573,
+    "candidate_cold_median_tokenization_seconds": 1.3956688242251403,
+    "speedup_ratio": 1.2545716365154709,
+    "time_reduction_fraction": 0.20291518563462407
+  },
+  "end_to_end": {
+    "query": "همزة الأمر",
+    "frames": {
+      "HAMZA-LEXICAL-COMMAND": {
+        "root": [
+          "ء",
+          "ك",
+          "ل"
+        ],
+        "profile": "all_attested"
+      }
+    },
+    "budget": null,
+    "baseline": {
+      "setup_seconds": 2.9472805179975694,
+      "build_seconds": 5.742834358999971,
+      "verify_seconds": 3.8190143410029123,
+      "total_seconds": 12.509136268003203,
+      "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+      "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19"
+    },
+    "candidate_cold": {
+      "setup_seconds": 2.442409341005259,
+      "build_seconds": 4.858814724000695,
+      "verify_seconds": 3.2321346919998177,
+      "total_seconds": 10.533363075002853,
+      "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+      "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19"
+    },
+    "full_report_canonical_bytes_equal": true,
+    "full_verification_canonical_bytes_equal": true,
+    "candidate_cache_after": {
+      "hits": 19389584,
+      "misses": 138,
+      "maxsize": 4096,
+      "currsize": 138
+    },
+    "speedup_ratio": 1.1875728747724585,
+    "time_reduction_fraction": 0.15794641217988248
+  },
+  "limits": [
+    "Differential performance observation only; independent semantic acceptance is a separately authored oracle.",
+    "One local Python/Unicode version and installed corpus; no held-out language accuracy claim.",
+    "Corpus rounds alternate order in one process; candidate cache is cleared before each cold run.",
+    "Per-document tokenization timings exclude digest calculation; timer and scheduler noise remain.",
+    "End-to-end baseline then candidate each run once; filesystem caches are already warm.",
+    "No source, index, receipt, or authority cache is introduced; all existing production replay paths execute."
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "schema": "nabt.operator-context.identity-optimization-independent-review.v1",
+  "reviewed_utc": "2026-11-01T18:32:02.059405+00:00",
+  "verdict": "NO_BLOCKER_IN_REVIEWED_NARROW_DIFF",
+  "freeze_commit": "ada53b1c38f53d17e34407158b38986a6b9970b5",
+  "observed_git_head": "c2fcbe583f88ac5ab79602f18beb7b5e561c6776",
+  "reviewed_production": {
+    "tools/grammar_catalog/routing.py": "d536fe75c80d2d2178f51b8d7a7b93080a7ea57e78aa1eec2e56b256652053b7",
+    "tools/grammar_catalog/retrieval.py": "b717ef6468e6069290ab430f3812dd2dc69cb27756fecf46ac3bfb936984c78f"
+  },
+  "review_scope": "Read-only source, AST, frozen-contract and retained-observation review. No test, benchmark, native checker or Lean execution was performed by this reviewer.",
+  "state_comparison": {
+    "reused_owner": "nabt.corpus_sources._same_json",
+    "owner_sha256": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+    "owner_source_changed": false,
+    "positive_fastpath_only": true,
+    "reference_precondition": "SearchIndex(catalog, root) invokes the unchanged validate_catalog; candidate and newly rebuilt catalogue are canonicalized before the fresh index is used. Its document rows are ordinary finite UTF-8 JSON data without floats; term-frequency rows are new Counters from token strings and integer counts.",
+    "typed_properties_preserved": [
+      "Exact ordinary container and scalar types; booleans remain distinct from integers.",
+      "Dictionary membership/content is preserved independently of insertion order, with exact str keys.",
+      "List length/order and scalar values remain exact.",
+      "The exact Counter type check precedes conversion of explicit contents to dict, retaining extra zero terms and typed counts.",
+      "Custom equality cannot grant a match against the fresh ordinary scalar/container types.",
+      "Traversal is bounded by the finite fresh expected tree; malformed input cannot expand that expected tree."
+    ],
+    "nonmatch_behavior": "The original canonical serialization comparison, CatalogError conversion and mismatch diagnostics remain byte-for-byte in the fallback branch. Malformed or unequal rows therefore retain the prior diagnostics.",
+    "not_a_general_claim": "The shortcut relies on the fresh float-free canonical reference. This is not a claim that _same_json equals canonical JSON-byte identity for unrestricted float-bearing values or arbitrary Python objects."
+  },
+  "token_identity_skip": {
+    "eligible_domain": "Only type(text) is str and no input character is a Unicode mark or tatweel.",
+    "removed_work": "The original join/removal pass is skipped only when it would preserve every input character.",
+    "remaining_order": [
+      "alif translation",
+      "casefold",
+      "word-token extraction"
+    ],
+    "marked_inputs": "Any input mark or tatweel sends the original exact string through the unchanged removal generator before the remaining operations.",
+    "subclasses_and_other_iterables": "The type guard short-circuits to the original generator for all non-exact-str values, so the new set/any predicate does not consume their iterators or invoke their conversion/translate methods.",
+    "result_ownership": "The unchanged regular-expression extraction returns a fresh list; no token list is cached.",
+    "unicode_boundary": "Marks introduced by casefold remain after the initial removal phase, exactly as before. The external query _text UTF-8/type/size guard is unchanged.",
+    "cache_change": "No new cache; the existing 4096-entry _is_mark Boolean cache and its bound are unchanged."
+  },
+  "static_ast_checks": {
+    "routing_changed_named_nodes": [
+      "_fresh_index"
+    ],
+    "routing_old_guard_recovered_after_removing_only_positive_continue_branch": true,
+    "retrieval_changed_named_nodes": [
+      "tokens"
+    ],
+    "retrieval_old_function_recovered_after_unwrapping_only_identity_guard": true,
+    "all_other_named_nodes_identical_to_freeze": true,
+    "routing_new_import": "from nabt.corpus_sources import _same_json as source_json_equal"
+  },
+  "preserved_source_and_authority_closure": [
+    "SearchIndex reconstructs and validates current sources before state comparison.",
+    "All document and term-frequency collection membership checks remain.",
+    "The accepted result is the new owner index, not the supplied index.",
+    "Final source rechecks, source-context joins, request binding, report snapshots and receipt verification functions are unchanged.",
+    "No source bytes, catalogue, approval result, receipt or validation verdict are cached by this change."
+  ],
+  "frozen_acceptance_scope": {
+    "state_methods": 4,
+    "document_variants": 30,
+    "frequency_variants": 18,
+    "collection_variants": 5,
+    "state_scope": "Most adversarial states use an authored small owner fixture and literal outcomes; a separate control reconstructs the installed index and archived retrieval. These are structural controls, not new proof of all source interpretation.",
+    "token_identity_methods": 2,
+    "exact_string_variants": 9,
+    "legacy_iterable_variants": 9,
+    "legacy_error_variants": 7,
+    "existing_unicode_methods": 4,
+    "unicode_scope": "Existing unchanged anchored deletion coverage plus literal normalization controls. No arbitrary-string or all-iterable completeness is claimed."
+  },
+  "retained_execution_observation": {
+    "path": "evidence/operator_context_v1/performance_followup_v2/acceptance_after_optimization.json",
+    "sha256": "239ca07fe2a1f7d281b90331bb9c7496e2ac4610dae46f8eb68e2c71ea945645",
+    "reported_methods": 10,
+    "reported_unittest_seconds": 9.85,
+    "reported_exit_code": 0,
+    "all_recorded_input_hashes_match_current_files": true,
+    "reviewer_reran_execution": false
+  },
+  "unchanged_frozen_materials": [
+    {
+      "path": "tools/grammar_catalog/catalog.py",
+      "sha256": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+      "matches_freeze": true
+    },
+    {
+      "path": "src/nabt/corpus_sources.py",
+      "sha256": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+      "matches_freeze": true
+    },
+    {
+      "path": "src/nabt/classical_laws.py",
+      "sha256": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+      "matches_freeze": true
+    },
+    {
+      "path": "tests/test_grammar_catalog_state_equivalence.py",
+      "sha256": "9abe7574e96aeff969cc288de5363d779838237c7ca2349e74323db079e7bc89",
+      "matches_freeze": true
+    },
+    {
+      "path": "tests/test_grammar_catalog_token_identity.py",
+      "sha256": "a33b3d10a7fb5607204e6c77cbb644cedf6ddfca2117d37c546329e8bed36057",
+      "matches_freeze": true
+    },
+    {
+      "path": "tests/test_grammar_catalog_token_equivalence.py",
+      "sha256": "f305d316cee2be8354cea566209e03dcd202a618012d11df2d3ddd2554da2657",
+      "matches_freeze": true
+    },
+    {
+      "path": "tests/test_grammar_catalog_operator_context.py",
+      "sha256": "576171125db200d9467e3f1d849eb465d0de096d1238a19a39fd07c5200ba9a3",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/acceptance_cases.json",
+      "sha256": "229ebcd32015207777a65fe5aa2d59f4c0397d4967bd70bc105111b3062bc2d3",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_contract.json",
+      "sha256": "31b5b6d09c9c9db42e6953ac148b34dd28083e6a1a5c065600078aae91004c05",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_oracle_provenance.json",
+      "sha256": "fea8cfb62e0ee71291d3c4ad2a0a398edf801bb0ba0c6fbc75f16000c8f9082b",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup/acceptance_unicode_marks.json",
+      "sha256": "f73328c6ea539387d9e7f5b212a7c784a4447247576ff89e300dcba98e19a950",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup_v2/acceptance_contract.json",
+      "sha256": "e1d025291c6960c596240ea5827b8335212f8ea0787f1501e64a43d59414bd4b",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup_v2/acceptance_oracle_provenance.json",
+      "sha256": "2063c5a51dcf4b650e362c84f39f3195dfe9ace5b78b59586b255b28375a483e",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup_v2/acceptance_token_identity.json",
+      "sha256": "30af42625da120d40f86f86a5d8f869d0a40ad45f157f0cad9c42c1f500a159d",
+      "matches_freeze": true
+    },
+    {
+      "path": "evidence/operator_context_v1/performance_followup_v2/acceptance_token_identity_provenance.json",
+      "sha256": "57c92773010f324fb155393c2572f1a4d62536893e442f71976ceea3c430d182",
+      "matches_freeze": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "f60f6cb068d05cef1de6f5613149484f0238d73871f7512cae48663f2a7872ba",
+      "matches_freeze": true
+    },
+    {
+      "path": "Makefile",
+      "sha256": "8780e1d59bb3b4aaa2bbc7a564d910e4cbb01c678071fdfb1122f52a3dac4612",
+      "matches_freeze": true
+    }
+  ],
+  "protected_paths_unchanged": [
+    "src/",
+    "formal/",
+    "tests/",
+    "Makefile",
+    ".github/workflows/ci.yml",
+    "tools/grammar_catalog/catalog.py",
+    "original acceptance/provenance and Unicode gold"
+  ],
+  "frozen_profile_checks": [
+    {
+      "manifest": "evidence/interpretive_links_v1/oracle_dependency_freeze_v1.json",
+      "files": 90,
+      "mismatches": []
+    },
+    {
+      "manifest": "evidence/interpretive_links_v1/code_freeze_v1.json",
+      "files": 99,
+      "mismatches": []
+    }
+  ],
+  "existing_reuse_metadata_review": "The only observed registry changes add the existing src/nabt/corpus_sources.py owner and the two frozen test paths to the existing rule-routing family. This does not create a new rule engine or semantic authority.",
+  "limits": [
+    "Static reasoning and retained exposed Python acceptance are distinct from a general Lean refinement theorem.",
+    "No new runtime speed measurement or CI deadline success is established by this review.",
+    "The root-owned existing regression run and all exact-final-head CI gates remain required.",
+    "All earlier CI timeouts and local observations remain preserved; no earlier result was relabeled."
+  ]
+}

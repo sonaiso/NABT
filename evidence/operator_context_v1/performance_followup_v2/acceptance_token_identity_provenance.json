@@ -1,0 +1,35 @@
+{
+  "schema": "nabt.token-identity-fastpath-oracle-provenance.v1",
+  "authored_utc": "2026-11-01T18:26:11.230775+00:00",
+  "head": "1535ca84b7433c2d19b16a2dedc4e26d09c12f9a",
+  "phase": "ADDITIVE_EXPECTATIONS_BEFORE_PRODUCTION_OPTIMIZATION",
+  "reason": "Existing Unicode controls cover exact-string character deletion and normalization order. The proposed identity-removal fast path additionally needs old non-exact-str iteration/join behavior, including str subclasses and single-use iterators.",
+  "case_counts": {
+    "exact_string_cases": 9,
+    "legacy_iterable_cases": 9,
+    "legacy_exception_cases": 7,
+    "unittest_methods": 2
+  },
+  "expected_values": "Authored literal results and exception classes. Compact repeat/tail recipes keep long-input controls explicit without large fixtures. No proposed implementation is used to derive expected output.",
+  "preservation": "All state-equivalence baseline-backed files and all older Unicode acceptance files remain unchanged. This is a separate additive supplement.",
+  "scope_limits": [
+    "Internal tokens helper only; the public query validation still requires exact strings with valid UTF-8.",
+    "No exhaustive arbitrary-iterable or all-string coverage claim.",
+    "No timing threshold or extra real-source replay is added."
+  ],
+  "monitored_files": {
+    "tools/grammar_catalog/retrieval.py": "f72c4529a19194d056bc3f09daed4e094fdf01280611bee9b9780f60d915204b",
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "src/nabt/corpus_sources.py": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+    "tests/test_grammar_catalog_token_identity.py": "a33b3d10a7fb5607204e6c77cbb644cedf6ddfca2117d37c546329e8bed36057",
+    "evidence/operator_context_v1/performance_followup_v2/acceptance_token_identity.json": "30af42625da120d40f86f86a5d8f869d0a40ad45f157f0cad9c42c1f500a159d",
+    "tests/test_grammar_catalog_state_equivalence.py": "9abe7574e96aeff969cc288de5363d779838237c7ca2349e74323db079e7bc89",
+    "evidence/operator_context_v1/performance_followup_v2/acceptance_contract.json": "e1d025291c6960c596240ea5827b8335212f8ea0787f1501e64a43d59414bd4b",
+    "evidence/operator_context_v1/performance_followup_v2/acceptance_oracle_provenance.json": "2063c5a51dcf4b650e362c84f39f3195dfe9ace5b78b59586b255b28375a483e",
+    "evidence/operator_context_v1/performance_followup_v2/acceptance_baseline_run.json": "1f79587753121cb8c9aab86f3d03940d472d94d5c0fb26f4ab2bd4a378dc577c",
+    "tests/test_grammar_catalog_token_equivalence.py": "f305d316cee2be8354cea566209e03dcd202a618012d11df2d3ddd2554da2657",
+    "evidence/operator_context_v1/performance_followup/acceptance_contract.json": "31b5b6d09c9c9db42e6953ac148b34dd28083e6a1a5c065600078aae91004c05",
+    "evidence/operator_context_v1/performance_followup/acceptance_unicode_marks.json": "f73328c6ea539387d9e7f5b212a7c784a4447247576ff89e300dcba98e19a950",
+    "evidence/operator_context_v1/performance_followup/acceptance_oracle_provenance.json": "fea8cfb62e0ee71291d3c4ad2a0a398edf801bb0ba0c6fbc75f16000c8f9082b"
+  }
+}

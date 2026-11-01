@@ -3,6 +3,34 @@
 Read and obey AGENTS.md; it remains the repository-wide authority. This file
 records the current task, not a second constitution or a list of proved laws.
 
+Current operator-context work: follow `docs/OPERATOR_CONTEXT_V1_SPEC.md` and
+`docs/OPERATOR_CONTEXT_V1_AR.md`. Spec, independently authored exposed gold,
+legacy output and existing boundary observations were frozen at `50e3f51`
+before production edits. Extend the existing grammar_catalog routing/CLI;
+retain the original classical runtime receipts and all 90/99 frozen inputs.
+Default routing v2 carries original source context beside every examined row
+and binds raw query, exact ranked keys, complete frame mapping and requested
+budget. `--legacy` emits compatible v1; the new full-report verifier accepts
+v2 only and rebuilds from independently supplied inputs and fresh sources.
+Source diagnostics are authored text, not acquired premises or rejection of
+Arabic. Keep textual discrepancy, runtime alternatives and partial profiles.
+Preserve the initial 20-case old-owner observation and the hash-verified prior
+oracle recovery note. Tests use the existing grammar-catalog discovery paths;
+no new registry, evaluator, Lean claim or CI bypass is authorized by metadata.
+Record actual implementation and verification results before release; current
+acceptance is not an independent holdout or proof of external applicability.
+Current source-context implementation is committed at `d812f37`. The first
+17-method acceptance is retained at `031dae61`; two independent resource-order
+regressions failed before correction at `511e6c8`. Final local groups pass
+272 distinct methods (19 new context, 47 existing catalogue, 157 owners,
+49 reuse) with no skips. See `docs/OPERATOR_CONTEXT_V1_RESULTS_AR.md` and
+`evidence/operator_context_v1/validation/verification_summary.json`.
+Preserve the first owner-log integrity anomaly and count-extraction note;
+the final owner evidence is its complete sequential replay, not the partial
+original log. All 90/99 frozen inputs and the preimplementation gold match.
+Local Lean/native routing was unavailable; all final-head CI, including the
+PR-only `catalog-proof-links` native-routing gate, must pass before merge.
+
 Current rule/policy organization work: follow
 `docs/NABT_RULE_POLICY_ORGANIZATION_AR.md` and the preimplementation contract
 `docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md`. Specification, independent exposed
@@ -40,6 +68,10 @@ and 98 owner/framework tests with zero skips. Current follow-up evidence is
 `evidence/rule_policy_organization_v1/validation/input_identity_review/verification_summary.json`.
 Keep the earlier validation record and worktree-only replay distinct from the
 committed-source replay. Final published-head CI remains mandatory.
+PR 64 was merged as `cebb5c4` after all 18 checks (9 push, 9 pull_request)
+passed on `b13fbd1`. Main's merged tree was independently confirmed identical
+to that reviewed tree. These remote results are separate from the local
+validation snapshots retained above.
 
 Current explanatory-method work: follow
 `docs/NABT_EXPLANATORY_METHOD_PLAN_AR.md`,

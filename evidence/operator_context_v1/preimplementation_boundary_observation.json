@@ -1,0 +1,807 @@
+{
+  "schema": "nabt.operator-context.preimplementation-boundary-observation.v1",
+  "phase": "OLD_OWNER_PREIMPLEMENTATION",
+  "started_at_utc": "2026-10-31T21:22:12.620711+00:00",
+  "finished_at_utc": "2026-10-31T21:22:15.835727+00:00",
+  "git_head": "cebb5c472451a1d541ed9b93f56bb6cd2e9d606e",
+  "oracle_sha256_observed": "b9870f871a5b1fd4e95dde9350bafeebbf0aa6382d5cae229972a0d08ed64727",
+  "new_context_implementation_present": false,
+  "scope": "Bounded direct observation of existing routing/classical owner outputs; no new context result harvested as gold. Context-only expectations intentionally unobserved before implementation.",
+  "file_sha256_before": {
+    "tools/grammar_catalog/routing.py": "f3a7450ba290ab3424253d34aabaa484d436055c6d503d7cd8634e02693b672b",
+    "tools/grammar_catalog/catalog.py": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+    "tools/grammar_catalog/retrieval.py": "875f81305bb67712e99683f099067db101811999f42048126bb6e4c8e781a96a",
+    "src/nabt/classical_laws.py": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+    "src/nabt/classical_hamza.py": "2acaf46b14d0bc05a643c1a759977e6c57e69251e6851c89afa1dba65bc53c49",
+    "src/nabt/classical_gemination.py": "d8b8d62d79e0e7861d8cb44dd9e494966473b3bb6c811fafa4781b718c8345a5",
+    "src/nabt/classical_boundary_affixes.py": "b3a32f09957fcf36b29a84b2574dc9a671dcd87fbc5e8feb607d87911c1a2fa0"
+  },
+  "file_sha256_after": {
+    "tools/grammar_catalog/routing.py": "f3a7450ba290ab3424253d34aabaa484d436055c6d503d7cd8634e02693b672b",
+    "tools/grammar_catalog/catalog.py": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+    "tools/grammar_catalog/retrieval.py": "875f81305bb67712e99683f099067db101811999f42048126bb6e4c8e781a96a",
+    "src/nabt/classical_laws.py": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+    "src/nabt/classical_hamza.py": "2acaf46b14d0bc05a643c1a759977e6c57e69251e6851c89afa1dba65bc53c49",
+    "src/nabt/classical_gemination.py": "d8b8d62d79e0e7861d8cb44dd9e494966473b3bb6c811fafa4781b718c8345a5",
+    "src/nabt/classical_boundary_affixes.py": "b3a32f09957fcf36b29a84b2574dc9a671dcd87fbc5e8feb607d87911c1a2fa0"
+  },
+  "recorded_files_unchanged": true,
+  "cases": [
+    {
+      "group_id": "OC02",
+      "case_id": "added_final",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "CONDITIONAL_TRANSFORM",
+        "operations": [
+          "hamzate_final"
+        ],
+        "outputs": [
+          [
+            "د",
+            "ع",
+            "ا",
+            "ء"
+          ]
+        ]
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL_TRANSFORM",
+        "operations": [
+          "hamzate_final"
+        ],
+        "outputs": [
+          [
+            "د",
+            "ع",
+            "ا",
+            "ء"
+          ]
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC02",
+      "case_id": "unknown_origin",
+      "expected_existing_boundary": {
+        "route_status": "PARTIAL",
+        "result_status": "DEFER",
+        "operations": [],
+        "outputs": []
+      },
+      "observed_existing_boundary": {
+        "route_status": "PARTIAL",
+        "receipt_present": true,
+        "result_status": "DEFER",
+        "operations": [],
+        "outputs": []
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC02",
+      "case_id": "original_alif",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "BLOCKED",
+        "operations": [],
+        "outputs": []
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "BLOCKED",
+        "operations": [],
+        "outputs": []
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC02",
+      "case_id": "nonfinal_glide",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "BLOCKED",
+        "operations": [],
+        "outputs": []
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "BLOCKED",
+        "operations": [],
+        "outputs": []
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC03",
+      "case_id": "hijaz",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "operations": [
+          "split"
+        ],
+        "outputs": [
+          [
+            [
+              "ٱ",
+              "u"
+            ],
+            [
+              "ر",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ]
+          ]
+        ]
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "operations": [
+          "split"
+        ],
+        "outputs": [
+          [
+            [
+              "ٱ",
+              "u"
+            ],
+            [
+              "ر",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ]
+          ]
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC03",
+      "case_id": "tamim",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "operations": [
+          "contract_a",
+          "contract_u"
+        ],
+        "outputs": [
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "a"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ]
+          ]
+        ]
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "operations": [
+          "contract_a",
+          "contract_u"
+        ],
+        "outputs": [
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "a"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ]
+          ]
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC03",
+      "case_id": "attested_union",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "operations": [
+          "split",
+          "contract_a",
+          "contract_i",
+          "contract_u"
+        ],
+        "outputs": [
+          [
+            [
+              "ٱ",
+              "u"
+            ],
+            [
+              "ر",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "a"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "i"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ]
+          ]
+        ]
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "operations": [
+          "split",
+          "contract_a",
+          "contract_i",
+          "contract_u"
+        ],
+        "outputs": [
+          [
+            [
+              "ٱ",
+              "u"
+            ],
+            [
+              "ر",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "a"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "i"
+            ]
+          ],
+          [
+            [
+              "ر",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ]
+          ]
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC04",
+      "case_id": "ba_in_wasl",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "CONDITIONAL",
+        "outputs": [
+          [
+            [
+              "م",
+              "s"
+            ],
+            [
+              "ب",
+              "a"
+            ]
+          ]
+        ],
+        "textual_discrepancy_retained": true
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "outputs": [
+          [
+            [
+              "م",
+              "s"
+            ],
+            [
+              "ب",
+              "a"
+            ]
+          ]
+        ],
+        "textual_discrepancy_retained": true
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC04",
+      "case_id": "ya_in_wasl",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "OUTSIDE_SCOPE",
+        "outputs": []
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "OUTSIDE_SCOPE",
+        "outputs": []
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC04",
+      "case_id": "ba_across_pause",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "OUTSIDE_SCOPE",
+        "outputs": []
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "OUTSIDE_SCOPE",
+        "outputs": []
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC05",
+      "case_id": "bakr",
+      "expected_existing_boundary": {
+        "route_status": "PARTIAL",
+        "operations": [
+          "bakr_contraction_unvocalized"
+        ],
+        "outputs": [
+          null
+        ],
+        "segments": [
+          null
+        ],
+        "surface_complete": [
+          false
+        ]
+      },
+      "observed_existing_boundary": {
+        "route_status": "PARTIAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "operations": [
+          "bakr_contraction_unvocalized"
+        ],
+        "outputs": [
+          null
+        ],
+        "segments": [
+          null
+        ],
+        "surface_complete": [
+          false
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC05",
+      "case_id": "union",
+      "expected_existing_boundary": {
+        "route_status": "PARTIAL",
+        "operations": [
+          "split",
+          "bakr_contraction_unvocalized"
+        ],
+        "outputs": [
+          [
+            [
+              "ٱ",
+              "u"
+            ],
+            [
+              "ر",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "ن",
+              "a"
+            ]
+          ],
+          null
+        ],
+        "surface_complete": [
+          true,
+          false
+        ]
+      },
+      "observed_existing_boundary": {
+        "route_status": "PARTIAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "operations": [
+          "split",
+          "bakr_contraction_unvocalized"
+        ],
+        "outputs": [
+          [
+            [
+              "ٱ",
+              "u"
+            ],
+            [
+              "ر",
+              "s"
+            ],
+            [
+              "د",
+              "u"
+            ],
+            [
+              "د",
+              "s"
+            ],
+            [
+              "ن",
+              "a"
+            ]
+          ],
+          null
+        ],
+        "surface_complete": [
+          true,
+          false
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC06",
+      "case_id": "both",
+      "expected_existing_boundary": {
+        "route_status": "PARTIAL",
+        "result_status": "CONDITIONAL",
+        "outputs": [
+          [
+            "ت",
+            "a",
+            "ض",
+            "ر",
+            "i",
+            "ب",
+            "a:",
+            "ن"
+          ]
+        ],
+        "unresolved_profiles": [
+          "yunus_indicative_dual"
+        ],
+        "alternatives_complete_within_requested_profile": false
+      },
+      "observed_existing_boundary": {
+        "route_status": "PARTIAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "outputs": [
+          [
+            "ت",
+            "a",
+            "ض",
+            "ر",
+            "i",
+            "ب",
+            "a:",
+            "ن"
+          ]
+        ],
+        "unresolved_profiles": [
+          "yunus_indicative_dual"
+        ],
+        "alternatives_complete_within_requested_profile": false
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC06",
+      "case_id": "yunus",
+      "expected_existing_boundary": {
+        "route_status": "PARTIAL",
+        "result_status": "DEFER",
+        "outputs": [],
+        "unresolved_profiles": [
+          "yunus_indicative_dual"
+        ],
+        "alternatives_complete_within_requested_profile": false
+      },
+      "observed_existing_boundary": {
+        "route_status": "PARTIAL",
+        "receipt_present": true,
+        "result_status": "DEFER",
+        "outputs": [],
+        "unresolved_profiles": [
+          "yunus_indicative_dual"
+        ],
+        "alternatives_complete_within_requested_profile": false
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC06",
+      "case_id": "khalil",
+      "expected_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "result_status": "CONDITIONAL",
+        "outputs": [
+          [
+            "ت",
+            "a",
+            "ض",
+            "ر",
+            "i",
+            "ب",
+            "a:",
+            "ن"
+          ]
+        ],
+        "unresolved_profiles": [],
+        "alternatives_complete_within_requested_profile": true
+      },
+      "observed_existing_boundary": {
+        "route_status": "CHECKED_CONDITIONAL",
+        "receipt_present": true,
+        "result_status": "CONDITIONAL",
+        "outputs": [
+          [
+            "ت",
+            "a",
+            "ض",
+            "ر",
+            "i",
+            "ب",
+            "a:",
+            "ن"
+          ]
+        ],
+        "unresolved_profiles": [],
+        "alternatives_complete_within_requested_profile": true
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC07",
+      "case_id": "no_frames",
+      "expected_existing_boundary": {
+        "status": "INCOMPLETE_PREMISES_OR_RESULTS",
+        "examined_rule_count": 24,
+        "inventory_exhausted": true,
+        "conditional_evaluation_complete": false,
+        "receipt_count": 0,
+        "pending_rule_count": 0,
+        "row_status": "MISSING_PREMISES"
+      },
+      "observed_existing_boundary": {
+        "status": "INCOMPLETE_PREMISES_OR_RESULTS",
+        "examined_rule_count": 24,
+        "inventory_exhausted": true,
+        "conditional_evaluation_complete": false,
+        "receipt_count": 0,
+        "pending_rule_count": 0,
+        "row_status": "MISSING_PREMISES"
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC07",
+      "case_id": "zero_budget",
+      "expected_existing_boundary": {
+        "status": "RESOURCE_EXHAUSTED",
+        "examined_rule_count": 0,
+        "inventory_exhausted": false,
+        "conditional_evaluation_complete": false,
+        "receipt_count": 0,
+        "pending_rule_count": 24
+      },
+      "observed_existing_boundary": {
+        "status": "RESOURCE_EXHAUSTED",
+        "examined_rule_count": 0,
+        "inventory_exhausted": false,
+        "conditional_evaluation_complete": false,
+        "receipt_count": 0,
+        "pending_rule_count": 24
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC08",
+      "case_id": "extra_flag",
+      "expected_existing_boundary": {
+        "route_status": "FRAME_ERROR",
+        "receipt_present": false,
+        "error_code": "INVALID_CLASSICAL_HAMZA_FRAME",
+        "error_status": "REJECT"
+      },
+      "observed_existing_boundary": {
+        "route_status": "FRAME_ERROR",
+        "receipt_present": false,
+        "error_code": "INVALID_CLASSICAL_HAMZA_FRAME",
+        "error_status": "REJECT"
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC08",
+      "case_id": "finite_float",
+      "expected_existing_boundary": {
+        "route_status": "FRAME_ERROR",
+        "receipt_present": false,
+        "error_code": "INVALID_CLASSICAL_FRAME",
+        "error_status": "REJECT"
+      },
+      "observed_existing_boundary": {
+        "route_status": "FRAME_ERROR",
+        "receipt_present": false,
+        "error_code": "INVALID_CLASSICAL_FRAME",
+        "error_status": "REJECT"
+      },
+      "mismatches": []
+    },
+    {
+      "group_id": "OC08",
+      "case_id": "tail_budget",
+      "expected_existing_boundary": {
+        "route_status": "FRAME_ERROR",
+        "receipt_present": false,
+        "error_code": "RESOURCE_LIMIT",
+        "error_status": "DEFER"
+      },
+      "observed_existing_boundary": {
+        "route_status": "FRAME_ERROR",
+        "receipt_present": false,
+        "error_code": "RESOURCE_LIMIT",
+        "error_status": "DEFER"
+      },
+      "mismatches": []
+    }
+  ],
+  "case_count": 20,
+  "mismatch_count": 0
+}
