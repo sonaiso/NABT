@@ -1,0 +1,214 @@
+{
+  "schema": "nabt.operator-context.identity-path-performance.v1",
+  "started_utc": "2026-11-01T18:23:23.165854+00:00",
+  "finished_utc": "2026-11-01T18:24:25.060696+00:00",
+  "head": "1535ca84b7433c2d19b16a2dedc4e26d09c12f9a",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "inputs_before": {
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "tools/grammar_catalog/retrieval.py": "f72c4529a19194d056bc3f09daed4e094fdf01280611bee9b9780f60d915204b",
+    "tools/grammar_catalog/catalog.py": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+    "src/nabt/corpus_sources.py": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+    "src/nabt/classical_laws.py": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+    ".github/workflows/ci.yml": "f60f6cb068d05cef1de6f5613149484f0238d73871f7512cae48663f2a7872ba",
+    "Makefile": "8780e1d59bb3b4aaa2bbc7a564d910e4cbb01c678071fdfb1122f52a3dac4612"
+  },
+  "inputs_after": {
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "tools/grammar_catalog/retrieval.py": "f72c4529a19194d056bc3f09daed4e094fdf01280611bee9b9780f60d915204b",
+    "tools/grammar_catalog/catalog.py": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+    "src/nabt/corpus_sources.py": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+    "src/nabt/classical_laws.py": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+    ".github/workflows/ci.yml": "f60f6cb068d05cef1de6f5613149484f0238d73871f7512cae48663f2a7872ba",
+    "Makefile": "8780e1d59bb3b4aaa2bbc7a564d910e4cbb01c678071fdfb1122f52a3dac4612"
+  },
+  "inputs_unchanged": true,
+  "script_sha256": "55c809afa5bc53f04624f2f55a79dd8ab160f83d4cab47e80cb0641bdff0a66a",
+  "original_fresh_source_sha256": "8393badf3105516318ef45e4aa34e9b1c22384a7add33d3a217a03901bc3909e",
+  "original_tokens_source_sha256": "5264cddd4a04a6f4da493935c9a7ae6d461947a5194569f2f2fff1a8e5117005",
+  "candidate_fresh_source": "def _fresh_index(index):\n    \"\"\"Replay the existing owner, reject mutable index changes, then use fresh data.\"\"\"\n    if type(index) is not SearchIndex:\n        raise RetrievalError(\"Expected a source-replayed search index\")\n    try:\n        root = index._root\n        catalog = index._catalog\n        documents = index._docs\n        frequencies = index._tf\n        advertised_digest = index.catalog_sha256\n    except AttributeError as exc:\n        raise RetrievalError(\"Source index is missing its owned state\") from exc\n    if not isinstance(root, Path):\n        raise RetrievalError(\"Source index root must be an owned path\")\n    # SearchIndex delegates this catalogue check to validate_catalog and returns\n    # newly replayed data. A caller's recomputed digest cannot authenticate it.\n    fresh = SearchIndex(catalog, root=root)\n    if type(advertised_digest) is not str or advertised_digest != fresh.catalog_sha256:\n        raise RetrievalError(\"Source index catalogue digest differs from fresh owner replay\")\n    for current, expected, label in ((documents, fresh._docs, \"documents\"),\n                                     (frequencies, fresh._tf, \"term frequencies\")):\n        if type(current) is not dict or set(current) != set(expected):\n            raise RetrievalError(\"Source index \" + label + \" differ from fresh owner replay\")\n        for key, expected_row in expected.items():\n            row = current[key]\n            if label == \"term frequencies\":\n                if type(row) is not Counter:\n                    raise RetrievalError(\"Source index term frequencies must be exact Counters\")\n                # Counter equality ignores extra zero terms and bool == int;\n                # exact typed JSON of its explicit contents preserves both.\n                row, expected_row = dict(row), dict(expected_row)\n            if installed_same_json(row, expected_row):\n                continue\n            try:\n                same = catalog_canonical(row) == catalog_canonical(expected_row)\n            except CatalogError as exc:\n                raise RetrievalError(\"Source index \" + label + \" are not canonical owner data\") from exc\n            if not same:\n                raise RetrievalError(\"Source index \" + label + \" differ from fresh owner replay\")\n    return fresh\n",
+  "candidate_tokens_source": "def tokens(text):\n    \"\"\"Search-only projection: marks/tatweel removed, alif variants unified.\"\"\"\n    if type(text) is not str or any(_is_mark(c) or c == \"ـ\" for c in set(text)):\n        text = \"\".join(c for c in text if not _is_mark(c) and c != \"ـ\")\n    text = text.translate(str.maketrans(\"أإآٱ\", \"اااا\")).casefold()\n    return re.findall(r\"[^\\W_]+\", text, re.UNICODE)\n",
+  "existing_comparator": "nabt.corpus_sources._same_json",
+  "query": "همزة الأمر",
+  "frames": {
+    "HAMZA-LEXICAL-COMMAND": {
+      "root": [
+        "ء",
+        "ك",
+        "ل"
+      ],
+      "profile": "all_attested"
+    }
+  },
+  "budget": null,
+  "catalog_sha256": "941e07ef6aba31b4693e328357417f48fe85074c877ac519ed324e2b72d8c3c9",
+  "corpus_comparison": {
+    "documents": 9821,
+    "ordered_token_lists_equal": true,
+    "canonical_ordered_token_lists_equal": true,
+    "canonical_ordered_token_lists_sha256": "a1a79a2505a14a1cbde885d1e62210c72e46d568122d47c71b45f8c844c52f59",
+    "canonical_ordered_token_lists_bytes": 13780172,
+    "identity_rows": 9812,
+    "identity_codepoints": 6454768,
+    "original_removal_rows": 9,
+    "original_removal_codepoints": 8466
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "setup_seconds": 2.404214652000519,
+        "build_seconds": 5.088087122996512,
+        "verify_seconds": 3.2672418570000445,
+        "total_seconds": 10.759543631997076,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "mark_cache_info": {
+          "hits": 19389584,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        },
+        "canonical_calls": 39288,
+        "structural_calls": 0
+      },
+      "candidate": {
+        "setup_seconds": 1.897346027995809,
+        "build_seconds": 3.3967777370053227,
+        "verify_seconds": 2.943334452997078,
+        "total_seconds": 8.23745821799821,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "mark_cache_info": {
+          "hits": 1370808,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        },
+        "canonical_calls": 4,
+        "structural_calls": 19642
+      }
+    },
+    {
+      "round": 2,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "setup_seconds": 1.9672495639970293,
+        "build_seconds": 3.3320748030018876,
+        "verify_seconds": 2.960269422001147,
+        "total_seconds": 8.259593789000064,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "mark_cache_info": {
+          "hits": 1370808,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        },
+        "canonical_calls": 4,
+        "structural_calls": 19642
+      },
+      "baseline": {
+        "setup_seconds": 2.4714583390014013,
+        "build_seconds": 4.691126117002568,
+        "verify_seconds": 3.120065215000068,
+        "total_seconds": 10.282649671004037,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "mark_cache_info": {
+          "hits": 19389584,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        },
+        "canonical_calls": 39288,
+        "structural_calls": 0
+      }
+    },
+    {
+      "round": 3,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "setup_seconds": 2.4733402759957244,
+        "build_seconds": 4.825074057000165,
+        "verify_seconds": 3.327470579002693,
+        "total_seconds": 10.625884911998583,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "mark_cache_info": {
+          "hits": 19389584,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        },
+        "canonical_calls": 39288,
+        "structural_calls": 0
+      },
+      "candidate": {
+        "setup_seconds": 1.8367183579975972,
+        "build_seconds": 3.2788300329993945,
+        "verify_seconds": 2.7257608020008774,
+        "total_seconds": 7.841309192997869,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "mark_cache_info": {
+          "hits": 1370808,
+          "misses": 138,
+          "maxsize": 4096,
+          "currsize": 138
+        },
+        "canonical_calls": 4,
+        "structural_calls": 19642
+      }
+    }
+  ],
+  "summary": {
+    "setup_seconds": {
+      "baseline_median": 2.4714583390014013,
+      "candidate_median": 1.897346027995809,
+      "reduction_fraction": 0.23229698107618668
+    },
+    "build_seconds": {
+      "baseline_median": 4.825074057000165,
+      "candidate_median": 3.3320748030018876,
+      "reduction_fraction": 0.30942514795855836
+    },
+    "verify_seconds": {
+      "baseline_median": 3.2672418570000445,
+      "candidate_median": 2.943334452997078,
+      "reduction_fraction": 0.0991378716910708
+    },
+    "total_seconds": {
+      "baseline_median": 10.625884911998583,
+      "candidate_median": 8.23745821799821,
+      "reduction_fraction": 0.2247743800898313
+    }
+  },
+  "full_report_bytes_equal": true,
+  "full_verification_bytes_equal": true,
+  "production_bindings_restored": true,
+  "limits": [
+    "One isolated combined candidate; no production edits or new cache/table/parser.",
+    "Three local alternating pairs; filesystem caches may be warm and other work may contend.",
+    "The existing character-classification LRU is cleared before each timed three-stage run.",
+    "Exact built-in strings without removable characters skip only an identity removal pass.",
+    "All other input types and strings with deletion candidates retain the original removal generator.",
+    "Alif translation, casefold and regex remain in their original order.",
+    "Only positive owner-state comparisons use the existing structural comparator.",
+    "All state mismatches retain the original canonical fallback and exception path.",
+    "Fresh SearchIndex, source validation, receipt checks and source rechecks remain present.",
+    "Differential observation; independent frozen semantic acceptance remains separate.",
+    "No CI deadline guarantee or general Arabic interpretation claim."
+  ]
+}

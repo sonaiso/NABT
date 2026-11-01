@@ -1,0 +1,355 @@
+{
+  "schema": "nabt.source-index-state-equivalence-acceptance.v1",
+  "phase": "AUTHORED_EXPECTATIONS_BEFORE_PRODUCTION_OPTIMIZATION",
+  "base_head": "1535ca84b7433c2d19b16a2dedc4e26d09c12f9a",
+  "scope": "Exact type/content equality of supplied source-index rows against freshly validated finite canonical owner rows. The structural fixture is not source authority or Arabic interpretation evidence.",
+  "existing_owners": {
+    "source_index": "tools.grammar_catalog.retrieval.SearchIndex",
+    "guard": "tools.grammar_catalog.routing._fresh_index",
+    "canonical": "tools.grammar_catalog.catalog._canonical",
+    "typed_comparator": "nabt.corpus_sources._same_json"
+  },
+  "reference_domain": [
+    "exact dict with exact str keys",
+    "exact list",
+    "exact str encodable as UTF-8",
+    "exact int within the active conversion limit",
+    "exact bool",
+    "None"
+  ],
+  "outside_reference_domain": [
+    "float scores in routing reports",
+    "tuples or subclasses",
+    "cyclic or noncanonical fresh references"
+  ],
+  "comparison_law": "On this fresh canonical reference domain, acceptance equals exact canonical catalogue JSON equality; dictionary insertion order is irrelevant, list order and scalar types remain relevant. The existing canonical fallback preserves rejection diagnostics.",
+  "fixture": {
+    "root": "/independent/source-index-owner",
+    "catalogue": {
+      "schema": "nabt.authored-state-fixture.v1",
+      "authority": "TEST_FIXTURE_ONLY"
+    },
+    "advertised_digest": "7777777777777777777777777777777777777777777777777777777777777777",
+    "document_key": [
+      "rule",
+      "fixture::rule-one"
+    ],
+    "row": {
+      "search_text": "أَلِف باء باء",
+      "record": {
+        "rule_key": "fixture::rule-one",
+        "authority": "TEST_FIXTURE_ONLY",
+        "count": 1,
+        "enabled": true,
+        "optional": null,
+        "parts": [
+          "أ",
+          "ب"
+        ],
+        "nested": {
+          "x": 1,
+          "y": false
+        },
+        "pair": [
+          {
+            "n": 1
+          },
+          {
+            "n": 1
+          }
+        ]
+      }
+    },
+    "frequencies": {
+      "الف": 1,
+      "باء": 2
+    }
+  },
+  "errors": {
+    "documents_differ": "Source index documents differ from fresh owner replay",
+    "documents_invalid": "Source index documents are not canonical owner data",
+    "frequencies_differ": "Source index term frequencies differ from fresh owner replay",
+    "frequencies_invalid": "Source index term frequencies are not canonical owner data",
+    "frequency_container": "Source index term frequencies must be exact Counters"
+  },
+  "document_cases": [
+    {
+      "id": "equal_original",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "reordered_row_keys",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "reordered_record_keys",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "shared_equal_values",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "changed_search_text",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "normalized_search_text",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "changed_record",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "extra_record_key",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "missing_record_key",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "reversed_list",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "integer_for_boolean",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "boolean_for_integer",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "integer_for_nested_false",
+      "expected": "REJECT",
+      "error": "documents_differ"
+    },
+    {
+      "id": "float_for_integer",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "nan",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "infinity",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "tuple_for_list",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "dict_subclass",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "list_subclass",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "string_subclass",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "integer_subclass",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "custom_equality_value",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "custom_equality_key",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "nonstring_record_key",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "surrogate_text",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "surrogate_key",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "bytes_text",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "cycle",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "deep_forged_value",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    },
+    {
+      "id": "decimal_integer_limit",
+      "expected": "REJECT",
+      "error": "documents_invalid"
+    }
+  ],
+  "frequency_cases": [
+    {
+      "id": "equal_original",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "reordered_terms",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "extra_zero_term",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "extra_negative_term",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "missing_term",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "changed_positive_count",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "negative_count",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "zero_count",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "boolean_count",
+      "expected": "REJECT",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "float_count",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "nan_count",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "integer_subclass_count",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "nonstring_term",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "string_subclass_term",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "surrogate_term",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "custom_equality_count",
+      "expected": "REJECT",
+      "error": "frequencies_invalid"
+    },
+    {
+      "id": "plain_dict",
+      "expected": "REJECT",
+      "error": "frequency_container"
+    },
+    {
+      "id": "counter_subclass",
+      "expected": "REJECT",
+      "error": "frequency_container"
+    }
+  ],
+  "collection_cases": [
+    {
+      "id": "missing_document",
+      "error": "documents_differ"
+    },
+    {
+      "id": "extra_document",
+      "error": "documents_differ"
+    },
+    {
+      "id": "document_map_subclass",
+      "error": "documents_differ"
+    },
+    {
+      "id": "missing_frequency_row",
+      "error": "frequencies_differ"
+    },
+    {
+      "id": "frequency_map_subclass",
+      "error": "frequencies_differ"
+    }
+  ],
+  "freshness_control": "Every invocation reconstructs the reference through the same selected SearchIndex owner; an owner failure after a successful comparison must propagate on the next call.",
+  "bounded_probe_parameters": {
+    "forged_depth": 10000,
+    "decimal_conversion_limit": 640,
+    "oversized_integer_power": 1000
+  },
+  "installed_control": {
+    "catalogue_sha256": "941e07ef6aba31b4693e328357417f48fe85074c877ac519ed324e2b72d8c3c9",
+    "query": "همزة الأمر",
+    "kind": "rule",
+    "limit": 10,
+    "archive_path": "evidence/operator_context_v1/baseline/route_before.json",
+    "archive_raw_sha256": "f0f71647f43b3c469aa557c141ad0833ee83053ad049d91c7b84d0ef03213592"
+  },
+  "limits": [
+    "Most adversarial cases isolate the structural guard with an authored small source-owner fixture; they do not validate real source bytes.",
+    "One installed index reconstruction and archived retrieval control exercise the actual owner; original source/context/replay tests remain unchanged and necessary.",
+    "The comparator is not applied to unrestricted float-bearing routing reports.",
+    "No timing threshold, new theorem, Arabic coverage, source-license grant or hidden evaluation is claimed."
+  ]
+}

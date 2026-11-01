@@ -1,0 +1,215 @@
+{
+  "schema": "nabt.token-identity-fastpath-acceptance.v1",
+  "authored_utc": "2026-11-01T18:24:46.768607+00:00",
+  "source_base_head": "1535ca84b7433c2d19b16a2dedc4e26d09c12f9a",
+  "scope": "Supplement for skipping only an identity mark/tatweel removal pass on exact built-in strings. Existing Unicode acceptance stays unchanged; non-exact-str values retain the old iteration/join semantics. This is the internal tokens helper domain, not expansion of the UTF-8 query API.",
+  "expected_operation_order": [
+    "remove input marks and tatweel",
+    "translate the four alif variants",
+    "casefold",
+    "extract word tokens"
+  ],
+  "exact_string_cases": [
+    {
+      "id": "empty",
+      "input": "",
+      "expected_tokens": []
+    },
+    {
+      "id": "unmarked_boundaries",
+      "input": "ALPHA_Beta عربي",
+      "expected_tokens": [
+        "alpha",
+        "beta",
+        "عربي"
+      ]
+    },
+    {
+      "id": "unmarked_alif_translation",
+      "input": "أإآٱ",
+      "expected_tokens": [
+        "اااا"
+      ]
+    },
+    {
+      "id": "tatweel_only",
+      "input": "ــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ",
+      "expected_tokens": []
+    },
+    {
+      "id": "marks_only",
+      "input": "́ा⃝",
+      "expected_tokens": []
+    },
+    {
+      "id": "long_mark_free",
+      "recipe": "repeat",
+      "unit": "Alpha Beta ",
+      "repeat": 4096,
+      "expected_unit": [
+        "alpha",
+        "beta"
+      ]
+    },
+    {
+      "id": "long_tail_mark",
+      "recipe": "tail",
+      "prefix_character": "A",
+      "prefix_count": 8192,
+      "tail": "́Z",
+      "expected_suffix": "z"
+    },
+    {
+      "id": "long_tail_tatweel",
+      "recipe": "tail",
+      "prefix_character": "A",
+      "prefix_count": 8192,
+      "tail": "ـZ",
+      "expected_suffix": "z"
+    },
+    {
+      "id": "fold_introduces_mark_after_identity_pass",
+      "recipe": "repeat",
+      "unit": "İX ",
+      "repeat": 64,
+      "expected_unit": [
+        "i",
+        "x"
+      ]
+    }
+  ],
+  "legacy_iterable_cases": [
+    {
+      "id": "list_of_characters",
+      "recipe": "list",
+      "characters": [
+        "A",
+        "́",
+        "B"
+      ],
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "tuple_of_characters",
+      "recipe": "tuple",
+      "characters": [
+        "A",
+        "_",
+        "B"
+      ],
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "one_shot_iterator",
+      "recipe": "iterator",
+      "characters": [
+        "A",
+        "́",
+        "B"
+      ],
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "generator_of_characters",
+      "recipe": "generator",
+      "characters": [
+        "A",
+        "ـ",
+        "B"
+      ],
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "empty_iterator",
+      "recipe": "iterator",
+      "characters": [],
+      "expected_tokens": []
+    },
+    {
+      "id": "mapping_iteration",
+      "recipe": "mapping",
+      "characters": [
+        "A",
+        "B"
+      ],
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "ordinary_string_subclass",
+      "recipe": "string_subclass",
+      "text": "A_B",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "subclass_iteration_controls_content",
+      "recipe": "iteration_subclass",
+      "text": "WRONG",
+      "characters": [
+        "A",
+        "B"
+      ],
+      "expected_tokens": [
+        "ab"
+      ]
+    },
+    {
+      "id": "subclass_translate_must_not_run",
+      "recipe": "translate_subclass",
+      "text": "A_B",
+      "expected_tokens": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "legacy_error_cases": [
+    {
+      "id": "none",
+      "exception": "TypeError"
+    },
+    {
+      "id": "integer",
+      "exception": "TypeError"
+    },
+    {
+      "id": "bytes_iteration",
+      "exception": "TypeError"
+    },
+    {
+      "id": "multicharacter_element",
+      "exception": "TypeError"
+    },
+    {
+      "id": "empty_character_element",
+      "exception": "TypeError"
+    },
+    {
+      "id": "nonstring_element",
+      "exception": "TypeError"
+    },
+    {
+      "id": "iterator_exception",
+      "exception": "ValueError"
+    }
+  ],
+  "limits": [
+    "Literal engineering controls, not all arbitrary iterable behavior or Unicode strings.",
+    "Original frozen Unicode tests provide exhaustive anchored deletion checks and separate normalization-order controls.",
+    "No timing threshold, source fixture, source-validation bypass or new cache is specified.",
+    "The old state-equivalence contract, test and first baseline remain byte-identical."
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "schema": "nabt.operator-context.existing-comparator-performance.v1",
+  "started_utc": "2026-11-01T18:15:25.134307+00:00",
+  "finished_utc": "2026-11-01T18:16:24.997113+00:00",
+  "head": "1535ca84b7433c2d19b16a2dedc4e26d09c12f9a",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "inputs_before": {
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "tools/grammar_catalog/retrieval.py": "f72c4529a19194d056bc3f09daed4e094fdf01280611bee9b9780f60d915204b",
+    "tools/grammar_catalog/catalog.py": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+    "src/nabt/corpus_sources.py": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+    "src/nabt/classical_laws.py": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+    ".github/workflows/ci.yml": "f60f6cb068d05cef1de6f5613149484f0238d73871f7512cae48663f2a7872ba",
+    "Makefile": "8780e1d59bb3b4aaa2bbc7a564d910e4cbb01c678071fdfb1122f52a3dac4612"
+  },
+  "inputs_after": {
+    "tools/grammar_catalog/routing.py": "a294d514231259f1eb0cc68b0a4d9514d66eede61377e6abf1bd779744de7f40",
+    "tools/grammar_catalog/retrieval.py": "f72c4529a19194d056bc3f09daed4e094fdf01280611bee9b9780f60d915204b",
+    "tools/grammar_catalog/catalog.py": "ff90ba745873407df25380fcb208f8b323b469a626f0ce5598c622e655e58908",
+    "src/nabt/corpus_sources.py": "ad743021b99396ad0d3e6dd6be9ba0530768e48cf86b85f85c84450f55f6f00f",
+    "src/nabt/classical_laws.py": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e",
+    ".github/workflows/ci.yml": "f60f6cb068d05cef1de6f5613149484f0238d73871f7512cae48663f2a7872ba",
+    "Makefile": "8780e1d59bb3b4aaa2bbc7a564d910e4cbb01c678071fdfb1122f52a3dac4612"
+  },
+  "inputs_unchanged": true,
+  "script_sha256": "e9979d40f56f131b3e5856d71dd3d95ed71a219f757d9c111349e382370ab1b7",
+  "original_function_source_sha256": "8393badf3105516318ef45e4aa34e9b1c22384a7add33d3a217a03901bc3909e",
+  "candidate_function_source": "def _fresh_index(index):\n    \"\"\"Replay the existing owner, reject mutable index changes, then use fresh data.\"\"\"\n    if type(index) is not SearchIndex:\n        raise RetrievalError(\"Expected a source-replayed search index\")\n    try:\n        root = index._root\n        catalog = index._catalog\n        documents = index._docs\n        frequencies = index._tf\n        advertised_digest = index.catalog_sha256\n    except AttributeError as exc:\n        raise RetrievalError(\"Source index is missing its owned state\") from exc\n    if not isinstance(root, Path):\n        raise RetrievalError(\"Source index root must be an owned path\")\n    # SearchIndex delegates this catalogue check to validate_catalog and returns\n    # newly replayed data. A caller's recomputed digest cannot authenticate it.\n    fresh = SearchIndex(catalog, root=root)\n    if type(advertised_digest) is not str or advertised_digest != fresh.catalog_sha256:\n        raise RetrievalError(\"Source index catalogue digest differs from fresh owner replay\")\n    for current, expected, label in ((documents, fresh._docs, \"documents\"),\n                                     (frequencies, fresh._tf, \"term frequencies\")):\n        if type(current) is not dict or set(current) != set(expected):\n            raise RetrievalError(\"Source index \" + label + \" differ from fresh owner replay\")\n        for key, expected_row in expected.items():\n            row = current[key]\n            if label == \"term frequencies\":\n                if type(row) is not Counter:\n                    raise RetrievalError(\"Source index term frequencies must be exact Counters\")\n                # Counter equality ignores extra zero terms and bool == int;\n                # exact typed JSON of its explicit contents preserves both.\n                row, expected_row = dict(row), dict(expected_row)\n            if installed_same_json(row, expected_row):\n                continue\n            try:\n                same = catalog_canonical(row) == catalog_canonical(expected_row)\n            except CatalogError as exc:\n                raise RetrievalError(\"Source index \" + label + \" are not canonical owner data\") from exc\n            if not same:\n                raise RetrievalError(\"Source index \" + label + \" differ from fresh owner replay\")\n    return fresh\n",
+  "existing_comparator": "nabt.corpus_sources._same_json",
+  "query": "همزة الأمر",
+  "frames": {
+    "HAMZA-LEXICAL-COMMAND": {
+      "root": [
+        "ء",
+        "ك",
+        "ل"
+      ],
+      "profile": "all_attested"
+    }
+  },
+  "budget": null,
+  "catalog_sha256": "941e07ef6aba31b4693e328357417f48fe85074c877ac519ed324e2b72d8c3c9",
+  "rounds": [
+    {
+      "round": 1,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "setup_seconds": 2.289754299999913,
+        "build_seconds": 4.659278790997632,
+        "verify_seconds": 3.309467583996593,
+        "total_seconds": 10.258500674994139,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "canonical_calls": 39288,
+        "structural_calls": 0
+      },
+      "candidate": {
+        "setup_seconds": 2.4599715809963527,
+        "build_seconds": 4.389247619001253,
+        "verify_seconds": 3.453240207003546,
+        "total_seconds": 10.302459407001152,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "canonical_calls": 4,
+        "structural_calls": 19642
+      }
+    },
+    {
+      "round": 2,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "setup_seconds": 2.2344229939990328,
+        "build_seconds": 3.8173934880032903,
+        "verify_seconds": 3.1931531989976065,
+        "total_seconds": 9.24496968099993,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "canonical_calls": 4,
+        "structural_calls": 19642
+      },
+      "baseline": {
+        "setup_seconds": 2.114913888995943,
+        "build_seconds": 4.698814171999402,
+        "verify_seconds": 3.2639684309979202,
+        "total_seconds": 10.077696491993265,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "canonical_calls": 39288,
+        "structural_calls": 0
+      }
+    },
+    {
+      "round": 3,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "setup_seconds": 2.248342540995509,
+        "build_seconds": 4.804959205001069,
+        "verify_seconds": 3.361093808998703,
+        "total_seconds": 10.41439555499528,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "canonical_calls": 39288,
+        "structural_calls": 0
+      },
+      "candidate": {
+        "setup_seconds": 2.2370359819979058,
+        "build_seconds": 4.115156678999483,
+        "verify_seconds": 3.2009326570041594,
+        "total_seconds": 9.553125318001548,
+        "report_sha256": "4028065dcaa5d9cd4a0302bb1e9f31b00865fc06d31d9eebe6ec5a5fac3bcfc3",
+        "verification_sha256": "6d6f786eb42e5503c02b4133a339968e9766468c75d21ca4e40dbfcd15c19f19",
+        "canonical_calls": 4,
+        "structural_calls": 19642
+      }
+    }
+  ],
+  "summary": {
+    "setup_seconds": {
+      "baseline_median": 2.248342540995509,
+      "candidate_median": 2.2370359819979058,
+      "reduction_fraction": 0.005028841820782781
+    },
+    "build_seconds": {
+      "baseline_median": 4.698814171999402,
+      "candidate_median": 4.115156678999483,
+      "reduction_fraction": 0.12421378493279833
+    },
+    "verify_seconds": {
+      "baseline_median": 3.309467583996593,
+      "candidate_median": 3.2009326570041594,
+      "reduction_fraction": 0.032795283300936395
+    },
+    "total_seconds": {
+      "baseline_median": 10.258500674994139,
+      "candidate_median": 9.553125318001548,
+      "reduction_fraction": 0.06876008291465008
+    }
+  },
+  "full_report_bytes_equal": true,
+  "full_verification_bytes_equal": true,
+  "production_bindings_restored": true,
+  "limits": [
+    "One existing owner comparison candidate, observed before production edit.",
+    "Three local alternating pairs; source filesystem caches may be warm and other work may contend.",
+    "Only positive repeated owner comparisons use the existing structural comparator.",
+    "All mismatches retain the original canonical fallback and exception path.",
+    "Fresh SearchIndex, source validation, receipt checks and end-of-operation source rechecks remain present.",
+    "Differential performance observation; independent semantic acceptance is separately authored.",
+    "No CI deadline guarantee or general Arabic interpretation claim."
+  ]
+}
