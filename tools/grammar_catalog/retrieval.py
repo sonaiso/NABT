@@ -34,7 +34,10 @@ def _is_mark(char):
 
 def tokens(text):
     """Search-only projection: marks/tatweel removed, alif variants unified."""
-    text = "".join(c for c in text if not _is_mark(c) and c != "ـ")
+    # Skip an identity removal pass only for ordinary strings. Subclasses and
+    # other iterables retain the original iteration and conversion behavior.
+    if type(text) is not str or any(_is_mark(c) or c == "ـ" for c in set(text)):
+        text = "".join(c for c in text if not _is_mark(c) and c != "ـ")
     text = text.translate(str.maketrans("أإآٱ", "اااا")).casefold()
     return re.findall(r"[^\W_]+", text, re.UNICODE)
 

@@ -14,6 +14,7 @@ from pathlib import Path
 import sys
 
 from nabt import classical_laws
+from nabt.corpus_sources import _same_json as source_json_equal
 from nabt.errors import NabtError, resource_limit
 
 from .catalog import CatalogError, _canonical as catalog_canonical, validate_catalog
@@ -242,6 +243,10 @@ def _fresh_index(index):
                 # Counter equality ignores extra zero terms and bool == int;
                 # exact typed JSON of its explicit contents preserves both.
                 row, expected_row = dict(row), dict(expected_row)
+            # Fresh catalogue rows are canonical, float-free owner data. Reuse
+            # the exact typed comparison; keep canonical diagnostics on failure.
+            if source_json_equal(row, expected_row):
+                continue
             try:
                 same = catalog_canonical(row) == catalog_canonical(expected_row)
             except CatalogError as exc:
