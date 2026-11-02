@@ -46,6 +46,16 @@ restoration; verification requires fresh native replay. The caller's role plan,
 source truth, Arabic reading completeness and `CertifiedBridge` remain separate
 obligations. Run the native `mantuq-inference` integration gate for this path.
 
+For source-bound derivation/weak-law applications, reuse
+`tools.recursive_bridge read-applications/verify-applications` and the existing
+generation/classical owners through `tools.derivation_surface_bridge`.
+See `docs/DERIVATION_SURFACE_V1_AR.md` and its preimplementation acceptance
+contract. Keep supplied root/class/original-vowel hypotheses, exact occurrence
+bindings, alternative derivations and the unchanged conditional receipt.
+The medial-alif display projection is bounded and replay-tested; it does not
+establish lexical attestation, sense identity or `CertifiedBridge` premises.
+Do not route a transformed root through the direct-fill `_shape_reading` path.
+
 The complete theorem manifest remains `formal/theorems.json`; compiled proof
 identity remains the existing proof catalogue. Data-only modules, preservation
 theorems, impossibility/counterexample theorems, and executable checkers have
