@@ -1,0 +1,64 @@
+{
+  "schema": "nabt.derivation-surface-decimal-input-probe.v1",
+  "phase": "before",
+  "utc": "2026-11-02T19:36:02.133108+00:00",
+  "probe_count": 1,
+  "head": "6f291e2f6905f2d1ac58f4a7fdc61bbed3c8b986",
+  "python_version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "python_int_max_str_digits": 4300,
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-m",
+    "tools.recursive_bridge",
+    "read-applications",
+    "/tmp/nabt-decimal-source-absent-hwdik8zd/source-does-not-exist.txt",
+    "--applications",
+    "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/evidence/derivation_surface_v1/review/decimal_input/applications_5000_digit.json"
+  ],
+  "cwd": "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold",
+  "environment": {
+    "PATH": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/usr/bin:/bin",
+    "PYTHONPATH": "src:.",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  },
+  "source_path_existed": false,
+  "decimal_digits": 5000,
+  "input_bytes": 5222,
+  "input_sha256": "d7312a035c33a328033f0a3540689aa7a4f0731b0f7592087dc7e0801179ed5f",
+  "input_file": "applications_5000_digit.json",
+  "api_result": {
+    "status": "DEFER",
+    "code": "RESOURCE_LIMIT",
+    "message": "Derivation surface JSON exceeds its byte or integer budget"
+  },
+  "cli_result": {
+    "code": "INVALID_RECURSIVE_INPUT",
+    "message": "Input could not be replayed",
+    "status": "REJECT"
+  },
+  "cli_exit_code": 2,
+  "probe_exit_code": 1,
+  "expected_cli": {
+    "exit_code": 3,
+    "status": "DEFER",
+    "code": "RESOURCE_LIMIT"
+  },
+  "owner_sha256_before": {
+    "tools/recursive_bridge.py": "f8794f245414f6324d5cd004f4129a424bf8813dcce5444fe20478105c0ac02c",
+    "tools/derivation_surface_bridge.py": "15595e6e810d39ff08f1a47aab2a138fad252dc3406081314b466cc3d933a669"
+  },
+  "owner_sha256_after": {
+    "tools/recursive_bridge.py": "f8794f245414f6324d5cd004f4129a424bf8813dcce5444fe20478105c0ac02c",
+    "tools/derivation_surface_bridge.py": "15595e6e810d39ff08f1a47aab2a138fad252dc3406081314b466cc3d933a669"
+  },
+  "stdout_sha256": "c3e7773b33e3b71051c8bb5773cb2f64417692fea87543ce607618d9725dbd6d",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "log_sha256": "129d434849c5278c737271202329ac23a3419dd40a451db7553fe687e95835a0",
+  "probe_sha256": "2901e86f0992c3f82ebaab074b60f3b4068362a69a11c51e14d2364bc399de7a",
+  "passed": false,
+  "scope": "One bounded-input classification/order probe, not a kernel or general release gate."
+}
