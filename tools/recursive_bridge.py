@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 from copy import deepcopy
 from hashlib import sha256
+from io import BytesIO
 import json
 import os
 from pathlib import Path
@@ -39,6 +40,9 @@ MAX_REPORT_BYTES = 16 * 1024 * 1024
 MAX_LABEL_BYTES = 96
 MAX_TRANSPORT_NODES = 2048
 MAX_PROBE_INPUT_BYTES = 1024 * 1024
+APPLICATION_LAW_ID = "nabt.recursive-source-transport.v2"
+MAX_APPLICATION_REQUESTS = 16
+MAX_APPLICATION_JSON_DEPTH = 64
 
 
 def wire(value):
@@ -335,6 +339,174 @@ def verify_recursive_source(report, *, text, source_id="input", scope="default",
         return {"valid": False, "status": "REJECT", "code": "INVALID_RECURSIVE_SOURCE_REPORT"}
 
 
+def _application_json_preflight(value):
+    """Bound expansion before serialization, retaining the v1 arbitrary integers.
+
+    Count shared subtrees at each occurrence, as JSON does, and reject cycles.
+    Neither a digest nor Python equality (where True == 1) verifies this wire.
+    """
+    remaining = MAX_REPORT_BYTES - 1  # Preserve the terminating JSONL newline.
+    nodes = 0
+    active = set()
+
+    def charge(size):
+        nonlocal remaining
+        if size > remaining:
+            raise resource_limit("Recursive applications exceed the aggregate JSONL byte limit")
+        remaining -= size
+
+    def visit(item, depth):
+        nonlocal nodes
+        nodes += 1
+        if depth > MAX_APPLICATION_JSON_DEPTH or nodes > MAX_REPORT_BYTES:
+            raise resource_limit("Recursive applications exceed the JSON traversal budget")
+        kind = type(item)
+        if kind is str:
+            # Each scalar costs at least one byte; check length before any
+            # encoding allocation, then account for UTF-8 and JSON escaping.
+            charge(len(item) + 2)
+            for character in item:
+                scalar = ord(character)
+                if 0xD800 <= scalar <= 0xDFFF:
+                    raise NabtError("INVALID_RECURSIVE_REPORT", "JSON strings must be valid UTF-8")
+                if character in ('"', '\\', '\b', '\f', '\n', '\r', '\t'):
+                    charge(1)
+                elif scalar < 32:
+                    charge(5)
+                elif scalar > 0xFFFF:
+                    charge(3)
+                elif scalar > 0x7FF:
+                    charge(2)
+                elif scalar > 0x7F:
+                    charge(1)
+        elif item is None:
+            charge(4)
+        elif kind is bool:
+            charge(4 if item else 5)
+        elif kind is int:
+            if item.bit_length() > 4 * remaining:
+                raise resource_limit("Recursive integer exceeds the aggregate JSON byte limit")
+            try:
+                charge(len(str(item)))
+            except ValueError as error:
+                raise resource_limit("Recursive integer exceeds the decimal conversion budget") from error
+        elif kind is float:
+            try:
+                charge(len(json.dumps(item, allow_nan=False)))
+            except ValueError as error:
+                raise NabtError("INVALID_RECURSIVE_REPORT", "JSON numbers must be finite") from error
+        elif kind in (list, dict):
+            minimum = 2 + max(0, len(item) - 1) + len(item) * (4 if kind is dict else 1)
+            if minimum > remaining:
+                raise resource_limit("Recursive collection exceeds the aggregate JSON byte limit")
+            identity = id(item)
+            if identity in active:
+                raise NabtError("INVALID_RECURSIVE_REPORT", "JSON must not contain cycles")
+            active.add(identity)
+            charge(2 + max(0, len(item) - 1))
+            if kind is dict:
+                for key, child in item.items():
+                    if type(key) is not str:
+                        raise NabtError("INVALID_RECURSIVE_REPORT", "JSON object keys must be strings")
+                    visit(key, depth + 1)
+                    charge(1)
+                    visit(child, depth + 1)
+            else:
+                for child in item:
+                    visit(child, depth + 1)
+            active.remove(identity)
+        else:
+            raise NabtError("INVALID_RECURSIVE_REPORT", "Use strict JSON values")
+
+    visit(value, 0)
+
+
+def _application_wire(value):
+    """Canonical bounded JSON for v2 only; the original wire stays unchanged."""
+    _application_json_preflight(value)
+    encoder = json.JSONEncoder(ensure_ascii=False, sort_keys=True,
+                               separators=(",", ":"), allow_nan=False)
+    result = BytesIO()
+    for chunk in encoder.iterencode(value):
+        encoded = chunk.encode("utf-8")
+        if result.tell() + len(encoded) + 1 > MAX_REPORT_BYTES:
+            raise resource_limit("Recursive applications exceed the aggregate JSONL byte limit")
+        result.write(encoded)
+    return result.getvalue()
+
+
+def _application_requests_preflight(requests):
+    # The list bound precedes even loading the optional application owner.
+    if type(requests) is not list:
+        raise NabtError("INVALID_RECURSIVE_APPLICATIONS", "Applications must be an ordered JSON list")
+    if len(requests) > MAX_APPLICATION_REQUESTS:
+        raise resource_limit("Too many recursive applications", maximum_requests=MAX_APPLICATION_REQUESTS)
+    from tools.derivation_surface_bridge import validate_derivation_surface_request
+    for request in requests:
+        validate_derivation_surface_request(request)
+
+
+def read_recursive_applications(text, requests, *, source_id="input", scope="default"):
+    """Attach replayed conditional applications without upgrading source transport.
+
+    All requests and occurrences are preflighted before the first owner runs.
+    A matching surface is not lexical attestation or a grammar/sense witness.
+    """
+    _application_requests_preflight(requests)
+    from tools.derivation_surface_bridge import (
+        evaluate_derivation_surface, validate_derivation_surface_occurrence,
+    )
+    for request in requests:
+        validate_derivation_surface_occurrence(text, request, source_id=source_id, scope=scope)
+    retained = deepcopy(requests)
+    transport = read_recursive_source(text, source_id=source_id, scope=scope,
+                                      profile="surface_v1", with_discourse=False)
+    applications = []
+    for index, request in enumerate(retained):
+        result = evaluate_derivation_surface(text, request, source_id=source_id, scope=scope)
+        byte_span = result["occurrence"]["span"]
+        applications.append({
+            "request_index": index, "request": deepcopy(request), "report": result,
+            "occurrence_binding": {
+                "byte_span": deepcopy(byte_span),
+                "atom_span": _atom_span(transport["source"], byte_span),
+            },
+        })
+    report = {
+        "schema": APPLICATION_LAW_ID, "report_version": 2,
+        "source": transport["source"], "original_requests": retained,
+        "limits": {"max_requests": MAX_APPLICATION_REQUESTS,
+                   "max_aggregate_bytes": MAX_REPORT_BYTES},
+        "transport": transport, "applications": applications,
+        "grammar_certified": False, "sense_equivalence_established": False,
+        "grants_language_license": False,
+        "report_id": "0" * 64,
+    }
+    # Include the eventual identity field in the expansion guard before
+    # allocating the canonical body used to compute its audit label.
+    _application_json_preflight(report)
+    del report["report_id"]
+    report["report_id"] = sha256(_application_wire(report)).hexdigest()
+    return report
+
+
+def verify_recursive_applications(report, *, text, requests, source_id="input", scope="default"):
+    """Replay from independent inputs, including every unused/duplicate request."""
+    mismatch = {"valid": False, "status": "REJECT",
+                "code": "RECURSIVE_APPLICATION_REPLAY_MISMATCH"}
+    try:
+        _application_requests_preflight(requests)
+        _application_json_preflight(report)
+        fresh = read_recursive_applications(text, requests, source_id=source_id, scope=scope)
+        if _application_wire(report) != _application_wire(fresh):
+            return mismatch
+        return {"valid": True, "status": "VERIFIED"}
+    except (ValueError, TypeError, KeyError, UnicodeError, RecursionError) as error:
+        if isinstance(error, NabtError) and error.status == "DEFER":
+            return {"valid": False, **error.as_dict()}
+        return mismatch
+
+
 def _metadata(report, host, reading_id, *, morphology=None, section=None, roles=(),
               evidence_ids=(), unresolved=()):
     source = report["source"]
@@ -552,11 +724,46 @@ def _load_json(path):
     return _strict_json(_read_bounded(path, MAX_REPORT_BYTES))
 
 
+def _load_application_json(path):
+    """Strict input for the new path, guarded before canonical serialization."""
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise NabtError("INVALID_RECURSIVE_REPORT", "Duplicate JSON object key")
+            result[key] = value
+        return result
+
+    raw = _read_bounded(path, MAX_REPORT_BYTES)
+    try:
+        parsed = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
+                            parse_constant=lambda value: (_ for _ in ()).throw(
+                                ValueError("nonfinite JSON")))
+    except RecursionError as error:
+        raise resource_limit("Recursive applications exceed the JSON nesting budget") from error
+    _application_json_preflight(parsed)
+    return parsed
+
+
+def _reject_application_cli_controls(argv):
+    forbidden = ("--discourse", "--qac", "--context", "--probe", "--profile", "--index", "--kind")
+    for token in argv:
+        if token == "--":
+            break
+        name = token.split("=", 1)[0]
+        # Preserve argparse's legacy abbreviation behavior, while rejecting
+        # a supplied ignored control even if its value equals the old default.
+        if name.startswith("--") and any(option.startswith(name) for option in forbidden):
+            raise NabtError("INVALID_RECURSIVE_OPTION", "Applications do not accept " + name)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("operation", choices=("read", "verify", "lean-morphology", "lean-frame"))
+    parser.add_argument("operation", choices=("read", "verify", "lean-morphology", "lean-frame",
+                                              "read-applications", "verify-applications"))
     parser.add_argument("source")
     parser.add_argument("--report")
+    parser.add_argument("--applications")
     parser.add_argument("--source-id", default="input")
     parser.add_argument("--scope", default="default")
     parser.add_argument("--profile", default="surface_v1")
@@ -566,8 +773,33 @@ def main(argv=None):
     parser.add_argument("--index", type=int, default=0)
     parser.add_argument("--kind", choices=("morphology", "frame"), default="morphology")
     parser.add_argument("--probe")
+    argv = list(sys.argv[1:] if argv is None else argv)
     args = parser.parse_args(argv)
     try:
+        if args.operation in ("read-applications", "verify-applications"):
+            _reject_application_cli_controls(argv)
+            if args.applications is None:
+                raise NabtError("INVALID_RECURSIVE_OPTION", "Applications require --applications")
+            if args.operation == "verify-applications" and args.report is None:
+                raise NabtError("INVALID_RECURSIVE_OPTION", "verify-applications requires --report")
+            if args.operation == "read-applications" and args.report is not None:
+                raise NabtError("INVALID_RECURSIVE_OPTION", "read-applications does not accept --report")
+            requests = _load_application_json(args.applications)
+            _application_requests_preflight(requests)
+            # The request list and every request shape are checked before
+            # opening the source, including when the source path is missing.
+            text = _read_bounded(args.source, MAX_SOURCE_BYTES).decode("utf-8")
+            if args.operation == "read-applications":
+                result = read_recursive_applications(text, requests, source_id=args.source_id, scope=args.scope)
+            else:
+                previous = _load_application_json(args.report)
+                result = verify_recursive_applications(previous, text=text, requests=requests,
+                                                        source_id=args.source_id, scope=args.scope)
+            sys.stdout.buffer.write(_application_wire(result) + b"\n")
+            return (0 if args.operation == "read-applications" or result["valid"]
+                    else 3 if result["status"] == "DEFER" else 2)
+        if args.applications is not None:
+            raise NabtError("INVALID_RECURSIVE_OPTION", "--applications requires an applications command")
         raw = _read_bounded(args.source, MAX_SOURCE_BYTES)
         text = raw.decode("utf-8")
         model = None
