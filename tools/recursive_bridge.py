@@ -748,6 +748,12 @@ def _load_json(path):
 
 def _load_application_json(path):
     """Strict input for the new path, guarded before canonical serialization."""
+    def parse_integer(value):
+        try:
+            return int(value)
+        except ValueError as error:
+            raise resource_limit("Recursive integer exceeds the decimal conversion budget") from error
+
     def pairs(items):
         result = {}
         for key, value in items:
@@ -758,7 +764,7 @@ def _load_application_json(path):
 
     raw = _read_bounded(path, MAX_REPORT_BYTES)
     try:
-        parsed = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
+        parsed = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs, parse_int=parse_integer,
                             parse_constant=lambda value: (_ for _ in ()).throw(
                                 ValueError("nonfinite JSON")))
     except RecursionError as error:
