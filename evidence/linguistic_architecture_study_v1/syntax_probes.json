@@ -1,0 +1,251 @@
+{
+  "schema": "nabt.linguistic-architecture-study.syntax-probes.v1",
+  "authority": "BOUNDED_OBSERVATIONS_NOT_RELEASE_GATE",
+  "nabt_commit": "082c4e6bb582be554b46bbe440835559dc9f82b8",
+  "observed_utc_date": "2026-11-02",
+  "cwd": "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold",
+  "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:. python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom nabt.arabic_reader import read_arabic\nfrom nabt.discourse_laws import connective_value, coordination_projection, causal_allowed\nfrom nabt.corpus_evidence import learn_qac_lexicon\nfrom nabt.discourse import read_discourse, ask_discourse, verify_discourse\nfor text in ('زيدٌ هو قائمٌ و جالسٌ.', 'زيد عالم أو هند كاتب.', 'إذا ?س هو باحث فإن ?س هو مدقق.', 'ليت زيدا قائم.'):\n    r=read_arabic(text)\n    print(json.dumps({'layer':'arabic_reader','text':text,'accepted':r.accepted,'facts':len(r.document.facts),'rules':len(r.document.rules),'forms':[s.form for s in r.steps],'obligations':[list(s.obligations) for s in r.steps]},ensure_ascii=False))\nprint(json.dumps({'layer':'discourse_laws','truth':{op:[connective_value(op,a,b) for a,b in ((False,False),(False,True),(True,False),(True,True))] for op in ('AND','OR','XOR','IMPLIES')},'positive_branch_projection':{op:coordination_projection(op,'positive') for op in ('AND','OR','XOR','IMPLIES')},'causal_without_relation':causal_allowed(relation_licensed=False, source_supported=True, scope_complete=True,endpoints_resolved=True)},ensure_ascii=False))\nmodel=learn_qac_lexicon(Path('examples/discourse_training.tsv').read_bytes())\ncontext=json.loads(Path('examples/discourse_context.json').read_text())\nfor text in ('زيد عالم و هند كاتب.', 'إنَّ هذا عالم.', 'إن هذا عالم.', 'زيد عالم. هو كاتب.', 'ليت هذا عالم.', 'هذان', 'ضَرَبَنِي زَيْدٌ.'):\n    r=read_discourse(text,lexical_model=model,context=context)\n    claims=[{k:c[k] for k in ('predicate','args','positive','tense')} for c in r['claims']]\n    print(json.dumps({'layer':'discourse_reader','text':text,'status':r['status'],'claims':claims,'replay_valid':verify_discourse(r,lexical_model=model,context=context)['valid']},ensure_ascii=False))\nPY",
+  "execution_exit_code_observed": 0,
+  "execution_session_id": 57337,
+  "initial_tool_chunk_id": "dee82b",
+  "completion_tool_chunk_id": "b51198",
+  "record_kind": "TRANSCRIBED_SESSION_OBSERVATION_SUMMARY",
+  "retention_note_ar": "لم يحفظ ملف سجل خام عند التنفيذ. هذا تلخيص من مخرجات الجلسة المرصودة، مع الأمر الذي نفذ فعلا. ليست هذه إعادة تشغيل ولا إيصالا مستقلا ولا نتائج بوابة كاملة. أضيف ترتيب قيم الصدق توضيحا من نص الأمر.",
+  "source_inputs": [
+    {
+      "path": "examples/discourse_training.tsv",
+      "sha256_computed_when_saving_study": "84fbfcbae95d2cc16fe6922469c7e59a69fba80861c3428ee997cc60282adc69"
+    },
+    {
+      "path": "examples/discourse_context.json",
+      "sha256_computed_when_saving_study": "4bd85b916f7a85f7e2c5d0d7757b0ce20e0796b59c810efc8be54e9d98ad7aa0"
+    }
+  ],
+  "source_input_note_ar": "بصمات المدخلات حسبت عند حفظ الدراسة، وليست قياسات مختومة زمن تنفيذ المجسات. ملف التدريب مؤلف ومقدم إلى learn_qac_lexicon؛ لا يثبت اكتساب عربية مفتوحة أو تدريب شبكة.",
+  "observations": [
+    {
+      "layer": "arabic_reader",
+      "text": "زيدٌ هو قائمٌ و جالسٌ.",
+      "accepted": true,
+      "facts": 2,
+      "rules": 0,
+      "forms": [
+        "conjunction"
+      ],
+      "obligations": [
+        []
+      ]
+    },
+    {
+      "layer": "arabic_reader",
+      "text": "زيد عالم أو هند كاتب.",
+      "accepted": false,
+      "facts": 0,
+      "rules": 0,
+      "forms": [
+        "unresolved"
+      ],
+      "obligations": [
+        [
+          "UNSUPPORTED_DISJUNCTION"
+        ]
+      ]
+    },
+    {
+      "layer": "arabic_reader",
+      "text": "إذا ?س هو باحث فإن ?س هو مدقق.",
+      "accepted": true,
+      "facts": 0,
+      "rules": 1,
+      "forms": [
+        "conditional"
+      ],
+      "obligations": [
+        []
+      ]
+    },
+    {
+      "layer": "arabic_reader",
+      "text": "ليت زيدا قائم.",
+      "accepted": false,
+      "facts": 0,
+      "rules": 0,
+      "forms": [
+        "unresolved"
+      ],
+      "obligations": [
+        [
+          "UNSUPPORTED_NOMINAL_ROLE"
+        ]
+      ]
+    },
+    {
+      "layer": "discourse_laws",
+      "truth_input_order": [
+        [
+          false,
+          false
+        ],
+        [
+          false,
+          true
+        ],
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "truth": {
+        "AND": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "OR": [
+          false,
+          true,
+          true,
+          true
+        ],
+        "XOR": [
+          false,
+          true,
+          true,
+          false
+        ],
+        "IMPLIES": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      "positive_branch_projection": {
+        "AND": true,
+        "OR": false,
+        "XOR": false,
+        "IMPLIES": false
+      },
+      "causal_without_relation": false
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "زيد عالم و هند كاتب.",
+      "status": "LICENSED_DISCOURSE",
+      "claims": [
+        {
+          "predicate": "عالِم",
+          "args": [
+            "zayd"
+          ],
+          "positive": true,
+          "tense": "unspecified"
+        },
+        {
+          "predicate": "كَاتِب",
+          "args": [
+            "hind"
+          ],
+          "positive": true,
+          "tense": "unspecified"
+        }
+      ],
+      "replay_valid": true
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "إنَّ هذا عالم.",
+      "status": "LICENSED_DISCOURSE",
+      "claims": [
+        {
+          "predicate": "عالِم",
+          "args": [
+            "zayd"
+          ],
+          "positive": true,
+          "tense": "unspecified"
+        }
+      ],
+      "replay_valid": true
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "إن هذا عالم.",
+      "status": "DEFER",
+      "claims": [],
+      "replay_valid": true
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "زيد عالم. هو كاتب.",
+      "status": "LICENSED_DISCOURSE",
+      "claims": [
+        {
+          "predicate": "عالِم",
+          "args": [
+            "zayd"
+          ],
+          "positive": true,
+          "tense": "unspecified"
+        },
+        {
+          "predicate": "كَاتِب",
+          "args": [
+            "zayd"
+          ],
+          "positive": true,
+          "tense": "unspecified"
+        }
+      ],
+      "replay_valid": true
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "ليت هذا عالم.",
+      "status": "LICENSED_DISCOURSE",
+      "claims": [],
+      "replay_valid": true
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "هذان",
+      "status": "DEFER",
+      "claims": [],
+      "replay_valid": true
+    },
+    {
+      "layer": "discourse_reader",
+      "text": "ضَرَبَنِي زَيْدٌ.",
+      "status": "LICENSED_DISCOURSE",
+      "claims": [
+        {
+          "predicate": "ضَرَبَ",
+          "args": [
+            "zayd",
+            "zayd"
+          ],
+          "positive": true,
+          "tense": "past"
+        }
+      ],
+      "replay_valid": true
+    }
+  ],
+  "not_executed": [
+    "Lean/lake build",
+    "CI jobs",
+    "full regression suite",
+    "Arabic completeness evaluation",
+    "neural model training"
+  ],
+  "interpretation_limits_ar": [
+    "إعادة فحص تقرير DEFER مع valid=true تصدق إعادة بناء التعليق، لا تعتمد مضمونه.",
+    "ضمير المتكلم في سياق المثال مربوط بزيد؛ لذلك قد تتحد هويتا الفاعل والمفعول في ضَرَبَنِي زَيْدٌ.",
+    "لم تمنح هذه المجسات سلطة مرجع خارجي أو صدق واقعي أو CertifiedBridge."
+  ]
+}
