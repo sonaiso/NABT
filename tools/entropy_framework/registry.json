@@ -2676,11 +2676,14 @@
         "runtime_paths": [
           "tools/mantuq_mafhum.py",
           "tools/mantuq_inference/evaluator.py",
-          "tools/mantuq_inference/pipeline.py"
+          "tools/mantuq_inference/pipeline.py",
+          "tools/mantuq_inference/source_bound.py",
+          "tools/mantuq_inference/source_fold.py"
         ],
         "native_targets": [
           "classicalSemanticProbe",
-          "exportQualifiedInference"
+          "exportQualifiedInference",
+          "verifiedReading"
         ],
         "entrypoint_ids": [
           "mantuq-inference"
@@ -2691,15 +2694,19 @@
         "test_paths": [
           "tests/test_mantuq_mafhum.py",
           "tests/test_mantuq_inference_runtime.py",
-          "tests/test_mantuq_inference_pipeline.py"
+          "tests/test_mantuq_inference_pipeline.py",
+          "tests/test_mantuq_source_bound.py",
+          "tests/test_mantuq_source_fold.py"
         ],
         "doc_paths": [
           "docs/MANTUQ_MAFHUM.md",
-          "docs/MANTUQ_INFERENCE_AR.md"
+          "docs/MANTUQ_INFERENCE_AR.md",
+          "docs/MANTUQ_SOURCE_FOLD_V1_AR.md"
         ],
-        "scope": "Explicit mantuq/mafhum gates, blockers, qualified scopes and complete policy scans preserve suspended plans even when retrieval ranks them low.",
+        "scope": "Explicit mantuq/mafhum gates, blockers, qualified scopes and complete policy scans; source/fold/unfold/verify-fold join one native ground reading, full and clean witnesses, an exact source rule and independently bound replay. Unfolding alone grants no authority.",
         "open_debts": [
-          "No mafhum is generated from a query without the policy-specific structured premises and absence of blockers."
+          "No mafhum is generated from a query without the policy-specific structured premises and absence of blockers.",
+          "Source support is relative to the supplied ground theory; role assignment, free-Arabic reading completeness, rule adoption, world truth and CertifiedBridge are not established by source replay or numeric folding."
         ]
       },
       {

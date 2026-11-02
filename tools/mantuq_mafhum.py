@@ -13,6 +13,7 @@ import csv
 import hashlib
 from itertools import product
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -237,7 +238,9 @@ def _trace_proofs(certificate):
 
 
 def derive_controlled(source_path, query_path, *, identity="text", revision="1", scope="default", probe=None,
-                      verified_probe=None):
+                      verified_probe=None, timeout=60):
+    if type(timeout) not in (int, float) or not 0 < timeout <= 60 or not math.isfinite(timeout):
+        raise ValueError("native timeout must be a finite number in (0, 60] seconds")
     source_path, query_path = Path(source_path).resolve(), Path(query_path).resolve()
     raw, query = source_path.read_bytes(), query_path.read_bytes()
     certificate = controlled.propose(raw, query, identity, revision, scope)
@@ -248,7 +251,7 @@ def derive_controlled(source_path, query_path, *, identity="text", revision="1",
         cert = Path(temp) / "certificate.json"
         cert.write_text(bridge.wire(certificate), encoding="utf-8")
         run = subprocess.run([str(verifier), str(source_path), str(query_path), str(cert), identity, revision, scope],
-                             capture_output=True, text=True, timeout=60)
+                             capture_output=True, text=True, timeout=timeout)
     result = json.loads(run.stdout)
     if run.returncode or not result.get("verified"):
         raise ValueError("EXECUTION_REJECTED: " + bridge.wire(result))
@@ -266,7 +269,7 @@ def derive_controlled(source_path, query_path, *, identity="text", revision="1",
             requests.append({"op": "meaning_from_source", "scope": scope, "proof": proof})
     source = {"local_path": str(source_path), "source_id": identity, "edition": "controlled input",
               "revision": revision, "work": "target"}
-    for item, checked in zip(signed, bridge.native(requests, source=source, probe=probe) if requests else [], strict=True):
+    for item, checked in zip(signed, bridge.native(requests, source=source, probe=probe, timeout=timeout) if requests else [], strict=True):
         expected = {"kind": "atom", "concept": item["atom"]["predicate"], "args":
                     [{"kind": "name", "value": s} for s in
                      [scope, "positive" if item["atom"]["positive"] else "negative", *item["atom"]["arguments"]]]}

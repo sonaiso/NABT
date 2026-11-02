@@ -1,0 +1,80 @@
+{
+  "schema": "independent-source-fold-review.final.v1",
+  "reviewed_source_hashes": {
+    "tools/mantuq_inference/source_bound.py": "b4b746e0ccfb1642aaf1087428abf250c6f69527934bac5a2c11aa1f5733d7b0",
+    "tools/mantuq_inference/source_fold.py": "bb462420af6373f6798fe95f82804e65d8dd188976ca308261b703606e5a55ff",
+    "tools/mantuq_inference/__main__.py": "9bbc1b8c91beb5ebc195c775e42ca2b643b1d68860beb6c73dfbdb997a11b675",
+    "tools/mantuq_inference/evaluator.py": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+    "tools/mantuq_mafhum.py": "84a64a73d5a7d0e7d2d56b7cef398a844fe4f1bb445843d80fe6d51257a349ad",
+    "tools/source_semantics.py": "6fe6dbc4c8803723427326eac4abc439316b0629fc9f654029d839f384125328"
+  },
+  "same_as_adversarial_probe_sources": true,
+  "blocking_findings": [],
+  "source_adapter_probes": 24,
+  "source_adapter_probe_failures": [],
+  "cli_checks": [
+    {
+      "name": "source",
+      "exit_code": 0,
+      "status": "SUPPORTED",
+      "verified": null,
+      "conditional_consequence": true
+    },
+    {
+      "name": "fold",
+      "exit_code": 0,
+      "status": "FOLDED_TRANSPORT",
+      "verified": null,
+      "conditional_consequence": false
+    },
+    {
+      "name": "unfold",
+      "exit_code": 0,
+      "status": "DECODED_UNVERIFIED",
+      "verified": null,
+      "conditional_consequence": false
+    },
+    {
+      "name": "unfold_outer_authority",
+      "matches": true
+    },
+    {
+      "name": "verify",
+      "exit_code": 0,
+      "status": "VERIFIED_REPLAY",
+      "verified": true,
+      "conditional_consequence": true
+    },
+    {
+      "name": "exclusive_existing_output",
+      "exit_code": 2,
+      "status": "IO_ERROR",
+      "verified": false,
+      "conditional_consequence": false
+    },
+    {
+      "name": "existing_output_bytes_unchanged",
+      "matches": true
+    },
+    {
+      "name": "zero_timeout",
+      "exit_code": 2,
+      "status": "INVALID",
+      "verified": null,
+      "conditional_consequence": false
+    },
+    {
+      "name": "zero_reading_budget",
+      "exit_code": 2,
+      "status": "RESOURCE_EXHAUSTED",
+      "verified": null,
+      "conditional_consequence": false
+    }
+  ],
+  "limitations": [
+    "No fresh all-module Lean build performed in this review.",
+    "No Python-to-Lean refinement theorem claimed.",
+    "Native checker configuration is trusted and not supplied by transported data.",
+    "Only current controlled ground-reading domain reviewed; no free-Arabic completeness claim."
+  ]
+}

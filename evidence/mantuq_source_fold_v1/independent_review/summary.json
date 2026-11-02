@@ -1,0 +1,198 @@
+{
+  "schema": "independent-source-fold-probe.v1",
+  "checker_mocks": false,
+  "before": {
+    "tools/mantuq_inference/source_bound.py": "b4b746e0ccfb1642aaf1087428abf250c6f69527934bac5a2c11aa1f5733d7b0",
+    "tools/mantuq_inference/source_fold.py": "bb462420af6373f6798fe95f82804e65d8dd188976ca308261b703606e5a55ff",
+    "tools/mantuq_inference/__main__.py": "9bbc1b8c91beb5ebc195c775e42ca2b643b1d68860beb6c73dfbdb997a11b675",
+    "tools/mantuq_inference/evaluator.py": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+    "tools/mantuq_mafhum.py": "84a64a73d5a7d0e7d2d56b7cef398a844fe4f1bb445843d80fe6d51257a349ad",
+    "tools/source_semantics.py": "6fe6dbc4c8803723427326eac4abc439316b0629fc9f654029d839f384125328"
+  },
+  "after": {
+    "tools/mantuq_inference/source_bound.py": "b4b746e0ccfb1642aaf1087428abf250c6f69527934bac5a2c11aa1f5733d7b0",
+    "tools/mantuq_inference/source_fold.py": "bb462420af6373f6798fe95f82804e65d8dd188976ca308261b703606e5a55ff",
+    "tools/mantuq_inference/__main__.py": "9bbc1b8c91beb5ebc195c775e42ca2b643b1d68860beb6c73dfbdb997a11b675",
+    "tools/mantuq_inference/evaluator.py": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+    "tools/mantuq_mafhum.py": "84a64a73d5a7d0e7d2d56b7cef398a844fe4f1bb445843d80fe6d51257a349ad",
+    "tools/source_semantics.py": "6fe6dbc4c8803723427326eac4abc439316b0629fc9f654029d839f384125328"
+  },
+  "source_changed_during_probe": false,
+  "cases": [
+    {
+      "name": "clean",
+      "status": "SUPPORTED",
+      "reason": "ALL_SUPPLIED_READINGS_CONDITIONALLY_SUPPORT",
+      "conditional": true,
+      "expected_status": "SUPPORTED",
+      "matches": true,
+      "source_status": null
+    },
+    {
+      "name": "contested_ancestor",
+      "status": "DEFER",
+      "reason": "CONTESTED_SOURCE_PREMISE",
+      "conditional": false,
+      "expected_status": "DEFER",
+      "matches": true,
+      "source_status": null
+    },
+    {
+      "name": "independent_clean_support",
+      "status": "SUPPORTED",
+      "reason": "ALL_SUPPLIED_READINGS_CONDITIONALLY_SUPPORT",
+      "conditional": true,
+      "expected_status": "SUPPORTED",
+      "matches": true,
+      "source_status": null
+    },
+    {
+      "name": "opposed_conclusion",
+      "status": "CONFLICT",
+      "reason": "CONFLICT_IN_SUPPLIED_READING",
+      "conditional": false,
+      "expected_status": "CONFLICT",
+      "matches": true,
+      "source_status": null
+    },
+    {
+      "name": "sentinel_integer_identity",
+      "matches": true,
+      "payload_bytes": 27043
+    },
+    {
+      "name": "positive_replay",
+      "result": {
+        "schema": "nabt.mantuq-source-replay.v1",
+        "verified": true,
+        "status": "VERIFIED_REPLAY",
+        "source_status": "SUPPORTED",
+        "conditional_consequence": true,
+        "payload_sha256": "773fdfccfb5e83b2a74f1b09b19c36a2600488908139b384f92c7bb0f082a913",
+        "world_truth_established": false,
+        "all_arabic_complete": false,
+        "action_authority": "NONE"
+      },
+      "matches": true
+    },
+    {
+      "name": "changed_revision",
+      "rejected": true,
+      "code": "FOLD_REJECTED",
+      "expected_code": "FOLD_REJECTED",
+      "matches": true
+    },
+    {
+      "name": "changed_unused_budget",
+      "rejected": true,
+      "code": "FOLD_REJECTED",
+      "expected_code": "FOLD_REJECTED",
+      "matches": true
+    },
+    {
+      "name": "changed_unused_source",
+      "rejected": true,
+      "code": "FOLD_REJECTED",
+      "expected_code": "FOLD_REJECTED",
+      "matches": true
+    },
+    {
+      "name": "changed_timeout",
+      "rejected": true,
+      "code": "FOLD_REJECTED",
+      "expected_code": "FOLD_REJECTED",
+      "matches": true
+    },
+    {
+      "name": "leading_zero",
+      "rejected": true,
+      "code": "FOLD_REJECTED"
+    },
+    {
+      "name": "upper_prefix",
+      "rejected": true,
+      "code": "FOLD_REJECTED"
+    },
+    {
+      "name": "trailing_zero",
+      "rejected": true,
+      "code": "FOLD_REJECTED"
+    },
+    {
+      "name": "rehash_does_not_grant_authority",
+      "rejected": true,
+      "code": "FOLD_REJECTED",
+      "expected_code": "FOLD_REJECTED",
+      "matches": true
+    },
+    {
+      "name": "independent_string_size_boundary",
+      "matches": true,
+      "bytes": 253
+    },
+    {
+      "name": "one_byte_under_budget",
+      "rejected": true,
+      "code": "RESOURCE_LIMIT",
+      "expected_code": "RESOURCE_LIMIT",
+      "matches": true
+    },
+    {
+      "name": "shared_object_expansion",
+      "rejected": true,
+      "code": "RESOURCE_LIMIT",
+      "expected_code": "RESOURCE_LIMIT",
+      "matches": true
+    },
+    {
+      "name": "cyclic_python_input",
+      "rejected": true,
+      "code": "RESOURCE_LIMIT",
+      "expected_code": "RESOURCE_LIMIT",
+      "matches": true
+    },
+    {
+      "name": "duplicate_keys",
+      "rejected": true,
+      "code": "INVALID_INPUT",
+      "expected_code": "INVALID_INPUT",
+      "matches": true
+    },
+    {
+      "name": "negative_zero",
+      "rejected": true,
+      "code": "INVALID_INPUT",
+      "expected_code": "INVALID_INPUT",
+      "matches": true
+    },
+    {
+      "name": "float",
+      "rejected": true,
+      "code": "INVALID_INPUT",
+      "expected_code": "INVALID_INPUT",
+      "matches": true
+    },
+    {
+      "name": "surrogate",
+      "rejected": true,
+      "code": "INVALID_INPUT",
+      "expected_code": "INVALID_INPUT",
+      "matches": true
+    },
+    {
+      "name": "nonfinite",
+      "rejected": true,
+      "code": "INVALID_INPUT",
+      "expected_code": "INVALID_INPUT",
+      "matches": true
+    },
+    {
+      "name": "oversized_integer",
+      "rejected": true,
+      "code": "RESOURCE_LIMIT",
+      "expected_code": "RESOURCE_LIMIT",
+      "matches": true
+    }
+  ],
+  "failed": []
+}

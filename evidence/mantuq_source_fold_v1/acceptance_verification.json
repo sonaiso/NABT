@@ -1,0 +1,93 @@
+{
+  "schema": "nabt.mantuq-source-fold.acceptance-verification.v1",
+  "authority": "FINITE_NATIVE_ACCEPTANCE_EVIDENCE_ONLY",
+  "oracle": "Hand-authored source clauses and expected source/conditional states; no production classifier used to generate gold.",
+  "gold_changed_after_observation": false,
+  "native_semantic_checks_mocked": false,
+  "spy_scope": "subprocess invocation timeout forwarding; wrapped real native processes",
+  "boundary_mock_scope": "invalid timeout must not invoke native; unfold must not invoke native",
+  "distinct_test_methods_passed": 38,
+  "skipped": 0,
+  "runs": [
+    {
+      "log": "evidence/mantuq_source_fold_v1/first_test_attempt.log",
+      "test_methods": 32,
+      "duration_seconds": 38.632,
+      "status": "PASS",
+      "command": "python -m unittest -v tests.test_mantuq_source_bound tests.test_mantuq_source_fold",
+      "note": "Original complete attempt, before four CLI test methods were added; preserved unchanged."
+    },
+    {
+      "log": "evidence/mantuq_source_fold_v1/first_cli_test_attempt.log",
+      "test_methods": 4,
+      "duration_seconds": 5.519,
+      "status": "PASS",
+      "command": "python -m unittest -v tests.test_mantuq_source_fold.SourceFoldNativeContract.test_cli_existing_output_is_untouched tests.test_mantuq_source_fold.SourceFoldNativeContract.test_cli_zero_budget_is_resource_exhaustion_and_writes_no_fold tests.test_mantuq_source_fold.SourceFoldNativeContract.test_cli_unavailable_checker_is_distinct_from_checked_unknown tests.test_mantuq_source_fold.SourceFoldNativeContract.test_cli_verify_requires_independent_revision_plan_and_query",
+      "note": "First CLI attempt, preserved unchanged."
+    },
+    {
+      "log": "evidence/mantuq_source_fold_v1/policy_priority_test_attempt.log",
+      "test_methods": 1,
+      "duration_seconds": 1.181,
+      "status": "PASS",
+      "command": "python -m unittest -v tests.test_mantuq_source_bound.SourceBoundNativeContract.test_installed_opposition_refusal_is_not_changed_into_taint_defer",
+      "note": "Focused regression for the production clarification preserving installed name/innama refusal before taint gating."
+    },
+    {
+      "log": "evidence/mantuq_source_fold_v1/native_gate_test_attempt.log",
+      "test_methods": 1,
+      "duration_seconds": 0.597,
+      "status": "PASS",
+      "command": "NABT_REQUIRE_MANTUQ_SOURCE_FOLD_NATIVE=1 python -m unittest -v tests.test_mantuq_source_bound.SourceBoundInputContract.test_required_native_gate_rejects_missing_either_executable",
+      "note": "Checks fail-closed module loading for each missing executable, in both test modules."
+    }
+  ],
+  "native_environment": {
+    "NABT_VERIFIED_READING": "/tmp/nabt-lean-native-build/formal/.lake/build/bin/verifiedReading",
+    "NABT_CLASSICAL_SEMANTIC_PROBE": "/tmp/nabt-lean-native-build/formal/.lake/build/bin/classicalSemanticProbe"
+  },
+  "sha256": {
+    "evidence/mantuq_source_fold_v1/acceptance_contract.json": "2fa2dddc10ede163ffbd8b2bbbdeb0c6e3a28c47024a9d6d9849b07ee486eaa4",
+    "evidence/mantuq_source_fold_v1/first_test_attempt.log": "9c4ce6122f7c1c2a4e242b4d79e338ace70c54122e058240bfe8226cbb992e34",
+    "evidence/mantuq_source_fold_v1/first_cli_test_attempt.log": "a14ad1b755677e280a95e759448132bf48e3cd4dfbbed2aece61334b8576db8c",
+    "tests/test_mantuq_source_bound.py": "b49d45d0016c2419635b40bfd4870c1bf223fbe19f0046c43c5be646054fdd1b",
+    "tests/test_mantuq_source_fold.py": "224686dd462c7eb22b1e93b8adc4766b4c4105a92f0a85306aae4cfa530edbad",
+    "tools/mantuq_inference/source_bound.py": "b4b746e0ccfb1642aaf1087428abf250c6f69527934bac5a2c11aa1f5733d7b0",
+    "tools/mantuq_inference/source_fold.py": "bb462420af6373f6798fe95f82804e65d8dd188976ca308261b703606e5a55ff",
+    "tools/mantuq_inference/evaluator.py": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+    "tools/mantuq_inference/__main__.py": "9bbc1b8c91beb5ebc195c775e42ca2b643b1d68860beb6c73dfbdb997a11b675",
+    "tools/mantuq_mafhum.py": "84a64a73d5a7d0e7d2d56b7cef398a844fe4f1bb445843d80fe6d51257a349ad",
+    "tools/source_semantics.py": "6fe6dbc4c8803723427326eac4abc439316b0629fc9f654029d839f384125328",
+    "tools/explainable_pilot.py": "95582215e7875ad3aaa423584298d775cad4e2f1816779f87aa3ee71ab552ca1",
+    "evidence/mantuq_source_fold_v1/policy_priority_test_attempt.log": "f8840470b45e03c2ca35aac4716d8bf77c070e7c68fee1475ede815088f8853f",
+    "evidence/mantuq_source_fold_v1/native_gate_test_attempt.log": "36318ffeda22a2dc1b94188b55d283800f66e28fd0f7a8f1270a9c426021b98c"
+  },
+  "limits": [
+    "No new Lean theorem claimed.",
+    "Canonical ground language only; no general Arabic completeness.",
+    "Support is relative to supplied source theory; no source-authenticity, world-truth, rule-adoption or action authority."
+  ],
+  "native_sha256": {
+    "NABT_VERIFIED_READING": "77645150db4cbfd56adc9d4e4e22534b80efb0278357049dc3c492a1582b0888",
+    "NABT_CLASSICAL_SEMANTIC_PROBE": "fcc9dca35aa84e93a69ff25f5e7d5de2599b641a0cbb4933cbaadaa83db8149b"
+  },
+  "earlier_artifact_hashes": {
+    "evidence/mantuq_source_fold_v1/acceptance_contract.json": "f7890acde88c9137ac9222e5d957b84c96362a06fc3d55bdacd28aa2ee657009",
+    "evidence/mantuq_source_fold_v1/first_test_attempt.log": "9c4ce6122f7c1c2a4e242b4d79e338ace70c54122e058240bfe8226cbb992e34",
+    "evidence/mantuq_source_fold_v1/first_cli_test_attempt.log": "a14ad1b755677e280a95e759448132bf48e3cd4dfbbed2aece61334b8576db8c",
+    "tests/test_mantuq_source_bound.py": "575fb2e291561f47a7fcbedd9d3de101bf1dbeec9dc5f94213cf57788380305b",
+    "tests/test_mantuq_source_fold.py": "d006729690ef052be99cb6869d26b59f78981e6ce3646f4b0ff61d4445e3799d",
+    "tools/mantuq_inference/source_bound.py": "b4b746e0ccfb1642aaf1087428abf250c6f69527934bac5a2c11aa1f5733d7b0",
+    "tools/mantuq_inference/source_fold.py": "bb462420af6373f6798fe95f82804e65d8dd188976ca308261b703606e5a55ff",
+    "tools/mantuq_inference/evaluator.py": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+    "tools/mantuq_inference/__main__.py": "9bbc1b8c91beb5ebc195c775e42ca2b643b1d68860beb6c73dfbdb997a11b675",
+    "tools/mantuq_mafhum.py": "84a64a73d5a7d0e7d2d56b7cef398a844fe4f1bb445843d80fe6d51257a349ad",
+    "tools/source_semantics.py": "6fe6dbc4c8803723427326eac4abc439316b0629fc9f654029d839f384125328",
+    "tools/explainable_pilot.py": "95582215e7875ad3aaa423584298d775cad4e2f1816779f87aa3ee71ab552ca1"
+  },
+  "test_methods_by_module": {
+    "tests.test_mantuq_source_bound": 18,
+    "tests.test_mantuq_source_fold": 20
+  },
+  "native_required_gate": "NABT_REQUIRE_MANTUQ_SOURCE_FOLD_NATIVE=1 fails module loading if either executable is unavailable or nonexecutable; all four module/missing-binary combinations were exercised."
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "nabt.mantuq-source-fold.compatibility-review.v1",
+  "observed_utc": "2026-11-02T16:17:34.729156+00:00",
+  "base_commit": "cebb5c472451a1d541ed9b93f56bb6cd2e9d606e",
+  "pr65_head": "1fe09dbceda92a5d6cc2fbee5c3f3ea42b8bf688",
+  "method": "read-only git show and git merge-file -p over temporary snapshots; no branch/index mutation; no PR65 import",
+  "pr65_overlap_probes": [
+    {
+      "path": "AGENTS.md",
+      "merge_file_exit": 0,
+      "sha256": {
+        "current": "2cf49e32cafb28eff39f823bb398a103200057d45fb394c3cf64f6f76ee91c6c",
+        "base": "9ea0c078fd1cfe11b38a8c5c4234e3ab0384a61e38eb8744beec35d39f662783",
+        "pr65": "37bc27225797823ef56c4307749813f02c0240b9c99d0479803c518ebf7630d3"
+      },
+      "syntax": null
+    },
+    {
+      "path": "tools/entropy_framework/registry.json",
+      "merge_file_exit": 0,
+      "sha256": {
+        "current": "7db5b24e7b5e2f7cdd35cdc871c7409263ded4e84616f751150f7ad13b0eec3a",
+        "base": "7117913cb2607317f73650e513bdc744216a8c5486132bb0040f1b12dd90f28f",
+        "pr65": "c2ce25f63d06c1d86afa57936e0552d633dc19e3278f5400862446776b2c3b66"
+      },
+      "syntax": "valid JSON"
+    },
+    {
+      "path": "tools/entropy_framework/reuse_run.py",
+      "merge_file_exit": 0,
+      "sha256": {
+        "current": "2f80f3938661652c5a8b30668dcf30daa0e5577c0eafe673f8a963ee31febf8a",
+        "base": "495e8e8895758e45e8a2b1cdcc8ee8cc02356ccb6a6a0b3e2c6040d9d0f9e79e",
+        "pr65": "c0982b80b4d2f976b5f0a95c9ce2db9202ef7c4af3f9d23ed3827f5929c41009"
+      },
+      "syntax": "valid Python AST"
+    }
+  ],
+  "original_worktree_document_probe": {
+    "path": "docs/NABT_FOUNDATION_REUSE_AR.md",
+    "conflict_with_committed_pr65": false,
+    "conflict_with_original_uncommitted_checkout": true,
+    "original_probe_exit": 1,
+    "proposed_placement": {
+      "section": "## ٩. التزامات الاستمرار",
+      "immediately_before": "الديون المحددة بعد هذا التدقيق هي:",
+      "move_whole_subsection": "### وصلة مصدرية منفذة للمنطوق والمفهوم"
+    },
+    "temporary_relocation_merge_exit": 0,
+    "keeps_original_study_section_10": true,
+    "keeps_current_subsection": true,
+    "sha256": {
+      "current": "a14983c0aa2b1bc6ea789d577a3afad32babb02543d00aba492f2ef8e76de9a9",
+      "base": "f117332d63dff1de12c92cd5a3e8d724d23f15e6f2fecc2f841eff6e9b530080",
+      "original_worktree": "935263344f217079c43d9c544f229c261ddbc9b349492ebafc875a14c53a8b69",
+      "temporary_relocated_current": "46ed8d9f47e01dce34a12e42405c9734fb1c0027fddd1276d2f6153fcaab1cf8"
+    }
+  },
+  "new_path_collisions_with_pr65": [],
+  "scope_limits": [
+    "Textual merge compatibility and JSON/Python syntax only; no integrated runtime or CI claim.",
+    "Original uncommitted study content was not copied into this branch.",
+    "Production source_bound/evaluator/mantuq_mafhum/source_semantics were not edited."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "independent-source-fold-cli-probe.v1",
+  "native_checker_mocks": false,
+  "cases": [
+    {
+      "name": "source",
+      "exit_code": 0,
+      "status": "SUPPORTED",
+      "verified": null,
+      "conditional_consequence": true
+    },
+    {
+      "name": "fold",
+      "exit_code": 0,
+      "status": "FOLDED_TRANSPORT",
+      "verified": null,
+      "conditional_consequence": false
+    },
+    {
+      "name": "unfold",
+      "exit_code": 0,
+      "status": "DECODED_UNVERIFIED",
+      "verified": null,
+      "conditional_consequence": false
+    },
+    {
+      "name": "unfold_outer_authority",
+      "matches": true
+    },
+    {
+      "name": "verify",
+      "exit_code": 0,
+      "status": "VERIFIED_REPLAY",
+      "verified": true,
+      "conditional_consequence": true
+    },
+    {
+      "name": "exclusive_existing_output",
+      "exit_code": 2,
+      "status": "IO_ERROR",
+      "verified": false,
+      "conditional_consequence": false
+    },
+    {
+      "name": "existing_output_bytes_unchanged",
+      "matches": true
+    },
+    {
+      "name": "zero_timeout",
+      "exit_code": 2,
+      "status": "INVALID",
+      "verified": null,
+      "conditional_consequence": false
+    },
+    {
+      "name": "zero_reading_budget",
+      "exit_code": 2,
+      "status": "RESOURCE_EXHAUSTED",
+      "verified": null,
+      "conditional_consequence": false
+    }
+  ]
+}

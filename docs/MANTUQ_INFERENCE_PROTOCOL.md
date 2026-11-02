@@ -1,7 +1,13 @@
 # Conditional inference request v1
 
-The optional `tools.mantuq_inference` adapter evaluates explicit structured
-assumptions. It does not parse those assumptions out of the supplied Arabic text.
+The `evaluate` and `pipeline` operations of the optional `tools.mantuq_inference`
+adapter evaluate explicit structured assumptions. They do not parse those
+assumptions out of the supplied Arabic text. The additional `source`, `fold`,
+`unfold` and `verify-fold` operations join the existing native canonical-ground
+reader to this evaluator, as documented in
+[the source-bound transport contract](MANTUQ_SOURCE_FOLD_V1_AR.md). That path
+checks actual source support while retaining caller-assigned roles and all
+source/full/clean witnesses. Decoding alone grants no current authority.
 The installed source inventory determines method profiles; it does not certify
 the classification, legal ruling, causal relationship, or empirical truth of a
 new occurrence. No language-model API is called.

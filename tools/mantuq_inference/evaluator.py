@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
+import math
 from pathlib import Path
 import subprocess
 import tempfile
@@ -274,7 +275,7 @@ def _validate(payload, budget):
             "readings": fresh, "contrast_kind": payload.get("contrast_kind")}, None
 
 
-def _native_consequence(reading, binding, conclusion):
+def _native_consequence(reading, binding, conclusion, *, checker=None, semantic_probe=None, timeout=60):
     # Whole unsigned atom identity is retained in the reversible lookup; hashes
     # only give bounded parser names, and collisions explicitly fail closed.
     labels = {}
@@ -297,7 +298,8 @@ def _native_consequence(reading, binding, conclusion):
         source_path.write_bytes(raw)
         query_path.write_bytes(query_raw)
         checked = mantuq_mafhum.derive_controlled(source_path, query_path,
-            identity="generated_assumptions_" + bound_id, scope="scope_" + bound_id)
+            identity="generated_assumptions_" + bound_id, scope="scope_" + bound_id,
+            verified_probe=checker, probe=semantic_probe, timeout=timeout)
     execution = checked["execution"]
     # Native verification checks full saturation/clean support, not just a
     # user-supplied success flag. The target must have its own signed proof.
@@ -313,13 +315,15 @@ def _native_consequence(reading, binding, conclusion):
             "original_arabic_interpretation_checked": False, "lean": checked}
 
 
-def evaluate(payload, *, budget=None, root=ROOT):
+def evaluate(payload, *, budget=None, root=ROOT, checker=None, semantic_probe=None, timeout=60):
     """Evaluate every supplied reading; search ranking is never an argument.
 
     A SUPPORTED result is conditional on explicit premises and a caller-supplied
     bridge. It is not a license for the original Arabic text or a worldly fact.
     """
     out = _base()
+    if type(timeout) not in (int, float) or not 0 < timeout <= 60 or not math.isfinite(timeout):
+        return dict(out, status="INVALID", reason="native timeout must be a finite number in (0, 60] seconds")
     if budget is None:
         budget = EvaluationBudget()
     if type(budget) is not EvaluationBudget:
@@ -370,7 +374,8 @@ def evaluate(payload, *, budget=None, root=ROOT):
                     row.update(status="UNKNOWN", reason="NECESSARY_RELATION_MISSING")
                 else:
                     try:
-                        row["proof"] = _native_consequence(reading, request["binding"], request["conclusion"])
+                        row["proof"] = _native_consequence(reading, request["binding"], request["conclusion"],
+                            checker=checker, semantic_probe=semantic_probe, timeout=timeout)
                         row.update(conditional_consequence=True, reason="NATIVE_CONDITIONAL_CONSEQUENCE")
                     except subprocess.TimeoutExpired:
                         row.update(status="RESOURCE_EXHAUSTED", reason="NATIVE_CHECK_TIMEOUT")
