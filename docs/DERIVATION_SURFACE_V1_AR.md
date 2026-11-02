@@ -142,8 +142,12 @@ verify_recursive_applications(report, text=text, requests=requests,
 
 ## التحقق الدائم
 
-اختبارات `tests/test_derivation_surface_bridge.py` تدخل في الاكتشاف
-الآلي القائم. المواد المستقلة المثبتة قبل التنفيذ وسجل الفشل الأول
+تدخل ملفات الاختبار الثلاثة في الاكتشاف الآلي القائم: القبول في
+`tests/test_derivation_surface_bridge.py`، والمراجعة المستقلة وحراسة
+الموارد في `tests/test_derivation_surface_review.py`، وحد تحويل العدد
+في `tests/test_derivation_surface_decimal.py`. تشير أسرة
+`recursive-source` القائمة إلى الملفات الثلاثة كي يكتشفها المستهلك
+اللاحق من المسار نفسه. المواد المستقلة المثبتة قبل التنفيذ وسجل الفشل الأول
 محفوظة في [عقد القبول](../evidence/derivation_surface_v1/independent/contract.md)
 و[تجميد مواده](../evidence/derivation_surface_v1/independent/freeze.json).
 وتبقى بوابات
