@@ -41,7 +41,25 @@ def write_new(path: Path, value: dict) -> None:
         stream.write("\n")
 
 
+def verify_tested_inputs(root: Path, tested_head: str) -> None:
+    """Require both the worktree and index to retain the pinned runtime inputs."""
+    actual_head = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=root, text=True
+    ).strip()
+    if actual_head != tested_head:
+        raise AssertionError("Collect evidence only at the pinned tested revision")
+    for staged in (False, True):
+        command = ["git", "diff", "--name-only"]
+        if staged:
+            command.append("--cached")
+        command.extend([tested_head, "--", "src", "formal", "tools", "tests",
+                        "Makefile", ".github/workflows"])
+        if subprocess.check_output(command, cwd=root, text=True).strip():
+            raise AssertionError("Do not collect changed runtime inputs as the tested revision")
+
+
 def main() -> None:
+    verify_tested_inputs(ROOT, HEAD)
     before = load(ATTEMPT / "execution.json")
     after = load(RESUME / "execution.json")
     unit = load(HERE / "unittest_summary.json")
@@ -55,13 +73,6 @@ def main() -> None:
     assert before["exit_code"] == 2, "Retain the observed Lake startup failure"
     assert after["exit_code"] == 0, "Remaining native/source gates must finish"
     assert after["reused_completed_target"]["same_implementation_commit"] == HEAD
-    assert subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
-    ).strip() == HEAD
-    assert not subprocess.check_output(
-        ["git", "diff", "--name-only", "--", "src", "formal", "tools", "tests",
-         "Makefile", ".github/workflows"], cwd=ROOT, text=True
-    ).strip(), "Do not collect changed runtime inputs as the tested revision"
     for directory, observation in ((ATTEMPT, before), (RESUME, after)):
         log = directory / "full_check.log"
         assert digest(log) == observation["log_sha256"]

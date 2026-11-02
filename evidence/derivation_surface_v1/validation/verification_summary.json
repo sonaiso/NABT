@@ -32,19 +32,21 @@
     }
   },
   "new_regressions": {
-    "distinct_methods": 22,
-    "passed": 22,
+    "distinct_methods": 27,
+    "passed": 27,
     "skipped": 0,
     "groups": {
       "acceptance": 14,
       "resource_review": 7,
-      "decimal_conversion": 1
+      "decimal_conversion": 1,
+      "publication_helpers": 5
     },
-    "final_clean_checkout": {
+    "application_clean_checkout": {
       "path": "evidence/derivation_surface_v1/validation/clean_checkout_final/verification.json",
       "bytes": 6907,
       "sha256": "2fcc56d1ca4682bfcaab737aa51c7a2523b55f0ce25d3140ad3e5b2d4a6981f1"
-    }
+    },
+    "scope_note": "22 application methods were replayed in the clean e1 checkout; five subsequent helper methods were checked independently against exact helper bytes, including isolated failing copies of2d6. No claim that one historical run executed all27."
   },
   "general_unittest": {
     "distinct_methods": 3126,
@@ -57,7 +59,8 @@
       "bytes": 21908,
       "sha256": "de9da5e2567b90b5c9837e523d4410aa830b08f8e6dc692c44e8d1f4cbc2b7c4"
     },
-    "counting": "Includes the new methods; repeated native and metadata test runs are not added as distinct methods."
+    "counting": "Includes the new methods; repeated native and metadata test runs are not added as distinct methods.",
+    "scope_note": "Historical e1 discovery preceded the five helper tests; the corrected publication head requires fresh remote discovery."
   },
   "local_release_gate": {
     "path": "evidence/derivation_surface_v1/validation/local_release_gate.json",
@@ -81,45 +84,8 @@
       "path": "evidence/derivation_surface_v1/validation/publication_metadata_review/execution.json",
       "bytes": 1953,
       "sha256": "17541c0bd1bafc399756d2bde9842c989cbc1ef19568971664e569814e146b48"
-    }
-  },
-  "code_and_tests_unchanged_since_clean_checkout": {
-    "tools/derivation_surface_bridge.py": {
-      "bytes": 15840,
-      "sha256": "15595e6e810d39ff08f1a47aab2a138fad252dc3406081314b466cc3d933a669"
     },
-    "tools/recursive_bridge.py": {
-      "bytes": 45631,
-      "sha256": "26b06346405e37aea64f903dd31829862b00588648fa03a4c2706543e0d1fdc9"
-    },
-    "tests/test_derivation_surface_bridge.py": {
-      "bytes": 20042,
-      "sha256": "73dd0617afb4091b611c2cf8dc8cadb589bf709046cda0e70fc1fff91fa63d8c"
-    },
-    "tests/test_derivation_surface_review.py": {
-      "bytes": 7223,
-      "sha256": "92dfd70a08622d804dc4f94d1198b42e6a13f320b53fec1bc3486686fb36ee94"
-    },
-    "tests/test_derivation_surface_decimal.py": {
-      "bytes": 1732,
-      "sha256": "01578218023794fef68abe3de57bd5b238ce5caf698eb9bb485019ab29513dce"
-    },
-    "evidence/derivation_surface_v1/review/decimal_input/applications_5000_digit.json": {
-      "bytes": 5222,
-      "sha256": "d7312a035c33a328033f0a3540689aa7a4f0731b0f7592087dc7e0801179ed5f"
-    },
-    "examples/derivation_surface_v1/source.txt": {
-      "bytes": 22,
-      "sha256": "7625c8dab4d846a800372b6b7bb5d23f49ff31f82a96c4f618240974fbfb0661"
-    },
-    "examples/derivation_surface_v1/applications.json": {
-      "bytes": 832,
-      "sha256": "8c3341b852f432189d98e6842edb06ba2afb4587fcc930ace7e3b35f58249896"
-    },
-    "evidence/derivation_surface_v1/independent/freeze.json": {
-      "bytes": 4243,
-      "sha256": "adb95ff92dd3cb401ad4ec7a515a3e850d6344be489a9baf1b9ffa09716288ca"
-    }
+    "historical_review_at_metadata_commit": true
   },
   "preservation": {
     "protected_scope_changes": [],
@@ -187,5 +153,100 @@
     "No complete Arabic acquisition or free-text premise extraction claim.",
     "No root/lexical attestation, nominal-sense identity, grammar certification or external truth follows from exact surface replay.",
     "Local full release coverage combines a completed test target with successful remaining unchanged make check targets; the earlier failed and incomplete commands remain retained."
-  ]
+  ],
+  "updated_utc": "2026-11-02T20:31:10.955419+00:00",
+  "bridge_code_and_original_regression_files_unchanged_since_clean_checkout": {
+    "tools/derivation_surface_bridge.py": {
+      "bytes": 15840,
+      "sha256": "15595e6e810d39ff08f1a47aab2a138fad252dc3406081314b466cc3d933a669"
+    },
+    "tools/recursive_bridge.py": {
+      "bytes": 45631,
+      "sha256": "26b06346405e37aea64f903dd31829862b00588648fa03a4c2706543e0d1fdc9"
+    },
+    "tests/test_derivation_surface_bridge.py": {
+      "bytes": 20042,
+      "sha256": "73dd0617afb4091b611c2cf8dc8cadb589bf709046cda0e70fc1fff91fa63d8c"
+    },
+    "tests/test_derivation_surface_review.py": {
+      "bytes": 7223,
+      "sha256": "92dfd70a08622d804dc4f94d1198b42e6a13f320b53fec1bc3486686fb36ee94"
+    },
+    "tests/test_derivation_surface_decimal.py": {
+      "bytes": 1732,
+      "sha256": "01578218023794fef68abe3de57bd5b238ce5caf698eb9bb485019ab29513dce"
+    },
+    "evidence/derivation_surface_v1/review/decimal_input/applications_5000_digit.json": {
+      "bytes": 5222,
+      "sha256": "d7312a035c33a328033f0a3540689aa7a4f0731b0f7592087dc7e0801179ed5f"
+    },
+    "examples/derivation_surface_v1/source.txt": {
+      "bytes": 22,
+      "sha256": "7625c8dab4d846a800372b6b7bb5d23f49ff31f82a96c4f618240974fbfb0661"
+    },
+    "examples/derivation_surface_v1/applications.json": {
+      "bytes": 832,
+      "sha256": "8c3341b852f432189d98e6842edb06ba2afb4587fcc930ace7e3b35f58249896"
+    },
+    "evidence/derivation_surface_v1/independent/freeze.json": {
+      "bytes": 4243,
+      "sha256": "adb95ff92dd3cb401ad4ec7a515a3e850d6344be489a9baf1b9ffa09716288ca"
+    }
+  },
+  "publication_followup": {
+    "reviewed_head": "2d6ec3b10f7b80a690060cebe9ddb502dfc36911",
+    "source": "https://github.com/sonaiso/NABT/pull/67#pullrequestreview-5742798406",
+    "findings": [
+      {
+        "id": 4447300063,
+        "state": "FIXED_AND_REGRESSION_CHECKED",
+        "meaning": "Both clean checkout reproducers reserve fresh destinations and write exclusively."
+      },
+      {
+        "id": 4447300125,
+        "state": "FIXED_AND_REGRESSION_CHECKED",
+        "meaning": "Collector compares worktree and index to pinned tested HEAD before collecting evidence."
+      }
+    ],
+    "before": {
+      "path": "evidence/derivation_surface_v1/review/publication_harness/before/summary.json",
+      "bytes": 6108,
+      "sha256": "8914a0a8ca089b9f2dfd835a6b72f6c70e64e99e18ce4afecc0cf54aa9e697ee"
+    },
+    "after": {
+      "path": "evidence/derivation_surface_v1/review/publication_harness/after/summary.json",
+      "bytes": 2254,
+      "sha256": "1eb5b3131fb43cb81b557239e1c0ca2ce43112233e0133c978e0e45ae59a56dd"
+    },
+    "reuse_metadata": {
+      "path": "evidence/derivation_surface_v1/review/publication_harness/reuse_after.json",
+      "bytes": 1431,
+      "sha256": "04a5f51ea98a98f8712e69bec9ab038e106e32c1c5178d8972487da863c45d3f"
+    },
+    "helper_fingerprints": {
+      "evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py": {
+        "bytes": 8227,
+        "sha256": "5a243b6ea33a6249da4afa82e2447f5e36fb0fb2f665a7a2713fa2d73847facd",
+        "saved_source": "evidence/derivation_surface_v1/review/publication_harness/after/1_helper.py.txt"
+      },
+      "evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py": {
+        "bytes": 8545,
+        "sha256": "c5dfa6292813a2a6ac9cac7263e0648bdc2d1ad20b56c9fe1435a1ab60e8d221",
+        "saved_source": "evidence/derivation_surface_v1/review/publication_harness/after/2_helper.py.txt"
+      },
+      "evidence/derivation_surface_v1/validation/collect_release_evidence.py": {
+        "bytes": 7556,
+        "sha256": "2c4c4c428c882732c8bbf6ca543b74d6a1a9e829706d832eadf337fa5989a5eb",
+        "saved_source": "evidence/derivation_surface_v1/review/publication_harness/after/3_helper.py.txt"
+      }
+    },
+    "regression_file": {
+      "path": "tests/test_derivation_surface_evidence_harness.py",
+      "bytes": 11940,
+      "sha256": "e2e3b657cb9589eef0748e6a6e5166839927fbf3dce9e66b4334a5da3b2b5658"
+    },
+    "prior_retained_observations_and_archive_unchanged": true,
+    "historical_harness_hashes": "The resource review describes its own recording-time version in2d6; it is retained rather than rewritten to the corrected helper identity.",
+    "does_not_change_application_operators": true
+  }
 }

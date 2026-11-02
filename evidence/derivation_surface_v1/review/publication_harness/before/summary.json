@@ -1,0 +1,100 @@
+{
+  "schema": "nabt.derivation-surface.publication-helper-review.v1",
+  "phase": "before",
+  "observed_utc": "2026-11-02T20:27:44.897484+00:00",
+  "before_commit": "2d6ec3b10f7b80a690060cebe9ddb502dfc36911",
+  "workspace_head": "2d6ec3b10f7b80a690060cebe9ddb502dfc36911",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python evidence/derivation_surface_v1/review/publication_harness/run_review.py before",
+  "scope": "Five focused helper regressions using synthetic isolated evidence; no full suite, real release archive, or historical output rewrite",
+  "test_source": {
+    "path": "tests/test_derivation_surface_evidence_harness.py",
+    "bytes": 11940,
+    "sha256": "e2e3b657cb9589eef0748e6a6e5166839927fbf3dce9e66b4334a5da3b2b5658"
+  },
+  "runner_sha256": "12b9d3226a40b3cd4c496c7329e87c642969f5a8da6ab128481a730ab09c5e6f",
+  "helper_sources": {
+    "evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py": {
+      "bytes": 6601,
+      "sha256": "0a3234f4b3ee08e26012e92a3eddda693a6dabe7f82c534f323db15a667696c6",
+      "saved_source": "evidence/derivation_surface_v1/review/publication_harness/before/1_helper.py.txt"
+    },
+    "evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py": {
+      "bytes": 7062,
+      "sha256": "316b937fbe23bc4cb2439c40d76a30672b18fe1ec0dee01e1c5ae79a547908f9",
+      "saved_source": "evidence/derivation_surface_v1/review/publication_harness/before/2_helper.py.txt"
+    },
+    "evidence/derivation_surface_v1/validation/collect_release_evidence.py": {
+      "bytes": 7066,
+      "sha256": "04335926e57aa818527ec22f2bbfc2f9863f398dbf48459a49ac46f6f6535e0b",
+      "saved_source": "evidence/derivation_surface_v1/review/publication_harness/before/3_helper.py.txt"
+    }
+  },
+  "test_methods": 5,
+  "tests_run": 5,
+  "skips": 0,
+  "failure_outcomes": 6,
+  "error_outcomes": 7,
+  "successful": false,
+  "unsuccessful_outcomes": [
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', mode='explicit')",
+      "outcome": "failure"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', mode='default')",
+      "outcome": "failure"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', mode='explicit')",
+      "outcome": "failure"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', mode='default')",
+      "outcome": "failure"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py')",
+      "outcome": "failure"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py')",
+      "outcome": "failure"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_collector_rejects_actual_staged_and_unstaged_runtime_changes (mode='staged')",
+      "outcome": "error"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='retained_directory')",
+      "outcome": "error"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='other_directory')",
+      "outcome": "error"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='file')",
+      "outcome": "error"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='retained_directory')",
+      "outcome": "error"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='other_directory')",
+      "outcome": "error"
+    },
+    {
+      "id": "test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='file')",
+      "outcome": "error"
+    }
+  ],
+  "distinct_methods_with_unsuccessful_outcomes": 4,
+  "retained_inputs_unchanged_during_observation": true,
+  "log": {
+    "path": "evidence/derivation_surface_v1/review/publication_harness/before/unittest.log",
+    "bytes": 24648,
+    "sha256": "def4b3fb54d4c114b94ae17a7720fc4ba575c436d4b830c7bd5d8fce4c59d58b"
+  },
+  "process_exit_code": 1
+}

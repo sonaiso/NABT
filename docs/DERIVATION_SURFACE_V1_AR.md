@@ -142,11 +142,12 @@ verify_recursive_applications(report, text=text, requests=requests,
 
 ## التحقق الدائم
 
-تدخل ملفات الاختبار الثلاثة في الاكتشاف الآلي القائم: القبول في
+تدخل ملفات الاختبار في الاكتشاف الآلي القائم: القبول في
 `tests/test_derivation_surface_bridge.py`، والمراجعة المستقلة وحراسة
 الموارد في `tests/test_derivation_surface_review.py`، وحد تحويل العدد
-في `tests/test_derivation_surface_decimal.py`. تشير أسرة
-`recursive-source` القائمة إلى الملفات الثلاثة كي يكتشفها المستهلك
+في `tests/test_derivation_surface_decimal.py`، وحماية حاضنات إعادة
+الأدلة في `tests/test_derivation_surface_evidence_harness.py`. تشير أسرة
+`recursive-source` القائمة إلى الملفات الأربعة كي يكتشفها المستهلك
 اللاحق من المسار نفسه. المواد المستقلة المثبتة قبل التنفيذ وسجل الفشل الأول
 محفوظة في [عقد القبول](../evidence/derivation_surface_v1/independent/contract.md)
 و[تجميد مواده](../evidence/derivation_surface_v1/independent/freeze.json).
@@ -179,3 +180,24 @@ PYTHONPATH=src python -m tools.recursive_bridge verify-applications \
 
 نتائج الإصدار وأوامر المثال القابلة للتشغيل موثقة في
 [سجل نتائج الوصلة](DERIVATION_SURFACE_V1_RESULTS_AR.md).
+
+## إعادة إنتاج أدلة النسخة النظيفة
+
+لإعادة الطرق الـ22 والمثال المثبتة على رأس التنفيذ `e1e4a95`:
+
+```bash
+python evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py \
+  --output-dir artifacts/local/derivation-surface-replay-001
+```
+
+يجب ألا تكون الوجهة موجودة؛ حجزها يسبق إنشاء الأرشيف والتشغيل. وعند
+حذف `--output-dir` ينشئ الأمر وجهة جديدة داخل `artifacts/local`
+ويعرض مسارها. تُكتب الملفات حصريًا، ولا تستبدل نتائج التشغيل اللاحق
+سجلات التشغيل المحفوظة بجانب الحاضنة. تحمل النتائج الجديدة بصمة
+الحاضنة التي أنشأتها. تبقى حاضنة `clean_checkout` لإعادة التشغيل
+التاريخي ذي 21 طريقة على رأسه المحدد.
+
+يفحص جامع أدلة الإصدار رأسه المثبت وملفات العمل والـindex قبل جمع
+الأدلة؛ وجود تعديل مرحّل أو غير مرحّل في المدخلات المحمية يمنع
+وصفها بأنها النسخة المختبرة. اختبارات حماية الحاضنات مستقلة عن إعادة
+الطرق الـ22 وعن البوابة الشاملة، ولا تحتاج إنشاء أرشيف المستودع الكبير.
