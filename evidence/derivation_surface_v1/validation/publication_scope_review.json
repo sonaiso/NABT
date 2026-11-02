@@ -1,0 +1,40 @@
+{
+  "schema": "nabt.derivation-surface-publication-review.v1",
+  "review_scope": {
+    "base": "4b526e5eb224626fd6a7e39a864b0d5409fbf68c",
+    "code_head": "e1e4a950a1f6df4268d18c3211c5e66bccc0f78b"
+  },
+  "review_method": "Independent read-only review by linguistic_syntax_inventory; no additional test run by that review.",
+  "unchanged_protected_scopes": [
+    "src/",
+    "formal/",
+    "Makefile",
+    ".github/workflows/"
+  ],
+  "legacy_recursive_functions_textually_unchanged": 26,
+  "legacy_main_change": "Adds dispatch for versioned read-applications/verify-applications; v1 helper bodies remain unchanged.",
+  "owners_reused": [
+    "nabt.derivation.generate_derivation",
+    "nabt.alphabet",
+    "nabt.classical_laws.evaluate",
+    "nabt.word_reader",
+    "tools.recursive_bridge.read_recursive_source"
+  ],
+  "findings": [
+    {
+      "id": "PUBLICATION-REFERENCES",
+      "status": "FIXED",
+      "resolution": "Added existing review/decimal tests to recursive-source family and guide.",
+      "commit": "b7b21f1aada41bba0cf35a2ef33ef5c2dc071ea7"
+    },
+    {
+      "id": "OWNER-RUN-PHASE",
+      "status": "CORRECTED_IN_RESULTS",
+      "resolution": "1.674-second wrapper log is identified as its owner run; final post-fix success is supported separately by clean_checkout_final."
+    }
+  ],
+  "limitations": [
+    "Static review is not a semantic uniqueness proof.",
+    "Native and remote gate results are separate records."
+  ]
+}
