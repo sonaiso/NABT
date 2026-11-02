@@ -446,13 +446,35 @@ def _application_requests_preflight(requests):
         validate_derivation_surface_request(request)
 
 
+def _application_source_preflight(text, source_id, scope):
+    # An empty application list has no occurrence validator. Its source still
+    # needs the same bounds before reaching the original source transport.
+    for value, name in ((source_id, "source_id"), (scope, "scope")):
+        if type(value) is str and len(value) > MAX_LABEL_BYTES:
+            raise resource_limit("Recursive label exceeds its byte budget", field=name)
+        _label(value, name)
+    if type(text) is not str:
+        raise NabtError("INVALID_RECURSIVE_SOURCE", "Source must be text")
+    if len(text) > MAX_SOURCE_BYTES:
+        raise resource_limit("Recursive source exceeds its byte budget")
+    try:
+        raw = text.encode("utf-8")
+    except UnicodeError as error:
+        raise NabtError("INVALID_RECURSIVE_SOURCE", "Source must be valid UTF-8") from error
+    if len(raw) > MAX_SOURCE_BYTES:
+        raise resource_limit("Recursive source exceeds its byte budget")
+
+
 def read_recursive_applications(text, requests, *, source_id="input", scope="default"):
     """Attach replayed conditional applications without upgrading source transport.
 
     All requests and occurrences are preflighted before the first owner runs.
     A matching surface is not lexical attestation or a grammar/sense witness.
+    Like the original recursive consumer, this entry point accepts exact str;
+    the single application owner additionally accepts UTF-8 bytes.
     """
     _application_requests_preflight(requests)
+    _application_source_preflight(text, source_id, scope)
     from tools.derivation_surface_bridge import (
         evaluate_derivation_surface, validate_derivation_surface_occurrence,
     )
