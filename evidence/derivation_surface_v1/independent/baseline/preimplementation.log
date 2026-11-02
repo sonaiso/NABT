@@ -1,0 +1,30 @@
+setUpClass (test_derivation_surface_bridge.DerivationSurfaceIndependentAcceptance) ... ERROR
+setUpClass (test_derivation_surface_bridge.RecursiveApplicationIndependentAcceptance) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_derivation_surface_bridge.DerivationSurfaceIndependentAcceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_bridge.py", line 45, in setUpClass
+    cls.bridge = import_module('tools.derivation_surface_bridge')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'tools.derivation_surface_bridge'
+
+======================================================================
+ERROR: setUpClass (test_derivation_surface_bridge.RecursiveApplicationIndependentAcceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_bridge.py", line 235, in setUpClass
+    raise AssertionError('preimplementation capability absent: '+name)
+AssertionError: preimplementation capability absent: read_recursive_applications
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.039s
+
+FAILED (errors=2)
