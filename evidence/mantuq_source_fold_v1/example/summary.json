@@ -1,0 +1,119 @@
+{
+  "schema": "nabt.mantuq-source-fold.example.v1",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "tools.mantuq_inference",
+        "source",
+        "examples/mantuq_source_fold/guarded.txt",
+        "examples/mantuq_source_fold/guarded_query.txt",
+        "--plan",
+        "examples/mantuq_source_fold/guarded_plan.json",
+        "--output",
+        "evidence/mantuq_source_fold_v1/example/source.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema\": \"nabt.mantuq-source-output.v1\", \"operation\": \"source\", \"output\": \"evidence/mantuq_source_fold_v1/example/source.json\", \"sha256\": \"a47b8dea81044d03f88147f3a73113c550c66364178f01a892267a45859baf5d\", \"status\": \"SUPPORTED\", \"conditional_consequence\": true, \"world_truth_established\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "tools.mantuq_inference",
+        "fold",
+        "examples/mantuq_source_fold/guarded.txt",
+        "examples/mantuq_source_fold/guarded_query.txt",
+        "--plan",
+        "examples/mantuq_source_fold/guarded_plan.json",
+        "--output",
+        "evidence/mantuq_source_fold_v1/example/fold.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema\": \"nabt.mantuq-source-output.v1\", \"operation\": \"fold\", \"output\": \"evidence/mantuq_source_fold_v1/example/fold.json\", \"sha256\": \"1a498b4db319a7c22a7dd3d9bbb74d97df3efb8de042817cab5e79442ffa0e48\", \"status\": \"FOLDED_TRANSPORT\", \"conditional_consequence\": false, \"world_truth_established\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "tools.mantuq_inference",
+        "unfold",
+        "evidence/mantuq_source_fold_v1/example/fold.json",
+        "--output",
+        "evidence/mantuq_source_fold_v1/example/unfolded.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema\": \"nabt.mantuq-source-output.v1\", \"operation\": \"unfold\", \"output\": \"evidence/mantuq_source_fold_v1/example/unfolded.json\", \"sha256\": \"a3009f5558d99f308e2eada5c68e3b4e919339410cdbc6485639c9367eca8619\", \"status\": \"DECODED_UNVERIFIED\", \"conditional_consequence\": false, \"world_truth_established\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "tools.mantuq_inference",
+        "verify-fold",
+        "examples/mantuq_source_fold/guarded.txt",
+        "examples/mantuq_source_fold/guarded_query.txt",
+        "evidence/mantuq_source_fold_v1/example/fold.json",
+        "--plan",
+        "examples/mantuq_source_fold/guarded_plan.json",
+        "--output",
+        "evidence/mantuq_source_fold_v1/example/replay.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema\": \"nabt.mantuq-source-output.v1\", \"operation\": \"verify-fold\", \"output\": \"evidence/mantuq_source_fold_v1/example/replay.json\", \"sha256\": \"c9151c89b1ab6e67546cea897605a7cfd6b7a6d45133091c68e40be1f379d670\", \"status\": \"VERIFIED_REPLAY\", \"conditional_consequence\": true, \"world_truth_established\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "tools.mantuq_inference",
+        "source",
+        "examples/mantuq_source_fold/opposition.txt",
+        "examples/mantuq_source_fold/opposition_query.txt",
+        "--plan",
+        "examples/mantuq_source_fold/opposition_plan.json",
+        "--output",
+        "evidence/mantuq_source_fold_v1/example/opposition-source.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema\": \"nabt.mantuq-source-output.v1\", \"operation\": \"source\", \"output\": \"evidence/mantuq_source_fold_v1/example/opposition-source.json\", \"sha256\": \"d13510c3681a8c8eeeb22594e0300100c2bed4801afd8ec6a17df5d86e46a2c7\", \"status\": \"SUPPORTED\", \"conditional_consequence\": true, \"world_truth_established\": false}\n",
+      "stderr": ""
+    }
+  ],
+  "outputs": {
+    "opposition-source.json": "d13510c3681a8c8eeeb22594e0300100c2bed4801afd8ec6a17df5d86e46a2c7",
+    "fold.json": "1a498b4db319a7c22a7dd3d9bbb74d97df3efb8de042817cab5e79442ffa0e48",
+    "unfolded.json": "a3009f5558d99f308e2eada5c68e3b4e919339410cdbc6485639c9367eca8619",
+    "replay.json": "c9151c89b1ab6e67546cea897605a7cfd6b7a6d45133091c68e40be1f379d670",
+    "source.json": "a47b8dea81044d03f88147f3a73113c550c66364178f01a892267a45859baf5d"
+  },
+  "source.json": {
+    "status": "SUPPORTED",
+    "conditional_consequence": true,
+    "verified": null,
+    "world_truth_established": false
+  },
+  "opposition-source.json": {
+    "status": "SUPPORTED",
+    "conditional_consequence": true,
+    "verified": null,
+    "world_truth_established": false
+  },
+  "replay.json": {
+    "status": "VERIFIED_REPLAY",
+    "conditional_consequence": true,
+    "verified": true,
+    "world_truth_established": false
+  },
+  "unfolded.json": {
+    "status": "DECODED_UNVERIFIED",
+    "conditional_consequence": false,
+    "verified": false,
+    "world_truth_established": false
+  }
+}

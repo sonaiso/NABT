@@ -1,0 +1,145 @@
+{
+  "schema": "nabt.mantuq-source-fold.verification-summary.v1",
+  "base_commit": "cebb5c472451a1d541ed9b93f56bb6cd2e9d606e",
+  "tested_state": "working tree implementation identified by file hashes; publication evidence and documentation may follow",
+  "full_check": {
+    "command": [
+      "make",
+      "-f",
+      "Makefile",
+      "-f",
+      "integrations/grammar_catalog.mk",
+      "-f",
+      "integrations/mantuq_inference.mk",
+      "-f",
+      "integrations/linguistic_truth.mk",
+      "-f",
+      "integrations/licensed_inference.mk",
+      "check",
+      "LAKE=/tmp/nabt-lean-native-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/mantuq-source-fold-full-check",
+      "ARABIC_EVALUATION_DIR=artifacts/local/mantuq-source-fold-full-check/arabic-regression"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 1569.863,
+    "log_bytes": 718498,
+    "log_sha256": "4d5ec0e7d90af70aca1805211f672fb9a6ff433ecdd59bb5c1a696d690f4c7ec"
+  },
+  "log_archive": "evidence/mantuq_source_fold_v1/validation/full_gate_artifacts.zip",
+  "log_member": "full_check_attempt1.log",
+  "general_unit_discovery": {
+    "run": 3093,
+    "passed": 3048,
+    "skipped": 46,
+    "skipped_methods": 45,
+    "skipped_class_setups": 1,
+    "reported_footer": "Ran 3093 tests; OK (skipped=46)",
+    "count_correction": "evidence/mantuq_source_fold_v1/validation/discovery_count_correction.json",
+    "failures": 0,
+    "errors": 0,
+    "skip_reasons": {
+      "Explicitly acquire the pinned external QAC source for source replay": 1,
+      "requires pinned full Lisan and compiled lexicalCompletion; mandatory in dedicated CI": 17,
+      "requires installed sources and both graph/lexical native checkers": 9,
+      "optional pinned QAC corpus not downloaded": 7,
+      "optional neural training environment not installed": 8,
+      "optional pinned torch/numpy required": 3,
+      "optional full pinned Lisan source not downloaded": 1
+    }
+  },
+  "new_independent_acceptance": {
+    "distinct_methods": 38,
+    "skipped": 0,
+    "gold_changed_after_observation": false,
+    "native_semantic_results_mocked": false
+  },
+  "new_native_integration_gate": {
+    "methods": 38,
+    "seconds": 47.329,
+    "outcome": "OK"
+  },
+  "native_checks": {
+    "routing-conformance": {
+      "ok": true,
+      "law_id": "nabt.rule-routing.v1",
+      "schedules": 341,
+      "budget_cases": 1705,
+      "checker_cases": 2728,
+      "scope": "three installed IDs, one unknown ID, rankings of length 0 through 4",
+      "python_lean_refinement_theorem": false,
+      "arabic_completeness_claim": false
+    },
+    "qualified-inference-conformance": {
+      "schema": "nabt.qualified-inference-conformance.v1",
+      "total": 3034,
+      "pass": true,
+      "export_sha256": "254e2b1219aa6acb710e747a8bd1558cf78da1bbd13c46fe7c34dfaa937cb676",
+      "python_refinement_theorem": false,
+      "all_arabic_complete": false,
+      "world_truth_established": false,
+      "evidence_kind": "finite_native_python_conformance"
+    },
+    "linguistic-truth-conformance": {
+      "schema": "nabt.linguistic-truth-conformance.v1",
+      "law_id": "nabt.linguistic-truth.v1",
+      "evidence_kind": "finite_native_python_conformance",
+      "total": 786,
+      "pass": true,
+      "export_sha256": "366d46c3ad189aed41da88a840802f3b45ec04ec1f1cb13ad9c2bb1eff97d248",
+      "adapter_sha256": "261be2ce5d868f4e2f7476caecfc53c65f3a68d9375f1c1b5106fd6c671edefa",
+      "qualified_guard_module_sha256": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+      "python_refinement_theorem": false,
+      "native_json_parser_refinement_theorem": false,
+      "all_arabic_complete": false,
+      "source_interpretation_proved": false,
+      "world_truth_established": false
+    },
+    "licensed-inference-conformance": {
+      "schema": "nabt.licensed-inference-conformance.v1",
+      "total": 683,
+      "source_query_cases": 410,
+      "diagnostic_aggregation_cases": 273,
+      "inputs_unchanged": true,
+      "pass": true,
+      "evidence_kind": "finite_independent_forward_truth_table_and_surface_checks",
+      "native_json_parser_refinement_proved": false,
+      "python_refinement_proved": false,
+      "source_translation_fidelity_proved": false,
+      "all_arabic_complete": false,
+      "world_truth_established": false
+    },
+    "axioms": {
+      "ok": true,
+      "theorem_count": 1605,
+      "project_axioms_allowed": false,
+      "all_nabt_declarations_scanned": true
+    }
+  },
+  "production_changed_during_validation": [],
+  "files": {
+    "tools/mantuq_inference/source_bound.py": "b4b746e0ccfb1642aaf1087428abf250c6f69527934bac5a2c11aa1f5733d7b0",
+    "tools/mantuq_inference/source_fold.py": "bb462420af6373f6798fe95f82804e65d8dd188976ca308261b703606e5a55ff",
+    "tools/mantuq_inference/evaluator.py": "06a663f24721d6f2ef6413e642524b0e12d1aef953192b352842893e496d9dda",
+    "tools/mantuq_inference/__main__.py": "9bbc1b8c91beb5ebc195c775e42ca2b643b1d68860beb6c73dfbdb997a11b675",
+    "tools/mantuq_inference/__init__.py": "cc68aef0adc8f2b35567073dd3fff64c5028836718dcc2d9f6a6219eb4d9c40a",
+    "tools/mantuq_mafhum.py": "84a64a73d5a7d0e7d2d56b7cef398a844fe4f1bb445843d80fe6d51257a349ad",
+    "tools/source_semantics.py": "6fe6dbc4c8803723427326eac4abc439316b0629fc9f654029d839f384125328",
+    "tools/entropy_framework/registry.json": "7db5b24e7b5e2f7cdd35cdc871c7409263ded4e84616f751150f7ad13b0eec3a",
+    "tools/entropy_framework/reuse_run.py": "2f80f3938661652c5a8b30668dcf30daa0e5577c0eafe673f8a963ee31febf8a",
+    "integrations/mantuq_inference.mk": "ae2ac7b5f4093e3c3a592b25c35d5c22e7eb637eca6b917520d8605fac7e6130",
+    "tests/test_mantuq_source_bound.py": "b49d45d0016c2419635b40bfd4870c1bf223fbe19f0046c43c5be646054fdd1b",
+    "tests/test_mantuq_source_fold.py": "224686dd462c7eb22b1e93b8adc4766b4c4105a92f0a85306aae4cfa530edbad"
+  },
+  "formal_and_src_changes": [],
+  "ci_status": "NOT_OBSERVED_FOR_PUBLICATION_HEAD_AT_RECORD_CREATION",
+  "merge_condition": "All triggered checks and workflows must pass on the exact publication head; no timeout or gate relaxation.",
+  "limits": {
+    "new_lean_theorem": false,
+    "python_refinement_theorem": false,
+    "all_arabic_complete": false,
+    "world_truth_established": false,
+    "rule_adoption_established": false,
+    "action_authority": "NONE",
+    "learner_trained": false
+  }
+}

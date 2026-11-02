@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -34,13 +35,15 @@ def executable():
     return path.resolve()
 
 
-def native(requests, *, source=None, probe=None):
+def native(requests, *, source=None, probe=None, timeout=60):
+    if type(timeout) not in (int, float) or not 0 < timeout <= 60 or not math.isfinite(timeout):
+        raise ValueError("native timeout must be a finite number in (0, 60] seconds")
     args = [str(probe or executable())]
     if source:
         args += [str(ROOT / source["local_path"]), source["source_id"],
                  wire(source["edition"]), source["revision"], source["work"]]
     payload = "".join(wire(r) + "\n" for r in requests).encode()
-    result = subprocess.run(args, input=payload, capture_output=True, timeout=60)
+    result = subprocess.run(args, input=payload, capture_output=True, timeout=timeout)
     if result.returncode:
         raise RuntimeError(f"Lean adapter failed ({result.returncode}): {result.stdout[:500]!r}")
     rows = [json.loads(line) for line in result.stdout.splitlines()]

@@ -1,0 +1,30 @@
+{
+  "schema": "nabt.mantuq-source-fold.discovery-count-correction.v1",
+  "original_publication_head": "310dfba60f9be268b4f410627ad0978907976b78",
+  "source_log_sha256": "4d5ec0e7d90af70aca1805211f672fb9a6ff433ecdd59bb5c1a696d690f4c7ec",
+  "source_log_bytes": 718498,
+  "source_log_unchanged": true,
+  "original_summary_sha256": "553ca266ca3e0c45f9055ca2e6fe5e7123dbb9de236ddfea67490ad10d1ce626",
+  "original_reported_passed": 3047,
+  "correction_reason": "unittest records a skipped setUpClass in result.skipped without incrementing testsRun; subtracting all reported skips from testsRun undercounts successful methods",
+  "general_discovery_footer": [
+    "Ran 3093 tests in 802.735s",
+    "OK (skipped=46)"
+  ],
+  "observed_passed_outcome_lines": 3048,
+  "observed_skipped_method_lines": 45,
+  "observed_skipped_class_setup_lines": 1,
+  "class_setup_lines": [
+    "setUpClass (test_attested_lexical_loader.FullPinnedSource) ... skipped 'Explicitly acquire the pinned external QAC source for source replay'"
+  ],
+  "count_scope": "first unittest discovery block only; later gate invocations are excluded",
+  "extraction_method": "Count lines ending in a whitespace-delimited ok token before the first general discovery footer; separately count test-prefixed skipped outcomes and setUpClass-prefixed skipped outcomes. This also includes docstring-style unittest descriptions whose result line does not start with test.",
+  "consistency": {
+    "passed_plus_skipped_methods_equals_testsRun": true,
+    "skipped_methods_plus_class_setups_equals_reported_skipped": true
+  },
+  "production_changed": false,
+  "tests_changed": false,
+  "acceptance_gold_changed": false,
+  "rerun_used_to_change_observation": false
+}

@@ -37,6 +37,15 @@ or orchestration layer:
    contracts and consumers the change reuses, the verification performed, and
    any remaining bridge obligation in the change description or task record.
 
+For source-bound mantuq/mafhum and reversible transport, use the existing
+`tools.mantuq_inference source/fold/unfold/verify-fold` path documented in
+`docs/MANTUQ_SOURCE_FOLD_V1_AR.md`. Retain the complete native source answer,
+both full and clean witnesses, and the independently supplied replay inputs.
+Do not reassert a tainted derived premise as a clean fact. Unfolding is data
+restoration; verification requires fresh native replay. The caller's role plan,
+source truth, Arabic reading completeness and `CertifiedBridge` remain separate
+obligations. Run the native `mantuq-inference` integration gate for this path.
+
 The complete theorem manifest remains `formal/theorems.json`; compiled proof
 identity remains the existing proof catalogue. Data-only modules, preservation
 theorems, impossibility/counterexample theorems, and executable checkers have
