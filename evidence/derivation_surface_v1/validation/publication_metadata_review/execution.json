@@ -1,0 +1,65 @@
+{
+  "schema": "nabt.derivation-surface-publication-metadata-review.v1",
+  "revision": "b7b21f1aada41bba0cf35a2ef33ef5c2dc071ea7",
+  "utc": "2026-11-02T20:12:03.030758+00:00",
+  "change": "Only existing recursive-source family test references and their guide were extended after final runtime verification. No production operation, test or frozen source changed.",
+  "registry_sha256": "67635d0e2e7e6bc0539331453e01bd721e1b8c0e5d825b4494a71d020c493ffa",
+  "runs": [
+    {
+      "name": "tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_proof_reuse*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 97.412,
+      "log": "tests.log",
+      "bytes": 9044,
+      "sha256": "992efa966aaec01052cbcd8a4deaaad2e4e53098d73ab178a6b652eff2455d66",
+      "tests_run": 49,
+      "result": "OK"
+    },
+    {
+      "name": "reuse",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--summary"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.444,
+      "log": "reuse.log",
+      "bytes": 17490,
+      "sha256": "fb21495e13556803f1571b4bfeea6b59b32ca852051bbc7d5311f593b24692fd"
+    },
+    {
+      "name": "organization",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.entropy_framework",
+        "reuse",
+        "--organization",
+        "--summary"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.177,
+      "log": "organization.log",
+      "bytes": 12511,
+      "sha256": "773c5bc7c72c12c920dc94d58854fa10517a0efd6839349efcaab8281300e1b2"
+    }
+  ],
+  "all_completed_successfully": true
+}

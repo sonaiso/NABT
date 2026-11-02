@@ -1,0 +1,71 @@
+{
+  "implementation_commit": "6f291e2f6905f2d1ac58f4a7fdc61bbed3c8b986",
+  "commands": [
+    [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-m",
+      "tools.recursive_bridge",
+      "read-applications",
+      "examples/derivation_surface_v1/source.txt",
+      "--applications",
+      "examples/derivation_surface_v1/applications.json"
+    ],
+    [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-m",
+      "tools.recursive_bridge",
+      "verify-applications",
+      "examples/derivation_surface_v1/source.txt",
+      "--applications",
+      "examples/derivation_surface_v1/applications.json",
+      "--report",
+      "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/evidence/derivation_surface_v1/example/report.json"
+    ],
+    [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-m",
+      "tools.entropy_framework",
+      "reuse",
+      "--run",
+      "recursive",
+      "--",
+      "read-applications",
+      "examples/derivation_surface_v1/source.txt",
+      "--applications",
+      "examples/derivation_surface_v1/applications.json"
+    ]
+  ],
+  "exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "application_statuses": [
+    "CONDITIONAL_MATCH",
+    "CONDITIONAL_MATCH",
+    "CONDITIONAL_MATCH"
+  ],
+  "roots": [
+    "قول",
+    "قول",
+    "بيع"
+  ],
+  "patterns": [
+    "past.I.a",
+    "past.I.i",
+    "past.I.a"
+  ],
+  "all_application_established_false": true,
+  "grammar_certified": false,
+  "sense_equivalence_established": false,
+  "verification": {
+    "status": "VERIFIED",
+    "valid": true
+  },
+  "reuse_dispatch_byte_identical": true,
+  "report_bytes": 28872,
+  "report_sha256": "43cc5ca5d111435e329b7e40cb3fb8ad2827235ce3af52d0e3b64217462a4957"
+}

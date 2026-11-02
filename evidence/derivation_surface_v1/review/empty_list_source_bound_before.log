@@ -1,0 +1,66 @@
+test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) ... 
+  test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) (options={}) ... FAIL
+  test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) (options={'source_id': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}) ... FAIL
+  test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) (options={'scope': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}) ... FAIL
+
+======================================================================
+FAIL: test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) (options={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_review.py", line 100, in test_empty_application_list_still_preflights_source_and_identity
+    consumer.read_recursive_applications(text, [], **options)
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tools/recursive_bridge.py", line 462, in read_recursive_applications
+    transport = read_recursive_source(text, source_id=source_id, scope=scope,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: source owner reached before source/identity bound
+
+======================================================================
+FAIL: test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) (options={'source_id': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_review.py", line 100, in test_empty_application_list_still_preflights_source_and_identity
+    consumer.read_recursive_applications(text, [], **options)
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tools/recursive_bridge.py", line 462, in read_recursive_applications
+    transport = read_recursive_source(text, source_id=source_id, scope=scope,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: source owner reached before source/identity bound
+
+======================================================================
+FAIL: test_empty_application_list_still_preflights_source_and_identity (test_derivation_surface_review.RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity) (options={'scope': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_review.py", line 100, in test_empty_application_list_still_preflights_source_and_identity
+    consumer.read_recursive_applications(text, [], **options)
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tools/recursive_bridge.py", line 462, in read_recursive_applications
+    transport = read_recursive_source(text, source_id=source_id, scope=scope,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: source owner reached before source/identity bound
+
+----------------------------------------------------------------------
+Ran 1 test in 0.077s
+
+FAILED (failures=3)

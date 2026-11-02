@@ -1,0 +1,176 @@
+{
+  "schema": "nabt.derivation-surface-clean-checkout.v1",
+  "revision": "6f291e2f6905f2d1ac58f4a7fdc61bbed3c8b986",
+  "method": "git archive extracted into a fresh /tmp directory",
+  "archive_command": [
+    "git",
+    "archive",
+    "--format=tar",
+    "--output",
+    "/tmp/nabt-derivation-clean-vubk1w2d/source.tar",
+    "6f291e2f6905f2d1ac58f4a7fdc61bbed3c8b986"
+  ],
+  "archive_exit_code": 0,
+  "archive": {
+    "bytes": 1119252480,
+    "sha256": "29fa566202cd2826a6ec2b540551f5292c7b3ae558b6f50611464cf124a8e8b3"
+  },
+  "checkout": "/tmp/nabt-derivation-clean-vubk1w2d/checkout",
+  "isolated_process_environment": {
+    "PATH": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/usr/bin:/bin",
+    "PYTHONPATH": "src:.",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  },
+  "inherited_environment_forwarded": false,
+  "network_operations": [],
+  "absent_local_build_paths": {
+    "artifacts/local": true,
+    "formal/.lake": true,
+    ".lake": true
+  },
+  "checked_file_fingerprints": {
+    "tools/derivation_surface_bridge.py": {
+      "bytes": 15840,
+      "sha256": "15595e6e810d39ff08f1a47aab2a138fad252dc3406081314b466cc3d933a669"
+    },
+    "tools/recursive_bridge.py": {
+      "bytes": 45393,
+      "sha256": "f8794f245414f6324d5cd004f4129a424bf8813dcce5444fe20478105c0ac02c"
+    },
+    "tests/test_derivation_surface_bridge.py": {
+      "bytes": 20042,
+      "sha256": "73dd0617afb4091b611c2cf8dc8cadb589bf709046cda0e70fc1fff91fa63d8c"
+    },
+    "tests/test_derivation_surface_review.py": {
+      "bytes": 7223,
+      "sha256": "92dfd70a08622d804dc4f94d1198b42e6a13f320b53fec1bc3486686fb36ee94"
+    },
+    "examples/derivation_surface_v1/source.txt": {
+      "bytes": 22,
+      "sha256": "7625c8dab4d846a800372b6b7bb5d23f49ff31f82a96c4f618240974fbfb0661"
+    },
+    "examples/derivation_surface_v1/applications.json": {
+      "bytes": 832,
+      "sha256": "8c3341b852f432189d98e6842edb06ba2afb4587fcc930ace7e3b35f58249896"
+    },
+    "evidence/derivation_surface_v1/independent/freeze.json": {
+      "bytes": 4243,
+      "sha256": "adb95ff92dd3cb401ad4ec7a515a3e850d6344be489a9baf1b9ffa09716288ca"
+    }
+  },
+  "runs": [
+    {
+      "name": "acceptance",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_derivation_surface_bridge.py",
+        "-v"
+      ],
+      "cwd": "/tmp/nabt-derivation-clean-vubk1w2d/checkout",
+      "utc": "2026-11-02T19:34:21.656557+00:00",
+      "elapsed_seconds": 3.818935170995246,
+      "exit_code": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 2748,
+      "log": "acceptance.log",
+      "log_sha256": "747cb08a7b79e8151244e536fba40c1a1deb1255308ee91809f8ac345aa4f749",
+      "test_methods": 14,
+      "skipped_methods": 0,
+      "unittest_ok": true
+    },
+    {
+      "name": "review",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_derivation_surface_review.py",
+        "-v"
+      ],
+      "cwd": "/tmp/nabt-derivation-clean-vubk1w2d/checkout",
+      "utc": "2026-11-02T19:34:25.476380+00:00",
+      "elapsed_seconds": 2.2262585559947183,
+      "exit_code": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 1475,
+      "log": "review.log",
+      "log_sha256": "8de4b8b1ac1db6c3f2f66ce69967102f01ea09213989bb1ffca414ded32df25e",
+      "test_methods": 7,
+      "skipped_methods": 0,
+      "unittest_ok": true
+    },
+    {
+      "name": "example",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.recursive_bridge",
+        "read-applications",
+        "examples/derivation_surface_v1/source.txt",
+        "--applications",
+        "examples/derivation_surface_v1/applications.json"
+      ],
+      "cwd": "/tmp/nabt-derivation-clean-vubk1w2d/checkout",
+      "utc": "2026-11-02T19:34:27.703058+00:00",
+      "elapsed_seconds": 0.3162456900026882,
+      "exit_code": 0,
+      "stdout_bytes": 28872,
+      "stderr_bytes": 0,
+      "log": "example.log",
+      "log_sha256": "43cc5ca5d111435e329b7e40cb3fb8ad2827235ce3af52d0e3b64217462a4957",
+      "observed_application_statuses": [
+        "CONDITIONAL_MATCH",
+        "CONDITIONAL_MATCH",
+        "CONDITIONAL_MATCH"
+      ],
+      "grammar_certified": false,
+      "report_id": "6d11c3a2ad03e42bd52b082fe27e54fed87846e2f82c1cf68e052b92554b50a1"
+    },
+    {
+      "name": "replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-m",
+        "tools.recursive_bridge",
+        "verify-applications",
+        "examples/derivation_surface_v1/source.txt",
+        "--applications",
+        "examples/derivation_surface_v1/applications.json",
+        "--report",
+        "/tmp/nabt-derivation-clean-vubk1w2d/example_report.json"
+      ],
+      "cwd": "/tmp/nabt-derivation-clean-vubk1w2d/checkout",
+      "utc": "2026-11-02T19:34:28.020457+00:00",
+      "elapsed_seconds": 0.30294323699490633,
+      "exit_code": 0,
+      "stdout_bytes": 35,
+      "stderr_bytes": 0,
+      "log": "replay.log",
+      "log_sha256": "3fb030b9e27290f8397c477055af05ada445b52673671eb456e59099f6290d09",
+      "result": {
+        "status": "VERIFIED",
+        "valid": true
+      }
+    }
+  ],
+  "test_method_total": 21,
+  "passed": true,
+  "scope": "Package independence for these 21 methods and the shipped CLI example/replay. Full kernel, native conformance and remote release gates are separate."
+}

@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_derivation_surface_decimal.py",
+    "-v"
+  ],
+  "utc": "2026-11-02T19:41:38.510694+00:00",
+  "exit_code": 0,
+  "test_methods": 1,
+  "head": "a694860833fcc7cbfb0d744ea0b42b583381641c",
+  "input_sha256_before": {
+    "tools/recursive_bridge.py": "26b06346405e37aea64f903dd31829862b00588648fa03a4c2706543e0d1fdc9",
+    "tests/test_derivation_surface_decimal.py": "01578218023794fef68abe3de57bd5b238ce5caf698eb9bb485019ab29513dce"
+  },
+  "input_sha256_after": {
+    "tools/recursive_bridge.py": "26b06346405e37aea64f903dd31829862b00588648fa03a4c2706543e0d1fdc9",
+    "tests/test_derivation_surface_decimal.py": "01578218023794fef68abe3de57bd5b238ce5caf698eb9bb485019ab29513dce"
+  },
+  "log_sha256": "449e558583459441de5997b821d14d9d856c78243173bcc131fecb032c00b671",
+  "scope": "One permanent regression. The child CLI explicitly sets int_max_str_digits=4300 and the source path is missing; expected DEFER/RESOURCE_LIMIT occurs before source I/O."
+}

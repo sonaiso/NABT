@@ -1,0 +1,238 @@
+test_collector_allows_clean_snapshot_preflight (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_collector_allows_clean_snapshot_preflight) ... ok
+test_collector_rejects_actual_staged_and_unstaged_runtime_changes (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_collector_rejects_actual_staged_and_unstaged_runtime_changes) ... 
+  test_collector_rejects_actual_staged_and_unstaged_runtime_changes (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_collector_rejects_actual_staged_and_unstaged_runtime_changes) (mode='staged') ... ERROR
+test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) ... 
+  test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', mode='explicit') ... FAIL
+  test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', mode='default') ... FAIL
+  test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', mode='explicit') ... FAIL
+  test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', mode='default') ... FAIL
+test_harnesses_do_not_replace_a_log_collision_after_allocation (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation) ... 
+  test_harnesses_do_not_replace_a_log_collision_after_allocation (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py') ... FAIL
+  test_harnesses_do_not_replace_a_log_collision_after_allocation (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py') ... FAIL
+test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) ... 
+  test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='retained_directory') ... ERROR
+  test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='other_directory') ... ERROR
+  test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='file') ... ERROR
+  test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='retained_directory') ... ERROR
+  test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='other_directory') ... ERROR
+  test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='file') ... ERROR
+
+======================================================================
+ERROR: test_collector_rejects_actual_staged_and_unstaged_runtime_changes (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_collector_rejects_actual_staged_and_unstaged_runtime_changes) (mode='staged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 224, in test_collector_rejects_actual_staged_and_unstaged_runtime_changes
+    module.main()
+  File "/tmp/tmp4gcivx31/evidence/derivation_surface_v1/validation/collect_release_evidence.py", line 86, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected archive
+
+======================================================================
+ERROR: test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='retained_directory')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 152, in test_harnesses_reject_existing_output_without_touching_history
+    module.main()
+  File "/tmp/tmpttepgyqe/evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py", line 35, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected execution
+
+======================================================================
+ERROR: test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='other_directory')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 152, in test_harnesses_reject_existing_output_without_touching_history
+    module.main()
+  File "/tmp/tmpy8dbovj9/evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py", line 35, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected execution
+
+======================================================================
+ERROR: test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', kind='file')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 152, in test_harnesses_reject_existing_output_without_touching_history
+    module.main()
+  File "/tmp/tmpa89ocjsf/evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py", line 35, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected execution
+
+======================================================================
+ERROR: test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='retained_directory')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 152, in test_harnesses_reject_existing_output_without_touching_history
+    module.main()
+  File "/tmp/tmpkq4z709t/evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py", line 39, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected execution
+
+======================================================================
+ERROR: test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='other_directory')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 152, in test_harnesses_reject_existing_output_without_touching_history
+    module.main()
+  File "/tmp/tmpxhcpqhvg/evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py", line 39, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected execution
+
+======================================================================
+ERROR: test_harnesses_reject_existing_output_without_touching_history (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_reject_existing_output_without_touching_history) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', kind='file')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 152, in test_harnesses_reject_existing_output_without_touching_history
+    module.main()
+  File "/tmp/tmpntw8trtv/evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py", line 39, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+test_derivation_surface_evidence_harness.ExpensiveBoundary: unexpected execution
+
+======================================================================
+FAIL: test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', mode='explicit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 130, in test_harnesses_allocate_fresh_output_before_archive
+    module.main()
+  File "/tmp/tmprgk_tn4f/evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py", line 35, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 119, in archive_boundary
+    self.assertEqual(len(outputs), 1, "Fresh output must exist before archive execution")
+AssertionError: 0 != 1 : Fresh output must exist before archive execution
+
+======================================================================
+FAIL: test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py', mode='default')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 130, in test_harnesses_allocate_fresh_output_before_archive
+    module.main()
+  File "/tmp/tmpnk3p76w0/evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py", line 35, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 119, in archive_boundary
+    self.assertEqual(len(outputs), 1, "Fresh output must exist before archive execution")
+AssertionError: 0 != 1 : Fresh output must exist before archive execution
+
+======================================================================
+FAIL: test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', mode='explicit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 130, in test_harnesses_allocate_fresh_output_before_archive
+    module.main()
+  File "/tmp/tmpqu40tvbn/evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py", line 39, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 119, in archive_boundary
+    self.assertEqual(len(outputs), 1, "Fresh output must exist before archive execution")
+AssertionError: 0 != 1 : Fresh output must exist before archive execution
+
+======================================================================
+FAIL: test_harnesses_allocate_fresh_output_before_archive (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_allocate_fresh_output_before_archive) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py', mode='default')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 130, in test_harnesses_allocate_fresh_output_before_archive
+    module.main()
+  File "/tmp/tmpv3a5ae06/evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py", line 39, in main
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 119, in archive_boundary
+    self.assertEqual(len(outputs), 1, "Fresh output must exist before archive execution")
+AssertionError: 0 != 1 : Fresh output must exist before archive execution
+
+======================================================================
+FAIL: test_harnesses_do_not_replace_a_log_collision_after_allocation (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation) (harness='evidence/derivation_surface_v1/validation/clean_checkout/run_clean_checkout.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 194, in test_harnesses_do_not_replace_a_log_collision_after_allocation
+    self.assertEqual(retained.read_bytes(), SENTINEL,
+AssertionError: b'synthetic child output\n' != b'retained observation must stay byte-identical\n' : The historical output was overwritten
+
+======================================================================
+FAIL: test_harnesses_do_not_replace_a_log_collision_after_allocation (test_derivation_surface_evidence_harness.DerivationSurfaceEvidenceHarnessTests.test_harnesses_do_not_replace_a_log_collision_after_allocation) (harness='evidence/derivation_surface_v1/validation/clean_checkout_final/run_clean_checkout.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold/tests/test_derivation_surface_evidence_harness.py", line 194, in test_harnesses_do_not_replace_a_log_collision_after_allocation
+    self.assertEqual(retained.read_bytes(), SENTINEL,
+AssertionError: b'synthetic child output\n' != b'retained observation must stay byte-identical\n' : The historical output was overwritten
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.147s
+
+FAILED (failures=6, errors=7)

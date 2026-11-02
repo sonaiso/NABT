@@ -1,0 +1,66 @@
+{
+  "schema": "nabt.derivation-surface-independent-review.v1",
+  "status": "SCOPED_REVIEW_PASSED_AFTER_ONE_CORRECTION",
+  "evaluation_scope": "Independent post-open review of source bounds, aggregate allocation, exact CLI controls, unchanged owner delegation and preimplementation acceptance integrity. No new Lean theorem or Arabic completeness result.",
+  "acceptance_integrity": {
+    "freeze_path": "evidence/derivation_surface_v1/independent/freeze.json",
+    "freeze_sha256": "adb95ff92dd3cb401ad4ec7a515a3e850d6344be489a9baf1b9ffa09716288ca",
+    "sealed_acceptance_files": 3,
+    "unchanged_existing_owner_and_source_files": 8,
+    "authorized_extension_excluded_from_immutability": "tools/recursive_bridge.py",
+    "enforced_by": "tests/test_derivation_surface_review.py"
+  },
+  "retained_runs": [
+    {
+      "record": "owner_first_acceptance.json",
+      "log": "owner_first_acceptance.log",
+      "test_methods": 9,
+      "exit_code": 0,
+      "log_sha256": "84b81018e74c7652bebe4dc57142d5d4637720137b810c44c40b1ef0e7ec399f",
+      "interpretation": "Only the frozen single-owner acceptance class; not the recursive wrapper or full release gates."
+    },
+    {
+      "record": "empty_list_source_bound_before.json",
+      "log": "empty_list_source_bound_before.log",
+      "test_methods": 1,
+      "failing_subtests": 3,
+      "exit_code": 1,
+      "log_sha256": "8b21b78d519e81c595ab75bb3cfa5cbb82f19aacedf86a650b2360945dd7f9d7",
+      "interpretation": "Independent regression retained before its correction. The file later gained additional review methods; this command selected only the named empty-list regression."
+    },
+    {
+      "record": "review_after_source_bound_fix.json",
+      "log": "review_after_source_bound_fix.log",
+      "test_methods": 7,
+      "exit_code": 0,
+      "log_sha256": "d3e596f75229741e9be890c03af64fccadddce0fb18d7282877a5fd183715b06",
+      "interpretation": "Complete independent post-open review after the source guard correction."
+    }
+  ],
+  "finding": {
+    "id": "DSV1-REVIEW-001",
+    "status": "FIXED_AND_REPLAYED",
+    "problem": "An empty application list bypassed per-occurrence validation, allowing oversized source and identities to reach the old source owner before the new path guarded allocation.",
+    "impact": "Resource ordering only. No linguistic rejection or acceptance authority was demonstrated or inferred from this defect.",
+    "regression": "RecursiveApplicationAllocationReview.test_empty_application_list_still_preflights_source_and_identity",
+    "before_owner_sha256": "49de2e4f4917a6d625d3d2a03fef56c8f25fcf9d0bca58d5f975cc5d30a72346",
+    "after_owner_sha256": "f8794f245414f6324d5cd004f4129a424bf8813dcce5444fe20478105c0ac02c",
+    "correction": "New-path _application_source_preflight validates source and identities regardless of application count before the old owner, preserving valid empty lists and old v1 behavior."
+  },
+  "tested_implementation": {
+    "tools/recursive_bridge.py": "f8794f245414f6324d5cd004f4129a424bf8813dcce5444fe20478105c0ac02c",
+    "tools/derivation_surface_bridge.py": "15595e6e810d39ff08f1a47aab2a138fad252dc3406081314b466cc3d933a669",
+    "tests/test_derivation_surface_review.py": "92dfd70a08622d804dc4f94d1198b42e6a13f320b53fec1bc3486686fb36ee94"
+  },
+  "invariants_observed_in_code_review": [
+    "The new adapter calls existing derivation, A116 and WEAK-MOVE-TO-ALIF owners and retains their complete results.",
+    "The only new surface projection omits medial alif sukun produced by the declared weak result; it records an invertible edit and coordinate alignment.",
+    "The recursive consumer preserves v1 transport, ordered duplicate requests and complete application receipts without injecting transformed results into direct-fill morphology or grammar certification.",
+    "Complete independently supplied source/request replay, not report hashes, controls verification."
+  ],
+  "limitations": [
+    "The exposed gold is not held-out evaluation.",
+    "These Python tests do not close lexical attestation, semantic equivalence, learned Arabic completeness or RecursiveSourceBridge.CertifiedBridge.",
+    "No full kernel, native conformance or remote release gate was run by this reviewer; their status belongs to the parent release record."
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "schema": "nabt.linguistic-architecture-study.morphology-probes.v1",
+  "kind": "LIMITED_RUNTIME_OBSERVATION_NOT_ACCEPTANCE_SUITE",
+  "observed_date_utc": "2026-11-02",
+  "repository": "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold",
+  "head": "082c4e6bb582be554b46bbe440835559dc9f82b8",
+  "authority": "EXISTING_OWNER_EXECUTION_AND_REPORT_REPLAY_ONLY",
+  "source_code_changed": false,
+  "new_tests_added": false,
+  "lean_build_run": false,
+  "functions": [
+    "nabt.derivation.generate_derivation",
+    "nabt.derivation.read_derivation",
+    "nabt.derivation.verify_derivation",
+    "nabt.classical_weak.source_examples",
+    "nabt.classical_weak.evaluate"
+  ],
+  "execution": {
+    "cwd": "/workspace/scratch/84dbb26f30e1/NABT-mantuq-source-fold",
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:. python - <<'PY'\nfrom nabt.derivation import generate_derivation, read_derivation, verify_derivation\nfrom nabt import classical_weak as w\nimport json\nfor root,pid,end in [('كتب','past.I.a','َ'),('فرح','past.I.i','َ'),('كرم','past.I.u','َ'),('قول','past.I.a','َ'),('دحرج','grammar.masdar.quad.fa3lala','')]:\n out=generate_derivation(root,pid,ending=end)\n print(json.dumps({k:out[k] for k in ('root','pattern_id','surface','status','semantic_projection','attested_root')},ensure_ascii=False))\nfor text in ['كَتَبَ','حَسَن','دَحْرَجَة','قَالَ']:\n out=read_derivation(text)\n rows=[(c['pattern_id'],c['root']) for o in out['occurrences'] for c in o['candidates']]\n print(json.dumps({'text':text,'status':out.get('status'),'rows':rows,'replay':verify_derivation(out,text=text)},ensure_ascii=False))\ne=next(e for e in w.source_examples() if e['id']=='qala')\nout=w.evaluate(e['rule_id'],e['frame'])\nprint(json.dumps({'weak_example':e['id'],'frame':e['frame'],'status':out['status'],'application_established':out['application_established'],'alternatives':out['alternatives']},ensure_ascii=False))\nPY",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  "observed_stdout_rows": [
+    {
+      "root": "كتب",
+      "pattern_id": "past.I.a",
+      "surface": "كَتَبَ",
+      "status": "GENERATED_SHAPE",
+      "semantic_projection": "NONE",
+      "attested_root": false
+    },
+    {
+      "root": "فرح",
+      "pattern_id": "past.I.i",
+      "surface": "فَرِحَ",
+      "status": "GENERATED_SHAPE",
+      "semantic_projection": "NONE",
+      "attested_root": false
+    },
+    {
+      "root": "كرم",
+      "pattern_id": "past.I.u",
+      "surface": "كَرُمَ",
+      "status": "GENERATED_SHAPE",
+      "semantic_projection": "NONE",
+      "attested_root": false
+    },
+    {
+      "root": "قول",
+      "pattern_id": "past.I.a",
+      "surface": "قَوَلَ",
+      "status": "GENERATED_SHAPE",
+      "semantic_projection": "NONE",
+      "attested_root": false
+    },
+    {
+      "root": "دحرج",
+      "pattern_id": "grammar.masdar.quad.fa3lala",
+      "surface": "دَحْرَجَة",
+      "status": "GENERATED_SHAPE",
+      "semantic_projection": "NONE",
+      "attested_root": false
+    },
+    {
+      "text": "كَتَبَ",
+      "status": "DEFER",
+      "rows": [
+        [
+          "grammar.masdar.bare.fa3al",
+          "كتب"
+        ],
+        [
+          "grammar.sifa.fa3al",
+          "كتب"
+        ],
+        [
+          "past.I.a",
+          "كتب"
+        ]
+      ],
+      "replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "source_sha256": "7ef4234357ba710298a9809ed79cbb0a0a3c450c07765fe3ebe0d72a4c8993ed",
+        "authority": "SOURCE_BOUND_PATTERN_REPORT_REPLAY_ONLY"
+      }
+    },
+    {
+      "text": "حَسَن",
+      "status": "DEFER",
+      "rows": [
+        [
+          "grammar.masdar.bare.fa3al",
+          "حسن"
+        ],
+        [
+          "grammar.sifa.fa3al",
+          "حسن"
+        ],
+        [
+          "past.I.a",
+          "حسن"
+        ]
+      ],
+      "replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "source_sha256": "ebd83036ff2b4d776e499bacc8dcef123f2847842c37157de6b67349c6540ad1",
+        "authority": "SOURCE_BOUND_PATTERN_REPORT_REPLAY_ONLY"
+      }
+    },
+    {
+      "text": "دَحْرَجَة",
+      "status": "DEFER",
+      "rows": [
+        [
+          "grammar.masdar.quad.fa3lala",
+          "دحرج"
+        ]
+      ],
+      "replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "source_sha256": "30d0f3e9ce027683eb32465a408628bacb3dd15a38d6dbec58df6f1a110c4f3a",
+        "authority": "SOURCE_BOUND_PATTERN_REPORT_REPLAY_ONLY"
+      }
+    },
+    {
+      "text": "قَالَ",
+      "status": "DEFER",
+      "rows": [],
+      "replay": {
+        "valid": true,
+        "status": "VERIFIED",
+        "source_sha256": "2aca770439ec901287e50b9bdb4a1157191b3978f35f2311b94ac9f63e4ea9ba",
+        "authority": "SOURCE_BOUND_PATTERN_REPORT_REPLAY_ONLY"
+      }
+    },
+    {
+      "weak_example": "qala",
+      "frame": {
+        "cells": [
+          [
+            "ق",
+            "a"
+          ],
+          [
+            "و",
+            "a"
+          ],
+          [
+            "ل",
+            "a"
+          ]
+        ],
+        "index": 1,
+        "context": "ordinary",
+        "position": "ayn",
+        "origin": "original",
+        "lexeme": "قال"
+      },
+      "status": "CONDITIONAL",
+      "application_established": false,
+      "alternatives": [
+        {
+          "action": "to_alif",
+          "cells": [
+            [
+              "ق",
+              "a"
+            ],
+            [
+              "ا",
+              "0"
+            ],
+            [
+              "ل",
+              "a"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "observations_ar": [
+    "املاء القالب past.I.a من القول يعطي قَوَلَ شكليًا ولا يثبت ورودها أو اعتماد الجذر.",
+    "قارئ القالب المباشر لا يجد قراءة قَالَ ضمن الجرد الحالي، ويبقي DEFER. هذا ليس حكمًا على صحة اللفظ العربي.",
+    "مالك الإعلال الموجود يحول الخلايا قَ/وَ/لَ إلى قَ/اْ/لَ ضمن الإطار المورّد ويحتفظ بالحالة CONDITIONAL وapplication_established=false.",
+    "القراءة المباشرة كَتَبَ تحفظ مرشحات صيغة الماضي والمصدر والصفة؛ الاشتراك الشكلي لا يعين القسم أو الدلالة.",
+    "نجاح إعادة فحص التقارير الأربعة يثبت أمانة إعادة الحساب لهذه المدخلات ضمن المالك الحالي؛ لا يثبت الشاهد المعجمي أو اكتمال العربية."
+  ],
+  "limitations_ar": [
+    "هذه مجسات صغيرة بمخرجات مختارة كما طبعتها الأوامر، وليست التقارير الأصلية الكاملة.",
+    "لم يجر في هذه الملاحظة بناء Lean أو تشغيل فحوص النواة أو مجموعة القبول.",
+    "لم يصل المجس مالك القالب بمالك الإعلال في شجرة تطبيق لغوية مرخصة، بل شغلهما منفصلين لإظهار موضع الوصلة.",
+    "لم يحول خلايا الإعلال إلى قرار إملائي نهائي ولم يستنتج لفظًا مستعملًا من أصل مفترض."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "nabt.derivation-surface-reuse-static-review.v1",
+  "scope": "Existing static import and clone-candidate scanner; not a proof of semantic uniqueness or absence of runtime cycles",
+  "base_commit": "e9f83a3f6c678fb45ba618800cebf65310427e97",
+  "implementation_commit": "e1e4a950a1f6df4268d18c3211c5e66bccc0f78b",
+  "boundary": {
+    "passed": true,
+    "rule": "core must not statically import tooling or integrations",
+    "unresolved_namespace_imports": "also prohibited; a missing target does not waive the boundary",
+    "violations": []
+  },
+  "existing_cyclic_components": [
+    [
+      "nabt.arabic_reader",
+      "nabt.governor_reader",
+      "nabt.semantics"
+    ],
+    [
+      "nabt.construction_complements",
+      "nabt.construction_reader",
+      "nabt.discourse_reader"
+    ],
+    [
+      "nabt.counting",
+      "nabt.nominal"
+    ],
+    [
+      "tools.entropy_framework.organization",
+      "tools.entropy_framework.registry",
+      "tools.entropy_framework.reuse",
+      "tools.entropy_framework.reuse_run"
+    ],
+    [
+      "tools.mantuq_inference",
+      "tools.mantuq_inference.source_bound",
+      "tools.mantuq_inference.source_fold"
+    ]
+  ],
+  "new_cyclic_components": [],
+  "removed_cyclic_components": [],
+  "owners_reused": [
+    "nabt.derivation.generate_derivation",
+    "nabt.alphabet",
+    "nabt.classical_laws.evaluate",
+    "nabt.word_reader",
+    "tools.recursive_bridge.read_recursive_source"
+  ],
+  "new_runtime_module": "tools.derivation_surface_bridge",
+  "grammar_rule_reimplementation": false,
+  "interpretation": "The new tool delegates filling and weak-law decisions; its new behavior is source binding and one declared display projection. Existing graph cycles remain reported.",
+  "baseline_report": {
+    "path": "artifacts/local/derivation-surface-full-check/code_entropy_baseline.json",
+    "sha256": "fc9874f85a8f5a4b1fcb592012c37ce80af4d572e42c8b9800552f9287f6eb7f"
+  },
+  "implementation_report": {
+    "path": "artifacts/local/derivation-surface-full-check-attempt2/code_entropy.json",
+    "sha256": "7442d56a347af8e38c3d2b965e987b2211bfd38eaf29085a3db93b163401fb94"
+  },
+  "clone_candidates": {
+    "method": "exact AST including names and docstrings; excluding locations",
+    "baseline_groups": 27,
+    "implementation_groups": 27,
+    "new_groups": [],
+    "caveat": "Identical normalized AST candidates only; this does not prove absence of all semantic duplication."
+  },
+  "initial_implementation_report": {
+    "path": "artifacts/local/derivation-surface-full-check/code_entropy.json",
+    "sha256": "5fcfdb04519a921f0904f702e1f43297c9311abbf746a491877dacc7c694cc4f"
+  },
+  "initial_implementation_commit": "6f291e2"
+}

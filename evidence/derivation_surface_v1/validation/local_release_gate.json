@@ -1,0 +1,42 @@
+{
+  "schema": "nabt.derivation-surface-local-release-gate.v1",
+  "implementation_commit": "e1e4a950a1f6df4268d18c3211c5e66bccc0f78b",
+  "status": "PASSED_BY_COMPLETED_TARGET_AND_NATIVE_CONTINUATION",
+  "single_uninterrupted_make_check_succeeded": false,
+  "completed_test_target": {
+    "record": "unittest_summary.json",
+    "record_sha256": "de9da5e2567b90b5c9837e523d4410aa830b08f8e6dc692c44e8d1f4cbc2b7c4",
+    "methods": 3126,
+    "passed": 3088,
+    "skipped": 38,
+    "failures": 0,
+    "errors": 0,
+    "scope": "Successful test target inside the retained exit-2 command"
+  },
+  "full_command_observation": {
+    "record": "attempt2_execution.json",
+    "exit_code": 2,
+    "meaning": "test completed successfully; following Lake startup failed in restricted environment"
+  },
+  "remaining_make_check_targets": {
+    "record": "native_resume_execution.json",
+    "exit_code": 0,
+    "command": [
+      "make",
+      "-o",
+      "test",
+      "check",
+      "LAKE=/tmp/nabt-lean-native-tools/lean-4.34.1-linux/bin/lake",
+      "EVIDENCE_DIR=artifacts/local/derivation-surface-full-check-native-resume",
+      "ARABIC_EVALUATION_DIR=artifacts/local/derivation-surface-full-check-native-resume/arabic-regression"
+    ],
+    "meaning": "Unchanged remaining Makefile targets, with the same pinned Lean in the authorized build environment"
+  },
+  "retained_interruption": "interrupted_attempt1.json",
+  "outputs": "release_gate_outputs.json",
+  "limits": [
+    "The existing documented coverage misses and optional skips are retained.",
+    "Passing existing regression policies does not establish Arabic completeness.",
+    "This record is local; every triggered remote gate must still pass on the publication head."
+  ]
+}

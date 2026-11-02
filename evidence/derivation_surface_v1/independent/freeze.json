@@ -1,0 +1,104 @@
+{
+  "schema": "nabt.derivation-surface-acceptance-freeze.v1",
+  "phase": "EXPOSED_PREIMPLEMENTATION_ACCEPTANCE",
+  "base_commit": "e9f83a3f6c678fb45ba618800cebf65310427e97",
+  "contract_gold_commit": "cb09261",
+  "created_utc": "2026-11-02T19:20:29.731967+00:00",
+  "authority": "FROZEN_ACCEPTANCE_NOT_RUNTIME_LICENSE",
+  "files": [
+    {
+      "path": "evidence/derivation_surface_v1/independent/contract.md",
+      "bytes": 10282,
+      "sha256": "0db980ab605989cc2f65d1c7250e67f0d8ff3a27ad365207425094e851587a68"
+    },
+    {
+      "path": "evidence/derivation_surface_v1/independent/gold.json",
+      "bytes": 16828,
+      "sha256": "4ab62cbb686cec531e4f29ad8fd402fbe00174a6b3ae47c8a87c63af078ab7c5"
+    },
+    {
+      "path": "tests/test_derivation_surface_bridge.py",
+      "bytes": 20042,
+      "sha256": "73dd0617afb4091b611c2cf8dc8cadb589bf709046cda0e70fc1fff91fa63d8c"
+    }
+  ],
+  "source_inputs_at_freeze": [
+    {
+      "path": "src/nabt/derivation.py",
+      "bytes": 19591,
+      "sha256": "cf9b911f2d69eba5413acfa3e46bffe1e724b1e49b107d642e5360422420d2f2"
+    },
+    {
+      "path": "src/nabt/classical_laws.py",
+      "bytes": 7325,
+      "sha256": "281684b1f9486ad14e89b54aad1e7f17a043f501e487f9c388e130d0dc6d016e"
+    },
+    {
+      "path": "src/nabt/classical_weak.py",
+      "bytes": 18485,
+      "sha256": "26e27ce42825544880bfb73dd3f56bdc4c2d7939bea50c35a0b605a004f85c9e"
+    },
+    {
+      "path": "src/nabt/alphabet.py",
+      "bytes": 4777,
+      "sha256": "07014c0ddd129cd821ab35e7b332f730f9341dc110e6b7e4517b9a89df8d0abe"
+    },
+    {
+      "path": "src/nabt/word_reader.py",
+      "bytes": 29353,
+      "sha256": "d75fd23559d1f2c8bf70f2e866dbc2f44542bca95d043565d8b756ea534b4338"
+    },
+    {
+      "path": "src/nabt/data/derivation_patterns.json",
+      "bytes": 28213,
+      "sha256": "0b4d6673c033955490468ad595fc1e988890bba282101e81a80580d3fc1fbf2f"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/classical_rule_inventory_v1.json",
+      "bytes": 134412,
+      "sha256": "6de39f04e6981ec646a9af98ed3ebb600d1c60bcd498ddfc925d6ba44664061d"
+    },
+    {
+      "path": "src/nabt/data/source_evidence/ibn_aqil.txt",
+      "bytes": 998579,
+      "sha256": "661e43ea265eca8c72b9e4ab7a46cd9182b34e834105b595241bc7787b471f09"
+    },
+    {
+      "path": "tools/recursive_bridge.py",
+      "bytes": 32975,
+      "sha256": "ffe8b1de6905d0eb4dfaac5c9e5185f901815369aa694205bde96e9b3c95801a"
+    }
+  ],
+  "source_note": "tools/recursive_bridge.py is the designated extension owner; its preimplementation hash records baseline identity, not a prohibition on the explicitly authorized extension. Existing frozen source owners/inventories stay unchanged.",
+  "test_methods": [
+    "test_literal_gold_positive_mismatch_blocker_and_scope",
+    "test_existing_owner_receipts_are_complete_and_unchanged",
+    "test_omission_and_three_coordinate_domains",
+    "test_independent_request_source_and_occurrence_rebinding",
+    "test_complete_receipt_tampering_and_typed_values_fail_replay",
+    "test_malformed_and_nonoccurrence_requests_reject",
+    "test_source_owner_failure_cannot_be_bypassed",
+    "test_fixed_limits_are_distinct_from_scope_rejection",
+    "test_input_aliases_and_bytes_do_not_change_exact_evidence",
+    "test_actual_consumer_preserves_old_transport_and_all_applications",
+    "test_consumer_replays_requests_order_source_and_nested_receipts",
+    "test_all_requests_and_occurrences_preflight_before_transform",
+    "test_mismatch_and_defer_still_bind_original_occurrences",
+    "test_cli_existing_path_and_resource_order"
+  ],
+  "test_method_count": 14,
+  "gold_case_count": 25,
+  "baseline": [
+    {
+      "path": "evidence/derivation_surface_v1/independent/baseline/preimplementation.log",
+      "bytes": 1931,
+      "sha256": "7f0daaf51ee3f58d3361979646c74f00aa9071d43e8f96fcd59b3d0670a4bd6f"
+    },
+    {
+      "path": "evidence/derivation_surface_v1/independent/baseline/execution.json",
+      "bytes": 699,
+      "sha256": "f3001c0503e2b890700def905c878c803487e52e83b097cc90ff70c322be84a8"
+    }
+  ],
+  "baseline_note": "The baseline ran zero methods: two setUpClass errors show absent APIs. It is not recorded as 14 executed test failures. No postimplementation expectations were observed."
+}

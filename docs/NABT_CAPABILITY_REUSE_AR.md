@@ -93,7 +93,7 @@ python tools/proof_catalog.py --lake /path/to/pinned/lake \
 | أثر الوحدة والوصل والوزن والعد والترقيم | `transition-law` | `core` |
 | الإجراء المتعلم المطابق للقانون | `learned-transition` | `learned-conformance` |
 | الوصل والإحاطة والإحلال والرفع واستنفاد البدائل | `progressive-units` | `progressive` |
-| جسر الجبر الأصلي إلى مواضع المصدر | `recursive-source` | `recursive` و`recursive-native` |
+| جسر الجبر الأصلي إلى مواضع المصدر، وإرفاق التطبيقات الصرفية المشروطة | `recursive-source` | `recursive`؛ عمليتا `read-applications/verify-applications`، و`recursive-native` ضمن سلطته الأصلية |
 | تعلم القواعد وحذف الشاهد وإعادة الحساب | `rule-learning` | `core` و`source-learning` |
 | تركيب برنامج من العمليات الموجودة وإعادة فحصه | `numeric-program` | `core` بأوامر `compile/run/verify-run` |
 | الجذر والوزن والمصدر والمشتق وخواص الاسم | `derivation-patterns` و`nominal` و`morphology` | `core` |
