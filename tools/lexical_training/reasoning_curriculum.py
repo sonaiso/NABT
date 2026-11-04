@@ -14,7 +14,7 @@ from tools.entropy_framework.reuse import current_catalog
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW = "evidence/cognitive_curriculum_v1/source_review.json"
 ROUTING_POLICY = "nabt.cognitive-evidence-routing.v2"
-SHARED_ADAPTERS = ("source_learning", "qualified_inference", "epistemic_ledger")
+SHARED_ADAPTERS = ("source_learning", "qualified_inference", "epistemic_ledger", "grounded_passage")
 
 # id, label, installed owner modules, adapters, open acquisition obligation.
 MATRICES = (
@@ -24,7 +24,7 @@ MATRICES = (
      "اكتساب جسر اللزوم وشروطه؛ وجود علاقة معرفية وحده لا يثبت الدلالة"),
     ("fahwa", "فحوى الخطاب: مفهوم الموافقة في المصدر", ("Shakhsiyya3Rules",), ("qualified_inference",),
      "تحصيل جهة الموافقة وجسر النقل من الاستعمال"),
-    ("cognitive_concept", "المفهوم المعرفي", ("Shakhsiyya1Rules", "ThinkingRules", "RuleLearning"), ("source_learning", "epistemic_ledger"),
+    ("cognitive_concept", "المفهوم المعرفي", ("Shakhsiyya1Rules", "ThinkingRules", "RuleLearning"), ("source_learning", "epistemic_ledger", "grounded_passage"),
      "فصل التصور والتصديق ونسبة الاعتقاد وتحقيق الواقع"),
     ("lahn", "لحن الخطاب: مفهوم المخالفة في المصدر", ("Shakhsiyya3Rules", "QualifiedInference"), ("qualified_inference",),
      "تحصيل الضرورة والتأهيل وفحص المانع والغالب؛ لا قلب للشرطية"),

@@ -42,9 +42,9 @@ is preferred as canonical; otherwise a documented lexical tie break is used.
 The historical `evidence/grammar_catalog_v1/proof_catalog.json` snapshot contains
 1,372 advertised declarations and 1,369 distinct normalized statement ASTs.
 The current reference selected by `integrations/current_proof_references.mk`
-is `evidence/meaning_preservation_v1/integration/proof_catalog.json`: 1,605
-declarations and 1,602 statement groups as checked on 2026-10-31. They belong
-to 80 theorem-bearing modules; the two additional `formal/Nabt` modules
+is `evidence/grounded_passage_v1/integration/proof_catalog.json`. It records
+1,608 declarations in 1,605 statement groups, including the grounded passage
+derivability, exact selection and minimal-support theorems. They belong to 81 theorem-bearing modules; the two additional `formal/Nabt` modules
 `LearnedModelData` and `LexicalCompletionCatalog` provide data. The historical
 `evidence/article_acquisition_v2/integration/proof_catalog.json` retains its
 1,514 declarations and 1,511 statement groups. The preceding

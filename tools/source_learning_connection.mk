@@ -12,8 +12,8 @@ source-learning-connection:
 
 .PHONY: cognitive-teaching
 cognitive-teaching:
-	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe evidenceLifecycleV1 epistemicMeasurement
-	NABT_REQUIRE_COGNITIVE_NATIVE=1 $(PYTHON) -m unittest tests.test_cognitive_teaching -v
+	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe evidenceLifecycleV1 epistemicMeasurement connectedAcquisitionV3 groundedPassage
+	NABT_REQUIRE_COGNITIVE_NATIVE=1 $(PYTHON) -m unittest tests.test_cognitive_teaching tests.test_grounded_passage -v
 	$(PYTHON) -m tools.lexical_training.curriculum --output $(EVIDENCE_DIR)/curriculum.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --output $(EVIDENCE_DIR)/learning.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --verify $(EVIDENCE_DIR)/learning.json --output $(EVIDENCE_DIR)/learning-replay.json
@@ -21,3 +21,5 @@ cognitive-teaching:
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/epistemic.json --output $(EVIDENCE_DIR)/epistemic.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/world_prior.json --output $(EVIDENCE_DIR)/world-prior.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/world_prior.json --verify $(EVIDENCE_DIR)/world-prior.json --output $(EVIDENCE_DIR)/world-prior-replay.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/passage.json --output $(EVIDENCE_DIR)/passage.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/passage.json --verify $(EVIDENCE_DIR)/passage.json --output $(EVIDENCE_DIR)/passage-replay.json

@@ -1615,7 +1615,10 @@ def theoremManifest : List Name := [
   ``Nabt.MeaningPreservation.finite_check_exact,
   ``Nabt.MeaningPreservation.finite_check_preserves_each,
   ``Nabt.MeaningPreservation.finite_check_fiber_compatible,
-  ``Nabt.MeaningPreservation.finite_check_decoder_on_image
+  ``Nabt.MeaningPreservation.finite_check_decoder_on_image,
+  ``Nabt.GroundedPassage.mem_minimalChecked_iff,
+  ``Nabt.GroundedPassage.reported_derivable,
+  ``Nabt.GroundedPassage.reported_no_smaller_checked_path
 ]
 
 run_cmd do
