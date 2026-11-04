@@ -69,3 +69,12 @@ jobs:
           python -c "import json,pathlib; r=json.load(open('artifacts/local/ci/lexical-proposal.json')); b=pathlib.Path('evidence/classical_language/sources/maqayis.txt').read_bytes(); assert r['authority']=='NONE' and not r['reading_licensed']; assert all(b[p['start_byte']:p['end_byte']].decode()==p['source_entry'] for p in r['proposals'])"
       - name: Neural sense proposals retain every native interpretation
         run: make -f Makefile -f integrations/neural_senses.mk neural-senses PYTHON=python LAKE="${{ runner.temp }}/nabt-qatr-tools/lean-4.34.1-linux/bin/lake"
+      - name: Learn global lexical identities and components from retained quotations
+        run: make -f Makefile -f integrations/lexical_acquisition.mk lexical-acquisition PYTHON=python EVIDENCE_DIR=artifacts/local/ci/lexical-acquisition-check LAKE="${{ runner.temp }}/nabt-qatr-tools/lean-4.34.1-linux/bin/lake"
+      - name: Preserve cross-matrix learning and native owner reports
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lexical-acquisition
+          path: artifacts/local/ci/lexical-acquisition-check
+          if-no-files-found: error
+          retention-days: 14
