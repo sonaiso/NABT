@@ -343,6 +343,25 @@ jobs:
         env:
           NABT_UNIT_DISCOVERY_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/unitDiscoveryProbe
         run: python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
+      - name: Measure the sign curriculum through the existing native inventory
+        env:
+          PYTHONPATH: src
+        run: |
+          test -x formal/.lake/build/bin/unitDiscoveryProbe
+          python -m tools.arabic_training.sign_curriculum native-check
+          python -B -m unittest discover -s tests -p test_sign_curriculum.py -v
+          mkdir -p artifacts/local/sign-curriculum
+          python -m tools.arabic_training.sign_curriculum matrix --output artifacts/local/sign-curriculum/matrix.json
+          python -m tools.arabic_training.sign_curriculum questions --output artifacts/local/sign-curriculum/questions.json
+          python -m tools.arabic_training.sign_curriculum self-check --output artifacts/local/sign-curriculum/harness-self-check.json
+          python -m tools.arabic_training.sign_curriculum probes --output artifacts/local/sign-curriculum/reader-probes.json
+      - name: Preserve sign curriculum measurements and their explicit scope
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.1
+        with:
+          name: sign-curriculum
+          path: artifacts/local/sign-curriculum
+          if-no-files-found: error
+          retention-days: 14
       - name: Progressive constructions and independently authored partial contract measurements
         run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
       - name: Rational inquiry gates, source dependency and conditional evidence rank
