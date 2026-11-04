@@ -161,6 +161,19 @@ class NativeLessonTests(unittest.TestCase):
         self.assertEqual(result["status"], "UNKNOWN", result["owner_result"]["reason"])
         self.assertFalse(result["owner_result"]["conditional_consequence"])
         self.assertEqual(result["next_step"]["action"], "ACQUIRE_SOURCE_BOUND_RELATION")
+        self.assertEqual(result["owner_result"]["conditional_result"]["readings"][0]["reason"], "BRIDGE_MISSING")
+        text = request["payload"]["source_text"]
+        for changed_text, status in ((text + "ليس عينة هو قابلة.\n", "CONFLICT"),
+                                     (text.replace("عينة هو قابلة.\n", "ليس عينة هو قابلة.\n"), "REFUTED"),
+                                     (text.replace("عينة هو قابلة.\n", ""), "UNKNOWN"),
+                                     (text + "ليس عينة هو متمددة.\n", "UNKNOWN")):
+            with self.subTest(source=changed_text, status=status):
+                changed = deepcopy(request)
+                changed["payload"]["source_text"] = changed_text
+                blocked = t.run_lesson(changed)
+                self.assertEqual(blocked["status"], status)
+                self.assertFalse(blocked["owner_result"]["conditional_consequence"])
+                self.assertEqual(blocked["next_step"]["action"], "ASSESS_CONTRAST_AND_WITHDRAWAL")
 
     def test_empirical_domain_retains_acquired_learning_and_withdrawal(self):
         request = lesson(); request["domain_id"] = "empirical_science"

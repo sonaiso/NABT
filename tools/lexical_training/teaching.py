@@ -81,8 +81,12 @@ def _next(owner, adapter, measured):
         if not last["application_established"]:
             return {"action": "ACQUIRE_ADOPTION_AND_CASE_WITNESSES", "basis": pointer + "/application_established"}
         return {"action": "ASSESS_INDEPENDENT_NEW_OCCURRENCE", "basis": pointer + "/application_established"}
-    if adapter == "qualified_inference" and owner["source_witnesses"]["bridge"] is None:
-        return {"action": "ACQUIRE_SOURCE_BOUND_RELATION", "basis": "/owner_result/source_witnesses/bridge"}
+    if adapter == "qualified_inference" and owner["status"] == "UNKNOWN":
+        readings = (owner["conditional_result"] or {}).get("readings", [])
+        if (len(readings) == 1 and readings[0].get("reason") == "BRIDGE_MISSING"
+                and not readings[0].get("conclusion_counterevidence")):
+            return {"action": "ACQUIRE_SOURCE_BOUND_RELATION",
+                    "basis": "/owner_result/conditional_result/readings/0/reason"}
     return {"action": "ASSESS_CONTRAST_AND_WITHDRAWAL", "basis": "/owner_result/status"}
 
 
