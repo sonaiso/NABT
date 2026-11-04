@@ -127,7 +127,8 @@ def run_lesson(lesson):
         else:
             _fields(payload, ("source_profile", "input"), "epistemic payload")
             owner = epistemic_measurement.execute_request(payload["input"], source_profile=payload["source_profile"])
-            measured = owner["native_checked"] is True and owner["certificate_checked"] is True
+            measured = (owner["native_checked"] is True and owner["certificate_checked"] is True
+                        and owner["status"] in {"SUPPORTED", "REFUTED", "CONFLICT", "UNKNOWN"})
             measurements = {"mode": "EPISTEMIC_LEDGER_REPLAY", "learner_trained": False,
                             "evidence_class": owner["evidence_class"],
                             "trace_pointer": "/owner_result/execution"}
@@ -170,6 +171,8 @@ def main():
         lesson = read(args.request, wire_owner.MAX_REQUEST_BYTES)
         report = (verify_lesson(read(args.verify, MAX_RESULT_BYTES, report=True), expected_lesson=lesson)
                   if args.verify else run_lesson(lesson))
+    except wire_owner.ResourceLimit as error:
+        report = {"status": "RESOURCE_LIMIT", "execution_measured": False, "error": str(error)}
     except (OSError, ValueError) as error:
         report = {"status": "INVALID_INPUT", "execution_measured": False, "error": str(error)}
     text = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n"

@@ -3,6 +3,8 @@ from copy import deepcopy
 import json
 import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -103,6 +105,23 @@ class CurriculumTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             t.wire_owner.strict_loads('{"schema":"a","schema":"b"}')
 
+    def test_cli_preserves_transport_exhaustion_and_malformed_input(self):
+        cases = [(b'"' + b'a' * t.wire_owner.MAX_REQUEST_BYTES + b'"', "RESOURCE_LIMIT"),
+                 (b'[' * 33 + b'null' + b']' * 33, "RESOURCE_LIMIT"),
+                 (b'{', "INVALID_INPUT")]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "request.json"
+            for raw, status in cases:
+                with self.subTest(status=status, size=len(raw)):
+                    path.write_bytes(raw)
+                    run = subprocess.run([sys.executable, "-m", "tools.lexical_training.teaching",
+                                          "--request", str(path)], cwd=ROOT,
+                                         capture_output=True, text=True, check=False, timeout=30)
+                    self.assertEqual(run.returncode, 3, run.stderr)
+                    result = json.loads(run.stdout)
+                    self.assertEqual(result["status"], status)
+                    self.assertFalse(result["execution_measured"])
+
 
 @unittest.skipUnless(READY, "build cognitive lesson native owners")
 class NativeLessonTests(unittest.TestCase):
@@ -170,6 +189,27 @@ class NativeLessonTests(unittest.TestCase):
         self.assertTrue(result["execution_measured"], result)
         self.assertEqual(result["status"], "UNKNOWN")
         self.assertFalse(result["owner_result"]["hidden_motive_established"])
+
+    def test_checked_resource_exhaustion_is_not_a_completed_lesson(self):
+        request = json.loads((ROOT / "examples/cognitive_teaching/epistemic.json").read_text())
+        request["payload"]["input"]["budget"] = 0
+        result = t.run_lesson(request)
+        self.assertEqual(result["status"], "RESOURCE_LIMIT")
+        self.assertTrue(result["owner_result"]["native_checked"])
+        self.assertTrue(result["owner_result"]["certificate_checked"])
+        self.assertFalse(result["execution_measured"])
+        self.assertEqual(result["next_step"]["action"], "RESOLVE_OWNER_OBLIGATION")
+        replay = t.verify_lesson(result, expected_lesson=request)
+        self.assertTrue(replay["replay_matches"])
+        self.assertFalse(replay["valid"])
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "request.json"
+            path.write_text(json.dumps(request))
+            run = subprocess.run([sys.executable, "-m", "tools.lexical_training.teaching",
+                                  "--request", str(path)], cwd=ROOT,
+                                 capture_output=True, text=True, check=False, timeout=30)
+            self.assertEqual(run.returncode, 3, run.stderr)
+            self.assertEqual(json.loads(run.stdout)["status"], "RESOURCE_LIMIT")
 
     def test_missing_native_and_free_text_cannot_pass_a_lesson(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(t.source_learning_connection.life,
