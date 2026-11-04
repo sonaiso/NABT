@@ -1767,12 +1767,14 @@
           "src/nabt/alphabet.py",
           "src/nabt/codec.py",
           "src/nabt/bridges.py",
-          "tools/arabic_training/sign_curriculum.py"
+          "tools/arabic_training/sign_curriculum.py",
+          "tools/arabic_training/madlul_matrix.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
           "core",
-          "sign-curriculum"
+          "sign-curriculum",
+          "madlul-matrix"
         ],
         "checker_paths": [
           "tools/check_integrity.py"
@@ -1780,12 +1782,14 @@
         "test_paths": [
           "tests/test_codec.py",
           "tests/test_bridges.py",
-          "tests/test_sign_curriculum.py"
+          "tests/test_sign_curriculum.py",
+          "tests/test_madlul_matrix.py"
         ],
         "doc_paths": [
           "docs/BRIDGES.md",
           "docs/TAAQOL_FOUNDATION.md",
-          "docs/SIGN_ONLY_CURRICULUM_AR.md"
+          "docs/SIGN_ONLY_CURRICULUM_AR.md",
+          "docs/MADLUL_MATRIX_AR.md"
         ],
         "scope": "A116 is 29 carriers times four declared marks; reversible sequence numbering and versioned alphabet conversion preserve the selected representation.",
         "open_debts": [
@@ -2112,11 +2116,13 @@
         ],
         "runtime_paths": [
           "src/nabt/words.py",
-          "src/nabt/word_reader.py"
+          "src/nabt/word_reader.py",
+          "tools/arabic_training/madlul_matrix.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
-          "core"
+          "core",
+          "madlul-matrix"
         ],
         "checker_paths": [
           "tools/check_word_conformance.py"
@@ -2124,10 +2130,12 @@
         "test_paths": [
           "tests/test_words.py",
           "tests/test_word_reader.py",
-          "tests/test_word_reader_review.py"
+          "tests/test_word_reader_review.py",
+          "tests/test_madlul_matrix.py"
         ],
         "doc_paths": [
-          "docs/WORD_READING.md"
+          "docs/WORD_READING.md",
+          "docs/MADLUL_MATRIX_AR.md"
         ],
         "scope": "Declared noun/verb/particle evidence and conditional declension classes are consumed by the existing word reader with unresolved cases retained.",
         "open_debts": [
@@ -2516,7 +2524,8 @@
         "runtime_paths": [
           "tools/classical_language_evidence.py",
           "tools/grammar_catalog/__main__.py",
-          "tools/classical_rule_inventory.py"
+          "tools/classical_rule_inventory.py",
+          "tools/arabic_training/madlul_matrix.py"
         ],
         "native_targets": [
           "exportClassicalLanguageEvidence",
@@ -2525,7 +2534,8 @@
         ],
         "entrypoint_ids": [
           "grammar-catalog",
-          "core"
+          "core",
+          "madlul-matrix"
         ],
         "checker_paths": [
           "tools/check_classical_language_evidence.py",
@@ -2534,12 +2544,14 @@
         "test_paths": [
           "tests/test_classical_language_evidence.py",
           "tests/test_classical_reference_readings.py",
-          "tests/test_classical_rule_inventory.py"
+          "tests/test_classical_rule_inventory.py",
+          "tests/test_madlul_matrix.py"
         ],
         "doc_paths": [
           "docs/CLASSICAL_LANGUAGE_EVIDENCE.md",
           "docs/CLASSICAL_REFERENCE_READINGS.md",
-          "docs/CLASSICAL_RULE_INVENTORY.md"
+          "docs/CLASSICAL_RULE_INVENTORY.md",
+          "docs/MADLUL_MATRIX_AR.md"
         ],
         "scope": "Retained source quotations and explicit interpreted finite rules remain linked to their source versions and compiled contracts.",
         "open_debts": [
@@ -2629,13 +2641,15 @@
           "tools/build_lexical_catalog.py",
           "tools/propose_lexical_evidence.py",
           "tools/lexical_training/senses.py",
-          "tools/train_lexical_senses.py"
+          "tools/train_lexical_senses.py",
+          "tools/arabic_training/madlul_matrix.py"
         ],
         "native_targets": [
           "lexicalDenotation"
         ],
         "entrypoint_ids": [
-          "lexical-testimony"
+          "lexical-testimony",
+          "madlul-matrix"
         ],
         "checker_paths": [
           "tools/check_linguistic_truth.py"
@@ -2644,18 +2658,21 @@
           "tests/test_lexical_denotation.py",
           "tests/test_lexical_testimony.py",
           "tests/test_attested_lexical_loader.py",
-          "tests/test_neural_senses.py"
+          "tests/test_neural_senses.py",
+          "tests/test_madlul_matrix.py"
         ],
         "doc_paths": [
           "docs/LEXICAL_DENOTATION.md",
           "docs/LEXICAL_TESTIMONY_AR.md",
           "docs/ATTESTED_LEXICAL_LOADING_AR.md",
-          "docs/NEURAL_SENSE_PROPOSALS_AR.md"
+          "docs/NEURAL_SENSE_PROPOSALS_AR.md",
+          "docs/MADLUL_MATRIX_AR.md"
         ],
         "scope": "Compiled lexical senses and exact retained source passages support conditional matching, proper inclusion and explicitly licensed entailment.",
         "open_debts": [
           "Lexical denotation does not choose the intended sense of a new occurrence or license a root-wide universal certificate.",
-          "The optional neural sense ranker retains all installed alternatives and reuses lexical_testimony unchanged. Its supplied root, authored seen-sense diagnostic and scores establish neither acquired applicability nor intended sense; the lexical baseline ties its measured result."
+          "The optional neural sense ranker retains all installed alternatives and reuses lexical_testimony unchanged. Its supplied root, authored seen-sense diagnostic and scores establish neither acquired applicability nor intended sense; the lexical baseline ties its measured result.",
+          "The source-bound five-way madlul matrix resolves existing contracts and preserves owner reports, but acquiring the denoted object level, semantic part alignment and positively evidenced usage status from free text remains open. Unknown or false-world claims do not establish unusedness."
         ]
       },
       {
@@ -3079,24 +3096,28 @@
           "Nabt.MeaningPreservation"
         ],
         "runtime_paths": [
-          "tools/meaning_preservation_v1.py"
+          "tools/meaning_preservation_v1.py",
+          "tools/arabic_training/madlul_matrix.py"
         ],
         "native_targets": [
           "meaningPreservationV1"
         ],
         "entrypoint_ids": [
-          "meaning-preservation"
+          "meaning-preservation",
+          "madlul-matrix"
         ],
         "checker_paths": [
           "tools/evaluate_meaning_preservation_v1.py"
         ],
         "test_paths": [
           "tests/test_meaning_preservation_v1.py",
-          "tests/test_meaning_preservation_evaluator.py"
+          "tests/test_meaning_preservation_evaluator.py",
+          "tests/test_madlul_matrix.py"
         ],
         "doc_paths": [
           "docs/MEANING_PRESERVATION_V1_AR.md",
-          "docs/MEANING_PRESERVATION_V1_FORMAL_SPEC.md"
+          "docs/MEANING_PRESERVATION_V1_FORMAL_SPEC.md",
+          "docs/MADLUL_MATRIX_AR.md"
         ],
         "scope": "The finite faithful transport contract preserves declared joint observations and source context; productive mode obtains its packet by rerunning the existing source-bound clause producer.",
         "open_debts": [
