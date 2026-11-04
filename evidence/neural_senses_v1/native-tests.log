@@ -1,0 +1,65 @@
+cd formal && /tmp/nabt-toolchain/lean-4.34.1-linux/bin/lake build lexicalDenotation
+Build completed successfully (44 jobs).
+test -x formal/.lake/build/bin/lexicalDenotation
+python3 -c 'import numpy'
+OPENBLAS_NUM_THREADS=1 python3 tools/train_lexical_senses.py --output-dir artifacts/local/1793772757186410693/neural-senses
+{
+  "all": {
+    "n": 18,
+    "neural": {
+      "correct": 18,
+      "mrr": 1.0
+    },
+    "lexical_baseline": {
+      "correct": 18,
+      "mrr": 1.0
+    }
+  },
+  "ambiguous_roots": {
+    "n": 10,
+    "neural": {
+      "correct": 10,
+      "mrr": 1.0
+    },
+    "lexical_baseline": {
+      "correct": 10,
+      "mrr": 1.0
+    }
+  }
+}
+NABT_NEURAL_SENSES_NATIVE=1 NABT_LEXICAL_DENOTATION=/workspace/scratch/b172febac418/NABT/formal/.lake/build/bin/lexicalDenotation python3 -m unittest discover -s tests -p test_neural_senses.py -v
+test_reuse_map_discovers_the_existing_owner_and_new_consumer (test_neural_senses.IntegrationIdentityTests.test_reuse_map_discovers_the_existing_owner_and_new_consumer) ... ok
+test_shared_features_preserve_original_retriever_encoding (test_neural_senses.IntegrationIdentityTests.test_shared_features_preserve_original_retriever_encoding) ... ok
+test_all_native_senses_and_conditional_result_unchanged (test_neural_senses.NativeNeuralSenses.test_all_native_senses_and_conditional_result_unchanged) ... ok
+test_deliberately_wrong_neural_winner_cannot_change_native_receipt (test_neural_senses.NativeNeuralSenses.test_deliberately_wrong_neural_winner_cannot_change_native_receipt) ... ok
+test_full_report_replay_rejects_changed_text_or_authority (test_neural_senses.NativeNeuralSenses.test_full_report_replay_rejects_changed_text_or_authority) ... ok
+test_native_missing_does_not_become_success (test_neural_senses.NativeNeuralSenses.test_native_missing_does_not_become_success) ... ok
+test_installed_weights_replay_and_no_training_query_overlap (test_neural_senses.NeuralSenseTests.test_installed_weights_replay_and_no_training_query_overlap) ... ok
+test_invalid_inputs_before_checker (test_neural_senses.NeuralSenseTests.test_invalid_inputs_before_checker) ... ok
+test_model_rejects_identity_shape_and_nonfinite_changes (test_neural_senses.NeuralSenseTests.test_model_rejects_identity_shape_and_nonfinite_changes) ... ok
+test_scores_never_enter_native_owner_or_drop_senses (test_neural_senses.NeuralSenseTests.test_scores_never_enter_native_owner_or_drop_senses) ... ok
+test_text_identity_preserved (test_neural_senses.NeuralSenseTests.test_text_identity_preserved) ... ok
+test_unknown_root_not_mapped_to_nearest_known_root (test_neural_senses.NeuralSenseTests.test_unknown_root_not_mapped_to_nearest_known_root) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 8.038s
+
+OK
+NABT_LEXICAL_DENOTATION=/workspace/scratch/b172febac418/NABT/formal/.lake/build/bin/lexicalDenotation python3 -m unittest discover -s tests -p test_lexical_denotation.py -v
+test_retained_source_spans_are_bytes_not_characters (test_lexical_denotation.ArtifactIntegrity.test_retained_source_spans_are_bytes_not_characters) ... ok
+test_root_splits_and_first_test_are_consistent (test_lexical_denotation.ArtifactIntegrity.test_root_splits_and_first_test_are_consistent) ... ok
+test_all_installed_qalam_senses_retained (test_lexical_denotation.NativeDenotation.test_all_installed_qalam_senses_retained) ... ok
+test_blindness_mental_association_is_not_external_sight (test_lexical_denotation.NativeDenotation.test_blindness_mental_association_is_not_external_sight) ... ok
+test_duplicate_does_not_create_an_extra_part (test_lexical_denotation.NativeDenotation.test_duplicate_does_not_create_an_extra_part) ... ok
+test_empty_target_and_unknown_root (test_lexical_denotation.NativeDenotation.test_empty_target_and_unknown_root) ... ok
+test_installed_catalog_matches_every_byte_and_component (test_lexical_denotation.NativeDenotation.test_installed_catalog_matches_every_byte_and_component) ... ok
+test_no_inverse_or_unrelated_association (test_lexical_denotation.NativeDenotation.test_no_inverse_or_unrelated_association) ... ok
+test_strict_types_limits_and_extra_authority_flag (test_lexical_denotation.NativeDenotation.test_strict_types_limits_and_extra_authority_flag) ... ok
+test_two_sources_do_not_make_same_root_same_sense (test_lexical_denotation.NativeDenotation.test_two_sources_do_not_make_same_root_same_sense) ... ok
+test_whole_and_proper_part (test_lexical_denotation.NativeDenotation.test_whole_and_proper_part) ... ok
+test_words_inside_gloss_are_not_semantic_parts (test_lexical_denotation.NativeDenotation.test_words_inside_gloss_are_not_semantic_parts) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.568s
+
+OK

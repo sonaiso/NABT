@@ -1,0 +1,60 @@
+{
+  "schema": "nabt.neural-senses-validation.v1",
+  "base_commit": "71e74400c620f63368c267e6f4a5ff09d3dadbdd",
+  "python": "Python 3.12.14",
+  "numpy": "2.3.5",
+  "lean": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "checks": [
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "tests": 2902,
+      "passed": 2661,
+      "skipped": 241,
+      "failed": 0,
+      "log_sha256": "1f095c3cdf266a22a73b5e1f283af8cbfa45f0e5225665351e12ec431f680d08"
+    },
+    {
+      "command": "make -f Makefile -f integrations/neural_senses.mk neural-senses LAKE=/tmp/nabt-toolchain/lean-4.34.1-linux/bin/lake",
+      "exit_code": 0,
+      "new_consumer_tests": 12,
+      "existing_denotation_tests": 12,
+      "skipped": 0,
+      "log": "native-tests.log"
+    },
+    {
+      "command": "python -m tools.entropy_framework reuse --family lexical-denotation",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m tools.entropy_framework reuse --organization --summary",
+      "exit_code": 0
+    },
+    {
+      "command": "python tools/code_entropy.py --check --output /tmp/nabt-neural-code-entropy.json",
+      "exit_code": 0,
+      "boundary_passed": true
+    },
+    {
+      "command": "propose_lexical_evidence.py --verify with independently supplied text/root/target/model",
+      "exit_code": 0,
+      "report": "native_qalam.json"
+    }
+  ],
+  "training_replay": {
+    "predictions_equal": true,
+    "max_abs_weight_difference": 0.0,
+    "scope": "same local NumPy environment; not a cross-platform bitwise guarantee"
+  },
+  "formal_kernel_changed": false,
+  "release_make_check_run": false,
+  "general_python_lean_refinement_proved": false,
+  "remote_publication": {
+    "status": "BLOCKED",
+    "reason": "GitHub blob API returned 403 Resource not accessible by integration; git push dry run lacked credentials."
+  },
+  "limits": [
+    "Skipped full-suite tests remain unverified here; dedicated neural-senses gate has no skips.",
+    "Conditional Lean execution does not establish intended sense or independent interpretation fidelity."
+  ]
+}

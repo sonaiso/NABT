@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Rank pinned Maqayis evidence for a prose gloss; never license a meaning.
+"""Rank source evidence or installed senses for a gloss; never license a meaning.
 
-If the root is already known, use an exact dictionary index instead. The
-default stays lexical cosine because neither training run established a win.
+Dictionary-entry retrieval defaults to lexical cosine. Optional sense mode
+requires an explicit root and retains every installed sense for native replay.
 """
 import argparse
 import json
@@ -13,6 +13,15 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools.lexical_training.data import ROOT,paired_data,normalize,digest,MAQAYIS_SHA,MAQAYIS_REV
 
 def main(a):
+    if getattr(a,'sense_model',None) is not None:
+        if a.lisan is not None or a.experimental_weights is not None:
+            raise ValueError('sense mode cannot be mixed with dictionary-entry mode')
+        from tools.lexical_training.senses import propose
+        return propose(a.text,a.root,a.sense_model,a.target)
+    if a.lisan is None:
+        raise ValueError('--lisan is required for dictionary-entry retrieval')
+    if getattr(a,'root',None) is not None or getattr(a,'target',[]):
+        raise ValueError('--root/--target require --sense-model')
     import numpy as np
     from tools.lexical_training.model import encode
     import torch
@@ -51,6 +60,24 @@ def main(a):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--text',required=True)
-    p.add_argument('--lisan',type=Path,required=True);p.add_argument('--top-k',type=int,default=5)
+    p.add_argument('--lisan',type=Path);p.add_argument('--top-k',type=int,default=5,help='dictionary-entry mode only; sense mode retains every alternative')
     p.add_argument('--experimental-weights',type=Path)
-    print(json.dumps(main(p.parse_args()),ensure_ascii=False,indent=2))
+    p.add_argument('--sense-model',type=Path,help='optional text-to-sense ranker; retains every installed root sense')
+    p.add_argument('--root',help='explicit dictionary root for sense mode; not inferred')
+    p.add_argument('--target',action='append',default=[],help='explicit component for the existing conditional Lean check')
+    p.add_argument('--verify',type=Path,help='replay a sense report against independently supplied text/root/target/model')
+    args=p.parse_args()
+    if args.verify is not None and args.sense_model is None:
+        p.error('--verify requires --sense-model')
+    result=main(args)
+    if args.verify is not None:
+        from tools.lexical_testimony import _strict_json
+        if args.verify.stat().st_size > 2_000_000:
+            p.error('report exceeds byte limit')
+        expected=_strict_json(args.verify.read_bytes())
+        if (json.dumps(expected,sort_keys=True,ensure_ascii=False,allow_nan=False)
+                != json.dumps(result,sort_keys=True,ensure_ascii=False,allow_nan=False)):
+            p.error('report differs from fresh replay')
+    print(json.dumps(result,ensure_ascii=False,indent=2))
+    if 'conditional_testimony' in result and not result['conditional_testimony']['native_checked']:
+        raise SystemExit(2)
