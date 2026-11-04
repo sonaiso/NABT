@@ -95,7 +95,7 @@ def apply(root, proposal):
             file.write_bytes(change["content"].encode("utf-8"))
             file.chmod(0o644)
     git(root, "add", "--", *(c["path"] for c in proposal["changes"]))
-    actual = set(filter(None, git(root, "diff", "--cached", "--name-only", "-z").decode().split("\0")))
+    actual = set(filter(None, git(root, "diff", "--cached", "--no-renames", "--name-only", "-z").decode().split("\0")))
     require(actual == {c["path"] for c in proposal["changes"]}, "TREE_DRIFT", "staged scope differs from proposal")
     return snapshot(root)
 

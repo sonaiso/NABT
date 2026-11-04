@@ -42,6 +42,9 @@ def plan(task, proposal, *, root=ROOT):
     repository.validate_before(root, proposal)
     inventory = inspect(root)
     paths = sorted(c["path"] for c in proposal["changes"])
+    protected = {p for family in inventory["families"] for p in family["checker_paths"]}
+    require(not (set(paths) & protected), "PROTECTED_PATH",
+            "proposals cannot replace registered acceptance checkers: " + ", ".join(sorted(set(paths) & protected)))
     owners, selected = {}, []
     for relative in paths:
         owners[relative] = []

@@ -45,7 +45,7 @@ class PolicyTests(unittest.TestCase):
 
     def test_protects_policy_witnesses_and_existing_tests(self):
         for relative in ("tools/repo_agent/policy.py", "tools/entropy_framework/registry.json", "tools/check_integrity.py",
-                         "src/nabt/data/table.json", "tests/test_existing.py", "evidence/gold.json", "Makefile", "AGENTS.md", ".github/workflows/ci.yml"):
+                         "tools/meaning_preservation_v1.mk", "src/nabt/data/table.json", "tests/test_existing.py", "evidence/gold.json", "Makefile", "AGENTS.md", ".github/workflows/ci.yml"):
             with self.subTest(path=relative), self.assertRaises(policy.AgentError) as error:
                 policy.validate(*inputs("a" * 40, relative))
             self.assertEqual(error.exception.code, "PROTECTED_PATH")
@@ -91,6 +91,24 @@ class PolicyTests(unittest.TestCase):
         self.assertLess([c["id"] for c in checks].index("native-build"), [c["id"] for c in checks].index("runtime"))
         self.assertTrue({"runtime", "integrity", "learned-conformance"} <= {c["id"] for c in checks})
 
+    def test_mapped_kernel_still_requires_formal_conformance_and_axiom_gates(self):
+        family = {"id": "transition-law", "native_targets": ["exportTable"], "runtime_paths": ["src/nabt/machine.py"], "checker_paths": [], "test_paths": []}
+        checks = policy.checks(["src/nabt/machine.py"], [family], root=manager.ROOT)
+        self.assertTrue({"formal", "conformance", "axioms"} <= {c["id"] for c in checks})
+
+    def test_productive_adapter_uses_installed_native_required_chain(self):
+        for identity in ("meaning-preservation", "evidence-lifecycle", "licensed-inference"):
+            family = {"id": identity, "native_targets": ["meaningPreservationV1"], "runtime_paths": ["tools/meaning_preservation_v1.py"], "checker_paths": [], "test_paths": []}
+            checks = policy.checks(["tools/meaning_preservation_v1.py"], [family], root=manager.ROOT)
+            integration = next(c for c in checks if c["id"] == "productive-native-integration")
+            self.assertEqual(integration["argv"][:5], ["make", "-f", "tools/meaning_preservation_v1.mk", "meaning-preservation-conformance", "PYTHON=" + sys.executable])
+        # Independent prerequisite oracle against the existing recipes, not a
+        # second dependency graph manufactured by the controller.
+        recipe = (manager.ROOT / "tools/meaning_preservation_v1.mk").read_text()
+        self.assertIn("NABT_REQUIRE_MEANING_PRESERVATION_NATIVE=1", recipe)
+        self.assertIn("meaning-preservation-native: evidence-lifecycle-evaluation", recipe)
+        self.assertIn("include tools/evidence_lifecycle_v1.mk", recipe)
+
     def test_installed_entry_has_no_implicit_publication_authority(self):
         self.assertEqual(entry_command("repo-agent", ["inspect"])[-2:], ["tools.repo_agent", "inspect"])
         self.assertIn("no linguistic or publication authority", describe_entries()["repo-agent"]["scope"])
@@ -113,6 +131,7 @@ class GitTaskTests(unittest.TestCase):
         repository.git(self.root, "init", "-q")
         files = {"AGENTS.md": "Use existing owners.\n", ".gitignore": "artifacts/local/\n__pycache__/\n",
                  "docs/guide.md": "before\n", "tools/__init__.py": "", "tools/entropy_framework/__init__.py": "",
+                 "tools/export_probe.py": "# registered checker\n",
                  "tools/entropy_framework/__main__.py": "from pathlib import Path\nimport sys\np=Path('docs/guide.md')\ns=p.read_text() if p.exists() else ''\nif s=='MUTATE': p.write_text('unexpected')\nprint('fixture reuse process, not a formal checker')\nsys.exit(9 if s=='FAIL' else 0)\n"}
         for relative, content in files.items():
             file = self.root / relative
@@ -158,6 +177,39 @@ class GitTaskTests(unittest.TestCase):
         report = self.run_task()
         self.assertEqual(report["status"], "READY_FOR_REVIEW")
         self.assertEqual((Path(report["worktree"]) / "docs/example[1].md").read_text(), "literal path\n")
+
+    def test_empty_and_whitespace_replacements_preserve_files(self):
+        for index, content in enumerate(("", " \n")):
+            self.proposal["changes"][0]["content"] = content
+            self.output = self.root / "artifacts/local/repo-agent" / ("empty-" + str(index))
+            report = self.run_task()
+            # Whitespace-only content is valid input; the existing diff gate
+            # can still reject trailing whitespace as its own engineering rule.
+            self.assertIn(report["status"], ("READY_FOR_REVIEW", "CHECKS_FAILED"))
+            candidate = Path(report["worktree"]) / "docs/guide.md"
+            self.assertTrue(candidate.is_file())
+            self.assertEqual(candidate.read_text(), content)
+        task, proposal = inputs(self.base, "docs/empty.md", None, "")
+        result = manager.run(task, proposal, root=self.root, output_dir=self.output.parent / "empty-new")
+        self.assertEqual(result["status"], "READY_FOR_REVIEW")
+        self.assertEqual((Path(result["worktree"]) / "docs/empty.md").read_bytes(), b"")
+
+    def test_rename_detection_does_not_hide_the_deleted_path(self):
+        self.task, self.proposal = inputs(self.base, content=None)
+        self.task["allowed_paths"].append("docs/moved.md")
+        self.proposal["changes"].append({"path": "docs/moved.md", "before_sha256": None, "content": "before\n"})
+        result = self.run_task()
+        self.assertEqual(result["status"], "READY_FOR_REVIEW")
+        self.assertFalse((Path(result["worktree"]) / "docs/guide.md").exists())
+        self.assertEqual((Path(result["worktree"]) / "docs/moved.md").read_text(), "before\n")
+
+    def test_registered_checker_is_protected_without_a_check_filename_prefix(self):
+        self.task, self.proposal = inputs(self.base, "tools/export_probe.py", b"# registered checker\n", "print('passed')\n")
+        manager.build_reuse_report.return_value["families"] = [{"checker_paths": ["tools/export_probe.py"]}]
+        with self.assertRaises(policy.AgentError) as error:
+            self.run_task()
+        self.assertEqual(error.exception.code, "PROTECTED_PATH")
+        self.assertFalse(self.output.exists())
 
     def test_stale_base_and_bytes_never_create_a_worktree(self):
         self.task["base_commit"] = self.proposal["base_commit"] = "a" * 40

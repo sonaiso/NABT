@@ -35,8 +35,8 @@ def canonical(value):
                       separators=(",", ":"), allow_nan=False).encode("utf-8")
 
 
-def text(value, label, maximum=8192):
-    require(type(value) is str and bool(value.strip()) and "\x00" not in value,
+def text(value, label, maximum=8192, *, allow_empty=False):
+    require(type(value) is str and (allow_empty or bool(value.strip())) and "\x00" not in value,
             "INVALID_INPUT", label + " must be nonempty scalar text")
     try:
         size = len(value.encode("utf-8", "strict"))
@@ -109,12 +109,13 @@ def validate(task, proposal):
         require(content is None or type(content) is str, "INVALID_INPUT", "content must be text or deletion")
         if content is not None:
             # Empty files are allowed; arbitrary control NUL and surrogates are not.
-            text(content or " ", "replacement", MAX_TEXT)
+            text(content, "replacement", MAX_TEXT, allow_empty=True)
         require(before is not None or content is not None, "INVALID_INPUT", "cannot delete an absent file")
         require(relative.startswith(("docs/", "src/nabt/", "tools/", "tests/", "examples/", "formal/Nabt/")),
                 "PROTECTED_PATH", "path requires the external review workflow: " + relative)
         protected = relative.startswith(("tools/repo_agent/", "tools/entropy_framework/", "tools/check_",
                                           "src/nabt/data/")) or relative in ("tools/proof_catalog.py",)
+        protected |= relative.endswith(".mk")
         protected |= relative.startswith("tests/") and before is not None
         require(not protected, "PROTECTED_PATH", "automatic changes cannot replace acceptance inputs: " + relative)
         if relative.startswith("tests/"):
@@ -138,6 +139,14 @@ def checks(paths, families, *, root):
     targets = sorted({t for f in families for t in f["native_targets"]})
     if targets:
         result.append({"id": "native-build", "argv": ["lake", "build", *targets], "cwd": "formal", "timeout": 1200})
+    # The installed recipe owns the prerequisite chain and native-required flags.
+    # A single family's native target is not a complete adapter integration.
+    productive_chain = {"aligned-acquisition", "sourced-acquisition", "productive-clause",
+                        "evidence-lifecycle", "meaning-preservation", "licensed-inference", "linguistic-truth"}
+    if any(f.get("id") in productive_chain for f in families):
+        result.append({"id": "productive-native-integration",
+                       "argv": ["make", "-f", "tools/meaning_preservation_v1.mk", "meaning-preservation-conformance", "PYTHON=" + python],
+                       "cwd": ".", "timeout": 1800})
     owner_tests = sorted({p[:-3].replace("/", ".") for f in families for p in f["test_paths"]
                           if re.fullmatch(r"tests/test_[A-Za-z0-9_]+\.py", p)})
     if owner_tests:
@@ -149,7 +158,7 @@ def checks(paths, families, *, root):
         {"id": "learned-conformance", "argv": entry_command("learned-conformance", ["--check"], root=root), "cwd": ".", "timeout": 120},
     ])
     owned = {p for f in families for k in ("runtime_paths", "checker_paths", "test_paths") for p in f[k]}
-    if any(p.startswith("formal/") or p not in owned for p in code):
+    if any(p.startswith(("formal/", "src/nabt/")) or p not in owned for p in code):
         result.extend({"id": name, "argv": ["make", name, "PYTHON=" + python], "cwd": ".", "timeout": 1200}
                       for name in ("formal", "conformance", "axioms"))
     return result
