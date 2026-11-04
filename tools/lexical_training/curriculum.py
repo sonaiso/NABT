@@ -11,6 +11,7 @@ from pathlib import Path
 from tools.arabic_training import madlul_matrix, sign_curriculum
 from tools.entropy_framework.reuse import current_catalog
 from tools.meaning_preservation_inventory import research_inventory
+from .reasoning_curriculum import matrix as reasoning_matrix
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -71,6 +72,7 @@ def curriculum():
     return {"schema": "nabt.cross-matrix-curriculum.v1", "authority": "CURRICULUM_AND_SOURCE_MAP",
             "sign_matrix": signs, "denotatum_matrix": denotata, "research_inventory": research,
             "requested_axes": axes, "requested_axis_count": len(axes),
+            "reasoning_curriculum": reasoning_matrix(compiled=compiled),
             "current_training": {"input": "source quotation, no supplied root or target",
                 "targets": ["installed sense identity", "definition component identity"],
                 "trained_axes": ["dictionary_designation", "definition_parts"],

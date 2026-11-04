@@ -9,3 +9,13 @@ source-learning-connection:
 	NABT_REQUIRE_CONNECTION_NATIVE=1 $(PYTHON) -m unittest discover -s tests -p test_source_learning_connection.py -v
 	$(PYTHON) -m tools.source_learning_connection --request examples/source_learning_connection/request.json --output $(EVIDENCE_DIR)/connection.json
 	$(PYTHON) -m tools.source_learning_connection --request examples/source_learning_connection/request.json --verify $(EVIDENCE_DIR)/connection.json --output $(EVIDENCE_DIR)/replay.json
+
+.PHONY: cognitive-teaching
+cognitive-teaching:
+	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe evidenceLifecycleV1 epistemicMeasurement
+	NABT_REQUIRE_COGNITIVE_NATIVE=1 $(PYTHON) -m unittest tests.test_cognitive_teaching -v
+	$(PYTHON) -m tools.lexical_training.curriculum --output $(EVIDENCE_DIR)/curriculum.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --output $(EVIDENCE_DIR)/learning.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --verify $(EVIDENCE_DIR)/learning.json --output $(EVIDENCE_DIR)/learning-replay.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/qualified.json --output $(EVIDENCE_DIR)/qualified.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/epistemic.json --output $(EVIDENCE_DIR)/epistemic.json

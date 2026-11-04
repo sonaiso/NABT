@@ -1,0 +1,53 @@
+{
+  "schema": "nabt.cognitive-lesson.v1",
+  "lesson_id": "condition-and-blocker",
+  "domain_id": "usul",
+  "matrix_id": "condition",
+  "adapter": "qualified_inference",
+  "payload": {
+    "source_text": "سالم هو سبب.\nسالم هو شرط.\nليس سالم هو مانع.\nإذا سالم هو سبب و سالم هو شرط و ليس سالم هو مانع فإن سالم هو نتيجة.\n",
+    "query_text": "هل سالم هو نتيجة؟\n",
+    "source_id": "authored_guard",
+    "revision": "1",
+    "scope": "declared_source",
+    "context": "authored",
+    "time": "unspecified",
+    "plan": {
+      "schema": "nabt.mantuq-source-plan.v1",
+      "policy_id": "guarded_cause",
+      "requirements": [
+        {
+          "slot": "cause",
+          "atom": {
+            "predicate": "سبب",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "slot": "condition",
+          "atom": {
+            "predicate": "شرط",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": true
+          }
+        },
+        {
+          "slot": "blockerAbsence",
+          "atom": {
+            "predicate": "مانع",
+            "arguments": [
+              "سالم"
+            ],
+            "positive": false
+          }
+        }
+      ],
+      "bridge_clause": "c3"
+    }
+  }
+}
