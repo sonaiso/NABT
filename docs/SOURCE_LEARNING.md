@@ -275,3 +275,13 @@ forged labels and bindings, unknown states, ambiguity, schema collisions,
 evidence withdrawal, resource deferral and isolated archive-resource loading.
 The experiment reports actual source records and bounded learning behavior;
 it does not report general Arabic accuracy or independent test-set coverage.
+
+## Operational connection
+
+The `tools.source_learning_connection` adapter accepts `--request PATH` and
+`--verify RECEIPT`. It acquires observations from new controlled-language source
+texts, retains candidate/adoption distinctions, checks native ground inference,
+and replays all minimal source support sets through EvidenceLifecycleV1.
+See [the acceptance contract and Arabic instructions](ACQUIRED_KNOWLEDGE_CONNECTION_AR.md).
+The historical pinned six-noun experiment remains unchanged; its results are
+not relabelled as new acquisition. The adapter reuses its learner's owner.
