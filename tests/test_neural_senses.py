@@ -14,6 +14,11 @@ HAS_NUMPY=importlib.util.find_spec('numpy') is not None
 
 
 class IntegrationIdentityTests(unittest.TestCase):
+    def test_frozen_oracle_dependencies_remain_valid(self):
+        from tools.interpretive_links_regression import check_dependencies
+        snapshot=check_dependencies()
+        self.assertTrue(snapshot['files'])
+
     def test_shared_features_preserve_original_retriever_encoding(self):
         from tools.lexical_training.features import features
         # Golden output from the pre-change retriever at 71e74400c620.
