@@ -151,3 +151,6 @@ lean_exe evidenceLifecycleV1 where
 
 lean_exe meaningPreservationV1 where
   root := `MeaningPreservationV1Main
+
+lean_exe groundedPassage where
+  root := `GroundedPassageMain

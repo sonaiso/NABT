@@ -13,6 +13,7 @@ from pathlib import Path
 from tools import evidence_lifecycle_v1 as wire_owner
 from tools import source_learning_connection, epistemic_measurement
 from tools.mantuq_inference import source_bound
+from . import grounded_passage
 from . import reasoning_curriculum as curriculum
 
 SCHEMA = "nabt.cognitive-lesson.v1"
@@ -25,9 +26,13 @@ def _fields(value, names, label):
     wire_owner._fields(value, names, label)
 
 
-def _identity():
+def _identity(adapter=None):
     paths = ("tools/lexical_training/teaching.py", "tools/lexical_training/reasoning_curriculum.py",
              curriculum.REVIEW)
+    if adapter == "grounded_passage":
+        paths += ("tools/lexical_training/grounded_passage.py", "formal/GroundedPassageMain.lean",
+                  "formal/Nabt/GroundedPassage.lean",
+                  "tools/connected_acquisition_v3.py")
     return {p: hashlib.sha256((curriculum.ROOT / p).read_bytes()).hexdigest() for p in paths}
 
 
@@ -69,6 +74,10 @@ def _learning_measurements(owner):
 def _next(owner, adapter, measured):
     if not measured:
         return {"action": "RESOLVE_OWNER_OBLIGATION", "basis": "/owner_result/status"}
+    if adapter == "grounded_passage":
+        missing = [key for key, answer in owner["answers"].items() if answer["status"] == "UNKNOWN"]
+        if missing:
+            return {"action": "ACQUIRE_PASSAGE_EVIDENCE", "questions": missing, "basis": "/owner_result/answers"}
     if adapter == "source_learning":
         last = owner["history"][-1]["learning"]
         pointer = "/owner_result/history/" + str(len(owner["history"]) - 1) + "/learning"
@@ -91,10 +100,12 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
+    # Choose from installed identity sets before validation; freeze once.
+    adapter = lesson.get("adapter") if type(lesson) is dict else None
     result = {"schema": RESULT_SCHEMA, "status": "INVALID_INPUT", "request": None,
               "routing_policy_id": curriculum.ROUTING_POLICY,
               "execution_measured": False, "owner_result": None, "measurements": None,
-              "next_step": None, "curriculum_identity": _identity(),
+              "next_step": None, "curriculum_identity": _identity(adapter),
               "limits": {"matrix_complete": False, "domain_expertise_certified": False,
                          "world_truth_established": False, "action_authority": "NONE",
                          "empirical_causality_established": False,
@@ -110,7 +121,12 @@ def run_lesson(lesson):
                           "obligation_ar": matrix[4]})
             return result
         payload, adapter = lesson["payload"], lesson["adapter"]
-        if adapter == "source_learning":
+        if adapter == "grounded_passage":
+            owner = grounded_passage.evaluate(payload)
+            measured = owner["native_checked"] and owner["acquisition_checks_available"]
+            measurements = {"mode": "SOURCE_BOUND_SAMPLED_PASSAGE", "trace_pointer": "/owner_result/answers",
+                            "learner_trained": False}
+        elif adapter == "source_learning":
             owner = source_learning_connection.evaluate(payload)
             measured = owner.get("chain_complete") is True
             measurements = _learning_measurements(owner)
@@ -143,7 +159,7 @@ def run_lesson(lesson):
                             "trace_pointer": "/owner_result/execution"}
         result.update(status=owner["status"], execution_measured=measured, owner_result=owner,
                       measurements=measurements, next_step=_next(owner, adapter, measured))
-        if result["curriculum_identity"] != _identity():
+        if result["curriculum_identity"] != _identity(adapter):
             raise ValueError("Curriculum changed during execution")
         wire_owner._encoded(result, MAX_RESULT_BYTES)
     except wire_owner.ResourceLimit as error:

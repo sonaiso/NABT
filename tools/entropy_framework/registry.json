@@ -2577,7 +2577,8 @@
           "Nabt.VerifiedReading",
           "Nabt.ReadingEnumeration",
           "Nabt.SourceSemantics",
-          "Nabt.QatrReading"
+          "Nabt.QatrReading",
+          "Nabt.GroundedPassage"
         ],
         "runtime_paths": [
           "src/nabt/semantics.py",
@@ -2589,12 +2590,14 @@
           "tools/train_certificate_ranker_v2.py",
           "tools/source_learning_connection.py",
           "tools/lexical_training/teaching.py",
-          "tools/lexical_training/reasoning_curriculum.py"
+          "tools/lexical_training/reasoning_curriculum.py",
+          "tools/lexical_training/grounded_passage.py"
         ],
         "native_targets": [
           "verifiedReading",
           "classicalSemanticProbe",
-          "qatrReading"
+          "qatrReading",
+          "groundedPassage"
         ],
         "entrypoint_ids": [
           "explainable-pilot",
@@ -2606,7 +2609,8 @@
         ],
         "checker_paths": [
           "tools/check_qualified_inference.py",
-          "tools/source_learning_connection.py"
+          "tools/source_learning_connection.py",
+          "formal/GroundedPassageMain.lean"
         ],
         "test_paths": [
           "tests/test_semantics.py",
@@ -2616,7 +2620,8 @@
           "tests/test_explainable_pilot.py",
           "tests/test_explainable_contracts.py",
           "tests/test_source_learning_connection.py",
-          "tests/test_cognitive_teaching.py"
+          "tests/test_cognitive_teaching.py",
+          "tests/test_grounded_passage.py"
         ],
         "doc_paths": [
           "docs/SEMANTICS.md",
@@ -3001,14 +3006,16 @@
         "runtime_paths": [
           "tools/connected_acquisition_v3.py",
           "tools/acquired_person_nominal_v3.py",
-          "tools/natural_acquisition_v3.py"
+          "tools/natural_acquisition_v3.py",
+          "tools/lexical_training/grounded_passage.py"
         ],
         "native_targets": [
           "connectedAcquisitionV3",
           "acquiredSyntaxV3"
         ],
         "entrypoint_ids": [
-          "sourced-acquisition"
+          "sourced-acquisition",
+          "cognitive-teaching"
         ],
         "checker_paths": [
           "tools/check_sourced_acquisition_links.py"
@@ -3016,11 +3023,13 @@
         "test_paths": [
           "tests/test_connected_acquisition_v3.py",
           "tests/test_acquired_person_nominal_v3.py",
-          "tests/test_natural_acquisition_v3.py"
+          "tests/test_natural_acquisition_v3.py",
+          "tests/test_grounded_passage.py"
         ],
         "doc_paths": [
           "docs/SOURCED_ACQUISITION_V3_ARCHITECTURE.md",
-          "docs/SOURCED_ACQUISITION_V3_SPEC.md"
+          "docs/SOURCED_ACQUISITION_V3_SPEC.md",
+          "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md"
         ],
         "scope": "Versioned source conventions bind connected realization, grammatical person, finite nominal frames and natural lexical candidates to their original passages.",
         "open_debts": [
