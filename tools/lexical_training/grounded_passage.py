@@ -58,7 +58,7 @@ def _read_message(row, query, digest):
         inspected.append({"message_bytes": byte_span, "reading": reading})
         if reading["status"] in {"RESOURCE_EXHAUSTED", "RESOURCE_LIMIT"}:
             return None, {"status": "RESOURCE_LIMIT", "reason": "OWNER_CHECK_FAILED", "parts": inspected}
-        if not reading["verified"]:
+        if not reading["verified"] or reading["status"] == "SHAPE_CHECK_FAILED":
             return None, {"status": reading["status"], "reason": "OWNER_CHECK_FAILED", "parts": inspected}
         if not reading["shape_verified"]:
             return None, {"status": "DEFER", "reason": "UNLICENSED_NOTICE_SHAPE", "parts": inspected}

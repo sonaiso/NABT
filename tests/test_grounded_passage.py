@@ -147,6 +147,25 @@ class GroundedPassageTests(unittest.TestCase):
             r["payload"]["active"].remove("notice")
             self.assertEqual(self.result(r)["crossing"]["status"], "SUPPORTED")
 
+    def test_shape_checker_failure_is_not_a_measured_deferral(self):
+        r = lesson()
+        failure = {"verified": True, "shape_verified": False, "status": "SHAPE_CHECK_FAILED"}
+        with patch.object(g.acquisition, "read_acquired", return_value=failure):
+            report = t.run_lesson(r)
+            self.assertFalse(report["execution_measured"])
+            self.assertFalse(t.verify_lesson(report, expected_lesson=r)["valid"])
+            answers = report["owner_result"]["answers"]
+            self.assertEqual(answers["permission_endpoint"]["status"], "SHAPE_CHECK_FAILED")
+            self.assertEqual(answers["crossing"]["status"], "SUPPORTED")
+
+    def test_curriculum_drift_during_validation_rejects_measured_result(self):
+        identities = [{"test_file":"before"}, {"test_file":"after"}, {"test_file":"after"}]
+        with patch.object(t, "_identity", side_effect=identities):
+            report = t.run_lesson(lesson())
+        self.assertEqual(report["status"], "INVALID_INPUT")
+        self.assertFalse(report["execution_measured"])
+        self.assertIn("changed during execution", report["error"])
+
     def test_schema_and_internal_native_wire(self):
         for bad in (True, 2.5):
             r = lesson()

@@ -100,10 +100,12 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
+    # Choose from installed identity sets before validation; freeze once.
+    adapter = lesson.get("adapter") if type(lesson) is dict else None
     result = {"schema": RESULT_SCHEMA, "status": "INVALID_INPUT", "request": None,
               "routing_policy_id": curriculum.ROUTING_POLICY,
               "execution_measured": False, "owner_result": None, "measurements": None,
-              "next_step": None, "curriculum_identity": _identity(),
+              "next_step": None, "curriculum_identity": _identity(adapter),
               "limits": {"matrix_complete": False, "domain_expertise_certified": False,
                          "world_truth_established": False, "action_authority": "NONE",
                          "empirical_causality_established": False,
@@ -113,7 +115,6 @@ def run_lesson(lesson):
                          "neural_training_performed": False}}
     try:
         matrix = _validate(lesson)
-        result["curriculum_identity"] = _identity(lesson["adapter"])
         result["request"] = deepcopy(lesson)
         if lesson["adapter"] not in matrix[3]:
             result.update(status="DEFER", next_step={"action": "IMPLEMENT_ACQUISITION_CONTRACT",
