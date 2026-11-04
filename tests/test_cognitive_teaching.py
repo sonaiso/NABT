@@ -65,6 +65,14 @@ class CurriculumTests(unittest.TestCase):
         self.assertFalse(any(r["learning_complete"] for r in rows.values()))
         files = {r["library_file_id"] for r in result["source_review"]["passages"]}
         self.assertEqual(len(files), 4)
+        self.assertEqual(result["routing_policy_id"], "nabt.cognitive-evidence-routing.v2")
+        self.assertEqual(result["domain_role"], "CURRICULUM_CONTEXT_NOT_EVIDENCE_AUTHORITY")
+        self.assertTrue(all(set(r["runtime_adapters"]) == t.ADAPTERS for r in result["domains"]))
+        foundation = result["shared_foundation"]
+        self.assertFalse(foundation["facts_or_axioms_created"])
+        self.assertEqual({r["id"] for r in foundation["rows"]},
+                         {"existence", "designation", "kind_nature", "property", "spatial_relation",
+                          "temporal_relation", "change", "causal_relation"})
 
     def test_targets_and_checker_commands_cannot_be_injected(self):
         for key in ("answer", "label", "features", "checker", "expected", "expertise_certified"):
@@ -74,12 +82,6 @@ class CurriculumTests(unittest.TestCase):
                 run.assert_not_called()
         request = lesson(); request["payload"]["label"] = True
         self.assertEqual(t.run_lesson(request)["status"], "INVALID_INPUT")
-
-    def test_domain_does_not_transfer_usuli_license_into_physics(self):
-        request = qualified(); request["domain_id"] = "empirical_science"
-        with patch.object(t.source_bound, "evaluate_source") as run:
-            self.assertEqual(t.run_lesson(request)["status"], "INVALID_INPUT")
-            run.assert_not_called()
 
     def test_cause_cannot_be_relabelled_illah_or_fahwa(self):
         for identity in ("illah", "origin", "fahwa", "lahn"):
@@ -125,6 +127,80 @@ class CurriculumTests(unittest.TestCase):
 
 @unittest.skipUnless(READY, "build cognitive lesson native owners")
 class NativeLessonTests(unittest.TestCase):
+    def test_prior_evidence_is_reusable_across_domains_without_promoting_authority(self):
+        request = json.loads((ROOT / "examples/cognitive_teaching/world_prior.json").read_text())
+        first = None
+        for identity, *_ in c.DOMAINS:
+            with self.subTest(domain=identity):
+                request["domain_id"] = identity
+                result = t.run_lesson(request)
+                self.assertEqual(result["status"], "SUPPORTED", result)
+                self.assertTrue(result["execution_measured"])
+                self.assertTrue(result["owner_result"]["conditional_consequence"])
+                self.assertFalse(result["limits"]["world_truth_established"])
+                self.assertFalse(result["limits"]["empirical_causality_established"])
+                self.assertFalse(result["limits"]["domain_label_grants_authority"])
+                if first is None:
+                    first = result["owner_result"]
+                else:
+                    self.assertEqual(result["owner_result"], first)
+
+    def test_world_priors_require_their_witness_and_causal_bridge(self):
+        request = json.loads((ROOT / "examples/cognitive_teaching/world_prior.json").read_text())
+        missing = deepcopy(request)
+        missing["payload"]["source_text"] = missing["payload"]["source_text"].replace("عينة هو موجودة.\n", "")
+        missing["payload"]["plan"]["bridge_clause"] = "c6"
+        result = t.run_lesson(missing)
+        self.assertEqual(result["status"], "UNKNOWN", result)
+        self.assertFalse(result["owner_result"]["conditional_consequence"])
+        # Every described property, including adjacency/order, remains present.
+        # With no attested transfer rule the role labels cannot supply a bridge.
+        request["payload"]["source_text"] = '\n'.join(request["payload"]["source_text"].splitlines()[:-1]) + '\n'
+        request["payload"]["plan"]["bridge_clause"] = None
+        result = t.run_lesson(request)
+        self.assertEqual(result["status"], "UNKNOWN", result["owner_result"]["reason"])
+        self.assertFalse(result["owner_result"]["conditional_consequence"])
+        self.assertEqual(result["next_step"]["action"], "ACQUIRE_SOURCE_BOUND_RELATION")
+        self.assertEqual(result["owner_result"]["conditional_result"]["readings"][0]["reason"], "BRIDGE_MISSING")
+        text = request["payload"]["source_text"]
+        for changed_text, status in ((text + "ليس عينة هو قابلة.\n", "CONFLICT"),
+                                     (text.replace("عينة هو قابلة.\n", "ليس عينة هو قابلة.\n"), "REFUTED"),
+                                     (text.replace("عينة هو قابلة.\n", ""), "UNKNOWN"),
+                                     (text + "ليس عينة هو متمددة.\n", "UNKNOWN")):
+            with self.subTest(source=changed_text, status=status):
+                changed = deepcopy(request)
+                changed["payload"]["source_text"] = changed_text
+                blocked = t.run_lesson(changed)
+                self.assertEqual(blocked["status"], status)
+                self.assertFalse(blocked["owner_result"]["conditional_consequence"])
+                self.assertEqual(blocked["next_step"]["action"], "ASSESS_CONTRAST_AND_WITHDRAWAL")
+
+    def test_empirical_domain_retains_acquired_learning_and_withdrawal(self):
+        request = lesson(); request["domain_id"] = "empirical_science"
+        result = t.run_lesson(request)
+        self.assertTrue(result["execution_measured"], result)
+        self.assertEqual([s["status"] for s in result["measurements"]["steps"]],
+                         ["SUPPORTED", "SUPPORTED", "SUPPORTED", "UNKNOWN", "SUPPORTED"])
+
+    def test_observation_identity_time_place_and_kind_are_not_domain_labels(self):
+        rows = json.loads((ROOT / "evidence/epistemic_measurement_v1/reference.json").read_text())["cases"]
+        case = next(r for r in rows if r["expected"]["status"] == "SUPPORTED"
+                    and r["input"]["query"]["key"]["axis"] == "recorded_observation")
+        request = {"schema": t.SCHEMA, "lesson_id": "qualified-observation", "domain_id": "usul",
+                   "matrix_id": "cognitive_concept", "adapter": "epistemic_ledger",
+                   "payload": {"source_profile": case["source_profile"], "input": case["input"]}}
+        supported = t.run_lesson(request)
+        self.assertEqual(supported["status"], "SUPPORTED", supported)
+        for field, value in (("entity", "other:entity"), ("time", "99999"), ("place", "other:place")):
+            changed = deepcopy(request)
+            changed["payload"]["input"]["query"]["key"][field] = value
+            result = t.run_lesson(changed)
+            self.assertEqual(result["status"], "UNKNOWN", result)
+        changed = deepcopy(request)
+        for evidence in changed["payload"]["input"]["interpretations"]:
+            evidence["kind"] = "lexical"
+        self.assertEqual(t.run_lesson(changed)["status"], "UNKNOWN")
+
     def test_new_occurrence_counterexample_and_independent_support(self):
         result = t.run_lesson(lesson())
         self.assertTrue(result["execution_measured"], result.get("error"))

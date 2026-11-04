@@ -13,6 +13,8 @@ from tools.entropy_framework.reuse import current_catalog
 
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW = "evidence/cognitive_curriculum_v1/source_review.json"
+ROUTING_POLICY = "nabt.cognitive-evidence-routing.v2"
+SHARED_ADAPTERS = ("source_learning", "qualified_inference", "epistemic_ledger")
 
 # id, label, installed owner modules, adapters, open acquisition obligation.
 MATRICES = (
@@ -35,7 +37,7 @@ MATRICES = (
     ("restricted", "المقيد", ("SourceSemantics", "QualifiedInference"), (),
      "هوية القيد ومتعلقه ووحدة الحكم والسبب حيث يشترط المصدر؛ لا نقل بين موضوعين"),
     ("cause", "السبب في المجال المحدد", ("QualifiedInference",), ("qualified_inference",),
-     "تعيين المجال؛ السبب الوضعي لا يثبت سببية تجريبية أو علة للقياس"),
+     "تعيين معنى السبب وموضوعه وشاهد علاقته؛ صلاحية استعمال الدليل بمضمونه ونطاقه لا باسم مجال مصدره"),
     ("condition", "الشرط", ("QualifiedInference",), ("qualified_inference", "source_learning"),
      "تمييز اللازم والكافي والشرط اللغوي والشرط الأصولي مع شواهد التطبيق"),
     ("blocker", "المانع", ("QualifiedInference", "EvidenceLifecycleV1"), ("qualified_inference",),
@@ -55,22 +57,50 @@ MATRICES = (
 )
 
 DOMAINS = (
-    ("communication", "التواصل والحقيقة اللغوية والعرفية", ("source_learning", "qualified_inference"),
+    ("communication", "التواصل والحقيقة اللغوية والعرفية", SHARED_ADAPTERS,
      "شاهد الوضع والاستعمال والمقام وهوية المعنى والمرجع"),
-    ("personal_relations", "العلاقات الشخصية", ("source_learning", "epistemic_ledger"),
+    ("personal_relations", "العلاقات الشخصية", SHARED_ADAPTERS,
      "فصل القول المنسوب والسلوك المشاهد والدافع الخفي؛ لا قراءة للنوايا"),
-    ("social_relations", "العلاقات الاجتماعية", ("source_learning", "epistemic_ledger"),
+    ("social_relations", "العلاقات الاجتماعية", SHARED_ADAPTERS,
      "الأشخاص والعلاقات والأفكار المنسوبة والأعراف والمؤسسات والزمن؛ التفسير ليس اعتمادًا معياريًا"),
-    ("world_knowledge", "الكون والإنسان والحياة ومعرفة العالم", ("source_learning", "epistemic_ledger"),
+    ("world_knowledge", "الكون والإنسان والحياة ومعرفة العالم", SHARED_ADAPTERS,
      "مصدر الخبر أو الملاحظة وهوية الشيء ومكانه وزمنه وحدود الثبوت"),
-    ("empirical_science", "العلم التجريبي", ("epistemic_ledger",),
+    ("empirical_science", "العلم التجريبي", SHARED_ADAPTERS,
      "المتغيرات والقياس والوحدات والمعايرة وعدم اليقين والتدخل والتكرار؛ لا سببية من التتابع"),
-    ("mathematics", "الرياضيات والتفكير الصوري", ("source_learning",),
+    ("mathematics", "الرياضيات والتفكير الصوري", SHARED_ADAPTERS,
      "المسلمات والأنواع والكم والاشتقاق؛ المسار الموصول هنا استدلال نصي مشروط لا برهان رياضي عام"),
-    ("epistemology", "نظرية المعرفة وتكوين الحكم", ("source_learning", "epistemic_ledger"),
+    ("epistemology", "نظرية المعرفة وتكوين الحكم", SHARED_ADAPTERS,
      "فصل التعريف والرأي والفرضية والدليل والتبني؛ تعريف العقل في المصدر ليس برهان وعي للآلة"),
-    ("usul", "دلالة الخطاب والقياس في نطاق المصدر", ("qualified_inference",),
+    ("usul", "دلالة الخطاب والقياس في نطاق المصدر", SHARED_ADAPTERS,
      "قواعد المصدر وسلطته ومناط التطبيق؛ لا تتحول النتيجة إلى إذن فعل"),
+)
+
+# Shared learning obligations, not new facts or axioms. Owners retain admission.
+FOUNDATION = (
+    ("existence", "وجود الشيء المعين", ("ThinkingRules", "RationalInquiry", "EpistemicMeasurement"),
+     ("referent", "existence_witness", "source", "scope"),
+     "الحكم بوجود معين يحتاج شاهده؛ وجود اسم أو تعريف جنس لا يولد فردا"),
+    ("designation", "التعيين والتمييز", ("UnitCarrier", "SourceSemantics", "PersonEvidence"),
+     ("occurrence", "referent", "comparison_axis", "context"),
+     "هوية الرمز وهوية المفهوم وهوية الشيء علاقات تحتاج ربطا؛ التجانس اللفظي لا يكفي"),
+    ("kind_nature", "الجنس وحقيقة الشيء", ("SourceSemantics", "Shakhsiyya1Rules", "ThinkingRules"),
+     ("kind", "definition", "instance", "membership_witness", "counterevidence"),
+     "تحفظ شواهد أفراد الجنس وتصور حقيقته؛ التعريف وحده لا يثبت تحقق المصداق"),
+    ("property", "الخواص والصفات والقابليات", ("SourceSemantics", "RuleLearning", "EpistemicMeasurement"),
+     ("bearer", "property", "value", "conditions", "witness"),
+     "تمييز خاصية الجنس من حالة الفرد ومن قابلية مشروطة؛ لا توريث بلا قاعدة مسندة"),
+    ("spatial_relation", "التجاور المكاني", ("SourceSemantics", "EpistemicMeasurement"),
+     ("left_referent", "right_referent", "spatial_frame", "relation", "time", "witness"),
+     "التجاور علاقة بين معينين في مرجع مكاني؛ مجاورة الرموز في النص لا تثبتها"),
+    ("temporal_relation", "التتابع الزماني", ("SourceSemantics", "DiscourseEvidence", "EpistemicMeasurement"),
+     ("first_event", "second_event", "time_frame", "order", "witness"),
+     "ترتيب الحدثين ومرجع الزمن يحتاجان شاهدا؛ ترتيب الجمل ليس ترتيب وقوع الأحداث"),
+    ("change", "التحول في الصفة", ("SourceSemantics", "QualifiedInference", "EpistemicMeasurement"),
+     ("bearer_identity", "property", "before_state", "after_state", "temporal_order", "comparison_bridge"),
+     "ربط هوية الحامل والصفة والحالتين وترتيبهما؛ فحص السجل لا يستحدث قانون تغير عام"),
+    ("causal_relation", "علاقة التأثير بشروطها", ("QualifiedInference", "ThinkingRules", "EpistemicMeasurement"),
+     ("cause", "effect", "relation_witness", "conditions", "blockers", "scope"),
+     "تستعمل العلاقة السابقة المسندة في المجالات الملائمة؛ التجاور أو التتابع وحده لا يمنح جسر التأثير"),
 )
 
 POLICY_MATRICES = {
@@ -118,11 +148,25 @@ def matrix(*, compiled=None):
                      "learning_record_fields": list(MATRIX_FIELDS[identity]),
                      "mapping_authority": "RELATED_SCOPE_NOT_WHOLE_MATRIX_PROOF",
                      "learning_complete": False})
+    foundation = []
+    for identity, label, owners, fields, debt in FOUNDATION:
+        names = ["Nabt." + name for name in owners]
+        if any(name not in modules for name in names):
+            raise ValueError("Unresolved shared knowledge owner: " + identity)
+        foundation.append({"id": identity, "label_ar": label, "owner_modules": names,
+                           "learning_record_fields": list(fields), "open_obligation_ar": debt,
+                           "mapping_authority": "RELATED_SCOPE_NOT_WHOLE_MATRIX_PROOF"})
     raw = (ROOT / REVIEW).read_bytes()
     review = json.loads(raw)
     if review["schema"] != "nabt.cognitive-curriculum-source-review.v1":
         raise ValueError("Unsupported source review")
     return {"schema": "nabt.cognitive-curriculum.v1", "authority": "CURRICULUM_ONLY",
+            "routing_policy_id": ROUTING_POLICY,
+            "domain_role": "CURRICULUM_CONTEXT_NOT_EVIDENCE_AUTHORITY",
+            "shared_foundation": {"authority": "PROJECT_METHOD_AND_LEARNING_OBLIGATIONS",
+                "world_reference": "World judgments require a reality referent and applicable evidence.",
+                "rows": foundation, "facts_or_axioms_created": False,
+                "admission_owner": "Existing source, inference and observation owners retain their exact checks."},
             "matrices": rows, "matrix_count": len(rows),
             "domains": [{"id": i, "label_ar": label, "runtime_adapters": list(adapters),
                          "evidence_contract_ar": debt, "expertise_certified": False}
