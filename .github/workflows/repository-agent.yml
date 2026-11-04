@@ -1,0 +1,56 @@
+name: NABT repository agent
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-repository-agent-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  task-control:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Exercise task, process and real Git boundaries
+        env:
+          PYTHONPATH: src
+        run: python -B -m unittest discover -s tests -p test_repository_agent.py -v
+      - name: Run the real reuse gates and fresh replay in separate worktrees
+        run: python examples/repo_agent/demo.py --output-dir artifacts/local/repo-agent/ci-demo
+      - name: Reject an actual codec fault through its existing owner tests
+        run: python examples/repo_agent/demo.py --counterexample --output-dir artifacts/local/repo-agent/ci-counterexample
+      - name: Retain task, plan, check logs and independent replay
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: repository-agent-evidence
+          path: |
+            artifacts/local/repo-agent/ci-demo/*.json
+            artifacts/local/repo-agent/ci-demo/candidate/*.json
+            artifacts/local/repo-agent/ci-demo/candidate/*.jsonl
+            artifacts/local/repo-agent/ci-demo/candidate/*.stdout
+            artifacts/local/repo-agent/ci-demo/candidate/*.stderr
+            artifacts/local/repo-agent/ci-demo/candidate/*.patch
+            artifacts/local/repo-agent/ci-demo/replay/*.json
+            artifacts/local/repo-agent/ci-demo/replay/*.jsonl
+            artifacts/local/repo-agent/ci-demo/replay/*.stdout
+            artifacts/local/repo-agent/ci-demo/replay/*.stderr
+            artifacts/local/repo-agent/ci-counterexample/*.json
+            artifacts/local/repo-agent/ci-counterexample/candidate/*.json
+            artifacts/local/repo-agent/ci-counterexample/candidate/*.jsonl
+            artifacts/local/repo-agent/ci-counterexample/candidate/*.stdout
+            artifacts/local/repo-agent/ci-counterexample/candidate/*.stderr
+          if-no-files-found: warn
+          retention-days: 14
