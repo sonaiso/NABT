@@ -153,6 +153,12 @@ class GitTaskTests(unittest.TestCase):
             self.assertEqual(report["status"], "READY_FOR_REVIEW")
             self.assertTrue((self.root / "docs/guide.md").is_file())
 
+    def test_file_scope_is_literal_even_for_brackets_in_filename(self):
+        self.task, self.proposal = inputs(self.base, "docs/example[1].md", None, "literal path\n")
+        report = self.run_task()
+        self.assertEqual(report["status"], "READY_FOR_REVIEW")
+        self.assertEqual((Path(report["worktree"]) / "docs/example[1].md").read_text(), "literal path\n")
+
     def test_stale_base_and_bytes_never_create_a_worktree(self):
         self.task["base_commit"] = self.proposal["base_commit"] = "a" * 40
         with self.assertRaises(policy.AgentError) as error:
@@ -281,6 +287,17 @@ class GitTaskTests(unittest.TestCase):
         with self.assertRaises(policy.AgentError) as error:
             manager.verify(self.output, self.task, self.proposal, root=self.root, output_dir=self.output.parent / "fresh")
         self.assertEqual(error.exception.code, "REPLAY_MISMATCH")
+
+    def test_saved_record_cannot_add_authority_or_undeclared_claims(self):
+        self.run_task()
+        original = policy.load(self.output / "state.json")
+        for field, value in (("publication_authority", "GRANTED"), ("semantic_authority", "PROVED"), ("arbitrary_claim", True)):
+            record = deepcopy(original)
+            record[field] = value
+            state.write_json(self.output / "state.json", record)
+            with self.subTest(field=field), self.assertRaises(policy.AgentError) as error:
+                manager.verify(self.output, self.task, self.proposal, root=self.root, output_dir=self.output.parent / field)
+            self.assertEqual(error.exception.code, "REPLAY_MISMATCH")
 
     def test_exported_patch_and_retained_inputs_are_checked(self):
         self.run_task()

@@ -11,7 +11,7 @@ from .policy import AgentError, MAX_INPUT, MAX_TEXT, canonical, digest, require
 def git(root, *args, data=None):
     env = {k: os.environ[k] for k in ("PATH", "SYSTEMROOT", "LANG", "LC_ALL", "TMPDIR", "TEMP", "TMP") if k in os.environ}
     try:
-        result = subprocess.run(["git", "-c", "core.hooksPath=/dev/null", *args], cwd=root,
+        result = subprocess.run(["git", "--literal-pathspecs", "-c", "core.hooksPath=/dev/null", *args], cwd=root,
                                 input=data, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                 timeout=60, check=False, env=env)
     except (OSError, subprocess.TimeoutExpired) as error:

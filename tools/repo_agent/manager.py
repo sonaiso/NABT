@@ -171,7 +171,10 @@ def verify(previous_dir, task, proposal, *, root=ROOT, output_dir):
     previous_dir = Path(previous_dir)
     old = policy.load(previous_dir / "state.json")
     expected_plan = plan(task, proposal, root=root)
-    require(type(old) is dict and old.get("schema") == SCHEMA
+    record_fields = {"schema", "plan", "checks", "candidate_tree", "candidate_snapshot", "candidate_commit",
+                     "candidate_ref", "worktree", "semantic_authority", "publication_authority", "event_tail", "status", "patch_sha256"}
+    require(type(old) is dict and set(old) == record_fields and old.get("schema") == SCHEMA
+            and old.get("semantic_authority") == "NONE" and old.get("publication_authority") == "NONE"
             and canonical(old.get("plan")) == canonical(expected_plan),
             "REPLAY_MISMATCH", "record does not match independent task, proposal and current policy")
     require(policy.load(previous_dir / "task.json") == task
@@ -209,9 +212,11 @@ def verify(previous_dir, task, proposal, *, root=ROOT, output_dir):
     require([(e["kind"], e["data"]) for e in events] == expected_events,
             "REPLAY_MISMATCH", "event transitions differ from completed plan")
     for expected, result in zip(expected_plan["checks"], old["checks"]):
-        require(all(result.get(k) == v for k, v in expected.items())
+        require(set(result) == set(expected) | {"status", "returncode", "logs"}
+                and all(result.get(k) == v for k, v in expected.items())
                 and result.get("status") == "PASSED" and type(result.get("returncode")) is int
-                and result["returncode"] == 0 and type(result.get("logs")) is dict,
+                and result["returncode"] == 0 and type(result.get("logs")) is dict
+                and set(result["logs"]) == {"stdout", "stderr"},
                 "REPLAY_MISMATCH", "recorded checks differ from required plan")
         for stream in ("stdout", "stderr"):
             path = previous_dir / (expected["id"] + "." + stream)
