@@ -67,3 +67,5 @@ jobs:
         run: |
           python tools/propose_lexical_evidence.py --text 'معرفة الشيء بالقلب' --lisan artifacts/local/ci/lisan.txt --top-k 3 > artifacts/local/ci/lexical-proposal.json
           python -c "import json,pathlib; r=json.load(open('artifacts/local/ci/lexical-proposal.json')); b=pathlib.Path('evidence/classical_language/sources/maqayis.txt').read_bytes(); assert r['authority']=='NONE' and not r['reading_licensed']; assert all(b[p['start_byte']:p['end_byte']].decode()==p['source_entry'] for p in r['proposals'])"
+      - name: Neural sense proposals retain every native interpretation
+        run: make -f Makefile -f integrations/neural_senses.mk neural-senses PYTHON=python LAKE="${{ runner.temp }}/nabt-qatr-tools/lean-4.34.1-linux/bin/lake"

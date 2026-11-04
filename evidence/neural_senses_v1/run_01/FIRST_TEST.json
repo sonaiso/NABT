@@ -1,0 +1,115 @@
+{
+  "schema": "nabt.neural-senses-evaluation.v1",
+  "authority": "NONE",
+  "parameters": 17010,
+  "training_rows": 36,
+  "catalogue_senses": 18,
+  "history": [
+    {
+      "step": 1,
+      "loss": 2.8890443777409875
+    },
+    {
+      "step": 100,
+      "loss": 0.000507538626960405
+    },
+    {
+      "step": 200,
+      "loss": 0.00027877675467699397
+    },
+    {
+      "step": 300,
+      "loss": 0.00018585077693459567
+    },
+    {
+      "step": 400,
+      "loss": 0.00013489047558494228
+    },
+    {
+      "step": 500,
+      "loss": 0.00010303937260421198
+    },
+    {
+      "step": 600,
+      "loss": 8.150163855309562e-05
+    },
+    {
+      "step": 700,
+      "loss": 6.614066942816412e-05
+    }
+  ],
+  "numpy": "2.3.5",
+  "test_status": "AUTHORED_SEEN_SENSE_PARAPHRASES_NOT_BLIND",
+  "protocol": {
+    "schema": "nabt.neural-senses-training.v1",
+    "seed": 20261104,
+    "buckets": 512,
+    "hidden": 32,
+    "epochs": 700,
+    "learning_rate": 0.02,
+    "training": "installed quotations and complete component glosses only",
+    "evaluation": "authored paraphrases of seen senses; no unseen-sense generalization",
+    "selection": "fixed final epoch; no tuning on diagnostic",
+    "authority": "NONE"
+  },
+  "model": {
+    "schema": "nabt.neural-sense-model.v1",
+    "catalogue_sha256": "13988ecec13e541cf4f7cd242df43badbe718a26d30691fbf7584363d612df49",
+    "sense_ids": [
+      "lisan:fahm-knowledge",
+      "lisan:fahm-tribe",
+      "lisan:qalam-writing",
+      "lisan:qalam-lot",
+      "lisan:qalam-gambling",
+      "lisan:sama-hearing",
+      "lisan:sama-ear",
+      "lisan:basar",
+      "lisan:faras",
+      "lisan:saqf",
+      "lisan:asad-animal",
+      "lisan:ama",
+      "maqayis:fahm-knowledge",
+      "maqayis:bayt-origin",
+      "maqayis:sayf-origin",
+      "maqayis:saqf-origin",
+      "maqayis:katb-origin",
+      "shakhsiyya3:insan-definition"
+    ],
+    "features": "lexical-crc32-word-char34-v1",
+    "weights_sha256": "c6314bd04611e9502e26093a08f1efdca00fababab236b516822ce9d0bea3d37",
+    "protocol_sha256": "40ffc5ed00a0d74bda4e11d8896507c636b5ab62d8f5c806b4eff911e9fc608b",
+    "acceptance_sha256": "537e07c0dedc877e0e813a61fa59d5051edc2c12f88f691f52ef718192943b53",
+    "authority": "NONE"
+  },
+  "metrics": {
+    "all": {
+      "n": 18,
+      "neural": {
+        "correct": 18,
+        "mrr": 1.0
+      },
+      "lexical_baseline": {
+        "correct": 18,
+        "mrr": 1.0
+      }
+    },
+    "ambiguous_roots": {
+      "n": 10,
+      "neural": {
+        "correct": 10,
+        "mrr": 1.0
+      },
+      "lexical_baseline": {
+        "correct": 10,
+        "mrr": 1.0
+      }
+    }
+  },
+  "native_checked": false,
+  "default_ranker_changed": false,
+  "limits": [
+    "No unseen-sense or unseen-root generalization measured.",
+    "Singleton root results do not measure sense disambiguation.",
+    "No source authenticity, intended meaning, free Arabic completeness or Python refinement proved."
+  ]
+}

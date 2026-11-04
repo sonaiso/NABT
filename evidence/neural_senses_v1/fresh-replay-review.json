@@ -1,0 +1,20 @@
+{
+  "schema": "nabt.neural-senses-fresh-replay-review.v1",
+  "review": "https://github.com/sonaiso/NABT/pull/68#discussion_r4465185809",
+  "issue": "Fresh training was executed but only committed weights were tested.",
+  "repair": "Compare fresh tensors, identities, training inputs and predictions to retained evidence; replay fresh model through native checker.",
+  "tensor_tolerance": {
+    "rtol": 1e-07,
+    "atol": 1e-09
+  },
+  "new_consumer_tests": 16,
+  "existing_denotation_tests": 12,
+  "skipped": 0,
+  "failed": 0,
+  "counterexamples": [
+    "Initial random weights with updated checksum and copied successful predictions are rejected.",
+    "Rewritten diagnostics with correct retained weights are rejected."
+  ],
+  "log_sha256": "0a463d64e9cec44aadd887b20f063e1dac23471265b8236c349ed8c404adfa04",
+  "scope": "Training reproducibility only; existing authored diagnostic and interpretation limits remain."
+}

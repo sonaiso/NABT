@@ -2592,7 +2592,10 @@
         "runtime_paths": [
           "tools/lexical_testimony.py",
           "tools/attested_lexical_loader.py",
-          "tools/build_lexical_catalog.py"
+          "tools/build_lexical_catalog.py",
+          "tools/propose_lexical_evidence.py",
+          "tools/lexical_training/senses.py",
+          "tools/train_lexical_senses.py"
         ],
         "native_targets": [
           "lexicalDenotation"
@@ -2606,16 +2609,19 @@
         "test_paths": [
           "tests/test_lexical_denotation.py",
           "tests/test_lexical_testimony.py",
-          "tests/test_attested_lexical_loader.py"
+          "tests/test_attested_lexical_loader.py",
+          "tests/test_neural_senses.py"
         ],
         "doc_paths": [
           "docs/LEXICAL_DENOTATION.md",
           "docs/LEXICAL_TESTIMONY_AR.md",
-          "docs/ATTESTED_LEXICAL_LOADING_AR.md"
+          "docs/ATTESTED_LEXICAL_LOADING_AR.md",
+          "docs/NEURAL_SENSE_PROPOSALS_AR.md"
         ],
         "scope": "Compiled lexical senses and exact retained source passages support conditional matching, proper inclusion and explicitly licensed entailment.",
         "open_debts": [
-          "Lexical denotation does not choose the intended sense of a new occurrence or license a root-wide universal certificate."
+          "Lexical denotation does not choose the intended sense of a new occurrence or license a root-wide universal certificate.",
+          "The optional neural sense ranker retains all installed alternatives and reuses lexical_testimony unchanged. Its supplied root, authored seen-sense diagnostic and scores establish neither acquired applicability nor intended sense; the lexical baseline ties its measured result."
         ]
       },
       {
