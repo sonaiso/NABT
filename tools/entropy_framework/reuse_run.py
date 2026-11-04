@@ -33,6 +33,7 @@ class Entry:
 
 
 _ENTRIES = MappingProxyType({
+    "repo-agent": Entry("tools.repo_agent", None, "Manage pinned repository tasks in isolated worktrees using existing gates.", "inspect, plan, run, status or verify; use --help.", "Local change proposals and fresh engineering checks only; no linguistic or publication authority, no arbitrary task-supplied commands."),
     "core": Entry("nabt", None, "Existing package CLI: cells, readers, learning programs, inquiry and replay.", "Existing nabt arguments; use --help.", "Each selected existing command retains its declared law and scope."),
     "learned-conformance": Entry("tools.export_learned_model", None, "Existing exhaustive learned transition-model conformance check.", "--check; use --help for the existing exporter interface.", "Equivalence to the fixed transition law over the complete 97 by 116 primitive domain; no learned semantics."),
     "source-learning": Entry("tools.source_learning_experiment", None, "Existing source-replayed guard-learning experiment.", "[--sources PATH] [--output PATH].", "Declared finite hypothesis language and source judgments; consensus remains conditional."),
