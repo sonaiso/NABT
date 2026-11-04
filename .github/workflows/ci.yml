@@ -343,14 +343,18 @@ jobs:
         env:
           NABT_UNIT_DISCOVERY_PROBE: ${{ github.workspace }}/formal/.lake/build/bin/unitDiscoveryProbe
         run: python -B -m unittest discover -s tests -p test_unit_discovery_probe.py -v
-      - name: Measure the sign curriculum through the existing native inventory
+      - name: Progressive constructions and independently authored partial contract measurements
+        run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
+      - name: Measure the sign curriculum through the existing native inventory and shape enumerator
         env:
           PYTHONPATH: src
         run: |
           test -x formal/.lake/build/bin/unitDiscoveryProbe
+          test -x formal/.lake/build/bin/progressiveUnitProbe
           python -m tools.arabic_training.sign_curriculum native-check
           python -B -m unittest discover -s tests -p test_sign_curriculum.py -v
           mkdir -p artifacts/local/sign-curriculum
+          python -m tools.arabic_training.sign_curriculum native-shapes --output artifacts/local/sign-curriculum/native-shapes.json
           python -m tools.arabic_training.sign_curriculum matrix --output artifacts/local/sign-curriculum/matrix.json
           python -m tools.arabic_training.sign_curriculum questions --output artifacts/local/sign-curriculum/questions.json
           python -m tools.arabic_training.sign_curriculum self-check --output artifacts/local/sign-curriculum/harness-self-check.json
@@ -362,8 +366,6 @@ jobs:
           path: artifacts/local/sign-curriculum
           if-no-files-found: error
           retention-days: 14
-      - name: Progressive constructions and independently authored partial contract measurements
-        run: python -I tools/check_progressive_units.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-progressive-unit-conformance.json"
       - name: Rational inquiry gates, source dependency and conditional evidence rank
         run: python -I tools/check_rational_inquiry.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --output "${{ runner.temp }}/nabt-inquiry-conformance.json"
       - name: Classical source passages and bounded grammar interpretations

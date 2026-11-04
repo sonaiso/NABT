@@ -213,6 +213,22 @@ class SignEvaluationTests(unittest.TestCase):
 
 
 class SignIntegrationTests(unittest.TestCase):
+    def test_native_quota_cannot_claim_exhaustion_with_duplicates_or_omissions(self):
+        request={'op':'quota','consonants':1,'vowels':1,'max_atoms':10}
+        response={'status':'OK','op':'quota','law_id':'nabt.licensed-derivation.v1',
+                  'scope':'conditional_on_supplied_interpretations','conditional':True,
+                  'acquisition_measured':False,
+                  'enumeration':'COMPLETE','search_complete':True,
+                  'consonants':1,'vowels':1,'count':2,'shapes':['CV','VC'],
+                  'shape_numbers':[4,5],'linguistic_license_inferred':False}
+        s._check_quota(request,response)
+        for shapes,numbers in ((['CV','CV'],[4,4]), (['CV'],[4]), (['CC','VC'],[3,5])):
+            wrong={**response,'count':len(shapes),'shapes':shapes,'shape_numbers':numbers}
+            with self.assertRaises(ValueError): s._check_quota(request,wrong)
+        wrong={**response,'enumeration':'EXHAUSTED','search_complete':False,
+               'required_atoms':2,'linguistic_rejection':False}
+        with self.assertRaises(ValueError): s._check_quota(request,wrong)
+
     def test_existing_dispatcher_owns_the_entry(self):
         entry=describe_entries()['sign-curriculum']
         self.assertEqual(entry['module'],'tools.arabic_training.sign_curriculum')
@@ -224,6 +240,14 @@ class SignIntegrationTests(unittest.TestCase):
         result=s.native_check()
         self.assertTrue(result['matched'])
         self.assertEqual(result['declarations'],34)
+
+    @unittest.skipUnless((s.ROOT/'formal/.lake/build/bin/progressiveUnitProbe').is_file(), 'native progressive probe not built')
+    def test_real_native_quota_and_syllable_addresses(self):
+        result=s.native_shapes()
+        self.assertEqual(len(result['cases']),30)
+        targets=[r['native_response'] for r in result['cases'][24:]]
+        self.assertEqual([r['shape_n'] for r in targets],[4,10,9,21,19,43])
+        self.assertTrue(all(r['linguistic_license_inferred'] is False for r in targets))
 
 
 if __name__ == '__main__':

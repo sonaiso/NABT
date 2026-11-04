@@ -320,6 +320,13 @@ flowchart TD
 يفحص الصوت والتقطيع والمضيف كل مرشح. ويضاف الخماسي الاسمي إلى مجال
 الأصول؛ أما التركيب المتكرر فلا يغلق بحد اعتباطي لثلاثة مقاطع.
 
+ينفذ `native-shapes` هذه المجالات الأربعة والعشرين عبر `progressiveUnitProbe`
+الموجود، ويحتفظ بكل ترتيب ورقمه وجواب المنفذ كاملًا. يفحص طول القائمة
+بمعامل ثنائي الحدين، وعدم التكرار، وصحة حصتي C/V لكل عنصر؛ اجتماعها يغطي
+المجال المحدود كله. وينفذ الأشكال الستة وأرقامها أيضًا: CV=4، CVV=10،
+CVC=9، CVVC=21، CVCC=19، CVVCC=43، في مجال `nabt.ordered-cv.v1`.
+هذه الأعداد تختلف عن أرقام خلايا A116 وعن شواهد الترخيص اللغوي.
+
 المتعلم العصبي المقترح يتعلم المحاذاة والسمات وترتيب التحليلات وقرائن
 الوظيفة، ويحتفظ بالبدائل. فحص العدد والشروط المعروفة وشهادات المصدر
 يبقى في المالك القائم. لا نعيد تدريب نموذج ليقلد قرارًا حسابيًا معلومًا
@@ -398,9 +405,10 @@ PYTHONPATH=src python -m tools.arabic_training.sign_curriculum evaluate --predic
 
 ```bash
 cd formal
-lake build unitDiscoveryProbe exportPhonologicalModes
+lake build unitDiscoveryProbe progressiveUnitProbe exportPhonologicalModes
 cd ..
 PYTHONPATH=src python -m tools.arabic_training.sign_curriculum native-check
+PYTHONPATH=src python -m tools.arabic_training.sign_curriculum native-shapes --output native-shapes.json
 python tools/check_phonological_modes.py
 PYTHONPATH=src:tests python -m unittest test_sign_curriculum -v
 ```

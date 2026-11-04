@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[2]
 VERSION = "nabt.sign-curriculum.v1"
 MAX_INPUT_BYTES = 4 * 1024 * 1024
 AUTHORITY = "TEACHING_AND_DEVELOPMENT_MEASUREMENT_ONLY"
+SYLLABLE_TARGETS = ("CV", "CVV", "CVC", "CVVC", "CVCC", "CVVCC")
 
 
 def wire(value):
@@ -159,7 +160,7 @@ def matrix():
                 "passages": len(phonology['passages']), "acoustic_validation": False},
             "stages": [{"id": a, "name": b, "owners": c, "exit_obligation": d} for a,b,c,d in STAGES],
             "role_contrasts": [{"text": t, "distinction": d, "status": "TEACHING_TARGET_NOT_RUNTIME_LICENSE"} for t,d in ROLE_CONTRASTS],
-            "syllable_targets": ["CV", "CVV", "CVC", "CVVC", "CVCC", "CVVCC"],
+            "syllable_targets": list(SYLLABLE_TARGETS),
             "quota_requests": [{"c": c, "v": v, "unfiltered_order_count": comb(c+v,c),
                                 "owner": "ProsodicUnits.quotaWords", "native_enumeration_this_run": False}
                                for c in range(1,5) for v in range(1,7)],
@@ -319,6 +320,62 @@ def native_check():
             'native_execution_performed':True, 'matched':True, 'scope':'DECLARED_ROLE_INVENTORY_ONLY'}
 
 
+def _check_quota(request, response):
+    from tools.check_progressive_units import validate_response
+    validate_response(request, response)
+    c, v = request['consonants'], request['vowels']
+    required = {'status':'OK', 'enumeration':'COMPLETE', 'search_complete':True,
+                'count':comb(c+v,c), 'consonants':c, 'vowels':v,
+                'linguistic_license_inferred':False}
+    if any(wire(response.get(k)) != wire(value) for k,value in required.items()):
+        raise ValueError('native quota did not establish the requested finite enumeration')
+    shapes = response.get('shapes')
+    if (response.get('enumeration') != 'COMPLETE' or type(shapes) is not list
+            or len(shapes) != comb(c+v,c) or len(set(shapes)) != len(shapes)
+            or any(s.count('C') != c or s.count('V') != v for s in shapes)):
+        raise ValueError('native quota is incomplete, repeated or outside the requested domain')
+    if 'shape_numbers' not in response:
+        raise ValueError('native shape addresses are missing')
+
+
+def native_shapes():
+    """Execute the existing enumerator; retain every conditional native reply.
+
+    Correct quotas, unique words and the independent binomial cardinality
+    establish finite string exhaustion here, never Arabic licensing.
+    """
+    from tools.check_progressive_units import parse, validate_response
+    from tools.entropy_framework.reuse_run import entry_command
+    requests = [{'op':'quota', 'consonants':c, 'vowels':v, 'max_atoms':10}
+                for c in range(1,5) for v in range(1,7)]
+    requests += [{'op':'shape', 'shape':s} for s in SYLLABLE_TARGETS]
+    command = entry_command('progressive', [], root=ROOT)
+    result = subprocess.run(command, input=''.join(wire(r).decode()+'\n' for r in requests),
+                            text=True, capture_output=True, timeout=60, check=True, cwd=ROOT)
+    if len(result.stdout.encode()) > MAX_INPUT_BYTES:
+        raise resource_limit('native shape response byte budget exceeded')
+    lines = result.stdout.splitlines()
+    if len(lines) != len(requests):
+        raise ValueError('native shape response count differs from the request count')
+    cases = []
+    for request, line in zip(requests, lines):
+        response = parse(line)
+        if request['op'] == 'quota':
+            _check_quota(request,response)
+        else:
+            validate_response(request,response)
+            if (response.get('status') != 'OK' or response.get('decoded') != request['shape']
+                    or response.get('shape') != request['shape'] or 'shape_n' not in response
+                    or response.get('linguistic_license_inferred') is not False):
+                raise ValueError('native shape did not restore its supplied ordered source')
+        cases.append({'request':request,'native_response':response})
+    return {'schema':VERSION+'.native-shapes', 'native_execution_performed':True,
+            'authority':AUTHORITY, 'scope':'FINITE_ORDERED_CV_STRINGS_NOT_ARABIC_LICENSES',
+            'native_binary_sha256':sha256(Path(command[0]).read_bytes()).hexdigest(),
+            'quota_domains':24, 'syllable_targets':6, 'cases':cases,
+            'meaning_stage_unlocked':False, 'arabic_complete':False}
+
+
 def _read_predictions(path):
     def object_pairs(pairs):
         value = {}
@@ -338,7 +395,7 @@ def _read_predictions(path):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation', choices=('matrix','questions','evaluate','self-check','probes','native-check'))
+    parser.add_argument('operation', choices=('matrix','questions','evaluate','self-check','probes','native-check','native-shapes'))
     parser.add_argument('--predictions', type=Path)
     parser.add_argument('--output', type=Path)
     args = parser.parse_args(argv)
@@ -346,7 +403,7 @@ def main(argv=None):
         if (args.operation == 'evaluate') != (args.predictions is not None):
             raise ValueError("only evaluate requires --predictions")
         operations = {'matrix':matrix, 'questions':questions, 'self-check':self_check,
-                      'probes':probes, 'native-check':native_check}
+                      'probes':probes, 'native-check':native_check, 'native-shapes':native_shapes}
         value = evaluate(_read_predictions(args.predictions)) if args.operation == 'evaluate' else operations[args.operation]()
         data = json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n'
         if args.output:
