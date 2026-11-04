@@ -1,0 +1,59 @@
+{
+  "schema": "nabt.madlul-validation.v1",
+  "baseline": "54f270df8e80e5d6c14b65d2270dde925a954c62",
+  "date": "2026-11-04",
+  "python": "3.12.14",
+  "catalog_sha256": "ee07f18d38c93746523d7a9bd643a1fd24e0caeea1dc7963d0d80533575f1995",
+  "counts": {
+    "denotatum_kinds": 5,
+    "crosswalk_rows": 20,
+    "source_anchors": 24,
+    "owners": 13,
+    "resolved_declarations": 34,
+    "interpretation_guards": 15
+  },
+  "tests": [
+    {
+      "command": "PYTHONPATH=src:. python -m unittest discover -s tests -p test_madlul_matrix.py -v",
+      "passed": 18,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "command": "PYTHONPATH=src:. python -m unittest discover -s tests -p 'test_proof_reuse*.py' -v",
+      "passed": 49,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "command": "PYTHONPATH=src:. python -m unittest discover -s tests -p test_sign_curriculum.py -v",
+      "passed": 28,
+      "skipped": 0,
+      "failed": 0
+    }
+  ],
+  "frozen_dependency_files_checked": 90,
+  "existing_reuse_report_built": true,
+  "routed_matrix_byte_equal": true,
+  "probe_execution": {
+    "attempted_owner_calls": 48,
+    "returned_reports": 47,
+    "structured_failures": 1
+  },
+  "probe_sha256": "62887943a0baa7b587b96ed38233864a805ccdb263195caee1bfbfcbb0b94b51",
+  "observed_failure": {
+    "input": "ضَرَبَ عَمْرٌو زَيْدًا",
+    "owner": "text_morphology",
+    "status": "REJECT",
+    "code": "NONTERMINAL_OR_MULTIPLE_TANWIN",
+    "owner_modified": false
+  },
+  "limits": {
+    "all_denotatum_assignments": "DEFER",
+    "free_text_denotatum_classifier": false,
+    "training_performed": false,
+    "new_lean_proof": false,
+    "general_refinement_proof": false,
+    "full_release_make_check": false
+  }
+}

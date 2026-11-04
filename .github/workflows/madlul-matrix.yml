@@ -1,0 +1,41 @@
+name: NABT madlul matrix
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-matrix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Verify source matrix and existing owner boundaries
+        env:
+          PYTHONPATH: src
+        run: |
+          python -B -m unittest discover -s tests -p test_madlul_matrix.py -v
+          python -B - <<'PY'
+          from tools.interpretive_links_regression import check_dependencies
+          from tools.entropy_framework.reuse import build_reuse_report
+          check_dependencies()
+          build_reuse_report()
+          PY
+          python -m tools.arabic_training.madlul_matrix matrix --output artifacts/local/madlul-matrix/matrix.json
+          python -m tools.arabic_training.madlul_matrix probe --output artifacts/local/madlul-matrix/probes.json
+      - name: Preserve source alignment and diagnostic owner reports
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: madlul-matrix
+          path: artifacts/local/madlul-matrix
+          if-no-files-found: error
+          retention-days: 14
