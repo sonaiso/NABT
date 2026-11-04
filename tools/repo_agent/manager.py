@@ -171,14 +171,17 @@ def verify(previous_dir, task, proposal, *, root=ROOT, output_dir):
     previous_dir = Path(previous_dir)
     old = policy.load(previous_dir / "state.json")
     expected_plan = plan(task, proposal, root=root)
-    require(old.get("schema") == SCHEMA and old.get("plan") == expected_plan,
+    require(type(old) is dict and old.get("schema") == SCHEMA
+            and canonical(old.get("plan")) == canonical(expected_plan),
             "REPLAY_MISMATCH", "record does not match independent task, proposal and current policy")
     require(policy.load(previous_dir / "task.json") == task
             and policy.load(previous_dir / "proposal.json") == proposal
             and policy.load(previous_dir / "plan.json") == expected_plan,
             "REPLAY_MISMATCH", "retained inputs or plan changed")
     events = state.validate_journal(previous_dir, old.get("event_tail"))
-    require(old.get("status") == "READY_FOR_REVIEW" and len(old.get("checks", [])) == len(expected_plan["checks"]),
+    require(old.get("status") == "READY_FOR_REVIEW" and type(old.get("checks")) is list
+            and all(type(row) is dict for row in old["checks"])
+            and len(old["checks"]) == len(expected_plan["checks"]),
             "REPLAY_MISMATCH", "prior record has no completed candidate")
     commit = old.get("candidate_commit")
     require(type(commit) is str and re.fullmatch(r"[0-9a-f]{40}", commit),
@@ -207,14 +210,15 @@ def verify(previous_dir, task, proposal, *, root=ROOT, output_dir):
             "REPLAY_MISMATCH", "event transitions differ from completed plan")
     for expected, result in zip(expected_plan["checks"], old["checks"]):
         require(all(result.get(k) == v for k, v in expected.items())
-                and result.get("status") == "PASSED" and result.get("returncode") == 0,
+                and result.get("status") == "PASSED" and type(result.get("returncode")) is int
+                and result["returncode"] == 0 and type(result.get("logs")) is dict,
                 "REPLAY_MISMATCH", "recorded checks differ from required plan")
         for stream in ("stdout", "stderr"):
             path = previous_dir / (expected["id"] + "." + stream)
             require(path.is_file() and path.stat().st_size <= MAX_LOG_BYTES,
                     "REPLAY_MISMATCH", "recorded log missing or oversized")
             raw = path.read_bytes()
-            require(result["logs"][stream] == {"sha256": digest(raw), "bytes": len(raw), "truncated": False},
+            require(canonical(result["logs"].get(stream)) == canonical({"sha256": digest(raw), "bytes": len(raw), "truncated": False}),
                     "REPLAY_MISMATCH", "recorded log changed")
     fresh = run(task, proposal, root=root, output_dir=output_dir)
     valid = (fresh["status"] == "READY_FOR_REVIEW" and fresh["candidate_tree"] == old.get("candidate_tree")

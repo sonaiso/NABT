@@ -259,6 +259,29 @@ class GitTaskTests(unittest.TestCase):
             manager.verify(self.output, self.task, self.proposal, root=self.root, output_dir=self.output.parent / "fresh")
         self.assertEqual(error.exception.code, "REPLAY_MISMATCH")
 
+    def test_boolean_integer_substitution_in_execution_record_is_rejected(self):
+        self.run_task()
+        original = policy.load(self.output / "state.json")
+        for field in ("returncode", "bytes", "truncated"):
+            record = deepcopy(original)
+            if field == "returncode":
+                record["checks"][0][field] = False
+            else:
+                record["checks"][0]["logs"]["stdout"][field] = False if field == "bytes" else 0
+            state.write_json(self.output / "state.json", record)
+            with self.subTest(field=field), self.assertRaises(policy.AgentError) as error:
+                manager.verify(self.output, self.task, self.proposal, root=self.root, output_dir=self.output.parent / field)
+            self.assertEqual(error.exception.code, "REPLAY_MISMATCH")
+
+    def test_malformed_check_rows_are_structured_rejections(self):
+        self.run_task()
+        record = policy.load(self.output / "state.json")
+        record["checks"] = ["success", "success"]
+        state.write_json(self.output / "state.json", record)
+        with self.assertRaises(policy.AgentError) as error:
+            manager.verify(self.output, self.task, self.proposal, root=self.root, output_dir=self.output.parent / "fresh")
+        self.assertEqual(error.exception.code, "REPLAY_MISMATCH")
+
     def test_exported_patch_and_retained_inputs_are_checked(self):
         self.run_task()
         patch_file = self.output / "candidate.patch"
