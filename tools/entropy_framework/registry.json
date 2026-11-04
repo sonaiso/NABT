@@ -2117,12 +2117,16 @@
         "runtime_paths": [
           "src/nabt/words.py",
           "src/nabt/word_reader.py",
-          "tools/arabic_training/madlul_matrix.py"
+          "tools/arabic_training/madlul_matrix.py",
+          "tools/lexical_training/acquisition.py",
+          "tools/lexical_training/curriculum.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
           "core",
-          "madlul-matrix"
+          "madlul-matrix",
+          "lexical-acquisition",
+          "lexical-curriculum"
         ],
         "checker_paths": [
           "tools/check_word_conformance.py"
@@ -2131,11 +2135,13 @@
           "tests/test_words.py",
           "tests/test_word_reader.py",
           "tests/test_word_reader_review.py",
-          "tests/test_madlul_matrix.py"
+          "tests/test_madlul_matrix.py",
+          "tests/test_lexical_acquisition.py"
         ],
         "doc_paths": [
           "docs/WORD_READING.md",
-          "docs/MADLUL_MATRIX_AR.md"
+          "docs/MADLUL_MATRIX_AR.md",
+          "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md"
         ],
         "scope": "Declared noun/verb/particle evidence and conditional declension classes are consumed by the existing word reader with unresolved cases retained.",
         "open_debts": [
@@ -2642,14 +2648,18 @@
           "tools/propose_lexical_evidence.py",
           "tools/lexical_training/senses.py",
           "tools/train_lexical_senses.py",
-          "tools/arabic_training/madlul_matrix.py"
+          "tools/arabic_training/madlul_matrix.py",
+          "tools/lexical_training/acquisition.py",
+          "tools/lexical_training/curriculum.py"
         ],
         "native_targets": [
           "lexicalDenotation"
         ],
         "entrypoint_ids": [
           "lexical-testimony",
-          "madlul-matrix"
+          "madlul-matrix",
+          "lexical-acquisition",
+          "lexical-curriculum"
         ],
         "checker_paths": [
           "tools/check_linguistic_truth.py"
@@ -2659,20 +2669,23 @@
           "tests/test_lexical_testimony.py",
           "tests/test_attested_lexical_loader.py",
           "tests/test_neural_senses.py",
-          "tests/test_madlul_matrix.py"
+          "tests/test_madlul_matrix.py",
+          "tests/test_lexical_acquisition.py"
         ],
         "doc_paths": [
           "docs/LEXICAL_DENOTATION.md",
           "docs/LEXICAL_TESTIMONY_AR.md",
           "docs/ATTESTED_LEXICAL_LOADING_AR.md",
           "docs/NEURAL_SENSE_PROPOSALS_AR.md",
-          "docs/MADLUL_MATRIX_AR.md"
+          "docs/MADLUL_MATRIX_AR.md",
+          "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md"
         ],
         "scope": "Compiled lexical senses and exact retained source passages support conditional matching, proper inclusion and explicitly licensed entailment.",
         "open_debts": [
           "Lexical denotation does not choose the intended sense of a new occurrence or license a root-wide universal certificate.",
           "The optional neural sense ranker retains all installed alternatives and reuses lexical_testimony unchanged. Its supplied root, authored seen-sense diagnostic and scores establish neither acquired applicability nor intended sense; the lexical baseline ties its measured result.",
-          "The source-bound five-way madlul matrix resolves existing contracts and preserves owner reports, but acquiring the denoted object level, semantic part alignment and positively evidenced usage status from free text remains open. Unknown or false-world claims do not establish unusedness."
+          "The source-bound five-way madlul matrix resolves existing contracts and preserves owner reports, but acquiring the denoted object level, semantic part alignment and positively evidenced usage status from free text remains open. Unknown or false-world claims do not establish unusedness.",
+          "The source-quotation learner proposes global sense and definition-component identities without a supplied root or target. Its 18 exposed diagnostics do not establish complete semantic extraction; exact alignment between acquired usage sense and dictionary sense remains open, and mental necessity alone does not establish an indication occurrence."
         ]
       },
       {
@@ -2789,24 +2802,30 @@
         ],
         "runtime_paths": [
           "tools/linguistic_truth/__main__.py",
-          "tools/linguistic_truth/runtime.py"
+          "tools/linguistic_truth/runtime.py",
+          "tools/lexical_training/acquisition.py",
+          "tools/lexical_training/curriculum.py"
         ],
         "native_targets": [
           "linguisticTruth"
         ],
         "entrypoint_ids": [
-          "linguistic-truth"
+          "linguistic-truth",
+          "lexical-acquisition",
+          "lexical-curriculum"
         ],
         "checker_paths": [
           "tools/check_linguistic_truth.py"
         ],
         "test_paths": [
           "tests/test_linguistic_truth_runtime.py",
-          "tests/test_linguistic_truth_calculus.py"
+          "tests/test_linguistic_truth_calculus.py",
+          "tests/test_lexical_acquisition.py"
         ],
         "doc_paths": [
           "docs/LINGUISTIC_TRUTH_AR.md",
-          "docs/LINGUISTIC_TRUTH_SECURITY_REVIEW_AR.md"
+          "docs/LINGUISTIC_TRUTH_SECURITY_REVIEW_AR.md",
+          "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md"
         ],
         "scope": "Existing convention profiles and occurrence records keep source usage, interpretation, and linguistic consistency distinct.",
         "open_debts": [
@@ -3097,14 +3116,18 @@
         ],
         "runtime_paths": [
           "tools/meaning_preservation_v1.py",
-          "tools/arabic_training/madlul_matrix.py"
+          "tools/arabic_training/madlul_matrix.py",
+          "tools/lexical_training/acquisition.py",
+          "tools/lexical_training/curriculum.py"
         ],
         "native_targets": [
           "meaningPreservationV1"
         ],
         "entrypoint_ids": [
           "meaning-preservation",
-          "madlul-matrix"
+          "madlul-matrix",
+          "lexical-acquisition",
+          "lexical-curriculum"
         ],
         "checker_paths": [
           "tools/evaluate_meaning_preservation_v1.py"
@@ -3112,12 +3135,14 @@
         "test_paths": [
           "tests/test_meaning_preservation_v1.py",
           "tests/test_meaning_preservation_evaluator.py",
-          "tests/test_madlul_matrix.py"
+          "tests/test_madlul_matrix.py",
+          "tests/test_lexical_acquisition.py"
         ],
         "doc_paths": [
           "docs/MEANING_PRESERVATION_V1_AR.md",
           "docs/MEANING_PRESERVATION_V1_FORMAL_SPEC.md",
-          "docs/MADLUL_MATRIX_AR.md"
+          "docs/MADLUL_MATRIX_AR.md",
+          "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md"
         ],
         "scope": "The finite faithful transport contract preserves declared joint observations and source context; productive mode obtains its packet by rerunning the existing source-bound clause producer.",
         "open_debts": [
