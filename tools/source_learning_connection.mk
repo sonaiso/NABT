@@ -19,3 +19,5 @@ cognitive-teaching:
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --verify $(EVIDENCE_DIR)/learning.json --output $(EVIDENCE_DIR)/learning-replay.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/qualified.json --output $(EVIDENCE_DIR)/qualified.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/epistemic.json --output $(EVIDENCE_DIR)/epistemic.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/world_prior.json --output $(EVIDENCE_DIR)/world-prior.json
+	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/world_prior.json --verify $(EVIDENCE_DIR)/world-prior.json --output $(EVIDENCE_DIR)/world-prior-replay.json

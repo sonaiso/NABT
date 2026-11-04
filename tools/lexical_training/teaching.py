@@ -17,7 +17,7 @@ from . import reasoning_curriculum as curriculum
 
 SCHEMA = "nabt.cognitive-lesson.v1"
 RESULT_SCHEMA = "nabt.cognitive-lesson-result.v1"
-ADAPTERS = {"source_learning", "qualified_inference", "epistemic_ledger"}
+ADAPTERS = set(curriculum.SHARED_ADAPTERS)
 MAX_RESULT_BYTES = 16 * 1024 * 1024
 
 
@@ -45,8 +45,8 @@ def _validate(lesson):
         raise ValueError("Unknown domain or matrix")
     if lesson["adapter"] not in ADAPTERS or type(lesson["payload"]) is not dict:
         raise ValueError("Unknown adapter or malformed payload")
-    if lesson["adapter"] not in domains[lesson["domain_id"]][2]:
-        raise ValueError("Adapter authority does not transfer to this domain")
+    # A domain selects the teaching context, not the authority of a premise.
+    # Matrix/policy compatibility and the existing owner still check the proof.
     return matrices[lesson["matrix_id"]]
 
 
@@ -81,15 +81,20 @@ def _next(owner, adapter, measured):
         if not last["application_established"]:
             return {"action": "ACQUIRE_ADOPTION_AND_CASE_WITNESSES", "basis": pointer + "/application_established"}
         return {"action": "ASSESS_INDEPENDENT_NEW_OCCURRENCE", "basis": pointer + "/application_established"}
+    if adapter == "qualified_inference" and owner["source_witnesses"]["bridge"] is None:
+        return {"action": "ACQUIRE_SOURCE_BOUND_RELATION", "basis": "/owner_result/source_witnesses/bridge"}
     return {"action": "ASSESS_CONTRAST_AND_WITHDRAWAL", "basis": "/owner_result/status"}
 
 
 def run_lesson(lesson):
     result = {"schema": RESULT_SCHEMA, "status": "INVALID_INPUT", "request": None,
+              "routing_policy_id": curriculum.ROUTING_POLICY,
               "execution_measured": False, "owner_result": None, "measurements": None,
               "next_step": None, "curriculum_identity": _identity(),
               "limits": {"matrix_complete": False, "domain_expertise_certified": False,
                          "world_truth_established": False, "action_authority": "NONE",
+                         "empirical_causality_established": False,
+                         "domain_label_grants_authority": False,
                          "general_python_lean_refinement": False,
                          "teacher_kind": "DETERMINISTIC_RECEIPT_DRIVEN_COORDINATOR",
                          "neural_training_performed": False}}
