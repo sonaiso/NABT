@@ -33,6 +33,7 @@ class Entry:
 
 
 _ENTRIES = MappingProxyType({
+    "sign-curriculum": Entry("tools.arabic_training.sign_curriculum", None, "Inspect the source-linked sign curriculum and measure exposed symbolic predictions.", "matrix, questions, evaluate, self-check, probes, native-check or native-shapes; use --help.", "Reuses identity, shape and phonological owners. Authored teaching metadata and development measurements do not certify learned roles or unlock meaning."),
     "repo-agent": Entry("tools.repo_agent", None, "Manage pinned repository tasks in isolated worktrees using existing gates.", "inspect, plan, run, status or verify; use --help.", "Local change proposals and fresh engineering checks only; no linguistic or publication authority, no arbitrary task-supplied commands."),
     "core": Entry("nabt", None, "Existing package CLI: cells, readers, learning programs, inquiry and replay.", "Existing nabt arguments; use --help.", "Each selected existing command retains its declared law and scope."),
     "learned-conformance": Entry("tools.export_learned_model", None, "Existing exhaustive learned transition-model conformance check.", "--check; use --help for the existing exporter interface.", "Equivalence to the fixed transition law over the complete 97 by 116 primitive domain; no learned semantics."),
