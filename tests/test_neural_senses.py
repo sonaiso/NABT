@@ -100,9 +100,47 @@ class NeuralSenseTests(unittest.TestCase):
         self.assertEqual(result['text'],text)
         self.assertEqual(result['text_sha256'],self.s.digest(text.encode()))
 
+    def test_replay_rejects_untrained_weights_even_with_retained_predictions(self):
+        import numpy as np
+        import shutil
+        from tools.train_lexical_senses import verify_replay
+        with tempfile.TemporaryDirectory() as tmp:
+            run=Path(tmp)/'run';shutil.copytree(RUN,run)
+            _,meta,cat=self.s.load_model(RUN)
+            texts,y=self.s.training_rows(cat)
+            protocol=json.loads((RUN.parent/'protocol.json').read_text())
+            protocol['epochs']=0
+            initial,_=self.s.train(self.s.encode(texts),y,protocol)
+            np.savez(run/'weights.npz',**initial)
+            meta['weights_sha256']=self.s.digest((run/'weights.npz').read_bytes())
+            (run/'model.json').write_text(json.dumps(meta))
+            with self.assertRaisesRegex(ValueError,'tensor differs'):
+                verify_replay(run,RUN)
+
+    def test_replay_rejects_rewritten_diagnostics_with_correct_weights(self):
+        import shutil
+        from tools.train_lexical_senses import verify_replay
+        with tempfile.TemporaryDirectory() as tmp:
+            run=Path(tmp)/'run';shutil.copytree(RUN,run)
+            (run/'predictions.json').write_text('[]\n')
+            with self.assertRaisesRegex(ValueError,'evidence differs'):
+                verify_replay(run,RUN)
+
 
 @unittest.skipUnless(HAS_NUMPY and os.environ.get('NABT_NEURAL_SENSES_NATIVE')=='1','dedicated native gate not configured')
 class NativeNeuralSenses(unittest.TestCase):
+    def test_fresh_training_output_replays_and_reaches_native_checker(self):
+        from tools.train_lexical_senses import verify_replay
+        from tools.lexical_training.senses import propose
+        fresh=Path(os.environ['NABT_NEURAL_SENSES_TRAINED_RUN'])
+        self.assertEqual(verify_replay(fresh,RUN)['predictions_replayed'],18)
+        actual=propose('أداة الكتابة','قلم',fresh,['الذي يكتب به'])
+        retained=propose('أداة الكتابة','قلم',RUN,['الذي يكتب به'])
+        self.assertTrue(actual['conditional_testimony']['native_checked'])
+        self.assertEqual(actual['conditional_testimony'],retained['conditional_testimony'])
+        self.assertEqual([r['sense_id'] for r in actual['ranking']],
+                         [r['sense_id'] for r in retained['ranking']])
+
     def test_all_native_senses_and_conditional_result_unchanged(self):
         from tools.lexical_training.senses import propose
         from tools.lexical_testimony import assess

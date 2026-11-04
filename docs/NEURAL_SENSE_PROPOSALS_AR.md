@@ -96,7 +96,8 @@ python tools/propose_lexical_evidence.py \
 
 ```bash
 OPENBLAS_NUM_THREADS=1 python tools/train_lexical_senses.py \
-  --output-dir artifacts/local/neural-senses-replay
+  --output-dir artifacts/local/neural-senses-replay \
+  --compare-to evidence/neural_senses_v1/run_01
 ```
 
 لا يشترط التدريب Lean؛ لذلك يحمل سجل التدريب `native_checked=false`.
@@ -104,6 +105,12 @@ OPENBLAS_NUM_THREADS=1 python tools/train_lexical_senses.py \
 والتنفيذ الأصلي حتى لا تتحول اختبارات الربط إلى تخطيات صامتة. أضيفت
 البوابة إلى مسار التدريب العصبي الموجود في CI، وتعيد التدريب في مجلد
 محلي جديد. بقي `ci.yml` مطابقًا لبصمته في سجل اعتماد الاختبارات المجمد.
+تقارن البوابة أوزان التدريب الجديد بالأوزان المرجعية بشرط
+`abs(actual - expected) <= 1e-9 + 1e-7 * abs(expected)` لكل معامل،
+وتلزم تطابق بيانات التدريب والتنبؤات المرجعية وتعيد حساب ترتيبها من
+الأوزان الجديدة. ثم يمر النموذج الجديد نفسه بفاحص Lean. يفشل الفحص
+عند إرجاع الأوزان الابتدائية دون تعلم، حتى لو نُسخت تنبؤات المرجع.
+هذه إعادة إنتاج للتجربة المحددة، وليست اختبار تعميم مستقلًا.
 
 ## ما تتحقق منه الاختبارات وما يبقى
 
