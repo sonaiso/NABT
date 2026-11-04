@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from tools import source_learning_connection as c
+from nabt.semantics import SemanticBudget
 
 ROOT = Path(__file__).resolve().parents[1]
 NATIVE_READY = all((ROOT / "formal/.lake/build/bin" / n).is_file()
@@ -73,6 +74,16 @@ class InputTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             c.life.strict_loads('{"schema":"a","schema":"b"}')
 
+    def test_rejected_admission_and_resource_residual_do_not_become_reading_deferral(self):
+        result = c.evaluate(request({"s": "زيد هو عالم. زيد عالم عمرو."}))
+        self.assertEqual(result["status"], "INVALID_INPUT")
+        self.assertEqual(result["source_failure"]["residuals"][0]["code"], "ARITY_CONFLICT")
+        kernel = c.SemanticKernel
+        with patch.object(c, "SemanticKernel", side_effect=lambda: kernel(budget=SemanticBudget(max_facts=0))):
+            result = c.evaluate(request())
+        self.assertEqual(result["status"], "RESOURCE_LIMIT")
+        self.assertEqual(result["source_failure"]["residuals"][0]["code"], "RESOURCE_LIMIT")
+
     def test_source_parser_preserves_order_and_polarity(self):
         left = c._request(request({"s": "زيد فوق عمرو."}, "هل زيد فوق عمرو؟"))[1]
         right = c._request(request({"s": "عمرو فوق زيد."}, "هل عمرو فوق زيد؟"))[1]
@@ -119,6 +130,19 @@ class NativeConnectionTests(unittest.TestCase):
         self.assertEqual(result["status"], "UNKNOWN")
         self.assertFalse(result["learning"]["application_established"])
         self.assertTrue(all(r["adoption"] == "CANDIDATE_ONLY" for r in result["learning"]["candidates"]))
+
+    def test_application_to_another_individual_cannot_license_the_query_individual(self):
+        value = request({"examples": "بكر هو عالم. بكر هو إنسان. ليس حجر هو عالم. ليس حجر هو إنسان.",
+                         "law": "كل عالم هو إنسان.", "case": "نادر هو عالم.",
+                         "other": "سالم هو عالم.",
+                         "conflict": "إذا كان نادر هو عالم فإن ليس نادر هو عالم.",
+                         "transfer": "إذا كان سالم هو إنسان فإن نادر هو إنسان."})
+        result = self.evaluate(value)["history"][-1]
+        self.assertEqual(result["status"], "SUPPORTED")  # independent clean transfer is valid
+        self.assertEqual(result["learning"]["prediction"]["possible"], [True])
+        self.assertEqual(result["learning"]["survivor_count"], 1)
+        self.assertFalse(result["learning"]["application_established"])
+        self.assertEqual(result["learning"]["applied_candidate_codes"], [])
 
     def test_unknown_feature_does_not_become_false_training_label(self):
         value = request(); value["sources"][1]["text"] = "ليس حجر هو إنسان."
@@ -262,6 +286,18 @@ class NativeConnectionTests(unittest.TestCase):
         result = c.evaluate(request({"text": "α هو عالم."}, "هل α هو عالم؟"))
         self.assertEqual(result["status"], "DEFER")
         self.assertFalse(result["chain_complete"])
+
+    def test_native_failure_classes_preserve_rejection_unavailability_and_deferral(self):
+        cases = {"CHECKER_UNAVAILABLE": "VERIFICATION_UNAVAILABLE",
+                 "CHECKER_CHANGED": "VERIFICATION_FAILED", "CHECKER_PROTOCOL_ERROR": "VERIFICATION_FAILED",
+                 "CERTIFICATE_REJECTED": "VERIFICATION_FAILED", "RENDERER_ERROR": "VERIFICATION_FAILED",
+                 "INVALID_INPUT": "INVALID_INPUT", "OUTSIDE_VERIFIED_LANGUAGE": "DEFER"}
+        for code, expected in cases.items():
+            with self.subTest(code=code), patch.object(c.pilot, "answer", side_effect=c.pilot.PilotError(code, "probe")):
+                result = c.evaluate(request())
+                self.assertEqual(result["status"], expected)
+                self.assertEqual(result["error_code"], code)
+                self.assertFalse(result["chain_complete"])
 
     def test_empty_theory_reports_absence_without_claiming_native_ground_check(self):
         value = request({"case": "نادر هو إنسان."}, events=[event("withdraw", "case")])

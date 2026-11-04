@@ -163,7 +163,10 @@ def _learning(kernel, query, vocabulary):
                            "adoption": "SOURCE_RULE_MATCH" if matches else "CANDIDATE_ONLY",
                            "source_rules": matches})
     result = kernel.query(query, scope=program.documents[0].scope if program.documents else "default")
-    used = {step["clause"]["clause_id"] for step in result.proofs.get("query", {}).get("steps", [])}
+    # A matching rule used for another individual upstream is not an
+    # application of that learned rule to this question's occurrence.
+    used = {step["clause"]["clause_id"] for step in result.proofs.get("query", {}).get("steps", [])
+            if step["atom"] == query.as_dict()}
     applied = [c["code"] for c in candidates if any(r["clause_id"] in used for r in c["source_rules"])]
     return {"status": prediction.status.value, "schema": asdict(schema), "degree": schema.width,
             "revision": session.revision, "observations": records, "pending": list(session.pending),
@@ -345,7 +348,10 @@ def evaluate(request):
         result = json.loads(json.dumps(result, ensure_ascii=False, allow_nan=False))
         life._encoded(result, life.MAX_REPORT_BYTES)
     except SourceReadError as error:
-        result.update(status="DEFER", chain_complete=False, error=str(error), source_failure=error.report)
+        codes = {r.get("code") for r in error.report["residuals"]}
+        status = ("RESOURCE_LIMIT" if "RESOURCE_LIMIT" in codes else
+                  "DEFER" if error.report["status"] == "DEFER" else "INVALID_INPUT")
+        result.update(status=status, chain_complete=False, error=str(error), source_failure=error.report)
     except ProjectionScopeError as error:
         result.update(status="DEFER", chain_complete=False, error=str(error))
     except ConnectionMismatch as error:
@@ -356,8 +362,10 @@ def evaluate(request):
         result.update(status="RESOURCE_LIMIT" if error.code == "RESOURCE_LIMIT" else "INVALID_INPUT",
                       chain_complete=False, error=error.code)
     except pilot.PilotError as error:
-        status = "RESOURCE_LIMIT" if error.code == "RESOURCE_LIMIT" else "VERIFICATION_UNAVAILABLE"
-        result.update(status=status, chain_complete=False, error=str(error))
+        status = {"RESOURCE_LIMIT": "RESOURCE_LIMIT", "CHECKER_UNAVAILABLE": "VERIFICATION_UNAVAILABLE",
+                  "INVALID_INPUT": "INVALID_INPUT", "OUTSIDE_VERIFIED_LANGUAGE": "DEFER"}.get(
+                      error.code, "VERIFICATION_FAILED")
+        result.update(status=status, chain_complete=False, error=str(error), error_code=error.code)
     except OSError as error:
         result.update(status="VERIFICATION_UNAVAILABLE", chain_complete=False, error=str(error))
     except (ValueError, TypeError, KeyError, UnicodeError, RecursionError) as error:
