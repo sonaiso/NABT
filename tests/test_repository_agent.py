@@ -180,6 +180,16 @@ class GitTaskTests(unittest.TestCase):
         with self.assertRaises(policy.AgentError):
             self.run_task()
 
+    def test_original_and_replacement_bytes_are_bounded(self):
+        with patch.object(repository, "MAX_TEXT", 2):
+            with self.assertRaises(policy.AgentError) as error:
+                repository.validate_before(self.root, self.proposal)
+        self.assertEqual(error.exception.code, "RESOURCE_LIMIT")
+        with patch.object(repository, "MAX_INPUT", 6):
+            with self.assertRaises(policy.AgentError) as error:
+                repository.validate_before(self.root, self.proposal)
+        self.assertEqual(error.exception.code, "RESOURCE_LIMIT")
+
     def test_symlink_in_file_or_state_path_is_rejected(self):
         (self.root / "docs/link").symlink_to(self.root / "docs", target_is_directory=True)
         with self.assertRaises(policy.AgentError):

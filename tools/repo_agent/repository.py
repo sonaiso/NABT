@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 
-from .policy import AgentError, canonical, digest, require
+from .policy import AgentError, MAX_INPUT, MAX_TEXT, canonical, digest, require
 
 
 def git(root, *args, data=None):
@@ -39,6 +39,7 @@ def safe_file(root, relative):
 
 
 def validate_before(root, proposal):
+    total = 0
     for change in proposal["changes"]:
         file = safe_file(root, change["path"])
         index = git(root, "ls-files", "--stage", "--", change["path"]).decode()
@@ -47,7 +48,9 @@ def validate_before(root, proposal):
         else:
             require(index.startswith("100644 ") and file.is_file(),
                     "PROTECTED_PATH", "only ordinary tracked text files can be replaced")
+            require(file.stat().st_size <= MAX_TEXT, "RESOURCE_LIMIT", "original file exceeds byte budget")
             raw = file.read_bytes()
+            total += len(raw)
             require(digest(raw) == change["before_sha256"], "STALE_INPUT", "source bytes changed: " + change["path"])
             try:
                 raw.decode("utf-8", "strict")
@@ -55,6 +58,8 @@ def validate_before(root, proposal):
                 raise AgentError("INVALID_INPUT", "binary original is not supported") from error
             require(change["content"] is None or raw != change["content"].encode("utf-8"),
                     "INVALID_INPUT", "proposal contains a no-op change")
+        total += len(change["content"].encode("utf-8")) if change["content"] is not None else 0
+        require(total <= MAX_INPUT, "RESOURCE_LIMIT", "combined original/replacement bytes exceed budget")
 
 
 def snapshot(root):

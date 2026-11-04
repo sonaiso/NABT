@@ -138,6 +138,7 @@ def run(task, proposal, *, root=ROOT, output_dir):
         report["candidate_tree"] = expected["index_tree"]
         report["candidate_snapshot"] = expected
         patch = repository.git(candidate, "diff", "--cached", "--binary", "--no-ext-diff", "--no-textconv")
+        require(len(patch) <= 2 * policy.MAX_INPUT, "RESOURCE_LIMIT", "exported patch exceeds replay budget")
         (directory / "candidate.patch").write_bytes(patch)
         report["patch_sha256"] = digest(patch)
         journal.event("APPLIED", candidate_tree=report["candidate_tree"])
