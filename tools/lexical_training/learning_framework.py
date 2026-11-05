@@ -50,10 +50,27 @@ def _indexed(rows, label):
 
 
 def _content(value, label):
-    if type(value) is str:
-        wire_owner._text(value, label, MAX_BYTES, content=True)
-    elif type(value) not in (list, dict) or not value:
-        raise ValueError(label + " requires nonempty text or structured content")
+    if type(value) is not dict or not value:
+        raise ValueError(label + " requires a nonempty object")
+
+
+def _text_list(value, label):
+    if type(value) is not list or not value:
+        raise ValueError(label + " requires a nonempty list of text")
+    for item in value:
+        wire_owner._text(item, label, MAX_BYTES, content=True)
+
+
+def _assessment(value, label):
+    _content(value, label)
+    fields = (("task_ar", "feedback_ar", "contrast_ar") if label == "formative"
+              else ("task_ar", "split_keys", "critical_failures", "metrics"))
+    wire_owner._fields(value, fields, label)
+    for key in fields:
+        if key.endswith("_ar"):
+            wire_owner._text(value[key], label + "." + key, MAX_BYTES, content=True)
+        else:
+            _text_list(value[key], label + "." + key)
 
 
 def _path(value, root):
@@ -116,6 +133,18 @@ def validate(document, *, compiled, axis_ids, matrix_ids, domain_ids, root=ROOT)
                   "prerequisites": set(indexed["objectives"]),
                   "legacy_card_ids": set(cards)}
     paths, runtime_paths, mapped_cards = set(), set(), set()
+    for relative in _ids(document["neural_design"].get("current_paths", []), "neural current_paths"):
+        _path(relative, Path(root))
+        paths.add(relative)
+        runtime_paths.add(relative)
+    routes = document["assessment"].get("route_examples", {})
+    if type(routes) is not dict:
+        raise ValueError("assessment route_examples requires an object")
+    for name, relative in routes.items():
+        wire_owner._text(name, "assessment route name", 1024)
+        _path(relative, Path(root))
+        paths.add(relative)
+        runtime_paths.add(relative)
     for source in indexed["sources"].values():
         if "path" in source:
             _path(source["path"], Path(root))
@@ -138,8 +167,10 @@ def validate(document, *, compiled, axis_ids, matrix_ids, domain_ids, root=ROOT)
             if not supplied <= allowed:
                 raise ValueError("Unresolved " + key + ": " + identity)
         mapped_cards.update(row["legacy_card_ids"])
-        for key in ("inputs", "outputs", "formative", "summative"):
-            _content(row[key], key)
+        for key in ("inputs", "outputs"):
+            _text_list(row[key], key)
+        for key in ("formative", "summative"):
+            _assessment(row[key], key)
         for relative in _ids(row["runtime_refs"], "runtime_refs"):
             _path(relative, Path(root))
             paths.add(relative)

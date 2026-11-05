@@ -17,7 +17,9 @@ def fixture():
         "owner_modules": ["Nabt.Cell"], "source_ids": ["grammar"],
         "knowledge_ar": "الحامل والحالة", "skill_ar": "استعادة الخلية",
         "disposition_ar": "حفظ الموضع", "inputs": ["خلية"], "outputs": ["ترميز"],
-        "formative": ["مقابلة مستقلة"], "summative": {"task": "وقوع جديد"},
+        "formative": {"task_ar": "مقابلة مستقلة", "feedback_ar": "راجع الشاهد", "contrast_ar": "غيّر المصدر"},
+        "summative": {"task_ar": "وقوع جديد", "split_keys": ["source_lineage"],
+                      "critical_failures": ["SOURCE_MISMATCH"], "metrics": ["false_accepts"]},
         "runtime_refs": ["tools/arabic_training/sign_curriculum.py"],
         "acquisition_obligation_ar": "محاذاة الرصد بالوقوع", "neural_status": "NOT_TRAINED",
         "legacy_card_ids": ["L0.1"],
@@ -143,6 +145,40 @@ class FrameworkValidationTests(unittest.TestCase):
             for invalid in (bad_source, bad_agent):
                 with self.subTest(path=path), self.assertRaises(ValueError):
                     f.validate(invalid, **CONTEXT)
+
+    def test_structured_empty_inputs_outputs_and_assessments_are_rejected(self):
+        for field in ("inputs", "outputs"):
+            for value in ([" "], [None], [], ["usable", ""], {"text": "usable"}):
+                doc = fixture(); doc["objectives"][0][field] = value
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    f.validate(doc, **CONTEXT)
+        for field in ("formative", "summative"):
+            for value in ({"task_ar": ""}, {"task": ""}, {"task": "valid but wrong schema"}, ["task"]):
+                doc = fixture(); doc["objectives"][0][field] = value
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    f.validate(doc, **CONTEXT)
+            for key, original in fixture()["objectives"][0][field].items():
+                for invalid in ((" ", None) if isinstance(original, str) else ([" "], [None], [])):
+                    doc = fixture(); doc["objectives"][0][field][key] = invalid
+                    with self.subTest(field=field, key=key, invalid=invalid), self.assertRaises(ValueError):
+                        f.validate(doc, **CONTEXT)
+
+    def test_neural_and_assessment_paths_are_validated_and_counted(self):
+        doc = fixture()
+        doc["neural_design"]["current_paths"] = ["tools/lexical_training/senses.py"]
+        doc["assessment"]["route_examples"] = {"learning": "examples/cognitive_teaching/learning.json"}
+        report = f.validate(doc, **CONTEXT)["validation"]
+        self.assertEqual(report["referenced_file_count"], 3)
+        self.assertEqual(report["runtime_reference_count"], 3)
+        for path in ("../AGENTS.md", "missing.py", None, " "):
+            neural = deepcopy(doc); neural["neural_design"]["current_paths"] = [path]
+            assessment = deepcopy(doc); assessment["assessment"]["route_examples"]["learning"] = path
+            for invalid in (neural, assessment):
+                with self.subTest(path=path), self.assertRaises(ValueError):
+                    f.validate(invalid, **CONTEXT)
+        doc["assessment"]["route_examples"] = ["examples/cognitive_teaching/learning.json"]
+        with self.assertRaises(ValueError):
+            f.validate(doc, **CONTEXT)
 
     def test_forged_progress_cannot_create_a_mastery_certificate(self):
         for field in ("mastery_certified", "validation", "passed"):
