@@ -259,6 +259,14 @@ def verify_connection(report, *, text, directory, profile_id=None,
     return {"valid": wire(report) == wire(fresh), "authority": "FRESH_OWNER_REPLAY_ONLY"}
 
 
+def connection_checks_completed(connection):
+    return (connection["all_native_lexical_checks_completed"] and
+            connection["usage_owner"]["status"] not in {
+                "SOURCE_UNAVAILABLE", "VERIFICATION_UNAVAILABLE",
+                "RESOURCE_EXHAUSTED", "INVALID_INPUT",
+            })
+
+
 def replay_training(directory, reference):
     actual, meta, _ = load_model(directory)
     expected, retained, _ = load_model(reference)
@@ -276,19 +284,22 @@ def replay_training(directory, reference):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("operation", choices=("train", "propose", "connect"))
+    parser.add_argument("operation", choices=("train", "propose", "connect", "explain"))
     parser.add_argument("--model", type=Path, required=True)
     parser.add_argument("--text")
     parser.add_argument("--profile")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--compare-to", type=Path)
+    parser.add_argument("--verify-report", type=Path)
     args = parser.parse_args(argv)
     if (args.operation == "train") == (args.text is not None):
-        parser.error("--text is required only for propose/connect")
-    if args.profile is not None and args.operation != "connect":
-        parser.error("--profile is a connect context only")
+        parser.error("--text is required for propose/connect/explain")
+    if args.profile is not None and args.operation not in ("connect", "explain"):
+        parser.error("--profile requires connect/explain")
     if args.compare_to is not None and args.operation != "train":
         parser.error("--compare-to requires fresh training")
+    if args.verify_report is not None and args.operation != "explain":
+        parser.error("--verify-report requires explain")
     try:
         if args.operation == "train":
             result = train_run(args.model)
@@ -296,6 +307,17 @@ def main(argv=None):
                 result["replay"] = replay_training(args.model, args.compare_to)
         elif args.operation == "propose":
             result = propose(args.text, args.model)
+        elif args.operation == "explain":
+            from .explanation import explain, verify
+            if args.verify_report:
+                with args.verify_report.open("rb") as stream:
+                    raw = stream.read(4_000_001)
+                if len(raw) > 4_000_000:
+                    raise ValueError("explanation report byte limit")
+                result = verify(testimony._strict_json(raw), text=args.text,
+                                directory=args.model, profile_id=args.profile)
+            else:
+                result = explain(args.text, args.model, profile_id=args.profile)
         else:
             result = connect(args.text, args.model, profile_id=args.profile)
         if args.output:
@@ -303,9 +325,10 @@ def main(argv=None):
             save(args.output, result)
         else:
             print(json.dumps(result, ensure_ascii=False, indent=2))
-        if args.operation == "connect" and (not result["all_native_lexical_checks_completed"] or
-                result["usage_owner"]["status"] in {"SOURCE_UNAVAILABLE", "VERIFICATION_UNAVAILABLE",
-                                                    "RESOURCE_EXHAUSTED", "INVALID_INPUT"}):
+        if args.verify_report:
+            return 0 if result["valid"] else 2
+        connection = result.get("connection", result)
+        if args.operation in ("connect", "explain") and not connection_checks_completed(connection):
             return 2
     except (ValueError, OSError) as error:
         print(str(error), file=sys.stderr)
