@@ -11,7 +11,8 @@ from pathlib import Path
 from tools.arabic_training import madlul_matrix, sign_curriculum
 from tools.entropy_framework.reuse import current_catalog
 from tools.meaning_preservation_inventory import research_inventory
-from .reasoning_curriculum import matrix as reasoning_matrix
+from .reasoning_curriculum import matrix as reasoning_matrix, MATRICES, DOMAINS
+from .learning_framework import framework as learning_framework
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -35,7 +36,7 @@ AXES = (
     ("weak_transform", "الإعلال والإبدال والإدغام", ["D017"], ["ClassicalWeak", "ClassicalGemination", "RecursiveSourceBridge"]),
     ("tense_form", "دلالة الزمن بالهيئة والماضي والمضارع والأمر", ["V001", "P33_time_place"], ["Words", "QatrRules", "ImperativeParadigm"]),
     ("future", "المستقبل وقرائن تخصيص المضارع", ["V001", "P17_lan"], ["QatrReading", "DiscourseEvidence"]),
-    ("voice", "المعلوم والمجهول", ["V005"], ["ProductiveForms", "ProductiveClauseV1"]),
+    ("voice", "المعلوم والمجهول", ["V005"], ["Derivation", "InflectionEvidence", "MeaningPreservation"]),
     ("valency", "اللزوم والتعدي والأطراف", ["V002"], ["ConstructionEvidence", "ProductiveClauseV1"]),
     ("verb_augmentation", "الفعل المجرد والمزيد وهيئات التحويل", ["V003", "V004", "V006"], ["Derivation", "ProductiveForms", "ImperativeParadigm"]),
     ("nawasikh", "النواسخ وعملها وأثرها في الإسناد", ["P01_predication", "P18_laysa", "P20_emphasis"], ["Governors", "ArabicInnaFragment", "AwamilRules", "DiscourseEvidence"]),
@@ -73,6 +74,9 @@ def curriculum():
             "sign_matrix": signs, "denotatum_matrix": denotata, "research_inventory": research,
             "requested_axes": axes, "requested_axis_count": len(axes),
             "reasoning_curriculum": reasoning_matrix(compiled=compiled),
+            "learning_framework": learning_framework(
+                compiled=compiled, axis_ids=[row[0] for row in AXES],
+                matrix_ids=[row[0] for row in MATRICES], domain_ids=[row[0] for row in DOMAINS]),
             "current_training": {"input": "source quotation, no supplied root or target",
                 "targets": ["installed sense identity", "definition component identity"],
                 "trained_axes": ["dictionary_designation", "definition_parts"],
@@ -92,8 +96,13 @@ def main():
     import argparse
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--output", type=Path)
+    p.add_argument("--framework-only", action="store_true",
+                   help="Export the validated learning framework without the other matrix views")
     args = p.parse_args()
-    text = json.dumps(curriculum(), ensure_ascii=False, indent=2) + "\n"
+    result = curriculum()
+    if args.framework_only:
+        result = result["learning_framework"]
+    text = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(text, encoding="utf-8")

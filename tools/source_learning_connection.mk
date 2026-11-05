@@ -13,7 +13,7 @@ source-learning-connection:
 .PHONY: cognitive-teaching
 cognitive-teaching:
 	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe evidenceLifecycleV1 epistemicMeasurement connectedAcquisitionV3 groundedPassage
-	NABT_REQUIRE_COGNITIVE_NATIVE=1 $(PYTHON) -m unittest tests.test_cognitive_teaching tests.test_grounded_passage -v
+	NABT_REQUIRE_COGNITIVE_NATIVE=1 $(PYTHON) -m unittest tests.test_cognitive_teaching tests.test_grounded_passage tests.test_learning_framework -v
 	$(PYTHON) -m tools.lexical_training.curriculum --output $(EVIDENCE_DIR)/curriculum.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --output $(EVIDENCE_DIR)/learning.json
 	$(PYTHON) -m tools.lexical_training.teaching --request examples/cognitive_teaching/learning.json --verify $(EVIDENCE_DIR)/learning.json --output $(EVIDENCE_DIR)/learning-replay.json
