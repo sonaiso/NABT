@@ -31,6 +31,11 @@ jobs:
         run: make -f tools/source_learning_connection.mk source-learning-connection LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-connection
       - name: Coordinate cognitive lessons and replay their explanations
         run: make -f tools/source_learning_connection.mk cognitive-teaching LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" EVIDENCE_DIR=artifacts/local/ci-connection/cognitive
+      - name: Preserve the native lesson result through operation RAG
+        env:
+          PYTHONPATH: src:.
+          NABT_REQUIRE_COGNITIVE_NATIVE: '1'
+        run: python -m unittest tests.test_operation_rag.OperationExecutionTests.test_lesson_uses_existing_owner_and_preserves_missing_native_check -v
       - name: Retain complete connection and independent replay
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
