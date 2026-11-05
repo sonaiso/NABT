@@ -74,6 +74,19 @@ class LexicalExplanationTests(unittest.TestCase):
         self.assertFalse(result["score_is_calibrated_probability"])
         self.assertFalse(result["masked_texts_linguistically_licensed"])
 
+    def test_alif_wasla_is_retained_and_each_coalition_matches_the_scorer(self):
+        models, _, _ = a.load_model(MODEL)
+        for text, views in [("ٱ", [None, "ٱ"]),
+                            ("ٱ قلم", [None, "ٱ", "قلم", "ٱ قلم"])]:
+            with self.subTest(text=text):
+                result = e.score_attribution(text, MODEL)
+                self.assertEqual([g["text"] for g in result["groups"]], text.split())
+                vectors = np.vstack([np.zeros_like(encode([text])) if view is None
+                                     else encode([view]) for view in views])
+                for head, model in models.items():
+                    np.testing.assert_allclose(result["heads"][head]["coalition_scores"],
+                                               e.forward(model, vectors), atol=1e-12)
+
     def test_limits_and_empty_input_stop_before_model_loading(self):
         with patch.object(a, "load_model") as load:
             for text in ["", "English", True, "ب " * 9, "ب" * 9000]:

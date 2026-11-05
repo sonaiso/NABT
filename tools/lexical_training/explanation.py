@@ -16,6 +16,7 @@ import numpy as np
 from tools import attested_lexical_loader as loader
 from tools import lexical_testimony as testimony
 from . import acquisition
+from .data import normalize
 from .senses import encode, forward
 
 SCHEMA = "nabt.lexical-explanation.v1"
@@ -104,7 +105,8 @@ def score_attribution(text, directory):
     The empty-Arabic baseline is the zero feature vector of this MLP.
     """
     full = encode([text])  # Use the existing input contract before model I/O.
-    groups = [match for match in re.finditer(r"\S+", text) if ARABIC.search(match[0])]
+    groups = [match for match in re.finditer(r"\S+", text)
+              if ARABIC.search(normalize(match[0]))]
     count = len(groups)
     if count > MAX_GROUPS:
         raise ValueError("Exact explanation supports at most eight written Arabic groups")
@@ -119,7 +121,7 @@ def score_attribution(text, directory):
         chunks.append(text[position:])
         views.append("".join(chunks))
     vectors = np.zeros((len(views), full.shape[1]), dtype=np.float64)
-    populated = [i for i, view in enumerate(views) if ARABIC.search(view)]
+    populated = [i for i, view in enumerate(views) if ARABIC.search(normalize(view))]
     vectors[populated] = encode([views[i] for i in populated])
     if not np.array_equal(vectors[-1], full[0]):
         raise ValueError("Explanation changed the original input representation")
