@@ -188,7 +188,18 @@ class OperationExecutionTests(unittest.TestCase):
         supplied = lesson()
         expected = teaching.run_lesson(supplied)
         result = rag.run(request("lesson", {"lesson": supplied}))
-        self.assertEqual(result["execution"]["owner_result"], expected)
+        actual = result["execution"].get("owner_result", {})
+        if actual != expected:
+            if os.environ.get("NABT_REQUIRE_COGNITIVE_NATIVE") == "1":
+                evidence = ROOT / "artifacts/local/ci-connection/operation-rag-lesson-failure.json"
+                evidence.parent.mkdir(parents=True, exist_ok=True)
+                evidence.write_text(json.dumps({"actual": result, "expected": expected}, ensure_ascii=False))
+            owner = actual.get("owner_result") or {}
+            self.fail(json.dumps({"execution_status": result["execution"]["execution_status"],
+                "expected_status": expected["status"], "actual_status": actual.get("status"),
+                "owner_error": owner.get("error"), "owner_error_code": owner.get("error_code"),
+                "lifecycle_error": (owner.get("lifecycle") or {}).get("execution", {}).get("error")},
+                ensure_ascii=False))
         check = result["execution"]["owner_verification"]
         self.assertEqual(check["valid"], expected["execution_measured"])
         if not expected["execution_measured"]:

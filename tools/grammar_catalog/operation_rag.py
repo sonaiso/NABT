@@ -22,6 +22,9 @@ RESULT_SCHEMA = "nabt.operation-rag.result.v1"
 MAX_REQUEST = 128 * 1024
 MAX_RESULT = 8 * 1024 * 1024
 WORKER_SECONDS = 30
+# Inherited by Lean checkers too: their allocator can reserve a 1 GiB arena
+# before resident use. A 1 GiB address-space cap changes valid native outcomes.
+MAX_ADDRESS_SPACE = 4 * 1024**3
 
 
 def request_from_bytes(raw):
@@ -80,7 +83,7 @@ def worker(payload):
     import resource
     resource.setrlimit(resource.RLIMIT_CPU, (20, 21))
     resource.setrlimit(resource.RLIMIT_FSIZE, (MAX_RESULT, MAX_RESULT))
-    resource.setrlimit(resource.RLIMIT_AS, (1024**3, 1024**3))
+    resource.setrlimit(resource.RLIMIT_AS, (MAX_ADDRESS_SPACE, MAX_ADDRESS_SPACE))
     if type(payload) is not dict or set(payload) != {"operation", "inputs", "snapshot_sha256"}:
         raise ValueError("Invalid worker envelope")
     before, _ = source_snapshot()
