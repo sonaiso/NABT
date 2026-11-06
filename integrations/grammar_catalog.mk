@@ -24,4 +24,10 @@ awamil-agent:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil curriculum --output $(EVIDENCE_DIR)/awamil-curriculum.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil check --request examples/awamil_agent/case.json --output $(EVIDENCE_DIR)/awamil-case.json
 
-check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent
+.PHONY: irab-agent
+irab-agent:
+	PYTHONPATH=src:tests:. $(PYTHON) -m unittest tests.test_irab_agent -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog irab analyze --request examples/irab_agent/jussive.json --output $(EVIDENCE_DIR)/irab-jussive.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog irab analyze --request examples/irab_agent/jussive.json --verify $(EVIDENCE_DIR)/irab-jussive.json
+
+check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent irab-agent

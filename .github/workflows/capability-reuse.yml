@@ -15,7 +15,7 @@ concurrency:
 jobs:
   installed-contracts:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -39,6 +39,10 @@ jobs:
         env:
           PYTHONPATH: src:.
         run: make -f Makefile -f integrations/grammar_catalog.mk operation-rag
+      - name: Replay irab sources, roles, signs and independent requests
+        env:
+          PYTHONPATH: src:tests:.
+        run: make -f Makefile -f integrations/grammar_catalog.mk irab-agent
 
 # Compiling and auditing Lean remains the job of the existing proof gates.
 # Native readiness here is availability, never a claim that a checker ran.

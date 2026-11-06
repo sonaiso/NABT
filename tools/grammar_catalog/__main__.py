@@ -39,9 +39,14 @@ def main():
     sub.add_parser("rag-worker", help=argparse.SUPPRESS)
     from .awamil_cli import arguments as awamil_arguments
     awamil_arguments(sub.add_parser("awamil", help="Source-qualified factors, relation matrix, curriculum and learned retrieval"))
+    from .irab_cli import arguments as irab_arguments
+    irab_arguments(sub.add_parser("irab", help="Source-backed case and relation views with full owner replay"))
     args = parser.parse_args()
     try:
-        if args.command == "awamil":
+        if args.command == "irab":
+            from .irab_cli import run as irab_run
+            result = irab_run(args)
+        elif args.command == "awamil":
             from .awamil_cli import run as awamil_run
             result = awamil_run(args)
         elif args.command in ("operations", "rag", "rag-worker"):
@@ -89,7 +94,7 @@ def main():
             if args.verify:
                 return 0 if result["valid"] else 2
             return 0 if result["status"] in ("EXECUTED", "OWNER_ERROR") else 3
-        if args.command == "awamil" and args.verify:
+        if args.command in ("awamil", "irab") and args.verify:
             return 0 if result["valid"] else 2
         return 0
     except (ResourceLimit, MemoryError) as exc:
