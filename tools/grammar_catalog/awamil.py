@@ -59,7 +59,7 @@ def build_awamil_catalog():
     inventory = load_awamil_inventory()
     table = installed_table()
     grammar = build_catalog()
-    rules = {r["local_id"]: r for r in grammar["rules"]}
+    rules = {r["rule_key"]: r for r in grammar["rules"]}
     passages = {p["passage_id"]: p for p in grammar["passages"]}
     cards = []
     for row in inventory["rows"]:
@@ -84,7 +84,9 @@ def build_awamil_catalog():
             "owner": "nabt.governors.check_assignment", "formal_module": "Nabt.Governors",
             "authority": "CONDITIONAL_CASE_TABLE", "application_certified": False})
     for key, label, relation, subject, predicate, head, rule, frame in RELATIONS:
-        source = rules[rule]
+        registry = ("nabt.discourse-grammar-sources.v2" if key in {"nominal", "verbal", "relative"}
+                    else "nabt.construction-grammar-sources.v4")
+        source = rules[registry + "::" + rule]
         cards.append({"id": "relation:" + key, "collection": "relations", "label": label,
             "description": " ".join([subject, predicate, head]), "family": relation,
             "musnad_ilayh": subject, "musnad": predicate, "predication_head": head,

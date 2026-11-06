@@ -10,7 +10,7 @@ from .awamil import AwamilIndex, answer
 
 
 def arguments(parser):
-    parser.add_argument("action", choices=("catalog", "search", "answer", "curriculum", "train", "matrix", "check"))
+    parser.add_argument("action", choices=("catalog", "search", "answer", "curriculum", "train", "matrix", "check", "analyze"))
     parser.add_argument("query", nargs="?")
     parser.add_argument("--collection", choices=("jurjani", "nabt", "relations"))
     parser.add_argument("--limit", type=int, default=5)
@@ -47,6 +47,47 @@ def check(request):
         "premise_origin": "CALLER_SUPPLIED_NOT_ACQUIRED_FROM_SENTENCE", "application_certified": False}
 
 
+def analyze(request, *, limit=5, learned=None):
+    """Retrieve explanatory material AND execute the existing complete reader.
+
+    Candidate ranking/display limits never prune the owner's reading space.
+    All alternative matrices remain visible; the answer asserts no world truth.
+    """
+    from .awamil_relations import matrix
+    _matrix_request(request)
+    application = matrix(**request)
+    retrieval = answer(request["text"], limit=limit, learned=learned)
+    rows = [r for r in application["rows"] if not r["rejected_candidate"]]
+    raw = request["text"].encode()
+    clauses = []
+    for row in rows:
+        for binding in row["predications"]:
+            values = {}
+            for key in ("musnad_ilayh", "musnad", "predication_head"):
+                span = binding[key]
+                values[key] = raw[span["start"]:span["end"]].decode() if span else "لم يثبت ربطه"
+            statement = (f"المسند إليه: {values['musnad_ilayh']}؛ المسند: {values['musnad']}؛ "
+                         f"رأس الإسناد: {values['predication_head']}؛ النطاق: " +
+                         {"embedded": "داخل التركيب المضمن", "matrix": "الجملة الأصلية",
+                          "owner_frame": "إطار التحليل المختار"}[binding["scope"]] + ".")
+            if not row["licensed_syntax"] or not row["references_complete"]:
+                statement = "مرشح لم تكتمل مقدماته: " + statement
+            if statement not in clauses:
+                clauses.append(statement)
+    status = ("قراءة مرخصة ضمن المقدمات المتاحة" if application["status"] == "LICENSED_DISCOURSE"
+              else "لم يكتمل اعتماد قراءة واحدة؛ تحفظ المصفوفة البدائل ونواقصها")
+    text = status + ". " + (
+        "\n".join(clauses) if clauses else "لم يثبت ربط إسنادي في المقدمات المتاحة؛ راجع النواقص والبدائل في المصفوفة.")
+    return {"schema": "nabt.awamil-agent.inquiry.v1", "answer_ar": text,
+        "retrieved_explanation": retrieval, "application": application,
+        "retrieval_prunes_owner_candidates": False, "world_truth_established": False}
+
+
+def _matrix_request(request):
+    if type(request) is not dict or not {"text"} <= request.keys() or set(request) - {"text", "lexical_text", "context"}:
+        raise ValueError("Matrix requires text and optional lexical_text/context")
+
+
 def run(args):
     if args.verify and args.action != "matrix":
         raise ValueError("--verify applies to matrix replay only")
@@ -71,9 +112,14 @@ def run(args):
     request = _read(args.request, 2 * 1048576)
     if args.action == "check":
         return check(request)
+    if args.action == "analyze":
+        learner = None
+        if args.model:
+            from tools.lexical_training.awamil_agent import Learner
+            learner = Learner(args.model)
+        return analyze(request, limit=args.limit, learned=learner)
     from .awamil_relations import matrix, verify_matrix
-    if type(request) is not dict or not {"text"} <= request.keys() or set(request) - {"text", "lexical_text", "context"}:
-        raise ValueError("Matrix requires text and optional lexical_text/context")
+    _matrix_request(request)
     if args.verify:
         return verify_matrix(_read(args.verify, 8 * 1048576), **request)
     return matrix(**request)

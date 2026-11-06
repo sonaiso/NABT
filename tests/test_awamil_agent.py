@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from tools.grammar_catalog.awamil import AwamilIndex, answer
-from tools.grammar_catalog.awamil_cli import check
+from tools.grammar_catalog.awamil_cli import check, analyze
 from tools.grammar_catalog.awamil_relations import matrix, verify_matrix
 from tools.lexical_training.awamil_agent import curriculum, dataset
 from tools import mantuq_mafhum as mm
@@ -147,6 +147,14 @@ class AwamilRelationTests(unittest.TestCase):
         self.assertFalse(verify_matrix(report, text='زيدٌ حكيمًا.', **self.options)['valid'])
         self.assertFalse(verify_matrix(report, text=text, context=self.options['context'])['valid'])
         self.assertNotEqual(matrix('في الدارِ.', **self.options)['status'], 'LICENSED_DISCOURSE')
+
+    def test_retrieval_limits_do_not_prune_application_and_answer_uses_owner_spans(self):
+        request = {'text': 'كان زيدٌ حكيمًا.', **self.options}
+        narrow, broad = analyze(request, limit=1), analyze(request, limit=20)
+        self.assertEqual(narrow['application'], broad['application'])
+        self.assertIn('رأس الإسناد: حكيمًا', narrow['answer_ar'])
+        self.assertFalse(narrow['retrieval_prunes_owner_candidates'])
+        self.assertFalse(narrow['world_truth_established'])
 
 
 if __name__ == '__main__':

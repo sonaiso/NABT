@@ -11,6 +11,8 @@
 - ١٢ بطاقة مصدرية للعلاقات والتراكيب؛ تسترجع نصوص الشواهد من فهرس الكتب الموجود.
 - جواب عربي مستند إلى البطاقات، مع هوية كل إحالة والعمل المشروط حيث يقدمه الجدول.
 - مصفوفة تنفيذية تحفظ كل تحليل مستقل ومواضع أطرافه ونطاق دعواه ونواقصه.
+- مسار `analyze` يجمع الشواهد المسترجعة وتطبيق القارئ وجوابا بأطراف الإسناد؛
+  لا يقلص حد العرض في الاسترجاع فضاء تحليلات القارئ.
 - منهاج يولده الوكيل من ١٠٠ وحدة مرقمة، ويقدم وحدات الخطأ المقاسة في مجموعة التطوير.
 - تدريب فعلي على ترتيب بطاقات القائمتين والعلاقات، وحفظ الأوزان والنتائج لكل هوية.
 
@@ -87,6 +89,7 @@ python -m tools.grammar_catalog awamil answer 'ما عمل إنّ وأخواته
 python -m tools.grammar_catalog awamil answer 'الجملة الفعلية الفعل والفاعل' --collection relations
 python -m tools.grammar_catalog awamil curriculum --output /tmp/awamil-curriculum.json
 python -m tools.grammar_catalog awamil check --request examples/awamil_agent/case.json
+python -m tools.grammar_catalog awamil analyze --request examples/awamil_agent/nominal.json
 python -m tools.grammar_catalog awamil matrix --request examples/awamil_agent/nominal.json --output /tmp/awamil-matrix.json
 python -m tools.grammar_catalog awamil matrix --request examples/awamil_agent/nominal.json --verify /tmp/awamil-matrix.json
 ```
