@@ -28,8 +28,8 @@ class ProgressivePlanTests(unittest.TestCase):
                                     objectives={r['id'] for r in self.document['objectives']})
 
     def test_all_topics_are_attached_without_claiming_training(self):
-        self.assertEqual(self.report['counts']['profiles'], 33)
-        self.assertEqual(self.report['counts']['requested_topics'], 113)
+        self.assertEqual(self.report['counts']['profiles'], 34)
+        self.assertEqual(self.report['counts']['requested_topics'], 116)
         topics = {t['id'] for r in self.report['profiles'] for t in r['topics']}
         self.assertTrue({'utf8','utf16','utf32','root3','root4','makharij','masdar_genus',
             'sound_names','five_nouns','five_verbs','industrial','diptote_after','past_passive',

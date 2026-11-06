@@ -43,9 +43,19 @@ def main():
     agent_arguments(sub.add_parser("agents", help="Progressive agent dependencies, RAG and the current proof index"))
     from .unit_cli import arguments as unit_arguments
     unit_arguments(sub.add_parser("units", help="Source-derived unit RAG and native ordered composition"))
+    from .irab_cli import arguments as irab_arguments
+    irab_arguments(sub.add_parser("irab", help="Source-backed case and relation views"))
+    from .application_cli import arguments as application_arguments
+    application_arguments(sub.add_parser("application", help="Bind source, lower traces, i'rab and supplied temporal context"))
     args = parser.parse_args()
     try:
-        if args.command == "units":
+        if args.command == "application":
+            from .application_cli import run as application_run
+            result = application_run(args)
+        elif args.command == "irab":
+            from .irab_cli import run as irab_run
+            result = irab_run(args)
+        elif args.command == "units":
             from .unit_cli import run as unit_run
             result = unit_run(args)
         elif args.command == "agents":
@@ -99,7 +109,7 @@ def main():
             if args.verify:
                 return 0 if result["valid"] else 2
             return 0 if result["status"] in ("EXECUTED", "OWNER_ERROR") else 3
-        if args.command in ("awamil", "agents", "units") and args.verify:
+        if args.command in ("awamil", "agents", "units", "irab", "application") and args.verify:
             return 0 if result["valid"] else 2
         return 0
     except (ResourceLimit, MemoryError) as exc:

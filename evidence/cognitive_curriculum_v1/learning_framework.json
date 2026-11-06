@@ -4459,10 +4459,13 @@
         "communication"
       ],
       "axis_ids": [],
-      "matrix_ids": [],
+      "matrix_ids": [
+        "temporal_relation"
+      ],
       "owner_modules": [
         "Nabt.GroundedPassage",
-        "Nabt.DiscourseEvidence"
+        "Nabt.DiscourseEvidence",
+        "Nabt.TemporalContext"
       ],
       "source_ids": [
         "foundation",
@@ -4511,7 +4514,9 @@
       },
       "runtime_refs": [
         "tools/lexical_training/grounded_passage.py",
-        "src/nabt/discourse_adverbs.py"
+        "src/nabt/discourse_adverbs.py",
+        "tools/grammar_catalog/temporal.py",
+        "tools/grammar_catalog/application.py"
       ],
       "acquisition_obligation_ar": "تحصيل المراجع من العربية الحرة وتمييز بداية الحد ودخوله في الحكم",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -5871,7 +5876,8 @@
       "source_learning": "examples/cognitive_teaching/learning.json",
       "qualified_inference": "examples/cognitive_teaching/qualified.json",
       "epistemic_ledger": "examples/cognitive_teaching/epistemic.json",
-      "grounded_passage": "examples/cognitive_teaching/passage.json"
+      "grounded_passage": "examples/cognitive_teaching/passage.json",
+      "temporal_context": "examples/context_application/yesterday_lesson.json"
     },
     "lesson_contract": "nabt.cognitive-lesson.v1; only schema,lesson_id,domain_id,matrix_id,adapter,payload; metadata and evaluation keys remain outside payload",
     "measures": [
@@ -6412,6 +6418,21 @@
           "exit_obligation_ar": "تعيين نطاق النفي والشرط والاستثناء والعطف ومرجع الوصل؛ حفظ الترتيب وقوة القول والاقتباس."
         },
         {
+          "id": "context.time",
+          "label_ar": "وكيل المقام وزمن القول والمرجع والحدث",
+          "parent_agent_id": "grounding",
+          "phase": "postcomposition",
+          "prerequisites": [
+            "verb.post",
+            "connector.post"
+          ],
+          "objective_ids": [
+            "world.time",
+            "lang.reference"
+          ],
+          "exit_obligation_ar": "حفظ زمن القول المستقل لكل اقتباس، والنفي والشرط والبدائل؛ لا ملء الزمن المجهول ولا إثبات الوقوع بفحص الترتيب."
+        },
+        {
           "id": "awamil.license",
           "label_ar": "وكيل العوامل: اعتماد التطبيق وإعادة الفحص",
           "parent_agent_id": "awamil",
@@ -6419,7 +6440,8 @@
           "prerequisites": [
             "noun.post",
             "verb.post",
-            "connector.post"
+            "connector.post",
+            "context.time"
           ],
           "objective_ids": [
             "lang.awamil",
@@ -7426,6 +7448,27 @@
           "profile_id": "roles.stem",
           "research_ids": [],
           "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "sre_context",
+          "label_ar": "زمن القول S والمرجع R والحدث E",
+          "profile_id": "context.time",
+          "research_ids": [],
+          "obligation_ar": "الاختبار على مقدمات مؤرخة ومقاطع مصدرية محددة؛ تفسير العربية الحرة وتحقق الوقوع التزامان مستقلان."
+        },
+        {
+          "id": "quote_time",
+          "label_ar": "استقلال زمن الاقتباس",
+          "profile_id": "context.time",
+          "research_ids": [],
+          "obligation_ar": "الاختبار على مقدمات مؤرخة ومقاطع مصدرية محددة؛ تفسير العربية الحرة وتحقق الوقوع التزامان مستقلان."
+        },
+        {
+          "id": "temporal_withdrawal",
+          "label_ar": "سحب شاهد الزمن وبقاء الدعم المستقل",
+          "profile_id": "context.time",
+          "research_ids": [],
+          "obligation_ar": "الاختبار على مقدمات مؤرخة ومقاطع مصدرية محددة؛ تفسير العربية الحرة وتحقق الوقوع التزامان مستقلان."
         }
       ],
       "contract_fields": [

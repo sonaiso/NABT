@@ -1,0 +1,119 @@
+{
+  "schema": "nabt.cognitive-lesson.v1",
+  "lesson_id": "temporal-withdrawn",
+  "domain_id": "communication",
+  "matrix_id": "temporal_relation",
+  "adapter": "temporal_context",
+  "payload": {
+    "text": "لَمْ يَكْتُبْ أَمْسِ.",
+    "source_id": "temporal_example",
+    "temporal": {
+      "schema": "nabt.temporal-context.v1",
+      "scopes": [
+        {
+          "id": "outer",
+          "parent": null,
+          "span": [
+            0,
+            39
+          ],
+          "force": "assertion",
+          "polarity": "negative"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "dated-speech",
+          "kind": "context",
+          "active": false,
+          "value": {
+            "speech_date": "2024-02-29"
+          }
+        },
+        {
+          "id": "adverb",
+          "kind": "text",
+          "active": true,
+          "span": [
+            26,
+            38
+          ],
+          "text": "أَمْسِ"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "speech",
+          "scope_id": "outer",
+          "role": "S",
+          "span": [
+            0,
+            39
+          ],
+          "anchors": [
+            {
+              "interval": {
+                "first": "2024-02-29",
+                "last": "2024-02-29"
+              },
+              "evidence_ids": [
+                "dated-speech"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "reference",
+          "scope_id": "outer",
+          "role": "R",
+          "span": [
+            0,
+            39
+          ],
+          "anchors": []
+        },
+        {
+          "id": "event",
+          "scope_id": "outer",
+          "role": "E",
+          "span": [
+            9,
+            25
+          ],
+          "anchors": []
+        }
+      ],
+      "relations": [
+        {
+          "id": "reference-date",
+          "left": "reference",
+          "right": "speech",
+          "relation": "offset_days",
+          "days": 0,
+          "evidence_ids": [
+            "dated-speech"
+          ]
+        },
+        {
+          "id": "adverb-date",
+          "left": "event",
+          "right": "speech",
+          "relation": "offset_days",
+          "days": -1,
+          "evidence_ids": [
+            "adverb"
+          ]
+        },
+        {
+          "id": "event-order",
+          "left": "event",
+          "right": "reference",
+          "relation": "before",
+          "evidence_ids": [
+            "adverb"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -304,6 +304,24 @@ def _phonology(request, native):
         "syllable_license_granted":False}
 
 
+def _source(request, native):
+    from nabt.word_reader import _scan
+    _fields(request,("op","text"),("source_id","mode"))
+    text=_text(request['text'],8192)
+    source=SourceBlob(request.get('source_id','input'),text.encode())
+    segments=_scan(source)
+    runs=[s for s in segments if s['kind']=='written_run']
+    if len(runs)>32: raise ResourceLimit('Source-unit written-run budget exceeded')
+    results=[]
+    for s in runs:
+        result=_compose({'op':'compose','parts':[s['surface']],'separators':[],
+                         'source_id':source.source_id,'mode':request.get('mode','wasl')},native)
+        results.append({'source_span':s['span'],'surface':s['surface'],'owner_result':result})
+    return {'status':'SOURCE_UNIT_VIEWS','source_id':source.source_id,'source_sha256':source.sha256,
+            'segments':segments,'written_runs':results,'source_restored':''.join(s['surface'] for s in segments)==text,
+            'quoted_runs_acquired':False,'word_boundaries_preserved':True,'general_grammar_license':False}
+
+
 def _generate(request, native):
     from nabt.derivation import generate_derivation
     _fields(request,("op","root","pattern_id"),("ending",))
@@ -324,7 +342,7 @@ def execute(request):
     snapshot, _ = source_snapshot()
     native = NativeSession()
     handlers = {"enumerate":_enumerate,"shape":_shape,"cell_page":_cell_page,"compose":_compose,
-                "phonology":_phonology,"generate":_generate}
+                "phonology":_phonology,"generate":_generate,"source":_source}
     try:
         if request["op"] in handlers:
             result = handlers[request["op"]](request,native)

@@ -154,3 +154,6 @@ lean_exe meaningPreservationV1 where
 
 lean_exe groundedPassage where
   root := `GroundedPassageMain
+
+lean_exe temporalContextProbe where
+  root := `TemporalContextProbe

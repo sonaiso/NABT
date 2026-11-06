@@ -78,3 +78,5 @@ import Nabt.ProductiveClauseV1
 import Nabt.EvidenceLifecycleV1
 import Nabt.MeaningPreservation
 import Nabt.GroundedPassage
+
+import Nabt.TemporalContext

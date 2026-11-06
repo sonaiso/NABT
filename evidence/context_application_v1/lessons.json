@@ -1,0 +1,1890 @@
+{
+  "schema": "nabt.context-application-measurement.v1",
+  "scope": "AUTHORED_EXPOSED_TEMPORAL_LESSON_REPLAY",
+  "python": "3.12.14",
+  "cases": [
+    {
+      "fixture": "examples/context_application/yesterday_lesson.json",
+      "fixture_sha256": "9dd385f6faef03e1746ff52b0a96ed2bb0f9303f54e75f7fd1eba344f4259abd",
+      "status": "CHECKED",
+      "execution_measured": true,
+      "next_step": {
+        "action": "ASSESS_CONTRAST_AND_WITHDRAWAL",
+        "basis": "/owner_result/status"
+      },
+      "world_truth_established": false,
+      "trace": {
+        "schema": "nabt.cognitive-lesson-result.v1",
+        "status": "CHECKED",
+        "request": {
+          "schema": "nabt.cognitive-lesson.v1",
+          "lesson_id": "temporal-yesterday",
+          "domain_id": "communication",
+          "matrix_id": "temporal_relation",
+          "adapter": "temporal_context",
+          "payload": {
+            "text": "لَمْ يَكْتُبْ أَمْسِ.",
+            "source_id": "temporal_example",
+            "temporal": {
+              "schema": "nabt.temporal-context.v1",
+              "scopes": [
+                {
+                  "id": "outer",
+                  "parent": null,
+                  "span": [
+                    0,
+                    39
+                  ],
+                  "force": "assertion",
+                  "polarity": "negative"
+                }
+              ],
+              "evidence": [
+                {
+                  "id": "dated-speech",
+                  "kind": "context",
+                  "active": true,
+                  "value": {
+                    "speech_date": "2024-02-29"
+                  }
+                },
+                {
+                  "id": "adverb",
+                  "kind": "text",
+                  "active": true,
+                  "span": [
+                    26,
+                    38
+                  ],
+                  "text": "أَمْسِ"
+                }
+              ],
+              "nodes": [
+                {
+                  "id": "speech",
+                  "scope_id": "outer",
+                  "role": "S",
+                  "span": [
+                    0,
+                    39
+                  ],
+                  "anchors": [
+                    {
+                      "interval": {
+                        "first": "2024-02-29",
+                        "last": "2024-02-29"
+                      },
+                      "evidence_ids": [
+                        "dated-speech"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "reference",
+                  "scope_id": "outer",
+                  "role": "R",
+                  "span": [
+                    0,
+                    39
+                  ],
+                  "anchors": []
+                },
+                {
+                  "id": "event",
+                  "scope_id": "outer",
+                  "role": "E",
+                  "span": [
+                    9,
+                    25
+                  ],
+                  "anchors": []
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reference-date",
+                  "left": "reference",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": 0,
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                },
+                {
+                  "id": "adverb-date",
+                  "left": "event",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": -1,
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                },
+                {
+                  "id": "event-order",
+                  "left": "event",
+                  "right": "reference",
+                  "relation": "before",
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "routing_policy_id": "nabt.cognitive-evidence-routing.v2",
+        "execution_measured": true,
+        "owner_result": {
+          "schema": "nabt.temporal-context.v1",
+          "law_id": "nabt.temporal-context.v1",
+          "status": "CHECKED",
+          "source_id": "temporal_example",
+          "source_sha256": "84d039fabb28553c9839ae550b32888a367b31aba85ef3c6592e808c7e391a8a",
+          "request_sha256": "5aa67556154e3e620c8fc48b0a8c905c0bc9affbbbd0f0b954347ea198b64de3",
+          "scopes": [
+            {
+              "id": "outer",
+              "parent": null,
+              "span": [
+                0,
+                39
+              ],
+              "force": "assertion",
+              "polarity": "negative"
+            }
+          ],
+          "evidence": [
+            {
+              "id": "dated-speech",
+              "kind": "context",
+              "active": true,
+              "value": {
+                "speech_date": "2024-02-29"
+              }
+            },
+            {
+              "id": "adverb",
+              "kind": "text",
+              "active": true,
+              "span": [
+                26,
+                38
+              ],
+              "text": "أَمْسِ"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "speech",
+              "scope_id": "outer",
+              "role": "S",
+              "span": [
+                0,
+                39
+              ],
+              "anchors": [
+                {
+                  "interval": {
+                    "first": "2024-02-29",
+                    "last": "2024-02-29"
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                }
+              ],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 738945,
+                    "last": 738945
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ],
+                  "via": [],
+                  "dates": {
+                    "first": "2024-02-29",
+                    "last": "2024-02-29"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "reference",
+              "scope_id": "outer",
+              "role": "R",
+              "span": [
+                0,
+                39
+              ],
+              "anchors": [],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 738945,
+                    "last": 738945
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ],
+                  "via": [
+                    "reference-date"
+                  ],
+                  "dates": {
+                    "first": "2024-02-29",
+                    "last": "2024-02-29"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "event",
+              "scope_id": "outer",
+              "role": "E",
+              "span": [
+                9,
+                25
+              ],
+              "anchors": [],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 738944,
+                    "last": 738944
+                  },
+                  "evidence_ids": [
+                    "adverb",
+                    "dated-speech"
+                  ],
+                  "via": [
+                    "adverb-date"
+                  ],
+                  "dates": {
+                    "first": "2024-02-28",
+                    "last": "2024-02-28"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            }
+          ],
+          "relations": [
+            {
+              "id": "reference-date",
+              "left": "reference",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": 0,
+              "evidence_ids": [
+                "dated-speech"
+              ],
+              "status": "DERIVED",
+              "native_call_indices": [
+                0
+              ]
+            },
+            {
+              "id": "adverb-date",
+              "left": "event",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": -1,
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "DERIVED",
+              "native_call_indices": [
+                1
+              ]
+            },
+            {
+              "id": "event-order",
+              "left": "event",
+              "right": "reference",
+              "relation": "before",
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "CONFIRMED",
+              "native_call_indices": [
+                2
+              ]
+            }
+          ],
+          "native_receipt": {
+            "available": true,
+            "executed": true,
+            "binary_sha256": "6a3ee683cb18391783f6b56ce9d240d96d2d0a7a424c2ae902749415fb32e4bd",
+            "calls": [
+              {
+                "request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": 738945,
+                    "last": 738945
+                  },
+                  "days": 0
+                },
+                "native_request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": "738945",
+                    "last": "738945"
+                  },
+                  "days": "0"
+                },
+                "response": {
+                  "interval": {
+                    "first": 738945,
+                    "last": 738945
+                  },
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "days": "0",
+                    "interval": {
+                      "first": "738945",
+                      "last": "738945"
+                    },
+                    "op": "shift"
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "valid": true,
+                  "world_truth_established": false
+                }
+              },
+              {
+                "request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": 738945,
+                    "last": 738945
+                  },
+                  "days": -1
+                },
+                "native_request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": "738945",
+                    "last": "738945"
+                  },
+                  "days": "-1"
+                },
+                "response": {
+                  "interval": {
+                    "first": 738944,
+                    "last": 738944
+                  },
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "days": "-1",
+                    "interval": {
+                      "first": "738945",
+                      "last": "738945"
+                    },
+                    "op": "shift"
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "valid": true,
+                  "world_truth_established": false
+                }
+              },
+              {
+                "request": {
+                  "op": "check",
+                  "relation": "before",
+                  "left": {
+                    "first": 738944,
+                    "last": 738944
+                  },
+                  "right": {
+                    "first": 738945,
+                    "last": 738945
+                  }
+                },
+                "native_request": {
+                  "op": "check",
+                  "relation": "before",
+                  "left": {
+                    "first": "738944",
+                    "last": "738944"
+                  },
+                  "right": {
+                    "first": "738945",
+                    "last": "738945"
+                  }
+                },
+                "response": {
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "left": {
+                      "first": "738944",
+                      "last": "738944"
+                    },
+                    "op": "check",
+                    "relation": "before",
+                    "right": {
+                      "first": "738945",
+                      "last": "738945"
+                    }
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "verdict": "CONFIRMED",
+                  "world_truth_established": false
+                }
+              }
+            ]
+          },
+          "native_checked": true,
+          "authority": "CONDITIONAL_ON_SUPPLIED_SOURCE_INTERPRETATIONS",
+          "calendar": "proleptic_gregorian_integer_days",
+          "world_truth_established": false,
+          "empirical_causality_established": false,
+          "implicit_speech_time_added": false,
+          "unanchored_constraint_network_complete": false,
+          "arabic_time_interpretation_acquired": false
+        },
+        "measurements": {
+          "mode": "SUPPLIED_TEMPORAL_PREMISES_NATIVE_REPLAY",
+          "learner_trained": false,
+          "unknown_nodes": 0,
+          "trace_pointer": "/owner_result/relations"
+        },
+        "next_step": {
+          "action": "ASSESS_CONTRAST_AND_WITHDRAWAL",
+          "basis": "/owner_result/status"
+        },
+        "curriculum_identity": {
+          "tools/lexical_training/teaching.py": "2a26570a88c5f737eae45a476f2d4fae558a74e7f22103b27863a1d6ff20bcb5",
+          "tools/lexical_training/reasoning_curriculum.py": "fd204b30c25f45e875732f9d91f85fbda010c5f1062cfa9fac5048c41f968900",
+          "evidence/cognitive_curriculum_v1/source_review.json": "f58d1beec4f41213300e78e0a461d93d456dfc56193ce11b4c4dd84f1d38e3fc",
+          "tools/grammar_catalog/temporal.py": "45689f7b73e032eee6946a6f949f44dff9932d08cfa9408b984d16183673dc6f",
+          "formal/TemporalContextProbe.lean": "318a879c8f192fe990e4ba61523c2710fa840d26b6570748dafd4720a477068e",
+          "formal/Nabt/TemporalContext.lean": "e37035ea3fd55a94d97173cc9be6869f9e4e0d7bd099a76e4f0d6db5331d4890"
+        },
+        "limits": {
+          "matrix_complete": false,
+          "domain_expertise_certified": false,
+          "world_truth_established": false,
+          "action_authority": "NONE",
+          "empirical_causality_established": false,
+          "domain_label_grants_authority": false,
+          "general_python_lean_refinement": false,
+          "teacher_kind": "DETERMINISTIC_RECEIPT_DRIVEN_COORDINATOR",
+          "neural_training_performed": false
+        }
+      }
+    },
+    {
+      "fixture": "examples/context_application/tomorrow_lesson.json",
+      "fixture_sha256": "59d970b1d6acbbaf13eea9118c4aac507cc0bb190cc45e41d0a80fdff6e79eba",
+      "status": "CHECKED",
+      "execution_measured": true,
+      "next_step": {
+        "action": "ASSESS_CONTRAST_AND_WITHDRAWAL",
+        "basis": "/owner_result/status"
+      },
+      "world_truth_established": false,
+      "trace": {
+        "schema": "nabt.cognitive-lesson-result.v1",
+        "status": "CHECKED",
+        "request": {
+          "schema": "nabt.cognitive-lesson.v1",
+          "lesson_id": "temporal-tomorrow",
+          "domain_id": "communication",
+          "matrix_id": "temporal_relation",
+          "adapter": "temporal_context",
+          "payload": {
+            "text": "لَنْ يَكْتُبَ غَدًا.",
+            "source_id": "temporal_example",
+            "temporal": {
+              "schema": "nabt.temporal-context.v1",
+              "scopes": [
+                {
+                  "id": "outer",
+                  "parent": null,
+                  "span": [
+                    0,
+                    37
+                  ],
+                  "force": "assertion",
+                  "polarity": "negative"
+                }
+              ],
+              "evidence": [
+                {
+                  "id": "dated-speech",
+                  "kind": "context",
+                  "active": true,
+                  "value": {
+                    "speech_date": "2040-12-31"
+                  }
+                },
+                {
+                  "id": "adverb",
+                  "kind": "text",
+                  "active": true,
+                  "span": [
+                    26,
+                    36
+                  ],
+                  "text": "غَدًا"
+                }
+              ],
+              "nodes": [
+                {
+                  "id": "speech",
+                  "scope_id": "outer",
+                  "role": "S",
+                  "span": [
+                    0,
+                    37
+                  ],
+                  "anchors": [
+                    {
+                      "interval": {
+                        "first": "2040-12-31",
+                        "last": "2040-12-31"
+                      },
+                      "evidence_ids": [
+                        "dated-speech"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "reference",
+                  "scope_id": "outer",
+                  "role": "R",
+                  "span": [
+                    0,
+                    37
+                  ],
+                  "anchors": []
+                },
+                {
+                  "id": "event",
+                  "scope_id": "outer",
+                  "role": "E",
+                  "span": [
+                    9,
+                    25
+                  ],
+                  "anchors": []
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reference-date",
+                  "left": "reference",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": 0,
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                },
+                {
+                  "id": "adverb-date",
+                  "left": "event",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": 1,
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                },
+                {
+                  "id": "event-order",
+                  "left": "event",
+                  "right": "reference",
+                  "relation": "after",
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "routing_policy_id": "nabt.cognitive-evidence-routing.v2",
+        "execution_measured": true,
+        "owner_result": {
+          "schema": "nabt.temporal-context.v1",
+          "law_id": "nabt.temporal-context.v1",
+          "status": "CHECKED",
+          "source_id": "temporal_example",
+          "source_sha256": "75dfd6d1c58fe8e0a126ce6c00358a3b58887e081e9962a7b90a21276bcc7af6",
+          "request_sha256": "5f752e7d38e0c9dbdc6e355cfb20c0c1b141083da1ebbb9a58789c6e5b637ac9",
+          "scopes": [
+            {
+              "id": "outer",
+              "parent": null,
+              "span": [
+                0,
+                37
+              ],
+              "force": "assertion",
+              "polarity": "negative"
+            }
+          ],
+          "evidence": [
+            {
+              "id": "dated-speech",
+              "kind": "context",
+              "active": true,
+              "value": {
+                "speech_date": "2040-12-31"
+              }
+            },
+            {
+              "id": "adverb",
+              "kind": "text",
+              "active": true,
+              "span": [
+                26,
+                36
+              ],
+              "text": "غَدًا"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "speech",
+              "scope_id": "outer",
+              "role": "S",
+              "span": [
+                0,
+                37
+              ],
+              "anchors": [
+                {
+                  "interval": {
+                    "first": "2040-12-31",
+                    "last": "2040-12-31"
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                }
+              ],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 745095,
+                    "last": 745095
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ],
+                  "via": [],
+                  "dates": {
+                    "first": "2040-12-31",
+                    "last": "2040-12-31"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "reference",
+              "scope_id": "outer",
+              "role": "R",
+              "span": [
+                0,
+                37
+              ],
+              "anchors": [],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 745095,
+                    "last": 745095
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ],
+                  "via": [
+                    "reference-date"
+                  ],
+                  "dates": {
+                    "first": "2040-12-31",
+                    "last": "2040-12-31"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "event",
+              "scope_id": "outer",
+              "role": "E",
+              "span": [
+                9,
+                25
+              ],
+              "anchors": [],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 745096,
+                    "last": 745096
+                  },
+                  "evidence_ids": [
+                    "adverb",
+                    "dated-speech"
+                  ],
+                  "via": [
+                    "adverb-date"
+                  ],
+                  "dates": {
+                    "first": "2041-01-01",
+                    "last": "2041-01-01"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            }
+          ],
+          "relations": [
+            {
+              "id": "reference-date",
+              "left": "reference",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": 0,
+              "evidence_ids": [
+                "dated-speech"
+              ],
+              "status": "DERIVED",
+              "native_call_indices": [
+                0
+              ]
+            },
+            {
+              "id": "adverb-date",
+              "left": "event",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": 1,
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "DERIVED",
+              "native_call_indices": [
+                1
+              ]
+            },
+            {
+              "id": "event-order",
+              "left": "event",
+              "right": "reference",
+              "relation": "after",
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "CONFIRMED",
+              "native_call_indices": [
+                2
+              ]
+            }
+          ],
+          "native_receipt": {
+            "available": true,
+            "executed": true,
+            "binary_sha256": "6a3ee683cb18391783f6b56ce9d240d96d2d0a7a424c2ae902749415fb32e4bd",
+            "calls": [
+              {
+                "request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": 745095,
+                    "last": 745095
+                  },
+                  "days": 0
+                },
+                "native_request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": "745095",
+                    "last": "745095"
+                  },
+                  "days": "0"
+                },
+                "response": {
+                  "interval": {
+                    "first": 745095,
+                    "last": 745095
+                  },
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "days": "0",
+                    "interval": {
+                      "first": "745095",
+                      "last": "745095"
+                    },
+                    "op": "shift"
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "valid": true,
+                  "world_truth_established": false
+                }
+              },
+              {
+                "request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": 745095,
+                    "last": 745095
+                  },
+                  "days": 1
+                },
+                "native_request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": "745095",
+                    "last": "745095"
+                  },
+                  "days": "1"
+                },
+                "response": {
+                  "interval": {
+                    "first": 745096,
+                    "last": 745096
+                  },
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "days": "1",
+                    "interval": {
+                      "first": "745095",
+                      "last": "745095"
+                    },
+                    "op": "shift"
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "valid": true,
+                  "world_truth_established": false
+                }
+              },
+              {
+                "request": {
+                  "op": "check",
+                  "relation": "after",
+                  "left": {
+                    "first": 745096,
+                    "last": 745096
+                  },
+                  "right": {
+                    "first": 745095,
+                    "last": 745095
+                  }
+                },
+                "native_request": {
+                  "op": "check",
+                  "relation": "after",
+                  "left": {
+                    "first": "745096",
+                    "last": "745096"
+                  },
+                  "right": {
+                    "first": "745095",
+                    "last": "745095"
+                  }
+                },
+                "response": {
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "left": {
+                      "first": "745096",
+                      "last": "745096"
+                    },
+                    "op": "check",
+                    "relation": "after",
+                    "right": {
+                      "first": "745095",
+                      "last": "745095"
+                    }
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "verdict": "CONFIRMED",
+                  "world_truth_established": false
+                }
+              }
+            ]
+          },
+          "native_checked": true,
+          "authority": "CONDITIONAL_ON_SUPPLIED_SOURCE_INTERPRETATIONS",
+          "calendar": "proleptic_gregorian_integer_days",
+          "world_truth_established": false,
+          "empirical_causality_established": false,
+          "implicit_speech_time_added": false,
+          "unanchored_constraint_network_complete": false,
+          "arabic_time_interpretation_acquired": false
+        },
+        "measurements": {
+          "mode": "SUPPLIED_TEMPORAL_PREMISES_NATIVE_REPLAY",
+          "learner_trained": false,
+          "unknown_nodes": 0,
+          "trace_pointer": "/owner_result/relations"
+        },
+        "next_step": {
+          "action": "ASSESS_CONTRAST_AND_WITHDRAWAL",
+          "basis": "/owner_result/status"
+        },
+        "curriculum_identity": {
+          "tools/lexical_training/teaching.py": "2a26570a88c5f737eae45a476f2d4fae558a74e7f22103b27863a1d6ff20bcb5",
+          "tools/lexical_training/reasoning_curriculum.py": "fd204b30c25f45e875732f9d91f85fbda010c5f1062cfa9fac5048c41f968900",
+          "evidence/cognitive_curriculum_v1/source_review.json": "f58d1beec4f41213300e78e0a461d93d456dfc56193ce11b4c4dd84f1d38e3fc",
+          "tools/grammar_catalog/temporal.py": "45689f7b73e032eee6946a6f949f44dff9932d08cfa9408b984d16183673dc6f",
+          "formal/TemporalContextProbe.lean": "318a879c8f192fe990e4ba61523c2710fa840d26b6570748dafd4720a477068e",
+          "formal/Nabt/TemporalContext.lean": "e37035ea3fd55a94d97173cc9be6869f9e4e0d7bd099a76e4f0d6db5331d4890"
+        },
+        "limits": {
+          "matrix_complete": false,
+          "domain_expertise_certified": false,
+          "world_truth_established": false,
+          "action_authority": "NONE",
+          "empirical_causality_established": false,
+          "domain_label_grants_authority": false,
+          "general_python_lean_refinement": false,
+          "teacher_kind": "DETERMINISTIC_RECEIPT_DRIVEN_COORDINATOR",
+          "neural_training_performed": false
+        }
+      }
+    },
+    {
+      "fixture": "examples/context_application/withdrawn_lesson.json",
+      "fixture_sha256": "a0c6f58c1edce3050b1e9bcde035d16e031e7e7c1cbf5fb25fdb1784f9416e4d",
+      "status": "PARTIAL",
+      "execution_measured": true,
+      "next_step": {
+        "action": "ACQUIRE_TEMPORAL_ANCHOR_OR_DISAMBIGUATION",
+        "basis": "/owner_result/nodes"
+      },
+      "world_truth_established": false,
+      "trace": {
+        "schema": "nabt.cognitive-lesson-result.v1",
+        "status": "PARTIAL",
+        "request": {
+          "schema": "nabt.cognitive-lesson.v1",
+          "lesson_id": "temporal-withdrawn",
+          "domain_id": "communication",
+          "matrix_id": "temporal_relation",
+          "adapter": "temporal_context",
+          "payload": {
+            "text": "لَمْ يَكْتُبْ أَمْسِ.",
+            "source_id": "temporal_example",
+            "temporal": {
+              "schema": "nabt.temporal-context.v1",
+              "scopes": [
+                {
+                  "id": "outer",
+                  "parent": null,
+                  "span": [
+                    0,
+                    39
+                  ],
+                  "force": "assertion",
+                  "polarity": "negative"
+                }
+              ],
+              "evidence": [
+                {
+                  "id": "dated-speech",
+                  "kind": "context",
+                  "active": false,
+                  "value": {
+                    "speech_date": "2024-02-29"
+                  }
+                },
+                {
+                  "id": "adverb",
+                  "kind": "text",
+                  "active": true,
+                  "span": [
+                    26,
+                    38
+                  ],
+                  "text": "أَمْسِ"
+                }
+              ],
+              "nodes": [
+                {
+                  "id": "speech",
+                  "scope_id": "outer",
+                  "role": "S",
+                  "span": [
+                    0,
+                    39
+                  ],
+                  "anchors": [
+                    {
+                      "interval": {
+                        "first": "2024-02-29",
+                        "last": "2024-02-29"
+                      },
+                      "evidence_ids": [
+                        "dated-speech"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "reference",
+                  "scope_id": "outer",
+                  "role": "R",
+                  "span": [
+                    0,
+                    39
+                  ],
+                  "anchors": []
+                },
+                {
+                  "id": "event",
+                  "scope_id": "outer",
+                  "role": "E",
+                  "span": [
+                    9,
+                    25
+                  ],
+                  "anchors": []
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reference-date",
+                  "left": "reference",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": 0,
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                },
+                {
+                  "id": "adverb-date",
+                  "left": "event",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": -1,
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                },
+                {
+                  "id": "event-order",
+                  "left": "event",
+                  "right": "reference",
+                  "relation": "before",
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "routing_policy_id": "nabt.cognitive-evidence-routing.v2",
+        "execution_measured": true,
+        "owner_result": {
+          "schema": "nabt.temporal-context.v1",
+          "law_id": "nabt.temporal-context.v1",
+          "status": "PARTIAL",
+          "source_id": "temporal_example",
+          "source_sha256": "84d039fabb28553c9839ae550b32888a367b31aba85ef3c6592e808c7e391a8a",
+          "request_sha256": "21271ff752e2d0238331001cf25683b6c2dde18d6f2acd60520bbf3a383f67a9",
+          "scopes": [
+            {
+              "id": "outer",
+              "parent": null,
+              "span": [
+                0,
+                39
+              ],
+              "force": "assertion",
+              "polarity": "negative"
+            }
+          ],
+          "evidence": [
+            {
+              "id": "dated-speech",
+              "kind": "context",
+              "active": false,
+              "value": {
+                "speech_date": "2024-02-29"
+              }
+            },
+            {
+              "id": "adverb",
+              "kind": "text",
+              "active": true,
+              "span": [
+                26,
+                38
+              ],
+              "text": "أَمْسِ"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "speech",
+              "scope_id": "outer",
+              "role": "S",
+              "span": [
+                0,
+                39
+              ],
+              "anchors": [
+                {
+                  "interval": {
+                    "first": "2024-02-29",
+                    "last": "2024-02-29"
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                }
+              ],
+              "candidates": [],
+              "absolute_time_known": false,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "reference",
+              "scope_id": "outer",
+              "role": "R",
+              "span": [
+                0,
+                39
+              ],
+              "anchors": [],
+              "candidates": [],
+              "absolute_time_known": false,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "event",
+              "scope_id": "outer",
+              "role": "E",
+              "span": [
+                9,
+                25
+              ],
+              "anchors": [],
+              "candidates": [],
+              "absolute_time_known": false,
+              "event_occurrence_established": false
+            }
+          ],
+          "relations": [
+            {
+              "id": "reference-date",
+              "left": "reference",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": 0,
+              "evidence_ids": [
+                "dated-speech"
+              ],
+              "status": "WITHDRAWN",
+              "native_call_indices": []
+            },
+            {
+              "id": "adverb-date",
+              "left": "event",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": -1,
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "UNKNOWN",
+              "native_call_indices": []
+            },
+            {
+              "id": "event-order",
+              "left": "event",
+              "right": "reference",
+              "relation": "before",
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "UNKNOWN",
+              "native_call_indices": [
+                0
+              ]
+            }
+          ],
+          "native_receipt": {
+            "available": true,
+            "executed": true,
+            "binary_sha256": "6a3ee683cb18391783f6b56ce9d240d96d2d0a7a424c2ae902749415fb32e4bd",
+            "calls": [
+              {
+                "request": {
+                  "op": "check",
+                  "relation": "before",
+                  "left": null,
+                  "right": null
+                },
+                "native_request": {
+                  "op": "check",
+                  "relation": "before",
+                  "left": null,
+                  "right": null
+                },
+                "response": {
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "left": null,
+                    "op": "check",
+                    "relation": "before",
+                    "right": null
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "verdict": "UNKNOWN",
+                  "world_truth_established": false
+                }
+              }
+            ]
+          },
+          "native_checked": true,
+          "authority": "CONDITIONAL_ON_SUPPLIED_SOURCE_INTERPRETATIONS",
+          "calendar": "proleptic_gregorian_integer_days",
+          "world_truth_established": false,
+          "empirical_causality_established": false,
+          "implicit_speech_time_added": false,
+          "unanchored_constraint_network_complete": false,
+          "arabic_time_interpretation_acquired": false
+        },
+        "measurements": {
+          "mode": "SUPPLIED_TEMPORAL_PREMISES_NATIVE_REPLAY",
+          "learner_trained": false,
+          "unknown_nodes": 3,
+          "trace_pointer": "/owner_result/relations"
+        },
+        "next_step": {
+          "action": "ACQUIRE_TEMPORAL_ANCHOR_OR_DISAMBIGUATION",
+          "basis": "/owner_result/nodes"
+        },
+        "curriculum_identity": {
+          "tools/lexical_training/teaching.py": "2a26570a88c5f737eae45a476f2d4fae558a74e7f22103b27863a1d6ff20bcb5",
+          "tools/lexical_training/reasoning_curriculum.py": "fd204b30c25f45e875732f9d91f85fbda010c5f1062cfa9fac5048c41f968900",
+          "evidence/cognitive_curriculum_v1/source_review.json": "f58d1beec4f41213300e78e0a461d93d456dfc56193ce11b4c4dd84f1d38e3fc",
+          "tools/grammar_catalog/temporal.py": "45689f7b73e032eee6946a6f949f44dff9932d08cfa9408b984d16183673dc6f",
+          "formal/TemporalContextProbe.lean": "318a879c8f192fe990e4ba61523c2710fa840d26b6570748dafd4720a477068e",
+          "formal/Nabt/TemporalContext.lean": "e37035ea3fd55a94d97173cc9be6869f9e4e0d7bd099a76e4f0d6db5331d4890"
+        },
+        "limits": {
+          "matrix_complete": false,
+          "domain_expertise_certified": false,
+          "world_truth_established": false,
+          "action_authority": "NONE",
+          "empirical_causality_established": false,
+          "domain_label_grants_authority": false,
+          "general_python_lean_refinement": false,
+          "teacher_kind": "DETERMINISTIC_RECEIPT_DRIVEN_COORDINATOR",
+          "neural_training_performed": false
+        }
+      }
+    },
+    {
+      "fixture": "examples/context_application/quotation_lesson.json",
+      "fixture_sha256": "87a7334334f523e371f9245963aee423f8e72685e63aa128bdb52214fa361ed9",
+      "status": "CHECKED",
+      "execution_measured": true,
+      "next_step": {
+        "action": "ASSESS_CONTRAST_AND_WITHDRAWAL",
+        "basis": "/owner_result/status"
+      },
+      "world_truth_established": false,
+      "trace": {
+        "schema": "nabt.cognitive-lesson-result.v1",
+        "status": "CHECKED",
+        "request": {
+          "schema": "nabt.cognitive-lesson.v1",
+          "lesson_id": "temporal-quotation",
+          "domain_id": "communication",
+          "matrix_id": "temporal_relation",
+          "adapter": "temporal_context",
+          "payload": {
+            "text": "قال: «سَأَكْتُبُ غَدًا».",
+            "source_id": "temporal_example",
+            "temporal": {
+              "schema": "nabt.temporal-context.v1",
+              "scopes": [
+                {
+                  "id": "outer",
+                  "parent": null,
+                  "span": [
+                    0,
+                    44
+                  ],
+                  "force": "assertion",
+                  "polarity": "positive"
+                },
+                {
+                  "id": "quoted",
+                  "parent": "outer",
+                  "span": [
+                    8,
+                    43
+                  ],
+                  "force": "quotation",
+                  "polarity": "positive"
+                }
+              ],
+              "evidence": [
+                {
+                  "id": "dated-speech",
+                  "kind": "context",
+                  "active": true,
+                  "value": {
+                    "speech_date": "2000-02-28"
+                  }
+                },
+                {
+                  "id": "adverb",
+                  "kind": "text",
+                  "active": true,
+                  "span": [
+                    31,
+                    41
+                  ],
+                  "text": "غَدًا"
+                },
+                {
+                  "id": "outer-date",
+                  "kind": "context",
+                  "active": true,
+                  "value": {
+                    "speech_date": "2070-01-01"
+                  }
+                }
+              ],
+              "nodes": [
+                {
+                  "id": "speech",
+                  "scope_id": "quoted",
+                  "role": "S",
+                  "span": [
+                    8,
+                    43
+                  ],
+                  "anchors": [
+                    {
+                      "interval": {
+                        "first": "2000-02-28",
+                        "last": "2000-02-28"
+                      },
+                      "evidence_ids": [
+                        "dated-speech"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "reference",
+                  "scope_id": "quoted",
+                  "role": "R",
+                  "span": [
+                    8,
+                    43
+                  ],
+                  "anchors": []
+                },
+                {
+                  "id": "event",
+                  "scope_id": "quoted",
+                  "role": "E",
+                  "span": [
+                    10,
+                    30
+                  ],
+                  "anchors": []
+                },
+                {
+                  "id": "outer-speech",
+                  "scope_id": "outer",
+                  "role": "S",
+                  "span": [
+                    0,
+                    44
+                  ],
+                  "anchors": [
+                    {
+                      "interval": {
+                        "first": "2070-01-01",
+                        "last": "2070-01-01"
+                      },
+                      "evidence_ids": [
+                        "outer-date"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reference-date",
+                  "left": "reference",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": 0,
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                },
+                {
+                  "id": "adverb-date",
+                  "left": "event",
+                  "right": "speech",
+                  "relation": "offset_days",
+                  "days": 1,
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                },
+                {
+                  "id": "event-order",
+                  "left": "event",
+                  "right": "reference",
+                  "relation": "after",
+                  "evidence_ids": [
+                    "adverb"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "routing_policy_id": "nabt.cognitive-evidence-routing.v2",
+        "execution_measured": true,
+        "owner_result": {
+          "schema": "nabt.temporal-context.v1",
+          "law_id": "nabt.temporal-context.v1",
+          "status": "CHECKED",
+          "source_id": "temporal_example",
+          "source_sha256": "747167d7f67ecfb813246a2b3af7cdbd108834224e0d0b54ef76fa1506d4c01e",
+          "request_sha256": "3bef1be02d959316b7cc4abb5db49b61e73ebca4b1e1989d27e0b848a62ac7be",
+          "scopes": [
+            {
+              "id": "outer",
+              "parent": null,
+              "span": [
+                0,
+                44
+              ],
+              "force": "assertion",
+              "polarity": "positive"
+            },
+            {
+              "id": "quoted",
+              "parent": "outer",
+              "span": [
+                8,
+                43
+              ],
+              "force": "quotation",
+              "polarity": "positive"
+            }
+          ],
+          "evidence": [
+            {
+              "id": "dated-speech",
+              "kind": "context",
+              "active": true,
+              "value": {
+                "speech_date": "2000-02-28"
+              }
+            },
+            {
+              "id": "adverb",
+              "kind": "text",
+              "active": true,
+              "span": [
+                31,
+                41
+              ],
+              "text": "غَدًا"
+            },
+            {
+              "id": "outer-date",
+              "kind": "context",
+              "active": true,
+              "value": {
+                "speech_date": "2070-01-01"
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "speech",
+              "scope_id": "quoted",
+              "role": "S",
+              "span": [
+                8,
+                43
+              ],
+              "anchors": [
+                {
+                  "interval": {
+                    "first": "2000-02-28",
+                    "last": "2000-02-28"
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ]
+                }
+              ],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 730178,
+                    "last": 730178
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ],
+                  "via": [],
+                  "dates": {
+                    "first": "2000-02-28",
+                    "last": "2000-02-28"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "reference",
+              "scope_id": "quoted",
+              "role": "R",
+              "span": [
+                8,
+                43
+              ],
+              "anchors": [],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 730178,
+                    "last": 730178
+                  },
+                  "evidence_ids": [
+                    "dated-speech"
+                  ],
+                  "via": [
+                    "reference-date"
+                  ],
+                  "dates": {
+                    "first": "2000-02-28",
+                    "last": "2000-02-28"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "event",
+              "scope_id": "quoted",
+              "role": "E",
+              "span": [
+                10,
+                30
+              ],
+              "anchors": [],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 730179,
+                    "last": 730179
+                  },
+                  "evidence_ids": [
+                    "adverb",
+                    "dated-speech"
+                  ],
+                  "via": [
+                    "adverb-date"
+                  ],
+                  "dates": {
+                    "first": "2000-02-29",
+                    "last": "2000-02-29"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            },
+            {
+              "id": "outer-speech",
+              "scope_id": "outer",
+              "role": "S",
+              "span": [
+                0,
+                44
+              ],
+              "anchors": [
+                {
+                  "interval": {
+                    "first": "2070-01-01",
+                    "last": "2070-01-01"
+                  },
+                  "evidence_ids": [
+                    "outer-date"
+                  ]
+                }
+              ],
+              "candidates": [
+                {
+                  "interval": {
+                    "first": 755688,
+                    "last": 755688
+                  },
+                  "evidence_ids": [
+                    "outer-date"
+                  ],
+                  "via": [],
+                  "dates": {
+                    "first": "2070-01-01",
+                    "last": "2070-01-01"
+                  }
+                }
+              ],
+              "absolute_time_known": true,
+              "event_occurrence_established": false
+            }
+          ],
+          "relations": [
+            {
+              "id": "reference-date",
+              "left": "reference",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": 0,
+              "evidence_ids": [
+                "dated-speech"
+              ],
+              "status": "DERIVED",
+              "native_call_indices": [
+                0
+              ]
+            },
+            {
+              "id": "adverb-date",
+              "left": "event",
+              "right": "speech",
+              "relation": "offset_days",
+              "days": 1,
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "DERIVED",
+              "native_call_indices": [
+                1
+              ]
+            },
+            {
+              "id": "event-order",
+              "left": "event",
+              "right": "reference",
+              "relation": "after",
+              "evidence_ids": [
+                "adverb"
+              ],
+              "status": "CONFIRMED",
+              "native_call_indices": [
+                2
+              ]
+            }
+          ],
+          "native_receipt": {
+            "available": true,
+            "executed": true,
+            "binary_sha256": "6a3ee683cb18391783f6b56ce9d240d96d2d0a7a424c2ae902749415fb32e4bd",
+            "calls": [
+              {
+                "request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": 730178,
+                    "last": 730178
+                  },
+                  "days": 0
+                },
+                "native_request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": "730178",
+                    "last": "730178"
+                  },
+                  "days": "0"
+                },
+                "response": {
+                  "interval": {
+                    "first": 730178,
+                    "last": 730178
+                  },
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "days": "0",
+                    "interval": {
+                      "first": "730178",
+                      "last": "730178"
+                    },
+                    "op": "shift"
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "valid": true,
+                  "world_truth_established": false
+                }
+              },
+              {
+                "request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": 730178,
+                    "last": 730178
+                  },
+                  "days": 1
+                },
+                "native_request": {
+                  "op": "shift",
+                  "interval": {
+                    "first": "730178",
+                    "last": "730178"
+                  },
+                  "days": "1"
+                },
+                "response": {
+                  "interval": {
+                    "first": 730179,
+                    "last": 730179
+                  },
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "days": "1",
+                    "interval": {
+                      "first": "730178",
+                      "last": "730178"
+                    },
+                    "op": "shift"
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "valid": true,
+                  "world_truth_established": false
+                }
+              },
+              {
+                "request": {
+                  "op": "check",
+                  "relation": "after",
+                  "left": {
+                    "first": 730179,
+                    "last": 730179
+                  },
+                  "right": {
+                    "first": 730178,
+                    "last": 730178
+                  }
+                },
+                "native_request": {
+                  "op": "check",
+                  "relation": "after",
+                  "left": {
+                    "first": "730179",
+                    "last": "730179"
+                  },
+                  "right": {
+                    "first": "730178",
+                    "last": "730178"
+                  }
+                },
+                "response": {
+                  "law_id": "nabt.temporal-context.v1",
+                  "request": {
+                    "left": {
+                      "first": "730179",
+                      "last": "730179"
+                    },
+                    "op": "check",
+                    "relation": "after",
+                    "right": {
+                      "first": "730178",
+                      "last": "730178"
+                    }
+                  },
+                  "scope": "SUPPLIED_INTEGER_DAY_INTERVALS",
+                  "status": "OK",
+                  "verdict": "CONFIRMED",
+                  "world_truth_established": false
+                }
+              }
+            ]
+          },
+          "native_checked": true,
+          "authority": "CONDITIONAL_ON_SUPPLIED_SOURCE_INTERPRETATIONS",
+          "calendar": "proleptic_gregorian_integer_days",
+          "world_truth_established": false,
+          "empirical_causality_established": false,
+          "implicit_speech_time_added": false,
+          "unanchored_constraint_network_complete": false,
+          "arabic_time_interpretation_acquired": false
+        },
+        "measurements": {
+          "mode": "SUPPLIED_TEMPORAL_PREMISES_NATIVE_REPLAY",
+          "learner_trained": false,
+          "unknown_nodes": 0,
+          "trace_pointer": "/owner_result/relations"
+        },
+        "next_step": {
+          "action": "ASSESS_CONTRAST_AND_WITHDRAWAL",
+          "basis": "/owner_result/status"
+        },
+        "curriculum_identity": {
+          "tools/lexical_training/teaching.py": "2a26570a88c5f737eae45a476f2d4fae558a74e7f22103b27863a1d6ff20bcb5",
+          "tools/lexical_training/reasoning_curriculum.py": "fd204b30c25f45e875732f9d91f85fbda010c5f1062cfa9fac5048c41f968900",
+          "evidence/cognitive_curriculum_v1/source_review.json": "f58d1beec4f41213300e78e0a461d93d456dfc56193ce11b4c4dd84f1d38e3fc",
+          "tools/grammar_catalog/temporal.py": "45689f7b73e032eee6946a6f949f44dff9932d08cfa9408b984d16183673dc6f",
+          "formal/TemporalContextProbe.lean": "318a879c8f192fe990e4ba61523c2710fa840d26b6570748dafd4720a477068e",
+          "formal/Nabt/TemporalContext.lean": "e37035ea3fd55a94d97173cc9be6869f9e4e0d7bd099a76e4f0d6db5331d4890"
+        },
+        "limits": {
+          "matrix_complete": false,
+          "domain_expertise_certified": false,
+          "world_truth_established": false,
+          "action_authority": "NONE",
+          "empirical_causality_established": false,
+          "domain_label_grants_authority": false,
+          "general_python_lean_refinement": false,
+          "teacher_kind": "DETERMINISTIC_RECEIPT_DRIVEN_COORDINATOR",
+          "neural_training_performed": false
+        }
+      }
+    }
+  ],
+  "neural_temporal_training": false,
+  "free_arabic_acquisition": false,
+  "independent_generalization_measured": false
+}

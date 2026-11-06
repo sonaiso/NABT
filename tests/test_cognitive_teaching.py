@@ -55,7 +55,7 @@ def qualified():
 class CurriculumTests(unittest.TestCase):
     def test_distinct_axes_and_source_attribution(self):
         result = c.matrix()
-        self.assertEqual(result["matrix_count"], 18)
+        self.assertEqual(result["matrix_count"], 19)
         self.assertEqual(len(result["domains"]), 8)
         rows = {r["id"]: r for r in result["matrices"]}
         self.assertIn("Selected passages only", result["source_review"]["scope"])

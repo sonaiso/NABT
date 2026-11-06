@@ -41,4 +41,20 @@ unit-composition-agent:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog units run --request examples/unit_composition/long_vowel.json --verify $(EVIDENCE_DIR)/unit-composition.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog units run --request examples/unit_composition/enumerate.json --output $(EVIDENCE_DIR)/unit-quotas.json
 
-check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent progressive-agents unit-composition-agent
+.PHONY: irab-agent
+irab-agent:
+	PYTHONPATH=src:tests:. $(PYTHON) -m unittest tests.test_irab_agent -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog irab analyze --request examples/irab_agent/jussive.json --output $(EVIDENCE_DIR)/irab-jussive.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog irab analyze --request examples/irab_agent/jussive.json --verify $(EVIDENCE_DIR)/irab-jussive.json
+
+check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent progressive-agents unit-composition-agent irab-agent
+
+.PHONY: context-application
+context-application:
+	PYTHONPATH=src:. NABT_REQUIRE_CONTEXT_NATIVE=1 $(PYTHON) -m unittest tests.test_temporal_context tests.test_context_application -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog application analyze --request examples/context_application/application.json --output $(EVIDENCE_DIR)/context-application.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog application analyze --request examples/context_application/application.json --verify $(EVIDENCE_DIR)/context-application.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.teaching --request examples/context_application/quotation_lesson.json --output $(EVIDENCE_DIR)/temporal-lesson.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.teaching --request examples/context_application/quotation_lesson.json --verify $(EVIDENCE_DIR)/temporal-lesson.json
+
+check: context-application
