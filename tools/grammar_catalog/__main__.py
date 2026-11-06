@@ -41,9 +41,14 @@ def main():
     awamil_arguments(sub.add_parser("awamil", help="Source-qualified factors, relation matrix, curriculum and learned retrieval"))
     from .agent_cli import arguments as agent_arguments
     agent_arguments(sub.add_parser("agents", help="Progressive agent dependencies, RAG and the current proof index"))
+    from .unit_cli import arguments as unit_arguments
+    unit_arguments(sub.add_parser("units", help="Source-derived unit RAG and native ordered composition"))
     args = parser.parse_args()
     try:
-        if args.command == "agents":
+        if args.command == "units":
+            from .unit_cli import run as unit_run
+            result = unit_run(args)
+        elif args.command == "agents":
             from .agent_cli import run as agent_run
             result = agent_run(args)
         elif args.command == "awamil":
@@ -94,7 +99,7 @@ def main():
             if args.verify:
                 return 0 if result["valid"] else 2
             return 0 if result["status"] in ("EXECUTED", "OWNER_ERROR") else 3
-        if args.command in ("awamil", "agents") and args.verify:
+        if args.command in ("awamil", "agents", "units") and args.verify:
             return 0 if result["valid"] else 2
         return 0
     except (ResourceLimit, MemoryError) as exc:

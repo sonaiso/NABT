@@ -1,0 +1,61 @@
+{
+  "schema": "nabt.unit-composition-verification.v1",
+  "basis_commit": "7c86e16c217010c0af09c67886522e6e6f991fa4",
+  "execution_snapshot_sha256": "4fb89a45ba9b7786847411ffda9b40759913412fadc4c18f020d75b83770f72a",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "native_targets_built": [
+    "unitDiscoveryProbe",
+    "progressiveUnitProbe",
+    "alignedAcquisition"
+  ],
+  "native_binary_sha256": {
+    "unitDiscoveryProbe": "2a9d642acd4a4ec9b330880b821bbf8bd735308c1c7e7b72dae1c135f1510633",
+    "progressiveUnitProbe": "33b15b3417bbd535e9afc1ae74b89cf9485be091f9b4bb4456b2f0945f32e87e",
+    "alignedAcquisition": "4e4f12ee6aca0dc30e579b23dd689330687ab2f2c9f6f18f529ddf9490c63ae0"
+  },
+  "current_proof_catalog": {
+    "path": "evidence/grounded_passage_v1/integration/proof_catalog.json",
+    "sha256": "26dfcf0e632c3545787e742fef5b9e833db01f2389c749d05e06978251f31009",
+    "compiled_this_run": false,
+    "verification": "RECORDED_COMPILED_SNAPSHOT_WITH_CURRENT_SOURCE_MATCH"
+  },
+  "regression": {
+    "tests": 201,
+    "failed": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=src:. NABT_REQUIRE_UNIT_NATIVE=1 python -m unittest tests.test_unit_composition_agent tests.test_progressive_agent_plan tests.test_learning_framework tests.test_sign_curriculum tests.test_derivation_surface_bridge tests.test_derivation tests.test_aligned_acquisition tests.test_entropy_framework tests.test_operation_rag -q",
+    "note": "After final offset validation and proof-navigation additions, the complete 17-test unit suite and native integration gate were rerun."
+  },
+  "final_native_gate": {
+    "tests": 17,
+    "failed": 0,
+    "skipped": 0,
+    "command": "make -f Makefile -f integrations/grammar_catalog.mk unit-composition-agent EVIDENCE_DIR=/tmp/cv-integration",
+    "independent_request_replay_valid": true
+  },
+  "dependency_freeze": {
+    "files": 90,
+    "sha256": "ddfd3329295e196dd96c68d3bb507a0c791cff1a621045f9524f0a65fc0a155e",
+    "unchanged": true
+  },
+  "ordered_shapes": {
+    "quota_domains": 24,
+    "ordered_shape_count": 250,
+    "ordered_pairs": 64,
+    "syllable_pairs": 36,
+    "search_complete_for_declared_domain": true,
+    "arabic_license_inferred": false
+  },
+  "cell_pair_measurement": "evidence/unit_composition_agent_v1/cell_pairs.json",
+  "pattern_measurement": "evidence/unit_composition_agent_v1/measurement.json",
+  "scope_limits": {
+    "formal_kernel_changed": false,
+    "full_make_check_run": false,
+    "neural_weights_trained": false,
+    "all_arabic_licensed": false,
+    "three_or_four_cell_space_exhausted": false,
+    "pattern_examples_deferred_at_acquisition": 36,
+    "raw_cell_shape_rejections": 10,
+    "general_certified_bridge_established": false
+  }
+}

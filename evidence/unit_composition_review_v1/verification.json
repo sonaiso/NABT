@@ -1,0 +1,14 @@
+{
+  "schema": "nabt.unit-composition-review.v1",
+  "basis_commit": "8ca5b9c14f39bf844fb85030ffe1d87150315d8a",
+  "tests": 33,
+  "failed": 0,
+  "skipped": 0,
+  "command": "PYTHONPATH=src:. NABT_REQUIRE_UNIT_NATIVE=1 python -m unittest tests.test_unit_composition_agent tests.test_derivation_surface_decimal tests.test_derivation_surface_bridge -q",
+  "fixes": [
+    "An absent executable path returns DEFER/NATIVE_PROBE_UNAVAILABLE",
+    "A116 integer 24231762245078505 survives native parsing, report serialization, CLI read and independent replay"
+  ],
+  "transport_owner": "tools.recursive_bridge.load_application_bytes/_application_wire",
+  "existing_safe_integer_lifecycle_contract_changed": false
+}
