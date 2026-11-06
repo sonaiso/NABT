@@ -118,5 +118,20 @@
     "certified_bridge_established": false,
     "automatic_sre_acquisition": false,
     "unanchored_temporal_network_complete": false
+  },
+  "post_checkpoint_test_isolation": {
+    "observation": "Full-suite process with torch imported exposes a relative virtual _ops.py while a synthetic postflight test scans sys.modules; the context-exit injection was preempted by FileNotFoundError.",
+    "repair": "Isolate the synthetic loaded-module fixture only in that test. Production provenance audit is unchanged.",
+    "verification": "Imported torch first, then ran the entire test_meaning_preservation_evaluator module.",
+    "tests": 18,
+    "skipped": 0,
+    "result": "PASS",
+    "full_suite_result_not_inferred_from_targeted_rerun": true
+  },
+  "documentation_refresh": {
+    "progressive_profiles": 34,
+    "requested_topics": 116,
+    "compiled_declarations": 1617,
+    "distinct_count_domains_preserved": true
   }
 }

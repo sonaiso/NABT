@@ -232,7 +232,13 @@ class FrozenExecutionBoundaryTests(unittest.TestCase):
                         fail()
                 guard = SimpleNamespace(frozen_runtime=frozen,
                     snapshot=lambda *args: fail() if failure_point == "snapshot" else deepcopy(before))
+                # This fixture tests preservation on three injected failures.
+                # Unrelated virtual modules (e.g. torch's relative _ops.py)
+                # must not replace the intended context-exit failure.
+                module_fixture = SimpleNamespace(modules={
+                    "synthetic_loaded_source": SimpleNamespace(__file__=__file__)})
                 with patch.object(evaluator, "load_bootstrap", return_value=guard), \
+                        patch.object(evaluator, "sys", module_fixture), \
                         patch.object(evaluator, "initial_snapshot", return_value=before), \
                         patch.object(evaluator, "load_gold", return_value={"cases": [{"id": "synthetic"}]}), \
                         patch.object(evaluator.importlib, "import_module", return_value=object()), \
