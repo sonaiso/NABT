@@ -33,4 +33,12 @@ progressive-agents:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents gate --request examples/awamil_agent/nominal.json --output $(EVIDENCE_DIR)/progressive-factor-gate.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents gate --request examples/awamil_agent/nominal.json --verify $(EVIDENCE_DIR)/progressive-factor-gate.json
 
-check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent progressive-agents
+.PHONY: unit-composition-agent
+unit-composition-agent:
+	PYTHONPATH=src:. NABT_REQUIRE_UNIT_NATIVE=1 $(PYTHON) -m unittest tests.test_unit_composition_agent -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog units catalog --summary --output $(EVIDENCE_DIR)/unit-catalog.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog units run --request examples/unit_composition/long_vowel.json --output $(EVIDENCE_DIR)/unit-composition.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog units run --request examples/unit_composition/long_vowel.json --verify $(EVIDENCE_DIR)/unit-composition.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog units run --request examples/unit_composition/enumerate.json --output $(EVIDENCE_DIR)/unit-quotas.json
+
+check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent progressive-agents unit-composition-agent

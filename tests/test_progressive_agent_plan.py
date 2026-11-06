@@ -28,8 +28,8 @@ class ProgressivePlanTests(unittest.TestCase):
                                     objectives={r['id'] for r in self.document['objectives']})
 
     def test_all_topics_are_attached_without_claiming_training(self):
-        self.assertEqual(self.report['counts']['profiles'], 32)
-        self.assertEqual(self.report['counts']['requested_topics'], 105)
+        self.assertEqual(self.report['counts']['profiles'], 33)
+        self.assertEqual(self.report['counts']['requested_topics'], 113)
         topics = {t['id'] for r in self.report['profiles'] for t in r['topics']}
         self.assertTrue({'utf8','utf16','utf32','root3','root4','makharij','masdar_genus',
             'sound_names','five_nouns','five_verbs','industrial','diptote_after','past_passive',
@@ -50,6 +50,8 @@ class ProgressivePlanTests(unittest.TestCase):
             self.assertIn('syllable.'+shape,order)
         self.assertEqual(len(order),len(set(order)))
         self.assertNotIn('review',order)
+        self.assertLess(order.index('units.compose'),order.index('roles.stem'))
+        self.assertLess(order.index('units.compose'),order.index('roles.grammar'))
 
     def test_cycles_unknown_owners_and_forged_mastery_are_rejected(self):
         mutations = [lambda p: p['profiles'][0]['prerequisites'].append('awamil.license'),

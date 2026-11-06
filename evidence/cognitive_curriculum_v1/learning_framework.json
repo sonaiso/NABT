@@ -77,6 +77,16 @@
       "id": "unicode_amtra_13",
       "url": "https://www.unicode.org/reports/tr53/tr53-13.html",
       "scope_ar": "إعادة ترتيب العلامات للعرض في UAX53 الإصدار 13؛ لا تعديل للنص الأصلي"
+    },
+    {
+      "id": "passive_command_ksaa",
+      "url": "https://almustashar.ksaa.gov.sa/bank/6126",
+      "scope_ar": "جواب مجمع الملك سلمان رقم 6126: طلب المبني للمجهول بلام الأمر مع المضارع؛ لا صيغة أمر مباشرة للمجهول."
+    },
+    {
+      "id": "tamakkun_cairo",
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/المُتَمَكِّنُ?exact_search=true",
+      "scope_ar": "المعجم الوسيط: التمكن تصنيف اسمي؛ يفصل عن تصرف الأفعال وعن التمام والنقص والنسخ."
     }
   ],
   "stages": [
@@ -890,7 +900,8 @@
       "runtime_refs": [
         "src/nabt/alphabet.py",
         "src/nabt/codec.py",
-        "tools/arabic_training/sign_curriculum.py"
+        "tools/arabic_training/sign_curriculum.py",
+        "tools/arabic_training/unit_composition.py"
       ],
       "acquisition_obligation_ar": "اكتساب القراءة من الرسم يبقى قبل ترخيص الخلية في موضعها",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -967,7 +978,8 @@
       },
       "runtime_refs": [
         "src/nabt/machine.py",
-        "src/nabt/acquisition.py"
+        "src/nabt/acquisition.py",
+        "tools/arabic_training/unit_composition.py"
       ],
       "acquisition_obligation_ar": "إشراف الانتقال معروف من القانون؛ القيمة التعليمية التالية تحصيل شروط القراءة الجديدة",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -1123,7 +1135,8 @@
       },
       "runtime_refs": [
         "tools/check_progressive_units.py",
-        "tools/recursive_bridge.py"
+        "tools/recursive_bridge.py",
+        "tools/arabic_training/unit_composition.py"
       ],
       "acquisition_obligation_ar": "شهادة اكتمال خاصة بالنطاق؛ لا انتظار لاستنفاد العربية المفتوحة",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -1199,7 +1212,8 @@
       },
       "runtime_refs": [
         "tools/arabic_training/sign_curriculum.py",
-        "src/nabt/phonological_modes.py"
+        "src/nabt/phonological_modes.py",
+        "tools/arabic_training/unit_composition.py"
       ],
       "acquisition_obligation_ar": "تحصيل الكمية والنطق ومضيفها من شاهد مستقل",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -2027,7 +2041,8 @@
         "language",
         "qatr",
         "sibawayhi",
-        "mughni"
+        "mughni",
+        "tamakkun_cairo"
       ],
       "knowledge_ar": "الإعراب والبناء والمحل",
       "skill_ar": "احفظ اقتران الصنف بالحالة والعلامة",
@@ -2234,7 +2249,8 @@
       },
       "runtime_refs": [
         "src/nabt/derivation.py",
-        "src/nabt/nominal.py"
+        "src/nabt/nominal.py",
+        "tools/arabic_training/unit_composition.py"
       ],
       "acquisition_obligation_ar": "اكتساب الأصل والوزن من وقوع جديد؛ تغطية الأصول الاسمية الخماسية التزام صريح لا تغلقه بانيات root3/root4",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -2994,7 +3010,8 @@
         "language",
         "qatr",
         "sibawayhi",
-        "mughni"
+        "mughni",
+        "passive_command_ksaa"
       ],
       "knowledge_ar": "المعلوم والمجهول للماضي والمضارع",
       "skill_ar": "احفظ الحركة ودور الفاعل ونائب الفاعل",
@@ -5879,7 +5896,8 @@
       "tools/arabic_training/model.py",
       "tools/lexical_training/senses.py",
       "tools/lexical_training/explanation.py",
-      "tools/lexical_training/agent_plan.py"
+      "tools/lexical_training/agent_plan.py",
+      "tools/arabic_training/unit_composition.py"
     ],
     "cell_equation": "a=4*c+h; c<29; h<4",
     "sequence_equation": "F([])=0; F(u+a)=116*F(u)+a+1",
@@ -6120,19 +6138,35 @@
           "exit_obligation_ar": "عقد التحويل مشروط بأصل وحركة وصنف معطاة؛ تطبيقه على كلمة يحتاج شهادة أصل مستقلة."
         },
         {
-          "id": "roles.stem",
-          "label_ar": "وكيل الحروف الجذعية والزائدة",
-          "parent_agent_id": "morphology",
-          "phase": "word",
+          "id": "units.compose",
+          "label_ar": "وكيل جمع وحدات C/V والمقاطع وآثار الخلايا",
+          "parent_agent_id": "algebra",
+          "phase": "reading",
           "prerequisites": [
-            "reading",
             "effects",
+            "reading",
             "syllable.CV",
             "syllable.CVV",
             "syllable.CVC",
             "syllable.CVVC",
             "syllable.CVCC",
             "syllable.CVVCC"
+          ],
+          "objective_ids": [
+            "base.a116",
+            "base.effects",
+            "base.minimum",
+            "sound.quantity"
+          ],
+          "exit_obligation_ar": "توليد مرتب مستنفد داخل الحصة؛ أثر مركب مطابق لإعادة الفحص الأصلية؛ ترخيص القراءة والوظيفة يتطلب شاهده ولا يستنتج من العد."
+        },
+        {
+          "id": "roles.stem",
+          "label_ar": "وكيل الحروف الجذعية والزائدة",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "units.compose"
           ],
           "objective_ids": [
             "lang.carrier_roles",
@@ -6147,7 +6181,8 @@
           "phase": "word",
           "prerequisites": [
             "reading",
-            "effects"
+            "effects",
+            "units.compose"
           ],
           "objective_ids": [
             "lang.carrier_roles",
@@ -7335,6 +7370,62 @@
           "profile_id": "syllable.CVVCC",
           "research_ids": [],
           "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "cv_quota",
+          "label_ar": "توافيق وتباديل 1 إلى 4 من C وV",
+          "profile_id": "units.compose",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "syllable_products",
+          "label_ar": "جمع كل مقطع مع مقطع آخر مع حفظ الترتيب",
+          "profile_id": "units.compose",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "compound_identity",
+          "label_ar": "هوية السطح وهوية شجرة الجمع والحدود",
+          "profile_id": "units.compose",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "source_unit_handoff",
+          "label_ar": "تحصيل الخلايا من الأثر وربط الكمية والقراءة",
+          "profile_id": "units.compose",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "passive_command",
+          "label_ar": "الأمر للمجهول بلام الطلب والمضارع",
+          "profile_id": "verb.pre",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "temporal_aspect",
+          "label_ar": "الهيئة وزمن الخطاب وزمن المرجع وزمن الحدث",
+          "profile_id": "verb.post",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "nominal_tamakkun",
+          "label_ar": "التمكن الاسمي واستقلاله عن تصرف الفعل",
+          "profile_id": "built.names",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
+        },
+        {
+          "id": "sarf_scale",
+          "label_ar": "الميزان الصرفي وتعيين الأصول والزيادة والتحويل",
+          "profile_id": "roles.stem",
+          "research_ids": [],
+          "obligation_ar": "حفظ المصدر والفرضيات والبدائل؛ نجاح التعداد أو الملء القالبي لا يثبت ورود اللفظ أو معنى الاستعمال أو انطباق قاعدة لغوية."
         }
       ],
       "contract_fields": [
