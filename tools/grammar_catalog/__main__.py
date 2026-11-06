@@ -37,9 +37,14 @@ def main():
     rag.add_argument("--verify", type=Path, help="Replay this receipt against the independent --request")
     rag.add_argument("--output", type=Path)
     sub.add_parser("rag-worker", help=argparse.SUPPRESS)
+    from .awamil_cli import arguments as awamil_arguments
+    awamil_arguments(sub.add_parser("awamil", help="Source-qualified factors, relation matrix, curriculum and learned retrieval"))
     args = parser.parse_args()
     try:
-        if args.command in ("operations", "rag", "rag-worker"):
+        if args.command == "awamil":
+            from .awamil_cli import run as awamil_run
+            result = awamil_run(args)
+        elif args.command in ("operations", "rag", "rag-worker"):
             from . import operation_rag as rag_owner
             from .operations import OperationSearchIndex
             from tools.evidence_lifecycle_v1 import strict_loads
@@ -84,6 +89,8 @@ def main():
             if args.verify:
                 return 0 if result["valid"] else 2
             return 0 if result["status"] in ("EXECUTED", "OWNER_ERROR") else 3
+        if args.command == "awamil" and args.verify:
+            return 0 if result["valid"] else 2
         return 0
     except (ResourceLimit, MemoryError) as exc:
         print(json.dumps({"status": "RESOURCE_LIMIT", "message": str(exc),

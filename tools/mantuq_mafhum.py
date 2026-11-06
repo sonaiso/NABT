@@ -51,17 +51,29 @@ def attest_sources(*, probe=None):
             "original_books_rechecked_in_ci": False, "interpretation_adequacy_proved": False}
 
 
-def audit_inventory(*, probe=None):
+def load_awamil_inventory():
+    """Replay the deposited enumeration, without claiming a native check ran."""
     catalog = json.loads(INVENTORY.read_text(encoding="utf-8"))
     raw = (INVENTORY.parent / "sources/awamil_inventory.tsv").read_bytes()
-    if hashlib.sha256(raw).hexdigest() != catalog["inventory_sha256"]:
+    expected = "0b081b4620fe7bf858922a0fefdb20af1922a48c5f40cddf249ff873582d4905"
+    if hashlib.sha256(raw).hexdigest() != expected or catalog["inventory_sha256"] != expected:
         raise ValueError("INVENTORY_CHANGED")
+    if catalog["source_scan_sha256"] != "0e589cd1c11d54337ce6db0fff7460540be1cc57ddabbc739d81a0e30fac4c9e":
+        raise ValueError("INVENTORY_SCAN_CHANGED")
     rows = list(csv.DictReader(raw.decode("utf-8").splitlines(), delimiter="\t"))
     for row in rows:
         for key in ("id", "page", "group"):
             row[key] = int(row[key])
+    if rows != catalog["rows"] or [r["id"] for r in rows] != list(range(1, 101)):
+        raise ValueError("INVENTORY_DIFFERS: transcription and manifest must agree")
+    return catalog
+
+
+def audit_inventory(*, probe=None):
+    catalog = load_awamil_inventory()
+    rows = catalog["rows"]
     native = bridge.native([{"op": "awamil_inventory"}], probe=probe)[0]
-    if rows != catalog["rows"] or rows != native["entries"] or [r["id"] for r in rows] != list(range(1, 101)):
+    if rows != native["entries"]:
         raise ValueError("INVENTORY_DIFFERS: transcription, manifest and Lean must agree")
     return {"entries_checked": len(rows), "inventory_sha256": catalog["inventory_sha256"],
             "scan_sha256": catalog["source_scan_sha256"], "numbered_inventory_exact": True,
