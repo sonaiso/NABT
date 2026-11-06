@@ -24,4 +24,13 @@ awamil-agent:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil curriculum --output $(EVIDENCE_DIR)/awamil-curriculum.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil check --request examples/awamil_agent/case.json --output $(EVIDENCE_DIR)/awamil-case.json
 
-check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent
+.PHONY: progressive-agents
+progressive-agents:
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_progressive_agent_plan -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents catalog --summary --output $(EVIDENCE_DIR)/progressive-agents.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents transport --request examples/progressive_agents/utf16.json --output $(EVIDENCE_DIR)/utf-transport.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents transport --request examples/progressive_agents/utf16.json --verify $(EVIDENCE_DIR)/utf-transport.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents gate --request examples/awamil_agent/nominal.json --output $(EVIDENCE_DIR)/progressive-factor-gate.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog agents gate --request examples/awamil_agent/nominal.json --verify $(EVIDENCE_DIR)/progressive-factor-gate.json
+
+check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent progressive-agents

@@ -39,9 +39,14 @@ def main():
     sub.add_parser("rag-worker", help=argparse.SUPPRESS)
     from .awamil_cli import arguments as awamil_arguments
     awamil_arguments(sub.add_parser("awamil", help="Source-qualified factors, relation matrix, curriculum and learned retrieval"))
+    from .agent_cli import arguments as agent_arguments
+    agent_arguments(sub.add_parser("agents", help="Progressive agent dependencies, RAG and the current proof index"))
     args = parser.parse_args()
     try:
-        if args.command == "awamil":
+        if args.command == "agents":
+            from .agent_cli import run as agent_run
+            result = agent_run(args)
+        elif args.command == "awamil":
             from .awamil_cli import run as awamil_run
             result = awamil_run(args)
         elif args.command in ("operations", "rag", "rag-worker"):
@@ -89,7 +94,7 @@ def main():
             if args.verify:
                 return 0 if result["valid"] else 2
             return 0 if result["status"] in ("EXECUTED", "OWNER_ERROR") else 3
-        if args.command == "awamil" and args.verify:
+        if args.command in ("awamil", "agents") and args.verify:
             return 0 if result["valid"] else 2
         return 0
     except (ResourceLimit, MemoryError) as exc:

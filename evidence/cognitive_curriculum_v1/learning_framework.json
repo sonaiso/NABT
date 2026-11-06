@@ -62,6 +62,21 @@
       "id": "awamil_inventory",
       "path": "evidence/mantuq_mafhum/awamil_inventory.json",
       "scope_ar": "قائمة الجرجاني المرقمة؛ تقابلها قائمة تنفيذية مستقلة دون افتراض التطابق"
+    },
+    {
+      "id": "unicode_utf",
+      "url": "https://unicode.org/faq/utf_bom.html",
+      "scope_ar": "تمثيلات Unicode وUTF والتحويل العكسي؛ مرجع خارجي لا شهادة نطق"
+    },
+    {
+      "id": "unicode_arabic",
+      "url": "https://unicode.org/faq/arabic.html",
+      "scope_ar": "تمييز الحرف والعلامة والرسم السياقي"
+    },
+    {
+      "id": "unicode_amtra_13",
+      "url": "https://www.unicode.org/reports/tr53/tr53-13.html",
+      "scope_ar": "إعادة ترتيب العلامات للعرض في UAX53 الإصدار 13؛ لا تعديل للنص الأصلي"
     }
   ],
   "stages": [
@@ -597,7 +612,9 @@
       "source_ids": [
         "utf8",
         "unicode",
-        "foundation"
+        "foundation",
+        "unicode_utf",
+        "unicode_arabic"
       ],
       "knowledge_ar": "البايت ونقطة الترميز والعلامة المركبة والوقوع وحدات مختلفة",
       "skill_ar": "حافظ على التشكيل ووسم تحويلات التطبيع بمواضع الأصل",
@@ -642,7 +659,8 @@
       },
       "runtime_refs": [
         "src/nabt/alphabet.py",
-        "tools/aligned_acquisition.py"
+        "tools/aligned_acquisition.py",
+        "tools/grammar_catalog/unicode_transport.py"
       ],
       "acquisition_obligation_ar": "تغطية الرسم خارج القارئ الصارم مع رفض البايتات غير الصالحة",
       "neural_status": "NOT_TRAINED_BY_THIS_FRAMEWORK",
@@ -748,7 +766,9 @@
       ],
       "source_ids": [
         "foundation",
-        "language"
+        "language",
+        "unicode_arabic",
+        "unicode_amtra_13"
       ],
       "knowledge_ar": "الهمزة وألف الوصل والمقصورة والتاء المربوطة والشدة والتنوين والرسم العثماني ضمن ملفه",
       "skill_ar": "فسر التحويل الإملائي واربط الناتج بموضع الأصل",
@@ -5858,7 +5878,8 @@
       "src/nabt/acquisition.py",
       "tools/arabic_training/model.py",
       "tools/lexical_training/senses.py",
-      "tools/lexical_training/explanation.py"
+      "tools/lexical_training/explanation.py",
+      "tools/lexical_training/agent_plan.py"
     ],
     "cell_equation": "a=4*c+h; c<29; h<4",
     "sequence_equation": "F([])=0; F(u+a)=116*F(u)+a+1",
@@ -5894,7 +5915,1443 @@
       "No source identifier as label shortcut",
       "No gold root or target at inference unless task explicitly supplies it",
       "Gold roles, roots and patterns for the current prediction are supervision only; encoder inputs may use only independent prior features available at inference."
-    ]
+    ],
+    "progressive_agents": {
+      "schema": "nabt.progressive-agent-plan.v1",
+      "profiles": [
+        {
+          "id": "trace",
+          "label_ar": "وكيل الأثر والترميز UTF والبتات",
+          "parent_agent_id": "capture",
+          "phase": "foundation",
+          "prerequisites": [],
+          "objective_ids": [
+            "trace.identity",
+            "trace.utf8"
+          ],
+          "exit_obligation_ar": "حفظ البايتات الأصلية وترميزها ومواضعها؛ نجاح فك الترميز لا يستنتج صوتا أو معنى."
+        },
+        {
+          "id": "script",
+          "label_ar": "وكيل الإملاء والرسم والحروف والعلامات",
+          "parent_agent_id": "orthography",
+          "phase": "foundation",
+          "prerequisites": [
+            "trace"
+          ],
+          "objective_ids": [
+            "trace.spelling"
+          ],
+          "exit_obligation_ar": "تعيين الحامل والعلامة والرسم بشاهد؛ فصل أشكال الخط عن الابتداء والوصل الصوتي."
+        },
+        {
+          "id": "articulation",
+          "label_ar": "وكيل المخارج والصفات",
+          "parent_agent_id": "phonetics",
+          "phase": "foundation",
+          "prerequisites": [
+            "trace"
+          ],
+          "objective_ids": [
+            "sound.articulation",
+            "sound.alignment"
+          ],
+          "exit_obligation_ar": "ربط الوصف بالمصدر؛ المحاذاة الصوتية تحتاج تسجيلا وشاهد قياس ولا تستنتج من البتات."
+        },
+        {
+          "id": "a116",
+          "label_ar": "وكيل الخلايا 116",
+          "parent_agent_id": "algebra",
+          "phase": "foundation",
+          "prerequisites": [
+            "script"
+          ],
+          "objective_ids": [
+            "base.a116"
+          ],
+          "exit_obligation_ar": "هوية 29 حاملا × أربع حالات؛ تمييز السكون عن الحركة وعدم ترخيص وقوع الخلية بالعد."
+        },
+        {
+          "id": "effects",
+          "label_ar": "وكيل آثار الانتقال والوحدات المرخصة",
+          "parent_agent_id": "algebra",
+          "phase": "foundation",
+          "prerequisites": [
+            "a116"
+          ],
+          "objective_ids": [
+            "base.effects",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "إعادة تركيب الأثر والشجرة مع المصدر والمقدمات والبدائل؛ قبول القطع لا يكفي لقبول وصلها."
+        },
+        {
+          "id": "boundaries",
+          "label_ar": "وكيل الابتداء والوصل والفصل والوقف",
+          "parent_agent_id": "phonetics",
+          "phase": "foundation",
+          "prerequisites": [
+            "a116",
+            "effects"
+          ],
+          "objective_ids": [
+            "base.boundaries"
+          ],
+          "exit_obligation_ar": "اختيار وضع القراءة وربط التحويل الصوتي بالمصدر؛ فصل وضع نهاية الآلة عن تحويل الوقف الفعلي."
+        },
+        {
+          "id": "reading",
+          "label_ar": "وكيل القراءة والمحاذاة",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "script",
+            "articulation",
+            "boundaries"
+          ],
+          "objective_ids": [
+            "sound.alignment",
+            "sound.quantity"
+          ],
+          "exit_obligation_ar": "محاذاة القراءة بالرسم والصوت وحفظ اختلاف القراءات والحركات والطول."
+        },
+        {
+          "id": "syllable.CV",
+          "label_ar": "وكيل المقطع CV",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "sound.quantity",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "تعيين الشكل والكمية ووضع الوصل أو الوقف بشاهد؛ استنفاد أشجار C/V لا يرخص المقطع العربي وحده."
+        },
+        {
+          "id": "syllable.CVV",
+          "label_ar": "وكيل المقطع CVV",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "sound.quantity",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "تعيين الشكل والكمية ووضع الوصل أو الوقف بشاهد؛ استنفاد أشجار C/V لا يرخص المقطع العربي وحده."
+        },
+        {
+          "id": "syllable.CVC",
+          "label_ar": "وكيل المقطع CVC",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "sound.quantity",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "تعيين الشكل والكمية ووضع الوصل أو الوقف بشاهد؛ استنفاد أشجار C/V لا يرخص المقطع العربي وحده."
+        },
+        {
+          "id": "syllable.CVVC",
+          "label_ar": "وكيل المقطع CVVC",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "sound.quantity",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "تعيين الشكل والكمية ووضع الوصل أو الوقف بشاهد؛ استنفاد أشجار C/V لا يرخص المقطع العربي وحده."
+        },
+        {
+          "id": "syllable.CVCC",
+          "label_ar": "وكيل المقطع CVCC",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "sound.quantity",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "تعيين الشكل والكمية ووضع الوصل أو الوقف بشاهد؛ استنفاد أشجار C/V لا يرخص المقطع العربي وحده."
+        },
+        {
+          "id": "syllable.CVVCC",
+          "label_ar": "وكيل المقطع CVVCC",
+          "parent_agent_id": "phonetics",
+          "phase": "reading",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "sound.quantity",
+            "base.minimum"
+          ],
+          "exit_obligation_ar": "تعيين الشكل والكمية ووضع الوصل أو الوقف بشاهد؛ استنفاد أشجار C/V لا يرخص المقطع العربي وحده."
+        },
+        {
+          "id": "weak.laws",
+          "label_ar": "وكيل عقود الإعلال والإبدال والحذف",
+          "parent_agent_id": "morphology",
+          "phase": "reading",
+          "prerequisites": [
+            "effects",
+            "reading"
+          ],
+          "objective_ids": [
+            "lang.weak_transform"
+          ],
+          "exit_obligation_ar": "عقد التحويل مشروط بأصل وحركة وصنف معطاة؛ تطبيقه على كلمة يحتاج شهادة أصل مستقلة."
+        },
+        {
+          "id": "roles.stem",
+          "label_ar": "وكيل الحروف الجذعية والزائدة",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "reading",
+            "effects",
+            "syllable.CV",
+            "syllable.CVV",
+            "syllable.CVC",
+            "syllable.CVVC",
+            "syllable.CVCC",
+            "syllable.CVVCC"
+          ],
+          "objective_ids": [
+            "lang.carrier_roles",
+            "lang.root_pattern"
+          ],
+          "exit_obligation_ar": "تعيين الوظيفة في المضيف؛ رسم الحرف وحده لا يثبت الجذرية أو الزيادة."
+        },
+        {
+          "id": "roles.grammar",
+          "label_ar": "وكيل الحروف النحوية الوظيفية",
+          "parent_agent_id": "syntax",
+          "phase": "word",
+          "prerequisites": [
+            "reading",
+            "effects"
+          ],
+          "objective_ids": [
+            "lang.carrier_roles",
+            "lang.word_kind"
+          ],
+          "exit_obligation_ar": "ربط الحرف بالوظيفة والمضيف وشرط التفعيل وحفظ الوظائف المتشابهة."
+        },
+        {
+          "id": "root.triliteral",
+          "label_ar": "وكيل الجذر الثلاثي",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "roles.stem"
+          ],
+          "objective_ids": [
+            "lang.root_pattern"
+          ],
+          "exit_obligation_ar": "تمييز فرضية الجذر عن جذر معجمي مشهود وربط المشتقات به دون توليد معنى من الشكل."
+        },
+        {
+          "id": "root.quadriliteral",
+          "label_ar": "وكيل الجذر الرباعي",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "roles.stem"
+          ],
+          "objective_ids": [
+            "lang.root_pattern"
+          ],
+          "exit_obligation_ar": "أربعة أصول مستقلة وشاهد معجمي؛ صلاحية أربع خانات ليست شهادة وجود الجذر."
+        },
+        {
+          "id": "pronouns",
+          "label_ar": "وكيل الضمائر المتصلة والمنفصلة",
+          "parent_agent_id": "syntax",
+          "phase": "word",
+          "prerequisites": [
+            "roles.grammar"
+          ],
+          "objective_ids": [
+            "lang.reference",
+            "lang.carrier_roles"
+          ],
+          "exit_obligation_ar": "شخص وعدد وجنس ومضيف ثم تعيين المرجع من المقام؛ حفظ قمتُ وقمتَ وقمتِ والاقتباس."
+        },
+        {
+          "id": "built.names",
+          "label_ar": "وكيل الأسماء المبنية والإحالة",
+          "parent_agent_id": "syntax",
+          "phase": "word",
+          "prerequisites": [
+            "roles.grammar"
+          ],
+          "objective_ids": [
+            "lang.reference",
+            "lang.declension"
+          ],
+          "exit_obligation_ar": "تمييز البناء الأصلي والسياقي وتعيين المرجع والاستعمال؛ وظيفة النفي أو الاستفهام لا تحدد الصنف وحدها."
+        },
+        {
+          "id": "genera",
+          "label_ar": "وكيل الأجناس والاسم الجامد",
+          "parent_agent_id": "lexicon",
+          "phase": "word",
+          "prerequisites": [
+            "reading"
+          ],
+          "objective_ids": [
+            "lang.genus_quality",
+            "lang.proper_name",
+            "lang.dictionary_designation"
+          ],
+          "exit_obligation_ar": "شاهد الوضع وهوية المعنى والجزئي والكلي؛ وجود وزن أو جذر لا يثبت الجنس."
+        },
+        {
+          "id": "masdar",
+          "label_ar": "وكيل المصدر وربطه بالأجناس والأفعال",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "root.triliteral",
+            "root.quadriliteral",
+            "genera",
+            "weak.laws"
+          ],
+          "objective_ids": [
+            "lang.masdar",
+            "lang.morphological_derivation"
+          ],
+          "exit_obligation_ar": "ربط المصدر المشهود بمعناه وبالفعل وبالجنس في الاستعمال؛ لا فرض علاقة واحد إلى واحد."
+        },
+        {
+          "id": "noun.pre",
+          "label_ar": "وكيل الاسم قبل التركيب",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "masdar",
+            "built.names",
+            "pronouns",
+            "genera"
+          ],
+          "objective_ids": [
+            "lang.derived_nouns",
+            "lang.nisba_diminutive",
+            "lang.gender",
+            "lang.number",
+            "lang.counting",
+            "lang.diptote",
+            "lang.definiteness"
+          ],
+          "exit_obligation_ar": "شهادة خصائص الاسم الصرفية والمعجمية وبدائلها؛ الدور الإعرابي ينتظر التركيب."
+        },
+        {
+          "id": "verb.pre",
+          "label_ar": "وكيل الفعل قبل التركيب",
+          "parent_agent_id": "morphology",
+          "phase": "word",
+          "prerequisites": [
+            "masdar",
+            "weak.laws",
+            "pronouns"
+          ],
+          "objective_ids": [
+            "lang.tense_form",
+            "lang.voice",
+            "lang.verb_augmentation",
+            "lang.valency"
+          ],
+          "exit_obligation_ar": "شهادة الأصل والهيئة والصوت والتعدية المصرح بها؛ زمن الحدث والفاعل والمرجع ينتظران المقام."
+        },
+        {
+          "id": "connector.pre",
+          "label_ar": "وكيل الأدوات قبل التركيب",
+          "parent_agent_id": "syntax",
+          "phase": "word",
+          "prerequisites": [
+            "roles.grammar",
+            "built.names"
+          ],
+          "objective_ids": [
+            "lang.scope_composition",
+            "syntax.speech_force"
+          ],
+          "exit_obligation_ar": "جرد الاستعمالات المتصلة والمنفصلة وشواهدها؛ لا تحويل الواو وأو ولو تلقائيا إلى بوابات منطقية."
+        },
+        {
+          "id": "awamil.propose",
+          "label_ar": "وكيل العوامل: اقتراح الإطار",
+          "parent_agent_id": "awamil",
+          "phase": "proposal",
+          "prerequisites": [
+            "noun.pre",
+            "verb.pre",
+            "connector.pre"
+          ],
+          "objective_ids": [
+            "lang.awamil"
+          ],
+          "exit_obligation_ar": "استرجاع الهوية والعمل والشروط والموانع مع حفظ هوية الجرجاني وجدول NABT؛ الاقتراح غير اعتماد التطبيق."
+        },
+        {
+          "id": "syntax.compose",
+          "label_ar": "وكيل التركيب والإسناد والتعلق",
+          "parent_agent_id": "syntax",
+          "phase": "composition",
+          "prerequisites": [
+            "awamil.propose"
+          ],
+          "objective_ids": [
+            "syntax.sentences",
+            "syntax.relations",
+            "syntax.roles"
+          ],
+          "exit_obligation_ar": "بناء التحليلات المشتركة الكاملة والمسند والمسند إليه والرأس والتضمين والتقييد دون إسقاط البدائل."
+        },
+        {
+          "id": "noun.post",
+          "label_ar": "وكيل الاسم بعد التركيب",
+          "parent_agent_id": "syntax",
+          "phase": "postcomposition",
+          "prerequisites": [
+            "syntax.compose",
+            "noun.pre"
+          ],
+          "objective_ids": [
+            "lang.declension",
+            "lang.diptote",
+            "lang.definiteness",
+            "syntax.markers"
+          ],
+          "exit_obligation_ar": "الدور والمحل والعلامة والمطابقة والإضافة والتعلق مرتبطة بالتحليل المختار وشواهده."
+        },
+        {
+          "id": "verb.post",
+          "label_ar": "وكيل الفعل بعد التركيب",
+          "parent_agent_id": "syntax",
+          "phase": "postcomposition",
+          "prerequisites": [
+            "syntax.compose",
+            "verb.pre"
+          ],
+          "objective_ids": [
+            "lang.future",
+            "lang.valency",
+            "syntax.roles",
+            "syntax.markers"
+          ],
+          "exit_obligation_ar": "الفاعل ونائبه والمفاعيل والجزم والنصب والضمائر والنونات والنفي والزمن مرتبطة بالوقوع."
+        },
+        {
+          "id": "connector.post",
+          "label_ar": "وكيل الأدوات بعد التركيب",
+          "parent_agent_id": "syntax",
+          "phase": "postcomposition",
+          "prerequisites": [
+            "syntax.compose",
+            "connector.pre"
+          ],
+          "objective_ids": [
+            "lang.scope_composition",
+            "syntax.speech_force",
+            "lang.mention_use"
+          ],
+          "exit_obligation_ar": "تعيين نطاق النفي والشرط والاستثناء والعطف ومرجع الوصل؛ حفظ الترتيب وقوة القول والاقتباس."
+        },
+        {
+          "id": "awamil.license",
+          "label_ar": "وكيل العوامل: اعتماد التطبيق وإعادة الفحص",
+          "parent_agent_id": "awamil",
+          "phase": "license",
+          "prerequisites": [
+            "noun.post",
+            "verb.post",
+            "connector.post"
+          ],
+          "objective_ids": [
+            "lang.awamil",
+            "syntax.relations"
+          ],
+          "exit_obligation_ar": "لا اعتماد عام دون شجرة تطبيق مصدرية ومقدمات ومضيف وتحقيق مطابق؛ لا تعوضها درجات التعلم أو جرد المبرهنات."
+        },
+        {
+          "id": "review",
+          "label_ar": "وكيل المراجعة وسحب الشاهد",
+          "parent_agent_id": "assessor",
+          "phase": "revision",
+          "prerequisites": [
+            "awamil.license"
+          ],
+          "objective_ids": [
+            "lang.revision",
+            "mind.assessment"
+          ],
+          "exit_obligation_ar": "إعادة التشغيل وسحب الشاهد وتبديل السياق مع بقاء الدعم المستقل؛ المراجعة تنتج مهمة جديدة لا دورة تبرير."
+        }
+      ],
+      "topics": [
+        {
+          "id": "unicode",
+          "label_ar": "Unicode وهوية نقاط الترميز",
+          "profile_id": "trace",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "utf8",
+          "label_ar": "UTF-8 والبتات والبايتات",
+          "profile_id": "trace",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "utf16",
+          "label_ar": "UTF-16 LE/BE وحفظ الأصل",
+          "profile_id": "trace",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "utf32",
+          "label_ar": "UTF-32 LE/BE وحفظ الأصل",
+          "profile_id": "trace",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "letters29",
+          "label_ar": "الحروف التسعة والعشرون وأسماء الحوامل",
+          "profile_id": "script",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "marks4",
+          "label_ar": "الفتحة والضمة والكسرة والسكون والعلامات الإضافية",
+          "profile_id": "script",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "glyph_joining",
+          "label_ar": "رسم الابتداء والوسط والنهاية والفصل الخطي",
+          "profile_id": "script",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "makharij",
+          "label_ar": "المخارج ومجموعات الحروف والصفات",
+          "profile_id": "articulation",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "a116",
+          "label_ar": "116 حامل وحالة وهوية وقوع",
+          "profile_id": "a116",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "effects",
+          "label_ar": "التركيب الجبري والأثر والاستقراء والاستنفاد",
+          "profile_id": "effects",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "ibtida",
+          "label_ar": "قانون الابتداء",
+          "profile_id": "boundaries",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "wasl",
+          "label_ar": "قانون الوصل والتجاور",
+          "profile_id": "boundaries",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "fasl",
+          "label_ar": "قانون الفصل وحدود الكلمات",
+          "profile_id": "boundaries",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "waqf",
+          "label_ar": "قانون الوقف والقراءات البديلة",
+          "profile_id": "boundaries",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "reading",
+          "label_ar": "القراءة ومحاذاة الصوت والرسم والحركات",
+          "profile_id": "reading",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "ilal",
+          "label_ar": "الإعلال بشروطه",
+          "profile_id": "weak.laws",
+          "research_ids": [
+            "D017"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "ibdal",
+          "label_ar": "الإبدال والإدغام",
+          "profile_id": "weak.laws",
+          "research_ids": [
+            "D017"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "deletion",
+          "label_ar": "الحذف والاستعادة وشهادة الأصل",
+          "profile_id": "weak.laws",
+          "research_ids": [
+            "P24_ellipsis"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "stem_letters",
+          "label_ar": "الحروف الجذعية والزائدة",
+          "profile_id": "roles.stem",
+          "research_ids": [
+            "M013"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "grammar_letters",
+          "label_ar": "الحروف النحوية واللواحق والسوابق",
+          "profile_id": "roles.grammar",
+          "research_ids": [
+            "M001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "root3",
+          "label_ar": "ترخيص فرضية الجذر الثلاثي والجذر المشهود",
+          "profile_id": "root.triliteral",
+          "research_ids": [
+            "M011"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "root4",
+          "label_ar": "ترخيص فرضية الجذر الرباعي والجذر المشهود",
+          "profile_id": "root.quadriliteral",
+          "research_ids": [
+            "M011"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "pronoun_attached",
+          "label_ar": "الضمائر المتصلة",
+          "profile_id": "pronouns",
+          "research_ids": [
+            "P25_pronouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "pronoun_detached",
+          "label_ar": "الضمائر المنفصلة",
+          "profile_id": "pronouns",
+          "research_ids": [
+            "P25_pronouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "pronoun_hidden",
+          "label_ar": "الضمير المستتر وشهادة المرجع",
+          "profile_id": "pronouns",
+          "research_ids": [
+            "P25_pronouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "deixis",
+          "label_ar": "أسماء الإشارة",
+          "profile_id": "built.names",
+          "research_ids": [
+            "P26_deixis"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "relatives",
+          "label_ar": "الأسماء الموصولة والعائد",
+          "profile_id": "built.names",
+          "research_ids": [
+            "P27_relatives"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "vocative",
+          "label_ar": "النداء وبناء بعض المناديات في السياق",
+          "profile_id": "built.names",
+          "research_ids": [
+            "P31_contextual_built"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "question_names",
+          "label_ar": "أسماء الاستفهام",
+          "profile_id": "built.names",
+          "research_ids": [
+            "P19_question"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "condition_names",
+          "label_ar": "أسماء الشرط",
+          "profile_id": "built.names",
+          "research_ids": [
+            "P14_conditional_nouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "built_names",
+          "label_ar": "الأسماء المبنية أصلا والمبنية في السياق",
+          "profile_id": "built.names",
+          "research_ids": [
+            "P30_original_built",
+            "P31_contextual_built"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "negation_names",
+          "label_ar": "ألفاظ النفي ذات الاستعمال الاسمي وتمييزها من الحرف والفعل",
+          "profile_id": "built.names",
+          "research_ids": [
+            "M001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "jamid",
+          "label_ar": "الاسم الجامد والأعيان والمعاني",
+          "profile_id": "genera",
+          "research_ids": [
+            "M002",
+            "M003"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "genus",
+          "label_ar": "أسماء الأجناس والجزئي والكلي",
+          "profile_id": "genera",
+          "research_ids": [
+            "M004",
+            "N011"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "proper_places",
+          "label_ar": "أعلام الأماكن",
+          "profile_id": "genera",
+          "research_ids": [
+            "M005",
+            "M007"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "proper_entities",
+          "label_ar": "أعلام الذوات وعلم الشخص وعلم الجنس",
+          "profile_id": "genera",
+          "research_ids": [
+            "M005",
+            "M006"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "masdar_simple",
+          "label_ar": "المصدر المجرد ومصدر الثلاثي",
+          "profile_id": "masdar",
+          "research_ids": [
+            "D001",
+            "D002"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "masdar_augmented",
+          "label_ar": "المصدر المزيد ومصدر الرباعي",
+          "profile_id": "masdar",
+          "research_ids": [
+            "D003"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "masdar_regular",
+          "label_ar": "المصدر القياسي والسماعي غير القياسي",
+          "profile_id": "masdar",
+          "research_ids": [
+            "D002",
+            "D003"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "masdar_ism",
+          "label_ar": "اسم المصدر",
+          "profile_id": "masdar",
+          "research_ids": [
+            "D006"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "masdar_genus",
+          "label_ar": "محاذاة المصدر والفعل والجنس وهوية المعنى",
+          "profile_id": "masdar",
+          "research_ids": [
+            "M004",
+            "D001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "masdar_mimi",
+          "label_ar": "المصدر الميمي ومصدر المرة والهيئة",
+          "profile_id": "masdar",
+          "research_ids": [
+            "D004",
+            "D005"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "noun_jamid_derived",
+          "label_ar": "الجامد والمشتق قبل التركيب",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "M002"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "active_participle",
+          "label_ar": "اسم الفاعل",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D008"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "passive_participle",
+          "label_ar": "اسم المفعول",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D009"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "intensive",
+          "label_ar": "صيغ المبالغة والصفة المشبهة",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D010",
+            "D011"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "place_time_noun",
+          "label_ar": "اسم المكان واسم الزمان",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D013"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "instrument",
+          "label_ar": "اسم الآلة",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D014"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "adverbs",
+          "label_ar": "أسماء ظرف الزمان وظرف المكان",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "P33_time_place"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "verb_names",
+          "label_ar": "أسماء الأفعال",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "M001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "sound_names",
+          "label_ar": "أسماء الأصوات",
+          "profile_id": "noun.pre",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "gender",
+          "label_ar": "التذكير والتأنيث",
+          "profile_id": "noun.pre",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "number",
+          "label_ar": "المفرد والمثنى والجمع",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "N001",
+            "N002",
+            "N003",
+            "N004",
+            "N005"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "counting",
+          "label_ar": "العدد والعد والمعدود",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "N009",
+            "N010"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "definiteness",
+          "label_ar": "المعرفة والنكرة",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "M008"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "industrial",
+          "label_ar": "المصدر الصناعي",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D007"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "diminutive",
+          "label_ar": "التصغير والنسب",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D015",
+            "D016"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "elative",
+          "label_ar": "أفعل التفضيل",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "D012"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "diptote",
+          "label_ar": "الممنوع من الصرف قبل التركيب",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "M010"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "five_nouns",
+          "label_ar": "الأسماء الخمسة وعلاقتها بعائلة الأسماء الستة",
+          "profile_id": "noun.pre",
+          "research_ids": [
+            "M010"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "past_simple",
+          "label_ar": "الماضي المجرد المبني للمعلوم",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001",
+            "V003"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "past_augmented",
+          "label_ar": "الماضي المزيد",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001",
+            "V003"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "past_passive",
+          "label_ar": "الماضي المبني للمجهول",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001",
+            "V005"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "present_active",
+          "label_ar": "المضارع المبني للمعلوم",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "present_passive",
+          "label_ar": "المضارع المبني للمجهول",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001",
+            "V005"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "imperative",
+          "label_ar": "بناء الأمر",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "sound_weak",
+          "label_ar": "الفعل السالم والصحيح والمعتل والمهموز والمضعف",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "D017"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "valency",
+          "label_ar": "المتعدي واللازم",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V002"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "voice_transform",
+          "label_ar": "نقل الماضي إلى المجهول والمضارع والأمر بشهادة التحويل",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001",
+            "V005"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "complete_defective",
+          "label_ar": "الفعل التام والناقص والمتصرف والجامد",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V006"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "five_verbs",
+          "label_ar": "الأفعال الخمسة",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "V001"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "nun_emphasis",
+          "label_ar": "نون التوكيد الثقيلة والخفيفة",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "P20_emphasis"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "nun_feminine",
+          "label_ar": "نون النسوة ومفارقتها لنون الرفع والتوكيد",
+          "profile_id": "verb.pre",
+          "research_ids": [
+            "P25_pronouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "prepositions",
+          "label_ar": "حروف الجر والأدوات المتصلة والمنفصلة",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P21_prepositions"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "conjunction",
+          "label_ar": "العطف بالواو وأو وأم",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P02_waw",
+            "P05_aw",
+            "P06_am"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "succession",
+          "label_ar": "التعقيب والترتيب بالفاء وثم",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P03_fa",
+            "P04_thumma"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "restriction",
+          "label_ar": "الحصر والقصر",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P29_quantifier_scope"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "exception",
+          "label_ar": "أدوات الاستثناء وحدود المستثنى",
+          "profile_id": "connector.pre",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "negation",
+          "label_ar": "النفي والنهي وتمييز استعمالات لا ولم ولن وليس",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P15_negation_vs_prohibition",
+            "P16_lam",
+            "P17_lan",
+            "P18_laysa"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "conditional",
+          "label_ar": "الشرط الجازم وغير الجازم",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P10_in_conditional",
+            "P11_idha",
+            "P14_conditional_nouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "counterfactual",
+          "label_ar": "لو والامتناع لامتناع",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P12_law"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "lawla",
+          "label_ar": "لولا والامتناع لوجود وتحرير عبارة امتناع الامتناع",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P13_lawla"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "cause",
+          "label_ar": "التعليل والغاية",
+          "profile_id": "connector.pre",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "adversative",
+          "label_ar": "الاستدراك والإضراب لكن وبل",
+          "profile_id": "connector.pre",
+          "research_ids": [
+            "P07_bal",
+            "P08_lakin"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "awamil_inventory",
+          "label_ar": "جرد العوامل المئة والتمييز بين قائمتي الجرجاني وNABT",
+          "profile_id": "awamil.propose",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "nominal_sentence",
+          "label_ar": "الجملة الاسمية",
+          "profile_id": "syntax.compose",
+          "research_ids": [
+            "P01_predication"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "verbal_sentence",
+          "label_ar": "الجملة الفعلية",
+          "profile_id": "syntax.compose",
+          "research_ids": [
+            "P01_predication"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "phrase",
+          "label_ar": "شبه الجملة والتعلق",
+          "profile_id": "syntax.compose",
+          "research_ids": [
+            "P21_prepositions",
+            "P33_time_place"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "predication",
+          "label_ar": "المسند والمسند إليه ورأس الإسناد",
+          "profile_id": "syntax.compose",
+          "research_ids": [
+            "P01_predication"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "embedding_restriction",
+          "label_ar": "العلاقات التضمينية والتقييدية والإسنادية",
+          "profile_id": "syntax.compose",
+          "research_ids": [
+            "P01_predication",
+            "P22_idafa"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "noun_after",
+          "label_ar": "الاسم بعد التركيب والإضافة والمطابقة والعلامة",
+          "profile_id": "noun.post",
+          "research_ids": [
+            "M010",
+            "P22_idafa",
+            "P32_inflection_roles"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "diptote_after",
+          "label_ar": "أل والإضافة وأثرهما في الممنوع من الصرف",
+          "profile_id": "noun.post",
+          "research_ids": [
+            "M010"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "five_nouns_after",
+          "label_ar": "شروط إعراب الأسماء الخمسة والستة",
+          "profile_id": "noun.post",
+          "research_ids": [
+            "M010"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "verb_after",
+          "label_ar": "الفعل بعد التركيب والفاعل ونائبه والمفاعيل",
+          "profile_id": "verb.post",
+          "research_ids": [
+            "V002",
+            "V005"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "five_verbs_after",
+          "label_ar": "ثبوت النون وحذفها في الأفعال الخمسة",
+          "profile_id": "verb.post",
+          "research_ids": [
+            "P32_inflection_roles"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "nun_after",
+          "label_ar": "تعيين نوع النون والمضيف والموضع",
+          "profile_id": "verb.post",
+          "research_ids": [
+            "P20_emphasis",
+            "P25_pronouns"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "scope_after",
+          "label_ar": "نطاق الروابط والنفي والشرط والاستثناء بعد التركيب",
+          "profile_id": "connector.post",
+          "research_ids": [
+            "P29_quantifier_scope",
+            "P34_mention_quote"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "factor_license",
+          "label_ar": "ترخيص تطبيق العامل بشهادة سلسلة المقدمات",
+          "profile_id": "awamil.license",
+          "research_ids": [
+            "P32_inflection_roles"
+          ],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "revision",
+          "label_ar": "سحب الشاهد وتبديل القراءة وإعادة التحقق",
+          "profile_id": "review",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "syllable_CV",
+          "label_ar": "CV كمية وموضع ووضع قراءة",
+          "profile_id": "syllable.CV",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "syllable_CVV",
+          "label_ar": "CVV كمية وموضع ووضع قراءة",
+          "profile_id": "syllable.CVV",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "syllable_CVC",
+          "label_ar": "CVC كمية وموضع ووضع قراءة",
+          "profile_id": "syllable.CVC",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "syllable_CVVC",
+          "label_ar": "CVVC كمية وموضع ووضع قراءة",
+          "profile_id": "syllable.CVVC",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "syllable_CVCC",
+          "label_ar": "CVCC كمية وموضع ووضع قراءة",
+          "profile_id": "syllable.CVCC",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        },
+        {
+          "id": "syllable_CVVCC",
+          "label_ar": "CVVCC كمية وموضع ووضع قراءة",
+          "profile_id": "syllable.CVVCC",
+          "research_ids": [],
+          "obligation_ar": "شاهد الاستعمال وشروطه وموانعه وربط تطبيق القاعدة بوقوعه؛ الإحالة إلى عقد متعلق لا تثبت اكتمال هذا الموضوع."
+        }
+      ],
+      "contract_fields": [
+        "source_id",
+        "source_sha256",
+        "source_span",
+        "law_id",
+        "law_revision",
+        "input_identity",
+        "output_identity",
+        "premise_receipts",
+        "remaining_alternatives",
+        "scope",
+        "owner_receipt",
+        "replay_inputs"
+      ]
+    }
   },
   "legacy_alignment": {
     "artifact": "NABT_Cognitive_Curriculum_Spec_20261105.zip",
