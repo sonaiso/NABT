@@ -92,7 +92,7 @@
     {
       "name": "progressive_agents",
       "command": "make -f Makefile -f integrations/grammar_catalog.mk progressive-agents",
-      "ran": 13,
+      "ran": 14,
       "skipped": 0,
       "result": "PASS"
     },
@@ -118,7 +118,7 @@
       "result": "PASS"
     }
   ],
-  "total_ran": 142,
+  "total_ran": 143,
   "total_skipped": 2,
   "skip_reason": "The two native sign curriculum probes are not built locally.",
   "utf_replay": {
@@ -147,11 +147,23 @@
     "tools/entropy_framework/reuse_run.py": "e628ccdba68f0462edb49ee88df3b6b7678196eaf48a33f4e2f346e1db8dd1ae",
     "tools/grammar_catalog/__main__.py": "4896ddb3d12d86acbd9a7311bfdf7a9705c344384f57987edce1caee53348516",
     "tools/lexical_training/learning_framework.py": "1e5673b174aedfa989517e8bf0e891de6bf830257057af285071481cd4c3dca7",
-    "docs/PROGRESSIVE_AGENT_RAG_AR.md": "955fb4932999c4c8925ea2a1361ea083e171052b30c31990bc26e99f20c075aa",
+    "docs/PROGRESSIVE_AGENT_RAG_AR.md": "5263b04023e4a3c6d314be9c4235fb587cd7392fb175aabb7e05d8a28f38ef6e",
     "examples/progressive_agents/utf16.json": "9ed5891ab0143f4af47d8c52a2c3d0f16544f8696ba36026ae56e12fe6a33581",
-    "tests/test_progressive_agent_plan.py": "2a23e1f08cf7a88e70dd440381934a744d654f468ac450066e64b5d46a4d979d",
+    "tests/test_progressive_agent_plan.py": "28fa56f993a6d5accb3d2d9a6e494089674c01d9494693a654d3ba4808caeb0a",
     "tools/grammar_catalog/agent_cli.py": "901853ad92b1b3dcd103243c92d2131da38ff3b638af69368a2a4ff6fca383fb",
-    "tools/grammar_catalog/unicode_transport.py": "8f34ba4981ff69326b5a31df84adf3219e8607ac6050dbed2aa3c761f8c497a4",
+    "tools/grammar_catalog/unicode_transport.py": "16de760a7063b67687f94f02324be8bc3403088d94c549dcf8d2eab985f227b7",
     "tools/lexical_training/agent_plan.py": "381fcdfee0f110f68b4db2977229f6702a6f7fc4722886acf03533f17e743b1a"
+  },
+  "review_correction": {
+    "scope": "Distinguish original and derivative byte budgets from malformed UTF input",
+    "regression": "test_byte_budgets_remain_resource_limits_through_the_cli",
+    "valid_utf16_input_bytes": 6000,
+    "expanded_utf8_bytes": 9000,
+    "expected_status": "RESOURCE_LIMIT",
+    "expected_exit_code": 3,
+    "all_recorded_local_suites_rerun": true,
+    "initial_full_ci_head": "342d24672d363dea2de4f0367afdf6988a25135b",
+    "initial_full_ci_workflows_passed": 12,
+    "corrected_head_ci": "SEE_PULL_REQUEST_CHECKS_ON_ITS_EXACT_HEAD"
   }
 }

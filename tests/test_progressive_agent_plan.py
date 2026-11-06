@@ -1,12 +1,17 @@
 """Independent organization/transport boundaries, not Arabic completeness gold."""
 from copy import deepcopy
+from contextlib import redirect_stdout
 from hashlib import sha256
+from io import StringIO
 import json
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 from tools.lexical_training import agent_plan as agents
-from tools.grammar_catalog.unicode_transport import transcode, verify, ENCODINGS
+from tools.grammar_catalog.unicode_transport import transcode, verify, ENCODINGS, MAX_BYTES
+from tools.evidence_lifecycle_v1 import ResourceLimit
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -160,6 +165,30 @@ class ExplicitUTFTransportTests(unittest.TestCase):
         self.assertFalse(verify(result,expected_request=b)['valid'])
         result['scalar_map'][0]['input_byte_span']=[0,1]
         self.assertFalse(verify(result,expected_request=a)['valid'])
+
+    def test_byte_budgets_remain_resource_limits_through_the_cli(self):
+        from tools.grammar_catalog.__main__ import main
+        # Independent counterexample: 6,000 valid UTF-16 bytes become 9,000
+        # UTF-8 bytes. Exhaustion is distinct from malformed text.
+        cases = [('utf-16-le', ('\u0800' * 3000).encode('utf-16-le').hex(), 3, 'RESOURCE_LIMIT'),
+                 ('utf-8', (b'a' * (MAX_BYTES + 1)).hex(), 3, 'RESOURCE_LIMIT'),
+                 ('utf-8', 'c0af', 2, 'INPUT_OR_SOURCE_ERROR')]
+        for encoding, source_hex, code, status in cases:
+            request = {'source_id':'budget','encoding':encoding,'hex':source_hex}
+            if code == 3:
+                with self.assertRaises(ResourceLimit): transcode(request)
+            with TemporaryDirectory() as directory:
+                path = Path(directory)/'request.json'
+                path.write_text(json.dumps(request))
+                output = StringIO()
+                with patch('sys.argv', ['grammar_catalog','agents','transport','--request',str(path)]), redirect_stdout(output):
+                    actual_code = main()
+                receipt = json.loads(output.getvalue())
+                self.assertEqual(actual_code, code)
+                self.assertEqual(receipt['status'], status)
+                self.assertFalse(receipt['grants_language_license'])
+        at_limit = transcode({'source_id':'budget','encoding':'utf-8','hex':(b'a' * MAX_BYTES).hex()})
+        self.assertEqual(len(bytes.fromhex(at_limit['utf8']['hex'])),MAX_BYTES)
 
 
 if __name__=='__main__': unittest.main()

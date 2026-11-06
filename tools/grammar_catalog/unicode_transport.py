@@ -7,7 +7,7 @@ from hashlib import sha256
 import re
 
 from nabt.learning.source_evidence import SourceBlob
-from tools.evidence_lifecycle_v1 import _encoded, wire
+from tools.evidence_lifecycle_v1 import ResourceLimit, _encoded, wire
 
 ENCODINGS = ("utf-8", "utf-16-le", "utf-16-be", "utf-32-le", "utf-32-be")
 MAX_BYTES = 8192
@@ -22,15 +22,17 @@ def transcode(request):
         raise ValueError("Unsupported or implicit encoding")
     if type(source_id) is not str or len(source_id) > 128 or not re.fullmatch(r"[a-z][a-z0-9_]*", source_id):
         raise ValueError("Invalid source identity")
-    if type(text) is not str or not 2 <= len(text) <= MAX_BYTES * 2 or not re.fullmatch(r"(?:[0-9a-f]{2})+", text):
-        raise ValueError("Invalid hex or source byte budget")
+    if type(text) is not str or len(text) < 2 or not re.fullmatch(r"(?:[0-9a-f]{2})+", text):
+        raise ValueError("Invalid canonical hex")
+    if len(text) > MAX_BYTES * 2:
+        raise ResourceLimit("Original source exceeds byte budget")
     raw = bytes.fromhex(text)
     decoded = raw.decode(encoding, errors="strict")
     if decoded.encode(encoding, errors="strict") != raw:
         raise ValueError("Nonreversible input")
     utf8 = decoded.encode("utf-8", errors="strict")
     if len(utf8) > MAX_BYTES:
-        raise ValueError("UTF-8 derivative exceeds byte budget")
+        raise ResourceLimit("UTF-8 derivative exceeds byte budget")
     derivative = SourceBlob(source_id + "_utf8", utf8)
     source_offset = utf8_offset = 0
     spans = []
