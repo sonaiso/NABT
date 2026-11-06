@@ -73,7 +73,9 @@ class CatalogueTests(unittest.TestCase):
             with self.assertRaises(ResourceLimit): units.execute(req)
 
     def test_absent_native_owner_is_defer_not_python_simulation(self):
-        with patch('tools.entropy_framework.reuse_run.entry_command',side_effect=FileNotFoundError):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as directory, patch('tools.entropy_framework.reuse_run.entry_command',
+                return_value=[str(Path(directory)/'absent-probe')]):
             report=units.execute({'op':'enumerate'})
         self.assertEqual(report['result']['reason'],'NATIVE_PROBE_UNAVAILABLE')
         self.assertFalse(report['native_execution_performed'])
@@ -94,6 +96,26 @@ class CatalogueTests(unittest.TestCase):
 
 @unittest.skipUnless(NATIVE,'Installed Lean owners are required; CI explicitly requires both')
 class NativeCompositionTests(unittest.TestCase):
+    def test_long_a116_integer_survives_api_cli_and_independent_replay(self):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from tempfile import TemporaryDirectory
+        from tools.grammar_catalog.__main__ import main
+        request=dict(op='compose',parts=['كَ'*8],separators=[])
+        report=units.execute(request)
+        number=report['result']['words'][0]['unit_n']
+        self.assertEqual(number,24231762245078505)
+        self.assertEqual(units.read_json(units.wire(report).encode()),report)
+        self.assertTrue(units.verify(report,expected_request=request)['valid'])
+        with TemporaryDirectory() as directory:
+            req,out=Path(directory)/'request.json',Path(directory)/'report.json'
+            req.write_text(json.dumps(request,ensure_ascii=False))
+            with patch('sys.argv',['nabt','units','run','--request',str(req),'--output',str(out)]):
+                self.assertEqual(main(),0)
+            with patch('sys.argv',['nabt','units','run','--request',str(req),'--verify',str(out)]),redirect_stdout(StringIO()) as log:
+                self.assertEqual(main(),0)
+            self.assertTrue(json.loads(log.getvalue())['valid'])
+
     def test_a116_products_use_the_existing_numbering_without_false_exhaustion(self):
         r=units.execute(dict(op='cell_page',length=2,offset=13454,limit=16))['result']
         self.assertEqual(r['domain_count'],13456)

@@ -12,13 +12,36 @@ from nabt.codec import encode_cells, decode_number
 from nabt.errors import NabtError
 from nabt.learning.source_evidence import SourceBlob
 from nabt.machine import Machine, compose_effects
-from tools.evidence_lifecycle_v1 import ResourceLimit, _encoded, strict_loads, wire
+from tools.evidence_lifecycle_v1 import ResourceLimit, _encoded
 from .sign_curriculum import SYLLABLE_TARGETS, _check_quota
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = "nabt.unit-composition-agent.v1"
 MAX_REPORT = 8 * 1048576
 PAIR_BASIS = ("C", "V", *SYLLABLE_TARGETS)
+
+
+def wire(value):
+    from tools.recursive_bridge import _application_wire
+    try:
+        raw = _application_wire(value)
+    except NabtError as exc:
+        if exc.code == "RESOURCE_LIMIT": raise ResourceLimit(exc.message) from exc
+        raise
+    if len(raw) > MAX_REPORT:
+        raise ResourceLimit("Unit report byte budget exceeded")
+    return raw.decode("utf-8")
+
+
+def read_json(raw):
+    from tools.recursive_bridge import load_application_bytes
+    if len(raw) > MAX_REPORT:
+        raise ResourceLimit("Unit JSON byte budget exceeded")
+    try:
+        return load_application_bytes(raw)
+    except NabtError as exc:
+        if exc.code == "RESOURCE_LIMIT": raise ResourceLimit(exc.message) from exc
+        raise
 
 
 class NativeUnavailable(Exception):
@@ -60,16 +83,18 @@ class NativeSession:
         _encoded(requests, 256 * 1024)
         try:
             command = entry_command("progressive", [], root=ROOT)
+            executable = Path(command[0])
+            before = sha256(executable.read_bytes()).hexdigest()
         except FileNotFoundError as exc:
             raise NativeUnavailable("Build the installed progressiveUnitProbe") from exc
-        executable = Path(command[0])
-        before = sha256(executable.read_bytes()).hexdigest()
         with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
             try:
                 run = subprocess.run(command, input=("".join(wire(r) + "\n" for r in requests)).encode(),
                     stdout=out, stderr=err, cwd=ROOT, timeout=60, check=False)
             except subprocess.TimeoutExpired as exc:
                 raise ResourceLimit("Native unit probe time budget exceeded") from exc
+            except FileNotFoundError as exc:
+                raise NativeUnavailable("Installed progressiveUnitProbe became unavailable") from exc
             out.seek(0); raw = out.read(MAX_REPORT + 1)
             err.seek(0); errors = err.read(4096)
         if len(raw) > MAX_REPORT:
@@ -84,7 +109,7 @@ class NativeSession:
             raise ValueError("Native unit response count differs")
         replies = []
         for request, line in zip(requests, lines):
-            response = strict_loads(line, maximum_bytes=MAX_REPORT, report=True)
+            response = read_json(line)
             validate_response(request, response)
             self.calls.append({"request": deepcopy(request), "response": response})
             if response["status"] == "ERROR":
@@ -331,11 +356,11 @@ def execute(request):
         "native_execution_performed":bool(native.calls),"native_binary_sha256":native.binary_sha256,
         "native_calls":native.calls,"authority":"SCOPED_EXISTING_OWNER_EXECUTION",
         "general_grammar_license":False,"meaning_stage_unlocked":False}
-    _encoded(report,MAX_REPORT)
+    wire(report)
     return report
 
 
 def verify(report, *, expected_request):
-    _encoded(report,MAX_REPORT)
+    wire(report)
     return {"valid":wire(report)==wire(execute(expected_request)),
         "verification":"FRESH_INDEPENDENT_REQUEST_AND_OWNER_REPLAY","general_grammar_license":False}

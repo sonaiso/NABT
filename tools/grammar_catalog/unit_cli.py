@@ -14,8 +14,10 @@ def arguments(parser):
 
 def run(args):
     from . import unit_catalog
-    from .agent_cli import read
-    from tools.arabic_training.unit_composition import execute, verify
+    from tools.arabic_training.unit_composition import execute, verify, read_json, MAX_REPORT
+    def read(path, *, report=False):
+        if path is None: raise ValueError("This action requires --request")
+        with path.open("rb") as stream: return read_json(stream.read(MAX_REPORT+1))
     if args.verify and args.action != "run":
         raise ValueError("--verify applies to units run")
     if args.action == "catalog":
