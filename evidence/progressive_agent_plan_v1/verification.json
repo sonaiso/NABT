@@ -1,0 +1,169 @@
+{
+  "schema": "nabt.progressive-agent-verification.v1",
+  "base_commit": "99fa295c4a1691185cdb28ecb22099866e56408e",
+  "scope": "PROGRESSIVE_ORGANIZATION_RETRIEVAL_UTF_TRANSPORT_AND_EXISTING_OWNER_REPLAY",
+  "report": {
+    "schema": "nabt.progressive-agent-report.v1",
+    "authority": "CURRICULUM_AND_PROOF_NAVIGATION_ONLY",
+    "counts": {
+      "profiles": 32,
+      "requested_topics": 105,
+      "compiled_declarations": 1608
+    },
+    "proof_catalog": {
+      "path": "evidence/grounded_passage_v1/integration/proof_catalog.json",
+      "sha256": "26dfcf0e632c3545787e742fef5b9e833db01f2389c749d05e06978251f31009",
+      "compiled_this_run": false,
+      "verification": "RECORDED_COMPILED_SNAPSHOT_WITH_CURRENT_SOURCE_MATCH"
+    },
+    "foundation_facts": {
+      "count_domains": {
+        "carriers": 29,
+        "marks": 4,
+        "short_vowels": 3,
+        "cells": 116,
+        "cv_candidates": 84,
+        "sukun_cells": 29,
+        "moving_alif_cells": 3,
+        "cvv_templates": 84
+      },
+      "articulation_profile": "SOURCE_ATTRIBUTED_NOT_ACOUSTICALLY_ACQUIRED",
+      "source_collation_open_carriers": [
+        "ل",
+        "ن"
+      ],
+      "acoustic_validation": false,
+      "sign_limitations": [
+        "Encoding and shape acceptance do not assign a role.",
+        "Machine mode selects a final-state predicate, not a phonetic pause conversion.",
+        "Role and source descriptions are authored, not learned from free book prose.",
+        "Lam/nun source collation and acoustic validation remain open."
+      ],
+      "utf_transport_formal_refinement": "NOT_ESTABLISHED_BY_PYTHON_ROUNDTRIP"
+    },
+    "syllable_targets": [
+      "CV",
+      "CVV",
+      "CVC",
+      "CVVC",
+      "CVCC",
+      "CVVCC"
+    ],
+    "prerequisite_order": [
+      "trace",
+      "script",
+      "articulation",
+      "a116",
+      "effects",
+      "boundaries",
+      "reading",
+      "syllable.CV",
+      "syllable.CVV",
+      "syllable.CVC",
+      "syllable.CVVC",
+      "syllable.CVCC",
+      "syllable.CVVCC",
+      "weak.laws",
+      "roles.grammar",
+      "genera",
+      "roles.stem",
+      "pronouns",
+      "built.names",
+      "root.triliteral",
+      "root.quadriliteral",
+      "connector.pre",
+      "masdar",
+      "noun.pre",
+      "verb.pre",
+      "awamil.propose",
+      "syntax.compose",
+      "noun.post",
+      "verb.post",
+      "connector.post",
+      "awamil.license",
+      "review"
+    ],
+    "agent_profiles_are": "SPECIALIZATIONS_OF_EXISTING_OWNERS_NOT_SEPARATELY_TRAINED_MODELS",
+    "automatic_ascension": false
+  },
+  "framework_sha256": "1fe3df3c73042ce3c8623e2e02491d90b6af3dce6f881e754105c19092161cff",
+  "plan_sha256": "dd44c862e60c30cd99cba44f1948afb6b6c0fc73395ed2a03333d3b90e1e0aaf",
+  "python_checks": [
+    {
+      "name": "progressive_agents",
+      "command": "make -f Makefile -f integrations/grammar_catalog.mk progressive-agents",
+      "ran": 14,
+      "skipped": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "existing_curriculum_sign_awamil_proof_reference",
+      "command": "python -m unittest tests.test_learning_framework tests.test_awamil_agent tests.test_sign_curriculum tests.test_current_proof_references -q",
+      "ran": 57,
+      "skipped": 2,
+      "result": "PASS"
+    },
+    {
+      "name": "reuse",
+      "command": "python -m unittest discover -s tests -p test_proof_reuse*.py -q",
+      "ran": 49,
+      "skipped": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "operation_rag",
+      "command": "make -f Makefile -f integrations/grammar_catalog.mk operation-rag",
+      "ran": 23,
+      "skipped": 0,
+      "result": "PASS"
+    }
+  ],
+  "total_ran": 143,
+  "total_skipped": 2,
+  "skip_reason": "The two native sign curriculum probes are not built locally.",
+  "utf_replay": {
+    "valid": true,
+    "verification": "FRESH_EXPLICIT_ENCODING_REPLAY",
+    "a116_license_established": false
+  },
+  "factor_gate_replay": {
+    "valid": true,
+    "verification": "FRESH_OWNER_AND_INPUT_REPLAY",
+    "application_license_granted": false
+  },
+  "source_relative_status": "LICENSED_DISCOURSE",
+  "progressive_license_status": "DEFER",
+  "new_training_runs": 0,
+  "new_formal_declarations": 0,
+  "make_check_run": false,
+  "local_native_lean_execution": false,
+  "ci_status": "SEE_PULL_REQUEST_CHECKS_ON_ITS_EXACT_HEAD",
+  "changed_input_sha256": {
+    ".github/workflows/capability-reuse.yml": "f96974cb9b0cef34b3b7bf642bb7e507a34d93a9758dbc583709d45e23ffddc4",
+    "docs/NABT_FOUNDATION_REUSE_AR.md": "5fe26c4b58c29d6668f101bdbeb240ce71f3c8e4ada6f9a64dbe049fd36ef445",
+    "evidence/cognitive_curriculum_v1/learning_framework.json": "1fe3df3c73042ce3c8623e2e02491d90b6af3dce6f881e754105c19092161cff",
+    "integrations/grammar_catalog.mk": "eaf7498a01052e2569dcec8b62a028e9d1d048b41ca73d9f02b066778e3f1cbb",
+    "tools/entropy_framework/registry.json": "7beb0f64f08233fb09ac633309a4b3b7dd11d6d67faa58034259878515c58b86",
+    "tools/entropy_framework/reuse_run.py": "e628ccdba68f0462edb49ee88df3b6b7678196eaf48a33f4e2f346e1db8dd1ae",
+    "tools/grammar_catalog/__main__.py": "4896ddb3d12d86acbd9a7311bfdf7a9705c344384f57987edce1caee53348516",
+    "tools/lexical_training/learning_framework.py": "1e5673b174aedfa989517e8bf0e891de6bf830257057af285071481cd4c3dca7",
+    "docs/PROGRESSIVE_AGENT_RAG_AR.md": "5263b04023e4a3c6d314be9c4235fb587cd7392fb175aabb7e05d8a28f38ef6e",
+    "examples/progressive_agents/utf16.json": "9ed5891ab0143f4af47d8c52a2c3d0f16544f8696ba36026ae56e12fe6a33581",
+    "tests/test_progressive_agent_plan.py": "28fa56f993a6d5accb3d2d9a6e494089674c01d9494693a654d3ba4808caeb0a",
+    "tools/grammar_catalog/agent_cli.py": "901853ad92b1b3dcd103243c92d2131da38ff3b638af69368a2a4ff6fca383fb",
+    "tools/grammar_catalog/unicode_transport.py": "16de760a7063b67687f94f02324be8bc3403088d94c549dcf8d2eab985f227b7",
+    "tools/lexical_training/agent_plan.py": "381fcdfee0f110f68b4db2977229f6702a6f7fc4722886acf03533f17e743b1a"
+  },
+  "review_correction": {
+    "scope": "Distinguish original and derivative byte budgets from malformed UTF input",
+    "regression": "test_byte_budgets_remain_resource_limits_through_the_cli",
+    "valid_utf16_input_bytes": 6000,
+    "expanded_utf8_bytes": 9000,
+    "expected_status": "RESOURCE_LIMIT",
+    "expected_exit_code": 3,
+    "all_recorded_local_suites_rerun": true,
+    "initial_full_ci_head": "342d24672d363dea2de4f0367afdf6988a25135b",
+    "initial_full_ci_workflows_passed": 12,
+    "corrected_head_ci": "SEE_PULL_REQUEST_CHECKS_ON_ITS_EXACT_HEAD"
+  }
+}

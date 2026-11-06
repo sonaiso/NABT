@@ -39,6 +39,10 @@ jobs:
         env:
           PYTHONPATH: src:.
         run: make -f Makefile -f integrations/grammar_catalog.mk operation-rag
+      - name: Validate progressive agent prerequisites and replay original UTF bytes
+        env:
+          PYTHONPATH: src:.
+        run: make -f Makefile -f integrations/grammar_catalog.mk progressive-agents
 
 # Compiling and auditing Lean remains the job of the existing proof gates.
 # Native readiness here is availability, never a claim that a checker ran.

@@ -178,6 +178,10 @@ def validate(document, *, compiled, axis_ids, matrix_ids, domain_ids, root=ROOT)
     if mapped_cards != cards.keys():
         raise ValueError("Retained legacy cards must all map to learning objectives")
     ordered = _order(indexed["objectives"], "objective")
+    if "progressive_agents" in document["neural_design"]:
+        from .agent_plan import validate_plan
+        validate_plan(document["neural_design"]["progressive_agents"],
+                      agents=indexed["agents"], objectives=indexed["objectives"])
     result = deepcopy(document)
     result["validation"] = {
         "authority": "CURRICULUM_REFERENCE_VALIDATION_ONLY",
