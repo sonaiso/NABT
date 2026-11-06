@@ -18,4 +18,10 @@ operation-rag:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog rag --request examples/operation_rag/contrast.json --output $(EVIDENCE_DIR)/operation-rag-contrast.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog rag --request examples/operation_rag/contrast.json --verify $(EVIDENCE_DIR)/operation-rag-contrast.json
 
-check: grammar-catalog proof-catalog routing-conformance operation-rag
+.PHONY: awamil-agent
+awamil-agent:
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_awamil_agent -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil curriculum --output $(EVIDENCE_DIR)/awamil-curriculum.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil check --request examples/awamil_agent/case.json --output $(EVIDENCE_DIR)/awamil-case.json
+
+check: grammar-catalog proof-catalog routing-conformance operation-rag awamil-agent

@@ -2031,7 +2031,10 @@
           "tools/source_learning_connection.py",
           "tools/lexical_training/teaching.py",
           "tools/lexical_training/reasoning_curriculum.py",
-          "tools/grammar_catalog/operation_runtime.py"
+          "tools/grammar_catalog/operation_runtime.py",
+          "tools/grammar_catalog/awamil.py",
+          "tools/grammar_catalog/awamil_cli.py",
+          "tools/lexical_training/awamil_agent.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
@@ -2050,13 +2053,16 @@
           "tests/test_program.py",
           "tests/test_source_learning_connection.py",
           "tests/test_cognitive_teaching.py",
-          "tests/test_operation_rag.py"
+          "tests/test_operation_rag.py",
+          "tests/test_awamil_agent.py",
+          "tests/test_awamil_training.py"
         ],
         "doc_paths": [
           "docs/SOURCE_LEARNING.md",
           "docs/ACQUIRED_KNOWLEDGE_CONNECTION_AR.md",
           "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md",
-          "docs/OPERATION_RAG_V1_AR.md"
+          "docs/OPERATION_RAG_V1_AR.md",
+          "docs/AWAMIL_AGENT_V1_AR.md"
         ],
         "scope": "The learner retains the complete declared signed-conjunction hypothesis language, updates only from replayed observations and recomputes after withdrawal.",
         "open_debts": [
@@ -2387,13 +2393,17 @@
         ],
         "runtime_paths": [
           "src/nabt/discourse_reader.py",
-          "src/nabt/discourse.py"
+          "src/nabt/discourse.py",
+          "tools/grammar_catalog/awamil.py",
+          "tools/grammar_catalog/awamil_cli.py",
+          "tools/grammar_catalog/awamil_relations.py"
         ],
         "native_targets": [
           "exportDiscourseEvidence"
         ],
         "entrypoint_ids": [
-          "core"
+          "core",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_discourse_conformance.py",
@@ -2402,11 +2412,14 @@
         "test_paths": [
           "tests/test_discourse_reader.py",
           "tests/test_claim_predication_bindings.py",
-          "tests/test_nominal_interpretation_validation.py"
+          "tests/test_nominal_interpretation_validation.py",
+          "tests/test_awamil_agent.py",
+          "tests/test_awamil_training.py"
         ],
         "doc_paths": [
           "docs/DISCOURSE_READING.md",
-          "docs/INTERPRETIVE_LINKS_V1_AR.md"
+          "docs/INTERPRETIVE_LINKS_V1_AR.md",
+          "docs/AWAMIL_AGENT_V1_AR.md"
         ],
         "scope": "Existing reading/query paths preserve complete scoped claims; claim_bindings select each predicate witness and predicate_interpretations carry acquired noun and derivation evidence.",
         "open_debts": [
@@ -2459,13 +2472,16 @@
         "runtime_paths": [
           "src/nabt/arabic_reader.py",
           "src/nabt/governors.py",
-          "src/nabt/governor_reader.py"
+          "src/nabt/governor_reader.py",
+          "tools/grammar_catalog/awamil.py",
+          "tools/grammar_catalog/awamil_cli.py"
         ],
         "native_targets": [
           "arabicInnaFragmentProbe"
         ],
         "entrypoint_ids": [
-          "core"
+          "core",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_arabic_conformance.py",
@@ -2475,11 +2491,14 @@
         "test_paths": [
           "tests/test_arabic_syntax.py",
           "tests/test_governors.py",
-          "tests/test_arabic_inna_fragment_probe.py"
+          "tests/test_arabic_inna_fragment_probe.py",
+          "tests/test_awamil_agent.py",
+          "tests/test_awamil_training.py"
         ],
         "doc_paths": [
           "docs/ARABIC_SYNTAX.md",
-          "docs/GOVERNOR_FORMAL_CONTRACTS.md"
+          "docs/GOVERNOR_FORMAL_CONTRACTS.md",
+          "docs/AWAMIL_AGENT_V1_AR.md"
         ],
         "scope": "Existing finite syntax readers preserve force and governing conditions and distinguish completed assertion from questions, commands and unresolved readings.",
         "open_debts": [
@@ -2567,7 +2586,9 @@
           "tools/classical_language_evidence.py",
           "tools/grammar_catalog/__main__.py",
           "tools/classical_rule_inventory.py",
-          "tools/arabic_training/madlul_matrix.py"
+          "tools/arabic_training/madlul_matrix.py",
+          "tools/grammar_catalog/awamil.py",
+          "tools/grammar_catalog/awamil_cli.py"
         ],
         "native_targets": [
           "exportClassicalLanguageEvidence",
@@ -2587,13 +2608,16 @@
           "tests/test_classical_language_evidence.py",
           "tests/test_classical_reference_readings.py",
           "tests/test_classical_rule_inventory.py",
-          "tests/test_madlul_matrix.py"
+          "tests/test_madlul_matrix.py",
+          "tests/test_awamil_agent.py",
+          "tests/test_awamil_training.py"
         ],
         "doc_paths": [
           "docs/CLASSICAL_LANGUAGE_EVIDENCE.md",
           "docs/CLASSICAL_REFERENCE_READINGS.md",
           "docs/CLASSICAL_RULE_INVENTORY.md",
-          "docs/MADLUL_MATRIX_AR.md"
+          "docs/MADLUL_MATRIX_AR.md",
+          "docs/AWAMIL_AGENT_V1_AR.md"
         ],
         "scope": "Retained source quotations and explicit interpreted finite rules remain linked to their source versions and compiled contracts.",
         "open_debts": [
@@ -3248,7 +3272,9 @@
           "tools/entropy_framework/organization.py",
           "tools/grammar_catalog/operation_runtime.py",
           "tools/grammar_catalog/operations.py",
-          "tools/grammar_catalog/operation_rag.py"
+          "tools/grammar_catalog/operation_rag.py",
+          "tools/grammar_catalog/awamil.py",
+          "tools/grammar_catalog/awamil_cli.py"
         ],
         "native_targets": [
           "exportRuleRouting"
@@ -3265,13 +3291,16 @@
           "tests/test_mantuq_inference_pipeline.py",
           "tests/test_grammar_catalog_sources.py",
           "tests/test_proof_reuse_organization.py",
-          "tests/test_operation_rag.py"
+          "tests/test_operation_rag.py",
+          "tests/test_awamil_agent.py",
+          "tests/test_awamil_training.py"
         ],
         "doc_paths": [
           "docs/GRAMMAR_CATALOG_AR.md",
           "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md",
           "docs/NABT_RULE_POLICY_ORGANIZATION_AR.md",
-          "docs/OPERATION_RAG_V1_AR.md"
+          "docs/OPERATION_RAG_V1_AR.md",
+          "docs/AWAMIL_AGENT_V1_AR.md"
         ],
         "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
         "open_debts": [

@@ -57,6 +57,11 @@
       "id": "ontolex_shap",
       "path": "docs/LEXICAL_EXPLANATION_AR.md",
       "scope_ar": "التصدير وشرح الدرجات القائمان؛ لا تنفيذ ثان في senses.py"
+    },
+    {
+      "id": "awamil_inventory",
+      "path": "evidence/mantuq_mafhum/awamil_inventory.json",
+      "scope_ar": "قائمة الجرجاني المرقمة؛ تقابلها قائمة تنفيذية مستقلة دون افتراض التطابق"
     }
   ],
   "stages": [
@@ -461,6 +466,28 @@
         "tests/test_lexical_explanation.py"
       ],
       "status": "CURRICULUM_ROLE_NOT_TRAINED_EXPERT",
+      "acceptance_authority": "EXISTING_OWNER_ONLY",
+      "handoff_fields": [
+        "objective_id",
+        "source_identity",
+        "occurrences",
+        "candidate_set",
+        "owner_receipts",
+        "remaining_obligations",
+        "model_version",
+        "assistance_used"
+      ],
+      "assessment_separation": "Final answer key and held-out labels are unavailable to learner and teaching proposer"
+    },
+    {
+      "id": "awamil",
+      "label_ar": "وكيل العوامل والإسناد",
+      "responsibility_ar": "استرجاع العوامل بهوياتها وبناء منهاجها والتدرب على ترتيب الشواهد وإحالة التطبيق إلى صاحبه",
+      "existing_paths": [
+        "tools/lexical_training/awamil_agent.py",
+        "tools/grammar_catalog/awamil.py"
+      ],
+      "status": "TRAINABLE_RETRIEVAL_PROPOSER_SEE_VERSIONED_RUN",
       "acceptance_authority": "EXISTING_OWNER_ONLY",
       "handoff_fields": [
         "objective_id",
@@ -5694,6 +5721,87 @@
       ],
       "method_ids": [
         "rational"
+      ]
+    },
+    {
+      "id": "lang.awamil",
+      "label_ar": "العوامل المئة ومصفوفة الإسناد والتضمين والتقييد",
+      "stage": "L3",
+      "prerequisites": [
+        "lang.nawasikh"
+      ],
+      "agent_id": "awamil",
+      "domain_ids": [
+        "communication"
+      ],
+      "axis_ids": [
+        "nawasikh",
+        "semantic_parts",
+        "scope_composition"
+      ],
+      "matrix_ids": [],
+      "owner_modules": [
+        "Nabt.AwamilInventory",
+        "Nabt.Governors",
+        "Nabt.DiscourseEvidence",
+        "Nabt.ConstructionEvidence"
+      ],
+      "source_ids": [
+        "awamil_inventory",
+        "foundation"
+      ],
+      "knowledge_ar": "هوية العامل وشروطه وموانعه والمسند والمسند إليه ورأس الإسناد ونطاق التضمين والتقييد",
+      "skill_ar": "استرجع شاهد العامل ثم اختبر التعيين الإعرابي واحفظ البدائل ونطاق الإسناد",
+      "disposition_ar": "حفظ الشاهد والبدائل وطلب الناقص وتصحيح الحكم؛ عدم تعويض فقد الشرط بدرجة النموذج",
+      "inputs": [
+        "أثر المصدر ونسخته ومواضع الوقوع",
+        "السؤال والنطاق وقرائن الحالة المتاحة؛ دون مفتاح الإجابة"
+      ],
+      "outputs": [
+        "مرشح أو بدائل بهوياتها ومصادرها",
+        "إيصال صاحب الفحص وحالة القبول أو التعليق أو التعارض",
+        "التزام الاكتساب التالي وقيود المجال"
+      ],
+      "formative": {
+        "task_ar": "احفظ اسم الناسخ وخبره والزمن والنطاق",
+        "feedback_ar": "يحدد المقيم الفرق الحاسم وشاهده، ثم يقلل الدعم ويعيد المهمة على مثال آخر",
+        "contrast_ar": "كان بالأمس لا تعني ثبوت الخبر الآن"
+      },
+      "summative": {
+        "task_ar": "طبّق المهارة على عائلة مستقلة، ثم نفذ الاختبار المضاد: كان بالأمس لا تعني ثبوت الخبر الآن",
+        "split_keys": [
+          "source_lineage",
+          "root_or_template_family_when_relevant",
+          "scenario",
+          "referent",
+          "speaker_when_relevant"
+        ],
+        "critical_failures": [
+          "SOURCE_OR_OCCURRENCE_MISMATCH",
+          "LOST_DECISIVE_CONDITION",
+          "FORGED_OR_STALE_RECEIPT",
+          "ANSWER_KEY_LEAKAGE"
+        ],
+        "metrics": [
+          "correct_over_accepted",
+          "accepted_over_all",
+          "correct_unknown_over_expected_unknown",
+          "false_accepts",
+          "withdrawal_and_alternative_support",
+          "latency_p50_p95"
+        ]
+      },
+      "runtime_refs": [
+        "tools/grammar_catalog/awamil.py",
+        "tools/grammar_catalog/awamil_relations.py",
+        "tools/lexical_training/awamil_agent.py"
+      ],
+      "acquisition_obligation_ar": "يغطي المنهاج مئة هوية؛ إثبات تطبيق كل استعمال في نص جديد يتطلب شاهده وفحص صاحبه",
+      "neural_status": "VERSIONED_RETRIEVAL_TRAINING_NOT_APPLICATION_MASTERY",
+      "legacy_card_ids": [],
+      "method_ids": [
+        "rational",
+        "linguistic"
       ]
     }
   ],
