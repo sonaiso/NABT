@@ -14,10 +14,12 @@ from tools.entropy_framework.reuse import current_catalog
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW = "evidence/cognitive_curriculum_v1/source_review.json"
 ROUTING_POLICY = "nabt.cognitive-evidence-routing.v2"
-SHARED_ADAPTERS = ("source_learning", "qualified_inference", "epistemic_ledger", "grounded_passage")
+SHARED_ADAPTERS = ("source_learning", "qualified_inference", "epistemic_ledger", "grounded_passage", "temporal_context")
 
 # id, label, installed owner modules, adapters, open acquisition obligation.
 MATRICES = (
+    ("temporal_relation", "زمن القول والمرجع والحدث", ("TemporalContext", "DiscourseEvidence"), ("temporal_context",),
+     "تفسير القرينة الزمنية مقدم صراحة؛ الفحص لأيام محددة ولا يثبت وقوع الحدث أو السببية"),
     ("mantuq", "المنطوق", ("MantuqMafhum", "Shakhsiyya3Rules"), ("qualified_inference",),
      "اكتساب المطابقة والتضمن وهوية المعنى ونطاق القول من النص"),
     ("mafhum", "مفهوم الخطاب", ("MantuqMafhum", "QualifiedInference"), ("qualified_inference",),
@@ -113,6 +115,7 @@ POLICY_MATRICES = {
 
 # Learning record requirements, not premises silently supplied to any owner.
 MATRIX_FIELDS = {
+    "temporal_relation": ("source_occurrence", "speech_scope", "speech_time", "reference_time", "event_time", "relation_witness", "remaining_alternatives"),
     "mantuq": ("expression_occurrence", "sense", "part_alignment", "scope"),
     "mafhum": ("mantuq", "necessity_relation", "indication_kind", "application_witness"),
     "fahwa": ("mantuq", "agreement_direction", "transfer_bridge", "application_witness"),

@@ -15,6 +15,7 @@ from tools import source_learning_connection, epistemic_measurement
 from tools.mantuq_inference import source_bound
 from . import grounded_passage
 from . import reasoning_curriculum as curriculum
+from tools.grammar_catalog import temporal
 
 SCHEMA = "nabt.cognitive-lesson.v1"
 RESULT_SCHEMA = "nabt.cognitive-lesson-result.v1"
@@ -33,6 +34,9 @@ def _identity(adapter=None):
         paths += ("tools/lexical_training/grounded_passage.py", "formal/GroundedPassageMain.lean",
                   "formal/Nabt/GroundedPassage.lean",
                   "tools/connected_acquisition_v3.py")
+    if adapter == "temporal_context":
+        paths += ("tools/grammar_catalog/temporal.py", "formal/TemporalContextProbe.lean",
+                  "formal/Nabt/TemporalContext.lean")
     return {p: hashlib.sha256((curriculum.ROOT / p).read_bytes()).hexdigest() for p in paths}
 
 
@@ -72,6 +76,13 @@ def _learning_measurements(owner):
 
 
 def _next(owner, adapter, measured):
+    if adapter == "temporal_context":
+        if owner["status"] == "DEFER":
+            return {"action": "RESTORE_NATIVE_CHECKER", "basis": "/owner_result/native_receipt"}
+        if owner["status"] == "CONFLICT":
+            return {"action": "REVIEW_TEMPORAL_PREMISES", "basis": "/owner_result/relations"}
+        if owner["status"] in ("UNKNOWN", "PARTIAL"):
+            return {"action": "ACQUIRE_TEMPORAL_ANCHOR_OR_DISAMBIGUATION", "basis": "/owner_result/nodes"}
     if not measured:
         return {"action": "RESOLVE_OWNER_OBLIGATION", "basis": "/owner_result/status"}
     if adapter == "grounded_passage":
@@ -121,7 +132,13 @@ def run_lesson(lesson):
                           "obligation_ar": matrix[4]})
             return result
         payload, adapter = lesson["payload"], lesson["adapter"]
-        if adapter == "grounded_passage":
+        if adapter == "temporal_context":
+            owner = temporal.evaluate(payload)
+            measured = owner["native_checked"]
+            measurements = {"mode": "SUPPLIED_TEMPORAL_PREMISES_NATIVE_REPLAY", "learner_trained": False,
+                            "unknown_nodes": sum(not n["candidates"] for n in owner["nodes"]),
+                            "trace_pointer": "/owner_result/relations"}
+        elif adapter == "grounded_passage":
             owner = grounded_passage.evaluate(payload)
             measured = owner["native_checked"] and owner["acquisition_checks_available"]
             measurements = {"mode": "SOURCE_BOUND_SAMPLED_PASSAGE", "trace_pointer": "/owner_result/answers",

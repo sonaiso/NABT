@@ -1,0 +1,122 @@
+{
+  "schema": "nabt.context-application-verification.v1",
+  "checkpoint_scope": "COMPLETED_NATIVE_ACCEPTANCE_REGRESSION_AND_KERNEL_CHECKS_BEFORE_REMOTE_CI",
+  "plan": {
+    "name": "NABT_Integrated_Grammar_Context_Time_Plan_AR_20261106(1).html",
+    "sha256": "85043829cd90d0b8dbf33242758f83ded08dbf0fdde8afb695aa0a71f73e66d9"
+  },
+  "parents": {
+    "irab_head": "e7edde75f46204bb2535b217347007d7177644a0",
+    "unit_repair_head": "0eb5203d0c4dba3229e5b14e1f78070471d4c8ad",
+    "merged_foundation": "ea9409f3d079f79fcf2f1873c41c32e26587a69e"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "lean": "4.34.1",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41"
+  },
+  "completed_checks": [
+    {
+      "command": "make formal LAKE=<pinned-lake>",
+      "result": "PASS",
+      "build_jobs": 227
+    },
+    {
+      "command": "lake --dir formal build temporalContextProbe",
+      "result": "PASS",
+      "build_jobs": 8
+    },
+    {
+      "command": "make conformance LAKE=<pinned-lake>",
+      "result": "PASS",
+      "receipt": "conformance.json"
+    },
+    {
+      "command": "python tools/check_axioms.py --lake <pinned-lake>",
+      "result": "PASS",
+      "receipt": "axioms.json"
+    },
+    {
+      "command": "python tools/proof_catalog.py --lake <pinned-lake> --check evidence/context_application_v1/integration/proof_catalog.json",
+      "result": "PASS"
+    },
+    {
+      "command": "make -f Makefile -f integrations/grammar_catalog.mk context-application",
+      "result": "PASS",
+      "tests": 25,
+      "skipped": 0,
+      "independent_finite_native_comparisons": 4056,
+      "fresh_application_and_lesson_cli_replay": true
+    },
+    {
+      "command": "python -m unittest tests.test_proof_reuse tests.test_current_proof_references tests.test_irab_agent tests.test_cognitive_teaching.CurriculumTests tests.test_learning_framework tests.test_progressive_agent_plan -q",
+      "result": "PASS",
+      "tests": 75,
+      "skipped": 0
+    },
+    {
+      "command": "python -m unittest tests.test_current_proof_references tests.test_awamil_training -q",
+      "result": "PASS",
+      "tests": 7,
+      "skipped": 0
+    },
+    {
+      "command": "git diff --check; git diff --cached --check",
+      "result": "PASS"
+    }
+  ],
+  "full_repository_suite": "Additional validation is recorded by the existing CI runs on the published commit; not inferred from this checkpoint.",
+  "full_release_make_check_run_locally": false,
+  "proofs": {
+    "manifest_declarations": 1617,
+    "new_module": "Nabt.TemporalContext",
+    "new_declarations": 9,
+    "all_seven_current_reference_files_moved_together": true,
+    "new_temporal_grammar_theorems": false,
+    "python_scope_refinement_established": false
+  },
+  "application_sample": {
+    "source_sha256": "955e3d3173a55c07d021f688bbdb6373789ff595c00684c243d03dcc7c30286c",
+    "owner_assignment_occurrences": 2,
+    "temporal_status": "CHECKED",
+    "all_bridge_obligations_remain_open": [
+      "sourceLicense",
+      "hostInventory",
+      "hostLicenses",
+      "grammarLicense",
+      "realizationAligned"
+    ],
+    "recorded_snapshot_is_platform_specific": true
+  },
+  "known_adverb_frame_gap": {
+    "text": "لَمْ يَكْتُبْ أَمْسِ.",
+    "assignment_occurrences": 0,
+    "application_status": "DEFER",
+    "supplied_temporal_interpretation_check": "CHECKED",
+    "not_relabelled_as_linguistic_success": true
+  },
+  "training": {
+    "scope": "REPRODUCTION_OF_EXISTING_PUBLIC_AUTHORED_QUESTION_TEMPLATE_SPLIT_AFTER_CATALOG_CHANGE",
+    "report": "awamil_retrain/report.json",
+    "model_sha256": "319272a766bcf9d0bc05fd219075bb7f433fe6e023f3cca086360766f3976846",
+    "optimizer_updates": 210,
+    "weight_delta_l2": 7.094373406207642,
+    "dev_selected_epoch": 3,
+    "test_cases": 424,
+    "neural_test_top1": 0.38207547169811323,
+    "lexical_test_top1": 0.9551886792452831,
+    "ranking_admitted_by_dev": false,
+    "prior_record_unchanged": true,
+    "unseen_roots_or_free_sentences_measured": false,
+    "temporal_neural_training_performed": false
+  },
+  "limits": {
+    "source_to_theorem_irab_links_open": 22,
+    "world_truth_established": false,
+    "empirical_causality_established": false,
+    "whole_arabic_complete": false,
+    "certified_bridge_established": false,
+    "automatic_sre_acquisition": false,
+    "unanchored_temporal_network_complete": false
+  }
+}

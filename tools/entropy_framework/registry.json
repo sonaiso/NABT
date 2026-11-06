@@ -1769,7 +1769,13 @@
           "src/nabt/bridges.py",
           "tools/arabic_training/sign_curriculum.py",
           "tools/arabic_training/madlul_matrix.py",
-          "tools/grammar_catalog/operation_runtime.py"
+          "tools/grammar_catalog/operation_runtime.py",
+          "tools/lexical_training/agent_plan.py",
+          "tools/grammar_catalog/agent_cli.py",
+          "tools/grammar_catalog/unicode_transport.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
@@ -1786,14 +1792,19 @@
           "tests/test_bridges.py",
           "tests/test_sign_curriculum.py",
           "tests/test_madlul_matrix.py",
-          "tests/test_operation_rag.py"
+          "tests/test_operation_rag.py",
+          "tests/test_progressive_agent_plan.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/BRIDGES.md",
           "docs/TAAQOL_FOUNDATION.md",
           "docs/SIGN_ONLY_CURRICULUM_AR.md",
           "docs/MADLUL_MATRIX_AR.md",
-          "docs/OPERATION_RAG_V1_AR.md"
+          "docs/OPERATION_RAG_V1_AR.md",
+          "docs/PROGRESSIVE_AGENT_RAG_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "A116 is 29 carriers times four declared marks; reversible sequence numbering and versioned alphabet conversion preserve the selected representation.",
         "open_debts": [
@@ -1887,14 +1898,20 @@
         ],
         "runtime_paths": [
           "src/nabt/machine.py",
-          "tools/arabic_training/sign_curriculum.py"
+          "tools/arabic_training/sign_curriculum.py",
+          "tools/lexical_training/agent_plan.py",
+          "tools/grammar_catalog/agent_cli.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [
           "progressiveUnitProbe"
         ],
         "entrypoint_ids": [
           "progressive",
-          "sign-curriculum"
+          "sign-curriculum",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_progressive_units.py"
@@ -1903,12 +1920,17 @@
           "tests/test_progressive_unit_probe.py",
           "tests/test_progressive_unit_checker.py",
           "tests/test_binary_unit_domain_probe.py",
-          "tests/test_sign_curriculum.py"
+          "tests/test_sign_curriculum.py",
+          "tests/test_progressive_agent_plan.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/PROGRESSIVE_UNITS.md",
           "docs/PROGRESSIVE_UNIT_SOURCE_AUDIT.md",
-          "docs/SIGN_ONLY_CURRICULUM_AR.md"
+          "docs/SIGN_ONLY_CURRICULUM_AR.md",
+          "docs/PROGRESSIVE_AGENT_RAG_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "Exact payload restoration, effect composition and licensed atom/join/wrap/substitute/lift derivations are exercised by the installed native probe. Machine effects implement the lower operational projection.",
         "open_debts": [
@@ -2034,7 +2056,12 @@
           "tools/grammar_catalog/operation_runtime.py",
           "tools/grammar_catalog/awamil.py",
           "tools/grammar_catalog/awamil_cli.py",
-          "tools/lexical_training/awamil_agent.py"
+          "tools/lexical_training/awamil_agent.py",
+          "tools/lexical_training/agent_plan.py",
+          "tools/grammar_catalog/agent_cli.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
@@ -2055,14 +2082,19 @@
           "tests/test_cognitive_teaching.py",
           "tests/test_operation_rag.py",
           "tests/test_awamil_agent.py",
-          "tests/test_awamil_training.py"
+          "tests/test_awamil_training.py",
+          "tests/test_progressive_agent_plan.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/SOURCE_LEARNING.md",
           "docs/ACQUIRED_KNOWLEDGE_CONNECTION_AR.md",
           "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md",
           "docs/OPERATION_RAG_V1_AR.md",
-          "docs/AWAMIL_AGENT_V1_AR.md"
+          "docs/AWAMIL_AGENT_V1_AR.md",
+          "docs/PROGRESSIVE_AGENT_RAG_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "The learner retains the complete declared signed-conjunction hypothesis language, updates only from replayed observations and recomputes after withdrawal.",
         "open_debts": [
@@ -2149,14 +2181,18 @@
           "tools/lexical_training/curriculum.py",
           "tools/lexical_training/explanation.py",
           "tools/lexical_training/learning_framework.py",
-          "evidence/cognitive_curriculum_v1/learning_framework.json"
+          "evidence/cognitive_curriculum_v1/learning_framework.json",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
           "core",
           "madlul-matrix",
           "lexical-acquisition",
-          "lexical-curriculum"
+          "lexical-curriculum",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_word_conformance.py"
@@ -2168,14 +2204,17 @@
           "tests/test_madlul_matrix.py",
           "tests/test_lexical_acquisition.py",
           "tests/test_lexical_explanation.py",
-          "tests/test_learning_framework.py"
+          "tests/test_learning_framework.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/WORD_READING.md",
           "docs/MADLUL_MATRIX_AR.md",
           "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md",
           "docs/LEXICAL_EXPLANATION_AR.md",
-          "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md"
+          "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "Declared noun/verb/particle evidence and conditional declension classes are consumed by the existing word reader with unresolved cases retained.",
         "open_debts": [
@@ -2219,22 +2258,29 @@
         ],
         "runtime_paths": [
           "src/nabt/morphology.py",
-          "src/nabt/morphology_reader.py"
+          "src/nabt/morphology_reader.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
-          "core"
+          "core",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_morphology_conformance.py"
         ],
         "test_paths": [
           "tests/test_morphology.py",
-          "tests/test_morphology_domain_review.py"
+          "tests/test_morphology_domain_review.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/MORPHOLOGY_READING.md",
-          "docs/MORPHOLOGY_FORMAL_CONTRACTS.md"
+          "docs/MORPHOLOGY_FORMAL_CONTRACTS.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "Conditional property algebra and source-bound morphology receipts preserve assumptions and distinguish construction from nominal denotation.",
         "open_debts": [
@@ -2253,7 +2299,10 @@
           "src/nabt/derivation.py",
           "src/nabt/verb_paradigm.py",
           "tools/derivation_surface_bridge.py",
-          "tools/grammar_catalog/operation_runtime.py"
+          "tools/grammar_catalog/operation_runtime.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [
           "exportDerivation"
@@ -2270,13 +2319,16 @@
           "tests/test_derivation.py",
           "tests/test_derivation_review.py",
           "tests/test_derivation_surface_bridge.py",
-          "tests/test_operation_rag.py"
+          "tests/test_operation_rag.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/DERIVATION.md",
           "docs/DERIVATION_SOURCE_AUDIT.md",
           "docs/DERIVATION_SURFACE_V1_AR.md",
-          "docs/OPERATION_RAG_V1_AR.md"
+          "docs/OPERATION_RAG_V1_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "Installed pattern rendering and recovery preserve radical slots, additions and inflectional distinctions; surface candidates retain their witnesses. The source-bound medial-alif bridge delegates filling to this owner and retains distinct supplied past.I.a/i/u derivations even when surfaces coincide.",
         "open_debts": [
@@ -2394,7 +2446,8 @@
         "id": "discourse",
         "title_ar": "القضية والسؤال وشاهد الإسناد",
         "formal_modules": [
-          "Nabt.DiscourseEvidence"
+          "Nabt.DiscourseEvidence",
+          "Nabt.TemporalContext"
         ],
         "runtime_paths": [
           "src/nabt/discourse_reader.py",
@@ -2403,10 +2456,14 @@
           "tools/grammar_catalog/awamil_cli.py",
           "tools/grammar_catalog/awamil_relations.py",
           "tools/grammar_catalog/irab.py",
-          "tools/grammar_catalog/irab_cli.py"
+          "tools/grammar_catalog/irab_cli.py",
+          "tools/grammar_catalog/temporal.py",
+          "tools/grammar_catalog/application.py",
+          "tools/grammar_catalog/application_cli.py"
         ],
         "native_targets": [
-          "exportDiscourseEvidence"
+          "exportDiscourseEvidence",
+          "temporalContextProbe"
         ],
         "entrypoint_ids": [
           "core",
@@ -2422,17 +2479,22 @@
           "tests/test_nominal_interpretation_validation.py",
           "tests/test_awamil_agent.py",
           "tests/test_awamil_training.py",
-          "tests/test_irab_agent.py"
+          "tests/test_irab_agent.py",
+          "tests/test_temporal_context.py",
+          "tests/test_context_application.py"
         ],
         "doc_paths": [
           "docs/DISCOURSE_READING.md",
           "docs/INTERPRETIVE_LINKS_V1_AR.md",
           "docs/AWAMIL_AGENT_V1_AR.md",
-          "docs/IRAB_AGENT_V1_AR.md"
+          "docs/IRAB_AGENT_V1_AR.md",
+          "docs/CONTEXT_APPLICATION_SPEC_AR.md",
+          "docs/CONTEXT_APPLICATION_AR.md"
         ],
         "scope": "Existing reading/query paths preserve complete scoped claims; claim_bindings select each predicate witness and predicate_interpretations carry acquired noun and derivation evidence.",
         "open_debts": [
-          "A scoped or believed predicate cannot become a bare assertion; enriched descriptions retain unproved sense correspondence and world truth."
+          "A scoped or believed predicate cannot become a bare assertion; enriched descriptions retain unproved sense correspondence and world truth.",
+          "Supplied S/R/E interpretations and integer-day arithmetic do not acquire Arabic tense meaning, global unanchored constraint consistency, world occurrence, or general CertifiedBridge obligations."
         ]
       },
       {
@@ -2488,7 +2550,9 @@
           "src/nabt/governors.py",
           "src/nabt/governor_reader.py",
           "tools/grammar_catalog/awamil.py",
-          "tools/grammar_catalog/awamil_cli.py"
+          "tools/grammar_catalog/awamil_cli.py",
+          "tools/lexical_training/agent_plan.py",
+          "tools/grammar_catalog/agent_cli.py"
         ],
         "native_targets": [
           "arabicInnaFragmentProbe"
@@ -2507,12 +2571,14 @@
           "tests/test_governors.py",
           "tests/test_arabic_inna_fragment_probe.py",
           "tests/test_awamil_agent.py",
-          "tests/test_awamil_training.py"
+          "tests/test_awamil_training.py",
+          "tests/test_progressive_agent_plan.py"
         ],
         "doc_paths": [
           "docs/ARABIC_SYNTAX.md",
           "docs/GOVERNOR_FORMAL_CONTRACTS.md",
-          "docs/AWAMIL_AGENT_V1_AR.md"
+          "docs/AWAMIL_AGENT_V1_AR.md",
+          "docs/PROGRESSIVE_AGENT_RAG_AR.md"
         ],
         "scope": "Existing finite syntax readers preserve force and governing conditions and distinguish completed assertion from questions, commands and unresolved readings.",
         "open_debts": [
@@ -2539,7 +2605,10 @@
           "src/nabt/imperative_paradigm.py",
           "src/nabt/phonological_modes.py",
           "tools/derivation_surface_bridge.py",
-          "tools/arabic_training/sign_curriculum.py"
+          "tools/arabic_training/sign_curriculum.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [
           "exportClassicalWeak",
@@ -2567,13 +2636,16 @@
           "tests/test_classical_boundary_affixes.py",
           "tests/test_phonological_modes.py",
           "tests/test_derivation_surface_bridge.py",
-          "tests/test_sign_curriculum.py"
+          "tests/test_sign_curriculum.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/CLASSICAL_LAWS_REVIEW.md",
           "docs/PHONOLOGICAL_MODES.md",
           "docs/DERIVATION_SURFACE_V1_AR.md",
-          "docs/SIGN_ONLY_CURRICULUM_AR.md"
+          "docs/SIGN_ONLY_CURRICULUM_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "Source-backed conditional frames and named transformations preserve explicit premises, onset/ending and alternatives. WEAK-MOVE-TO-ALIF is consumed by the bounded source application bridge using a frame derived from the existing template, with its complete original conditional receipt.",
         "open_debts": [
@@ -3048,7 +3120,13 @@
           "tools/aligned_acquisition.py",
           "tools/aligned_acquisition_v2.py",
           "tools/acquired_inference.py",
-          "tools/acquired_inference_v2.py"
+          "tools/acquired_inference_v2.py",
+          "tools/lexical_training/agent_plan.py",
+          "tools/grammar_catalog/agent_cli.py",
+          "tools/grammar_catalog/unicode_transport.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py"
         ],
         "native_targets": [
           "alignedAcquisition",
@@ -3057,7 +3135,8 @@
         "entrypoint_ids": [
           "acquisition",
           "acquired-inference",
-          "article-acquisition"
+          "article-acquisition",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_acquired_inference.py",
@@ -3067,12 +3146,17 @@
           "tests/test_aligned_acquisition.py",
           "tests/test_article_acquisition_v2.py",
           "tests/test_acquired_inference.py",
-          "tests/test_acquired_inference_v2.py"
+          "tests/test_acquired_inference_v2.py",
+          "tests/test_progressive_agent_plan.py",
+          "tests/test_unit_composition_agent.py"
         ],
         "doc_paths": [
           "docs/ACQUISITION_READER_SPEC.md",
           "docs/ARTICLE_ACQUISITION_V2_SPEC.md",
-          "docs/ACQUIRED_INFERENCE_CONTRACT.md"
+          "docs/ACQUIRED_INFERENCE_CONTRACT.md",
+          "docs/PROGRESSIVE_AGENT_RAG_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
         ],
         "scope": "Source bytes, transformations, boundaries and typed A116 cells are carried through native replay into the existing inference bridge when all acquisition and shape gates close.",
         "open_debts": [
@@ -3274,11 +3358,41 @@
         ]
       },
       {
-        "id": "rule-routing",
         "title_ar": "الاسترجاع وجدولة جميع القواعد المنصبة",
+        "native_targets": [
+          "exportRuleRouting"
+        ],
+        "entrypoint_ids": [
+          "grammar-catalog",
+          "mantuq-inference"
+        ],
+        "test_paths": [
+          "tests/test_mantuq_inference_pipeline.py",
+          "tests/test_grammar_catalog_sources.py",
+          "tests/test_proof_reuse_organization.py",
+          "tests/test_operation_rag.py",
+          "tests/test_awamil_agent.py",
+          "tests/test_awamil_training.py",
+          "tests/test_progressive_agent_plan.py",
+          "tests/test_unit_composition_agent.py",
+          "tests/test_irab_agent.py"
+        ],
         "formal_modules": [
           "Nabt.RuleRouting"
         ],
+        "doc_paths": [
+          "docs/GRAMMAR_CATALOG_AR.md",
+          "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md",
+          "docs/NABT_RULE_POLICY_ORGANIZATION_AR.md",
+          "docs/OPERATION_RAG_V1_AR.md",
+          "docs/AWAMIL_AGENT_V1_AR.md",
+          "docs/PROGRESSIVE_AGENT_RAG_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_AR.md",
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md",
+          "docs/IRAB_AGENT_V1_AR.md"
+        ],
+        "id": "rule-routing",
+        "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
         "runtime_paths": [
           "tools/grammar_catalog/routing.py",
           "tools/grammar_catalog/catalog.py",
@@ -3289,40 +3403,20 @@
           "tools/grammar_catalog/operation_rag.py",
           "tools/grammar_catalog/awamil.py",
           "tools/grammar_catalog/awamil_cli.py",
+          "tools/lexical_training/agent_plan.py",
+          "tools/grammar_catalog/agent_cli.py",
+          "tools/arabic_training/unit_composition.py",
+          "tools/grammar_catalog/unit_catalog.py",
+          "tools/grammar_catalog/unit_cli.py",
           "tools/grammar_catalog/irab.py",
           "tools/grammar_catalog/irab_cli.py"
         ],
-        "native_targets": [
-          "exportRuleRouting"
-        ],
-        "entrypoint_ids": [
-          "grammar-catalog",
-          "mantuq-inference"
+        "open_debts": [
+          "Complete inventory routing cannot manufacture missing source premises or establish applicability of every retrieved rule."
         ],
         "checker_paths": [
           "tools/check_rule_routing.py",
           "tools/grammar_catalog/operation_rag.py"
-        ],
-        "test_paths": [
-          "tests/test_mantuq_inference_pipeline.py",
-          "tests/test_grammar_catalog_sources.py",
-          "tests/test_proof_reuse_organization.py",
-          "tests/test_operation_rag.py",
-          "tests/test_awamil_agent.py",
-          "tests/test_awamil_training.py",
-          "tests/test_irab_agent.py"
-        ],
-        "doc_paths": [
-          "docs/GRAMMAR_CATALOG_AR.md",
-          "docs/RULE_POLICY_ORGANIZATION_V1_SPEC.md",
-          "docs/NABT_RULE_POLICY_ORGANIZATION_AR.md",
-          "docs/OPERATION_RAG_V1_AR.md",
-          "docs/AWAMIL_AGENT_V1_AR.md",
-          "docs/IRAB_AGENT_V1_AR.md"
-        ],
-        "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
-        "open_debts": [
-          "Complete inventory routing cannot manufacture missing source premises or establish applicability of every retrieved rule."
         ]
       },
       {

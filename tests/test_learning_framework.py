@@ -213,7 +213,7 @@ class InstalledFrameworkTests(unittest.TestCase):
         result = f.framework(compiled=compiled, axis_ids={r[0] for r in AXES},
                              matrix_ids={r[0] for r in MATRICES}, domain_ids={r[0] for r in DOMAINS})
         self.assertGreater(len(result["objectives"]), 0)
-        for field, inventory, count in (("axis_ids", AXES, 30), ("matrix_ids", MATRICES, 18),
+        for field, inventory, count in (("axis_ids", AXES, 30), ("matrix_ids", MATRICES, 19),
                                          ("domain_ids", DOMAINS, 8)):
             expected = {row[0] for row in inventory}
             self.assertEqual(len(expected), count)

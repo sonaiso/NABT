@@ -1618,7 +1618,16 @@ def theoremManifest : List Name := [
   ``Nabt.MeaningPreservation.finite_check_decoder_on_image,
   ``Nabt.GroundedPassage.mem_minimalChecked_iff,
   ``Nabt.GroundedPassage.reported_derivable,
-  ``Nabt.GroundedPassage.reported_no_smaller_checked_path
+  ``Nabt.GroundedPassage.reported_no_smaller_checked_path,
+  ``Nabt.TemporalContext.check_confirmed_iff,
+  ``Nabt.TemporalContext.missing_left_unknown,
+  ``Nabt.TemporalContext.missing_right_unknown,
+  ``Nabt.TemporalContext.before_irreflexive,
+  ``Nabt.TemporalContext.before_transitive,
+  ``Nabt.TemporalContext.shift_valid_iff,
+  ``Nabt.TemporalContext.shift_width,
+  ``Nabt.TemporalContext.record_keeps_frame,
+  ``Nabt.TemporalContext.record_no_world_truth
 ]
 
 run_cmd do

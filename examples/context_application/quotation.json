@@ -1,0 +1,150 @@
+{
+  "text": "قال: «سَأَكْتُبُ غَدًا».",
+  "source_id": "temporal_example",
+  "temporal": {
+    "schema": "nabt.temporal-context.v1",
+    "scopes": [
+      {
+        "id": "outer",
+        "parent": null,
+        "span": [
+          0,
+          44
+        ],
+        "force": "assertion",
+        "polarity": "positive"
+      },
+      {
+        "id": "quoted",
+        "parent": "outer",
+        "span": [
+          8,
+          43
+        ],
+        "force": "quotation",
+        "polarity": "positive"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "dated-speech",
+        "kind": "context",
+        "active": true,
+        "value": {
+          "speech_date": "2000-02-28"
+        }
+      },
+      {
+        "id": "adverb",
+        "kind": "text",
+        "active": true,
+        "span": [
+          31,
+          41
+        ],
+        "text": "غَدًا"
+      },
+      {
+        "id": "outer-date",
+        "kind": "context",
+        "active": true,
+        "value": {
+          "speech_date": "2070-01-01"
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "speech",
+        "scope_id": "quoted",
+        "role": "S",
+        "span": [
+          8,
+          43
+        ],
+        "anchors": [
+          {
+            "interval": {
+              "first": "2000-02-28",
+              "last": "2000-02-28"
+            },
+            "evidence_ids": [
+              "dated-speech"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "reference",
+        "scope_id": "quoted",
+        "role": "R",
+        "span": [
+          8,
+          43
+        ],
+        "anchors": []
+      },
+      {
+        "id": "event",
+        "scope_id": "quoted",
+        "role": "E",
+        "span": [
+          10,
+          30
+        ],
+        "anchors": []
+      },
+      {
+        "id": "outer-speech",
+        "scope_id": "outer",
+        "role": "S",
+        "span": [
+          0,
+          44
+        ],
+        "anchors": [
+          {
+            "interval": {
+              "first": "2070-01-01",
+              "last": "2070-01-01"
+            },
+            "evidence_ids": [
+              "outer-date"
+            ]
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "id": "reference-date",
+        "left": "reference",
+        "right": "speech",
+        "relation": "offset_days",
+        "days": 0,
+        "evidence_ids": [
+          "dated-speech"
+        ]
+      },
+      {
+        "id": "adverb-date",
+        "left": "event",
+        "right": "speech",
+        "relation": "offset_days",
+        "days": 1,
+        "evidence_ids": [
+          "adverb"
+        ]
+      },
+      {
+        "id": "event-order",
+        "left": "event",
+        "right": "reference",
+        "relation": "after",
+        "evidence_ids": [
+          "adverb"
+        ]
+      }
+    ]
+  }
+}

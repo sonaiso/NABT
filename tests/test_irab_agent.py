@@ -120,6 +120,24 @@ class IrabAgentTests(unittest.TestCase):
         self.assertIn("مبني في محل جزم", report["answer_ar"])
         self.assertNotIn("حذف النون", report["answer_ar"])
 
+    def test_clause_local_case_does_not_call_a_clause_built(self):
+        report=analyze({**self.nominal,'text':'كاد زيدٌ يكتبُ.'})
+        rows=[r for r in report['rows'] if r['assignment'].get('case_domain')=='clause_local_case']
+        self.assertTrue(rows)
+        self.assertIn('في محل نصب',report['answer_ar'])
+        self.assertNotIn('مبني في محل نصب',report['answer_ar'])
+
+    def test_cli_owner_exhaustion_returns_resource_limit_for_analyze_and_verify(self):
+        with tempfile.TemporaryDirectory() as directory:
+            q=Path(directory)/'q.json';r=Path(directory)/'r.json'
+            q.write_text(json.dumps({'text':'زيدٌ حكيمٌ. '*33},ensure_ascii=False))
+            r.write_text(json.dumps(self.nominal_report,ensure_ascii=False))
+            cmd=[sys.executable,'-m','tools.grammar_catalog','irab','analyze','--request',str(q)]
+            for suffix in ([],['--verify',str(r)]):
+                result=subprocess.run(cmd+suffix,cwd=ROOT,capture_output=True,text=True)
+                self.assertEqual(result.returncode,3,result.stdout+result.stderr)
+                self.assertEqual(json.loads(result.stdout)['status'],'RESOURCE_LIMIT')
+
     def test_jarr_and_verbal_nasb_do_not_grant_object_role(self):
         for text, domain, sign in (("مِنْ رَجُلٍ", "jarr", "الكسرة"), ("لَنْ يَكْتُبَ", "nasb", "الفتحة")):
             report = self.read(text)

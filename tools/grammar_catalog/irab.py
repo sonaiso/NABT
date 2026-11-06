@@ -123,7 +123,7 @@ def answer(query, *, domain=None, limit=5):
 
 def _request(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "lexical_text", "context", "query", "domain", "limit"}:
+            "text", "lexical_text", "context", "query", "domain", "limit", "source_id"}:
         raise ValueError("Supply text and optional lexical_text, context, query, domain, limit")
     _encoded(request, MAX_REQUEST, floats=False)
     text = _text(request["text"], "text", maximum=32768)
@@ -169,7 +169,8 @@ def _explain(rows):
             case = row["inflected_case"] or row["local_case"]
             state = CASE_NAMES.get(case, "الحالة غير معينة")
             if row["local_case"]:
-                state = "مبني في محل " + state
+                constituent = row["assignment"].get("case_domain") in {"clause_local_case", "phrase_local_case"}
+                state = ("في محل " if constituent else "مبني في محل ") + state
                 if row["actual_role"].startswith("imperfect_"):
                     role = "فعل مضارع"
             signs = row["assignment"].get("sign_candidates", [])
@@ -191,8 +192,9 @@ def analyze(request):
     retrieved = answer(request.get("query", "المرفوعات المنصوبات المجرورات المجزومات"),
                        domain=request.get("domain"), limit=request.get("limit", 5))
     model = learn_qac_lexicon(lexical.encode(), source_id="irab_lexical_evidence") if lexical else None
-    discourse = read_discourse(text, lexical_model=model, context=context)
-    inflection = read_inflection(text, lexical_model=model)
+    source_id=request.get('source_id','input')
+    discourse = read_discourse(text, source_id=source_id, lexical_model=model, context=context)
+    inflection = read_inflection(text, source_id=source_id, lexical_model=model)
     rows = []
     for clause in discourse["clauses"]:
         for analysis in clause["analyses"]:

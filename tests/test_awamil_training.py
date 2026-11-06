@@ -26,7 +26,7 @@ class AwamilLearningTests(unittest.TestCase):
     def test_degraded_model_stays_out_of_ranking_and_reloads_identically(self):
         from tools.lexical_training.awamil_agent import Learner
         from tools.grammar_catalog.awamil import AwamilIndex
-        path = ROOT/'evidence/awamil_agent_v1/run_01/model.json'
+        path = ROOT/'evidence/context_application_v1/awamil_retrain/model.json'
         learner = Learner(path)
         self.assertFalse(learner.ranking_admitted)
         index = AwamilIndex()
@@ -35,6 +35,11 @@ class AwamilLearningTests(unittest.TestCase):
         proposed = index.search(q, learned=learner)
         self.assertEqual(base['candidates'], proposed['candidates'])
         self.assertEqual(learner.scores(q), Learner(path).scores(q))
+
+    def test_historical_weights_are_not_silently_rebound_after_catalogue_change(self):
+        from tools.lexical_training.awamil_agent import Learner
+        with self.assertRaisesRegex(ValueError,'MODEL_CATALOG_MISMATCH'):
+            Learner(ROOT/'evidence/awamil_agent_v1/run_01/model.json')
 
     def test_model_cannot_change_catalog_or_self_assert_admission(self):
         from tools.lexical_training.awamil_agent import Learner

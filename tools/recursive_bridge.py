@@ -748,6 +748,11 @@ def _load_json(path):
 
 def _load_application_json(path):
     """Strict input for the new path, guarded before canonical serialization."""
+    return load_application_bytes(_read_bounded(path, MAX_REPORT_BYTES))
+
+
+def load_application_bytes(raw):
+    """Reuse the bounded arbitrary-integer transport for in-memory owners."""
     def parse_integer(value):
         try:
             return int(value)
@@ -762,7 +767,10 @@ def _load_application_json(path):
             result[key] = value
         return result
 
-    raw = _read_bounded(path, MAX_REPORT_BYTES)
+    if type(raw) is not bytes:
+        raise NabtError("INVALID_RECURSIVE_REPORT", "Expected UTF-8 JSON bytes")
+    if len(raw) > MAX_REPORT_BYTES:
+        raise resource_limit("Recursive applications exceed the JSON byte budget")
     try:
         parsed = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs, parse_int=parse_integer,
                             parse_constant=lambda value: (_ for _ in ()).throw(

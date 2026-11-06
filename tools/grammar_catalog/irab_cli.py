@@ -1,6 +1,7 @@
 """CLI adapter; request-bound replay includes retrieval options and explanation."""
 from pathlib import Path
-from tools.evidence_lifecycle_v1 import strict_loads
+from tools.evidence_lifecycle_v1 import strict_loads, ResourceLimit
+from nabt.errors import NabtError
 from .irab import DOMAINS, MAX_REQUEST, MAX_REPORT, catalog, IrabIndex, answer, analyze, verify
 
 
@@ -28,7 +29,11 @@ def run(args):
         if args.query is not None or args.domain is not None or args.limit != 5:
             raise ValueError("Put query/domain/limit inside the independently replayed request")
         request = _read(args.request, MAX_REQUEST)
-        return verify(_read(args.verify, MAX_REPORT, report=True), expected_request=request) if args.verify else analyze(request)
+        try:
+            return verify(_read(args.verify, MAX_REPORT, report=True), expected_request=request) if args.verify else analyze(request)
+        except NabtError as exc:
+            if exc.code == "RESOURCE_LIMIT": raise ResourceLimit(exc.message) from exc
+            raise
     if args.action == "catalog":
         return catalog()
     if args.query is None:
