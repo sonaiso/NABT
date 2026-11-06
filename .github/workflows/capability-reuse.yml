@@ -49,5 +49,10 @@ jobs:
           PYTHONPATH: src:tests:.
         run: make -f Makefile -f integrations/grammar_catalog.mk irab-agent
 
+      - name: Enforce the sole I/O boundary and derived proof-test links
+        env:
+          PYTHONPATH: src:.
+        run: make io-gateway
+
 # Compiling and auditing Lean remains the job of the existing proof gates.
 # Native readiness here is availability, never a claim that a checker ran.

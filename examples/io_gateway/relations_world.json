@@ -1,0 +1,92 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "relations.analyze",
+  "payload": {
+    "text": "عينة هو مسخنة.\nعينة هو قابلة.\nليس عينة هو مقيدة.\nعينة هو موجودة.\nعينة هو جسم.\nعينة هو مجاورة.\nعينة هو متعاقبة.\nإذا عينة هو مسخنة و عينة هو قابلة و ليس عينة هو مقيدة و عينة هو موجودة و عينة هو جسم و عينة هو مجاورة و عينة هو متعاقبة فإن عينة هو متمددة.\n",
+    "source_id": "authored_world_priors",
+    "inference": {
+      "query": "هل عينة هو متمددة؟\n",
+      "plan": {
+        "schema": "nabt.mantuq-source-plan.v1",
+        "policy_id": "guarded_cause",
+        "requirements": [
+          {
+            "slot": "cause",
+            "atom": {
+              "predicate": "مسخنة",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": true
+            }
+          },
+          {
+            "slot": "condition",
+            "atom": {
+              "predicate": "قابلة",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": true
+            }
+          },
+          {
+            "slot": "blockerAbsence",
+            "atom": {
+              "predicate": "مقيدة",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": false
+            }
+          },
+          {
+            "slot": "condition:existence",
+            "atom": {
+              "predicate": "موجودة",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": true
+            }
+          },
+          {
+            "slot": "condition:kind",
+            "atom": {
+              "predicate": "جسم",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": true
+            }
+          },
+          {
+            "slot": "condition:space",
+            "atom": {
+              "predicate": "مجاورة",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": true
+            }
+          },
+          {
+            "slot": "condition:time",
+            "atom": {
+              "predicate": "متعاقبة",
+              "arguments": [
+                "عينة"
+              ],
+              "positive": true
+            }
+          }
+        ],
+        "bridge_clause": "c7"
+      },
+      "revision": "1",
+      "scope": "authored_conditional_world_lesson",
+      "context": "authored premises; spatial and temporal predicates are supplied interpretations",
+      "time": "unspecified"
+    }
+  }
+}

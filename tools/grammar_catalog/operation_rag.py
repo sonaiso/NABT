@@ -84,6 +84,11 @@ def worker(payload):
     resource.setrlimit(resource.RLIMIT_CPU, (20, 21))
     resource.setrlimit(resource.RLIMIT_FSIZE, (MAX_RESULT, MAX_RESULT))
     resource.setrlimit(resource.RLIMIT_AS, (MAX_ADDRESS_SPACE, MAX_ADDRESS_SPACE))
+    return execute_bound(payload)
+
+
+def execute_bound(payload):
+    """Existing worker body; also used inside the already bounded I/O worker."""
     if type(payload) is not dict or set(payload) != {"operation", "inputs", "snapshot_sha256"}:
         raise ValueError("Invalid worker envelope")
     before, _ = source_snapshot()
@@ -100,11 +105,18 @@ def worker(payload):
 def _invoke(binding, snapshot_sha256):
     payload = {"operation": binding["operation"], "inputs": binding["inputs"],
                "snapshot_sha256": snapshot_sha256}
-    raw = _encoded(payload, MAX_REQUEST)
+    return invoke_bounded("rag-worker", payload)
+
+
+def invoke_bounded(command, payload, *, maximum_request=MAX_REQUEST):
+    """Shared fixed worker transport; never accept command names from a request."""
+    if command not in ("rag-worker", "gateway-worker"):
+        raise ValueError("Unknown installed worker")
+    raw = _encoded(payload, maximum_request)
     env = {key: value for key, value in os.environ.items() if not key.startswith("NABT_")}
     # Fixed installed package paths; caller input cannot select code or binaries.
     env["PYTHONPATH"] = os.pathsep.join((str(ROOT / "src"), str(ROOT)))
-    argv = entry_command("grammar-catalog", ["rag-worker"])
+    argv = entry_command("grammar-catalog", [command])
     with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
         process = subprocess.Popen(argv, cwd=ROOT, env=env, stdin=subprocess.PIPE,
                                    stdout=output, stderr=errors, start_new_session=True)
@@ -166,6 +178,19 @@ def _answer(binding, execution, card):
 
 
 def run(request):
+    return _run(request, _invoke)
+
+
+def run_inside_worker(request):
+    # Avoid a detached nested process group escaping the gateway's kill group.
+    # The outer worker supplies the resource limits; the same owner body runs.
+    def invoke(binding, snapshot_sha256):
+        return execute_bound({"operation": binding["operation"], "inputs": binding["inputs"],
+                              "snapshot_sha256": snapshot_sha256})
+    return _run(request, invoke)
+
+
+def _run(request, invoke):
     request = validate_request(request)
     index = OperationSearchIndex()
     retrieved = index.search(request["query"], limit=request.get("limit", 5))
@@ -176,7 +201,7 @@ def run(request):
         card = index.rehydrate("item", binding["operation"])
         binding["effective_inputs"] = validate_inputs(binding["operation"], binding["inputs"])
         binding["displayed_in_top_k"] = any(r["id"] == binding["operation"] for r in retrieved["candidates"])
-        execution = _invoke(binding, index.snapshot_sha256)
+        execution = invoke(binding, index.snapshot_sha256)
     index.assert_current()
     result = {"schema": RESULT_SCHEMA, "request": request, "request_sha256": digest(request),
         "snapshot_sha256": index.snapshot_sha256, "retrieval": retrieved, "binding": binding,

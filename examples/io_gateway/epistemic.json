@@ -1,0 +1,82 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "operation",
+  "payload": {
+    "schema": "nabt.operation-rag.request.v1",
+    "query": "درس معرفي",
+    "operation": "lesson",
+    "inputs": {
+      "lesson": {
+        "schema": "nabt.cognitive-lesson.v1",
+        "lesson_id": "hidden-is-not-reported",
+        "domain_id": "personal_relations",
+        "matrix_id": "cognitive_concept",
+        "adapter": "epistemic_ledger",
+        "payload": {
+          "source_profile": "authored_controls_v1",
+          "input": {
+            "query": {
+              "key": {
+                "axis": "hidden_motive",
+                "entity": "person:alif",
+                "predicate": "stated_purpose",
+                "value": "seeking_knowledge",
+                "unit": "purpose",
+                "context": "episode:1",
+                "time": "0",
+                "place": "place:alif"
+              },
+              "positive": true,
+              "origin": "query:EM-H01"
+            },
+            "active_sources": [
+              {
+                "identity": "AUTHORED:EM-H01:1",
+                "revision": "1",
+                "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+              }
+            ],
+            "origins": [
+              {
+                "id": "query:EM-H01",
+                "parents": []
+              },
+              {
+                "id": "origin:EM-H01:1",
+                "parents": []
+              }
+            ],
+            "interpretations": [
+              {
+                "id": "EM-H01-e1",
+                "source": {
+                  "identity": "AUTHORED:EM-H01:1",
+                  "revision": "1",
+                  "content": "قَالَ أَلِفٌ: خَرَجْتُ لِطَلَبِ الْعِلْمِ."
+                },
+                "key": {
+                  "axis": "hidden_motive",
+                  "entity": "person:alif",
+                  "predicate": "stated_purpose",
+                  "value": "seeking_knowledge",
+                  "unit": "purpose",
+                  "context": "episode:1",
+                  "time": "0",
+                  "place": "place:alif"
+                },
+                "positive": true,
+                "kind": "self_report",
+                "origin": "origin:EM-H01:1",
+                "ancestry": [
+                  "origin:EM-H01:1"
+                ]
+              }
+            ],
+            "budget": 1,
+            "certificate": null
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,37 @@ submodules, credentials, writable state, or release dependency in another
 experiment. Prior research is cited by immutable source references in
 `docs/PROVENANCE.md`.
 
+## Sole supported external input/output boundary
+
+Every new external client, expert agent, RAG, service, or application MUST enter
+through `python -m tools.grammar_catalog gateway run --request PATH` and consume
+only `nabt.io.result.v1` after `gateway verify` (or `gateway.accept_output`) with
+its independently retained request. See `docs/IO_GATEWAY_V1_AR.md` and its
+acceptance contract. Never publish a raw owner receipt as a NABT external answer.
+Use `gateway catalog` for the derived proof/test map. `formal/theorems.json` and
+the compiled reference selected by `integrations/current_proof_references.mk`
+remain the only theorem authorities; do not create a competing theorem registry.
+
+The `nabt` kernel CLI, other tool CLIs, Python owners and native executables are
+internal developer/replay interfaces. Keep them for frozen evaluations and reuse;
+they do not satisfy external admission. Add a fixed gateway adapter when an
+external use needs another owner. No client-supplied executable, import path,
+proof status, test status or license may determine admission. Preserve the owner's
+full alternatives, DEFER/CONFLICT, source conditions and open obligations.
+A family/test reference is not a test run or a theorem-to-runtime refinement proof.
+This is an application integration boundary, not an OS sandbox against someone
+who can import or alter the checkout. Do not claim otherwise.
+
+For genus/property/disposition, masdar, grammatical and causal relation work,
+reuse `relations.search/analyze` and `docs/RELATIONAL_RAG_V1_AR.md`.
+Keep jamid/mushtaq separate from ontology types, subject from causal agent,
+accompaniment from purpose, and succession from causation. Bind optional native
+temporal/inference inputs to the original source; preserve open ontology bridges.
+
+`make check` now uses `GNUmakefile` to include the historical Makefile, current
+catalogue checks and required native I/O tests. Do not use `make -f Makefile check`
+as a substitute for that release gate. The latter is a historical partial gate.
+
 ## Start from the installed capabilities
 
 Before proposing or implementing a new representation, reader, inference path,
