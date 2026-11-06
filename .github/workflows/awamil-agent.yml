@@ -30,4 +30,19 @@ jobs:
       - name: Replay the factors, relation matrix and real learning updates
         env:
           PYTHONPATH: src:.
+          NABT_REQUIRE_AWAMIL_TRAINING: '1'
         run: python -m unittest tests.test_awamil_agent tests.test_awamil_training -v
+      - name: Train against the current catalogue and retain the first evaluation
+        env:
+          PYTHONPATH: src:.
+        run: |
+          python -m tools.grammar_catalog awamil train --run-dir artifacts/local/awamil-current/run
+          python -m tools.grammar_catalog awamil search 'إنّ وأخواتها' --model artifacts/local/awamil-current/run/model.json --output artifacts/local/awamil-current/retrieval.json
+      - name: Preserve current weights, curriculum and measured evaluation
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: awamil-current-training
+          path: artifacts/local/awamil-current/
+          if-no-files-found: error
+          retention-days: 14

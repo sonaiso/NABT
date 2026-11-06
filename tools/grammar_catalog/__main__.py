@@ -15,6 +15,9 @@ from tools.evidence_lifecycle_v1 import ResourceLimit
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
+    from .gateway import arguments as gateway_arguments
+    gateway_arguments(sub.add_parser("gateway", help="The sole supported external NABT input/output boundary"))
+    sub.add_parser("gateway-worker", help=argparse.SUPPRESS)
     cat = sub.add_parser("catalog", help="Replay sources and emit the catalogue")
     cat.add_argument("--summary", action="store_true")
     cat.add_argument("--output", type=Path)
@@ -49,7 +52,14 @@ def main():
     application_arguments(sub.add_parser("application", help="Bind source, lower traces, i'rab and supplied temporal context"))
     args = parser.parse_args()
     try:
-        if args.command == "application":
+        if args.command == "gateway":
+            from .gateway import cli
+            result = cli(args)
+        elif args.command == "gateway-worker":
+            from .gateway import worker, MAX_REQUEST
+            from tools.evidence_lifecycle_v1 import strict_loads
+            result = worker(strict_loads(sys.stdin.buffer.read(MAX_REQUEST+1025), maximum_bytes=MAX_REQUEST+1024))
+        elif args.command == "application":
             from .application_cli import run as application_run
             result = application_run(args)
         elif args.command == "irab":
@@ -105,6 +115,10 @@ def main():
             args.output.write_text(text, encoding="utf-8")
         else:
             print(text, end="")
+        if args.command == "gateway":
+            if args.action == "verify":
+                return 0 if result["valid"] else 2
+            return 0 if args.action == "catalog" or result["status"] == "EXECUTED" else 3
         if args.command == "rag":
             if args.verify:
                 return 0 if result["valid"] else 2
@@ -113,11 +127,13 @@ def main():
             return 0 if result["valid"] else 2
         return 0
     except (ResourceLimit, MemoryError) as exc:
-        print(json.dumps({"status": "RESOURCE_LIMIT", "message": str(exc),
+        print(json.dumps({**({"schema": "nabt.io.error.v1"} if args.command == "gateway" else {}),
+                          "status": "RESOURCE_LIMIT", "message": str(exc),
                           "grants_language_license": False}, ensure_ascii=False))
         return 3
     except (CatalogError, RetrievalError, OSError, ValueError) as exc:
-        print(json.dumps({"status": "INPUT_OR_SOURCE_ERROR", "message": str(exc),
+        print(json.dumps({**({"schema": "nabt.io.error.v1"} if args.command == "gateway" else {}),
+                          "status": "INPUT_OR_SOURCE_ERROR", "message": str(exc),
                           "grants_language_license": False}, ensure_ascii=False))
         return 2
 

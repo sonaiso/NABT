@@ -1,0 +1,36 @@
+name: NABT external I/O native gate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-io-gateway-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-admission:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install decompressor
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zstd
+      - name: Install hash-verified Lean
+        run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+      - name: Current catalogue and required native admission
+        run: |
+          make proof-catalog LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+          make io-gateway-native LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+          make relational-bridge LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"

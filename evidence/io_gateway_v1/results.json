@@ -1,0 +1,239 @@
+{
+  "schema": "nabt.io-gateway-validation.v1",
+  "recorded_at_utc": "2026-11-06T14:09:12.164195+00:00",
+  "base_commit": "fb397e3ad0b78862f69dfc4a770a1f5530ff6ba9",
+  "branch": "codex/unified-io-proof-gateway",
+  "validated_code_commit": "f6440ef8c3564b853214d1fe359b73884da325d6",
+  "implementation": {
+    "external_route_count": 17,
+    "routes": [
+      "operation",
+      "grammar.search",
+      "grammar.route",
+      "awamil.search",
+      "awamil.analyze",
+      "awamil.check",
+      "agents.search",
+      "agents.transport",
+      "agents.gate",
+      "units.search",
+      "units.run",
+      "irab.search",
+      "irab.analyze",
+      "application.analyze",
+      "application.temporal",
+      "mantuq.search",
+      "mantuq.source"
+    ],
+    "curriculum_matrices": 19,
+    "shared_foundation_rows": 8,
+    "existing_owners_reused": true,
+    "standalone_algebra_lab_imported": false
+  },
+  "full_check": {
+    "command": "TMPDIR=<workspace>/runtime/tmp make check LAKE=<verified-Lean-4.34.1>/bin/lake EVIDENCE_DIR=artifacts/local/io-gateway-release",
+    "code_commit": "2de722c895215128ec85b7c94ba8dfaa170b565e",
+    "exit_code": 0,
+    "runtime_tests": {
+      "ran": 3405,
+      "passed": 3225,
+      "skipped": 180,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 1155.612
+    },
+    "required_io_native_tests": {
+      "ran": 22,
+      "skipped": 0,
+      "status": "PASS"
+    },
+    "historical_evaluation_boundaries_retained": true
+  },
+  "curriculum_followup": {
+    "code_commit": "f6440ef8c3564b853214d1fe359b73884da325d6",
+    "change_scope": "Derived curriculum/owner proof-test navigation, required epistemic native availability, examples and two added tests; existing runtime owners and formal laws unchanged.",
+    "command": "make io-gateway-native LAKE=<verified-Lean-4.34.1>/bin/lake",
+    "native_gateway_tests": {
+      "ran": 24,
+      "passed": 24,
+      "skipped": 0,
+      "seconds": 237.483
+    },
+    "current_reference_and_frozen_dependency_tests": {
+      "ran": 4,
+      "passed": 4
+    },
+    "full_make_check_repeated_after_followup": false
+  },
+  "proof_catalogue_check": {
+    "ok": true,
+    "advertised_declarations": 1617,
+    "normalized_statement_groups": 1614,
+    "same_statement_groups_with_multiple_names": 3,
+    "redundant_statement_names": 3,
+    "catalog_sha256": "6e3edb425653c674925a7383eadfc5235d802a8d4d102baf528378645c299573"
+  },
+  "axiom_audit": {
+    "ok": true,
+    "theorem_count": 1617,
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "project_axioms_allowed": false,
+    "all_nabt_declarations_scanned": true
+  },
+  "derived_navigation": {
+    "authority": "DERIVED_NAVIGATION_ONLY",
+    "declarations": 1617,
+    "canonical_names": 1614,
+    "source_links": 54,
+    "policy_links": 24,
+    "unlinked_source_records": 382,
+    "open_bridge_debt_records": 55,
+    "test_files": 119,
+    "declared_test_methods": 2097,
+    "test_execution_performed_by_navigation": false,
+    "scope_note": "Resolved explicit references are distinct from source records that have no theorem reference; family/test associations are not per-theorem coverage."
+  },
+  "code_boundary_check": {
+    "schema": "nabt.code-entropy.v1",
+    "population": {
+      "excluded_path_component": "tests",
+      "file_count": 349,
+      "physical_lines": 82753,
+      "prefixes": [
+        "src/nabt/",
+        "tools/",
+        "integrations/"
+      ],
+      "suffix": ".py",
+      "untracked_files": "excluded"
+    },
+    "boundary": {
+      "passed": true,
+      "rule": "core must not statically import tooling or integrations",
+      "unresolved_namespace_imports": "also prohibited; a missing target does not waive the boundary",
+      "violations": []
+    }
+  },
+  "preserved_paths": {
+    "src_formal_historical_makefile_and_ci_changed": []
+  },
+  "environment": {
+    "python": "3.12.14",
+    "architecture": "x86_64",
+    "lean": "4.34.1",
+    "lean_archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4"
+  },
+  "skip_reasons": {
+    "'build alignedAcquisition and licensedInference'": 11,
+    "'build alignedAcquisitionV2 and licensedInference'": 10,
+    "'build connectedAcquisitionV3 and acquiredSyntaxV3'": 4,
+    "'build acquiredSyntaxV3'": 5,
+    "'build alignedAcquisitionV2 for native integration'": 5,
+    "'build cognitive lesson native owners'": 12,
+    "'build connectedAcquisitionV3 for native tests'": 4,
+    "'native lifecycle boundaries require the dedicated lifecycle conformance gate'": 1,
+    "'build evidenceLifecycleV1'": 3,
+    "'build groundedPassage and connectedAcquisitionV3'": 10,
+    "'dedicated native learning connection gate not configured'": 6,
+    "'requires pinned full Lisan and compiled lexicalCompletion; mandatory in dedicated CI'": 17,
+    "'native lexicalDenotation executable not configured'": 10,
+    "'native lexical owners required'": 3,
+    "'requires installed sources and both graph/lexical native checkers'": 9,
+    "'optional pinned QAC corpus not downloaded'": 7,
+    "'build optional licensedInference'": 1,
+    "'build installed licensedInference; CI must enforce presence'": 1,
+    "'native linguisticTruth not built'": 1,
+    "'optional native linguisticTruth checker not built'": 1,
+    "'meaningPreservationV1 is not built; no native success is claimed'": 1,
+    "'Complete productive native chain is not built'": 1,
+    "'build linguisticTruth and connectedAcquisitionV3'": 1,
+    "'build the existing linguisticTruth native target'": 1,
+    "'dedicated native gate not configured'": 5,
+    "'build connectedAcquisitionV3 and productiveClauseV1'": 4,
+    "'build productiveClauseV1'": 2,
+    "'build all lifecycle and productive clause native dependencies'": 6,
+    "'native Lean checker is built by proof-lab workflow'": 5,
+    "'native Lean qatrReading required'": 7,
+    "'build verifiedReading and evidenceLifecycleV1'": 25,
+    "'optional full pinned Lisan source not downloaded'": 1
+  },
+  "earlier_attempt": {
+    "status": "INTERRUPTED_NOT_PASSED",
+    "reason": "A frozen oracle dependency rejected editing .github/workflows/ci.yml. Its original bytes were restored and the native gateway job was moved to a separate workflow; four targeted checks then passed before the successful full restart."
+  },
+  "limits": {
+    "new_lean_theorems": 0,
+    "python_lean_gateway_refinement_proved": false,
+    "new_language_model_trained": false,
+    "all_arabic_complete": false,
+    "source_to_semantics_closed": false,
+    "world_truth_established": false,
+    "os_sandbox_claimed": false
+  },
+  "publication_at_validation": {
+    "pushed": false,
+    "merged": false,
+    "remote_ci_executed": false,
+    "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+    "destination": "https://github.com/sonaiso/NABT",
+    "reason": "Implementation authorization was not accepted as explicit authorization to disclose these changes to the public GitHub destination."
+  },
+  "logs": {
+    "io-full-check-final.log": {
+      "file": "io-full-check-final.log.gz",
+      "uncompressed_sha256": "cd76268f88579bc4f545a81955b4df53a37c20c36ef25b17ae941d7fee0538b4",
+      "uncompressed_bytes": 756401,
+      "compressed_sha256": "66f9f8c81ef64322979b97e6ca51d3c1e55b0320e5bf6dc23b68b2ea590c3860"
+    },
+    "io-curriculum-gate.log": {
+      "file": "io-curriculum-gate.log.gz",
+      "uncompressed_sha256": "f603d2583f29ee6e85127e16dc2925e8a07f844f37f1d33e6512cf6f570d370c",
+      "uncompressed_bytes": 4157,
+      "compressed_sha256": "4c6b6ee8e775e8ce2131bf81257e2cc6960b1e1a2825fac022e4775e6cf983b7"
+    },
+    "io-final-reference-tests.log": {
+      "file": "io-final-reference-tests.log.gz",
+      "uncompressed_sha256": "0d151a10b97e190f0a221fc432316f82a9e7c6cec512126d606421287a8f49c0",
+      "uncompressed_bytes": 832,
+      "compressed_sha256": "1a26f34a5f1775c37e11949e7e89b98b11fa6cfa69029fdee682c95c23758ded"
+    },
+    "io-full-check-pre-frozen-ci-fix.log": {
+      "file": "io-full-check-pre-frozen-ci-fix.log.gz",
+      "uncompressed_sha256": "c25ed2261c34cb426d85d82a5226a4ae0570749f926df3a7f911c0448b554049",
+      "uncompressed_bytes": 392093,
+      "compressed_sha256": "2fbda0303c93233a67569369c2217129f64794c1c954f433e2e047d6e88334aa"
+    }
+  },
+  "post_documentation_cli_replay": {
+    "run_command": "PYTHONPATH=src:. python -m tools.grammar_catalog gateway run --request examples/io_gateway/epistemic.json --output artifacts/local/io-gateway-release/final-epistemic-receipt.json",
+    "verify_command": "PYTHONPATH=src:. python -m tools.grammar_catalog gateway verify --request examples/io_gateway/epistemic.json --receipt artifacts/local/io-gateway-release/final-epistemic-receipt.json",
+    "run_exit_code": 0,
+    "verify_exit_code": 0,
+    "validation_status": "VERIFIED_IO_REPLAY",
+    "valid": true,
+    "semantic_rank_promoted": false,
+    "owner_status": "UNKNOWN",
+    "execution_measured": true,
+    "owner_limits": {
+      "matrix_complete": false,
+      "domain_expertise_certified": false,
+      "world_truth_established": false,
+      "action_authority": "NONE",
+      "empirical_causality_established": false,
+      "domain_label_grants_authority": false,
+      "general_python_lean_refinement": false,
+      "teacher_kind": "DETERMINISTIC_RECEIPT_DRIVEN_COORDINATOR",
+      "neural_training_performed": false
+    },
+    "snapshot_sha256": "03e854b4d900e0c6ea7363e67be768c05bf0f4635d9b1d4d67f5b16bec0553f2",
+    "receipt_file": "final-epistemic-receipt.json.gz",
+    "request_file": "final-epistemic-request.json",
+    "receipt_sha256": "9e702d90db1a327dc365264385cbe2a74a9194a0876ea3d21158b527881c7a6c",
+    "compressed_sha256": "e7fe9d482b49efd5bb9a9923b49876697faa97c26be58569b0d7abce0848342a",
+    "scope": "Executed after PROOF_STATUS documentation update; snapshot includes current source, documentation, tests and locally installed native binaries. Rebuilds may require fresh receipt generation."
+  }
+}

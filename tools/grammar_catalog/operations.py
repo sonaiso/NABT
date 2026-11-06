@@ -4,7 +4,8 @@ from __future__ import annotations
 import ast
 from collections import Counter
 from copy import deepcopy
-from hashlib import sha256
+from hashlib import file_digest, sha256
+from functools import lru_cache
 from pathlib import Path
 import unicodedata
 
@@ -18,6 +19,22 @@ RECIPE = "nabt.operation-retrieval.exact-and-lexical.v1"
 
 def digest(value):
     return sha256(wire(value).encode("utf-8")).hexdigest()
+
+
+def _file_identity(path):
+    stat = path.stat()
+    return (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns)
+
+
+@lru_cache(maxsize=256)
+def _native_digest(path, identity):
+    # Cache file hashes, never owner results. ctime also detects same-size writes
+    # with restored mtime. Reading source files and replaying owners stay fresh.
+    with path.open("rb") as stream:
+        result = file_digest(stream, "sha256").hexdigest()
+    if _file_identity(path) != identity:
+        raise RetrievalError("Native file changed while hashing")
+    return result
 
 
 def source_snapshot(root=ROOT):
@@ -41,7 +58,13 @@ def source_snapshot(root=ROOT):
         target = root / path
         if not target.resolve().is_relative_to(root) or target.is_symlink():
             raise RetrievalError("Source snapshot cannot escape the installed repository")
-        inputs[path] = sha256(target.read_bytes()).hexdigest()
+        if path.startswith("formal/.lake/build/bin/"):
+            identity = _file_identity(target)
+            inputs[path] = _native_digest(target, identity)
+            if _file_identity(target) != identity:
+                raise RetrievalError("Native file changed during snapshot")
+        else:
+            inputs[path] = sha256(target.read_bytes()).hexdigest()
     return {"schema": "nabt.operation-snapshot.v1", "files": inputs,
             "proof_catalog": relative, "proof_authority": catalog["authority"],
             "native_readiness_is_not_verification": True}, catalog

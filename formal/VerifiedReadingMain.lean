@@ -1,4 +1,5 @@
 import Nabt.VerifiedReading
+import Nabt.RelationalBridge
 import ProbeJson
 
 /-! File-based adapter: source/question bytes come from explicit paths, never
@@ -103,12 +104,85 @@ def readBounded (path : System.FilePath) (limit : Nat) : IO ByteArray := do
   let bytes ← h.read (limit + 1).toUSize
   return bytes
 
+def relationalFrame (j : Json) : ProbeM Nabt.RelationalBridge.Frame := do
+  keys j ["reading_id", "stage", "occurrence_id", "entity", "kind", "property", "event",
+    "time", "place", "cause", "start", "stop", "surface"]
+  let rid ← str (← field j "reading_id")
+  let some reading := Nabt.RelationalBridge.readings.find? (fun r => r.label == rid)
+    | invalid "unknown installed relational reading"
+  let stage ← match ← str (← field j "stage") with
+    | "disposition" => pure Nabt.RelationalBridge.Stage.disposition
+    | "occurrence" => pure .occurrence | "causality" => pure .causality
+    | _ => invalid "unknown relational stage"
+  let name (key : String) : ProbeM String := do
+    let s ← str (← field j key)
+    if !validName s || s.utf8ByteSize > 512 then return ← invalid "invalid relational identity"
+    return s
+  return ⟨reading, stage, ← name "occurrence_id", ← name "entity", ← name "kind",
+    ← name "property", ← name "event", ← name "time", ← name "place", ← name "cause",
+    ← nat (← field j "start"), ← nat (← field j "stop"), ← str (← field j "surface")⟩
+
+def evaluateRelational (s : Source) (q : List UInt8) (cert frameBytes targetBytes : ByteArray) : Json :=
+  match (do
+    let some ct := String.fromUTF8? cert | invalid "certificate must be UTF-8"
+    let some ft := String.fromUTF8? frameBytes | invalid "frame must be UTF-8"
+    let some target := String.fromUTF8? targetBytes | invalid "target must be UTF-8"
+    preflight ct
+    preflight ft
+    let c ← certificate s (← liftParse (Json.parse ct))
+    let f ← relationalFrame (← liftParse (Json.parse ft))
+    if (Nabt.RelationalBridge.targetKey target).length > 512 then
+      return ← limited "exact target key exceeds controlled-name budget"
+    return (c, f, target) : ProbeM (Certificate × Nabt.RelationalBridge.Frame × String)) with
+  | .error e => failed e.code e.message
+  | .ok (c, f, target) =>
+    if !verify s q c then failed "CERTIFICATE_REJECTED" "source reading or full/clean closure rejected"
+    else
+      let reqs := Nabt.RelationalBridge.requirements s.scope target f
+      let qualified := Nabt.QualifiedInference.assess (Nabt.RelationalBridge.kind f) reqs c.known
+      response [
+        ("verified", toJson true), ("bridge_law_id", toJson Nabt.RelationalBridge.lawId),
+        ("licensed", toJson (Nabt.RelationalBridge.check s q c target f)),
+        ("qualified_verdict", toJson qualified.label),
+        ("occurrence_bound", toJson (Nabt.RelationalBridge.occurrenceBound target f)),
+        ("reading_candidates", toJson ((Nabt.RelationalBridge.candidates f.surface).map (·.label))),
+        ("selected_reading", toJson f.reading.label), ("sense", toJson f.reading.sense),
+        ("target_text", toJson target), ("source_text", toJson (render c.clauses)),
+        ("source_id", toJson s.identity), ("revision", toJson s.revision), ("source_scope", toJson s.scope),
+        ("requirements", toJson (reqs.map fun r => Json.mkObj [
+          ("predicate", toJson r.atom.value.1), ("arguments", toJson r.atom.value.2),
+          ("positive", toJson r.atom.positive), ("scope", toJson r.atom.scope),
+          ("present", toJson (c.known.contains r.atom)),
+          ("clean", toJson (c.cleanKnown.contains r.atom)),
+          ("opposed", toJson (c.known.contains r.atom.opposite))])),
+        ("grammar_acquisition_proved", toJson false),
+        ("source_interpretation", toJson "DECLARED_CONTROLLED_RELATIONAL_PREDICATES")]
+
 end VerifiedReadingMain
 open VerifiedReadingMain
 
 def main (args : List String) : IO UInt32 := do
   let out ← IO.getStdout
   match args with
+  | ["relational", sourcePath, queryPath, certificatePath, framePath, targetPath, identity, revision, scope] =>
+    try
+      let raw ← readBounded sourcePath 65536
+      let query ← readBounded queryPath 8192
+      let cert ← readBounded certificatePath 1048576
+      let frameBytes ← readBounded framePath 16384
+      let target ← readBounded targetPath 32768
+      if raw.size > 65536 || query.size > 8192 || cert.size > 1048576 || frameBytes.size > 16384 || target.size > 32768 then
+        out.putStrLn (failed "RESOURCE_LIMIT" "relational input byte budget").compress
+        return 2
+      if identity.isEmpty || revision.isEmpty || scope.isEmpty then
+        out.putStrLn (failed "INVALID_INPUT" "missing independent source identity").compress
+        return 2
+      let result := evaluateRelational ⟨identity, revision, scope, raw.data.toList⟩ query.data.toList cert frameBytes target
+      out.putStrLn result.compress
+      return if (result.getObjValAs? Bool "verified").toOption == some true then 0 else 1
+    catch e =>
+      out.putStrLn (failed "IO_ERROR" e.toString).compress
+      return 2
   | [sourcePath, queryPath, certificatePath, identity, revision, scope] =>
     try
       let raw ← readBounded sourcePath 65536

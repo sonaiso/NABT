@@ -2302,7 +2302,8 @@
           "tools/grammar_catalog/operation_runtime.py",
           "tools/arabic_training/unit_composition.py",
           "tools/grammar_catalog/unit_catalog.py",
-          "tools/grammar_catalog/unit_cli.py"
+          "tools/grammar_catalog/unit_cli.py",
+          "tools/grammar_catalog/relational.py"
         ],
         "native_targets": [
           "exportDerivation"
@@ -2320,7 +2321,8 @@
           "tests/test_derivation_review.py",
           "tests/test_derivation_surface_bridge.py",
           "tests/test_operation_rag.py",
-          "tests/test_unit_composition_agent.py"
+          "tests/test_unit_composition_agent.py",
+          "tests/test_relational_rag.py"
         ],
         "doc_paths": [
           "docs/DERIVATION.md",
@@ -2328,7 +2330,9 @@
           "docs/DERIVATION_SURFACE_V1_AR.md",
           "docs/OPERATION_RAG_V1_AR.md",
           "docs/UNIT_COMPOSITION_AGENT_AR.md",
-          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md",
+          "docs/RELATIONAL_RAG_V1_AR.md",
+          "docs/RELATIONAL_RAG_ACCEPTANCE_V1.md"
         ],
         "scope": "Installed pattern rendering and recovery preserve radical slots, additions and inflectional distinctions; surface candidates retain their witnesses. The source-bound medial-alif bridge delegates filling to this owner and retains distinct supplied past.I.a/i/u derivations even when surfaces coincide.",
         "open_debts": [
@@ -2459,7 +2463,8 @@
           "tools/grammar_catalog/irab_cli.py",
           "tools/grammar_catalog/temporal.py",
           "tools/grammar_catalog/application.py",
-          "tools/grammar_catalog/application_cli.py"
+          "tools/grammar_catalog/application_cli.py",
+          "tools/grammar_catalog/relational.py"
         ],
         "native_targets": [
           "exportDiscourseEvidence",
@@ -2481,7 +2486,8 @@
           "tests/test_awamil_training.py",
           "tests/test_irab_agent.py",
           "tests/test_temporal_context.py",
-          "tests/test_context_application.py"
+          "tests/test_context_application.py",
+          "tests/test_relational_rag.py"
         ],
         "doc_paths": [
           "docs/DISCOURSE_READING.md",
@@ -2489,7 +2495,9 @@
           "docs/AWAMIL_AGENT_V1_AR.md",
           "docs/IRAB_AGENT_V1_AR.md",
           "docs/CONTEXT_APPLICATION_SPEC_AR.md",
-          "docs/CONTEXT_APPLICATION_AR.md"
+          "docs/CONTEXT_APPLICATION_AR.md",
+          "docs/RELATIONAL_RAG_V1_AR.md",
+          "docs/RELATIONAL_RAG_ACCEPTANCE_V1.md"
         ],
         "scope": "Existing reading/query paths preserve complete scoped claims; claim_bindings select each predicate witness and predicate_interpretations carry acquired noun and derivation evidence.",
         "open_debts": [
@@ -2732,7 +2740,8 @@
           "tools/source_learning_connection.py",
           "tools/lexical_training/teaching.py",
           "tools/lexical_training/reasoning_curriculum.py",
-          "tools/lexical_training/grounded_passage.py"
+          "tools/lexical_training/grounded_passage.py",
+          "tools/grammar_catalog/relational.py"
         ],
         "native_targets": [
           "verifiedReading",
@@ -2762,7 +2771,8 @@
           "tests/test_explainable_contracts.py",
           "tests/test_source_learning_connection.py",
           "tests/test_cognitive_teaching.py",
-          "tests/test_grounded_passage.py"
+          "tests/test_grounded_passage.py",
+          "tests/test_relational_rag.py"
         ],
         "doc_paths": [
           "docs/SEMANTICS.md",
@@ -2919,7 +2929,8 @@
         "title_ar": "المنطوق والمفهوم وبوابات الانتقال",
         "formal_modules": [
           "Nabt.MantuqMafhum",
-          "Nabt.QualifiedInference"
+          "Nabt.QualifiedInference",
+          "Nabt.RelationalBridge"
         ],
         "runtime_paths": [
           "tools/mantuq_mafhum.py",
@@ -2928,7 +2939,8 @@
           "tools/mantuq_inference/source_bound.py",
           "tools/mantuq_inference/source_fold.py",
           "tools/lexical_training/teaching.py",
-          "tools/lexical_training/reasoning_curriculum.py"
+          "tools/lexical_training/reasoning_curriculum.py",
+          "tools/grammar_catalog/relational_bridge.py"
         ],
         "native_targets": [
           "classicalSemanticProbe",
@@ -2948,18 +2960,21 @@
           "tests/test_mantuq_inference_pipeline.py",
           "tests/test_mantuq_source_bound.py",
           "tests/test_mantuq_source_fold.py",
-          "tests/test_cognitive_teaching.py"
+          "tests/test_cognitive_teaching.py",
+          "tests/test_relational_bridge.py"
         ],
         "doc_paths": [
           "docs/MANTUQ_MAFHUM.md",
           "docs/MANTUQ_INFERENCE_AR.md",
           "docs/MANTUQ_SOURCE_FOLD_V1_AR.md",
-          "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md"
+          "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md",
+          "docs/RELATIONAL_BRIDGE_V1_AR.md"
         ],
         "scope": "Explicit mantuq/mafhum gates, blockers, qualified scopes and complete policy scans; source/fold/unfold/verify-fold join one native ground reading, full and clean witnesses, an exact source rule and independently bound replay. Unfolding alone grants no authority.",
         "open_debts": [
           "No mafhum is generated from a query without the policy-specific structured premises and absence of blockers.",
-          "Source support is relative to the supplied ground theory; role assignment, free-Arabic reading completeness, rule adoption, world truth and CertifiedBridge are not established by source replay or numeric folding."
+          "Source support is relative to the supplied ground theory; role assignment, free-Arabic reading completeness, rule adoption, world truth and CertifiedBridge are not established by source replay or numeric folding.",
+          "RelationalBridge validates fixed graded obligations and an exact occurrence against a controlled source ledger; source truth, free-Arabic syntax, reviewed lexical interpretation and empirical causal discovery remain separate."
         ]
       },
       {
@@ -3081,7 +3096,8 @@
         "runtime_paths": [
           "tools/epistemic_measurement.py",
           "tools/lexical_training/teaching.py",
-          "tools/lexical_training/reasoning_curriculum.py"
+          "tools/lexical_training/reasoning_curriculum.py",
+          "tools/grammar_catalog/relational.py"
         ],
         "native_targets": [
           "epistemicMeasurement"
@@ -3097,7 +3113,8 @@
         "test_paths": [
           "tests/test_epistemic_measurement.py",
           "tests/test_epistemic_measurement_adversarial.py",
-          "tests/test_cognitive_teaching.py"
+          "tests/test_cognitive_teaching.py",
+          "tests/test_relational_rag.py"
         ],
         "doc_paths": [
           "docs/EPISTEMIC_MEASUREMENT_AR.md",
@@ -3375,7 +3392,8 @@
           "tests/test_awamil_training.py",
           "tests/test_progressive_agent_plan.py",
           "tests/test_unit_composition_agent.py",
-          "tests/test_irab_agent.py"
+          "tests/test_irab_agent.py",
+          "tests/test_io_gateway.py"
         ],
         "formal_modules": [
           "Nabt.RuleRouting"
@@ -3389,7 +3407,9 @@
           "docs/PROGRESSIVE_AGENT_RAG_AR.md",
           "docs/UNIT_COMPOSITION_AGENT_AR.md",
           "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md",
-          "docs/IRAB_AGENT_V1_AR.md"
+          "docs/IRAB_AGENT_V1_AR.md",
+          "docs/IO_GATEWAY_V1_AR.md",
+          "docs/IO_GATEWAY_ACCEPTANCE_V1.md"
         ],
         "id": "rule-routing",
         "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
@@ -3409,14 +3429,18 @@
           "tools/grammar_catalog/unit_catalog.py",
           "tools/grammar_catalog/unit_cli.py",
           "tools/grammar_catalog/irab.py",
-          "tools/grammar_catalog/irab_cli.py"
+          "tools/grammar_catalog/irab_cli.py",
+          "tools/grammar_catalog/gateway.py",
+          "tools/grammar_catalog/gateway_routes.py",
+          "tools/grammar_catalog/gateway_links.py"
         ],
         "open_debts": [
           "Complete inventory routing cannot manufacture missing source premises or establish applicability of every retrieved rule."
         ],
         "checker_paths": [
           "tools/check_rule_routing.py",
-          "tools/grammar_catalog/operation_rag.py"
+          "tools/grammar_catalog/operation_rag.py",
+          "tools/grammar_catalog/gateway.py"
         ]
       },
       {

@@ -2,6 +2,43 @@
 
 هذه الوثيقة تفصل نتائج Lean عن اختبارات التنفيذ وعن صحة الافتراضات اللغوية. النجاح في طبقة لا ينتقل آليًا إلى الطبقة التالية.
 
+## مصفوفة الأجناس والخواص والعلاقات عبر البوابة
+
+تضيف [وصلة العلاقات](RELATIONAL_RAG_V1_AR.md) مساري الاسترجاع والتحليل
+إلى البوابة، فيصبح عدد مساراتها 19. تشتق ثلاثة أوزان للماضي المجرد
+و29 قالبًا اسميًا من الجدول المثبت، وتجمع 20 بطاقة مصدرية ومنهجية،
+وتعيد نتائج الاشتقاق والإعراب والزمن والاستدلال من المصدر بأصحابها
+الموجودين. تبقى شهادة الربط الأنطولوجي العامة `DEFER`؛ لم يتغير فهرس
+Lean أو مصادر النواة ولم تضف مبرهنة جديدة.
+
+نجح 36 اختبار بوابة وعلاقات أصليًا دون تخطٍّ، و46 اختبارًا للفهرس
+وإعادة الاستعمال والتبعيات المجمدة. لم يُعد `make check` الجامع في هذه
+الإضافة؛ [سجلها](../evidence/relational_rag_v1/results.json) يحدد الأوامر
+والالتزام المقيس وحدود النتيجة. الاختبارات تحفظ الفرق بين المصاحبة
+والتعليل، وبين وجود جسر استدلال مشروط وسحبه، وبين الشكل والمعنى
+والواقعة الخارجية.
+
+## بوابة التكامل الخارجي وفهرس البرهان والاختبارات
+
+وصلت الدفعة الأولى من [بوابة NABT](IO_GATEWAY_V1_AR.md) 17 مسارًا بأصحاب العقود الحاليين،
+وتشتق روابط المصادر والتصريحات والاختبارات من الفهرس المعتمد. تصل عملية
+الدروس أيضًا مصفوفات المنهج الـ19 والأسس المشتركة الثمانية إلى هذا الفهرس.
+تبقى إحالة العائلة إلى اختبار علاقة استعمال معلنة، وليست برهان تنقيح أو
+نتيجة تشغيل لذلك الاختبار في كل طلب.
+
+نجح `make check` الكامل عند `2de722c` مع 3225 اختبارًا ناجحًا و180
+متخطّى، وفحوص المطابقة والتصدير وتدقيق المسلمات والفهرس وبوابات التكامل.
+بعد متابعة إحالات الدروس عند `f6440ef` نجح 24 اختبار بوابة أصليًا بلا
+تخطٍّ وأربعة فحوص للمراجع المجمدة. تفصل [نتائج التحقق](../evidence/io_gateway_v1/README_AR.md)
+مراجعة الفحص الجامع عن المتابعة المحددة، وتحفظ الأوامر والبصمات والسجلات.
+لم تتغير نواة `src/` أو مصادر `formal/` أو ملف CI التاريخي المثبت.
+
+قبول الإيصال يثبت إعادة تشغيل الطلب المستقل وحفظ نتيجة المالك في نسخته
+الحالية؛ لا يمنح صدقًا خارجيًا أو إذن فعل أو برهان انطباق لغوي عامًا.
+يبقى إرجاء `CertifiedBridge` وفجوات المصادر والتغطية ظاهرًا. لا تضيف هذه
+الدفعة مبرهنة Lean جديدة أو تدريب نموذج لغوي، ولا تعزل المبرمج المحلي
+عن استدعاء الواجهات الداخلية؛ تعليمات التكامل الخارجي تعتمد البوابة فقط.
+
 ## وصل القالب والإعلال بالوقوع الأصلي
 
 تضيف [وصلة الاشتقاق والسطح](DERIVATION_SURFACE_V1_AR.md) تطبيقًا
@@ -1662,3 +1699,84 @@ orchestration, not a new general Lean proof of Python/JSON composition. The
 12-case exposed integration regression matches all expected contracts but has
 only five complete chains, including one of three positive inference cases.
 See `docs/PR34_ACQUISITION_INTEGRATION_AR.md` and retained receipts for scope.
+
+## Source-bound relational RAG licensing (2026-11-06)
+
+`Nabt.RelationalBridge` adds 12 compiled theorems, reusing VerifiedReading's
+original-source/full/clean closure and QualifiedInference's signed obligations.
+The existing `verifiedReading` executable checks the independently supplied
+target, exact occurrence, selected reviewed reading, occurrence-to-event link,
+kind/property links, conditions and explicit blocker absence. Fixed profiles
+require 15 obligations for disposition, 16 for occurrence, and 17 for causality.
+An absent or contested causal witness cannot be replaced by adjacency or temporal
+succession. An independent clean source derivation may still supply that witness.
+
+The extension enters through the existing `relations.analyze` gateway route;
+19 routes remain, with 28 relational RAG cards. Four selected readings preserve
+اصفرّ/مُصْفَرّ and كَبِرَ/كَبُرَ, including the two selected unvocalized كبر
+alternatives. All 11 reading/spelling pairs are compared to the native domain.
+This is a bounded reviewed interpretation, not unrestricted Arabic acquisition.
+
+All seven current proof/source views are selected together under
+`evidence/relational_bridge_v1/integration`. The compiled index and enforcing
+axiom audit cover 1629 declarations (1626 normalized statement groups), with
+only the existing `Classical.choice`, `Quot.sound`, and `propext` axioms observed.
+The full Lean build completed 230 jobs. Reviewed lexical data resides in the
+gateway extension; the 99-file historical runtime inventory and Makefile remain
+unchanged. The existing I/O CI now requires the relational native target.
+
+Validation used code commit `9243eebeb090b392b9affde54e750e27e24940b8`.
+General discovery passed 3237 of 3433 tests, with 196 explicit skips. The ordered
+`make check` run completed all targets before `relational-bridge`, then its
+execution session became unavailable with no captured final exit status.
+The last two configured targets, `relational-bridge` and `io-gateway-native`,
+were rerun successfully: 25/25 and 36/36 tests, respectively. Do not report the
+resumption's exit code as the original process's exit code, or sum overlapping
+test runs as distinct cases. Raw logs and gate coverage are retained in the
+implementation review bundle.
+
+Existing language measurements remain partial: construction 82/86 and discourse
+68/86, each with zero observed false accepts in its own matrix and
+`strict_pass=false`. Their documented-boundary regression gates pass; these are
+not new language-learning gains or claims of full Arabic coverage.
+
+The new license is source-relative to an explicitly interpreted relational
+ledger. World truth, empirical causal discovery, free-language interpretation,
+and general Python-to-Lean refinement remain separate obligations. No new language
+model training or external agent deployment is claimed. See
+`docs/RELATIONAL_BRIDGE_V1_AR.md` and `tests/test_relational_bridge.py`.
+# PR 84: current-catalogue training and CI budget repair (2026-11-06)
+
+The first GitHub run failed in `test_awamil_training` because the retained
+`context_application_v1/awamil_retrain` weights no longer match the catalogue
+after the theorem manifest grew. `MODEL_CATALOG_MISMATCH` was the correct
+production decision. The test now trains on the current catalogue and zeroes a
+separate candidate to measure degraded-ranking exclusion; both historical
+weight artifacts remain immutable and are explicitly required to be rejected.
+The dedicated CPU workflow requires torch/numpy, runs the original 30-epoch
+training path, reloads the model, and preserves weights, first evaluation,
+curriculum and retrieval as a GitHub artifact. Missing dependencies cannot turn
+that dedicated gate into a skipped training success.
+
+Local repair validation: 16/16 awamil/training tests (CPU torch 2.15.0,
+numpy 2.3.5); 19/19 dependency, oracle-contract and current-proof-reference
+tests; source-learning native connection 32/32; cognitive teaching, grounded
+passage and learning-framework contracts 42/42, with the lesson CLI outputs
+independently replayed. The external gateway's cognitive lesson test also
+passed. A fresh full training run made
+210 optimizer updates with nonzero weight change. Development top-1 was
+0.540094 versus BM25 0.985849; held-out-template top-1 was 0.382075 versus
+BM25 0.955189. The current model reloaded successfully and stayed excluded from
+ranking (`ranking_admitted=false`). Successful training execution is not a
+claim of better retrieval, linguistic mastery or world-truth certification.
+
+GitHub's Python 3.11/3.12 runtime jobs exhausted their 20-minute budget while
+still running the configured regressions; 3.13 and formal succeeded. The
+runtime budget is now 40 minutes. The original observed dependency freeze v1
+is retained byte-for-byte. Successor `oracle_dependency_freeze_v2.json` binds
+the new selector/guard and its tests, retains every other prior dependency,
+and reconstructs the original workflow bytes by reversing exactly that budget
+edit before checking the old hash. Workflow commands, Python matrix, gold
+cases and acceptance thresholds are unchanged. The full directed oracle was
+rerun: regression gate passed, `strict_pass=false`, with its historical gaps
+still visible. No formal or frozen `src/` implementation changed in this repair.

@@ -1,0 +1,86 @@
+{
+  "schema": "nabt.relational-rag.validation.v1",
+  "base_commit": "f7f5f3163cfe5a87e1eb94196caec9717a1a2186",
+  "validated_code_commit": "61caafc18c064fea3e3579b856ab368acb8b7f8d",
+  "upstream_main_verified": "fb397e3ad0b78862f69dfc4a770a1f5530ff6ba9",
+  "date": "2026-11-06",
+  "timezone": "Asia/Amman",
+  "scope": {
+    "gateway_routes": 19,
+    "relational_cards": 20,
+    "bare_past_patterns": 3,
+    "existing_nominal_patterns": 29,
+    "new_lean_declarations": 0,
+    "ontology_bridge_status": "DEFER"
+  },
+  "commands": [
+    "TMPDIR=<workspace>/runtime/tmp make io-gateway-native LAKE=<verified-Lean-4.34.1>/bin/lake",
+    "PYTHONPATH=src:. python -m unittest tests.test_proof_reuse tests.test_proof_reuse_organization tests.test_proof_catalog tests.test_neural_senses.IntegrationIdentityTests.test_frozen_oracle_dependencies_remain_valid -v",
+    "PYTHONPATH=src:. python -m tools.entropy_framework reuse --organization --summary",
+    "PYTHONPATH=src:. python -m tools.code_entropy --check --output artifacts/local/relational-code-boundary.json"
+  ],
+  "logs": {
+    "relational-native-gate.log": {
+      "tests": 36,
+      "passed": 36,
+      "seconds": 311.099,
+      "skipped": 0,
+      "exit_code": 0,
+      "sha256": "dd50f08fbf21dd5b30c3ba180cead0be6550234181dd1d990bee0dc1d717bb5b",
+      "compressed_sha256": "8133628c62f77e7970690a4cea849a935e7a7705ef3608386ccb472f90e1957b"
+    },
+    "relational-reuse-tests.log": {
+      "tests": 46,
+      "passed": 46,
+      "seconds": 123.668,
+      "skipped": 0,
+      "exit_code": 0,
+      "sha256": "234a59bb13d67556d969037b1078d0a6fc8c66418bc43ab4e72e72a9f9911a34",
+      "compressed_sha256": "8b085052a0bb82d7fbde5c009ebf2316ec6938da3f9c9f6ff1c7986c47bbf15d"
+    }
+  },
+  "full_make_check_repeated_for_this_extension": false,
+  "static_boundary": {
+    "files": 350,
+    "passed": true
+  },
+  "organization_status": "RESOLVED",
+  "preserved_paths": [],
+  "development_corrections": [
+    "The first exploratory test expected LICENSED/DEFER; direct existing-owner replay established SUPPORTED/UNKNOWN. The corrected test asserts the original values and consequence true/false.",
+    "A development run overlapped a source edit and failed independent replay; the final native gate ran with stable source and passed."
+  ],
+  "post_documentation_cli": {
+    "request": "examples/io_gateway/relations_world.json",
+    "run_exit_code": 0,
+    "verify_exit_code": 0,
+    "verification": {
+      "valid": true,
+      "status": "VERIFIED_IO_REPLAY",
+      "semantic_rank_promoted": false,
+      "scope": "SAME_REQUEST_CURRENT_PROOF_TEST_SNAPSHOT_AND_ORIGINAL_OWNER_RESULT"
+    },
+    "snapshot_sha256": "be38f4d704caf2f299e5d3b999c856f6d5404e1ab1fc580309e222c2af1fee97",
+    "owner_inference_status": "SUPPORTED",
+    "ontology_bridge_status": "DEFER",
+    "receipt_sha256": "4e51a47d5e6710520162ac15caab7b679526de7c670ec56142d1a1f67983e880",
+    "receipt_file": "world-receipt.json.gz",
+    "request_file": "world-request.json",
+    "verification_file": "world-replay.json",
+    "scope": "CLI run and independent replay after PROOF_STATUS update; native binary changes require a fresh receipt."
+  },
+  "limits": {
+    "ontology_assertions_auto_generated": false,
+    "shape_implies_meaning": false,
+    "new_lean_refinement_proved": false,
+    "world_truth_established": false,
+    "empirical_causality_established": false,
+    "llm_trained": false
+  },
+  "publication": {
+    "pushed": false,
+    "merged": false,
+    "remote_ci_run": false,
+    "status": "PUBLIC_PUSH_STILL_BLOCKED_BY_PRIOR_AUTOMATIC_APPROVAL_REVIEW"
+  }
+}
