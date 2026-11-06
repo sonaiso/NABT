@@ -1745,3 +1745,38 @@ ledger. World truth, empirical causal discovery, free-language interpretation,
 and general Python-to-Lean refinement remain separate obligations. No new language
 model training or external agent deployment is claimed. See
 `docs/RELATIONAL_BRIDGE_V1_AR.md` and `tests/test_relational_bridge.py`.
+# PR 84: current-catalogue training and CI budget repair (2026-11-06)
+
+The first GitHub run failed in `test_awamil_training` because the retained
+`context_application_v1/awamil_retrain` weights no longer match the catalogue
+after the theorem manifest grew. `MODEL_CATALOG_MISMATCH` was the correct
+production decision. The test now trains on the current catalogue and zeroes a
+separate candidate to measure degraded-ranking exclusion; both historical
+weight artifacts remain immutable and are explicitly required to be rejected.
+The dedicated CPU workflow requires torch/numpy, runs the original 30-epoch
+training path, reloads the model, and preserves weights, first evaluation,
+curriculum and retrieval as a GitHub artifact. Missing dependencies cannot turn
+that dedicated gate into a skipped training success.
+
+Local repair validation: 16/16 awamil/training tests (CPU torch 2.15.0,
+numpy 2.3.5); 19/19 dependency, oracle-contract and current-proof-reference
+tests; source-learning native connection 32/32; cognitive teaching, grounded
+passage and learning-framework contracts 42/42, with the lesson CLI outputs
+independently replayed. The external gateway's cognitive lesson test also
+passed. A fresh full training run made
+210 optimizer updates with nonzero weight change. Development top-1 was
+0.540094 versus BM25 0.985849; held-out-template top-1 was 0.382075 versus
+BM25 0.955189. The current model reloaded successfully and stayed excluded from
+ranking (`ranking_admitted=false`). Successful training execution is not a
+claim of better retrieval, linguistic mastery or world-truth certification.
+
+GitHub's Python 3.11/3.12 runtime jobs exhausted their 20-minute budget while
+still running the configured regressions; 3.13 and formal succeeded. The
+runtime budget is now 40 minutes. The original observed dependency freeze v1
+is retained byte-for-byte. Successor `oracle_dependency_freeze_v2.json` binds
+the new selector/guard and its tests, retains every other prior dependency,
+and reconstructs the original workflow bytes by reversing exactly that budget
+edit before checking the old hash. Workflow commands, Python matrix, gold
+cases and acceptance thresholds are unchanged. The full directed oracle was
+rerun: regression gate passed, `strict_pass=false`, with its historical gaps
+still visible. No formal or frozen `src/` implementation changed in this repair.
