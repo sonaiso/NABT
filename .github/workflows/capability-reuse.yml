@@ -35,6 +35,10 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m unittest discover -s tests -p 'test_current_proof_references.py' -v
+      - name: Replay source-derived operation retrieval and typed execution
+        env:
+          PYTHONPATH: src:.
+        run: make -f Makefile -f integrations/grammar_catalog.mk operation-rag
 
 # Compiling and auditing Lean remains the job of the existing proof gates.
 # Native readiness here is availability, never a claim that a checker ran.
