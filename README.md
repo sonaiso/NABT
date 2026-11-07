@@ -1,5 +1,8 @@
 # NABT — نواة جبرية مستقلة للغة المرخّصة
 
+تتوفر [وصلة الطريقة العقلية والدلالة إلى OntoLex](docs/RATIONAL_RAG_ONTOLEX_AR.md)
+بإعادة استعمال فاحص الدلالات المثبت وحفظ البدائل وشروط الشاهد.
+
 مدخل التكامل الخارجي الوحيد هو [بوابة NABT](docs/IO_GATEWAY_V1_AR.md):
 `python -m tools.grammar_catalog gateway run --request examples/io_gateway/contrast.json`.
 يقبل المستهلك النتيجة بعد `gateway verify` مقابل الطلب المستقل. تجمع البوابة

@@ -1780,3 +1780,30 @@ edit before checking the old hash. Workflow commands, Python matrix, gold
 cases and acceptance thresholds are unchanged. The full directed oracle was
 rerun: regression gate passed, `strict_pass=false`, with its historical gaps
 still visible. No formal or frozen `src/` implementation changed in this repair.
+
+## Native denotation through OntoLex and the external gateway (2026-11-07)
+
+The existing `LexicalDenotation` owner now enters through `lexical.assess` and
+`lexical.ontolex`, bringing the supported gateway to 21 routes. Both require
+the installed `lexicalDenotation` executable; callers cannot supply definitions,
+selected sense IDs, executable paths or authority flags. The OntoLex JSON-LD
+view preserves the complete original owner result, each installed alternative,
+definition components, source quotation and byte span, conditional indication,
+and unresolved occurrence/reference alignment. A dictionary root is not exported
+as an acquired canonical form or an external-world referent.
+
+Gateway snapshot/replay now also binds the retained lexical catalogue and its
+fixed source files. A changed source, removed alternative, altered independent
+request, or self-rehashed output cannot grant admission. The native admission
+target includes the lexical executable and the 12 new boundary/export tests,
+alongside the existing relational and cognitive gateway checks. The existing
+lexical-denotation reuse family supplies the proof/test references; no competing
+registry or new Lean theorem is introduced. The current proof selector remains
+`evidence/relational_bridge_v1/integration` (1629 declarations).
+
+Scope remains conditional on the installed, authored interpretations. Exporting
+their graph does not establish intended meaning in free text, historical source
+authenticity, world truth, general Python/Lean refinement, or learning gains.
+SHAP values are not used as linguistic evidence. Existing training admission and
+historical weights retain their original contracts. See
+`docs/RATIONAL_RAG_ONTOLEX_AR.md` for the source/method mapping and replay commands.

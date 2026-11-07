@@ -7,6 +7,8 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
+    "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
     "relations.analyze": (RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
@@ -54,6 +56,9 @@ def validate(route, payload):
     if route == "operation":
         from .operation_rag import validate_request
         validate_request(payload)
+    if route in ("lexical.assess", "lexical.ontolex"):
+        from .lexical_ontolex import validate as validate_lexical
+        validate_lexical(payload)
     if route == "relations.analyze":
         from .relational import validate as validate_relations
         validate_relations(payload)
@@ -70,6 +75,9 @@ def validate(route, payload):
 
 def execute(route, payload, *, inside_worker=False):
     p = validate(route, payload)
+    if route in ("lexical.assess", "lexical.ontolex"):
+        from .lexical_ontolex import assess, export
+        return (export if route.endswith("ontolex") else assess)(p)
     if route in ("relations.search", "relations.analyze"):
         from .relational import search, analyze
         return search(p["query"], p.get("limit", 5)) if route.endswith("search") else analyze(p)
