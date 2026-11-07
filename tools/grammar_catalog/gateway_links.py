@@ -38,6 +38,9 @@ def build(route=None):
     reuse = build_reuse_report(root)
     families = {r["id"]: r for r in reuse["families"]}
     selected = set(families) if route is None else set(ROUTES[route][0]) | set(SHARED_FAMILIES)
+    if route == "concept.matrix":
+        from tools.lexical_training.rag_views import VIEWS
+        selected.update(family for _, _, names in VIEWS for family in names)
     compiled, _, _, _ = current_catalog(root)
     curriculum_links = None
     if route in (None, "operation"):

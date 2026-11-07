@@ -2805,7 +2805,8 @@
           "Nabt.LexicalDenotation",
           "Nabt.LexicalCatalog",
           "Nabt.MaqayisDenotation",
-          "Nabt.AttestedLexicalLoading"
+          "Nabt.AttestedLexicalLoading",
+          "Nabt.ConceptContinuity"
         ],
         "runtime_paths": [
           "tools/lexical_testimony.py",
@@ -2819,7 +2820,13 @@
           "tools/lexical_training/curriculum.py",
           "tools/lexical_training/explanation.py",
           "tools/lexical_training/learning_framework.py",
-          "evidence/cognitive_curriculum_v1/learning_framework.json"
+          "evidence/cognitive_curriculum_v1/learning_framework.json",
+          "tools/grammar_catalog/lexical_ontolex.py",
+          "tools/grammar_catalog/gateway_routes.py",
+          "tools/lexical_training/concepts.py",
+          "tools/lexical_training/shared_encoder.py",
+          "tools/lexical_training/shared_training.py",
+          "tools/lexical_training/rag_views.py"
         ],
         "native_targets": [
           "lexicalDenotation"
@@ -2828,7 +2835,8 @@
           "lexical-testimony",
           "madlul-matrix",
           "lexical-acquisition",
-          "lexical-curriculum"
+          "lexical-curriculum",
+          "grammar-catalog"
         ],
         "checker_paths": [
           "tools/check_linguistic_truth.py"
@@ -2841,7 +2849,10 @@
           "tests/test_madlul_matrix.py",
           "tests/test_lexical_acquisition.py",
           "tests/test_lexical_explanation.py",
-          "tests/test_learning_framework.py"
+          "tests/test_learning_framework.py",
+          "tests/test_lexical_ontolex.py",
+          "tests/test_shared_cognition.py",
+          "tests/test_shared_training.py"
         ],
         "doc_paths": [
           "docs/LEXICAL_DENOTATION.md",
@@ -2851,14 +2862,17 @@
           "docs/MADLUL_MATRIX_AR.md",
           "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md",
           "docs/LEXICAL_EXPLANATION_AR.md",
-          "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md"
+          "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md",
+          "docs/RATIONAL_RAG_ONTOLEX_AR.md",
+          "docs/SHARED_COGNITION_V1_AR.md"
         ],
         "scope": "Compiled lexical senses and exact retained source passages support conditional matching, proper inclusion and explicitly licensed entailment.",
         "open_debts": [
           "Lexical denotation does not choose the intended sense of a new occurrence or license a root-wide universal certificate.",
           "The optional neural sense ranker retains all installed alternatives and reuses lexical_testimony unchanged. Its supplied root, authored seen-sense diagnostic and scores establish neither acquired applicability nor intended sense; the lexical baseline ties its measured result.",
           "The source-bound five-way madlul matrix resolves existing contracts and preserves owner reports, but acquiring the denoted object level, semantic part alignment and positively evidenced usage status from free text remains open. Unknown or false-world claims do not establish unusedness.",
-          "The source-quotation learner proposes global sense and definition-component identities without a supplied root or target. Its 18 exposed diagnostics do not establish complete semantic extraction; exact alignment between acquired usage sense and dictionary sense remains open, and mental necessity alone does not establish an indication occurrence."
+          "The source-quotation learner proposes global sense and definition-component identities without a supplied root or target. Its 18 exposed diagnostics do not establish complete semantic extraction; exact alignment between acquired usage sense and dictionary sense remains open, and mental necessity alone does not establish an indication occurrence.",
+          "Shared byte-GRU proposals reuse native definitions across views but do not establish intended meaning, free-text definition alignment, world truth, audio acquisition or general Arabic coverage. The exposed first sense diagnostic is 9/18; the witness head trails the byte-neighbour baseline."
         ]
       },
       {

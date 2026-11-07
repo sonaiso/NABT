@@ -1,5 +1,30 @@
 # ما هو مبرهن وما هو مفحوص
 
+## Shared concept continuity and joint neural pilot — 2026-11-07
+
+The current selector now points to `evidence/shared_cognition_v1/integration`;
+all seven compiled/source views move together and historical snapshots remain
+unchanged. The manifest contains 1,641 declarations (1,638 normalized groups),
+including 12 `ConceptContinuity` theorems over the existing meaning language.
+These prove view invariance and conditional connections to existing lexical
+and inference laws, not free-text semantic acquisition or general refinement.
+
+`concept.view`, `concept.matrix`, and `neural.propose` use the sole external
+gateway. OntoLex carries the same native definition identity and all commitment
+premises, including source quotations and alignment conditions. Lesson v2
+routes by installed operation/policy instead of treating curriculum views as
+separate concept systems; v1 remains replayable.
+
+The retained first joint run has 6,695 parameters, 94 training rows, 100 updates,
+and 47 diagnostic rows. Morphological/reading/attachment heads score 27/27 on
+bounded root/stem contrasts; the exposed seen-sense head scores 9/18 and the
+witness head 41/47 (below the byte-neighbour baseline's 44/47). All outputs are
+proposals, retaining every concept alternative. See
+[the implementation, scope and acceptance gates](SHARED_COGNITION_V1_AR.md).
+Dedicated native and fresh CPU-training gates are required; references to those
+gates are not themselves claims that a release run passed.
+
+
 هذه الوثيقة تفصل نتائج Lean عن اختبارات التنفيذ وعن صحة الافتراضات اللغوية. النجاح في طبقة لا ينتقل آليًا إلى الطبقة التالية.
 
 ## مصفوفة الأجناس والخواص والعلاقات عبر البوابة
@@ -1780,3 +1805,37 @@ edit before checking the old hash. Workflow commands, Python matrix, gold
 cases and acceptance thresholds are unchanged. The full directed oracle was
 rerun: regression gate passed, `strict_pass=false`, with its historical gaps
 still visible. No formal or frozen `src/` implementation changed in this repair.
+
+## Native denotation through OntoLex and the external gateway (2026-11-07)
+
+The existing `LexicalDenotation` owner now enters through `lexical.assess` and
+`lexical.ontolex`, bringing the supported gateway to 21 routes. Both require
+the installed `lexicalDenotation` executable; callers cannot supply definitions,
+selected sense IDs, executable paths or authority flags. The OntoLex JSON-LD
+view preserves the complete original owner result, each installed alternative,
+definition components, source quotation and byte span, conditional indication,
+and unresolved occurrence/reference alignment. A dictionary root is not exported
+as an acquired canonical form or an external-world referent.
+
+Gateway snapshot/replay now also binds the retained lexical catalogue and its
+fixed source files. A changed source, removed alternative, altered independent
+request, or self-rehashed output cannot grant admission. The native admission
+target includes the lexical executable and the 14 new boundary/export tests,
+alongside the existing relational and cognitive gateway checks. The existing
+lexical-denotation reuse family supplies the proof/test references; no competing
+registry or new Lean theorem is introduced. The current proof selector remains
+`evidence/relational_bridge_v1/integration` (1629 declarations).
+
+Scope remains conditional on the installed, authored interpretations. Exporting
+their graph does not establish intended meaning in free text, historical source
+authenticity, world truth, general Python/Lean refinement, or learning gains.
+SHAP values are not used as linguistic evidence. Existing training admission and
+historical weights retain their original contracts. See
+`docs/RATIONAL_RAG_ONTOLEX_AR.md` for the source/method mapping and replay commands.
+
+The standalone JSON-LD indication node also preserves the complete ordered
+`commitment_conditions` as an `@json` value, including each separate premise
+source, quotation/span, replay status and authored cross-source alignment.
+The dictionary-definition citation and an owner-row pointer do not replace
+these premises. Native controls cover blindness/sight and lion/courage;
+fresh gateway replay rejects dropping the premise even after rehashing.

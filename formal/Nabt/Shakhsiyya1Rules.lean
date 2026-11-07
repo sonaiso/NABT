@@ -1,8 +1,10 @@
 import Nabt.ThinkingRules
 
 /-! The supplied first volume paragraphs 45–46 distinguish understanding a
-meaning from grounding/accepting it. This 'concept' is distinct from the
-third volume's usuli 'mafhum'. No psychological or theological claim is made
+meaning from grounding/accepting it. Understanding and the third volume's
+discourse inferences share SourceSemantics.Formula; a difference in the use
+of the term 'mafhum' does not create a separate conceptual system.
+No psychological or theological claim is made
 an axiom. Grounding is a proposition that needs evidence, not a JSON flag. -/
 namespace Nabt.Shakhsiyya1Rules
 open SourceSemantics

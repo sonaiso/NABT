@@ -27,6 +27,7 @@ def request_from_bytes(raw):
 
 def snapshot():
     # Reuse source identity, including the sole current compiled catalogue.
+    from tools import lexical_testimony
     value, _ = source_snapshot()
     value = deepcopy(value)
     for directory, suffix in (("tests", ".py"), ("integrations", ".mk"), (".github/workflows", ".yml")):
@@ -34,8 +35,15 @@ def snapshot():
             if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
                 raise ValueError("I/O contract reference escapes repository")
             value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
-    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml"):
-        value["files"][relative] = sha256((ROOT / relative).read_bytes()).hexdigest()
+    # Retained testimonies live outside src/tools/formal. Bind their actual
+    # bytes before and after execution, reusing the owner's fixed path table.
+    lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json") + tuple(
+        path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
+    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml") + lexical_sources:
+        path = ROOT / relative
+        if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
+            raise ValueError("I/O source reference escapes repository")
+        value["files"][relative] = sha256(path.read_bytes()).hexdigest()
     value["schema"] = "nabt.io.snapshot.v1"
     return value
 

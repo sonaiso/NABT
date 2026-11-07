@@ -81,3 +81,4 @@ import Nabt.MeaningPreservation
 import Nabt.GroundedPassage
 
 import Nabt.TemporalContext
+import Nabt.ConceptContinuity

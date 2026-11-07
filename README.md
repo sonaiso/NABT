@@ -1,5 +1,8 @@
 # NABT — نواة جبرية مستقلة للغة المرخّصة
 
+تتوفر [وصلة الطريقة العقلية والدلالة إلى OntoLex](docs/RATIONAL_RAG_ONTOLEX_AR.md)
+بإعادة استعمال فاحص الدلالات المثبت وحفظ البدائل وشروط الشاهد.
+
 مدخل التكامل الخارجي الوحيد هو [بوابة NABT](docs/IO_GATEWAY_V1_AR.md):
 `python -m tools.grammar_catalog gateway run --request examples/io_gateway/contrast.json`.
 يقبل المستهلك النتيجة بعد `gateway verify` مقابل الطلب المستقل. تجمع البوابة
@@ -1090,3 +1093,5 @@ make -f tools/aligned_acquisition.mk aligned-acquisition-conformance aligned-acq
 | `evidence/` | النتائج المحلية المسجلة وحدود القياس |
 
 راجع [المعمارية](docs/ARCHITECTURE.md)، و[خطة الإكمال](docs/ROADMAP.md)، و[أصول البناء](docs/PROVENANCE.md). لا توجد تبعيات تشغيل أو وحدات فرعية أو روابط إلى المستودعات السابقة.
+
+For shared definition identity, operation-based teaching and the measured joint neural pilot, see [Shared cognition v1](docs/SHARED_COGNITION_V1_AR.md).

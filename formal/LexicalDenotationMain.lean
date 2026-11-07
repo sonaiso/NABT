@@ -1,5 +1,6 @@
 import Nabt.LisanRules
 import Nabt.MaqayisDenotation
+import Nabt.ConceptContinuity
 import ProbeJson
 
 open Lean ProbeJson Nabt.LexicalDenotation Nabt.LexicalCatalog
@@ -13,6 +14,29 @@ def citationJson (c : Citation) : Json := Json.mkObj [
 def senseJson (s : Sense) : Json := Json.mkObj [
   ("id", toJson s.id), ("root", toJson s.root), ("citation", citationJson s.citation),
   ("components", toJson s.components)]
+
+def termJson : Nabt.SourceSemantics.Term → Json
+  | .name value => Json.mkObj [("kind", toJson "name"), ("value", toJson value)]
+  | .variable index => Json.mkObj [("kind", toJson "variable"), ("index", toJson index)]
+
+def formulaJson : Nabt.SourceSemantics.Formula → Json
+  | .atom concept args => Json.mkObj [("kind", toJson "atom"), ("concept", toJson concept),
+      ("arguments", Json.arr (args.map termJson).toArray)]
+  | .both left right => Json.mkObj [("kind", toJson "both"),
+      ("left", formulaJson left), ("right", formulaJson right)]
+  | .implies premise conclusion => Json.mkObj [("kind", toJson "implies"),
+      ("premise", formulaJson premise), ("conclusion", formulaJson conclusion)]
+
+def definitionJson (d : Nabt.SourceSemantics.ConceptDefinition) : Json :=
+  Json.mkObj [("id", toJson d.name), ("definition", formulaJson d.body)]
+
+def conceptsTable : Json := Json.mkObj [
+  ("schema", toJson "nabt.shared-concept-definitions.v1"),
+  ("law_id", toJson Nabt.ConceptContinuity.lawId),
+  ("concepts", Json.arr (senses.map fun s => Json.mkObj [
+    ("identity", definitionJson (Nabt.ConceptContinuity.lexicalDefinition s)),
+    ("sense", senseJson s)]).toArray),
+  ("instance_established", toJson false)]
 
 def kinds : List Indication := [.matching, .inclusion, .entailment]
 
@@ -34,6 +58,16 @@ def strings (j : Json) : ProbeM (List String) := do
 
 def dispatch (j : Json) : ProbeM Json := do
   let obj ← liftParse j.getObj?
+  if (obj.get? "op").isSome then
+    if obj.size != 2 || (obj.get? "value").isNone then
+      return ← invalid "exactly op and value required for cardinal concept"
+    if (← str (← field j "op")) != "cardinal_concept" then
+      return ← invalid "unknown concept operation"
+    let n ← nat (← field j "value")
+    if n > 1000000000 then return ← limited "cardinal concept limit"
+    return Json.mkObj [("schema", toJson "nabt.shared-cardinal-definition.v1"),
+      ("value", toJson n), ("identity", definitionJson (Nabt.ConceptContinuity.cardinalDefinition n)),
+      ("world_cardinality_established", toJson false)]
   let names := ["root", "target", "proposed_ids"]
   if obj.size != 3 || names.any (fun n => (obj.get? n).isNone) then
     return ← invalid "exactly root, target, proposed_ids required"
@@ -62,7 +96,8 @@ end LexicalDenotationMain
 def main (args : List String) : IO Unit := do
   let output ← IO.getStdout
   if args == ["--export"] then output.putStrLn LexicalDenotationMain.table.compress
+  else if args == ["--concepts"] then output.putStrLn LexicalDenotationMain.conceptsTable.compress
   else if args.isEmpty then
     ProbeJson.readLoop LexicalDenotationMain.dispatch LexicalDenotationMain.errorJson
       (← IO.getStdin) output (ByteArray.emptyWithCapacity 0) false
-  else throw (IO.userError "usage: lexicalDenotation [--export]")
+  else throw (IO.userError "usage: lexicalDenotation [--export|--concepts]")
