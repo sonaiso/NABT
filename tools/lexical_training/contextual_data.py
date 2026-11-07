@@ -29,6 +29,12 @@ def dataset(path=CORPUS):
         terms = {tuple(r["codepoint_span"]):r for r in exact_terms(row["text"])}
         seen_spans=set()
         for annotation in row["annotations"]:
+            for name in ("codepoint_span", "utf8_span"):
+                coordinates = annotation[name]
+                if (type(coordinates) is not list or len(coordinates) != 2
+                        or any(type(value) is not int for value in coordinates)
+                        or not 0 <= coordinates[0] < coordinates[1]):
+                    raise ValueError("Occurrence spans require two exact integer coordinates")
             span=tuple(annotation["codepoint_span"])
             if (span in seen_spans or span not in terms or not annotation["concept_ids"]
                     or len(set(annotation["concept_ids"])) != len(annotation["concept_ids"])

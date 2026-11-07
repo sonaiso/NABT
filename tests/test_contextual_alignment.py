@@ -2,6 +2,8 @@ from copy import deepcopy
 from hashlib import sha256
 import json
 import os
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import unittest
@@ -31,9 +33,34 @@ class AlignmentContracts(unittest.TestCase):
 
     def test_request_rejects_labels_paths_and_unbounded_input(self):
         for payload in ({'text':'قلم','model':'/tmp/m'}, {'text':'قلم','concept_id':'lisan:qalam-writing'},
-                        {'text':True},{'text':'ا'*129},{'text':'قلم','source_id':True},
-                        {'text':'ا '*33}):
+                        {'text':True},{'text':'ا'*129},{'text':'قلم','source_id':True}):
             with self.assertRaises(ValueError):a.validate_request(payload)
+
+    def test_occurrence_capacity_is_a_resource_limit_through_the_cli(self):
+        payload={'text':'ا '*33}
+        self.assertLess(len(payload['text'].encode()),old.MAX_BYTES)
+        with self.assertRaises(a.ResourceLimit):a.validate_request(payload)
+        with tempfile.TemporaryDirectory() as root:
+            path=Path(root)/'request.json'
+            path.write_text(json.dumps({'schema':gateway.REQUEST_SCHEMA,'route':'neural.align','payload':payload}))
+            result=subprocess.run([sys.executable,'-m','tools.grammar_catalog','gateway','run',
+                                   '--request',str(path)],capture_output=True,text=True,check=False)
+        self.assertEqual(result.returncode,3,result.stderr)
+        self.assertEqual(json.loads(result.stdout)['status'],'RESOURCE_LIMIT')
+
+    def test_supervision_spans_reject_boolean_and_decimal_coordinates(self):
+        corpus=json.loads(d.CORPUS.read_text())
+        index=next(i for i,r in enumerate(corpus['rows'])
+                   if r['annotations'] and r['annotations'][0]['codepoint_span'][0]==0)
+        with tempfile.TemporaryDirectory() as root:
+            path=Path(root)/'corpus.json'
+            for field in ('codepoint_span','utf8_span'):
+                for convert in (lambda span:[False,span[1]],lambda span:[float(x) for x in span]):
+                    changed=deepcopy(corpus)
+                    annotation=changed['rows'][index]['annotations'][0]
+                    annotation[field]=convert(annotation[field])
+                    path.write_text(json.dumps(changed,ensure_ascii=False))
+                    with self.assertRaises(ValueError):d.dataset(path)
 
     def test_model_rejects_tensor_threshold_and_label_corruption(self):
         model,_=a.load_model()
@@ -184,6 +211,29 @@ class NativeAlignment(unittest.TestCase):
         row=result['observations'][0]
         self.assertEqual(row['source_text'],text)
         self.assertIsNone(row['proposal']);self.assertEqual(row['status'],'NEURAL_BUDGET_DEFER')
+
+    def test_owner_source_locator_limit_is_preserved_by_optional_observation(self):
+        lesson=json.loads((ROOT/'examples/cognitive_teaching/qualified.json').read_text())
+        lesson['schema']=teaching.SCHEMA_V3
+        owner={'status':'SUPPORTED','source_answer':{'verification':{'native_receipt':{'checked':True}}},
+               'conditional_result':None,'conditional_consequence':True}
+        for source_id in ('x'*129,'م'*128,'x'*257,' '*8):
+            lesson['payload']['source_id']=source_id
+            with patch.object(teaching.source_bound,'evaluate_source',return_value=deepcopy(owner)):
+                result=teaching.run_lesson(lesson)
+            self.assertEqual(result['status'],'SUPPORTED',result)
+            self.assertTrue(result['execution_measured'])
+            self.assertEqual(result['owner_result'],owner)
+            row=result['episode']['neural_observation']['observations'][0]
+            self.assertEqual(row['source_id'],source_id)
+            if not source_id.strip():
+                self.assertEqual(row['status'],'NEURAL_INPUT_DEFER')
+                self.assertIsNone(row['proposal'])
+            elif len(source_id.encode())<=a.MAX_SOURCE_ID_BYTES:
+                self.assertEqual(row['proposal']['source_id'],source_id)
+            else:
+                self.assertEqual(row['status'],'NEURAL_BUDGET_DEFER')
+                self.assertIsNone(row['proposal'])
 
 
 if __name__=='__main__':unittest.main()

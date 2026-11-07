@@ -1,7 +1,7 @@
 """A replayable lesson coordinator over installed NABT learning/checking owners.
 
-It selects the next teaching obligation from observed receipts. It does not
-invent examples, grant expertise, call a model, or accept caller scoring labels.
+It selects the next teaching obligation from observed receipts. Versioned neural
+observations preserve the owner's decision; no caller scoring label grants authority.
 """
 from __future__ import annotations
 

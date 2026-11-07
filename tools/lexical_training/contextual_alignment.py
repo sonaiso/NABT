@@ -11,7 +11,7 @@ import subprocess
 
 from tools.grammar_catalog.operations import exact_terms
 from tools import lexical_testimony as owner
-from tools.evidence_lifecycle_v1 import wire
+from tools.evidence_lifecycle_v1 import ResourceLimit, wire
 from . import concepts, shared_encoder as shared
 
 ROOT = shared.ROOT
@@ -20,6 +20,7 @@ MODEL = DIRECTORY / "model.json"
 SCHEMA = "nabt.shared-contextual-alignment.v1"
 NULL = "__UNALIGNED__"
 MAX_TERMS = 32
+MAX_SOURCE_ID_BYTES = 256
 FEATURES = "SHARED_FORWARD_REVERSE_BYTE_BOUNDARIES_V1"
 
 
@@ -28,10 +29,10 @@ def validate_request(request):
         raise ValueError("Expected text and optional source locator, never labels or model paths")
     text = shared.validate_request({"text": request["text"]})
     source = request.get("source_id", "input")
-    if type(source) is not str or not source.strip() or len(source.encode()) > 128:
+    if type(source) is not str or not source.strip() or len(source.encode()) > MAX_SOURCE_ID_BYTES:
         raise ValueError("Invalid source locator")
     if len(exact_terms(text)) > MAX_TERMS:
-        raise ValueError("Occurrence budget exceeded; no silent truncation")
+        raise ResourceLimit("Occurrence budget exceeded; no silent truncation")
     return {"text": text, "source_id": source}
 
 
@@ -180,11 +181,17 @@ def observe_lesson(adapter, payload):
     for index,(source,text,pointer) in enumerate(sources):
         row={"source_id":source,"source_text":text,"input_pointer":pointer,
              "source_sha256":sha256(text.encode()).hexdigest(),"proposal":None}
-        if index >= 8 or len(text.encode()) > shared.MAX_BYTES or len(exact_terms(text)) > MAX_TERMS:
+        if (index >= 8 or len(text.encode()) > shared.MAX_BYTES or len(exact_terms(text)) > MAX_TERMS
+                or len(source.encode()) > MAX_SOURCE_ID_BYTES):
             row["status"]="NEURAL_BUDGET_DEFER"
         else:
-            row["proposal"]=align({"text":text,"source_id":source})
-            row["status"]=row["proposal"]["status"]
+            try:
+                row["proposal"]=align({"text":text,"source_id":source})
+                row["status"]=row["proposal"]["status"]
+            except (ResourceLimit, ValueError) as error:
+                # An optional observer may have a narrower input contract than
+                # an installed owner. Its refusal never rewrites that judgment.
+                row.update(status="NEURAL_INPUT_DEFER", reason=type(error).__name__)
         rows.append(row)
     return {"status":"OBSERVED" if all(r["status"] in ("PROPOSED","UNALIGNED") for r in rows) else "PARTIAL",
             "observations":rows,"owner_evidence_modified":False,
