@@ -217,7 +217,7 @@ class NativeAlignment(unittest.TestCase):
         lesson['schema']=teaching.SCHEMA_V3
         owner={'status':'SUPPORTED','source_answer':{'verification':{'native_receipt':{'checked':True}}},
                'conditional_result':None,'conditional_consequence':True}
-        for source_id in ('x'*129,'م'*128,'x'*257,' '*8):
+        for source_id in ('x'*129,'م'*128,'x'*257):
             lesson['payload']['source_id']=source_id
             with patch.object(teaching.source_bound,'evaluate_source',return_value=deepcopy(owner)):
                 result=teaching.run_lesson(lesson)
@@ -226,14 +226,17 @@ class NativeAlignment(unittest.TestCase):
             self.assertEqual(result['owner_result'],owner)
             row=result['episode']['neural_observation']['observations'][0]
             self.assertEqual(row['source_id'],source_id)
-            if not source_id.strip():
-                self.assertEqual(row['status'],'NEURAL_INPUT_DEFER')
-                self.assertIsNone(row['proposal'])
-            elif len(source_id.encode())<=a.MAX_SOURCE_ID_BYTES:
+            if len(source_id.encode())<=a.MAX_SOURCE_ID_BYTES:
                 self.assertEqual(row['proposal']['source_id'],source_id)
             else:
                 self.assertEqual(row['status'],'NEURAL_BUDGET_DEFER')
                 self.assertIsNone(row['proposal'])
+        # The lesson coordinator already rejects blank locators. Exercise the
+        # observer's own narrow-contract refusal directly, without bypassing it.
+        observed=a.observe_lesson('qualified_inference',{'source_id':' '*8,'source_text':'قلم'})
+        row=observed['observations'][0]
+        self.assertEqual(row['status'],'NEURAL_INPUT_DEFER')
+        self.assertIsNone(row['proposal'])
 
 
 if __name__=='__main__':unittest.main()
