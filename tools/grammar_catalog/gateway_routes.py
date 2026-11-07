@@ -10,6 +10,7 @@ ROUTES = {
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
     "concept.view": (("lexical-denotation", "mantuq-mafhum"), ("kind", "value", "view", "domain"), ()),
     "neural.propose": (("lexical-denotation", "identity", "morphology"), ("text",), ()),
+    "neural.align": (("lexical-denotation", "identity", "morphology"), ("text",), ("source_id",)),
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
@@ -67,6 +68,9 @@ def validate(route, payload):
     if route == "neural.propose":
         from tools.lexical_training.shared_encoder import validate_request
         validate_request(payload)
+    if route == "neural.align":
+        from tools.lexical_training.contextual_alignment import validate_request
+        validate_request(payload)
     if route in ("lexical.assess", "lexical.ontolex"):
         from .lexical_ontolex import validate as validate_lexical
         validate_lexical(payload)
@@ -95,6 +99,9 @@ def execute(route, payload, *, inside_worker=False):
     if route == "neural.propose":
         from tools.lexical_training.shared_encoder import propose
         return propose(p)
+    if route == "neural.align":
+        from tools.lexical_training.contextual_alignment import align
+        return align(p)
     if route in ("lexical.assess", "lexical.ontolex"):
         from .lexical_ontolex import assess, export
         return (export if route.endswith("ontolex") else assess)(p)
