@@ -44,6 +44,12 @@ def load_model(path=MODEL):
         raise ValueError("Model byte limit")
     raw = path.read_bytes()
     m = owner._strict_json(raw)
+    validate_model(m)
+    return m, sha256(raw).hexdigest()
+
+
+def validate_model(m):
+    """Validate the installed shared representation, also used by its extension."""
     if (type(m) is not dict or set(m) != {"schema", "architecture", "labels", "parameters", "concept_references",
                    "training_sha256", "protocol", "authority"}
             or m["schema"] != SCHEMA or m["authority"] != "NONE"
@@ -67,7 +73,7 @@ def load_model(path=MODEL):
     if set(m["parameters"]) != set(shapes) or any(
             not _shape(m["parameters"][k], dims) for k, dims in shapes.items()):
         raise ValueError("Model tensor shape or finite value invalid")
-    return m, sha256(raw).hexdigest()
+    return m
 
 
 def _linear(w, b, x):
@@ -78,18 +84,30 @@ def _sigmoid(x):
     return 1 / (1 + math.exp(-max(-700, min(700, x))))
 
 
-def logits(model, text):
+def states_for_ids(model, tokens):
+    """Internal encoder trajectory; callers retain the original byte trace."""
     p = model["parameters"]
     hidden = [0.] * HIDDEN
-    for token in byte_ids(text):
+    states = [hidden]
+    for token in tokens:
         i = _linear(p["gru.weight_ih_l0"], p["gru.bias_ih_l0"], p["embedding.weight"][token])
         h = _linear(p["gru.weight_hh_l0"], p["gru.bias_hh_l0"], hidden)
         r = [_sigmoid(i[j] + h[j]) for j in range(HIDDEN)]
         z = [_sigmoid(i[j + HIDDEN] + h[j + HIDDEN]) for j in range(HIDDEN)]
         n = [math.tanh(i[j + 2*HIDDEN] + r[j] * h[j + 2*HIDDEN]) for j in range(HIDDEN)]
         hidden = [(1-z[j]) * n[j] + z[j] * hidden[j] for j in range(HIDDEN)]
+        states.append(hidden)
+    return states
+
+
+def head_logits(model, hidden):
+    p = model["parameters"]
     return {head: _linear(p[f"heads.{head}.weight"], p[f"heads.{head}.bias"], hidden)
             for head in HEADS}
+
+
+def logits(model, text):
+    return head_logits(model, states_for_ids(model, byte_ids(text))[-1])
 
 
 def propose(request):

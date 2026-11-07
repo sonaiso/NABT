@@ -1839,3 +1839,7 @@ source, quotation/span, replay status and authored cross-source alignment.
 The dictionary-definition citation and an owner-row pointer do not replace
 these premises. Native controls cover blindness/sight and lion/courage;
 fresh gateway replay rejects dropping the premise even after rehashing.
+
+## Contextual occurrence alignment (2026-11-07)
+
+The shared byte encoder now has a contextual occurrence head with native definition identities, original UTF-8 spans, validation-only abstention and v3 lesson integration. This is learned proposal alignment, not intended-use acceptance or a new Python/Lean refinement theorem. The retained authored test has 45/62 correct alignments (F1 0.7627); the nearest-context baseline has 57/62 (F1 0.8769). Legacy diagnostic regressions and exact split/provenance limitations are retained in [the implementation report](CONTEXTUAL_ALIGNMENT_V1_AR.md). No general Arabic, audio or free-text-premise closure is claimed.

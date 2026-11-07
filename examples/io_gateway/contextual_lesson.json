@@ -1,0 +1,78 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "operation",
+  "payload": {
+    "schema": "nabt.operation-rag.request.v1",
+    "query": "تعلم العلاقة وراجع الشاهد",
+    "operation": "lesson",
+    "inputs": {
+      "lesson": {
+        "schema": "nabt.cognitive-lesson.v3",
+        "lesson_id": "source-rule-learning-and-revision",
+        "domain_id": "communication",
+        "matrix_id": "mafhum",
+        "adapter": "source_learning",
+        "payload": {
+          "schema": "nabt.acquired-knowledge.request.v1",
+          "scope": "تعلم_علاقة",
+          "sources": [
+            {
+              "id": "positive_example",
+              "text": "سالم هو عالم. سالم هو إنسان.",
+              "parents": []
+            },
+            {
+              "id": "counterexample",
+              "text": "ليس حجر هو عالم. ليس حجر هو إنسان.",
+              "parents": []
+            },
+            {
+              "id": "rule_a",
+              "text": "كل عالم هو إنسان.",
+              "parents": []
+            },
+            {
+              "id": "rule_b",
+              "text": "إذا كان ?ش هو عالم فإن ?ش هو إنسان.",
+              "parents": []
+            },
+            {
+              "id": "new_case",
+              "text": "نادر هو عالم.",
+              "parents": []
+            }
+          ],
+          "query": "هل نادر هو إنسان؟",
+          "initial_active": [
+            "positive_example",
+            "rule_a",
+            "rule_b",
+            "new_case"
+          ],
+          "events": [
+            {
+              "id": "learn_counterexample",
+              "kind": "activate",
+              "target": "counterexample"
+            },
+            {
+              "id": "withdraw_one_rule",
+              "kind": "withdraw",
+              "target": "rule_a"
+            },
+            {
+              "id": "withdraw_shared_case",
+              "kind": "withdraw",
+              "target": "new_case"
+            },
+            {
+              "id": "restore_case",
+              "kind": "activate",
+              "target": "new_case"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

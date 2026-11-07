@@ -24,6 +24,6 @@ check: io-gateway-native
 .PHONY: shared-cognition
 shared-cognition: io-gateway-build
 	cd formal && $(LAKE) build evidenceLifecycleV1
-	PYTHONPATH=src:. NABT_REQUIRE_SHARED_NATIVE=1 $(PYTHON) -m unittest tests.test_shared_cognition -v
+	PYTHONPATH=src:. NABT_REQUIRE_SHARED_NATIVE=1 $(PYTHON) -m unittest tests.test_shared_cognition tests.test_contextual_alignment -v
 
 check: shared-cognition

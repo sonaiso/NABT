@@ -1095,3 +1095,5 @@ make -f tools/aligned_acquisition.mk aligned-acquisition-conformance aligned-acq
 راجع [المعمارية](docs/ARCHITECTURE.md)، و[خطة الإكمال](docs/ROADMAP.md)، و[أصول البناء](docs/PROVENANCE.md). لا توجد تبعيات تشغيل أو وحدات فرعية أو روابط إلى المستودعات السابقة.
 
 For shared definition identity, operation-based teaching and the measured joint neural pilot, see [Shared cognition v1](docs/SHARED_COGNITION_V1_AR.md).
+
+تدريب محاذاة وقوعات النص بالمشفر المشترك وحدود قياسها: [المحاذاة السياقية](docs/CONTEXTUAL_ALIGNMENT_V1_AR.md).
