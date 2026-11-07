@@ -122,6 +122,41 @@ class NativeOntolex(unittest.TestCase):
         self.assertEqual(typed(report["graph"], "ontolex:LexicalConcept"), [])
         self.assertFalse(report["owner_result"]["all_arabic_complete"])
 
+    def test_commitment_premises_keep_separate_source_and_alignment_in_graph(self):
+        for entry, target, quotation in [("عمي", "البصر", "كالعمى والبصر"),
+                                          ("أسد", "الشجاعة", "كدلالة الأسد على الشجاعة")]:
+            report = lexical.export({"entry": entry, "target": [target]})
+            rows = report["owner_result"]["rows"]
+            nodes = typed(report["graph"], "nabt:ConditionalIndication")
+            self.assertTrue(nodes)
+            for row, node in zip(rows, nodes):
+                self.assertTrue(node["nabt:iltizam"])
+                encoded = node["nabt:commitmentConditions"]
+                self.assertEqual(encoded["@type"], "@json")
+                self.assertEqual(encoded["@value"], row["commitment_conditions"])
+                premise = encoded["@value"][0]
+                self.assertEqual(premise["target"], target)
+                self.assertEqual(premise["relation"], "MENTAL_NECESSITY_PREMISE")
+                self.assertEqual(premise["alignment_status"], "AUTHORED_CROSS_SOURCE_SENSE_ALIGNMENT")
+                citation = premise["source"]["citation"]
+                self.assertEqual(citation["work"], "shakhsiyya3")
+                self.assertEqual(citation["quotation"], quotation)
+                self.assertEqual(citation["end_byte"] - citation["start_byte"], len(quotation.encode()))
+                self.assertTrue(premise["source"]["source_file_replayed"])
+                self.assertEqual(row["testimony"]["citation"]["work"], "lisan")
+
+    def test_gateway_rejects_dropped_commitment_premise_after_rehash(self):
+        expected = request(entry="عمي", target=["البصر"])
+        report = gateway.run(expected)
+        self.assertEqual(report["status"], "EXECUTED")
+        self.assertTrue(gateway.accept_output(report, expected_request=expected)["valid"])
+        altered = deepcopy(report)
+        result = altered["execution"]["owner_result"]
+        node = typed(result["graph"], "nabt:ConditionalIndication")[0]
+        node["nabt:commitmentConditions"]["@value"] = []
+        result["graph_sha256"] = sha256(wire(result["graph"]).encode()).hexdigest()
+        self.assertFalse(gateway.accept_output(altered, expected_request=expected)["valid"])
+
     def test_indication_is_not_physical_part_or_reverse_association(self):
         for entry, target in [("فهم", ["القلب"]), ("بصر", ["ذهاب البصر كله"])]:
             report = lexical.export({"entry": entry, "target": target})

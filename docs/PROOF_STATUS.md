@@ -1795,7 +1795,7 @@ as an acquired canonical form or an external-world referent.
 Gateway snapshot/replay now also binds the retained lexical catalogue and its
 fixed source files. A changed source, removed alternative, altered independent
 request, or self-rehashed output cannot grant admission. The native admission
-target includes the lexical executable and the 12 new boundary/export tests,
+target includes the lexical executable and the 14 new boundary/export tests,
 alongside the existing relational and cognitive gateway checks. The existing
 lexical-denotation reuse family supplies the proof/test references; no competing
 registry or new Lean theorem is introduced. The current proof selector remains
@@ -1807,3 +1807,10 @@ authenticity, world truth, general Python/Lean refinement, or learning gains.
 SHAP values are not used as linguistic evidence. Existing training admission and
 historical weights retain their original contracts. See
 `docs/RATIONAL_RAG_ONTOLEX_AR.md` for the source/method mapping and replay commands.
+
+The standalone JSON-LD indication node also preserves the complete ordered
+`commitment_conditions` as an `@json` value, including each separate premise
+source, quotation/span, replay status and authored cross-source alignment.
+The dictionary-definition citation and an owner-row pointer do not replace
+these premises. Native controls cover blindness/sight and lion/courage;
+fresh gateway replay rejects dropping the premise even after rehashing.

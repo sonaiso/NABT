@@ -83,6 +83,11 @@ def _concept_graph(owner):
             {"@id": evaluation, "@type": "nabt:ConditionalIndication",
              "nabt:assessment": {"@id": receipt}, "nabt:concept": {"@id": concept},
              **{"nabt:" + kind: value for kind, value in row["indications"].items()},
+             # JSON-LD 1.1's JSON literal retains the complete ordered owner
+             # premises, including nested citations and alignment limitations.
+             # A pointer alone would lose these when the graph is consumed alone.
+             "nabt:commitmentConditions": {"@type": "@json",
+                 "@value": deepcopy(row["commitment_conditions"])},
              "nabt:ownerRowPointer": "/owner_result/rows/" + str(index),
              "nabt:worldTruthEstablished": False},
         ])
