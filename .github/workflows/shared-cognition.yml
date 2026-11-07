@@ -1,0 +1,51 @@
+name: NABT shared concept and neural learning
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-shared-cognition-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shared-learning:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Install verified native and CPU dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zstd
+          python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
+          python -m pip install numpy==2.3.5
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Check identity, evidence and gateway replay
+        run: |
+          make proof-catalog LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+          make shared-cognition LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Require real shared training and portable parity
+        env:
+          PYTHONPATH: src:.
+          NABT_REQUIRE_SHARED_TRAINING: '1'
+        run: |
+          python -m unittest tests.test_shared_training -v
+          python -m tools.lexical_training.shared_training --run-dir artifacts/local/shared-current
+      - name: Preserve first evaluation and all model heads
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: shared-cognition-current
+          path: artifacts/local/shared-current/
+          if-no-files-found: error
+          retention-days: 14

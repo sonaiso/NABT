@@ -7,6 +7,9 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
+    "concept.view": (("lexical-denotation", "mantuq-mafhum"), ("kind", "value", "view", "domain"), ()),
+    "neural.propose": (("lexical-denotation", "identity", "morphology"), ("text",), ()),
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
@@ -56,6 +59,14 @@ def validate(route, payload):
     if route == "operation":
         from .operation_rag import validate_request
         validate_request(payload)
+    if route == "concept.view":
+        from tools.lexical_training.concepts import validate as validate_concept
+        validate_concept(payload)
+    if route == "concept.matrix" and (type(payload["version"]) is not int or payload["version"] != 1):
+        raise ValueError("Unknown RAG view version")
+    if route == "neural.propose":
+        from tools.lexical_training.shared_encoder import validate_request
+        validate_request(payload)
     if route in ("lexical.assess", "lexical.ontolex"):
         from .lexical_ontolex import validate as validate_lexical
         validate_lexical(payload)
@@ -75,6 +86,15 @@ def validate(route, payload):
 
 def execute(route, payload, *, inside_worker=False):
     p = validate(route, payload)
+    if route == "concept.matrix":
+        from tools.lexical_training.rag_views import inventory
+        return inventory()
+    if route == "concept.view":
+        from tools.lexical_training.concepts import evaluate
+        return evaluate(p)
+    if route == "neural.propose":
+        from tools.lexical_training.shared_encoder import propose
+        return propose(p)
     if route in ("lexical.assess", "lexical.ontolex"):
         from .lexical_ontolex import assess, export
         return (export if route.endswith("ontolex") else assess)(p)

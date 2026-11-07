@@ -18,6 +18,7 @@ from . import reasoning_curriculum as curriculum
 from tools.grammar_catalog import temporal
 
 SCHEMA = "nabt.cognitive-lesson.v1"
+SCHEMA_V2 = "nabt.cognitive-lesson.v2"
 RESULT_SCHEMA = "nabt.cognitive-lesson-result.v1"
 ADAPTERS = set(curriculum.SHARED_ADAPTERS)
 MAX_RESULT_BYTES = 16 * 1024 * 1024
@@ -27,9 +28,13 @@ def _fields(value, names, label):
     wire_owner._fields(value, names, label)
 
 
-def _identity(adapter=None):
+def _identity(adapter=None, shared=False):
     paths = ("tools/lexical_training/teaching.py", "tools/lexical_training/reasoning_curriculum.py",
              curriculum.REVIEW)
+    if shared:
+        paths += ("tools/lexical_training/concepts.py", "tools/lexical_training/shared_encoder.py",
+                  "evidence/shared_cognition_v1/model.json", "evidence/lexical_denotation/catalog.json",
+                  "formal/.lake/build/bin/lexicalDenotation")
     if adapter == "grounded_passage":
         paths += ("tools/lexical_training/grounded_passage.py", "formal/GroundedPassageMain.lean",
                   "formal/Nabt/GroundedPassage.lean",
@@ -37,13 +42,15 @@ def _identity(adapter=None):
     if adapter == "temporal_context":
         paths += ("tools/grammar_catalog/temporal.py", "formal/TemporalContextProbe.lean",
                   "formal/Nabt/TemporalContext.lean")
-    return {p: hashlib.sha256((curriculum.ROOT / p).read_bytes()).hexdigest() for p in paths}
+    optional_resources = {"evidence/shared_cognition_v1/model.json", "formal/.lake/build/bin/lexicalDenotation"}
+    return {p: ("UNAVAILABLE" if p in optional_resources and not (curriculum.ROOT / p).is_file()
+                else hashlib.sha256((curriculum.ROOT / p).read_bytes()).hexdigest()) for p in paths}
 
 
 def _validate(lesson):
     wire_owner._encoded(lesson, wire_owner.MAX_REQUEST_BYTES)
     _fields(lesson, ("schema", "lesson_id", "domain_id", "matrix_id", "adapter", "payload"), "lesson")
-    if lesson["schema"] != SCHEMA:
+    if lesson["schema"] not in (SCHEMA, SCHEMA_V2):
         raise ValueError("Unknown lesson schema")
     wire_owner._text(lesson["lesson_id"], "lesson_id", 128)
     for key in ("domain_id", "matrix_id", "adapter"):
@@ -113,10 +120,11 @@ def _next(owner, adapter, measured):
 def run_lesson(lesson):
     # Choose from installed identity sets before validation; freeze once.
     adapter = lesson.get("adapter") if type(lesson) is dict else None
+    shared = type(lesson) is dict and lesson.get("schema") == SCHEMA_V2
     result = {"schema": RESULT_SCHEMA, "status": "INVALID_INPUT", "request": None,
               "routing_policy_id": curriculum.ROUTING_POLICY,
               "execution_measured": False, "owner_result": None, "measurements": None,
-              "next_step": None, "curriculum_identity": _identity(adapter),
+              "next_step": None, "curriculum_identity": _identity(adapter, shared),
               "limits": {"matrix_complete": False, "domain_expertise_certified": False,
                          "world_truth_established": False, "action_authority": "NONE",
                          "empirical_causality_established": False,
@@ -127,7 +135,12 @@ def run_lesson(lesson):
     try:
         matrix = _validate(lesson)
         result["request"] = deepcopy(lesson)
-        if lesson["adapter"] not in matrix[3]:
+        v2 = lesson["schema"] == SCHEMA_V2
+        if v2:
+            result["schema"] = "nabt.cognitive-lesson-result.v2"
+            result["routing_policy_id"] = "nabt.operation-evidence-routing.v3"
+            result["view_role"] = "CURRICULUM_VIEW_NOT_OPERATION_OR_CONCEPT_IDENTITY"
+        if not v2 and lesson["adapter"] not in matrix[3]:
             result.update(status="DEFER", next_step={"action": "IMPLEMENT_ACQUISITION_CONTRACT",
                           "obligation_ar": matrix[4]})
             return result
@@ -155,7 +168,8 @@ def run_lesson(lesson):
             if type(payload["plan"]) is not dict:
                 raise ValueError("Source plan required")
             policy = payload["plan"].get("policy_id")
-            if type(policy) is not str or lesson["matrix_id"] not in curriculum.POLICY_MATRICES.get(policy, set()):
+            if (type(policy) is not str or policy not in curriculum.POLICY_MATRICES
+                    or (not v2 and lesson["matrix_id"] not in curriculum.POLICY_MATRICES[policy])):
                 raise ValueError("Installed policy does not serve the requested matrix")
             owner = source_bound.evaluate_source(payload["source_text"].encode(), payload["query_text"].encode(),
                 payload["plan"], **{k: payload[k] for k in ("source_id", "revision", "scope", "context", "time")})
@@ -176,9 +190,22 @@ def run_lesson(lesson):
                             "trace_pointer": "/owner_result/execution"}
         result.update(status=owner["status"], execution_measured=measured, owner_result=owner,
                       measurements=measurements, next_step=_next(owner, adapter, measured))
-        if result["curriculum_identity"] != _identity(adapter):
+        if v2:
+            # Retain the actual owner history and evidence, not a copied concept
+            # per curriculum label. This key identifies an operation, not truth.
+            operation = {"adapter": adapter, "payload": payload}
+            result["episode"] = {
+                "operation_sha256": hashlib.sha256(wire_owner.wire(operation).encode()).hexdigest(),
+                "operation": operation, "owner_result_pointer": "/owner_result",
+                "history_pointer": "/owner_result/history" if adapter == "source_learning" else None,
+                "semantic_alignment": "OWNER_IDENTITIES_RETAINED_NO_NEW_LEXICAL_ALIGNMENT",
+                "view": lesson["matrix_id"], "domain": lesson["domain_id"],
+                "policy_id": payload.get("plan", {}).get("policy_id")}
+            from .shared_encoder import observe_lesson
+            result["episode"]["neural_observation"] = observe_lesson(adapter, payload)
+        if result["curriculum_identity"] != _identity(adapter, shared):
             raise ValueError("Curriculum changed during execution")
-        wire_owner._encoded(result, MAX_RESULT_BYTES)
+        wire_owner._encoded(result, MAX_RESULT_BYTES, floats=shared)
     except wire_owner.ResourceLimit as error:
         result.update(status="RESOURCE_LIMIT", execution_measured=False, error=str(error),
                       owner_result=None, measurements=None, next_step=None)
@@ -192,7 +219,9 @@ def verify_lesson(report, *, expected_lesson):
     """No receipt may supply its own inputs or suppress the fresh owner run."""
     try:
         actual = run_lesson(expected_lesson)
-        matches = wire_owner._encoded(report, MAX_RESULT_BYTES) == wire_owner._encoded(actual, MAX_RESULT_BYTES)
+        shared = expected_lesson.get("schema") == SCHEMA_V2
+        matches = (wire_owner._encoded(report, MAX_RESULT_BYTES, floats=shared) ==
+                   wire_owner._encoded(actual, MAX_RESULT_BYTES, floats=shared))
         return {"valid": matches and actual["execution_measured"], "replay_matches": matches,
                 "status": actual["status"] if matches else "INVALID_RECEIPT"}
     except (ValueError, TypeError, RecursionError):

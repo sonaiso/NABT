@@ -1,5 +1,30 @@
 # ما هو مبرهن وما هو مفحوص
 
+## Shared concept continuity and joint neural pilot — 2026-11-07
+
+The current selector now points to `evidence/shared_cognition_v1/integration`;
+all seven compiled/source views move together and historical snapshots remain
+unchanged. The manifest contains 1,641 declarations (1,638 normalized groups),
+including 12 `ConceptContinuity` theorems over the existing meaning language.
+These prove view invariance and conditional connections to existing lexical
+and inference laws, not free-text semantic acquisition or general refinement.
+
+`concept.view`, `concept.matrix`, and `neural.propose` use the sole external
+gateway. OntoLex carries the same native definition identity and all commitment
+premises, including source quotations and alignment conditions. Lesson v2
+routes by installed operation/policy instead of treating curriculum views as
+separate concept systems; v1 remains replayable.
+
+The retained first joint run has 6,695 parameters, 94 training rows, 100 updates,
+and 47 diagnostic rows. Morphological/reading/attachment heads score 27/27 on
+bounded root/stem contrasts; the exposed seen-sense head scores 9/18 and the
+witness head 41/47 (below the byte-neighbour baseline's 44/47). All outputs are
+proposals, retaining every concept alternative. See
+[the implementation, scope and acceptance gates](SHARED_COGNITION_V1_AR.md).
+Dedicated native and fresh CPU-training gates are required; references to those
+gates are not themselves claims that a release run passed.
+
+
 هذه الوثيقة تفصل نتائج Lean عن اختبارات التنفيذ وعن صحة الافتراضات اللغوية. النجاح في طبقة لا ينتقل آليًا إلى الطبقة التالية.
 
 ## مصفوفة الأجناس والخواص والعلاقات عبر البوابة

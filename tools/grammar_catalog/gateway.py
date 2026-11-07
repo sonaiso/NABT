@@ -37,7 +37,7 @@ def snapshot():
             value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
-    lexical_sources = (str(lexical_testimony.CATALOG),) + tuple(
+    lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
     for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml") + lexical_sources:
         path = ROOT / relative

@@ -28,7 +28,8 @@ def typed(graph, kind):
 
 class LexicalBoundary(unittest.TestCase):
     def test_retained_testimony_mutation_changes_gateway_identity(self):
-        paths = ["AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", str(lexical_testimony.CATALOG)]
+        paths = ["AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", str(lexical_testimony.CATALOG),
+                 "evidence/shared_cognition_v1/model.json"]
         paths += [p for _, _, p in lexical_testimony.SOURCES.values() if p is not None]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

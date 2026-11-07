@@ -47,6 +47,8 @@ def _concept_graph(owner):
     """Internal projection of a freshly checked owner, never caller input."""
     catalogue = "urn:nabt:lexical-catalog:" + owner["catalogue_sha256"]
     receipt = "urn:nabt:lexical-assessment:" + sha256(wire(owner).encode()).hexdigest()
+    from tools.lexical_training.concepts import catalogue as shared_catalogue
+    shared = {r["sense"]["id"]: r["reference"] for r in shared_catalogue()["concepts"]}
     graph = [{"@id": catalogue, "@type": "ontolex:ConceptSet",
               "nabt:catalogueSHA256": owner["catalogue_sha256"]},
              {"@id": receipt, "@type": "nabt:ConditionalAssessment",
@@ -58,7 +60,8 @@ def _concept_graph(owner):
               "nabt:worldTruthEstablished": False,
               "nabt:intendedSenseEstablished": False}]
     for index, row in enumerate(owner["rows"]):
-        concept = catalogue + ":concept:" + quote(row["sense_id"], safe="")
+        identity = shared[row["sense_id"]]
+        concept = "urn:nabt:concept:" + quote(identity["id"], safe="") + ":" + identity["definition_sha256"]
         citation = concept + ":citation"
         evaluation = receipt + ":sense:" + quote(row["sense_id"], safe="")
         testimony = row["testimony"]
@@ -67,6 +70,7 @@ def _concept_graph(owner):
             {"@id": concept, "@type": "ontolex:LexicalConcept",
              "skos:inScheme": {"@id": catalogue},
              "nabt:sourceSenseID": row["sense_id"],
+             "nabt:sharedDefinition": {"@type": "@json", "@value": deepcopy(identity)},
              "nabt:dictionaryIndex": _literal(owner["entry"]),
              "nabt:definitionComponents": {"@list": [_literal(c) for c in row["components"]]},
              "nabt:interpretationStatus": row["interpretation_status"],
