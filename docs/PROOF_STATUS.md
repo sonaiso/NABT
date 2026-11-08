@@ -1907,3 +1907,21 @@ and v2; its guard reverses only the original timeout edit plus the exact token
 environment at the existing Lean install step, then checks the original bytes.
 Commands, permissions and semantic scoring remain unchanged. The 26 focused
 bootstrap/migration/current-reference/oracle tests pass after these repairs.
+
+## Source-use witness bridge v1 (2026-11-08)
+
+The optional `usage_context` on the existing graph/orchestration routes reuses
+`LinguisticTruth` native acquisition and the existing dispatch table. Lexical and
+discourse evidence now survives the orchestration-to-graph handoff. Conditional
+use applications are recorded separately from grounded concept applications.
+One authored lion-sense alignment reuses the existing lexical concept ID; it is
+not an independently adjudicated equivalence theorem. Other usage meanings keep
+their existing owner IDs. No Lean declaration, neural weight or frozen benchmark
+answer changes in this adapter.
+
+The full orchestrator still defers the documented metalinguistic examples at
+their unsupported article-bearing A116 hosts. Positive usage checks through
+`neural.graph` do not claim passage through those lower gates or world grounding.
+See `USAGE_WITNESS_BRIDGE_V1_AR.md`. Required validation is the native
+`cognitive-orchestration` gate, existing owner regressions and the public
+`make check` gate; consult the current PR for measured results and CI status.

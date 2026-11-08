@@ -53,7 +53,7 @@ def dispatch(cursor, layer, profile, mask, *, policy=None):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request) - {
-            "text", "source_id", "lexical_text", "context", "mode"}:
+            "text", "source_id", "lexical_text", "context", "mode", "usage_context"}:
         raise ValueError("Expected source and installed owner inputs; caller licenses are forbidden")
     _encoded(request, 262144)
     from tools.lexical_training.contextual_alignment import validate_request
@@ -67,6 +67,9 @@ def validate(request):
         raise ValueError("Expected bounded lexical evidence text")
     if "context" in request and type(request["context"]) is not dict:
         raise ValueError("Expected existing discourse context")
+    if "usage_context" in request:
+        from .usage_witness import validate_context
+        validate_context(request["usage_context"])
     return deepcopy(request)
 
 
@@ -160,7 +163,8 @@ def run(request):
             ceiling = "SOURCE_RELATIVE_MANTUQ_PROJECTION_NOT_WORLD_TRUTH"
         else:
             from tools.lexical_training.cognitive_graph import analyze
-            graph = analyze({"text": p["text"], "source_id": source["id"]})
+            graph = analyze({"text": p["text"], "source_id": source["id"],
+                             **{k: p[k] for k in ("lexical_text", "context", "usage_context") if k in p}})
             result = graph; closed = False
             ceiling = "NEURAL_DEFINITION_PROPOSALS_NOT_GROUNDED_APPLICATIONS"
         reports[name] = result
@@ -179,6 +183,12 @@ def run(request):
     networks = [{"id": network, "view_ids": [v["id"] for v in policy["views"] if network in v["networks"]],
                  "concept_ids_ref": "/canonical_concept_ids", "new_concept_ids": [],
                  "learned_separate_network": False} for network in ("S", "C", "M", "G", "A")]
+    special = [{"profile": profile, "dispatch": "NOT_DISPATCHED",
+                "reason": "OWNER_TO_CONDITION_BUNDLE_BRIDGE_OPEN"} for profile in policy["profiles"][1:]]
+    if graph is not None and "usage_witness" in graph:
+        from .usage_witness import dispatch_majaz
+        special[0] = dispatch_majaz(graph["usage_witness"], source=source, cursor=5,
+                                   predecessor=ledger[-2], policy=policy)
     return {"schema": SCHEMA, "status": "DEFER", "source": source,
             "orchestrator": {"id": "truth-interpretation-dispatch", "kind": "CONTROL_OPERATOR",
                              "concept_id": None, "trainable_parameters": 0, "law_id": policy["law_id"],
@@ -186,15 +196,15 @@ def run(request):
             "canonical_concept_ids": ids, "networks": networks,
             "view_bindings": policy["views"], "dispatch_ledger": ledger, "owner_reports": reports,
             "stopped_at": ledger[-1]["name"], "unexecuted_layers": policy["layers"][len(ledger):],
-            "special_gates": [{"profile": profile, "dispatch": "NOT_DISPATCHED",
-                "reason": "OWNER_TO_CONDITION_BUNDLE_BRIDGE_OPEN"} for profile in policy["profiles"][1:]],
+            "special_gates": special,
             "awamil": {"count": policy["awamil_count"], "partition": policy["awamil_partition"],
                        "speech_partition_82_18_established": False, "pruned_by_speech_type": False},
             "learning_records": {"refs": [r["record_id"] for r in ledger],
                 "unreviewed_records_are_labels": False, "automatic_weight_update": False},
             "world_truth_established": False, "all_eighteen_mastered": False,
             "open_obligations": ["OCCURRENCE_INTERPRETATION_AND_GROUNDED_CONCEPT_APPLICATION",
-                "MAJAZ_ANALOGY_DIVISION_OWNER_BUNDLE_BRIDGES", "INDEPENDENT_REVIEW_BEFORE_TRAINING"]}
+                "GENERAL_ARABIC_USE_ACQUISITION_AND_WORLD_GROUNDING",
+                "ANALOGY_DIVISION_OWNER_BUNDLE_BRIDGES", "INDEPENDENT_REVIEW_BEFORE_TRAINING"]}
 
 
 def verify(report, *, expected_request):
