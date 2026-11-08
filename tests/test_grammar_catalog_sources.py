@@ -8,7 +8,7 @@ import unittest
 
 from tools.grammar_catalog.catalog import (
     AUTHORITY, CatalogError, INPUT_SHA256, ROOT, build_catalog,
-    catalog_sha256, validate_catalog,
+    catalog_sha256, validate_catalog, _line_offsets,
 )
 
 
@@ -19,6 +19,18 @@ class GrammarCatalogSourceTests(unittest.TestCase):
         cls.passages = {p["passage_id"]: p for p in cls.catalog["passages"]}
         cls.rules = {r["rule_key"]: r for r in cls.catalog["rules"]}
         cls.sources = {s["source_id"]: s for s in cls.catalog["sources"]}
+
+    def test_line_offsets_preserve_literal_byte_boundaries(self):
+        # Independent byte-wise oracle, including every byte value and UTF-8
+        # marks. CR, VT, FF, NEL and Unicode separators are not LF delimiters.
+        cases = [b'', b'\n', b'\n\n', b'a\nb', b'a\n', bytes(range(256))*2,
+                 'كَتَبَ\r\nكُتِبَ\u2028\u0085\v\fآخر\n'.encode()]
+        cases.extend((ROOT / s['local_path']).read_bytes()
+                     for s in self.sources.values() if s['content_available'])
+        for raw in cases:
+            with self.subTest(bytes=len(raw)):
+                expected = [0] + [i+1 for i, value in enumerate(raw) if value == 10]
+                self.assertEqual(_line_offsets(raw), expected)
 
     def test_denominators_do_not_count_book_segments_as_rules(self):
         coverage = self.catalog["coverage"]
