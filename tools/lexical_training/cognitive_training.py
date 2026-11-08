@@ -183,8 +183,14 @@ def train_run(directory, *, gradient_mode="pcgrad", epochs=None):
     torch.manual_seed(protocol["seed"])
     generator = torch.Generator().manual_seed(protocol["seed"])
     partitions = data.dataset()
-    review = json.loads(REVIEW.read_text())
-    fresh = json.loads(FRESH.read_text())
+    # Parse and identify precisely the bytes used by this run. Never rebind an
+    # already trained model to annotations that appeared later on disk.
+    retained_inputs = {"review": (REVIEW, REVIEW.read_bytes()),
+                       "fresh": (FRESH, FRESH.read_bytes())}
+    input_hashes = {name + "_sha256": sha256(raw).hexdigest()
+                    for name, (_, raw) in retained_inputs.items()}
+    review = json.loads(retained_inputs["review"][1])
+    fresh = json.loads(retained_inputs["fresh"][1])
     if set(r["text"] for r in fresh["rows"]) & set(r["text"] for v in partitions.values() for r in v):
         raise ValueError("Fresh transfer text overlaps retained corpus")
     for row in fresh["rows"]:
@@ -192,8 +198,7 @@ def train_run(directory, *, gradient_mode="pcgrad", epochs=None):
     directory = Path(directory); directory.mkdir(parents=True, exist_ok=False)
     previous.save(directory / "protocol.json", {"protocol": protocol,
                   "partition_hashes": {k: data.digest(v) for k, v in partitions.items()},
-                  "review_sha256": sha256(REVIEW.read_bytes()).hexdigest(),
-                  "fresh_sha256": sha256(FRESH.read_bytes()).hexdigest()})
+                  **input_hashes})
     if review["source_corpus_sha256"] != sha256(data.CORPUS.read_bytes()).hexdigest():
         raise ValueError("Review corpus changed")
     train, validation = partitions["train"], partitions["validation"]
@@ -295,12 +300,16 @@ def train_run(directory, *, gradient_mode="pcgrad", epochs=None):
               "parameters": sum(p.numel() for p in model.parameters()), "history": history,
               "warm_start_sha256": base_sha, "torch_version": torch.__version__,
               "weights_sha256": sha256((directory / "model.json").read_bytes()).hexdigest(),
-              "review_sha256": sha256(REVIEW.read_bytes()).hexdigest(),
-              "fresh_sha256": sha256(FRESH.read_bytes()).hexdigest(),
+              **input_hashes,
               "partition_hashes": {k: data.digest(v) for k, v in partitions.items()},
               "world_truth_established": False, "all_fourteen_learned": False,
               "independent_semantic_adjudication": False, "predictions_grant_authority": False}
-    for name, obj in [("FIRST_TEST.json", report), ("train.json", train), ("validation.json", validation), ("test.json", frozen_test)]:
+    for name, (path, raw) in retained_inputs.items():
+        if path.read_bytes() != raw:
+            raise ValueError("Training input changed: " + name)
+    # FIRST_TEST is the completion receipt; partial weights are not a finished
+    # evaluation when an input was replaced during training.
+    for name, obj in [("train.json", train), ("validation.json", validation), ("test.json", frozen_test), ("FIRST_TEST.json", report)]:
         previous.save(directory / name, obj)
     return {k: v for k, v in report.items() if k != "history"}
 

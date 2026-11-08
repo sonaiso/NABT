@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from tools.lexical_training import cognitive_training as c
 
@@ -67,6 +68,10 @@ class CognitiveTraining(unittest.TestCase):
     def test_real_encoder_updates_and_portable_parity_without_test_selection(self):
         with tempfile.TemporaryDirectory() as root:
             result = c.train_run(Path(root)/'run', epochs=2)
+            protocol = json.loads((Path(root)/'run/protocol.json').read_text())
+            for field, path in [('review_sha256', c.REVIEW), ('fresh_sha256', c.FRESH)]:
+                self.assertEqual(result[field], c.sha256(path.read_bytes()).hexdigest())
+                self.assertEqual(protocol[field], result[field])
         self.assertEqual(result['optimizer_steps'], 2)
         self.assertGreater(result['shared_encoder_delta_l2'], 0)
         self.assertFalse(result['protocol']['test_selection'])
@@ -74,6 +79,31 @@ class CognitiveTraining(unittest.TestCase):
             self.assertLess(evaluation['portable_max_abs_error'], 1e-4)
             self.assertGreater(evaluation['neural']['unreviewed_tokens'], 0)
         self.assertFalse(result['predictions_grant_authority'])
+
+    def test_changed_annotations_cannot_complete_with_rebound_identity(self):
+        save = c.previous.save
+        for replaced in ('review', 'fresh'):
+            with self.subTest(input=replaced), tempfile.TemporaryDirectory() as root:
+                paths = {name: Path(root)/(name+'.json') for name in ('review', 'fresh')}
+                for name, original in [('review', c.REVIEW), ('fresh', c.FRESH)]:
+                    paths[name].write_bytes(original.read_bytes())
+                retained = {name: c.sha256(path.read_bytes()).hexdigest() for name, path in paths.items()}
+                def replace_after_protocol(path, value):
+                    save(path, value)
+                    if path.name == 'protocol.json':
+                        # Valid JSON, different bytes: no parser failure may
+                        # hide a provenance mismatch after the initial read.
+                        with paths[replaced].open('ab') as stream:
+                            stream.write(b'\n')
+                run = Path(root)/'run'
+                with patch.object(c, 'REVIEW', paths['review']), patch.object(c, 'FRESH', paths['fresh']), \
+                     patch.object(c.previous, 'save', side_effect=replace_after_protocol):
+                    with self.assertRaisesRegex(ValueError, 'Training input changed: '+replaced):
+                        c.train_run(run, epochs=1)
+                self.assertFalse((run/'FIRST_TEST.json').exists())
+                protocol = json.loads((run/'protocol.json').read_text())
+                for name, digest in retained.items():
+                    self.assertEqual(protocol[name+'_sha256'], digest)
 
 
 if __name__ == '__main__': unittest.main()

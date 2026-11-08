@@ -119,5 +119,39 @@ class NativeCognitiveGraph(unittest.TestCase):
         self.assertIsNotNone(receipt['proof_test_links']['curriculum_links'])
         self.assertTrue(gateway.accept_output(receipt, expected_request=request)['valid'])
 
+    @unittest.skipUnless((c.shared.ROOT/'formal/.lake/build/bin/evidenceLifecycleV1').is_file(), 'build lifecycle')
+    def test_v4_optional_graph_resources_do_not_suppress_owner(self):
+        lesson = json.loads((c.shared.ROOT/'examples/cognitive_teaching/learning.json').read_text())
+        baseline = teaching.run_lesson(lesson)
+        lesson['schema'] = teaching.SCHEMA_V4
+        read_bytes, read_text = Path.read_bytes, Path.read_text
+        for missing in (c.MODEL, c.TRAIN):
+            with self.subTest(missing=missing.name):
+                def missing_bytes(path):
+                    if path == missing:
+                        raise FileNotFoundError(str(path))
+                    return read_bytes(path)
+                def missing_text(path, *args, **kwargs):
+                    if path == missing:
+                        raise FileNotFoundError(str(path))
+                    return read_text(path, *args, **kwargs)
+                with patch.object(Path, 'read_bytes', missing_bytes), patch.object(Path, 'read_text', missing_text):
+                    result = teaching.run_lesson(lesson)
+                    snapshot = gateway.snapshot()
+                    self.assertEqual(snapshot['files'][missing.relative_to(c.shared.ROOT).as_posix()], 'UNAVAILABLE')
+                    other = c.TRAIN if missing == c.MODEL else c.MODEL
+                    self.assertEqual(snapshot['files'][other.relative_to(c.shared.ROOT).as_posix()],
+                                     sha256(read_bytes(other)).hexdigest())
+                    self.assertTrue(teaching.verify_lesson(result, expected_lesson=lesson)['valid'])
+                self.assertEqual(result['status'], baseline['status'])
+                self.assertEqual(result['owner_result'], baseline['owner_result'])
+                self.assertTrue(result['execution_measured'])
+                observation = result['episode']['neural_observation']
+                self.assertEqual(observation['status'], 'PARTIAL')
+                self.assertTrue(all(r['proposal']['neural_observation']['status'] == 'DEFER'
+                                    for r in observation['observations']))
+                # Restoring an optional file changes identity and rejects replay.
+                self.assertFalse(teaching.verify_lesson(result, expected_lesson=lesson)['valid'])
+
 
 if __name__ == '__main__': unittest.main()
