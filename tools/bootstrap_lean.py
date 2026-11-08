@@ -20,6 +20,9 @@ import urllib.request
 VERSION = "4.34.1"
 ARCHIVE = f"lean-{VERSION}-linux.tar.zst"
 URL = f"https://github.com/leanprover/lean4/releases/download/v{VERSION}/{ARCHIVE}"
+# Official release asset identity, verified against the v4.34.1 release API.
+# A second official route avoids repeatedly hitting a cached browser-URL 504.
+ASSET_URL = "https://api.github.com/repos/leanprover/lean4/releases/assets/586761733"
 SHA256 = "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4"
 
 
@@ -28,7 +31,9 @@ def download_verified(archive, *, attempts=5):
     partial = archive.with_suffix(archive.suffix + ".partial")
     for attempt in range(attempts):
         try:
-            request = urllib.request.Request(URL, headers={"User-Agent": "NABT-pinned-toolchain/1"})
+            url = URL if attempt == 0 else ASSET_URL
+            request = urllib.request.Request(url, headers={"User-Agent": "NABT-pinned-toolchain/1",
+                                                          "Accept": "application/octet-stream"})
             with urllib.request.urlopen(request, timeout=120) as response, partial.open("wb") as out:
                 shutil.copyfileobj(response, out, length=1024 * 1024)
             if digest(partial) != SHA256:

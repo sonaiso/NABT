@@ -15,6 +15,9 @@ class BootstrapTests(unittest.TestCase):
             with patch.object(b.urllib.request, "urlopen", side_effect=[HTTPError(b.URL,504,"timeout",{},None), BytesIO(data)]) as fetch:
                 b.download_verified(p)
             self.assertEqual(p.read_bytes(), data);self.assertEqual(fetch.call_count,2);wait.assert_called_once_with(1)
+            self.assertEqual(fetch.call_args_list[0].args[0].full_url,b.URL)
+            self.assertEqual(fetch.call_args_list[1].args[0].full_url,b.ASSET_URL)
+            self.assertEqual(fetch.call_args_list[1].args[0].get_header("Accept"),"application/octet-stream")
             self.assertFalse(p.with_suffix(".zst.partial").exists())
 
     def test_digest_failure_is_not_retried_or_installed(self):

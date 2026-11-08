@@ -1888,3 +1888,8 @@ conditional stage closure, missing special-gate bridges and the unsupported
 82/18 governor partition are documented in `COGNITIVE_ORCHESTRATION_V1_AR.md`.
 Full validation and remote run status must be read from the current PR and the
 retained verification record; this entry does not claim a completed release gate.
+
+The first retry-only remote run still received cached HTTP504 responses. Subsequent
+attempts now use the official GitHub asset API for the same pinned release asset
+586761733, with octet-stream negotiation and the unchanged SHA-256. Local probes
+confirmed the release metadata digest and the asset download content type.
