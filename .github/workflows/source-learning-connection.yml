@@ -23,6 +23,8 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install pinned and digest-checked Lean
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y zstd

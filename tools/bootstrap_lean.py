@@ -14,6 +14,7 @@ import subprocess
 import sys
 import time
 import http.client
+import os
 import urllib.error
 import urllib.request
 
@@ -26,15 +27,32 @@ ASSET_URL = "https://api.github.com/repos/leanprover/lean4/releases/assets/58676
 SHA256 = "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4"
 
 
+class AssetRedirect(urllib.request.HTTPRedirectHandler):
+    """Never forward a GitHub API credential to the signed asset destination."""
+    def redirect_request(self, request, fp, code, message, headers, new_url):
+        redirected = super().redirect_request(request, fp, code, message, headers, new_url)
+        if redirected is not None:
+            redirected.remove_header("Authorization")
+        return redirected
+
+
+def open_download(url):
+    headers = {"User-Agent": "NABT-pinned-toolchain/1", "Accept": "application/octet-stream"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if url == ASSET_URL and token:
+        headers["Authorization"] = "Bearer " + token
+        request = urllib.request.Request(url, headers=headers)
+        return urllib.request.build_opener(AssetRedirect()).open(request, timeout=120)
+    return urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120)
+
+
 def download_verified(archive, *, attempts=5):
     """Retry transient transport failures; never reuse partial/unverified bytes."""
     partial = archive.with_suffix(archive.suffix + ".partial")
     for attempt in range(attempts):
         try:
             url = URL if attempt == 0 else ASSET_URL
-            request = urllib.request.Request(url, headers={"User-Agent": "NABT-pinned-toolchain/1",
-                                                          "Accept": "application/octet-stream"})
-            with urllib.request.urlopen(request, timeout=120) as response, partial.open("wb") as out:
+            with open_download(url) as response, partial.open("wb") as out:
                 shutil.copyfileobj(response, out, length=1024 * 1024)
             if digest(partial) != SHA256:
                 raise ValueError("Official toolchain archive failed SHA-256 verification")

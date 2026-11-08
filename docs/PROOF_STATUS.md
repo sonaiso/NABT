@@ -1893,3 +1893,8 @@ The first retry-only remote run still received cached HTTP504 responses. Subsequ
 attempts now use the official GitHub asset API for the same pinned release asset
 586761733, with octet-stream negotiation and the unchanged SHA-256. Local probes
 confirmed the release metadata digest and the asset download content type.
+
+The official-API fallback passed installation in other jobs but one runner hit
+unauthenticated API rate limits (HTTP403). Installer steps now pass the ephemeral
+GitHub job token only to that exact API endpoint. Redirect handling removes the
+Authorization header before fetching the signed asset; focused tests cover this.
