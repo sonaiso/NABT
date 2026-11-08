@@ -1870,3 +1870,21 @@ fresh gateway replay rejects dropping the premise even after rehashing.
 ## Contextual occurrence alignment (2026-11-07)
 
 The shared byte encoder now has a contextual occurrence head with native definition identities, original UTF-8 spans, validation-only abstention and v3 lesson integration. This is learned proposal alignment, not intended-use acceptance or a new Python/Lean refinement theorem. The retained authored test has 45/62 correct alignments (F1 0.7627); the nearest-context baseline has 57/62 (F1 0.8769). Legacy diagnostic regressions and exact split/provenance limitations are retained in [the implementation report](CONTEXTUAL_ALIGNMENT_V1_AR.md). No general Arabic, audio or free-text-premise closure is claimed.
+
+## 2026-11-08 — source-local cognitive orchestration and PR87 bootstrap repair
+
+The new `cognitive.orchestrate` gateway consumes the existing 18 RAG view identities
+and native acquisition/inflection/discourse/concept owners in six ordered stages.
+Five network views reference the same concept IDs; no new neural weights or world
+admission are introduced. `RuleRouting.Dispatch` adds four control theorems to the
+existing manifest/audit. Its generated table matches Lean and the independent
+36,864-case finite dispatch oracle. New compiled references move together under
+`evidence/cognitive_orchestration_v1/integration`; prior snapshots remain intact.
+
+Six inspected failed PR87 jobs stopped at HTTP504 while downloading the pinned
+Lean archive. The installer now retries transient transport failures finitely,
+never checksum failures, and removes incomplete bytes. Scope, owner reuse,
+conditional stage closure, missing special-gate bridges and the unsupported
+82/18 governor partition are documented in `COGNITIVE_ORCHESTRATION_V1_AR.md`.
+Full validation and remote run status must be read from the current PR and the
+retained verification record; this entry does not claim a completed release gate.

@@ -1,0 +1,43 @@
+{
+  "schema": "nabt.cognitive-orchestration.initial-validation.v1",
+  "base_commit": "22e4213849cbc747993847c3802873a1e034738e",
+  "remote_failure": {
+    "phase": "pinned Lean archive download",
+    "error": "HTTP 504 Gateway Time-out",
+    "job_ids": [
+      128693551436,
+      128693551386,
+      128693551463,
+      128693551657,
+      128693551795,
+      128693551600
+    ]
+  },
+  "focused_tests": {
+    "run": 14,
+    "passed": 14,
+    "skipped": 0,
+    "seconds": 53.927
+  },
+  "lean_audit": {
+    "passed": true,
+    "manifest_declarations": 1645,
+    "new_control_theorems": 4
+  },
+  "dispatch_cases": 36864,
+  "scope": "Initial focused validation before publication. Full make check and remote checks are tracked in PR87; not claimed complete here.",
+  "historical_attempts": [
+    {
+      "result": "fixture failure before tests: source ID used a hyphen forbidden by SourceBlob",
+      "fix": "validate the existing source ID contract and use underscores"
+    },
+    {
+      "result": "new gateway test called nonexistent verify alias",
+      "fix": "use existing accept_output admission"
+    },
+    {
+      "result": "a targeted test invocation used the wrong class name",
+      "fix": "reran correct LexicalBoundary test; passed"
+    }
+  ]
+}

@@ -11,12 +11,40 @@ from pathlib import Path
 import platform
 import shutil
 import subprocess
+import sys
+import time
+import http.client
+import urllib.error
 import urllib.request
 
 VERSION = "4.34.1"
 ARCHIVE = f"lean-{VERSION}-linux.tar.zst"
 URL = f"https://github.com/leanprover/lean4/releases/download/v{VERSION}/{ARCHIVE}"
 SHA256 = "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4"
+
+
+def download_verified(archive, *, attempts=5):
+    """Retry transient transport failures; never reuse partial/unverified bytes."""
+    partial = archive.with_suffix(archive.suffix + ".partial")
+    for attempt in range(attempts):
+        try:
+            request = urllib.request.Request(URL, headers={"User-Agent": "NABT-pinned-toolchain/1"})
+            with urllib.request.urlopen(request, timeout=120) as response, partial.open("wb") as out:
+                shutil.copyfileobj(response, out, length=1024 * 1024)
+            if digest(partial) != SHA256:
+                raise ValueError("Official toolchain archive failed SHA-256 verification")
+            partial.replace(archive)
+            return
+        except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.IncompleteRead) as exc:
+            transient = not isinstance(exc, urllib.error.HTTPError) or exc.code in {408, 429, 500, 502, 503, 504}
+            if not transient or attempt + 1 == attempts:
+                raise
+            delay = min(2 ** attempt, 16)
+            print(f"Transient toolchain download failure; retry {attempt + 2}/{attempts} in {delay}s",
+                  file=sys.stderr)
+            time.sleep(delay)
+        finally:
+            partial.unlink(missing_ok=True)
 
 
 def digest(path):
@@ -39,13 +67,7 @@ def main():
     root.mkdir(parents=True, exist_ok=True)
     archive = root / ARCHIVE
     if not archive.is_file() or digest(archive) != SHA256:
-        partial = archive.with_suffix(archive.suffix + ".partial")
-        with urllib.request.urlopen(URL, timeout=120) as response, partial.open("wb") as out:
-            shutil.copyfileobj(response, out, length=1024 * 1024)
-        if digest(partial) != SHA256:
-            partial.unlink()
-            raise SystemExit("Official toolchain archive failed SHA-256 verification")
-        partial.replace(archive)
+        download_verified(archive)
     subprocess.run(["tar", "--no-same-owner", "--no-same-permissions", "--use-compress-program=unzstd",
                     "-xf", str(archive), "-C", str(root)], check=True)
     lean = root / f"lean-{VERSION}-linux" / "bin" / "lean"

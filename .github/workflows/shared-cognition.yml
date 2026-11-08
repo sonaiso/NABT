@@ -33,7 +33,7 @@ jobs:
       - name: Check identity, evidence and gateway replay
         run: |
           make proof-catalog LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
-          make shared-cognition LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+          make shared-cognition cognitive-orchestration LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Require real shared training and portable parity
         env:
           PYTHONPATH: src:.

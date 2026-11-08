@@ -3403,7 +3403,8 @@
       {
         "title_ar": "الاسترجاع وجدولة جميع القواعد المنصبة",
         "native_targets": [
-          "exportRuleRouting"
+          "exportRuleRouting",
+          "exportCognitiveDispatch"
         ],
         "entrypoint_ids": [
           "grammar-catalog",
@@ -3419,7 +3420,9 @@
           "tests/test_progressive_agent_plan.py",
           "tests/test_unit_composition_agent.py",
           "tests/test_irab_agent.py",
-          "tests/test_io_gateway.py"
+          "tests/test_io_gateway.py",
+          "tests/test_cognitive_orchestration.py",
+          "tests/test_bootstrap_lean.py"
         ],
         "formal_modules": [
           "Nabt.RuleRouting"
@@ -3435,7 +3438,8 @@
           "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md",
           "docs/IRAB_AGENT_V1_AR.md",
           "docs/IO_GATEWAY_V1_AR.md",
-          "docs/IO_GATEWAY_ACCEPTANCE_V1.md"
+          "docs/IO_GATEWAY_ACCEPTANCE_V1.md",
+          "docs/COGNITIVE_ORCHESTRATION_V1_AR.md"
         ],
         "id": "rule-routing",
         "scope": "Retrieval order is a proposal; complete installed-rule scheduling keeps non-top-k rules eligible and reports budget exhaustion separately.",
@@ -3458,7 +3462,8 @@
           "tools/grammar_catalog/irab_cli.py",
           "tools/grammar_catalog/gateway.py",
           "tools/grammar_catalog/gateway_routes.py",
-          "tools/grammar_catalog/gateway_links.py"
+          "tools/grammar_catalog/gateway_links.py",
+          "tools/grammar_catalog/orchestration.py"
         ],
         "open_debts": [
           "Complete inventory routing cannot manufacture missing source premises or establish applicability of every retrieved rule."
@@ -3466,7 +3471,8 @@
         "checker_paths": [
           "tools/check_rule_routing.py",
           "tools/grammar_catalog/operation_rag.py",
-          "tools/grammar_catalog/gateway.py"
+          "tools/grammar_catalog/gateway.py",
+          "tools/check_cognitive_dispatch.py"
         ]
       },
       {
