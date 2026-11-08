@@ -7,13 +7,13 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
-    "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode")),
+    "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
     "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
     "concept.view": (("lexical-denotation", "mantuq-mafhum"), ("kind", "value", "view", "domain"), ()),
     "neural.propose": (("lexical-denotation", "identity", "morphology"), ("text",), ()),
     "neural.align": (("lexical-denotation", "identity", "morphology"), ("text",), ("source_id",)),
-    "neural.graph": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("text",), ("source_id",)),
+    "neural.graph": (("lexical-denotation", "linguistic-truth", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("text",), ("source_id", "lexical_text", "context", "usage_context")),
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),

@@ -32,6 +32,13 @@ Keep jamid/mushtaq separate from ontology types, subject from causal agent,
 accompaniment from purpose, and succession from causation. Bind optional native
 temporal/inference inputs to the original source; preserve open ontology bridges.
 
+For occurrence-local literal/figurative use, reuse `usage_context` on the existing
+`neural.graph`/`cognitive.orchestrate` routes and
+`docs/USAGE_WITNESS_BRIDGE_V1_AR.md`. Keep `source_use_applications` separate from
+world-grounded applications. Do not bypass lower orchestration gates, turn the
+single authored identity alignment into a general equivalence proof, or infer
+exclusion from a missing reading. Replay the original request after withdrawal.
+
 `make check` now uses `GNUmakefile` to include the historical Makefile, current
 catalogue checks and required native I/O tests. Do not use `make -f Makefile check`
 as a substitute for that release gate. The latter is a historical partial gate.

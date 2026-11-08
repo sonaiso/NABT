@@ -5,6 +5,7 @@ another registry. The concept view uses native definition IDs. Candidate edges
 cannot license a reading, world claim, causal role, or evidence application.
 """
 from hashlib import sha256
+from copy import deepcopy
 
 from nabt.alphabet import parse_word, render_word, ALPHABET_ID
 from nabt.errors import NabtError
@@ -69,18 +70,29 @@ def sign_nodes(text, source_id):
 
 
 def validate_request(request):
-    request = alignment.validate_request(request)
-    relational.validate(request)
-    return request
+    if type(request) is not dict or set(request) - {"text", "source_id", "lexical_text", "context", "usage_context"}:
+        raise ValueError("Expected source and existing linguistic owner inputs")
+    source = alignment.validate_request({k: v for k, v in request.items() if k in {"text", "source_id"}})
+    p = {**deepcopy(request), **source}
+    if "lexical_text" in p and (type(p["lexical_text"]) is not str or len(p["lexical_text"].encode()) > 131072):
+        raise ValueError("Expected bounded lexical evidence text")
+    if "context" in p:
+        from nabt.discourse_context import read_context
+        read_context(p["context"])
+    if "usage_context" in p:
+        from tools.grammar_catalog.usage_witness import validate_context
+        validate_context(p["usage_context"])
+    relational.validate({k: v for k, v in p.items() if k != "usage_context"})
+    return p
 
 
 def analyze(request):
     request = validate_request(request)
     text, source_id = request["text"], request["source_id"]
     nodes = sign_nodes(text, source_id)
-    proposal = alignment.align(request, model_path=MODEL, training_path=TRAIN)
+    proposal = alignment.align({"text": text, "source_id": source_id}, model_path=MODEL, training_path=TRAIN)
     # Preserve the original syntactic/temporal/relational owner's report in full.
-    relations = relational.analyze(request)
+    relations = relational.analyze({k: v for k, v in request.items() if k != "usage_context"})
     definitions = proposal["definitions"]
     concepts = [{"id": key, "kind": "NATIVE_CONCEPT_DEFINITION", **definition,
                  "admission": "DEFINITION_CANDIDATE_NOT_GROUNDED_APPLICATION",
@@ -103,7 +115,7 @@ def analyze(request):
               "utf8_hex": text.encode().hex(), "unicode_scalars": [ord(c) for c in text]}
     if relations["source_sha256"] != source["sha256"]:
         raise ValueError("Relational owner changed the source binding")
-    return {"schema": "nabt.cognitive-graph.v1", "status": "PARTIAL" if proposal["status"] == "DEFER" else "PROPOSALS_WITH_OWNER_RESULTS",
+    result = {"schema": "nabt.cognitive-graph.v1", "status": "PARTIAL" if proposal["status"] == "DEFER" else "PROPOSALS_WITH_OWNER_RESULTS",
             "deployment": "EXPERIMENTAL_NOT_DEFAULT_ALIGNMENT_REPLACEMENT",
             "source": source, "sign_graph": {"nodes": nodes},
             "concept_graph": {"nodes": concepts, "admitted_concept_applications": [],
@@ -116,6 +128,16 @@ def analyze(request):
                 "unknown_is_meaningless": False, "absence_of_evidence_is_negation": False,
                 "all_fourteen_learned": False, "world_truth_established": False,
                 "audio_learning_established": False, "authority": "NONE"}}
+    if "usage_context" in request:
+        from tools.grammar_catalog.usage_witness import run
+        usage = run({"text": text, "source_id": source_id, "usage_context": request["usage_context"]})
+        result["usage_witness"] = usage
+        existing = {c["id"] for c in concepts}
+        concepts.extend(c for c in usage["concepts"] if c["id"] not in existing)
+        result["concept_graph"]["source_use_applications"] = deepcopy(usage["applications"])
+        result["acceptance"]["source_use_application_count"] = len(usage["applications"])
+        result["acceptance"]["source_use_is_world_grounding"] = False
+    return result
 
 
 def observe_lesson(adapter, payload):
