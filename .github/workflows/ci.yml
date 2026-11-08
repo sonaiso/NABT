@@ -235,6 +235,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y zstd
       - name: Install hash-verified Lean 4.34.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Kernel build and full export conformance
         run: python tools/check_conformance.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"

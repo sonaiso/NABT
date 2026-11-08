@@ -45,7 +45,7 @@ def trajectories(model,texts,reverse=False):
     return torch.cat((torch.zeros(len(texts),1,shared.HIDDEN),padded),dim=1), hidden[0]
 
 
-def score_occurrences(model,rows):
+def occurrence_features(model,rows):
     import torch
     from tools.grammar_catalog.operations import exact_terms
     texts=[r["text"] for r in rows]
@@ -57,7 +57,11 @@ def score_occurrences(model,rows):
         for term in exact_terms(text):
             start,end=term["utf8_span"]
             features.append(torch.cat((forward[i,start],forward[i,end],reverse[i,length-end],reverse[i,length-start])))
-    return model.alignment(torch.stack(features))
+    return torch.stack(features)
+
+
+def score_occurrences(model,rows):
+    return model.alignment(occurrence_features(model,rows))
 
 
 def summarize(rows,scores,model):

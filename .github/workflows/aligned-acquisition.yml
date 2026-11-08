@@ -27,6 +27,8 @@ jobs:
           PYTHONPATH=src:. python -B -m unittest discover -s tests -p test_code_entropy.py -v
           python tools/code_entropy.py --check --output artifacts/local/ci-acquisition/code-entropy.json
       - name: Install decompressor and hash-verified Lean
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y zstd

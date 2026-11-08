@@ -65,6 +65,8 @@ jobs:
           python tools/fetch_qac_source.py --output artifacts/local/external/quranic-corpus-morphology-0.4.txt.gz
           python evidence/lexical_loading_v1/build_matrix.py --check
       - name: Install verified Lean
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update
           sudo apt-get install -y zstd

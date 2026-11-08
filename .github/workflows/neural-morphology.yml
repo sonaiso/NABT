@@ -39,6 +39,8 @@ jobs:
       - name: Install decompressor for the official Lean archive
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y zstd
       - name: Install pinned official Lean for Qatr teacher replay
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-qatr-tools"
       - name: Build Qatr reader and check learner boundaries
         env:

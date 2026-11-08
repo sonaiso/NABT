@@ -157,3 +157,6 @@ lean_exe groundedPassage where
 
 lean_exe temporalContextProbe where
   root := `TemporalContextProbe
+
+lean_exe exportCognitiveDispatch where
+  root := `ExportCognitiveDispatch

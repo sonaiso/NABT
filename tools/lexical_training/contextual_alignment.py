@@ -99,8 +99,8 @@ def decide(model, scores):
             "margin": margin, "softmax": values}
 
 
-def _training_rows(model):
-    path = DIRECTORY / "train.json"
+def _training_rows(model, path=None):
+    path = DIRECTORY / "train.json" if path is None else Path(path)
     if path.stat().st_size > 2_000_000:
         raise ValueError("Training provenance byte limit")
     raw = path.read_bytes()
@@ -118,7 +118,8 @@ def _training_neighbors(model, text, label, rows=None):
              "provenance":r["provenance"], "authority":"TRAINING_EXAMPLE_NOT_CURRENT_USE_EVIDENCE"} for r in ranked]
 
 
-def align(request):
+def align(request, *, model_path=None, training_path=None):
+    """Internal fixed-installation adapter; external requests cannot select paths."""
     request = validate_request(request)
     text, source = request["text"], request["source_id"]
     raw = text.encode()
@@ -131,7 +132,7 @@ def align(request):
            "score_is_calibrated_probability":False, "unknown_means_meaningless":False,
            "next_obligation":"CHECK_CONTEXTUAL_USE_WITH_INDEPENDENT_SOURCE_WITNESS"}
     try:
-        model, identity = load_model()
+        model, identity = load_model() if model_path is None else load_model(Path(model_path))
         catalogue = concepts.catalogue()
         definitions = {r["identity"]["id"]:{"reference":r["reference"], "testimony":r["testimony"],
                        "interpretation_scope":"INSTALLED_DICTIONARY_READING_NOT_THIS_OCCURRENCE"}
@@ -140,7 +141,7 @@ def align(request):
         if (model["shared_model"]["concept_references"] != refs
                 or set(model["shared_model"]["labels"]["concept"]) != set(refs)):
             raise ValueError("Native definitions changed since training")
-        training_rows = _training_rows(model)
+        training_rows = _training_rows(model, training_path)
         rows, heads = occurrence_logits(model, text)
         for row in rows:
             decision = decide(model, row["logits"])
@@ -170,7 +171,8 @@ def align(request):
     return out
 
 
-def observe_lesson(adapter, payload):
+def observe_lesson(adapter, payload, *, analyzer=None):
+    analyzer = align if analyzer is None else analyzer
     if adapter == "source_learning":
         sources = [(r["id"],r["text"],f"/payload/sources/{i}/text") for i,r in enumerate(payload["sources"])]
     elif adapter == "qualified_inference":
@@ -186,14 +188,14 @@ def observe_lesson(adapter, payload):
             row["status"]="NEURAL_BUDGET_DEFER"
         else:
             try:
-                row["proposal"]=align({"text":text,"source_id":source})
+                row["proposal"]=analyzer({"text":text,"source_id":source})
                 row["status"]=row["proposal"]["status"]
             except (ResourceLimit, ValueError) as error:
                 # An optional observer may have a narrower input contract than
                 # an installed owner. Its refusal never rewrites that judgment.
                 row.update(status="NEURAL_INPUT_DEFER", reason=type(error).__name__)
         rows.append(row)
-    return {"status":"OBSERVED" if all(r["status"] in ("PROPOSED","UNALIGNED") for r in rows) else "PARTIAL",
+    return {"status":"OBSERVED" if all(r["status"] in ("PROPOSED","UNALIGNED","PROPOSALS_WITH_OWNER_RESULTS") for r in rows) else "PARTIAL",
             "observations":rows,"owner_evidence_modified":False,
             "concept_alignment":"LEARNED_OCCURRENCE_PROPOSALS_WITH_CANONICAL_DEFINITIONS",
             "revision_owner":"EXISTING_OWNER_HISTORY_AND_ACTIVE_SOURCES"}

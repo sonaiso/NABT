@@ -28,6 +28,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y zstd
       - name: Install hash-verified Lean
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Current catalogue and required native admission
         run: |

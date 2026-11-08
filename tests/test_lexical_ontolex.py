@@ -30,7 +30,8 @@ class LexicalBoundary(unittest.TestCase):
     def test_retained_testimony_mutation_changes_gateway_identity(self):
         paths = ["AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", str(lexical_testimony.CATALOG),
                  "evidence/shared_cognition_v1/model.json", "evidence/contextual_alignment_v1/model.json",
-                 "evidence/contextual_alignment_v1/train.json"]
+                 "evidence/contextual_alignment_v1/train.json", "evidence/cognitive_graph_v1/model.json",
+                 "evidence/cognitive_graph_v1/train.json", "evidence/cognitive_orchestration_v1/dispatch.json"]
         paths += [p for _, _, p in lexical_testimony.SOURCES.values() if p is not None]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -45,6 +46,11 @@ class LexicalBoundary(unittest.TestCase):
                 changed = gateway.snapshot()
                 self.assertNotEqual(original["files"][str(lexical_testimony.CATALOG)], changed["files"][str(lexical_testimony.CATALOG)])
                 self.assertTrue(set(paths) <= changed["files"].keys())
+                weights = root / "evidence/cognitive_graph_v1/model.json"
+                weights.write_bytes(b"changed weights")
+                weight_change = gateway.snapshot()
+                self.assertNotEqual(changed["files"][weights.relative_to(root).as_posix()],
+                                    weight_change["files"][weights.relative_to(root).as_posix()])
                 path.unlink()
                 path.symlink_to(root / "Makefile")
                 with self.assertRaises(ValueError):

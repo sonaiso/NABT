@@ -1,5 +1,32 @@
 # ما هو مبرهن وما هو مفحوص
 
+## Shared sign/concept graph and masked neural training — 2026-11-08
+
+`neural.graph` and `cognitive.lesson` compose existing source, A116, lexical,
+relational and lesson owners through the current I/O gateway. The v4 lesson
+keeps the original evidence history and treats neural edges as proposals.
+No Lean theorem, accepted linguistic law, or world-grounding authority was added.
+
+The retained 8,538-parameter shared model received 120 optimizer updates. Of 778
+training occurrences, 570 unreviewed positions have no supervision, 130 are
+positive, and 78 are explicitly reviewed inventory negatives. Fresh authored
+transfer F1 improves from 0.6667 to 0.8235 on reviewed positions, while retained
+test F1 decreases from 0.8036 to 0.7895; nearest-context retrieval remains stronger.
+Reading/morphology/attachment stay 27/27, the exposed concept head stays 9/18,
+and witness accuracy declines from 41/47 to 40/47. Unknown-position proposals
+increase substantially and have no accuracy claim. The no-PCGrad ablation does
+not establish a benefit from projection. Neither run replaces the default model.
+
+See [the implementation, source crosswalk and full limits](COGNITIVE_GRAPH_V1_AR.md)
+and `evidence/cognitive_graph_v1/FIRST_TEST.json`. Entries 3 and 14 are missing
+from the supplied ledger; all-fourteen learning, general Arabic cognition,
+independent semantic adjudication, audio learning and external-world truth
+remain unestablished. Tests check replay, masking, gradient geometry, native
+identity, evidence withdrawal and numerical parity; these are not a general
+Python/Lean refinement proof.
+
+Verification history is retained in `evidence/cognitive_graph_v1/verification/results.json`: the initial complete unit discovery had one repaired fixture error and 175 skips; remaining targets passed via `make -o test check`, including final affected native tests. This is not recorded as a clean single full-gate run.
+
 ## Shared concept continuity and joint neural pilot — 2026-11-07
 
 The current selector now points to `evidence/shared_cognition_v1/integration`;
@@ -1843,3 +1870,40 @@ fresh gateway replay rejects dropping the premise even after rehashing.
 ## Contextual occurrence alignment (2026-11-07)
 
 The shared byte encoder now has a contextual occurrence head with native definition identities, original UTF-8 spans, validation-only abstention and v3 lesson integration. This is learned proposal alignment, not intended-use acceptance or a new Python/Lean refinement theorem. The retained authored test has 45/62 correct alignments (F1 0.7627); the nearest-context baseline has 57/62 (F1 0.8769). Legacy diagnostic regressions and exact split/provenance limitations are retained in [the implementation report](CONTEXTUAL_ALIGNMENT_V1_AR.md). No general Arabic, audio or free-text-premise closure is claimed.
+
+## 2026-11-08 — source-local cognitive orchestration and PR87 bootstrap repair
+
+The new `cognitive.orchestrate` gateway consumes the existing 18 RAG view identities
+and native acquisition/inflection/discourse/concept owners in six ordered stages.
+Five network views reference the same concept IDs; no new neural weights or world
+admission are introduced. `RuleRouting.Dispatch` adds four control theorems to the
+existing manifest/audit. Its generated table matches Lean and the independent
+36,864-case finite dispatch oracle. New compiled references move together under
+`evidence/cognitive_orchestration_v1/integration`; prior snapshots remain intact.
+
+Six inspected failed PR87 jobs stopped at HTTP504 while downloading the pinned
+Lean archive. The installer now retries transient transport failures finitely,
+never checksum failures, and removes incomplete bytes. Scope, owner reuse,
+conditional stage closure, missing special-gate bridges and the unsupported
+82/18 governor partition are documented in `COGNITIVE_ORCHESTRATION_V1_AR.md`.
+Full validation and remote run status must be read from the current PR and the
+retained verification record; this entry does not claim a completed release gate.
+
+The first retry-only remote run still received cached HTTP504 responses. Subsequent
+attempts now use the official GitHub asset API for the same pinned release asset
+586761733, with octet-stream negotiation and the unchanged SHA-256. Local probes
+confirmed the release metadata digest and the asset download content type.
+
+The official-API fallback passed installation in other jobs but one runner hit
+unauthenticated API rate limits (HTTP403). Installer steps now pass the ephemeral
+GitHub job token only to that exact API endpoint. Redirect handling removes the
+Authorization header before fetching the signed asset; focused tests cover this.
+
+The broader run found two omitted generated link reports (article and sourced
+acquisition). Both were regenerated with the existing source validators against
+the same compiled catalogue. CI's immutable oracle dependency guard also
+rejected the installer-token insertion. A new v3 dependency freeze retains v1
+and v2; its guard reverses only the original timeout edit plus the exact token
+environment at the existing Lean install step, then checks the original bytes.
+Commands, permissions and semantic scoring remain unchanged. The 26 focused
+bootstrap/migration/current-reference/oracle tests pass after these repairs.

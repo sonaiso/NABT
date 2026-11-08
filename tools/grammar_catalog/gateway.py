@@ -11,6 +11,10 @@ REQUEST_SCHEMA = "nabt.io.request.v1"
 RESULT_SCHEMA = "nabt.io.result.v1"
 MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
+OPTIONAL_NEURAL_INPUTS = frozenset((
+    "evidence/shared_cognition_v1/model.json",
+    "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
+    "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json"))
 
 
 def validate_request(request):
@@ -38,13 +42,22 @@ def snapshot():
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
     lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
-                       "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json") + tuple(
+                       "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
+                       "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
+                       "evidence/cognitive_orchestration_v1/dispatch.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
     for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml") + lexical_sources:
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
             raise ValueError("I/O source reference escapes repository")
-        value["files"][relative] = sha256(path.read_bytes()).hexdigest()
+        try:
+            value["files"][relative] = sha256(path.read_bytes()).hexdigest()
+        except FileNotFoundError:
+            if relative not in OPTIONAL_NEURAL_INPUTS:
+                raise
+            # Optional observations must not suppress the installed owner.
+            # Availability itself is bound, so restoration invalidates replay.
+            value["files"][relative] = "UNAVAILABLE"
     value["schema"] = "nabt.io.snapshot.v1"
     return value
 

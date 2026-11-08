@@ -67,6 +67,8 @@ jobs:
         run: python tools/proof_lab.py --event-file "$GITHUB_EVENT_PATH" --prepare --github-output "$GITHUB_OUTPUT" --output "$RUNNER_TEMP/nabt-lab/result.json"
       - name: Install hash-verified Lean toolchain
         if: steps.prepare.outputs.valid == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update
           sudo apt-get install -y zstd

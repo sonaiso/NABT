@@ -11,6 +11,7 @@ from bisect import bisect_right
 from hashlib import sha256
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 from . import operator_traceability
@@ -106,6 +107,13 @@ def _first(record: dict, *keys: str, default: Any = None) -> Any:
     return next((record[k] for k in keys if k in record), default)
 
 
+def _line_offsets(raw: bytes) -> list[int]:
+    # Scan LF bytes in C, not every byte of every book in Python. CR and
+    # Unicode separators retain their original semantics; no text normalization
+    # or source/result cache is introduced.
+    return [0] + [match.end() for match in re.finditer(b"\n", raw)]
+
+
 def build_catalog(root: Path = ROOT) -> dict:
     """Replay installed bytes and explicit many-to-many links from scratch.
 
@@ -166,7 +174,7 @@ def build_catalog(root: Path = ROOT) -> dict:
             "whole_book_rules_formalized": False,
         }
         raw_sources[source_id] = raw
-        line_starts[source_id] = [0] + [i + 1 for i, b in enumerate(raw) if b == 10]
+        line_starts[source_id] = _line_offsets(raw)
         inputs.append({"path": path, "sha256": expected, "bytes": len(raw),
                        "identity_policy": "from_code_pinned_source_registry"})
 

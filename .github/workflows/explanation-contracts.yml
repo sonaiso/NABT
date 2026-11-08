@@ -31,6 +31,8 @@ jobs:
           print({"dependency_freeze_sha256": snapshot["sha256"], "files": len(snapshot["files"])})
           PY
       - name: Install hash-verified Lean toolchain
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y zstd

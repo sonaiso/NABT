@@ -24,6 +24,14 @@ check: io-gateway-native
 .PHONY: shared-cognition
 shared-cognition: io-gateway-build
 	cd formal && $(LAKE) build evidenceLifecycleV1
-	PYTHONPATH=src:. NABT_REQUIRE_SHARED_NATIVE=1 $(PYTHON) -m unittest tests.test_shared_cognition tests.test_contextual_alignment -v
+	PYTHONPATH=src:. NABT_REQUIRE_SHARED_NATIVE=1 $(PYTHON) -m unittest tests.test_shared_cognition tests.test_contextual_alignment tests.test_cognitive_graph -v
 
 check: shared-cognition
+
+.PHONY: cognitive-orchestration
+cognitive-orchestration: io-gateway-build
+	cd formal && $(LAKE) build exportCognitiveDispatch
+	PYTHONPATH=src:. NABT_REQUIRE_ORCHESTRATION_NATIVE=1 $(PYTHON) -m unittest tests.test_bootstrap_lean tests.test_cognitive_orchestration -v
+	PYTHONPATH=src:. $(PYTHON) tools/check_cognitive_dispatch.py --output $(EVIDENCE_DIR)/cognitive-dispatch.json
+
+check: cognitive-orchestration
