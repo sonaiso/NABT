@@ -54,3 +54,15 @@ class BootstrapTests(unittest.TestCase):
             for step in parts:
                 if "python tools/bootstrap_lean.py" in step:
                     self.assertIn("          GITHUB_TOKEN: ${{ github.token }}",step,str(p))
+
+    def test_frozen_oracle_migration_allows_only_the_exact_installer_env(self):
+        from tools import interpretive_links_regression as runner
+        import json
+        prior=json.loads(runner.PRIOR_DEPENDENCIES.read_bytes())
+        expected=next(r['sha256'] for r in prior['files'] if r['path']=='.github/workflows/ci.yml')
+        raw=(runner.ROOT/'.github/workflows/ci.yml').read_bytes()
+        runner.check_runtime_budget(raw,expected)
+        auth=b'        env:\n          GITHUB_TOKEN: ${{ github.token }}\n'
+        for bad in (raw.replace(b'github.token',b'secrets.OTHER_TOKEN'),raw+auth,
+                    raw.replace(b'permissions:\n  contents: read',b'permissions:\n  contents: write')):
+            with self.assertRaises(ValueError):runner.check_runtime_budget(bad,expected)

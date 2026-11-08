@@ -32,11 +32,13 @@ RUNTIME = CURRENT / "code_freeze_v1.json"
 RUNTIME_SHA = "1d709c94842776699056c63969d62e8b3bb9a58af339cb8676b8091b27a37eda"
 PRIOR_DEPENDENCIES = CURRENT / "oracle_dependency_freeze_v1.json"
 PRIOR_DEPENDENCIES_SHA = "ddfd3329295e196dd96c68d3bb507a0c791cff1a621045f9524f0a65fc0a155e"
-DEPENDENCIES = CURRENT / "oracle_dependency_freeze_v2.json"
+BUDGET_DEPENDENCIES = CURRENT / "oracle_dependency_freeze_v2.json"
+BUDGET_DEPENDENCIES_SHA = "2b30c98ea45c7a3eb5fb6ebf891a83d39bdc37759fa7716ea18076fded79e95f"
+DEPENDENCIES = CURRENT / "oracle_dependency_freeze_v3.json"
 PREVIOUS_DEPENDENCIES_SHA = "6e8dde893aa919dec0dd23e37a7882b228d45d977743526ef2178483599fabb3"
 BASELINE_SHA = "1ca1469c18749b3ba7160c54029bfd449621ffdb97782a832325bdbf6a885080"
 VERSION = "nabt.interpretive-links-oracle-regression.v1"
-FREEZE_VERSION = "nabt.interpretive-links-oracle-dependencies.v2"
+FREEZE_VERSION = "nabt.interpretive-links-oracle-dependencies.v3"
 _CHECKED_SOURCES = None
 REPORT_KEYS = frozenset("authority claims clauses construction_law_id construction_law_sha256 construction_policy_sha256 "
     "context derived_readings language_id law_id law_sha256 lexical_model occurrences partition policy_sha256 "
@@ -128,15 +130,22 @@ def helpers():
 
 
 def check_runtime_budget(raw, previous_sha):
-    """The only permitted workflow migration is runtime's 20 -> 40 minutes.
+    """Permit only runtime's 20 -> 40 minutes and the scoped installer token.
 
     Reverse that exact edit and verify the original frozen bytes. Commands,
     cases, matrix versions, permissions and acceptance thresholds cannot drift.
     """
     current = b"  runtime:\n    runs-on: ubuntu-24.04\n    timeout-minutes: 40\n"
     previous = current.replace(b"40", b"20")
+    install = b"      - name: Install hash-verified Lean 4.34.1\n"
+    auth = b"        env:\n          GITHUB_TOKEN: ${{ github.token }}\n"
+    # Reverse one exact operational insertion at the one existing install step.
+    # A different token, step, permission, command, or extra insertion stays in
+    # the bytes and therefore cannot match the original frozen digest.
+    if raw.count(install + auth) == 1:
+        raw = raw.replace(install + auth, install, 1)
     require(raw.count(current) == 1 and sha256(raw.replace(current, previous, 1)).hexdigest() == previous_sha,
-            "CI migration may change only the runtime timeout from 20 to 40 minutes")
+            "CI migration may change only the runtime timeout from 20 to 40 minutes and the scoped installer token")
 
 
 def dependency_paths():
@@ -159,7 +168,12 @@ def dependency_paths():
         elif row["path"] != "tools/interpretive_links_regression.py":
             require(file_row(ROOT / row["path"]) == row, "Retained v1 dependency changed: " + row["path"])
     paths.update(row["path"] for row in prior["files"])
-    paths.update({str(PRIOR_DEPENDENCIES.relative_to(ROOT)), "tests/test_ci_runtime_budget.py"})
+    budget = json.loads(pinned(BUDGET_DEPENDENCIES, BUDGET_DEPENDENCIES_SHA))
+    for row in budget["files"]:
+        if row["path"] not in {".github/workflows/ci.yml", "tools/interpretive_links_regression.py"}:
+            require(file_row(ROOT / row["path"]) == row, "Retained v2 dependency changed: " + row["path"])
+    paths.update({str(PRIOR_DEPENDENCIES.relative_to(ROOT)), str(BUDGET_DEPENDENCIES.relative_to(ROOT)),
+                  "tests/test_ci_runtime_budget.py", "tests/test_bootstrap_lean.py"})
     return paths
 
 
@@ -173,7 +187,8 @@ def freeze_dependencies():
         runtime_paths = {row["path"] for row in json.loads(RUNTIME.read_bytes())["files"]}
         paths = dependency_paths() | {row["path"] for row in snapshot["files"] if row["path"] not in runtime_paths}
         value = {"schema": FREEZE_VERSION, "runtime_freeze_sha256": RUNTIME_SHA,
-            "previous_dependency_freeze_sha256": PRIOR_DEPENDENCIES_SHA,
+            "previous_dependency_freeze_sha256": BUDGET_DEPENDENCIES_SHA,
+            "original_dependency_freeze_sha256": PRIOR_DEPENDENCIES_SHA,
             "created_utc": datetime.now(timezone.utc).isoformat(),
             "phase": "EXPOSED_REGRESSION_NOT_A_NEW_BLIND_EXPERIMENT",
             "files": [file_row(ROOT / path) for path in sorted(paths)]}
@@ -187,7 +202,8 @@ def check_dependencies():
     raw = DEPENDENCIES.read_bytes()
     value = json.loads(raw)
     require(value["schema"] == FREEZE_VERSION and value["runtime_freeze_sha256"] == RUNTIME_SHA
-            and value["previous_dependency_freeze_sha256"] == PRIOR_DEPENDENCIES_SHA
+            and value["previous_dependency_freeze_sha256"] == BUDGET_DEPENDENCIES_SHA
+            and value["original_dependency_freeze_sha256"] == PRIOR_DEPENDENCIES_SHA
             and value["phase"] == "EXPOSED_REGRESSION_NOT_A_NEW_BLIND_EXPERIMENT",
             "Unapproved current oracle dependency profile")
     rows = value["files"]

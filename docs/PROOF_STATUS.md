@@ -1898,3 +1898,12 @@ The official-API fallback passed installation in other jobs but one runner hit
 unauthenticated API rate limits (HTTP403). Installer steps now pass the ephemeral
 GitHub job token only to that exact API endpoint. Redirect handling removes the
 Authorization header before fetching the signed asset; focused tests cover this.
+
+The broader run found two omitted generated link reports (article and sourced
+acquisition). Both were regenerated with the existing source validators against
+the same compiled catalogue. CI's immutable oracle dependency guard also
+rejected the installer-token insertion. A new v3 dependency freeze retains v1
+and v2; its guard reverses only the original timeout edit plus the exact token
+environment at the existing Lean install step, then checks the original bytes.
+Commands, permissions and semantic scoring remain unchanged. The 26 focused
+bootstrap/migration/current-reference/oracle tests pass after these repairs.
