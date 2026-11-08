@@ -20,6 +20,7 @@ from tools.grammar_catalog import temporal
 SCHEMA = "nabt.cognitive-lesson.v1"
 SCHEMA_V2 = "nabt.cognitive-lesson.v2"
 SCHEMA_V3 = "nabt.cognitive-lesson.v3"
+SCHEMA_V4 = "nabt.cognitive-lesson.v4"
 RESULT_SCHEMA = "nabt.cognitive-lesson-result.v1"
 ADAPTERS = set(curriculum.SHARED_ADAPTERS)
 MAX_RESULT_BYTES = 16 * 1024 * 1024
@@ -29,7 +30,7 @@ def _fields(value, names, label):
     wire_owner._fields(value, names, label)
 
 
-def _identity(adapter=None, shared=False, contextual=False):
+def _identity(adapter=None, shared=False, contextual=False, graph=False):
     paths = ("tools/lexical_training/teaching.py", "tools/lexical_training/reasoning_curriculum.py",
              curriculum.REVIEW)
     if shared:
@@ -48,14 +49,18 @@ def _identity(adapter=None, shared=False, contextual=False):
         paths += ("tools/lexical_training/contextual_alignment.py",
                   "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json")
         optional_resources.update(("evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json"))
-    return {p: ("UNAVAILABLE" if p in optional_resources and not (curriculum.ROOT / p).is_file()
+    identity = {p: ("UNAVAILABLE" if p in optional_resources and not (curriculum.ROOT / p).is_file()
                 else hashlib.sha256((curriculum.ROOT / p).read_bytes()).hexdigest()) for p in paths}
+    if graph:
+        from tools.grammar_catalog.gateway import snapshot, digest
+        identity["cognitive_graph_snapshot"] = digest(snapshot())
+    return identity
 
 
 def _validate(lesson):
     wire_owner._encoded(lesson, wire_owner.MAX_REQUEST_BYTES)
     _fields(lesson, ("schema", "lesson_id", "domain_id", "matrix_id", "adapter", "payload"), "lesson")
-    if lesson["schema"] not in (SCHEMA, SCHEMA_V2, SCHEMA_V3):
+    if lesson["schema"] not in (SCHEMA, SCHEMA_V2, SCHEMA_V3, SCHEMA_V4):
         raise ValueError("Unknown lesson schema")
     wire_owner._text(lesson["lesson_id"], "lesson_id", 128)
     for key in ("domain_id", "matrix_id", "adapter"):
@@ -125,12 +130,13 @@ def _next(owner, adapter, measured):
 def run_lesson(lesson):
     # Choose from installed identity sets before validation; freeze once.
     adapter = lesson.get("adapter") if type(lesson) is dict else None
-    shared = type(lesson) is dict and lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3)
-    contextual = type(lesson) is dict and lesson.get("schema") == SCHEMA_V3
+    shared = type(lesson) is dict and lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4)
+    contextual = type(lesson) is dict and lesson.get("schema") in (SCHEMA_V3, SCHEMA_V4)
+    graph = type(lesson) is dict and lesson.get("schema") == SCHEMA_V4
     result = {"schema": RESULT_SCHEMA, "status": "INVALID_INPUT", "request": None,
               "routing_policy_id": curriculum.ROUTING_POLICY,
               "execution_measured": False, "owner_result": None, "measurements": None,
-              "next_step": None, "curriculum_identity": _identity(adapter, shared, contextual),
+              "next_step": None, "curriculum_identity": _identity(adapter, shared, contextual, graph),
               "limits": {"matrix_complete": False, "domain_expertise_certified": False,
                          "world_truth_established": False, "action_authority": "NONE",
                          "empirical_causality_established": False,
@@ -141,9 +147,11 @@ def run_lesson(lesson):
     try:
         matrix = _validate(lesson)
         result["request"] = deepcopy(lesson)
-        v2 = lesson["schema"] in (SCHEMA_V2, SCHEMA_V3)
+        v2 = lesson["schema"] in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4)
         if v2:
             result["schema"] = "nabt.cognitive-lesson-result.v3" if contextual else "nabt.cognitive-lesson-result.v2"
+            if graph:
+                result["schema"] = "nabt.cognitive-lesson-result.v4"
             result["routing_policy_id"] = "nabt.operation-evidence-routing.v3"
             result["view_role"] = "CURRICULUM_VIEW_NOT_OPERATION_OR_CONCEPT_IDENTITY"
         if not v2 and lesson["adapter"] not in matrix[3]:
@@ -211,8 +219,11 @@ def run_lesson(lesson):
             if contextual:
                 from .contextual_alignment import observe_lesson
                 result["episode"]["semantic_alignment"] = "LEARNED_OCCURRENCE_PROPOSALS_WITH_SOURCE_AND_NATIVE_DEFINITION"
+            if graph:
+                from .cognitive_graph import observe_lesson
+                result["episode"]["semantic_alignment"] = "SHARED_ENCODER_SIGN_AND_CONCEPT_GRAPH_VIEWS"
             result["episode"]["neural_observation"] = observe_lesson(adapter, payload)
-        if result["curriculum_identity"] != _identity(adapter, shared, contextual):
+        if result["curriculum_identity"] != _identity(adapter, shared, contextual, graph):
             raise ValueError("Curriculum changed during execution")
         wire_owner._encoded(result, MAX_RESULT_BYTES, floats=shared)
     except wire_owner.ResourceLimit as error:
@@ -228,7 +239,7 @@ def verify_lesson(report, *, expected_lesson):
     """No receipt may supply its own inputs or suppress the fresh owner run."""
     try:
         actual = run_lesson(expected_lesson)
-        shared = expected_lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3)
+        shared = expected_lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4)
         matches = (wire_owner._encoded(report, MAX_RESULT_BYTES, floats=shared) ==
                    wire_owner._encoded(actual, MAX_RESULT_BYTES, floats=shared))
         return {"valid": matches and actual["execution_measured"], "replay_matches": matches,

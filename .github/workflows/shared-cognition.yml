@@ -39,9 +39,10 @@ jobs:
           PYTHONPATH: src:.
           NABT_REQUIRE_SHARED_TRAINING: '1'
         run: |
-          python -m unittest tests.test_shared_training tests.test_contextual_training -v
+          python -m unittest tests.test_shared_training tests.test_contextual_training tests.test_cognitive_training -v
           python -m tools.lexical_training.shared_training --run-dir artifacts/local/shared-current
           python -m tools.lexical_training.contextual_training --run-dir artifacts/local/contextual-current
+          python -m tools.lexical_training.cognitive_training --run-dir artifacts/local/cognitive-current
       - name: Preserve first evaluation and all model heads
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -50,5 +51,6 @@ jobs:
           path: |
             artifacts/local/shared-current/
             artifacts/local/contextual-current/
+            artifacts/local/cognitive-current/
           if-no-files-found: error
           retention-days: 14

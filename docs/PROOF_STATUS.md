@@ -1,5 +1,32 @@
 # ما هو مبرهن وما هو مفحوص
 
+## Shared sign/concept graph and masked neural training — 2026-11-08
+
+`neural.graph` and `cognitive.lesson` compose existing source, A116, lexical,
+relational and lesson owners through the current I/O gateway. The v4 lesson
+keeps the original evidence history and treats neural edges as proposals.
+No Lean theorem, accepted linguistic law, or world-grounding authority was added.
+
+The retained 8,538-parameter shared model received 120 optimizer updates. Of 778
+training occurrences, 570 unreviewed positions have no supervision, 130 are
+positive, and 78 are explicitly reviewed inventory negatives. Fresh authored
+transfer F1 improves from 0.6667 to 0.8235 on reviewed positions, while retained
+test F1 decreases from 0.8036 to 0.7895; nearest-context retrieval remains stronger.
+Reading/morphology/attachment stay 27/27, the exposed concept head stays 9/18,
+and witness accuracy declines from 41/47 to 40/47. Unknown-position proposals
+increase substantially and have no accuracy claim. The no-PCGrad ablation does
+not establish a benefit from projection. Neither run replaces the default model.
+
+See [the implementation, source crosswalk and full limits](COGNITIVE_GRAPH_V1_AR.md)
+and `evidence/cognitive_graph_v1/FIRST_TEST.json`. Entries 3 and 14 are missing
+from the supplied ledger; all-fourteen learning, general Arabic cognition,
+independent semantic adjudication, audio learning and external-world truth
+remain unestablished. Tests check replay, masking, gradient geometry, native
+identity, evidence withdrawal and numerical parity; these are not a general
+Python/Lean refinement proof.
+
+Verification history is retained in `evidence/cognitive_graph_v1/verification/results.json`: the initial complete unit discovery had one repaired fixture error and 175 skips; remaining targets passed via `make -o test check`, including final affected native tests. This is not recorded as a clean single full-gate run.
+
 ## Shared concept continuity and joint neural pilot — 2026-11-07
 
 The current selector now points to `evidence/shared_cognition_v1/integration`;

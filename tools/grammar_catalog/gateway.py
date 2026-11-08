@@ -38,7 +38,8 @@ def snapshot():
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
     lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
-                       "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json") + tuple(
+                       "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
+                       "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
     for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml") + lexical_sources:
         path = ROOT / relative
