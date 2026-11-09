@@ -34,7 +34,7 @@ RELATIONS = (
     ("object", "المفعولية المفعول به", "event", "argument", ("object", "passive_participle"),
      "يلزم تعيين معنى الفعل وإطاره ومعموله؛ لا يثبت النصب وحده المفعولية أو حدوث تغير مادي."),
     ("masdar", "المصدر الحدث وعمل المصدر", "expression", "event_concept", ("masdar", "masdar_work"),
-     "وزن المصدر لا يثبت استعماله لجذر معين؛ الحدث المفهومي غير وقوع حدث في زمن معين."),
+     "المصدر يحتفظ بمخطط الحدث وروابطه بالجنس والخاصية والزمان والمكان؛ تعيين الوقوع وشواهده مرحلة مستقلة عن تجريد المتغيرات وعن الوزن."),
     ("accompaniment", "المصاحبة المفعول معه", "event", "accompaniment", ("accompaniment",),
      "المعية تحتاج قراءة الواو والتعلق؛ لا تتحول إلى علاقة سبب ونتيجة."),
     ("purpose", "التعليل الغرض المفعول لأجله", "event", "reported_reason", ("purpose",),
@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -149,6 +149,8 @@ def validate(request):
     if not _text(request.get("source_id", "input"), "source_id", maximum=128).strip():
         raise ValueError("Nonempty source identity required")
     _limit(request.get("limit", 5))
+    if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
+        raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
     if "bridge" in request:
         from .relational_bridge import validate as validate_bridge
@@ -203,5 +205,10 @@ def analyze(request):
         from .relational_bridge import evaluate as evaluate_bridge
         result["ontology_bridge"] = evaluate_bridge(text, p["bridge"])
         result["new_lean_proof"] = True
+    from .relational_bridge import continuity
+    result["semantic_continuity"] = continuity(text, result["ontology_bridge"])
+    if p.get("neural_continuity"):
+        from tools.lexical_training.relational_alignment import rank
+        result["neural_continuity"] = rank({"text":text, "source_id":source_id})
     _encoded(result, 8*1048576, floats=True)
     return result

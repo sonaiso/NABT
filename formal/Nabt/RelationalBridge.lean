@@ -187,4 +187,101 @@ theorem vocalized_growth_readings_distinct :
 theorem yellowing_readings_distinct :
     candidates "اصفرّ" = [.yellowPast] ∧ candidates "مُصْفَرّ" = [.yellowParticiple] := by decide
 
+/-! A structural schema is retained before any external event is asserted.
+The existing four reviewed readings remain the interpretation domain. -/
+inductive SemanticSlot where
+  | event | bearer | genus | property | time | place
+  deriving DecidableEq, Repr
+
+def SemanticSlot.label : SemanticSlot → String
+  | .event => "event" | .bearer => "bearer" | .genus => "genus"
+  | .property => "property" | .time => "time" | .place => "place"
+
+inductive SlotBinding where
+  | unbound | unknown | bound (value : String)
+  deriving DecidableEq, Repr
+
+structure MeaningSchema where
+  sense : String
+  slots : List SemanticSlot
+  relations : List (SemanticSlot × String × SemanticSlot)
+  deriving DecidableEq, Repr
+
+def meaningSchema (r : Reading) : MeaningSchema :=
+  ⟨r.sense, [.event, .bearer, .genus, .property, .time, .place],
+    [(.event, "has_bearer", .bearer), (.bearer, "instance_of", .genus),
+     (.bearer, "has_property", .property), (.genus, "admits_property", .property),
+     (.event, "property_in_event", .property),
+     (.event, "occurs_at_time", .time), (.event, "occurs_at_place", .place)]⟩
+
+structure MeaningInstance where
+  schema : MeaningSchema
+  bindings : List (SemanticSlot × SlotBinding)
+  deriving DecidableEq, Repr
+
+def instantiate (r : Reading) (bindings : SemanticSlot → SlotBinding) : MeaningInstance :=
+  ⟨meaningSchema r, (meaningSchema r).slots.map (fun slot => (slot, bindings slot))⟩
+
+def validInstance (r : Reading) (i : MeaningInstance) : Bool :=
+  i.schema == meaningSchema r && i.bindings.map Prod.fst == (meaningSchema r).slots &&
+  i.bindings.all (fun b => match b.2 with | .bound value => !value.isEmpty | _ => true)
+
+theorem instantiate_preserves_schema (r : Reading) (bindings : SemanticSlot → SlotBinding) :
+    (instantiate r bindings).schema = meaningSchema r := rfl
+
+theorem instantiate_preserves_slots (r : Reading) (bindings : SemanticSlot → SlotBinding) :
+    (instantiate r bindings).bindings.map Prod.fst = (meaningSchema r).slots := by
+  simp [instantiate, List.map_map, Function.comp_def]
+
+theorem valid_instance_retains_slots (r : Reading) (i : MeaningInstance)
+    (h : validInstance r i = true) : i.bindings.map Prod.fst = (meaningSchema r).slots := by
+  simp only [validInstance, Bool.and_eq_true, beq_iff_eq] at h
+  exact h.1.2
+
+theorem schema_retains_space_time (r : Reading) :
+    SemanticSlot.time ∈ (meaningSchema r).slots ∧ SemanticSlot.place ∈ (meaningSchema r).slots := by
+  simp [meaningSchema]
+
+theorem schema_property_has_event_anchor (r : Reading) :
+    (SemanticSlot.event, "property_in_event", SemanticSlot.property) ∈ (meaningSchema r).relations := by
+  simp [meaningSchema]
+
+theorem yellowing_derivation_preserves_schema :
+    meaningSchema .yellowPast = meaningSchema .yellowParticiple := rfl
+
+def continuityLawId : String := "nabt.relational-continuity.v1"
+def applicationLawId : String := "nabt.relational-bridge.v2"
+def stateAtom (scope : String) (f : Frame) := atom scope "حالة" f.event f.property
+def requirementsV2 (scope target : String) (f : Frame) : List Requirement :=
+  requirements scope target f ++ [⟨.premise, stateAtom scope f⟩]
+
+def checkV2 (s : Source) (q : List UInt8) (c : Certificate) (target : String) (f : Frame) : Bool :=
+  check s q c target f &&
+  decide (QualifiedInference.assess (kind f) (requirementsV2 s.scope target f) c.known = .supported) &&
+  decide (QualifiedInference.Present c.cleanKnown (requirementsV2 s.scope target f))
+
+theorem v2_implies_existing_license (s : Source) (q : List UInt8) (c : Certificate)
+    (target : String) (f : Frame) (h : checkV2 s q c target f = true) :
+    check s q c target f = true := by
+  simp only [checkV2, Bool.and_eq_true, decide_eq_true_eq] at h
+  exact h.1.1
+
+theorem v2_missing_event_property_blocks (s : Source) (q : List UInt8) (c : Certificate)
+    (target : String) (f : Frame) (missing : stateAtom s.scope f ∉ c.known) :
+    checkV2 s q c target f ≠ true := by
+  intro h
+  simp only [checkV2, Bool.and_eq_true, decide_eq_true_eq] at h
+  exact QualifiedInference.missing_obligation_blocks _ _ _ ⟨.premise, stateAtom s.scope f⟩
+    (by simp [requirementsV2]) missing h.1.2
+
+theorem v2_event_property_derivable (s : Source) (q : List UInt8) (c : Certificate)
+    (target : String) (f : Frame) (h : checkV2 s q c target f = true) :
+    SemanticInference.Derivable (lower s c.clauses) (stateAtom s.scope f) := by
+  have old := v2_implies_existing_license s q c target f h
+  have checked := (check_exact s q c target f).mp old
+  simp only [checkV2, Bool.and_eq_true, decide_eq_true_eq] at h
+  have present := ((QualifiedInference.supported_exact _ _ _).mp h.1.2).2.1
+    ⟨.premise, stateAtom s.scope f⟩ (by simp [requirementsV2])
+  exact (checked_closure_exact _ _ _ (verified_parts s q c checked.1).2.1 _).mp present
+
 end Nabt.RelationalBridge

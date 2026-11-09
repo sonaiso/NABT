@@ -16,7 +16,8 @@ from tools import verified_reading as reading
 from tools.evidence_lifecycle_v1 import _encoded
 from .operations import ROOT
 
-LAW = "nabt.relational-bridge.v1"
+LAW = "nabt.relational-bridge.v2"
+CONTINUITY_LAW = "nabt.relational-continuity.v1"
 DATA = "tools/grammar_catalog/data/relational_readings_v1.json"
 FRAME_FIELDS = {"reading_id", "stage", "occurrence_id", "entity", "kind", "property",
                 "event", "time", "place", "cause", "start", "stop", "surface"}
@@ -115,7 +116,7 @@ def evaluate(target, bridge):
         if native["licensed"]:
             result.update(status="SCOPED_SOURCE_LICENSE",ontology_assertions=[{
                 "stage":f["stage"],"frame":deepcopy(f),"authority":"SOURCE_RELATIVE",
-                "rule_reference":"Nabt.RelationalBridge.check_exact"}])
+                "rule_reference":"Nabt.RelationalBridge.v2_event_property_derivable"}])
         elif native["qualified_verdict"]=="CONFLICT":
             result["status"]="CONFLICT"
         elif native["qualified_verdict"]=="REFUTED_PREMISE":
@@ -128,4 +129,122 @@ def evaluate(target, bridge):
     except OSError:
         result.update(status="VERIFICATION_UNAVAILABLE",reason="Native relational checker unavailable")
     _encoded(result,2*1048576)
+    return result
+
+
+def _schema_native(command, payload=None):
+    """One native owner for schemas and structural validation, never truth."""
+    binary = ROOT / "formal/.lake/build/bin/verifiedReading"
+    fingerprint = pilot.file_sha(binary)
+    with tempfile.TemporaryDirectory(prefix="nabt-continuity-") as temp:
+        args = [str(binary), command]
+        if payload is not None:
+            path = Path(temp) / "request.json"
+            path.write_text(pilot.wire(payload), encoding="utf-8")
+            args.append(str(path))
+        run = subprocess.run(args, capture_output=True, timeout=20)
+    if pilot.file_sha(binary) != fingerprint:
+        raise ValueError("Native schema checker changed")
+    result = pilot.strict_json(run.stdout)
+    if (run.returncode != 0 or result.get("verified") is not True
+            or result.get("continuity_law_id") != CONTINUITY_LAW):
+        raise ValueError("Native schema checker rejected input")
+    result["checker_sha256"] = fingerprint
+    return result
+
+
+def schema_catalogue():
+    result = _schema_native("relational-schemas")
+    native = [(r["reading_id"], r["spellings"], r["schema"]["sense"]) for r in result["schemas"]]
+    reviewed = [(r["reading"]["id"], r["reading"]["spellings"], r["reading"]["sense"])
+                for r in lexical_cards()]
+    if native != reviewed:
+        raise ValueError("Native meaning identities and lexical review disagree")
+    return result
+
+
+def check_bindings(reading_id, bindings):
+    """Internal structural check; a valid value still needs source evidence."""
+    return _schema_native("relational-schema", {"reading_id": reading_id, "bindings": bindings})
+
+
+def continuity(target, bridge_result=None):
+    """Retain all installed exact readings and their open ontological slots.
+
+    Only native, source-bound obligations can bind an occurrence. A schema
+    label reference names the installed concept; it adds no grammatical reading.
+    This helper has no public route accepting a caller's bridge receipt.
+    """
+    from .operations import exact_terms
+    result = {"schema": CONTINUITY_LAW, "status": "DEFER", "occurrences": [],
+              "authority": "INSTALLED_SCHEMA_STRUCTURE_ONLY", "world_truth_established": False,
+              "grammar_acquisition_proved": False, "alternatives_pruned": False,
+              "schema_label_is_grammatical_analysis": False}
+    try:
+        catalogue = schema_catalogue()
+        matches = []
+        for token in exact_terms(target):
+            candidates = [(r, "reviewed_surface" if token["surface"] in r["spellings"] else "schema_label_reference")
+                          for r in catalogue["schemas"]
+                          if token["surface"] in r["spellings"] or token["surface"] == r["schema"]["sense"]]
+            if candidates:
+                matches.append((token, candidates))
+        if sum(len(cs) for _, cs in matches) > 128:
+            result.update(status="RESOURCE_LIMIT", reason="Exact schema candidates exceed 128; none truncated")
+            return result
+        bridge_result = bridge_result or {}
+        native = bridge_result.get("native_receipt") or {}
+        frame = bridge_result.get("frame", {})
+        if native and bridge_result.get("checker_sha256") != catalogue["checker_sha256"]:
+            raise ValueError("Schema and source checks used different native owners")
+        for token, candidates in matches:
+            rows = []
+            for record, match_kind in candidates:
+                schema = record["schema"]
+                general = [{"slot": slot, "state": "unbound_variable", "value": ""}
+                           for slot in schema["slots"]]
+                checked = check_bindings(record["reading_id"], general)
+                if (checked["checker_sha256"] != catalogue["checker_sha256"]
+                        or checked.get("schema") != schema or not checked.get("structurally_valid")
+                        or checked.get("binding_evidence_checked") is not False):
+                    raise ValueError("Schema structure or owner mismatch")
+                row = {"reading_id": record["reading_id"], "match_kind": match_kind,
+                       "ontological_signature": schema, "general_bindings": general,
+                       "structure_receipt": checked, "occurrence_bindings": None,
+                       "occurrence_license": False}
+                if (match_kind == "reviewed_surface" and native.get("occurrence_bound") is True
+                        and native.get("selected_reading") == record["reading_id"]
+                        and token["codepoint_span"] == [frame.get("start"), frame.get("stop")]):
+                    requirements = native["requirements"]
+                    # Requirements are fixed by Lean for this exact frame; every
+                    # accepted binding also retains the native signed witnesses.
+                    good = {q["predicate"] for q in requirements
+                            if q["present"] and q["clean"] and not q["opposed"]}
+                    core = {"نص", "موضع", "قراءة", "حدث", "معنى"}
+                    dependencies = {
+                        "event": ("event", set()),
+                        "bearer": ("entity", {"حامل"}),
+                        "genus": ("kind", {"حامل", "عضوية"}),
+                        "property": ("property", {"حامل", "خاصية", "حالة", "يقبل", "يحول"}),
+                        "time": ("time", {"زمان"}), "place": ("place", {"مكان"})}
+                    bound = []
+                    for slot in schema["slots"]:
+                        field, extra = dependencies[slot]
+                        supported = core | extra <= good
+                        bound.append({"slot": slot,
+                                      "state": "bound_value" if supported else "unknown_in_occurrence",
+                                      "value": frame[field] if supported else ""})
+                    occurrence = check_bindings(record["reading_id"], bound)
+                    if (not occurrence["structurally_valid"] or occurrence["schema"] != schema
+                            or occurrence["checker_sha256"] != catalogue["checker_sha256"]):
+                        raise ValueError("Occurrence changed its schema")
+                    row.update(occurrence_bindings=bound, occurrence_structure_receipt=occurrence,
+                               binding_authority="SOURCE_RELATIVE", binding_witnesses=requirements,
+                               occurrence_license=bridge_result["licensed"])
+                rows.append(row)
+            result["occurrences"].append({**token, "candidates": rows})
+        result.update(status="SCHEMAS_RETAINED" if matches else "NO_INSTALLED_EXACT_SCHEMA",
+                      checker_sha256=catalogue["checker_sha256"])
+    except (OSError, ValueError, KeyError, subprocess.SubprocessError, pilot.PilotError) as error:
+        result.update(status="VERIFICATION_UNAVAILABLE", reason=type(error).__name__, occurrences=[])
     return result
