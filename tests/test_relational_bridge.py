@@ -23,6 +23,7 @@ LEDGER = (
     "حدث1 معنى اصفرار.\n"
     "حدث1 حامل شجرة1.\n"
     "شجرة1 خاصية لون_اصفر.\n"
+    "حدث1 حالة لون_اصفر.\n"
     "نبات يقبل لون_اصفر.\n"
     "اصفرار يحول لون_اصفر.\n"
     "شجرة1 قابلية اصفرار.\n"
@@ -83,7 +84,7 @@ class NativeRelationalBridge(unittest.TestCase):
         r=self.evaluate()
         self.assertTrue(r['licensed'],r)
         self.assertEqual(r['status'],'SCOPED_SOURCE_LICENSE')
-        self.assertEqual(len(r['native_receipt']['requirements']),17)
+        self.assertEqual(len(r['native_receipt']['requirements']),18)
         self.assertTrue(r['source_analysis']['source_clauses'])
         self.assertFalse(r['world_truth_established'])
         self.assertFalse(r['grammar_acquisition_proved'])

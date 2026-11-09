@@ -122,6 +122,60 @@ def relationalFrame (j : Json) : ProbeM Nabt.RelationalBridge.Frame := do
     ← name "property", ← name "event", ← name "time", ← name "place", ← name "cause",
     ← nat (← field j "start"), ← nat (← field j "stop"), ← str (← field j "surface")⟩
 
+def schemaJson (r : Nabt.RelationalBridge.Reading) : Json :=
+  let s := Nabt.RelationalBridge.meaningSchema r
+  Json.mkObj [("sense", toJson s.sense),
+    ("slots", toJson (s.slots.map (·.label))),
+    ("relations", toJson (s.relations.map fun (left, relation, right) =>
+      Json.mkObj [("left", toJson left.label), ("relation", toJson relation), ("right", toJson right.label)]))]
+
+def schemaCatalogue : Json := response [
+  ("verified", toJson true), ("continuity_law_id", toJson Nabt.RelationalBridge.continuityLawId),
+  ("schemas", toJson (Nabt.RelationalBridge.readings.map fun r => Json.mkObj [
+    ("reading_id", toJson r.label), ("spellings", toJson r.spellings),
+    ("schema", schemaJson r)])),
+  ("schema_scope", toJson "INSTALLED_INTERPRETED_MEANING_SCHEMAS_NOT_WORLD_EXISTENCE")]
+
+def binding (j : Json) : ProbeM (Nabt.RelationalBridge.SemanticSlot × Nabt.RelationalBridge.SlotBinding) := do
+  keys j ["slot", "state", "value"]
+  let name ← str (← field j "slot")
+  let some slot := (Nabt.RelationalBridge.meaningSchema .yellowPast).slots.find? (fun s => s.label == name)
+    | invalid "unknown schema slot"
+  let state ← str (← field j "state")
+  let value ← str (← field j "value")
+  let v ← match state with
+    | "unbound_variable" =>
+      if value != "" then invalid "unbound variable cannot assert a value" else pure .unbound
+    | "unknown_in_occurrence" =>
+      if value != "" then invalid "unknown occurrence cannot assert a value" else pure .unknown
+    | "bound_value" =>
+      if !validName value || value.utf8ByteSize > 512 then invalid "invalid bound value" else pure (.bound value)
+    | _ => invalid "physical slot state cannot be inapplicable or caller certified"
+  return (slot, v)
+
+def evaluateSchema (bytes : ByteArray) : Json :=
+  match (do
+    let some text := String.fromUTF8? bytes | invalid "schema request must be UTF-8"
+    preflight text
+    let j ← liftParse (Json.parse text)
+    keys j ["reading_id", "bindings"]
+    let rid ← str (← field j "reading_id")
+    let some r := Nabt.RelationalBridge.readings.find? (fun r => r.label == rid)
+      | invalid "unknown installed reading"
+    let bs ← boundedItems 6 binding (← field j "bindings")
+    return (r, bs) : ProbeM (Nabt.RelationalBridge.Reading × List
+      (Nabt.RelationalBridge.SemanticSlot × Nabt.RelationalBridge.SlotBinding))) with
+  | .error e => failed e.code e.message
+  | .ok (r, bs) => response [
+      ("verified", toJson true), ("continuity_law_id", toJson Nabt.RelationalBridge.continuityLawId),
+      ("structurally_valid", toJson (Nabt.RelationalBridge.validInstance r ⟨Nabt.RelationalBridge.meaningSchema r, bs⟩)),
+      ("schema", schemaJson r), ("reading_id", toJson r.label),
+      ("bindings", toJson (bs.map fun (slot, value) => Json.mkObj [
+        ("slot", toJson slot.label),
+        ("state", toJson (match value with | .unbound => "unbound_variable" | .unknown => "unknown_in_occurrence" | .bound _ => "bound_value")),
+        ("value", toJson (match value with | .bound v => v | _ => ""))])),
+      ("binding_evidence_checked", toJson false)]
+
 def evaluateRelational (s : Source) (q : List UInt8) (cert frameBytes targetBytes : ByteArray) : Json :=
   match (do
     let some ct := String.fromUTF8? cert | invalid "certificate must be UTF-8"
@@ -138,11 +192,13 @@ def evaluateRelational (s : Source) (q : List UInt8) (cert frameBytes targetByte
   | .ok (c, f, target) =>
     if !verify s q c then failed "CERTIFICATE_REJECTED" "source reading or full/clean closure rejected"
     else
-      let reqs := Nabt.RelationalBridge.requirements s.scope target f
+      let reqs := Nabt.RelationalBridge.requirementsV2 s.scope target f
       let qualified := Nabt.QualifiedInference.assess (Nabt.RelationalBridge.kind f) reqs c.known
       response [
-        ("verified", toJson true), ("bridge_law_id", toJson Nabt.RelationalBridge.lawId),
-        ("licensed", toJson (Nabt.RelationalBridge.check s q c target f)),
+        ("verified", toJson true), ("bridge_law_id", toJson Nabt.RelationalBridge.applicationLawId),
+        ("licensed", toJson (Nabt.RelationalBridge.checkV2 s q c target f)),
+        ("legacy_v1_licensed", toJson (Nabt.RelationalBridge.check s q c target f)),
+        ("semantic_schema", schemaJson f.reading),
         ("qualified_verdict", toJson qualified.label),
         ("occurrence_bound", toJson (Nabt.RelationalBridge.occurrenceBound target f)),
         ("reading_candidates", toJson ((Nabt.RelationalBridge.candidates f.surface).map (·.label))),
@@ -164,6 +220,21 @@ open VerifiedReadingMain
 def main (args : List String) : IO UInt32 := do
   let out ← IO.getStdout
   match args with
+  | ["relational-schemas"] =>
+    out.putStrLn schemaCatalogue.compress
+    return 0
+  | ["relational-schema", requestPath] =>
+    try
+      let bytes ← readBounded requestPath 16384
+      if bytes.size > 16384 then
+        out.putStrLn (failed "RESOURCE_LIMIT" "schema request byte budget").compress
+        return 2
+      let result := evaluateSchema bytes
+      out.putStrLn result.compress
+      return if (result.getObjValAs? Bool "verified").toOption == some true then 0 else 1
+    catch e =>
+      out.putStrLn (failed "IO_ERROR" e.toString).compress
+      return 2
   | ["relational", sourcePath, queryPath, certificatePath, framePath, targetPath, identity, revision, scope] =>
     try
       let raw ← readBounded sourcePath 65536

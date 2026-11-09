@@ -62,18 +62,24 @@ def load_model(path=MODEL):
     return m, sha256(raw).hexdigest()
 
 
-def occurrence_logits(model, text):
+def occurrence_vectors(base, text):
+    """Shared frozen or trainable encoder coordinates, preserving exact spans."""
     tokens = shared.byte_ids(text)
-    base = model["shared_model"]
     forward = shared.states_for_ids(base, tokens)
     reverse = shared.states_for_ids(base, list(reversed(tokens)))
     rows = []
     for term in exact_terms(text):
         start, end = term["utf8_span"]
         vector = forward[start] + forward[end] + reverse[len(tokens)-end] + reverse[len(tokens)-start]
-        scores = shared._linear(model["alignment_weight"], model["alignment_bias"], vector)
-        rows.append({**term, "logits": scores})
+        rows.append({**term, "vector": vector})
     return rows, shared.head_logits(base, forward[-1])
+
+
+def occurrence_logits(model, text):
+    rows, heads = occurrence_vectors(model["shared_model"], text)
+    return [{**{k:v for k,v in row.items() if k != "vector"},
+             "logits": shared._linear(model["alignment_weight"], model["alignment_bias"], row["vector"])}
+            for row in rows], heads
 
 
 def distribution(scores):

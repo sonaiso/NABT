@@ -2,7 +2,7 @@
 .PHONY: relational-bridge
 relational-bridge:
 	cd formal && $(LAKE) build verifiedReading
-	PYTHONPATH=src:. NABT_REQUIRE_RELATIONAL_NATIVE=1 $(PYTHON) -m unittest tests.test_relational_bridge -v
+	PYTHONPATH=src:. NABT_REQUIRE_RELATIONAL_NATIVE=1 $(PYTHON) -m unittest tests.test_relational_bridge tests.test_ontological_continuity tests.test_relational_alignment -v
 
 check: relational-bridge
 

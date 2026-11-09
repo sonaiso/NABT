@@ -1,0 +1,127 @@
+{
+  "protocol": {
+    "id": "nabt.relational-ranking-training.v1",
+    "seed": 116117,
+    "epochs": 400,
+    "learning_rate": 0.035,
+    "l2": 0.001,
+    "selection": "FIXED_FINAL_EPOCH",
+    "features": "FROZEN_EXISTING_GRU_96_BOUNDARY_COORDINATES",
+    "test_used_for_selection": false,
+    "supervision": "AUTHORED_EDUCATIONAL_SENSE_ALIGNMENT",
+    "native_schema_is_trainable": false,
+    "independent_semantic_adjudication": false
+  },
+  "partition_counts": {
+    "train": 104,
+    "validation": 26,
+    "test_context": 39,
+    "test_spelling": 3
+  },
+  "partition_sha256": {
+    "train": "fdd13ca0c78302c30da0ebdc1da9a5b1830e24bd5aa9ce1bee6eea5ea1445027",
+    "validation": "d13d551d9f881c448862834f024b17b9e6fc513851cba7c6e7fd56853a1c5480",
+    "test_context": "f620a1e511f4c558306727f301694e039e31f1d05c80d3dd52b8eaa3f304506b",
+    "test_spelling": "8fecd0aaab5170b57d5e368b490a2420508135e0ea47ae957c50d0abb2bd24c4"
+  },
+  "parameter_delta_l2": 5.366847700816928,
+  "encoder_parameter_delta_l2": 0,
+  "optimizer_steps": 400,
+  "history": [
+    {
+      "epoch": 1,
+      "cross_entropy": 1.3797462906757263
+    },
+    {
+      "epoch": 50,
+      "cross_entropy": 0.061615465669078086
+    },
+    {
+      "epoch": 100,
+      "cross_entropy": 0.050601580372248246
+    },
+    {
+      "epoch": 150,
+      "cross_entropy": 0.04781316205830706
+    },
+    {
+      "epoch": 200,
+      "cross_entropy": 0.04636820022111447
+    },
+    {
+      "epoch": 250,
+      "cross_entropy": 0.04541659478172153
+    },
+    {
+      "epoch": 300,
+      "cross_entropy": 0.0447230061354245
+    },
+    {
+      "epoch": 350,
+      "cross_entropy": 0.04417288030515041
+    },
+    {
+      "epoch": 400,
+      "cross_entropy": 0.04370842579274009
+    }
+  ],
+  "metrics": {
+    "validation": {
+      "tokens": 104,
+      "top1_correct": 90,
+      "positive_tokens": 20,
+      "positive_top1_correct": 20,
+      "background_tokens": 84,
+      "background_false_positive": 14
+    },
+    "test_context": {
+      "tokens": 182,
+      "top1_correct": 133,
+      "positive_tokens": 30,
+      "positive_top1_correct": 29,
+      "background_tokens": 152,
+      "background_false_positive": 48
+    },
+    "test_spelling": {
+      "tokens": 9,
+      "top1_correct": 9,
+      "positive_tokens": 3,
+      "positive_top1_correct": 3,
+      "background_tokens": 6,
+      "background_false_positive": 0
+    }
+  },
+  "exact_lookup_baseline": {
+    "validation": {
+      "tokens": 104,
+      "top1_correct": 104,
+      "positive_tokens": 20,
+      "positive_top1_correct": 20,
+      "background_tokens": 84,
+      "background_false_positive": 0
+    },
+    "test_context": {
+      "tokens": 182,
+      "top1_correct": 182,
+      "positive_tokens": 30,
+      "positive_top1_correct": 30,
+      "background_tokens": 152,
+      "background_false_positive": 0
+    },
+    "test_spelling": {
+      "tokens": 9,
+      "top1_correct": 6,
+      "positive_tokens": 3,
+      "positive_top1_correct": 0,
+      "background_tokens": 6,
+      "background_false_positive": 0
+    }
+  },
+  "numpy_version": "2.3.5",
+  "shared_model_sha256": "d472287d1a04296001e5fa3d64c0686e4ddef940ce121218ee486e0448b5b12c",
+  "model_sha256": "97534300ad417ce0e10780b1fd3298e09f5ac70c131b6dcfd96164eab2c0332b",
+  "world_truth_established": false,
+  "new_roots_measured": false,
+  "independent_semantic_adjudication": false,
+  "portable_max_abs_error": 3.552713678800501e-15
+}

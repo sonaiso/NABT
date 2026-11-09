@@ -1950,3 +1950,26 @@ words, productive article/clitic acquisition or a general Python/Lean refinement
 proof. «بِالْأَسَدِ», «الْحَيَوَانَ» and «الْمُفْتَرِسَ» remain outside the installed
 reading inventory, so the earlier full usage sentence still stops at its lower
 gate. See `docs/UNIT_ARTICLE_BRIDGE_V1_AR.md` for the acceptance boundary.
+
+## Ontological continuity v1 and relational application v2 (2026-11-09)
+
+The existing `RelationalBridge` owner now retains a six-slot, seven-edge
+meaning schema for its four readings (three senses). Nine new Lean theorems
+prove structural retention and the added event/property requirement. Application
+v2 entails v1 and requires a clean source witness connecting the property to
+this event. It does not establish world truth or free-Arabic acquisition.
+The canonical manifest contains 1,654 declarations; compiled reference files
+move together under `evidence/ontological_continuity_v1/integration`.
+
+The existing `relations.analyze` route returns open schema variables and
+source-relative occurrence bindings, preserving missing evidence and reading
+alternatives. Its optional experimental neural ranking shares the installed
+GRU, with a newly trained linear head. The retained first test has 29/30 correct
+positive context mentions but 48/152 background false positives: the head is
+not promoted to automatic semantic selection. It cannot bind an occurrence or
+alter a schema, and its hidden coordinates are not claimed interpretable.
+
+See `docs/ONTOLOGICAL_CONTINUITY_V1_AR.md` for the model limits, recorded first
+test, and withdrawal/mutation cases. Required checks include native continuity,
+existing contextual/shared encoder regressions, compiled axiom audit and the
+public `make check`; the PR records actual outcomes.
