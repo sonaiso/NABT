@@ -15,7 +15,9 @@ concurrency:
 jobs:
   native-admission:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # Native replay groups exceeded the old 15-minute whole-job budget.
+    # Keep every admission check; allow build time and independent replays.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -31,10 +33,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
-      - name: Current catalogue and required native admission
+      - name: Current proof catalogue
         run: |
           make proof-catalog LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Required native gateway admission
+        run: |
           make io-gateway-native LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Relational continuity and alignment
+        run: |
           make relational-bridge LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Case application and evidence revision
+        run: |
           make case-application LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Scoped composition and independent replay
+        run: |
           make scoped-composition LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
