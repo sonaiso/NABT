@@ -16,6 +16,18 @@ from .retrieval import ROOT, SearchIndex, RetrievalError, tokens, _limit
 
 RECIPE = "nabt.operation-retrieval.exact-and-lexical.v1"
 
+# Inputs of the existing v3 acquisition owner outside the scanned source tree.
+# This is snapshot plumbing, not a second reading inventory. The owner checks
+# the pinned packet, dependencies and exact retained source bytes independently.
+ACQUISITION_INPUTS = (
+    "evidence/sourced_acquisition_v3/source_evidence.json",
+    "evidence/sourced_acquisition_v3/natural_sources.json",
+    "evidence/aligned_acquisition_v1/source_evidence.json",
+    "evidence/article_acquisition_v2/source_evidence.json",
+    "evidence/linguistic_truth_v1/sources/shakhsiyya3_linguistic_truth_selected.txt",
+    "evidence/classical_language/sources/maqayis.txt",
+)
+
 
 def digest(value):
     return sha256(wire(value).encode("utf-8")).hexdigest()
@@ -65,6 +77,11 @@ def source_snapshot(root=ROOT):
                 raise RetrievalError("Native file changed during snapshot")
         else:
             inputs[path] = sha256(target.read_bytes()).hexdigest()
+    for source_path in ACQUISITION_INPUTS:
+        target = root / source_path
+        if target.is_symlink() or not target.resolve().is_relative_to(root):
+            raise RetrievalError("Acquisition source snapshot escapes the installed repository")
+        inputs[source_path] = sha256(target.read_bytes()).hexdigest() if target.exists() else "UNAVAILABLE"
     return {"schema": "nabt.operation-snapshot.v1", "files": inputs,
             "proof_catalog": relative, "proof_authority": catalog["authority"],
             "native_readiness_is_not_verification": True}, catalog

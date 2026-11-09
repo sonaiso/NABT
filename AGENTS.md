@@ -39,6 +39,11 @@ world-grounded applications. Do not bypass lower orchestration gates, turn the
 single authored identity alignment into a general equivalence proof, or infer
 exclusion from a missing reading. Replay the original request after withdrawal.
 
+For article citation acquisition, reuse the native v3 dispatch in the existing
+unit agent and `docs/UNIT_ARTICLE_BRIDGE_V1_AR.md`. The prefix selects an owner;
+only its complete source-backed reading grants representation. Keep citation
+onset separate from connected speech and preserve first-owner failures.
+
 `make check` now uses `GNUmakefile` to include the historical Makefile, current
 catalogue checks and required native I/O tests. Do not use `make -f Makefile check`
 as a substitute for that release gate. The latter is a historical partial gate.

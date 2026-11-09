@@ -13,7 +13,7 @@ io-gateway:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/contrast.json --receipt $(EVIDENCE_DIR)/io-contrast.json
 
 io-gateway-build:
-	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe progressiveUnitProbe alignedAcquisition temporalContextProbe recursiveBridgeProbe epistemicMeasurement lexicalDenotation
+	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe progressiveUnitProbe alignedAcquisition connectedAcquisitionV3 temporalContextProbe recursiveBridgeProbe epistemicMeasurement lexicalDenotation
 
 io-gateway-native: io-gateway-build
 	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex -v

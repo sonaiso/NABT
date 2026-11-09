@@ -199,9 +199,25 @@ def _read(text, source_id):
         "derivation_owner":read_derivation(text,source_id=source_id,scope=SCHEMA)}
 
 
+def _acquire_host(surface, source_id, mode):
+    """Route an article citation to its installed native owner.
+
+    The prefix only selects an owner. Its exact finite reading, pinned sources
+    and fresh native replay still decide admission. Failures of the first owner
+    are never recovered by trying another owner.
+    """
+    from tools import aligned_acquisition as base, connected_acquisition_v3 as article
+    first = base.read_acquired(surface, source_id=source_id, scope=SCHEMA, ending=mode)
+    if (first.get("verified") is not True or first.get("status") not in ("ACQUIRED", "DEFER")
+            or not article._article_shaped(first["acquisition"]["pieces"])):
+        return first, None
+    selected = article.read_acquired(surface, source_id=source_id, scope=SCHEMA,
+                                     ending=mode, onset="word_initial")
+    return selected, first
+
+
 def _compose(request, native):
     from nabt.word_reader import _scan
-    from tools.aligned_acquisition import read_acquired
     _fields(request,("op","parts","separators"),("mode","source_id"))
     parts, separators = request["parts"], request["separators"]
     if type(parts) is not list or not 1 <= len(parts) <= 8:
@@ -235,8 +251,15 @@ def _compose(request, native):
         row = {"text":surface,"mode":word_mode,"span":[group[0]["span"][0],group[-1]["span"][1]],
                "part_indices":[p["index"] for p in group]}
         try:
-            acquisition = read_acquired(surface,source_id=source.source_id,scope=SCHEMA,ending=word_mode)
+            acquisition, prior = _acquire_host(surface, source.source_id, word_mode)
             row["acquisition_owner"] = acquisition
+            if prior is not None:
+                row["prior_acquisition_owner"] = prior
+                row["acquisition_dispatch"] = {
+                    "policy": "nabt.unit-article-dispatch.v1",
+                    "condition": "VERIFIED_V1_REPRESENTATION_AND_ARTICLE_SHAPED_HOST",
+                    "selected_law": "nabt.sourced-acquisition.v3",
+                    "onset": "word_initial", "connected_speech_established": False}
             if acquisition["status"] == "RESOURCE_EXHAUSTED":
                 raise ResourceLimit("Acquisition owner resource budget exceeded")
             if not acquisition["verified"] or acquisition["status"] != "ACQUIRED":
