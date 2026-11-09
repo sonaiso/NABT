@@ -334,7 +334,7 @@ def _source(request, native):
     source=SourceBlob(request.get('source_id','input'),text.encode())
     segments=_scan(source)
     runs=[s for s in segments if s['kind']=='written_run']
-    if len(runs)>32: raise ResourceLimit('Source-unit written-run budget exceeded')
+    if len(runs)>128: raise ResourceLimit('Source-unit written-run budget exceeded')
     results=[]
     for s in runs:
         result=_compose({'op':'compose','parts':[s['surface']],'separators':[],

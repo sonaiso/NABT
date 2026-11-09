@@ -19,7 +19,7 @@ DIRECTORY = ROOT / "evidence/contextual_alignment_v1"
 MODEL = DIRECTORY / "model.json"
 SCHEMA = "nabt.shared-contextual-alignment.v1"
 NULL = "__UNALIGNED__"
-MAX_TERMS = 32
+MAX_TERMS = shared.MAX_SOURCE_TERMS
 MAX_SOURCE_ID_BYTES = 256
 FEATURES = "SHARED_FORWARD_REVERSE_BYTE_BOUNDARIES_V1"
 
@@ -27,7 +27,8 @@ FEATURES = "SHARED_FORWARD_REVERSE_BYTE_BOUNDARIES_V1"
 def validate_request(request):
     if type(request) is not dict or not {"text"} <= set(request) <= {"text", "source_id"}:
         raise ValueError("Expected text and optional source locator, never labels or model paths")
-    text = shared.validate_request({"text": request["text"]})
+    text = request["text"]
+    shared.source_windows(text)
     source = request.get("source_id", "input")
     if type(source) is not str or not source.strip() or len(source.encode()) > MAX_SOURCE_ID_BYTES:
         raise ValueError("Invalid source locator")
@@ -63,16 +64,26 @@ def load_model(path=MODEL):
 
 
 def occurrence_vectors(base, text):
-    """Shared frozen or trainable encoder coordinates, preserving exact spans."""
-    tokens = shared.byte_ids(text)
-    forward = shared.states_for_ids(base, tokens)
-    reverse = shared.states_for_ids(base, list(reversed(tokens)))
-    rows = []
-    for term in exact_terms(text):
-        start, end = term["utf8_span"]
-        vector = forward[start] + forward[end] + reverse[len(tokens)-end] + reverse[len(tokens)-start]
-        rows.append({**term, "vector": vector})
-    return rows, shared.head_logits(base, forward[-1])
+    """Use one installed encoder for source-bound, whole-token windows."""
+    windows = shared.source_windows(text)
+    rows, heads = [], None
+    for window in windows:
+        # A punctuation-only/spacing window is retained in the partition, even
+        # though it produces no occurrence. byte_ids intentionally rejects blank
+        # standalone requests, so this internal validated window uses raw bytes.
+        tokens = [b+1 for b in window["text"].encode()]
+        forward = shared.states_for_ids(base, tokens)
+        reverse = shared.states_for_ids(base, list(reversed(tokens)))
+        for term in exact_terms(window["text"]):
+            start, end = term["utf8_span"]
+            vector = forward[start] + forward[end] + reverse[len(tokens)-end] + reverse[len(tokens)-start]
+            cp = window["codepoint_span"][0]; bp = window["utf8_span"][0]
+            rows.append({**term, "vector":vector,
+                         "codepoint_span":[x+cp for x in term["codepoint_span"]],
+                         "utf8_span":[start+bp,end+bp],
+                         **({"context_window":{k:v for k,v in window.items() if k != "text"}} if len(windows)>1 else {})})
+        if len(windows)==1: heads = shared.head_logits(base, forward[-1])
+    return rows, heads
 
 
 def occurrence_logits(model, text):
@@ -149,6 +160,11 @@ def align(request, *, model_path=None, training_path=None):
             raise ValueError("Native definitions changed since training")
         training_rows = _training_rows(model, training_path)
         rows, heads = occurrence_logits(model, text)
+        windows = shared.source_windows(text)
+        if len(windows)>1:
+            out["source_windows"] = {"law_id":shared.SOURCE_WINDOW_LAW,
+                "windows":windows,"source_restored":"".join(w["text"] for w in windows)==text,
+                "context_scope":"WITHIN_WINDOW_ONLY", "cross_window_context_established":False}
         for row in rows:
             decision = decide(model, row["logits"])
             start,end = row["utf8_span"]
@@ -162,6 +178,7 @@ def align(request, *, model_path=None, training_path=None):
             out["occurrences"].append({"occurrence_id":sha256(wire(identity_input).encode()).hexdigest(),
                  "surface":row["surface"], "codepoint_span":row["codepoint_span"], "utf8_span":row["utf8_span"],
                  "source_sha256":digest,"status":decision["status"],"proposed_id":decision["proposed_id"],
+                 **({"context_window":row["context_window"]} if "context_window" in row else {}),
                  "margin":decision["margin"], "unaligned_score":row["logits"][-1],
                  "candidates":candidates, "training_neighbors":_training_neighbors(model,text,decision["proposed_id"],training_rows)
                         if decision["proposed_id"] else [],
@@ -171,7 +188,7 @@ def align(request, *, model_path=None, training_path=None):
                    calibration=model["calibration"], features=FEATURES,
                    all_installed_concepts_retained=True,
                    shared_heads={h: [{"label":label,"score":score} for label,score in
-                                 zip(model["shared_model"]["labels"][h],values)] for h,values in heads.items()})
+                                 zip(model["shared_model"]["labels"][h],values)] for h,values in (heads or {}).items()})
     except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
         out.update(status="DEFER", reason=type(error).__name__, occurrences=[], definitions={}, shared_heads={})
     return out
@@ -189,7 +206,7 @@ def observe_lesson(adapter, payload, *, analyzer=None):
     for index,(source,text,pointer) in enumerate(sources):
         row={"source_id":source,"source_text":text,"input_pointer":pointer,
              "source_sha256":sha256(text.encode()).hexdigest(),"proposal":None}
-        if (index >= 8 or len(text.encode()) > shared.MAX_BYTES or len(exact_terms(text)) > MAX_TERMS
+        if (index >= 8 or len(text.encode()) > shared.MAX_SOURCE_BYTES or len(exact_terms(text)) > MAX_TERMS
                 or len(source.encode()) > MAX_SOURCE_ID_BYTES):
             row["status"]="NEURAL_BUDGET_DEFER"
         else:

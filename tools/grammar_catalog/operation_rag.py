@@ -22,6 +22,15 @@ RESULT_SCHEMA = "nabt.operation-rag.result.v1"
 MAX_REQUEST = 128 * 1024
 MAX_RESULT = 8 * 1024 * 1024
 WORKER_SECONDS = 30
+
+
+def gateway_worker_limits(route):
+    """Installed budgets, not caller-selected limits.
+
+    Orchestration replays at most 16 conditional sources through six owners.
+    The original one-owner budget is insufficient for that bounded workload.
+    """
+    return (120, 180) if route == 'cognitive.orchestrate' else (20, WORKER_SECONDS)
 # Inherited by Lean checkers too: their allocator can reserve a 1 GiB arena
 # before resident use. A 1 GiB address-space cap changes valid native outcomes.
 MAX_ADDRESS_SPACE = 4 * 1024**3
@@ -121,7 +130,9 @@ def invoke_bounded(command, payload, *, maximum_request=MAX_REQUEST):
         process = subprocess.Popen(argv, cwd=ROOT, env=env, stdin=subprocess.PIPE,
                                    stdout=output, stderr=errors, start_new_session=True)
         try:
-            process.communicate(raw, timeout=WORKER_SECONDS)
+            seconds = (gateway_worker_limits(payload.get('request', {}).get('route'))[1]
+                       if command == 'gateway-worker' else WORKER_SECONDS)
+            process.communicate(raw, timeout=seconds)
         except subprocess.TimeoutExpired:
             os.killpg(process.pid, signal.SIGKILL)
             process.communicate()

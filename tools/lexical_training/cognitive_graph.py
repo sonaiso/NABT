@@ -52,6 +52,11 @@ def sign_nodes(text, source_id):
     raw = text.encode(); digest = sha256(raw).hexdigest()
     machines = {mode: Machine(mode) for mode in ("wasl", "waqf")}
     nodes = []
+    try:
+        cell_model, cell_sha = shared.load_cell_model()
+        cell_error = None
+    except (OSError, ValueError) as error:
+        cell_model, cell_sha, cell_error = None, None, type(error).__name__
     for term in exact_terms(text):
         identity = sha256(wire([source_id, digest, term["utf8_span"]]).encode()).hexdigest()
         row = {"id": identity, "kind": "WRITTEN_OCCURRENCE", **term,
@@ -63,6 +68,14 @@ def sign_nodes(text, source_id):
             row["a116"].update(status="REPRESENTED", cells=list(cells),
                                  reading_modes={mode: machine.analyse(cells).as_dict() for mode, machine in machines.items()},
                                  lexical_attestation_established=False, intended_sense_established=False)
+            row['cell_neural'] = {'status':'DEFER', 'model_sha256':cell_sha,
+                'authority':'NONE', 'model_error':cell_error}
+            if cell_model is not None and len(cells)<=64:
+                scores=shared.cell_logits(cell_model,cells)
+                row['cell_neural'].update(status='PROPOSED',input_ids=shared.cell_ids(cells),
+                    kernel_cells_ref='/a116/cells',alphabet_id=ALPHABET_ID,
+                    heads={h:[{'label':label,'score':score} for label,score in
+                        zip(cell_model['labels'][h],scores[h])] for h in scores})
         except NabtError as error:
             row["a116"].update(error.as_dict())
         nodes.append(row)
