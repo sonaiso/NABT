@@ -263,8 +263,14 @@ def observe_lesson(adapter, payload):
         if index >= 8 or len(raw)>MAX_SOURCE_BYTES:
             row["status"]="NEURAL_BUDGET_DEFER"
         else:
-            row["proposal"]=propose({"text":text})
-            row["status"]=row["proposal"]["status"]
+            from tools.evidence_lifecycle_v1 import ResourceLimit
+            try:
+                row["proposal"]=propose({"text":text})
+                row["status"]=row["proposal"]["status"]
+            except ResourceLimit:
+                row['status']='NEURAL_BUDGET_DEFER'
+            except ValueError:
+                row['status']='NEURAL_INPUT_DEFER'
         rows.append(row)
     return {"status":"OBSERVED" if all(r["status"]=="PROPOSED" for r in rows) else "PARTIAL",
             "observations":rows,"owner_evidence_modified":False,

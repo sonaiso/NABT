@@ -43,6 +43,9 @@ class SourceWindows(unittest.TestCase):
         for text in ('قلم '*129, 'قلم'+' '*8192):
             with self.assertRaises(ResourceLimit):s.source_windows(text)
         with self.assertRaises(ValueError):s.source_windows('ا'*129)
+        row=s.observe_lesson('qualified_inference',{'source_id':'x','source_text':'قلم '*129})['observations'][0]
+        self.assertEqual(row['status'],'NEURAL_BUDGET_DEFER')
+        self.assertEqual(row['source_text'],'قلم '*129)
 
     def test_long_occurrences_keep_original_positions_and_no_global_head(self):
         text='قَلَمٌ، '*24
@@ -161,6 +164,22 @@ class SourceReading(unittest.TestCase):
             result=r.analyze(self.p['text'],lexical_text=self.p['lexical_text'])
         self.assertEqual(result['derived_sources'],self.reading['derived_sources'])
         self.assertEqual(result['model_error'],'FileNotFoundError')
+
+    def test_long_word_retains_exact_native_owner_numbers(self):
+        text='اِسْتَخْرَجْتُهَا'
+        result=o.run({'text':text,'source_id':'long_word'})
+        transport=result['owner_reports']['orthography']
+        self.assertEqual(transport['schema'],'nabt.exact-unit-owner-transport.v1')
+        self.assertEqual(transport['owner_json_sha256'],sha256(transport['owner_json'].encode()).hexdigest())
+        original=json.loads(transport['owner_json'])
+        word=original['result']['written_runs'][0]['owner_result']['words'][0]
+        self.assertGreater(word['unit_n'],2**53-1)
+        self.assertEqual(list(decode_number(word['unit_n'])),
+                         word['acquisition_owner']['acquisition']['words'][0]['cells'])
+        # Exact transport preserves even a deferred sound-shape judgment.
+        # Serializability must not be confused with linguistic admission.
+        self.assertEqual(result['stopped_at'],'orthography')
+        self.assertFalse(result['dispatch_ledger'][0]['closed'])
 
     def test_branch_budget_retains_word_alternatives(self):
         with patch.object(r,'MAX_BRANCHES',2):

@@ -9,7 +9,7 @@ from hashlib import sha256
 import json
 import re
 
-from tools.evidence_lifecycle_v1 import _encoded, wire
+from tools.evidence_lifecycle_v1 import _encoded, wire, MAX_INTEGER
 from .operations import ROOT, digest
 from tools.lexical_training.rag_views import inventory, VIEWS
 
@@ -90,6 +90,21 @@ def _shape(p, source):
         w.get("acquisition_owner", {}).get("verified") is True for w in words)
     closed = closed and body.get("source_restored") is True and body.get("word_boundaries_preserved") is True
     closed = closed and all(s["kind"] in ("written_run", "spacing", "punctuation") for s in body["segments"])
+    # Long, valid words have exact unit numbers beyond JSON's portable integer
+    # range. Preserve the *complete* original owner wire without changing its
+    # integer values or weakening the external gateway's numeric contract.
+    def large(value):
+        if type(value) is int:return abs(value)>MAX_INTEGER
+        if type(value) is dict:return any(large(v) for v in value.values())
+        if type(value) is list:return any(large(v) for v in value)
+        return False
+    if large(result):
+        from tools.arabic_training.unit_composition import wire as exact_wire
+        raw=exact_wire(result)
+        result={'schema':'nabt.exact-unit-owner-transport.v1','source_id':source['id'],
+                'source_sha256':source['sha256'],'owner_json':raw,
+                'owner_json_sha256':sha256(raw.encode()).hexdigest(),
+                'transport_reason':'EXACT_UNIT_INTEGER_EXCEEDS_PORTABLE_JSON_RANGE'}
     return result, closed
 
 
