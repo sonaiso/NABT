@@ -35,6 +35,8 @@ ROUTES = {
     "application.temporal": (("discourse",), (), ()),
     "application.case": (("signed-inference", "mantuq-mafhum", "evidence-lifecycle"),
                          ("schema", "policy_id", "case", "sources", "initial_active", "events"), ()),
+    "composition.analyze": (("recursive-source", "signed-inference", "evidence-lifecycle"),
+                            ("schema", "profile"), ("text", "domain", "sources", "initial_active", "events", "connection")),
     "mantuq.search": (("mantuq-mafhum", "classical-source-rules"), ("query",), ("limit",)),
     "mantuq.source": (("mantuq-mafhum", "signed-inference", "classical-source-rules"),
                       ("source", "query", "plan"), ("source_id", "revision", "scope", "context", "time")),
@@ -91,6 +93,9 @@ def validate(route, payload):
     if route == "application.case":
         from .case_application import validate as validate_case
         validate_case(payload)
+    if route == "composition.analyze":
+        from .scoped_composition import validate as validate_composition
+        validate_composition(payload)
     if route == "mantuq.source":
         if type(payload["source"]) is not str or not payload["source"] or len(payload["source"].encode()) > 65536:
             raise ValueError("Expected bounded original source text")
@@ -178,6 +183,9 @@ def execute(route, payload, *, inside_worker=False):
         return evaluate(p)
     if route == "application.case":
         from .case_application import evaluate
+        return evaluate(p)
+    if route == "composition.analyze":
+        from .scoped_composition import evaluate
         return evaluate(p)
     if route == "mantuq.search":
         from tools.mantuq_inference.retrieval import search

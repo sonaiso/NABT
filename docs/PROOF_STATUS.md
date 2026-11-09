@@ -1999,3 +1999,37 @@ remain visible. No current decision is released from an incomplete application
 history. Policy adoption, source authenticity, physical truth, action authority,
 free-Arabic reading and a general Python/Lean refinement theorem remain open.
 See `docs/CASE_APPLICATION_V1_AR.md` for the scope and reproduction commands.
+
+## Scoped composition v1 (2026-11-09)
+
+`composition.analyze` adds a bounded exact-rational arithmetic reader and a
+nonempty finite quantifier compiler. Original UTF-8 spans, grouping, operator
+attachment, quantity/equality distinctions and assertion-target/question force
+are retained. An independent native executable reparses the original source
+and recomputes the entire projection before acceptance. Arithmetic reuses
+Lean `Rat` and the existing recursive `Tree` constructors; this structural
+projection does not instantiate a certified Arabic grammar.
+
+The quantified front end distinguishes all, not-all and all-not over at most
+four explicitly named members. It compiles to the existing signed Horn owner;
+domain metadata never supplies membership or property witnesses. The source
+connection and evidence-lifecycle owners retain conflicts, source ancestry,
+minimal source supports and retractions. The conditional profile delegates
+directly to that same source owner and grants neither the converse nor physical
+causality. The existing case/ontology paths remain their respective authorities.
+
+The acceptance suite uses independently authored numerical answers, an
+exhaustive classical two-member truth table, a four-member boundary, missing
+membership/foreign bearers, withdrawal and irrelevant changes, conflicting
+witnesses, source-question rejection, tampered projections and public gateway
+replay. Run `make scoped-composition`, then the full `make check` release gate;
+actual release/CI outcomes are recorded in the PR. The seven current compiled
+references move together to `evidence/scoped_composition_v1/integration`.
+All 1,654 declaration records are unchanged; no theorem is added or promoted.
+
+Limits remain explicit: no general parser/compiler soundness theorem, no
+Python/Lean refinement proof, no free-Arabic coverage, no real-world domain
+completeness or source authenticity, no neural training and no action authority.
+The two natural Arabic student examples use declared literal alignments; the
+productive quantifier grammar uses an explicit copula. See
+`docs/SCOPED_COMPOSITION_V1_AR.md` for the versioned law and exact bounds.

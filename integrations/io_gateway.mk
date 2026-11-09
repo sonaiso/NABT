@@ -13,7 +13,7 @@ io-gateway:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/contrast.json --receipt $(EVIDENCE_DIR)/io-contrast.json
 
 io-gateway-build:
-	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe progressiveUnitProbe alignedAcquisition connectedAcquisitionV3 temporalContextProbe recursiveBridgeProbe epistemicMeasurement lexicalDenotation
+	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe progressiveUnitProbe alignedAcquisition connectedAcquisitionV3 temporalContextProbe recursiveBridgeProbe epistemicMeasurement lexicalDenotation scopedCompositionProbe
 
 io-gateway-native: io-gateway-build
 	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex -v
@@ -44,3 +44,12 @@ case-application: io-gateway-build
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/case_application.json --receipt $(EVIDENCE_DIR)/case-application.json
 
 check: case-application
+
+.PHONY: scoped-composition
+scoped-composition: io-gateway-build
+	cd formal && $(LAKE) build evidenceLifecycleV1
+	PYTHONPATH=src:. NABT_REQUIRE_COMPOSITION_NATIVE=1 $(PYTHON) -m unittest tests.test_scoped_composition -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway run --request examples/io_gateway/composition_quantifier.json --output $(EVIDENCE_DIR)/composition-quantifier.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/composition_quantifier.json --receipt $(EVIDENCE_DIR)/composition-quantifier.json
+
+check: scoped-composition

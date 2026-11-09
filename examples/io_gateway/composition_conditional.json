@@ -1,0 +1,46 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "composition.analyze",
+  "payload": {
+    "schema": "nabt.scoped-composition.request.v1",
+    "profile": "conditional",
+    "connection": {
+      "schema": "nabt.acquired-knowledge.request.v1",
+      "scope": "scoped-conditional-example",
+      "sources": [
+        {
+          "id": "policy",
+          "text": "إذا سالم هو طالب و سالم هو مجتهد فإن سالم يستحق منحة.",
+          "parents": []
+        },
+        {
+          "id": "membership",
+          "text": "سالم هو طالب.",
+          "parents": []
+        },
+        {
+          "id": "diligence",
+          "text": "سالم هو مجتهد.",
+          "parents": []
+        }
+      ],
+      "query": "هل سالم يستحق منحة؟",
+      "initial_active": [
+        "policy",
+        "membership"
+      ],
+      "events": [
+        {
+          "id": "establish",
+          "kind": "activate",
+          "target": "diligence"
+        },
+        {
+          "id": "withdraw",
+          "kind": "withdraw",
+          "target": "diligence"
+        }
+      ]
+    }
+  }
+}

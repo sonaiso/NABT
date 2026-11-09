@@ -56,6 +56,7 @@ PYTHONPATH=src:. python -m tools.grammar_catalog gateway verify --request exampl
 | `irab.search` / `irab.analyze` | `irab` | العلامة والدور والبدائل |
 | `application.analyze` / `application.temporal` | `application` / `temporal` | وصل النص والتحليل والمقام والزمن |
 | `application.case` | `case_application` فوق `source_learning_connection` و`mantuq_inference.source_bound` | [واقعة جديدة ومراجعة حكمها](CASE_APPLICATION_V1_AR.md)، مع شواهد العلاقات وسحب الأدلة وثبات الحكم أمام اللون |
+| `composition.analyze` | `scoped_composition` ثم `ScopedCompositionProbe` ومالكو الاستدلال والمراجعة القائمون | [حفظ التعلّق ونطاق النفي والكم والشرط](SCOPED_COMPOSITION_V1_AR.md)، بحساب دقيق ومجال كم مصرح به |
 | `mantuq.search` / `mantuq.source` | `mantuq_inference.retrieval` / `source_bound` | مصادر المنطوق والمفهوم والنتيجة الأصلية بفاحص Lean |
 
 تصل عملية `lesson` داخل مسار `operation` إلى منسق الدروس الموجود في
