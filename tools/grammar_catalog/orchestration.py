@@ -119,7 +119,7 @@ def _syntax(p, source, model):
     return report, closed
 
 
-def run(request):
+def run(request, *, _recover=True):
     p = validate(request); policy = table()
     source = {"id": p.get("source_id", "input"), "text": p["text"],
               "sha256": sha256(p["text"].encode()).hexdigest()}
@@ -189,7 +189,7 @@ def run(request):
         from .usage_witness import dispatch_majaz
         special[0] = dispatch_majaz(graph["usage_witness"], source=source, cursor=5,
                                    predecessor=ledger[-2], policy=policy)
-    return {"schema": SCHEMA, "status": "DEFER", "source": source,
+    result = {"schema": SCHEMA, "status": "DEFER", "source": source,
             "orchestrator": {"id": "truth-interpretation-dispatch", "kind": "CONTROL_OPERATOR",
                              "concept_id": None, "trainable_parameters": 0, "law_id": policy["law_id"],
                              "table_sha256": TABLE_SHA256},
@@ -205,6 +205,27 @@ def run(request):
             "open_obligations": ["OCCURRENCE_INTERPRETATION_AND_GROUNDED_CONCEPT_APPLICATION",
                 "GENERAL_ARABIC_USE_ACQUISITION_AND_WORLD_GROUNDING",
                 "ANALOGY_DIVISION_OWNER_BUNDLE_BRIDGES", "INDEPENDENT_REVIEW_BEFORE_TRAINING"]}
+    if _recover:
+        from tools.arabic_training.source_reading import analyze as read_source
+        recovery = read_source(p['text'],source_id=source['id'],lexical_text=p.get('lexical_text'),
+                               mode=p.get('mode','wasl'))
+        result['source_reading'] = recovery
+        result['conditional_readings'] = []
+        if result['stopped_at']=='orthography':
+            for candidate in recovery['derived_sources']:
+                derived_id='reading_'+digest([source['id'],source['sha256'],candidate['sha256']])[:32]
+                # The original ledger remains DEFER. Each derived source must
+                # start again at orthography; this cannot open an upper gate for
+                # the unmarked parent or copy occurrence-local usage witnesses.
+                # Discourse context declares entities/participants, without
+                # source offsets. Replay those premises on the new text.
+                # Usage witnesses, in contrast, bind exact source occurrences.
+                branch={k:v for k,v in p.items() if k not in {'text','source_id','usage_context'}}
+                branch.update(text=candidate['text'],source_id=derived_id)
+                result['conditional_readings'].append({'reading':candidate,'source_id':derived_id,
+                    'parent_claim_promoted':False,'withheld_parent_context':['usage_context'],
+                    'result':run(branch,_recover=False)})
+    return result
 
 
 def verify(report, *, expected_request):

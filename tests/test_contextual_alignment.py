@@ -37,8 +37,8 @@ class AlignmentContracts(unittest.TestCase):
             with self.assertRaises(ValueError):a.validate_request(payload)
 
     def test_occurrence_capacity_is_a_resource_limit_through_the_cli(self):
-        payload={'text':'ا '*33}
-        self.assertLess(len(payload['text'].encode()),old.MAX_BYTES)
+        payload={'text':'ا '*(a.MAX_TERMS+1)}
+        self.assertLess(len(payload['text'].encode()),old.MAX_SOURCE_BYTES)
         with self.assertRaises(a.ResourceLimit):a.validate_request(payload)
         with tempfile.TemporaryDirectory() as root:
             path=Path(root)/'request.json'

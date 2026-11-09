@@ -73,8 +73,8 @@ def validate(route, payload):
     if route == "concept.matrix" and (type(payload["version"]) is not int or payload["version"] != 1):
         raise ValueError("Unknown RAG view version")
     if route == "neural.propose":
-        from tools.lexical_training.shared_encoder import validate_request
-        validate_request(payload)
+        from tools.lexical_training.shared_encoder import validate_source_request
+        validate_source_request(payload)
     if route == "neural.align":
         from tools.lexical_training.contextual_alignment import validate_request
         validate_request(payload)

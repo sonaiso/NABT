@@ -1,5 +1,17 @@
 # ما هو مبرهن وما هو مفحوص
 
+## Source reading and canonical-cell neural input — 2026-11-09
+
+The source reading adapter uses the existing lexical testimony and native
+acquisition owners, then replays each conditional spelling/diacritization
+through the original orchestration gates. Windowed neural observation retains
+the complete bounded source; canonical A116 cells feed the shared GRU directly.
+The retained 30-row training run scores 13/13 per head on authored held-out
+root/stem diagnostics, with portable error below 1.41e-6. This is not general
+Arabic coverage, semantic adjudication, world grounding, or a new Lean theorem.
+See [the exact scope and tests](SOURCE_NEURAL_READING_V1_AR.md). Release-gate
+execution is recorded separately; these source references alone do not certify it.
+
 ## Shared sign/concept graph and masked neural training — 2026-11-08
 
 `neural.graph` and `cognitive.lesson` compose existing source, A116, lexical,

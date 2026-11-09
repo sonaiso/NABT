@@ -4,7 +4,7 @@ from hashlib import sha256
 
 from tools.evidence_lifecycle_v1 import ResourceLimit, _encoded, strict_loads, wire
 from .operations import ROOT, digest, source_snapshot
-from .operation_rag import invoke_bounded, MAX_RESULT, MAX_ADDRESS_SPACE
+from .operation_rag import invoke_bounded, MAX_RESULT, MAX_ADDRESS_SPACE, gateway_worker_limits
 from . import gateway_routes, gateway_links
 
 REQUEST_SCHEMA = "nabt.io.request.v1"
@@ -12,6 +12,7 @@ RESULT_SCHEMA = "nabt.io.result.v1"
 MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
 OPTIONAL_NEURAL_INPUTS = frozenset((
+    "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
     "evidence/shared_cognition_v1/model.json",
     "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
     "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
@@ -44,6 +45,7 @@ def snapshot():
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
     lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
+                       "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
                        "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
                        "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
                        "evidence/ontological_continuity_v1/training/model.json",
@@ -79,7 +81,8 @@ def snapshot():
 
 def worker(payload):
     import resource
-    resource.setrlimit(resource.RLIMIT_CPU, (20, 21))
+    cpu, _ = gateway_worker_limits(payload.get('request', {}).get('route') if type(payload) is dict else None)
+    resource.setrlimit(resource.RLIMIT_CPU, (cpu, cpu+1))
     resource.setrlimit(resource.RLIMIT_FSIZE, (MAX_RESULT, MAX_RESULT))
     resource.setrlimit(resource.RLIMIT_AS, (MAX_ADDRESS_SPACE, MAX_ADDRESS_SPACE))
     if type(payload) is not dict or set(payload) != {"request", "snapshot_sha256"}:

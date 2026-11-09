@@ -74,17 +74,17 @@ def dataset():
     return train, test, labels
 
 
-def torch_model(labels):
+def torch_model(labels, *, vocabulary=257, tokenizer=runtime.byte_ids):
     import torch
     class SharedEncoder(torch.nn.Module):
         def __init__(self):
             super().__init__()
-            self.embedding = torch.nn.Embedding(257, runtime.EMBEDDING, padding_idx=0)
+            self.embedding = torch.nn.Embedding(vocabulary, runtime.EMBEDDING, padding_idx=0)
             self.gru = torch.nn.GRU(runtime.EMBEDDING, runtime.HIDDEN, batch_first=True)
-            self.heads = torch.nn.ModuleDict({h: torch.nn.Linear(runtime.HIDDEN, len(labels[h])) for h in runtime.HEADS})
+            self.heads = torch.nn.ModuleDict({h: torch.nn.Linear(runtime.HIDDEN, len(labels[h])) for h in labels})
 
         def forward(self, texts):
-            rows = [runtime.byte_ids(text) for text in texts]
+            rows = [tokenizer(text) for text in texts]
             lengths = torch.tensor([len(row) for row in rows])
             tokens = torch.zeros((len(rows), int(lengths.max())), dtype=torch.long)
             for i, row in enumerate(rows):
