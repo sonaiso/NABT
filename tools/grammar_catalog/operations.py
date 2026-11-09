@@ -28,14 +28,6 @@ ACQUISITION_INPUTS = (
     "evidence/classical_language/sources/maqayis.txt",
 )
 
-# Optional relational ranking inputs participate in the same before/after and
-# independently replayed receipt identity as the deterministic schema owner.
-RELATIONAL_NEURAL_INPUTS = (
-    "evidence/shared_cognition_v1/model.json",
-    "evidence/ontological_continuity_v1/training/model.json",
-    "evidence/ontological_continuity_v1/training/train.json",
-)
-
 
 def digest(value):
     return sha256(wire(value).encode("utf-8")).hexdigest()
@@ -85,7 +77,7 @@ def source_snapshot(root=ROOT):
                 raise RetrievalError("Native file changed during snapshot")
         else:
             inputs[path] = sha256(target.read_bytes()).hexdigest()
-    for source_path in ACQUISITION_INPUTS + RELATIONAL_NEURAL_INPUTS:
+    for source_path in ACQUISITION_INPUTS:
         target = root / source_path
         if target.is_symlink() or not target.resolve().is_relative_to(root):
             raise RetrievalError("Acquisition source snapshot escapes the installed repository")

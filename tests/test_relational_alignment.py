@@ -78,5 +78,21 @@ class RelationalAlignment(unittest.TestCase):
         for key,value in [("model_path","/tmp/model"),("schema_certified",True),("neural_continuity",1)]:
             with self.assertRaises(ValueError):relational.validate({"text":"اصفرار",key:value})
 
+    def test_missing_optional_resources_preserve_owner_and_bind_absence(self):
+        baseline=relational.analyze({"text":"اصفرار"})
+        original=Path.read_bytes
+        for missing in (runtime.MODEL, runtime.MODEL.with_name("train.json")):
+            def read_bytes(path):
+                if path == missing:raise FileNotFoundError(str(path))
+                return original(path)
+            with self.subTest(path=missing.name), patch.object(Path,"read_bytes",read_bytes):
+                result=relational.analyze({"text":"اصفرار","neural_continuity":True})
+                self.assertEqual(result["neural_continuity"]["status"],"DEFER")
+                self.assertEqual(result["ontology_bridge"],baseline["ontology_bridge"])
+                self.assertEqual(result["semantic_continuity"],baseline["semantic_continuity"])
+                snapshot=gateway.snapshot()
+                self.assertEqual(snapshot["files"][missing.relative_to(runtime.shared.ROOT).as_posix()],"UNAVAILABLE")
+            self.assertNotEqual(snapshot,gateway.snapshot())
+
 
 if __name__ == "__main__":unittest.main()

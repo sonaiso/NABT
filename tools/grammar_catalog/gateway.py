@@ -14,7 +14,9 @@ POLICY = "nabt.external-io.gateway-only.v1"
 OPTIONAL_NEURAL_INPUTS = frozenset((
     "evidence/shared_cognition_v1/model.json",
     "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
-    "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json"))
+    "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
+    "evidence/ontological_continuity_v1/training/model.json",
+    "evidence/ontological_continuity_v1/training/train.json"))
 
 
 def validate_request(request):
@@ -44,6 +46,8 @@ def snapshot():
     lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
                        "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
                        "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
+                       "evidence/ontological_continuity_v1/training/model.json",
+                       "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
     for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml") + lexical_sources:
