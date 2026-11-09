@@ -1925,3 +1925,28 @@ their unsupported article-bearing A116 hosts. Positive usage checks through
 See `USAGE_WITNESS_BRIDGE_V1_AR.md`. Required validation is the native
 `cognitive-orchestration` gate, existing owner regressions and the public
 `make check` gate; consult the current PR for measured results and CI status.
+
+## Article citation consumer bridge (2026-11-09)
+
+`tools/arabic_training/unit_composition.py` now consumes the installed
+`nabt.sourced-acquisition.v3` owner for article-shaped citation hosts after
+verified v1 representation. The existing packet contains 28 article readings
+and 139 written surfaces. Both complete owner reports, original piece spans,
+source checks and the 97-state native effect comparison remain in the receipt.
+The operation snapshot binds the owner's retained external source packets.
+No Lean language, frozen evaluation or neural weights change in this bridge.
+
+`examples/io_gateway/article_orchestration.json` supplies an explicit authored
+lexicon and vocalized reference context for «الرَّجُلُ حَكِيمٌ». Its native
+gateway replay reaches the concept stage through all six stages; world grounding
+remains open. Withdrawal, malformed inputs, missing native/source evidence,
+resource failure, silent lam and the installed article surfaces are covered by
+`tests/test_unit_article_bridge.py` in the public unit-composition release gate.
+Actual check results are recorded in the pull request, not inferred from these
+test references.
+
+Scope remains word-initial citation acquisition, not connected speech across
+words, productive article/clitic acquisition or a general Python/Lean refinement
+proof. «بِالْأَسَدِ», «الْحَيَوَانَ» and «الْمُفْتَرِسَ» remain outside the installed
+reading inventory, so the earlier full usage sentence still stops at its lower
+gate. See `docs/UNIT_ARTICLE_BRIDGE_V1_AR.md` for the acceptance boundary.

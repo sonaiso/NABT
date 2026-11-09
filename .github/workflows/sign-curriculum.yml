@@ -39,7 +39,7 @@ jobs:
           python tools/bootstrap_lean.py --destination "${{ runner.temp }}/nabt-tools"
       - name: Build the existing native owners and check phonological correspondence
         run: |
-          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build unitDiscoveryProbe progressiveUnitProbe alignedAcquisition exportPhonologicalModes temporalContextProbe
+          "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake" --dir formal build unitDiscoveryProbe progressiveUnitProbe alignedAcquisition connectedAcquisitionV3 verifiedReading lexicalDenotation exportPhonologicalModes temporalContextProbe
           python tools/check_phonological_modes.py --lake "${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Measure the sign curriculum through the native boundaries
         env:
