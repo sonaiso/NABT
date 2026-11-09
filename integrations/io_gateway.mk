@@ -35,3 +35,12 @@ cognitive-orchestration: io-gateway-build
 	PYTHONPATH=src:. $(PYTHON) tools/check_cognitive_dispatch.py --output $(EVIDENCE_DIR)/cognitive-dispatch.json
 
 check: cognitive-orchestration
+
+.PHONY: case-application
+case-application: io-gateway-build
+	cd formal && $(LAKE) build evidenceLifecycleV1
+	PYTHONPATH=src:. NABT_REQUIRE_CASE_NATIVE=1 $(PYTHON) -m unittest tests.test_case_application -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway run --request examples/io_gateway/case_application.json --output $(EVIDENCE_DIR)/case-application.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/case_application.json --receipt $(EVIDENCE_DIR)/case-application.json
+
+check: case-application
