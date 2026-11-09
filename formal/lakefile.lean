@@ -160,3 +160,9 @@ lean_exe temporalContextProbe where
 
 lean_exe exportCognitiveDispatch where
   root := `ExportCognitiveDispatch
+
+lean_lib ScopedArithmetic
+lean_lib ScopedQuantifier
+
+lean_exe scopedCompositionProbe where
+  root := `ScopedCompositionProbe

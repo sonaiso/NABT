@@ -1,0 +1,59 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "composition.analyze",
+  "payload": {
+    "schema": "nabt.scoped-composition.request.v1",
+    "profile": "quantifier",
+    "text": "ليس كل طالب مجتهدًا",
+    "domain": [
+      "سالم",
+      "نادر"
+    ],
+    "sources": [
+      {
+        "id": "membership",
+        "text": "سالم هو طالب. نادر هو طالب.",
+        "parents": []
+      },
+      {
+        "id": "diligent",
+        "text": "سالم هو مجتهد.",
+        "parents": []
+      },
+      {
+        "id": "counterexample",
+        "text": "ليس نادر هو مجتهد.",
+        "parents": []
+      },
+      {
+        "id": "color",
+        "text": "نادر هو أزرق.",
+        "parents": []
+      }
+    ],
+    "initial_active": [
+      "scope_policy",
+      "membership",
+      "diligent",
+      "counterexample",
+      "color"
+    ],
+    "events": [
+      {
+        "id": "irrelevant",
+        "kind": "withdraw",
+        "target": "color"
+      },
+      {
+        "id": "lost_witness",
+        "kind": "withdraw",
+        "target": "counterexample"
+      },
+      {
+        "id": "restore_witness",
+        "kind": "activate",
+        "target": "counterexample"
+      }
+    ]
+  }
+}
