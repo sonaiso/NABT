@@ -1,0 +1,34 @@
+{
+  "schema": "nabt.case-policy.v1",
+  "id": "warehouse-transfer.v1",
+  "source_id": "installed_policy",
+  "authority": "AUTHORED_OPERATIONAL_TEST_POLICY",
+  "title_ar": "استيفاء طلب نقل صندوق ضمن سجل معلن",
+  "statement_ar": "يستوفي طلب النقل هذه السياسة عند ثبوت المنقول والناقل والمنشأ والوجهة والزمن وجنس الصندوق، وفحص الصندوق وسلامته وتدريب الناقل في هذه الحالة، وثبوت انتفاء الحجز صراحة.",
+  "requirements": [
+    {"slot": "premise", "label_ar": "تعيين المنقول", "predicate": "منقول", "arguments": ["@event", "@item"], "positive": true},
+    {"slot": "condition:actor", "label_ar": "تعيين الناقل", "predicate": "ناقل", "arguments": ["@event", "@actor"], "positive": true},
+    {"slot": "condition:origin", "label_ar": "تعيين المنشأ", "predicate": "من", "arguments": ["@event", "@origin"], "positive": true},
+    {"slot": "condition:destination", "label_ar": "تعيين الوجهة", "predicate": "إلى", "arguments": ["@event", "@destination"], "positive": true},
+    {"slot": "condition:time", "label_ar": "تعيين زمن الحالة", "predicate": "زمن", "arguments": ["@event", "@time"], "positive": true},
+    {"slot": "condition:genus", "label_ar": "جنس المنقول", "predicate": "جنس", "arguments": ["@item", "صندوق"], "positive": true},
+    {"slot": "condition:inspection", "label_ar": "فحص المنقول في الحالة", "predicate": "فحص", "arguments": ["@event", "@item"], "positive": true},
+    {"slot": "condition:soundness", "label_ar": "سلامة المنقول في الحالة", "predicate": "سلامة", "arguments": ["@event", "@item"], "positive": true},
+    {"slot": "condition:training", "label_ar": "تدريب الناقل في الحالة", "predicate": "تدريب", "arguments": ["@event", "@actor"], "positive": true},
+    {"slot": "blockerAbsence:hold", "label_ar": "انتفاء حجز المنقول في الحالة", "predicate": "حجز", "arguments": ["@event", "@item"], "positive": false}
+  ],
+  "conclusion": {"predicate": "يستوفي", "arguments": ["@event", "سياسة_النقل"], "positive": true},
+  "irrelevant_predicates": ["لون"],
+  "relation_glossary_ar": {
+    "منقول": "الحالة تتعلق بالشيء المنقول؛ ليست إثبات حصول النقل",
+    "ناقل": "الشخص المعين للنقل في هذه الحالة؛ لا يثبت أنه سبب فيزيائي",
+    "فحص": "سجل فحص الشيء المعين لهذه الحالة",
+    "سلامة": "سجل سلامة الشيء المعين لهذه الحالة",
+    "تدريب": "سجل استيفاء الشخص شرط التدريب لهذه الحالة",
+    "حجز": "سجل حجز الشيء المعين في هذه الحالة",
+    "زمن": "اسم زمن الحالة؛ لا يثبت مدة أو ترتيبًا زمنيًا",
+    "يستوفي": "استيفاء السياسة في السجل؛ لا يمنح إذن تنفيذ فعلي"
+  },
+  "external_adoption_established": false,
+  "action_authority": "NONE"
+}

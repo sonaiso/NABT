@@ -55,6 +55,7 @@ PYTHONPATH=src:. python -m tools.grammar_catalog gateway verify --request exampl
 | `units.search` / `units.run` | `unit_catalog` / `arabic_training.unit_composition` | A116 وتركيب الوحدات بشروط المالك |
 | `irab.search` / `irab.analyze` | `irab` | العلامة والدور والبدائل |
 | `application.analyze` / `application.temporal` | `application` / `temporal` | وصل النص والتحليل والمقام والزمن |
+| `application.case` | `case_application` فوق `source_learning_connection` و`mantuq_inference.source_bound` | [واقعة جديدة ومراجعة حكمها](CASE_APPLICATION_V1_AR.md)، مع شواهد العلاقات وسحب الأدلة وثبات الحكم أمام اللون |
 | `mantuq.search` / `mantuq.source` | `mantuq_inference.retrieval` / `source_bound` | مصادر المنطوق والمفهوم والنتيجة الأصلية بفاحص Lean |
 
 تصل عملية `lesson` داخل مسار `operation` إلى منسق الدروس الموجود في

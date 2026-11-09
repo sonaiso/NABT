@@ -1973,3 +1973,29 @@ See `docs/ONTOLOGICAL_CONTINUITY_V1_AR.md` for the model limits, recorded first
 test, and withdrawal/mutation cases. Required checks include native continuity,
 existing contextual/shared encoder regressions, compiled axiom audit and the
 public `make check`; the PR records actual outcomes.
+
+## Bounded case application v1 (2026-11-09)
+
+The new `application.case` gateway adapter composes the installed controlled
+reader, signed inference, whole-source lifecycle, native ground reading and
+source-bound matching owners. Its authored warehouse-transfer policy binds
+the event, item, actor, origin, destination and time; property witnesses must
+match both this case and their bearer. Case metadata supplies no evidence.
+No formal declaration, neural weight or existing benchmark answer changes.
+
+The focused native suite passed 23 tests, including the ten-state history,
+independent removal of each of ten required witnesses, reversed/foreign
+relations, unseen names, missing readers, explicit conflicts, alternative and
+dependent sources, and independent public gateway replay. The public example
+client also completed all ten states and independently verified its receipt.
+An initial concurrent run correctly rejected a snapshot changing during replay;
+the complete rerun with fixed sources passed. Release and CI outcomes are
+recorded separately; these focused results do not imply a full release pass.
+
+The decision is conditional on source records and the installed authored
+policy. `NOT_APPLICABLE` denotes an opposed requirement, not proof of a negated
+conclusion. Missing absence evidence remains unknown; conflicting witnesses
+remain visible. No current decision is released from an incomplete application
+history. Policy adoption, source authenticity, physical truth, action authority,
+free-Arabic reading and a general Python/Lean refinement theorem remain open.
+See `docs/CASE_APPLICATION_V1_AR.md` for the scope and reproduction commands.

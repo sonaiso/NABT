@@ -1,0 +1,103 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "application.case",
+  "payload": {
+    "schema": "nabt.case-application.request.v1",
+    "policy_id": "warehouse-transfer.v1",
+    "case": {
+      "event": "نقل731",
+      "item": "صندوق731",
+      "actor": "سالم",
+      "origin": "مخزن_أ",
+      "destination": "محطة_ب",
+      "time": "صباح_1"
+    },
+    "sources": [
+      {
+        "id": "frame",
+        "text": "نقل731 منقول صندوق731. نقل731 ناقل سالم. نقل731 من مخزن_أ. نقل731 إلى محطة_ب. نقل731 زمن صباح_1. صندوق731 جنس صندوق.",
+        "parents": []
+      },
+      {
+        "id": "inspection",
+        "text": "نقل731 فحص صندوق731. نقل731 سلامة صندوق731.",
+        "parents": []
+      },
+      {
+        "id": "training",
+        "text": "نقل731 تدريب سالم.",
+        "parents": []
+      },
+      {
+        "id": "clearance",
+        "text": "ليس نقل731 حجز صندوق731.",
+        "parents": []
+      },
+      {
+        "id": "color",
+        "text": "نقل731 لون أزرق.",
+        "parents": []
+      },
+      {
+        "id": "blocker",
+        "text": "نقل731 حجز صندوق731.",
+        "parents": []
+      }
+    ],
+    "initial_active": [
+      "installed_policy",
+      "frame",
+      "inspection",
+      "training",
+      "clearance",
+      "color"
+    ],
+    "events": [
+      {
+        "id": "withdraw_color",
+        "kind": "withdraw",
+        "target": "color"
+      },
+      {
+        "id": "report_hold",
+        "kind": "activate",
+        "target": "blocker"
+      },
+      {
+        "id": "withdraw_clearance",
+        "kind": "withdraw",
+        "target": "clearance"
+      },
+      {
+        "id": "withdraw_hold",
+        "kind": "withdraw",
+        "target": "blocker"
+      },
+      {
+        "id": "restore_clearance",
+        "kind": "activate",
+        "target": "clearance"
+      },
+      {
+        "id": "withdraw_inspection",
+        "kind": "withdraw",
+        "target": "inspection"
+      },
+      {
+        "id": "restore_inspection",
+        "kind": "activate",
+        "target": "inspection"
+      },
+      {
+        "id": "withdraw_policy",
+        "kind": "withdraw",
+        "target": "installed_policy"
+      },
+      {
+        "id": "restore_policy",
+        "kind": "activate",
+        "target": "installed_policy"
+      }
+    ]
+  }
+}
