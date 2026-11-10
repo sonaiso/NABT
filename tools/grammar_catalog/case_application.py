@@ -13,6 +13,7 @@ from tools import verified_reading as ground
 from tools.evidence_lifecycle_v1 import InputError, ResourceLimit, _encoded, wire, strict_loads
 from tools.mantuq_inference import source_bound
 from .operations import ROOT, digest
+from .source_evidence_view import ledger as _ledger, premises
 
 LAW_ID = "nabt.case-application.v1"
 SCHEMA = "nabt.case-application.request.v1"
@@ -123,35 +124,10 @@ def _source_records(compiled):
             raise InputError("Caller evidence cannot assert the application conclusion")
 
 
-def _ledger(owner):
-    result = []
-    for document in owner["acquisition"]:
-        for fact in document["facts"]:
-            span = fact["span"]
-            text = document["raw_text"].encode()[span["start"]:span["end"]].decode()
-            atom = fact["atom"]
-            result.append({"source_id": document["source_id"], "source_sha256": document["source_sha256"],
-                "span": deepcopy(span), "text": text, "component_spans": deepcopy(fact["component_spans"]),
-                "atom": {"predicate": atom["predicate"], "arguments": atom["args"], "positive": atom["positive"]}})
-    return result
-
-
 def _requirements(binding, ledger, ready, certificate):
     """Display source witnesses and the native closure, never derive a verdict."""
-    known = {ground.key(a) for a in certificate["known"]}
-    clean = {ground.key(a) for a in certificate["clean_known"]}
-    rows = []
-    for requirement in binding["requirements"]:
-        key = ground.key(requirement["atom"])
-        opposite = ground.opposite(key)
-        rows.append({**deepcopy(requirement),
-            "present_in_native_closure": key in known, "present_in_clean_closure": key in clean,
-            "opposite_in_native_closure": opposite in known,
-            "source_witnesses": [i for i, row in enumerate(ledger)
-                if row["source_id"] in ready and ground.key(row["atom"]) == key],
-            "opposing_source_witnesses": [i for i, row in enumerate(ledger)
-                if row["source_id"] in ready and ground.key(row["atom"]) == opposite]})
-    return rows
+    views = premises([r["atom"] for r in binding["requirements"]], ledger, ready, certificate)
+    return [{**deepcopy(requirement), **view} for requirement, view in zip(binding["requirements"], views)]
 
 
 def _step(history, compiled, binding, ledger):

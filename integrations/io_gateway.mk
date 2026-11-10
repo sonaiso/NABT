@@ -48,7 +48,7 @@ check: case-application
 .PHONY: scoped-composition
 scoped-composition: io-gateway-build
 	cd formal && $(LAKE) build evidenceLifecycleV1
-	PYTHONPATH=src:. NABT_REQUIRE_COMPOSITION_NATIVE=1 $(PYTHON) -m unittest tests.test_scoped_composition -v
+	PYTHONPATH=src:. NABT_REQUIRE_COMPOSITION_NATIVE=1 $(PYTHON) -m unittest tests.test_scoped_composition tests.test_composition_explanation -v
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway run --request examples/io_gateway/composition_quantifier.json --output $(EVIDENCE_DIR)/composition-quantifier.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/composition_quantifier.json --receipt $(EVIDENCE_DIR)/composition-quantifier.json
 

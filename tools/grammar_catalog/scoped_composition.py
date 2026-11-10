@@ -12,6 +12,7 @@ from tools import source_learning_connection as connection
 from tools import evidence_lifecycle_v1 as life
 from tools import verified_reading as ground
 from . import composition_arithmetic as arithmetic, composition_quantifier as quantifier
+from . import composition_explanation as explanation
 from .operations import ROOT, digest
 
 LAW_ID = "nabt.scoped-composition.v1"
@@ -122,6 +123,7 @@ def evaluate(request):
     result = {"schema": "nabt.scoped-composition.result.v1", "law_id": LAW_ID,
               "status": "INVALID_INPUT", "chain_complete": False, "request": deepcopy(request),
               "native_check": None, "projection": None, "owner_result": None,
+              "reading_view": None, "evidence_view": None,
               "history": [], "limits": deepcopy(LIMITS)}
     try:
         request = validate(request)
@@ -147,12 +149,15 @@ def evaluate(request):
                 result["paraphrase_ar"] = arithmetic.paraphrase(projection["tree"])
                 result["operator_registry"] = deepcopy(arithmetic.REGISTRY)
                 return result
+            result["reading_view"] = explanation.checked_reading(native_request, projection, native)
             compiled = _quantified_request(request, projection)
         owner = connection.evaluate(compiled)
         result.update(owner_result=owner, status=owner["status"], chain_complete=owner["chain_complete"])
         # The full owner retains source spans, signed premises, proofs, clashes,
         # alternatives, dependencies and independent native lifecycle receipts.
         result["history"] = _history(owner)
+        if profile == "quantifier" and owner["chain_complete"]:
+            result["evidence_view"] = explanation.evidence_view(projection, owner)
         life._encoded(result, life.MAX_REPORT_BYTES, floats=True)
     except arithmetic.CompositionError as error:
         result.update(status=error.code, error=str(error))
