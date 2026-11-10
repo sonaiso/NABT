@@ -1,5 +1,21 @@
 # ما هو مبرهن وما هو مفحوص
 
+## Scoped reformulation and evidence explanation — 2026-11-10
+
+The existing quantified composition route now reparses a controlled
+reformulation with the installed native reader and compares scope, speech
+force, concepts, domain and compiled obligations. It displays the existing
+owner's per-premise source witnesses, opposing evidence, policy availability
+and revision history. The generic fact/closure view is shared with the case
+application without changing its decision or receipt shape.
+
+No accepted-language change, new inference/lifecycle owner, formal theorem,
+neural training, general Arabic equivalence or Python/Lean refinement proof
+is claimed. Original sources and full owner receipts remain intact. Native
+reading fidelity does not certify source authenticity or world truth.
+See [the preimplementation contract and executable tests](SCOPED_EXPLANATION_V1_AR.md).
+Test and release execution are recorded separately in the run logs and CI.
+
 ## Source reading and canonical-cell neural input — 2026-11-09
 
 The source reading adapter uses the existing lexical testimony and native
