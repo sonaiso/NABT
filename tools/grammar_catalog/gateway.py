@@ -59,7 +59,7 @@ def snapshot():
         try:
             value["files"][relative] = sha256(path.read_bytes()).hexdigest()
         except FileNotFoundError:
-            if relative not in OPTIONAL_NEURAL_INPUTS:
+            if relative not in OPTIONAL_NEURAL_INPUTS and relative != lexical_testimony.SOURCES["root_profile"][2]:
                 raise
             # Optional observations must not suppress the installed owner.
             # Availability itself is bound, so restoration invalidates replay.

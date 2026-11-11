@@ -104,6 +104,8 @@ lean_exe qatrReading where
   root := `QatrReadingMain
 
 @[default_target]
+lean_lib RootSenseProfile
+
 lean_exe lexicalDenotation where
   root := `LexicalDenotationMain
 

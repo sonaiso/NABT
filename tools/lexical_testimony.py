@@ -21,6 +21,7 @@ LAW = "nabt.lexical-denotation.v1"
 DISCLAIMER = ("يفحص التطبيق هوية النقل المحفوظ والدلالة المشروطة بالتفسير المثبت؛ "
               "لا يثبت صحة الرواية تاريخيًا، أو مراد المتكلم، أو واقع المسمى.")
 SOURCES = {
+    "root_profile": ("NABT", "قراءات مقيدة وشاهد الجربزة", "tools/grammar_catalog/data/root_sense_witnesses.txt"),
     "lisan": ("ابن منظور", "لسان العرب", None),
     "maqayis": ("ابن فارس", "مقاييس اللغة", "evidence/classical_language/sources/maqayis.txt"),
     "shakhsiyya3": ("تقي الدين النبهاني", "الشخصية الإسلامية، الجزء الثالث",
