@@ -1,6 +1,7 @@
 import Nabt.LisanRules
 import Nabt.MaqayisDenotation
 import Nabt.ConceptContinuity
+import RootSenseProfile
 import ProbeJson
 
 open Lean ProbeJson Nabt.LexicalDenotation Nabt.LexicalCatalog
@@ -60,8 +61,14 @@ def dispatch (j : Json) : ProbeM Json := do
   let obj ← liftParse j.getObj?
   if (obj.get? "op").isSome then
     if obj.size != 2 || (obj.get? "value").isNone then
-      return ← invalid "exactly op and value required for cardinal concept"
-    if (← str (← field j "op")) != "cardinal_concept" then
+      return ← invalid "exactly op and value required"
+    let op ← str (← field j "op")
+    if op == "root_gloss" then
+      let value ← field j "value"
+      return ← RootSenseProfile.gloss value (← strings (← field value "target"))
+    if op == "root_sense_profile" then
+      return RootSenseProfile.assess (← strings (← field j "value")) senseJson
+    if op != "cardinal_concept" then
       return ← invalid "unknown concept operation"
     let n ← nat (← field j "value")
     if n > 1000000000 then return ← limited "cardinal concept limit"
