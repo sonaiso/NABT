@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "genus_chains"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -152,6 +152,9 @@ def validate(request):
     if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
         raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
+    if "genus_chains" in request:
+        from .genus_chains import validate as validate_chains
+        validate_chains(request["genus_chains"])
     if "root_sense" in request:
         from .root_sense import validate as validate_root_sense
         validate_root_sense(request["root_sense"])
@@ -204,6 +207,9 @@ def analyze(request):
             "source_inference_role":"ORIGINAL_CONDITIONAL_RESULT_NOT_AUTOMATIC_ONTOLOGY_ASSERTION"},
         "retrieval_prunes_owner_candidates":False, "world_truth_established":False,
         "empirical_causality_established":False, "new_lean_proof":False}
+    if "genus_chains" in p:
+        from .genus_chains import analyze as analyze_chains
+        result["genus_chains"] = analyze_chains(text, source_id, p["genus_chains"])
     if "root_sense" in p:
         from .root_sense import analyze as analyze_root_sense
         result["root_sense"] = analyze_root_sense(text, source_id, p["root_sense"], reports.get("derivation", {}))
