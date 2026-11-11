@@ -15,10 +15,10 @@ PROFILE = ROOT / "formal/.lake/build/bin/lexicalDenotation"
 
 
 def validate(query):
-    if type(query) is not dict or not {"span", "target"} <= query.keys() or query.keys() - {"span", "target", "case"}:
+    if type(query) is not dict or "target" not in query or query.keys() - {"span", "target", "case"}:
         raise ValueError("Expected original UTF-8 span, target components and optional case")
-    span, target = query["span"], query["target"]
-    if (type(span) is not list or len(span) != 2 or any(type(n) is not int for n in span)
+    span, target = query.get("span"), query["target"]
+    if "span" in query and (type(span) is not list or len(span) != 2 or any(type(n) is not int for n in span)
             or not 0 <= span[0] < span[1] <= 8192):
         raise ValueError("Expected a nonempty original UTF-8 interval")
     if type(target) is not list or len(target) > 64:
@@ -27,6 +27,8 @@ def validate(query):
         if not _text(term, "target component", maximum=4096).strip():
             raise ValueError("Empty target component")
     if "case" in query:
+        if "span" not in query:
+            raise ValueError("A case ledger requires an exact occurrence span")
         case = query["case"]
         if type(case) is not dict or set(case) != {"source", "source_id", "revision", "scope", "entity", "counterpart"}:
             raise ValueError("Expected a separately bound ground case ledger")
@@ -62,18 +64,15 @@ def _profile_shapes(surface, rows):
     return proposals
 
 
-def _gloss(text, token):
+def _gloss(text, clause):
     """A candidate from one local dictionary construction, never a class-wide rule."""
-    tokens = exact_terms(text)
-    index = next(i for i, word in enumerate(tokens) if word["utf8_span"] == token["utf8_span"])
-    clause = tokens[index:index + 5]
     if len(clause) != 5:
         return None
     for left, right in zip(clause, clause[1:]):
         gap = text[left["codepoint_span"][1]:right["codepoint_span"][0]]
         if not gap or any(ch not in " \t" for ch in gap):
             return None
-    _, actor, verb, event, manner = clause
+    token, actor, verb, event, manner = clause
     if not (compatible(verb["surface"], "عَدَا") and
             any(compatible(event["surface"], x) for x in ("عَدْوًا", "عَدْواً")) and
             any(compatible(manner["surface"], x) for x in ("ثَقِيلًا", "ثَقِيلاً", "سَرِيعًا", "سَرِيعاً"))):
@@ -122,39 +121,25 @@ def _case(row, occurrence, case, source_id, source_hash):
     return {**result, "status": status, "requirements": evidence, "owner_answer": answer}
 
 
-def analyze(text, source_id, query, derivation):
-    validate(query)
-    start, stop = query["span"]
-    source_hash = sha256(text.encode()).hexdigest()
-    occurrence = next((o for o in derivation.get("occurrences", [])
-                       if (o["span"]["start"], o["span"]["end"]) == (start, stop)), None)
-    out = {"schema": SCHEMA, "status": "DEFER", "source_id": source_id, "source_sha256": source_hash,
-           "requested_span": [start, stop], "target": query["target"], "readings": [],
-           "common_installed_indications": [], "world_truth_established": False,
-           "all_arabic_senses_enumerated": False, "intended_sense_established": False}
-    if occurrence is None:
-        return {**out, "reason": "NO_COMPLETE_DERIVATION_OCCURRENCE"}
-    token = next((t for t in exact_terms(text) if t["utf8_span"] == [start, stop]), None)
-    if token is None:
-        return {**out, "reason": "SPAN_NOT_A_COMPLETE_TOKEN"}
-    out.update(occurrence_id=occurrence["occurrence_id"], occurrence=token, reading_context=occurrence["reading_context"],
-               formal_roots=occurrence["axes"]["formal_root"], gloss_candidate=None)
+_UNAVAILABLE = (OSError, ValueError, KeyError, StopIteration, subprocess.SubprocessError, pilot.PilotError)
+
+
+def _occurrence(text, query, occurrence, tokens, index, base, native, fingerprint, owner_by_root):
+    token = tokens[index]
+    out = {**base, "requested_span": token["utf8_span"], "occurrence_id": occurrence["occurrence_id"],
+           "occurrence": token, "reading_context": occurrence["reading_context"],
+           "formal_roots": occurrence["axes"]["formal_root"], "gloss_candidate": None,
+           "checker_sha256": fingerprint, "readings": []}
     try:
-        fingerprint = pilot.file_sha(PROFILE)
-        native = lexical_testimony._native(PROFILE, {"op": "root_sense_profile", "value": query["target"]})
-        if (pilot.file_sha(PROFILE) != fingerprint or native.get("schema") != "nabt.root-sense.profile.v1"
-                or native.get("target") != query["target"]):
-            raise ValueError("Native profile protocol mismatch")
-        out["checker_sha256"] = fingerprint
-        owner_by_root = {}
         matched = [r for r in native["rows"] if _compatible_form(token["surface"], r)]
+        out["proposed_sense_ids"] = [r["sense"]["id"] for r in matched]
         shapes = _profile_shapes(token["surface"], native["rows"])
         out["profile_shape_candidates"] = shapes
         verb_templates = {r["template"] for r in native["rows"] if r["category"] == "فعل"}
         if (any(r["category"] == "فعل" for r in matched)
                 or any(c["template"] in verb_templates for c in shapes)
                 or any(c["pattern_id"].startswith("past.") for c in occurrence["candidates"])):
-            gloss = _gloss(text, token)
+            gloss = _gloss(text, tokens[index:index + 5])
             if gloss:
                 a, b = gloss["span"]
                 appraisal = lexical_testimony._native(PROFILE, {"op": "root_gloss", "value": {
@@ -185,15 +170,60 @@ def analyze(text, source_id, query, derivation):
                     raise ValueError("Indication owners disagree")
                 reading["commitment_conditions"] = checked["commitment_conditions"]
             if "case" in query:
-                reading["case"] = _case(row, occurrence, query["case"], source_id, source_hash)
+                reading["case"] = _case(row, occurrence, query["case"], out["source_id"], out["source_sha256"])
             out["readings"].append(reading)
-        if owner_by_root:
-            out["lexical_owner_reports"] = owner_by_root
         if not matched:
             out["reason"] = "NO_INSTALLED_LEXICAL_ALIGNMENT"
-        if matched:
+        else:
             out.update(status="CONDITIONAL_READINGS", common_installed_indications=[
                 k for k in INDICATIONS if all(k in r["indications"] for r in matched)])
-    except (OSError, ValueError, KeyError, StopIteration, subprocess.SubprocessError, pilot.PilotError) as err:
+    except _UNAVAILABLE as err:
         out.update(status="VERIFICATION_UNAVAILABLE", reason=str(err), readings=[], common_installed_indications=[])
     return out
+
+def analyze(text, source_id, query, derivation):
+    validate(query)
+    span = query.get("span")
+    base = {"schema": SCHEMA, "status": "DEFER", "source_id": source_id,
+            "source_sha256": sha256(text.encode()).hexdigest(), "target": query["target"],
+            "readings": [], "common_installed_indications": [], "world_truth_established": False,
+            "all_arabic_senses_enumerated": False, "intended_sense_established": False}
+    tokens = exact_terms(text)
+    indices = {tuple(t["utf8_span"]): i for i, t in enumerate(tokens)}
+    occurrences = derivation.get("occurrences", [])
+    selected = []
+    for item in occurrences:
+        interval = [item["span"]["start"], item["span"]["end"]]
+        if span is None or span == interval:
+            selected.append((item, interval, indices.get(tuple(interval))))
+    if span is not None and not selected:
+        return {**base, "requested_span": span, "reason": "NO_COMPLETE_DERIVATION_OCCURRENCE"}
+
+    try:
+        fingerprint = pilot.file_sha(PROFILE)
+        native = lexical_testimony._native(PROFILE, {"op": "root_sense_profile", "value": query["target"]})
+        if native.get("schema") != "nabt.root-sense.profile.v1" or native.get("target") != query["target"]:
+            raise ValueError("Native profile protocol mismatch")
+        owner_by_root = {}
+        rows = []
+        for occurrence, interval, index in selected:
+            if index is None:
+                rows.append({**base, "requested_span": interval, "reason": "SPAN_NOT_A_COMPLETE_TOKEN"})
+            else:
+                rows.append(_occurrence(text, query, occurrence, tokens, index, base, native, fingerprint, owner_by_root))
+        if pilot.file_sha(PROFILE) != fingerprint:
+            raise ValueError("Native profile changed during analysis")
+        if span is not None:
+            result = rows[0]
+        else:
+            result = {**base, "occurrences": rows, "checker_sha256": fingerprint,
+                      "status": "OCCURRENCES_ANALYZED" if rows else "DEFER"}
+            if not rows:
+                result["reason"] = "NO_DERIVATION_OCCURRENCES"
+            elif any(r["status"] == "VERIFICATION_UNAVAILABLE" for r in rows):
+                result["status"] = "PARTIAL_VERIFICATION"
+        if owner_by_root:
+            result["lexical_owner_reports"] = owner_by_root
+        return result
+    except _UNAVAILABLE as err:
+        return {**base, "requested_span": span, "status": "VERIFICATION_UNAVAILABLE", "reason": str(err)}

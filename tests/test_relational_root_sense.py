@@ -62,6 +62,21 @@ class NativeRootSense(unittest.TestCase):
         self.assertEqual([r["genus"] for r in result["readings"]], ["عنكبيات", "مؤشر"])
         self.assertEqual(result["common_installed_indications"], [])
 
+    def test_whole_text_enumerates_unknown_and_repeated_occurrences_in_order(self):
+        text = "مدحرج زحل مدحرج جربز الفرس عدا عدوا ثقيلا"
+        d = read_derivation(text, source_id="batch", scope="relational")
+        with patch.object(root_sense.lexical_testimony, "_native", wraps=root_sense.lexical_testimony._native) as native:
+            report = root_sense.analyze(text, "batch", {"target":["عدو"]}, d)
+        self.assertEqual(report["status"], "OCCURRENCES_ANALYZED")
+        rows = report["occurrences"]
+        self.assertEqual([r["occurrence"]["surface"] for r in rows], text.split())
+        self.assertEqual(len({r["occurrence_id"] for r in rows}), len(rows))
+        self.assertEqual(rows[1]["reason"], "NO_INSTALLED_LEXICAL_ALIGNMENT")
+        self.assertEqual(rows[3]["gloss_candidate"]["conditional_denotation"]["indications"], ["tadammun"])
+        self.assertEqual([c.args[1]["op"] for c in native.call_args_list], ["root_sense_profile", "root_gloss"])
+        with self.assertRaises(ValueError):
+            root_sense.validate({"target":[], "case":{}})
+
     def test_whole_part_and_mental_use_same_native_checker(self):
         for word, target, expected in (("مفتاح", ["آلة", "لفتح القفل الملائم"], "mutabaqa"),
                                        ("دحرجة", ["تحريك جسم"], "tadammun"), ("العمى", ["البصر"], "iltizam")):
