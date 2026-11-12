@@ -291,6 +291,12 @@ def classical_reading(text, source, failures, usage_report):
     expected.append(r["cue"]["utf8_span"] if r["cue"] else None)
     agrees = (proposal["status"] == "PROPOSED" and proposal["source_sha256"] == source["sha256"] and
               [proposal["heads"][h]["span"] for h in ("subject", "object", "question_cue")] == expected)
+    if agrees:
+        why += " وافق اقتراح الانتباه الدورين ونطاق القول."
+    elif proposal["status"] == "PROPOSED":
+        why += " اختلف اقتراح الانتباه عن القراءة التي اجتازت الفحص."
+    elif proposal["status"] == "DEFER":
+        why += " أرجأت الشبكة التعيين، وحسمه شاهد العامل والعلامة في هذا الوجه."
     row = card("classical_role_binding", "قراءة لغوية مشروطة بالوجه المعجمي",
                force + " في معنى " + event["masdar"] + ": " + content, why,
                "تعيين الأفراد والوقوع الخارجي والاستعمال العرفي يحتاج كلٌّ منها شاهدًا مستقلًا.",

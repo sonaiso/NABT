@@ -62,6 +62,14 @@ def public_case(case):
                             if bridge["proposal"]["status"] in {"PROPOSED", "DEFER"} else None),
                customary_use_established=bridge["customary_use_established"],
                world_truth_established=view["world_truth_established"])
+    if bridge["graph"] is not None:
+        # These two annotated event frames are independent of the scored pointers.
+        r = bridge["graph"]["reading"]
+        expected_sense = {"help":"help", "thank":"thank"}.get(case["id"].rstrip("1234"))
+        row.update(reading=checked_result(bridge["graph"]), sense=r["sense"],
+                   semantic_roles=[e["value"] for e in bridge["graph"]["edges"] if e["type"] == "semantic_role"],
+                   usage_handoff=bridge["usage_handoff"]["status"])
+        row["match"] = row["match"] and expected_sense == r["sense"]
     return row
 
 
