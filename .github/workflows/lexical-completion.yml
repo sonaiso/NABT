@@ -8,6 +8,12 @@ on:
       - 'tools/build_lexical_completion.py'
       - 'tools/benchmark_lexical_completion.py'
       - 'tools/lexical_testimony.py'
+      - 'tools/grammar_catalog/dictionary_reading.py'
+      - 'tools/grammar_catalog/data/mukhtar_indications_v1.tsv'
+      - 'tools/lexical_training/*dictionary_indication.py'
+      - 'tools/evaluate_dictionary_reading.py'
+      - 'evidence/lexical_indication_learning_v1/**'
+      - 'tests/test_dictionary_indication.py'
       - 'tools/lexical_training/data.py'
       - 'src/nabt/source_lexicon.py'
       - 'src/nabt/data/source_evidence/source_lexicon_v1.json'
@@ -100,6 +106,14 @@ jobs:
           python tools/build_lexical_graph.py --check --audit-output artifacts/local/lexical-completion-ci/graph-license-audit.json
           python -m unittest discover -s tests -p test_lexical_graph.py -v
           python tools/benchmark_lexical_graph.py --output artifacts/local/lexical-completion-ci/graph-benchmark.json
+      - name: Fit and exercise source-bound dictionary extraction and indication
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python -m pip install numpy==2.3.5
+          (cd formal && "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" build lexicalDenotation)
+          python -m tools.lexical_training.train_dictionary_indication --output artifacts/local/lexical-completion-ci/dictionary-fit
+          python -m unittest tests.test_dictionary_indication -v
       - name: Retain bounded verification evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
