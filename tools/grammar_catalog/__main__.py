@@ -109,6 +109,12 @@ def main():
                 result = evaluate_candidates(index, [r["id"] for r in found["candidates"]], frames,
                                              budget=args.budget)
                 result["retrieval"] = found
+        if args.command == "gateway" and args.action == "serve":
+            return 0
+        if args.command == "gateway" and args.action == "read" and args.output is None:
+            from .reader_client import as_text
+            print(as_text(result))
+            return 0 if result["verified"] else 3
         text = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
         if getattr(args, "output", None):
             args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -116,6 +122,8 @@ def main():
         else:
             print(text, end="")
         if args.command == "gateway":
+            if args.action == "read":
+                return 0 if result["verified"] else 3
             if args.action == "verify":
                 return 0 if result["valid"] else 2
             return 0 if args.action == "catalog" or result["status"] == "EXECUTED" else 3

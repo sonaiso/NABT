@@ -30,7 +30,7 @@ def gateway_worker_limits(route):
     Orchestration replays at most 16 conditional sources through six owners.
     The original one-owner budget is insufficient for that bounded workload.
     """
-    return (120, 180) if route == 'cognitive.orchestrate' else (20, WORKER_SECONDS)
+    return (120, 180) if route in ('cognitive.orchestrate', 'text.read') else (20, WORKER_SECONDS)
 # Inherited by Lean checkers too: their allocator can reserve a 1 GiB arena
 # before resident use. A 1 GiB address-space cap changes valid native outcomes.
 MAX_ADDRESS_SPACE = 4 * 1024**3
