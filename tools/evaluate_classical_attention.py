@@ -118,7 +118,8 @@ def evaluate(public=False, workers=1):
         selected = [r for r in rows if r["group"] == group]
         groups[group] = {"n":len(selected), "correct":{k:sum(r["predictions"][k] == r["gold"] for r in selected)
                           for k in selected[0]["predictions"]}}
-    report = {"schema":"nabt.classical-attention.first-evaluation.v1","holdout_sha256":CHALLENGE_SHA,
+    report = {"schema":"nabt.classical-attention.evaluation.v1.1",
+              "first_test_ref":"evidence/grounded_attention_v1/FIRST_TEST.json", "holdout_sha256":CHALLENGE_SHA,
               "model_sha256":net.MODEL_SHA256, "groups":groups, "cases":rows, "coverage":coverage(),
               "scope":"Authored held-out stems/senses for neural fit. Rule lexicon includes the tested forms. "
                       "A masked head is a uniform pointer with no unique winner; comparisons are exact joint "

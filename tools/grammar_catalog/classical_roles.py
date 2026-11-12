@@ -23,7 +23,7 @@ def inventory():
 def compatible(written, exemplar):
     a, b = lookup_clusters(written), lookup_clusters(exemplar)
     return bool(a and b and len(a) == len(b) and all(
-        x[0] == y[0] and x[1] <= y[1] for x, y in zip(a, b)))
+        written[x[2]] == exemplar[y[2]] and x[1] <= y[1] for x, y in zip(a, b)))
 
 
 def source_frame(text):

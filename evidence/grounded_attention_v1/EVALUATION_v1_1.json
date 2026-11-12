@@ -1,0 +1,917 @@
+{
+  "schema": "nabt.classical-attention.evaluation.v1.1",
+  "first_test_ref": "evidence/grounded_attention_v1/FIRST_TEST.json",
+  "holdout_sha256": "60f79c6333cda62b361b56e02eaeff98210bd0e7e8e2762d7e9ec30723fe5886",
+  "model_sha256": "46ad451365a09c62aeec57189a817b8696a5c9c0333d6324c415913fee689400",
+  "groups": {
+    "heldout": {
+      "n": 8,
+      "correct": {
+        "position": 2,
+        "law": 8,
+        "attention": 6,
+        "without_nominal_marks": 0,
+        "mask_subject": 0,
+        "mask_object": 0,
+        "mask_question_cue": 0
+      }
+    },
+    "controls": {
+      "n": 12,
+      "correct": {
+        "position": 6,
+        "law": 12,
+        "attention": 7,
+        "without_nominal_marks": 12,
+        "mask_subject": 12,
+        "mask_object": 12,
+        "mask_question_cue": 12
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "help1",
+      "group": "heldout",
+      "gold": [
+        [
+          13,
+          39
+        ],
+        [
+          40,
+          68
+        ],
+        "assert",
+        null
+      ],
+      "predictions": {
+        "position": [
+          [
+            13,
+            39
+          ],
+          [
+            40,
+            68
+          ],
+          "assert",
+          null
+        ],
+        "law": [
+          [
+            13,
+            39
+          ],
+          [
+            40,
+            68
+          ],
+          "assert",
+          null
+        ],
+        "attention": [
+          [
+            13,
+            39
+          ],
+          [
+            40,
+            68
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "help2",
+      "group": "heldout",
+      "gold": [
+        [
+          44,
+          68
+        ],
+        [
+          13,
+          43
+        ],
+        "assert",
+        null
+      ],
+      "predictions": {
+        "position": [
+          [
+            13,
+            43
+          ],
+          [
+            44,
+            68
+          ],
+          "assert",
+          null
+        ],
+        "law": [
+          [
+            44,
+            68
+          ],
+          [
+            13,
+            43
+          ],
+          "assert",
+          null
+        ],
+        "attention": [
+          [
+            44,
+            68
+          ],
+          [
+            13,
+            43
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "help3",
+      "group": "heldout",
+      "gold": [
+        [
+          42,
+          68
+        ],
+        [
+          13,
+          41
+        ],
+        "assert",
+        null
+      ],
+      "predictions": {
+        "position": [
+          [
+            13,
+            41
+          ],
+          [
+            42,
+            68
+          ],
+          "assert",
+          null
+        ],
+        "law": [
+          [
+            42,
+            68
+          ],
+          [
+            13,
+            41
+          ],
+          "assert",
+          null
+        ],
+        "attention": [
+          [
+            42,
+            68
+          ],
+          [
+            13,
+            41
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "help4",
+      "group": "heldout",
+      "gold": [
+        [
+          53,
+          77
+        ],
+        [
+          22,
+          52
+        ],
+        "ask",
+        [
+          0,
+          8
+        ]
+      ],
+      "predictions": {
+        "position": [
+          [
+            22,
+            52
+          ],
+          [
+            53,
+            77
+          ],
+          "ask",
+          [
+            0,
+            8
+          ]
+        ],
+        "law": [
+          [
+            53,
+            77
+          ],
+          [
+            22,
+            52
+          ],
+          "ask",
+          [
+            0,
+            8
+          ]
+        ],
+        "attention": [
+          [
+            53,
+            77
+          ],
+          [
+            22,
+            52
+          ],
+          "ask",
+          [
+            0,
+            8
+          ]
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "thank1",
+      "group": "heldout",
+      "gold": [
+        [
+          13,
+          31
+        ],
+        [
+          32,
+          52
+        ],
+        "assert",
+        null
+      ],
+      "predictions": {
+        "position": [
+          [
+            13,
+            31
+          ],
+          [
+            32,
+            52
+          ],
+          "assert",
+          null
+        ],
+        "law": [
+          [
+            13,
+            31
+          ],
+          [
+            32,
+            52
+          ],
+          "assert",
+          null
+        ],
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "thank2",
+      "group": "heldout",
+      "gold": [
+        [
+          32,
+          52
+        ],
+        [
+          13,
+          31
+        ],
+        "assert",
+        null
+      ],
+      "predictions": {
+        "position": [
+          [
+            13,
+            31
+          ],
+          [
+            32,
+            52
+          ],
+          "assert",
+          null
+        ],
+        "law": [
+          [
+            32,
+            52
+          ],
+          [
+            13,
+            31
+          ],
+          "assert",
+          null
+        ],
+        "attention": [
+          [
+            32,
+            52
+          ],
+          [
+            13,
+            31
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "thank3",
+      "group": "heldout",
+      "gold": [
+        [
+          34,
+          52
+        ],
+        [
+          13,
+          33
+        ],
+        "assert",
+        null
+      ],
+      "predictions": {
+        "position": [
+          [
+            13,
+            33
+          ],
+          [
+            34,
+            52
+          ],
+          "assert",
+          null
+        ],
+        "law": [
+          [
+            34,
+            52
+          ],
+          [
+            13,
+            33
+          ],
+          "assert",
+          null
+        ],
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "thank4",
+      "group": "heldout",
+      "gold": [
+        [
+          37,
+          57
+        ],
+        [
+          18,
+          36
+        ],
+        "ask",
+        [
+          0,
+          4
+        ]
+      ],
+      "predictions": {
+        "position": [
+          [
+            18,
+            36
+          ],
+          [
+            37,
+            57
+          ],
+          "ask",
+          [
+            0,
+            4
+          ]
+        ],
+        "law": [
+          [
+            37,
+            57
+          ],
+          [
+            18,
+            36
+          ],
+          "ask",
+          [
+            0,
+            4
+          ]
+        ],
+        "attention": [
+          [
+            37,
+            57
+          ],
+          [
+            18,
+            36
+          ],
+          "ask",
+          [
+            0,
+            4
+          ]
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside01",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": [
+          [
+            13,
+            25
+          ],
+          [
+            26,
+            38
+          ],
+          "assert",
+          null
+        ],
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside02",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": [
+          [
+            13,
+            33
+          ],
+          [
+            34,
+            52
+          ],
+          "assert",
+          null
+        ],
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside03",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": [
+          [
+            13,
+            37
+          ],
+          [
+            38,
+            60
+          ],
+          "assert",
+          null
+        ],
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside04",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": null,
+        "law": null,
+        "attention": [
+          [
+            26,
+            42
+          ],
+          [
+            43,
+            57
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside05",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": [
+          [
+            13,
+            25
+          ],
+          [
+            26,
+            40
+          ],
+          "assert",
+          null
+        ],
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside06",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": null,
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside07",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": null,
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside08",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": null,
+        "law": null,
+        "attention": null,
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside09",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": null,
+        "law": null,
+        "attention": [
+          [
+            13,
+            25
+          ],
+          [
+            31,
+            43
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside10",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": [
+          [
+            13,
+            33
+          ],
+          [
+            34,
+            50
+          ],
+          "assert",
+          null
+        ],
+        "law": null,
+        "attention": [
+          [
+            13,
+            33
+          ],
+          [
+            34,
+            50
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside11",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": [
+          [
+            13,
+            25
+          ],
+          [
+            26,
+            40
+          ],
+          "assert",
+          null
+        ],
+        "law": null,
+        "attention": [
+          [
+            26,
+            40
+          ],
+          [
+            13,
+            25
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    },
+    {
+      "id": "outside12",
+      "group": "controls",
+      "gold": null,
+      "predictions": {
+        "position": null,
+        "law": null,
+        "attention": [
+          [
+            13,
+            25
+          ],
+          [
+            26,
+            40
+          ],
+          "assert",
+          null
+        ],
+        "without_nominal_marks": null,
+        "mask_subject": null,
+        "mask_object": null,
+        "mask_question_cue": null
+      }
+    }
+  ],
+  "coverage": {
+    "basis": "Existing catalogue entries; counts of passages are not counts of laws or mastered skills.",
+    "books": {
+      "sibawayhi": {
+        "retrieval_passages": 2729,
+        "catalog_rules_linked": 33,
+        "witnesses_used_in_this_bridge": [
+          "governed_roles",
+          "object_first",
+          "predication"
+        ]
+      },
+      "qatr": {
+        "retrieval_passages": 148,
+        "catalog_rules_linked": 57,
+        "witnesses_used_in_this_bridge": [
+          "primary",
+          "dual"
+        ]
+      }
+    },
+    "factors_in_this_bridge": [
+      "jurjani:092"
+    ],
+    "other_factors_in_existing_catalog": [
+      "jurjani:001",
+      "jurjani:002",
+      "jurjani:003",
+      "jurjani:004",
+      "jurjani:005",
+      "jurjani:006",
+      "jurjani:007",
+      "jurjani:008",
+      "jurjani:009",
+      "jurjani:010",
+      "jurjani:011",
+      "jurjani:012",
+      "jurjani:013",
+      "jurjani:014",
+      "jurjani:015",
+      "jurjani:016",
+      "jurjani:017",
+      "jurjani:018",
+      "jurjani:019",
+      "jurjani:020",
+      "jurjani:021",
+      "jurjani:022",
+      "jurjani:023",
+      "jurjani:024",
+      "jurjani:025",
+      "jurjani:026",
+      "jurjani:027",
+      "jurjani:028",
+      "jurjani:029",
+      "jurjani:030",
+      "jurjani:031",
+      "jurjani:032",
+      "jurjani:033",
+      "jurjani:034",
+      "jurjani:035",
+      "jurjani:036",
+      "jurjani:037",
+      "jurjani:038",
+      "jurjani:039",
+      "jurjani:040",
+      "jurjani:041",
+      "jurjani:042",
+      "jurjani:043",
+      "jurjani:044",
+      "jurjani:045",
+      "jurjani:046",
+      "jurjani:047",
+      "jurjani:048",
+      "jurjani:049",
+      "jurjani:050",
+      "jurjani:051",
+      "jurjani:052",
+      "jurjani:053",
+      "jurjani:054",
+      "jurjani:055",
+      "jurjani:056",
+      "jurjani:057",
+      "jurjani:058",
+      "jurjani:059",
+      "jurjani:060",
+      "jurjani:061",
+      "jurjani:062",
+      "jurjani:063",
+      "jurjani:064",
+      "jurjani:065",
+      "jurjani:066",
+      "jurjani:067",
+      "jurjani:068",
+      "jurjani:069",
+      "jurjani:070",
+      "jurjani:071",
+      "jurjani:072",
+      "jurjani:073",
+      "jurjani:074",
+      "jurjani:075",
+      "jurjani:076",
+      "jurjani:077",
+      "jurjani:078",
+      "jurjani:079",
+      "jurjani:080",
+      "jurjani:081",
+      "jurjani:082",
+      "jurjani:083",
+      "jurjani:084",
+      "jurjani:085",
+      "jurjani:086",
+      "jurjani:087",
+      "jurjani:088",
+      "jurjani:089",
+      "jurjani:090",
+      "jurjani:091",
+      "jurjani:093",
+      "jurjani:094",
+      "jurjani:095",
+      "jurjani:096",
+      "jurjani:097",
+      "jurjani:098",
+      "jurjani:099",
+      "jurjani:100"
+    ],
+    "full_book_coverage_established": false
+  },
+  "scope": "Authored held-out stems/senses for neural fit. Rule lexicon includes the tested forms. A masked head is a uniform pointer with no unique winner; comparisons are exact joint role spans, force and cue or abstention. No independent field sample or usage proof."
+}

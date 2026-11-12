@@ -83,11 +83,13 @@ def attend(text, model, *, masked_heads=(), hide_nominal_marks=False):
         # Fixed one-hot V for each local occurrence (plus NULL) makes alpha @ V
         # a source pointer distribution. Equal maxima are left unresolved.
         winners = [i for i, v in enumerate(logits) if v == top]
-        selected = spans[winners[0]] if len(winners) == 1 else None
-        heads[name] = {"span": selected, "attention": [
+        winner = winners[0] if len(winners) == 1 else None
+        selected = spans[winner] if winner is not None else None
+        selection = "TIE" if winner is None else "NULL" if winner == 0 else "OCCURRENCE"
+        heads[name] = {"span": selected, "selection": selection, "attention": [
             {"span": span, "weight": round(v/total, 9)} for span, v in zip(spans, exps, strict=True)]}
     subj, obj = (heads[k]["span"] for k in HEADS[:2])
-    bound = bool(subj and obj and subj != obj)
+    bound = bool(subj and obj and subj != obj and heads["question_cue"]["selection"] != "TIE")
     return {"heads": heads, "status": "PROPOSED" if bound else "DEFER",
             "force_proposal": ("ask" if heads["question_cue"]["span"] else "assert") if bound else None}
 

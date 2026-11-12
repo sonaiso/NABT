@@ -88,8 +88,18 @@ class ClassicalRoles(unittest.TestCase):
                 self.assertEqual(trial.checked_result(law.analyze(c["text"])),trial.expected(c))
         for c in ("شَكَرَ الضيفٌ الطبيبَ", "ساعَدَ المُعَلِّمَانِ الطّالِبَانِ", "ساعَدَ الطالبَ والمعلمُ"):
             self.assertIsNone(law.analyze(c))
-        first=json.loads((model.ROOT/"evidence/grounded_attention_v1/FIRST_TEST.json").read_bytes())
-        self.assertEqual(trial.evaluate(),first)
+        self.assertIsNone(law.analyze(HELP.replace("ا", "ٱ", 1)))
+        checked = json.loads((model.ROOT/"evidence/grounded_attention_v1/EVALUATION_v1_1.json").read_bytes())
+        self.assertEqual(trial.evaluate(), checked)
+        weights = json.loads((model.ROOT/model.MODEL_PATH).read_bytes())
+        asserted = model.attend(HELP, weights)
+        self.assertEqual(asserted["heads"]["question_cue"]["selection"], "NULL")
+        self.assertEqual(asserted["force_proposal"], "assert")
+        for text in (HELP, "هل " + HELP + "؟"):
+            tied = model.attend(text, weights, masked_heads=("question_cue",))
+            self.assertEqual(tied["heads"]["question_cue"]["selection"], "TIE")
+            self.assertEqual(tied["status"], "DEFER")
+            self.assertIsNone(tied["force_proposal"])
 
     @unittest.skipUnless(READY, "Build native gateway owners")
     def test_public_bound_question_and_independent_replay(self):
