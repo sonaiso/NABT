@@ -4,6 +4,9 @@ This module selects witnesses; it never infers an atom or an application verdict
 The complete owner receipt remains authoritative and is replayed by the gateway.
 """
 from copy import deepcopy
+from hashlib import sha256
+
+from .operations import ROOT
 
 from tools import verified_reading as ground
 
@@ -37,3 +40,17 @@ def premises(atoms, source_ledger, ready, certificate):
             "opposing_source_witnesses": [i for i, row in enumerate(source_ledger)
                 if row["source_id"] in ready and ground.key(row["atom"]) == opposite]})
     return rows
+
+
+def pinned_excerpts(inventory, names):
+    results = {}
+    for name in names:
+        row = inventory["witnesses"][name]
+        start, end = row["utf8_span"]
+        with (ROOT / row["path"]).open("rb") as source:
+            source.seek(start)
+            raw = source.read(end - start)
+        if sha256(raw).hexdigest() != row["sha256"]:
+            raise ValueError("Pinned grammar source excerpt changed")
+        results[name] = {**row, "quote": raw.decode().strip()}
+    return results
