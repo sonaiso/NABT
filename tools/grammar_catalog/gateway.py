@@ -11,7 +11,9 @@ REQUEST_SCHEMA = "nabt.io.request.v1"
 RESULT_SCHEMA = "nabt.io.result.v1"
 MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
+PASSIVE_MODEL = "evidence/passive_relation_transfer_v1/model.json"
 OPTIONAL_NEURAL_INPUTS = frozenset((
+    PASSIVE_MODEL,
     "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
     "evidence/shared_cognition_v1/model.json",
     "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
@@ -45,7 +47,7 @@ def snapshot():
             value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
-    lexical_sources = (str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
+    lexical_sources = (PASSIVE_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
                        "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
                        "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
                        "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
