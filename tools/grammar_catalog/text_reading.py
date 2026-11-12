@@ -46,8 +46,8 @@ def lexical_context(text):
     return raw.decode(), mentions
 
 
-def card(scope, degree, understood, reason, pending, **evidence):
-    return {"scope": scope, "degree": degree, "understood": understood, "why": reason,
+def card(scope, degree, understood, why, pending, **evidence):
+    return {"scope": scope, "degree": degree, "understood": understood, "why": why,
             "unresolved": pending, "evidence": evidence}
 
 
@@ -56,6 +56,17 @@ def predications(report, names, *, branch=None):
     if not owner or not any(r["name"] == "mantuq" and r["closed"] for r in report["dispatch_ledger"]):
         return []
     source = report["source"]["text"]
+    degree = "منطوق في التحليل المرخّص"
+    premise = ""
+    pending = "تعيين الشخص في الخارج وصدق الوصف يحتاجان شاهدًا مستقلاً."
+    if branch:
+        edits = [m for m in branch["mappings"] if m["spelling_edit"]]
+        degree = "قراءة مشروطة بالضبط"
+        if edits:
+            degree = "قراءة مشروطة بتغيير الرسم"
+            changes = "، ".join(f"من «{m['observed']}» إلى «{m['proposed']}»" for m in edits)
+            premise = f"تفترض هذه القراءة تغيير الرسم {changes}. "
+            pending = "لم يثبت خطأ الرسم الأصلي أو أن الكاتب أراد هذا التغيير. " + pending
     acts = {row["clause_id"]: row["force"] for row in owner["speech_acts"]}
     rows = []
     for claim in owner["claims"]:
@@ -68,12 +79,68 @@ def predications(report, names, *, branch=None):
         bearer = names[claim["args"][0]]
         action = "يُسند" if claim["positive"] else "ينفي إسناد"
         rows.append(card("conditional_predication" if branch else "source_predication",
-                         "قراءة مشروطة بالضبط" if branch else "منطوق في التحليل المرخّص",
+                         degree,
                          f"{action} النصّ صفة «{claim['predicate']}» إلى «{bearer}».",
-                         f"قُرئت «{source}» خبرًا في معجم القراءة المحلي، وربط محلّل التركيب المحمول بصاحب الاسم.",
-                         "تعيين الشخص في الخارج وصدق الوصف يحتاجان شاهدًا مستقلاً.",
+                         premise + f"قُرئت «{source}» خبرًا في معجم القراءة المحلي، وربط محلّل التركيب المحمول بصاحب الاسم.",
+                         pending,
                          claim_id=claim["claim_id"], proofs=proofs, reading_text=source,
                          conditional_source=branch, world_truth_established=False))
+    return rows
+
+
+def acquisition_checks(report):
+    """Yield owner receipts at their original or proposed spelling and source span."""
+    shape = report["owner_reports"]["orthography"]
+    if shape["schema"] == "nabt.exact-unit-owner-transport.v1":
+        from tools.arabic_training.unit_composition import read_json
+        shape = read_json(shape["owner_json"].encode())
+    for run in shape["result"]["written_runs"]:
+        for word in run["owner_result"]["words"]:
+            yield word.get("acquisition_owner", {}), run["source_span"], run["surface"], word["text"]
+    for row in report.get("source_reading", {}).get("occurrences", []):
+        for alt in row["alternatives"]:
+            yield alt["acquisition_owner"], row["source_span"], row["surface"], alt["surface"]
+
+
+ACQUISITION_FAILURES = {
+    "VERIFICATION_UNAVAILABLE": "تعذّر تشغيل فاحص القراءة.",
+    "VERIFICATION_FAILED": "اختلفت نتيجة الفاحص عند إعادة التحقق.",
+    "SOURCE_EVIDENCE_UNAVAILABLE": "تعذّر التحقق من شاهد القراءة المثبّت.",
+    "RESOURCE_EXHAUSTED": "استنفد فحص القراءة الموارد المتاحة.",
+}
+
+
+def grammar_failures(grammar):
+    # One outage may affect many hypotheses. Keep their locations in one card
+    # per owner and cause, including failures found only on a derived source.
+    failures = {}
+    reports = [grammar] + [b["result"] for b in grammar["conditional_readings"]]
+    for report in reports:
+        for owner, span, observed, proposed in acquisition_checks(report):
+            status = owner.get("status")
+            if status not in ACQUISITION_FAILURES:
+                continue
+            reason = owner.get("error") or owner.get("acquisition", {}).get("error") or status
+            affected = failures.setdefault((owner["schema"], status, reason), {})
+            key = (span["source_id"], span["start"], span["end"], proposed)
+            affected[key] = {"span": span, "observed": observed, "proposed": proposed}
+    rows = []
+    for (schema, status, reason), affected in failures.items():
+        locations = list(affected.values())
+        first = locations[0]
+        where = f"عند فحص «{first['proposed']}»"
+        if first["observed"] != first["proposed"]:
+            where += f" المقترحة للرسم «{first['observed']}»"
+        rows.append(card("technical", status, ACQUISITION_FAILURES[status],
+                         f"{where} سجّل الفاحص {reason}.",
+                         "يتوقف الحكم على الأوجه المتأثرة إلى أن يكتمل فحصها.",
+                         owner_schema=schema, reason=reason, locations=locations))
+    recovery = grammar["source_reading"]
+    if recovery["branch_status"] == "RESOURCE_LIMIT_ALL_WORD_ALTERNATIVES_RETAINED":
+        rows.append(card("technical", "RESOURCE_EXHAUSTED", "تجاوز عدد القراءات المركّبة حدّ الفحص.",
+                         f"بلغ عدد تراكيب البدائل {recovery['candidate_product']}.",
+                         "حُفظت بدائل الكلمات وبقي فحص تراكيبها معلّقًا.",
+                         reason=recovery["branch_status"], candidate_product=recovery["candidate_product"]))
     return rows
 
 
@@ -97,7 +164,8 @@ def use_cards(report, profiles):
     for profile, bridge in profiles.items():
         if bridge["status"] in {"SOURCE_UNAVAILABLE", "RESOURCE_EXHAUSTED", "VERIFICATION_UNAVAILABLE", "IDENTITY_UNAVAILABLE"}:
             rows.append(card("technical", bridge["status"], "تعذّر التحقق من شاهد الاستعمال.",
-                             "فرع الاصطلاح " + PROFILES[profile], "الهوية أو الفاحص غير متاح."))
+                             f"فرع الاصطلاح {PROFILES[profile]}: {bridge['reason']}",
+                             "الهوية أو الفاحص غير متاح."))
     for item in report["occurrences"]:
         gloss = {s["sense_id"]: s["gloss"] for s in item["available_senses"]}
         def labels(ids):
@@ -131,7 +199,7 @@ def use_cards(report, profiles):
         rows.append(card("expressed_intent", "متعيّن في عبارة التصريح المضبوطة", understood,
                          item["cue_span"]["raw_text"], "القصد المنقول مربوط بهذه العبارة.",
                          **ev))
-        accepted = False
+        accepted_senses = set()
         for profile, bridge in profiles.items():
             for application in bridge["applications"]:
                 if application["owner_occurrence_id"] != item["occurrence_id"]:
@@ -148,12 +216,19 @@ def use_cards(report, profiles):
                                  reason, "اصطلاح المتكلم غير معيّن من خارج العبارة؛ تبقى الفروع الأخرى محفوظة.",
                                  profile_id=profile, use_kind=application["use_kind"], sense_id=candidate["sense_id"],
                                  witness_id=application["witness_id"], **ev))
-                accepted = True
-        if not accepted:
+                accepted_senses.add(candidate["sense_id"])
+        for sense in chosen:
+            if sense in accepted_senses:
+                continue
+            missing_exclusions = sorted({c["candidate"]["designation"]["sense"] for c in item["candidates"]
+                                         if c["sense_id"] == sense and c["use_kind"] == "figurative"}
+                                        - set(item["excluded_sense_ids"]))
+            pending = "لم تكتمل الشواهد المطلوبة لوجه الاستعمال في هذا الوقوع."
+            if missing_exclusions:
+                pending += f" يحتاج وجه المجاز إلى شاهد استبعاد للمعنى «{labels(missing_exclusions)}»."
             rows.append(card("use_deferred", "إرجاء وجه الاستعمال",
-                             "تعيّن المعنى المقصود، وبقي وصف الاستعمال بالحقيقة أو المجاز غير محسوم.",
-                             item["clause_span"]["raw_text"],
-                             "لم تكتمل الشواهد المطلوبة لوجه الاستعمال في هذا الوقوع.", **ev))
+                             f"قصد المتكلم معنى «{gloss[sense]}». وبقي وجه استعماله غير محسوم.",
+                             item["clause_span"]["raw_text"], pending, sense_id=sense, **ev))
     return rows
 
 
@@ -183,7 +258,7 @@ def analyze(text):
     grammar = orchestration.run({"text": text, "lexical_text": lexical, "context": context})
     # The owner enumerates all installed conventions with no supplied profile.
     usage_report = usage.acquire(text, source_id=grammar["source"]["id"])
-    cards = predications(grammar, names)
+    cards = grammar_failures(grammar) + predications(grammar, names)
     pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
                      if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
     for b in grammar["conditional_readings"]:
