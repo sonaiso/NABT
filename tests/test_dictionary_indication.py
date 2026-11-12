@@ -1,4 +1,3 @@
-from copy import deepcopy
 from hashlib import sha256
 import json
 import unittest
@@ -47,6 +46,11 @@ class DictionaryLearning(unittest.TestCase):
             self.assertEqual(changed["status"],"PARTIAL_VERIFICATION")
             self.assertEqual([r["sense_id"] for r in changed["readings"]],["mukhtar:blind"])
             self.assertEqual(changed["readings"][0],good["readings"][0])
+        with patch.object(law,"resources",side_effect=ValueError("Mukhtar unavailable")):
+            self.assertEqual(law.analyze("ما أصل مادة «سيف»؟")["status"],"SOURCE_BOUND_READINGS")
+            mismatch=law.analyze("ما معنى «القلم» من مادة «كتب»؟")
+            self.assertEqual(mismatch["readings"],[])
+            self.assertEqual(mismatch["status"],"VERIFICATION_UNAVAILABLE")
         with patch.object(model,"MODEL_SHA","wrong"):
             self.assertEqual(law.analyze(text)["readings"],good["readings"])
 

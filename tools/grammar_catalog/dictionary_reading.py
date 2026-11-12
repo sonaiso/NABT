@@ -94,13 +94,13 @@ def _resources(raw,tsv):
     return raw,records
 
 
-def reviewed_indices():
+def mukhtar_indices():
     # Lookup indices only; full replay happens after a request has a focus.
     tsv=TABLE.read_bytes()
     if sha256(tsv).hexdigest()!=MEMBERS_SHA:
         raise ValueError("FORM_INDEX_UNAVAILABLE")
     bank=csv.DictReader(tsv.decode().splitlines(),delimiter="\t")
-    return {r["lemma"] for r in bank} | set(LEGACY) | set(PROFILE_FORMS)
+    return {r["lemma"] for r in bank}
 
 
 def indices_for(word,lemmas,*,clitic=False):
@@ -186,7 +186,7 @@ def legacy_readings(root,axis,target,origin):
     return results
 
 
-def profile_readings(lemmas,word,target):
+def profile_readings(lemmas,word,target,required_root=None):
     if not lemmas.intersection(PROFILE_FORMS): return []
     def export(t):
         d=testimony._native(PROFILE,{"op":"root_sense_profile","value":t})
@@ -199,6 +199,7 @@ def profile_readings(lemmas,word,target):
     for sid,r in available.items():
         if r["surface"] not in lemmas or not sid.startswith("root-profile:") or not compatible(word,r["surface"]):continue
         s=r["sense"]
+        if required_root is not None and s["root"]!=required_root:continue
         chosen=targets(target,s["components"])
         key=tuple(chosen)
         if key not in reports: reports[key]=export(chosen)
@@ -240,10 +241,11 @@ def analyze(text):
         query={"mode":"بحث في المادة","word":explicit[1],"root_hint":explicit[2],"target":None,"context":None,
                "citation_span":[len(text[:i].encode()) for i in explicit.span(1)],"context_offset":None}
     try:
-        lemmas_available=reviewed_indices()
+        local_forms=set() if query and query.get("mode")=="أصل مادة" else mukhtar_indices()
     except (ValueError,OSError) as err:
-        lemmas_available=set(LEGACY)|set(PROFILE_FORMS)
+        local_forms=set()
         errors.append({"owner":"mukhtar","reason":str(err)})
+    lemmas_available=local_forms | set(LEGACY) | set(PROFILE_FORMS)
     if query is None:
         # A metalinguistic quotation or an unresolved multi-focus source needs explicit focus.
         ts=exact_terms(text)
@@ -276,15 +278,9 @@ def analyze(text):
     readings=report["readings"]
     failures=(OSError,ValueError,KeyError,StopIteration,subprocess.SubprocessError)
     try:
-        raw,bank=resources()
-        if explicit:
-            allowed={r["lemma"] for r in bank if r["root"]==explicit[2]}
-            allowed.update(l for l,(root,_) in LEGACY.items() if root==explicit[2] and root!="إنسان")
-            if lemmas.intersection(PROFILE_FORMS):
-                profiles=testimony._native(PROFILE,{"op":"root_sense_profile","value":[]})
-                allowed.update(r["surface"] for r in profiles["rows"] if r["sense"]["root"]==explicit[2])
-            lemmas &= allowed
-        selected=[r for r in bank if r["lemma"] in lemmas]
+        needs_entry=not origin and (explicit or lemmas.intersection(local_forms) or not lemmas)
+        raw,bank=resources() if needs_entry else (b"",[])
+        selected=[r for r in bank if r["lemma"] in lemmas and (not explicit or r["root"]==explicit[2])]
         for row in selected:
             try:
                 readings.append(mukhtar_reading(row,target))
@@ -293,7 +289,7 @@ def analyze(text):
                 retained=mukhtar_reading(row,None)
                 retained.update(target=targets(target,row["components"]),indication_status="VERIFICATION_UNAVAILABLE")
                 readings.append(retained)
-        if not lemmas and not origin and (explicit or query["mode"]=="معنى"):
+        if not selected and not origin and (explicit or (not lemmas and query["mode"]=="معنى")):
             index=query.get("root_hint",letters(word).removeprefix("ال"))
             if context:
                 local=[t for t in exact_terms(context) if t["surface"]==word]
@@ -302,20 +298,23 @@ def analyze(text):
                 report["context_occurrence"]={"surface":word,"utf8_span":[i+query["context_offset"] for i in local[0]["utf8_span"]]}
             candidate=entry_proposal(text,word,index,raw)
             if candidate:
-                return {**report,"status":"UNREVIEWED_ENTRY_PROPOSAL","entry":candidate}
+                report["entry"]=candidate
     except failures as err:
         errors.append({"owner":"mukhtar","reason":str(err)})
     roots=[(word,"أصل المادة عند ابن فارس")] if origin and word in ORIGINS else [
         LEGACY[l] for l in sorted(lemmas.intersection(LEGACY))]
     for root,axis in roots:
+        if explicit and (root!=explicit[2] or root=="إنسان"):continue
         try:readings.extend(legacy_readings(root,axis,target,origin))
         except failures as err:errors.append({"owner":"lexical_testimony","index":root,"reason":str(err)})
-    try:readings.extend(profile_readings(lemmas,word,target))
+    try:readings.extend(profile_readings(lemmas,word,target,explicit[2] if explicit else None))
     except failures as err:errors.append({"owner":"root_sense_profile","reason":str(err)})
     from tools.lexical_training import dictionary_indication as net
     report["proposals"]=net.propose(raw,selected,readings,context,target)
     if readings:status="PARTIAL_VERIFICATION" if errors else "SOURCE_BOUND_READINGS"
-    else:status="VERIFICATION_UNAVAILABLE" if errors else "NO_SCOPED_LEXICAL_ENTRY"
+    elif errors:status="VERIFICATION_UNAVAILABLE"
+    elif "entry" in report:status="UNREVIEWED_ENTRY_PROPOSAL"
+    else:status="NO_SCOPED_LEXICAL_ENTRY"
     return {**report,"status":status}
 
 
