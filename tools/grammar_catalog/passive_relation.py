@@ -14,6 +14,7 @@ from nabt.discourse_reader import read_discourse
 from tools.arabic_training.source_reading import compatible
 
 from .operations import ROOT, exact_terms
+from .source_evidence_view import pinned_excerpts
 
 
 SCHEMA = "nabt.written-passive-frames.v1"
@@ -116,20 +117,6 @@ def _passive_matches(checked, words, family):
     return matches
 
 
-def _witnesses(inventory, names):
-    results = {}
-    for name in names:
-        row = inventory["witnesses"][name]
-        start, end = row["utf8_span"]
-        with (ROOT / row["path"]).open("rb") as source:
-            source.seek(start)
-            raw = source.read(end - start)
-        if sha256(raw).hexdigest() != row["sha256"]:
-            raise ValueError("Written passive source excerpt changed")
-        results[name] = {**row, "quote": raw.decode().strip()}
-    return results
-
-
 def analyze(text):
     """A conditional text interpretation, with raw source and checker source distinguished."""
     from .text_reading import card
@@ -190,7 +177,7 @@ def analyze(text):
         semantic_role="affected_in_authored_concrete_reading", scope_mode="source_relative_past",
         operator_reading_conditional=conditional_cue, written_case_observed="ُ" in lookup_clusters(patient["surface"])[-1][1],
         analyzed_source={"id": source_id, "sha256": sha256(checked_text.encode()).hexdigest(), "mapping": mapping},
-        owner_analyses=matches, witnesses=_witnesses(inventory, rule_witnesses),
+        owner_analyses=matches, witnesses=pinned_excerpts(inventory, rule_witnesses),
         checker="PYTHON_WRITTEN_FRAME_AND_EXISTING_DISCOURSE_REPLAY",
         all_lexical_senses_established=False, external_referent_established=False, world_truth_established=False,
     )]

@@ -251,6 +251,60 @@ def citation_card(text):
                  grammar_path_certified=False, estimated_word_written=False)]
 
 
+def original_check_failed(source, failures):
+    return any(loc["span"]["source_id"] == source["id"] and loc["observed"] == loc["proposed"]
+               for failure in failures for loc in failure["evidence"].get("locations", []))
+
+
+def classical_reading(text, source, failures, usage_report):
+    from nabt.errors import NabtError
+    from tools.lexical_training.classical_attention import propose
+    from . import classical_roles
+
+    proposal = propose(text)
+    transfer = {"proposal": proposal, "authority_of_weights": "NONE", "graph": None,
+                "customary_use_established": False}
+    if original_check_failed(source, failures):
+        return [], {**transfer, "status": "SOURCE_CHECK_UNAVAILABLE"}
+    try:
+        graph = classical_roles.analyze(text, proposal)
+    except (OSError, ValueError, NabtError) as error:
+        reason = str(error)
+        return [card("technical", "SOURCE_EVIDENCE_UNAVAILABLE", "تعذّر التحقق من شاهد الربط النحوي.",
+                     reason, "يؤجَّل تعيين الأدوار بهذا المسار.", law=classical_roles.LAW)], {
+                         **transfer, "status": "SOURCE_EVIDENCE_UNAVAILABLE", "reason": reason}
+    if graph is None:
+        return [], {**transfer, "status": "NO_SCOPED_BINDING"}
+    transfer["usage_handoff"] = classical_roles.usage_handoff(graph, usage_report)
+    r = graph["reading"]
+    v = r["verb"]["surface"]
+    subject, obj = (r[k]["term"]["surface"] for k in ("subject", "object"))
+    event = next(n for n in graph["nodes"] if n["kind"] == "event")
+    role_names = {e["depends_on_role"]: e["value"] for e in graph["edges"] if e["type"] == "semantic_role"}
+    content = f"«{subject}» {role_names['subject']} و«{obj}» {role_names['object']}."
+    force = ("يسأل النص هل تصحّ هذه النسبة" if r["force"] == "ask" else "يُخبر النص بهذه النسبة")
+    sign_names = {"alif": "الألف", "ya": "الياء", "damma": "الضمة", "fatha": "الفتحة"}
+    why = (f"يعمل «{v}» في الاسمين. علامة رفع «{subject}» {sign_names[r['subject']['sign']]} "
+           f"وعلامة نصب «{obj}» {sign_names[r['object']['sign']]}. "
+           "راجعنا تعيين الدورين في الكتاب لسيبويه وعلامتيهما في قطر الندى.")
+    expected = [r[k]["term"]["utf8_span"] for k in ("subject", "object")]
+    expected.append(r["cue"]["utf8_span"] if r["cue"] else None)
+    agrees = (proposal["status"] == "PROPOSED" and proposal["source_sha256"] == source["sha256"] and
+              [proposal["heads"][h]["span"] for h in ("subject", "object", "question_cue")] == expected)
+    if agrees:
+        why += " وافق اقتراح الانتباه الدورين ونطاق القول."
+    elif proposal["status"] == "PROPOSED":
+        why += " اختلف اقتراح الانتباه عن القراءة التي اجتازت الفحص."
+    elif proposal["status"] == "DEFER":
+        why += " أرجأت الشبكة التعيين، وحسمه شاهد العامل والعلامة في هذا الوجه."
+    row = card("classical_role_binding", "قراءة لغوية مشروطة بالوجه المعجمي",
+               force + " في معنى " + event["masdar"] + ": " + content, why,
+               "تعيين الأفراد والوقوع الخارجي والاستعمال العرفي يحتاج كلٌّ منها شاهدًا مستقلًا.",
+               graph_ref="/classical_role_attention/graph", law=classical_roles.LAW,
+               source_sha256=source["sha256"], force=r["force"], attention_matches=agrees)
+    return [row], {**transfer, "status": "SOURCE_BOUND_READING", "graph": graph, "attention_matches": agrees}
+
+
 def passive_reading(text, source, failures):
     """Compare the learned top proposal to an independent, source-local analysis."""
     from tools.lexical_training.passive_transfer import propose
@@ -259,9 +313,7 @@ def passive_reading(text, source, failures):
     proposal = propose(text)
     fields = ("relation", "verb_span", "patient_span", "cue_span")
     same_source = proposal.get("source_sha256") == source["sha256"]
-    observed_failed = any(
-        loc["span"]["source_id"] == source["id"] and loc["observed"] == loc["proposed"]
-        for failure in failures for loc in failure["evidence"].get("locations", []))
+    observed_failed = original_check_failed(source, failures)
     readings = [] if observed_failed else passive_relation.analyze(text)
     matches = []
     for reading in readings:
@@ -299,7 +351,8 @@ def analyze(text):
     usage_report = usage.acquire(text, source_id=grammar["source"]["id"])
     failures = grammar_failures(grammar)
     events, transfer = passive_reading(text, grammar["source"], failures)
-    cards = failures + predications(grammar, names) + events
+    roles, classical = classical_reading(text, grammar["source"], failures, usage_report)
+    cards = failures + predications(grammar, names) + events + roles
     pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
                      if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
     for b in grammar["conditional_readings"]:
@@ -320,5 +373,5 @@ def analyze(text):
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,
-            "passive_relation_transfer": transfer,
+            "passive_relation_transfer": transfer, "classical_role_attention": classical,
             "all_arabic_complete": False, "world_truth_established": False}
