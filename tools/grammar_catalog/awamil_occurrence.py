@@ -6,6 +6,7 @@ from hashlib import sha256
 import json
 import re
 
+from nabt.inflection import EXPECTED_TABLE_SHA256, sign_candidates
 from tools.mantuq_mafhum import load_awamil_inventory
 from . import passive_relation
 from .operations import ROOT
@@ -111,6 +112,56 @@ def bound_fields(text, match):
     return bindings
 
 
+def case_signs(p, bindings):
+    """The paradigm supplies a class premise; the actual mark has its own span."""
+    results = []
+    endings = {"u":(1,"ٌُ"), "a":(0,"ًَ"), "i":(2,"ٍِ"), "j":(3,"ْ")}
+    for match in FIELDS.finditer(p.template):
+        role,val = match.groups()
+        if val == "$cond" or (p.sense and p.polarity == "deny" and role == "g"):
+            suffix,cls = "j",8
+        elif val.startswith("$") and val[-2:-1]=="_" and val[-1] in endings:
+            suffix = val[-1]
+            cls = 8 if val.startswith(("$first_","$third_")) else 0
+        else:
+            continue
+        case,marks = endings[suffix]
+        bound = bindings[role]
+        word = bound["surface"].split()[0]
+        pos = len(word)-1
+        if word.endswith("ًا"):
+            pos -= 1
+        if word[pos] not in marks:
+            raise ValueError("Case witness disagrees with the authored slot")
+        begin = bound["utf8_span"][0] + len(word[:pos].encode())
+        rows = sign_candidates([cls], cases=[case])
+        if len(rows)!=1:
+            raise ValueError("Expected one conditional sign in this paradigm")
+        results.append({"role":role,"observed":word[pos],"utf8_span":[begin,begin+len(word[pos].encode())],
+                        "conditional_sign":rows[0],"class_premise":"AUTHORED_PARADIGM",
+                        "sign_table_sha256":EXPECTED_TABLE_SHA256})
+    return results
+
+
+def edges(factors,bindings,p):
+    # Each occurrence is identified in the parent source. An implicit governor
+    # has a rule identity but no invented span in the written input.
+    result=[]
+    frame=f"frame:{p.relation}"
+    for f in factors:
+        result.append({"from":f["id"],"to":frame,"type":"licenses_teaching_frame",
+                       "operator_span":f["occurrence"]["utf8_span"] if f["occurrence"] else None})
+    if p.sense and p.polarity=="deny":
+        result.append({"from":"jurjani:038","to":"jurjani:092","type":"negates_event_in_text",
+                       "depends_on":["cue","g"]})
+    for role,occ in bindings.items():
+        if role in ("g","cue"):
+            continue
+        result.append({"from":frame,"to":occ["utf8_span"],"type":role,"depends_on":[role],
+                       "interpretation_scope":"within_authored_face"})
+    return result
+
+
 def read(text, passive_cards=()):
     """Full source match before source claims. Weights cannot select or delete a reading."""
     if len(text.encode()) > 1024:
@@ -155,6 +206,7 @@ def read(text, passive_cards=()):
         results.append({"factor":p.factor, "factors":anchors,"relation":p.relation,"reading_ar":p.gloss,
                         "source_sha256":source,"bindings":bindings,"principal_span":primary_span(p,bindings),
                         "witnesses":witnesses,"event":event,"template":p.template,"inventory_sha256":inv["inventory_sha256"],
-                        "rule_version":LAW,"premise":"AUTHORED_FULL_PATTERN_AND_LEXICAL_FACE",
+                        "rule_version":LAW,"signs":case_signs(p,bindings), "edges":edges(anchors,bindings,p), "rule_inputs":dict(SOURCES),
+                        "premise":"AUTHORED_FULL_PATTERN_AND_LEXICAL_FACE",
                         "customary_use_established":False,"world_truth_established":False})
     return results, "MATCHED_AUTHORED_READING" if results else "OWNER_OBLIGATION_OPEN"

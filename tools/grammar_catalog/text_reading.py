@@ -305,6 +305,53 @@ def classical_reading(text, source, failures, usage_report):
     return [row], {**transfer, "status": "SOURCE_BOUND_READING", "graph": graph, "attention_matches": agrees}
 
 
+def awamil_reading(text, source, failures, passive_cards):
+    from nabt.errors import NabtError
+    from tools.lexical_training import awamil_occurrence_model, awamil_voice
+    from . import awamil_occurrence as owner
+
+    report = {"proposal":awamil_occurrence_model.propose(text), "event_proposal":awamil_voice.propose(text),
+              "authority_of_weights":"NONE", "readings":[], "all_uses_complete":False,
+              "world_truth_established":False, "customary_use_established":False}
+    if original_check_failed(source, failures):
+        return [], {**report,"status":"SOURCE_CHECK_UNAVAILABLE"}
+    try:
+        readings, status = owner.read(text, passive_cards)
+    except (OSError, ValueError, NabtError) as err:
+        return [card("technical","SOURCE_EVIDENCE_UNAVAILABLE","تعذّر فحص شاهد العامل.",
+                     str(err),"تؤجّل قراءة هذا الوجه.", law=owner.LAW)], {**report,"status":"SOURCE_EVIDENCE_UNAVAILABLE"}
+    cards = []
+    for i,r in enumerate(readings):
+        names = "، ".join(f["label"] for f in r["factors"])
+        roles = "، ".join(owner.AR[k] + " «" + v["surface"] + "»" for k,v in r["bindings"].items()
+                          if k not in ("cue","g"))
+        if r["event"]:
+            event = r["event"]
+            content = ("ينفي النص " if event["polarity"]=="deny" else "يخبر النص عن ") + event["masdar"]
+            content += " المتعلق بـ«" + event["patient"]["surface"] + "»."
+            if event["voice"] == "passive":
+                content += " جاء المتأثر نائب فاعل، والفاعل غير مسمّى."
+        else:
+            content = r["reading_ar"] + ". " + roles + "."
+        why = "طابق الرسم قالب «"+names+"»."
+        for sign in r["signs"][:3]:
+            word = r["bindings"][sign["role"]]["surface"]
+            case = {"raf":"الرفع","nasb":"النصب","jarr":"الجر","jazm":"الجزم"}[sign["conditional_sign"]["case_name"]]
+            why += f" في «{word}» شاهد {case} هو «{sign['observed']}»."
+        prior = next((c for c in passive_cards if r["event"] and r["event"]["voice"]=="passive"
+                      and c["evidence"].get("source_sha256")==r["source_sha256"]
+                      and c["evidence"].get("event_sense_id","").endswith(":"+r["event"]["sense"])
+                      and c["evidence"].get("patient_span")==r["event"]["patient"]["utf8_span"]), None)
+        if prior is not None:
+            prior["evidence"]["awamil_reading_ref"] = f"/awamil_occurrence/readings/{i}"
+            continue
+        cards.append(card("awamil_occurrence","وجه تعليمي مطابق للمكتوب",content,
+                          why,
+                          "الحكم مقيد بالوجه المعجمي والتركيب المعلنين. تعيين المرجع والعرف والواقع يحتاج أدلة مستقلة.",
+                          reading_ref=f"/awamil_occurrence/readings/{i}", law=owner.LAW))
+    return cards,{**report,"readings":readings,"status":status}
+
+
 def passive_reading(text, source, failures):
     """Compare the learned top proposal to an independent, source-local analysis."""
     from tools.lexical_training.passive_transfer import propose
@@ -352,7 +399,8 @@ def analyze(text):
     failures = grammar_failures(grammar)
     events, transfer = passive_reading(text, grammar["source"], failures)
     roles, classical = classical_reading(text, grammar["source"], failures, usage_report)
-    cards = failures + predications(grammar, names) + events + roles
+    factor_cards, factor_report = awamil_reading(text, grammar["source"], failures, events)
+    cards = failures + predications(grammar, names) + events + roles + factor_cards
     pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
                      if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
     for b in grammar["conditional_readings"]:
@@ -373,5 +421,5 @@ def analyze(text):
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,
-            "passive_relation_transfer": transfer, "classical_role_attention": classical,
+            "passive_relation_transfer": transfer, "classical_role_attention": classical, "awamil_occurrence":factor_report,
             "all_arabic_complete": False, "world_truth_established": False}

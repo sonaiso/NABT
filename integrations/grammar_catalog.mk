@@ -20,7 +20,7 @@ operation-rag:
 
 .PHONY: awamil-agent
 awamil-agent:
-	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_awamil_agent -v
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_awamil_agent tests.test_awamil_occurrence -v
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil curriculum --output $(EVIDENCE_DIR)/awamil-curriculum.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog awamil check --request examples/awamil_agent/case.json --output $(EVIDENCE_DIR)/awamil-case.json
 
