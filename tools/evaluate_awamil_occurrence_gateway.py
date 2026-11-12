@@ -6,17 +6,12 @@ import json
 from pathlib import Path
 
 from tools.grammar_catalog import gateway
-from tools.grammar_catalog.operations import exact_terms
-from tools.lexical_training.train_awamil_occurrence import DIR, dump, rows
+from tools.awamil_occurrence_fixtures import SOURCE_SHA256, agrees, fixtures
+from tools.lexical_training.train_awamil_occurrence import DIR, dump
 
 
 def requests():
-    examples = {}
-    for r in rows("heldout"):
-        if not r["relation"].startswith("event_"):
-            examples.setdefault(r["factor"],r)
-    assert set(examples)==set(range(1,101))
-    result=[("factor",r) for r in examples.values()]
+    result=[("factor",r) for r in fixtures()]
     challenge=json.loads((DIR/"contrast.json").read_bytes())
     result += [("event",r) for r in challenge["heldout"]]
     result += [("control",{"text":s}) for s in challenge["controls"]]
@@ -39,14 +34,12 @@ def replay(item):
     result.update(status=report["status"],ids=[[f["id"] for f in a["factors"]] for a in readings],
                   customary=report["customary_use_established"],world=report["world_truth_established"])
     if kind=="factor":
-        words=exact_terms(r["text"])
-        target=words[r["dependent"]-1]["utf8_span"]
         if len(readings)==1:
             a=readings[0]
-            span=a["principal_span"]
-            result.update(relation=a["relation"],principal_span=span)
-            result["match"]=(a["factor"]==r["factor"] and a["relation"]==r["relation"]
-                             and target[0]<=span[0]<target[1] and a["source_sha256"]==view["source"]["sha256"]
+            result.update(relation=a["relation"], principal_span=a["principal_span"],
+                          operator_span=(a["factors"][0]["occurrence"] or {}).get("utf8_span"),
+                          expected_case=r["case"], expected_mark_span=r["mark_span"])
+            result["match"]=(agrees(a,r) and a["source_sha256"]==view["source"]["sha256"]
                              and bool(a["witnesses"]) and bool(a["edges"]))
     elif kind=="event":
         if len(readings)==1 and readings[0]["event"]:
@@ -73,7 +66,7 @@ def main():
         cases=list(ex.map(replay,requests()))
     summary={k:{"n":len(group),"correct":sum(r["match"] for r in group)} for k in sorted({r["kind"] for r in cases})
              if (group:=[r for r in cases if r["kind"]==k])}
-    dump(args.output,{"schema":"nabt.awamil-occurrence.public-evaluation.v1","route":"text.read","summary":summary,"cases":cases})
+    dump(args.output,{"schema":"nabt.awamil-occurrence.public-evaluation.v1","route":"text.read","fixture_sha256":SOURCE_SHA256,"summary":summary,"cases":cases})
     print(summary)
     if not all(r["match"] for r in cases):
         raise SystemExit(1)

@@ -12,14 +12,14 @@ from . import passive_relation
 from .operations import ROOT
 from .source_evidence_view import pinned_excerpts
 
-LAW = "nabt.awamil-occurrence.v1"
+LAW = "nabt.awamil-occurrence.v1.1"
 DATA = ROOT / "tools/grammar_catalog/data"
-SOURCES = (("awamil_occurrences_v1.tsv", "dc383881e3a886870ea81941a3ecb780238df8ae7e0494d14e86c736d74a2395"),
-           ("awamil_occurrence_bank_v1.json", "87d1809de2a639b384af1d33d80fcf977599c139fbe256ef4173568d1ad775e7"))
+SOURCES = (("awamil_occurrences_v1.tsv", "6a4abb7a95bdb5f9165e72862cb4472a126228a042d73c7714b4017cbf654f4b"),
+           ("awamil_occurrence_bank_v1.json", "123a535079df8588ab8f54de8ec5ff6123c6dcd487ff124afed39b77d90f1c5c"))
 FIELDS = re.compile(r"\{([a-z_]+)=([^{}]+)\}")
 GROUP_WITNESS = ("jarr", "inna", "negative_predicate", "vocative", "subjunctive", "jussive",
                  "conditional", "measure", "verb_name", "kana", "near", "praise", "mental")
-SPECIAL = {**dict.fromkeys((15,16,17), "exception_jarr"), 26:"with", 27:"except", 37:"conditional",
+SPECIAL = {83:"habbadha", **dict.fromkeys((15,16,17), "exception_jarr"), 26:"with", 27:"except", 37:"conditional",
            92:"governed", 93:"active_participle", 94:"passive_participle", 95:"attribute",
            96:"source", 97:"possession", 98:"measure", 99:"predication", 100:"indicative"}
 AR = dict(actor="الفاعل في هذا الوجه", patient="المتعلّق به الفعل", subject="المسند إليه أو المعمول الأول",
@@ -101,6 +101,9 @@ def primary_span(p, bindings):
     """Principal governed participant for scoring; the full graph keeps every role."""
     if p.sense:
         return bindings["patient"]["utf8_span"]
+    for role in ("condition", "subject"):
+        if role in bindings:
+            return bindings[role]["utf8_span"]
     return next(v["utf8_span"] for k,v in bindings.items() if k != "g")
 
 
@@ -115,10 +118,20 @@ def bound_fields(text, match):
 def case_signs(p, bindings):
     """The paradigm supplies a class premise; the actual mark has its own span."""
     results = []
+    # Fixed lexical forms are also witnessed. A possessive suffix follows the
+    # adjective subject’s case mark; the pronoun in حبذا has local case only.
+    fixed = {"رَبِّ":("i",0), "اللَّهِ":("i",0), "صَاحِبَ":("a",0),
+             "يَجْتَهِدْ":("j",8), "تَفْعَلْ":("j",8), "الرَّجُلُ":("u",0), "خُلُقُهُ":("u",0)}
     endings = {"u":(1,"ٌُ"), "a":(0,"ًَ"), "i":(2,"ٍِ"), "j":(3,"ْ")}
     for match in FIELDS.finditer(p.template):
         role,val = match.groups()
-        if val == "$cond" or (p.sense and p.polarity == "deny" and role == "g"):
+        if role == "subject" and val == "ذَا":
+            results.append({"role":role,"local_case":"raf","observed":None,"utf8_span":None,
+                            "mode":"BUILT_DEMONSTRATIVE_IN_SUBJECT_POSITION"})
+            continue
+        if val in fixed:
+            suffix,cls = fixed[val]
+        elif val == "$cond" or (p.sense and p.polarity == "deny" and role == "g"):
             suffix,cls = "j",8
         elif val.startswith("$") and val[-2:-1]=="_" and val[-1] in endings:
             suffix = val[-1]
@@ -128,7 +141,7 @@ def case_signs(p, bindings):
         case,marks = endings[suffix]
         bound = bindings[role]
         word = bound["surface"].split()[0]
-        pos = len(word)-1
+        pos = len("خُلُقُ")-1 if val=="خُلُقُهُ" else len(word)-1
         if word.endswith("ًا"):
             pos -= 1
         if word[pos] not in marks:

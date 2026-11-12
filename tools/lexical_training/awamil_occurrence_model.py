@@ -11,8 +11,8 @@ from zlib import crc32, decompress
 from tools.grammar_catalog.operations import ROOT, exact_terms
 from .features import features
 
-PATH = "evidence/awamil_occurrence_v1/weights.json"
-MODEL_SHA = "c5eafcbf9c7f2b6e2d38e7af84946536f6c34b2be614725b6f88190e6e86f096"
+PATH = "evidence/awamil_occurrence_v1/weights_v1_1.json"
+MODEL_SHA = "224932df2e93b163ae83a73c1af98ef1601dd276ca62b6ef47924af4d51bc05b"
 WIDTH = 640
 TOKEN_LIMIT = 12
 

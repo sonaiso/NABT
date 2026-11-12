@@ -336,6 +336,9 @@ def awamil_reading(text, source, failures, passive_cards):
         why = "طابق الرسم قالب «"+names+"»."
         for sign in r["signs"][:3]:
             word = r["bindings"][sign["role"]]["surface"]
+            if sign.get("local_case"):
+                why += f" «{word}» مبني في محل رفع فاعل."
+                continue
             case = {"raf":"الرفع","nasb":"النصب","jarr":"الجر","jazm":"الجزم"}[sign["conditional_sign"]["case_name"]]
             why += f" في «{word}» شاهد {case} هو «{sign['observed']}»."
         prior = next((c for c in passive_cards if r["event"] and r["event"]["voice"]=="passive"

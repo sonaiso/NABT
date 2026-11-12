@@ -3,6 +3,7 @@ import json
 import unittest
 from unittest.mock import patch
 
+from tools.awamil_occurrence_fixtures import fixtures, agrees
 from tools.grammar_catalog import awamil_occurrence as law, passive_relation, text_reading
 from tools.lexical_training import awamil_occurrence_model as net, awamil_voice as voice
 from tools.lexical_training.train_awamil_occurrence import DIR, rows
@@ -26,10 +27,36 @@ class OccurrenceCurriculum(unittest.TestCase):
             for r in row["bindings"].values():
                 self.assertEqual(text.encode()[slice(*r["utf8_span"])].decode(),r["surface"])
             for sign in row["signs"]:
+                if sign.get("local_case"):
+                    self.assertIsNone(sign["observed"])
+                    self.assertIsNone(sign["utf8_span"])
+                    continue
                 self.assertEqual(text.encode()[slice(*sign["utf8_span"])].decode(),sign["observed"])
             self.assertTrue(row["witnesses"])
             self.assertFalse(row["customary_use_established"])
         self.assertEqual(seen,set(range(1,101)))
+
+    def test_independent_factor_case_and_role_fixtures(self):
+        gold=fixtures()
+        trained={r["text"] for r in rows("train")}
+        for r in gold:
+            with self.subTest(factor=r["factor"]):
+                self.assertNotIn(r["text"],trained)
+                parsed,_=law.read(r["text"])
+                self.assertEqual(len(parsed),1)
+                self.assertTrue(agrees(parsed[0],r))
+        from dataclasses import replace
+        bank,patterns=law.curriculum()
+        swapped=tuple((replace(p,factor=3-p.factor) if p.factor in (1,2) else p,rx)
+                      for p,rx in patterns)
+        with patch.object(law,"curriculum",return_value=(bank,swapped)):
+            for r in gold[:2]:
+                self.assertFalse(agrees(law.read(r["text"])[0][0],r))
+        r=gold[94]
+        row=law.read(r["text"])[0][0]
+        self.assertEqual(row["principal_span"],row["bindings"]["subject"]["utf8_span"])
+        self.assertNotEqual(row["principal_span"],row["bindings"]["holder"]["utf8_span"])
+        self.assertEqual(r["text"].encode()[slice(*r["mark_span"])].decode(),"ُ")
 
     def test_controls_and_last_two_implicit_governors(self):
         for text in json.loads((DIR/"contrast.json").read_bytes())["controls"]:
