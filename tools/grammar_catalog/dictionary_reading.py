@@ -159,7 +159,7 @@ def mukhtar_reading(row,target):
     return out
 
 
-def legacy_readings(root,axis,target,origin):
+def legacy_readings(root,axis,target,origin,errors):
     # The target can name an entire contiguous gloss as well as explicit components.
     raw=(ROOT/testimony.CATALOG).read_bytes()
     if sha256(raw).hexdigest()!=testimony.CATALOG_SHA:
@@ -167,16 +167,16 @@ def legacy_readings(root,axis,target,origin):
     rows=[s for s in json.loads(raw)["senses"] if s["root"]==root and
           (s["citation"]["work"]=="maqayis")==origin]
     results=[]
-    checked={}
     for s in rows:
         chosen=targets(target,s["components"])
-        key=tuple(chosen)
-        if key not in checked:
-            a=testimony.assess(root,chosen)
-            if not a["native_checked"]:
-                raise ValueError("TESTIMONY_"+a["status"])
-            checked[key]=a["rows"]
-        row=next(x for x in checked[key] if x["sense_id"]==s["id"])
+        assessment=testimony.assess(root,chosen,sense_id=s["id"])
+        if not assessment["native_checked"]:
+            errors.append({"owner":"lexical_testimony","index":root,"reading":s["id"],
+                           "reason":assessment["status"]})
+            continue
+        row,=assessment["rows"]
+        if row["sense_id"]!=s["id"]:
+            raise ValueError("SCOPED_SENSE_MISMATCH")
         source=row["testimony"]
         results.append({"sense_id":s["id"],"root":None if root=="إنسان" else root,"entry_index":root,
                         "lexical_axis":axis,"gloss":" ".join(row["components"]),"components":row["components"],
@@ -250,12 +250,14 @@ def analyze(text):
         # A metalinguistic quotation or an unresolved multi-focus source needs explicit focus.
         ts=exact_terms(text)
         if not 2<=len(ts)<=12 or any(c in text for c in '«»"\n'):return None
-        found=[(t,indices_for(t["surface"],lemmas_available)) for t in ts]
+        found=[(t,indices_for(t["surface"],lemmas_available,clitic=True)) for t in ts]
         found=[(t,hits) for t,hits in found if hits]
         if len(found)!=1:return None
         t,_=found[0]
-        query={"mode":"لفظ في السياق","word":t["surface"],"target":None,"context":text,
-               "citation_span":t["utf8_span"],"context_offset":0}
+        surface=t["surface"]
+        word=surface if indices_for(surface,lemmas_available) else re.sub(r"^بِ?(?=ال)","",surface)
+        query={"mode":"لفظ في السياق","word":word,"target":None,"context":text,
+               "citation_span":[t["utf8_span"][1]-len(word.encode()),t["utf8_span"][1]],"context_offset":0}
     report={"schema":LAW,"query":query,"source_sha256":sha256(text.encode()).hexdigest(),"readings":[],
             "verification_debts":errors,"intended_sense_established":False,"world_truth_established":False,
             "customary_use_established":False,"all_arabic_senses_enumerated":False}
@@ -305,7 +307,7 @@ def analyze(text):
         LEGACY[l] for l in sorted(lemmas.intersection(LEGACY))]
     for root,axis in roots:
         if explicit and (root!=explicit[2] or root=="إنسان"):continue
-        try:readings.extend(legacy_readings(root,axis,target,origin))
+        try:readings.extend(legacy_readings(root,axis,target,origin,errors))
         except failures as err:errors.append({"owner":"lexical_testimony","index":root,"reason":str(err)})
     try:readings.extend(profile_readings(lemmas,word,target,explicit[2] if explicit else None))
     except failures as err:errors.append({"owner":"root_sense_profile","reason":str(err)})

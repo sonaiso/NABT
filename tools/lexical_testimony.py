@@ -98,8 +98,8 @@ def _indications(sense, target, necessities):
     return result
 
 
-def assess(entry, target, *, root=ROOT):
-    """Run the pinned native catalogue; return every installed sense for entry."""
+def assess(entry, target, *, root=ROOT, sense_id=None):
+    """Verify the full native catalogue and replay all, or one requested, source citation."""
     out = {"schema": SCHEMA, "law_id": LAW, "status": "INVALID_INPUT",
            "authority": "UNVERIFIED", "native_checked": False,
            "all_installed_readings_retained": False, "rows": [],
@@ -119,7 +119,10 @@ def assess(entry, target, *, root=ROOT):
         if _sha(raw) != CATALOG_SHA:
             raise ValueError("CATALOGUE_IDENTITY_CHANGED")
         catalogue = _strict_json(raw)
-        selected = [s for s in catalogue["senses"] if s["root"] == entry]
+        installed = [s for s in catalogue["senses"] if s["root"] == entry]
+        selected = installed if sense_id is None else [s for s in installed if s["id"] == sense_id]
+        if sense_id is not None and not selected:
+            return out
         # Replay attribution before running Lean. No authority from an input flag.
         testimonies = {s["id"]: _citation(s["citation"], root) for s in selected}
         rules = [r for r in catalogue["necessities"] if r["sense_id"] in testimonies]
@@ -135,14 +138,14 @@ def assess(entry, target, *, root=ROOT):
             "necessities": [{k:r[k] for k in ("sense_id", "target", "kind", "citation")} for r in catalogue["necessities"]]}
         if exported != expected_export:
             raise ValueError("NATIVE_CATALOGUE_DIFFERS")
-        request = {"root": entry, "target": target, "proposed_ids": [s["id"] for s in selected]}
+        request = {"root": entry, "target": target, "proposed_ids": [s["id"] for s in installed]}
         checked = _native(exe, request)
         expected_rows = [{"sense": {k:s[k] for k in ("id", "root", "citation", "components")},
-                          "indications": _indications(s, target, catalogue["necessities"])} for s in selected]
+                          "indications": _indications(s, target, catalogue["necessities"])} for s in installed]
         common = [k for k in ("mutabaqa", "tadammun", "iltizam") if expected_rows and all(k in r["indications"] for r in expected_rows)]
-        expected = {"status": "CONDITIONAL_INTERPRETATIONS" if selected else "UNMEASURED_ROOT",
+        expected = {"status": "CONDITIONAL_INTERPRETATIONS" if installed else "UNMEASURED_ROOT",
                     "authority": "CONDITIONAL_INTERPRETATION_ONLY", "all_arabic_senses_enumerated": False,
-                    "world_truth_asserted": False, "complete_installed_proposal": bool(selected),
+                    "world_truth_asserted": False, "complete_installed_proposal": bool(installed),
                     "rows": expected_rows, "common_indications": common}
         # Canonical encoding distinguishes false/0 and true/1 in nested fields.
         if json.dumps(checked, sort_keys=True, ensure_ascii=False) != json.dumps(expected, sort_keys=True, ensure_ascii=False):
@@ -154,7 +157,9 @@ def assess(entry, target, *, root=ROOT):
     except (OSError, ValueError, subprocess.CalledProcessError):
         return {**out, "status": "VERIFICATION_UNAVAILABLE"}
     rows = []
-    for sense, checked_row in zip(selected, checked["rows"]):
+    for sense, checked_row in zip(installed, checked["rows"], strict=True):
+        if sense["id"] not in testimonies:
+            continue
         necessity = [{"target": r["target"], "relation": "MENTAL_NECESSITY_PREMISE",
                       "source": source, "alignment_status": r["alignment_status"]}
                      for r, source in zip(rules, rule_sources) if r["sense_id"] == sense["id"]]
@@ -165,8 +170,9 @@ def assess(entry, target, *, root=ROOT):
                      "commitment_conditions": necessity,
                      "causal_or_legal_conclusion_established": False})
     return {**out, "status": checked["status"], "authority": "CONDITIONAL_INTERPRETATION_ONLY",
-            "native_checked": True, "all_installed_readings_retained": bool(selected),
-            "rows": rows, "common_indications": common,
+            "native_checked": True, "all_installed_readings_retained": bool(selected) and len(selected)==len(installed),
+            "rows": rows, "common_indications": [k for k in ("mutabaqa","tadammun","iltizam")
+                if rows and all(r["indications"][k] for r in rows)],
             "catalogue_sha256": CATALOG_SHA, "native_sha256": binary_sha,
             "native_request": request, "native_result": checked,
             "theorem_references": THEOREMS,

@@ -59,6 +59,7 @@ def snapshot():
                        "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
+    testimony_inputs = {p for _, _, p in lexical_testimony.SOURCES.values() if p is not None}
     for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", LEXICON) + lexical_sources:
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
@@ -66,7 +67,7 @@ def snapshot():
         try:
             value["files"][relative] = sha256(path.read_bytes()).hexdigest()
         except FileNotFoundError:
-            if relative not in OPTIONAL_NEURAL_INPUTS and relative not in (LEXICON, lexical_testimony.SOURCES["root_profile"][2]):
+            if relative not in OPTIONAL_NEURAL_INPUTS and relative != LEXICON and relative not in testimony_inputs:
                 raise
             # Optional observations must not suppress the installed owner.
             # Availability itself is bound, so restoration invalidates replay.

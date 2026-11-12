@@ -55,6 +55,30 @@ class DictionaryLearning(unittest.TestCase):
             self.assertEqual(law.analyze(text)["readings"],good["readings"])
 
     @unittest.skipUnless(law.PROFILE.is_file(),"Build lexicalDenotation")
+    def test_shared_root_separates_source_editions_and_checks_catalogue(self):
+        real_citation=law.testimony._citation
+        def withdraw(c,root):
+            if c["work"]=="maqayis":
+                raise FileNotFoundError("Maqayis withdrawn")
+            return real_citation(c,root)
+        with patch.object(law.testimony,"_citation",side_effect=withdraw):
+            for word,expected in (("السقف",{"lisan:saqf"}),("الفهم",{"lisan:fahm-knowledge","lisan:fahm-tribe"})):
+                r=law.analyze(f"ما معنى «{word}»؟")
+                self.assertEqual({v["sense_id"] for v in r["readings"]},expected)
+                self.assertEqual(r["status"],"SOURCE_BOUND_READINGS")
+            self.assertEqual(law.analyze("ما أصل مادة «سقف»؟")["status"],"VERIFICATION_UNAVAILABLE")
+        with patch.object(law.testimony,"_native",return_value={}):
+            self.assertFalse(law.testimony.assess("سقف",["غماء البيت"],sense_id="lisan:saqf")["native_checked"])
+
+    def test_automatic_focus_counts_attached_occurrences(self):
+        for t in ("أعني بالأسد الرجل الشجاع","أعني بالأسد الرجل الشجاع لا الحيوان المفترس"):
+            self.assertIsNone(law.analyze(t))
+        t="استعان الناسخ بالقلم"
+        r=law.analyze(t)
+        self.assertEqual(t.encode()[slice(*r["query"]["citation_span"])].decode(),"القلم")
+        self.assertEqual(r["context_occurrence"]["surface"],"بالقلم")
+
+    @unittest.skipUnless(law.PROFILE.is_file(),"Build lexicalDenotation")
     def test_marks_targets_and_out_of_inventory(self):
         for word,sid in (("مُدَحْرِج","root-profile:roller"),("مُدَحْرَج","root-profile:rolled")):
             report=law.analyze(word)
