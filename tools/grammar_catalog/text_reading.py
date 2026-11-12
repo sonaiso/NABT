@@ -420,7 +420,10 @@ def analyze(text):
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
                           "تحتاج قراءة هذا النص إلى شواهد أو تغطية إضافية."))
-    return {"schema": "nabt.text-reading.v1", "source": grammar["source"], "cards": cards,
+    from .dictionary_reading import cards_for
+    lexical_cards, dictionary_report = cards_for(text)
+    cards.extend(lexical_cards)
+    return {"schema": "nabt.text-reading.v1", "dictionary_reading":dictionary_report, "source": grammar["source"], "cards": cards,
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,

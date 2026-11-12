@@ -63,6 +63,31 @@ def dispatch (j : Json) : ProbeM Json := do
     if obj.size != 2 || (obj.get? "value").isNone then
       return ← invalid "exactly op and value required"
     let op ← str (← field j "op")
+    if op == "dictionary_components" then
+      -- The Python adapter replays the cited bytes. This operation checks only
+      -- the conditional interpretation. A supplied component list has no
+      -- authority to install a mental-necessity rule.
+      let v ← field j "value"
+      let fields ← liftParse v.getObj?
+      let names := ["id", "root", "quotation", "start_byte", "end_byte", "source_sha256", "components", "target"]
+      if fields.size != names.length || names.any (fun name => (fields.get? name).isNone) then
+        return ← invalid "unexpected dictionary premise fields"
+      let ident ← str (← field v "id")
+      let root ← str (← field v "root")
+      let excerpt ← str (← field v "quotation")
+      let first ← nat (← field v "start_byte")
+      let last ← nat (← field v "end_byte")
+      let source ← str (← field v "source_sha256")
+      let parts ← strings (← field v "components")
+      let target ← strings (← field v "target")
+      if ident.isEmpty || root.isEmpty || excerpt.isEmpty || excerpt.utf8ByteSize > 4096 ||
+          last != first + excerpt.utf8ByteSize || parts.isEmpty || String.intercalate " " parts != excerpt ||
+          source.utf8ByteSize != 64 || !source.toList.all (fun c => c.isDigit || ('a' ≤ c && c ≤ 'f')) then
+        return ← invalid "invalid dictionary interpretation premises"
+      let sense : Sense := ⟨ident, root, ⟨"mukhtar", "written-v1", source, first, last, excerpt⟩, parts⟩
+      return Json.mkObj [("sense", senseJson sense), ("target", toJson target),
+        ("indications", toJson ((kinds.filter (fun k => check [] sense k target)).map Indication.label)),
+        ("authority", toJson "CONDITIONAL_COMPONENT_CALCULUS_ONLY")]
     if op == "root_gloss" then
       let value ← field j "value"
       return ← RootSenseProfile.gloss value (← strings (← field value "target"))
