@@ -1,0 +1,363 @@
+{
+  "schema": "nabt.passive-relation-transfer-holdout.v1",
+  "authorship": "Original evaluation sentences elicited and labeled by a separate Arabic evaluation agent before fitting or inspecting predictions. No external human adjudication. Opening anchors are the stakeholder's wording.",
+  "target": "Does the whole text assert a finite third-person singular masculine passive event with a definite overt patient, or deny it with lam? OUTSIDE is an abstention for this bounded question. Labels describe source-relative discourse, never external world occurrence.",
+  "split": "Separate opening anchors from reserved roots and hard controls. Cases sharing a counterfactual pair are one dependent contrast. These examples test controlled lexical transfer, not a representative sample of free Arabic.",
+  "held_out_roots": [
+    "غلق",
+    "كسر"
+  ],
+  "offset_contract": "Half-open UTF-8 byte offsets in the original text. verb_span is the marked event predicate witness; patient_span is the full nominal surface; cue_span is the overt lam in a denial. Null cue in an affirmative indicates no overt negator, not proof from absence alone.",
+  "cases": [
+    {
+      "id": "anchor_assert",
+      "group": "anchor",
+      "text": "فُتِح الباب",
+      "root": "فتح",
+      "relation": "ASSERT_PASSIVE",
+      "verb_span": [
+        0,
+        10
+      ],
+      "patient_span": [
+        11,
+        21
+      ],
+      "cue_span": null,
+      "pair_id": "open_door"
+    },
+    {
+      "id": "anchor_deny",
+      "group": "anchor",
+      "text": "لم يُفتَح الباب",
+      "root": "فتح",
+      "relation": "DENY_PASSIVE",
+      "verb_span": [
+        5,
+        17
+      ],
+      "patient_span": [
+        18,
+        28
+      ],
+      "cue_span": [
+        0,
+        4
+      ],
+      "pair_id": "open_door"
+    },
+    {
+      "id": "h01",
+      "group": "heldout",
+      "text": "أُغْلِقَ الْبَابُ.",
+      "root": "غلق",
+      "relation": "ASSERT_PASSIVE",
+      "verb_span": [
+        0,
+        16
+      ],
+      "patient_span": [
+        17,
+        33
+      ],
+      "cue_span": null,
+      "pair_id": "h_pair1"
+    },
+    {
+      "id": "h02",
+      "group": "heldout",
+      "text": "لَمْ يُغْلَقْ الْبَابُ.",
+      "root": "غلق",
+      "relation": "DENY_PASSIVE",
+      "verb_span": [
+        9,
+        25
+      ],
+      "patient_span": [
+        26,
+        42
+      ],
+      "cue_span": [
+        0,
+        8
+      ],
+      "pair_id": "h_pair1"
+    },
+    {
+      "id": "h03",
+      "group": "heldout",
+      "text": "  أُغلِقَ\tالقفلُ",
+      "root": "غلق",
+      "relation": "ASSERT_PASSIVE",
+      "verb_span": [
+        2,
+        16
+      ],
+      "patient_span": [
+        17,
+        29
+      ],
+      "cue_span": null,
+      "pair_id": "h_pair2"
+    },
+    {
+      "id": "h04",
+      "group": "heldout",
+      "text": "  لم  يُغلَق\tالقفلُ",
+      "root": "غلق",
+      "relation": "DENY_PASSIVE",
+      "verb_span": [
+        8,
+        20
+      ],
+      "patient_span": [
+        21,
+        33
+      ],
+      "cue_span": [
+        2,
+        6
+      ],
+      "pair_id": "h_pair2"
+    },
+    {
+      "id": "h05",
+      "group": "heldout",
+      "text": "كُسِرَ الزُّجَاجُ.",
+      "root": "كسر",
+      "relation": "ASSERT_PASSIVE",
+      "verb_span": [
+        0,
+        12
+      ],
+      "patient_span": [
+        13,
+        33
+      ],
+      "cue_span": null,
+      "pair_id": "h_pair3"
+    },
+    {
+      "id": "h06",
+      "group": "heldout",
+      "text": "لَمْ يُكْسَرْ الزُّجَاجُ.",
+      "root": "كسر",
+      "relation": "DENY_PASSIVE",
+      "verb_span": [
+        9,
+        25
+      ],
+      "patient_span": [
+        26,
+        46
+      ],
+      "cue_span": [
+        0,
+        8
+      ],
+      "pair_id": "h_pair3"
+    },
+    {
+      "id": "h07",
+      "group": "heldout",
+      "text": "كُسِر القلمُ",
+      "root": "كسر",
+      "relation": "ASSERT_PASSIVE",
+      "verb_span": [
+        0,
+        10
+      ],
+      "patient_span": [
+        11,
+        23
+      ],
+      "cue_span": null,
+      "pair_id": "h_pair4"
+    },
+    {
+      "id": "h08",
+      "group": "heldout",
+      "text": "لم يُكسَر القلمُ",
+      "root": "كسر",
+      "relation": "DENY_PASSIVE",
+      "verb_span": [
+        5,
+        17
+      ],
+      "patient_span": [
+        18,
+        30
+      ],
+      "cue_span": [
+        0,
+        4
+      ],
+      "pair_id": "h_pair4"
+    },
+    {
+      "id": "c01",
+      "group": "control",
+      "text": "أَغْلَقَ الحَارِسُ الْبَابَ.",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "ACTIVE_TRANSITIVE"
+    },
+    {
+      "id": "c02",
+      "group": "control",
+      "text": "لَمْ يَكْسِرْ خَالِدٌ الْقَلَمَ.",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "LAM_WITH_ACTIVE_VERB"
+    },
+    {
+      "id": "c03",
+      "group": "control",
+      "text": "أُغْلِقَ الْبَابُ؟",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "QUESTION_MARK_ON_SAME_WORDS"
+    },
+    {
+      "id": "c04",
+      "group": "control",
+      "text": "هَلْ كُسِرَ الْقَلَمُ؟",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "QUESTION_PARTICLE"
+    },
+    {
+      "id": "c05",
+      "group": "control",
+      "text": "«لَمْ يُغْلَقْ الْبَابُ»",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "QUOTED_DENIAL"
+    },
+    {
+      "id": "c06",
+      "group": "control",
+      "text": "جِئْتُ لِكَيْ يُغْلَقَ الْبَابُ.",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "PURPOSE"
+    },
+    {
+      "id": "c07",
+      "group": "control",
+      "text": "لَوْ كُسِرَ الْقَلَمُ لَتَبَدَّلَ الْخَطُّ.",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "CONDITIONAL"
+    },
+    {
+      "id": "c08",
+      "group": "control",
+      "text": "لم يغلق الباب",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "UNMARKED_ALLOWS_ACTIVE_AND_PASSIVE"
+    },
+    {
+      "id": "c09",
+      "group": "control",
+      "text": "كسر القلم",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "UNMARKED_ALLOWS_COMPETING_READINGS"
+    },
+    {
+      "id": "c10",
+      "group": "control",
+      "text": "لَمْ يُكْسَرْ القَلَمَ.",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "EXPLICIT_ACCUSATIVE_NOT_PATIENT_SUBJECT"
+    },
+    {
+      "id": "c11",
+      "group": "control",
+      "text": "الْبَابُ مُغْلَقٌ.",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "PARTICIPIAL_STATE"
+    },
+    {
+      "id": "c12",
+      "group": "control",
+      "text": "مَا كُسِرَ الزُّجَاجُ.",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "PAST_DENIAL_WITH_OTHER_PARTICLE"
+    },
+    {
+      "id": "c13",
+      "group": "control",
+      "text": "لم يقل حارسُ البابِ: «أُغْلِقَ القفلُ».",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "NEGATION_SCOPES_OVERT_REPORTING"
+    },
+    {
+      "id": "c14",
+      "group": "control",
+      "text": "أُغْلِقَ الْبَابُ، وَلم يُغْلَقْ الْقُفْلُ.",
+      "root": "غلق",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "MULTIPLE_CLAUSES_DIFFERENT_PATIENTS"
+    },
+    {
+      "id": "c15",
+      "group": "control",
+      "text": "لَنْ يُكْسَرَ الزُّجَاجُ.",
+      "root": "كسر",
+      "relation": "OUTSIDE",
+      "verb_span": null,
+      "patient_span": null,
+      "cue_span": null,
+      "reason": "FUTURE_DENIAL"
+    }
+  ]
+}

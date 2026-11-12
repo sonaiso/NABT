@@ -251,6 +251,45 @@ def citation_card(text):
                  grammar_path_certified=False, estimated_word_written=False)]
 
 
+def passive_reading(text, source, failures):
+    """Compare the learned top proposal to an independent, source-local analysis."""
+    from tools.lexical_training.passive_transfer import propose
+    from . import passive_relation
+
+    proposal = propose(text)
+    fields = ("relation", "verb_span", "patient_span", "cue_span")
+    same_source = proposal.get("source_sha256") == source["sha256"]
+    observed_failed = any(
+        loc["span"]["source_id"] == source["id"] and loc["observed"] == loc["proposed"]
+        for failure in failures for loc in failure["evidence"].get("locations", []))
+    readings = [] if observed_failed else passive_relation.analyze(text)
+    matches = []
+    for reading in readings:
+        ev = reading["evidence"]
+        if ev["source_sha256"] != source["sha256"]:
+            raise ValueError("Passive relation witness belongs to a different source")
+        if same_source and proposal["status"] == "PROPOSED" and all(proposal[k] == ev[k] for k in fields):
+            matches.append(ev["event_family"])
+            reading["evidence"]["neural_proposal_agrees_on_relation_and_spans"] = True
+            reading["why"] += " وافق اقتراح الشبكة هذا التحليل في العلاقة ومواضع الشواهد."
+
+    if observed_failed:
+        comparison = "SOURCE_CHECK_UNAVAILABLE"
+    elif proposal["status"] != "PROPOSED":
+        comparison = proposal["status"]
+    elif not same_source:
+        comparison = "PROPOSAL_SOURCE_MISMATCH"
+    elif matches:
+        comparison = "MATCHES_SCOPED_READING"
+    elif readings:
+        comparison = "DIFFERS_FROM_SCOPED_READING"
+    else:
+        comparison = "NO_LICENSED_WRITTEN_WITNESS"
+    return readings, {"proposal": proposal, "comparison": comparison, "compared_fields": list(fields),
+                      "matching_event_families": matches, "source_sha256": source["sha256"],
+                      "neural_authority": "NONE"}
+
+
 def analyze(text):
     lexical, mentions = lexical_context(text)
     names = {m["id"]: m["name"] for m in mentions}
@@ -258,7 +297,9 @@ def analyze(text):
     grammar = orchestration.run({"text": text, "lexical_text": lexical, "context": context})
     # The owner enumerates all installed conventions with no supplied profile.
     usage_report = usage.acquire(text, source_id=grammar["source"]["id"])
-    cards = grammar_failures(grammar) + predications(grammar, names)
+    failures = grammar_failures(grammar)
+    events, transfer = passive_reading(text, grammar["source"], failures)
+    cards = failures + predications(grammar, names) + events
     pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
                      if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
     for b in grammar["conditional_readings"]:
@@ -279,4 +320,5 @@ def analyze(text):
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,
+            "passive_relation_transfer": transfer,
             "all_arabic_complete": False, "world_truth_established": False}

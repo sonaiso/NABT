@@ -1,0 +1,905 @@
+{
+  "schema": "nabt.passive-relation-public-evaluation.v1",
+  "route": "text.read",
+  "holdout_sha256": "6aa167d831b38042b79e1f2367f0cd9647ebcae3647249129d7f2fd91e8cc7b5",
+  "reserved_roots": [
+    "غلق",
+    "كسر"
+  ],
+  "scope": "Source-relative authored reading and byte spans within the narrow contract. A conditioned reading counts only in its declared sense; no uniqueness or external fact follows. For controls, gateway_exact means no passive-event card was emitted.",
+  "groups": {
+    "heldout": {
+      "verified_receipts": 8,
+      "neural_relation_and_spans": {
+        "correct": 8,
+        "assessed": 8,
+        "total": 8
+      },
+      "checked_reader_relation_sense_patient_and_spans": {
+        "correct": 8,
+        "assessed": 8,
+        "total": 8
+      },
+      "conditional_operator_cases": 2,
+      "checked_pairs": {
+        "correct": 4,
+        "assessed": 4,
+        "total": 4
+      }
+    },
+    "control": {
+      "verified_receipts": 15,
+      "neural_relation_and_spans": {
+        "correct": 10,
+        "assessed": 15,
+        "total": 15
+      },
+      "checked_reader_relation_sense_patient_and_spans": {
+        "correct": 15,
+        "assessed": 15,
+        "total": 15
+      },
+      "conditional_operator_cases": 0,
+      "checked_pairs": {
+        "correct": 0,
+        "assessed": 0,
+        "total": 0
+      }
+    },
+    "anchor": {
+      "verified_receipts": 2,
+      "neural_relation_and_spans": {
+        "correct": 2,
+        "assessed": 2,
+        "total": 2
+      },
+      "checked_reader_relation_sense_patient_and_spans": {
+        "correct": 2,
+        "assessed": 2,
+        "total": 2
+      },
+      "conditional_operator_cases": 1,
+      "checked_pairs": {
+        "correct": 1,
+        "assessed": 1,
+        "total": 1
+      }
+    }
+  },
+  "pairs": [
+    {
+      "pair_id": "open_door",
+      "group": "anchor",
+      "neural_exact": true,
+      "gateway_exact_with_same_sense_and_patient": true
+    },
+    {
+      "pair_id": "h_pair1",
+      "group": "heldout",
+      "neural_exact": true,
+      "gateway_exact_with_same_sense_and_patient": true
+    },
+    {
+      "pair_id": "h_pair2",
+      "group": "heldout",
+      "neural_exact": true,
+      "gateway_exact_with_same_sense_and_patient": true
+    },
+    {
+      "pair_id": "h_pair3",
+      "group": "heldout",
+      "neural_exact": true,
+      "gateway_exact_with_same_sense_and_patient": true
+    },
+    {
+      "pair_id": "h_pair4",
+      "group": "heldout",
+      "neural_exact": true,
+      "gateway_exact_with_same_sense_and_patient": true
+    }
+  ],
+  "observations": [
+    {
+      "id": "anchor_assert",
+      "group": "anchor",
+      "reference_relation": "ASSERT_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "ASSERT_PASSIVE",
+        "verb_span": [
+          0,
+          10
+        ],
+        "patient_span": [
+          11,
+          21
+        ],
+        "cue_span": null
+      },
+      "readings": [
+        {
+          "relation": "ASSERT_PASSIVE",
+          "verb_span": [
+            0,
+            10
+          ],
+          "patient_span": [
+            11,
+            21
+          ],
+          "cue_span": null,
+          "event_family": "فتح",
+          "event_sense_id": "nabt.written-passive-frames.v1:open",
+          "patient_key": "باب",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "anchor_deny",
+      "group": "anchor",
+      "reference_relation": "DENY_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          5,
+          17
+        ],
+        "patient_span": [
+          18,
+          28
+        ],
+        "cue_span": [
+          0,
+          4
+        ]
+      },
+      "readings": [
+        {
+          "relation": "DENY_PASSIVE",
+          "verb_span": [
+            5,
+            17
+          ],
+          "patient_span": [
+            18,
+            28
+          ],
+          "cue_span": [
+            0,
+            4
+          ],
+          "event_family": "فتح",
+          "event_sense_id": "nabt.written-passive-frames.v1:open",
+          "patient_key": "باب",
+          "operator_reading_conditional": true
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h01",
+      "group": "heldout",
+      "reference_relation": "ASSERT_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "ASSERT_PASSIVE",
+        "verb_span": [
+          0,
+          16
+        ],
+        "patient_span": [
+          17,
+          33
+        ],
+        "cue_span": null
+      },
+      "readings": [
+        {
+          "relation": "ASSERT_PASSIVE",
+          "verb_span": [
+            0,
+            16
+          ],
+          "patient_span": [
+            17,
+            33
+          ],
+          "cue_span": null,
+          "event_family": "غلق",
+          "event_sense_id": "nabt.written-passive-frames.v1:close",
+          "patient_key": "باب",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h02",
+      "group": "heldout",
+      "reference_relation": "DENY_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          9,
+          25
+        ],
+        "patient_span": [
+          26,
+          42
+        ],
+        "cue_span": [
+          0,
+          8
+        ]
+      },
+      "readings": [
+        {
+          "relation": "DENY_PASSIVE",
+          "verb_span": [
+            9,
+            25
+          ],
+          "patient_span": [
+            26,
+            42
+          ],
+          "cue_span": [
+            0,
+            8
+          ],
+          "event_family": "غلق",
+          "event_sense_id": "nabt.written-passive-frames.v1:close",
+          "patient_key": "باب",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h03",
+      "group": "heldout",
+      "reference_relation": "ASSERT_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "ASSERT_PASSIVE",
+        "verb_span": [
+          2,
+          16
+        ],
+        "patient_span": [
+          17,
+          29
+        ],
+        "cue_span": null
+      },
+      "readings": [
+        {
+          "relation": "ASSERT_PASSIVE",
+          "verb_span": [
+            2,
+            16
+          ],
+          "patient_span": [
+            17,
+            29
+          ],
+          "cue_span": null,
+          "event_family": "غلق",
+          "event_sense_id": "nabt.written-passive-frames.v1:close",
+          "patient_key": "قفل",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h04",
+      "group": "heldout",
+      "reference_relation": "DENY_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          8,
+          20
+        ],
+        "patient_span": [
+          21,
+          33
+        ],
+        "cue_span": [
+          2,
+          6
+        ]
+      },
+      "readings": [
+        {
+          "relation": "DENY_PASSIVE",
+          "verb_span": [
+            8,
+            20
+          ],
+          "patient_span": [
+            21,
+            33
+          ],
+          "cue_span": [
+            2,
+            6
+          ],
+          "event_family": "غلق",
+          "event_sense_id": "nabt.written-passive-frames.v1:close",
+          "patient_key": "قفل",
+          "operator_reading_conditional": true
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h05",
+      "group": "heldout",
+      "reference_relation": "ASSERT_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "ASSERT_PASSIVE",
+        "verb_span": [
+          0,
+          12
+        ],
+        "patient_span": [
+          13,
+          33
+        ],
+        "cue_span": null
+      },
+      "readings": [
+        {
+          "relation": "ASSERT_PASSIVE",
+          "verb_span": [
+            0,
+            12
+          ],
+          "patient_span": [
+            13,
+            33
+          ],
+          "cue_span": null,
+          "event_family": "كسر",
+          "event_sense_id": "nabt.written-passive-frames.v1:break",
+          "patient_key": "زجاج",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h06",
+      "group": "heldout",
+      "reference_relation": "DENY_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          9,
+          25
+        ],
+        "patient_span": [
+          26,
+          46
+        ],
+        "cue_span": [
+          0,
+          8
+        ]
+      },
+      "readings": [
+        {
+          "relation": "DENY_PASSIVE",
+          "verb_span": [
+            9,
+            25
+          ],
+          "patient_span": [
+            26,
+            46
+          ],
+          "cue_span": [
+            0,
+            8
+          ],
+          "event_family": "كسر",
+          "event_sense_id": "nabt.written-passive-frames.v1:break",
+          "patient_key": "زجاج",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h07",
+      "group": "heldout",
+      "reference_relation": "ASSERT_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "ASSERT_PASSIVE",
+        "verb_span": [
+          0,
+          10
+        ],
+        "patient_span": [
+          11,
+          23
+        ],
+        "cue_span": null
+      },
+      "readings": [
+        {
+          "relation": "ASSERT_PASSIVE",
+          "verb_span": [
+            0,
+            10
+          ],
+          "patient_span": [
+            11,
+            23
+          ],
+          "cue_span": null,
+          "event_family": "كسر",
+          "event_sense_id": "nabt.written-passive-frames.v1:break",
+          "patient_key": "قلم",
+          "operator_reading_conditional": false
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "h08",
+      "group": "heldout",
+      "reference_relation": "DENY_PASSIVE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "MATCHES_SCOPED_READING",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          5,
+          17
+        ],
+        "patient_span": [
+          18,
+          30
+        ],
+        "cue_span": [
+          0,
+          4
+        ]
+      },
+      "readings": [
+        {
+          "relation": "DENY_PASSIVE",
+          "verb_span": [
+            5,
+            17
+          ],
+          "patient_span": [
+            18,
+            30
+          ],
+          "cue_span": [
+            0,
+            4
+          ],
+          "event_family": "كسر",
+          "event_sense_id": "nabt.written-passive-frames.v1:break",
+          "patient_key": "قلم",
+          "operator_reading_conditional": true
+        }
+      ],
+      "world_open": true
+    },
+    {
+      "id": "c01",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c02",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c03",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c04",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c05",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c06",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c07",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": false,
+      "gateway_exact": true,
+      "comparison": "NO_LICENSED_WRITTEN_WITNESS",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          9,
+          21
+        ],
+        "patient_span": [
+          22,
+          40
+        ],
+        "cue_span": [
+          0,
+          8
+        ]
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c08",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c09",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c10",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": false,
+      "gateway_exact": true,
+      "comparison": "NO_LICENSED_WRITTEN_WITNESS",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          9,
+          25
+        ],
+        "patient_span": [
+          26,
+          42
+        ],
+        "cue_span": [
+          0,
+          8
+        ]
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c11",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": false,
+      "gateway_exact": true,
+      "comparison": "NO_LICENSED_WRITTEN_WITNESS",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "ASSERT_PASSIVE",
+        "verb_span": [
+          17,
+          33
+        ],
+        "patient_span": [
+          0,
+          16
+        ],
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c12",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": false,
+      "gateway_exact": true,
+      "comparison": "NO_LICENSED_WRITTEN_WITNESS",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          7,
+          19
+        ],
+        "patient_span": [
+          20,
+          40
+        ],
+        "cue_span": [
+          0,
+          6
+        ]
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c13",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c14",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": true,
+      "gateway_exact": true,
+      "comparison": "OUTSIDE",
+      "proposal_status": "OUTSIDE",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "OUTSIDE",
+        "verb_span": null,
+        "patient_span": null,
+        "cue_span": null
+      },
+      "readings": [],
+      "world_open": true
+    },
+    {
+      "id": "c15",
+      "group": "control",
+      "reference_relation": "OUTSIDE",
+      "execution_status": "EXECUTED",
+      "verification": "VERIFIED_IO_REPLAY",
+      "neural_exact": false,
+      "gateway_exact": true,
+      "comparison": "NO_LICENSED_WRITTEN_WITNESS",
+      "proposal_status": "PROPOSED",
+      "model_sha256": "46d2f0ef443ab93b62ffa9204e8adefba04bd34f5e76910c9bccb22f94e59898",
+      "proposal": {
+        "relation": "DENY_PASSIVE",
+        "verb_span": [
+          9,
+          25
+        ],
+        "patient_span": [
+          26,
+          46
+        ],
+        "cue_span": [
+          0,
+          8
+        ]
+      },
+      "readings": [],
+      "world_open": true
+    }
+  ]
+}

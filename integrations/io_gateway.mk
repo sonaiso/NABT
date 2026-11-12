@@ -31,7 +31,8 @@ check: shared-cognition
 .PHONY: cognitive-orchestration
 cognitive-orchestration: io-gateway-build
 	cd formal && $(LAKE) build exportCognitiveDispatch linguisticTruth
-	PYTHONPATH=src:. NABT_REQUIRE_ORCHESTRATION_NATIVE=1 $(PYTHON) -m unittest tests.test_bootstrap_lean tests.test_cognitive_orchestration tests.test_usage_witness tests.test_source_neural_reading tests.test_text_reading -v
+	PYTHONPATH=src:. NABT_REQUIRE_ORCHESTRATION_NATIVE=1 $(PYTHON) -m unittest tests.test_bootstrap_lean tests.test_cognitive_orchestration tests.test_usage_witness tests.test_source_neural_reading tests.test_text_reading tests.test_passive_gateway tests.test_passive_relation tests.test_passive_relation_holdout tests.test_passive_transfer -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.passive_source_audit
 	PYTHONPATH=src:. $(PYTHON) tools/check_cognitive_dispatch.py --output $(EVIDENCE_DIR)/cognitive-dispatch.json
 
 check: cognitive-orchestration
