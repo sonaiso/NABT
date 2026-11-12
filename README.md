@@ -1,5 +1,8 @@
 # NABT — نواة جبرية مستقلة للغة المرخّصة
 
+للقراءة من حقل نص عربي واحد شغّل `PYTHONPATH=src:. python -m tools.grammar_catalog gateway serve`
+بعد [بناء فواحص القراءة](docs/IO_GATEWAY_V1_AR.md). تعرض الواجهة الإفادة وسببها وما بقي مفتوحًا.
+
 تتوفر [وصلة الطريقة العقلية والدلالة إلى OntoLex](docs/RATIONAL_RAG_ONTOLEX_AR.md)
 بإعادة استعمال فاحص الدلالات المثبت وحفظ البدائل وشروط الشاهد.
 

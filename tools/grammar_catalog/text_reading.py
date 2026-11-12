@@ -1,0 +1,207 @@
+"""Text-only gateway view. Keep original, conditional, and cited readings distinct."""
+from collections import Counter
+from hashlib import sha256
+
+from nabt.corpus_evidence import buckwalter_to_arabic, lookup_key
+from nabt.corpus_sources import read_corpus
+from tools.arabic_training.source_reading import compatible
+from tools.linguistic_truth import runtime as usage
+from . import orchestration, usage_witness
+from .operations import ROOT, exact_terms
+
+LEXICON = "examples/construction_training.tsv"
+LEXICON_SHA = "06ff1e42fb60dfc45b49df9d029e197314a791f72c683ae8e692fc1e2e6f4e0e"
+COMMENTARY = "src/nabt/data/source_evidence/sabban.txt"
+COMMENTARY_SHA = "8b9e86da786cf65e7b32498b2524ee48a8dcf9f61b59e1bbc32b99ce7db5b396"
+PROFILES = {"linguistic": "اللغوي", "customary": "العرفي", "sharia": "الشرعي"}
+LAYERS = {"orthography": "الرسم والقراءة الحرفية", "morphology": "الصرف", "word_kind": "نوع الكلمة",
+          "syntax": "التركيب", "mantuq": "المنطوق", "concept": "تطبيق المفهوم"}
+
+
+def pinned(path, expected):
+    raw = (ROOT / path).read_bytes()
+    if sha256(raw).hexdigest() != expected:
+        raise ValueError("Changed text-reading evidence: " + path)
+    return raw
+
+
+def lexical_context(text):
+    """Only names actually mentioned once become discourse-local placeholders."""
+    raw = pinned(LEXICON, LEXICON_SHA)
+    corpus = read_corpus(raw, format="qac", source_id="reading_lexicon")
+    names = {}
+    for record in corpus["records"]:
+        if record["valid"] and record["fields"]["TAG"] == "PN":
+            key = lookup_key(buckwalter_to_arabic(record["fields"]["FORM"]))
+            names.setdefault(key, []).append(record["identity"])
+    tokens = exact_terms(text)
+    keys = [lookup_key(t["surface"]) for t in tokens]
+    counts = Counter(keys)
+    mentions = []
+    for token, name in zip(tokens, keys):
+        if name in names and counts[name] == 1:
+            start, stop = token["utf8_span"]
+            mentions.append({"id": f"name_{start}_{stop}", "name": name, "span": [start, stop],
+                             "lexical_records": names[name]})
+    return raw.decode(), mentions
+
+
+def card(scope, degree, understood, reason, pending, **evidence):
+    return {"scope": scope, "degree": degree, "understood": understood, "why": reason,
+            "unresolved": pending, "evidence": evidence}
+
+
+def predications(report, names, *, branch=None):
+    owner = report["owner_reports"].get("mantuq")
+    if not owner or not any(r["name"] == "mantuq" and r["closed"] for r in report["dispatch_ledger"]):
+        return []
+    source = report["source"]["text"]
+    acts = {row["clause_id"]: row["force"] for row in owner["speech_acts"]}
+    rows = []
+    for claim in owner["claims"]:
+        proofs = claim["proofs"]
+        if (claim["predicate_kind"] != "property" or len(claim["args"]) != 1
+                or claim["args"][0] not in names or not proofs
+                or claim["time"] or claim["place"] or claim["restriction"]
+                or any(acts.get(pr["clause_id"]) != "ASSERT" for pr in proofs)):
+            continue
+        bearer = names[claim["args"][0]]
+        action = "يُسند" if claim["positive"] else "ينفي إسناد"
+        rows.append(card("conditional_predication" if branch else "source_predication",
+                         "قراءة مشروطة بالضبط" if branch else "منطوق في التحليل المرخّص",
+                         f"{action} النصّ صفة «{claim['predicate']}» إلى «{bearer}».",
+                         f"قُرئت «{source}» خبرًا في معجم القراءة المحلي، وربط محلّل التركيب المحمول بصاحب الاسم.",
+                         "تعيين الشخص في الخارج وصدق الوصف يحتاجان شاهدًا مستقلاً.",
+                         claim_id=claim["claim_id"], proofs=proofs, reading_text=source,
+                         conditional_source=branch, world_truth_established=False))
+    return rows
+
+
+def profile_reports(text, source_id, report):
+    if not report["native_checked"] or not report["acquisition_scan_complete"]:
+        return {}
+    profiles = {branch["profile_id"] for occurrence in report["occurrences"]
+                for branch in occurrence["profile_readings"]
+                if branch["conditional_result"]["certified_sense_ids"]}
+    return {profile: usage_witness.run({"text": text, "source_id": source_id,
+                                       "usage_context": {"profile_id": profile}})
+            for profile in sorted(profiles)}
+
+
+def use_cards(report, profiles):
+    rows = []
+    if not report["acquisition_scan_complete"] or report["status"] in {
+            "RESOURCE_EXHAUSTED", "SOURCE_UNAVAILABLE", "VERIFICATION_UNAVAILABLE", "INVALID_INPUT"}:
+        return [card("technical", report["status"], "تعذّر استكمال فحص الاستعمال.",
+                     str(report.get("reason")), "درجة الدلالة معلّقة.")]
+    for profile, bridge in profiles.items():
+        if bridge["status"] in {"SOURCE_UNAVAILABLE", "RESOURCE_EXHAUSTED", "VERIFICATION_UNAVAILABLE", "IDENTITY_UNAVAILABLE"}:
+            rows.append(card("technical", bridge["status"], "تعذّر التحقق من شاهد الاستعمال.",
+                             "فرع الاصطلاح " + PROFILES[profile], "الهوية أو الفاحص غير متاح."))
+    for item in report["occurrences"]:
+        gloss = {s["sense_id"]: s["gloss"] for s in item["available_senses"]}
+        def labels(ids):
+            return " و".join(gloss[i] for i in ids)
+        span = item["span"]
+        ev = {"occurrence": item["occurrence_id"], "term": span, "cue": item["cue_span"],
+              "available": item["available_senses"], "selected": item["selected_sense_ids"],
+              "excluded": item["excluded_sense_ids"], "profile_hypotheses": report["pending_profiles"]}
+        if not item["native_checked"]:
+            rows.append(card("technical", "إرجاء", "تعذّر فحص هذا الوقوع.", span["raw_text"],
+                             "تبقى المعاني مرشّحة.", **ev))
+            continue
+        if item["signed_conflict"]:
+            rows.append(card("lexical_conflict", "تعارض", "تعارض الإثبات والنفي في هذا الاستعمال.",
+                             item["clause_span"]["raw_text"], "تعيين المراد معلّق.", **ev))
+            continue
+        chosen = item["selected_sense_ids"]
+        if not chosen:
+            literal_senses = {c["sense_id"] for c in item["candidates"]
+                              if c["use_kind"] == "literal" and c["convention"] == "linguistic"
+                              and c["candidate"]["designation"]["origin"] == "original"}
+            polysemy = "اللفظ مشترك في الوضع اللغوي المسجّل. " if len(literal_senses) > 1 else ""
+            rows.append(card("lexical_alternatives", "مراد غير معيّن",
+                             polysemy + f"في الجرد للفظ «{item['expression']}» الأوجه الآتية: {labels(gloss)}.",
+                             f"ورد «{span['raw_text']}» دون قرينة موجبة كافية لاختيار المراد.",
+                             "تعدد المدخلات المعجمية لا يثبت إرادة جميعها.", **ev))
+            continue
+        understood = ("صرّح المتكلم بإرادة المعنيين معًا" if len(chosen) == 2 else
+                      "صرّح المتكلم بإرادة هذه المعاني" if len(chosen) > 2 else
+                      "صرّح المتكلم بإرادة معنى") + " «" + labels(chosen) + "»."
+        rows.append(card("expressed_intent", "متعيّن في عبارة التصريح المضبوطة", understood,
+                         item["cue_span"]["raw_text"], "القصد المنقول مربوط بهذه العبارة.",
+                         **ev))
+        accepted = False
+        for profile, bridge in profiles.items():
+            for application in bridge["applications"]:
+                if application["owner_occurrence_id"] != item["occurrence_id"]:
+                    continue
+                # Follow the existing owner's occurrence/candidate pointer, including lexical aliases.
+                _, _, occurrence_index, _, candidate_index = application["owner_result_ref"].strip("/").split("/")
+                candidate = bridge["owner_report"]["occurrences"][int(occurrence_index)]["candidates"][int(candidate_index)]
+                use = "مجازية" if application["use_kind"] == "figurative" else "حقيقية"
+                reason = item["cue_span"]["raw_text"]
+                if application["literal_excluded"]:
+                    reason += f"؛ وفي الموضع نفسه استُبعد «{labels(item['excluded_sense_ids'])}»."
+                rows.append(card("conditional_use", "استعمال مشروط بالاصطلاح",
+                                 f"في الاصطلاح {PROFILES[profile]} القراءة {use} للمعنى «{candidate['gloss']}».",
+                                 reason, "اصطلاح المتكلم غير معيّن من خارج العبارة؛ تبقى الفروع الأخرى محفوظة.",
+                                 profile_id=profile, use_kind=application["use_kind"], sense_id=candidate["sense_id"],
+                                 witness_id=application["witness_id"], **ev))
+                accepted = True
+        if not accepted:
+            rows.append(card("use_deferred", "إرجاء وجه الاستعمال",
+                             "تعيّن المعنى المقصود، وبقي وصف الاستعمال بالحقيقة أو المجاز غير محسوم.",
+                             item["clause_span"]["raw_text"],
+                             "لم تكتمل الشواهد المطلوبة لوجه الاستعمال في هذا الوقوع.", **ev))
+    return rows
+
+
+def citation_card(text):
+    # A bounded citation lookup, never an ellipsis rule for arbitrary Arabic.
+    surface = text.strip().removesuffix(".").strip()
+    words = surface.split()
+    canonical = ("وَاسْأَلِ", "الْقَرْيَةَ")
+    if len(words) != len(canonical) or not all(compatible(w, c) for w, c in zip(words, canonical)):
+        return []
+    raw = pinned(COMMENTARY, COMMENTARY_SHA)
+    passage = "{واسأل القرية} [يوسف:\n~~82] ، أي أهل القرية.".encode()
+    start = raw.index(passage)
+    return [card("attested_ellipsis", "تفسير منقول للشاهد المحدد",
+                 "المطلوب سؤال أهل القرية. وفي تفسير الصبّان قُدّر المضاف «أهل».",
+                 passage.decode().replace("\n~~", " "),
+                 "هذا شاهد على وجه الإضمار. احتمال دلالة اللفظ على الأهل بطريق الاشتراك يحتاج شاهد وضع مستقل.",
+                 source_path=COMMENTARY, source_sha256=COMMENTARY_SHA, start_byte=start,
+                 end_byte=start+len(passage), input_terms=exact_terms(text),
+                 grammar_path_certified=False, estimated_word_written=False)]
+
+
+def analyze(text):
+    lexical, mentions = lexical_context(text)
+    names = {m["id"]: m["name"] for m in mentions}
+    context = {"entities": [{"id": m["id"], "name": m["name"]} for m in mentions]}
+    grammar = orchestration.run({"text": text, "lexical_text": lexical, "context": context})
+    # The owner enumerates all installed conventions with no supplied profile.
+    usage_report = usage.acquire(text, source_id=grammar["source"]["id"])
+    cards = predications(grammar, names)
+    pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
+                     if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
+    for b in grammar["conditional_readings"]:
+        conditional = predications(b["result"], names, branch=b["reading"])
+        if pending_forms:
+            for c in conditional:
+                c["unresolved"] += " لم يثبت المنطوق للأوجه: " + "، ".join(pending_forms) + "."
+        cards.extend(conditional)
+    profiles = profile_reports(text, grammar["source"]["id"], usage_report)
+    cards.extend(use_cards(usage_report, profiles))
+    cards.extend(citation_card(text))
+    stage = grammar["stopped_at"]
+    if not cards:
+        cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
+                          "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
+                          "تحتاج قراءة هذا النص إلى شواهد أو تغطية إضافية."))
+    return {"schema": "nabt.text-reading.v1", "source": grammar["source"], "cards": cards,
+            "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
+            "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
+            "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,
+            "all_arabic_complete": False, "world_truth_established": False}

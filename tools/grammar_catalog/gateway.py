@@ -52,7 +52,7 @@ def snapshot():
                        "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
-    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml") + lexical_sources:
+    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", "examples/construction_training.tsv") + lexical_sources:
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
             raise ValueError("I/O source reference escapes repository")
@@ -148,13 +148,20 @@ def accept_output(report, *, expected_request):
 
 def arguments(parser):
     from pathlib import Path
-    parser.add_argument("action", choices=("catalog", "run", "verify"))
+    parser.add_argument("action", choices=("catalog", "run", "verify", "read", "serve"))
     parser.add_argument("--request", type=Path)
+    parser.add_argument("--text", help="One Arabic input for gateway read; defaults to standard input")
+    parser.add_argument("--port", type=int, help="Loopback port for gateway serve (default 8765)")
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--output", type=Path)
 
 
 def cli(args):
+    if args.action in ("read", "serve"):
+        from .reader_client import command
+        return command(args)
+    if getattr(args, "text", None) is not None or getattr(args, "port", None) is not None:
+        raise ValueError("--text and --port require gateway read and serve respectively")
     if args.action == "catalog":
         if args.request or args.receipt:
             raise ValueError("I/O catalogue accepts no caller evidence")

@@ -7,6 +7,7 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "text.read": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ()),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
     "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
@@ -81,7 +82,7 @@ def validate(route, payload):
     if route == "neural.graph":
         from tools.lexical_training.cognitive_graph import validate_request
         validate_request(payload)
-    if route == "cognitive.orchestrate":
+    if route in ("text.read", "cognitive.orchestrate"):
         from .orchestration import validate as validate_orchestration
         validate_orchestration(payload)
     if route in ("lexical.assess", "lexical.ontolex"):
@@ -109,6 +110,9 @@ def validate(route, payload):
 
 def execute(route, payload, *, inside_worker=False):
     p = validate(route, payload)
+    if route == "text.read":
+        from .text_reading import analyze
+        return analyze(p["text"])
     if route == "cognitive.orchestrate":
         from .orchestration import run
         return run(p)
