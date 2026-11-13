@@ -178,10 +178,15 @@ def same_message(a,b):
     return all(a[k]==b[k] for k in ("axis","unit","day","value","origin","recipient"))
 
 
+# Attributed activities can coexist. Absence from a report does not mean cessation.
+ATTRIBUTED_ACTIVITY = "النشاط"
+
+
 def observation_groups(records):
     groups=defaultdict(lambda:defaultdict(list))
     for r in records:
-        if r["kind"]=="observation":groups[r["axis"],r["unit"]][r["day"]].append(r)
+        if r["kind"]=="observation" and r["axis"]!=ATTRIBUTED_ACTIVITY:
+            groups[r["axis"],r["unit"]][r["day"]].append(r)
     return groups
 
 
@@ -237,6 +242,10 @@ def compare_days(groups):
 
 def check_report(entity,records,report):
     facts=[r for r in records if r["kind"]=="observation" and slice_key(r)==slice_key(report)]
+    premise="EXCLUSIVE_RECORDED_VALUE_PER_ENTITY_AXIS_UNIT_DAY_PLACE"
+    if report["axis"]==ATTRIBUTED_ACTIVITY:
+        facts=[r for r in facts if r["value"]==report["value"]]
+        premise="COMPATIBLE_ACTIVITIES_POSITIVE_TESTIMONY_ONLY"
     claim={"axis":"recorded_observation","entity":entity["entity"],"predicate":report["axis"],"value":str(report["value"]),
            "unit":report["unit"],"context":entity["kind"],"time":str(report["day"]),"place":entity["place"]}
     def speaker_id(person):
@@ -254,7 +263,7 @@ def check_report(entity,records,report):
             "native_checked":owner["native_checked"],"certificate_checked":owner["certificate_checked"],
             "observation_support":owner["observed"],"checker_sha256":owner["execution"]["native_sha256"],
             "error":owner["execution"]["error"],"possible_observations":[r["id"] for r in facts],
-            "single_value_premise":"EXCLUSIVE_RECORDED_VALUE_PER_ENTITY_AXIS_UNIT_DAY_PLACE",
+            "comparison_premise":premise,
             "reception_scope":"MATCHED_REPORTED_CONTENT_NOT_UNIQUE_UTTERANCE"}
 
 
@@ -298,6 +307,13 @@ def cards(res):
             "CHANGED":"تغيّر الوصف بين الطرفين","CONFLICT":"تعارضت الأوصاف في السجل",
             "VERIFICATION_UNAVAILABLE":"تعذّر فحص ترتيب الطرفين"}
     out=[]
+    for observation in res["records"]:
+        if observation["kind"]=="observation" and observation["axis"]==ATTRIBUTED_ACTIVITY:
+            out.append(card("chain_activity","نشاط منسوب",
+                            f'ورد عن «{res["subject"]["entity"]}» أنه {observation["value"]} في اليوم {observation["day"]}.',
+                            observation["witness"]["text"],
+                            "تبقى الأنشطة الأخرى في هذا اليوم مفتوحة، ويحتاج توقف هذا النشاط إلى شاهد.",
+                            dependencies=[observation["id"]]))
     for cell in res["conflicts"]:
         values="، ".join(map(str,cell["values"]))
         out.append(card("chain_conflict","تعارض في اليوم نفسه",

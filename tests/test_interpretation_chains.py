@@ -112,6 +112,20 @@ class ChangeAndReport(unittest.TestCase):
         self.assertTrue(checked["arithmetic_check"]["receipt"]["native_checked"])
         self.assertEqual(checked["difference"],3)
 
+    def test_concurrent_activities_preserve_each_witness_and_allow_withdrawal(self):
+        cases=json.loads(DATA.read_bytes())[-2:]
+        for case in cases:
+            with self.subTest(case=case["id"]):
+                chain=chains.analyze(case["text"])
+                self.assertFalse(chain["conflicts"])
+                self.assertFalse(chain["changes"])
+                observations=[r for r in chain["records"] if r["kind"]=="observation"]
+                cards=[c for c in chains.cards(chain) if c["scope"]=="chain_activity"]
+                self.assertEqual([c["dependencies"] for c in cards],[[r["id"]] for r in observations])
+                report=chain["reports"][0]
+                self.assertEqual(report["observation_check"],case["reports"][0])
+                self.assertEqual(report["possible_observations"],[r["id"] for r in observations if r["value"]=="يفكر"])
+
     def test_unsupported_type_and_budget(self):
         s=json.loads(DATA.read_bytes())[0]["text"]
         self.assertEqual(chains.analyze(s.replace("نوع «مادة»","نوع «جماعة»"))["status"],"OUTSIDE_PROFILE")
