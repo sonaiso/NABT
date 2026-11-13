@@ -23,8 +23,10 @@ RESTRICTIONS = {"time", "place", "instrument", "companion", "origin", "goal", "m
 
 
 def validate(option):
-    if type(option) is not dict or set(option) - {"lexical", "withdraw"}:
+    if type(option) is not dict or set(option) - {"lexical", "withdraw", "graph_learning"}:
         raise ValueError("Expected optional dictionary question and withdrawal IDs")
+    if "graph_learning" in option and option["graph_learning"] is not True:
+        raise ValueError("Expected explicit graph learning switch")
     if "lexical" in option:
         lexical_ontolex.validate(option["lexical"])
     keys = option.get("withdraw", [])
@@ -40,6 +42,17 @@ def under_question(text):
         return None
     start = len(text[:m.start(2)].encode())
     return m[2], start, [0, len(m[1].encode())]
+
+
+def surviving_nodes(nodes, removed):
+    """Replay the original signed owner graph under a withdrawal of licensed evidence."""
+    live=set()
+    for node in nodes:
+        key=node["id"]
+        if (node["status"]=="LICENSED" and key not in removed
+                and any(all(p in live for p in path) for path in node["satisfied_paths"])):
+            live.add(key)
+    return live
 
 
 class SpeechGraph(Chain):
@@ -108,12 +121,7 @@ class SpeechGraph(Chain):
                 "world_truth_established":False})
 
     def surviving_after(self, removed):
-        live = set()
-        for key, node in self.nodes.items():
-            if (node["status"]=="LICENSED" and key not in removed
-                    and any(all(p in live for p in path) for path in node["satisfied_paths"])):
-                live.add(key)
-        return live
+        return surviving_nodes(self.report["nodes"],removed)
 
     def decisive_signs(self):
         # Exercise the proof graph rather than labelling the first token as decisive.
@@ -360,6 +368,9 @@ def project(text, source_id, option, relatives, lexical_text=None):
     # Rank only complete retained readings and keep every alternative.
     g.report["recall_order"] = [r["force_node"] for r in sorted(g.report["decoded"],key=lambda r:r["force"]!=proposal)]
     g.report["force_status"] = "SOURCE_BOUND" if g.report["decoded"] else "OPEN"
+    if option.get("graph_learning"):
+        from tools.lexical_training.graph_interventions import propose
+        g.report["graph_learning"] = propose(g.report["nodes"],option.get("withdraw",[]))
     g.decisive_signs()
     g.revise(option.get("withdraw",[]))
     return g.report
