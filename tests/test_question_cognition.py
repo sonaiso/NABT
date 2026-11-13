@@ -94,6 +94,12 @@ class NativeQuestionCognition(unittest.TestCase):
         self.assertFalse(r["absence_from_definition_proves_exclusion"])
         self.assertEqual(len(cognition.compare_definitions("«صلب» أو «ركوة»", "scope")["value"]), 2)
 
+    def test_numeric_and_propositional_values_reach_the_reader(self):
+        for source, truth in (("2=2", True), ("2=3", False)):
+            r = cognition.analyze(source, "ما القيمة الحسابية؟")
+            self.assertIs(r["decision"]["value"]["truth"], truth)
+            self.assertIn("المساواة", cognition.cards(r)[0]["understood"])
+
     def test_gateway_rejects_a_changed_decision(self):
         text, question = CASES[0][:2]
         request = {"schema": gateway.REQUEST_SCHEMA, "route": "text.read", "payload": {"text": text, "question": question}}

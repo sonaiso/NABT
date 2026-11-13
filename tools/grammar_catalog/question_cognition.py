@@ -140,8 +140,12 @@ def cards(report):
         owner = decision.get("owner", {})
         why = owner.get("law_id") or owner.get("schema") or LAW
         if operation == "arithmetic" and status == "COMPUTED":
-            value = decision["value"]["value"]
-            detail = f'قيمة التعبير {value["numerator"]}/{value["denominator"]}.'
+            result = decision["value"]
+            if result["sort"] == "proposition":
+                detail = "المساواة صحيحة." if result["truth"] else "المساواة غير صحيحة."
+            else:
+                value = result["value"]
+                detail = f'قيمة التعبير {value["numerator"]}/{value["denominator"]}.'
         elif operation in ("linguistic", "customary") and decision.get("value"):
             detail = "القراءات المقبولة في الاصطلاح المحدد: " + "، ".join(decision["value"])
         elif operation == "genus" and decision.get("value"):
