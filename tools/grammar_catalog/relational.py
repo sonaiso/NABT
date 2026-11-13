@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "licensed_speech"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "report_model", "licensed_speech"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -160,6 +160,9 @@ def validate(request):
     if "licensed_speech" in request:
         from .licensed_speech import validate as validate_speech
         validate_speech(request["licensed_speech"])
+    if "report_model" in request:
+        from .report_rank import validate as validate_model
+        validate_model(request["report_model"])
     if "valency_context" in request:
         ctx=request["valency_context"]
         if (type(ctx) is not dict or set(ctx)!={"ledger"} or type(ctx["ledger"]) is not str
@@ -247,6 +250,9 @@ def analyze(request):
     frame=valency.analyze(text,source_id)
     if frame:
         result["valency"]=frame
+    if "report_model" in p:
+        from .report_rank import assess
+        result["report_assessment"] = assess(frame, p["report_model"], source_id, result["source_sha256"])
     if "valency_context" in p:
         result["valency_context"]=(valency.context_evidence(text,source_id,frame,p["valency_context"])
                                    if frame else {"status":"OUTSIDE_WRITTEN_PROFILE","profiles":{}})
