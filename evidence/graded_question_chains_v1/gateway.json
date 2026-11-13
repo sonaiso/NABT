@@ -1,10 +1,10 @@
 {
   "law": "nabt.graded-question-chains.measurement.v1",
-  "n": 18,
-  "passed": 18,
+  "n": 20,
+  "passed": 20,
   "restored": true,
   "fixture_sha256": {
-    "challenge.json": "a27c9f02f1101fd719ddd475b9fd39c927021dbfb7e8c6065e0f695719890359",
+    "challenge.json": "ef29129108a5cafefb964e72b8cd7fac258ebb07a59e2656de596d7308c68146",
     "ledger.json": "070844de8ca431ad5bf95c1713b9d3e8103d34758aaa16cd61eeb6e54d0dd351"
   },
   "cases": [
@@ -98,7 +98,7 @@
       "expected": {
         "linguistic_use": "LICENSED"
       },
-      "source_scope_digest": "7e9731e40f4f856a941c2c45f28347cffa7c0eaf8868de17e5ab5d4684b8aea8"
+      "source_scope_digest": "7ef90c16f7aba887f46949f160fd0643e4857224a9c3aafd883c46185fc50e7b"
     },
     {
       "case": "math",
@@ -198,6 +198,32 @@
       "grades": 0,
       "expected": {},
       "source_scope_digest": "bcfcc9f10ad3dd0adefa456af92540d43f4791a1b7810e18608e0b73b66faa64"
+    },
+    {
+      "case": "explicit_exclusion",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SCOPED_PROFILES",
+      "nodes": 4,
+      "grades": 2,
+      "expected": {
+        "linguistic_use": "REFUTED"
+      },
+      "source_scope_digest": "7a070b9a810a7b7c6f7a6f3b2bffb19c4a56ad64bc14212fa649ac251ff430e6"
+    },
+    {
+      "case": "local_conflict",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "CONFLICT",
+      "nodes": 8,
+      "grades": 2,
+      "expected": {
+        "linguistic_use": "CONFLICT"
+      },
+      "source_scope_digest": "df94525f5b53b02ec17a165a216d8a88262886a4565d5e13756018120c4a5bf6"
     },
     {
       "case": "ledger",
