@@ -219,5 +219,9 @@ def analyze(request):
     from . import definition_network
     if definition_network.QUERY.fullmatch(text):
         result["definition_network"] = definition_network.read(text, identity=source_id)
+    from .interpretation_chains import analyze as analyze_chain
+    chain = analyze_chain(text)
+    if chain is not None:
+        result["interpretation_chain"] = chain
     _encoded(result, 8*1048576, floats=True)
     return result
