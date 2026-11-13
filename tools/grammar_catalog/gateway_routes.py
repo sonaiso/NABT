@@ -7,7 +7,7 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
-    "text.read": (("signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ()),
+    "text.read": (("epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ()),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
     "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),

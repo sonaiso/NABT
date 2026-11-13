@@ -431,11 +431,15 @@ def analyze(text):
             key = lexical["evidence"].get("sense_id")
             if key in attached:
                 lexical["evidence"]["definition_network_ref"] = f"/definition_network/readings/{attached[key]}"
+    from . import interpretation_chains
+    chain = interpretation_chains.analyze(text)
+    if chain is not None:
+        cards.extend(interpretation_chains.cards(chain))
     if not cards:
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
                           "تحتاج قراءة هذا النص إلى شواهد أو تغطية إضافية."))
-    return {"schema": "nabt.text-reading.v1", "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
+    return {"schema": "nabt.text-reading.v1", "interpretation_chain":chain, "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,
