@@ -14,6 +14,11 @@ on:
       - 'tools/evaluate_dictionary_reading.py'
       - 'evidence/lexical_indication_learning_v1/**'
       - 'tests/test_dictionary_indication.py'
+      - 'tools/grammar_catalog/definition_network.py'
+      - 'tools/grammar_catalog/data/definition_inheritance_v1.json'
+      - 'tools/lexical_training/*definition_messages.py'
+      - 'evidence/definition_inheritance_v1/**'
+      - 'tests/test_definition_network.py'
       - 'tools/lexical_training/data.py'
       - 'src/nabt/source_lexicon.py'
       - 'src/nabt/data/source_evidence/source_lexicon_v1.json'
@@ -114,6 +119,9 @@ jobs:
           (cd formal && "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" build lexicalDenotation)
           python -m tools.lexical_training.train_dictionary_indication --output artifacts/local/lexical-completion-ci/dictionary-fit
           python -m unittest tests.test_dictionary_indication -v
+          (cd formal && "$RUNNER_TEMP/nabt-tools/lean-4.34.1-linux/bin/lake" build verifiedReading)
+          python -m tools.lexical_training.train_definition_messages --output artifacts/local/lexical-completion-ci/definition-messages
+          python -m unittest tests.test_definition_network -v
       - name: Retain bounded verification evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
