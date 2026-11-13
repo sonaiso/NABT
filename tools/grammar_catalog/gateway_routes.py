@@ -7,6 +7,7 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "ayat.read": (("rule-routing", "discourse", "arabic-governors"), ("text",), ("withdraw","withdraw_context","question","scene")),
     "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
     "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
@@ -18,7 +19,7 @@ ROUTES = {
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
-    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "licensed_speech")),
+    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "report_model", "licensed_speech")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
     "grammar.search": (("rule-routing", "classical-source-rules"), ("query",), ("kind", "limit")),
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),
@@ -58,6 +59,9 @@ def validate(route, payload):
         raise ValueError("Expected a bounded nonempty query")
     if "limit" in payload and (type(payload["limit"]) is not int or not 1 <= payload["limit"] <= 100):
         raise ValueError("Expected a positive bounded integer limit")
+    if route == "ayat.read":
+        from .ayat_al_dayn import validate as validate_ayat
+        validate_ayat(payload)
     if route == "grammar.search" and payload.get("kind") not in (None, "rule", "passage", "item"):
         raise ValueError("Unknown catalogue kind")
     if route == "grammar.route":
@@ -130,6 +134,9 @@ def validate(route, payload):
 
 def execute(route, payload, *, inside_worker=False):
     p = validate(route, payload)
+    if route == "ayat.read":
+        from .ayat_al_dayn import analyze
+        return analyze(p["text"],p.get("withdraw",[]),p.get("withdraw_context",[]),p.get("question"),p.get("scene"))
     if route == "text.read":
         from .text_reading import analyze
         return analyze(p["text"], question=p.get("question"), answer=p.get("answer"),
