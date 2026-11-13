@@ -121,7 +121,7 @@ class ChangeAndReport(unittest.TestCase):
                 self.assertFalse(chain["changes"])
                 observations=[r for r in chain["records"] if r["kind"]=="observation"]
                 cards=[c for c in chains.cards(chain) if c["scope"]=="chain_activity"]
-                self.assertEqual([c["dependencies"] for c in cards],[[r["id"]] for r in observations])
+                self.assertEqual([c["evidence"]["dependencies"] for c in cards],[[r["id"]] for r in observations])
                 report=chain["reports"][0]
                 self.assertEqual(report["observation_check"],case["reports"][0])
                 self.assertEqual(report["possible_observations"],[r["id"] for r in observations if r["value"]=="يفكر"])
