@@ -15,6 +15,29 @@ def claims(r):
     return {v["node"]:v for v in r["claims"]}
 
 
+class FailureEvidence(unittest.TestCase):
+    def test_unavailable_baseline_or_final_is_not_restoration(self):
+        from tools.evaluate_definition_network import restored
+        ok={"text":"same","route":"text.read","match":True,"readings":{"x":{}}}
+        failed={"text":"same","route":"text.read","match":False,"status":"WORKER_ERROR"}
+        self.assertTrue(restored([ok,ok]))
+        for rows in ([failed,ok],[ok,failed],[failed,failed],[ok]):
+            self.assertFalse(restored(rows))
+
+    def test_one_surviving_polysemous_reading_is_a_failed_case(self):
+        from tools import evaluate_definition_network as trial
+        reading={"focus":"A:صلب","ground_check":{"receipt":{"verified":True}},
+                 "claims":[],"vector":{"basis":[],"mask":[]}}
+        network={"status":"VERIFIED_CONDITIONAL_NETWORK","readings":[reading],"world_truth_established":False}
+        rec={"status":"EXECUTED","execution":{"owner_result":{"definition_network":network}}}
+        gold={"text":"ما شبكة «الصلب»؟","route":"text.read","required":"-","forbidden":"-"}
+        with patch.object(trial.gateway,"run",return_value=rec), patch.object(trial.gateway,"accept_output",
+                                                                               return_value={"valid":True}):
+            outcome=trial.replay(gold)
+        self.assertFalse(outcome["match"])
+        self.assertEqual(set(outcome["readings"]),{"A:صلب"})
+
+
 @unittest.skipUnless(graph.CHECKER.is_file(),"Build verifiedReading for proof-carrying edges")
 class DefinitionNetwork(unittest.TestCase):
     def test_fixed_oracle_positive_negative_and_source_positions(self):

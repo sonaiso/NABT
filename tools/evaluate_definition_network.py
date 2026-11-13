@@ -32,7 +32,7 @@ def replay(case):
     result={"text":text,"route":case["route"],"status":rec["status"],"verified":valid,"match":False}
     if rec["status"]!="EXECUTED" or not valid:return result
     view=rec["execution"]["owner_result"]
-    g=view["definition_network"]
+    g=view.get("definition_network")
     if not g:return result
     reads={r["focus"]:r for r in g["readings"]}
     known="ززز" not in text
@@ -48,12 +48,22 @@ def replay(case):
         ok &= {k for k,v in zip(r["vector"]["basis"],r["vector"]["mask"],strict=True) if v}==coords
         out[focus]={"nodes":sorted(coords),"paths":{c["relation"]+"/"+c["node"]:c["proofs"] for c in r["claims"]}}
     if "الصلب" in text:
-        ok &= set(reads)=={"A:صلب","G:صلب"}
-        ok &= set(out["A:صلب"]["nodes"])=={"A:شديد"} and set(out["G:صلب"]["nodes"])=={"G:عظم","P:ذو_فقار"}
+        ok = (ok and set(reads)=={"A:صلب","G:صلب"}
+              and set(out["A:صلب"]["nodes"])=={"A:شديد"}
+              and set(out["G:صلب"]["nodes"])=={"G:عظم","P:ذو_فقار"})
     if text.startswith("ما معنى"):
         ok &= any(c["evidence"].get("definition_network_ref")=="/definition_network/readings/0"
                   for c in view["cards"] if c["scope"]=="dictionary_sense")
     return {**result,"match":bool(ok and not g["world_truth_established"]),"readings":out,"graph_status":g["status"]}
+
+
+def restored(rows):
+    if not rows:
+        return False
+    final=rows[-1]
+    baseline=next((r for r in rows[:-1] if (r["text"],r["route"])==(final["text"],final["route"])),None)
+    return bool(baseline and baseline.get("match") and final.get("match")
+                and baseline.get("readings") and baseline["readings"]==final.get("readings"))
 
 
 def main():
@@ -62,7 +72,7 @@ def main():
     parser.add_argument("--workers",type=int,choices=range(1,7),default=3)
     args=parser.parse_args()
     with ProcessPoolExecutor(args.workers) as pool:rows=list(pool.map(replay,cases()))
-    restore=rows[-1]["readings"]==next(r["readings"] for r in rows if r["text"]==rows[-1]["text"])
+    restore=restored(rows)
     out={"schema":"nabt.definition-inheritance.evaluation.v1","n":len(rows),
          "correct":sum(r["match"] for r in rows),"restored":restore,"cases":rows}
     with args.output.open("x",encoding="utf-8") as f:json.dump(out,f,ensure_ascii=False,indent=2);f.write("\n")
