@@ -399,7 +399,7 @@ def passive_reading(text, source, failures):
                       "neural_authority": "NONE"}
 
 
-def analyze(text, *, question=None, answer=None, question_cycle=False, question_chain=False):
+def analyze(text, *, question=None, answer=None, question_cycle=False, question_chain=False, witness_recall=False, licensed_speech=None):
     lexical, mentions = lexical_context(text)
     names = {m["id"]: m["name"] for m in mentions}
     context = {"entities": [{"id": m["id"], "name": m["name"]} for m in mentions]}
@@ -446,7 +446,20 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     from . import question_answer_cycle as cycle
     generated_form = question is not None and (
         question.startswith(cycle.PREFIX) or question.startswith(("ما قيمة التعبير «", "هل تصح المساواة «")))
-    if question_chain:
+    if witness_recall:
+        from tools.lexical_training.witness_recall import recall
+        recalled = recall(text, question, grammar["source"]["id"])
+        question_result["witness_recall"] = recalled
+        question_result["question_cognition"] = recalled["owner"]
+        from . import question_cognition
+        cards = question_cognition.cards(recalled["owner"]) + cards
+        if recalled["decoding"]:
+            decoded = recalled["decoding"]
+            cards.insert(0, card("witness_recall", "قراءة مقيدة بالشاهد",
+                                 decoded["answer"], "أعيد فحص الدعوى وشواهدها في مواضع النص.",
+                                 "صدق الوقوع في الخارج يحتاج شاهدًا مستقلاً.",
+                                 occurrences=decoded["selected_occurrences"]))
+    elif question_chain:
         from . import graded_questions
         graph = graded_questions.run(text, grammar["source"]["id"])
         question_result["graded_questions"] = graph
@@ -460,6 +473,54 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
         answer = question_cognition.analyze(text, question, grammar["source"]["id"])
         question_result["question_cognition"] = answer
         cards = question_cognition.cards(answer) + cards
+    from . import valency
+    frame = None if original_check_failed(grammar["source"], failures) else valency.analyze(
+        text,grammar["source"]["id"],retained_passives=events)
+    if frame:
+        question_result["valency"]=frame
+        cards.append(card("valency", "التعدية ومحل المعمول", valency.describe(frame),
+                          "اختُبرت قراءة الفعل ومواقع المعمول وعلاماتها في الشريحة المحددة.",
+                          "تعيين الوقوع الخارجي أو آلية سببية لهما شواهد مستقلة.",
+                          source_sha256=frame["source_sha256"]))
+    # The normal one-text reader can surface a newly recognized complete construction.
+    # Keep unrelated questions and readings on their existing paths.
+    if (licensed_speech is None and question is None and not (question_cycle or question_chain or answer or frame
+            or classical["graph"] or factor_report["readings"] or original_check_failed(grammar["source"], failures))):
+        from .partial_speech import parse as partial_readings
+        if partial_readings(text,exact_terms(text))[0]:
+            licensed_speech = {}
+    if licensed_speech is not None:
+        from .licensed_speech import project
+        if original_check_failed(grammar["source"], failures):
+            question_result["licensed_speech"] = {"force_status":"SOURCE_CHECK_UNAVAILABLE","decoded":[]}
+        else:
+            retained = {"valency":frame, "classical":classical["graph"], "factors":factor_report}
+            if network:
+                retained["definition_network"] = network
+            graph = project(text,grammar["source"]["id"],licensed_speech,retained)
+            question_result["licensed_speech"] = graph
+            if graph["decoded"]:
+                selected = graph["decoded"]
+                if not graph.get("partial_speech",{}).get("sequence"):
+                    selected = selected[:1]
+                summaries = []
+                for row in selected:
+                    positions = "، ".join(dict.fromkeys("«"+r["surface"]+"»" for r in row["roles"]))
+                    witnesses = "، ".join("«"+w["surface"]+"»" for w in row["decisive_written_witnesses"]
+                                          if w["content_survives"])
+                    why = ("بسحب "+witnesses+" يزول ترخيص قوة الكلام ويبقى محتوى النسبة." if witnesses else
+                           "استندت القراءة إلى العامل ومعموله وعلاماتهما في النص.")
+                    record = graph["owners"][row["owner"]]
+                    pending = "تعيين وقوع المضمون في الخارج يحتاج شهادة مستقلة."
+                    if record.get("basis")=="AUTHORED_LEXICAL_DOMAIN_AND_COMPLETE_CONSTRUCTION":
+                        why += " قورنت الحركات المكتوبة بالأوجه المتوافقة، وحُفظ موضع كل لفظ."
+                        pending = "الألفاظ والأدوار مقيدة بالوجه المعجمي المختبَر. " + pending
+                    if record.get("competing_operator"):
+                        pending += " يبقى للرسم «لم» احتمال «لِمَ» الاستفهامية حتى تتعين قراءة الأداة."
+                    summaries.append(card("licensed_speech","قوة الكلام ونطاق النسبة",
+                                          "قوة الكلام في هذا الوجه "+row["force_ar"]+". "+positions,
+                                          why,pending,force_node=row["force_node"]))
+                cards[:0] = summaries
     if not cards:
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",

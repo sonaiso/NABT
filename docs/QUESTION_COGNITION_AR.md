@@ -74,3 +74,5 @@ PYTHONPATH=src:. python -m tools.evaluate_graded_questions --output /tmp/graded-
 ```
 
 للتكامل البرمجي أضف `"question_chain": true` إلى طلب `text.read` أو `relations.analyze`. يقبل الثاني أيضًا `bridge` بعقده الأصلي لتشغيل القابلية والوقوع والسببية على وقوع واحد. العرض يحتفظ بالإيصالات وبالأحكام المفتوحة والمعارضة ومحدودية الموارد. هذه شريحة رمزية محددة المجال، والانتقال بين حقيقتين يتطلب دليله الخاص. [حالات القبول](../evidence/graded_question_chains_v1/challenge.json) · [سجل السببية القابل لإعادة التشغيل](../evidence/graded_question_chains_v1/ledger.json)
+
+تتناول [تجربة استدعاء الشاهد](WITNESS_RECALL_AR.md) ترتيب القرائن المشفرة بالسؤال وفك الجواب بمرجع الوقوع.

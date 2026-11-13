@@ -7,7 +7,7 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
-    "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain")),
+    "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
     "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
@@ -18,7 +18,7 @@ ROUTES = {
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
-    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain")),
+    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "licensed_speech")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
     "grammar.search": (("rule-routing", "classical-source-rules"), ("query",), ("kind", "limit")),
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),
@@ -89,6 +89,12 @@ def validate(route, payload):
             from . import question_answer_cycle
             if "question" in payload:
                 question_answer_cycle.validate_bound_question(payload["question"])
+            if "licensed_speech" in payload:
+                from .licensed_speech import validate as validate_speech
+                validate_speech(payload["licensed_speech"])
+            if "witness_recall" in payload and (payload["witness_recall"] is not True
+                    or set(payload) != {"text","question","witness_recall"}):
+                raise ValueError("Witness recall requires the original text and question only")
             if "answer" in payload:
                 question_answer_cycle.validate(payload.get("question"), payload["answer"])
             if "question_chain" in payload:
@@ -127,7 +133,8 @@ def execute(route, payload, *, inside_worker=False):
     if route == "text.read":
         from .text_reading import analyze
         return analyze(p["text"], question=p.get("question"), answer=p.get("answer"),
-                       question_cycle=p.get("question_cycle", False), question_chain=p.get("question_chain", False))
+                       question_cycle=p.get("question_cycle", False), question_chain=p.get("question_chain", False),
+                       witness_recall=p.get("witness_recall", False), licensed_speech=p.get("licensed_speech"))
     if route == "cognitive.orchestrate":
         from .orchestration import run
         return run(p)
