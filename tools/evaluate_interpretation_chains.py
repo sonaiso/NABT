@@ -28,10 +28,15 @@ def replay(item):
         changes=[x["status"] for x in result.get("changes",[])]
         reports=[x["observation_check"] for x in result.get("reports",[])]
         heard=[bool(x["receipt_evidence"]) for x in result.get("reports",[])]
-        row.update(changes=changes,reports=reports,receipt_evidence=heard)
+        conflict_days=[v["day"] for v in result.get("conflicts",[])]
+        arithmetic=[c.get("arithmetic_check",{}).get("receipt") or {} for c in result.get("changes",[])
+                    if c["axis"]=="العدد" and c["status"] in {"INCREASED","DECREASED","SAME_ENDPOINTS"}]
+        row.update(changes=changes,reports=reports,receipt_evidence=heard,conflict_days=conflict_days,
+                   arithmetic_verified=[r.get("native_checked",False) for r in arithmetic])
         row["match"]=(result["status"]==case.get("status","SOURCE_RELATIVE_CHAIN")
                       and changes==case.get("changes",[]) and reports==case.get("reports",[])
-                      and heard==case.get("receipt",[]) and all(r["native_checked"] for r in result.get("reports",[]))
+                      and heard==case.get("receipt",[]) and all(row["arithmetic_verified"])
+                      and conflict_days==case.get("conflict_days",[]) and all(r["native_checked"] for r in result.get("reports",[]))
                       and not result["limits"]["external_event_established"] and not result["limits"]["cause_established"])
     return row
 
@@ -42,6 +47,11 @@ def main():
     p.add_argument("--workers",type=int,choices=range(1,7),default=3)
     args=p.parse_args()
     raw=FIXTURE.read_bytes();cases=json.loads(raw)
+    conflict=next(r for r in cases if r["id"]=="conflicting")
+    conflict["conflict_days"]=[2]
+    lines=conflict["text"].splitlines()
+    cases.append({"id":"conflict_without_other_day","text":"\n".join([lines[0],lines[2],lines[3]]),
+                  "changes":[],"reports":[],"receipt":[],"conflict_days":[2]})
     methods=[{"id":k,"text":f"ما منهج «{term}»؟","treatment":"METHOD"}
              for k,term in [("reproduction","يتكاثر"),("presupposition","الاقتضاء"),("validity","الفاسد")]]
     requests=[("text.read",r) for r in cases+methods]+[("relations.analyze",cases[0]),("text.read",cases[0])]

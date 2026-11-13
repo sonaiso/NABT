@@ -18,12 +18,14 @@ class MethodContracts(unittest.TestCase):
             self.assertIn(coordinate,registry)
             for word in aliases.split("|"):
                 r=chains.analyze(f"ما منهج «{word}»؟")
-                self.assertEqual(r["method"]["treatment"],treatment)
-                self.assertEqual(r["method"]["evidence_required"],obligation)
+                expected=chains.TERM_OBLIGATIONS.get(word,(treatment,obligation))
+                self.assertEqual((r["method"]["treatment"],r["method"]["evidence_required"]),expected)
                 self.assertEqual(r["method"]["question_path"][0],"الوجود والموجودات")
                 self.assertFalse(r["method"]["application_established"])
         self.assertNotEqual(chains.method("المانع")["registry"],chains.method("الشرط")["registry"])
         self.assertIsNone(chains.method("مثال غير مراجع"))
+        self.assertEqual(chains.method("لا يتحد")["treatment"],"METHOD")
+        self.assertEqual(chains.method("يفكر")["treatment"],"REPORTED_ACTIVITY")
 
     def test_pr_trace_preserves_unmapped_and_multiple_family_references(self):
         files=["unknown/file.py","tools/grammar_catalog/interpretation_chains.py","formal/Nabt/TemporalContext.lean"]
@@ -82,6 +84,33 @@ class ChangeAndReport(unittest.TestCase):
         r=chains.analyze("\n".join([head,*rows]))
         self.assertEqual(len(r["changes"]),1)
         self.assertEqual(r["changes"][0]["dependencies"],[v["id"] for v in r["records"]])
+
+    def test_same_day_conflict_survives_withdrawal_of_earlier_day(self):
+        src=json.loads(DATA.read_bytes())[3]["text"].splitlines()
+        t="\n".join((src[0],src[2],src[3]))
+        r=chains.analyze(t)
+        self.assertEqual(r["changes"],[])
+        self.assertEqual(r["reports"],[])
+        (cell,)=r["conflicts"]
+        self.assertEqual((cell["day"],cell["values"]),(2,["سائل","غاز"]))
+        self.assertEqual(cell["dependencies"],[v["id"] for v in r["records"]])
+        self.assertEqual([c["scope"] for c in chains.cards(r)],["chain_conflict"])
+        self.assertEqual(chains.analyze("\n".join((src[0],src[2])))["conflicts"],[])
+
+    def test_missing_arithmetic_checker_preserves_time_and_readings(self):
+        src=json.loads(DATA.read_bytes())[5]["text"]
+        unavailable={"native_check":None,"chain_complete":False,"status":"VERIFICATION_UNAVAILABLE"}
+        with patch.object(chains.scoped_composition,"evaluate",return_value=unavailable):
+            r=chains.analyze(src)
+            (c,)=r["changes"]
+            self.assertEqual(r["status"],"PARTIAL_VERIFICATION")
+            self.assertEqual(r["order_check"]["calls"][0]["response"]["verdict"],"CONFIRMED")
+            self.assertEqual(c["verification_failure"],"arithmetic")
+            self.assertNotIn("difference",c)
+            self.assertIn("فرق العدد",chains.cards(r)[0]["understood"])
+        checked=chains.analyze(src)["changes"][0]
+        self.assertTrue(checked["arithmetic_check"]["receipt"]["native_checked"])
+        self.assertEqual(checked["difference"],3)
 
     def test_unsupported_type_and_budget(self):
         s=json.loads(DATA.read_bytes())[0]["text"]

@@ -5,7 +5,7 @@ import re
 
 from tools import epistemic_measurement as epistemic
 from tools.lexical_training.reasoning_curriculum import FOUNDATION, MATRICES
-from . import composition_arithmetic, temporal
+from . import scoped_composition, temporal
 
 LAW = "nabt.interpretation-chains.v1"
 NAME = r"[ء-ي][ء-يـ َ-ْ]{0,39}"
@@ -75,6 +75,21 @@ OPERATIONS = (
 )
 
 
+# A topic can have a state-reading component and a stronger interpretation
+# with different evidence. Expose the narrower boundary for the actual term.
+TERM_OBLIGATIONS = {
+    "يموت": ("ENDPOINTS","يوثَّق الوصف في زمنين؛ يبقى وقت الموت الدقيق وسببه محتاجين إلى دليل."),
+    "يتعافى": ("ENDPOINTS","الوصول إلى وصف صحيح بعد مريض فرق بين طرفين؛ آلية التعافي وتشخيصه يحتاجان شاهدين مستقلين."),
+    "يتحد": ("ENDPOINTS","التحقق هنا من وصف حالة الزوج عند زمنين؛ يحتاج نوع الاتحاد وآليته إلى شاهد."),
+    "لا يتحد": ("METHOD","عيّن هل النفي يخص واقعة في زمن أم امتناعًا تحت شروط عامة؛ بقاء الطرفين منفصلين لا يثبت الامتناع."),
+    "ينتقل": ("ENDPOINTS","تجوز مقارنة وصف الحركة والسكون. تعيين مسار مكاني يحتاج الموضعين والإطار المرجعي."),
+    "ينطق": ("REPORTED_ACTIVITY","تعيين زمن وصف النطق وهوية حامله. لا يستفاد من الصوت وحده صدق الخبر."),
+    "يتواصل": ("REPORTED_ACTIVITY","يمكن تسجيل وصف التواصل. إثبات تبليغ محتوى معيّن وتلقّيه يحتاج شاهدًا لكل جهة."),
+    "يفكر": ("REPORTED_ACTIVITY","يحفظ النص نسبة النشاط إلى صاحبه. تحقق العملية الذهنية في الخارج يحتاج شاهدا مستقلا."),
+    "يعقل": ("METHOD","تمييز الأهلية العامة من أداء مهمة بعينها، مع تعريف المهمة وقرينة تحققها."),
+}
+
+
 def method(term):
     for key,(parent,title,obligation) in FAMILIES.items():
         if term==title:
@@ -87,6 +102,7 @@ def method(term):
     for key,parent,words,coord,status,obligation in OPERATIONS:
         if term not in words.split("|"):
             continue
+        status,obligation=TERM_OBLIGATIONS.get(term,(status,obligation))
         root=[]
         while parent is not None:
             parent,title,_=FAMILIES[parent]
@@ -145,6 +161,15 @@ def parse(text):
     return "PARSED",entity,records
 
 
+def dimension_gaps(records):
+    # Preserve both observations even when their units cannot be compared.
+    units=defaultdict(set)
+    for r in records:
+        if r["kind"]=="observation":units[r["axis"]].add(r["unit"])
+    return [{"axis":axis,"reason":"DIFFERENT_UNITS","units":sorted(group)}
+            for axis,group in units.items() if len(group)>1]
+
+
 def slice_key(r):
     return r["axis"],r["unit"],r["day"]
 
@@ -153,10 +178,25 @@ def same_message(a,b):
     return all(a[k]==b[k] for k in ("axis","unit","day","value","origin","recipient"))
 
 
-def compare_days(records):
+def observation_groups(records):
     groups=defaultdict(lambda:defaultdict(list))
     for r in records:
         if r["kind"]=="observation":groups[r["axis"],r["unit"]][r["day"]].append(r)
+    return groups
+
+
+def conflicting_cells(groups):
+    result=[]
+    for (axis,unit),days in groups.items():
+        for day,rows in sorted(days.items()):
+            values=list(dict.fromkeys(r["value"] for r in rows))
+            if len(values)>1:
+                result.append({"axis":axis,"unit":unit,"day":day,"values":values,
+                               "dependencies":[r["id"] for r in rows],"status":"CONFLICT"})
+    return result
+
+
+def compare_days(groups):
     pairs=[]
     for (axis,unit),days in groups.items():
         ordered=sorted(days)
@@ -172,18 +212,24 @@ def compare_days(records):
         values=[[v["value"] for v in rs] for rs in (before,after)]
         row.update(from_values=values[0],to_values=values[1],
                    from_alternatives=list(dict.fromkeys(values[0])),to_alternatives=list(dict.fromkeys(values[1])))
+        row["verification_failure"]="temporal"
         if order["available"] and order["calls"][i]["response"]["verdict"]=="CONFIRMED":
+            row["verification_failure"]=None
             row["order_check"]=i
             if any(len(set(v))!=1 for v in values):row["status"]="CONFLICT"
             else:
                 first,last=values[0][0],values[1][0]
                 if axis=="العدد":
-                    projected=composition_arithmetic.project(f"{last}-{first}")
-                    result=projected["result"]
-                    if result["status"]!="COMPUTED":raise ValueError("Exact count difference unavailable")
-                    delta=int(result["value"]["numerator"])
-                    row.update(difference=delta,multiplicity=["ZERO" if n==0 else "ONE" if n==1 else "MANY" for n in (first,last)])
-                    row["status"]="INCREASED" if delta>0 else "DECREASED" if delta<0 else "SAME_ENDPOINTS"
+                    expr=f"{last}-{first}"
+                    checked=scoped_composition.evaluate({"schema":scoped_composition.SCHEMA,"profile":"arithmetic","text":expr})
+                    receipt=checked["native_check"]
+                    row["arithmetic_check"]={"expression":expr,"status":checked["status"],"receipt":receipt}
+                    if checked["chain_complete"] and checked["status"]=="COMPUTED" and receipt and receipt["native_checked"]:
+                        delta=int(checked["projection"]["result"]["value"]["numerator"])
+                        row.update(difference=delta,multiplicity=["ZERO" if n==0 else "ONE" if n==1 else "MANY" for n in (first,last)])
+                        row["status"]="INCREASED" if delta>0 else "DECREASED" if delta<0 else "SAME_ENDPOINTS"
+                    else:
+                        row["verification_failure"]="arithmetic"
                 else:row["status"]="SAME_ENDPOINTS" if first==last else "CHANGED"
         changes.append(row)
     return changes,order
@@ -222,10 +268,13 @@ def analyze(text):
     if len(text.encode())>4096:return {"schema":LAW,"status":"RESOURCE_LIMIT","limits":LIMITS}
     status,entity,rows=parse(text)
     res={"schema":LAW,"status":status,"source_sha256":identifier(text),"subject":entity,
-         "records":rows,"changes":[],"reports":[],"limits":LIMITS}
+         "records":rows,"changes":[],"reports":[],"conflicts":[],"limits":LIMITS}
     if status!="PARSED":return res
+    groups=observation_groups(rows)
+    res["conflicts"]=conflicting_cells(groups)
+    res["comparison_gaps"]=dimension_gaps(rows)
     try:
-        res["changes"],res["order_check"]=compare_days(rows)
+        res["changes"],res["order_check"]=compare_days(groups)
     except (OSError,ValueError) as exc:
         res["order_error"]=type(exc).__name__
     res["reports"]=[check_report(entity,rows,r) for r in rows if r["kind"]=="report"]
@@ -249,8 +298,16 @@ def cards(res):
             "CHANGED":"تغيّر الوصف بين الطرفين","CONFLICT":"تعارضت الأوصاف في السجل",
             "VERIFICATION_UNAVAILABLE":"تعذّر فحص ترتيب الطرفين"}
     out=[]
+    for cell in res["conflicts"]:
+        values="، ".join(map(str,cell["values"]))
+        out.append(card("chain_conflict","تعارض في اليوم نفسه",
+                        f'وردت للمحور «{cell["axis"]}» في اليوم {cell["day"]} القيم «{values}».',
+                        "تتحد هوية الحامل والمكان والوحدة واليوم في السجل.",
+                        "يبقى تعيين قيمة واحدة مؤجلاً، ولا يُعدّ اختلاف الروايات تحولًا زمنيًا.",
+                        dependencies=cell["dependencies"]))
     for c in res["changes"]:
-        out.append(card("chain_change","حكم بين رصدين",f'{c["axis"]}: {labels[c["status"]]} بين اليومين {c["from_day"]} و{c["to_day"]}.',
+        meaning=("تعذّر فحص فرق العدد" if c["verification_failure"]=="arithmetic" else labels[c["status"]])
+        out.append(card("chain_change","حكم بين رصدين",f'{c["axis"]}: {meaning} بين اليومين {c["from_day"]} و{c["to_day"]}.',
                         'الشاهد السابق «'+"، ".join(map(str,c["from_values"]))+'» واللاحق «'+"، ".join(map(str,c["to_values"]))+"». ",
                         "تبقى كيفية التحول وسببه وما وقع بين الرصدين محتاجة إلى دليل.",dependencies=c["dependencies"]))
     judgements={"SUPPORTED":"وافق سجل الرصد","REFUTED":"خالف سجل الرصد","CONFLICT":"ورد له مؤيد ومعارض","UNKNOWN":"لم يتعيّن له شاهد رصد مستقل"}
@@ -260,10 +317,14 @@ def cards(res):
         reception="ذُكر تلقّي هذا المضمون." if r["receipt_evidence"] else "بقي تلقّي هذا المضمون غير مثبت."
         out.append(card("chain_report","مطابقة خبر بسجل محدد",f'خبر {message["origin"]} إلى {message["recipient"]}: {phrase}.',
                         reception,"نسبة الخبر وموافقته للسجل لا تثبتان النية أو حقيقة الواقعة خارج النص.",claim_ref=r["claim"]))
+    for gap in res.get("comparison_gaps",[]):
+        out.append(card("chain_scope","حد المقارنة","تُركت المقارنة بين الوحدات المختلفة مفتوحة.",
+                        "الوحدات المرصودة: "+"، ".join(gap["units"])+".",
+                        "يلزم شاهد يربط الوحدتين قبل طرح القيم."))
     if not out:
         out.append(card("chain_record","سجل وصفي محدود","حُفظت السجلات بمواضعها.",
                         "لم تتوافر مقارنة زمنية ضمن وحدة ومحور مشتركين.","تحتاج النتيجة إلى شواهد أخرى."))
     if res["status"]=="PARTIAL_VERIFICATION":
         out.append(card("technical","تعذّر التحقق","تعذّر فحص بعض النتائج التابعة.",
-                        "تُراجَع حالة فاحص الزمن أو فاحص الرصد في الإيصال.","حُفظت السجلات الأصلية."))
+                        "تُراجَع حالة فاحص الزمن أو الحساب أو الرصد في الإيصال.","حُفظت السجلات الأصلية."))
     return out
