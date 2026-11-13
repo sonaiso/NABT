@@ -12,10 +12,14 @@ LABELS = (("understood", "ما فُهم"), ("why", "لماذا؟"), ("unresolved
 MAX_FORM = 3 * 8192 + 16
 
 
-def checked_view(text, question=None):
+def checked_view(text, question=None, *, answer=None, question_cycle=False):
     request = {"schema": gateway.REQUEST_SCHEMA, "route": "text.read", "payload": {"text": text}}
     if question is not None:
         request["payload"]["question"] = question
+    if answer is not None:
+        request["payload"]["answer"] = answer
+    if question_cycle:
+        request["payload"]["question_cycle"] = True
     receipt = gateway.run(request)
     if receipt["status"] != "EXECUTED":
         return {"verified": False, "error": "تعذّر تنفيذ الفحص: " + receipt["status"]}
@@ -106,8 +110,9 @@ def command(args):
         if args.port is not None:
             raise ValueError("--port requires serve")
         text = args.text if args.text is not None else sys.stdin.buffer.read(8193).decode("utf-8")
-        return checked_view(text, args.question) if args.question is not None else checked_view(text)
-    if args.text is not None or args.output or args.question is not None:
+        return checked_view(text, args.question, answer=args.answer, question_cycle=args.question_cycle)
+
+    if args.text is not None or args.output or args.question is not None or args.answer is not None or args.question_cycle:
         raise ValueError("gateway serve takes only --port")
     port = args.port if args.port is not None else 8765
     if not 0 <= port <= 65535:
