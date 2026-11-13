@@ -1,0 +1,282 @@
+{
+  "schema": "nabt.interpretation-chains.public-test.v1",
+  "n": 19,
+  "correct": 19,
+  "restored": true,
+  "fixture_sha256": "82df66938597ec4f8ad96f02945bb1721307029a61520bc8645806ea16fc7669",
+  "cases": [
+    {
+      "id": "phase",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «سالم» اليوم ١: الطور = صلب.\nرصد «ليلى» اليوم ٢: الطور = سائل.\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.\nتلقى «هند» من «عمر» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "CHANGED"
+      ],
+      "reports": [
+        "SUPPORTED"
+      ],
+      "receipt_evidence": [
+        true
+      ]
+    },
+    {
+      "id": "no-arrival",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «سالم» اليوم ٢: الطور = سائل.\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "SUPPORTED"
+      ],
+      "receipt_evidence": [
+        false
+      ]
+    },
+    {
+      "id": "no-observation",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.\nتلقى «هند» من «عمر» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "UNKNOWN"
+      ],
+      "receipt_evidence": [
+        true
+      ]
+    },
+    {
+      "id": "conflicting",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «سالم» اليوم ١: الطور = صلب.\nرصد «ليلى» اليوم ٢: الطور = سائل.\nرصد «نادر» اليوم ٢: الطور = غاز.\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "CONFLICT"
+      ],
+      "reports": [
+        "CONFLICT"
+      ],
+      "receipt_evidence": [
+        false
+      ]
+    },
+    {
+      "id": "refuted",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «سالم» اليوم ٢: الطور = غاز.\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "REFUTED"
+      ],
+      "receipt_evidence": [
+        false
+      ]
+    },
+    {
+      "id": "many",
+      "route": "text.read",
+      "text": "سلسلة «الفريق» من نوع «جماعة» في «الساحة».\nرصد «أمل» اليوم ٣: العدد = ٤ [فرد].\nرصد «أمل» اليوم ١: العدد = ١ [فرد].",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "INCREASED"
+      ],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "less",
+      "route": "text.read",
+      "text": "سلسلة «الفريق» من نوع «جماعة» في «الساحة».\nرصد «أمل» اليوم ١: العدد = ٥ [فرد].\nرصد «أمل» اليوم ٣: العدد = ٢ [فرد].",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "DECREASED"
+      ],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "motion",
+      "route": "text.read",
+      "text": "سلسلة «الجسم» من نوع «جسم» في «الساحة».\nرصد «نادر» اليوم ٢: الحركة = متحرك.\nرصد «نادر» اليوم ٧: الحركة = ساكن.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "CHANGED"
+      ],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "separate",
+      "route": "text.read",
+      "text": "سلسلة «الزوج» من نوع «زوج» في «الحقل».\nرصد «أمل» اليوم ١: الاتصال = متحد.\nرصد «أمل» اليوم ٢: الاتصال = منفصل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "CHANGED"
+      ],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "unchanged",
+      "route": "text.read",
+      "text": "سلسلة «علي» من نوع «إنسان» في «المنزل».\nرصد «نادر» اليوم ٢: الصحة = مريض.\nرصد «نادر» اليوم ٥: الصحة = مريض.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "SAME_ENDPOINTS"
+      ],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "self",
+      "route": "text.read",
+      "text": "سلسلة «العينة» من نوع «مادة» في «المختبر».\nرصد «نادر» اليوم ١: الطور = سائل.\nأخبر «نادر» «هند» عن اليوم ١: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "UNKNOWN"
+      ],
+      "receipt_evidence": [
+        false
+      ]
+    },
+    {
+      "id": "wrong-recipient",
+      "route": "text.read",
+      "text": "سلسلة «ماء» من نوع «مادة» في «البيت».\nأخبر «سالم» «هند» عن اليوم ٢: الطور = غاز.\nتلقى «أمل» من «سالم» عن اليوم ٢: الطور = غاز.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "UNKNOWN"
+      ],
+      "receipt_evidence": [
+        false
+      ]
+    },
+    {
+      "id": "scope",
+      "route": "text.read",
+      "text": "سلسلة «العينة» من نوع «مادة» في «المختبر».\nلو رصد «نادر» اليوم ١: الطور = غاز.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "OUTSIDE_GRAMMAR",
+      "changes": [],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "units",
+      "route": "text.read",
+      "text": "سلسلة «المجموعة» من نوع «جماعة» في «الساحة».\nرصد «سالم» اليوم ١: العدد = ٢ [فرد].\nرصد «ليلى» اليوم ٢: العدد = ١٠ [جزء].",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [],
+      "receipt_evidence": []
+    },
+    {
+      "id": "reproduction",
+      "route": "text.read",
+      "text": "ما منهج «يتكاثر»؟",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "METHOD_FOUND"
+    },
+    {
+      "id": "presupposition",
+      "route": "text.read",
+      "text": "ما منهج «الاقتضاء»؟",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "METHOD_FOUND"
+    },
+    {
+      "id": "validity",
+      "route": "text.read",
+      "text": "ما منهج «الفاسد»؟",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "METHOD_FOUND"
+    },
+    {
+      "id": "phase",
+      "route": "relations.analyze",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «سالم» اليوم ١: الطور = صلب.\nرصد «ليلى» اليوم ٢: الطور = سائل.\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.\nتلقى «هند» من «عمر» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "CHANGED"
+      ],
+      "reports": [
+        "SUPPORTED"
+      ],
+      "receipt_evidence": [
+        true
+      ]
+    },
+    {
+      "id": "phase",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «سالم» اليوم ١: الطور = صلب.\nرصد «ليلى» اليوم ٢: الطور = سائل.\nأخبر «عمر» «هند» عن اليوم ٢: الطور = سائل.\nتلقى «هند» من «عمر» عن اليوم ٢: الطور = سائل.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [
+        "CHANGED"
+      ],
+      "reports": [
+        "SUPPORTED"
+      ],
+      "receipt_evidence": [
+        true
+      ]
+    }
+  ]
+}
