@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -152,6 +152,9 @@ def validate(request):
     if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
         raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
+    if "question" in request:
+        from .question_cognition import validate as validate_question
+        validate_question(request["question"])
     if "root_sense" in request:
         from .root_sense import validate as validate_root_sense
         validate_root_sense(request["root_sense"])
@@ -223,5 +226,8 @@ def analyze(request):
     chain = analyze_chain(text)
     if chain is not None:
         result["interpretation_chain"] = chain
+    if "question" in p:
+        from .question_cognition import analyze as answer_question
+        result["question_cognition"] = answer_question(text, p["question"], source_id)
     _encoded(result, 8*1048576, floats=True)
     return result

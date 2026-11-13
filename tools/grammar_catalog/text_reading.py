@@ -392,7 +392,7 @@ def passive_reading(text, source, failures):
                       "neural_authority": "NONE"}
 
 
-def analyze(text):
+def analyze(text, *, question=None):
     lexical, mentions = lexical_context(text)
     names = {m["id"]: m["name"] for m in mentions}
     context = {"entities": [{"id": m["id"], "name": m["name"]} for m in mentions]}
@@ -435,11 +435,17 @@ def analyze(text):
     chain = interpretation_chains.analyze(text)
     if chain is not None:
         cards.extend(interpretation_chains.cards(chain))
+    question_result = {}
+    if question is not None:
+        from . import question_cognition
+        answer = question_cognition.analyze(text, question, grammar["source"]["id"])
+        question_result["question_cognition"] = answer
+        cards = question_cognition.cards(answer) + cards
     if not cards:
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
                           "تحتاج قراءة هذا النص إلى شواهد أو تغطية إضافية."))
-    return {"schema": "nabt.text-reading.v1", "interpretation_chain":chain, "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
+    return {**question_result, "schema": "nabt.text-reading.v1", "interpretation_chain":chain, "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,

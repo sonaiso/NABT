@@ -160,6 +160,7 @@ def arguments(parser):
     parser.add_argument("action", choices=("catalog", "run", "verify", "read", "serve"))
     parser.add_argument("--request", type=Path)
     parser.add_argument("--text", help="One Arabic input for gateway read; defaults to standard input")
+    parser.add_argument("--question", help="Optional Arabic question about the original text")
     parser.add_argument("--port", type=int, help="Loopback port for gateway serve (default 8765)")
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--output", type=Path)
@@ -169,7 +170,7 @@ def cli(args):
     if args.action in ("read", "serve"):
         from .reader_client import command
         return command(args)
-    if getattr(args, "text", None) is not None or getattr(args, "port", None) is not None:
+    if any(getattr(args, field, None) is not None for field in ("text", "port", "question")):
         raise ValueError("--text and --port require gateway read and serve respectively")
     if args.action == "catalog":
         if args.request or args.receipt:
