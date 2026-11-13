@@ -1,7 +1,7 @@
 {
   "schema": "nabt.interpretation-chains.public-test.v1",
-  "n": 19,
-  "correct": 19,
+  "n": 20,
+  "correct": 20,
   "restored": true,
   "fixture_sha256": "82df66938597ec4f8ad96f02945bb1721307029a61520bc8645806ea16fc7669",
   "cases": [
@@ -21,7 +21,9 @@
       ],
       "receipt_evidence": [
         true
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "no-arrival",
@@ -37,7 +39,9 @@
       ],
       "receipt_evidence": [
         false
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "no-observation",
@@ -53,7 +57,9 @@
       ],
       "receipt_evidence": [
         true
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "conflicting",
@@ -71,7 +77,11 @@
       ],
       "receipt_evidence": [
         false
-      ]
+      ],
+      "conflict_days": [
+        2
+      ],
+      "arithmetic_verified": []
     },
     {
       "id": "refuted",
@@ -87,7 +97,9 @@
       ],
       "receipt_evidence": [
         false
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "many",
@@ -101,7 +113,11 @@
         "INCREASED"
       ],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": [
+        true
+      ]
     },
     {
       "id": "less",
@@ -115,7 +131,11 @@
         "DECREASED"
       ],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": [
+        true
+      ]
     },
     {
       "id": "motion",
@@ -129,7 +149,9 @@
         "CHANGED"
       ],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "separate",
@@ -143,7 +165,9 @@
         "CHANGED"
       ],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "unchanged",
@@ -157,7 +181,9 @@
         "SAME_ENDPOINTS"
       ],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "self",
@@ -173,7 +199,9 @@
       ],
       "receipt_evidence": [
         false
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "wrong-recipient",
@@ -189,7 +217,9 @@
       ],
       "receipt_evidence": [
         false
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "scope",
@@ -201,7 +231,9 @@
       "chain_status": "OUTSIDE_GRAMMAR",
       "changes": [],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "units",
@@ -213,7 +245,25 @@
       "chain_status": "SOURCE_RELATIVE_CHAIN",
       "changes": [],
       "reports": [],
-      "receipt_evidence": []
+      "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": []
+    },
+    {
+      "id": "conflict_without_other_day",
+      "route": "text.read",
+      "text": "سلسلة «المادة» من نوع «مادة» في «المختبر».\nرصد «ليلى» اليوم ٢: الطور = سائل.\nرصد «نادر» اليوم ٢: الطور = غاز.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [],
+      "receipt_evidence": [],
+      "conflict_days": [
+        2
+      ],
+      "arithmetic_verified": []
     },
     {
       "id": "reproduction",
@@ -258,7 +308,9 @@
       ],
       "receipt_evidence": [
         true
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     },
     {
       "id": "phase",
@@ -276,7 +328,9 @@
       ],
       "receipt_evidence": [
         true
-      ]
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
     }
   ]
 }
