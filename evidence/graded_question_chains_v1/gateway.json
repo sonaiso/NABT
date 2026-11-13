@@ -1,0 +1,309 @@
+{
+  "law": "nabt.graded-question-chains.measurement.v1",
+  "n": 20,
+  "passed": 20,
+  "restored": true,
+  "fixture_sha256": {
+    "challenge.json": "ef29129108a5cafefb964e72b8cd7fac258ebb07a59e2656de596d7308c68146",
+    "ledger.json": "070844de8ca431ad5bf95c1713b9d3e8103d34758aaa16cd61eeb6e54d0dd351"
+  },
+  "cases": [
+    {
+      "case": "event",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "ASSESSABLE_EVENT",
+      "nodes": 11,
+      "grades": 4,
+      "expected": {
+        "agent": "LICENSED",
+        "patient": "LICENSED",
+        "instrument": "OPEN",
+        "condition": "LICENSED",
+        "occurrence": "OPEN",
+        "cause": "OPEN"
+      },
+      "source_scope_digest": "3e979e76bc0daa8479de8b8efb56e51dd5127b03e3ebe365b59a3483fd712f5e"
+    },
+    {
+      "case": "instrument",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "ASSESSABLE_EVENT",
+      "nodes": 11,
+      "grades": 4,
+      "expected": {
+        "agent": "LICENSED",
+        "patient": "LICENSED",
+        "instrument": "LICENSED",
+        "condition": "OPEN"
+      },
+      "source_scope_digest": "4f57b241c2873d80e81e371a16b201104b9ebcc7a50b445af08ae8e3f35a0fad"
+    },
+    {
+      "case": "noun",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "VERIFIED_CONDITIONAL_NETWORK",
+      "nodes": 8,
+      "grades": 4,
+      "expected": {
+        "lexical_sense": "LICENSED",
+        "is_a": "LICENSED",
+        "has_attribute": "LICENSED",
+        "has_property": "LICENSED",
+        "instance": "OPEN"
+      },
+      "source_scope_digest": "bdc6572794e39f50d0a8f48a4fec85ee0166b4c82fe04bc2663e7121b5ed0d37"
+    },
+    {
+      "case": "withdraw",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "VERIFIED_CONDITIONAL_NETWORK",
+      "nodes": 2,
+      "grades": 2,
+      "expected": {
+        "lexical_sense": "LICENSED",
+        "instance": "OPEN"
+      },
+      "source_scope_digest": "befcd67e6a837fc0dde080ee822995f95e2be69cae7d9447091b8e468f8c5431"
+    },
+    {
+      "case": "custom",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SCOPED_PROFILES",
+      "nodes": 5,
+      "grades": 3,
+      "expected": {
+        "customary_use": "LICENSED",
+        "community_practice": "OPEN"
+      },
+      "source_scope_digest": "b0ff54d20f45b32d33cadff19e3d145a67301bf3e5d11f168c229f904c9784bd"
+    },
+    {
+      "case": "literal",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SCOPED_PROFILES",
+      "nodes": 4,
+      "grades": 2,
+      "expected": {
+        "linguistic_use": "LICENSED"
+      },
+      "source_scope_digest": "7ef90c16f7aba887f46949f160fd0643e4857224a9c3aafd883c46185fc50e7b"
+    },
+    {
+      "case": "math",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "COMPUTED",
+      "nodes": 6,
+      "grades": 4,
+      "expected": {
+        "operation": "LICENSED",
+        "formal_result": "LICENSED"
+      },
+      "source_scope_digest": "f93a726923c2bdb2407b36988b32beb7458d2f47d271052522fe9c84db4b7dd2"
+    },
+    {
+      "case": "undef",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "BLOCKED",
+      "nodes": 4,
+      "grades": 3,
+      "expected": {
+        "operation": "BLOCKED",
+        "formal_result": "BLOCKED"
+      },
+      "source_scope_digest": "25c1599fc553ad7c951b9a25c9b38367de699388f2233375d9a743ce1788729d"
+    },
+    {
+      "case": "state",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SOURCE_RELATIVE_CHAIN",
+      "nodes": 10,
+      "grades": 4,
+      "expected": {
+        "time": "LICENSED",
+        "place": "LICENSED",
+        "change": "LICENSED",
+        "cause": "OPEN"
+      },
+      "source_scope_digest": "46e4e248d931a4790885351d7555f319790aefc19e488ddf79281468872104eb"
+    },
+    {
+      "case": "single",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SOURCE_RELATIVE_CHAIN",
+      "nodes": 7,
+      "grades": 3,
+      "expected": {
+        "place": "LICENSED",
+        "time": "LICENSED",
+        "cause": "OPEN"
+      },
+      "source_scope_digest": "6c892b47f954406796f01182fb3486d710dfb6cf45a327aa42e06e56cc3792ce"
+    },
+    {
+      "case": "conflict",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SOURCE_RELATIVE_CHAIN",
+      "nodes": 10,
+      "grades": 4,
+      "expected": {
+        "conflict": "CONFLICT",
+        "cause": "OPEN"
+      },
+      "source_scope_digest": "7d9bcfd599ad713c370592c3fc3c803b7e401a26c1086b14764802aa5eaa9142"
+    },
+    {
+      "case": "count",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SOURCE_RELATIVE_CHAIN",
+      "nodes": 11,
+      "grades": 5,
+      "expected": {
+        "count_difference": "LICENSED",
+        "change": "LICENSED",
+        "cause": "OPEN"
+      },
+      "source_scope_digest": "ddd7e8f3cfd1861edbfc7fa8518f4ea5acde933899589e30ff8eac47cd31e8df"
+    },
+    {
+      "case": "outside",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "OUTSIDE_SOURCE",
+      "nodes": 0,
+      "grades": 0,
+      "expected": {},
+      "source_scope_digest": "bcfcc9f10ad3dd0adefa456af92540d43f4791a1b7810e18608e0b73b66faa64"
+    },
+    {
+      "case": "explicit_exclusion",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "SCOPED_PROFILES",
+      "nodes": 4,
+      "grades": 2,
+      "expected": {
+        "linguistic_use": "REFUTED"
+      },
+      "source_scope_digest": "7a070b9a810a7b7c6f7a6f3b2bffb19c4a56ad64bc14212fa649ac251ff430e6"
+    },
+    {
+      "case": "local_conflict",
+      "route": "text.read",
+      "verified": true,
+      "pass": true,
+      "status": "CONFLICT",
+      "nodes": 8,
+      "grades": 2,
+      "expected": {
+        "linguistic_use": "CONFLICT"
+      },
+      "source_scope_digest": "df94525f5b53b02ec17a165a216d8a88262886a4565d5e13756018120c4a5bf6"
+    },
+    {
+      "case": "ledger",
+      "route": "relations.analyze",
+      "verified": true,
+      "pass": true,
+      "status": "SCOPED_SOURCE_LICENSE",
+      "nodes": 22,
+      "grades": 5,
+      "expected": {
+        "disposition": "LICENSED",
+        "occurrence": "LICENSED",
+        "cause": "LICENSED",
+        "effect": "LICENSED"
+      },
+      "source_scope_digest": "290b92885518203768fa70aafbee76a39cb8eda1cc7c1b99c64d570e01fec487"
+    },
+    {
+      "case": "remove_causal",
+      "route": "relations.analyze",
+      "verified": true,
+      "pass": true,
+      "status": "DEFER",
+      "nodes": 22,
+      "grades": 5,
+      "expected": {
+        "disposition": "LICENSED",
+        "occurrence": "LICENSED",
+        "cause": "DEFER",
+        "effect": "DEFER"
+      },
+      "source_scope_digest": "050870ed8477dcae853a0e45c816332b094a4400ba0116dae7c3d44446ac96cb"
+    },
+    {
+      "case": "remove_occurrence",
+      "route": "relations.analyze",
+      "verified": true,
+      "pass": true,
+      "status": "DEFER",
+      "nodes": 22,
+      "grades": 5,
+      "expected": {
+        "disposition": "LICENSED",
+        "occurrence": "DEFER",
+        "cause": "DEFER",
+        "effect": "DEFER"
+      },
+      "source_scope_digest": "2a7ca0bb3d84a96c8fe05d0dde938bc00e99eba061658bf09f55b7ebb78c67bb"
+    },
+    {
+      "case": "remove_time",
+      "route": "relations.analyze",
+      "verified": true,
+      "pass": true,
+      "status": "DEFER",
+      "nodes": 22,
+      "grades": 5,
+      "expected": {
+        "disposition": "DEFER",
+        "occurrence": "DEFER",
+        "cause": "DEFER",
+        "effect": "DEFER"
+      },
+      "source_scope_digest": "b84a0dbe6565c87613ecbb8fc476440d17f97345d167f3c6ca9e32e389945f3e"
+    },
+    {
+      "case": "restore_ledger",
+      "route": "relations.analyze",
+      "verified": true,
+      "pass": true,
+      "status": "SCOPED_SOURCE_LICENSE",
+      "nodes": 22,
+      "grades": 5,
+      "expected": {
+        "disposition": "LICENSED",
+        "occurrence": "LICENSED",
+        "cause": "LICENSED",
+        "effect": "LICENSED"
+      },
+      "source_scope_digest": "290b92885518203768fa70aafbee76a39cb8eda1cc7c1b99c64d570e01fec487"
+    }
+  ]
+}

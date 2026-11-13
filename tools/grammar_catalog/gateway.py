@@ -162,6 +162,7 @@ def arguments(parser):
     parser.add_argument("--text", help="One Arabic input for gateway read; defaults to standard input")
     parser.add_argument("--question", help="Optional Arabic question about the original text")
     parser.add_argument("--question-cycle", action="store_true", help="Generate and assess questions about this source")
+    parser.add_argument("--question-chain", action="store_true", help="Build a scoped, graded graph of questions")
     parser.add_argument("--answer", help="Assess a submitted Arabic answer to --question")
     parser.add_argument("--port", type=int, help="Loopback port for gateway serve (default 8765)")
     parser.add_argument("--receipt", type=Path)
@@ -172,7 +173,7 @@ def cli(args):
     if args.action in ("read", "serve"):
         from .reader_client import command
         return command(args)
-    if any(getattr(args, field, None) is not None for field in ("text", "port", "question", "answer")) or args.question_cycle:
+    if any(getattr(args, field, None) is not None for field in ("text", "port", "question", "answer")) or args.question_cycle or args.question_chain:
         raise ValueError("Reader options require gateway read; --port requires gateway serve")
     if args.action == "catalog":
         if args.request or args.receipt:

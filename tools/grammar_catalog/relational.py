@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -152,6 +152,8 @@ def validate(request):
     if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
         raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
+    if "question_chain" in request and (request["question_chain"] is not True or "question" in request):
+        raise ValueError("Expected a chain without a separate question")
     if "question" in request:
         from .question_cognition import validate as validate_question
         validate_question(request["question"])
@@ -229,5 +231,9 @@ def analyze(request):
     if "question" in p:
         from .question_cognition import analyze as answer_question
         result["question_cognition"] = answer_question(text, p["question"], source_id)
+    if p.get("question_chain"):
+        from . import graded_questions
+        result["graded_questions"] = graded_questions.run(text, source_id, bridge=p.get("bridge"),
+                                                          retained_bridge=result["ontology_bridge"] if "bridge" in p else None)
     _encoded(result, 8*1048576, floats=True)
     return result

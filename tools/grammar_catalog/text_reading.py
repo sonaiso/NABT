@@ -399,7 +399,7 @@ def passive_reading(text, source, failures):
                       "neural_authority": "NONE"}
 
 
-def analyze(text, *, question=None, answer=None, question_cycle=False):
+def analyze(text, *, question=None, answer=None, question_cycle=False, question_chain=False):
     lexical, mentions = lexical_context(text)
     names = {m["id"]: m["name"] for m in mentions}
     context = {"entities": [{"id": m["id"], "name": m["name"]} for m in mentions]}
@@ -446,7 +446,12 @@ def analyze(text, *, question=None, answer=None, question_cycle=False):
     from . import question_answer_cycle as cycle
     generated_form = question is not None and (
         question.startswith(cycle.PREFIX) or question.startswith(("ما قيمة التعبير «", "هل تصح المساواة «")))
-    if question_cycle or generated_form or answer is not None:
+    if question_chain:
+        from . import graded_questions
+        graph = graded_questions.run(text, grammar["source"]["id"])
+        question_result["graded_questions"] = graph
+        cards = graded_questions.cards(graph) + cards
+    elif question_cycle or generated_form or answer is not None:
         result = cycle.run(text, grammar["source"]["id"], question=question, answer=answer)
         question_result["question_answer_cycle"] = result
         cards = cycle.cards(result) + cards
