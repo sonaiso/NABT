@@ -72,6 +72,12 @@ class NativeChains(unittest.TestCase):
                     change = next(n for n in r["nodes"] if n["role"] == "change")
                     self.assertEqual((delta["value"],delta["domain"],change["domain"]), (3,graded.MATH,graded.PHYS))
                     self.assertEqual(change["satisfied_paths"], [[delta["id"]]])
+                if name == "noun":
+                    rendered = " ".join(c["understood"] for c in graded.cards(r))
+                    self.assertIn("نمرقة نوع من وسادة", rendered)
+                    self.assertNotIn('"witness"', rendered)
+                if name == "custom":
+                    self.assertTrue(any("ذوات الأربع" in c["understood"] for c in graded.cards(r)))
                 if name == "withdraw":
                     self.assertFalse(any(n["role"] in ("is_a","has_attribute","has_property") for n in r["nodes"]))
 
@@ -102,6 +108,9 @@ class NativeChains(unittest.TestCase):
             nodes = node_map(answer)
             self.assertEqual([nodes["bridge/"+k]["status"] for k in ("disposition","occurrence","causality","effect")], expected)
         self.assertEqual(node_map(first)["bridge/effect"]["value"],"حدث1")
+        self.assertTrue({"genus_membership","bearer_property","genus_property","time","place","causal_evidence"} <=
+                        {n["role"] for n in first["nodes"]})
+        self.assertTrue(any("جفاف1" in c["understood"] for c in graded.cards(first)))
         self.assertEqual(graded.run(TARGET,bridge=p),first)
 
     def test_owner_failure_preserved(self):

@@ -1,5 +1,4 @@
 """Typed question dependencies over the existing readers. Each citation is resolved on construction."""
-import json
 import re
 from hashlib import sha256
 
@@ -33,6 +32,8 @@ class Chain:
         original = self.owners
         for part in ref:
             original = original[part]
+        if not ref:
+            raise ValueError("Missing evidence path")
         grade = 1 + max((self.nodes[p]["grade"] for path in routes for p in path), default=-1)
         # Only a signed answer required by the edge discharges the prerequisite.
         admitted = [path for path in routes if all(self.nodes[p]["status"] == ("REFUTED" if p in negative_parents else "LICENSED") for p in path)]
@@ -136,10 +137,12 @@ def arithmetic_chain(g, text, source_id):
 
 
 def convention_chain(g, text, source_id):
+    statuses = []
     for domain in (LING, CUSTOM):
         profile = "linguistic" if domain == LING else "customary"
         owner = usage_witness.run({"text": text, "source_id": source_id, "usage_context": {"profile_id": profile}})
         g.owners[profile] = owner
+        statuses.append(owner["status"])
         inner = owner["owner_report"]
         for i, occurrence in enumerate(inner.get("occurrences", [])):
             ref = [profile, "owner_report", "occurrences", i]
@@ -161,10 +164,12 @@ def convention_chain(g, text, source_id):
                 if domain == CUSTOM:
                     g.add(key + "/community", CUSTOM, "community_practice", "هل استقر هذا المعنى عند جماعة معينة؟",
                           "OPEN", None, evidence, parents=[key], missing=["شاهد استعمال الجماعة المحددة لهذا المعنى"])
-    statuses = [g.owners[p]["status"] for p in ("linguistic", "customary")]
+    failures = [status for status in statuses if status not in ("DEFER","SCOPED_SOURCE_USE_APPLICATIONS","CONFLICT")]
+    if failures:
+        return "PARTIAL_VERIFICATION" if len(failures) != len(statuses) else failures[0]
     if not any(g.owners[p]["owner_report"].get("occurrences") for p in ("linguistic", "customary")):
-        return next((s for s in statuses if s not in ("DEFER","SCOPED_SOURCE_USE_APPLICATIONS")), "DEFER")
-    return "SCOPED_PROFILES"
+        return "DEFER"
+    return "CONFLICT" if "CONFLICT" in statuses else "SCOPED_PROFILES"
 
 
 def observation_chain(g, text):
@@ -214,6 +219,13 @@ def observation_chain(g, text):
     return owner["status"]
 
 
+def named_role(predicate):
+    return {"عضوية":"genus_membership","خاصية":"bearer_property","يقبل":"genus_property",
+            "حامل":"bearer","حالة":"attribute","مكان":"place","زمان":"time",
+            "دليل_سببي":"causal_evidence","شروط":"condition","مانع":"blocker",
+            "قابلية":"capability_premise","معنى":"sense","وقوع":"occurrence_premise"}.get(predicate, "ledger_premise")
+
+
 def bridge_chain(g, text, bridge, retained):
     # Each stage is independently rerun with the same raw ledger, occurrence and scope.
     parent = None
@@ -238,7 +250,7 @@ def bridge_chain(g, text, bridge, retained):
                               else "LICENSED" if req["present"] and req["clean"] else "OPEN")
                     binding = {"نص","موضع","قراءة","معنى"}
                     domain = LING if req["predicate"] in binding else PHYS
-                    g.add(key, domain, "ledger_premise", f"هل يشهد السجل بنسبة «{req['predicate']}» لهذين الطرفين؟",
+                    g.add(key, domain, named_role(req["predicate"]), f"هل يشهد السجل بنسبة «{req['predicate']}» لهذين الطرفين؟",
                           status, {"predicate":req["predicate"],"arguments":req["arguments"],"positive":req["positive"]}, ref)
                 dependencies.append(key)
         role = "cause" if stage == "causality" else stage
@@ -282,17 +294,74 @@ def run(text, source_id="input", *, bridge=None, retained_bridge=None):
     return {**g.report, "profile":key, "status":status}
 
 
+def answer_text(node, evidence):
+    role, value = node["role"], node["value"]
+    if value is None:
+        return "بقي الجواب غير محسوم."
+    if role in ("instrument","condition","joint","occurrence") and "answer" in evidence:
+        return evidence["answer"]
+    if role == "definition_edge":
+        a, b = (definition_network.label(value[k]) for k in ("child", "parent"))
+        relation = {"is_a": "نوع من", "has_attribute": "يتصف بـ", "has_property": "له خاصية",
+                    "denotes_property": "يدل على خاصية"}[value["relation"]]
+        return f"{a} {relation} {b}."
+    if role == "occurrence_binding":
+        return value["raw_text"]
+    if role in ("linguistic_use","customary_use"):
+        local = [p["sense_span"]["raw_text"] for p in evidence.get("local_premises", [])
+                 if p["positive"] and p["sense_id"] == value]
+        if local:
+            return "القراءة المشهودة «" + "، ".join(dict.fromkeys(local)) + "»."
+        return "الوجه قيد الفحص: " + str(value)
+    if role == "observed_property":
+        return f"سجّل {value['observer']} في محور {value['axis']} القيمة {value['value']} ({value['unit']})."
+    if role == "change":
+        return "القيم في الرصد الأول «" + "، ".join(map(str,value["from"])) + "»، وفي الثاني «" + "، ".join(map(str,value["to"])) + "»."
+    if isinstance(value, dict) and "predicate" in value and "arguments" in value:
+        polarity = "" if value["positive"] else "نفي "
+        return polarity + value["predicate"] + " (" + "، ".join(value["arguments"]) + ")."
+    if role == "formal_result" and value["status"] != "COMPUTED":
+        return "تعذّر حساب القيمة ضمن هذا المجال: " + str(value["reason"])
+    if role == "formal_result":
+        value = value["truth"] if value["sort"] == "proposition" else value["value"]
+    if type(value) is bool:
+        return "نعم." if value else "لا."
+    if isinstance(value,dict) and "numerator" in value:
+        return str(value["numerator"]) if str(value["denominator"]) == "1" else f'{value["numerator"]}/{value["denominator"]}'
+    if isinstance(value,list):
+        if not value:
+            return "لا حكم مرخص لهذه المرحلة."
+        if isinstance(value[0],dict) and "frame" in value[0]:
+            f = value[0]["frame"]
+            if role == "cause":
+                return f"ينسب السجل السبب «{f['cause']}» إلى الحدث «{f['event']}»."
+            return f"الحدث «{f['event']}» وحامله «{f['entity']}» في «{f['place']}» و«{f['time']}»."
+        return "، ".join(map(str,value))
+    return definition_network.label(value) if isinstance(value,str) and value[:2] in ("G:","P:","A:") else str(value)
+
+
 def cards(graph):
     from .text_reading import card
     labels = {LING:"لغوي", CUSTOM:"عرفي مشروط", MATH:"رياضي", PHYS:"نسبي إلى الرصد أو السجل"}
+    states = {"LICENSED":"مرخّص في نطاقه", "OPEN":"مفتوح", "CONFLICT":"متعارض",
+              "REFUTED":"معارَض بشاهد", "DEFER":"مؤجّل", "BLOCKED":"محجوب"}
     if not graph["nodes"]:
         return [card("graded_questions",graph["status"],"تعذّر توليد سلسلة أسئلة مرخّصة لهذا المدخل.",
                      graph["status"],"تُراجع تغطية المصدر والفاحص.")]
     out = []
+    positions = {n["id"]:str(i) for i,n in enumerate(graph["nodes"],1)}
     for n in graph["nodes"]:
-        answer = json.dumps(n["value"], ensure_ascii=False) if n["value"] is not None else "غير محسوم"
-        gaps = "، ".join(x for x in n["missing"] if isinstance(x,str))
-        out.append(card("graded_questions", n["question"], answer, labels[n["domain"]] + " · " + n["status"],
-                        gaps or "حدود الحكم محفوظة في شاهد هذه المرحلة.", node=n["id"], grade=n["grade"],
+        evidence = graph["owners"]
+        for part in n["evidence_path"]:
+            evidence = evidence[part]
+        supports = ["، ".join(positions[k] for k in path) for path in n["prerequisite_paths"] if path]
+        why = labels[n["domain"]] + " · " + states.get(n["status"],n["status"])
+        if supports:
+            why += ". يعتمد هذا السؤال على " + " أو ".join(supports) + "."
+        if isinstance(evidence,dict) and evidence.get("quote"):
+            why += " شاهد التعريف «" + evidence["quote"] + "»."
+        gaps = [v if isinstance(v,str) else v["predicate"] for v in n["missing"]]
+        out.append(card("graded_questions", positions[n["id"]] + ". " + n["question"], answer_text(n,evidence),
+                        why,"، ".join(gaps) or "حدود الحكم محفوظة في شاهد هذه المرحلة.", node=n["id"], grade=n["grade"],
                         prerequisite_paths=n["prerequisite_paths"]))
     return out
