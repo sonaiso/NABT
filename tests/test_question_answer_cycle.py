@@ -19,6 +19,7 @@ class SourceCycle(unittest.TestCase):
         self.assertEqual(items["condition"]["question"], "في العبارة «سيفتح الحارس الباب»، هل يثبت النص اشتراط وصول «المفتاح» للفعل؟")
         for item in items.values():
             self.assertTrue(item["generated_grade"]["complete"])
+            self.assertNotEqual(item["contrast"]["grade"]["claim"], "CORRECT")
             self.assertEqual(cycle.run(text, question=item["question"])["items"][0], item)
             self.assertEqual(item["question_parts"]["event"]["event"]["text"], "سيفتح الحارس الباب")
         self.assertEqual(items["occurrence"]["question_parts"]["scope"], "WORLD")
@@ -56,6 +57,18 @@ class SourceCycle(unittest.TestCase):
             with self.assertRaises(ValueError):
                 gateway.validate_request({"schema":gateway.REQUEST_SCHEMA,"route":"text.read","payload":{"text":source,**fields}})
         self.assertEqual(cycle.run("ربما سيفتح الحارس الباب")["status"], "OUTSIDE_SOURCE")
+
+    def test_reason_is_graded_against_the_submitted_polarity(self):
+        items = cycle.run("سيكتب الطالب الدرس دون استعمال القلم.")["items"]
+        decision = next(i for i in items if i["operation"] == "instrument")["owner"]["decision"]
+        for text, claim, reason in (
+                ("نعم؛ الشاهد «دون استعمال القلم».","CONTRADICTED","OPPOSES_CLAIM"),
+                ("لا؛ لأني أظن ذلك.","CORRECT","UNPARSED_REASON")):
+            grade = cycle.grade_event(text, decision)
+            self.assertEqual((grade["claim"], grade["reason"], grade["complete"]), (claim, reason, False))
+        open_decision = next(i for i in items if i["operation"] == "occurrence")["owner"]["decision"]
+        grade = cycle.grade_event("نعم؛ الاحتمالان موافقان للنص.", open_decision)
+        self.assertEqual((grade["claim"],grade["reason"]), ("UNSUPPORTED","SHOWS_UNDERDETERMINATION"))
 
     def test_withdrawal_revises_justification_and_preserves_other_question(self):
         full = "سيفتح الحارس الباب بالمفتاح إذا وصل المفتاح."

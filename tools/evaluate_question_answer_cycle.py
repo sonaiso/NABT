@@ -23,7 +23,8 @@ def replay(payload):
 def exercise(source):
     report = replay({"text": source, "question_cycle": True})
     return {"source": source, "questions": {i["operation"]: i["question"] for i in report["items"]},
-            "generated_and_complete": all(i["generated_grade"]["complete"] for i in report["items"]),
+            "generated_and_complete": bool(report["items"]) and all(i["generated_grade"]["complete"] for i in report["items"]),
+            "contrast_verdicts": {i["operation"]: i["contrast"]["grade"]["claim"] for i in report["items"]},
             "status": report["status"]}
 
 
@@ -50,7 +51,9 @@ def main():
         generated = list(pool.map(exercise, dict.fromkeys(case[0] for case in cases)))
         by_source = {row["source"]: row["questions"] for row in generated}
         grades = list(pool.map(submit, [(c, by_source[c[0]][c[1]]) for c in cases]))
-    passed = all(r["generated_and_complete"] and r["status"] == "ASSESSED" for r in generated)
+    passed = all(r["generated_and_complete"] and r["status"] == "ASSESSED"
+                 and all(v in ("CONTRADICTED", "CONTESTED", "UNSUPPORTED", "UNDEFINED")
+                         for v in r["contrast_verdicts"].values()) for r in generated)
     out = {"schema": "nabt.question-answer-cycle.measurement.v1", "fixture_sha256": sha256(raw).hexdigest(),
            "source_count": len(generated), "generated_questions": sum(len(r["questions"]) for r in generated),
            "generated_roundtrips": passed, "submitted": len(grades), "matched": sum(g["passed"] for g in grades),

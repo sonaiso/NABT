@@ -69,14 +69,18 @@ def parse_answer(answer):
     match = EVIDENCE.fullmatch(reason)
     if match:
         return {"stance": stance, "basis": "CITATIONS", "quotes": re.findall(r"«([^«»]+)»", reason)}
-    return None
+    return {"stance": stance, "basis": "UNPARSED_REASON", "quotes": [], "raw_reason": reason}
 
 
 def inspect_reason(parsed, decision):
     if parsed["basis"] == "NONE":
         return "NOT_GIVEN", []
+    if parsed["basis"] == "UNPARSED_REASON":
+        return "UNPARSED_REASON", []
     if parsed["basis"] == "MODELS":
-        return ("COUNTERMODELS" if decision["status"] == "OPEN" else "INVALID_MODELS"), []
+        if decision["status"] != "OPEN":
+            return "INVALID_MODELS", []
+        return ("COUNTERMODELS" if parsed["stance"] == "OPEN" else "SHOWS_UNDERDETERMINATION"), []
     matches = [[i for i, row in enumerate(decision["evidence"]) if row["witness"]["text"] == quote]
                for quote in parsed["quotes"]]
     if any(not ids for ids in matches):
@@ -85,7 +89,11 @@ def inspect_reason(parsed, decision):
     if cited.intersection(decision["irrelevant_evidence"]):
         return "IRRELEVANT", matches
     if any(set(p["evidence_ids"]) <= cited for p in decision["minimal_supports"]):
-        return "SUFFICIENT", matches
+        if parsed["stance"] == decision["status"]:
+            return "SUFFICIENT", matches
+        if {parsed["stance"], decision["status"]} == {"SUPPORTED", "REFUTED"}:
+            return "OPPOSES_CLAIM", matches
+        return "ESTABLISHES_OTHER_STATUS", matches
     return "INSUFFICIENT", matches
 
 
@@ -120,7 +128,9 @@ def event_item(text, event, question, source_id, submitted):
         quotes = [decision["evidence"][i]["witness"]["text"] for i in proof]
         justification = "الشاهد " + " و".join("«" + q + "»" for q in quotes)
     generated = SURFACES[decision["status"]] + "؛ " + justification + "."
+    contrast = "لا" if decision["status"] == "SUPPORTED" else "نعم"
     return {"question": question, "operation": op, "submitted_answer": submitted,
+            "contrast": {"answer": contrast, "grade": grade_event(contrast, decision)},
             "question_parts": {"force": "استفهام", "target": TITLES[op], "event": event,
                                "scope": "WORLD" if op == "occurrence" else "SOURCE",
                                "axes": decision["required_axes"]},
@@ -199,8 +209,14 @@ def run(text, source_id="input", *, question=None, answer=None):
         if question is None or q == question:
             generated = arithmetic_answer(result)
             projection = decision["owner"]["projection"]
+            if decision["status"] == "BLOCKED":
+                contrast = "0"
+            elif sort == "proposition":
+                contrast = "غير صحيحة" if result["truth"] else "صحيحة"
+            else:
+                contrast = "1" if Fraction(generated) == 0 else "0"
             report["items"].append({"question": q, "operation": "arithmetic", "status": decision["status"],
-                  "submitted_answer": answer,
+                  "submitted_answer": answer, "contrast": {"answer": contrast, "grade": grade_arithmetic(contrast, result)},
                   "question_parts": {"force": "استفهام", "target": sort, "scope": "FORMAL",
                                      "expression": text, "operation_tree": projection["operation_tree"]},
                   "answer": generated, "generated_grade": grade_arithmetic(generated, result),
@@ -212,7 +228,11 @@ def run(text, source_id="input", *, question=None, answer=None):
     return report
 
 
-REASONS = {"NOT_GIVEN": "لم يُذكر دليل.", "SUFFICIENT": "الشاهد يكفي لهذا الحكم.",
+REASONS = {"UNPARSED_REASON": "فُهِمت النتيجة وبقي التعليل خارج صيغة الفحص.",
+           "OPPOSES_CLAIM": "الشاهد المذكور يثبت نقيض الجواب المقدّم.",
+           "ESTABLISHES_OTHER_STATUS": "الشاهد يثبت حالة أخرى للدليل.",
+           "SHOWS_UNDERDETERMINATION": "وجود الاحتمالين يمنع ترجيح أحدهما بهذا الدليل.",
+           "NOT_GIVEN": "لم يُذكر دليل.", "SUFFICIENT": "الشاهد يكفي لهذا الحكم.",
            "IRRELEVANT": "يتعلق أحد الشواهد بمحور آخر.", "INSUFFICIENT": "الشواهد المذكورة غير كافية.",
            "NOT_IN_SOURCE": "تعذرت مطابقة الاقتباس بشاهد في النص.", "COUNTERMODELS": "صورتان توافقان النص وتختلفان في الجواب.",
            "INVALID_MODELS": "لا تدعم الشواهد دعوى الاحتمالين.", "NATIVE_REPLAY": "أعيد حساب التعبير من الأصل.",
@@ -232,7 +252,9 @@ def cards(report):
             continue
         grade = item["submitted_grade"] or item["generated_grade"]
         assessed = "تقويم الجواب المقدّم «" + item["submitted_answer"] + "»: " if item["submitted_grade"] else ""
+        contrast = item["contrast"]
+        comparison = "جواب مقابل «" + contrast["answer"] + "»: " + VERDICTS[contrast["grade"]["claim"]] + "."
         results.append(card("question_answer_cycle", item["question"], item["answer"],
                             assessed + VERDICTS[grade["claim"]] + ". " + REASONS[grade["reason"]],
-                            "الحكم في نطاق السؤال وشواهده.", criterion=grade, rubric_digest=digest(item["rubric"])))
+                            comparison, criterion=grade, rubric_digest=digest(item["rubric"])))
     return results
