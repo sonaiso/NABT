@@ -94,7 +94,7 @@ def acquisition_checks(report):
     if shape["schema"] == "nabt.exact-unit-owner-transport.v1":
         from tools.arabic_training.unit_composition import read_json
         shape = read_json(shape["owner_json"].encode())
-    for run in shape["result"]["written_runs"]:
+    for run in shape["result"].get("written_runs", []):
         for word in run["owner_result"]["words"]:
             yield word.get("acquisition_owner", {}), run["source_span"], run["surface"], word["text"]
     for row in report.get("source_reading", {}).get("occurrences", []):
@@ -111,6 +111,13 @@ ACQUISITION_FAILURES = {
 
 
 def grammar_failures(grammar):
+    shape = grammar["owner_reports"]["orthography"]
+    if shape.get("result", {}).get("status") == "OWNER_REJECT":
+        error = shape["result"]["owner_error"]
+        return [card("technical", "OWNER_REJECT", "تعذرت قراءة بنية النص المكتوب.", error["code"],
+                     "بقيت القراءة الأصلية معلقة.", owner_error=error,
+                     locations=[{"span": {"source_id": grammar["source"]["id"]},
+                                 "observed": shape["request"]["text"], "proposed": shape["request"]["text"]}])]
     # One outage may affect many hypotheses. Keep their locations in one card
     # per owner and cause, including failures found only on a derived source.
     failures = {}

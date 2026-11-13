@@ -104,6 +104,16 @@ class NativeQuestionCognition(unittest.TestCase):
         self.assertFalse(r["absence_from_definition_proves_exclusion"])
         self.assertEqual(len(cognition.compare_definitions("«صلب» أو «ركوة»", "scope")["value"]), 2)
 
+    def test_malformed_written_source_keeps_both_limits_through_public_reader(self):
+        text = "سلسلة «" + ("م" * 24 + " ") * 87
+        request = {"schema": gateway.REQUEST_SCHEMA, "route": "text.read",
+                   "payload": {"text": text, "question": "هل ثبت السبب الفيزيائي؟"}}
+        receipt = gateway.run(request)
+        self.assertTrue(gateway.accept_output(receipt, expected_request=request)["valid"])
+        report = receipt["execution"]["owner_result"]
+        self.assertEqual(report["question_cognition"]["decision"]["status"], "RESOURCE_LIMIT")
+        self.assertIn("UNTERMINATED_QUOTE", [c["why"] for c in report["cards"]])
+
     def test_numeric_and_propositional_values_reach_the_reader(self):
         for source, truth in (("2=2", True), ("2=3", False)):
             r = cognition.analyze(source, "ما القيمة الحسابية؟")
