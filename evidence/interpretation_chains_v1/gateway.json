@@ -1,9 +1,9 @@
 {
   "schema": "nabt.interpretation-chains.public-test.v1",
-  "n": 20,
-  "correct": 20,
+  "n": 22,
+  "correct": 22,
   "restored": true,
-  "fixture_sha256": "82df66938597ec4f8ad96f02945bb1721307029a61520bc8645806ea16fc7669",
+  "fixture_sha256": "a62c95ea5bad2f27cbeb7f028b3de98ef21dd0754f55a29a2d5bd09ec575e9e7",
   "cases": [
     {
       "id": "phase",
@@ -246,6 +246,42 @@
       "changes": [],
       "reports": [],
       "receipt_evidence": [],
+      "conflict_days": [],
+      "arithmetic_verified": []
+    },
+    {
+      "id": "coexisting_activities",
+      "route": "text.read",
+      "text": "سلسلة «هند» من نوع «إنسان» في «البيت».\nرصد «سالم» اليوم ١: النشاط = ينطق.\nرصد «ليلى» اليوم ١: النشاط = يفكر.\nرصد «نادر» اليوم ٢: النشاط = يتواصل.\nأخبر «عمر» «ريم» عن اليوم ١: النشاط = يفكر.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "SUPPORTED"
+      ],
+      "receipt_evidence": [
+        false
+      ],
+      "conflict_days": [],
+      "arithmetic_verified": []
+    },
+    {
+      "id": "unobserved_activity",
+      "route": "text.read",
+      "text": "سلسلة «هند» من نوع «إنسان» في «البيت».\nرصد «سالم» اليوم ١: النشاط = ينطق.\nرصد «نادر» اليوم ٢: النشاط = يتواصل.\nأخبر «عمر» «ريم» عن اليوم ١: النشاط = يفكر.",
+      "verified": true,
+      "status": "EXECUTED",
+      "match": true,
+      "chain_status": "SOURCE_RELATIVE_CHAIN",
+      "changes": [],
+      "reports": [
+        "UNKNOWN"
+      ],
+      "receipt_evidence": [
+        false
+      ],
       "conflict_days": [],
       "arithmetic_verified": []
     },
