@@ -33,6 +33,10 @@ class QuestionLaws(unittest.TestCase):
                 worlds = result["alternatives"]
                 self.assertEqual({w["instrument"] and w["arrival_condition"] for w in worlds}, {True, False})
                 self.assertTrue(all((not a or w["instrument"]) and (not b or w["arrival_condition"]) for w in worlds))
+        only_condition = frames.interpret(head + condition, "instrument")
+        self.assertTrue(all(w["arrival_condition"] for w in only_condition["alternatives"]))
+        independent = frames.interpret(head + instrument + " دون استعمال القلم" + condition, "occurrence")
+        self.assertTrue(all(w["arrival_condition"] and w["instrument"] is None for w in independent["alternatives"]))
         repeated = frames.interpret(head + instrument * 2, "instrument")
         self.assertEqual([s["evidence_ids"] for s in repeated["minimal_supports"]], [[0], [1]])
         self.assertNotEqual(repeated["evidence"][0]["witness"], repeated["evidence"][1]["witness"])
