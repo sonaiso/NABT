@@ -95,6 +95,15 @@ class NativeChains(unittest.TestCase):
         self.assertNotIn("P:هيئة",[n["value"] for n in retained["nodes"]])
         self.assertIn("denotes_property",[n["role"] for n in retained["nodes"]])
 
+    def test_refuted_local_candidate_and_independent_contradiction(self):
+        text = "أعني بالأسد الرجل الشجاع لا الحيوان المفترس"
+        rows = [n for n in graded.run(text)["nodes"] if n["role"] == "linguistic_use"]
+        self.assertEqual({n["value"]:n["status"] for n in rows},{"asad_animal":"REFUTED","asad_brave":"LICENSED"})
+        text = "أعني بالأسد الحيوان المفترس لا الحيوان المفترس. أعني بالقرء الحيض"
+        graph = graded.run(text)
+        rows = {n["value"]:n["status"] for n in graph["nodes"] if n["role"] == "linguistic_use"}
+        self.assertEqual((rows["asad_animal"],rows["qur_tuhr"],rows["qur_hayd"]),("CONFLICT","OPEN","LICENSED"))
+
     def test_causal_and_temporal_withdrawal(self):
         p = causal_request()
         first = graded.run(TARGET,bridge=p)

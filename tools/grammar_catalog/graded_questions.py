@@ -155,9 +155,17 @@ def convention_chain(g, text, source_id):
                 application = by_candidate.get(pointer)
                 key = parent + "/" + str(j)
                 native_ok = occurrence["native_checked"] and inner["native_checked"] and inner["acquisition_scan_complete"]
-                status = ("LICENSED" if application else "CONFLICT" if occurrence["signed_conflict"]
-                          else owner["status"] if owner["status"] not in ("DEFER","SCOPED_SOURCE_USE_APPLICATIONS")
-                          else "OPEN" if native_ok else "UNVERIFIED")
+                if owner["status"] not in ("DEFER", "SCOPED_SOURCE_USE_APPLICATIONS", "CONFLICT"):
+                    status = owner["status"]
+                elif not native_ok:
+                    status = "UNVERIFIED"
+                elif application:
+                    status = "LICENSED"
+                elif occurrence["signed_conflict"]:
+                    status = "CONFLICT"
+                else:
+                    status = {"UNKNOWN_PREMISE":"OPEN", "REFUTED_PREMISE":"REFUTED",
+                              "SUPPORTED_PREMISES":"OPEN"}.get(candidate["support_status"], candidate["support_status"])
                 evidence = [profile, "applications", owner["applications"].index(application)] if application else ref + ["candidates", j]
                 g.add(key, domain, profile + "_use", f"هل يشهد السياق للوجه «{candidate['sense_id']}» في هذا الاصطلاح؟",
                       status, candidate["sense_id"], evidence, parents=[parent])
