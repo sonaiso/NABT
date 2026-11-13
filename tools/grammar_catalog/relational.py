@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "licensed_speech"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -157,6 +157,14 @@ def validate(request):
     if "question" in request:
         from .question_cognition import validate as validate_question
         validate_question(request["question"])
+    if "licensed_speech" in request:
+        from .licensed_speech import validate as validate_speech
+        validate_speech(request["licensed_speech"])
+    if "valency_context" in request:
+        ctx=request["valency_context"]
+        if (type(ctx) is not dict or set(ctx)!={"ledger"} or type(ctx["ledger"]) is not str
+                or not 0<len(ctx["ledger"].encode())<=32768):
+            raise ValueError("Expected a bounded signed ground ledger")
     if "root_sense" in request:
         from .root_sense import validate as validate_root_sense
         validate_root_sense(request["root_sense"])
@@ -235,5 +243,15 @@ def analyze(request):
         from . import graded_questions
         result["graded_questions"] = graded_questions.run(text, source_id, bridge=p.get("bridge"),
                                                           retained_bridge=result["ontology_bridge"] if "bridge" in p else None)
+    from . import valency
+    frame=valency.analyze(text,source_id)
+    if frame:
+        result["valency"]=frame
+    if "valency_context" in p:
+        result["valency_context"]=(valency.context_evidence(text,source_id,frame,p["valency_context"])
+                                   if frame else {"status":"OUTSIDE_WRITTEN_PROFILE","profiles":{}})
+    if "licensed_speech" in p:
+        from .licensed_speech import project
+        result["licensed_speech"] = project(text, source_id, p["licensed_speech"], result, p.get("lexical_text"))
     _encoded(result, 8*1048576, floats=True)
     return result

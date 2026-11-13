@@ -1,0 +1,25 @@
+{
+  "seed": 107,
+  "epochs": 350,
+  "hidden": 8,
+  "learning_rate": 0.025,
+  "primary": "element-balanced accuracy of indirectly affected vs unaffected nodes, excluding explicitly withdrawn nodes; average both class recalls, plus exact match per intervention and confusion counts",
+  "controls": ["always unchanged","untrained seeded network","same trained weights with all dependency messages removed","restore by withdrawing nothing","opaque-ID relabeling","test labels never passed to prediction"],
+  "target": "Same-snapshot symbolic witness withdrawal replay, restricted to previously licensed nodes. Not lexical/world truth or discovery of new causal relations.",
+  "train": [
+    {"family":"attributed_state","text":"الصُّنْدُوقُ مَفْتُوحٌ"},
+    {"family":"attributed_capacity","text":"الْبَابُ قَابِلٌ لِلْفَتْحِ"},
+    {"family":"question","text":"هَلِ الصُّنْدُوقُ مَفْتُوحٌ؟"},
+    {"family":"active","text":"فَتَحَ الْحَارِسُ الْبَابَ بِالْمِفْتَاحِ."},
+    {"family":"directive","text":"افتح النافذة بعد الظهر."},
+    {"family":"conditional_lexeme","text":"فَرَس","lexical":{"entry":"فرس","target":["واحد الخيل"]}},
+    {"family":"lexical_component","text":"إِنْسَان","lexical":{"entry":"إنسان","target":["حيوان"]}}
+  ],
+  "test": [
+    {"family":"embedded_belief","text":"ظَنَّ الْمُهَنْدِسُ الصُّنْدُوقَ مَفْتُوحًا."},
+    {"family":"two_speech_acts","text":"يا طلاب المدرسة، افتحوا صندوق المكتب."},
+    {"family":"lexical_commitment","text":"عَمَى","lexical":{"entry":"عمي","target":["البصر"]}},
+    {"family":"ledger","request_file":"examples/io_gateway/valency_context.json"},
+    {"family":"definition_inheritance","text":"ما شبكة «النمرقة»؟"}
+  ]
+}

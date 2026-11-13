@@ -1,0 +1,13 @@
+{
+  "schema": "nabt.witness-recall.protocol.v1",
+  "scope": "Authored event frames and reviewed question forms, not unrestricted Arabic. Freeze this design before fitting.",
+  "test_frames": ["سيرسم الرسام الخط", "سيقيس الفني الطول"],
+  "train_frames": ["سيفتح الحارس الباب", "سيكتب الطالب الدرس"],
+  "test_questions": "Both installed question forms for each of instrument, condition, joint, occurrence. No fitting on these exact strings.",
+  "template_ids": ["i", "c", "ic", "ci", "ni_c", "c_nc", "i_ni", "i_nc"],
+  "gold": "Manually authored role and polarity per cue. Oracle status and sufficient support sets evaluated independently. Bare external occurrence remains open.",
+  "model": "Frozen NABT byte GRU, mean-pooled occurrence boundary vectors from question and cue separately. Two ridge heads, lambda=0.1, class-balanced training rows; fixed seed-free closed-form. Exact question and cue inventories held in the source owner. No rank tuning on test.",
+  "ranking": "First cue only; all candidate cues retained. Break ties by original occurrence. Count top-1 for questions with explicit relevant cues. Separately report when a single cue is a complete minimal support.",
+  "comparison": ["untrained positional order", "word-overlap baseline", "trained neural ranking", "complete checked owner and decoded answer"],
+  "interventions": ["irrelevant cue", "remove one cue", "opposite cue", "duplicate occurrence", "swap source", "alter stored value or span", "withdraw model", "source contains no attested case"]
+}
