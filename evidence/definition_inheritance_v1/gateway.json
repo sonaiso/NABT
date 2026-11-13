@@ -1,0 +1,628 @@
+{
+  "schema": "nabt.definition-inheritance.evaluation.v1",
+  "n": 18,
+  "correct": 18,
+  "restored": true,
+  "cases": [
+    {
+      "text": "ما شبكة «النمرقة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:نمرقة": {
+          "nodes": [
+            "A:صغير",
+            "G:وسادة",
+            "P:إسناد_الخد"
+          ],
+          "paths": {
+            "has_attribute/A:صغير": [
+              [
+                "G:نمرقة/has_attribute/A:صغير/pillow"
+              ]
+            ],
+            "is_a/G:وسادة": [
+              [
+                "G:نمرقة/is_a/G:وسادة/pillow"
+              ]
+            ],
+            "has_property/P:إسناد_الخد": [
+              [
+                "G:نمرقة/is_a/G:وسادة/pillow",
+                "G:وسادة/has_property/P:إسناد_الخد/rest"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «الوسادة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:وسادة": {
+          "nodes": [
+            "P:إسناد_الخد"
+          ],
+          "paths": {
+            "has_property/P:إسناد_الخد": [
+              [
+                "G:وسادة/has_property/P:إسناد_الخد/rest"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «المقلمة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:مقلمة": {
+          "nodes": [
+            "G:وعاء",
+            "P:حفظ_الأقلام"
+          ],
+          "paths": {
+            "is_a/G:وعاء": [
+              [
+                "G:مقلمة/is_a/G:وعاء/case"
+              ]
+            ],
+            "has_property/P:حفظ_الأقلام": [
+              [
+                "G:مقلمة/has_property/P:حفظ_الأقلام/case"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «البرنية»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:برنية": {
+          "nodes": [
+            "G:إناء",
+            "G:وعاء",
+            "P:من_خزف"
+          ],
+          "paths": {
+            "is_a/G:إناء": [
+              [
+                "G:برنية/is_a/G:إناء/jar"
+              ]
+            ],
+            "is_a/G:وعاء": [
+              [
+                "G:برنية/is_a/G:إناء/jar",
+                "G:إناء/is_a/G:وعاء/vessel"
+              ]
+            ],
+            "has_property/P:من_خزف": [
+              [
+                "G:برنية/has_property/P:من_خزف/jar"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «الركوة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:ركوة": {
+          "nodes": [
+            "G:إناء",
+            "G:وعاء",
+            "P:للماء"
+          ],
+          "paths": {
+            "is_a/G:إناء": [
+              [
+                "G:ركوة/is_a/G:إناء/can"
+              ]
+            ],
+            "is_a/G:وعاء": [
+              [
+                "G:ركوة/is_a/G:إناء/can",
+                "G:إناء/is_a/G:وعاء/vessel"
+              ]
+            ],
+            "has_property/P:للماء": [
+              [
+                "G:ركوة/has_property/P:للماء/can"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «الحمرة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "P:حمرة": {
+          "nodes": [
+            "P:لون",
+            "P:هيئة"
+          ],
+          "paths": {
+            "is_a/P:لون": [
+              [
+                "P:حمرة/is_a/P:لون/red"
+              ]
+            ],
+            "is_a/P:هيئة": [
+              [
+                "P:حمرة/is_a/P:لون/red",
+                "P:لون/is_a/P:هيئة/color"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «البياض»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "P:بياض": {
+          "nodes": [
+            "P:لون",
+            "P:هيئة"
+          ],
+          "paths": {
+            "is_a/P:لون": [
+              [
+                "P:بياض/is_a/P:لون/white"
+              ]
+            ],
+            "is_a/P:هيئة": [
+              [
+                "P:بياض/is_a/P:لون/white",
+                "P:لون/is_a/P:هيئة/color"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «القانئ»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:قانئ": {
+          "nodes": [
+            "A:أحمر",
+            "P:حمرة",
+            "P:شدة_الحمرة",
+            "P:لون",
+            "P:هيئة"
+          ],
+          "paths": {
+            "is_a/A:أحمر": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson"
+              ]
+            ],
+            "denotes_property/P:حمرة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red"
+              ]
+            ],
+            "denotes_property/P:شدة_الحمرة": [
+              [
+                "A:قانئ/denotes_property/P:شدة_الحمرة/crimson"
+              ]
+            ],
+            "denotes_property/P:لون": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red"
+              ]
+            ],
+            "denotes_property/P:هيئة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red",
+                "P:لون/is_a/P:هيئة/color"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «اليقق»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:يقق": {
+          "nodes": [
+            "A:أبيض",
+            "P:بياض",
+            "P:شدة_البياض",
+            "P:لون",
+            "P:هيئة"
+          ],
+          "paths": {
+            "is_a/A:أبيض": [
+              [
+                "A:يقق/is_a/A:أبيض/pure"
+              ]
+            ],
+            "denotes_property/P:بياض": [
+              [
+                "A:يقق/is_a/A:أبيض/pure",
+                "A:أبيض/denotes_property/P:بياض/white"
+              ]
+            ],
+            "denotes_property/P:شدة_البياض": [
+              [
+                "A:يقق/denotes_property/P:شدة_البياض/pure"
+              ]
+            ],
+            "denotes_property/P:لون": [
+              [
+                "A:يقق/is_a/A:أبيض/pure",
+                "A:أبيض/denotes_property/P:بياض/white",
+                "P:بياض/is_a/P:لون/white"
+              ]
+            ],
+            "denotes_property/P:هيئة": [
+              [
+                "A:يقق/is_a/A:أبيض/pure",
+                "A:أبيض/denotes_property/P:بياض/white",
+                "P:بياض/is_a/P:لون/white",
+                "P:لون/is_a/P:هيئة/color"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «الرامح»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:رامح": {
+          "nodes": [
+            "P:حمل_رمح"
+          ],
+          "paths": {
+            "denotes_property/P:حمل_رمح": [
+              [
+                "A:رامح/denotes_property/P:حمل_رمح/lancer"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «الرمّاح»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:رماح": {
+          "nodes": [
+            "P:صناعة_الرماح"
+          ],
+          "paths": {
+            "denotes_property/P:صناعة_الرماح": [
+              [
+                "A:رماح/denotes_property/P:صناعة_الرماح/spearer"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «الصلب»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:صلب": {
+          "nodes": [
+            "G:عظم",
+            "P:ذو_فقار"
+          ],
+          "paths": {
+            "is_a/G:عظم": [
+              [
+                "G:صلب/is_a/G:عظم/back"
+              ]
+            ],
+            "has_property/P:ذو_فقار": [
+              [
+                "G:صلب/has_property/P:ذو_فقار/back"
+              ]
+            ]
+          }
+        },
+        "A:صلب": {
+          "nodes": [
+            "A:شديد"
+          ],
+          "paths": {
+            "is_a/A:شديد": [
+              [
+                "A:صلب/is_a/A:شديد/strong"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «ززز»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {},
+      "graph_status": "NO_REVIEWED_NETWORK"
+    },
+    {
+      "text": "ما شبكة «القانئ» بعد سحب شاهد «اللون هيئة كالسواد والحمرة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:قانئ": {
+          "nodes": [
+            "A:أحمر",
+            "P:حمرة",
+            "P:شدة_الحمرة",
+            "P:لون"
+          ],
+          "paths": {
+            "is_a/A:أحمر": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson"
+              ]
+            ],
+            "denotes_property/P:حمرة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red"
+              ]
+            ],
+            "denotes_property/P:شدة_الحمرة": [
+              [
+                "A:قانئ/denotes_property/P:شدة_الحمرة/crimson"
+              ]
+            ],
+            "denotes_property/P:لون": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «النمرقة» بعد سحب شاهد «المخدة بالكسر الوسادة يوضع عليها الخد»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:نمرقة": {
+          "nodes": [
+            "A:صغير",
+            "G:وسادة"
+          ],
+          "paths": {
+            "has_attribute/A:صغير": [
+              [
+                "G:نمرقة/has_attribute/A:صغير/pillow"
+              ]
+            ],
+            "is_a/G:وسادة": [
+              [
+                "G:نمرقة/is_a/G:وسادة/pillow"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما معنى «النمرقة»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "G:نمرقة": {
+          "nodes": [
+            "A:صغير",
+            "G:وسادة",
+            "P:إسناد_الخد"
+          ],
+          "paths": {
+            "has_attribute/A:صغير": [
+              [
+                "G:نمرقة/has_attribute/A:صغير/pillow"
+              ]
+            ],
+            "is_a/G:وسادة": [
+              [
+                "G:نمرقة/is_a/G:وسادة/pillow"
+              ]
+            ],
+            "has_property/P:إسناد_الخد": [
+              [
+                "G:نمرقة/is_a/G:وسادة/pillow",
+                "G:وسادة/has_property/P:إسناد_الخد/rest"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «القانئ»؟",
+      "route": "relations.analyze",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:قانئ": {
+          "nodes": [
+            "A:أحمر",
+            "P:حمرة",
+            "P:شدة_الحمرة",
+            "P:لون",
+            "P:هيئة"
+          ],
+          "paths": {
+            "is_a/A:أحمر": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson"
+              ]
+            ],
+            "denotes_property/P:حمرة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red"
+              ]
+            ],
+            "denotes_property/P:شدة_الحمرة": [
+              [
+                "A:قانئ/denotes_property/P:شدة_الحمرة/crimson"
+              ]
+            ],
+            "denotes_property/P:لون": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red"
+              ]
+            ],
+            "denotes_property/P:هيئة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red",
+                "P:لون/is_a/P:هيئة/color"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    },
+    {
+      "text": "ما شبكة «القانئ»؟",
+      "route": "text.read",
+      "status": "EXECUTED",
+      "verified": true,
+      "match": true,
+      "readings": {
+        "A:قانئ": {
+          "nodes": [
+            "A:أحمر",
+            "P:حمرة",
+            "P:شدة_الحمرة",
+            "P:لون",
+            "P:هيئة"
+          ],
+          "paths": {
+            "is_a/A:أحمر": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson"
+              ]
+            ],
+            "denotes_property/P:حمرة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red"
+              ]
+            ],
+            "denotes_property/P:شدة_الحمرة": [
+              [
+                "A:قانئ/denotes_property/P:شدة_الحمرة/crimson"
+              ]
+            ],
+            "denotes_property/P:لون": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red"
+              ]
+            ],
+            "denotes_property/P:هيئة": [
+              [
+                "A:قانئ/is_a/A:أحمر/crimson",
+                "A:أحمر/denotes_property/P:حمرة/red",
+                "P:حمرة/is_a/P:لون/red",
+                "P:لون/is_a/P:هيئة/color"
+              ]
+            ]
+          }
+        }
+      },
+      "graph_status": "VERIFIED_CONDITIONAL_NETWORK"
+    }
+  ]
+}

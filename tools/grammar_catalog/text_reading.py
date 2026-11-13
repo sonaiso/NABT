@@ -416,14 +416,26 @@ def analyze(text):
     cards.extend(use_cards(usage_report, profiles))
     cards.extend(citation_card(text))
     stage = grammar["stopped_at"]
+    from .dictionary_reading import cards_for
+    from . import definition_network
+
+    lexical_cards, dictionary_report = cards_for(text)
+    network = definition_network.read(text, dictionary_report, grammar["source"]["id"])
+    cards.extend(lexical_cards)
+    if network and definition_network.QUERY.fullmatch(text):
+        cards.extend(definition_network.cards(network))
+    elif network and network["readings"]:
+        attached = {row["dictionary_sense_id"]: i for i, row in enumerate(network["readings"])
+                    if row["dictionary_sense_id"]}
+        for lexical in lexical_cards:
+            key = lexical["evidence"].get("sense_id")
+            if key in attached:
+                lexical["evidence"]["definition_network_ref"] = f"/definition_network/readings/{attached[key]}"
     if not cards:
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
                           "تحتاج قراءة هذا النص إلى شواهد أو تغطية إضافية."))
-    from .dictionary_reading import cards_for
-    lexical_cards, dictionary_report = cards_for(text)
-    cards.extend(lexical_cards)
-    return {"schema": "nabt.text-reading.v1", "dictionary_reading":dictionary_report, "source": grammar["source"], "cards": cards,
+    return {"schema": "nabt.text-reading.v1", "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,

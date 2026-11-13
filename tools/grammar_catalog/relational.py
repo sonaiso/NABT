@@ -216,5 +216,8 @@ def analyze(request):
     if p.get("neural_continuity"):
         from tools.lexical_training.relational_alignment import rank
         result["neural_continuity"] = rank({"text":text, "source_id":source_id})
+    from . import definition_network
+    if definition_network.QUERY.fullmatch(text):
+        result["definition_network"] = definition_network.read(text, identity=source_id)
     _encoded(result, 8*1048576, floats=True)
     return result
