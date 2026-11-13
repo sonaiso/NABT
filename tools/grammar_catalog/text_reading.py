@@ -94,7 +94,7 @@ def acquisition_checks(report):
     if shape["schema"] == "nabt.exact-unit-owner-transport.v1":
         from tools.arabic_training.unit_composition import read_json
         shape = read_json(shape["owner_json"].encode())
-    for run in shape["result"]["written_runs"]:
+    for run in shape["result"].get("written_runs", []):
         for word in run["owner_result"]["words"]:
             yield word.get("acquisition_owner", {}), run["source_span"], run["surface"], word["text"]
     for row in report.get("source_reading", {}).get("occurrences", []):
@@ -111,6 +111,13 @@ ACQUISITION_FAILURES = {
 
 
 def grammar_failures(grammar):
+    shape = grammar["owner_reports"]["orthography"]
+    if shape.get("result", {}).get("status") == "OWNER_REJECT":
+        error = shape["result"]["owner_error"]
+        return [card("technical", "OWNER_REJECT", "تعذرت قراءة بنية النص المكتوب.", error["code"],
+                     "بقيت القراءة الأصلية معلقة.", owner_error=error,
+                     locations=[{"span": {"source_id": grammar["source"]["id"]},
+                                 "observed": shape["request"]["text"], "proposed": shape["request"]["text"]}])]
     # One outage may affect many hypotheses. Keep their locations in one card
     # per owner and cause, including failures found only on a derived source.
     failures = {}
@@ -392,7 +399,7 @@ def passive_reading(text, source, failures):
                       "neural_authority": "NONE"}
 
 
-def analyze(text):
+def analyze(text, *, question=None):
     lexical, mentions = lexical_context(text)
     names = {m["id"]: m["name"] for m in mentions}
     context = {"entities": [{"id": m["id"], "name": m["name"]} for m in mentions]}
@@ -435,11 +442,17 @@ def analyze(text):
     chain = interpretation_chains.analyze(text)
     if chain is not None:
         cards.extend(interpretation_chains.cards(chain))
+    question_result = {}
+    if question is not None:
+        from . import question_cognition
+        answer = question_cognition.analyze(text, question, grammar["source"]["id"])
+        question_result["question_cognition"] = answer
+        cards = question_cognition.cards(answer) + cards
     if not cards:
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
                           "تحتاج قراءة هذا النص إلى شواهد أو تغطية إضافية."))
-    return {"schema": "nabt.text-reading.v1", "interpretation_chain":chain, "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
+    return {**question_result, "schema": "nabt.text-reading.v1", "interpretation_chain":chain, "dictionary_reading":dictionary_report, "definition_network":network, "source": grammar["source"], "cards": cards,
             "grammar_stop": stage, "grammar_stop_ar": LAYERS[stage],
             "lexical_premises": {"path": LEXICON, "sha256": LEXICON_SHA, "text_local_names": mentions},
             "orchestration": grammar, "use_owner": usage_report, "conditional_use_reports": profiles,
