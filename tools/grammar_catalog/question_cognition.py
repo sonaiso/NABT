@@ -92,8 +92,12 @@ def owner_view(operation, text, source_id):
                 "value": [a["concept_id"] for a in report["applications"]],
                 "community_practice_established": False}
     chain = interpretation_chains.analyze(text)
-    if not chain or "changes" not in chain:
+    if chain is None:
         return {"status": "OUTSIDE_SOURCE"}
+    if "changes" not in chain:
+        if chain["status"] in ("METHOD_FOUND", "UNKNOWN_METHOD"):
+            return {"status": "OUTSIDE_SOURCE", "owner": chain}
+        return {"status": chain["status"], "owner": chain, "value": None}
     if operation == "cause" and chain["status"] == "SOURCE_RELATIVE_CHAIN":
         return {"status": "OPEN", "owner": chain, "value": None,
                 "missing": ["independent causal law", "applicability to this observation"],

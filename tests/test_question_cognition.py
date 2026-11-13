@@ -65,6 +65,16 @@ class QuestionLaws(unittest.TestCase):
             self.assertEqual(report["decision"]["status"], "OPEN")
         self.assertEqual(cognition.analyze(text, question+" ولماذا؟")["decision"]["status"], "OUTSIDE_QUESTION")
 
+    def test_exhausted_observation_owner_keeps_its_failure_before_projection(self):
+        source = "سلسلة «" + "م" * 2050
+        for question in ("ما التغير المرصود؟", "هل ثبت السبب الفيزيائي؟"):
+            d = cognition.analyze(source, question)["decision"]
+            self.assertEqual(d["status"], "RESOURCE_LIMIT")
+            self.assertEqual(d["owner"]["status"], d["status"])
+            self.assertNotIn("changes", d["owner"])
+        method = cognition.analyze("ما منهج «التكاثر»؟", "ما التغير المرصود؟")["decision"]
+        self.assertEqual((method["status"], method["owner"]["status"]), ("OUTSIDE_SOURCE", "METHOD_FOUND"))
+
     def test_domain_boundary_does_not_trust_injected_fields(self):
         for route in ("text.read", "relations.analyze"):
             for question in (None, True, "", "س"*300):
