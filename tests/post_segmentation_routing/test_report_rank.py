@@ -114,6 +114,31 @@ class ScopedRanks(TestCase):
         contract['exclusions'] = []
         self.assertEqual(self.read()['report']['rank'], 'CERTAIN_IN_CONDITIONED_SCENE')
 
+    def test_attribution_changes_rank_only_with_matched_prior_evidence(self):
+        self.model['witnesses'] = []
+        def audit(event, speaker, said, outcome):
+            return {'event': event, 'source': 'دفتر التجربة', 'speaker': speaker, 'setting': 'الغرفة',
+                    'masdar': 'فتح', 'reported': said, 'observed': outcome}
+        first, second = self.model['speaker'], 'راو آخر'
+        history = [audit(str(i), speaker, said, outcome)
+                   for speaker in (first, second) for i, outcome in enumerate((True, True, False, False))
+                   for said in [outcome if speaker == first else not outcome]]
+        self.model['speaker_history'] = {'setting': 'الغرفة', 'audits': history}
+        out = self.read()
+        self.assertEqual(out['report']['fraction'], [9, 14])
+        self.assertEqual(out['roles']['opener']['fraction'], [11, 14])
+        history.extend([dict(history[0]), audit('opening-1', first, False, False),
+                        {**history[0], 'setting': 'معمل آخر', 'reported': False}])
+        self.assertEqual(self.read()['report'], out['report'])
+        self.model['speaker'] = second
+        self.assertEqual(self.read()['report']['fraction'], [1, 6])
+        self.model['speaker'] = 'بلا سجل'
+        self.assertEqual(self.read()['report']['fraction'], [3, 8])
+        self.model['speaker'] = first
+        history.append(audit('0', first, False, True))
+        self.assertEqual(self.read()['speaker_calibration']['status'], 'CONFLICTING_HISTORY_UNUSED')
+        self.assertEqual(self.read()['report']['fraction'], [3, 8])
+
     def test_normal_gateway_and_tamper(self):
         receipt = gateway.run(self.request)
         self.assertTrue(gateway.accept_output(receipt, expected_request=self.request)['valid'])

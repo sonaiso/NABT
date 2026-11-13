@@ -14,7 +14,7 @@ def bounded(value, limit=120):
 
 def validate(model):
     required = {'event', 'speaker', 'addressee', 'source_id', 'source_sha256', 'worlds', 'witnesses'}
-    if type(model) is not dict or set(model) - {'compatibility'} != required:
+    if type(model) is not dict or set(model) - {'compatibility', 'speaker_history'} != required:
         raise ValueError('Expected an attributed, source-bound finite scene')
     if not all(bounded(model[k]) for k in ('event', 'speaker', 'addressee', 'source_id', 'source_sha256')):
         raise ValueError('Missing scene or source identity')
@@ -33,6 +33,20 @@ def validate(model):
             elif not (bounded(row['event']) and bounded(row['role']) and row['role'] in ROLES
                       and bounded(row['value']) and row['value'] == key(row['value'])):
                 raise ValueError('Invalid scoped observation')
+
+    if 'speaker_history' in model:
+        history = model['speaker_history']
+        if type(history) is not dict or set(history) != {'setting', 'audits'} or not bounded(history['setting']):
+            raise ValueError('Expected a named reporting setting and past attributed observations')
+        rows = history['audits']
+        if type(rows) is not list or len(rows) > 128:
+            raise ValueError('Invalid number of past observations')
+        names = {'event', 'speaker', 'setting', 'masdar', 'source'}
+        for row in rows:
+            if type(row) is not dict or set(row) != names | {'reported', 'observed'}:
+                raise ValueError('Incomplete audit observation')
+            if not all(bounded(row[k]) for k in names) or any(type(row[k]) is not bool for k in ('reported', 'observed')):
+                raise ValueError('Expected named provenance and two boolean outcomes')
 
     if 'compatibility' in model:
         contract = model['compatibility']
@@ -93,6 +107,37 @@ def compatibility(values, model):
     return {'blockers': blocked, 'conflicts': conflicts}
 
 
+def speaker_likelihood(model, masdar):
+    """Estimate P(affirmation | state) from deduplicated past events, within the supplied model."""
+    equal = (Fraction(1), Fraction(1))
+    history = model.get('speaker_history')
+    if history is None:
+        return {'status': 'NO_SPEAKER_HISTORY'}, equal
+    cases = {}
+    for row in history['audits']:
+        if ((row['speaker'], row['setting'], row['masdar']) != (model['speaker'], history['setting'], masdar)
+                or row['event'] == model['event']):
+            continue
+        cases.setdefault(row['event'], set()).add((row['reported'], row['observed']))
+    conflicts = sorted(event for event, observations in cases.items() if len(observations) > 1)
+    audit = {'status': 'SUPPLIED_AUDITS', 'setting': history['setting'], 'events': sorted(cases),
+             'conflicting_events': conflicts, 'estimator': 'ADD_ONE_BERNOULLI_PER_TRUE_STATE'}
+    if conflicts:
+        return {**audit, 'status': 'CONFLICTING_HISTORY_UNUSED'}, equal
+    observed = [0, 0]
+    affirmed = [0, 0]
+    for observations in cases.values():
+        reported, truth = next(iter(observations))
+        observed[truth] += 1
+        affirmed[truth] += int(reported)
+    audit.update(observed_false_true=observed, affirmed_false_true=affirmed)
+    if 0 in observed:
+        return {**audit, 'status': 'INSUFFICIENT_OUTCOME_COVERAGE'}, equal
+    yes, no = (Fraction(1 + affirmed[i], 2 + observed[i]) for i in (1, 0))
+    return {**audit, 'if_true': [yes.numerator, yes.denominator],
+            'if_false': [no.numerator, no.denominator]}, (yes, no)
+
+
 def assess(frame, model, source_id, source_digest):
     validate(model)
     if (model['source_id'], model['source_sha256']) != (source_id, source_digest):
@@ -127,6 +172,9 @@ def assess(frame, model, source_id, source_digest):
     checks = {wid: compatibility(values, model) for wid, _, values in worlds}
     live = [w for w in worlds if not cuts[w[0]] and not checks[w[0]]['blockers']]
     uncertain = [w[0] for w in live if checks[w[0]]['conflicts']]
+    history, (if_true, if_false) = speaker_likelihood(model, frame['reading']['masdar'])
+    masses = {wid: weight * (if_true if all(values[r] == val for r, val in claim.items()) else if_false)
+              for wid, weight, values in live}
 
     def grade(target):
         def agrees(world):
@@ -138,8 +186,8 @@ def assess(frame, model, source_id, source_digest):
             return {'rank': 'CONFLICTING_MEMBERSHIP', 'fraction': None, **check}
         if not worlds or not live:
             return {'rank': 'UNASSESSED', 'fraction': None}
-        total = sum(w[1] for w in live)
-        yes = sum(w[1] for w in live if agrees(w))
+        total = sum(masses.values())
+        yes = sum(masses[w[0]] for w in live if agrees(w))
         fraction = Fraction(yes, total)
         if not any(agrees(w) for w in worlds):
             rank = 'ABSENT_FROM_ENUMERATED_MODEL'
@@ -156,6 +204,6 @@ def assess(frame, model, source_id, source_digest):
     status = 'CONTESTED_MODEL' if uncertain else 'ASSESSED' if live else 'NO_COMPATIBLE_ALTERNATIVE' if worlds else 'NO_ALTERNATIVES_SUPPLIED'
     return {**result, 'status': status, 'roles': {r: {'span': spans[r], **grade({r: v})} for r, v in claim.items()},
             'report': grade(claim), 'surviving_worlds': [w[0] for w in live], 'excluded_by': cuts,
-            'model_rule_checks': checks, 'worlds_with_contested_membership': uncertain,
+            'speaker_calibration': history, 'model_rule_checks': checks, 'worlds_with_contested_membership': uncertain,
             'active_witnesses': [w['id'] for w in active],
             'out_of_scope_witnesses': [w['id'] for w in model['witnesses'] if w['event'] != model['event']]}
