@@ -128,6 +128,18 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
+    from . import ntl_course, ntl_curriculum
+    for lesson_runner in (ntl_curriculum, ntl_course):
+        if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
+            continue
+        try:
+            return lesson_runner.run(lesson)
+        except wire_owner.ResourceLimit as error:
+            return {"schema": lesson_runner.RESULT, "status": "RESOURCE_LIMIT",
+                    "execution_measured": False, "error": str(error)}
+        except (ValueError, TypeError) as error:
+            return {"schema": lesson_runner.RESULT, "status": "INVALID_INPUT",
+                    "execution_measured": False, "error": str(error)}
     # Choose from installed identity sets before validation; freeze once.
     adapter = lesson.get("adapter") if type(lesson) is dict else None
     shared = type(lesson) is dict and lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4)
