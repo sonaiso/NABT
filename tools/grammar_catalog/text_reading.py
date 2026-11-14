@@ -460,6 +460,18 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
         answer = question_cognition.analyze(text, question, grammar["source"]["id"])
         question_result["question_cognition"] = answer
         cards = question_cognition.cards(answer) + cards
+    from tools.lexical_training.context_transfer import reader_proposal
+    proposal = reader_proposal(text)
+    if proposal:
+        labels = {"literal": "استعمال حقيقي", "figurative": "استعمال مجازي",
+                  "CONFLICT": "قرائن متنافسة", "UNRESOLVED": "استعمال غير معيّن"}
+        interpretation = proposal.get("interpretation_from_teacher")
+        understood = labels[proposal["decision"]]
+        if interpretation:
+            understood += "، " + interpretation["meaning"] + " (" + interpretation["relation"] + ")"
+        cards.append(card("learned_context", "اقتراح من أمثلة الدرس", understood,
+                          "، ".join(w["surface"] for w in proposal["matches"]) or proposal["reason"],
+                          "يحتاج ترخيص المعنى إلى تحقيق مستقل.", **proposal))
     if not cards:
         cards.append(card("unresolved", "إرجاء", "لم تتعيّن إفادة ضمن القراءة المتاحة.",
                           "آخر مرحلة بلغها القارئ: " + LAYERS[stage] + ".",
