@@ -100,6 +100,14 @@ class IfadahPrograms(TestCase):
             result = teaching.run_lesson(lesson())
         self.assertEqual(result['status'], 'EVIDENCE_UNAVAILABLE')
         self.assertFalse(result['execution_measured'])
+        request = {'schema': n.SCHEMA, 'mode': 'produce', 'source_id': 'goal',
+                   'instruction': 'اسأل عن ثبوت الصفة الآن', 'subject': 0, 'predicate': 0}
+        for error in (ValueError('Changed lexical source'), OSError('Lexical source absent')):
+            with self.subTest(error=type(error).__name__), patch.object(n.awamil, 'curriculum', side_effect=error):
+                result = teaching.run_lesson(request)
+            self.assertEqual(result['status'], 'EVIDENCE_UNAVAILABLE')
+            self.assertFalse(result['execution_measured'])
+            self.assertIsNone(result['accepted_program'])
 
     def test_client_cannot_supply_model_paths_or_licenses(self):
         for field, value in (('model_path', '/tmp/model'), ('licensed', True), ('program', {})):

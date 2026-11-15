@@ -277,8 +277,8 @@ def run(request):
         result['proposal_agrees_with_owner'] = bool(matching)
     elif proposal.get('name') is not None:
         tree = program(proposal['name'], r['subject'], r['predicate'])
-        generated = realize(tree)
         try:
+            generated = realize(tree)
             owner = understand(generated, r['source_id'] + ':realization')
         except (OSError, ValueError) as exc:
             result.update(status='EVIDENCE_UNAVAILABLE', execution_measured=False, evidence_failure=type(exc).__name__)
