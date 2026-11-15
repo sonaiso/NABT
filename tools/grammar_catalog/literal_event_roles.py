@@ -12,13 +12,13 @@ DICTIONARY = "src/nabt/data/source_evidence/mukhtar_sihah.txt"
 CASE = {"actor": "ُ", "patient": "َ", "instrument": "ِ"}
 
 
-def train(lesson_id, spec, version):
+def train(lesson_id, spec, version, *, degree=1):
     schema = FeatureSchema(lesson_id, version, tuple(spec["features"]))
     observations = []
     for i, (description, *values, label) in enumerate(spec["examples"]):
         case = schema.case(description, version, dict(zip(schema.predicates, values, strict=True)))
         observations.append(Observation(f"{lesson_id}:{i+1}", "teacher:" + version, case, label))
-    return LearningSession(GuardLanguage(schema, degree=1), tuple(observations))
+    return LearningSession(GuardLanguage(schema, degree=degree), tuple(observations))
 
 
 def span_word(source, word, start):

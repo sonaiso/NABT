@@ -460,8 +460,34 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
         answer = question_cognition.analyze(text, question, grammar["source"]["id"])
         question_result["question_cognition"] = answer
         cards = question_cognition.cards(answer) + cards
+    from .event_scene import analyze as analyze_scene
     from .literal_event_roles import analyze as analyze_event_roles
     if not original_check_failed(grammar["source"], failures):
+        scene = analyze_scene(text, grammar["source"]["id"])
+        if scene is not None:
+            question_result["event_scene"] = scene
+            for i, event in enumerate(scene["events"]):
+                members = [b["syntax"] + " «" + scene["entities"][b["target"]]["mention"]["surface"] + "»"
+                           for b in event["bindings"] if b["target"]]
+                scope_ar = {"intended": "غاية مقصودة", "relative_description": "وصف في صلة الموصول",
+                            "matrix_report": "حدث في العبارة"}[event["scope"]]
+                cards.append(card("event_scene", scope_ar, event["masdar"], "، ".join(members) or "فاعل غير معيّن",
+                                  "القراءة مقيدة بألفاظ المصدر وشروط الدرس.", reading_ref=f"/event_scene/events/{i}"))
+
+            names_by_ref = {key: entry["mention"]["surface"] for key, entry in scene["entities"].items()}
+            names_by_ref.update({event["id"]: event["masdar"] for event in scene["events"]})
+            for i, relation in enumerate(scene["relations"]):
+                head, target = relation["head"], relation["target"]
+                interpreted = names_by_ref.get(head, head) + "، " + names_by_ref.get(target, target or "قيمة مجهولة")
+                cards.append(card("event_scene_relation", relation["syntax"], interpreted, relation["cue"]["surface"],
+                                  "التعلّق والمعنى مقيدان بالقراءة المذكورة.",
+                                  reading_ref=f"/event_scene/relations/{i}"))
+            if scene["scope"] == "lexical_mention":
+                for ref, entry in scene["entities"].items():
+                    if entry["lineage"]:
+                        cards.append(card("event_scene_lexicon", "تعريف معجمي تعليمي", entry["mention"]["surface"],
+                                          " ← ".join(entry["lineage"]), "الصفات الممكنة تحتاج شاهدًا في موضعها.",
+                                          reading_ref=f"/event_scene/entities/{ref}"))
         event_roles = analyze_event_roles(text, grammar["source"]["id"])
         if event_roles is not None:
             question_result["literal_event_roles"] = event_roles
