@@ -7,7 +7,7 @@ relational-bridge:
 check: relational-bridge
 
 io-gateway:
-	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core -v
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core tests.test_context_transfer -v
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway catalog --output $(EVIDENCE_DIR)/io-catalog.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway run --request examples/io_gateway/contrast.json --output $(EVIDENCE_DIR)/io-contrast.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/contrast.json --receipt $(EVIDENCE_DIR)/io-contrast.json
@@ -17,7 +17,7 @@ io-gateway-build:
 
 .PHONY: ntl-course-check
 ntl-course-check: io-gateway-build
-	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core -v
+	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core tests.test_context_transfer -v
 
 io-gateway-native: ntl-course-check
 	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions -v
