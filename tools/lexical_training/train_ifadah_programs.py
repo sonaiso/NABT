@@ -1,10 +1,8 @@
 """Fit frozen-GRU utterance-program readouts using only the committed train split."""
 import argparse
 from collections import Counter
-from copy import deepcopy
 import json
 from pathlib import Path
-import subprocess
 
 from . import ifadah_programs as net
 
@@ -39,6 +37,28 @@ def train(output):
                               'split': 'structure_test' if name in protocol['withheld_programs']
                               else 'train' if i < 2 else 'dev' if i == 2 else 'paraphrase_test'})
     all_rows = {'understand': read_rows, 'produce': goal_rows}
+    local_protocol = json.loads((net.DIRECTORY/'protocol_local.json').read_bytes())
+    local_heads, token_counts = {}, {}
+    for mode, rows in all_rows.items():
+        examples = []
+        for r in rows:
+            if r['split'] != 'train':
+                continue
+            for i, term in enumerate(net.exact_terms(r['text'])):
+                force, frame = 'assert', 'plain'
+                if mode == 'understand':
+                    if i == 0 and r['force'] != 'assert': force = r['force']
+                    if i == 0 and r['frame'] != 'plain': frame = r['frame']
+                else:
+                    annotation = local_protocol['goal_training_cues'].get(term['surface'])
+                    if annotation in net.FORCES: force = annotation
+                    if annotation in net.FRAMES: frame = annotation
+                examples.append((net.token_vector(encoder, term['surface']) + [1.], force, frame))
+        token_counts[mode] = len(examples)
+        local_heads[mode] = {key: fit_matrix([e[0] for e in examples], [e[index] for e in examples], labels,
+                                             local_protocol['alpha'])
+                            for key,index,labels in (('force',1,net.FORCES),('frame',2,net.FRAMES))}
+
     # No dev/test rows participate in target formation, solving, or hyperparameter selection.
     vectors = {mode: {r['id']: net.features(encoder, r['text']) for r in rows} for mode, rows in all_rows.items()}
     heads, flat, initial, tag, train_ids = {}, {}, {}, {}, {}
@@ -53,7 +73,11 @@ def train(output):
             x, [r['program'] for r in training], protocol['train_programs'], protocol['alpha'])}
         initial[mode] = {key: rng.normal(0, .01, (4, net.WIDTH)).tolist() for key in ('force', 'frame')}
         tag[mode] = {'force': heads[mode]['force'], 'default_frame': Counter(r['frame'] for r in training).most_common(1)[0][0]}
-    model = {'schema': 'ntl.ifadah-heads.v1', 'authority': 'NONE', 'heads': heads,
+    random_local = {mode: {key: np.random.default_rng(protocol['seed'] + index).normal(0, .01, (4, 4*net.shared.HIDDEN+1)).tolist()
+                            for index,key in enumerate(('force','frame'))} for mode in all_rows}
+    model = {'schema': 'ntl.ifadah-heads.v2', 'authority': 'NONE', 'heads': heads, 'local_heads': local_heads,
+             'local_protocol_sha256': net.identity(net.DIRECTORY/'protocol_local.json'),
+             'token_training_counts': token_counts,
              'encoder_sha256': net.identity(net.shared.MODEL), 'data_sha256': net.identity(net.DIRECTORY / 'data.json'),
              'protocol_sha256': net.identity(net.DIRECTORY / 'protocol.json'), 'train_ids': train_ids,
              'frozen_protocol_commit': 'fec22fd', 'binding': protocol['binding']}
@@ -69,7 +93,9 @@ def train(output):
             tag_name = next((n for n, v in net.PROGRAMS.items() if v == (tag_force, tag[mode]['default_frame'])), None)
             predictions = {'untrained_heads': net.predict(initial[mode], x)['name'],
                            'flat_program_head': flat_name, 'force_tag_only': tag_name,
-                           'factorized_program_heads': net.predict(heads[mode], x)['name']}
+                           'factorized_program_heads': net.predict(heads[mode], x)['name'],
+                           'local_program_heads': net.local_predict(local_heads[mode], encoder, r['text'])['name'],
+                           'untrained_local_heads': net.local_predict(random_local[mode], encoder, r['text'])['name']}
             if mode == 'understand':
                 owner = net.understand(r['text'], r['id'])
                 checked = [a['name'] for a in owner['readings']]
@@ -80,11 +106,11 @@ def train(output):
                 owner = net.understand(rendered, r['id'])
                 owner_exact = net.program(r['program'], r['subject'], r['predicate']) in [a['program'] for a in owner['readings']]
                 checked = [a['name'] for a in owner['readings']]
-            proposed = predictions['factorized_program_heads']
+            proposed = predictions['local_program_heads']
             outcome = {'id': r['id'], 'split': r['split'], 'gold': r['program'], 'predictions': predictions,
                        'raw_correct': proposed == r['program'],
-                       'force_correct': net.predict(heads[mode], x)['force'] == r['force'],
-                       'frame_correct': net.predict(heads[mode], x)['frame'] == r['frame'],
+                       'force_correct': net.local_predict(local_heads[mode], encoder, r['text'])['force'] == r['force'],
+                       'frame_correct': net.local_predict(local_heads[mode], encoder, r['text'])['frame'] == r['frame'],
                        'oracle_bindings': True, 'reference_owner_exact': owner_exact}
             if mode == 'understand':
                 admitted = proposed in checked if proposed is not None else False
@@ -103,7 +129,7 @@ def train(output):
         for split in sorted({r['split'] for r in rows}):
             group = [r for r in measured if r['split'] == split]
             metrics = {'n': len(group), 'correct_by_model': {key: sum(r['predictions'][key] == r['gold'] for r in group)
-                       for key in ('untrained_heads', 'flat_program_head', 'force_tag_only', 'factorized_program_heads')},
+                       for key in ('untrained_heads', 'flat_program_head', 'force_tag_only', 'factorized_program_heads', 'local_program_heads', 'untrained_local_heads')},
                        'force_correct': sum(r['force_correct'] for r in group),
                        'frame_correct': sum(r['frame_correct'] for r in group),
                        'exact_reader_ceiling': sum(r['reference_owner_exact'] for r in group)}
@@ -113,7 +139,7 @@ def train(output):
             summaries[split] = metrics
         evaluations[mode] = {'summary': summaries, 'cases': measured}
     report = {'schema': 'ntl.ifadah-evaluation.v1', 'authority': 'EXPOSED_AUTHORED_DIAGNOSTIC',
-              'protocol': protocol, 'model_sha256': net.identity(output/'model.json'),
+              'protocol': protocol, 'local_protocol': local_protocol, 'local_protocol_commit': '14bab2d', 'model_sha256': net.identity(output/'model.json'),
               'data_sha256': model['data_sha256'], 'train_ids': train_ids, 'evaluation': evaluations,
               'frozen_protocol_commit': 'fec22fd', 'native_checked': False,
               'test_used_for_selection': False, 'general_arabic_mastery_established': False,
@@ -123,6 +149,7 @@ def train(output):
                                     'NO_COMPUTE_MATCHED_LLM_BASELINE',
                                     'ALL_BINDINGS_FROM_FIXED_LEXICAL_OWNER',
                                     'NO_INDEPENDENT_HUMAN_GOLD_OR_EXTERNAL_WORLD_WITNESS'],
+              'code_sha256': {str(p.relative_to(net.shared.ROOT)):net.identity(p) for p in (Path(__file__), Path(net.__file__))},
               'runtime': {'python': __import__('platform').python_version(), 'numpy': np.__version__}}
     write(output/'evaluation.json', report)
     print(json.dumps({k:v['summary'] for k,v in evaluations.items()}, ensure_ascii=False, indent=2))

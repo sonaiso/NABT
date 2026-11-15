@@ -8,11 +8,11 @@ from copy import deepcopy
 from functools import lru_cache
 from hashlib import sha256
 import json
-import math
 from pathlib import Path
 
 from tools import evidence_lifecycle_v1 as wire
-from tools.grammar_catalog import awamil_occurrence as awamil
+from tools.grammar_catalog import awamil_occurrence as awamil, classical_roles
+from tools.grammar_catalog.source_evidence_view import pinned_excerpts
 from tools.grammar_catalog.licensed_speech import under_question
 from tools.grammar_catalog.operations import exact_terms
 from . import shared_encoder as shared
@@ -81,6 +81,15 @@ def program(name, subject, predicate):
 
 def program_name(tree):
     # Equality of complete typed trees; do not erase ordering or arbitrary nodes.
+    node, depth = tree, 0
+    while type(node) is dict and node.get('op') != 'predication' and depth < 4:
+        if set(node) != {'op', 'body'} or type(node['op']) is not str:
+            raise ValueError('Invalid operator node')
+        node, depth = node['body'], depth + 1
+    if (type(node) is not dict or set(node) != {'op', 'subject', 'predicate'}
+            or node.get('op') != 'predication'
+            or any(type(node[k]) is not int or not 0 <= node[k] < 6 for k in ('subject', 'predicate'))):
+        raise ValueError('Invalid predication leaves')
     for name in PROGRAMS:
         for i in range(6):
             for j in range(6):
@@ -106,6 +115,7 @@ def understand(text, source_id):
     wrapper = under_question(text)
     body, offset = (wrapper[0], wrapper[1]) if wrapper else (text, 0)
     rows, owner_status = awamil.read(body)
+    question_source = pinned_excerpts(classical_roles.inventory(), ['question']) if wrapper else {}
     readings = []
     bank, _ = awamil.curriculum()
     for row in rows:
@@ -121,6 +131,7 @@ def understand(text, source_id):
             token['utf8_span'] = [a + offset, b + offset]
             if text.encode()[a + offset:b + offset].decode() != token['surface']:
                 raise ValueError('Detached role witness')
+            token['codepoint_span'] = [len(text.encode()[:v].decode()) for v in token['utf8_span']]
             token['source_id'] = source_id
             token['source_sha256'] = sha256(text.encode()).hexdigest()
         subject_form = bindings['subject']['surface']
@@ -132,7 +143,7 @@ def understand(text, source_id):
         force, frame = PROGRAMS[name]
         readings.append({'program': program(name, s, p), 'name': name, 'bindings': bindings,
                          'force': force, 'frame': frame, 'owner': row,
-                         'outer_question_cue': {'utf8_span': wrapper[2], 'surface': text.encode()[slice(*wrapper[2])].decode()}
+                         'outer_question_cue': {'utf8_span': wrapper[2], 'surface': text.encode()[slice(*wrapper[2])].decode(), 'witnesses': question_source}
                          if wrapper else None,
                          'source_commitment': force == 'assert', 'world_truth_established': False,
                          'obligations': ['SPEAKER_AND_REFERENCE_CONTEXT_NOT_GROUNDED',
@@ -166,19 +177,26 @@ def load_model():
         raise ValueError('Model size limit')
     raw = MODEL.read_bytes()
     model = wire.strict_loads(raw, maximum_bytes=3_000_000, report=True)
-    if (model.get('schema') != 'ntl.ifadah-heads.v1' or model.get('authority') != 'NONE'
+    if (type(model) is not dict or model.get('schema') != 'ntl.ifadah-heads.v2' or model.get('authority') != 'NONE'
             or model.get('encoder_sha256') != identity(shared.MODEL)
             or model.get('data_sha256') != identity(DIRECTORY / 'data.json')
-            or model.get('protocol_sha256') != identity(DIRECTORY / 'protocol.json')):
+            or model.get('protocol_sha256') != identity(DIRECTORY / 'protocol.json')
+            or model.get('local_protocol_sha256') != identity(DIRECTORY / 'protocol_local.json')):
         raise ValueError('Unbound ifadah model')
     if set(model.get('heads', {})) != {'understand', 'produce'}:
         raise ValueError('Unknown model modes')
     for mode in model['heads'].values():
-        if set(mode) != {'force', 'frame'}:
+        if type(mode) is not dict or set(mode) != {'force', 'frame'}:
             raise ValueError('Unknown program heads')
         for key, labels in (('force', FORCES), ('frame', FRAMES)):
             if not shared._shape(mode[key], (len(labels), WIDTH)):
                 raise ValueError('Invalid finite readout tensors')
+    if set(model.get('local_heads', {})) != {'understand', 'produce'}:
+        raise ValueError('Unknown local head modes')
+    for heads in model['local_heads'].values():
+        if type(heads) is not dict or set(heads) != {'force', 'frame'} or any(
+                not shared._shape(heads[key], (4, 4 * shared.HIDDEN + 1)) for key in ('force', 'frame')):
+            raise ValueError('Invalid local readout tensors')
     return model, sha256(raw).hexdigest()
 
 
@@ -191,12 +209,46 @@ def predict(heads, x):
     return {**values, 'name': name}
 
 
+def local_predict(heads, encoder_bytes, text):
+    """Learn cues locally, then compose only the declared typed scope orders.
+
+    No runtime lookup of Arabic operator spellings or test labels. Conflicting
+    local labels abstain; absence of a cue is the plain/assert default in this
+    deliberately finite law, not a general absence-of-evidence inference.
+    """
+    terms = exact_terms(text)
+    if not 1 <= len(terms) <= 20 or len(text.encode()) > 256:
+        raise ValueError('Local feature budget')
+    decisions = {}
+    cues = []
+    for key, labels in (('force', FORCES), ('frame', FRAMES)):
+        found = set()
+        for term in terms:
+            x = token_vector(encoder_bytes, term['surface']) + [1.]
+            scores = [sum(a*b for a,b in zip(w,x,strict=True)) for w in heads[key]]
+            best = max(range(4), key=lambda i: scores[i])
+            if best != 0:
+                found.add(labels[best])
+                cues.append({'head': key, 'label': labels[best],
+                             'surface': term['surface'], 'utf8_span': term['utf8_span']})
+        decisions[key] = next(iter(found)) if len(found) == 1 else labels[0] if not found else 'CONFLICT'
+    # Emit selected operators in observed order; never commute ask and negation.
+    ordered = sorted(cues, key=lambda c: (c['utf8_span'][0], c['head']))
+    sequence = [c['label'] for c in ordered]
+    def operations(tree):
+        return [] if tree['op'] == 'predication' else [tree['op']] + operations(tree['body'])
+    name = next((n for n in PROGRAMS if operations(program(n, 0, 0)) == sequence), None)
+    if 'CONFLICT' in decisions.values():
+        name = None
+    return {**decisions, 'name': name, 'operator_sequence': sequence, 'local_cues': ordered}
+
+
 def propose(mode, text):
     try:
         model, digest = load_model()
-        x = features(shared.MODEL.read_bytes(), text)
+        prediction = local_predict(model['local_heads'][mode], shared.MODEL.read_bytes(), text)
         return {'status': 'PROPOSED', 'authority': 'NONE', 'model_sha256': digest,
-                'encoder_sha256': model['encoder_sha256'], **predict(model['heads'][mode], x)}
+                'encoder_sha256': model['encoder_sha256'], **prediction}
     except (OSError, ValueError, KeyError) as exc:
         return {'status': 'MODEL_UNAVAILABLE', 'authority': 'NONE', 'reason': type(exc).__name__}
 
@@ -207,13 +259,17 @@ def run(request):
     proposal = propose(r['mode'], text)
     result = {'schema': RESULT, 'law': LAW, 'source_id': r['source_id'],
               'source_text': text, 'source_sha256': sha256(text.encode()).hexdigest(),
-              'execution_measured': True, 'request': r, 'neural_proposal': proposal,
+              'execution_measured': True, 'measured_scope': 'PYTHON_AUTHORED_PROGRAM_AND_READOUT', 'request': r, 'neural_proposal': proposal,
               'world_truth_established': False, 'empirical_causality_established': False,
               'grammar_certified': False, 'native_checked': False, 'open_obligations': list(OPEN),
               'binding_authority': 'EXACT_EXISTING_SLOT_FORMS_NOT_NEURAL',
               'status': 'DEFER', 'accepted_program': None}
     if r['mode'] == 'understand':
-        owner = understand(text, r['source_id'])
+        try:
+            owner = understand(text, r['source_id'])
+        except (OSError, ValueError) as exc:
+            result.update(status='EVIDENCE_UNAVAILABLE', execution_measured=False, evidence_failure=type(exc).__name__)
+            return result
         result['owner'] = owner  # Keep alternatives even when the proposal fails.
         matching = [a for a in owner['readings'] if a['name'] == proposal.get('name')]
         if matching:
@@ -222,11 +278,17 @@ def run(request):
     elif proposal.get('name') is not None:
         tree = program(proposal['name'], r['subject'], r['predicate'])
         generated = realize(tree)
-        owner = understand(generated, r['source_id'] + ':realization')
+        try:
+            owner = understand(generated, r['source_id'] + ':realization')
+        except (OSError, ValueError) as exc:
+            result.update(status='EVIDENCE_UNAVAILABLE', execution_measured=False, evidence_failure=type(exc).__name__)
+            return result
         checks = [a for a in owner['readings'] if a['program'] == tree]
         result.update(generated_text=generated, intended_program=tree, realization_owner=owner,
                       roundtrip_matches=bool(checks), intent_grounding='LEARNED_PROPOSAL_NOT_PROVEN_SPEAKER_INTENT')
         # A roundtrip checks realization, not correctness of the learned intent interpretation.
         result['status'] = 'REALIZATION_CHECKED_INTENT_PROPOSED' if checks else 'DEFER'
-        result['accepted_program'] = tree if checks else None
+        result['realized_program'] = tree if checks else None
+        result['accepted_program'] = None
+        result['open_obligations'].append('INSTRUCTION_TO_INTENT_ALIGNMENT_UNVERIFIED')
     return result
