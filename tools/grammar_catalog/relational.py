@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -157,6 +157,9 @@ def validate(request):
     if "question" in request:
         from .question_cognition import validate as validate_question
         validate_question(request["question"])
+    if "genus_chains" in request:
+        from .genus_chains import validate as validate_chains
+        validate_chains(request["genus_chains"])
     if "root_sense" in request:
         from .root_sense import validate as validate_root_sense
         validate_root_sense(request["root_sense"])
@@ -221,6 +224,9 @@ def analyze(request):
     event_roles = analyze_event_roles(text, source_id)
     if event_roles is not None:
         result["literal_event_roles"] = event_roles
+    if "genus_chains" in p:
+        from .genus_chains import analyze as analyze_chains
+        result["genus_chains"] = analyze_chains(text, source_id, p["genus_chains"])
     if "root_sense" in p:
         from .root_sense import analyze as analyze_root_sense
         result["root_sense"] = analyze_root_sense(text, source_id, p["root_sense"], reports.get("derivation", {}))
