@@ -132,6 +132,10 @@ class IfadahPrograms(TestCase):
         self.assertEqual(len(ids), 84)
         self.assertFalse(any(r['program'] in ('ask_past', 'ask_negation') for r in data['rows'] if r['id'] in ids))
         self.assertFalse(any('ask_past' in key or 'ask_negation' in key for key in model['train_ids']['produce']))
+        evaluation = json.loads((n.DIRECTORY / 'evaluation.json').read_bytes())
+        self.assertTrue(evaluation['test_used_for_architecture_revision'])
+        self.assertTrue(evaluation['test_used_for_selection'])
+        self.assertFalse(evaluation['test_used_for_parameter_fitting'])
         self.assertEqual(len({r['text'] for r in data['rows']}), len(data['rows']))
 
     def test_all_programs_realize_and_recover_exact_tree(self):
