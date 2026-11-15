@@ -463,6 +463,11 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     from .event_scene import analyze as analyze_scene
     from .literal_event_roles import analyze as analyze_event_roles
     if not original_check_failed(grammar["source"], failures):
+        from . import derived_event_roles
+        derived = derived_event_roles.analyze(text, grammar["source"]["id"])
+        if derived is not None:
+            question_result["derived_event_roles"] = derived
+            cards.extend(derived_event_roles.cards(derived))
         scene = analyze_scene(text, grammar["source"]["id"])
         if scene is not None:
             question_result["event_scene"] = scene

@@ -209,6 +209,10 @@ def analyze(request):
             "source_inference_role":"ORIGINAL_CONDITIONAL_RESULT_NOT_AUTOMATIC_ONTOLOGY_ASSERTION"},
         "retrieval_prunes_owner_candidates":False, "world_truth_established":False,
         "empirical_causality_established":False, "new_lean_proof":False}
+    from . import derived_event_roles
+    derived = derived_event_roles.analyze(text, source_id)
+    if derived is not None:
+        result["derived_event_roles"] = derived
     from .event_scene import analyze as analyze_scene
     scene = analyze_scene(text, source_id)
     if scene is not None:
