@@ -128,8 +128,8 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
-    from . import context_transfer, corpus_concepts, ntl_core, ntl_course, ntl_curriculum
-    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts):
+    from . import context_transfer, corpus_concepts, ntl_core, ntl_course, ntl_curriculum, ntl_witness_pilot
+    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts, ntl_witness_pilot):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
             continue
         try:
