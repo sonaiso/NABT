@@ -295,3 +295,5 @@ PYTHONPATH=src python -m tools.grammar_catalog gateway verify --request examples
 
 توجد أمثلة القبول والنقض والسحب وإعادة التحقق في
 [اختبارات السلاسل](../tests/test_genus_chains.py).
+
+يعرض [قارئ التعدية والمصدر المؤول](VALENCY_AND_NOMINALIZATION_AR.md) عدد المفاعيل المباشرة، والمعمول الداخلي والخارجي، وسند تعيين المحمول والقابلية والوقوع المقيد.

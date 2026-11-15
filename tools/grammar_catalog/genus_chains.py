@@ -246,3 +246,38 @@ def analyze(text, source_id, request):
                                  "event_in_text": event_scope[reading["kind"]],
                                  "independent_capability": ability if reading["bearer"] == entity else "UNBOUND",
                                  "external_occurrence": "UNKNOWN"}}
+
+
+def align_opening(chains, graph):
+    """Join the checked opening profile to a surviving argument at the same text occurrence."""
+    profiles = {
+        "DISPOSITION": ("DISPOSITION_ASCRIBED", "disposition_bearer"),
+        "STATE": ("STATE_ASCRIBED", "property_bearer"),
+        "ASSERTED_PASSIVE": ("ASSERT_PASSIVE", "opened_entity"),
+        "NEGATED_EVENT": ("DENY_PASSIVE", "opened_entity"),
+        "PURPOSE": ("GOAL_ONLY", "passive_subject"),
+    }
+    out = {"status": "DEFER", "authority": "TEXT_OCCURRENCE_ALIGNMENT_ONLY",
+           "world_truth_established": False, "neural_authority": "NONE"}
+    if (chains.get("status") != "EVALUATED" or chains["source_id"] != graph["source_id"]
+            or chains["target_sha256"] != graph["source_sha256"]):
+        return dict(out, reason="CHECKED_SOURCE_REQUIRED")
+    reading = chains["reading"]
+    owner = graph["owners"].get("valency", {}).get("frame", {}).get("reading", {})
+    profile = profiles.get(reading["kind"])
+    if not profile or not reading["bearer"] or owner.get("force") != profile[0] or owner.get("masdar") != EVENT:
+        return dict(out, reason="NO_SHARED_BOUND_OPENING_PROFILE")
+    spans = [t["utf8_span"] for t in reading["tokens"] if t["surface"] in (reading["bearer"], reading["bearer"] + "ُ")]
+    matches = [(r["force_node"], arg) for r in graph["decoded"] if r["owner"] == "valency"
+               for arg in r["roles"] if arg["role"] == profile[1] and arg["utf8_span"] in spans]
+    if len(matches) != 1 or len(spans) != 1:
+        return dict(out, reason="UNBOUND_OR_AMBIGUOUS_BEARER")
+    force, arg = matches[0]
+    revision = graph["revision"]
+    live = revision["surviving"]
+    status = ("DEFER" if live is None else "ALIGNED" if force in live and arg["node"] in live
+              else "TEXT_SUPPORT_WITHDRAWN")
+    return dict(out, status=status, source_sha256=graph["source_sha256"], source_id=graph["source_id"],
+                bearer=reading["bearer"], utf8_span=arg["utf8_span"], reading=reading["kind"],
+                event_in_text=chains["attribute_bridge"]["event_in_text"], node=arg["node"], force_node=force,
+                ledger_sha256=chains["ledger_sha256"], ledger_capability=chains["capability"]["status"])

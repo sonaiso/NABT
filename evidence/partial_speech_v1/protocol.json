@@ -1,0 +1,20 @@
+{
+  "baseline": "683697e",
+  "prior": "Eight disclosed development probes, measured on identical text and route before and after",
+  "transfer": "Twelve new recombinations fixed before implementation. Same opening domain. Primary label is the ordered sequence of speech acts, including two-act cases.",
+  "controls": "Sixteen case, voice, agreement, scope, valency and source integrity controls. Within this finite profile OPEN is the expected abstention, including grammatically possible competing readings.",
+  "limits": "No arbitrary normalization or correction. Every visible mark and all separators bind the reading. Inferred case and authored lexical restrictions must be disclosed.",
+  "training": "Frozen GRU and former head as baseline. New head trained ONLY on old training utterances, using deterministic mark dropout and the original marked examples. No new probe is a training utterance. Report neural top-1 on single-force cases and separately on the previous nine-class test, plus verified decoder outcomes. No test-set tuning.",
+  "public_routes": [
+    "relations.analyze",
+    "text.read"
+  ],
+  "criteria": [
+    "Per-example verified baseline/final outcome",
+    "False licenses among controls",
+    "Scope and exact UTF-8 role spans",
+    "Independent cue and clause withdrawal",
+    "Retain alternative voices and missing world/cause evidence"
+  ],
+  "overlap_enforcement": "Audit caught one old training utterance whose bare view equalled a disclosed development probe. Before final fitting exclude all old training utterances whose bare spelling equals any paired or old challenge sentence. Use no labels when reserving spellings. Preserve the original baseline weights."
+}
