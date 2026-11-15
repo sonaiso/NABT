@@ -141,7 +141,7 @@ def search(query, limit=5):
 
 def validate(request):
     if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "genus_chains"}:
+            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains"}:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():
@@ -152,6 +152,11 @@ def validate(request):
     if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
         raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
+    if "question_chain" in request and (request["question_chain"] is not True or "question" in request):
+        raise ValueError("Expected a chain without a separate question")
+    if "question" in request:
+        from .question_cognition import validate as validate_question
+        validate_question(request["question"])
     if "genus_chains" in request:
         from .genus_chains import validate as validate_chains
         validate_chains(request["genus_chains"])
@@ -207,6 +212,18 @@ def analyze(request):
             "source_inference_role":"ORIGINAL_CONDITIONAL_RESULT_NOT_AUTOMATIC_ONTOLOGY_ASSERTION"},
         "retrieval_prunes_owner_candidates":False, "world_truth_established":False,
         "empirical_causality_established":False, "new_lean_proof":False}
+    from . import derived_event_roles
+    derived = derived_event_roles.analyze(text, source_id)
+    if derived is not None:
+        result["derived_event_roles"] = derived
+    from .event_scene import analyze as analyze_scene
+    scene = analyze_scene(text, source_id)
+    if scene is not None:
+        result["event_scene"] = scene
+    from .literal_event_roles import analyze as analyze_event_roles
+    event_roles = analyze_event_roles(text, source_id)
+    if event_roles is not None:
+        result["literal_event_roles"] = event_roles
     if "genus_chains" in p:
         from .genus_chains import analyze as analyze_chains
         result["genus_chains"] = analyze_chains(text, source_id, p["genus_chains"])

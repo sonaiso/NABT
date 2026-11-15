@@ -60,6 +60,15 @@ class GenusAndProperty(unittest.TestCase):
         self.assertEqual(without["capability"]["status"], "UNKNOWN")
         self.assertEqual(without["partition"]["candidates"][0]["membership"], "SUPPORTED")
 
+    def test_negative_membership_reaches_children_through_another_parent(self):
+        ledger = BASE["ledger"] + "مغطى نوع شيء.\nباب_مفصلي نوع مغطى.\n"
+        self.assertEqual(run(ledger)["partition"]["selected"], "باب_مفصلي")
+        denied = ledger + "ليس الباب عضوية مغطى.\n"
+        result = run(denied)["partition"]
+        self.assertIsNone(result["selected"])
+        self.assertEqual(result["candidates"][0]["membership"], "REFUTED")
+        self.assertEqual(run(denied + "الباب عضوية باب_مفصلي.")["partition"]["decision"], "CONFLICT")
+
     def test_withdrawal_alternate_support_and_unrelated_judgments(self):
         extra = "الباب خاصية ذو_وصلة.\n"
         original = BASE["ledger"]

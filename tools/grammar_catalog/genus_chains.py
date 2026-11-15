@@ -105,6 +105,7 @@ def ground_rules(facts, pairs, individuals, required):
     for x in individuals:
         for g, h in sorted(pairs["نوع"]):
             add(atom("عضوية", x, h), atom("عضوية", x, g), atom("نوع", g, h))
+            add(atom("عضوية", x, g, False), atom("عضوية", x, h, False), atom("نوع", g, h))
         for g, p in sorted(pairs["لازم"]):
             add(atom("خاصية", x, p), atom("عضوية", x, g), atom("لازم", g, p))
         for p, q in sorted(pairs["أخص"]):
