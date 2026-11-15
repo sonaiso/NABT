@@ -209,6 +209,10 @@ def analyze(request):
             "source_inference_role":"ORIGINAL_CONDITIONAL_RESULT_NOT_AUTOMATIC_ONTOLOGY_ASSERTION"},
         "retrieval_prunes_owner_candidates":False, "world_truth_established":False,
         "empirical_causality_established":False, "new_lean_proof":False}
+    from .literal_event_roles import analyze as analyze_event_roles
+    event_roles = analyze_event_roles(text, source_id)
+    if event_roles is not None:
+        result["literal_event_roles"] = event_roles
     if "root_sense" in p:
         from .root_sense import analyze as analyze_root_sense
         result["root_sense"] = analyze_root_sense(text, source_id, p["root_sense"], reports.get("derivation", {}))

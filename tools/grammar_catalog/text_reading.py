@@ -460,6 +460,25 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
         answer = question_cognition.analyze(text, question, grammar["source"]["id"])
         question_result["question_cognition"] = answer
         cards = question_cognition.cards(answer) + cards
+    from .literal_event_roles import analyze as analyze_event_roles
+    if not original_check_failed(grammar["source"], failures):
+        event_roles = analyze_event_roles(text, grammar["source"]["id"])
+        if event_roles is not None:
+            question_result["literal_event_roles"] = event_roles
+            degrees = {"COMPATIBLE": "ملاءمة نوعية مشروطة", "INCOMPATIBLE": "معارضة خاصية للدور",
+                       "CONFLICT": "تعارض الشواهد", "DEFER": "شاهد غير كافٍ"}
+            for i, row in enumerate(event_roles["readings"]):
+                labels = {"actor": row["agent_name"], "patient": row["patient_name"], "instrument": "آلة"}
+                participants = []
+                reasons = []
+                for role, binding in row["roles"].items():
+                    surface = binding["mention"]["surface"]
+                    participants.append(f"{labels[role]} «{surface}»")
+                    reasons.append(f"{surface} ({degrees[binding['status']]})")
+                cards.append(card("event_role_selection", degrees[row["status"]],
+                                  row["masdar"] + "، " + "، ".join(participants),
+                                  "، ".join(reasons), "وقوع الحدث وتعيين الفرد يحتاجان شاهدًا مستقلًا.",
+                                  reading_ref=f"/literal_event_roles/readings/{i}", law=event_roles["law"]))
     from tools.lexical_training.context_transfer import reader_proposal
     proposal = reader_proposal(text)
     if proposal:
