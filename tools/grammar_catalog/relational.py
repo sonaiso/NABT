@@ -222,5 +222,19 @@ def analyze(request):
     if p.get("neural_continuity"):
         from tools.lexical_training.relational_alignment import rank
         result["neural_continuity"] = rank({"text":text, "source_id":source_id})
+    from . import definition_network
+    if definition_network.QUERY.fullmatch(text):
+        result["definition_network"] = definition_network.read(text, identity=source_id)
+    from .interpretation_chains import analyze as analyze_chain
+    chain = analyze_chain(text)
+    if chain is not None:
+        result["interpretation_chain"] = chain
+    if "question" in p:
+        from .question_cognition import analyze as answer_question
+        result["question_cognition"] = answer_question(text, p["question"], source_id)
+    if p.get("question_chain"):
+        from . import graded_questions
+        result["graded_questions"] = graded_questions.run(text, source_id, bridge=p.get("bridge"),
+                                                          retained_bridge=result["ontology_bridge"] if "bridge" in p else None)
     _encoded(result, 8*1048576, floats=True)
     return result

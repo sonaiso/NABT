@@ -20,9 +20,16 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+          fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.12'
+      - name: Trace changed paths to their interpretation-chain families
+        if: github.event_name == 'pull_request'
+        env:
+          CHAIN_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CHAIN_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python tools/chain_change_map.py --base "$CHAIN_BASE_SHA" --head "$CHAIN_HEAD_SHA" --output artifacts/local/repo-agent/pr-chain-map.json
       - name: Exercise task, process and real Git boundaries
         env:
           PYTHONPATH: src
@@ -37,6 +44,7 @@ jobs:
         with:
           name: repository-agent-evidence
           path: |
+            artifacts/local/repo-agent/pr-chain-map.json
             artifacts/local/repo-agent/ci-demo/*.json
             artifacts/local/repo-agent/ci-demo/candidate/*.json
             artifacts/local/repo-agent/ci-demo/candidate/*.jsonl

@@ -7,8 +7,9 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "rule-learning", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
-    "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
+    "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology", "numeric-program", "rule-learning") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
     "concept.view": (("lexical-denotation", "mantuq-mafhum"), ("kind", "value", "view", "domain"), ()),
     "neural.propose": (("lexical-denotation", "identity", "morphology"), ("text",), ()),
@@ -81,9 +82,23 @@ def validate(route, payload):
     if route == "neural.graph":
         from tools.lexical_training.cognitive_graph import validate_request
         validate_request(payload)
-    if route == "cognitive.orchestrate":
+    if route in ("text.read", "cognitive.orchestrate"):
         from .orchestration import validate as validate_orchestration
-        validate_orchestration(payload)
+        if route == "text.read":
+            validate_orchestration({"text": payload["text"]})
+            from . import question_answer_cycle
+            if "question" in payload:
+                question_answer_cycle.validate_bound_question(payload["question"])
+            if "answer" in payload:
+                question_answer_cycle.validate(payload.get("question"), payload["answer"])
+            if "question_chain" in payload:
+                if payload["question_chain"] is not True or set(payload) != {"text","question_chain"}:
+                    raise ValueError("A graded chain takes the original text only")
+            if "question_cycle" in payload:
+                if payload["question_cycle"] is not True or "question" in payload or "answer" in payload:
+                    raise ValueError("Generation takes only the original text")
+        else:
+            validate_orchestration(payload)
     if route in ("lexical.assess", "lexical.ontolex"):
         from .lexical_ontolex import validate as validate_lexical
         validate_lexical(payload)
@@ -109,6 +124,10 @@ def validate(route, payload):
 
 def execute(route, payload, *, inside_worker=False):
     p = validate(route, payload)
+    if route == "text.read":
+        from .text_reading import analyze
+        return analyze(p["text"], question=p.get("question"), answer=p.get("answer"),
+                       question_cycle=p.get("question_cycle", False), question_chain=p.get("question_chain", False))
     if route == "cognitive.orchestrate":
         from .orchestration import run
         return run(p)

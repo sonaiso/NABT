@@ -31,11 +31,13 @@ jobs:
         env:
           PYTHONPATH: src:.
           NABT_REQUIRE_AWAMIL_TRAINING: '1'
-        run: python -m unittest tests.test_awamil_agent tests.test_awamil_training -v
+        run: python -m unittest tests.test_awamil_agent tests.test_awamil_training tests.test_awamil_occurrence -v
       - name: Train against the current catalogue and retain the first evaluation
         env:
           PYTHONPATH: src:.
         run: |
+          OPENBLAS_NUM_THREADS=1 python -m tools.lexical_training.train_awamil_occurrence --output artifacts/local/awamil-current/occurrence
+          OPENBLAS_NUM_THREADS=1 python -m tools.lexical_training.train_awamil_voice --output artifacts/local/awamil-current/voice
           python -m tools.grammar_catalog awamil train --run-dir artifacts/local/awamil-current/run
           python -m tools.grammar_catalog awamil search 'إنّ وأخواتها' --model artifacts/local/awamil-current/run/model.json --output artifacts/local/awamil-current/retrieval.json
       - name: Preserve current weights, curriculum and measured evaluation

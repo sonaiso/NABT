@@ -1,0 +1,45 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "cognitive.lesson",
+  "payload": {
+    "lesson": {
+      "schema": "ntl.count-change-lesson.v1",
+      "lesson_id": "count-change-four-domains",
+      "record": "سلسلة «العينة» من نوع «مجموعة» في «المختبر».\nرصد «سالم» اليوم ١: العدد = ٢ [قطعة].\nرصد «سالم» اليوم ٢: العدد = ٥ [قطعة].\nأخبر «ليلى» «هند» عن اليوم ٢: العدد = ٥ [قطعة].",
+      "exercise": {
+        "first_day": 1,
+        "last_day": 2,
+        "before": 2,
+        "after": 5,
+        "unit": "قطعة"
+      },
+      "implementation": "signed_delta",
+      "examples": [
+        {
+          "before": 1,
+          "after": 4,
+          "before_unit": "قطعة",
+          "after_unit": "قطعة"
+        },
+        {
+          "before": 2,
+          "after": 4,
+          "before_unit": "قطعة",
+          "after_unit": "جزء"
+        },
+        {
+          "before": 5,
+          "after": 2,
+          "before_unit": "قطعة",
+          "after_unit": "قطعة"
+        }
+      ],
+      "answers": {
+        "linguistic": 5,
+        "physical": "ALIGNED",
+        "formal": 3,
+        "programming": true
+      }
+    }
+  }
+}

@@ -1,0 +1,701 @@
+{
+  "sign": {
+    "domain": "linguistic",
+    "objective": "حفظ الحركات والأثر والموضع وقوة الملفوظ، وإعادة توليد القراءة من رقمها.",
+    "question": "ما قوة هذا الملفوظ في القراءة التي يعيدها الفاحص عند فكّ ترميزها؟",
+    "answer_format": "اكتب اسم القوة كما يعرّفها القارئ، مثل ASSERT أو QUESTION أو WISH أو VOCATIVE. الشاهد العبارة التي يغطيها امتداد خطوة القراءة. عند غياب قرينة كافية UNRESOLVED مع قائمة فارغة.",
+    "cases": {
+      "worked": {
+        "text": "سالم هو حاضر."
+      },
+      "transfer": {
+        "text": "هل أنس هو مدقق؟"
+      },
+      "contrast": {
+        "text": "يا سالم."
+      },
+      "withdrawal": {
+        "text": "ناجحٌ سالمٌ."
+      }
+    }
+  },
+  "passage": {
+    "domain": "linguistic",
+    "objective": "استخراج قاعدة وشاهد انطباقها من فقرة عربية يقدّمها المعلّم، ثم حفظ النفي أو التوقف.",
+    "question": "هل تجيز الفقرة النتيجة المسؤولة عنها؟ ما العبارات الأصلية التي تحمل مقدمات الجواب؟",
+    "answer_format": "decision هو SUPPORTED أو REFUTED أو CONFLICT أو UNKNOWN أو OUT_OF_SCOPE أو UNREAD أو CONTESTED. الشواهد نصوص العبارات كما وردت في أثر البرهان، والقائمة فارغة عند غياب البرهان.",
+    "cases": {
+      "worked": {
+        "text": "كلُّ باحثٍ مدققٌ. أنس هو باحث.",
+        "query": "هل أنس هو مدقق؟"
+      },
+      "transfer": {
+        "text": "نحاسٌ هو معدنٌ. كلُّ موصلٍ ناقلٌ. كلُّ معدنٍ موصلٌ.",
+        "query": "هل نحاس هو ناقل؟"
+      },
+      "contrast": {
+        "text": "كلُّ معدنٍ موصلٌ. نحاس هو معدن. ليس نحاس هو موصل.",
+        "query": "هل نحاس هو موصل؟"
+      },
+      "withdrawal": {
+        "text": "كلُّ موصلٍ ناقلٌ. كلُّ معدنٍ موصلٌ.",
+        "query": "هل نحاس هو ناقل؟"
+      }
+    }
+  },
+  "indication": {
+    "domain": "linguistic",
+    "objective": "التمييز بين دلالة تمام المعنى وجزئه ولازمه، وحفظ اختلاف القراءات.",
+    "question": "أي دلالة تجيزها القراءات المثبتة لهذا الجذر على المطلوب؟ عيّن الشواهد بمعرّفات القراءات.",
+    "answer_format": "mutabaqa أو tadammun أو iltizam، أو SENSE_DEPENDENT أو NO_LICENSE أو UNMEASURED أو MISSING_TARGET. يورد المتعلم معرّفات القراءات المطابقة في الفهرس.",
+    "cases": {
+      "worked": {
+        "root": "فرس",
+        "target": [
+          "واحد الخيل"
+        ]
+      },
+      "transfer": {
+        "root": "بيت",
+        "target": [
+          "المأوى"
+        ]
+      },
+      "contrast": {
+        "root": "عمي",
+        "target": [
+          "البصر"
+        ]
+      },
+      "withdrawal": {
+        "root": "عمي",
+        "target": null
+      }
+    }
+  },
+  "measurement": {
+    "domain": "physical",
+    "objective": "محاذاة الهوية والوقت والوحدة ومقدار خطأ الأداة لتحديد اتجاه التغير.",
+    "question": "هل ازداد الطول يقينًا ضمن حدَّي الخطأ؟ ضع عنوان كل رصد اعتمدت عليه.",
+    "answer_format": "INCREASE أو DECREASE أو SAME أو UNRESOLVED_PRECISION أو UNALIGNED أو MISSING_READING. تُرقّم الأرصاد R1 وR2 حسب ورودها.",
+    "cases": {
+      "worked": {
+        "readings": [
+          {
+            "object": "قضيب",
+            "day": 1,
+            "unit": "cm",
+            "value": 10,
+            "error": 1
+          },
+          {
+            "object": "قضيب",
+            "day": 2,
+            "unit": "mm",
+            "value": 130,
+            "error": 2
+          }
+        ]
+      },
+      "transfer": {
+        "readings": [
+          {
+            "object": "عارضة",
+            "day": 2,
+            "unit": "mm",
+            "value": 900,
+            "error": 3
+          },
+          {
+            "object": "عارضة",
+            "day": 5,
+            "unit": "cm",
+            "value": 80,
+            "error": 2
+          }
+        ]
+      },
+      "contrast": {
+        "readings": [
+          {
+            "object": "قضيب",
+            "day": 1,
+            "unit": "cm",
+            "value": 10,
+            "error": 1
+          },
+          {
+            "object": "قضيب",
+            "day": 2,
+            "unit": "mm",
+            "value": 112,
+            "error": 2
+          }
+        ]
+      },
+      "withdrawal": {
+        "readings": [
+          {
+            "object": "قضيب",
+            "day": 1,
+            "unit": "cm",
+            "value": 10,
+            "error": 1
+          }
+        ]
+      }
+    }
+  },
+  "experiment": {
+    "domain": "physical",
+    "objective": "تعيين متى تقبل تجربة مزدوجة عشوائية قرينة ضد فرض انعدام الأثر وما ينقصها.",
+    "question": "في سجل تجربة أثر تدخل على القراءة، هل تدعم النتيجة رفض فرض انعدام الأثر لكل الوحدات باختبار ثنائي الطرف عند ٥٪؟",
+    "answer_format": "REJECT_SHARP_NULL أو INSUFFICIENT_EVIDENCE (الشواهد design وجميع الأزواج P1 …)، أو DESIGN_INSUFFICIENT (design)، أو MISSING_OUTCOME (الأزواج الناقصة). توزيع العينة داخل أزواجها مستقل ومتساوي الاحتمال وفق وصف التصميم عند اختيار fair_independent_within_pair. وعند غياب هوية المقارنة أو نقطة النهاية يكون الجواب UNDEFINED_COMPARISON مع design.",
+    "cases": {
+      "worked": {
+        "assignment": "fair_independent_within_pair",
+        "outcome_unit": "ملليمتر",
+        "pairs": [
+          {
+            "ids": [
+              "لوح1أ",
+              "لوح1ب"
+            ],
+            "treated": 1,
+            "values": [
+              15,
+              17
+            ]
+          },
+          {
+            "ids": [
+              "لوح2أ",
+              "لوح2ب"
+            ],
+            "treated": 0,
+            "values": [
+              18,
+              16
+            ]
+          },
+          {
+            "ids": [
+              "لوح3أ",
+              "لوح3ب"
+            ],
+            "treated": 1,
+            "values": [
+              17,
+              19
+            ]
+          },
+          {
+            "ids": [
+              "لوح4أ",
+              "لوح4ب"
+            ],
+            "treated": 0,
+            "values": [
+              20,
+              18
+            ]
+          },
+          {
+            "ids": [
+              "لوح5أ",
+              "لوح5ب"
+            ],
+            "treated": 1,
+            "values": [
+              19,
+              21
+            ]
+          },
+          {
+            "ids": [
+              "لوح6أ",
+              "لوح6ب"
+            ],
+            "treated": 0,
+            "values": [
+              22,
+              20
+            ]
+          }
+        ],
+        "intervention": "تسخين محدود للوح",
+        "control": "ترك اللوح عند حرارة الغرفة",
+        "endpoint": "تغير طول اللوح بعد عشر دقائق"
+      },
+      "transfer": {
+        "assignment": "fair_independent_within_pair",
+        "outcome_unit": "ملليمتر",
+        "pairs": [
+          {
+            "ids": [
+              "لوح1أ",
+              "لوح1ب"
+            ],
+            "treated": 1,
+            "values": [
+              15,
+              13
+            ]
+          },
+          {
+            "ids": [
+              "لوح2أ",
+              "لوح2ب"
+            ],
+            "treated": 0,
+            "values": [
+              17,
+              16
+            ]
+          },
+          {
+            "ids": [
+              "لوح3أ",
+              "لوح3ب"
+            ],
+            "treated": 1,
+            "values": [
+              17,
+              16
+            ]
+          },
+          {
+            "ids": [
+              "لوح4أ",
+              "لوح4ب"
+            ],
+            "treated": 0,
+            "values": [
+              20,
+              18
+            ]
+          },
+          {
+            "ids": [
+              "لوح5أ",
+              "لوح5ب"
+            ],
+            "treated": 1,
+            "values": [
+              19,
+              16
+            ]
+          },
+          {
+            "ids": [
+              "لوح6أ",
+              "لوح6ب"
+            ],
+            "treated": 0,
+            "values": [
+              23,
+              20
+            ]
+          }
+        ],
+        "intervention": "تسخين محدود للوح",
+        "control": "ترك اللوح عند حرارة الغرفة",
+        "endpoint": "تغير طول اللوح بعد عشر دقائق"
+      },
+      "contrast": {
+        "assignment": "observer_selected",
+        "outcome_unit": "ملليمتر",
+        "pairs": [
+          {
+            "ids": [
+              "لوح1أ",
+              "لوح1ب"
+            ],
+            "treated": 1,
+            "values": [
+              15,
+              17
+            ]
+          },
+          {
+            "ids": [
+              "لوح2أ",
+              "لوح2ب"
+            ],
+            "treated": 0,
+            "values": [
+              18,
+              16
+            ]
+          },
+          {
+            "ids": [
+              "لوح3أ",
+              "لوح3ب"
+            ],
+            "treated": 1,
+            "values": [
+              17,
+              19
+            ]
+          },
+          {
+            "ids": [
+              "لوح4أ",
+              "لوح4ب"
+            ],
+            "treated": 0,
+            "values": [
+              20,
+              18
+            ]
+          },
+          {
+            "ids": [
+              "لوح5أ",
+              "لوح5ب"
+            ],
+            "treated": 1,
+            "values": [
+              19,
+              21
+            ]
+          },
+          {
+            "ids": [
+              "لوح6أ",
+              "لوح6ب"
+            ],
+            "treated": 0,
+            "values": [
+              22,
+              20
+            ]
+          }
+        ],
+        "intervention": "تسخين محدود للوح",
+        "control": "ترك اللوح عند حرارة الغرفة",
+        "endpoint": "تغير طول اللوح بعد عشر دقائق"
+      },
+      "withdrawal": {
+        "assignment": "fair_independent_within_pair",
+        "outcome_unit": "ملليمتر",
+        "pairs": [
+          {
+            "ids": [
+              "لوح1أ",
+              "لوح1ب"
+            ],
+            "treated": 1,
+            "values": [
+              15,
+              17
+            ]
+          },
+          {
+            "ids": [
+              "لوح2أ",
+              "لوح2ب"
+            ],
+            "treated": 0,
+            "values": [
+              18,
+              16
+            ]
+          },
+          {
+            "ids": [
+              "لوح3أ",
+              "لوح3ب"
+            ],
+            "treated": 1,
+            "values": [
+              17,
+              null
+            ]
+          },
+          {
+            "ids": [
+              "لوح4أ",
+              "لوح4ب"
+            ],
+            "treated": 0,
+            "values": [
+              20,
+              18
+            ]
+          },
+          {
+            "ids": [
+              "لوح5أ",
+              "لوح5ب"
+            ],
+            "treated": 1,
+            "values": [
+              19,
+              21
+            ]
+          },
+          {
+            "ids": [
+              "لوح6أ",
+              "لوح6ب"
+            ],
+            "treated": 0,
+            "values": [
+              22,
+              20
+            ]
+          }
+        ],
+        "intervention": "تسخين محدود للوح",
+        "control": "ترك اللوح عند حرارة الغرفة",
+        "endpoint": "تغير طول اللوح بعد عشر دقائق"
+      }
+    }
+  },
+  "formal": {
+    "domain": "formal",
+    "objective": "حفظ ترتيب العمليات ونوع الناتج وشروط تعريف القسمة وفصل نقص التعبير عن رفضه.",
+    "question": "ما نتيجة التعبير المضبوط؟ هل هو مقدار أم قضية أم عملية غير معرَّفة؟",
+    "answer_format": "الكمية ككسر مبسّط أو عدد صحيح، والقضية TRUE أو FALSE، والقسمة على صفر DIVISION_BY_ZERO. الشاهد expression. عند حذف التعبير MISSING_EXPRESSION وقائمة فارغة.",
+    "cases": {
+      "worked": {
+        "text": "2+3*4"
+      },
+      "transfer": {
+        "text": "(2+3)*4=20"
+      },
+      "contrast": {
+        "text": "4/(2-2)"
+      },
+      "withdrawal": {
+        "text": null
+      }
+    }
+  },
+  "program": {
+    "domain": "programming",
+    "objective": "التحقق من عقد دالة على مجال صحيح منتهٍ بكل مدخلاته، أو استخراج أول مثال مضاد.",
+    "question": "هل يحقّق التنفيذ before + output = after لكل الزوجيات المرتبة في المجال المغلق؟",
+    "answer_format": "ALL_IN_DOMAIN مع domain، أو COUNTEREXAMPLE مع الزوج الأول المخالف بترتيب تصاعدي للمدخلين مثل 1,0، أو MISSING_UPPER_BOUND مع domain.",
+    "cases": {
+      "worked": {
+        "implementation": "signed_delta",
+        "domain": [
+          0,
+          2
+        ]
+      },
+      "transfer": {
+        "implementation": "signed_delta",
+        "domain": [
+          -4,
+          1
+        ]
+      },
+      "contrast": {
+        "implementation": "magnitude",
+        "domain": [
+          0,
+          3
+        ]
+      },
+      "withdrawal": {
+        "implementation": "signed_delta",
+        "domain": [
+          0
+        ]
+      }
+    }
+  },
+  "integrated": {
+    "domain": "bridge",
+    "objective": "نقل خبر مستنبط عن زيادة طول حامل معين إلى قياس مضبوط وفرق صوري وخرج تنفيذ على الفترة.",
+    "question": "هل تتفق دعوى الزيادة في النص مع الحامل واتجاه تغير طوله بين الرصدين ومع خرج البرنامج؟ حدّد الشاهد الحاسم.",
+    "answer_format": "APPLIES_TO_RECORDED_INTERVAL مع عبارات برهان النص وأرقام الأرصاد وexpression وprogram. عند NO_MATCHING_CLAIM تُذكر عبارات دليل الخبر إن وجد، وعند INCREASE_NOT_ESTABLISHED تُذكر الأرصاد، وعند IMPLEMENTATION_DISAGREES يذكر expression وprogram. الربط مقصور على الفترة المعروضة ويفترض أن محور الوصف هو الطول.",
+    "cases": {
+      "worked": {
+        "text": "كلُّ متمددٍ متزايدٌ. قضيب هو متمدد.",
+        "query": "هل قضيب هو متزايد؟",
+        "readings": [
+          {
+            "object": "قضيب",
+            "day": 1,
+            "unit": "cm",
+            "value": 3,
+            "error": 0
+          },
+          {
+            "object": "قضيب",
+            "day": 2,
+            "unit": "mm",
+            "value": 44,
+            "error": 1
+          }
+        ],
+        "implementation": "signed_delta"
+      },
+      "transfer": {
+        "text": "كلُّ متمددٍ متزايدٌ. لوح هو متمدد.",
+        "query": "هل لوح هو متزايد؟",
+        "readings": [
+          {
+            "object": "لوح",
+            "day": 1,
+            "unit": "mm",
+            "value": 800,
+            "error": 2
+          },
+          {
+            "object": "لوح",
+            "day": 2,
+            "unit": "m",
+            "value": 1,
+            "error": 0
+          }
+        ],
+        "implementation": "signed_delta"
+      },
+      "contrast": {
+        "text": "كلُّ متمددٍ متزايدٌ. قضيب هو متمدد.",
+        "query": "هل قضيب هو متزايد؟",
+        "readings": [
+          {
+            "object": "قضيب",
+            "day": 1,
+            "unit": "cm",
+            "value": 3,
+            "error": 0
+          },
+          {
+            "object": "قضيب",
+            "day": 2,
+            "unit": "mm",
+            "value": 44,
+            "error": 1
+          }
+        ],
+        "implementation": "reversed"
+      },
+      "withdrawal": {
+        "text": "كلُّ متمددٍ متزايدٌ. قضيب هو متمدد.",
+        "query": "هل قضيب هو متزايد؟",
+        "readings": [
+          {
+            "object": "قضيب",
+            "day": 1,
+            "unit": "cm",
+            "value": 3,
+            "error": 0
+          }
+        ],
+        "implementation": "signed_delta"
+      }
+    }
+  },
+  "ontology": {
+    "domain": "linguistic",
+    "objective": "ربط الجنس والخاصية والصفة وقابلية الفرد ووقوع الحدث وزمنه ومكانه بشواهد مناسبة.",
+    "question": "أي مرحلة يجيزها هذا السجل؟ هل اكتملت مقدماتها أم تعارض بعضها؟",
+    "answer_format": "عند SCOPED_SOURCE_LICENSE اذكر أسماء كل محمولات المقدمات المطلوبة. عند UNKNOWN_PREMISE أو REFUTED_PREMISE أو CONFLICT اذكر أسماء المحمولات الناقصة أو المتعارضة. تُحفظ القيم والقطبية في أثر الفاحص.",
+    "cases": {
+      "worked": {
+        "text": "اصفرّ الشجر",
+        "bridge": {
+          "source_text": "موضع1 نص u_1575_1589_1601_1585_1617_32_1575_1604_1588_1580_1585.\nموضع1 موضع p_0_5.\nشجرة1 عضوية نبات.\nموضع1 قراءة yellowing_past.\nموضع1 حدث حدث1.\nحدث1 معنى اصفرار.\nحدث1 حامل شجرة1.\nشجرة1 خاصية لون_اصفر.\nحدث1 حالة لون_اصفر.\nنبات يقبل لون_اصفر.\nاصفرار يحول لون_اصفر.\nشجرة1 قابلية اصفرار.\nحدث1 شروط متحققة.\nليس حدث1 مانع قائم.\nحدث1 مكان حديقة1.\nحدث1 زمان يوم1.\nشجرة1 بجانب صخرة1.\nيوم0 قبل يوم1.\n",
+          "source_id": "authored_relational_acceptance",
+          "revision": "2",
+          "scope": "تعليمي",
+          "frame": {
+            "reading_id": "yellowing_past",
+            "stage": "disposition",
+            "occurrence_id": "موضع1",
+            "entity": "شجرة1",
+            "kind": "نبات",
+            "property": "لون_اصفر",
+            "event": "حدث1",
+            "time": "يوم1",
+            "place": "حديقة1",
+            "cause": "جفاف1",
+            "start": 0,
+            "stop": 5,
+            "surface": "اصفرّ"
+          }
+        }
+      },
+      "transfer": {
+        "text": "اصفرّ الشجر",
+        "bridge": {
+          "source_text": "موضع1 نص u_1575_1589_1601_1585_1617_32_1575_1604_1588_1580_1585.\nموضع1 موضع p_0_5.\nشجرة2 عضوية نبات.\nموضع1 قراءة yellowing_past.\nموضع1 حدث حدث1.\nحدث1 معنى اصفرار.\nحدث1 حامل شجرة2.\nشجرة2 خاصية لون_اصفر.\nحدث1 حالة لون_اصفر.\nنبات يقبل لون_اصفر.\nاصفرار يحول لون_اصفر.\nشجرة2 قابلية اصفرار.\nحدث1 شروط متحققة.\nليس حدث1 مانع قائم.\nحدث1 مكان حديقة1.\nحدث1 زمان يوم1.\nشجرة2 بجانب صخرة1.\nيوم0 قبل يوم1.\nحدث1 وقوع شجرة2.\n",
+          "source_id": "authored_relational_acceptance",
+          "revision": "2",
+          "scope": "تعليمي",
+          "frame": {
+            "reading_id": "yellowing_past",
+            "stage": "occurrence",
+            "occurrence_id": "موضع1",
+            "entity": "شجرة2",
+            "kind": "نبات",
+            "property": "لون_اصفر",
+            "event": "حدث1",
+            "time": "يوم1",
+            "place": "حديقة1",
+            "cause": "جفاف1",
+            "start": 0,
+            "stop": 5,
+            "surface": "اصفرّ"
+          }
+        }
+      },
+      "contrast": {
+        "text": "اصفرّ الشجر",
+        "bridge": {
+          "source_text": "موضع1 نص u_1575_1589_1601_1585_1617_32_1575_1604_1588_1580_1585.\nموضع1 موضع p_0_5.\nشجرة1 عضوية نبات.\nموضع1 قراءة yellowing_past.\nموضع1 حدث حدث1.\nحدث1 معنى اصفرار.\nحدث1 حامل شجرة1.\nشجرة1 خاصية لون_اصفر.\nحدث1 حالة لون_اصفر.\nنبات يقبل لون_اصفر.\nاصفرار يحول لون_اصفر.\nشجرة1 قابلية اصفرار.\nحدث1 شروط متحققة.\nليس حدث1 مانع قائم.\nحدث1 مكان حديقة1.\nحدث1 زمان يوم1.\nشجرة1 بجانب صخرة1.\nيوم0 قبل يوم1.\nحدث1 وقوع شجرة1.\nجفاف1 دليل_سببي حدث1.\nحدث1 مانع قائم.\n",
+          "source_id": "authored_relational_acceptance",
+          "revision": "2",
+          "scope": "تعليمي",
+          "frame": {
+            "reading_id": "yellowing_past",
+            "stage": "disposition",
+            "occurrence_id": "موضع1",
+            "entity": "شجرة1",
+            "kind": "نبات",
+            "property": "لون_اصفر",
+            "event": "حدث1",
+            "time": "يوم1",
+            "place": "حديقة1",
+            "cause": "جفاف1",
+            "start": 0,
+            "stop": 5,
+            "surface": "اصفرّ"
+          }
+        }
+      },
+      "withdrawal": {
+        "text": "اصفرّ الشجر",
+        "bridge": {
+          "source_text": "موضع1 نص u_1575_1589_1601_1585_1617_32_1575_1604_1588_1580_1585.\nموضع1 موضع p_0_5.\nشجرة1 عضوية نبات.\nموضع1 قراءة yellowing_past.\nموضع1 حدث حدث1.\nحدث1 معنى اصفرار.\nحدث1 حامل شجرة1.\nشجرة1 خاصية لون_اصفر.\nحدث1 حالة لون_اصفر.\nنبات يقبل لون_اصفر.\nاصفرار يحول لون_اصفر.\nشجرة1 قابلية اصفرار.\nحدث1 شروط متحققة.\nليس حدث1 مانع قائم.\nحدث1 مكان حديقة1.\nحدث1 زمان يوم1.\nشجرة1 بجانب صخرة1.\nيوم0 قبل يوم1.\nجفاف1 دليل_سببي حدث1.\n",
+          "source_id": "authored_relational_acceptance",
+          "revision": "2",
+          "scope": "تعليمي",
+          "frame": {
+            "reading_id": "yellowing_past",
+            "stage": "occurrence",
+            "occurrence_id": "موضع1",
+            "entity": "شجرة1",
+            "kind": "نبات",
+            "property": "لون_اصفر",
+            "event": "حدث1",
+            "time": "يوم1",
+            "place": "حديقة1",
+            "cause": "جفاف1",
+            "start": 0,
+            "stop": 5,
+            "surface": "اصفرّ"
+          }
+        }
+      }
+    }
+  }
+}

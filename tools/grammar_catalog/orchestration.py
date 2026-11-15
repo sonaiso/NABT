@@ -80,9 +80,15 @@ def _local(report, source):
 
 def _shape(p, source):
     from tools.arabic_training.unit_composition import execute
-    result = execute({"op": "source", "text": p["text"], "source_id": source["id"],
-                      "mode": p.get("mode", "wasl")})
-    body = result["result"]; _local(body, source)
+    request = {"op": "source", "text": p["text"], "source_id": source["id"], "mode": p.get("mode", "wasl")}
+    result = execute(request)
+    body = result["result"]
+    # Rejections have an exact request binding but no positive source witness.
+    if body.get("owner_error") and body.get("status") == "OWNER_REJECT":
+        if result["request"] != request:
+            raise ValueError("NONLOCAL_WITNESS")
+        return result, False
+    _local(body, source)
     runs = body["written_runs"]
     words = [w for r in runs for w in r["owner_result"].get("words", [])]
     closed = bool(runs) and all(r["owner_result"].get("words") for r in runs) and all(
@@ -220,6 +226,11 @@ def run(request, *, _recover=True):
             "open_obligations": ["OCCURRENCE_INTERPRETATION_AND_GROUNDED_CONCEPT_APPLICATION",
                 "GENERAL_ARABIC_USE_ACQUISITION_AND_WORLD_GROUNDING",
                 "ANALOGY_DIVISION_OWNER_BUNDLE_BRIDGES", "INDEPENDENT_REVIEW_BEFORE_TRAINING"]}
+    if _recover and reports["orthography"].get("result", {}).get("status") == "OWNER_REJECT":
+        result["source_reading"] = {"branch_status": "NOT_ATTEMPTED_AFTER_SOURCE_REJECTION",
+                                    "derived_sources": [], "occurrences": []}
+        result["conditional_readings"] = []
+        return result
     if _recover:
         from tools.arabic_training.source_reading import analyze as read_source
         recovery = read_source(p['text'],source_id=source['id'],lexical_text=p.get('lexical_text'),

@@ -1,0 +1,101 @@
+factor	relation	reading	pattern
+1	instrument	الاستعانة بالآلة في الكتابة	كَتَبْتُ {g=بِ}{instrument=$tool_i}
+2	origin	ابتداء مسار السير	سِرْتُ {g=مِنْ} {origin=$place_i}
+3	goal	منتهى مسار السير	سِرْتُ {g=إِلَى} {goal=$place_i}
+4	location	موضع الانتظار	انْتَظَرْتُ {g=فِي} {place=$place_i}
+5	recipient	المنتفع المقصود بالكتابة	كَتَبْتُ رِسَالَةً {g=لِ}{recipient=$ind_i}
+6	quantified	جر نكرة في صدر الكلام برب	{g=رُبَّ} {participant=$ind_i} لَقِيتُهُ
+7	location	موضع الاستعلاء	جَلَسْتُ {g=عَلَى} {place=$seat_i}
+8	topic	موضوع السؤال	سَأَلْتُ {g=عَنْ} {topic=$ind_i}
+9	similarity	وجه التشبيه في الخبر	هُوَ {g=كَ}{standard=$ind_i} فِي صَبْرِهِ
+10	time_origin	ابتداء الغيبة عند قراءة مذ حرف جر	غِبْتُ {g=مُذْ} {time=$day_i}
+11	time_origin	ابتداء الغيبة عند قراءة منذ حرف جر	غِبْتُ {g=مُنْذُ} {time=$day_i}
+12	goal	الغاية المجرورة في السير	سِرْتُ {g=حَتَّى} {goal=$place_i}
+13	oath	المقسم به بالواو	{g=وَ}{oath=رَبِّ} {dependent=$place_i} لَأَصْدُقَنَّ
+14	oath	المقسم به بالتاء	{g=تَ}{oath=اللَّهِ} لَأُسَاعِدَنَّ {patient=$person_a}
+15	except	المستثنى المجرور في وجه الحرفية	حَضَرُوا {g=حَاشَا} {excluded=$ind_i}
+16	except	المستثنى المجرور في وجه الحرفية	حَضَرُوا {g=خَلَا} {excluded=$ind_i}
+17	except	المستثنى المجرور في وجه الحرفية	حَضَرُوا {g=عَدَا} {excluded=$ind_i}
+18	emphasis	توكيد النسبة	{g=إِنَّ} {subject=$person_a} {predicate=$adj_u}
+19	embedded	النسبة المؤكدة داخل مصدر مؤول	عَلِمْتُ {g=أَنَّ} {subject=$person_a} {predicate=$adj_u}
+20	similarity	تشبيه المسند إليه بالمحمول	{g=كَأَنَّ} {subject=$person_a} {standard=أَسَدٌ}
+21	correction	الاستدراك بعد النفي	مَا غَابُوا {g=لَكِنَّ} {subject=$person_a} {predicate=غَائِبٌ}
+22	wish	تمنّي النسبة	{g=لَيْتَ} {subject=$person_a} {predicate=$adj_u}
+23	hope	الترجي في الوجه التعليمي	{g=لَعَلَّ} {subject=$person_a} {predicate=$adj_u}
+24	deny_predicate	نفي الخبر بعمل ما الحجازية	{g=مَا} {subject=$person_u} {predicate=$adj_a}
+25	deny_predicate	عمل لا عمل ليس في وجه الشعر مع نكرتين	{g=لَا} {subject=$ind_u} {predicate=$adj_a}
+26	accompaniment	المصاحبة في وجه المفعول معه	سِرْتُ {g=وَ}{companion=$line_a}
+27	except	الاستثناء التام المثبت	حَضَرُوا {g=إِلَّا} {excluded=$person_a}
+28	vocative	طلب إقبال المنادى المضاف	{g=يَا} {addressee=صَاحِبَ} {dependent=$place_i}
+29	vocative	طلب إقبال المنادى المضاف	{g=أَيَا} {addressee=صَاحِبَ} {dependent=$place_i}
+30	vocative	طلب إقبال المنادى المضاف	{g=هَيَا} {addressee=صَاحِبَ} {dependent=$place_i}
+31	vocative	طلب إقبال المنادى المضاف	{g=أَيْ} {addressee=صَاحِبَ} {dependent=$place_i}
+32	vocative	طلب إقبال المنادى المضاف بهمزة النداء في الوجه المعطى	{g=أَ}{addressee=صَاحِبَ} {dependent=$place_i}
+33	embedded	المصدر المؤول متعلق بالإرادة	أُرِيدُ {g=أَنْ} {predicate=$first_a}
+34	deny_future	نفي الفعل في الاستقبال	{g=لَنْ} {predicate=$first_a} غَدًا
+35	purpose	الغاية المقصودة	جِئْتُ {g=كَيْ} {purpose=$first_a}
+36	answer_future	جواب مستقبل في قراءة إذن الناصبة	{g=إِذَنْ} {predicate=$first_a} غَدًا
+37	conditional	تعليق الجواب بفعل الشرط	{g=إِنْ} {condition=$cond} {consequence=تَنْجَحْ}
+38	deny_past	نفي حدوث الفعل في الماضي	{g=لَمْ} {predicate=$third_j} {actor=$person_u}
+39	not_yet	نفي إلى زمن الكلام	{g=لَمَّا} {predicate=$third_j} {actor=$person_u}
+40	command	طلب حصول الفعل بلام الأمر	{g=لِ}{predicate=$third_j} {actor=$person_u}
+41	prohibit	طلب الكف عن الفعل	{g=لَا} {predicate=$cond} هُنَا
+42	conditional_person	تعليق الجواب بعمل من يحقق الشرط	{g=مَنْ} {condition=$third_j} {consequence=يَنْجَحْ}
+43	conditional_choice	تعليق الجواب بالفرد المختار	{g=أَيُّ} {dependent=$ind_i} {condition=يَجْتَهِدْ} {consequence=يَنْجَحْ}
+44	conditional_thing	تعليق الجزاء بما يفعله المخاطب	{g=مَا} {condition=تَفْعَلْ} مِنْ {dependent=$good_i} {consequence=تَجِدْهُ}
+45	conditional_time	تعليق النتيجة بزمن الفعل	{g=مَتَى} {condition=$cond} {consequence=تَنْجَحْ}
+46	conditional_thing	تعليق الجزاء بما يفعله المخاطب	{g=مَهْمَا} {condition=تَفْعَلْ} مِنْ {dependent=$good_i} {consequence=تَجِدْهُ}
+47	conditional_place	تعليق النتيجة بمكان الفعل	{g=أَيْنَ} {condition=$cond} {consequence=أَجْلِسْ}
+48	conditional_place	تعليق النتيجة بمكان الفعل	{g=أَنَّى} {condition=$cond} {consequence=أَجْلِسْ}
+49	conditional_place	تعليق النتيجة بمكان الفعل	{g=حَيْثُمَا} {condition=$cond} {consequence=أَجْلِسْ}
+50	conditional	تعليق الجواب بفعل الشرط	{g=إِذْمَا} {condition=$cond} {consequence=تَنْجَحْ}
+51	quantity	المميّز المعدود للعدد المركب	قَرَأْتُ {g=اثْنَتَيْ عَشْرَةَ} {measure=$unit_a}
+52	ask_quantity	السؤال عن العدد	{g=كَمْ} {measure=$unit_a} قَرَأْتَ؟
+53	quantity	التكثير مع تمييز مجرور بمن	{g=كَأَيِّنْ} مِنْ {measure=$unit_i} قَرَأْتُ
+54	quantity	كناية عن مقدار المعدود	قَرَأْتُ {g=كَذَا} {measure=$unit_a}
+55	request	طلب الإمهال	{g=رُوَيْدَ} {patient=$person_a}
+56	request	طلب الترك في قراءة اسم الفعل	{g=بَلْهَ} {patient=$person_a}
+57	request	طلب الأخذ	{g=دُونَكَ} {patient=$thing_a}
+58	request	طلب اللزوم	{g=عَلَيْكَ} {patient=$thing_a}
+59	request	طلب الأخذ في قراءة اسم الفعل	{g=هَا} {patient=$thing_a}
+60	request	طلب الإتيان في قراءة التعدي	{g=حَيَّهَلْ} {goal=$place_a}
+61	distance	الإخبار ببعد الفاعل	{g=هَيْهَاتَ} {subject=$place_u}
+62	difference	إثبات التباعد بين الطرفين	{g=شَتَّانَ} {first=$person_u} وَ{second=الْكَسُولُ}
+63	readiness	توصيف الفاعل بالسرعة في وجه اسم الفعل	{g=سَرْعَانَ} {subject=$person_u}
+64	past_state	إسناد الخبر في الماضي	{g=كَانَ} {subject=$person_u} {predicate=$adj_a}
+65	change_state	الصيرورة إلى الصفة	{g=صَارَ} {subject=$person_u} {predicate=$adj_a}
+66	morning_state	إسناد الصفة في الصباح في هذا الوجه	{g=أَصْبَحَ} {subject=$person_u} {predicate=$adj_a}
+67	evening_state	إسناد الصفة في المساء في هذا الوجه	{g=أَمْسَى} {subject=$person_u} {predicate=$adj_a}
+68	forenoon_state	إسناد الصفة في الضحى في هذا الوجه	{g=أَضْحَى} {subject=$person_u} {predicate=$adj_a}
+69	duration	امتداد الصفة	{g=ظَلَّ} {subject=$person_u} {predicate=$adj_a}
+70	night_state	إسناد الصفة في الليل	{g=بَاتَ} {subject=$person_u} {predicate=$adj_a}
+71	continuation	استمرار الصفة	{g=مَا زَالَ} {subject=$person_u} {predicate=$adj_a}
+72	continuation	استمرار الصفة	{g=مَا بَرِحَ} {subject=$person_u} {predicate=$adj_a}
+73	continuation	استمرار الصفة	{g=مَا فَتِئَ} {subject=$person_u} {predicate=$adj_a}
+74	continuation	استمرار الصفة	{g=مَا انْفَكَّ} {subject=$person_u} {predicate=$adj_a}
+75	bounded_time	تقييد البقاء بمدة دوام الصفة	أَبْقَى {g=مَا دَامَ} {subject=$person_u} {predicate=$adj_a}
+76	deny_predicate	نفي الصفة عن الاسم	{g=لَيْسَ} {subject=$person_u} {predicate=$adj_a}
+77	expect	رجاء حصول عمل الاسم	{g=عَسَى} {subject=$person_u} أَنْ {predicate=$third_a}
+78	near	مقاربة الفعل	{g=كَادَ} {subject=$person_u} {predicate=$third_u}
+79	near	مقاربة الفعل	{g=كَرَبَ} {subject=$person_u} {predicate=$third_u}
+80	near	مقاربة الفعل	{g=أَوْشَكَ} {subject=$person_u} أَنْ {predicate=$third_a}
+81	praise	إنشاء المدح وتعيين المخصوص	{g=نِعْمَ} {subject=الرَّجُلُ} {designated=$person_u}
+82	blame	إنشاء الذم وتعيين المخصوص	{g=بِئْسَ} {subject=الرَّجُلُ} {designated=$person_u}
+83	praise	إنشاء المدح في وجه حب فعلا وذا فاعله وتعيين المخصوص	{g=حَبَّ}{subject=ذَا} {designated=$person_u}
+84	blame	إنشاء الذم وتعيين المخصوص	{g=سَاءَ} {subject=الرَّجُلُ} {designated=$person_u}
+85	embedded_knowledge	إسناد العلم بنسبة بين المفعولين	{g=عَلِمْتُ} {subject=$person_a} {predicate=$adj_a}
+86	embedded_knowledge	الوجدان القلبي للنسبة في هذا الوجه	{g=وَجَدْتُ} {subject=$person_a} {predicate=$adj_a}
+87	embedded_knowledge	الرؤية القلبية للنسبة في هذا الوجه	{g=رَأَيْتُ} {subject=$person_a} {predicate=$adj_a}
+88	embedded_belief	إسناد الظن بنسبة بين المفعولين	{g=ظَنَنْتُ} {subject=$person_a} {predicate=$adj_a}
+89	embedded_belief	إسناد الحسبان بنسبة بين المفعولين	{g=حَسِبْتُ} {subject=$person_a} {predicate=$adj_a}
+90	embedded_belief	إسناد التخيل الظني بنسبة بين المفعولين	{g=خِلْتُ} {subject=$person_a} {predicate=$adj_a}
+91	embedded_claim	نسبة القول إلى المتكلم في وجه الزعم	{g=زَعَمْتُ} {subject=$person_a} {predicate=$adj_a}
+92	agent_patient	إسناد المساعدة إلى مبادر ومتلق	{g=سَاعَدَ} {actor=$person_u} {patient=$ind_a}
+93	active_participle	عمل اسم الفاعل في مفعوله في القراءة الحالية	هُوَ {g=مُكْرِمٌ} {patient=$person_a} الْآنَ
+94	passive_participle	رفع نائب الفاعل باسم المفعول	أَ{g=مَحْمُودٌ} {patient=$person_u}؟
+95	property	الصفة المشبهة وحاملها وفاعلها السببي	{holder=$person_u} {g=حَسَنٌ} {subject=خُلُقُهُ}
+96	masdar	عمل المصدر المضاف إلى فاعله في مفعوله	أَعْجَبَنِي {g=إِكْرَامُ} {actor=$person_i} {patient=$ind_a}
+97	possession	تعيين المضاف بالمضاف إليه	هَذَا {g=كِتَابُ} {possessor=$person_i}
+98	quantity	تمييز مقدار اسم تام بالتنوين	عِنْدِي {g=رِطْلٌ} {measure=$mass_a}
+99	predication	إسناد الصفة في وجه الابتداء	{subject=$person_u} {predicate=$adj_u}
+100	indicative	رفع المضارع في وجه التجرد	{predicate=$third_u} {actor=$person_u}
