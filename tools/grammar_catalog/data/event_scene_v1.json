@@ -1,0 +1,632 @@
+{
+  "version": "nabt.event-scene.v1",
+  "lexemes": {
+    "الشَّاي": "شاي",
+    "الْمَاء": "ماء",
+    "الْحَلِيب": "حليب",
+    "السُّكَّر": "سكر",
+    "الْكَعْك": "كعك",
+    "الْخُبْز": "خبز",
+    "الْكُرْسِيّ": "كرسي",
+    "الْمَقْعَد": "مقعد",
+    "الطَّاوِلَة": "طاولة",
+    "الرَّفّ": "رف",
+    "الْبَيْت": "بيت",
+    "الْمَطْبَخ": "مطبخ",
+    "الْكُوب": "كوب",
+    "الْكَأْس": "كأس",
+    "الرَّبِيع": "ربيع",
+    "الصَّيْف": "صيف",
+    "الشَّجَر": "شجر",
+    "الْعُشْب": "عشب",
+    "الزَّرْع": "زرع",
+    "الْمَطَر": "مطر",
+    "النَّهْر": "نهر",
+    "الِارْتِوَاء": "ارتواء",
+    "الرَّيّ": "ري",
+    "الْجَرَس": "جرس"
+  },
+  "parents": {
+    "شاي": "مشروب مائي",
+    "ماء": "مشروب مائي",
+    "حليب": "شراب",
+    "سكر": "مذاب غذائي",
+    "كعك": "طعام صلب",
+    "خبز": "طعام صلب",
+    "كرسي": "مقعد",
+    "مقعد": "أثاث",
+    "طاولة": "سطح إسناد",
+    "رف": "سطح إسناد",
+    "بيت": "مكان",
+    "مطبخ": "مكان",
+    "كوب": "إناء شرب",
+    "كأس": "إناء شرب",
+    "ربيع": "فصل",
+    "صيف": "فصل",
+    "شجر": "نبات حي",
+    "عشب": "نبات حي",
+    "زرع": "نبات حي",
+    "مطر": "هطول",
+    "نهر": "مجرى ماء",
+    "مشروب مائي": "شراب",
+    "ارتواء": "غاية الشرب",
+    "ري": "إمداد مائي",
+    "جرس": "منبّه في المثال"
+  },
+  "properties": {
+    "إنسان": {
+      "يستطيع الجلوس": true,
+      "يستطيع السير": true
+    },
+    "شراب": {
+      "صالح للشرب": true,
+      "سائل قابل للغليان": true
+    },
+    "مشروب مائي": {
+      "وسط مائي للإذابة": true
+    },
+    "مذاب غذائي": {
+      "قابل للذوبان في وسط مائي": true,
+      "غذاء للإنسان": true
+    },
+    "طعام صلب": {
+      "غذاء للإنسان": true,
+      "يقبل الفصل بالحدّ": true
+    },
+    "إناء شرب": {
+      "يحوي شرابًا للاستعمال": true,
+      "له لون مشاهد": true,
+      "صالح للشرب": false
+    },
+    "مقعد": {
+      "يسند الجالس": true
+    },
+    "نبات حي": {
+      "قابل للنمو النباتي": true,
+      "قابل لاخضرار النسيج النباتي": true
+    },
+    "مكان": {
+      "يحوي شرابًا للاستعمال": false
+    },
+    "أداة ذات حدّ عامل": {
+      "يحوي شرابًا للاستعمال": false
+    },
+    "ثمرة غذائية لحمية": {
+      "صالح للشرب": false,
+      "له لون مشاهد": true
+    },
+    "مجرى ماء": {
+      "يستطيع السير": false
+    },
+    "هطول": {
+      "مصدر محتمل لرطوبة التربة": true
+    },
+    "إمداد مائي": {
+      "مصدر محتمل لرطوبة التربة": true
+    },
+    "منبّه في المثال": {
+      "مصدر محتمل لرطوبة التربة": false
+    }
+  },
+  "lessons": {
+    "drinkable": {
+      "features": [
+        "صالح للشرب",
+        "ملوّن"
+      ],
+      "examples": [
+        [
+          "شراب ملون صالح",
+          true,
+          true,
+          true
+        ],
+        [
+          "شراب شفاف صالح",
+          true,
+          false,
+          true
+        ],
+        [
+          "طلاء ملون",
+          false,
+          true,
+          false
+        ],
+        [
+          "حصاة بيضاء شفافة",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "vessel": {
+      "features": [
+        "يحوي شرابًا للاستعمال",
+        "ملوّن"
+      ],
+      "examples": [
+        [
+          "قدح ملوّن",
+          true,
+          true,
+          true
+        ],
+        [
+          "قدح شفاف",
+          true,
+          false,
+          true
+        ],
+        [
+          "لوح ملوّن",
+          false,
+          true,
+          false
+        ],
+        [
+          "خيط",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "seat": {
+      "features": [
+        "يسند الجالس",
+        "له ظهر"
+      ],
+      "examples": [
+        [
+          "أريكة لها ظهر",
+          true,
+          true,
+          true
+        ],
+        [
+          "حصير يصلح للجلوس",
+          true,
+          false,
+          true
+        ],
+        [
+          "لوح رأسي له ظهر",
+          false,
+          true,
+          false
+        ],
+        [
+          "خيط معلق",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "posture": {
+      "features": [
+        "يستطيع الجلوس",
+        "يتكلم"
+      ],
+      "examples": [
+        [
+          "شخص يتكلم ويجلس",
+          true,
+          true,
+          true
+        ],
+        [
+          "حيوان يجلس ولا يتكلم",
+          true,
+          false,
+          true
+        ],
+        [
+          "جهاز ناطق",
+          false,
+          true,
+          false
+        ],
+        [
+          "صخرة",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "growth": {
+      "features": [
+        "قابل للنمو النباتي",
+        "له هيئة زهرة"
+      ],
+      "examples": [
+        [
+          "شتلة نامية تحمل زهرة",
+          true,
+          true,
+          true
+        ],
+        [
+          "طحلب ينمو بلا زهرة",
+          true,
+          false,
+          true
+        ],
+        [
+          "زهرة صناعية",
+          false,
+          true,
+          false
+        ],
+        [
+          "حجر",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "green": {
+      "features": [
+        "قابل لاخضرار النسيج النباتي",
+        "مسطّح"
+      ],
+      "examples": [
+        [
+          "ورقة فتية قابلة للاخضرار ذات شكل مسطح",
+          true,
+          true,
+          true
+        ],
+        [
+          "بادرة قابلة للاخضرار",
+          true,
+          false,
+          true
+        ],
+        [
+          "صفيحة معدنية مسطحة",
+          false,
+          true,
+          false
+        ],
+        [
+          "قطعة زجاج",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "boil": {
+      "features": [
+        "سائل قابل للغليان",
+        "ملوّن"
+      ],
+      "examples": [
+        [
+          "سائل له لون",
+          true,
+          true,
+          true
+        ],
+        [
+          "سائل شفاف",
+          true,
+          false,
+          true
+        ],
+        [
+          "قرص ملون صلب",
+          false,
+          true,
+          false
+        ],
+        [
+          "بلورة شفافة صلبة",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "solute": {
+      "features": [
+        "قابل للذوبان في وسط مائي",
+        "بلوري"
+      ],
+      "examples": [
+        [
+          "بلورات ملح تذوب",
+          true,
+          true,
+          true
+        ],
+        [
+          "مادة ذائبة غير بلورية",
+          true,
+          false,
+          true
+        ],
+        [
+          "بلورة غير ذائبة في ماء الدرس",
+          false,
+          true,
+          false
+        ],
+        [
+          "رمل خشن",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "medium": {
+      "features": [
+        "وسط مائي للإذابة",
+        "ملوّن"
+      ],
+      "examples": [
+        [
+          "محلول مائي ملون",
+          true,
+          true,
+          true
+        ],
+        [
+          "ماء شفاف",
+          true,
+          false,
+          true
+        ],
+        [
+          "زيت ملون",
+          false,
+          true,
+          false
+        ],
+        [
+          "زيت شفاف",
+          false,
+          false,
+          false
+        ]
+      ]
+    },
+    "move": {
+      "features": [
+        "يستطيع السير",
+        "يتكلم"
+      ],
+      "examples": [
+        [
+          "شخص يسير ويتكلم",
+          true,
+          true,
+          true
+        ],
+        [
+          "حيوان يسير",
+          true,
+          false,
+          true
+        ],
+        [
+          "آلة ناطقة ثابتة",
+          false,
+          true,
+          false
+        ],
+        [
+          "حائط",
+          false,
+          false,
+          false
+        ]
+      ]
+    }
+  },
+  "frames": {
+    "eat": {
+      "masdar": "الأكل",
+      "family": "transitive_action",
+      "subject": "eater",
+      "object": "food",
+      "line": 459,
+      "forms": [
+        "أَكَلَ",
+        "اَكَلَ"
+      ],
+      "purpose_form": "يَأْكُلَ"
+    },
+    "cut": {
+      "masdar": "القطع",
+      "family": "transitive_action",
+      "subject": "operator",
+      "object": "sliceable",
+      "line": 10246,
+      "forms": [
+        "قَطَعَ"
+      ],
+      "purpose_form": "يَقْطَعَ"
+    },
+    "cut_repeated": {
+      "masdar": "التقطيع",
+      "family": "transitive_action",
+      "subject": "operator",
+      "object": "sliceable",
+      "line": 10246,
+      "forms": [
+        "قَطَّعَ"
+      ]
+    },
+    "drink": {
+      "masdar": "الشرب",
+      "family": "transitive_action",
+      "subject": "eater",
+      "object": "drinkable",
+      "line": 6440,
+      "forms": [
+        "شَرِبَ"
+      ],
+      "purpose_form": "يَشْرَبَ"
+    },
+    "sit": {
+      "masdar": "الجلوس",
+      "family": "posture",
+      "subject": "posture",
+      "object": null,
+      "line": 2185,
+      "forms": [
+        "جَلَسَ"
+      ],
+      "purpose_form": "يَجْلِسَ"
+    },
+    "walk": {
+      "masdar": "السير",
+      "family": "motion",
+      "subject": "move",
+      "object": null,
+      "line": 6291,
+      "forms": [
+        "سَارَ"
+      ],
+      "purpose_form": "يَسِيرَ"
+    },
+    "green": {
+      "masdar": "الاخضرار",
+      "family": "change_of_colour",
+      "subject": "green",
+      "object": null,
+      "line": 3540,
+      "forms": [
+        "اِخْضَرَّ"
+      ]
+    },
+    "grow": {
+      "masdar": "النبات",
+      "family": "biological_growth",
+      "subject": "growth",
+      "object": null,
+      "line": 12042,
+      "forms": [
+        "نَبَتَ"
+      ]
+    },
+    "boil": {
+      "masdar": "الغليان",
+      "family": "phase_change",
+      "subject": "boil",
+      "object": null,
+      "line": 9098,
+      "forms": [
+        "غَلَى"
+      ]
+    },
+    "dissolve": {
+      "masdar": "الذوبان",
+      "family": "dissolution",
+      "subject": "solute",
+      "object": null,
+      "line": 4430,
+      "forms": [
+        "ذَابَ"
+      ]
+    }
+  },
+  "adjectives": [
+    {
+      "form": "الْأَصْفَر",
+      "event": "yellow",
+      "masdar": "الصفرة",
+      "description": "لون أصفر",
+      "grammar": "صفة لونية"
+    },
+    {
+      "form": "الاصفر",
+      "event": "yellow",
+      "masdar": "الصفرة",
+      "description": "لون أصفر",
+      "grammar": "رسم تعليمي بلا همزة"
+    },
+    {
+      "form": "الْمَأْكُول",
+      "event": "eat",
+      "masdar": "الأكل",
+      "description": "مأكول",
+      "grammar": "اسم مفعول"
+    },
+    {
+      "form": "الْمُقَطَّع",
+      "event": "cut_repeated",
+      "masdar": "التقطيع",
+      "description": "مقطّع",
+      "grammar": "اسم مفعول"
+    },
+    {
+      "form": "الْمَقْطُوع",
+      "event": "cut",
+      "masdar": "القطع",
+      "description": "مقطوع",
+      "grammar": "اسم مفعول"
+    },
+    {
+      "form": "الذَّائِب",
+      "event": "dissolve",
+      "masdar": "الذوبان",
+      "description": "ذائب",
+      "grammar": "اسم فاعل"
+    },
+    {
+      "form": "الْجَالِس",
+      "event": "sit",
+      "masdar": "الجلوس",
+      "description": "جالس",
+      "grammar": "اسم فاعل"
+    },
+    {
+      "form": "الْأَخْضَر",
+      "event": "green",
+      "masdar": "الاخضرار",
+      "description": "أخضر",
+      "grammar": "صفة لون"
+    }
+  ],
+  "limits": "Controlled positive descriptions; ordinary class premises within this lesson; no occurrence or empirical cause certified.",
+  "hypothesis_lesson": {
+    "features": [
+      "قابل للنمو النباتي",
+      "مصدر محتمل لرطوبة التربة"
+    ],
+    "examples": [
+      [
+        "بادرة بجوار مصدر رطوبة",
+        true,
+        true,
+        true
+      ],
+      [
+        "بادرة وإشارة صوتية",
+        true,
+        false,
+        false
+      ],
+      [
+        "نبات صناعي وسقي",
+        false,
+        true,
+        false
+      ],
+      [
+        "شكل صناعي وإشارة ضوئية",
+        false,
+        false,
+        false
+      ]
+    ]
+  }
+}
