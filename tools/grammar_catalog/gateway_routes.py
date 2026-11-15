@@ -7,9 +7,9 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
-    "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
+    "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "rule-learning", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
-    "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
+    "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology", "numeric-program", "rule-learning") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
     "concept.view": (("lexical-denotation", "mantuq-mafhum"), ("kind", "value", "view", "domain"), ()),
     "neural.propose": (("lexical-denotation", "identity", "morphology"), ("text",), ()),
@@ -18,7 +18,7 @@ ROUTES = {
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
-    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "licensed_speech")),
+    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "licensed_speech")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
     "grammar.search": (("rule-routing", "classical-source-rules"), ("query",), ("kind", "limit")),
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),

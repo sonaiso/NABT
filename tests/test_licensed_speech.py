@@ -67,6 +67,12 @@ class ScopeTests(TestCase):
                          [(r["role"],r["surface"]) for r in plain["decoded"][0]["roles"]])
         self.assertEqual(run(t,{"withdraw":["foreign"]})["revision"]["status"],"UNBOUND_WITHDRAWAL")
 
+    def test_classical_question_cue_is_independent_of_content_and_arguments(self):
+        graph = run("هَلْ شَكَرَ الْكَاتِبُ الْعَامِلَ؟", {"withdraw": ["sign/0"]})
+        self.assertIn("classical/force", graph["revision"]["lost"])
+        self.assertIn("classical/content", graph["revision"]["surviving"])
+        self.assertTrue({r["node"] for r in graph["decoded"][0]["roles"]} <= set(graph["revision"]["surviving"]))
+
     def test_neural_weight_and_source_failure(self):
         with TemporaryDirectory() as temporary, patch.object(neural,"MODEL",Path(temporary)/"missing.json"):
             g=run("هَلْ فَتَحَ الْحَارِسُ الْبَابَ؟")

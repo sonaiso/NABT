@@ -100,6 +100,21 @@ class LedgerBinding(TestCase):
         bad=deepcopy(BASE);bad["payload"]["valency_context"]["licensed"]=True
         with self.assertRaises(ValueError):gateway.validate_request(bad)
 
+    def test_rule_derived_opposition_and_missing_direct_witness(self):
+        when = next(line for line in self.ledger.splitlines(keepends=True) if " زمان " in line)
+        recorded = next(line for line in self.ledger.splitlines() if " وقوع " in line).removesuffix(".")
+        rule = f"إذا {recorded} فإن ليس {when}"
+        result = self.bind(self.ledger + rule)
+        candidate, = result["bound"]["time"]["candidates"]
+        self.assertEqual(candidate["status"], "CONFLICT")
+        roots = candidate["proof_roots"]["full"]
+        self.assertTrue(roots["positive"] and roots["negative"])
+        self.assertTrue(result["profiles"]["capability_witnessed"])
+        self.assertFalse(any(result["profiles"][k] for k in ("located", "occurrence_in_ledger", "reported_causal_link")))
+        only_inferred = self.bind(self.ledger.replace(when, "") + f"إذا {recorded} فإن {when}")
+        self.assertIsNone(only_inferred["bound"]["time"]["value"])
+        self.assertFalse(only_inferred["profiles"]["located"])
+
     def test_normal_gateway_and_tampering(self):
         res=gateway.run(BASE)
         self.assertEqual(res["status"],"EXECUTED")

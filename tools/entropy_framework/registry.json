@@ -2065,6 +2065,11 @@
           "src/nabt/program.py",
           "tools/source_learning_connection.py",
           "tools/lexical_training/teaching.py",
+          "tools/lexical_training/corpus_concepts.py",
+          "tools/grammar_catalog/literal_event_roles.py",
+          "tools/grammar_catalog/event_scene.py",
+          "tools/grammar_catalog/derived_event_roles.py",
+          "tools/grammar_catalog/water_saturation.py",
           "tools/lexical_training/reasoning_curriculum.py",
           "tools/grammar_catalog/operation_runtime.py",
           "tools/grammar_catalog/awamil.py",
@@ -2074,7 +2079,10 @@
           "tools/grammar_catalog/agent_cli.py",
           "tools/arabic_training/unit_composition.py",
           "tools/grammar_catalog/unit_catalog.py",
-          "tools/grammar_catalog/unit_cli.py"
+          "tools/grammar_catalog/unit_cli.py",
+          "tools/lexical_training/ntl_curriculum.py",
+          "tools/lexical_training/ntl_course.py",
+          "tools/lexical_training/ntl_core.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
@@ -2085,6 +2093,7 @@
           "grammar-catalog"
         ],
         "checker_paths": [
+          "tools/lexical_training/train_corpus_concepts.py",
           "tools/source_learning_experiment.py",
           "tools/source_learning_connection.py"
         ],
@@ -2092,14 +2101,22 @@
           "tests/test_source_learning.py",
           "tests/test_program.py",
           "tests/test_source_learning_connection.py",
+          "tests/test_corpus_concepts.py",
+          "tests/test_literal_event_roles.py",
+          "tests/test_event_scene.py",
+          "tests/test_derived_event_roles.py",
           "tests/test_cognitive_teaching.py",
           "tests/test_operation_rag.py",
           "tests/test_awamil_agent.py",
           "tests/test_awamil_training.py",
           "tests/test_progressive_agent_plan.py",
-          "tests/test_unit_composition_agent.py"
+          "tests/test_unit_composition_agent.py",
+          "tests/test_ntl_curriculum.py",
+          "tests/test_ntl_course.py",
+          "tests/test_ntl_core.py"
         ],
         "doc_paths": [
+          "docs/NTL_CORPUS_CONCEPTS_AR.md",
           "docs/SOURCE_LEARNING.md",
           "docs/ACQUIRED_KNOWLEDGE_CONNECTION_AR.md",
           "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md",
@@ -2107,7 +2124,8 @@
           "docs/AWAMIL_AGENT_V1_AR.md",
           "docs/PROGRESSIVE_AGENT_RAG_AR.md",
           "docs/UNIT_COMPOSITION_AGENT_AR.md",
-          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md"
+          "docs/UNIT_COMPOSITION_AGENT_SPEC_AR.md",
+          "docs/NTL_CURRICULUM_AR.md"
         ],
         "scope": "The learner retains the complete declared signed-conjunction hypothesis language, updates only from replayed observations and recomputes after withdrawal.",
         "open_debts": [
@@ -2156,7 +2174,10 @@
         ],
         "runtime_paths": [
           "src/nabt/program.py",
-          "tools/grammar_catalog/operation_runtime.py"
+          "tools/grammar_catalog/operation_runtime.py",
+          "tools/lexical_training/ntl_curriculum.py",
+          "tools/lexical_training/ntl_course.py",
+          "tools/lexical_training/ntl_core.py"
         ],
         "native_targets": [],
         "entrypoint_ids": [
@@ -2169,11 +2190,15 @@
         "test_paths": [
           "tests/test_program.py",
           "tests/test_text_program.py",
-          "tests/test_operation_rag.py"
+          "tests/test_operation_rag.py",
+          "tests/test_ntl_curriculum.py",
+          "tests/test_ntl_course.py",
+          "tests/test_ntl_core.py"
         ],
         "doc_paths": [
           "docs/INTEGRATION.md",
-          "docs/OPERATION_RAG_V1_AR.md"
+          "docs/OPERATION_RAG_V1_AR.md",
+          "docs/NTL_CURRICULUM_AR.md"
         ],
         "scope": "The existing inert instruction language compiles and replays shape, learning, source revision and controlled text-query workflows with typed domains.",
         "open_debts": [
@@ -2878,6 +2903,7 @@
           "tools/lexical_training/cognitive_graph.py",
           "tools/lexical_training/cognitive_training.py",
           "tools/grammar_catalog/root_sense.py",
+          "tools/grammar_catalog/genus_chains.py",
           "formal/RootSenseProfile.lean"
         ],
         "native_targets": [
@@ -2919,7 +2945,8 @@
           "tests/test_graph_interventions.py",
           "tests/test_passive_relation_holdout.py",
           "tests/test_cognitive_training.py",
-          "tests/test_relational_root_sense.py"
+          "tests/test_relational_root_sense.py",
+          "tests/test_genus_chains.py"
         ],
         "doc_paths": [
           "docs/LEXICAL_DENOTATION.md",
@@ -3207,7 +3234,10 @@
           "tools/grammar_catalog/question_frames.py",
           "tools/lexical_training/teaching.py",
           "tools/lexical_training/reasoning_curriculum.py",
-          "tools/grammar_catalog/relational.py"
+          "tools/grammar_catalog/relational.py",
+          "tools/lexical_training/ntl_curriculum.py",
+          "tools/lexical_training/ntl_course.py",
+          "tools/lexical_training/ntl_core.py"
         ],
         "native_targets": [
           "epistemicMeasurement"
@@ -3229,14 +3259,18 @@
           "tests/test_graded_questions.py",
           "tests/test_epistemic_measurement_adversarial.py",
           "tests/test_cognitive_teaching.py",
-          "tests/test_relational_rag.py"
+          "tests/test_relational_rag.py",
+          "tests/test_ntl_curriculum.py",
+          "tests/test_ntl_course.py",
+          "tests/test_ntl_core.py"
         ],
         "doc_paths": [
           "docs/EPISTEMIC_MEASUREMENT_AR.md",
           "docs/INTERPRETATION_CHAINS_AR.md",
           "docs/QUESTION_COGNITION_AR.md",
           "docs/EPISTEMIC_INDEPENDENT_REVIEW_AR.md",
-          "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md"
+          "docs/COGNITIVE_TEACHING_CURRICULUM_AR.md",
+          "docs/NTL_CURRICULUM_AR.md"
         ],
         "scope": "Exact active-source and closed-ancestry checks enumerate all admissible evidence for the complete axis/entity/predicate/value/unit/context/time/place key.",
         "open_debts": [
@@ -3260,7 +3294,8 @@
           "tools/grammar_catalog/unicode_transport.py",
           "tools/arabic_training/unit_composition.py",
           "tools/grammar_catalog/unit_catalog.py",
-          "tools/grammar_catalog/unit_cli.py"
+          "tools/grammar_catalog/unit_cli.py",
+          "tools/lexical_training/context_transfer.py"
         ],
         "native_targets": [
           "alignedAcquisition",
@@ -3283,7 +3318,8 @@
           "tests/test_acquired_inference_v2.py",
           "tests/test_progressive_agent_plan.py",
           "tests/test_unit_composition_agent.py",
-          "tests/test_unit_article_bridge.py"
+          "tests/test_unit_article_bridge.py",
+          "tests/test_context_transfer.py"
         ],
         "doc_paths": [
           "docs/ACQUISITION_READER_SPEC.md",

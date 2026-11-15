@@ -473,6 +473,68 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
         answer = question_cognition.analyze(text, question, grammar["source"]["id"])
         question_result["question_cognition"] = answer
         cards = question_cognition.cards(answer) + cards
+    from .event_scene import analyze as analyze_scene
+    from .literal_event_roles import analyze as analyze_event_roles
+    if not original_check_failed(grammar["source"], failures):
+        from . import derived_event_roles
+        derived = derived_event_roles.analyze(text, grammar["source"]["id"])
+        if derived is not None:
+            question_result["derived_event_roles"] = derived
+            cards.extend(derived_event_roles.cards(derived))
+        scene = analyze_scene(text, grammar["source"]["id"])
+        if scene is not None:
+            question_result["event_scene"] = scene
+            for i, event in enumerate(scene["events"]):
+                members = [b["syntax"] + " «" + scene["entities"][b["target"]]["mention"]["surface"] + "»"
+                           for b in event["bindings"] if b["target"]]
+                scope_ar = {"intended": "غاية مقصودة", "relative_description": "وصف في صلة الموصول",
+                            "matrix_report": "حدث في العبارة"}[event["scope"]]
+                cards.append(card("event_scene", scope_ar, event["masdar"], "، ".join(members) or "فاعل غير معيّن",
+                                  "القراءة مقيدة بألفاظ المصدر وشروط الدرس.", reading_ref=f"/event_scene/events/{i}"))
+
+            names_by_ref = {key: entry["mention"]["surface"] for key, entry in scene["entities"].items()}
+            names_by_ref.update({event["id"]: event["masdar"] for event in scene["events"]})
+            for i, relation in enumerate(scene["relations"]):
+                head, target = relation["head"], relation["target"]
+                interpreted = names_by_ref.get(head, head) + "، " + names_by_ref.get(target, target or "قيمة مجهولة")
+                cards.append(card("event_scene_relation", relation["syntax"], interpreted, relation["cue"]["surface"],
+                                  "التعلّق والمعنى مقيدان بالقراءة المذكورة.",
+                                  reading_ref=f"/event_scene/relations/{i}"))
+            if scene["scope"] == "lexical_mention":
+                for ref, entry in scene["entities"].items():
+                    if entry["lineage"]:
+                        cards.append(card("event_scene_lexicon", "تعريف معجمي تعليمي", entry["mention"]["surface"],
+                                          " ← ".join(entry["lineage"]), "الصفات الممكنة تحتاج شاهدًا في موضعها.",
+                                          reading_ref=f"/event_scene/entities/{ref}"))
+        event_roles = analyze_event_roles(text, grammar["source"]["id"])
+        if event_roles is not None:
+            question_result["literal_event_roles"] = event_roles
+            degrees = {"COMPATIBLE": "ملاءمة نوعية مشروطة", "INCOMPATIBLE": "معارضة خاصية للدور",
+                       "CONFLICT": "تعارض الشواهد", "DEFER": "شاهد غير كافٍ"}
+            for i, row in enumerate(event_roles["readings"]):
+                labels = {"actor": row["agent_name"], "patient": row["patient_name"], "instrument": "آلة"}
+                participants = []
+                reasons = []
+                for role, binding in row["roles"].items():
+                    surface = binding["mention"]["surface"]
+                    participants.append(f"{labels[role]} «{surface}»")
+                    reasons.append(f"{surface} ({degrees[binding['status']]})")
+                cards.append(card("event_role_selection", degrees[row["status"]],
+                                  row["masdar"] + "، " + "، ".join(participants),
+                                  "، ".join(reasons), "وقوع الحدث وتعيين الفرد يحتاجان شاهدًا مستقلًا.",
+                                  reading_ref=f"/literal_event_roles/readings/{i}", law=event_roles["law"]))
+    from tools.lexical_training.context_transfer import reader_proposal
+    proposal = reader_proposal(text)
+    if proposal:
+        labels = {"literal": "استعمال حقيقي", "figurative": "استعمال مجازي",
+                  "CONFLICT": "قرائن متنافسة", "UNRESOLVED": "استعمال غير معيّن"}
+        interpretation = proposal.get("interpretation_from_teacher")
+        understood = labels[proposal["decision"]]
+        if interpretation:
+            understood += "، " + interpretation["meaning"] + " (" + interpretation["relation"] + ")"
+        cards.append(card("learned_context", "اقتراح من أمثلة الدرس", understood,
+                          "، ".join(w["surface"] for w in proposal["matches"]) or proposal["reason"],
+                          "يحتاج ترخيص المعنى إلى تحقيق مستقل.", **proposal))
     from . import valency
     frame = None if original_check_failed(grammar["source"], failures) else valency.analyze(
         text,grammar["source"]["id"],retained_passives=events)
