@@ -308,8 +308,12 @@ class Scene:
         second_adj = any(template_matches(self.word(1), adj["form"]) for adj in self.lex.adjectives)
         patient = None
         if first_noun and (not subject or (inherited and (not spec["object"] or (second_noun and not second_adj)))):
-            first_mark = lookup_clusters(self.word())[-1][1]
-            if spec["object"] and "َ" in first_mark and second_noun and "ُ" in lookup_clusters(self.word(1))[-1][1]:
+            first_cells = lookup_clusters(self.word())
+            second_cells = lookup_clusters(self.word(1)) if second_noun else None
+            if not first_cells or (second_noun and not second_cells):
+                raise Outside("NOUN_TOKEN_OUTSIDE_FRAGMENT")
+            first_mark = first_cells[-1][1]
+            if spec["object"] and "َ" in first_mark and second_noun and "ُ" in second_cells[-1][1]:
                 patient = self.entity("acc")
             subject = self.entity("nom")
             subject_syntax = "فاعل ظاهر"
