@@ -1,0 +1,51 @@
+name: Build pinned PR118 source-binding repair
+on:
+  push:
+    branches: [codex/ci-repair-114-workbench]
+    paths: [.github/workflows/repair-118-build.yml, repair118/**]
+permissions:
+  contents: write
+jobs:
+  build-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            src
+            tools
+            tests
+            integrations
+            repair118
+      - name: Apply tested patch and publish candidate branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp repair118/changes.patch "$RUNNER_TEMP/repair118.patch"
+          cp repair118/test_opencyc_source_binding.py "$RUNNER_TEMP/test_opencyc_source_binding.py"
+          git config user.name 'NABT CI repair'
+          git config user.email '128359434+sonaiso@users.noreply.github.com'
+          git checkout --detach 7f9a90438bae1165674a24eb462706e3c1a68657
+          git apply --check "$RUNNER_TEMP/repair118.patch"
+          git apply "$RUNNER_TEMP/repair118.patch"
+          cp "$RUNNER_TEMP/test_opencyc_source_binding.py" tests/test_opencyc_source_binding.py
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          expected = {'tools/grammar_catalog/opencyc_slice.py':'b9285c7d08b530f293ebbf37ed3a813fcf314d02','integrations/opencyc_slice.mk':'0d6a4309b83ebbd5c2ad67e85067042278ffd317','tests/test_opencyc_source_binding.py':'9441d7214ca8b5e6fa14699ab94dcff2288ff157'}
+          for path, sha in expected.items():
+              raw=Path(path).read_bytes()
+              actual=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+              assert actual==sha,(path,actual,sha)
+          PY
+          PYTHONPATH=src:. python -B -m unittest tests.test_opencyc_inquiry.ParserHardening tests.test_opencyc_inquiry.InquiryContracts tests.test_opencyc_source_binding.SourceBindingTests -v
+          git add tools/grammar_catalog/opencyc_slice.py integrations/opencyc_slice.mk tests/test_opencyc_source_binding.py
+          git diff --cached --check
+          git commit -m 'fix: preserve external source metadata with canonical native identity binding'
+          test "$(git rev-parse HEAD^1)" = 7f9a90438bae1165674a24eb462706e3c1a68657
+          git push --force-with-lease=refs/heads/codex/ci-repair-118-result: origin HEAD:refs/heads/codex/ci-repair-118-result
+          echo "CANDIDATE_SHA=$(git rev-parse HEAD)"
+          echo 'Candidate only: original native and gateway CI remain required on the PR head.'

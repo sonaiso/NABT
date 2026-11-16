@@ -1,0 +1,28 @@
+--- a/tools/grammar_catalog/opencyc_slice.py
++++ b/tools/grammar_catalog/opencyc_slice.py
+@@ -387,7 +387,14 @@
+     query = ("هل " + ground.render_atom(c["goal"]) + "؟\n").encode()
+     if len(program) > MAX_PROGRAM_BYTES:
+         raise SliceError("RESOURCE_LIMIT", "Rendered program budget exceeded")
+-    identity, revision, scope = p["source"]["id"], p["source"]["revision"], p["context"]
++    # The original reader accepts token-shaped source identities, whereas source
++    # metadata may contain human-readable names. Bind a canonical local identity
++    # to the COMPLETE preserved source descriptor; never normalize that metadata.
++    identity = "opencyc_" + digest(p["source"])
++    revision, scope = p["source"]["revision"], p["context"]
++    report["native_source_binding"] = {"identity": identity, "revision": revision,
++        "scope": scope, "source_descriptor_sha256": digest(p["source"]),
++        "authority": "IDENTITY_BINDING_ONLY_NOT_SOURCE_AUTHENTICATION"}
+     report.update(program=program.decode(), query=query.decode(), program_sha256=sha256(program).hexdigest())
+     try:
+         certificate = ground.propose(program, query, identity, revision, scope)
+--- a/integrations/opencyc_slice.mk
++++ b/integrations/opencyc_slice.mk
+@@ -1,6 +1,6 @@
+ .PHONY: opencyc-slice-native
+ # The original owners remain mandatory, not mocked, in the public release gate.
+ opencyc-slice-native: io-gateway-build
+-	PYTHONPATH=src:. NABT_REQUIRE_OPENCYC_NATIVE=1 $(PYTHON) -B -m unittest tests.test_opencyc_slice tests.test_opencyc_boundary tests.test_opencyc_inquiry -v
++	PYTHONPATH=src:. NABT_REQUIRE_OPENCYC_NATIVE=1 $(PYTHON) -B -m unittest tests.test_opencyc_slice tests.test_opencyc_boundary tests.test_opencyc_inquiry tests.test_opencyc_source_binding -v
+ 
+ check io-gateway-native: opencyc-slice-native
