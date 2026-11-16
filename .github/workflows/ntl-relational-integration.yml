@@ -1,0 +1,38 @@
+name: NTL relational integration
+on:
+  push:
+    branches: [codex/ntl-relational-program-v1]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Export tracked source for isolated integration audit
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib,subprocess,zipfile
+          files=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          manifest={'commit':subprocess.check_output(['git','rev-parse','HEAD']).decode().strip(),'included':{},'excluded':[]}
+          allowed={'.py','.json','.md','.txt','.tsv','.csv','.mk','.lean','.toml','.yml','.yaml'}
+          with zipfile.ZipFile('/tmp/ntl-source.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for name in files:
+                  p=pathlib.Path(name)
+                  if not name or not p.is_file() or p.is_symlink(): continue
+                  if p.stat().st_size>2_000_000 or (p.suffix not in allowed and name not in ['Makefile','GNUmakefile','formal/lean-toolchain','integrations/current_proof_references.mk']):
+                      manifest['excluded'].append(name); continue
+                  b=p.read_bytes(); z.writestr(name,b); manifest['included'][name]=hashlib.sha256(b).hexdigest()
+              z.writestr('NTL_SOURCE_EXPORT_MANIFEST.json',json.dumps(manifest,sort_keys=True))
+          print('source files',len(manifest['included']),'excluded',len(manifest['excluded']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ntl-source-snapshot
+          path: /tmp/ntl-source.zip
+          retention-days: 7
