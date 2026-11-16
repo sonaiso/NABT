@@ -56,11 +56,15 @@ def _check(value: Any, depth: int = 0) -> None:
 
 def canonical(value: Any) -> bytes:
     _check(value)
-    raw = json.dumps(value, ensure_ascii=False, sort_keys=True,
-                     separators=(",", ":"), allow_nan=False).encode("utf-8")
-    if len(raw) > MAX_BYTES:
-        raise ValueError("PACKET_RESOURCE_LIMIT")
-    return raw
+    encoder = json.JSONEncoder(ensure_ascii=False, sort_keys=True,
+                               separators=(",", ":"), allow_nan=False)
+    raw = bytearray()
+    for chunk in encoder.iterencode(value):
+        encoded = chunk.encode("utf-8")
+        if len(raw) + len(encoded) > MAX_BYTES:
+            raise ValueError("PACKET_RESOURCE_LIMIT")
+        raw.extend(encoded)
+    return bytes(raw)
 
 
 def digest(value: Any) -> str:
