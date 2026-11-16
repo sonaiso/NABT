@@ -1,0 +1,158 @@
+{
+  "schema": "nabt.ntl-school-integration-evidence.v1",
+  "authority": "RECORDED_TEST_RUNS_NOT_FORMAL_OR_PEDAGOGICAL_CERTIFICATION",
+  "base_commit": "4a70ed0e479c63121a3871001c99da28bec01c2f",
+  "recorded_on": "2026-11-16",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Linux",
+    "runtime_inference_requires_numpy": false
+  },
+  "new_tests": {
+    "command": "make ntl-school-check",
+    "tests": 58,
+    "passed": 58,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "regression_tests": {
+    "command": "PYTHONPATH=src:. python -m unittest tests.test_proof_reuse tests.test_proof_reuse_organization tests.test_cognitive_teaching tests.test_ntl_core.Validation tests.test_witness_recall -v",
+    "tests": 65,
+    "passed": 52,
+    "skipped": 13,
+    "status": "PASS_WITH_NATIVE_SKIPS",
+    "skip_reason": "Existing native lesson/gateway binaries are not installed in this local checkout."
+  },
+  "reuse": [
+    {
+      "command": "PYTHONPATH=src:. python -m tools.entropy_framework reuse",
+      "exit_code": 0,
+      "families": 39
+    },
+    {
+      "command": "PYTHONPATH=src:. python -m tools.entropy_framework reuse --organization --summary",
+      "exit_code": 0,
+      "status": "RESOLVED"
+    }
+  ],
+  "training_replay": {
+    "command": "PYTHONPATH=src:. OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m tools.lexical_training.train_apprentice --check",
+    "exit_code": 0,
+    "model_sha256": "53a07b32d0c990ab50761dd08f4192731387b1e2fff42de83dc97533c9b9e307",
+    "replay": {
+      "byte_identical": true,
+      "maximum_evaluation_error": 0.0,
+      "maximum_weight_error": 0.0,
+      "mode": "REPLAY",
+      "tolerance": 2e-09
+    },
+    "portable_parity": {
+      "claim": "Arithmetic parity only; no semantic refinement theorem.",
+      "maximum_absolute_score_error": 2.220446049250313e-16,
+      "passed": true,
+      "rows": 154,
+      "tolerance": 1e-12
+    }
+  },
+  "gateway_examples": [
+    {
+      "path": "examples/io_gateway/ntl_school_catalog.json",
+      "gateway_status": "EXECUTED",
+      "owner_status": "CATALOG",
+      "verified": true,
+      "seconds": 10.882
+    },
+    {
+      "path": "examples/io_gateway/ntl_school_cp_reflection.json",
+      "gateway_status": "EXECUTED",
+      "owner_status": "OPEN_REFLECTION",
+      "verified": true,
+      "seconds": 10.362
+    },
+    {
+      "path": "examples/io_gateway/ntl_school_induction.json",
+      "gateway_status": "EXECUTED",
+      "owner_status": "COURSE_SESSION",
+      "verified": true,
+      "seconds": 9.399
+    },
+    {
+      "path": "examples/io_gateway/ntl_school_measurement.json",
+      "gateway_status": "EXECUTED",
+      "owner_status": "CHECKED_CONDITIONAL",
+      "verified": true,
+      "seconds": 9.632
+    },
+    {
+      "path": "examples/io_gateway/ntl_school_pyp.json",
+      "gateway_status": "EXECUTED",
+      "owner_status": "CHECKED_CONDITIONAL",
+      "verified": true,
+      "seconds": 9.258
+    },
+    {
+      "path": "examples/io_gateway/ntl_school_withdrawal.json",
+      "gateway_status": "EXECUTED",
+      "owner_status": "DEFER",
+      "verified": true,
+      "seconds": 9.314
+    }
+  ],
+  "gateway_example_commands": [
+    "PYTHONPATH=src:. python -m tools.grammar_catalog gateway run --request PATH --output RECEIPT",
+    "PYTHONPATH=src:. python -m tools.grammar_catalog gateway verify --request PATH --receipt RECEIPT"
+  ],
+  "adversarial_checks": [
+    "missing identity calls no measurement owner",
+    "zero differs from missing",
+    "wrong programme/subject/grade/assessment session cannot establish alignment",
+    "input booleans, nonfinite values, extra authority fields and excessive text rejected",
+    "raw owner output, altered answer and independently different request rejected by gateway",
+    "withdrawal reopens judgment; restoration replays original evidence",
+    "model proposal cannot enable its own automatic selection",
+    "local response error changes eligible teaching action"
+  ],
+  "release_policy": "REVIEW_ONLY",
+  "automatic_neural_selection": false,
+  "human_learning_measured": false,
+  "not_run": [
+    "Full make check release gate",
+    "Local Lean rebuild",
+    "Native-only skipped regression tests",
+    "Concurrent 1000-student service load test",
+    "Independent teacher adjudication or human learning study"
+  ],
+  "source_files_sha256": {
+    ".github/workflows/ntl-school.yml": "f6f056c95d66c028175a6313727be27bfee14477de3d8641107eb707da5e5dab",
+    "README.md": "52b7e7379bdf99e833056cb4c39d5f637919e6370288196ad2b7b6d6fdfe11d6",
+    "docs/NTL_SCHOOL_APPRENTICE_AR.md": "2e205514c8f5ff4ee5672ef9bc563e5568e4de27a2d6cd51b373a3dab8aeec62",
+    "evidence/ntl_school_apprentice_v1/evaluation.json": "56833d8ce429287a14d9c132d5591b06ea384d871585bc0fd222bd0debe7999b",
+    "evidence/ntl_school_apprentice_v1/protocol.json": "63399da383ca50a06dc128bb70cc8008c91686e1ee76973b65123041f07a76ec",
+    "evidence/ntl_school_apprentice_v1/training.json": "32d8586a5376e4fc2a9cb3a069615d9351132899dbb354f40b37042e83e8d3aa",
+    "examples/io_gateway/ntl_school_catalog.json": "8d3a2e5f8277af8fca864145008821eb0e6929cb0b7a4bbd140f44b8a362c5ab",
+    "examples/io_gateway/ntl_school_cp_reflection.json": "2c2e6e379d7b07dc8a43697be884245d32551274b7fc8cb9aea637c8aef2d5c5",
+    "examples/io_gateway/ntl_school_induction.json": "98a6a45acef3c926c00dce58706b8a3a8ef83d06f51efc3f5bb2da2f6d3b437b",
+    "examples/io_gateway/ntl_school_measurement.json": "440f54d9a8ae1dfcec20a275c8d69384282e5cd45eedde9120ac638f07f3c20d",
+    "examples/io_gateway/ntl_school_pyp.json": "351cb4459fb93c557ba80f95190d26e3d4e78f0247c3dc5b934d359fd0020dca",
+    "examples/io_gateway/ntl_school_withdrawal.json": "6b09c2c54f484a6d26bd616901b6600ab158d4967ea1ea9df85f4eb39e351a82",
+    "integrations/io_gateway.mk": "edb985c5be3e01101fe071d6f7e6ea7dc86f0611a85dc99ed20a3ce4ce8aec11",
+    "tests/test_apprentice_readout.py": "2e4bf4ab4860ec1a46fa29419e44e4fc0901f081e6634f8d88974bec62263dae",
+    "tests/test_school_apprentice.py": "5caec3f11cda17b1a5b10ca28f5ad9ae0f1bd5bab5068e5f744cb28214db5c52",
+    "tests/test_school_ib_catalog.py": "702475f8e19a43157b7f7aa585e1da1bd73cd962002c8049612933a9a103b824",
+    "tests/test_school_jordan_catalog.py": "ed813b4163543af86cae8a6d1b1fd827b19e804a58fe4d89f17a2532a16198ff",
+    "tools/entropy_framework/registry.json": "a991747c669dc32519afb1a6b82cf3da5e0036d9bf2556d2585b441ebfa9dab1",
+    "tools/grammar_catalog/gateway.py": "fd8f548e22940876b5e7a63ec208b8bd9407279bb67287073569088b055ea2de",
+    "tools/grammar_catalog/gateway_links.py": "49e370b5add9b0059bf2b557f853728f435d880a4aeec02bd19368e056881a04",
+    "tools/lexical_training/apprentice_readout.py": "e8864de960fceb3edeba48f5c545e5031d90332b0e03a103c4cb745a66030840",
+    "tools/lexical_training/data/ntl_apprentice_model_v1.json": "53a07b32d0c990ab50761dd08f4192731387b1e2fff42de83dc97533c9b9e307",
+    "tools/lexical_training/data/ntl_ib_framework_v1.json": "ac15eb43a7baf46f27babaa7ee32e79a1c9bee4d0f632255936ab126bfebd6e5",
+    "tools/lexical_training/data/ntl_jordan_framework_v1.json": "fcb706c55a77fa4e398d119e75587b302bbe2bcf07953c51b151d222a2b5ea0a",
+    "tools/lexical_training/school_apprentice.py": "dd13f4b8f2ff17ba32997f388b6ede44b4ad286c2571134c34f10e4bfd635f85",
+    "tools/lexical_training/school_curriculum.py": "505c448659c912e02f3eff5a5d4ea7f70b98434e1979bdb066cd57dec82d8c1d",
+    "tools/lexical_training/teaching.py": "4a7c63bb6af57e3603178493380a74c90651efd1fe5cd5ee547a41dfbf6aa8cb",
+    "tools/lexical_training/train_apprentice.py": "15d2ad257003d6a183db69e146decfd574ede998866daeeacd28d3438042e0b4"
+  },
+  "identity_scope": "Changed source/data/workflow/example files before this record; the record does not hash itself.",
+  "remote_ci": "Separate GitHub Actions results on the PR commit; no remote result claimed by this local record."
+}

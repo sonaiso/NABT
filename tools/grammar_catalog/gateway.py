@@ -25,7 +25,8 @@ OPTIONAL_NEURAL_INPUTS = frozenset((
     "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
     "evidence/ontological_continuity_v1/training/model.json",
     "evidence/ontological_continuity_v1/training/train.json",
-    "tools/lexical_training/data/ifadah_programs_v1.json"))
+    "tools/lexical_training/data/ifadah_programs_v1.json",
+    "tools/lexical_training/data/ntl_apprentice_model_v1.json"))
 
 
 def validate_request(request):
@@ -61,6 +62,7 @@ def snapshot():
                        "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json",
         "tools/lexical_training/data/ifadah_programs_v1.json",
+        "tools/lexical_training/data/ntl_apprentice_model_v1.json",
         "evidence/ifadah_programs_v1/data.json", "evidence/ifadah_programs_v1/protocol.json",
         "evidence/ifadah_programs_v1/protocol_local.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
