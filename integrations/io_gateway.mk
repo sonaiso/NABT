@@ -62,3 +62,9 @@ check: scoped-composition
 .PHONY: ifadah-programs
 ifadah-programs:
 	PYTHONPATH=src:. $(PYTHON) -B -m unittest tests.test_ifadah_programs tests.test_pr113_regressions -v
+
+.PHONY: ntl-school-check
+ntl-school-check:
+	PYTHONPATH=src:. $(PYTHON) -B -m unittest tests.test_school_apprentice tests.test_school_ib_catalog tests.test_school_jordan_catalog tests.test_apprentice_readout -v
+
+io-gateway ntl-course-check: ntl-school-check

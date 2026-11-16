@@ -128,8 +128,8 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
-    from . import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum
-    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts, ifadah_programs):
+    from . import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum, school_apprentice
+    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts, ifadah_programs, school_apprentice):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
             continue
         try:
@@ -251,7 +251,8 @@ def verify_lesson(report, *, expected_lesson):
     """No receipt may supply its own inputs or suppress the fresh owner run."""
     try:
         actual = run_lesson(expected_lesson)
-        shared = expected_lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4)
+        from . import school_apprentice
+        shared = expected_lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4, school_apprentice.SCHEMA)
         matches = (wire_owner._encoded(report, MAX_RESULT_BYTES, floats=shared) ==
                    wire_owner._encoded(actual, MAX_RESULT_BYTES, floats=shared))
         return {"valid": matches and actual["execution_measured"], "replay_matches": matches,
