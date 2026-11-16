@@ -49,7 +49,7 @@ def build(route=None):
         from tools.lexical_training.reasoning_curriculum import matrix
         curriculum = matrix(compiled=compiled)
         rows = curriculum["matrices"] + curriculum["shared_foundation"]["rows"]
-        from tools.lexical_training import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum
+        from tools.lexical_training import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum, school_apprentice, school_curriculum
         owner_modules = {m for row in rows for m in row["owner_modules"]}
         owner_paths = {"tools/lexical_training/corpus_concepts.py", "tools/lexical_training/context_transfer.py", "tools/lexical_training/teaching.py", "tools/lexical_training/grounded_passage.py",
                        "tools/source_learning_connection.py", "tools/epistemic_measurement.py",
@@ -66,6 +66,9 @@ def build(route=None):
                               "context_transfer_schema": context_transfer.SCHEMA,
                               "corpus_concepts_schema": corpus_concepts.SCHEMA,
                               "ifadah_programs_schema": ifadah_programs.SCHEMA,
+                              "school_apprentice_schema": school_apprentice.SCHEMA,
+                              "school_curriculum_sha256": digest(school_curriculum.catalog()),
+                              "school_curriculum_scope": "PARTIAL_SOURCE_BOUND_REFERENCE_NOT_OFFICIAL_GRADING",
                               "course_schema": ntl_course.SCHEMA, "cases": list(ntl_course.catalog()),
                               "cases_sha256": digest(ntl_course.catalog()),
                               "minimum_schema": ntl_core.SCHEMA, "minimum_units": list(ntl_core.curriculum()),

@@ -15,7 +15,9 @@ concurrency:
 jobs:
   installed-contracts:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    # Reuse and agent gates run before the full gateway replay suite.
+    # The old 10-minute whole-job budget canceled passing checks mid-suite.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
