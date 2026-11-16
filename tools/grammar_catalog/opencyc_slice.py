@@ -16,7 +16,7 @@ import re
 
 SCHEMA = "nabt.opencyc-slice.v1"
 RESULT = "nabt.opencyc-slice-result.v1"
-LAW = "nabt.opencyc-signed-fragment.v1"
+LAW = "nabt.opencyc-signed-fragment.v1.1"
 ROOT = Path(__file__).resolve().parents[2]
 MAX_LEDGER_BYTES = 32768
 MAX_RECORDS = 32
@@ -116,12 +116,18 @@ def records(ledger):
 
 def parse_formula(formula):
     """Parse a safe, finite s-expression; unsupported expressions remain residuals."""
+    text(formula, "formula", 2048)
     tokens, cursor = [], 0
     while cursor < len(formula):
         match = TOKEN.match(formula, cursor)
         if match is None:
             raise SliceError("UNSUPPORTED_SEMANTICS", "Unsupported token in Cyc-style source")
         token = match.group()
+        if (not token.isspace() and token not in ("(", ")")
+                and match.end() < len(formula)
+                and not formula[match.end()].isspace()
+                and formula[match.end()] not in "()"):
+            raise SliceError("INVALID_INPUT", "Missing delimiter between source atoms")
         if not token.isspace():
             tokens.append(token)
         cursor = match.end()

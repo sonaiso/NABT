@@ -1,0 +1,47 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "cognitive.lesson",
+  "payload": {
+    "lesson": {
+      "schema": "nabt.opencyc-inquiry.v1",
+      "text": "كَلْبُ",
+      "source_id": "arabic_fixture",
+      "slice": {
+        "schema": "nabt.opencyc-slice.v1",
+        "source": {
+          "id": "inquiry_fixture",
+          "revision": "1",
+          "uri": "urn:nabt:authored-inquiry-fixture:1",
+          "license": "Original authored test data; not extracted OpenCyc",
+          "sha256": "8700b957c380e1f4a8a05da4d03eb0a89918fa52e1c5a51d94d27ca0b0eae560"
+        },
+        "ledger": "{\"id\": \"a-f\", \"mt\": \"#$FixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(isa #$A #$Feature)\"}\n{\"id\": \"a-t\", \"mt\": \"#$FixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(isa #$A #$Target)\"}\n{\"id\": \"b-f\", \"mt\": \"#$FixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(not (isa #$B #$Feature))\"}\n{\"id\": \"b-t\", \"mt\": \"#$FixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(not (isa #$B #$Target))\"}\n{\"id\": \"c-f\", \"mt\": \"#$FixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(isa #$C #$Feature)\"}\n",
+        "context": "#$FixtureMt",
+        "query": {
+          "predicate": "isa",
+          "arguments": [
+            "#$A",
+            "#$Target"
+          ],
+          "positive": true
+        },
+        "withdrawn": [],
+        "bindings": [],
+        "application": null
+      },
+      "target_class": "#$Target",
+      "feature_classes": [
+        "#$Feature"
+      ],
+      "training_subjects": [
+        "#$A"
+      ],
+      "probe_subjects": [
+        "#$B",
+        "#$C"
+      ],
+      "degree": 1,
+      "events": []
+    }
+  }
+}

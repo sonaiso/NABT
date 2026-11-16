@@ -128,8 +128,8 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
-    from . import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum, school_apprentice
-    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts, ifadah_programs, school_apprentice):
+    from . import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum, school_apprentice, opencyc_inquiry
+    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts, ifadah_programs, school_apprentice, opencyc_inquiry):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
             continue
         try:
