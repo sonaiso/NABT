@@ -92,6 +92,8 @@ def decode_json(raw: bytes) -> Any:
 def freeze(path: Path, value: Any) -> None:
     """Exclusive creation: an existing historical record is never replaced."""
     payload = canonical(value) + b"\n"
+    if len(payload) > MAX_BYTES:
+        raise ValueError("PACKET_RESOURCE_LIMIT")
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("xb") as stream:
         stream.write(payload)
