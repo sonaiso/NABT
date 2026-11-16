@@ -1,0 +1,54 @@
+name: Pinned PR109 failure diagnostics
+on:
+  push:
+    branches: [codex/ci-repair-114-workbench]
+    paths: [.github/workflows/repair-109-diagnostics.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 9720ef1bf4425afa317c2f49f5d936ba165082d9
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            src
+            tools
+            tests
+            integrations
+          persist-credentials: false
+      - name: Export exact source and merge diagnostics
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib,subprocess
+          out=pathlib.Path('diagnostics109');out.mkdir()
+          head='9720ef1bf4425afa317c2f49f5d936ba165082d9'
+          main='aa2dba34332b19d9dd25d88f485986d0e93120fa'
+          def git(*args):return subprocess.check_output(['git',*args])
+          base=git('merge-base',main,head).decode().strip()
+          p=subprocess.run(['git','merge-tree','--write-tree',main,head],capture_output=True)
+          (out/'merge.log').write_bytes(p.stdout+p.stderr)
+          assert p.returncode in (0,1)
+          tree=p.stdout.splitlines()[0].decode().strip()
+          changes=git('diff','--name-status',main,tree).decode()
+          (out/'changes.txt').write_text(changes)
+          (out/'identity.json').write_text(json.dumps({'main':main,'head':head,'base':base,'merge_tree':tree,'exit':p.returncode},indent=2))
+          for label,ref in [('head',head),('merged',tree)]:
+              with (out/(label+'-source.tar')).open('wb') as f:
+                  subprocess.run(['git','archive',ref,'src','tools','tests','integrations','GNUmakefile','Makefile','pyproject.toml','.github/workflows'],stdout=f,check=True)
+          diff=git('diff',base,head)
+          (out/'branch.patch').write_bytes(diff)
+          print((out/'identity.json').read_text());print(changes);print(p.stdout.decode())
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pr109-pinned-inputs
+          path: diagnostics109/
+          retention-days: 7
+          if-no-files-found: error
