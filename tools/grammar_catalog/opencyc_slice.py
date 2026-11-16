@@ -387,7 +387,14 @@ def analyze(outer_text, source_id, request):
     query = ("هل " + ground.render_atom(c["goal"]) + "؟\n").encode()
     if len(program) > MAX_PROGRAM_BYTES:
         raise SliceError("RESOURCE_LIMIT", "Rendered program budget exceeded")
-    identity, revision, scope = p["source"]["id"], p["source"]["revision"], p["context"]
+    # The original reader accepts token-shaped source identities, whereas source
+    # metadata may contain human-readable names. Bind a canonical local identity
+    # to the COMPLETE preserved source descriptor; never normalize that metadata.
+    identity = "opencyc_" + digest(p["source"])
+    revision, scope = p["source"]["revision"], p["context"]
+    report["native_source_binding"] = {"identity": identity, "revision": revision,
+        "scope": scope, "source_descriptor_sha256": digest(p["source"]),
+        "authority": "IDENTITY_BINDING_ONLY_NOT_SOURCE_AUTHENTICATION"}
     report.update(program=program.decode(), query=query.decode(), program_sha256=sha256(program).hexdigest())
     try:
         certificate = ground.propose(program, query, identity, revision, scope)
