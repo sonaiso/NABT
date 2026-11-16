@@ -1,0 +1,41 @@
+name: Build pinned PR114 merge repair
+on:
+  push:
+    branches: [codex/ci-repair-114-workbench]
+    paths: [.github/workflows/repair-114-build.yml, repair_support/**]
+permissions:
+  contents: write
+jobs:
+  build-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            src
+            tools
+            tests
+            integrations
+            repair_support
+      - name: Prepare exact two-parent repair (never writes main or PR branch)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp repair_support/resolve_114.py "$RUNNER_TEMP/resolve_114.py"
+          cp repair_support/test_lesson_dispatch_regression.py "$RUNNER_TEMP/test_lesson_dispatch_regression.py"
+          git config user.name 'NABT CI repair'
+          git config user.email '128359434+sonaiso@users.noreply.github.com'
+          git checkout --detach 009339e5d3c4d1e3c3b31aba9c256fd94032984c
+          python "$RUNNER_TEMP/resolve_114.py" "$RUNNER_TEMP/test_lesson_dispatch_regression.py"
+          PYTHONPATH=src:. python -B -m unittest tests.test_lesson_dispatch_regression -v
+          PYTHONPATH=src:. python -B -m unittest tests.test_ntl_witness_pilot.WitnessPilot.test_split_and_training_manifest tests.test_ntl_witness_pilot.WitnessPilot.test_fold_scope_and_restore tests.test_ntl_witness_pilot.WitnessPilot.test_new_compositions_and_scope_controls tests.test_ntl_witness_pilot.WitnessPilot.test_unsupported_inputs_and_absent_model -v
+          git diff --cached --check
+          git commit -m 'merge: retain all lesson adapters and native regression suites from main'
+          test "$(git rev-parse HEAD^1)" = 009339e5d3c4d1e3c3b31aba9c256fd94032984c
+          test "$(git rev-parse HEAD^2)" = aa2dba34332b19d9dd25d88f485986d0e93120fa
+          git push --force-with-lease=refs/heads/codex/ci-repair-114-result: origin HEAD:refs/heads/codex/ci-repair-114-result
+          echo "CANDIDATE_SHA=$(git rev-parse HEAD)"
+          echo 'Candidate only: original native CI must run on the PR head before merge.'
