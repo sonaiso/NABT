@@ -7,6 +7,7 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "ayat.read": (("rule-routing", "discourse", "arabic-governors"), ("text",), ("withdraw","withdraw_context","question","scene")),
     "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "rule-learning", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
     "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology", "numeric-program", "rule-learning") + RELATIONAL_FAMILIES, ("lesson",), ()),
@@ -18,7 +19,7 @@ ROUTES = {
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
-    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "licensed_speech")),
+    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "report_model", "licensed_speech", "opencyc_slice")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
     "grammar.search": (("rule-routing", "classical-source-rules"), ("query",), ("kind", "limit")),
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),
@@ -58,6 +59,9 @@ def validate(route, payload):
         raise ValueError("Expected a bounded nonempty query")
     if "limit" in payload and (type(payload["limit"]) is not int or not 1 <= payload["limit"] <= 100):
         raise ValueError("Expected a positive bounded integer limit")
+    if route == "ayat.read":
+        from .ayat_al_dayn import validate as validate_ayat
+        validate_ayat(payload)
     if route == "grammar.search" and payload.get("kind") not in (None, "rule", "passage", "item"):
         raise ValueError("Unknown catalogue kind")
     if route == "grammar.route":
@@ -110,7 +114,10 @@ def validate(route, payload):
         validate_lexical(payload)
     if route == "relations.analyze":
         from .relational import validate as validate_relations
-        validate_relations(payload)
+        validate_relations({k: v for k, v in payload.items() if k != "opencyc_slice"})
+        if "opencyc_slice" in payload:
+            from .opencyc_slice import validate as validate_slice
+            validate_slice(payload["opencyc_slice"])
     if route == "application.case":
         from .case_application import validate as validate_case
         validate_case(payload)
@@ -130,6 +137,9 @@ def validate(route, payload):
 
 def execute(route, payload, *, inside_worker=False):
     p = validate(route, payload)
+    if route == "ayat.read":
+        from .ayat_al_dayn import analyze
+        return analyze(p["text"],p.get("withdraw",[]),p.get("withdraw_context",[]),p.get("question"),p.get("scene"))
     if route == "text.read":
         from .text_reading import analyze
         return analyze(p["text"], question=p.get("question"), answer=p.get("answer"),
@@ -161,7 +171,18 @@ def execute(route, payload, *, inside_worker=False):
         return (export if route.endswith("ontolex") else assess)(p)
     if route in ("relations.search", "relations.analyze"):
         from .relational import search, analyze
-        return search(p["query"], p.get("limit", 5)) if route.endswith("search") else analyze(p)
+        if route.endswith("search"):
+            return search(p["query"], p.get("limit", 5))
+        result = analyze({k: v for k, v in p.items() if k != "opencyc_slice"})
+        if "opencyc_slice" in p:
+            from .opencyc_slice import analyze as analyze_slice, SliceError
+            try:
+                result["opencyc_slice"] = analyze_slice(p["text"], p.get("source_id", "input"), p["opencyc_slice"])
+            except SliceError as error:
+                result["opencyc_slice"] = {"status": "DEFER" if error.code == "RESOURCE_LIMIT" else "REJECT",
+                    "reason": error.code, "detail": str(error), "native_checked": False,
+                    "world_truth_established": False, "action_authority": "NONE"}
+        return result
     if route == "operation":
         from .operation_rag import run, run_inside_worker
         return (run_inside_worker if inside_worker else run)(p)

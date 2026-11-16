@@ -1,0 +1,12 @@
+{
+  "scope": "60 authored Arabic origins, no independent empirical observations; retained readings and unseen-origin neural suggestions scored separately",
+  "unit": "origin; keep every clause, paraphrase and withdrawal from the origin in the same partition",
+  "split_per_family": {"train": 9, "dev": 3, "test": 3},
+  "neural_input": "original clause bytes only; no origin, group, split, teacher binding or answer in the features",
+  "neural_tasks": ["predict relation class including independent context", "rank contiguous cue spans up to three written terms"],
+  "head": "class-balanced ridge with positive penalty 0.1 on frozen NABT occurrence vectors including intercept; no validation tuning",
+  "baseline": "training-majority relation, first term cue, first clause focus; record exact cue and family breakdown",
+  "interventions": ["before", "withdraw surface cue", "withdraw grounding alone", "withdraw independent context", "restore", "withdraw formal proof"],
+  "gates": "report neural errors rather than suppressing them; licensed readings require separate evidence; no promotion to external event; an invalid factorization does not refute parity",
+  "test_access": "developer-authored diagnostic, fixed before fitting; independent blind review outstanding"
+}

@@ -161,6 +161,9 @@ def run(lesson):
         bounded_list(pool,"query_pool",1,12)
         query = choose_query(pool, set(probes), term, cues, descriptions, seen)
     return {"schema":RESULT, "status":"COURSE_SESSION","term":term,
+            # This records execution of the Python lesson; native availability
+            # and every unresolved target remain in their original predictions.
+            "execution_measured":True,
             "scope":"contrastive exact lexical cues in one clause and a natively checked A116 target",
             "hypotheses":{k:sorted(v) for k,v in cues.items()},
             "demonstrations":[{"sha256":identifier(e["text"]), "label":e["label"]} for e in examples],

@@ -1,0 +1,44 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "relations.analyze",
+  "payload": {
+    "text": "كَلْبُ",
+    "source_id": "arabic_fixture",
+    "opencyc_slice": {
+      "schema": "nabt.opencyc-slice.v1",
+      "source": {
+        "id": "nabt_authored_fixture",
+        "revision": "1",
+        "uri": "urn:nabt:opencyc-slice:authored-fixture:1",
+        "license": "Original fixture, not extracted OpenCyc data",
+        "sha256": "b2786c2fd04c76a5db741f830366009a1460615379c3905b8ad8549ad8d84c32"
+      },
+      "ledger": "{\"id\": \"f1\", \"mt\": \"#$NabtAuthoredFixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(isa #$Fido #$Dog)\"}\n{\"id\": \"g1\", \"mt\": \"#$NabtAuthoredFixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(genls #$Dog #$Animal)\"}\n{\"id\": \"a1\", \"mt\": \"#$NabtAuthoredFixtureMt\", \"strength\": \"monotonic\", \"formula\": \"(arg1Isa #$fixtureRelation #$Animal)\"}\n",
+      "context": "#$NabtAuthoredFixtureMt",
+      "query": {
+        "predicate": "isa",
+        "arguments": [
+          "#$Fido",
+          "#$Animal"
+        ],
+        "positive": true
+      },
+      "withdrawn": [],
+      "bindings": [
+        {
+          "constant": "#$Dog",
+          "byte_span": [
+            0,
+            12
+          ]
+        }
+      ],
+      "application": {
+        "predicate": "#$fixtureRelation",
+        "arguments": [
+          "#$Fido"
+        ]
+      }
+    }
+  }
+}

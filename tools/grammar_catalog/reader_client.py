@@ -22,6 +22,13 @@ def checked_view(text, question=None, *, answer=None, question_cycle=False, ques
         request["payload"]["question_cycle"] = True
     if question_chain:
         request["payload"]["question_chain"] = True
+    # The pinned passage has its own occurrence alignment and fits its dedicated graph budget.
+    # General questions and other passages keep the existing reader.
+    if set(request["payload"]) <= {"text","question"}:
+        from .ayat_al_dayn import SOURCE_SHA
+        from hashlib import sha256
+        if sha256(text.encode()).hexdigest()==SOURCE_SHA:
+            request["route"]="ayat.read"
     receipt = gateway.run(request)
     if receipt["status"] != "EXECUTED":
         return {"verified": False, "error": "تعذّر تنفيذ الفحص: " + receipt["status"]}
@@ -29,6 +36,23 @@ def checked_view(text, question=None, *, answer=None, question_cycle=False, ques
     if not verification["valid"]:
         return {"verified": False, "error": "تعذّر التحقق من النتيجة: " + verification["status"]}
     result = receipt["execution"]["owner_result"]
+    if request["route"]=="ayat.read":
+        cards=[{"degree":c["force"],"understood":c["answer_ar"] or "أُرجئت القراءة.",
+                "why":c["scope"]["surface"],"unresolved":c["debt"] or "القراءة مقيدة بهذا الموضع."}
+               for c in result["cards"]]
+        cognition=result["cognition"]
+        rank=cognition["question_ranking"]
+        if rank and rank["ranking"]:
+            family=rank["ranking"][0]["family"]
+            related=[{"degree":r["scope"],"understood":r["answer_ar"] or "القراءة موقوفة.",
+                      "why":"عائلة مرشّحة لسؤال المستخدم؛ الشواهد محفوظة في الرسم.","unresolved":"القصد الخارجي مفتوح."}
+                     for r in cognition["claims"] if r["family"]==family]
+            related.extend({"degree":r["name"],"understood":r["possible_reading"],
+                            "why":r["candidate_question"],"unresolved":r["required_bridge"]}
+                           for r in cognition["inquiries"] if r["family"]==family)
+            cards=related+cards
+        return {"verified":True,"cards":cards,"grammar_stop_ar":"قراءة موضعية لستة عشر مقطعًا",
+                "source":result["source"],"world_truth_established":False,"request_sha256":receipt["request_sha256"]}
     return {"verified": True, "cards": result["cards"], "grammar_stop_ar": result["grammar_stop_ar"],
             "source": result["source"], "world_truth_established": result["world_truth_established"],
             "request_sha256": receipt["request_sha256"]}
