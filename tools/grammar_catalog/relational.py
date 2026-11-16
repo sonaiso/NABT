@@ -140,9 +140,11 @@ def search(query, limit=5):
 
 
 def validate(request):
-    if type(request) is not dict or "text" not in request or set(request)-{
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "valency_context", "report_model", "licensed_speech"}:
-            "text", "source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "licensed_speech"}:
+    allowed = {"text", "source_id", "query", "limit", "lexical_text", "context", "temporal",
+               "inference", "bridge", "neural_continuity", "root_sense", "question",
+               "question_chain", "genus_chains", "valency_context", "report_model",
+               "licensed_speech"}
+    if type(request) is not dict or "text" not in request or set(request) - allowed:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
     if not _text(request["text"], "text", maximum=8192).strip():

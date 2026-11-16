@@ -1,0 +1,33 @@
+{
+  "schema": "ntl.ifadah-local-protocol.v1",
+  "prior": "protocol.json",
+  "development_reason": "EXPOSED_V1_STRUCTURE_FAILURE_0_OF_72",
+  "fit_scope": "TRAIN_ONLY_SAME_SPLIT",
+  "test_visibility": "EXPOSED_DIAGNOSTIC_AFTER_ARCHITECTURE_REVISION",
+  "alpha": 0.1,
+  "features": "ISOLATED_SHARED_GRU_TOKEN_FORWARD_REVERSE",
+  "learning": "LOCAL_FORCE_AND_FRAME_TOKEN_HEADS",
+  "composition": "MAX_POSITIVE_CUE_MARGIN_PER_HEAD_CONFLICT_ABSTAINS",
+  "goal_training_cues": {
+    "تمن": "wish",
+    "تمني": "wish",
+    "ترج": "hope",
+    "رجاء": "hope",
+    "اسأل": "ask",
+    "تصديق": "ask",
+    "أكد": "emphasis",
+    "التوكيد": "emphasis",
+    "الماضي": "past",
+    "سابقًا": "past",
+    "انف": "negation",
+    "بعدم": "negation"
+  },
+  "goal_cues_scope": "TEACHER_TOKEN_ANNOTATIONS_FOR_TRAINING_ONLY_NOT_RUNTIME_DICTIONARY",
+  "neural_gold": "TRAIN_TOKEN_LABELS_ONLY",
+  "binding": "FIXED_EXACT_LEXICAL_OWNER",
+  "remaining": [
+    "INDEPENDENT_HUMAN_GOLD_REQUIRED",
+    "NEW_UNEXPOSED_STRUCTURAL_TEST_REQUIRED",
+    "GENERAL_SCOPE_ACQUISITION_OPEN"
+  ]
+}

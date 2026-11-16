@@ -1,0 +1,3350 @@
+{
+  "schema": "ntl.ifadah-data.v1",
+  "slot_source": "tools/grammar_catalog/data/awamil_occurrence_bank_v1.json",
+  "slot_sha256": "123a535079df8588ab8f54de8ec5ff6123c6dcd487ff124afed39b77d90f1c5c",
+  "operators": {
+    "plain": {
+      "factor": 99,
+      "force": "assert",
+      "frame": "plain"
+    },
+    "emphasis": {
+      "factor": 18,
+      "force": "assert",
+      "frame": "emphasis"
+    },
+    "past": {
+      "factor": 64,
+      "force": "assert",
+      "frame": "past"
+    },
+    "negation": {
+      "factor": 76,
+      "force": "assert",
+      "frame": "negation"
+    },
+    "wish": {
+      "factor": 22,
+      "force": "wish",
+      "frame": "plain"
+    },
+    "hope": {
+      "factor": 23,
+      "force": "hope",
+      "frame": "plain"
+    },
+    "ask": {
+      "factor": 99,
+      "force": "ask",
+      "frame": "plain"
+    },
+    "ask_past": {
+      "factor": 64,
+      "force": "ask",
+      "frame": "past"
+    },
+    "ask_negation": {
+      "factor": 76,
+      "force": "ask",
+      "frame": "negation"
+    }
+  },
+  "goal_prompts": {
+    "plain": [
+      "أخبر بثبوت الصفة الآن",
+      "اذكر اتصاف الموضوع بالصفة الآن",
+      "انسب الصفة إلى الموضوع في الحاضر",
+      "قدم خبرًا عن الصفة في الحاضر"
+    ],
+    "emphasis": [
+      "أكد ثبوت الصفة الآن",
+      "أخبر بثبوت الصفة مع التوكيد",
+      "انسب الصفة مؤكدة في الحاضر",
+      "قدم خبرًا مؤكدًا عن الصفة"
+    ],
+    "past": [
+      "أخبر بثبوت الصفة في الماضي",
+      "اذكر اتصاف الموضوع بالصفة سابقًا",
+      "انسب الصفة إلى الموضوع في الزمن الماضي",
+      "قدم خبرًا عن الصفة في الماضي"
+    ],
+    "negation": [
+      "انف ثبوت الصفة الآن",
+      "أخبر بعدم اتصاف الموضوع بالصفة",
+      "انسب نفي الصفة إلى الموضوع الآن",
+      "قدم نفيًا للصفة في الحاضر"
+    ],
+    "wish": [
+      "تمن ثبوت الصفة الآن",
+      "اذكر تمني اتصاف الموضوع بالصفة",
+      "عبر عن التمني دون إثبات الصفة",
+      "قدم تمنيًا لثبوت الصفة"
+    ],
+    "hope": [
+      "ترج ثبوت الصفة الآن",
+      "اذكر رجاء اتصاف الموضوع بالصفة",
+      "عبر عن الرجاء دون إثبات الصفة",
+      "قدم رجاءً لثبوت الصفة"
+    ],
+    "ask": [
+      "اسأل عن ثبوت الصفة الآن",
+      "اطلب تصديق اتصاف الموضوع بالصفة الآن",
+      "استفهم عن الصفة في الحاضر",
+      "قدم سؤالًا عن الصفة في الحاضر"
+    ],
+    "ask_past": [
+      "اسأل عن ثبوت الصفة في الماضي",
+      "اطلب تصديق اتصاف الموضوع بالصفة سابقًا",
+      "استفهم عن الصفة في الزمن الماضي",
+      "قدم سؤالًا عن الصفة في الماضي"
+    ],
+    "ask_negation": [
+      "اسأل عن عدم ثبوت الصفة الآن",
+      "اطلب تصديق نفي الصفة عن الموضوع",
+      "استفهم عن نفي الصفة في الحاضر",
+      "قدم سؤالًا عن نفي الصفة"
+    ]
+  },
+  "rows": [
+    {
+      "id": "plain-0-0",
+      "split": "train",
+      "program": "plain",
+      "subject": 0,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْكَاتِبُ حَاضِرٌ"
+    },
+    {
+      "id": "plain-0-1",
+      "split": "train",
+      "program": "plain",
+      "subject": 0,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْكَاتِبُ صَابِرٌ"
+    },
+    {
+      "id": "plain-0-2",
+      "split": "train",
+      "program": "plain",
+      "subject": 0,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْكَاتِبُ مُجْتَهِدٌ"
+    },
+    {
+      "id": "plain-0-3",
+      "split": "dev",
+      "program": "plain",
+      "subject": 0,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْكَاتِبُ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "plain-0-4",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 0,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْكَاتِبُ نَشِيطٌ"
+    },
+    {
+      "id": "plain-0-5",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 0,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْكَاتِبُ مُنْتَبِهٌ"
+    },
+    {
+      "id": "plain-1-0",
+      "split": "train",
+      "program": "plain",
+      "subject": 1,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُدَرِّسُ حَاضِرٌ"
+    },
+    {
+      "id": "plain-1-1",
+      "split": "train",
+      "program": "plain",
+      "subject": 1,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُدَرِّسُ صَابِرٌ"
+    },
+    {
+      "id": "plain-1-2",
+      "split": "dev",
+      "program": "plain",
+      "subject": 1,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُدَرِّسُ مُجْتَهِدٌ"
+    },
+    {
+      "id": "plain-1-3",
+      "split": "train",
+      "program": "plain",
+      "subject": 1,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُدَرِّسُ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "plain-1-4",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 1,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُدَرِّسُ نَشِيطٌ"
+    },
+    {
+      "id": "plain-1-5",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 1,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُدَرِّسُ مُنْتَبِهٌ"
+    },
+    {
+      "id": "plain-2-0",
+      "split": "train",
+      "program": "plain",
+      "subject": 2,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُهَنْدِسُ حَاضِرٌ"
+    },
+    {
+      "id": "plain-2-1",
+      "split": "dev",
+      "program": "plain",
+      "subject": 2,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُهَنْدِسُ صَابِرٌ"
+    },
+    {
+      "id": "plain-2-2",
+      "split": "train",
+      "program": "plain",
+      "subject": 2,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُهَنْدِسُ مُجْتَهِدٌ"
+    },
+    {
+      "id": "plain-2-3",
+      "split": "train",
+      "program": "plain",
+      "subject": 2,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُهَنْدِسُ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "plain-2-4",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 2,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُهَنْدِسُ نَشِيطٌ"
+    },
+    {
+      "id": "plain-2-5",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 2,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْمُهَنْدِسُ مُنْتَبِهٌ"
+    },
+    {
+      "id": "plain-3-0",
+      "split": "dev",
+      "program": "plain",
+      "subject": 3,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّبِيبُ حَاضِرٌ"
+    },
+    {
+      "id": "plain-3-1",
+      "split": "train",
+      "program": "plain",
+      "subject": 3,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّبِيبُ صَابِرٌ"
+    },
+    {
+      "id": "plain-3-2",
+      "split": "train",
+      "program": "plain",
+      "subject": 3,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّبِيبُ مُجْتَهِدٌ"
+    },
+    {
+      "id": "plain-3-3",
+      "split": "train",
+      "program": "plain",
+      "subject": 3,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّبِيبُ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "plain-3-4",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 3,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّبِيبُ نَشِيطٌ"
+    },
+    {
+      "id": "plain-3-5",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 3,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّبِيبُ مُنْتَبِهٌ"
+    },
+    {
+      "id": "plain-4-0",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 4,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْحَارِسُ حَاضِرٌ"
+    },
+    {
+      "id": "plain-4-1",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 4,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْحَارِسُ صَابِرٌ"
+    },
+    {
+      "id": "plain-4-2",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 4,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْحَارِسُ مُجْتَهِدٌ"
+    },
+    {
+      "id": "plain-4-3",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 4,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْحَارِسُ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "plain-4-4",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 4,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْحَارِسُ نَشِيطٌ"
+    },
+    {
+      "id": "plain-4-5",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 4,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الْحَارِسُ مُنْتَبِهٌ"
+    },
+    {
+      "id": "plain-5-0",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 5,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّالِبُ حَاضِرٌ"
+    },
+    {
+      "id": "plain-5-1",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 5,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّالِبُ صَابِرٌ"
+    },
+    {
+      "id": "plain-5-2",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 5,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّالِبُ مُجْتَهِدٌ"
+    },
+    {
+      "id": "plain-5-3",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 5,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّالِبُ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "plain-5-4",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 5,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّالِبُ نَشِيطٌ"
+    },
+    {
+      "id": "plain-5-5",
+      "split": "lexical_test",
+      "program": "plain",
+      "subject": 5,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "plain",
+      "text": "الطَّالِبُ مُنْتَبِهٌ"
+    },
+    {
+      "id": "emphasis-0-0",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 0,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْكَاتِبَ حَاضِرٌ"
+    },
+    {
+      "id": "emphasis-0-1",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 0,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْكَاتِبَ صَابِرٌ"
+    },
+    {
+      "id": "emphasis-0-2",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 0,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْكَاتِبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "emphasis-0-3",
+      "split": "dev",
+      "program": "emphasis",
+      "subject": 0,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْكَاتِبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "emphasis-0-4",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 0,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْكَاتِبَ نَشِيطٌ"
+    },
+    {
+      "id": "emphasis-0-5",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 0,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْكَاتِبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "emphasis-1-0",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 1,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُدَرِّسَ حَاضِرٌ"
+    },
+    {
+      "id": "emphasis-1-1",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 1,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُدَرِّسَ صَابِرٌ"
+    },
+    {
+      "id": "emphasis-1-2",
+      "split": "dev",
+      "program": "emphasis",
+      "subject": 1,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُدَرِّسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "emphasis-1-3",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 1,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُدَرِّسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "emphasis-1-4",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 1,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُدَرِّسَ نَشِيطٌ"
+    },
+    {
+      "id": "emphasis-1-5",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 1,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُدَرِّسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "emphasis-2-0",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 2,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُهَنْدِسَ حَاضِرٌ"
+    },
+    {
+      "id": "emphasis-2-1",
+      "split": "dev",
+      "program": "emphasis",
+      "subject": 2,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُهَنْدِسَ صَابِرٌ"
+    },
+    {
+      "id": "emphasis-2-2",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 2,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُهَنْدِسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "emphasis-2-3",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 2,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُهَنْدِسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "emphasis-2-4",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 2,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُهَنْدِسَ نَشِيطٌ"
+    },
+    {
+      "id": "emphasis-2-5",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 2,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْمُهَنْدِسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "emphasis-3-0",
+      "split": "dev",
+      "program": "emphasis",
+      "subject": 3,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّبِيبَ حَاضِرٌ"
+    },
+    {
+      "id": "emphasis-3-1",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 3,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّبِيبَ صَابِرٌ"
+    },
+    {
+      "id": "emphasis-3-2",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 3,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّبِيبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "emphasis-3-3",
+      "split": "train",
+      "program": "emphasis",
+      "subject": 3,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّبِيبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "emphasis-3-4",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 3,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّبِيبَ نَشِيطٌ"
+    },
+    {
+      "id": "emphasis-3-5",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 3,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّبِيبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "emphasis-4-0",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 4,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْحَارِسَ حَاضِرٌ"
+    },
+    {
+      "id": "emphasis-4-1",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 4,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْحَارِسَ صَابِرٌ"
+    },
+    {
+      "id": "emphasis-4-2",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 4,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْحَارِسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "emphasis-4-3",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 4,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْحَارِسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "emphasis-4-4",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 4,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْحَارِسَ نَشِيطٌ"
+    },
+    {
+      "id": "emphasis-4-5",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 4,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الْحَارِسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "emphasis-5-0",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 5,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّالِبَ حَاضِرٌ"
+    },
+    {
+      "id": "emphasis-5-1",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 5,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّالِبَ صَابِرٌ"
+    },
+    {
+      "id": "emphasis-5-2",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 5,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّالِبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "emphasis-5-3",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 5,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّالِبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "emphasis-5-4",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 5,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّالِبَ نَشِيطٌ"
+    },
+    {
+      "id": "emphasis-5-5",
+      "split": "lexical_test",
+      "program": "emphasis",
+      "subject": 5,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "emphasis",
+      "text": "إِنَّ الطَّالِبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "past-0-0",
+      "split": "train",
+      "program": "past",
+      "subject": 0,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْكَاتِبُ حَاضِرًا"
+    },
+    {
+      "id": "past-0-1",
+      "split": "train",
+      "program": "past",
+      "subject": 0,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْكَاتِبُ صَابِرًا"
+    },
+    {
+      "id": "past-0-2",
+      "split": "train",
+      "program": "past",
+      "subject": 0,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْكَاتِبُ مُجْتَهِدًا"
+    },
+    {
+      "id": "past-0-3",
+      "split": "dev",
+      "program": "past",
+      "subject": 0,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْكَاتِبُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "past-0-4",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 0,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْكَاتِبُ نَشِيطًا"
+    },
+    {
+      "id": "past-0-5",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 0,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْكَاتِبُ مُنْتَبِهًا"
+    },
+    {
+      "id": "past-1-0",
+      "split": "train",
+      "program": "past",
+      "subject": 1,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُدَرِّسُ حَاضِرًا"
+    },
+    {
+      "id": "past-1-1",
+      "split": "train",
+      "program": "past",
+      "subject": 1,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُدَرِّسُ صَابِرًا"
+    },
+    {
+      "id": "past-1-2",
+      "split": "dev",
+      "program": "past",
+      "subject": 1,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُدَرِّسُ مُجْتَهِدًا"
+    },
+    {
+      "id": "past-1-3",
+      "split": "train",
+      "program": "past",
+      "subject": 1,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُدَرِّسُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "past-1-4",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 1,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُدَرِّسُ نَشِيطًا"
+    },
+    {
+      "id": "past-1-5",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 1,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُدَرِّسُ مُنْتَبِهًا"
+    },
+    {
+      "id": "past-2-0",
+      "split": "train",
+      "program": "past",
+      "subject": 2,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُهَنْدِسُ حَاضِرًا"
+    },
+    {
+      "id": "past-2-1",
+      "split": "dev",
+      "program": "past",
+      "subject": 2,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُهَنْدِسُ صَابِرًا"
+    },
+    {
+      "id": "past-2-2",
+      "split": "train",
+      "program": "past",
+      "subject": 2,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُهَنْدِسُ مُجْتَهِدًا"
+    },
+    {
+      "id": "past-2-3",
+      "split": "train",
+      "program": "past",
+      "subject": 2,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُهَنْدِسُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "past-2-4",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 2,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُهَنْدِسُ نَشِيطًا"
+    },
+    {
+      "id": "past-2-5",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 2,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْمُهَنْدِسُ مُنْتَبِهًا"
+    },
+    {
+      "id": "past-3-0",
+      "split": "dev",
+      "program": "past",
+      "subject": 3,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّبِيبُ حَاضِرًا"
+    },
+    {
+      "id": "past-3-1",
+      "split": "train",
+      "program": "past",
+      "subject": 3,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّبِيبُ صَابِرًا"
+    },
+    {
+      "id": "past-3-2",
+      "split": "train",
+      "program": "past",
+      "subject": 3,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّبِيبُ مُجْتَهِدًا"
+    },
+    {
+      "id": "past-3-3",
+      "split": "train",
+      "program": "past",
+      "subject": 3,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّبِيبُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "past-3-4",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 3,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّبِيبُ نَشِيطًا"
+    },
+    {
+      "id": "past-3-5",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 3,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّبِيبُ مُنْتَبِهًا"
+    },
+    {
+      "id": "past-4-0",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 4,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْحَارِسُ حَاضِرًا"
+    },
+    {
+      "id": "past-4-1",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 4,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْحَارِسُ صَابِرًا"
+    },
+    {
+      "id": "past-4-2",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 4,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْحَارِسُ مُجْتَهِدًا"
+    },
+    {
+      "id": "past-4-3",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 4,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْحَارِسُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "past-4-4",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 4,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْحَارِسُ نَشِيطًا"
+    },
+    {
+      "id": "past-4-5",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 4,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الْحَارِسُ مُنْتَبِهًا"
+    },
+    {
+      "id": "past-5-0",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 5,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّالِبُ حَاضِرًا"
+    },
+    {
+      "id": "past-5-1",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 5,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّالِبُ صَابِرًا"
+    },
+    {
+      "id": "past-5-2",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 5,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّالِبُ مُجْتَهِدًا"
+    },
+    {
+      "id": "past-5-3",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 5,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّالِبُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "past-5-4",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 5,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّالِبُ نَشِيطًا"
+    },
+    {
+      "id": "past-5-5",
+      "split": "lexical_test",
+      "program": "past",
+      "subject": 5,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "past",
+      "text": "كَانَ الطَّالِبُ مُنْتَبِهًا"
+    },
+    {
+      "id": "negation-0-0",
+      "split": "train",
+      "program": "negation",
+      "subject": 0,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْكَاتِبُ حَاضِرًا"
+    },
+    {
+      "id": "negation-0-1",
+      "split": "train",
+      "program": "negation",
+      "subject": 0,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْكَاتِبُ صَابِرًا"
+    },
+    {
+      "id": "negation-0-2",
+      "split": "train",
+      "program": "negation",
+      "subject": 0,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْكَاتِبُ مُجْتَهِدًا"
+    },
+    {
+      "id": "negation-0-3",
+      "split": "dev",
+      "program": "negation",
+      "subject": 0,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْكَاتِبُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "negation-0-4",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 0,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْكَاتِبُ نَشِيطًا"
+    },
+    {
+      "id": "negation-0-5",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 0,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْكَاتِبُ مُنْتَبِهًا"
+    },
+    {
+      "id": "negation-1-0",
+      "split": "train",
+      "program": "negation",
+      "subject": 1,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُدَرِّسُ حَاضِرًا"
+    },
+    {
+      "id": "negation-1-1",
+      "split": "train",
+      "program": "negation",
+      "subject": 1,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُدَرِّسُ صَابِرًا"
+    },
+    {
+      "id": "negation-1-2",
+      "split": "dev",
+      "program": "negation",
+      "subject": 1,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُدَرِّسُ مُجْتَهِدًا"
+    },
+    {
+      "id": "negation-1-3",
+      "split": "train",
+      "program": "negation",
+      "subject": 1,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُدَرِّسُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "negation-1-4",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 1,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُدَرِّسُ نَشِيطًا"
+    },
+    {
+      "id": "negation-1-5",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 1,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُدَرِّسُ مُنْتَبِهًا"
+    },
+    {
+      "id": "negation-2-0",
+      "split": "train",
+      "program": "negation",
+      "subject": 2,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُهَنْدِسُ حَاضِرًا"
+    },
+    {
+      "id": "negation-2-1",
+      "split": "dev",
+      "program": "negation",
+      "subject": 2,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُهَنْدِسُ صَابِرًا"
+    },
+    {
+      "id": "negation-2-2",
+      "split": "train",
+      "program": "negation",
+      "subject": 2,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُهَنْدِسُ مُجْتَهِدًا"
+    },
+    {
+      "id": "negation-2-3",
+      "split": "train",
+      "program": "negation",
+      "subject": 2,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُهَنْدِسُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "negation-2-4",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 2,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُهَنْدِسُ نَشِيطًا"
+    },
+    {
+      "id": "negation-2-5",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 2,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْمُهَنْدِسُ مُنْتَبِهًا"
+    },
+    {
+      "id": "negation-3-0",
+      "split": "dev",
+      "program": "negation",
+      "subject": 3,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّبِيبُ حَاضِرًا"
+    },
+    {
+      "id": "negation-3-1",
+      "split": "train",
+      "program": "negation",
+      "subject": 3,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّبِيبُ صَابِرًا"
+    },
+    {
+      "id": "negation-3-2",
+      "split": "train",
+      "program": "negation",
+      "subject": 3,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّبِيبُ مُجْتَهِدًا"
+    },
+    {
+      "id": "negation-3-3",
+      "split": "train",
+      "program": "negation",
+      "subject": 3,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّبِيبُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "negation-3-4",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 3,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّبِيبُ نَشِيطًا"
+    },
+    {
+      "id": "negation-3-5",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 3,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّبِيبُ مُنْتَبِهًا"
+    },
+    {
+      "id": "negation-4-0",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 4,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْحَارِسُ حَاضِرًا"
+    },
+    {
+      "id": "negation-4-1",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 4,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْحَارِسُ صَابِرًا"
+    },
+    {
+      "id": "negation-4-2",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 4,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْحَارِسُ مُجْتَهِدًا"
+    },
+    {
+      "id": "negation-4-3",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 4,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْحَارِسُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "negation-4-4",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 4,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْحَارِسُ نَشِيطًا"
+    },
+    {
+      "id": "negation-4-5",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 4,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الْحَارِسُ مُنْتَبِهًا"
+    },
+    {
+      "id": "negation-5-0",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 5,
+      "predicate": 0,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّالِبُ حَاضِرًا"
+    },
+    {
+      "id": "negation-5-1",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 5,
+      "predicate": 1,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّالِبُ صَابِرًا"
+    },
+    {
+      "id": "negation-5-2",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 5,
+      "predicate": 2,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّالِبُ مُجْتَهِدًا"
+    },
+    {
+      "id": "negation-5-3",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 5,
+      "predicate": 3,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّالِبُ مُسْتَعِدًّا"
+    },
+    {
+      "id": "negation-5-4",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 5,
+      "predicate": 4,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّالِبُ نَشِيطًا"
+    },
+    {
+      "id": "negation-5-5",
+      "split": "lexical_test",
+      "program": "negation",
+      "subject": 5,
+      "predicate": 5,
+      "force": "assert",
+      "frame": "negation",
+      "text": "لَيْسَ الطَّالِبُ مُنْتَبِهًا"
+    },
+    {
+      "id": "wish-0-0",
+      "split": "train",
+      "program": "wish",
+      "subject": 0,
+      "predicate": 0,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْكَاتِبَ حَاضِرٌ"
+    },
+    {
+      "id": "wish-0-1",
+      "split": "train",
+      "program": "wish",
+      "subject": 0,
+      "predicate": 1,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْكَاتِبَ صَابِرٌ"
+    },
+    {
+      "id": "wish-0-2",
+      "split": "train",
+      "program": "wish",
+      "subject": 0,
+      "predicate": 2,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْكَاتِبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "wish-0-3",
+      "split": "dev",
+      "program": "wish",
+      "subject": 0,
+      "predicate": 3,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْكَاتِبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "wish-0-4",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 0,
+      "predicate": 4,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْكَاتِبَ نَشِيطٌ"
+    },
+    {
+      "id": "wish-0-5",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 0,
+      "predicate": 5,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْكَاتِبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "wish-1-0",
+      "split": "train",
+      "program": "wish",
+      "subject": 1,
+      "predicate": 0,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُدَرِّسَ حَاضِرٌ"
+    },
+    {
+      "id": "wish-1-1",
+      "split": "train",
+      "program": "wish",
+      "subject": 1,
+      "predicate": 1,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُدَرِّسَ صَابِرٌ"
+    },
+    {
+      "id": "wish-1-2",
+      "split": "dev",
+      "program": "wish",
+      "subject": 1,
+      "predicate": 2,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُدَرِّسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "wish-1-3",
+      "split": "train",
+      "program": "wish",
+      "subject": 1,
+      "predicate": 3,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُدَرِّسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "wish-1-4",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 1,
+      "predicate": 4,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُدَرِّسَ نَشِيطٌ"
+    },
+    {
+      "id": "wish-1-5",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 1,
+      "predicate": 5,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُدَرِّسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "wish-2-0",
+      "split": "train",
+      "program": "wish",
+      "subject": 2,
+      "predicate": 0,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُهَنْدِسَ حَاضِرٌ"
+    },
+    {
+      "id": "wish-2-1",
+      "split": "dev",
+      "program": "wish",
+      "subject": 2,
+      "predicate": 1,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُهَنْدِسَ صَابِرٌ"
+    },
+    {
+      "id": "wish-2-2",
+      "split": "train",
+      "program": "wish",
+      "subject": 2,
+      "predicate": 2,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُهَنْدِسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "wish-2-3",
+      "split": "train",
+      "program": "wish",
+      "subject": 2,
+      "predicate": 3,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُهَنْدِسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "wish-2-4",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 2,
+      "predicate": 4,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُهَنْدِسَ نَشِيطٌ"
+    },
+    {
+      "id": "wish-2-5",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 2,
+      "predicate": 5,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْمُهَنْدِسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "wish-3-0",
+      "split": "dev",
+      "program": "wish",
+      "subject": 3,
+      "predicate": 0,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّبِيبَ حَاضِرٌ"
+    },
+    {
+      "id": "wish-3-1",
+      "split": "train",
+      "program": "wish",
+      "subject": 3,
+      "predicate": 1,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّبِيبَ صَابِرٌ"
+    },
+    {
+      "id": "wish-3-2",
+      "split": "train",
+      "program": "wish",
+      "subject": 3,
+      "predicate": 2,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّبِيبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "wish-3-3",
+      "split": "train",
+      "program": "wish",
+      "subject": 3,
+      "predicate": 3,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّبِيبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "wish-3-4",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 3,
+      "predicate": 4,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّبِيبَ نَشِيطٌ"
+    },
+    {
+      "id": "wish-3-5",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 3,
+      "predicate": 5,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّبِيبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "wish-4-0",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 4,
+      "predicate": 0,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْحَارِسَ حَاضِرٌ"
+    },
+    {
+      "id": "wish-4-1",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 4,
+      "predicate": 1,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْحَارِسَ صَابِرٌ"
+    },
+    {
+      "id": "wish-4-2",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 4,
+      "predicate": 2,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْحَارِسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "wish-4-3",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 4,
+      "predicate": 3,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْحَارِسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "wish-4-4",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 4,
+      "predicate": 4,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْحَارِسَ نَشِيطٌ"
+    },
+    {
+      "id": "wish-4-5",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 4,
+      "predicate": 5,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الْحَارِسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "wish-5-0",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 5,
+      "predicate": 0,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّالِبَ حَاضِرٌ"
+    },
+    {
+      "id": "wish-5-1",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 5,
+      "predicate": 1,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّالِبَ صَابِرٌ"
+    },
+    {
+      "id": "wish-5-2",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 5,
+      "predicate": 2,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّالِبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "wish-5-3",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 5,
+      "predicate": 3,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّالِبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "wish-5-4",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 5,
+      "predicate": 4,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّالِبَ نَشِيطٌ"
+    },
+    {
+      "id": "wish-5-5",
+      "split": "lexical_test",
+      "program": "wish",
+      "subject": 5,
+      "predicate": 5,
+      "force": "wish",
+      "frame": "plain",
+      "text": "لَيْتَ الطَّالِبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "hope-0-0",
+      "split": "train",
+      "program": "hope",
+      "subject": 0,
+      "predicate": 0,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْكَاتِبَ حَاضِرٌ"
+    },
+    {
+      "id": "hope-0-1",
+      "split": "train",
+      "program": "hope",
+      "subject": 0,
+      "predicate": 1,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْكَاتِبَ صَابِرٌ"
+    },
+    {
+      "id": "hope-0-2",
+      "split": "train",
+      "program": "hope",
+      "subject": 0,
+      "predicate": 2,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْكَاتِبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "hope-0-3",
+      "split": "dev",
+      "program": "hope",
+      "subject": 0,
+      "predicate": 3,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْكَاتِبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "hope-0-4",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 0,
+      "predicate": 4,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْكَاتِبَ نَشِيطٌ"
+    },
+    {
+      "id": "hope-0-5",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 0,
+      "predicate": 5,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْكَاتِبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "hope-1-0",
+      "split": "train",
+      "program": "hope",
+      "subject": 1,
+      "predicate": 0,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُدَرِّسَ حَاضِرٌ"
+    },
+    {
+      "id": "hope-1-1",
+      "split": "train",
+      "program": "hope",
+      "subject": 1,
+      "predicate": 1,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُدَرِّسَ صَابِرٌ"
+    },
+    {
+      "id": "hope-1-2",
+      "split": "dev",
+      "program": "hope",
+      "subject": 1,
+      "predicate": 2,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُدَرِّسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "hope-1-3",
+      "split": "train",
+      "program": "hope",
+      "subject": 1,
+      "predicate": 3,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُدَرِّسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "hope-1-4",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 1,
+      "predicate": 4,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُدَرِّسَ نَشِيطٌ"
+    },
+    {
+      "id": "hope-1-5",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 1,
+      "predicate": 5,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُدَرِّسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "hope-2-0",
+      "split": "train",
+      "program": "hope",
+      "subject": 2,
+      "predicate": 0,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُهَنْدِسَ حَاضِرٌ"
+    },
+    {
+      "id": "hope-2-1",
+      "split": "dev",
+      "program": "hope",
+      "subject": 2,
+      "predicate": 1,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُهَنْدِسَ صَابِرٌ"
+    },
+    {
+      "id": "hope-2-2",
+      "split": "train",
+      "program": "hope",
+      "subject": 2,
+      "predicate": 2,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُهَنْدِسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "hope-2-3",
+      "split": "train",
+      "program": "hope",
+      "subject": 2,
+      "predicate": 3,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُهَنْدِسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "hope-2-4",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 2,
+      "predicate": 4,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُهَنْدِسَ نَشِيطٌ"
+    },
+    {
+      "id": "hope-2-5",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 2,
+      "predicate": 5,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْمُهَنْدِسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "hope-3-0",
+      "split": "dev",
+      "program": "hope",
+      "subject": 3,
+      "predicate": 0,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّبِيبَ حَاضِرٌ"
+    },
+    {
+      "id": "hope-3-1",
+      "split": "train",
+      "program": "hope",
+      "subject": 3,
+      "predicate": 1,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّبِيبَ صَابِرٌ"
+    },
+    {
+      "id": "hope-3-2",
+      "split": "train",
+      "program": "hope",
+      "subject": 3,
+      "predicate": 2,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّبِيبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "hope-3-3",
+      "split": "train",
+      "program": "hope",
+      "subject": 3,
+      "predicate": 3,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّبِيبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "hope-3-4",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 3,
+      "predicate": 4,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّبِيبَ نَشِيطٌ"
+    },
+    {
+      "id": "hope-3-5",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 3,
+      "predicate": 5,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّبِيبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "hope-4-0",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 4,
+      "predicate": 0,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْحَارِسَ حَاضِرٌ"
+    },
+    {
+      "id": "hope-4-1",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 4,
+      "predicate": 1,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْحَارِسَ صَابِرٌ"
+    },
+    {
+      "id": "hope-4-2",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 4,
+      "predicate": 2,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْحَارِسَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "hope-4-3",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 4,
+      "predicate": 3,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْحَارِسَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "hope-4-4",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 4,
+      "predicate": 4,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْحَارِسَ نَشِيطٌ"
+    },
+    {
+      "id": "hope-4-5",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 4,
+      "predicate": 5,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الْحَارِسَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "hope-5-0",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 5,
+      "predicate": 0,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّالِبَ حَاضِرٌ"
+    },
+    {
+      "id": "hope-5-1",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 5,
+      "predicate": 1,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّالِبَ صَابِرٌ"
+    },
+    {
+      "id": "hope-5-2",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 5,
+      "predicate": 2,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّالِبَ مُجْتَهِدٌ"
+    },
+    {
+      "id": "hope-5-3",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 5,
+      "predicate": 3,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّالِبَ مُسْتَعِدٌّ"
+    },
+    {
+      "id": "hope-5-4",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 5,
+      "predicate": 4,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّالِبَ نَشِيطٌ"
+    },
+    {
+      "id": "hope-5-5",
+      "split": "lexical_test",
+      "program": "hope",
+      "subject": 5,
+      "predicate": 5,
+      "force": "hope",
+      "frame": "plain",
+      "text": "لَعَلَّ الطَّالِبَ مُنْتَبِهٌ"
+    },
+    {
+      "id": "ask-0-0",
+      "split": "train",
+      "program": "ask",
+      "subject": 0,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْكَاتِبُ حَاضِرٌ؟"
+    },
+    {
+      "id": "ask-0-1",
+      "split": "train",
+      "program": "ask",
+      "subject": 0,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْكَاتِبُ صَابِرٌ؟"
+    },
+    {
+      "id": "ask-0-2",
+      "split": "train",
+      "program": "ask",
+      "subject": 0,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْكَاتِبُ مُجْتَهِدٌ؟"
+    },
+    {
+      "id": "ask-0-3",
+      "split": "dev",
+      "program": "ask",
+      "subject": 0,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْكَاتِبُ مُسْتَعِدٌّ؟"
+    },
+    {
+      "id": "ask-0-4",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 0,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْكَاتِبُ نَشِيطٌ؟"
+    },
+    {
+      "id": "ask-0-5",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 0,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْكَاتِبُ مُنْتَبِهٌ؟"
+    },
+    {
+      "id": "ask-1-0",
+      "split": "train",
+      "program": "ask",
+      "subject": 1,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُدَرِّسُ حَاضِرٌ؟"
+    },
+    {
+      "id": "ask-1-1",
+      "split": "train",
+      "program": "ask",
+      "subject": 1,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُدَرِّسُ صَابِرٌ؟"
+    },
+    {
+      "id": "ask-1-2",
+      "split": "dev",
+      "program": "ask",
+      "subject": 1,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُدَرِّسُ مُجْتَهِدٌ؟"
+    },
+    {
+      "id": "ask-1-3",
+      "split": "train",
+      "program": "ask",
+      "subject": 1,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُدَرِّسُ مُسْتَعِدٌّ؟"
+    },
+    {
+      "id": "ask-1-4",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 1,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُدَرِّسُ نَشِيطٌ؟"
+    },
+    {
+      "id": "ask-1-5",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 1,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُدَرِّسُ مُنْتَبِهٌ؟"
+    },
+    {
+      "id": "ask-2-0",
+      "split": "train",
+      "program": "ask",
+      "subject": 2,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُهَنْدِسُ حَاضِرٌ؟"
+    },
+    {
+      "id": "ask-2-1",
+      "split": "dev",
+      "program": "ask",
+      "subject": 2,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُهَنْدِسُ صَابِرٌ؟"
+    },
+    {
+      "id": "ask-2-2",
+      "split": "train",
+      "program": "ask",
+      "subject": 2,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُهَنْدِسُ مُجْتَهِدٌ؟"
+    },
+    {
+      "id": "ask-2-3",
+      "split": "train",
+      "program": "ask",
+      "subject": 2,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُهَنْدِسُ مُسْتَعِدٌّ؟"
+    },
+    {
+      "id": "ask-2-4",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 2,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُهَنْدِسُ نَشِيطٌ؟"
+    },
+    {
+      "id": "ask-2-5",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 2,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْمُهَنْدِسُ مُنْتَبِهٌ؟"
+    },
+    {
+      "id": "ask-3-0",
+      "split": "dev",
+      "program": "ask",
+      "subject": 3,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّبِيبُ حَاضِرٌ؟"
+    },
+    {
+      "id": "ask-3-1",
+      "split": "train",
+      "program": "ask",
+      "subject": 3,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّبِيبُ صَابِرٌ؟"
+    },
+    {
+      "id": "ask-3-2",
+      "split": "train",
+      "program": "ask",
+      "subject": 3,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّبِيبُ مُجْتَهِدٌ؟"
+    },
+    {
+      "id": "ask-3-3",
+      "split": "train",
+      "program": "ask",
+      "subject": 3,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّبِيبُ مُسْتَعِدٌّ؟"
+    },
+    {
+      "id": "ask-3-4",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 3,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّبِيبُ نَشِيطٌ؟"
+    },
+    {
+      "id": "ask-3-5",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 3,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّبِيبُ مُنْتَبِهٌ؟"
+    },
+    {
+      "id": "ask-4-0",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 4,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْحَارِسُ حَاضِرٌ؟"
+    },
+    {
+      "id": "ask-4-1",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 4,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْحَارِسُ صَابِرٌ؟"
+    },
+    {
+      "id": "ask-4-2",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 4,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْحَارِسُ مُجْتَهِدٌ؟"
+    },
+    {
+      "id": "ask-4-3",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 4,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْحَارِسُ مُسْتَعِدٌّ؟"
+    },
+    {
+      "id": "ask-4-4",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 4,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْحَارِسُ نَشِيطٌ؟"
+    },
+    {
+      "id": "ask-4-5",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 4,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الْحَارِسُ مُنْتَبِهٌ؟"
+    },
+    {
+      "id": "ask-5-0",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 5,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّالِبُ حَاضِرٌ؟"
+    },
+    {
+      "id": "ask-5-1",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 5,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّالِبُ صَابِرٌ؟"
+    },
+    {
+      "id": "ask-5-2",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 5,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّالِبُ مُجْتَهِدٌ؟"
+    },
+    {
+      "id": "ask-5-3",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 5,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّالِبُ مُسْتَعِدٌّ؟"
+    },
+    {
+      "id": "ask-5-4",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 5,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّالِبُ نَشِيطٌ؟"
+    },
+    {
+      "id": "ask-5-5",
+      "split": "lexical_test",
+      "program": "ask",
+      "subject": 5,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "plain",
+      "text": "هَلْ الطَّالِبُ مُنْتَبِهٌ؟"
+    },
+    {
+      "id": "ask_past-0-0",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 0,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْكَاتِبُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_past-0-1",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 0,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْكَاتِبُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_past-0-2",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 0,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْكَاتِبُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_past-0-3",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 0,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْكَاتِبُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_past-0-4",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 0,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْكَاتِبُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_past-0-5",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 0,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْكَاتِبُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_past-1-0",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 1,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُدَرِّسُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_past-1-1",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 1,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُدَرِّسُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_past-1-2",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 1,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُدَرِّسُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_past-1-3",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 1,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُدَرِّسُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_past-1-4",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 1,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُدَرِّسُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_past-1-5",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 1,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُدَرِّسُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_past-2-0",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 2,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُهَنْدِسُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_past-2-1",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 2,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُهَنْدِسُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_past-2-2",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 2,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُهَنْدِسُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_past-2-3",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 2,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُهَنْدِسُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_past-2-4",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 2,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُهَنْدِسُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_past-2-5",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 2,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْمُهَنْدِسُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_past-3-0",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 3,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّبِيبُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_past-3-1",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 3,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّبِيبُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_past-3-2",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 3,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّبِيبُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_past-3-3",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 3,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّبِيبُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_past-3-4",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 3,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّبِيبُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_past-3-5",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 3,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّبِيبُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_past-4-0",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 4,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْحَارِسُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_past-4-1",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 4,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْحَارِسُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_past-4-2",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 4,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْحَارِسُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_past-4-3",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 4,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْحَارِسُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_past-4-4",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 4,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْحَارِسُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_past-4-5",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 4,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الْحَارِسُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_past-5-0",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 5,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّالِبُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_past-5-1",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 5,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّالِبُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_past-5-2",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 5,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّالِبُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_past-5-3",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 5,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّالِبُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_past-5-4",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 5,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّالِبُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_past-5-5",
+      "split": "structure_test",
+      "program": "ask_past",
+      "subject": 5,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "past",
+      "text": "هَلْ كَانَ الطَّالِبُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_negation-0-0",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 0,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْكَاتِبُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_negation-0-1",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 0,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْكَاتِبُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_negation-0-2",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 0,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْكَاتِبُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_negation-0-3",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 0,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْكَاتِبُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_negation-0-4",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 0,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْكَاتِبُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_negation-0-5",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 0,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْكَاتِبُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_negation-1-0",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 1,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُدَرِّسُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_negation-1-1",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 1,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُدَرِّسُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_negation-1-2",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 1,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُدَرِّسُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_negation-1-3",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 1,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُدَرِّسُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_negation-1-4",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 1,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُدَرِّسُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_negation-1-5",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 1,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُدَرِّسُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_negation-2-0",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 2,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُهَنْدِسُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_negation-2-1",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 2,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُهَنْدِسُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_negation-2-2",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 2,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُهَنْدِسُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_negation-2-3",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 2,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُهَنْدِسُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_negation-2-4",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 2,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُهَنْدِسُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_negation-2-5",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 2,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْمُهَنْدِسُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_negation-3-0",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 3,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّبِيبُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_negation-3-1",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 3,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّبِيبُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_negation-3-2",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 3,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّبِيبُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_negation-3-3",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 3,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّبِيبُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_negation-3-4",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 3,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّبِيبُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_negation-3-5",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 3,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّبِيبُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_negation-4-0",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 4,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْحَارِسُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_negation-4-1",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 4,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْحَارِسُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_negation-4-2",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 4,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْحَارِسُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_negation-4-3",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 4,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْحَارِسُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_negation-4-4",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 4,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْحَارِسُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_negation-4-5",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 4,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الْحَارِسُ مُنْتَبِهًا؟"
+    },
+    {
+      "id": "ask_negation-5-0",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 5,
+      "predicate": 0,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّالِبُ حَاضِرًا؟"
+    },
+    {
+      "id": "ask_negation-5-1",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 5,
+      "predicate": 1,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّالِبُ صَابِرًا؟"
+    },
+    {
+      "id": "ask_negation-5-2",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 5,
+      "predicate": 2,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّالِبُ مُجْتَهِدًا؟"
+    },
+    {
+      "id": "ask_negation-5-3",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 5,
+      "predicate": 3,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّالِبُ مُسْتَعِدًّا؟"
+    },
+    {
+      "id": "ask_negation-5-4",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 5,
+      "predicate": 4,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّالِبُ نَشِيطًا؟"
+    },
+    {
+      "id": "ask_negation-5-5",
+      "split": "structure_test",
+      "program": "ask_negation",
+      "subject": 5,
+      "predicate": 5,
+      "force": "ask",
+      "frame": "negation",
+      "text": "هَلْ لَيْسَ الطَّالِبُ مُنْتَبِهًا؟"
+    }
+  ]
+}
