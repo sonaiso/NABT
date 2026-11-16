@@ -337,7 +337,9 @@ def project(text, source_id, option, relatives, lexical_text=None):
         r = classical["reading"]
         roles = [(k,r[k]["term"],["reading",k],"predication_argument","governed_content") for k in ("subject","object")]
         roles.append(("verb",r["verb"],["reading","verb"],"governor","matrix"))
-        g.reading("classical",classical,r["force"],r["sense"],roles,cue=r["cue"]["utf8_span"] if r["cue"] else None)
+        cue = r["cue"]["utf8_span"] if r["cue"] else None
+        extent = [r["verb"]["utf8_span"][0], len(g.raw)] if cue else None
+        g.reading("classical", classical, r["force"], r["sense"], roles, cue=cue, scope_span=extent)
     opening_directive(g)
     factor_readings(g, relatives.get("factors"))
     if not g.report["decoded"]:

@@ -85,6 +85,12 @@ class PartialReadings(TestCase):
         self.assertTrue(gateway.accept_output(report,expected_request=req)["valid"])
         owner=report["execution"]["owner_result"]
         cards=[r for r in owner["cards"] if r["scope"]=="licensed_speech"]
+        if not (ROOT / "formal/.lake/build/bin/alignedAcquisition").is_file():
+            self.assertEqual(owner["licensed_speech"]["force_status"], "SOURCE_CHECK_UNAVAILABLE")
+            self.assertEqual(owner["licensed_speech"]["decoded"], [])
+            self.assertEqual(cards, [])
+            self.assertTrue(any(c["scope"] == "technical" for c in owner["cards"]))
+            return
         self.assertEqual(len(cards),2)
         self.assertIn("نداء",cards[0]["understood"])
         self.assertIn("طلب فعل",cards[1]["understood"])

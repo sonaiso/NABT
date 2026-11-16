@@ -1,4 +1,5 @@
 """Independent graph interventions, withholding, permutation and gateway controls."""
+import json
 from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -30,6 +31,51 @@ class GraphLearning(TestCase):
         for cuts,gold in [([],[]),([0],[0,2]),([1],[1,3]),([0,1],[0,1,2,3,4])]:
             scores=graph.effects(g,z,w,set(cuts))
             self.assertEqual([i for i,p in enumerate(scores) if p>=.5],gold)
+
+    def test_opening_and_withdrawal_across_both_owners(self):
+        from tests.test_genus_chains import run as genus
+        from tools.grammar_catalog import genus_chains, valency
+        from tools.grammar_catalog.operations import ROOT
+        if not (ROOT / "formal/.lake/build/bin/verifiedReading").is_file():
+            self.skipTest("checked genus alignment requires verifiedReading")
+        cases = (("البابُ قابلٌ للفتح.", "DISPOSITION"), ("البابُ مفتوحٌ.", "STATE"),
+                 ("فُتِحَ البابُ.", "ASSERTED_PASSIVE"), ("لم يُفْتَحْ البابُ.", "NEGATED_EVENT"),
+                 ("لِكَيْ يُفْتَحَ البابُ.", "PURPOSE"))
+        for text, expected in cases:
+            with self.subTest(text=text):
+                chains = genus(text=text)
+                sid = chains["source_id"]
+                frame = {"valency": valency.analyze(text, sid)}
+                def align(option, source=sid):
+                    graph = licensed_speech.project(text, source, option, frame)
+                    return genus_chains.align_opening(chains, graph)
+                row = align({})
+                self.assertEqual((row["status"], row["reading"]), ("ALIGNED", expected))
+                self.assertEqual(text.encode()[slice(*row["utf8_span"])].decode(), "البابُ")
+                cut = align({"withdraw": [row["node"]], "graph_learning": True})
+                self.assertEqual(cut["status"], "TEXT_SUPPORT_WITHDRAWN")
+                self.assertEqual(cut["ledger_capability"], "SUPPORTED")
+                self.assertEqual(align({}, "other")["status"], "DEFER")
+
+    def test_public_joint_request_replays_original_ledger(self):
+        from tools.grammar_catalog.operations import ROOT
+        if not (ROOT / "formal/.lake/build/bin/verifiedReading").is_file():
+            self.skipTest("checked genus alignment requires verifiedReading")
+        req = json.loads((ROOT / "examples/io_gateway/ntl_opening_transfer.json").read_bytes())
+        report = gateway.run(req)
+        self.assertTrue(gateway.accept_output(report, expected_request=req)["valid"])
+        owner = report["execution"]["owner_result"]
+        self.assertEqual(owner["opening_alignment"]["status"], "ALIGNED")
+        self.assertEqual(owner["licensed_speech"]["graph_learning"]["status"], "PROPOSED")
+        self.assertFalse(owner["world_truth_established"])
+        cut = deepcopy(req)
+        g = cut["payload"]["genus_chains"]
+        g["ledger"] = g["ledger"].replace("الباب خاصية ذو_مفصل.\n", "")
+        self.assertFalse(gateway.accept_output(report, expected_request=cut)["valid"])
+        revised = gateway.run(cut)
+        self.assertTrue(gateway.accept_output(revised, expected_request=cut)["valid"])
+        row = revised["execution"]["owner_result"]["opening_alignment"]
+        self.assertEqual((row["status"], row["ledger_capability"]), ("ALIGNED", "UNKNOWN"))
 
     def test_node_vectors_invariant_to_opaque_ids_and_edge_head_blind_to_parent_labels(self):
         before=diamond()

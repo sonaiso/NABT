@@ -49,8 +49,9 @@ def build(route=None):
         from tools.lexical_training.reasoning_curriculum import matrix
         curriculum = matrix(compiled=compiled)
         rows = curriculum["matrices"] + curriculum["shared_foundation"]["rows"]
+        from tools.lexical_training import context_transfer, corpus_concepts, ntl_core, ntl_course, ntl_curriculum
         owner_modules = {m for row in rows for m in row["owner_modules"]}
-        owner_paths = {"tools/lexical_training/teaching.py", "tools/lexical_training/grounded_passage.py",
+        owner_paths = {"tools/lexical_training/corpus_concepts.py", "tools/lexical_training/context_transfer.py", "tools/lexical_training/teaching.py", "tools/lexical_training/grounded_passage.py",
                        "tools/source_learning_connection.py", "tools/epistemic_measurement.py",
                        "tools/mantuq_inference/source_bound.py", "tools/grammar_catalog/temporal.py"}
         for f, family in families.items():
@@ -59,6 +60,15 @@ def build(route=None):
         curriculum_links = {"source_path": "tools/lexical_training/reasoning_curriculum.py",
             "schema": curriculum["schema"], "authority": curriculum["authority"],
             "matrices": curriculum["matrices"], "shared_foundation": curriculum["shared_foundation"],
+            "ntl_framework": {"schema": ntl_curriculum.SCHEMA, "profiles": list(ntl_curriculum.DOMAINS),
+                              "source": ntl_curriculum.FRAMEWORK.relative_to(root).as_posix(),
+                              "framework_sha256": digest(ntl_curriculum.framework()),
+                              "context_transfer_schema": context_transfer.SCHEMA,
+                              "corpus_concepts_schema": corpus_concepts.SCHEMA,
+                              "course_schema": ntl_course.SCHEMA, "cases": list(ntl_course.catalog()),
+                              "cases_sha256": digest(ntl_course.catalog()),
+                              "minimum_schema": ntl_core.SCHEMA, "minimum_units": list(ntl_core.curriculum()),
+                              "minimum_sha256": digest(ntl_core.curriculum())},
             "methods": curriculum["methods"], "curriculum_sha256": digest(curriculum),
             "source_review": {k: curriculum["source_review"][k] for k in ("path", "sha256")}}
     if not selected <= families.keys():

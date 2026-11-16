@@ -10,7 +10,7 @@ ROUTES = {
     "ayat.read": (("rule-routing", "discourse", "arabic-governors"), ("text",), ("withdraw","withdraw_context","question","scene")),
     "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
-    "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology") + RELATIONAL_FAMILIES, ("lesson",), ()),
+    "cognitive.lesson": (("lexical-denotation", "identity", "transition-law", "morphology", "numeric-program", "rule-learning") + RELATIONAL_FAMILIES, ("lesson",), ()),
     "concept.matrix": (("lexical-denotation", "rule-learning"), ("version",), ()),
     "concept.view": (("lexical-denotation", "mantuq-mafhum"), ("kind", "value", "view", "domain"), ()),
     "neural.propose": (("lexical-denotation", "identity", "morphology"), ("text",), ()),

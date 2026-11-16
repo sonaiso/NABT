@@ -262,7 +262,8 @@ def evidence_frame(text, record, source_id):
 
 
 def context_evidence(text, source_id, record, context):
-    from tools import explainable_pilot as pilot
+    from tools import explainable_pilot as pilot, verified_reading as ground
+    from tools.licensed_inference.runtime import aggregate_evidence
     anchor=evidence_frame(text,record,source_id)
     if "event" not in anchor:
         return anchor
@@ -276,6 +277,7 @@ def context_evidence(text, source_id, record, context):
         revision=sha256(raw).hexdigest()
         cert=pilot.propose_certificate(raw,q,source_id,revision,scope)
         receipt,checker=pilot.native(raw,q,cert,source_id,revision,scope,ROOT/"formal/.lake/build/bin/verifiedReading",15)
+        proof = pilot.analysis(cert, raw)
     except (pilot.PilotError,OSError,ValueError) as exc:
         return {**result,"status":getattr(exc,"code","VERIFICATION_UNAVAILABLE")}
     lines=raw.splitlines(keepends=True)
@@ -290,12 +292,24 @@ def context_evidence(text, source_id, record, context):
                 atoms.setdefault((left,atom["predicate"],right),[]).append(
                     {"positive":atom["positive"],"utf8_span":[pos,pos+len(line)],"text":line.decode().rstrip()})
         pos+=len(line)
+    roots = {scope: {ground.key(n["atom"]): n["id"] for n in trace}
+             for scope, trace in proof["traces"].items()}
+    result["closure_evidence"] = {"clauses": proof["source_clauses"], "traces": proof["traces"]}
+
     def check(triple):
-        rows=atoms.get(tuple(triple),[])
-        signs={r["positive"] for r in rows}
-        verdict={frozenset():"OPEN",frozenset({True}):"SUPPORTED",frozenset({False}):"REFUTED",
-                 frozenset({True,False}):"CONFLICT"}[frozenset(signs)]
-        return {"status":verdict,"triple":list(triple),"witnesses":rows}
+        rows = atoms.get(tuple(triple), [])
+        left, predicate, right = triple
+        positive = (predicate, (left, right), True)
+        negative = ground.opposite(positive)
+        evidence = {"positive": positive in roots["full"], "negative": negative in roots["full"],
+                    "clean_positive": positive in roots["clean"], "clean_negative": negative in roots["clean"]}
+        status = aggregate_evidence([evidence])["status"]
+        # A derived proof can defeat an observation but cannot provide a missing measurement.
+        verdict = status if rows and status != "UNKNOWN" else "OPEN"
+        return {"status": verdict, "triple": list(triple), "witnesses": rows,
+                "proof_roots": {scope: {"positive": trace.get(positive), "negative": trace.get(negative)}
+                                for scope, trace in roots.items()}}
+
     def bind(name,left,predicate):
         candidates=[check(t) for t in atoms if t[:2]==(left,predicate)] if left else []
         usable=[c for c in candidates if c["status"]=="SUPPORTED"]
