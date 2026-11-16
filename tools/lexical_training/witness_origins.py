@@ -71,7 +71,13 @@ def propose(text):
         part = fragment.strip().removesuffix(".").rstrip()
         if part and any("\u0621" <= c <= "\u064a" for c in part):
             start = offset + len(fragment[:fragment.index(part)].encode())
-            features, candidates = views(encoder, part)
+            from tools.evidence_lifecycle_v1 import ResourceLimit
+            try:
+                features, candidates = views(encoder, part)
+            except ResourceLimit:
+                return {"status": "NEURAL_BUDGET_DEFER", "authority": "NONE", "clauses": []}
+            except ValueError:
+                return {"status": "NEURAL_INPUT_DEFER", "authority": "NONE", "clauses": []}
             if features:
                 scores = distribution(head["relation"], features)
                 a, b, vector = max(candidates, key=lambda c: distribution(head["cue"], c[2])[1])
