@@ -141,9 +141,7 @@ class Source:
         if type(start) is not int or type(stop) is not int or not 0 <= start < stop <= len(self.body):
             raise ValueError("INVALID_BYTE_SPAN")
         quote = self.body[start:stop].decode("utf-8")
-        # Reject slices that begin or end inside a Unicode code point.
-        self.body[:start].decode("utf-8")
-        self.body[:stop].decode("utf-8")
+        # Decoding the nonempty slice above also rejects partial UTF-8 code points.
         return {"source_id": self.source_id, "revision": self.revision,
                 "source_sha256": self.sha256, "start": start, "stop": stop,
                 "quote": quote, "domain": self.domain}
