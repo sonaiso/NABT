@@ -331,7 +331,9 @@ def analyze_form(lesson, text, verb, root, form, tail):
             actor = bindings.get("causer") or bindings.get("agent")
             intent = selection(lesson, actor["mention"], "ذو إرادة") if actor else {"status": "BLOCKED"}
             row["purpose"] = {"cue": purpose, "reading": "قصد الفاعل المذكور", "intent": intent,
-                              "other_readings_open": ["لام العاقبة", "قصد مسبب آخر"] if not actor else [],
+                              # Actor presence alone does not license intention or test other readings.
+                              "other_readings_open": ["لام العاقبة", "قصد مسبب آخر"]
+                              if intent["status"] != "LICENSED" else [],
                               "realized": False}
             states.append(intent["status"])
         row["status"] = combined(states)

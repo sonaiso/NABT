@@ -31,7 +31,9 @@ class LexicalBoundary(unittest.TestCase):
         paths = ["AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", str(lexical_testimony.CATALOG),
                  "evidence/shared_cognition_v1/model.json", "evidence/contextual_alignment_v1/model.json",
                  "evidence/contextual_alignment_v1/train.json", "evidence/cognitive_graph_v1/model.json",
-                 "evidence/cognitive_graph_v1/train.json", "evidence/cognitive_orchestration_v1/dispatch.json"]
+                 "evidence/cognitive_graph_v1/train.json", "evidence/cognitive_orchestration_v1/dispatch.json",
+                 "evidence/ifadah_programs_v1/data.json", "evidence/ifadah_programs_v1/protocol.json",
+                 "evidence/ifadah_programs_v1/protocol_local.json"]
         paths += [p for _, _, p in lexical_testimony.SOURCES.values() if p is not None]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -46,6 +48,19 @@ class LexicalBoundary(unittest.TestCase):
                 changed = gateway.snapshot()
                 self.assertNotEqual(original["files"][str(lexical_testimony.CATALOG)], changed["files"][str(lexical_testimony.CATALOG)])
                 self.assertTrue(set(paths) <= changed["files"].keys())
+                # The new lesson binds its corpus and both frozen protocols too.
+                # Their absence remains an error, never an optional observation.
+                for relative in ("evidence/ifadah_programs_v1/data.json",
+                                 "evidence/ifadah_programs_v1/protocol.json",
+                                 "evidence/ifadah_programs_v1/protocol_local.json"):
+                    evidence = root / relative
+                    evidence.write_bytes(b"changed curriculum")
+                    revised = gateway.snapshot()
+                    self.assertNotEqual(changed["files"][relative], revised["files"][relative])
+                    evidence.unlink()
+                    with self.assertRaises(FileNotFoundError):
+                        gateway.snapshot()
+                    evidence.write_bytes(b"fixture")
                 weights = root / "evidence/cognitive_graph_v1/model.json"
                 weights.write_bytes(b"changed weights")
                 weight_change = gateway.snapshot()
