@@ -18,7 +18,7 @@ ROUTES = {
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
-    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "licensed_speech")),
+    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "licensed_speech", "opencyc_slice")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
     "grammar.search": (("rule-routing", "classical-source-rules"), ("query",), ("kind", "limit")),
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),
@@ -110,7 +110,10 @@ def validate(route, payload):
         validate_lexical(payload)
     if route == "relations.analyze":
         from .relational import validate as validate_relations
-        validate_relations(payload)
+        validate_relations({k: v for k, v in payload.items() if k != "opencyc_slice"})
+        if "opencyc_slice" in payload:
+            from .opencyc_slice import validate as validate_slice
+            validate_slice(payload["opencyc_slice"])
     if route == "application.case":
         from .case_application import validate as validate_case
         validate_case(payload)
@@ -161,7 +164,18 @@ def execute(route, payload, *, inside_worker=False):
         return (export if route.endswith("ontolex") else assess)(p)
     if route in ("relations.search", "relations.analyze"):
         from .relational import search, analyze
-        return search(p["query"], p.get("limit", 5)) if route.endswith("search") else analyze(p)
+        if route.endswith("search"):
+            return search(p["query"], p.get("limit", 5))
+        result = analyze({k: v for k, v in p.items() if k != "opencyc_slice"})
+        if "opencyc_slice" in p:
+            from .opencyc_slice import analyze as analyze_slice, SliceError
+            try:
+                result["opencyc_slice"] = analyze_slice(p["text"], p.get("source_id", "input"), p["opencyc_slice"])
+            except SliceError as error:
+                result["opencyc_slice"] = {"status": "DEFER" if error.code == "RESOURCE_LIMIT" else "REJECT",
+                    "reason": error.code, "detail": str(error), "native_checked": False,
+                    "world_truth_established": False, "action_authority": "NONE"}
+        return result
     if route == "operation":
         from .operation_rag import run, run_inside_worker
         return (run_inside_worker if inside_worker else run)(p)
