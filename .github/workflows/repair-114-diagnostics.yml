@@ -1,0 +1,68 @@
+name: Pinned PR114 merge diagnostics
+on:
+  push:
+    branches: [codex/ci-repair-114-workbench]
+    paths: [.github/workflows/repair-114-diagnostics.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 009339e5d3c4d1e3c3b31aba9c256fd94032984c
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            src
+            tools
+            tests
+            integrations
+          persist-credentials: false
+      - name: Capture exact merge and source inputs (no repository writes)
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib,subprocess
+          out=pathlib.Path('repair-diagnostics');out.mkdir()
+          main='aa2dba34332b19d9dd25d88f485986d0e93120fa'
+          head='009339e5d3c4d1e3c3b31aba9c256fd94032984c'
+          def git(*args): return subprocess.check_output(['git',*args])
+          base=git('merge-base',main,head).decode().strip()
+          result=subprocess.run(['git','merge-tree','--write-tree',main,head],capture_output=True)
+          (out/'merge-tree.log').write_bytes(result.stdout+result.stderr)
+          if result.returncode not in (0,1): raise SystemExit(result.returncode)
+          tree=result.stdout.splitlines()[0].decode().strip()
+          if len(tree)!=40: raise SystemExit('No merge tree')
+          diff=git('diff','--name-status',main,tree).decode()
+          (out/'diff.txt').write_text(diff)
+          entries=[]
+          for line in diff.splitlines():
+              status,path=line.split('\t',1)
+              if status not in ('A','M','D'): raise SystemExit('Unexpected change kind '+line)
+              if status=='D': entries.append({'path':path,'sha':None,'mode':'100644','type':'blob'});continue
+              mode,kind,sha=git('ls-tree',tree,'--',path).decode().strip().split('\t')[0].split()
+              if kind!='blob' or mode!='100644': raise SystemExit('Unexpected file kind '+path)
+              dest=out/'merged'/path;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(git('show',tree+':'+path))
+              entries.append({'path':path,'sha':sha,'mode':mode,'type':kind})
+              for label,ref in [('main',main),('head',head),('base',base)]:
+                  source=subprocess.run(['git','show',ref+':'+path],capture_output=True)
+                  if source.returncode==0:
+                      p=out/'parents'/label/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(source.stdout)
+          (out/'tree_delta.json').write_text(json.dumps(entries,indent=2))
+          (out/'identity.json').write_text(json.dumps({'main':main,'head':head,'base':base,'merge_tree':tree,'merge_exit':result.returncode},indent=2))
+          for label,ref in [('main',main),('head',head)]:
+              with (out/(label+'-source.tar')).open('wb') as stream:
+                  subprocess.run(['git','archive',ref,'src','tools','tests','integrations','GNUmakefile','Makefile','pyproject.toml','.github/workflows'],stdout=stream,check=True)
+          print(json.dumps({'identity':json.loads((out/'identity.json').read_text()),'changes':entries},indent=2))
+          print((out/'merge-tree.log').read_text())
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pr114-pinned-merge-inputs
+          path: repair-diagnostics/
+          retention-days: 7
+          if-no-files-found: error
