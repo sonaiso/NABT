@@ -7,6 +7,9 @@ package nabt where
 @[default_target]
 lean_lib Nabt
 
+lean_exe updateMemoryProbe where
+  root := `UpdateMemoryProbe
+
 @[default_target]
 lean_exe exportClassicalWeak where
   root := `ExportClassicalWeak

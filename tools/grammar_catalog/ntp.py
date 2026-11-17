@@ -73,10 +73,10 @@ def _lesson_sources(lesson, owner):
     """
     from tools.lexical_training import (context_transfer, corpus_concepts,
         ifadah_programs, ntl_core, ntl_course, ntl_curriculum,
-        ntl_witness_pilot, opencyc_inquiry, school_apprentice, teaching)
+        ntl_witness_pilot, ntl_update_memory, opencyc_inquiry, school_apprentice, teaching)
 
     runners = (context_transfer, corpus_concepts, ifadah_programs, ntl_core,
-               ntl_course, ntl_curriculum, ntl_witness_pilot,
+               ntl_course, ntl_curriculum, ntl_witness_pilot, ntl_update_memory,
                opencyc_inquiry, school_apprentice)
     schemas = {runner.SCHEMA: runner.RESULT for runner in runners}
     schemas.update({teaching.SCHEMA: teaching.RESULT_SCHEMA,
@@ -107,6 +107,9 @@ def _lesson_sources(lesson, owner):
         add(lesson['text'], '/text', source_id=lesson.get('source_id'))
     elif schema == ntl_curriculum.SCHEMA:
         add(lesson['record'], '/record')
+    elif schema == ntl_update_memory.SCHEMA:
+        for i, source in enumerate(lesson['sources']):
+            add(source['text'], f'/sources/{i}/text', 'REGISTERED_EVIDENCE', source['id'])
     elif schema == ntl_core.SCHEMA:
         task = lesson.get('task', {})
         add(task.get('text'), '/task/text')

@@ -18,6 +18,7 @@ MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
 PASSIVE_MODEL = "evidence/passive_relation_transfer_v1/model.json"
 OPTIONAL_NEURAL_INPUTS = frozenset((
+    "evidence/ntl_update_memory_v1/model.json",
     "evidence/ntp_recursive_v1/model.json",
     "evidence/ntp_ifadah_v1/model.json",
     PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL,
@@ -66,6 +67,7 @@ def snapshot():
         "tools/lexical_training/data/ifadah_programs_v1.json",
         "tools/lexical_training/data/ntl_apprentice_model_v1.json",
         "evidence/ntp_recursive_v1/model.json", "evidence/ntp_recursive_v1/protocol.json",
+        "evidence/ntl_update_memory_v1/model.json", "evidence/ntl_update_memory_v1/protocol.json",
         "evidence/ntp_ifadah_v1/model.json", "evidence/ntp_ifadah_v1/protocol.json",
         "evidence/ntp_ifadah_v1/supervision.json",
         "evidence/ifadah_programs_v1/data.json", "evidence/ifadah_programs_v1/protocol.json",

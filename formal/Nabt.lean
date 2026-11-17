@@ -78,6 +78,7 @@ import Nabt.AcquiredSyntaxV3
 import Nabt.ProductiveClauseV1
 import Nabt.EvidenceLifecycleV1
 import Nabt.MeaningPreservation
+import Nabt.UpdateMemory
 import Nabt.GroundedPassage
 
 import Nabt.TemporalContext
