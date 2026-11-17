@@ -47,8 +47,13 @@ def _term_observations(text, *, max_terms=MAX_OBSERVATION_TERMS):
             value = {'status': 'NEURAL_OBSERVER_UNAVAILABLE', 'reason': type(error).__name__,
                      'authority': 'NONE'}
         except NabtError as error:
-            value = {'status': ('NEURAL_RESOURCE_LIMIT' if error.code == 'RESOURCE_LIMIT'
-                                else 'DEFER_EXACT_A116_READING'),
+            if error.code == 'RESOURCE_LIMIT':
+                status = 'NEURAL_RESOURCE_LIMIT'
+            elif error.code in ('LAW_TABLE_UNAVAILABLE', 'LAW_TABLE_INTEGRITY', 'LAW_TABLE_SCHEMA'):
+                status = 'NEURAL_OBSERVER_UNAVAILABLE'
+            else:
+                status = 'DEFER_EXACT_A116_READING'
+            value = {'status': status,
                      'reason': str(error), 'input_error': error.as_dict(), 'authority': 'NONE'}
         except ValueError as error:
             value = {'status': 'DEFER_EXACT_A116_READING', 'reason': str(error),
@@ -136,6 +141,11 @@ def _lesson_sources(lesson, owner):
     elif schema != ntl_course.SCHEMA:
         # These are the exact source contracts already used by
         # shared_encoder.observe_lesson/contextual_alignment.observe_lesson.
+        # Teaching retains a request before a v1 acquisition-contract DEFER;
+        # that early return has not validated its adapter payload. A completed
+        # adapter may still be unmeasured when its native checker is unavailable.
+        if type(owner.get('owner_result')) is not dict or type(owner.get('measurements')) is not dict:
+            return [], 'OWNER_INPUT_NOT_VALIDATED'
         payload = lesson['payload']
         if lesson['adapter'] == 'source_learning':
             for i, source in enumerate(payload['sources']):

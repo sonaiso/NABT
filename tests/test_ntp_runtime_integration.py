@@ -10,6 +10,7 @@ from tools.lexical_training import (context_transfer, ifadah_programs,
 from tools.lexical_training import ntp_recursive as recursive
 from tools.lexical_training import ntp_ifadah
 from tools.evidence_lifecycle_v1 import ResourceLimit
+from nabt import machine
 from nabt.errors import resource_limit
 
 
@@ -125,6 +126,84 @@ class LessonSourceContracts(unittest.TestCase):
         self.assertEqual(observation['status'], 'NEURAL_RESOURCE_LIMIT')
         self.assertEqual(observation['input_error']['code'], 'RESOURCE_LIMIT')
         self.assertEqual(observation['authority'], 'NONE')
+
+    def test_installed_law_failures_are_observer_unavailability_not_reading_rejection(self):
+        lesson = {'schema': ntl_witness_pilot.SCHEMA, 'source_id': 'source', 'text': 'كَتَبَ'}
+        expected = teaching.run_lesson(lesson)
+        load_table = machine._load_table.__wrapped__
+        cases = (('LAW_TABLE_UNAVAILABLE', None),
+                 ('LAW_TABLE_INTEGRITY', b'changed installed table'),
+                 ('LAW_TABLE_SCHEMA', b'{}'))
+        for code, raw in cases:
+            with self.subTest(code=code):
+                pinned = sha256(raw).hexdigest() if code == 'LAW_TABLE_SCHEMA' else machine.EXPECTED_TABLE_SHA256
+                with patch.object(machine, '_load_table', side_effect=load_table), \
+                     patch.object(machine, 'EXPECTED_TABLE_SHA256', pinned), \
+                     patch.object(machine, 'files') as files:
+                    read = files.return_value.joinpath.return_value.read_bytes
+                    if raw is None:
+                        read.side_effect = FileNotFoundError('withheld installed law table')
+                    else:
+                        read.return_value = raw
+                    result = ntp.execute('ntp', request(lesson)['payload'])
+                self.assertEqual(result['owner_result'], expected)
+                observation = result['recursive_observations'][0]['observation']
+                self.assertEqual(observation['status'], 'NEURAL_OBSERVER_UNAVAILABLE')
+                self.assertEqual(observation['input_error']['code'], code)
+                self.assertEqual(observation['authority'], 'NONE')
+                self.assertNotIn('law', observation)
+                self.assertFalse(result['neural_selection_permitted'])
+
+    def test_unimplemented_adapter_does_not_validate_or_observe_retained_payload(self):
+        text_like = {
+            'source_learning': {'sources': [{'id': 'unvalidated', 'text': 'كَتَبَ'}]},
+            'qualified_inference': {'source_id': 'unvalidated', 'source_text': 'كَتَبَ'}}
+        for adapter, payload in text_like.items():
+            for supplied in ({}, payload):
+                with self.subTest(adapter=adapter, payload=supplied):
+                    lesson = {'schema': teaching.SCHEMA, 'lesson_id': 'uninstalled-adapter',
+                              'domain_id': 'communication', 'matrix_id': 'restricted',
+                              'adapter': adapter, 'payload': supplied}
+                    expected = teaching.run_lesson(lesson)
+                    self.assertEqual(expected['status'], 'DEFER')
+                    self.assertFalse(expected['execution_measured'])
+                    self.assertIsNone(expected['owner_result'])
+                    self.assertEqual(expected['next_step']['action'], 'IMPLEMENT_ACQUISITION_CONTRACT')
+                    with patch.object(recursive, 'forward', side_effect=AssertionError('unvalidated source')) as observer:
+                        result = ntp.execute('ntp', request(lesson)['payload'])
+                    observer.assert_not_called()
+                    self.assertEqual(result['owner_result'], expected)
+                    self.assertEqual(result['observation_coverage'], 'OWNER_INPUT_NOT_VALIDATED')
+                    self.assertEqual(result['recursive_observations'], [])
+                    self.assertEqual(result['observation_limits']['source_count'], 0)
+                    self.assertNotIn('source_traces', result)
+
+    def test_validated_unmeasured_adapters_keep_their_submitted_sources(self):
+        from tests.test_cognitive_teaching import lesson as source_lesson, qualified
+        pilot = teaching.source_learning_connection.pilot
+        for lesson in (source_lesson(), qualified()):
+            with self.subTest(adapter=lesson['adapter']):
+                with patch.object(pilot, 'checker_path', side_effect=pilot.PilotError(
+                        'CHECKER_UNAVAILABLE', 'withheld native checker')):
+                    expected = teaching.run_lesson(lesson)
+                    result = ntp.execute('ntp', request(lesson)['payload'])
+                self.assertEqual(expected['status'], 'VERIFICATION_UNAVAILABLE')
+                self.assertFalse(expected['execution_measured'])
+                self.assertIsInstance(expected['owner_result'], dict)
+                self.assertEqual(result['owner_result'], expected)
+                self.assertGreater(result['observation_limits']['observed_terms'], 0)
+                if lesson['adapter'] == 'source_learning':
+                    self.assertEqual(result['observation_coverage'], 'COMPLETE_SOURCE_TRACES')
+                    for trace in result['source_traces']:
+                        self.assert_trace(request(lesson), trace)
+                    self.assertEqual([trace['source_id'] for trace in result['source_traces']],
+                                     [source['id'] for source in lesson['payload']['sources']])
+                else:
+                    self.assertEqual(result['observation_coverage'], 'COMPLETE_SOURCE_TERMS')
+                    self.assertEqual(result['observation_request_path'], '/payload/input/lesson/payload/source_text')
+                    self.assertEqual(result['observation_source_id'], lesson['payload']['source_id'])
+                    self.assertEqual(result['observation_source_sha256'],
+                                     sha256(lesson['payload']['source_text'].encode()).hexdigest())
 
     def test_equal_school_texts_keep_distinct_source_ids_and_revision_paths(self):
         lesson = reflection_lesson()
