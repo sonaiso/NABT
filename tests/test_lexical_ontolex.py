@@ -32,6 +32,7 @@ class LexicalBoundary(unittest.TestCase):
                  "evidence/shared_cognition_v1/model.json", "evidence/contextual_alignment_v1/model.json",
                  "evidence/contextual_alignment_v1/train.json", "evidence/cognitive_graph_v1/model.json",
                  "evidence/cognitive_graph_v1/train.json", "evidence/cognitive_orchestration_v1/dispatch.json",
+                 "evidence/ntp_recursive_v1/protocol.json", "evidence/ntp_recursive_v1/model.json",
                  "evidence/ifadah_programs_v1/data.json", "evidence/ifadah_programs_v1/protocol.json",
                  "evidence/ifadah_programs_v1/protocol_local.json"]
         paths += [p for _, _, p in lexical_testimony.SOURCES.values() if p is not None]
@@ -52,7 +53,8 @@ class LexicalBoundary(unittest.TestCase):
                 # Their absence remains an error, never an optional observation.
                 for relative in ("evidence/ifadah_programs_v1/data.json",
                                  "evidence/ifadah_programs_v1/protocol.json",
-                                 "evidence/ifadah_programs_v1/protocol_local.json"):
+                                 "evidence/ifadah_programs_v1/protocol_local.json",
+                                 "evidence/ntp_recursive_v1/protocol.json"):
                     evidence = root / relative
                     evidence.write_bytes(b"changed curriculum")
                     revised = gateway.snapshot()
@@ -61,6 +63,16 @@ class LexicalBoundary(unittest.TestCase):
                     with self.assertRaises(FileNotFoundError):
                         gateway.snapshot()
                     evidence.write_bytes(b"fixture")
+                # NTP weights are optional observations, but their bytes and
+                # availability still invalidate a prior gateway identity.
+                weights = root / "evidence/ntp_recursive_v1/model.json"
+                weights.write_bytes(b"changed NTP weights")
+                revised = gateway.snapshot()
+                relative = weights.relative_to(root).as_posix()
+                self.assertNotEqual(changed["files"][relative], revised["files"][relative])
+                weights.unlink()
+                self.assertEqual(gateway.snapshot()["files"][relative], "UNAVAILABLE")
+                weights.write_bytes(b"fixture")
                 weights = root / "evidence/cognitive_graph_v1/model.json"
                 weights.write_bytes(b"changed weights")
                 weight_change = gateway.snapshot()
