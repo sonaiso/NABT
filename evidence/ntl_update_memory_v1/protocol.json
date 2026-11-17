@@ -1,0 +1,35 @@
+{
+  "schema": "nabt.ntl-update-memory.protocol.v1",
+  "base_commit": "aa0406509d1411b04716c0b2767fc4049baf72ee",
+  "scope": "Authored conditional source theory; five fixed evidence roles; no world-truth or general Arabic claim.",
+  "seed": 116,
+  "epochs": 2000,
+  "learning_rate": 0.2,
+  "threshold": 0.5,
+  "model": "Two shared affine sigmoid operators AND and OR; six trained parameters. Exact source memory is retained independently.",
+  "training": "All eight primitive Boolean input/operator combinations. No episode labels or test rows enter fitting.",
+  "evaluation": [
+    "32 single-witness states",
+    "identity plus ten single-source activation/withdrawal contexts",
+    "all ordered pairs of these contexts",
+    "held-out multiple witnesses and source identities",
+    "NTP/NTL receipt replay and request/source/model tampering",
+    "analytic gradients against finite differences"
+  ],
+  "baselines": [
+    "untrained shared operators",
+    "answer-only optimal current-answer grouping lower bound on update loss",
+    "fixed Boolean algebra"
+  ],
+  "selection": "Fixed final epoch; no fitting, normalization, threshold or model selection using evaluation.",
+  "acceptance": {
+    "current_classes": 16,
+    "update_classes": 32,
+    "trained_single_step_accuracy": 1,
+    "trained_two_step_accuracy": 1,
+    "gradient_max_error": 0.000001
+  },
+  "authority": "NONE",
+  "release_policy": "REVIEW_ONLY",
+  "runtime_integration": "Existing cognitive.lesson through NTP; original SemanticKernel owns scoped answers and proof replay."
+}
