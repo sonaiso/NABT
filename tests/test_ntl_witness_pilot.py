@@ -23,6 +23,45 @@ def claims(result):
 
 
 class WitnessPilot(unittest.TestCase):
+    def test_returned_origin_rows_and_list_cannot_change_retained_readings(self):
+        # Keep a deliberately failing pre-fix run from poisoning other tests or
+        # the module-level ROWS fixture through the formerly shared cache.
+        pilot.ranker._bank.cache_clear()
+        self.addCleanup(pilot.ranker._bank.cache_clear)
+        source_bytes = pilot.ranker.BANK.read_bytes()
+        exported = pilot.ranker.origins()
+        original_rows = deepcopy(exported)
+        row = next(r for r in exported if r["id"] == "doc13")
+        request = lesson(row["text"], source_id="immutable-bank")
+        baseline = teaching.run_lesson(request)
+
+        row.update(relation="event", carrier="حامل بديل", value="حدث مختلق")
+        self.assertEqual(pilot.ranker.BANK.read_bytes(), source_bytes)
+        self.assertEqual(teaching.run_lesson(request), baseline)
+        self.assertEqual(pilot.ranker.origins(), original_rows)
+
+        exported.clear()
+        exported.append({**original_rows[0], "text": "قراءة مزروعة خارج المصدر."})
+        self.assertEqual(pilot.ranker.BANK.read_bytes(), source_bytes)
+        self.assertEqual(teaching.run_lesson(request), baseline)
+        self.assertEqual(pilot.ranker.origins(), original_rows)
+        self.assertEqual(pilot.recognize("قراءة مزروعة خارج المصدر."), (None, None))
+
+    def test_returned_recognition_row_cannot_change_retained_reading(self):
+        pilot.ranker._bank.cache_clear()
+        self.addCleanup(pilot.ranker._bank.cache_clear)
+        source_bytes = pilot.ranker.BANK.read_bytes()
+        request = lesson(ROWS["doc13"]["text"], source_id="immutable-recognition")
+        baseline = teaching.run_lesson(request)
+        recognized, contract = pilot.recognize(request["text"])
+        original_row = deepcopy(recognized)
+        self.assertEqual(contract, "RETAINED_INSTRUCTOR_BINDING")
+
+        recognized.update(relation="event", carrier="حامل بديل", value="حدث مختلق")
+        self.assertEqual(pilot.ranker.BANK.read_bytes(), source_bytes)
+        self.assertEqual(teaching.run_lesson(request), baseline)
+        self.assertEqual(pilot.recognize(request["text"]), (original_row, contract))
+
     def test_split_and_training_manifest(self):
         head = json.loads(pilot.ranker.MODEL.read_bytes())
         self.assertEqual(len(ROWS), 60)

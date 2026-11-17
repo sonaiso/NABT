@@ -1,5 +1,6 @@
 """Two source-blind learned proposal heads on the existing frozen NABT byte GRU."""
 import csv
+from copy import deepcopy
 from functools import lru_cache
 from hashlib import sha256
 from io import StringIO
@@ -33,7 +34,9 @@ def _bank(raw):
 
 
 def origins():
-    return _bank(BANK.read_bytes())
+    # Keep the byte-keyed parse cache private: callers (including recognize)
+    # may inspect or edit their records without rewriting retained bindings.
+    return deepcopy(_bank(BANK.read_bytes()))
 
 
 def views(encoder, text):
