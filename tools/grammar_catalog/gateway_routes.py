@@ -7,6 +7,7 @@ from .relational import FAMILIES as RELATIONAL_FAMILIES
 # These are references into the existing reuse registry, not theorem lists.
 # Per-owner validation still runs; these fields only close the outer boundary.
 ROUTES = {
+    "ntp": (("identity", "transition-law", "progressive-units", "recursive-source", "rule-learning", "lexical-denotation") + RELATIONAL_FAMILIES, ("operation", "input"), ()),
     "ayat.read": (("rule-routing", "discourse", "arabic-governors"), ("text",), ("withdraw","withdraw_context","question","scene")),
     "text.read": (("recursive-source", "epistemic-measurement", "signed-inference", "arabic-governors", "rule-routing", "rule-learning", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("question", "answer", "question_cycle", "question_chain", "witness_recall", "licensed_speech")),
     "cognitive.orchestrate": (("rule-routing", "aligned-acquisition", "lexical-denotation", "linguistic-truth", "inflection", "discourse"), ("text",), ("source_id", "lexical_text", "context", "mode", "usage_context")),
@@ -51,6 +52,9 @@ def validate(route, payload):
         raise ValueError("Unknown installed gateway route")
     if type(payload) is not dict:
         raise ValueError("Gateway payload must be an object")
+    if route == "ntp":
+        from .ntp import validate as validate_ntp
+        return validate_ntp(payload)
     _, required, optional = ROUTES[route]
     if required and (not set(required) <= payload.keys() or set(payload) - set(required + optional)):
         raise ValueError("Unexpected gateway route fields")
@@ -136,6 +140,11 @@ def validate(route, payload):
 
 
 def execute(route, payload, *, inside_worker=False):
+    from .ntp import execute as execute_ntp
+    return execute_ntp(route, payload, inside_worker=inside_worker)
+
+
+def _execute_owner(route, payload, *, inside_worker=False):
     p = validate(route, payload)
     if route == "ayat.read":
         from .ayat_al_dayn import analyze
