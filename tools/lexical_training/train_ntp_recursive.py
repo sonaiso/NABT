@@ -1,22 +1,72 @@
 """Fixed-protocol CPU forward/backward training; no test-driven selection."""
 from hashlib import sha256
+from copy import deepcopy
 import argparse
 import json
+import math
 from pathlib import Path
 import tempfile
 
 from . import ntp_recursive as net
 
 DIRECTORY = net.ROOT / 'evidence/ntp_recursive_v1'
+SOURCE = 'evidence/shared_cell_reading_v1/train.json'
+PROTOCOL_SHA256 = '1a3cbce83fcadaf4e000e50c76de454ef12df833ba0c68e2543313bdcc45ccfc'
+SOURCE_SHA256 = 'be50e2833343e1db286b9e404292403e73647b6012ca5a80dc052212e445e1d0'
 
 
 def canonical(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\n'
 
 
-def inputs():
-    protocol = json.loads((DIRECTORY / 'protocol.json').read_bytes())
-    rows = json.loads((net.ROOT / protocol['source']).read_bytes())
+def validate_protocol(protocol):
+    fields = {'schema', 'seed', 'dimension', 'epochs', 'learning_rate', 'source',
+              'train_roots', 'development_roots', 'test_roots', 'selection',
+              'tree', 'heads', 'scope', 'release_policy', 'authority'}
+    if (type(protocol) is not dict or set(protocol) != fields
+            or protocol['schema'] != 'nabt.ntp-recursive-training.v1'
+            or type(protocol['seed']) is not int or not 0 <= protocol['seed'] < 2**32
+            or type(protocol['dimension']) is not int or protocol['dimension'] != net.DIM
+            or type(protocol['epochs']) is not int or not 1 <= protocol['epochs'] <= 10000
+            or type(protocol['learning_rate']) not in (int, float)
+            or not 0 < protocol['learning_rate'] <= 1
+            or not math.isfinite(protocol['learning_rate'])
+            or protocol['source'] != SOURCE
+            or protocol['heads'] != list(net.LABELS)
+            or protocol['selection'] != 'FIXED_FINAL_EPOCH_NO_TEST_SELECTION'
+            or protocol['tree'] != 'ORDERED_LEFT_FOLD_SHARED_BINARY_COMPOSITION'
+            or protocol['scope'] != 'AUTHORED_CELL_DIAGNOSTIC_NOT_BLIND_OR_GENERAL_IFADAH'
+            or protocol['release_policy'] != 'REVIEW_ONLY' or protocol['authority'] != 'NONE'):
+        raise ValueError('Invalid fixed recursive training protocol')
+    for split in ('train', 'development', 'test'):
+        roots = protocol[split + '_roots']
+        if (type(roots) is not list or not 1 <= len(roots) <= 1024
+                or any(type(root) is not str or not root or len(root.encode()) > 64 for root in roots)
+                or len(set(roots)) != len(roots)):
+            raise ValueError('Invalid root partition')
+    return protocol
+
+
+def validate_rows(rows, protocol):
+    validate_protocol(protocol)
+    if type(rows) is not list or not 1 <= len(rows) <= 1024:
+        raise ValueError('Invalid source row collection')
+    seen = set()
+    for row in rows:
+        if (type(row) is not dict or set(row) != {'cells', 'labels', 'provenance', 'root', 'text'}
+                or type(row['root']) is not str or not row['root'] or len(row['root'].encode()) > 64
+                or row['provenance'] != 'AUTHORED_NOT_LEXICAL_ATTESTATION'
+                or type(row['labels']) is not dict or set(row['labels']) != set(net.LABELS)
+                or any(type(row['labels'][h]) is not str or row['labels'][h] not in labels
+                       for h, labels in net.LABELS.items())
+                or type(row['cells']) is not list):
+            raise ValueError('Invalid supervised source row')
+        text, cells, _ = net.source({'text': row['text']})
+        if net.validate_cells(row['cells']) != cells:
+            raise ValueError('Cell/source mismatch')
+        if text in seen:
+            raise ValueError('Duplicate source row')
+        seen.add(text)
     splits = {s: [r for r in rows if r['root'] in protocol[s + '_roots']]
               for s in ('train', 'development', 'test')}
     roots = [set(protocol[s + '_roots']) for s in splits]
@@ -24,9 +74,20 @@ def inputs():
         raise ValueError('Root leakage')
     if sum(map(len, splits.values())) != len(rows) or any(not v for v in splits.values()):
         raise ValueError('Incomplete split')
-    for r in rows:
-        if tuple(r['cells']) != net.parse_word(r['text']):
-            raise ValueError('Cell/source mismatch')
+    if set().union(*roots) != {row['root'] for row in rows}:
+        raise ValueError('Declared root has no retained source')
+    return splits
+
+
+def inputs():
+    raw_protocol = (DIRECTORY / 'protocol.json').read_bytes()
+    if sha256(raw_protocol).hexdigest() != PROTOCOL_SHA256:
+        raise ValueError('Frozen training protocol changed')
+    protocol = validate_protocol(json.loads(raw_protocol))
+    raw_source = (net.ROOT / SOURCE).read_bytes()
+    if sha256(raw_source).hexdigest() != SOURCE_SHA256:
+        raise ValueError('Frozen training source changed')
+    splits = validate_rows(json.loads(raw_source), protocol)
     return protocol, splits
 
 
@@ -38,12 +99,15 @@ def initialize(seed):
     return p
 
 
-def loss_grad(p, row):
-    """Analytic reverse mode through every shared join and A116 leaf."""
+def encode_tape(p, cells):
+    """A116 word forward tape shared by the existing and program objectives."""
     import numpy as np
+    values = net.validate_cells(cells)
+    if not 1 <= len(values) <= net.MAX_CELLS:
+        raise ValueError('Expected 1..64 A116 cells')
     leaves, joins = [], []
     hidden = None
-    for c in row['cells']:
+    for c in values:
         bit = np.array(net.bits(c), dtype=float)
         atom = np.tanh(p['bits'] @ bit + p['carrier'][c // 4] + p['mark'][c % 4])
         leaves.append((c, bit, atom))
@@ -53,6 +117,64 @@ def loss_grad(p, row):
             joined = np.concatenate((hidden, atom))
             hidden = np.tanh(p['compose'] @ joined + p['bias'])
             joins.append((joined, hidden))
+    return hidden, (leaves, joins)
+
+
+def backward_joins(p, joins, d, grad, leaf_count):
+    """Reverse a shared ordered composition, preserving child order."""
+    import numpy as np
+    leaf_grads = [None] * leaf_count
+    for i in range(len(joins) - 1, -1, -1):
+        joined, value = joins[i]
+        local = d * (1 - value * value)
+        grad['compose'] += np.outer(local, joined)
+        grad['bias'] += local
+        children = p['compose'].T @ local
+        d, leaf_grads[i + 1] = children[:net.DIM], children[net.DIM:]
+    leaf_grads[0] = d
+    return leaf_grads
+
+
+def backward_tape(p, tape, d, grad):
+    import numpy as np
+    leaves, joins = tape
+    leaf_grads = backward_joins(p, joins, d, grad, len(leaves))
+    for (c, bit, value), d in zip(leaves, leaf_grads):
+        local = d * (1 - value * value)
+        grad['bits'] += np.outer(local, bit)
+        grad['carrier'][c // 4] += local
+        grad['mark'][c % 4] += local
+
+
+def group_tape(p, groups):
+    """Neural word composition only; no exact Machine effect crosses a word."""
+    import numpy as np
+    if type(groups) not in (list, tuple) or not 1 <= len(groups) <= 128:
+        raise ValueError('Invalid ordered word groups')
+    words, joins, hidden = [], [], None
+    for cells in groups:
+        word, tape = encode_tape(p, cells)
+        words.append(tape)
+        if hidden is None:
+            hidden = word
+        else:
+            joined = np.concatenate((hidden, word))
+            hidden = np.tanh(p['compose'] @ joined + p['bias'])
+            joins.append((joined, hidden))
+    return hidden, (words, joins)
+
+
+def backward_groups(p, tape, d, grad):
+    words, joins = tape
+    word_grads = backward_joins(p, joins, d, grad, len(words))
+    for word, incoming in zip(words, word_grads, strict=True):
+        backward_tape(p, word, incoming, grad)
+
+
+def loss_grad(p, row):
+    """Analytic reverse mode through every shared join and A116 leaf."""
+    import numpy as np
+    hidden, tape = encode_tape(p, row['cells'])
     grad = {k: np.zeros_like(v) for k, v in p.items()}
     d = np.zeros(net.DIM)
     loss = 0.
@@ -67,26 +189,13 @@ def loss_grad(p, row):
         prob /= len(net.LABELS)
         grad[key] += np.outer(prob, hidden)
         d += p[key].T @ prob
-    leaf_grads = [None] * len(leaves)
-    for i in range(len(joins) - 1, -1, -1):
-        joined, value = joins[i]
-        local = d * (1 - value * value)
-        grad['compose'] += np.outer(local, joined)
-        grad['bias'] += local
-        children = p['compose'].T @ local
-        d, leaf_grads[i + 1] = children[:net.DIM], children[net.DIM:]
-    leaf_grads[0] = d
-    for (c, bit, value), d in zip(leaves, leaf_grads):
-        local = d * (1 - value * value)
-        grad['bits'] += np.outer(local, bit)
-        grad['carrier'][c // 4] += local
-        grad['mark'][c % 4] += local
+    backward_tape(p, tape, d, grad)
     return loss, grad
 
 
 def model(p, protocol):
     return {'schema': 'nabt.ntp-recursive-model.v1', 'alphabet_id': net.ALPHABET_ID,
-            'labels': net.LABELS, 'parameters': {k: v.tolist() for k, v in p.items()},
+            'labels': deepcopy(net.LABELS), 'parameters': {k: v.tolist() for k, v in p.items()},
             'protocol_sha256': sha256((DIRECTORY / 'protocol.json').read_bytes()).hexdigest(),
             'source_sha256': sha256((net.ROOT / protocol['source']).read_bytes()).hexdigest(),
             'authority': 'NONE', 'release_policy': 'REVIEW_ONLY'}
@@ -105,6 +214,10 @@ def evaluate(m, rows):
 
 
 def fit(protocol, rows, *, frozen=False):
+    retained, splits = inputs()
+    if (type(frozen) is not bool or canonical(protocol) != canonical(retained)
+            or type(rows) is not list or canonical(rows) != canonical(splits['train'])):
+        raise ValueError('Fit accepts only the frozen protocol and ordered training source rows')
     import numpy as np
     p = initialize(protocol['seed'])
     initial = {k: v.copy() for k, v in p.items()}
