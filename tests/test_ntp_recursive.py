@@ -95,6 +95,55 @@ class RecursiveLearning(unittest.TestCase):
 
 
 class NTPBoundary(unittest.TestCase):
+    def test_ifadah_spans_connect_to_the_original_program_owner(self):
+        from tools.lexical_training import ifadah_programs
+        source = 'هَلْ كَانَ الْكَاتِبُ حَاضِرًا؟'
+        lesson = {'schema': ifadah_programs.SCHEMA, 'mode': 'understand',
+                  'source_id': 'source', 'text': source}
+        payload = {'operation': 'cognitive.lesson', 'input': {'lesson': lesson}}
+        result = ntp.execute('ntp', payload)
+        self.assertEqual(result['owner_result'], ifadah_programs.run(lesson))
+        self.assertEqual(result['observation_request_path'], '/payload/input/lesson/text')
+        self.assertEqual(result['observation_coverage'], 'COMPLETE_SOURCE_TERMS')
+        program = result['owner_result']['accepted_program']
+        self.assertEqual(program, {'op': 'ask', 'body': {'op': 'past', 'body': {
+            'op': 'predication', 'subject': 0, 'predicate': 0}}})
+        expected_paths = ('outer_question_cue', 'bindings/g', 'bindings/subject', 'bindings/predicate')
+        for term, path in zip(result['recursive_observations'], expected_paths, strict=True):
+            self.assertEqual(term['owner_witness_paths'], ['/owner_result/owner/readings/0/' + path])
+            start, stop = term['occurrence']['utf8_span']
+            self.assertEqual(source.encode()[start:stop].decode(), term['occurrence']['surface'])
+        self.assertEqual(result['recursive_observations'][0]['observation']['cells'], list(net.parse_word('هَلْ')))
+        self.assertEqual(result['recursive_observations'][1]['observation']['status'], 'DEFER_EXACT_A116_READING')
+        with patch.object(net, 'load', side_effect=OSError('withheld')):
+            withdrawn = ntp.execute('ntp', payload)
+        self.assertEqual(withdrawn['owner_result'], result['owner_result'])
+        self.assertEqual(withdrawn['recursive_observations'][0]['observation']['status'], 'MODEL_UNAVAILABLE')
+
+    def test_ifadah_instruction_and_realized_occurrences_stay_separate(self):
+        from tools.lexical_training import ifadah_programs
+        lesson = {'schema': ifadah_programs.SCHEMA, 'mode': 'produce', 'source_id': 'intent',
+                  'instruction': 'اسأل عن ثبوت الصفة في الماضي', 'subject': 0, 'predicate': 0}
+        payload = {'operation': 'cognitive.lesson', 'input': {'lesson': lesson}}
+        result = ntp.execute('ntp', payload)
+        self.assertEqual(result['observation_request_path'], '/payload/input/lesson/instruction')
+        self.assertEqual(result['owner_result']['status'], 'REALIZATION_CHECKED_INTENT_PROPOSED')
+        self.assertIsNone(result['owner_result']['accepted_program'])
+        self.assertTrue(all('owner_witness_paths' not in row for row in result['recursive_observations']))
+        realized = result['realization_trace']
+        self.assertEqual(realized['text_path'], '/owner_result/generated_text')
+        cue = realized['observations'][0]
+        self.assertEqual(cue['occurrence']['surface'], 'هَلْ')
+        self.assertEqual(cue['owner_witness_paths'], ['/owner_result/realization_owner/readings/0/outer_question_cue'])
+        lesson['instruction'] = 'قدم سؤالًا عن الصفة في الماضي'
+        deferred = ntp.execute('ntp', payload)
+        self.assertEqual(deferred['owner_result']['status'], 'DEFER')
+        self.assertNotIn('realization_trace', deferred)
+        lesson['untrusted'] = 'invalid lesson'
+        invalid = ntp.execute('ntp', payload)
+        self.assertEqual(invalid['owner_result']['status'], 'INVALID_INPUT')
+        self.assertEqual(invalid['recursive_observations'], [])
+
     @unittest.skipUnless(NATIVE, 'native text/grammar owners required')
     def test_native_think_from_original_text_and_installed_bit_frame(self):
         for req in (ntp.request('think', {'text': 'زيد حكيم'}),
