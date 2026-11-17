@@ -15,9 +15,10 @@ concurrency:
 jobs:
   native-admission:
     runs-on: ubuntu-24.04
-    # Native replay groups exceeded the old 15-minute whole-job budget.
-    # Keep every admission check; allow build time and independent replays.
-    timeout-minutes: 30
+    # The combined school, witness, report and OpenCyc admission suites run
+    # before relational/case/composition replay. Passing runs hit 30 minutes.
+    # Retain every native check and allow the complete sequential job to finish.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

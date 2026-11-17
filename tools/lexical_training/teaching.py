@@ -128,8 +128,12 @@ def _next(owner, adapter, measured):
 
 
 def run_lesson(lesson):
-    from . import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum, school_apprentice
-    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer, corpus_concepts, ifadah_programs, school_apprentice):
+    from . import (context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+                   ntl_course, ntl_curriculum, school_apprentice,
+                   ntl_witness_pilot, opencyc_inquiry)
+    for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer,
+                          corpus_concepts, ifadah_programs, school_apprentice,
+                          ntl_witness_pilot, opencyc_inquiry):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
             continue
         try:
@@ -251,11 +255,12 @@ def verify_lesson(report, *, expected_lesson):
     """No receipt may supply its own inputs or suppress the fresh owner run."""
     try:
         actual = run_lesson(expected_lesson)
-        from . import school_apprentice
-        shared = expected_lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4, school_apprentice.SCHEMA)
+        from . import school_apprentice, ntl_witness_pilot
+        shared = (type(expected_lesson) is dict and expected_lesson.get("schema") in
+                  (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4, school_apprentice.SCHEMA, ntl_witness_pilot.SCHEMA))
         matches = (wire_owner._encoded(report, MAX_RESULT_BYTES, floats=shared) ==
                    wire_owner._encoded(actual, MAX_RESULT_BYTES, floats=shared))
-        return {"valid": matches and actual["execution_measured"], "replay_matches": matches,
+        return {"valid": matches and actual.get("execution_measured") is True, "replay_matches": matches,
                 "status": actual["status"] if matches else "INVALID_RECEIPT"}
     except (ValueError, TypeError, RecursionError):
         return {"valid": False, "replay_matches": False, "status": "INVALID_RECEIPT"}

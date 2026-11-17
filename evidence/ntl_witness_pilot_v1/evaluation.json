@@ -1,0 +1,2918 @@
+{
+  "training_majority": "event",
+  "neural_head_sha256": "810666213506f3cd31d9def0c8eb706bf4e2c3e3a59f775c62727692fe7c5c19",
+  "summary": {
+    "train": {
+      "origins": 36,
+      "joint_correct": 21,
+      "restored": 36,
+      "relation_correct": 36,
+      "context_correct": 36,
+      "cue_correct": 21,
+      "primary_clause_correct": 36,
+      "baseline_primary": 20,
+      "baseline_relation": 6,
+      "baseline_cue": 8,
+      "interventions": 117,
+      "exact_loss_proposals": 117
+    },
+    "dev": {
+      "origins": 12,
+      "joint_correct": 1,
+      "restored": 12,
+      "relation_correct": 3,
+      "context_correct": 5,
+      "cue_correct": 6,
+      "primary_clause_correct": 4,
+      "baseline_primary": 4,
+      "baseline_relation": 0,
+      "baseline_cue": 2,
+      "interventions": 39,
+      "exact_loss_proposals": 39
+    },
+    "test": {
+      "origins": 12,
+      "joint_correct": 0,
+      "restored": 12,
+      "relation_correct": 2,
+      "context_correct": 8,
+      "cue_correct": 2,
+      "primary_clause_correct": 6,
+      "baseline_primary": 8,
+      "baseline_relation": 2,
+      "baseline_cue": 2,
+      "interventions": 39,
+      "exact_loss_proposals": 39
+    },
+    "test-door": {
+      "origins": 3,
+      "joint_correct": 0,
+      "restored": 3,
+      "relation_correct": 1,
+      "context_correct": 2,
+      "cue_correct": 1,
+      "primary_clause_correct": 2,
+      "baseline_primary": 2,
+      "baseline_relation": 0,
+      "baseline_cue": 1,
+      "interventions": 9,
+      "exact_loss_proposals": 9
+    },
+    "test-seed": {
+      "origins": 3,
+      "joint_correct": 0,
+      "restored": 3,
+      "relation_correct": 1,
+      "context_correct": 2,
+      "cue_correct": 1,
+      "primary_clause_correct": 1,
+      "baseline_primary": 2,
+      "baseline_relation": 1,
+      "baseline_cue": 1,
+      "interventions": 9,
+      "exact_loss_proposals": 9
+    },
+    "test-num": {
+      "origins": 3,
+      "joint_correct": 0,
+      "restored": 3,
+      "relation_correct": 0,
+      "context_correct": 3,
+      "cue_correct": 0,
+      "primary_clause_correct": 3,
+      "baseline_primary": 2,
+      "baseline_relation": 0,
+      "baseline_cue": 0,
+      "interventions": 12,
+      "exact_loss_proposals": 12
+    },
+    "test-doc": {
+      "origins": 3,
+      "joint_correct": 0,
+      "restored": 3,
+      "relation_correct": 0,
+      "context_correct": 1,
+      "cue_correct": 0,
+      "primary_clause_correct": 0,
+      "baseline_primary": 2,
+      "baseline_relation": 1,
+      "baseline_cue": 0,
+      "interventions": 9,
+      "exact_loss_proposals": 9
+    }
+  },
+  "rows": [
+    {
+      "id": "door01",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "capacity",
+      "relation": "capacity",
+      "cue": "للفتح",
+      "expected_cue": "قابل للفتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door02",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "state",
+      "relation": "state",
+      "cue": "مغلق",
+      "expected_cue": "مغلق",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door03",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "فتح",
+      "expected_cue": "فتح الأمين",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": true,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door04",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "لم",
+      "expected_cue": "لم تُفتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door05",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "purpose",
+      "cue": "يفتح",
+      "expected_cue": "لكي يفتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door06",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "request",
+      "relation": "request",
+      "cue": "افتح",
+      "expected_cue": "افتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door07",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "capacity",
+      "relation": "capacity",
+      "cue": "يمكن",
+      "expected_cue": "يمكن فتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door08",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "فتحت",
+      "expected_cue": "فتحت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": true,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door09",
+      "family": "door",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "لم",
+      "expected_cue": "لم يفتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door10",
+      "family": "door",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "context",
+      "cue": "يفتح",
+      "expected_cue": "لكي يفتح",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door11",
+      "family": "door",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "state",
+      "relation": "state",
+      "cue": "مفتوح",
+      "expected_cue": "مفتوح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door12",
+      "family": "door",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "request",
+      "relation": "request",
+      "cue": "افتحي",
+      "expected_cue": "افتحي",
+      "relation_correct": true,
+      "context_correct": false,
+      "cue_correct": true,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door13",
+      "family": "door",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "capacity",
+      "relation": "state",
+      "cue": "للفتح",
+      "expected_cue": "قابلة للفتح",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door14",
+      "family": "door",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "يُفتح",
+      "expected_cue": "لم يُفتح",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "door15",
+      "family": "door",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "request",
+      "relation": "event",
+      "cue": "ليفتح",
+      "expected_cue": "ليفتح",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": true,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed01",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "capacity",
+      "relation": "capacity",
+      "cue": "قابلة",
+      "expected_cue": "قابلة للإنبات",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed02",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "state",
+      "relation": "state",
+      "cue": "جافة",
+      "expected_cue": "جافة",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed03",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "أنبتت",
+      "expected_cue": "أنبتت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": true,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed04",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "لم",
+      "expected_cue": "لم تنبت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed05",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "purpose",
+      "cue": "تنبت",
+      "expected_cue": "لكي تنبت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed06",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "request",
+      "relation": "request",
+      "cue": "راقب",
+      "expected_cue": "راقب",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed07",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "بدأت",
+      "expected_cue": "بدأت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": true,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed08",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "لم",
+      "expected_cue": "لم تنبت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed09",
+      "family": "seed",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "capacity",
+      "relation": "capacity",
+      "cue": "يمكن",
+      "expected_cue": "يمكن",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed10",
+      "family": "seed",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "state",
+      "relation": "context",
+      "cue": "رطبة",
+      "expected_cue": "رطبة",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed11",
+      "family": "seed",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "odd",
+      "cue": "من",
+      "expected_cue": "من أجل إنبات",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed12",
+      "family": "seed",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "request",
+      "relation": "context",
+      "cue": "إنبات",
+      "expected_cue": "دوّن",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed13",
+      "family": "seed",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "أنبتت",
+      "expected_cue": "أنبتت",
+      "relation_correct": true,
+      "context_correct": false,
+      "cue_correct": true,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": true,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed14",
+      "family": "seed",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "capacity",
+      "cue": "أنبتت",
+      "expected_cue": "ما أنبتت",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "seed15",
+      "family": "seed",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "context",
+      "cue": "تنبت",
+      "expected_cue": "حتى تنبت",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num01",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "even",
+      "relation": "even",
+      "cue": "زوجي",
+      "expected_cue": "زوجي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num02",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "odd",
+      "relation": "odd",
+      "cue": "فردي",
+      "expected_cue": "فردي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num03",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "even",
+      "relation": "even",
+      "cue": "زوجي",
+      "expected_cue": "زوجي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num04",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "odd",
+      "relation": "odd",
+      "cue": "فردي",
+      "expected_cue": "فردي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num05",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "even",
+      "relation": "even",
+      "cue": "زوجي",
+      "expected_cue": "زوجي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num06",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "odd",
+      "relation": "odd",
+      "cue": "فردي",
+      "expected_cue": "فردي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num07",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "even",
+      "relation": "even",
+      "cue": "زوجيًا",
+      "expected_cue": "زوجيًا",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num08",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "odd",
+      "relation": "odd",
+      "cue": "فردي",
+      "expected_cue": "فردي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num09",
+      "family": "num",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "even",
+      "relation": "even",
+      "cue": "زوجي",
+      "expected_cue": "زوجي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num10",
+      "family": "num",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "odd",
+      "relation": "context",
+      "cue": "فردي",
+      "expected_cue": "فردي",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": true,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num11",
+      "family": "num",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "even",
+      "relation": "context",
+      "cue": "36",
+      "expected_cue": "زوجية",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num12",
+      "family": "num",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "odd",
+      "relation": "context",
+      "cue": "فردي",
+      "expected_cue": "فردي",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": true,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num13",
+      "family": "num",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "even",
+      "relation": "purpose",
+      "cue": "مثالًا",
+      "expected_cue": "زوجي",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num14",
+      "family": "num",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "odd",
+      "relation": "request",
+      "cue": "قيل",
+      "expected_cue": "فردي",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "demonstrated",
+            "reading"
+          ],
+          "predicted": [
+            "reading",
+            "demonstrated"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [
+            "demonstrated"
+          ],
+          "predicted": [
+            "demonstrated"
+          ]
+        }
+      }
+    },
+    {
+      "id": "num15",
+      "family": "num",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "even",
+      "relation": "state",
+      "cue": "34",
+      "expected_cue": "بالزوجية",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        },
+        "proof.surface": {
+          "lost": [],
+          "predicted": []
+        }
+      }
+    },
+    {
+      "id": "doc01",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "request",
+      "relation": "request",
+      "cue": "سجّل",
+      "expected_cue": "سجّل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc02",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "سجّلت",
+      "expected_cue": "سجّلت",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": true,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc03",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "يُسجّل",
+      "expected_cue": "لم يُسجّل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc04",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "purpose",
+      "cue": "يسجّل",
+      "expected_cue": "لكي يسجّل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc05",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "capacity",
+      "relation": "capacity",
+      "cue": "للتسجيل",
+      "expected_cue": "قابلة للتسجيل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc06",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "state",
+      "relation": "state",
+      "cue": "محفوظة",
+      "expected_cue": "محفوظة",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc07",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": true,
+      "gold_relation": "request",
+      "relation": "request",
+      "cue": "سجّلي",
+      "expected_cue": "سجّلي",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc08",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "event",
+      "relation": "event",
+      "cue": "اكتمل",
+      "expected_cue": "اكتمل تسجيل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": true,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc09",
+      "family": "doc",
+      "split": "train",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "negative",
+      "relation": "negative",
+      "cue": "لم",
+      "expected_cue": "لم تسجّل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc10",
+      "family": "doc",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "capacity",
+      "relation": "capacity",
+      "cue": "يمكن",
+      "expected_cue": "يمكن تسجيل",
+      "relation_correct": true,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc11",
+      "family": "doc",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "request",
+      "relation": "state",
+      "cue": "فليسجّل",
+      "expected_cue": "فليسجّل",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": true,
+      "primary_clause_correct": true,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": true,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc12",
+      "family": "doc",
+      "split": "dev",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "state",
+      "relation": "capacity",
+      "cue": "الملف",
+      "expected_cue": "موثقة",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": true,
+      "baseline_primary": false,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc13",
+      "family": "doc",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "request",
+      "relation": "negative",
+      "cue": "يرجى",
+      "expected_cue": "يرجى تسجيل",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc14",
+      "family": "doc",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "event",
+      "relation": "context",
+      "cue": "تسجيل",
+      "expected_cue": "أنهى المسؤول تسجيل",
+      "relation_correct": false,
+      "context_correct": true,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": false,
+      "baseline_relation": true,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    },
+    {
+      "id": "doc15",
+      "family": "doc",
+      "split": "test",
+      "restored": true,
+      "joint_correct": false,
+      "gold_relation": "purpose",
+      "relation": "context",
+      "cue": "تسجيل",
+      "expected_cue": "بغرض تسجيل",
+      "relation_correct": false,
+      "context_correct": false,
+      "cue_correct": false,
+      "primary_clause_correct": false,
+      "baseline_primary": true,
+      "baseline_relation": false,
+      "baseline_cue": false,
+      "interventions": {
+        "cue": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "binding": {
+          "lost": [
+            "reading"
+          ],
+          "predicted": [
+            "reading"
+          ]
+        },
+        "context.surface": {
+          "lost": [
+            "context"
+          ],
+          "predicted": [
+            "context"
+          ]
+        }
+      }
+    }
+  ]
+}
