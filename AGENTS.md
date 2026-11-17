@@ -7,6 +7,13 @@ experiment. Prior research is cited by immutable source references in
 
 ## Sole supported external input/output boundary
 
+Use `python -m tools.ntp` and the gateway's `ntp` route for new external
+integrations. NTP is the shared dispatcher for every gateway adapter. Legacy
+route names remain replay-compatible aliases through that same dispatcher;
+they do not grant another acceptance boundary. See `docs/NTP_RECURSIVE_V1_AR.md`.
+Recursive A116 scores are observations only; retain the original owner's full
+license, pending premises, alternatives and receipt independently of weights.
+
 Every new external client, expert agent, RAG, service, or application MUST enter
 through `python -m tools.grammar_catalog gateway run --request PATH` and consume
 only `nabt.io.result.v1` after `gateway verify` (or `gateway.accept_output`) with

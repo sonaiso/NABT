@@ -1,0 +1,60 @@
+{
+  "schema": "nabt.ntp-ifadah-training.v1",
+  "seed": 120,
+  "dimension": 16,
+  "epochs": 300,
+  "learning_rate": 0.02,
+  "source": "evidence/ifadah_programs_v1/data.json",
+  "source_sha256": "f1a103f3993cfd806e9441051899b69be688721d95ccfd5134bb13a125779780",
+  "supervision": "evidence/ntp_ifadah_v1/supervision.json",
+  "supervision_sha256": "346d115a6231ce245b8508a3e4c4c9fdd477fe3913a380cf2e888ed922416a51",
+  "initial_model": "evidence/ntp_recursive_v1/model.json",
+  "initial_model_sha256": "d5284a47e83ade9a018ec092d88b0738fe6b58a03138bdc5e79513953ebf81f7",
+  "candidates": [
+    "negation",
+    "wish",
+    "ask",
+    "ask_negation"
+  ],
+  "force_labels": [
+    "assert",
+    "ask",
+    "wish"
+  ],
+  "frame_labels": [
+    "plain",
+    "negation"
+  ],
+  "eligible_split_counts": {
+    "train": 36,
+    "dev": 12,
+    "lexical_test": 60,
+    "structure_test": 36
+  },
+  "excluded_rows": 180,
+  "selection": "FIXED_FINAL_EPOCH_NO_HELDOUT_SELECTION",
+  "objective": "CROSS_ENTROPY_OVER_ALL_FOUR_PROGRAM_CANDIDATES_WITH_SHARED_FORCE_FRAME_FACTORS",
+  "representation": "EXACT_OPERATOR_WORD_CELLS_THEN_ORDERED_SHARED_BINARY_COMPOSITION",
+  "eligibility": "FRESH_OWNER_OPERATOR_OCCURRENCES_ALL_EXACT_A116_NONEMPTY",
+  "scope": "CONDITIONAL_ON_OWNER_SEGMENTATION_NOT_SUBJECT_PREDICATE_OR_INTENT_LEARNING",
+  "feature_exclusions": [
+    "target_program",
+    "target_tree",
+    "owner_name",
+    "force",
+    "frame",
+    "subject",
+    "predicate",
+    "source_id",
+    "row_id",
+    "split"
+  ],
+  "split_policy": "RETAIN_EXISTING_SOURCE_SPLITS_ALL_ROWS_PRESERVED_NO_HELDOUT_ROWS_FIT",
+  "input_novelty": "THREE_REUSED_ATOMIC_OPERATOR_INPUTS_ONE_UNSEEN_ORDERED_COMPOSITION",
+  "initialization": "COPY_FROZEN_BASE_SHARED_PARAMETERS_DETERMINISTIC_NEW_FACTOR_HEADS",
+  "training": "TRAIN_ALL_SHARED_PARAMETERS_AND_FACTOR_HEADS_FROZEN_BASELINE_TRAINS_HEADS_ONLY",
+  "gradient_check_tolerance": 1e-07,
+  "replay_tolerance": 2e-09,
+  "authority": "NONE",
+  "release_policy": "REVIEW_ONLY"
+}

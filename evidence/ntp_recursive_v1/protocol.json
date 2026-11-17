@@ -1,0 +1,17 @@
+{
+  "schema": "nabt.ntp-recursive-training.v1",
+  "seed": 116,
+  "dimension": 16,
+  "epochs": 350,
+  "learning_rate": 0.025,
+  "source": "evidence/shared_cell_reading_v1/train.json",
+  "train_roots": ["ضرب", "فتح", "حمل"],
+  "development_roots": ["حفظ"],
+  "test_roots": ["جمع", "رفع"],
+  "selection": "FIXED_FINAL_EPOCH_NO_TEST_SELECTION",
+  "tree": "ORDERED_LEFT_FOLD_SHARED_BINARY_COMPOSITION",
+  "heads": ["reading", "morphology", "attachment"],
+  "scope": "AUTHORED_CELL_DIAGNOSTIC_NOT_BLIND_OR_GENERAL_IFADAH",
+  "release_policy": "REVIEW_ONLY",
+  "authority": "NONE"
+}

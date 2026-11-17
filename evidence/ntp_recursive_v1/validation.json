@@ -1,0 +1,30 @@
+{
+  "schema": "nabt.ntp-recursive-validation.v1",
+  "base_commit": "9416ff1c5e24008a1de9a6c32a7f6951e628a827",
+  "local_prefit_protocol_commit": "fba4598",
+  "attempts": [
+    {"group": "initial_ntp", "tests": 8, "passed": 8, "skipped": 0},
+    {"group": "initial_regression", "tests": 54, "passed": 50, "skipped": 4},
+    {"group": "all_state_effect_oracle_first", "tests": 57, "passed": 52, "skipped": 4, "failed": 1,
+     "failure": "Test compared effect numerical weight with Analysis.consonant_weight=None in DEAD_STATE",
+     "repair": "Compare against sum of retained transition weight_delta; production law unchanged"},
+    {"group": "corrected_regression", "tests": 58, "passed": 54, "skipped": 4},
+    {"group": "final_regression", "tests": 60, "passed": 55, "skipped": 5, "failed": 0,
+     "seconds": 110.946,
+     "command": "PYTHONPATH=src:. OPENBLAS_NUM_THREADS=1 python -m unittest tests.test_ntp_recursive tests.test_io_gateway tests.test_ntl_pr_integration tests.test_proof_reuse -q"}
+  ],
+  "skip_reason": "Native Lean owners unavailable locally; dedicated native test included in mandatory gateway gate",
+  "actual_gateway_forward_replay": true,
+  "actual_gateway_think_from_bits_replay": true,
+  "forgery_and_changed_request_rejected": true,
+  "inference_without_numpy_or_torch": true,
+  "repeat_byte_identical": true,
+  "training_check_maximum_parameter_error": 0.0,
+  "training_check_maximum_evaluation_error": 0.0,
+  "reuse_organization": "RESOLVED",
+  "formal_changed": false,
+  "local_native_build_performed": false,
+  "full_make_check_performed": false,
+  "general_ifadah_established": false,
+  "world_truth_established": false
+}
