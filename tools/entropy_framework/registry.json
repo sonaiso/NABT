@@ -2833,7 +2833,8 @@
           "tools/grammar_catalog/composition_quantifier.py",
           "tools/grammar_catalog/composition_explanation.py",
           "tools/grammar_catalog/source_evidence_view.py",
-          "tools/grammar_catalog/opencyc_slice.py"
+          "tools/grammar_catalog/opencyc_slice.py",
+          "tools/lexical_training/ntl_update_memory.py"
         ],
         "native_targets": [
           "verifiedReading",
@@ -2873,7 +2874,8 @@
           "tests/test_opencyc_slice.py",
           "tests/test_opencyc_boundary.py",
           "tests/test_opencyc_source_binding.py",
-          "tests/test_ntl_pr_integration.py"
+          "tests/test_ntl_pr_integration.py",
+          "tests/test_ntl_update_memory.py"
         ],
         "doc_paths": [
           "docs/SEMANTICS.md",
@@ -2893,7 +2895,8 @@
           "docs/SCOPED_COMPOSITION_V1_AR.md",
           "docs/SCOPED_EXPLANATION_V1_AR.md",
           "docs/OPENCYC_SLICE_V1_AR.md",
-          "docs/OPENCYC_NTP_INQUIRY_V1_AR.md"
+          "docs/OPENCYC_NTP_INQUIRY_V1_AR.md",
+          "docs/NTL_UPDATE_MEMORY_V1_AR.md"
         ],
         "scope": "Signed proof DAGs, conflict-clean consequence, complete supplied reading enumeration and exact raw-source replay preserve independent scopes and premises. The versioned pilot explanation projects the accepted clauses, conditions, conflict exclusions and remaining obligations; it does not authorize a new inference.",
         "open_debts": [
@@ -3554,7 +3557,8 @@
         "id": "meaning-preservation",
         "title_ar": "حفظ المعنى وإعادة البناء لدى المتلقي",
         "formal_modules": [
-          "Nabt.MeaningPreservation"
+          "Nabt.MeaningPreservation",
+          "Nabt.UpdateMemory"
         ],
         "runtime_paths": [
           "tools/meaning_preservation_v1.py",
@@ -3563,10 +3567,14 @@
           "tools/lexical_training/curriculum.py",
           "tools/lexical_training/explanation.py",
           "tools/lexical_training/learning_framework.py",
-          "evidence/cognitive_curriculum_v1/learning_framework.json"
+          "evidence/cognitive_curriculum_v1/learning_framework.json",
+          "tools/lexical_training/ntl_update_memory.py",
+          "tools/lexical_training/update_memory_model.py",
+          "tools/lexical_training/train_update_memory.py"
         ],
         "native_targets": [
-          "meaningPreservationV1"
+          "meaningPreservationV1",
+          "updateMemoryProbe"
         ],
         "entrypoint_ids": [
           "meaning-preservation",
@@ -3583,7 +3591,8 @@
           "tests/test_madlul_matrix.py",
           "tests/test_lexical_acquisition.py",
           "tests/test_lexical_explanation.py",
-          "tests/test_learning_framework.py"
+          "tests/test_learning_framework.py",
+          "tests/test_ntl_update_memory.py"
         ],
         "doc_paths": [
           "docs/MEANING_PRESERVATION_V1_AR.md",
@@ -3591,11 +3600,13 @@
           "docs/MADLUL_MATRIX_AR.md",
           "docs/LEXICAL_ACQUISITION_CURRICULUM_AR.md",
           "docs/LEXICAL_EXPLANATION_AR.md",
-          "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md"
+          "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md",
+          "docs/NTL_UPDATE_MEMORY_V1_AR.md"
         ],
         "scope": "The finite faithful transport contract preserves declared joint observations and source context; productive mode obtains its packet by rerunning the existing source-bound clause producer.",
         "open_debts": [
-          "Actual agreement among human interpreters, complete lexical convention and open-Arabic representation adequacy require independent evidence."
+          "Actual agreement among human interpreters, complete lexical convention and open-Arabic representation adequacy require independent evidence.",
+          "The five fixed-witness finite update model and future decoder criterion do not establish general Arabic adequacy or a neural algebra homomorphism; source identities remain outside the finite quotient."
         ]
       },
       {

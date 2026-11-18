@@ -13,7 +13,7 @@ io-gateway:
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/contrast.json --receipt $(EVIDENCE_DIR)/io-contrast.json
 
 io-gateway-build:
-	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe progressiveUnitProbe alignedAcquisition connectedAcquisitionV3 temporalContextProbe recursiveBridgeProbe epistemicMeasurement lexicalDenotation scopedCompositionProbe linguisticTruth
+	cd formal && $(LAKE) build verifiedReading classicalSemanticProbe progressiveUnitProbe alignedAcquisition connectedAcquisitionV3 temporalContextProbe recursiveBridgeProbe epistemicMeasurement lexicalDenotation scopedCompositionProbe linguisticTruth updateMemoryProbe
 
 .PHONY: ntl-course-check
 ntl-course-check: io-gateway-build
@@ -75,6 +75,13 @@ scoped-report-native: io-gateway-build
 	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -B -m unittest tests.test_ntp_recursive tests.test_io_gateway tests.test_relational_input_regression tests.post_segmentation_routing.test_ayat_al_dayn_routing tests.post_segmentation_routing.test_ayat_cognition tests.post_segmentation_routing.test_report_rank -v
 
 check io-gateway-native: scoped-report-native
+
+.PHONY: ntl-update-memory-check
+ntl-update-memory-check: io-gateway-build
+	PYTHONPATH=src:. NABT_REQUIRE_UPDATE_MEMORY_NATIVE=1 $(PYTHON) -m unittest tests.test_ntl_update_memory -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.train_update_memory --check
+
+check io-gateway-native: ntl-update-memory-check
 
 .PHONY: ntp-check
 ntp-check:

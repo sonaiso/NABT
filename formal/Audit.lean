@@ -1664,7 +1664,16 @@ def theoremManifest : List Name := [
   ``Nabt.ConceptContinuity.matching_class_shared,
   ``Nabt.ConceptContinuity.inclusion_class_shared,
   ``Nabt.ConceptContinuity.entailment_needs_classification,
-  ``Nabt.ConceptContinuity.shared_definition_does_not_assert_instance
+  ``Nabt.ConceptContinuity.shared_definition_does_not_assert_instance,
+  ``Nabt.UpdateMemory.future_decoder_iff,
+  ``Nabt.UpdateMemory.memory_count,
+  ``Nabt.UpdateMemory.memory_complete,
+  ``Nabt.UpdateMemory.current_answer_count,
+  ``Nabt.UpdateMemory.update_signature_count,
+  ``Nabt.UpdateMemory.signature_injective,
+  ``Nabt.UpdateMemory.present_collision,
+  ``Nabt.UpdateMemory.same_law_separates,
+  ``Nabt.UpdateMemory.no_answer_only_update
 ]
 
 run_cmd do

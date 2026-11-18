@@ -2157,3 +2157,33 @@ completeness or source authenticity, no neural training and no action authority.
 The two natural Arabic student examples use declared literal alignments; the
 productive quantifier grammar uses an explicit copula. See
 `docs/SCOPED_COMPOSITION_V1_AR.md` for the versioned law and exact bounds.
+
+## Update-preserving NTL memory v1
+
+`Nabt.UpdateMemory` reuses `MeaningPreservation` to characterize decoding of
+future observations. Nine new manifest entries prove finite 32-state coverage,
+16 current observations, 32 separating signatures and the impossibility of an
+answer-only law update. The compiled catalogue now contains 1,663 declarations;
+all seven layer references move together to `evidence/ntl_update_memory_v1/integration`.
+
+The `ntl.update-memory.v1` lesson enters through NTP `cognitive.lesson` and reuses
+`SemanticKernel` source admission, signed inference, withdrawal and certificate
+replay. Full source text, inactive registered evidence, IDs and scope survive
+fold/unfold. The two authored conditional families are not a general Arabic
+reader or a physical-law validation. The 32 bound covers fixed witness slots,
+not arbitrary provenance identities. Existing A116 traces remain independently
+visible and do not upgrade unresolved lower readings.
+
+The precommitted protocol trains six shared sigmoid AND/OR parameters on eight
+primitive rows. Retained results: 352/352 one-step and 3,872/3,872 two-context
+cases; 4,369/4,372 alternative-support compositions. All three neural failures
+remain recorded, and a runtime regression confirms that an erroneous neural
+proposal cannot promote the owner's UNKNOWN. These are bounded composition
+measurements, not a general neural-algebra homomorphism or end-to-end BERT fit.
+No world truth, source authenticity or action authority is established.
+
+Use `make ntl-update-memory-check` for native finite conformance, source and
+request mutation checks, independent gateway replay and frozen training replay.
+It is a prerequisite of `make check` and `io-gateway-native`. Actual full release
+gate and CI outcomes are retained with the PR; this paragraph does not assert
+that merely discovering a test executes it. See `docs/NTL_UPDATE_MEMORY_V1_AR.md`.
