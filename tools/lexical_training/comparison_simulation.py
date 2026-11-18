@@ -98,6 +98,11 @@ def _dataset():
 
 
 def dataset():
+    # Reusing projected rows must not mask a later change to frozen sources.
+    protocol()
+    retained = json.loads((operators.DIRECTORY / 'supervision.json').read_bytes())
+    if owner.identity(owner.awamil.DATA / 'awamil_occurrence_bank_v1.json') != retained['slot_source_sha256']:
+        raise ValueError('Comparison lexical binding source changed')
     return deepcopy(_dataset())
 
 

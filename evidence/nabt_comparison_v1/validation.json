@@ -10,8 +10,9 @@
   },
   "full_release_gate": {
     "command": "make check",
-    "prior_attempt": "Interrupted; source files changed concurrently. Fresh stable-source run required.",
-    "status": "RUNNING"
+    "note": "Training replay and NTP controls do not imply the full release gate passed. Consult the PR execution report and exact-head checks.",
+    "result_location": "https://github.com/sonaiso/NABT/pull/122",
+    "status": "SEPARATELY_TRACKED_RELEASE_GATE"
   },
   "ntp_controls": {
     "retained": "run/ntp/summary.json",
@@ -22,6 +23,11 @@
   "protocol_commit": "3005948757b5674e042298e3d48dbfccbb829ad7",
   "reuse_organization": "RESOLVED",
   "schema": "nabt.comparison-validation.v1",
+  "source_coherence_guard": {
+    "cached_rows_recheck_protocol_and_sources": true,
+    "lexical_binding_source_rechecked": true,
+    "regression_included_in_14_tests": true
+  },
   "targeted_tests": {
     "command": "python -m unittest tests.test_comparison_simulation -v",
     "failed": 0,

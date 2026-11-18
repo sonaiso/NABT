@@ -8,6 +8,7 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from tools.lexical_training import comparison_simulation as experiment
 from tools.lexical_training import train_comparison_simulation as training
@@ -51,6 +52,13 @@ class ComparisonContract(unittest.TestCase):
             if r['split'] != 'train':
                 r['target'] = 'poisoned-test-answer'
         self.assertEqual(experiment.operator_training(poisoned), examples)
+        # Even a warmed projection cache must recheck the frozen source identity.
+        with tempfile.TemporaryDirectory() as folder:
+            altered = experiment.protocol()
+            altered['epochs'] += 1
+            (Path(folder) / 'protocol.json').write_text(json.dumps(altered))
+            with patch.object(experiment, 'DIRECTORY', Path(folder)), self.assertRaises(ValueError):
+                experiment.dataset()
 
     def test_operator_order_is_not_commutative_or_a_bag(self):
         bindings = {'subject': 0, 'predicate': 1}
