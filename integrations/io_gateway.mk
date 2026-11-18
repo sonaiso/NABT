@@ -86,3 +86,10 @@ check io-gateway-native: ntl-update-memory-check
 .PHONY: ntp-check
 ntp-check:
 	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients -v
+
+.PHONY: nabt-comparison-check
+nabt-comparison-check:
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_comparison_simulation -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.train_comparison_simulation --check
+
+check: nabt-comparison-check

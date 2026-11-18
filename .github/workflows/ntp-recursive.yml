@@ -29,4 +29,6 @@ jobs:
         run: python -m tools.lexical_training.train_ntp_recursive --check
       - name: Replay the frozen source-bound program-selection experiment
         run: python -m tools.lexical_training.train_ntp_ifadah --check
+      - name: Refit NABT comparison simulation and validate matched scoring
+        run: make nabt-comparison-check
       - run: python -m tools.entropy_framework reuse --organization --summary

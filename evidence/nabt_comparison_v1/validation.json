@@ -1,0 +1,44 @@
+{
+  "authority": "NONE",
+  "bert": {
+    "status": "NOT_RUN"
+  },
+  "full_refit": {
+    "command": "make nabt-comparison-check",
+    "reproduced": true,
+    "scope": "every retained language model, prediction, metric; frozen memory refit"
+  },
+  "full_release_gate": {
+    "command": "make check",
+    "note": "Training replay and NTP controls do not imply the full release gate passed. Consult the PR execution report and exact-head checks.",
+    "result_location": "https://github.com/sonaiso/NABT/pull/122",
+    "status": "SEPARATELY_TRACKED_RELEASE_GATE"
+  },
+  "ntp_controls": {
+    "code_commit": "01a4e3c3a9653249e6e418b68619dbf1cbce898d",
+    "retained": "run/ntp/summary.json",
+    "scope": "Historical unchanged-owner replay at the recorded code commit and native snapshot; regenerate for a new snapshot.",
+    "total": 5,
+    "verified": 5
+  },
+  "portable_replay": {
+    "changed_content_with_updated_hash_rejected": true,
+    "different_gzip_metadata_with_identical_content_accepted": true,
+    "each_manifest_authenticates_its_own_artifact_bytes": true,
+    "regression_included_in_14_tests": true
+  },
+  "protocol_commit": "3005948757b5674e042298e3d48dbfccbb829ad7",
+  "reuse_organization": "RESOLVED",
+  "schema": "nabt.comparison-validation.v1",
+  "source_coherence_guard": {
+    "cached_rows_recheck_protocol_and_sources": true,
+    "lexical_binding_source_rechecked": true,
+    "regression_included_in_14_tests": true
+  },
+  "targeted_tests": {
+    "command": "python -m unittest tests.test_comparison_simulation -v",
+    "failed": 0,
+    "passed": 14,
+    "skipped": 0
+  }
+}
