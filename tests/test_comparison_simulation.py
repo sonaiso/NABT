@@ -2,6 +2,7 @@
 from collections import Counter
 from copy import deepcopy
 import gzip
+from hashlib import sha256
 import importlib.util
 import json
 import math
@@ -113,7 +114,9 @@ class ComparisonContract(unittest.TestCase):
 
     def test_exported_test_inputs_have_no_target_or_label_bearing_identity(self):
         with tempfile.TemporaryDirectory() as folder:
-            out = Path(folder) / 'export'
+            left, right = Path(folder) / 'left', Path(folder) / 'right'
+            left.mkdir(); right.mkdir()
+            out = left / 'dataset'
             experiment.export(out, self.rows)
             for split in ('root_test', 'lexical_test', 'structure_test', 'update_test', 'alternative_test'):
                 rows = [json.loads(line) for line in gzip.decompress((out / (split + '.jsonl.gz')).read_bytes()).splitlines()]
@@ -121,6 +124,25 @@ class ComparisonContract(unittest.TestCase):
                 for r in rows:
                     self.assertEqual(set(r), {'id', 'task', 'split', 'input', 'input_sha256'})
                     self.assertRegex(r['id'], '^[0-9a-f]{24}$')
+            other = right / 'dataset'
+            experiment.export(other, self.rows)
+            archive = other / 'root_test.jsonl.gz'
+            original = gzip.decompress(archive.read_bytes())
+            archive.write_bytes(gzip.compress(original, mtime=12345))
+            with self.assertRaises(ValueError):
+                training.compare_runs(left, right)  # stale compressed-byte digest
+            manifest_path = other / 'manifest.json'
+            manifest = json.loads(manifest_path.read_bytes())
+            manifest['files'][archive.name] = sha256(archive.read_bytes()).hexdigest()
+            experiment.write_json(manifest_path, manifest)
+            training.compare_runs(left, right)  # valid different gzip transport
+            changed = original.replace(b'"split":"root_test"', b'"split":"train"', 1)
+            self.assertNotEqual(original, changed)
+            archive.write_bytes(gzip.compress(changed, mtime=12345))
+            manifest['files'][archive.name] = sha256(archive.read_bytes()).hexdigest()
+            experiment.write_json(manifest_path, manifest)
+            with self.assertRaises(ValueError):
+                training.compare_runs(left, right)  # updating a hash cannot hide changed data
 
 
 @unittest.skipUnless(importlib.util.find_spec('numpy'), 'training-only NumPy required')

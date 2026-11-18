@@ -196,30 +196,56 @@ def train(directory):
     return report
 
 
+def verified_manifest(directory):
+    """Authenticate stored bytes locally, then expose portable file identities."""
+    directory = Path(directory)
+    manifest = json.loads((directory / 'manifest.json').read_bytes())
+    files = manifest.get('files')
+    if type(files) is not dict or set(files) != {p.name for p in directory.iterdir() if p.name != 'manifest.json'}:
+        raise ValueError('Dataset manifest file set changed')
+    for name, expected in files.items():
+        if type(name) is not str or Path(name).name != name:
+            raise ValueError('Dataset manifest path escapes export')
+        path = directory / name
+        if path.is_symlink() or not path.is_file() or sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError('Dataset artifact checksum changed: ' + name)
+    # gzip headers and compression streams are transport details. Each checksum
+    # above remains mandatory; decoded contents are compared independently below.
+    return {**manifest, 'files': sorted(files)}
+
+
+def compare_runs(directory, candidate):
+    """Compare independently authenticated exports and every decoded artifact."""
+    from .train_apprentice import _difference
+    manifests = [verified_manifest(Path(folder) / 'dataset') for folder in (directory, candidate)]
+    expected_files = {str(p.relative_to(directory)) for p in Path(directory).rglob('*') if p.is_file()}
+    actual_files = {str(p.relative_to(candidate)) for p in Path(candidate).rglob('*') if p.is_file()}
+    # NTP receipts are independently replayed by their own native gate.
+    expected_files = {f for f in expected_files if not f.startswith('ntp/')}
+    if actual_files != expected_files:
+        raise ValueError('Training artifact set changed')
+    for relative in sorted(actual_files):
+        if relative == 'runtime.json':
+            continue
+        old, new = Path(directory) / relative, Path(candidate) / relative
+        if relative == 'dataset/manifest.json':
+            left, right = manifests
+        elif relative.endswith('.gz'):
+            import gzip
+            left = [json.loads(line) for line in gzip.decompress(old.read_bytes()).splitlines()]
+            right = [json.loads(line) for line in gzip.decompress(new.read_bytes()).splitlines()]
+        else:
+            left, right = json.loads(old.read_bytes()), json.loads(new.read_bytes())
+        if _difference(left, right) > 2e-9:
+            raise ValueError('Retained result changed: ' + relative)
+
+
 def check(directory):
     """Refit all seeds/ablations; compare every model, prediction and score."""
-    from .train_apprentice import _difference
     with tempfile.TemporaryDirectory() as temporary:
         candidate = Path(temporary) / 'replay'
         train(candidate)
-        expected_files = {str(p.relative_to(directory)) for p in Path(directory).rglob('*') if p.is_file()}
-        actual_files = {str(p.relative_to(candidate)) for p in candidate.rglob('*') if p.is_file()}
-        # NTP receipts are independently replayed by their own native gate.
-        expected_files = {f for f in expected_files if not f.startswith('ntp/')}
-        if actual_files != expected_files:
-            raise ValueError('Training artifact set changed')
-        for relative in sorted(actual_files):
-            if relative == 'runtime.json':
-                continue
-            old, new = Path(directory) / relative, candidate / relative
-            if relative.endswith('.gz'):
-                import gzip
-                left = [json.loads(line) for line in gzip.decompress(old.read_bytes()).splitlines()]
-                right = [json.loads(line) for line in gzip.decompress(new.read_bytes()).splitlines()]
-            else:
-                left, right = json.loads(old.read_bytes()), json.loads(new.read_bytes())
-            if _difference(left, right) > 2e-9:
-                raise ValueError('Retained result changed: ' + relative)
+        compare_runs(directory, candidate)
     return {'reproduced': True, 'protocol_sha256': experiment.PROTOCOL_SHA256}
 
 
