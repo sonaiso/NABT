@@ -1,0 +1,31 @@
+{
+  "authority": "NONE",
+  "bert": {
+    "status": "NOT_RUN"
+  },
+  "full_refit": {
+    "command": "make nabt-comparison-check",
+    "reproduced": true,
+    "scope": "every retained language model, prediction, metric; frozen memory refit"
+  },
+  "full_release_gate": {
+    "command": "make check",
+    "prior_attempt": "Interrupted; source files changed concurrently. Fresh stable-source run required.",
+    "status": "RUNNING"
+  },
+  "ntp_controls": {
+    "retained": "run/ntp/summary.json",
+    "scope": "unchanged installed owners; source snapshot at execution",
+    "total": 5,
+    "verified": 5
+  },
+  "protocol_commit": "3005948757b5674e042298e3d48dbfccbb829ad7",
+  "reuse_organization": "RESOLVED",
+  "schema": "nabt.comparison-validation.v1",
+  "targeted_tests": {
+    "command": "python -m unittest tests.test_comparison_simulation -v",
+    "failed": 0,
+    "passed": 14,
+    "skipped": 0
+  }
+}
