@@ -24,7 +24,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install numpy==2.3.5
-      - run: python -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients tests.test_io_gateway tests.test_ntl_pr_integration -v
+      - run: python -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_ntl_classical_books tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients tests.test_io_gateway tests.test_ntl_pr_integration -v
       - name: Refit fixed training roots and compare every retained evaluation
         run: python -m tools.lexical_training.train_ntp_recursive --check
       - name: Replay the frozen source-bound program-selection experiment

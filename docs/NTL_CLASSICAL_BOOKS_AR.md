@@ -35,7 +35,7 @@ python -m tools.evaluate_ntl_classical_books
 python -m unittest tests.test_ntl_classical_books
 ```
 
-في كائن النتيجة يوجد أثر قراءة النص والأمثلة تحت `execution.owner_result.source_traces`. أمّا الأسئلة ومواضع الشواهد وافتراضات المتعلّم ففي `execution.owner_result.owner_result` تحت `questions` و`syntax_owner` و`lexical_owner` و`learning`. الحقول الاختيارية في الطلب هي `domain` و`examples` و`withdraw` و`candidate_heading`. الجذر الذي يكتبه السائل فرضية تُفحص في حقّ كل وقوع محاذى.
+عند وجود أمثلة تعليمية يوجد أثر كل نص تحت `execution.owner_result.source_traces`. في طلب ذي مصدر واحد، مثل طلب «حِمْلٌ»، توجد الملاحظات في `execution.owner_result.recursive_observations` وعنوان البتات في `observation_request_path` من الكائن نفسه. أمّا الأسئلة ومواضع الشواهد وافتراضات المتعلّم ففي `execution.owner_result.owner_result` تحت `questions` و`syntax_owner` و`lexical_owner` و`learning`. الحقول الاختيارية في الطلب هي `domain` و`examples` و`withdraw` و`candidate_heading`. الجذر الذي يكتبه السائل فرضية تُفحص في حقّ كل وقوع محاذى.
 
 ## نتيجة النقل على التحدّي المحفوظ
 

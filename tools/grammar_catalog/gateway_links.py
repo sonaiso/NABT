@@ -52,7 +52,7 @@ def build(route=None):
         from tools.lexical_training import context_transfer, corpus_concepts, ifadah_programs, ntl_classical_books, ntl_core, ntl_course, ntl_curriculum, ntl_update_memory, school_apprentice, school_curriculum
         owner_modules = {m for row in rows for m in row["owner_modules"]}
         owner_paths = {"tools/lexical_training/corpus_concepts.py", "tools/lexical_training/context_transfer.py", "tools/lexical_training/teaching.py", "tools/lexical_training/grounded_passage.py",
-                       "tools/source_learning_connection.py", "tools/epistemic_measurement.py",
+                       "tools/lexical_training/ntl_classical_books.py", "tools/source_learning_connection.py", "tools/epistemic_measurement.py",
                        "tools/mantuq_inference/source_bound.py", "tools/grammar_catalog/temporal.py"}
         for f, family in families.items():
             if owner_modules.intersection(family["formal_modules"]) or owner_paths.intersection(family["runtime_paths"]):

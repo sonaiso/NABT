@@ -121,6 +121,15 @@ class ClassicalBooks(unittest.TestCase):
         self.assertEqual(answers(books.run({**original, "withdraw": ["maqayis"]}))["heading"]["decision"], "UNKNOWN")
         self.assertEqual(answers(books.run(lesson("حِمْلٌ")))["heading"]["decision"], "UNKNOWN")
         self.assertEqual(answers(books.run(lesson("هل " + PROBE + "؟")))["utterance"]["answer"], "استفهام")
+        path = books.ROOT / "examples/ntl_classical_books/second_domain.json"
+        request = json.loads(path.read_bytes())
+        receipt = gateway.run(request)
+        self.assertEqual(receipt["status"], "EXECUTED")
+        outer = receipt["execution"]["owner_result"]
+        self.assertEqual(outer["observation_source_encoding"], "UTF8_BITS")
+        self.assertEqual(outer["observation_request_path"], "/payload/input/lesson/bits")
+        self.assertEqual(answers(outer["owner_result"])["matches_heading.0"]["decision"], "REFUTED")
+        self.assertTrue(gateway.accept_output(receipt, expected_request=request)["valid"])
 
     def test_invalid_bytes_and_untrusted_fields(self):
         original = lesson()
