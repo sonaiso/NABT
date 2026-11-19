@@ -150,6 +150,24 @@ class LocalExecution(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.path = Path(self.temp.name) / "drafts.sqlite3"
 
+    def test_public_reader_and_durable_host_share_the_same_frame(self):
+        text = "راجع أحدث تقرير وأعد مسودة تنبيه إذا بلغت الطلبات المعلقة ١٢، ولا ترسلها"
+        req = request("think", {"text": text})
+        receipt = gateway.run(req)
+        self.assertTrue(gateway.accept_output(receipt, expected_request=req)["valid"])
+        view = owner(receipt)
+        role, = [c for c in view["cards"] if c["scope"] == "report_instruction"]
+        self.assertEqual(role["evidence"]["action_authority"], "NONE")
+        self.assertFalse(self.path.exists())
+        applied = owner(host.run(dict(task(), instruction=text), self.path, apply=True))
+        self.assertEqual(applied["reading"], view["report_instruction"])
+        self.assertEqual((applied["count"], applied["draft_observation"]), (12, "MATCHED_SNAPSHOT"))
+        strict = dict(task(), task_id="strict", instruction=text.replace("بلغت", "تجاوزت"))
+        result = owner(host.run(strict, self.path, apply=True))
+        self.assertEqual(result["draft_observation"], "MATCHED_NO_DRAFT")
+        with sqlite3.connect(self.path) as db:
+            self.assertEqual(db.execute("select count(draft_body) from report_tasks").fetchone()[0], 1)
+
     def test_real_gateway_crash_resume_verify_and_skill_transfer(self):
         t = task()
         pure = request("cognitive.lesson", {"lesson":t})
