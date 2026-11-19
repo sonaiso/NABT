@@ -25,7 +25,10 @@ def _stdin_text(action, parser):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='NTP: one NABT input/output entry')
+    if sys.argv[1:2] in (['draft'], ['draft-status']):
+        from tools.grammar_catalog.report_draft_host import cli
+        return cli(sys.argv[1:])
+    parser = argparse.ArgumentParser(description='NTP: one NABT input/output entry. Local report commands: draft, draft-status (use --help).')
     parser.add_argument('action', choices=('run', 'verify', 'read', 'forward', 'catalog'))
     parser.add_argument('--request', type=Path)
     parser.add_argument('--receipt', type=Path)

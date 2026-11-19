@@ -127,8 +127,19 @@ def _next(owner, adapter, measured):
     return {"action": "ASSESS_CONTRAST_AND_WITHDRAWAL", "basis": "/owner_result/status"}
 
 
+def _run_installed(lesson_runner, lesson):
+    try:
+        return lesson_runner.run(lesson)
+    except wire_owner.ResourceLimit as error:
+        return {"schema": lesson_runner.RESULT, "status": "RESOURCE_LIMIT",
+                "execution_measured": False, "error": str(error)}
+    except (ValueError, TypeError) as error:
+        return {"schema": lesson_runner.RESULT, "status": "INVALID_INPUT",
+                "execution_measured": False, "error": str(error)}
+
+
 def run_lesson(lesson):
-    from . import (context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    from . import (report_draft, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                    ntl_course, ntl_curriculum, school_apprentice,
                    ntl_witness_pilot, ntl_update_memory, opencyc_inquiry)
     for lesson_runner in (ntl_curriculum, ntl_course, ntl_core, context_transfer,
@@ -136,14 +147,9 @@ def run_lesson(lesson):
                           ntl_witness_pilot, ntl_update_memory, opencyc_inquiry):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
             continue
-        try:
-            return lesson_runner.run(lesson)
-        except wire_owner.ResourceLimit as error:
-            return {"schema": lesson_runner.RESULT, "status": "RESOURCE_LIMIT",
-                    "execution_measured": False, "error": str(error)}
-        except (ValueError, TypeError) as error:
-            return {"schema": lesson_runner.RESULT, "status": "INVALID_INPUT",
-                    "execution_measured": False, "error": str(error)}
+        return _run_installed(lesson_runner, lesson)
+    if type(lesson) is dict and lesson.get("schema") == report_draft.SCHEMA:
+        return _run_installed(report_draft, lesson)
     # Choose from installed identity sets before validation; freeze once.
     adapter = lesson.get("adapter") if type(lesson) is dict else None
     shared = type(lesson) is dict and lesson.get("schema") in (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4)
