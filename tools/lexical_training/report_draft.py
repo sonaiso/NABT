@@ -9,7 +9,7 @@ from nabt.learning.finite_guard import FeatureSchema, GuardLanguage, LearningSes
 from tools import evidence_lifecycle_v1 as wire
 from tools.grammar_catalog.classical_roles import compatible
 from tools.grammar_catalog.operations import digest, exact_terms
-from . import ntl_curriculum
+from . import ntl_curriculum, pattern_learning
 
 SCHEMA = "ntl.report-draft.v1"
 RESULT = "ntl.report-draft-result.v1"
@@ -83,9 +83,11 @@ class InstructionCursor:
         return None
 
     def guard(self, forms):
+        start = self.index
         for operator, variants in forms.items():
             role = "if_strictly_greater" if operator == "GT" else "if_at_least"
             if self.take(role, variants, clause=True):
+                self.bind("comparison_verb", start + 1, start + 2)
                 return operator
         return None
 
@@ -294,7 +296,14 @@ def decide(lesson):
         return dict(answer, status="DEFER_LEARNING", answer_ar="لم يتفق المتعلّم مع فحص العدد والشرط.")
     reason = (f"شرط التجاوز يتطلب عددًا أكبر من {threshold}." if operator == "GT"
               else f"شرط بلوغ الحدّ يتحقق عند {threshold} أو أكثر.")
-    if not expected:
+    span = reading["witnesses_utf8"]["comparison_verb"]
+    verb = lesson["instruction"].encode("utf-8")[slice(*span)].decode("utf-8")
+    proposal = pattern_learning.guard_proposal(verb, count, threshold)
+    agrees = proposal["prediction"] is expected
+    answer["comparison"]["neural"] = dict(proposal, utf8_span=span, agrees_with_owner=agrees,
+            selection="VERIFIED_NEURAL_PROPOSAL" if agrees else "INDEPENDENT_OWNER_FALLBACK")
+    decision = proposal["prediction"] if agrees else expected
+    if not decision:
         return dict(answer, status="NO_DRAFT", answer_ar=f"{summary} {reason} لم يتحقق الشرط.")
     body = f"مسودة تنبيه — {report['id']}\n{summary}\nمعرّفات الطلبات: " + "، ".join(ids) + "\n"
     return dict(answer, status="DRAFT_PLANNED", draft_body=body,
