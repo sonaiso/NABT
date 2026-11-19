@@ -71,11 +71,11 @@ def _lesson_sources(lesson, owner):
     texts. Multiple sources retain separate request locations even when their
     content, source IDs or local occurrence offsets happen to coincide.
     """
-    from tools.lexical_training import (report_draft, context_transfer, corpus_concepts,
+    from tools.lexical_training import (pattern_lesson, report_draft, context_transfer, corpus_concepts,
         ifadah_programs, ntl_core, ntl_course, ntl_curriculum,
         ntl_witness_pilot, ntl_update_memory, opencyc_inquiry, school_apprentice, teaching)
 
-    runners = (report_draft, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    runners = (pattern_lesson, report_draft, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                ntl_course, ntl_curriculum, ntl_witness_pilot, ntl_update_memory,
                opencyc_inquiry, school_apprentice)
     schemas = {runner.SCHEMA: runner.RESULT for runner in runners}
@@ -105,6 +105,10 @@ def _lesson_sources(lesson, owner):
         add(lesson[field], '/' + field, 'SOURCE' if field == 'text' else 'INSTRUCTION', lesson['source_id'])
     elif schema in (ntl_witness_pilot.SCHEMA, corpus_concepts.SCHEMA, opencyc_inquiry.SCHEMA):
         add(lesson['text'], '/text', source_id=lesson.get('source_id'))
+    elif schema == pattern_lesson.SCHEMA:
+        add(lesson["probe"], "/probe", "PROBE")
+        for i, (_, stem) in enumerate(lesson["pairs"]):
+            add(stem, f"/pairs/{i}/1", "DEMONSTRATION")
     elif schema == report_draft.SCHEMA:
         add(lesson["instruction"], "/instruction", "INSTRUCTION", lesson["task_id"])
     elif schema == ntl_curriculum.SCHEMA:

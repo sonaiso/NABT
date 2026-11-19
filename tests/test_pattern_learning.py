@@ -1,3 +1,4 @@
+from copy import deepcopy
 import json
 from pathlib import Path
 import tempfile
@@ -6,7 +7,7 @@ from unittest.mock import patch
 
 from tools.grammar_catalog import gateway
 from tools.grammar_catalog.ntp import request
-from tools.lexical_training import pattern_learning as net, report_draft
+from tools.lexical_training import pattern_learning as net, pattern_lesson, report_draft
 from tools.lexical_training import train_pattern_learning as train
 
 
@@ -82,6 +83,41 @@ class PatternLearningTests(unittest.TestCase):
             self.assertIsNone(net.model())
         r = net.read(" ".join(["فعل"] * 129))
         self.assertEqual((r["total_terms"], r["terms_examined"]), (129,128))
+
+    def test_lesson_learns_new_weights_and_applies_withdrawal(self):
+        pairs = [["خبز", "خَبَّاز"], ["نجر", "نَجَّار"]]
+        lesson = {"schema": pattern_lesson.SCHEMA, "pairs": pairs, "probe": "حَدَّاد"}
+        result = pattern_lesson.run(lesson)
+        learned, = result["alternatives"]
+        self.assertNotIn(learned["tokens"], [p["tokens"] for p in net.inventory()])
+        self.assertEqual(learned["probe_root"], "حدد")
+        fitted = result["readout"]
+        self.assertEqual((fitted["prediction"], len(fitted["weights"])), (True, 48))
+        changed = pattern_lesson.run(dict(lesson, probe="حُدَّاد"))
+        self.assertEqual(changed["status"], "NO_EXACT_REFILL")
+        self.assertFalse(changed["readout"]["prediction"])
+        self.assertEqual(fitted["weights"], changed["readout"]["weights"])
+        self.assertTrue(fitted["score"] > 0 > changed["readout"]["score"])
+        self.assertEqual(pattern_lesson.run(dict(lesson, pairs=[]))["status"], "DEFER_NO_DEMONSTRATIONS")
+        self.assertEqual(pattern_lesson.run(dict(lesson, pairs=[["سجد","سججد"]]))["status"], "AMBIGUOUS_TEMPLATES")
+        self.assertEqual(pattern_lesson.run(dict(lesson, pairs=pairs[:1]))["readout"]["status"], "INSUFFICIENT_EXAMPLES")
+        other = pattern_lesson.run(dict(lesson, pairs=[["كتب","مَكْتُوب"],["حفظ","مَحْفُوظ"]], probe="مَفْتُوح"))
+        self.assertNotEqual(other["readout"]["weights"], fitted["weights"])
+        with patch.object(net, "model", return_value=None):
+            self.assertEqual(pattern_lesson.run(lesson)["readout"]["status"], "ENCODER_UNAVAILABLE")
+
+    def test_teach_and_probe_through_ntp(self):
+        lesson = {"schema": pattern_lesson.SCHEMA, "pairs": [["خبز","خَبَّاز"],["نجر","نَجَّار"]],
+                  "probe":"حَدَّاد"}
+        req = request("cognitive.lesson", {"lesson": lesson})
+        receipt = gateway.run(req)
+        self.assertTrue(gateway.accept_output(receipt, expected_request=req)["valid"])
+        owner = receipt["execution"]["owner_result"]["owner_result"]
+        self.assertTrue(owner["readout"]["agrees_with_refill"])
+        self.assertFalse(owner["global_model_updated"])
+        tampered = deepcopy(receipt)
+        tampered["execution"]["owner_result"]["owner_result"]["readout"]["weights"][0] += 1
+        self.assertFalse(gateway.accept_output(tampered, expected_request=req)["valid"])
 
     def test_weight_question_through_public_ntp(self):
         req = request("think", {"text": "ما وزن سَفَرْجَل؟"})

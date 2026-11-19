@@ -10,7 +10,7 @@ import struct
 
 from nabt import derivation
 from nabt.corpus_evidence import lookup_clusters
-from nabt.errors import resource_limit
+from tools.evidence_lifecycle_v1 import ResourceLimit
 from tools.grammar_catalog.operations import exact_terms
 
 NOMINAL_PATH = "evidence/meaning_preservation_v1/research/morphology_inventory.json"
@@ -45,7 +45,7 @@ def induce(pairs):
         opts.extend(slot for slot in range(arity) if all(stem[i] == root[slot] for root, stem in pairs))
         columns.append(opts)
     if prod(map(len, columns)) > 65536:
-        raise resource_limit("Template alignment search exceeds 65536 combinations")
+        raise ResourceLimit("Template alignment search exceeds 65536 combinations")
     required = set(range(arity))
     return [list(tokens) for tokens in product(*columns) if required.issubset(tokens)]
 
@@ -136,15 +136,19 @@ def model():
         return None
 
 
-def logits(head, active):
+def hidden_state(head, active):
     # Last input row is the bias. Quantization uses 128 units per real unit.
-    weights, output = head
+    weights, _ = head
     hidden = list(weights[-1])
     for i in active:
         for j, value in enumerate(weights[i]):
             hidden[j] += value
-    hidden = [max(0, v) for v in hidden] + [128]
-    return [sum(x * w for x, w in zip(hidden, row, strict=True)) for row in output]
+    return [max(0, v) for v in hidden]
+
+
+def logits(head, active):
+    hidden = hidden_state(head, active) + [128]
+    return [sum(x * w for x, w in zip(hidden, row, strict=True)) for row in head[1]]
 
 
 @lru_cache(maxsize=1)
