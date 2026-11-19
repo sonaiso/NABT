@@ -49,7 +49,7 @@ def build(route=None):
         from tools.lexical_training.reasoning_curriculum import matrix
         curriculum = matrix(compiled=compiled)
         rows = curriculum["matrices"] + curriculum["shared_foundation"]["rows"]
-        from tools.lexical_training import context_transfer, corpus_concepts, ifadah_programs, ntl_core, ntl_course, ntl_curriculum, ntl_update_memory, school_apprentice, school_curriculum
+        from tools.lexical_training import context_transfer, corpus_concepts, ifadah_programs, ntl_classical_books, ntl_core, ntl_course, ntl_curriculum, ntl_update_memory, school_apprentice, school_curriculum
         owner_modules = {m for row in rows for m in row["owner_modules"]}
         owner_paths = {"tools/lexical_training/corpus_concepts.py", "tools/lexical_training/context_transfer.py", "tools/lexical_training/teaching.py", "tools/lexical_training/grounded_passage.py",
                        "tools/source_learning_connection.py", "tools/epistemic_measurement.py",
@@ -64,6 +64,9 @@ def build(route=None):
                               "source": ntl_curriculum.FRAMEWORK.relative_to(root).as_posix(),
                               "framework_sha256": digest(ntl_curriculum.framework()),
                               "context_transfer_schema": context_transfer.SCHEMA,
+                              "classical_books_schema": ntl_classical_books.SCHEMA,
+                              "classical_books_sources": list(ntl_classical_books.BOOKS),
+                              "classical_books_domains": list(ntl_classical_books.domains()),
                               "corpus_concepts_schema": corpus_concepts.SCHEMA,
                               "ifadah_programs_schema": ifadah_programs.SCHEMA,
                               "update_memory_schema": ntl_update_memory.SCHEMA,
