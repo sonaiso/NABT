@@ -1,9 +1,11 @@
 """Pure, replayable report task. The local draft store belongs to the NTP host."""
 from datetime import datetime
+from functools import lru_cache
 import re
 
 from nabt.counting import _numeral_prefix
 from nabt.errors import NabtError
+from nabt.learning.finite_guard import FeatureSchema, GuardLanguage, LearningSession, Observation
 from tools import evidence_lifecycle_v1 as wire
 from tools.grammar_catalog.classical_roles import compatible
 from tools.grammar_catalog.operations import digest, exact_terms
@@ -13,14 +15,21 @@ SCHEMA = "ntl.report-draft.v1"
 RESULT = "ntl.report-draft-result.v1"
 POLICY = "report-draft.same-unit-strictly-greater.v1"
 REFERENCE = ("التَّقْرِيرَ الأَخِيرَ", "أَحْدَثَ تَقْرِيرٍ")
-COUNT = ("وَاسْتَخْرِجْ عَدَدَ الطَّلَبَاتِ الْمُعَلَّقَةِ", "ثُمَّ احْسُبْ عَدَدَ الطَّلَبَاتِ الْمُعَلَّقَةِ",
-         "وَاحْسُبْ عَدَدَ الطَّلَبَاتِ الْمُعَلَّقَةِ")
-CONDITION = ("إِذَا زَادَ عَلَى", "وَإِذَا زَادَ عَلَى", "إِذَا زَادَ الْعَدَدُ عَلَى", "إِنْ تَجَاوَزَ الْعَدَدُ")
-DRAFT = ("فَأَنْشِئْ مُسَوَّدَةَ تَنْبِيهٍ",)
+COUNTED = ("الطَّلَبَاتِ الْمُعَلَّقَةِ",)
 PROHIBIT = ("لَا تُرْسِلْهَا", "وَلَا تُرْسِلْهَا")
 PENDING = ("مُعَلَّق", "قَيْد الِانْتِظَار")
 CLOSED = ("مُغْلَق", "مُكْتَمِل")
 ID = re.compile(r"[^\W_][\w.-]{0,63}\Z")
+# Surface agreement depends on the subject: العدد (m.) or الطلبات (f.).
+COUNT_GUARDS = {
+    "GT": ("إِذَا زَادَ عَلَى", "وَإِذَا زَادَ عَلَى", "إِذَا زَادَ الْعَدَدُ عَلَى",
+           "إِنْ تَجَاوَزَ الْعَدَدُ", "إِذَا تَجَاوَزَ الْعَدَدُ"),
+    "GE": ("إِذَا بَلَغَ الْعَدَدُ", "إِنْ بَلَغَ الْعَدَدُ"),
+}
+PENDING_GUARDS = {
+    "GT": ("إِذَا تَجَاوَزَتِ", "إِنْ تَجَاوَزَتِ"),
+    "GE": ("إِذَا بَلَغَتِ", "إِنْ بَلَغَتِ"),
+}
 
 
 def phrase(words, forms):
@@ -28,64 +37,101 @@ def phrase(words, forms):
                all(compatible(w, f) for w, f in zip(words, form.split())) for form in forms)
 
 
-def read_instruction(text):
-    terms = exact_terms(text)
-    cursor = 0
-    witnesses = {}
-    if not terms:
-        return None
+class InstructionCursor:
+    """Consume an entire instruction with byte witnesses for every semantic slot."""
+    def __init__(self, text):
+        self.text = text
+        self.terms = exact_terms(text)
+        self.index = 0
+        self.spans = {}
 
-    def gap(start, end):
-        return text[start:end].strip()
+    def gap(self, i):
+        left = self.terms[i - 1]["codepoint_span"][1] if i else 0
+        right = self.terms[i]["codepoint_span"][0] if i < len(self.terms) else len(self.text)
+        return self.text[left:right].strip()
 
-    def consume(role, forms):
-        nonlocal cursor
+    def bind(self, role, start, stop):
+        self.spans[role] = [self.terms[start]["utf8_span"][0], self.terms[stop - 1]["utf8_span"][1]]
+
+    def take(self, role, forms, *, clause=False):
+        start = self.index
+        allowed = ("", "،", ",", ".", "؛", ";") if clause and start else ("",)
+        if self.gap(start) not in allowed:
+            return False
         for form in forms:
-            part = terms[cursor:cursor + len(form.split())]
-            if not phrase([t["surface"] for t in part], (form,)):
-                continue
-            if any(gap(a["codepoint_span"][1], b["codepoint_span"][0]) for a, b in zip(part, part[1:])):
-                continue
-            previous = terms[cursor - 1]["codepoint_span"][1] if cursor else 0
-            allowed = ("", "،", ",", ".", "؛", ";") if cursor else ("",)
-            if gap(previous, part[0]["codepoint_span"][0]) not in allowed:
-                continue
-            witnesses[role] = [part[0]["utf8_span"][0], part[-1]["utf8_span"][1]]
-            cursor += len(part)
-            return True
+            part = self.terms[start:start + len(form.split())]
+            if (phrase([t["surface"] for t in part], (form,))
+                    and not any(self.gap(i) for i in range(start + 1, start + len(part)))):
+                self.index += len(part)
+                self.bind(role, start, self.index)
+                return True
         return False
 
-    question = consume("count_question", ("كَمْ عَدَدُ الطَّلَبَاتِ الْمُعَلَّقَةِ فِي",))
+    def numeral(self):
+        start = self.index
+        for length in range(min(len(self.terms) - start, 3), 0, -1):
+            if any(self.gap(i) for i in range(start, start + length)):
+                continue
+            try:
+                number = _numeral_prefix(self.terms[start:start + length])
+            except NabtError:
+                return None
+            if number and number["status"] == "READ_VALUE":
+                self.index += length
+                self.bind("threshold", start, self.index)
+                return number["value"]
+        return None
+
+    def guard(self, forms):
+        for operator, variants in forms.items():
+            role = "if_strictly_greater" if operator == "GT" else "if_at_least"
+            if self.take(role, variants, clause=True):
+                return operator
+        return None
+
+
+def read_instruction(text):
+    c = InstructionCursor(text)
+    question = c.take("count_question", ("كَمْ عَدَدُ",))
+    operator = threshold = None
     if question:
-        if not consume("latest", ("التَّقْرِيرِ الأَخِيرِ", "أَحْدَثِ تَقْرِيرٍ")):
+        if not (c.take("counted", COUNTED) and c.take("in", ("فِي",))
+                and c.take("latest", ("التَّقْرِيرِ الأَخِيرِ", "أَحْدَثِ تَقْرِيرٍ"))):
             return None
-    elif not (consume("read", ("اِقْرَأْ",)) and consume("latest", REFERENCE) and consume("count", COUNT)):
+        c.spans["count_question"][1] = c.spans["in"][1]
+    else:
+        if not (c.take("read", ("اِقْرَأْ", "رَاجِعْ")) and c.take("latest", REFERENCE)):
+            return None
+        counted = c.take("count", ("وَاسْتَخْرِجْ عَدَدَ", "ثُمَّ احْسُبْ عَدَدَ", "وَاحْسُبْ عَدَدَ"), clause=True)
+        if counted:
+            if not c.take("counted", COUNTED):
+                return None
+            c.spans["count"][1] = c.spans["counted"][1]
+        postposed = c.take("draft", ("وَأَعِدَّ مُسَوَّدَةَ تَنْبِيهٍ", "وَأَنْشِئْ مُسَوَّدَةَ تَنْبِيهٍ"), clause=True)
+        if postposed or not counted or c.index < len(c.terms):
+            operator = c.guard(PENDING_GUARDS)
+            if operator:
+                role = "counted_again" if counted else "counted"
+                if not c.take(role, ("الطَّلَبَاتُ الْمُعَلَّقَةُ",)):
+                    return None
+            elif counted:
+                operator = c.guard(COUNT_GUARDS)
+            if operator is None:
+                return None
+            threshold = c.numeral()
+            if threshold is None:
+                return None
+            if not postposed and not c.take("draft", ("فَأَنْشِئْ مُسَوَّدَةَ تَنْبِيهٍ", "فَأَعِدَّ مُسَوَّدَةَ تَنْبِيهٍ"), clause=True):
+                return None
+            if not c.take("prohibit_send", PROHIBIT, clause=True):
+                return None
+    if c.index != len(c.terms) or c.gap(c.index) not in (("", "؟", "?") if question else ("", ".")):
         return None
-    threshold = None
-    if not question and cursor < len(terms):
-        if not consume("if_strictly_greater", CONDITION):
-            return None
-        start = cursor
-        while cursor < len(terms) and cursor - start < 3 and not compatible(terms[cursor]["surface"], "فَأَنْشِئْ"):
-            cursor += 1
-        part = terms[start:cursor]
-        if not part or any(gap(a["codepoint_span"][1], b["codepoint_span"][0])
-                           for a, b in zip(terms[start - 1:cursor], part)):
-            return None
-        try:
-            number = _numeral_prefix(part)
-        except NabtError:
-            return None
-        if not number or number["status"] != "READ_VALUE":
-            return None
-        threshold = number["value"]
-        witnesses["threshold"] = [part[0]["utf8_span"][0], part[-1]["utf8_span"][1]]
-        if not (consume("draft", DRAFT) and consume("prohibit_send", PROHIBIT)):
-            return None
-    ending = gap(terms[-1]["codepoint_span"][1], len(text))
-    if cursor != len(terms) or ending not in (("", "؟", "?") if question else ("", ".")):
-        return None
-    return {"witnesses_utf8": witnesses, "threshold": threshold, "intent": "COUNT" if threshold is None else "CONDITIONAL_DRAFT"}
+    frame = {"reference": "LATEST_REPORT", "counted": "DISTINCT_PENDING_REQUEST_IDS",
+             "operator": operator, "threshold": threshold,
+             "action": "LOCAL_DRAFT" if operator else "COUNT", "prohibited_action": "SEND_DRAFT" if operator else None}
+    return {"witnesses_utf8": c.spans, "threshold": threshold, "frame": frame,
+            "intent": "CONDITIONAL_DRAFT" if operator else "COUNT"}
 
 
 def validated(lesson):
@@ -148,6 +194,31 @@ def train_guard(before, after, prior=None):
     return {"policy": POLICY, "examples": examples, "reused_examples": len(prior or []), "result": state}
 
 
+# Independent worked judgments on one count unit. Equality separates the two
+# operators even when their predictions agree on all below/above examples.
+ORDER_FEATURES = FeatureSchema("report_threshold_order", "1", ("greater", "less"))
+BOUNDARY_EXAMPLES = ((2, 1, False, False), (2, 2, False, True), (2, 3, True, True))
+
+
+def order_case(label, limit, count):
+    return ORDER_FEATURES.case(label, "1", {"greater": count > limit, "less": count < limit})
+
+
+@lru_cache(maxsize=2)
+def learned_comparison(operator):
+    if operator not in COUNT_GUARDS:
+        raise ValueError("Unknown report threshold comparison")
+    session = LearningSession(GuardLanguage(ORDER_FEATURES, 1))
+    curve = [len(session.survivors)]
+    for limit, count, exceeds, reaches in BOUNDARY_EXAMPLES:
+        case = order_case(str(count), limit, count)
+        session = session.observe(Observation(str(count), "report-threshold.v1", case,
+                                              exceeds if operator == "GT" else reaches))
+        curve.append(len(session.survivors))
+    return session, tuple(curve)
+
+
+
 def decide(lesson):
     reading = read_instruction(lesson["instruction"])
     answer = {"reading": reading}
@@ -201,16 +272,33 @@ def decide(lesson):
     threshold = reading["threshold"]
     if threshold is None:
         return dict(answer, status="COUNTED", answer_ar=summary)
-    learning = train_guard(threshold, count, lesson.get("prior_examples"))
+    operator = reading["frame"]["operator"]
+    # For one count unit, count >= threshold iff threshold is not above count.
+    # The persisted strict-comparison lesson remains usable for both surfaces.
+    before, after = (threshold, count) if operator == "GT" else (count, threshold)
+    learning = train_guard(before, after, lesson.get("prior_examples"))
     answer["learning"] = learning
-    prediction = learning["result"]["prediction"]
-    if prediction != [count > threshold] or len(learning["result"]["candidate_rules"]) != 1:
+    session, curve = learned_comparison(operator)
+    prediction = list(session.predict(order_case("new", threshold, count)).possible)
+    expected = count > threshold if operator == "GT" else count >= threshold
+    answer["comparison"] = {"operator": operator, "count": count, "threshold": threshold,
+                            "same_unit": "DISTINCT_PENDING_REQUEST_IDS",
+                            "worked_examples": [[t, n, gt if operator == "GT" else ge]
+                                                for t, n, gt, ge in BOUNDARY_EXAMPLES],
+                            "survivor_counts": list(curve),
+                            "learned_rules": [g.render(ORDER_FEATURES) for g in session.survivors],
+                            "prediction": prediction, "strict_lesson_operands": [before, after]}
+    strict = learning["result"]
+    if (len(session.survivors) != 1 or prediction != [expected] or len(strict["candidate_rules"]) != 1
+            or strict["prediction"] != [expected if operator == "GT" else not expected]):
         return dict(answer, status="DEFER_LEARNING", answer_ar="لم يتفق المتعلّم مع فحص العدد والشرط.")
-    if not prediction[0]:
-        return dict(answer, status="NO_DRAFT", answer_ar=f"{summary} لم يزد العدد على {threshold}، فلا تنشأ مسودة.")
+    reason = (f"شرط التجاوز يتطلب عددًا أكبر من {threshold}." if operator == "GT"
+              else f"شرط بلوغ الحدّ يتحقق عند {threshold} أو أكثر.")
+    if not expected:
+        return dict(answer, status="NO_DRAFT", answer_ar=f"{summary} {reason} لم يتحقق الشرط.")
     body = f"مسودة تنبيه — {report['id']}\n{summary}\nمعرّفات الطلبات: " + "، ".join(ids) + "\n"
     return dict(answer, status="DRAFT_PLANNED", draft_body=body,
-                answer_ar=f"{summary} تجاوز العدد {threshold}، فتحقق شرط إعداد المسودة.")
+                answer_ar=f"{summary} {reason} تحقق شرط إعداد المسودة.")
 
 
 def run(lesson):

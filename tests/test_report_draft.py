@@ -54,6 +54,36 @@ class UnderstandingAndLearning(unittest.TestCase):
             with self.subTest(mode=mode):
                 self.assertEqual(agent.run(t)["status"], "DEFER_ROWS")
 
+    def test_equivalent_frames_and_equality_boundary(self):
+        first = TEXT.replace("عشرة", "ثلاثة")
+        last = "راجع أحدث تقرير وأعد مسودة تنبيه إذا تجاوزت الطلبات المعلقة ثلاثة، ولا ترسلها"
+        third = "اقرأ أحدث تقرير إذا تجاوزت الطلبات المعلقة ثلاثة فأنشئ مسودة تنبيه ولا ترسلها"
+        for op, before, after, prefix in (
+                ("GT", first, last, third),
+                ("GE", first.replace("زاد على", "بلغ العدد"), last.replace("تجاوزت", "بلغت"),
+                 third.replace("تجاوزت", "بلغت"))):
+            frame = agent.read_instruction(before)["frame"]
+            for text in (before, after, prefix):
+                reading = agent.read_instruction(text)
+                self.assertEqual(reading["frame"], frame)
+                raw = text.encode()
+                spans = reading["witnesses_utf8"]
+                self.assertEqual(raw[slice(*spans["counted"])].decode(), "الطلبات المعلقة" if "المعلّقة" not in text else "الطلبات المعلّقة")
+                self.assertIn("ترسلها", raw[slice(*spans["prohibit_send"])].decode())
+                for n in (2, 3, 4):
+                    t = task()
+                    t["instruction"] = text
+                    t["reports"][-1]["rows"] = [{"id": str(i), "status": "معلق"} for i in range(n)]
+                    value = agent.run(t)
+                    expected = n > 3 if op == "GT" else n >= 3
+                    self.assertEqual(value["status"], "DRAFT_PLANNED" if expected else "NO_DRAFT")
+                    self.assertEqual(value["comparison"]["prediction"], [expected])
+                    self.assertEqual(value["comparison"]["survivor_counts"][-1], 1)
+        for invalid in (last.replace("المعلقة", "المغلقة"), last.replace("تجاوزت", "لم تتجاوز"),
+                        "قيل: «" + last + "»", last + " ثم أرسلها", last.replace("ولا ترسلها", "وأرسلها"),
+                        last.replace("الطلبات المعلقة", "العدد"), last.replace("الطلبات المعلقة", "الطلبات؟ المعلقة")):
+            self.assertIsNone(agent.read_instruction(invalid))
+
     def test_thresholds_and_unseen_phrasings(self):
         for spelling, expected in (("١١", True), ("اثني عشر", False), ("13", False), ("صفر", None)):
             t = task()

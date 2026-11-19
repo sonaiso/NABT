@@ -414,7 +414,15 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
                      if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
     for b in grammar["conditional_readings"]:
-        conditional = predications(b["result"], names, branch=b["reading"])
+        reading = b["reading"]
+        if reading["authority"] == "CONDITIONAL_LOCAL_SPELLING_ONLY":
+            mapping, = reading["mappings"]
+            cards.append(card("conditional_spelling", "اقتراح رسم موضعي",
+                              f"قراءة «{mapping['proposed']}» محتملة عند موضع «{mapping['observed']}».",
+                              f"ورد في النص «{mapping['local_witness']['surface']}»، وفي الألفية «{mapping['corpus_witness']['quote']}».",
+                              "تعيين مراد الكاتب وضبط بقية النص يحتاجان شواهد إضافية.",
+                              mapping=mapping, parent_sha256=reading["parent_sha256"]))
+        conditional = predications(b["result"], names, branch=reading)
         if pending_forms:
             for c in conditional:
                 c["unresolved"] += " لم يثبت المنطوق للأوجه: " + "، ".join(pending_forms) + "."
@@ -443,6 +451,21 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     if chain is not None:
         cards.extend(interpretation_chains.cards(chain))
     question_result = {}
+    from tools.lexical_training.report_draft import read_instruction
+    instruction = read_instruction(text)
+    if instruction is not None:
+        question_result["report_instruction"] = instruction
+        conditional = instruction["frame"]["operator"]
+        if conditional:
+            relation = "أكبر من" if conditional == "GT" else "أكبر من أو يساوي"
+            meaning = (f"يُطلب إعداد مسودة تنبيه إذا كان عدد الطلبات المعلقة المميزة {relation} "
+                       f"{instruction['threshold']}. يتعلّق النهي بإرسال المسودة.")
+        else:
+            meaning = "المطلوب عدد الطلبات المعلقة المميزة في أحدث تقرير."
+        cards.append(card("report_instruction", "قراءة تكليف التقرير", meaning,
+                          "حدّد موضع كل جزء من التكليف في النص.", "تعيين التقرير والعدّ يتطلبان سجلات المضيف.",
+                          witnesses_utf8=instruction["witnesses_utf8"], action_authority="NONE"))
+
     from . import question_answer_cycle as cycle
     generated_form = question is not None and (
         question.startswith(cycle.PREFIX) or question.startswith(("ما قيمة التعبير «", "هل تصح المساواة «")))
