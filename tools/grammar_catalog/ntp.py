@@ -73,11 +73,11 @@ def _lesson_sources(lesson, owner):
     """
     from tools.lexical_training import (context_transfer, corpus_concepts,
         ifadah_programs, ntl_core, ntl_course, ntl_curriculum,
-        ntl_witness_pilot, ntl_update_memory, opencyc_inquiry, school_apprentice, teaching)
+        ntl_witness_pilot, ntl_update_memory, ntl_classical_books, opencyc_inquiry, school_apprentice, teaching)
 
     runners = (context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                ntl_course, ntl_curriculum, ntl_witness_pilot, ntl_update_memory,
-               opencyc_inquiry, school_apprentice)
+               ntl_classical_books, opencyc_inquiry, school_apprentice)
     schemas = {runner.SCHEMA: runner.RESULT for runner in runners}
     schemas.update({teaching.SCHEMA: teaching.RESULT_SCHEMA,
                     teaching.SCHEMA_V2: 'nabt.cognitive-lesson-result.v2',
@@ -103,6 +103,13 @@ def _lesson_sources(lesson, owner):
     if schema == ifadah_programs.SCHEMA:
         field = 'text' if lesson['mode'] == 'understand' else 'instruction'
         add(lesson[field], '/' + field, 'SOURCE' if field == 'text' else 'INSTRUCTION', lesson['source_id'])
+    elif schema == ntl_classical_books.SCHEMA:
+        text, field = ntl_classical_books.source(lesson)
+        add(text, "/" + field, source_id=lesson["source_id"])
+        if field != "text":
+            sources[-1]["source_encoding"] = {"bits": "UTF8_BITS", "utf8_hex": "UTF8_HEX"}[field]
+        for i, text in enumerate(lesson.get("examples", [])):
+            add(text, f"/examples/{i}", "DEMONSTRATION")
     elif schema in (ntl_witness_pilot.SCHEMA, corpus_concepts.SCHEMA, opencyc_inquiry.SCHEMA):
         add(lesson['text'], '/text', source_id=lesson.get('source_id'))
     elif schema == ntl_curriculum.SCHEMA:
