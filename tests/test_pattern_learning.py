@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from tools.grammar_catalog import gateway
 from tools.grammar_catalog.ntp import request
-from tools.lexical_training import pattern_learning as net, pattern_lesson, report_draft
+from tools.lexical_training import corpus_verbs, pattern_learning as net, pattern_lesson, report_draft
 from tools.lexical_training import train_pattern_learning as train
 
 
@@ -118,6 +118,39 @@ class PatternLearningTests(unittest.TestCase):
         tampered = deepcopy(receipt)
         tampered["execution"]["owner_result"]["owner_result"]["readout"]["weights"][0] += 1
         self.assertFalse(gateway.accept_output(tampered, expected_request=req)["valid"])
+
+    def test_source_trained_root_projection_and_counterexamples(self):
+        from tools.lexical_training.train_corpus_verbs import root_script
+        heads = corpus_verbs.model()
+        for word, root in (("يَعۡدِلُونَ", "عدل"), ("قَالَ", "قول")):
+            obs = corpus_verbs.analyze(heads, word)
+            self.assertEqual((obs["root"], obs["voice"], obs["family"]), (root, "ACT", "I"))
+            self.assertEqual(corpus_verbs.apply_script(obs["script"], obs["radical_carriers"]), root)
+        self.assertEqual(corpus_verbs.analyze(heads, "ثُمَّ"), None)
+        self.assertIsNone(corpus_verbs.apply_script([0, 1, 8], "كتب"))
+        self.assertEqual(root_script("مد", "مدد"), (0, 1, 1))
+        self.assertIsNone(root_script("فل", "فعل"))
+        report = json.loads((net.DIRECTORY / "corpus_training.json").read_bytes())
+        self.assertEqual(report["model_sha256"], corpus_verbs.PIN)
+        for population in report["test"].values():
+            self.assertGreater(population["joint_correct"], population["fixed_template_ranker_joint_correct"])
+            self.assertLess(population["joint_correct"], population["verbs"])
+        with patch.object(corpus_verbs, "model", return_value=None):
+            view = net.read("كُتِبَ")
+        self.assertTrue(view["occurrences"])
+        self.assertIsNone(view["corpus_verbs"]["model_sha256"])
+
+    def test_free_written_root_question_through_ntp(self):
+        word = "يَعۡدِلُونَ"
+        text = "ما جذر " + word + "؟"
+        req = request("think", {"text":text})
+        receipt = gateway.run(req)
+        self.assertTrue(gateway.accept_output(receipt, expected_request=req)["valid"])
+        view = receipt["execution"]["owner_result"]["owner_result"]
+        card, = [row for row in view["cards"] if row["scope"] == "neural_root"]
+        obs = card["evidence"]["proposal"]
+        self.assertEqual(text.encode()[slice(*obs["utf8_span"])].decode(), word)
+        self.assertEqual((obs["root"], obs["aspect"], obs["script"]), ("عدل","IMPF",[1,2,3]))
 
     def test_weight_question_through_public_ntp(self):
         req = request("think", {"text": "ما وزن سَفَرْجَل؟"})

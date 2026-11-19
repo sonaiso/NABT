@@ -28,6 +28,8 @@ jobs:
       - name: Refit induced Arabic patterns and report guard networks on CPU
         run: |
           python -m tools.lexical_training.train_pattern_learning --check
+          python tools/fetch_qac_source.py --output artifacts/local/ci/verb-source.gz
+          python -m tools.lexical_training.train_corpus_verbs --source artifacts/local/ci/verb-source.gz --check
           python -m unittest tests.test_pattern_learning -v
       - name: Refit fixed training roots and compare every retained evaluation
         run: python -m tools.lexical_training.train_ntp_recursive --check

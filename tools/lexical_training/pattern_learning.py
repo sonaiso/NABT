@@ -196,7 +196,10 @@ def alternatives(word):
 
 
 def read(text):
+    from . import corpus_verbs
     trained = model()
+    verbs = corpus_verbs.model()
+    verb_proposals = []
     observations = []
     terms = exact_terms(text)
     try:
@@ -205,6 +208,9 @@ def read(text):
         return {"ranking": "SOURCE_UNAVAILABLE", "reason": str(error), "occurrences": [],
                 "authority": "NONE", "terms_examined": 0, "total_terms": len(terms)}
     for term in terms[:128]:
+        verb = corpus_verbs.analyze(verbs, term["surface"]) if verbs else None
+        if verb:
+            verb_proposals.append({**term, **verb})
         candidates = alternatives(term["surface"])
         if not candidates:
             continue
@@ -215,7 +221,10 @@ def read(text):
     return {"model_sha256": MODEL_SHA if trained else None, "table_sha256": derivation.EXPECTED_TABLE_SHA256,
             "nominal_sha256": NOMINAL_SHA, "pattern_count": len(patterns), "ranking": "TRAINED" if trained else "MODEL_UNAVAILABLE",
             "authority": "CONDITIONAL_SHAPE_ONLY", "terms_examined": min(len(terms), 128),
-            "total_terms": len(terms), "occurrences": observations}
+            "total_terms": len(terms), "occurrences": observations,
+            "corpus_verbs": {"model_sha256": corpus_verbs.PIN if verbs else None,
+                             "authority": "NEURAL_PROPOSAL_ONLY", "source_sha256": corpus_verbs.QAC,
+                             "proposals": verb_proposals}}
 
 
 def guard_proposal(verb, count, limit):
