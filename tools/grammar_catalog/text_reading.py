@@ -450,7 +450,44 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     chain = interpretation_chains.analyze(text)
     if chain is not None:
         cards.extend(interpretation_chains.cards(chain))
-    question_result = {}
+    from tools.lexical_training import pattern_learning
+    patterns = pattern_learning.read(text)
+    question_result = {"learned_patterns": patterns}
+    # Explicit single-word questions use the same occurrence-local ranking as free text.
+    terms = exact_terms(text)
+    explicit_target = (len(terms) == 3 and
+                       text.strip().rstrip("؟?").strip() == "ما وزن " + terms[-1]["surface"])
+    asked_about_word = (len(terms) == 1 and question in ("ما وزنها؟", "ما وزن هذه الكلمة؟"))
+    if explicit_target or asked_about_word:
+        target = terms[-1]
+        row = next((r for r in patterns["occurrences"] if r["utf8_span"] == target["utf8_span"]), None)
+        if row:
+            first = row["alternatives"][0]
+            explanation = (f"من أوزان «{target['surface']}» {first['label']} بجذر شكلي «{first['root']}». "
+                           f"عدد الأوجه الصرفية الموافقة للرسم {len(row['alternatives'])}.")
+        elif patterns["ranking"] == "SOURCE_UNAVAILABLE":
+            explanation = "تعذّر فحص مصدر الأوزان."
+        else:
+            explanation = f"لم يظهر وزن موافق لرسم «{target['surface']}» في مجال القوالب المثبتة."
+        cards.insert(0, card("pattern_reading", "ميزان الكلمة", explanation,
+                             "فُحصت مواضع الحروف والحركات الظاهرة وأعيد تركيب كل وجه.",
+                             "اختيار الدلالة المعجمية واستعمال اللفظ يحتاجان شاهدًا.",
+                             utf8_span=target["utf8_span"], ranking=patterns["ranking"],
+                             alternatives=row["alternatives"] if row else []))
+    root_query = (len(terms) == 3 and
+                  text.strip().rstrip("؟?").strip() == "ما جذر " + terms[-1]["surface"])
+    if root_query:
+        target = terms[-1]
+        verbs = patterns.get("corpus_verbs", {})
+        proposal = next((v for v in verbs.get("proposals", []) if v["utf8_span"] == target["utf8_span"]), None)
+        if proposal:
+            meaning = f"تقترح شبكة الأفعال الجذر «{proposal['root']}» لوقوع «{target['surface']}»."
+            detail = "تُعاد قراءة أحرف الجذر من مواضع الرسم المسجلة، أو يُقترح حرف علة أو همزة في موضعه."
+        else:
+            meaning, detail = "أُرجئ تعيين الجذر.", "لم ينتج نموذج الأفعال ترشيحًا لهذا الوقوع."
+        cards.insert(0, card("neural_root", "ترشيح جذر فعلي", meaning, detail,
+                             "يحتاج ثبوت الأصل المعجمي إلى شاهد مستقل.", proposal=proposal,
+                             utf8_span=target["utf8_span"], model_sha256=verbs.get("model_sha256")))
     from tools.lexical_training.report_draft import read_instruction
     instruction = read_instruction(text)
     if instruction is not None:
