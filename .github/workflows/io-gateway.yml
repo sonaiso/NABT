@@ -13,12 +13,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  native-admission:
+  native-checks:
+    name: native-${{ matrix.suite }}
     runs-on: ubuntu-24.04
-    # The combined school, witness, report and OpenCyc admission suites run
-    # before relational/case/composition replay. Passing runs hit 30 minutes.
-    # Retain every native check and allow the complete sequential job to finish.
-    timeout-minutes: 60
+    # The admission target alone took 51m25s on run 44534652804.
+    # Give the remaining checks an independent runner and time budget.
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [gateway, replay]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -38,14 +42,35 @@ jobs:
         run: |
           make proof-catalog LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Required native gateway admission
+        if: matrix.suite == 'gateway'
         run: |
           make io-gateway-native LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+      - name: Build the native readers for the independent replay runner
+        if: matrix.suite == 'replay'
+        run: |
+          make io-gateway-build LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Relational continuity and alignment
+        if: matrix.suite == 'replay'
         run: |
           make relational-bridge LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Case application and evidence revision
+        if: matrix.suite == 'replay'
         run: |
           make case-application LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
       - name: Scoped composition and independent replay
+        if: matrix.suite == 'replay'
         run: |
           make scoped-composition LAKE="${{ runner.temp }}/nabt-tools/lean-4.34.1-linux/bin/lake"
+
+  # Keep the existing required-check name. A skipped or cancelled matrix
+  # must never be reported as a successful admission.
+  native-admission:
+    needs: native-checks
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require both native suites
+        env:
+          SUITES_RESULT: ${{ needs.native-checks.result }}
+        run: test "$SUITES_RESULT" = success
