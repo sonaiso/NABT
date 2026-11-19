@@ -159,6 +159,23 @@ class SourceReading(unittest.TestCase):
             self.assertEqual(alt['interpretation_scope'],'CONDITIONAL_SPELLING')
             self.assertFalse(alt['spelling_edit']['original_is_error_established'])
 
+    def test_local_correction_needs_both_source_and_corpus_witnesses(self):
+        for observed, suggested in (("مص", "نص"), ("اسد", "اسم")):
+            text = f"NTP أي {observed} يرد هنا، القراءة ل{suggested} جديد."
+            reading = r.analyze(text)
+            candidates = reading["derived_sources"]
+            chosen, = [x for x in candidates if x["text"] == text.replace("أي " + observed, "أي " + suggested)]
+            m, = chosen["mappings"]
+            for field, expected in (("parent_utf8_span", observed), ("cue_utf8_span", "أي")):
+                self.assertEqual(text.encode()[slice(*m[field])].decode(), expected)
+            att = m["corpus_witness"]
+            self.assertEqual((ROOT / att["path"]).read_bytes()[slice(*att["utf8_span"])].decode(), att["quote"])
+            self.assertEqual(text.encode()[slice(*m["local_witness"]["utf8_span"])].decode(), "ل" + suggested)
+            self.assertFalse(m["spelling_edit"]["original_is_error_established"])
+            self.assertEqual(reading["source_text"], text)
+        for text in ("أي مص يرد هنا", "أي؟ مص يرد لنص", "أي مُص يرد لنص", "أي نص يرد لنص"):
+            self.assertFalse(r.analyze(text)["derived_sources"])
+
     def test_model_withdrawal_does_not_suppress_native_alternatives(self):
         with patch.object(s,'load_cell_model',side_effect=FileNotFoundError):
             result=r.analyze(self.p['text'],lexical_text=self.p['lexical_text'])

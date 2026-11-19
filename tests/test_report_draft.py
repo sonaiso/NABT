@@ -54,6 +54,36 @@ class UnderstandingAndLearning(unittest.TestCase):
             with self.subTest(mode=mode):
                 self.assertEqual(agent.run(t)["status"], "DEFER_ROWS")
 
+    def test_equivalent_frames_and_equality_boundary(self):
+        first = TEXT.replace("عشرة", "ثلاثة")
+        last = "راجع أحدث تقرير وأعد مسودة تنبيه إذا تجاوزت الطلبات المعلقة ثلاثة، ولا ترسلها"
+        third = "اقرأ أحدث تقرير إذا تجاوزت الطلبات المعلقة ثلاثة فأنشئ مسودة تنبيه ولا ترسلها"
+        for op, before, after, prefix in (
+                ("GT", first, last, third),
+                ("GE", first.replace("زاد على", "بلغ العدد"), last.replace("تجاوزت", "بلغت"),
+                 third.replace("تجاوزت", "بلغت"))):
+            frame = agent.read_instruction(before)["frame"]
+            for text in (before, after, prefix):
+                reading = agent.read_instruction(text)
+                self.assertEqual(reading["frame"], frame)
+                raw = text.encode()
+                spans = reading["witnesses_utf8"]
+                self.assertEqual(raw[slice(*spans["counted"])].decode(), "الطلبات المعلقة" if "المعلّقة" not in text else "الطلبات المعلّقة")
+                self.assertIn("ترسلها", raw[slice(*spans["prohibit_send"])].decode())
+                for n in (2, 3, 4):
+                    t = task()
+                    t["instruction"] = text
+                    t["reports"][-1]["rows"] = [{"id": str(i), "status": "معلق"} for i in range(n)]
+                    value = agent.run(t)
+                    expected = n > 3 if op == "GT" else n >= 3
+                    self.assertEqual(value["status"], "DRAFT_PLANNED" if expected else "NO_DRAFT")
+                    self.assertEqual(value["comparison"]["prediction"], [expected])
+                    self.assertEqual(value["comparison"]["survivor_counts"][-1], 1)
+        for invalid in (last.replace("المعلقة", "المغلقة"), last.replace("تجاوزت", "لم تتجاوز"),
+                        "قيل: «" + last + "»", last + " ثم أرسلها", last.replace("ولا ترسلها", "وأرسلها"),
+                        last.replace("الطلبات المعلقة", "العدد"), last.replace("الطلبات المعلقة", "الطلبات؟ المعلقة")):
+            self.assertIsNone(agent.read_instruction(invalid))
+
     def test_thresholds_and_unseen_phrasings(self):
         for spelling, expected in (("١١", True), ("اثني عشر", False), ("13", False), ("صفر", None)):
             t = task()
@@ -119,6 +149,24 @@ class LocalExecution(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.path = Path(self.temp.name) / "drafts.sqlite3"
+
+    def test_public_reader_and_durable_host_share_the_same_frame(self):
+        text = "راجع أحدث تقرير وأعد مسودة تنبيه إذا بلغت الطلبات المعلقة ١٢، ولا ترسلها"
+        req = request("think", {"text": text})
+        receipt = gateway.run(req)
+        self.assertTrue(gateway.accept_output(receipt, expected_request=req)["valid"])
+        view = owner(receipt)
+        role, = [c for c in view["cards"] if c["scope"] == "report_instruction"]
+        self.assertEqual(role["evidence"]["action_authority"], "NONE")
+        self.assertFalse(self.path.exists())
+        applied = owner(host.run(dict(task(), instruction=text), self.path, apply=True))
+        self.assertEqual(applied["reading"], view["report_instruction"])
+        self.assertEqual((applied["count"], applied["draft_observation"]), (12, "MATCHED_SNAPSHOT"))
+        strict = dict(task(), task_id="strict", instruction=text.replace("بلغت", "تجاوزت"))
+        result = owner(host.run(strict, self.path, apply=True))
+        self.assertEqual(result["draft_observation"], "MATCHED_NO_DRAFT")
+        with sqlite3.connect(self.path) as db:
+            self.assertEqual(db.execute("select count(draft_body) from report_tasks").fetchone()[0], 1)
 
     def test_real_gateway_crash_resume_verify_and_skill_transfer(self):
         t = task()

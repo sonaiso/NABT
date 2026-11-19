@@ -19,6 +19,7 @@ from tools.arabic_training.unit_composition import _acquire_host
 
 LAW = 'nabt.source-neural-reading.v1'
 MAX_ALTERNATIVES, MAX_BRANCHES = 32, 16
+MAX_LOCAL_EDITS = 3
 
 def compatible(original, proposed):
     left,right=aligned_acquisition._pieces(original),aligned_acquisition._pieces(proposed)
@@ -42,6 +43,78 @@ def substitution(original, proposed):
     return {'operation':'SUBSTITUTE_ONE_CARRIER','cluster_index':i,
             'observed':left[i]['raw'][0],'proposed':right[i]['raw'][0],
             'original_is_error_established':False}
+
+def _nominal_spellings():
+    """Written witnesses from the project's pinned Alfiyya, indexed after a preposition."""
+    from tools.grammar_catalog.operations import ROOT, exact_terms
+    path = 'src/nabt/data/source_evidence/alfiyya.txt'
+    raw = (ROOT / path).read_bytes()
+    digest = sha256(raw).hexdigest()
+    if digest != '13b351a0a02d9060fdedbb5db568544718eb4e89bef323f5572b8a26c0921ca0':
+        raise ValueError('Alfiyya spelling testimony changed')
+    witnesses = {}
+    offset = 0
+    for line in raw.splitlines(keepends=True):
+        terms = exact_terms(line.decode())
+        for cue, token in zip(terms, terms[1:]):
+            word = token['surface']
+            if cue['surface'] not in ('في', 'وفي', 'من', 'ومن', 'على', 'وعلى', 'إلى'):
+                continue
+            a, b = cue['utf8_span'][0], token['utf8_span'][1]
+            if lookup_key(word) != word or line[cue['utf8_span'][1]:token['utf8_span'][0]].strip():
+                continue
+            witnesses.setdefault(word, {'path': path, 'source_sha256': digest,
+                'utf8_span': [offset + a, offset + b], 'quote': line[a:b].decode()})
+        offset += len(line)
+    return witnesses
+
+
+def contextual_edits(text, rows, parent_sha):
+    """One local edit per branch; keep unresolved and mixed-script surroundings exact."""
+    raw = text.encode()
+    forms = {}
+    for row in rows:
+        surface = row['surface']
+        if lookup_key(surface) != surface:
+            continue
+        forms.setdefault(surface, []).append(row)
+        if len(surface) > 2 and surface[0] in 'لب':
+            forms.setdefault(surface[1:], []).append(row)
+    results = []
+    lexicon = None
+    for cue, target in zip(rows, rows[1:]):
+        if cue['surface'] not in ('أي', 'أيّ', 'اي') or raw[cue['utf8_span'][1]:target['utf8_span'][0]].strip():
+            continue
+        word = target['surface']
+        if not 2 <= len(word) <= 12 or lookup_key(word) != word:
+            continue
+        if any(a['original_carriers_preserved'] for a in target['alternatives']):
+            continue
+        if lexicon is None:
+            lexicon = _nominal_spellings()
+        if word in lexicon:
+            continue
+        start, end = target['utf8_span']
+        for spelling in sorted(forms.keys() & lexicon.keys()):
+            edit = substitution(word, spelling)
+            if not edit:
+                continue
+            support = next((r for r in forms[spelling] if r is not target), None)
+            if support is None:
+                continue
+            replacement = raw[:start] + spelling.encode() + raw[end:]
+            mapping = {'parent_utf8_span': [start, end], 'observed': word, 'proposed': spelling,
+                       'spelling_edit': edit, 'cue_utf8_span': cue['utf8_span'],
+                       'local_witness': {'surface': support['surface'], 'utf8_span': support['utf8_span'],
+                                         'possible_prefix': support['surface'][:-len(spelling)]},
+                       'corpus_witness': lexicon[spelling]}
+            results.append({'text': replacement.decode(), 'sha256': sha256(replacement).hexdigest(),
+                            'parent_sha256': parent_sha, 'mappings': [mapping],
+                            'authority': 'CONDITIONAL_LOCAL_SPELLING_ONLY'})
+            if len(results) > MAX_LOCAL_EDITS:
+                return [], 'RESOURCE_LIMIT_CONTEXTUAL_EDITS'
+    return results, 'LOCAL_SPELLING_HYPOTHESES' if results else 'NO_LOCAL_SPELLING_WITNESS'
+
 
 def analyze(text, *, source_id='input', lexical_text=None, mode='wasl'):
     windows=neural.source_windows(text)
@@ -143,4 +216,9 @@ def analyze(text, *, source_id='input', lexical_text=None, mode='wasl'):
                         'observed':r['surface'],'proposed':a['surface'],'cells':a['cells'],
                         'spelling_edit':a['spelling_edit']} for r,a in zip(rows,choices)],
                     'authority':'CONDITIONAL_READING_NOT_ORIGINAL_SOURCE_FACT'})
+    if rows and not all(eligible):
+        partial, status = contextual_edits(text, rows, source.sha256)
+        if partial or status == 'RESOURCE_LIMIT_CONTEXTUAL_EDITS':
+            result['contextual_spelling_status'] = status
+            result['derived_sources'].extend(partial)
     return result
