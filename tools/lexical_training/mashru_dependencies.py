@@ -94,16 +94,21 @@ def compare(catalog, library, name, candidate):
     rows = index(catalog, library)
     if name not in library or candidate not in rows:
         return {"status": "UNKNOWN_THEOREM", "execution_measured": False}
-    data = MODEL.read_bytes()
-    model = json.loads(data)
-    if model["reference_sha256"] != owner.REFERENCE_SHA:
-        raise ValueError("unbound dependency model")
     source = library[name]
-    return {"status": "CHECKED_DIRECT_DEPENDENCY", "execution_measured": True,
-            "named_in_proof_term": candidate in source["proof_dependencies"],
-            "named_in_type": candidate in source["type_dependencies"],
-            "neural_rank_score": score(model, source, rows[candidate]), "model_sha256": sha256(data).hexdigest(),
-            "scope": "DIRECT_COMPILED_REFERENCE_ONLY", "proposal_authority": "NONE"}
+    result = {"status": "CHECKED_DIRECT_DEPENDENCY", "execution_measured": True,
+              "named_in_proof_term": candidate in source["proof_dependencies"],
+              "named_in_type": candidate in source["type_dependencies"],
+              "scope": "DIRECT_COMPILED_REFERENCE_ONLY", "proposal_authority": "NONE"}
+    try:
+        data = MODEL.read_bytes()
+        model = json.loads(data)
+        if model["reference_sha256"] != owner.REFERENCE_SHA:
+            raise ValueError("unbound dependency model")
+        result.update(proposal_status="PROPOSED", neural_rank_score=score(model, source, rows[candidate]),
+                      model_sha256=sha256(data).hexdigest())
+    except (OSError, ValueError, KeyError) as exc:
+        result.update(proposal_status="MODEL_UNAVAILABLE", proposal_reason=type(exc).__name__)
+    return result
 
 
 if __name__ == "__main__":

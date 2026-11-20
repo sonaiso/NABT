@@ -22,7 +22,10 @@ RESULT_SCHEMA = "nabt.io.result.v1"
 MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
 PASSIVE_MODEL = "evidence/passive_relation_transfer_v1/model.json"
+MASHRU_MODELS = ("tools/lexical_training/data/mashru_force_v1.json",
+                 "tools/lexical_training/data/mashru_dependencies_v1.json")
 OPTIONAL_NEURAL_INPUTS = frozenset((
+    *MASHRU_MODELS,
     PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES,
     "evidence/ntl_update_memory_v1/model.json",
     "evidence/ntp_recursive_v1/model.json",
@@ -78,8 +81,7 @@ def snapshot():
                        "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json",
         "tools/lexical_training/data/ifadah_programs_v1.json",
-        "tools/lexical_training/data/mashru_force_v1.json",
-        "tools/lexical_training/data/mashru_dependencies_v1.json",
+        *MASHRU_MODELS,
         "tools/lexical_training/data/ntl_apprentice_model_v1.json",
         "evidence/ntp_recursive_v1/model.json", "evidence/ntp_recursive_v1/protocol.json",
         "evidence/ntl_update_memory_v1/model.json", "evidence/ntl_update_memory_v1/protocol.json",

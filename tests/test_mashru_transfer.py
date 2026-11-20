@@ -47,6 +47,12 @@ class MashruTransfer(unittest.TestCase):
         task = lesson("dependency", theorem=source["name"], candidate=target)
         measured = teaching.run_lesson(task)
         self.assertTrue(measured["named_in_proof_term"])
+        from tools.lexical_training import mashru_dependencies
+        with patch.object(mashru_dependencies, "MODEL", Path("/nonexistent/mashru-model.json")):
+            missing = teaching.run_lesson(task)
+        self.assertEqual(missing["proposal_status"], "MODEL_UNAVAILABLE")
+        self.assertTrue(missing["named_in_proof_term"])
+        self.assertTrue(missing["execution_measured"])
         self.assertEqual(measured["proposal_authority"], "NONE")
         other = next(n for n in by_name if n not in source["proof_dependencies"])
         absent = teaching.run_lesson(dict(task, candidate=other))
