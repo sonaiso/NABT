@@ -1,6 +1,7 @@
 import A116.Tasrif
 import A116.Rubai
 import Nabt.NominalPatterns
+import Nabt.InflectionEvidence
 
 namespace VerbMorphology
 open A116 A116.Wazn A116.Tasrif A116.Hadd
@@ -30,4 +31,8 @@ theorem checkedNominal (p : Nabt.Derivation.CatalogPattern) (hp : p ∈ Nabt.Nom
     (r : Nabt.Derivation.Root p.arity) (seen : List Char) (h : Nabt.Derivation.fill p.tokens r = seen) :
     Nabt.Derivation.recover p.tokens seen = some r :=
   h ▸ Nabt.NominalPatterns.pattern_recovery p hp r
+/-- Deleting the inflectional nun cannot by itself settle the government of the plural. -/
+example : Nabt.InflectionEvidence.realize .fKhamsaW .nasb =
+    Nabt.InflectionEvidence.realize .fKhamsaW .jazm :=
+  Nabt.InflectionEvidence.five_verbs_deletion_keeps_case_ambiguity.1
 end VerbMorphology

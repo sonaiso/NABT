@@ -88,6 +88,17 @@ class VerbTransportTests(TestCase):
             self.assertEqual({w["corpus"] for w in wh},{"Hadith"})
             self.assertTrue(all(w["dropped_hamza"] for w in wh))
 
+    def test_five_verbs_use_native_inflection_and_preserve_quranic_spelling(self):
+        for text,root,end,expected in (("يَعۡدِلُونَ","عدل","نون",{"مرفوع"}),
+                                      ("تَكْتُبَانِ","كتب","نون",{"مرفوع"}),
+                                      ("تَكْتُبِينَ","كتب","نون",{"مرفوع"}),
+                                      ("يَكْتُبُوا","كتب","حذف",{"منصوب","مجزوم"})):
+            rows = [r for r in word(text)["alternatives"] if r.get("ending_sign") and r["root"] == root]
+            self.assertEqual({r["mood"] for r in rows},expected)
+            for r in rows:
+                self.assertEqual("".join(p["surface"] for p in r["segments"]),text)
+                self.assertEqual(r["ending_sign"]["sign_name"],"nun_retained" if end=="نون" else "nun_deleted")
+
     def test_replayed_weights_cover_each_root_class(self):
         raw = json.loads(sources.checked(verbs.HEADS,verbs.HEAD_SHA))
         self.assertEqual(len(raw["heads"]),31)

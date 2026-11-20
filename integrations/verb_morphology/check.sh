@@ -7,7 +7,7 @@ mkdir -p "$destination"
 destination=$(cd "$destination" && pwd)
 export PYTHONPATH="$root/src:$root" LEAN_NUM_THREADS=${LEAN_NUM_THREADS:-1}
 cd integrations/verb_morphology
-lake build +Nabt.NominalPatterns +Nabt.Bridges +Nabt.Law +A116.Numbering +A116.Ishtiqaq +A116.Alif +A116.Sawabiq +A116.Fractal +A116.QiraaMadlul +A116.Rubai +Archive.AjwafFuul +Archive.LexSamai +Archive.MasdarLazim +Archive.SamaiImperative +Archive.Witnesses
+lake build +Nabt.InflectionEvidence +Nabt.NominalPatterns +Nabt.Bridges +Nabt.Law +A116.Numbering +A116.Ishtiqaq +A116.Alif +A116.Sawabiq +A116.Fractal +A116.QiraaMadlul +A116.Rubai +Archive.AjwafFuul +Archive.LexSamai +Archive.MasdarLazim +Archive.SamaiImperative +Archive.Witnesses
 for file in PortCheck FractalBridge LexicalWitness Conjugation; do
     lake env lean "$file.lean"
 done

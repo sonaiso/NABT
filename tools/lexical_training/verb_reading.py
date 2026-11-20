@@ -6,7 +6,7 @@ from itertools import product
 import json
 import unicodedata
 
-from nabt import derivation, text_morphology
+from nabt import derivation, inflection, text_morphology
 from nabt.corpus_evidence import lookup_clusters
 from . import _alghanem_mabni as inflect, pattern_learning as net, verb_sources as source
 
@@ -190,6 +190,43 @@ def conjugated(word):
                         "subject_realization":"implicit_or_external" if person in ("3MS","3FS") else "attached"}, bare, sub, obj)
 
 
+# Surface pieces include the pronoun and, when present, the inflectional nun.
+# The sign law and the possible moods come from the installed Lean inflection table.
+FIVE_ENDINGS = (
+    ("انِ", "َ", 9, "ا", "نِ"), ("ونَ", "ُ", 10, "و", "نَ"), ("ينَ", "ِ", 11, "ي", "نَ"),
+    ("ا", "َ", 9, "ا", ""), ("وا", "ُ", 10, "و", ""), ("ي", "ِ", 11, "ي", ""),
+)
+
+
+def five_verbs(host, prefix):
+    if host[:1] not in ("ي","ت"):
+        return
+    for suffix, vowel, cls, pronoun, nun in FIVE_ENDINGS:
+        if not host.endswith(vowel+suffix) or (cls == 11 and host[0] != "ت"):
+            continue
+        body = host[:-len(suffix)]
+        # Project only the Qur'anic small high sukun when consulting the cell generator.
+        projection = body[:-1].replace("ۡ","ْ") + "ُ"
+        parts = [("prefix",s) for s in prefix] + [
+            ("imperfect_prefix",body[:2]), ("stem",body[2:]), ("subject",pronoun)]
+        if nun:
+            parts.append(("inflectional_nun",nun))
+        elif suffix == "وا":
+            parts.append(("orthographic_alif","ا"))
+        for host_row in cell_readings(projection):
+            if host_row["aspect"] != "imperfect" or host_row["root"][-1] in "وي":
+                continue
+            for sign in inflection.sign_candidates([cls]):
+                if sign["sign_name"] != ("nun_retained" if nun else "nun_deleted"):
+                    continue
+                yield ({"root":host_row["root"], "aspect":"imperfect", "family":host_row["family"],
+                        "voice":host_row["voice"], "mood":{"raf":"مرفوع","nasb":"منصوب","jazm":"مجزوم"}[sign["case_name"]],
+                        "rule":"A116.Tasrif.mudari+Nabt.InflectionEvidence.realize",
+                        "host_cells":host_row["rebuilt_cells"], "host_key":host_row["key"],
+                        "host_recipe":host_row["recipe"], "ending_sign":sign,
+                        "subject_realization":"attached", "rebuilt":body+suffix},parts)
+
+
 def lexical_commands(host, prefix, initial):
     """A deleted initial hamza is invisible to slot recovery; try the attested roots."""
     if len(host) > 14:
@@ -272,6 +309,7 @@ def read(term, encoder):
     for prefix, host in prefixes(word):
         readings = [(row,parts_for(prefix,host)) for row in [*cell_readings(host), *direct_readings(host),
                     *lexical_commands(host,prefix,term["utf8_span"][0] == 0)]]
+        readings.extend(five_verbs(host,prefix))
         readings.extend((row,parts_for(prefix,base,sub,obj,row["person"])) for row,base,sub,obj in conjugated(host))
         for row, parts in readings:
             root, family = row["root"],row["family"]

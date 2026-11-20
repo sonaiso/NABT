@@ -502,7 +502,8 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
             if len(pieces) == 1 and len(next(iter(pieces))) > 1:
                 labels = {"prefix":"السابقة", "stem":"جذع الفعل", "subject":"ضمير الرفع",
                           "object":"ضمير المفعول", "plural_mark":"علامة الجمع", "link":"واو الصلة",
-                          "feminine_mark":"علامة التأنيث", "orthographic_alif":"الألف الفارقة"}
+                          "feminine_mark":"علامة التأنيث", "orthographic_alif":"الألف الفارقة",
+                          "imperfect_prefix":"حرف المضارعة", "inflectional_nun":"نون الرفع"}
                 detail += " " + "، ".join(labels[role] + " «" + surface + "»" for role,surface in next(iter(pieces))) + "."
             if masdar_query:
                 names = dict.fromkeys(name for lex in hit["masdars"].values()
