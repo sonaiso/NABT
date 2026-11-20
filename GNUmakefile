@@ -5,3 +5,4 @@ include Makefile
 include integrations/grammar_catalog.mk
 include integrations/io_gateway.mk
 include integrations/opencyc_slice.mk
+include integrations/mashru_transfer.mk

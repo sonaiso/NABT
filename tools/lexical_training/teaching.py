@@ -139,10 +139,10 @@ def _run_installed(lesson_runner, lesson):
 
 
 def run_lesson(lesson):
-    from . import (pattern_lesson, report_draft, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    from . import (pattern_lesson, report_draft, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                    ntl_course, ntl_curriculum, school_apprentice,
                    ntl_witness_pilot, ntl_update_memory, opencyc_inquiry)
-    for lesson_runner in (pattern_lesson, ntl_curriculum, ntl_course, ntl_core, context_transfer,
+    for lesson_runner in (pattern_lesson, mashru_lesson, ntl_curriculum, ntl_course, ntl_core, context_transfer,
                           corpus_concepts, ifadah_programs, school_apprentice,
                           ntl_witness_pilot, ntl_update_memory, opencyc_inquiry):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
