@@ -1,0 +1,33 @@
+name: Mashru proofs and NTP native replay
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  transfer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONPATH: src:.
+      LEAN_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Install the repository's Lean toolchain
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          sudo apt-get update && sudo apt-get install --no-install-recommends -y zstd
+          python tools/bootstrap_lean.py --destination "$RUNNER_TEMP/mashru-tools"
+          echo "$RUNNER_TEMP/mashru-tools/lean-4.34.1-linux/bin" >> "$GITHUB_PATH"
+          python -m pip install numpy==2.2.6
+      - name: Compile declarations, refit both heads and verify NTP replay
+        run: make mashru-transfer-check PYTHON=python

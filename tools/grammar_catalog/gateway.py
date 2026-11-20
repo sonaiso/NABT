@@ -78,6 +78,8 @@ def snapshot():
                        "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json",
         "tools/lexical_training/data/ifadah_programs_v1.json",
+        "tools/lexical_training/data/mashru_force_v1.json",
+        "tools/lexical_training/data/mashru_dependencies_v1.json",
         "tools/lexical_training/data/ntl_apprentice_model_v1.json",
         "evidence/ntp_recursive_v1/model.json", "evidence/ntp_recursive_v1/protocol.json",
         "evidence/ntl_update_memory_v1/model.json", "evidence/ntl_update_memory_v1/protocol.json",

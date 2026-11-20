@@ -107,7 +107,7 @@ def summarize_rows(rows: list[dict]) -> tuple[list[dict], list[dict]]:
 def build_catalog(root: Path = ROOT, lake: str = "lake") -> dict:
     root = Path(root).resolve()
     formal = root / "formal"
-    subprocess.run([lake, "build", "Nabt"], cwd=formal, check=True,
+    subprocess.run([lake, "build", "Nabt", "ProofCatalogExport"], cwd=formal, check=True,
                    capture_output=True, text=True)
     execution = subprocess.run([lake, "env", "lean", "ExportProofCatalog.lean"],
                                cwd=formal, check=True, capture_output=True, text=True)

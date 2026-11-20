@@ -71,11 +71,11 @@ def _lesson_sources(lesson, owner):
     texts. Multiple sources retain separate request locations even when their
     content, source IDs or local occurrence offsets happen to coincide.
     """
-    from tools.lexical_training import (pattern_lesson, report_draft, context_transfer, corpus_concepts,
+    from tools.lexical_training import (pattern_lesson, report_draft, mashru_lesson, context_transfer, corpus_concepts,
         ifadah_programs, ntl_core, ntl_course, ntl_curriculum,
         ntl_witness_pilot, ntl_update_memory, opencyc_inquiry, school_apprentice, teaching)
 
-    runners = (pattern_lesson, report_draft, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    runners = (pattern_lesson, report_draft, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                ntl_course, ntl_curriculum, ntl_witness_pilot, ntl_update_memory,
                opencyc_inquiry, school_apprentice)
     schemas = {runner.SCHEMA: runner.RESULT for runner in runners}
@@ -100,7 +100,10 @@ def _lesson_sources(lesson, owner):
             sources.append({'text': text, 'request_path': prefix + suffix,
                             'role': role, 'source_id': source_id})
 
-    if schema == ifadah_programs.SCHEMA:
+    if schema == mashru_lesson.SCHEMA:
+        if lesson['operation'] == 'read':
+            add(lesson['text'], '/text', source_id=lesson['source_id'])
+    elif schema == ifadah_programs.SCHEMA:
         field = 'text' if lesson['mode'] == 'understand' else 'instruction'
         add(lesson[field], '/' + field, 'SOURCE' if field == 'text' else 'INSTRUCTION', lesson['source_id'])
     elif schema in (ntl_witness_pilot.SCHEMA, corpus_concepts.SCHEMA, opencyc_inquiry.SCHEMA):
