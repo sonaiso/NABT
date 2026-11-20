@@ -196,12 +196,23 @@ def alternatives(word):
 
 
 def read(text):
-    from . import corpus_verbs
+    from . import corpus_verbs, verb_reading
     trained = model()
     verbs = corpus_verbs.model()
     verb_proposals = []
     observations = []
     terms = exact_terms(text)
+    licensed = {"status": "AVAILABLE", "occurrences": [], "rules_sha256": verb_reading.RULE_SHA,
+                "contrast_weights_sha256": None}
+    contrast_encoder = None
+    if trained and any(any(c in verb_reading.VOWELS for c in term["surface"]) for term in terms[:128]):
+        try:
+            verb_reading.readouts()
+        except (ValueError, OSError):
+            pass
+        else:
+            licensed["contrast_weights_sha256"] = verb_reading.HEAD_SHA
+            contrast_encoder = trained["patterns"]
     try:
         patterns = inventory()
     except (ValueError, OSError) as error:
@@ -212,6 +223,14 @@ def read(text):
         if verb:
             verb_proposals.append({**term, **verb})
         candidates = alternatives(term["surface"])
+        if licensed["status"] == "AVAILABLE":
+            try:
+                reading = verb_reading.read(term, contrast_encoder)
+            except (OSError, ValueError) as error:
+                licensed.update(status="SOURCE_UNAVAILABLE", reason=str(error), occurrences=[])
+            else:
+                if reading:
+                    licensed["occurrences"].append(reading)
         if not candidates:
             continue
         if trained:
@@ -222,6 +241,7 @@ def read(text):
             "nominal_sha256": NOMINAL_SHA, "pattern_count": len(patterns), "ranking": "TRAINED" if trained else "MODEL_UNAVAILABLE",
             "authority": "CONDITIONAL_SHAPE_ONLY", "terms_examined": min(len(terms), 128),
             "total_terms": len(terms), "occurrences": observations,
+            "licensed_verbs": licensed,
             "corpus_verbs": {"model_sha256": corpus_verbs.PIN if verbs else None,
                              "authority": "NEURAL_PROPOSAL_ONLY", "source_sha256": corpus_verbs.QAC,
                              "proposals": verb_proposals}}

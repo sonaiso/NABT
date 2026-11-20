@@ -1,0 +1,36 @@
+name: NABT licensed verb morphology
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lean-and-ntl-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          sudo apt-get update && sudo apt-get install --no-install-recommends -y zstd
+          python tools/bootstrap_lean.py --destination "$RUNNER_TEMP/verb-tools"
+          echo "$RUNNER_TEMP/verb-tools/lean-4.34.1-linux/bin" >> "$GITHUB_PATH"
+      - name: Compile proofs, refit heads and verify the free-text receipt
+        run: bash integrations/verb_morphology/check.sh
+      - name: Package source, weights and verified replay
+        run: python integrations/verb_morphology/bundle.py artifacts/local/verb-morphology
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: NABT-verb-morphology
+          path: artifacts/local/verb-morphology/NABT_Verb_Morphology.zip
+          if-no-files-found: error
+          retention-days: 30
