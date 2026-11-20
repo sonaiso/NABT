@@ -12,9 +12,9 @@ RESULT = "ntl.pattern-induction-result.v1"
 def counterexamples(pairs):
     """Change one visible short vowel per example. The learned templates fix that literal."""
     positives = {stem for _, stem in pairs}
-    changes = {"َ": "ُ", "ُ": "ِ", "ِ": "َ", "ْ": "َ"}
-    contrasts = {stem[:i] + changes[v] + stem[i + 1:] for _, stem in pairs
-                 for i, v in enumerate(stem) if v in changes}
+    marks = "َُِْ"
+    contrasts = {stem[:i] + alternate + stem[i + 1:] for _, stem in pairs
+                 for i, v in enumerate(stem) if v in marks for alternate in marks if alternate != v}
     return sorted(contrasts - positives)
 
 

@@ -14,13 +14,16 @@ from tools.lexical_training.pattern_learning import MODEL_PATH as PATTERN_MODEL,
 from .operation_rag import invoke_bounded, MAX_RESULT, MAX_ADDRESS_SPACE, gateway_worker_limits
 from . import gateway_routes, gateway_links
 
+from tools.lexical_training.verb_reading import RULES as VERB_RULES, HEADS as VERB_HEADS
+from tools.lexical_training.verb_sources import LANE as VERB_LANE, DICTIONARY as VERB_DICTIONARY, STUDIES as VERB_STUDIES
+
 REQUEST_SCHEMA = "nabt.io.request.v1"
 RESULT_SCHEMA = "nabt.io.result.v1"
 MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
 PASSIVE_MODEL = "evidence/passive_relation_transfer_v1/model.json"
 OPTIONAL_NEURAL_INPUTS = frozenset((
-    PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL,
+    PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES,
     "evidence/ntl_update_memory_v1/model.json",
     "evidence/ntp_recursive_v1/model.json",
     "evidence/ntp_ifadah_v1/model.json",
@@ -58,9 +61,16 @@ def snapshot():
             if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
                 raise ValueError("I/O contract reference escapes repository")
             value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
+    morphology_package = ROOT / "integrations/verb_morphology"
+    morphology_sources = [*morphology_package.glob("*.lean"), *morphology_package.glob("Archive/*.lean"),
+                          *(ROOT / "vendor/alghanem-a116/A116").rglob("*.lean")]
+    for path in morphology_sources:
+        if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
+            raise ValueError("Morphology proof source escapes repository")
+        value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
-    lexical_sources = (PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
+    lexical_sources = (PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES, PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
                        "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
                        "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
                        "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",

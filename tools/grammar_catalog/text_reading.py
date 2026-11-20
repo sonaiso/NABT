@@ -488,6 +488,46 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
         cards.insert(0, card("neural_root", "ترشيح جذر فعلي", meaning, detail,
                              "يحتاج ثبوت الأصل المعجمي إلى شاهد مستقل.", proposal=proposal,
                              utf8_span=target["utf8_span"], model_sha256=verbs.get("model_sha256")))
+    masdar_query = (len(terms) == 3 and
+                    text.strip().rstrip("؟?").strip() == "ما مصدر " + terms[-1]["surface"])
+    if root_query or masdar_query:
+        target = terms[-1]
+        owner = patterns.get("licensed_verbs", {})
+        hit = next((v for v in owner.get("occurrences", ()) if v["utf8_span"] == target["utf8_span"]), {})
+        readings = hit.get("alternatives", [])
+        if readings:
+            roots = "، ".join(dict.fromkeys(r["root_display"] for r in readings))
+            detail = f"أعادت القواعد تركيب «{target['surface']}». الجذور الموافقة للرسم هي {roots}."
+            pieces = {tuple((p["role"], p["surface"]) for p in r["segments"]) for r in readings}
+            if len(pieces) == 1 and len(next(iter(pieces))) > 1:
+                labels = {"prefix":"السابقة", "stem":"جذع الفعل", "subject":"ضمير الرفع",
+                          "object":"ضمير المفعول", "plural_mark":"علامة الجمع", "link":"واو الصلة",
+                          "feminine_mark":"علامة التأنيث", "orthographic_alif":"الألف الفارقة",
+                          "imperfect_prefix":"حرف المضارعة", "inflectional_nun":"نون الرفع"}
+                detail += " " + "، ".join(labels[role] + " «" + surface + "»" for role,surface in next(iter(pieces))) + "."
+            if masdar_query:
+                names = dict.fromkeys(name for lex in hit["masdars"].values()
+                    for w in lex["lexical_witnesses"] for name in ([w["masdar"]] if "masdar" in w else w["masadir"]))
+                detail += (" ورد في المعجم " + "، ".join(names) + ".") if names else " أُرجئ تعيين المصدر المسموع."
+            from tools.derivation_surface_bridge import evaluate_derivation_surface, REQUEST_SCHEMA, REALIZATION_PROFILE
+            from nabt.errors import NabtError
+            past = {"past.I.َ":"past.I.a", "past.I.ِ":"past.I.i", "past.I.ُ":"past.I.u"}
+            for row in readings:
+                if row["root_class"] != "أجوف" or row.get("key") not in past or len(row["segments"]) != 1:
+                    continue
+                start, end = target["utf8_span"]
+                request = {"schema":REQUEST_SCHEMA, "profile":REALIZATION_PROFILE, "span":{"start":start,"end":end},
+                           "root":row["root"], "pattern_id":past[row["key"]], "ending":"َ",
+                           "hypotheses":{"context":"ordinary","origin":"original"}}
+                try:
+                    row["weak_law_application"] = evaluate_derivation_surface(text, request)
+                except NabtError as error:
+                    row["weak_law_application"] = {"status":"DEFER", "code":error.code}
+            cards.insert(0, card("licensed_masdar" if masdar_query else "licensed_root",
+                "المصدر وشاهده" if masdar_query else "استرجاع الجذر وإعادة بناء اللفظ", detail,
+                "تُحفظ مواضع الصيغة واللواصق في النص، ويتطلب اختيار المعنى شاهد استعمال.",
+                "تظل الأوجه الموافقة للرسم متاحة.", utf8_span=target["utf8_span"],
+                reading_ref="/learned_patterns/licensed_verbs/occurrences/" + str(owner["occurrences"].index(hit))))
     from tools.lexical_training.report_draft import read_instruction
     instruction = read_instruction(text)
     if instruction is not None:
