@@ -11,7 +11,7 @@ import re
 from nabt.text_reader import parse_document
 from tools import explainable_pilot as pilot, verified_reading as ground
 from tools.licensed_inference.runtime import aggregate_evidence
-from . import usul_ledger
+from . import lineage_roles, masdar_frames, role_forms, usul_ledger
 from .genus_chains import ancestors
 from .operations import ROOT
 
@@ -47,6 +47,10 @@ DERIVED = {
 # The neutral sibling predicate means at least one shared parent, never full siblinghood.
 BASE.update(usul_ledger.BASE)
 DERIVED.update(usul_ledger.DERIVED)
+BASE.update(lineage_roles.BASE)
+DERIVED.update(lineage_roles.DERIVED)
+BASE.update(masdar_frames.BASE)
+DERIVED.update(masdar_frames.DERIVED)
 SORTS = BASE | DERIVED
 MEASURES = {"طول_سم":"أطول", "مساحة_مترمربع":"أوسع", "مسافة_متر":"أقرب",
             "قوة_نيوتن":"أقوى", "عمر_شهر":"أكبر_عمرا"}
@@ -157,7 +161,7 @@ def match(body,index,binding,premises,budget):
         else:
             yield from match(body[1:],index,extended,premises+(row,),budget)
 
-def projections(atoms, queries):
+def projections(atoms, queries, *, text="", form_records=None):
     requested = {tuple(q) for q in queries}
     seen=set(atoms)
     traces={}
@@ -180,6 +184,13 @@ def projections(atoms, queries):
     use_usul = (any(pred.lstrip("!") in usul_ledger.BASE for pred, _, _ in atoms)
                 or any(q[0] in usul_ledger.DERIVED for q in queries))
     extra_rules = usul_ledger.RULES if use_usul else []
+    if any(p.lstrip("!") in (lineage_roles.BASE | masdar_frames.BASE) for p,_,_ in atoms) or any(q[0] in (lineage_roles.DERIVED | masdar_frames.DERIVED) for q in queries):
+        lineage_roles.prepare(atoms,add)
+        occurrences = role_forms.compile_occurrences(atoms,text,add)
+        masdar_frames.compile_source(atoms,text,occurrences,add)
+        if form_records is not None:
+            form_records.extend(occurrences)
+        extra_rules = extra_rules + lineage_roles.RULES + masdar_frames.RULES
     rules=RULES+extra_rules+[("صعود_متعد","سلسلة_نوع x z",["سلسلة_نوع x y","نوع y z"]),
                  ("جنس_مشترك","يشترك_بأصل x y",["سلسلة_نوع x k","سلسلة_نوع y k"])]
     parsed=[(label,h.split(),[b.split() for b in body]) for label,h,body in rules]
@@ -230,8 +241,9 @@ def analyze(text,source_id,p):
     validate(p)
     observations=read_ledger(p["ledger"])
     atoms=[row for row,_ in observations]
+    form_records=[]
     try:
-        traces=projections(atoms,p["queries"])
+        traces=projections(atoms,p["queries"],text=text,form_records=form_records)
     except MatrixLimit as exc:
         return {"status":"DEFER","reason":str(exc),"answers":[],"world_truth_established":False}
     facts=[wire_atom(a) for a in atoms]
@@ -286,5 +298,6 @@ def analyze(text,source_id,p):
         "text_sha256":sha256(text.encode()).hexdigest(),"ledger_sha256":sha256(p["ledger"].encode()).hexdigest(),
         "checker":check,"status":"VERIFIED_PROJECTION" if check["status"]=="VERIFIED_GROUND_PROJECTION" else "PROPOSAL_ONLY",
         "python_lean_refinement_proved":False,"world_truth_established":False,"surface_alignment_established":False,"observations":records,
+        **({"occurrence_forms":form_records} if form_records else {}),
         "rule_instances":[{"head":list(h),"body":[list(b) for b in body],"rule":label} for (h,body),label in traces.items()],
         "answers":answers}
