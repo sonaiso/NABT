@@ -3,6 +3,8 @@ import json
 import unittest
 from copy import deepcopy
 from hashlib import sha256
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from tools.grammar_catalog import gateway, ntp
@@ -85,6 +87,22 @@ class ClassicalBooks(unittest.TestCase):
         self.assertEqual(after["history"], other["history"])
         self.assertFalse(after["seen_exact_text"])
         self.assertTrue(books.run(lesson(DEMOS[0], examples=DEMOS))["learning"]["seen_exact_text"])
+
+    def test_missing_or_corrupt_inflection_evidence_abstains_during_learning(self):
+        with TemporaryDirectory() as directory, patch("nabt.inflection.files", return_value=Path(directory)):
+            table = Path(directory) / "data/inflection_evidence_table.json"
+            table.parent.mkdir()
+            for corrupted in (False, True):
+                if corrupted:
+                    table.write_bytes(b"changed")
+                result = teaching.run_lesson(lesson(examples=DEMOS))
+                self.assertEqual(result["status"], "COURSE_SESSION")
+                self.assertTrue(result["syntax_status"].startswith("GRAMMAR_EVIDENCE_UNAVAILABLE"))
+                self.assertEqual(answers(result)["subject"]["decision"], "UNKNOWN")
+                learned = result["learning"]
+                self.assertEqual(learned["survivors"], list(books.POLICIES))
+                self.assertIsNone(learned["probe_votes"]["nominative_sign"])
+                self.assertIsNone(learned["agreed_proposal"])
 
     def test_degraded_dictionary_does_not_negate(self):
         with patch.object(books.SourceLexicon, "load", side_effect=FileNotFoundError):

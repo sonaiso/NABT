@@ -414,7 +414,15 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     pending_forms = [b["reading"]["text"] for b in grammar["conditional_readings"]
                      if not any(r["name"] == "mantuq" and r["closed"] for r in b["result"]["dispatch_ledger"])]
     for b in grammar["conditional_readings"]:
-        conditional = predications(b["result"], names, branch=b["reading"])
+        reading = b["reading"]
+        if reading["authority"] == "CONDITIONAL_LOCAL_SPELLING_ONLY":
+            mapping, = reading["mappings"]
+            cards.append(card("conditional_spelling", "اقتراح رسم موضعي",
+                              f"قراءة «{mapping['proposed']}» محتملة عند موضع «{mapping['observed']}».",
+                              f"ورد في النص «{mapping['local_witness']['surface']}»، وفي الألفية «{mapping['corpus_witness']['quote']}».",
+                              "تعيين مراد الكاتب وضبط بقية النص يحتاجان شواهد إضافية.",
+                              mapping=mapping, parent_sha256=reading["parent_sha256"]))
+        conditional = predications(b["result"], names, branch=reading)
         if pending_forms:
             for c in conditional:
                 c["unresolved"] += " لم يثبت المنطوق للأوجه: " + "، ".join(pending_forms) + "."
@@ -442,7 +450,99 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
     chain = interpretation_chains.analyze(text)
     if chain is not None:
         cards.extend(interpretation_chains.cards(chain))
-    question_result = {}
+    from tools.lexical_training import pattern_learning
+    patterns = pattern_learning.read(text)
+    question_result = {"learned_patterns": patterns}
+    # Explicit single-word questions use the same occurrence-local ranking as free text.
+    terms = exact_terms(text)
+    explicit_target = (len(terms) == 3 and
+                       text.strip().rstrip("؟?").strip() == "ما وزن " + terms[-1]["surface"])
+    asked_about_word = (len(terms) == 1 and question in ("ما وزنها؟", "ما وزن هذه الكلمة؟"))
+    if explicit_target or asked_about_word:
+        target = terms[-1]
+        row = next((r for r in patterns["occurrences"] if r["utf8_span"] == target["utf8_span"]), None)
+        if row:
+            first = row["alternatives"][0]
+            explanation = (f"من أوزان «{target['surface']}» {first['label']} بجذر شكلي «{first['root']}». "
+                           f"عدد الأوجه الصرفية الموافقة للرسم {len(row['alternatives'])}.")
+        elif patterns["ranking"] == "SOURCE_UNAVAILABLE":
+            explanation = "تعذّر فحص مصدر الأوزان."
+        else:
+            explanation = f"لم يظهر وزن موافق لرسم «{target['surface']}» في مجال القوالب المثبتة."
+        cards.insert(0, card("pattern_reading", "ميزان الكلمة", explanation,
+                             "فُحصت مواضع الحروف والحركات الظاهرة وأعيد تركيب كل وجه.",
+                             "اختيار الدلالة المعجمية واستعمال اللفظ يحتاجان شاهدًا.",
+                             utf8_span=target["utf8_span"], ranking=patterns["ranking"],
+                             alternatives=row["alternatives"] if row else []))
+    root_query = (len(terms) == 3 and
+                  text.strip().rstrip("؟?").strip() == "ما جذر " + terms[-1]["surface"])
+    if root_query:
+        target = terms[-1]
+        verbs = patterns.get("corpus_verbs", {})
+        proposal = next((v for v in verbs.get("proposals", []) if v["utf8_span"] == target["utf8_span"]), None)
+        if proposal:
+            meaning = f"تقترح شبكة الأفعال الجذر «{proposal['root']}» لوقوع «{target['surface']}»."
+            detail = "تُعاد قراءة أحرف الجذر من مواضع الرسم المسجلة، أو يُقترح حرف علة أو همزة في موضعه."
+        else:
+            meaning, detail = "أُرجئ تعيين الجذر.", "لم ينتج نموذج الأفعال ترشيحًا لهذا الوقوع."
+        cards.insert(0, card("neural_root", "ترشيح جذر فعلي", meaning, detail,
+                             "يحتاج ثبوت الأصل المعجمي إلى شاهد مستقل.", proposal=proposal,
+                             utf8_span=target["utf8_span"], model_sha256=verbs.get("model_sha256")))
+    masdar_query = (len(terms) == 3 and
+                    text.strip().rstrip("؟?").strip() == "ما مصدر " + terms[-1]["surface"])
+    if root_query or masdar_query:
+        target = terms[-1]
+        owner = patterns.get("licensed_verbs", {})
+        hit = next((v for v in owner.get("occurrences", ()) if v["utf8_span"] == target["utf8_span"]), {})
+        readings = hit.get("alternatives", [])
+        if readings:
+            roots = "، ".join(dict.fromkeys(r["root_display"] for r in readings))
+            detail = f"أعادت القواعد تركيب «{target['surface']}». الجذور الموافقة للرسم هي {roots}."
+            pieces = {tuple((p["role"], p["surface"]) for p in r["segments"]) for r in readings}
+            if len(pieces) == 1 and len(next(iter(pieces))) > 1:
+                labels = {"prefix":"السابقة", "stem":"جذع الفعل", "subject":"ضمير الرفع",
+                          "object":"ضمير المفعول", "plural_mark":"علامة الجمع", "link":"واو الصلة",
+                          "feminine_mark":"علامة التأنيث", "orthographic_alif":"الألف الفارقة",
+                          "imperfect_prefix":"حرف المضارعة", "inflectional_nun":"نون الرفع"}
+                detail += " " + "، ".join(labels[role] + " «" + surface + "»" for role,surface in next(iter(pieces))) + "."
+            if masdar_query:
+                names = dict.fromkeys(name for lex in hit["masdars"].values()
+                    for w in lex["lexical_witnesses"] for name in ([w["masdar"]] if "masdar" in w else w["masadir"]))
+                detail += (" ورد في المعجم " + "، ".join(names) + ".") if names else " أُرجئ تعيين المصدر المسموع."
+            from tools.derivation_surface_bridge import evaluate_derivation_surface, REQUEST_SCHEMA, REALIZATION_PROFILE
+            from nabt.errors import NabtError
+            past = {"past.I.َ":"past.I.a", "past.I.ِ":"past.I.i", "past.I.ُ":"past.I.u"}
+            for row in readings:
+                if row["root_class"] != "أجوف" or row.get("key") not in past or len(row["segments"]) != 1:
+                    continue
+                start, end = target["utf8_span"]
+                request = {"schema":REQUEST_SCHEMA, "profile":REALIZATION_PROFILE, "span":{"start":start,"end":end},
+                           "root":row["root"], "pattern_id":past[row["key"]], "ending":"َ",
+                           "hypotheses":{"context":"ordinary","origin":"original"}}
+                try:
+                    row["weak_law_application"] = evaluate_derivation_surface(text, request)
+                except NabtError as error:
+                    row["weak_law_application"] = {"status":"DEFER", "code":error.code}
+            cards.insert(0, card("licensed_masdar" if masdar_query else "licensed_root",
+                "المصدر وشاهده" if masdar_query else "استرجاع الجذر وإعادة بناء اللفظ", detail,
+                "تُحفظ مواضع الصيغة واللواصق في النص، ويتطلب اختيار المعنى شاهد استعمال.",
+                "تظل الأوجه الموافقة للرسم متاحة.", utf8_span=target["utf8_span"],
+                reading_ref="/learned_patterns/licensed_verbs/occurrences/" + str(owner["occurrences"].index(hit))))
+    from tools.lexical_training.report_draft import read_instruction
+    instruction = read_instruction(text)
+    if instruction is not None:
+        question_result["report_instruction"] = instruction
+        conditional = instruction["frame"]["operator"]
+        if conditional:
+            relation = "أكبر من" if conditional == "GT" else "أكبر من أو يساوي"
+            meaning = (f"يُطلب إعداد مسودة تنبيه إذا كان عدد الطلبات المعلقة المميزة {relation} "
+                       f"{instruction['threshold']}. يتعلّق النهي بإرسال المسودة.")
+        else:
+            meaning = "المطلوب عدد الطلبات المعلقة المميزة في أحدث تقرير."
+        cards.append(card("report_instruction", "قراءة تكليف التقرير", meaning,
+                          "حدّد موضع كل جزء من التكليف في النص.", "تعيين التقرير والعدّ يتطلبان سجلات المضيف.",
+                          witnesses_utf8=instruction["witnesses_utf8"], action_authority="NONE"))
+
     from . import question_answer_cycle as cycle
     generated_form = question is not None and (
         question.startswith(cycle.PREFIX) or question.startswith(("ما قيمة التعبير «", "هل تصح المساواة «")))

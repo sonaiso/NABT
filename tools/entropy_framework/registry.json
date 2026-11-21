@@ -2060,6 +2060,7 @@
           "Nabt.RuleLearning"
         ],
         "runtime_paths": [
+          "tools/lexical_training/mashru_lesson.py",
           "src/nabt/learning/finite_guard.py",
           "src/nabt/learning/arabic_six_nouns.py",
           "src/nabt/program.py",
@@ -2092,6 +2093,8 @@
           "tools/lexical_training/opencyc_inquiry.py",
           "tools/grammar_catalog/ntp.py",
           "tools/ntp.py",
+          "tools/lexical_training/report_draft.py",
+          "tools/grammar_catalog/report_draft_host.py",
           "tools/lexical_training/ntp_recursive.py",
           "tools/lexical_training/ntp_ifadah.py"
         ],
@@ -2104,6 +2107,9 @@
           "grammar-catalog"
         ],
         "checker_paths": [
+          "tools/mashru_transfer.py",
+          "tools/lexical_training/mashru_readout.py",
+          "tools/lexical_training/mashru_dependencies.py",
           "tools/lexical_training/train_corpus_concepts.py",
           "tools/lexical_training/train_witness_origins.py",
           "tools/source_learning_experiment.py",
@@ -2116,6 +2122,7 @@
           "tools/lexical_training/train_comparison_simulation.py"
         ],
         "test_paths": [
+          "tests/test_mashru_transfer.py",
           "tests/test_source_learning.py",
           "tests/test_program.py",
           "tests/test_source_learning_connection.py",
@@ -2144,6 +2151,7 @@
           "tests/test_opencyc_inquiry.py",
           "tests/test_ntp_recursive.py",
           "tests/test_ntp_cli.py",
+          "tests/test_report_draft.py",
           "tests/test_ntp_runtime_integration.py",
           "tests/test_ntp_learning_contract.py",
           "tests/test_ntp_ifadah_learning.py",
@@ -2151,6 +2159,7 @@
           "tests/test_comparison_simulation.py"
         ],
         "doc_paths": [
+          "docs/MASHRU_PROOF_TRANSFER_AR.md",
           "docs/NTL_CORPUS_CONCEPTS_AR.md",
           "docs/SOURCE_LEARNING.md",
           "docs/ACQUIRED_KNOWLEDGE_CONNECTION_AR.md",
@@ -2383,6 +2392,9 @@
           "src/nabt/derivation.py",
           "src/nabt/verb_paradigm.py",
           "tools/derivation_surface_bridge.py",
+          "tools/lexical_training/verb_reading.py",
+          "tools/lexical_training/verb_sources.py",
+          "tools/lexical_training/train_verb_contrasts.py",
           "tools/grammar_catalog/operation_runtime.py",
           "tools/arabic_training/unit_composition.py",
           "tools/grammar_catalog/unit_catalog.py",
@@ -2401,6 +2413,7 @@
           "tools/check_derivation_conformance.py"
         ],
         "test_paths": [
+          "tests/test_verb_morphology.py",
           "tests/test_derivation.py",
           "tests/test_derivation_review.py",
           "tests/test_derivation_surface_bridge.py",
@@ -2409,6 +2422,7 @@
           "tests/test_relational_rag.py"
         ],
         "doc_paths": [
+          "docs/VERB_MORPHOLOGY_AR.md",
           "docs/DERIVATION.md",
           "docs/DERIVATION_SOURCE_AUDIT.md",
           "docs/DERIVATION_SURFACE_V1_AR.md",
@@ -2642,6 +2656,7 @@
           "src/nabt/governors.py",
           "src/nabt/governor_reader.py",
           "tools/grammar_catalog/awamil.py",
+          "tools/grammar_catalog/awamil_profile.py",
           "tools/grammar_catalog/awamil_occurrence.py",
           "tools/lexical_training/awamil_occurrence_model.py",
           "tools/lexical_training/awamil_voice.py",
@@ -2661,6 +2676,7 @@
         "checker_paths": [
           "tools/check_arabic_conformance.py",
           "tools/check_governor_conformance.py",
+          "integrations/awamil_profile/check.sh",
           "tools/check_arabic_inna_fragment.py"
         ],
         "test_paths": [
@@ -2668,6 +2684,7 @@
           "tests/test_governors.py",
           "tests/test_arabic_inna_fragment_probe.py",
           "tests/test_awamil_agent.py",
+          "tests/test_awamil_style_profile.py",
           "tests/test_awamil_occurrence.py",
           "tests/test_awamil_training.py",
           "tests/test_progressive_agent_plan.py"
@@ -2919,6 +2936,7 @@
           "Nabt.LexicalDenotation",
           "Nabt.LexicalCatalog",
           "Nabt.MaqayisDenotation",
+          "Nabt.MatrixDenotation",
           "Nabt.AttestedLexicalLoading",
           "Nabt.ConceptContinuity"
         ],
@@ -2963,6 +2981,15 @@
           "tools/lexical_training/cognitive_training.py",
           "tools/grammar_catalog/root_sense.py",
           "tools/grammar_catalog/genus_chains.py",
+          "tools/grammar_catalog/named_matrix.py",
+          "tools/grammar_catalog/usul_ledger.py",
+          "tools/grammar_catalog/lineage_roles.py",
+          "tools/grammar_catalog/role_forms.py",
+          "tools/grammar_catalog/masdar_frames.py",
+          "integrations/usul_ledger/MasdarSlots.lean",
+          "integrations/usul_ledger/WeightedReading.lean",
+          "tools/grammar_catalog/morphology_matrix.py",
+          "integrations/usul_ledger/Lineage.lean",
           "formal/RootSenseProfile.lean"
         ],
         "native_targets": [
@@ -3009,7 +3036,13 @@
           "tests/test_passive_relation_holdout.py",
           "tests/test_cognitive_training.py",
           "tests/test_relational_root_sense.py",
-          "tests/test_genus_chains.py"
+          "tests/test_genus_chains.py",
+          "tests/test_named_matrix.py",
+          "tests/test_usul_ledger.py",
+          "tests/test_lineage_roles.py",
+          "tests/test_masdar_frames.py",
+          "tests/test_morphology_matrix.py",
+          "tests/test_event_roles.py"
         ],
         "doc_paths": [
           "docs/LEXICAL_DENOTATION.md",
@@ -3023,6 +3056,7 @@
           "docs/LEXICAL_EXPLANATION_AR.md",
           "docs/UNIFIED_LEARNING_FRAMEWORK_AR.md",
           "docs/RATIONAL_RAG_ONTOLEX_AR.md",
+          "docs/MAQAYIS_MORPHOLOGY_MATRIX_AR.md",
           "docs/SHARED_COGNITION_V1_AR.md",
           "docs/SOURCE_NEURAL_READING_V1_AR.md",
           "docs/CONTEXTUAL_ALIGNMENT_V1_AR.md",

@@ -8,16 +8,26 @@ from tools.lexical_training.awamil_occurrence_model import PATH as OCCURRENCE_MO
 from tools.lexical_training.awamil_voice import PATH as AWAMIL_VOICE_MODEL
 from tools.lexical_training.classical_attention import MODEL_PATH as ROLE_ATTENTION_MODEL
 from tools.evidence_lifecycle_v1 import ResourceLimit, _encoded, strict_loads, wire
+from .awamil_profile import STYLE_FILE
 from .operations import ROOT, digest, source_snapshot
+from tools.lexical_training.corpus_verbs import PATH as CORPUS_VERB_MODEL
+from tools.lexical_training.pattern_learning import MODEL_PATH as PATTERN_MODEL, NOMINAL_PATH as NOMINAL_STEMS
 from .operation_rag import invoke_bounded, MAX_RESULT, MAX_ADDRESS_SPACE, gateway_worker_limits
 from . import gateway_routes, gateway_links
+
+from tools.lexical_training.verb_reading import RULES as VERB_RULES, HEADS as VERB_HEADS
+from tools.lexical_training.verb_sources import LANE as VERB_LANE, DICTIONARY as VERB_DICTIONARY, STUDIES as VERB_STUDIES
 
 REQUEST_SCHEMA = "nabt.io.request.v1"
 RESULT_SCHEMA = "nabt.io.result.v1"
 MAX_REQUEST = 2 * 1048576
 POLICY = "nabt.external-io.gateway-only.v1"
 PASSIVE_MODEL = "evidence/passive_relation_transfer_v1/model.json"
+MASHRU_MODELS = ("tools/lexical_training/data/mashru_force_v1.json",
+                 "tools/lexical_training/data/mashru_dependencies_v1.json")
 OPTIONAL_NEURAL_INPUTS = frozenset((
+    *MASHRU_MODELS,
+    PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES,
     "evidence/ntl_update_memory_v1/model.json",
     "evidence/ntp_recursive_v1/model.json",
     "evidence/ntp_ifadah_v1/model.json",
@@ -47,6 +57,7 @@ def request_from_bytes(raw):
 def snapshot():
     # Reuse source identity, including the sole current compiled catalogue.
     from tools import lexical_testimony
+    from .morphology_matrix import SEALED as matrix_files
     from .text_reading import LEXICON
     value, _ = source_snapshot()
     value = deepcopy(value)
@@ -55,9 +66,16 @@ def snapshot():
             if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
                 raise ValueError("I/O contract reference escapes repository")
             value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
+    morphology_package = ROOT / "integrations/verb_morphology"
+    morphology_sources = [*morphology_package.glob("*.lean"), *morphology_package.glob("Archive/*.lean"),
+                          *(ROOT / "vendor/alghanem-a116/A116").rglob("*.lean")]
+    for path in morphology_sources:
+        if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
+            raise ValueError("Morphology proof source escapes repository")
+        value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
-    lexical_sources = (PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
+    lexical_sources = (PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES, PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
                        "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
                        "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
                        "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
@@ -66,6 +84,7 @@ def snapshot():
                        "evidence/cognitive_orchestration_v1/dispatch.json",
         "tools/lexical_training/data/classical_books_domains_v1.json",
         "tools/lexical_training/data/ifadah_programs_v1.json",
+        *MASHRU_MODELS,
         "tools/lexical_training/data/ntl_apprentice_model_v1.json",
         "evidence/ntp_recursive_v1/model.json", "evidence/ntp_recursive_v1/protocol.json",
         "evidence/ntl_update_memory_v1/model.json", "evidence/ntl_update_memory_v1/protocol.json",
@@ -75,7 +94,7 @@ def snapshot():
         "evidence/ifadah_programs_v1/protocol_local.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
     testimony_inputs = {p for _, _, p in lexical_testimony.SOURCES.values() if p is not None}
-    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", LEXICON) + lexical_sources:
+    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", LEXICON) + lexical_sources + tuple(matrix_files):
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
             raise ValueError("I/O source reference escapes repository")
@@ -87,16 +106,15 @@ def snapshot():
             # Optional observations must not suppress the installed owner.
             # Availability itself is bound, so restoration invalidates replay.
             value["files"][relative] = "UNAVAILABLE"
-    # Optional use acquisition must bind its retained review and source bytes,
-    # including absence. The owner independently authenticates the pinned review.
-    usage_inputs = ("evidence/linguistic_truth_v1/source_inventory.json",) + tuple(
+    # Bind optional style and usage source bytes, including their absence.
+    optional_sources = (STYLE_FILE, "evidence/linguistic_truth_v1/source_inventory.json",) + tuple(
         "evidence/linguistic_truth_v1/sources/"+name for name in (
             "shakhsiyya3_linguistic_truth_selected.txt", "shakhsiyya3_command_supplement.txt",
             "shakhsiyya1_cognition.txt", "thinking_cognition.txt"))
-    for relative in usage_inputs:
+    for relative in optional_sources:
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
-            raise ValueError("I/O usage source escapes repository")
+            raise ValueError("I/O optional source escapes repository")
         value["files"][relative] = sha256(path.read_bytes()).hexdigest() if path.exists() else "UNAVAILABLE"
     value["schema"] = "nabt.io.snapshot.v1"
     return value

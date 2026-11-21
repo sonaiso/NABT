@@ -142,8 +142,8 @@ def search(query, limit=5):
 def validate(request):
     allowed = {"text", "source_id", "query", "limit", "lexical_text", "context", "temporal",
                "inference", "bridge", "neural_continuity", "root_sense", "question",
-               "question_chain", "genus_chains", "valency_context", "report_model",
-               "licensed_speech"}
+               "question_chain", "genus_chains", "valency_context", "report_model", "named_matrix",
+               "licensed_speech", "morphology_matrix"}
     if type(request) is not dict or "text" not in request or set(request) - allowed:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
@@ -152,6 +152,9 @@ def validate(request):
     if not _text(request.get("source_id", "input"), "source_id", maximum=128).strip():
         raise ValueError("Nonempty source identity required")
     _limit(request.get("limit", 5))
+    if "morphology_matrix" in request:
+        from .morphology_matrix import validate as validate_morphology_matrix
+        validate_morphology_matrix(request["morphology_matrix"])
     if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
         raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
@@ -171,6 +174,9 @@ def validate(request):
         if (type(ctx) is not dict or set(ctx)!={"ledger"} or type(ctx["ledger"]) is not str
                 or not 0<len(ctx["ledger"].encode())<=32768):
             raise ValueError("Expected a bounded signed ground ledger")
+    if "named_matrix" in request:
+        from .named_matrix import validate as validate_matrix
+        validate_matrix(request["named_matrix"])
     if "genus_chains" in request:
         from .genus_chains import validate as validate_chains
         validate_chains(request["genus_chains"])
@@ -227,6 +233,9 @@ def analyze(request):
         "retrieval_prunes_owner_candidates":False, "world_truth_established":False,
         "empirical_causality_established":False, "new_lean_proof":False}
     from . import derived_event_roles
+    if "morphology_matrix" in p:
+        from .morphology_matrix import analyze as matrix_analysis
+        result["morphology_matrix"] = matrix_analysis(text, source_id, p["morphology_matrix"])
     derived = derived_event_roles.analyze(text, source_id)
     if derived is not None:
         result["derived_event_roles"] = derived
@@ -238,6 +247,9 @@ def analyze(request):
     event_roles = analyze_event_roles(text, source_id)
     if event_roles is not None:
         result["literal_event_roles"] = event_roles
+    if "named_matrix" in p:
+        from .named_matrix import analyze as analyze_matrix
+        result["named_matrix"] = analyze_matrix(text, source_id, p["named_matrix"])
     if "genus_chains" in p:
         from .genus_chains import analyze as analyze_chains
         result["genus_chains"] = analyze_chains(text, source_id, p["genus_chains"])

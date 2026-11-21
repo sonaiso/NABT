@@ -1,13 +1,13 @@
 .PHONY: io-gateway io-gateway-build io-gateway-native
 .PHONY: relational-bridge
 relational-bridge:
-	cd formal && $(LAKE) build verifiedReading
-	PYTHONPATH=src:. NABT_REQUIRE_RELATIONAL_NATIVE=1 $(PYTHON) -m unittest tests.test_relational_bridge tests.test_ontological_continuity tests.test_relational_alignment tests.test_genus_chains tests.test_valency -v
+	LAKE="$(LAKE)" sh integrations/usul_ledger/check.sh
+	PYTHONPATH=src:. NABT_REQUIRE_RELATIONAL_NATIVE=1 $(PYTHON) -m unittest tests.test_relational_bridge tests.test_ontological_continuity tests.test_relational_alignment tests.test_genus_chains tests.test_valency tests.test_named_matrix tests.test_usul_ledger tests.test_lineage_roles tests.test_masdar_frames tests.test_event_roles -v
 
 check: relational-bridge
 
 io-gateway:
-	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions tests.test_witness_recall tests.test_licensed_speech tests.test_partial_speech tests.test_graph_interventions tests.test_ntl_pr_integration tests.test_ntl_atlas tests.test_lesson_dispatch_regression tests.test_ntl_witness_pilot tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core tests.test_context_transfer tests.test_corpus_concepts tests.test_literal_event_roles tests.test_event_scene tests.test_derived_event_roles tests.test_pr113_regressions tests.test_ifadah_programs -v
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_report_draft tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions tests.test_witness_recall tests.test_licensed_speech tests.test_partial_speech tests.test_graph_interventions tests.test_ntl_pr_integration tests.test_ntl_atlas tests.test_lesson_dispatch_regression tests.test_ntl_witness_pilot tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core tests.test_context_transfer tests.test_corpus_concepts tests.test_literal_event_roles tests.test_event_scene tests.test_derived_event_roles tests.test_pr113_regressions tests.test_ifadah_programs -v
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway catalog --output $(EVIDENCE_DIR)/io-catalog.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway run --request examples/io_gateway/contrast.json --output $(EVIDENCE_DIR)/io-contrast.json
 	PYTHONPATH=src:. $(PYTHON) -m tools.grammar_catalog gateway verify --request examples/io_gateway/contrast.json --receipt $(EVIDENCE_DIR)/io-contrast.json
@@ -20,7 +20,7 @@ ntl-course-check: io-gateway-build
 	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_lesson_dispatch_regression tests.test_ntl_witness_pilot tests.test_ntl_curriculum tests.test_ntl_course tests.test_ntl_core tests.test_context_transfer tests.test_corpus_concepts tests.test_literal_event_roles tests.test_event_scene tests.test_derived_event_roles tests.test_pr113_regressions tests.test_ifadah_programs -v
 
 io-gateway-native: ntl-course-check
-	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions tests.test_witness_recall tests.test_licensed_speech tests.test_partial_speech tests.test_graph_interventions tests.test_ntl_pr_integration tests.test_ntl_atlas -v
+	PYTHONPATH=src:. NABT_REQUIRE_IO_GATEWAY_NATIVE=1 $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_report_draft tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients tests.test_io_gateway tests.test_relational_rag tests.test_lexical_ontolex tests.test_relational_root_sense tests.test_definition_network tests.test_interpretation_chains tests.test_question_cognition tests.test_question_answer_cycle tests.test_graded_questions tests.test_witness_recall tests.test_licensed_speech tests.test_partial_speech tests.test_graph_interventions tests.test_ntl_pr_integration tests.test_ntl_atlas -v
 
 test unit-composition-agent context-application: io-gateway-build
 check: io-gateway-native
@@ -85,7 +85,7 @@ check io-gateway-native: ntl-update-memory-check
 
 .PHONY: ntp-check
 ntp-check:
-	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients -v
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_ntp_recursive tests.test_ntp_cli tests.test_ntp_runtime_integration tests.test_ntp_learning_contract tests.test_report_draft tests.test_ntp_ifadah_learning tests.test_ntp_ifadah_gradients -v
 
 .PHONY: nabt-comparison-check
 nabt-comparison-check:
@@ -93,3 +93,14 @@ nabt-comparison-check:
 	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.train_comparison_simulation --check
 
 check: nabt-comparison-check
+
+.PHONY: maqayis-matrix-check
+maqayis-matrix-check:
+	mkdir -p $(EVIDENCE_DIR)
+	cd formal && $(LAKE) build lexicalDenotation
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_morphology_matrix -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.ntp run --request examples/io_gateway/maqayis_concept_matrix.json --output $(EVIDENCE_DIR)/maqayis-matrix.json
+	$(PYTHON) -c 'import json,sys; result=json.load(open(sys.argv[1]))["execution"]["owner_result"]["owner_result"]["morphology_matrix"]; assert result["common_indications"] == ["iltizam"], result["readings"][0]["denotation"]' $(EVIDENCE_DIR)/maqayis-matrix.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.ntp verify --request examples/io_gateway/maqayis_concept_matrix.json --receipt $(EVIDENCE_DIR)/maqayis-matrix.json
+
+relational-bridge: maqayis-matrix-check

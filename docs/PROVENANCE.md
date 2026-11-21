@@ -214,3 +214,13 @@ excluded from transfer. The semantic jamid/mushtaq axis remains distinct from
 etymological derivation and frozen/conjugating verbs. The new independent
 material, first run, later review findings and runtime snapshots are retained
 under `evidence/text_morphology/`; earlier evidence and gold remain unchanged.
+
+### Mashru theorem transfer
+
+The library under `vendor/mashru` is drawn from
+[Saleh1967/Mashru at f23f635](https://github.com/Saleh1967/Mashru/tree/f23f635f2a90a10c34ce154f7c709b162c47b513).
+The MIT notice ships alongside the original sources. The local Lake package
+reuses NABT and its existing A116 package. The immutable files (including
+the shared A116 sources) are checked by a single source-tree digest in
+`formal/theorems.json`. The build wrapper, discovery and export commands
+are local integration code. See [the Arabic integration note](MASHRU_PROOF_TRANSFER_AR.md).

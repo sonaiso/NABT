@@ -74,6 +74,8 @@ lean_exe exportConstructionEvidence where
 lean_exe unitDiscoveryProbe where
   root := `UnitDiscoveryProbe
 
+lean_lib ProofCatalogExport
+
 lean_lib ProbeJson
 
 @[default_target]

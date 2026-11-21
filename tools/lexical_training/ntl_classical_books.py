@@ -3,6 +3,7 @@ from hashlib import sha256
 import json
 import re
 
+from nabt.errors import NabtError
 from nabt.source_lexicon import SourceIdentityError, SourceLexicon
 from tools import lexical_testimony
 from tools.grammar_catalog import classical_roles
@@ -164,7 +165,12 @@ def learner_choice(policy, text, bank):
             return None
         options = []
         for term in terms:
-            noun = classical_roles.noun_reading(term, bank["nouns"])
+            try:
+                noun = classical_roles.noun_reading(term, bank["nouns"])
+            except NabtError as error:
+                if error.code != "INSTALLED_CONTRACT_FAILED":
+                    raise
+                return None
             if noun and any(row["case_name"] == "raf" for row in noun["case_rows"]):
                 options.append(term)
         return options[0]["utf8_span"] if len(options) == 1 else None

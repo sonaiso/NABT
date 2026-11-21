@@ -11,6 +11,7 @@ from unittest.mock import patch
 from tools import lexical_testimony
 from tools.evidence_lifecycle_v1 import wire
 from tools.grammar_catalog import gateway, gateway_routes, gateway_links, lexical_ontolex as lexical
+from tools.grammar_catalog import morphology_matrix
 
 NATIVE = os.access(lexical_testimony.ROOT / "formal/.lake/build/bin/lexicalDenotation", os.X_OK)
 if os.environ.get("NABT_REQUIRE_IO_GATEWAY_NATIVE") == "1" and not NATIVE:
@@ -36,9 +37,11 @@ class LexicalBoundary(unittest.TestCase):
                  "evidence/ntp_ifadah_v1/protocol.json", "evidence/ntp_ifadah_v1/model.json",
                  "evidence/ntl_update_memory_v1/protocol.json", "evidence/ntl_update_memory_v1/model.json",
                  "evidence/ntp_ifadah_v1/supervision.json",
+                 "tools/lexical_training/data/classical_books_domains_v1.json",
                  "evidence/ifadah_programs_v1/data.json", "evidence/ifadah_programs_v1/protocol.json",
                  "evidence/ifadah_programs_v1/protocol_local.json"]
         paths += [p for _, _, p in lexical_testimony.SOURCES.values() if p is not None]
+        paths.extend(morphology_matrix.SEALED)
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             for relative in paths:
@@ -52,15 +55,17 @@ class LexicalBoundary(unittest.TestCase):
                 changed = gateway.snapshot()
                 self.assertNotEqual(original["files"][str(lexical_testimony.CATALOG)], changed["files"][str(lexical_testimony.CATALOG)])
                 self.assertTrue(set(paths) <= changed["files"].keys())
-                # The new lesson binds its corpus and both frozen protocols too.
-                # Their absence remains an error, never an optional observation.
-                for relative in ("evidence/ifadah_programs_v1/data.json",
+                # Both the lesson protocols and the matrix deposits are mandatory.
+                for relative in ("tools/lexical_training/data/classical_books_domains_v1.json",
+                                 "evidence/ifadah_programs_v1/data.json",
                                  "evidence/ifadah_programs_v1/protocol.json",
                                  "evidence/ifadah_programs_v1/protocol_local.json",
                                  "evidence/ntp_recursive_v1/protocol.json",
                                  "evidence/ntp_ifadah_v1/protocol.json",
                                  "evidence/ntl_update_memory_v1/protocol.json",
-                                 "evidence/ntp_ifadah_v1/supervision.json"):
+                                 "evidence/ntp_ifadah_v1/supervision.json",
+                                 morphology_matrix.CLASSIFICATION, morphology_matrix.BOOK,
+                                 morphology_matrix.DEFINITIONS, morphology_matrix.RULE):
                     evidence = root / relative
                     evidence.write_bytes(b"changed curriculum")
                     revised = gateway.snapshot()
