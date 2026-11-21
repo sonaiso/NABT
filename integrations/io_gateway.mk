@@ -1,8 +1,8 @@
 .PHONY: io-gateway io-gateway-build io-gateway-native
 .PHONY: relational-bridge
 relational-bridge:
-	cd formal && $(LAKE) build verifiedReading
-	PYTHONPATH=src:. NABT_REQUIRE_RELATIONAL_NATIVE=1 $(PYTHON) -m unittest tests.test_relational_bridge tests.test_ontological_continuity tests.test_relational_alignment tests.test_genus_chains tests.test_valency -v
+	LAKE="$(LAKE)" sh integrations/usul_ledger/check.sh
+	PYTHONPATH=src:. NABT_REQUIRE_RELATIONAL_NATIVE=1 $(PYTHON) -m unittest tests.test_relational_bridge tests.test_ontological_continuity tests.test_relational_alignment tests.test_genus_chains tests.test_valency tests.test_named_matrix tests.test_usul_ledger tests.test_lineage_roles tests.test_masdar_frames tests.test_event_roles -v
 
 check: relational-bridge
 
