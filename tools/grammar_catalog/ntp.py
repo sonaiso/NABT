@@ -178,6 +178,8 @@ def _lesson_sources(lesson, owner):
         task = lesson.get('task', {})
         add(task.get('text'), '/task/text')
         add(task.get('query'), '/task/query', 'QUESTION')
+        if lesson.get('unit') == 'measurement':
+            add(task.get('source_ar'), '/task/source_ar')
     elif schema == context_transfer.SCHEMA:
         for i, example in enumerate(lesson['examples']):
             add(example['text'], f'/examples/{i}/text', 'DEMONSTRATION')
@@ -219,6 +221,10 @@ def _lesson_sources(lesson, owner):
                 add(source['text'], f'/payload/sources/{i}/text', source_id=source['id'])
         elif lesson['adapter'] == 'qualified_inference':
             add(payload['source_text'], '/payload/source_text', source_id=payload['source_id'])
+    if schema in (ntl_core.SCHEMA, school_apprentice.SCHEMA) and lesson.get('action') == 'induce':
+        for group, role in (('examples', 'DEMONSTRATION'), ('probes', 'PROBE')):
+            for i, item in enumerate(lesson[group]):
+                add(item.get('source_ar'), f'/{group}/{i}/source_ar', role)
     return sources, 'NO_REQUEST_TEXT_SOURCE'
 
 
