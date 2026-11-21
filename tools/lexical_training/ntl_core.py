@@ -10,6 +10,7 @@ from nabt.learning.finite_guard import FeatureSchema, GuardLanguage, LearningSes
 from nabt.semantics import SemanticKernel
 from tools import evidence_lifecycle_v1 as wire, lexical_testimony
 from tools.grammar_catalog import relational_bridge, scoped_composition
+from . import measurement_source
 
 SCHEMA = "ntl.minimum-course.v2"
 RESULT = "ntl.minimum-course-result.v2"
@@ -164,6 +165,43 @@ def measurement(task):
     return outcome(status, references, trace)
 
 
+def measurement_question(task):
+    """Lower only a fully consumed question to the existing measurement or arithmetic owner."""
+    if type(task) is not dict or "source_ar" not in task:
+        return measurement(task)
+    wire._fields(task, ("source_ar",), "source-only measurement")
+    rows, operation, source = measurement_source.read(task["source_ar"])
+    trace = {"source_reading": source}
+    if operation is None:
+        return unavailable({**trace, "missing": ["supported_question_or_observation"]})
+    numerical = operation in ("signed_delta", "ordered_subtraction")
+    missing = measurement_source.missing(rows, precision=not numerical)
+    if missing:
+        if operation == "heating_cause":
+            missing.append("causal_design")
+        return unavailable({**trace, "missing": missing})
+    if numerical:
+        if operation == "signed_delta" and (rows[0]["object"] != rows[1]["object"]
+                                            or rows[0]["day"] >= rows[1]["day"]):
+            return outcome("UNALIGNED", ["R1", "R2", "question"], trace)
+        mm = [r["value"] * SCALES[r["unit"]] for r in rows]
+        lhs, rhs = 1, 0
+        if operation == "ordered_subtraction":
+            operands = source["question"]["operands"]
+            lhs, rhs = operands["minuend"]["row"], operands["subtrahend"]["row"]
+        calculated = arithmetic({"text": f"{mm[lhs]}-{mm[rhs]}"})
+        trace.update(arithmetic=calculated, unit="mm", central_readings_mm=mm)
+        if calculated["answer"] is None:
+            return unavailable(trace)
+        return outcome(calculated["answer"]["decision"], ["R1", "R2", "question"], trace)
+    observed = measurement({"readings": rows})
+    trace["measurement"] = observed
+    if operation == "heating_cause":
+        # A pair of lengths can bear on growth. It supplies no causal design.
+        return unavailable({**trace, "missing": ["causal_design"]})
+    return outcome(observed["answer"]["decision"], [*observed["answer"]["witnesses"], "question"], trace)
+
+
 def paired_trial(task):
     wire._fields(task, ("assignment", "intervention", "control", "endpoint", "outcome_unit", "pairs"), "matched-pair experiment")
     if task["assignment"] not in ("fair_independent_within_pair", "observer_selected", "unreported"):
@@ -295,7 +333,7 @@ def integrated(task):
     return outcome("APPLIES_TO_RECORDED_INTERVAL", language_refs + m["witnesses"] + ["expression", "program"], trace)
 
 
-OWNERS = {"sign": sign, "passage": passage, "indication": indication, "measurement": measurement,
+OWNERS = {"sign": sign, "passage": passage, "indication": indication, "measurement": measurement_question,
           "ontology": ontology, "experiment": paired_trial, "formal": arithmetic, "program": program, "integrated": integrated}
 
 
@@ -313,14 +351,29 @@ def learn_measurement(lesson):
     learner = LearningSession(GuardLanguage(MEASURE_FEATURES, 3))
     curve = [len(learner.survivors)]
     results = []
+    source_readings = []
     for i, task in enumerate([*examples, *probes]):
+        training = i < len(examples)
+        if type(task) is dict and "source_ar" in task:
+            wire._fields(task, ("source_ar",), "source-only induction case")
+            rows, operation, source = measurement_source.read(task["source_ar"])
+            missing = (measurement_source.missing(rows, precision=True) if operation == "increase"
+                       else ["supported_increase_question"])
+            source_readings.append({"index": i, "source_reading": source, "missing": missing})
+            if missing:
+                if training:
+                    curve.append(len(learner.survivors))
+                else:
+                    results.append({"status": "SOURCE_DEFER", "possible": [], "features": None,
+                                    "missing": missing})
+                continue
+            task = {"readings": rows}
         raw = wire.wire(task)
         if raw in seen:
             raise ValueError("Training and probe records must be distinct")
         seen.add(raw)
         result = measurement(task)
         rows = task["readings"]
-        training = i < len(examples)
         if len(rows) < 2:
             if training:
                 curve.append(len(learner.survivors))
@@ -342,7 +395,8 @@ def learn_measurement(lesson):
             status = "UNDECIDED" if len(possible) != 1 else "CORRECT" if possible == [label] else "REVISE"
             results.append({"status": status, "features": features, "pattern_seen": pattern in patterns,
                             "possible": possible, "reference": result["answer"]})
-    return {"schema": RESULT, "status": "COURSE_SESSION", "action": "induce", "unit": "measurement",
+    return {**({"source_readings": source_readings} if source_readings else {}),
+            "schema": RESULT, "status": "COURSE_SESSION", "action": "induce", "unit": "measurement",
             "execution_measured": True, "candidate_counts": curve, "probes": results,
             "surviving_rules": [g.render(MEASURE_FEATURES) for g in learner.survivors],
             "scope": "declared_conjunctions_of_three_measured_features"}
@@ -421,6 +475,8 @@ def run(lesson):
     result = {"schema": RESULT, "status": "COURSE_SESSION", "execution_measured": True, "unit": unit,
               "objective": spec["objective"], "question": spec["question"], "answer_format": spec["answer_format"],
               "action": action, "cases": entries}
+    if unit == "measurement" and "task" in lesson and "source_ar" in lesson["task"]:
+        result["question"] = lesson["task"]["source_ar"]
     if action == "assess":
         counted = ["new"] if "task" in lesson else list(STAGES[1:])
         result["assessment"] = {"scope": "submitted_task" if "task" in lesson else "unit_transfer_contrast_withdrawal",
