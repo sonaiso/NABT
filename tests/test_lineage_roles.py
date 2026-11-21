@@ -1,4 +1,5 @@
 import itertools
+import os
 import unittest
 from tools.grammar_catalog import named_matrix
 from tools.grammar_catalog.role_forms import candidates
@@ -23,7 +24,10 @@ class LineageRolesTest(unittest.TestCase):
             c,s,b=cells
             self.assertEqual(a["positive"] is not None, bool(c&1 and s&1 and b&2),cells)
             self.assertEqual(a["negative"] is not None, bool(c&2 or s&2 or b&1),cells)
-            self.assertEqual(result["status"],"VERIFIED_PROJECTION")
+            if result["checker"]["status"] == "CHECKER_UNAVAILABLE" and not os.getenv("NABT_REQUIRE_RELATIONAL_NATIVE"):
+                self.assertEqual(result["status"],"PROPOSAL_ONLY")
+            else:
+                self.assertEqual(result["status"],"VERIFIED_PROJECTION")
 
     def test_preserved_source_spans_and_incompatible_marks(self):
         r=evaluate("بيت، جُذِبَ ثم جَذْبٌ",["قراءة_أ موضع_لفظ عدد_2","قراءة_ب موضع_لفظ عدد_4"],
