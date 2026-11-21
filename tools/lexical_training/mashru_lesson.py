@@ -14,7 +14,7 @@ from tools import mashru_transfer as transfer
 SCHEMA = "nabt.mashru-lesson.v1"
 RESULT = "nabt.mashru-lesson-result.v1"
 NATIVE = transfer.LIB / ".lake/build/bin/mashruAthar"
-REFERENCE_SHA = "b7a6296f1017bf6a39780699b0e9d1af92c6e9185c5cdf90c2733a19c74534dd"
+REFERENCE_SHA = "994de936bee5ada04275da039f0eb13acca67032699878c22d0c60994a6b90e5"
 SINGLETON = {"JUMLA", "DAWA", "QUWWA", "QAYD", "MAFHUM"}
 ARITY = {"ADAT": {4}, "JUMLA": {2}, "ITAR": {3}, "MUQ": {5}, "QUWWA": {2},
          "DAWA": {1}, "MANTUQ": {4}, "QAYD": {1, 2}, "MAFHUM": {3}}
