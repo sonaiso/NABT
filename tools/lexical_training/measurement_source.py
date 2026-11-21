@@ -81,6 +81,22 @@ def read(source):
     return rows, operation, trace
 
 
+def answer_format(source_reading):
+    question = source_reading["question"]
+    operation = question["operation"] if question else None
+    if operation == "increase":
+        decision = "decision أحد الرموز INCREASE أو DECREASE أو SAME أو UNRESOLVED_PRECISION أو UNALIGNED."
+    elif operation in ("signed_delta", "ordered_subtraction"):
+        decision = "decision نص يمثل فرق القراءتين بالملليمتر، بأرقام 0–9 وإشارة السالب عند الحاجة، مثل \"7\" أو \"-7\" أو \"0\"."
+        if operation == "signed_delta":
+            decision += " عند اختلاف الجسم أو عدم تقدم اليوم الثاني استعمل UNALIGNED."
+    elif operation == "heating_cause":
+        return "يتطلب الحكم السببي شاهد تصميم التجربة. يظل الجواب غير قابل للتصحيح (UNGRADABLE) اعتمادًا على القراءتين وحدهما."
+    else:
+        return "تعذر تعيين العملية من النص. يظل الجواب غير قابل للتصحيح (UNGRADABLE)."
+    return decision + " عند كفاية المعطيات أدرج في witnesses المعرّفات R1 وR2 وquestion جميعًا. عند نقص شاهد لازم يظل الجواب غير قابل للتصحيح (UNGRADABLE)."
+
+
 def missing(rows, *, precision):
     fields = ("unit", "error") if precision else ("unit",)
     result = [f"R{i}.{field}" for i, row in enumerate(rows, 1)

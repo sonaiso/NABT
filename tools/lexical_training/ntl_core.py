@@ -454,10 +454,13 @@ def run(lesson):
         if len(set(refs)) != len(refs):
             raise ValueError("Witnesses must be distinct")
     entries = {}
+    answer_format = spec["answer_format"]
     for cid, task in tasks.items():
         entry = {"task": task}
         if action != "worksheet" or "task" in lesson:
             evaluated = OWNERS[unit](task)
+            if unit == "measurement" and "task" in lesson and "source_ar" in task:
+                answer_format = measurement_source.answer_format(evaluated["trace"]["source_reading"])
             if action == "teach":
                 entry.update(evaluated)
             if action == "assess":
@@ -473,7 +476,7 @@ def run(lesson):
             entry["code"] = PROGRAM_SOURCE[task["implementation"]]
         entries[cid] = entry
     result = {"schema": RESULT, "status": "COURSE_SESSION", "execution_measured": True, "unit": unit,
-              "objective": spec["objective"], "question": spec["question"], "answer_format": spec["answer_format"],
+              "objective": spec["objective"], "question": spec["question"], "answer_format": answer_format,
               "action": action, "cases": entries}
     if unit == "measurement" and "task" in lesson and "source_ar" in lesson["task"]:
         result["question"] = lesson["task"]["source_ar"]

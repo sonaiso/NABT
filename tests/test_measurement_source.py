@@ -79,6 +79,34 @@ class LengthReading(unittest.TestCase):
         with self.assertRaises(ValueError):
             core.measurement_question({"source_ar": FIRST + SECOND + UP, "readings": []})
 
+    def test_worksheet_format_matches_the_graded_source_answer(self):
+        def session(action, task, **extra):
+            return core.run(dict(schema=core.SCHEMA, unit="measurement", action=action, task=task, **extra))
+        for question, decision in ((UP, "INCREASE"), (DELTA, "10"),
+                                   ("كم ناتج طرح القراءة الثانية من الأولى بالملليمتر؟", "-10")):
+            with self.subTest(question=question):
+                task = {"source_ar": FIRST + SECOND + question}
+                worksheet = session("worksheet", task)
+                fmt = worksheet["answer_format"]
+                self.assertEqual(worksheet["question"], task["source_ar"])
+                self.assertNotIn("answer", worksheet["cases"]["new"])
+                for witness in ("R1", "R2", "question"):
+                    self.assertIn(witness, fmt)
+                self.assertIn("INCREASE" if question == UP else "بالملليمتر", fmt)
+                self.assertEqual("UNALIGNED" in fmt, question in (UP, DELTA))
+                self.assertEqual(session("teach", task)["answer_format"], fmt)
+                if question == UP or core.scoped_composition.NATIVE.is_file():
+                    for witnesses, grade in ((["question", "R2", "R1"], "CORRECT"), (["R1", "R2"], "REVISE")):
+                        graded = session("assess", task, submissions={"new": {"decision": decision, "witnesses": witnesses}})
+                        self.assertEqual(graded["cases"]["new"]["grade"], grade)
+                        self.assertEqual(graded["answer_format"], fmt)
+        for q in (CAUSE, "هل نما؟"):
+            task = {"source_ar": FIRST + SECOND + q}
+            self.assertIn("UNGRADABLE", session("worksheet", task)["answer_format"])
+            self.assertEqual(session("assess", task, submissions={})["cases"]["new"]["grade"], "UNGRADABLE")
+        spec = core.curriculum()["measurement"]
+        self.assertEqual(session("worksheet", spec["cases"]["worked"])["answer_format"], spec["answer_format"])
+
     def test_induction_skips_unread_training_and_keeps_deferred_probe(self):
         source = FIRST + SECOND + UP
         missing = {"source_ar": source.replace(" ± ١", "")}
