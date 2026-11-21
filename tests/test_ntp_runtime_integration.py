@@ -1,9 +1,11 @@
 """Source-scoped NTL observations and independent public NTP replay."""
 from copy import deepcopy
 from hashlib import sha256
+import json
 import unittest
 from unittest.mock import patch
 
+from tools import aligned_acquisition, connected_acquisition_v3
 from tools.grammar_catalog import gateway, gateway_routes, ntp
 from tools.lexical_training import (context_transfer, ifadah_programs,
     ntl_core, ntl_witness_pilot, school_apprentice, teaching)
@@ -295,6 +297,53 @@ class LessonSourceContracts(unittest.TestCase):
 
 
 class PublicSourceReplay(unittest.TestCase):
+    def test_article_owner_withdrawal_preserves_exact_deferral_and_lesson(self):
+        lesson = {'schema': ntl_witness_pilot.SCHEMA, 'source_id': 'withdrawn', 'text': 'الْوَلَدُ'}
+        with patch.object(aligned_acquisition, '_native', side_effect=FileNotFoundError), \
+                patch.object(connected_acquisition_v3, 'read_acquired',
+                             side_effect=AssertionError('first owner bypassed')):
+            result = ntp.execute('ntp', request(lesson)['payload'])
+        row, = result['recursive_observations']
+        self.assertEqual(row['article_reading']['status'], 'VERIFICATION_UNAVAILABLE')
+        self.assertEqual(row['observation']['status'], 'DEFER_EXACT_A116_READING')
+        self.assertNotIn('cells', row['observation'])
+        self.assertEqual(result['owner_result'], teaching.run_lesson(lesson))
+
+    @unittest.skipUnless(all((gateway.ROOT / 'formal/.lake/build/bin' / name).is_file()
+                             for name in ('alignedAcquisition', 'connectedAcquisitionV3', 'verifiedReading')),
+                         'requires native article and word-shape checks')
+    def test_article_source_to_a116_frame_to_ntl_and_public_replay(self):
+        req = json.loads((gateway.ROOT / 'examples/io_gateway/ntp_article_lesson.json').read_bytes())
+        lesson = req['payload']['input']['lesson']
+        receipt = gateway.run(req)
+        self.assertTrue(gateway.accept_output(receipt, expected_request=req)['valid'])
+        result = receipt['execution']['owner_result']
+        self.assertEqual(result['owner_result'], teaching.run_lesson(lesson))
+        self.assertEqual(result['owner_result']['status'], 'UNBOUND_READING')
+        moon, sun, prefix = result['recursive_observations']
+        for row, cells in ((moon, [112, 91, 104, 88, 29]), (sun, [112, 39, 36, 17, 89])):
+            left, right = row['occurrence']['utf8_span']
+            raw = lesson['text'].encode()[left:right]
+            owner = row['article_reading']
+            self.assertEqual(owner['status'], 'ACQUIRED')
+            self.assertEqual(owner['onset'], 'word_initial')
+            self.assertEqual(row['exact_text_observation']['status'], 'DEFER_EXACT_A116_READING')
+            self.assertEqual(b''.join(piece['raw'].encode() for piece in owner['pieces']), raw)
+            for piece in owner['pieces']:
+                self.assertEqual(raw[piece['byte_start']:piece['byte_end']].decode(), piece['raw'])
+            self.assertEqual([c for p in owner['pieces'] for c in p['cells']], cells)
+            observation = row['observation']
+            self.assertEqual(observation['restored'], cells)
+            self.assertEqual(list(recursive.unpack_cells(bytes.fromhex(observation['packed_hex']))), cells)
+            self.assertFalse(observation['grammar_certified'])
+        self.assertEqual(moon['article_reading']['pieces'][1]['cells'], [91])
+        self.assertEqual(sun['article_reading']['pieces'][1]['cells'], [])
+        self.assertEqual(sun['article_reading']['pieces'][2]['cells'], [39, 36])
+        self.assertNotIn('article_reading', prefix)
+        self.assertEqual(prefix['observation']['status'], 'DEFER_EXACT_A116_READING')
+        moon['article_reading']['pieces'][1]['cells'].clear()
+        self.assertFalse(gateway.accept_output(receipt, expected_request=req)['valid'])
+
     def test_witness_gateway_replays_source_identity_and_rejects_changed_source(self):
         lesson = {'schema': ntl_witness_pilot.SCHEMA, 'source_id': 'source-one', 'text': 'كَتَبَ'}
         req = request(lesson)
