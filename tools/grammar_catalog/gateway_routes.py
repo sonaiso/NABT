@@ -26,7 +26,7 @@ ROUTES = {
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),
     "awamil.search": (("arabic-governors", "classical-source-rules"), ("query",), ("limit", "collection")),
     "awamil.analyze": (("arabic-governors", "discourse", "construction"), ("text",), ("lexical_text", "context")),
-    "awamil.check": (("arabic-governors",), ("factor_id", "assignments"), ()),
+    "awamil.check": (("arabic-governors",), ("factor_id", "assignments"), ("include_profile",)),
     "agents.search": (("rule-learning",), ("query",), ("limit",)),
     "agents.transport": (("identity",), ("source_id", "encoding", "hex"), ()),
     "agents.gate": (("arabic-governors", "aligned-acquisition"), (), ()),

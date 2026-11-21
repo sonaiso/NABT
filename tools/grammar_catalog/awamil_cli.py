@@ -29,8 +29,10 @@ def _read(path, maximum):
 
 
 def check(request):
-    if type(request) is not dict or set(request) != {"factor_id", "assignments"}:
-        raise ValueError("Supply factor_id and explicit role-code assignments only")
+    if type(request) is not dict or set(request) not in ({"factor_id", "assignments"}, {"factor_id", "assignments", "include_profile"}):
+        raise ValueError("Supply factor_id, role-code assignments, and optionally include_profile")
+    if type(request.get("include_profile", False)) is not bool:
+        raise ValueError("include_profile must be boolean")
     factor = request["factor_id"]
     if type(factor) is not str or not re.fullmatch(r"nabt:(?:0[0-9]{2}|100)", factor) or factor == "nabt:000":
         raise ValueError("Conditional execution requires an installed nabt:001..100 identity")
@@ -42,9 +44,13 @@ def check(request):
     table = installed_table()
     entry = next(e for e in table.entries if e.row_id == int(factor.split(":")[1]))
     receipt = check_assignment(entry.class_code, {int(k): v for k, v in supplied.items()})
-    return {"schema": "nabt.awamil-agent.case-check.v1", "factor_id": factor,
+    response = {"schema": "nabt.awamil-agent.case-check.v1", "factor_id": factor,
         "request": request, "owner": "nabt.governors.check_assignment", "result": receipt,
         "premise_origin": "CALLER_SUPPLIED_NOT_ACQUIRED_FROM_SENTENCE", "application_certified": False}
+    if request.get("include_profile"):
+        from .awamil_profile import describe
+        response["profile"] = describe(entry)
+    return response
 
 
 def analyze(request, *, limit=5, learned=None):

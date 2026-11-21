@@ -8,6 +8,7 @@ from tools.lexical_training.awamil_occurrence_model import PATH as OCCURRENCE_MO
 from tools.lexical_training.awamil_voice import PATH as AWAMIL_VOICE_MODEL
 from tools.lexical_training.classical_attention import MODEL_PATH as ROLE_ATTENTION_MODEL
 from tools.evidence_lifecycle_v1 import ResourceLimit, _encoded, strict_loads, wire
+from .awamil_profile import STYLE_FILE
 from .operations import ROOT, digest, source_snapshot
 from tools.lexical_training.corpus_verbs import PATH as CORPUS_VERB_MODEL
 from tools.lexical_training.pattern_learning import MODEL_PATH as PATTERN_MODEL, NOMINAL_PATH as NOMINAL_STEMS
@@ -103,16 +104,15 @@ def snapshot():
             # Optional observations must not suppress the installed owner.
             # Availability itself is bound, so restoration invalidates replay.
             value["files"][relative] = "UNAVAILABLE"
-    # Optional use acquisition must bind its retained review and source bytes,
-    # including absence. The owner independently authenticates the pinned review.
-    usage_inputs = ("evidence/linguistic_truth_v1/source_inventory.json",) + tuple(
+    # Bind optional style and usage source bytes, including their absence.
+    optional_sources = (STYLE_FILE, "evidence/linguistic_truth_v1/source_inventory.json",) + tuple(
         "evidence/linguistic_truth_v1/sources/"+name for name in (
             "shakhsiyya3_linguistic_truth_selected.txt", "shakhsiyya3_command_supplement.txt",
             "shakhsiyya1_cognition.txt", "thinking_cognition.txt"))
-    for relative in usage_inputs:
+    for relative in optional_sources:
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
-            raise ValueError("I/O usage source escapes repository")
+            raise ValueError("I/O optional source escapes repository")
         value["files"][relative] = sha256(path.read_bytes()).hexdigest() if path.exists() else "UNAVAILABLE"
     value["schema"] = "nabt.io.snapshot.v1"
     return value
