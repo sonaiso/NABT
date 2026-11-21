@@ -29,36 +29,91 @@ def validate(payload):
     return deepcopy(payload)
 
 
-def _term_observations(text, *, max_terms=MAX_OBSERVATION_TERMS):
-    from .operations import exact_terms
+def _recursive_observation(inputs):
     from tools.lexical_training.ntp_recursive import forward
     from tools.evidence_lifecycle_v1 import ResourceLimit
     from nabt.errors import NabtError
 
+    try:
+        value = forward(inputs)
+    except (ResourceLimit, MemoryError) as error:
+        value = {'status': 'NEURAL_RESOURCE_LIMIT', 'reason': type(error).__name__,
+                 'authority': 'NONE'}
+    except OSError as error:
+        value = {'status': 'NEURAL_OBSERVER_UNAVAILABLE', 'reason': type(error).__name__,
+                 'authority': 'NONE'}
+    except NabtError as error:
+        if error.code == 'RESOURCE_LIMIT':
+            status = 'NEURAL_RESOURCE_LIMIT'
+        elif error.code in ('LAW_TABLE_UNAVAILABLE', 'LAW_TABLE_INTEGRITY', 'LAW_TABLE_SCHEMA'):
+            status = 'NEURAL_OBSERVER_UNAVAILABLE'
+        else:
+            status = 'DEFER_EXACT_A116_READING'
+        value = {'status': status,
+                 'reason': str(error), 'input_error': error.as_dict(), 'authority': 'NONE'}
+    except ValueError as error:
+        value = {'status': 'DEFER_EXACT_A116_READING', 'reason': str(error),
+                 'authority': 'NONE'}
+    return value
+
+
+def _article_observation(surface):
+    """Feed only the native owner's verified word-initial reading to the network."""
+    from nabt.codec import pack_cells
+    from tools import connected_acquisition_v3 as article
+    from tools.arabic_training.unit_composition import _acquire_host
+    from tools.evidence_lifecycle_v1 import ResourceLimit
+
+    try:
+        report, prior = _acquire_host(surface, 'ntp_article', 'wasl')
+    except (ResourceLimit, MemoryError) as error:
+        return {'status': 'NEURAL_RESOURCE_LIMIT', 'reason': type(error).__name__}, None
+    except (OSError, ValueError) as error:
+        return {'status': 'VERIFICATION_UNAVAILABLE', 'reason': type(error).__name__}, None
+    evidence = {'owner_law': report.get('law_id'), 'status': report['status'],
+                'first_owner_status': prior['status'] if prior else report['status'],
+                'onset': 'word_initial', 'ending': 'wasl', 'connected_speech_established': False}
+    if (prior is None or report.get('law_id') != article.LAW_ID or report['status'] != 'ACQUIRED'
+            or report.get('verified') is not True or report.get('shape_verified') is not True):
+        return evidence, None
+    acquisition = report['acquisition']
+    words = acquisition['words']
+    if (acquisition['text'] != surface or acquisition['onset'] != 'word_initial'
+            or acquisition['ending'] != 'wasl' or len(words) != 1 or words[0]['raw'] != surface
+            or (words[0]['byte_start'], words[0]['byte_end']) != (0, len(surface.encode()))):
+        return dict(evidence, status='SOURCE_MISMATCH'), None
+    word = words[0]
+    evidence.update(reading_id=word['reading_id'], source_passages=word['source_passages'],
+                    source_manifest_sha256=report['source_evidence']['sha256'],
+                    pieces=[{key: piece[key] for key in ('raw', 'byte_start', 'byte_end', 'cells')}
+                            for piece in acquisition['pieces']])
+    return evidence, _recursive_observation({'packed_hex': pack_cells(word['cells']).hex()})
+
+
+def _term_observations(text, *, max_terms=MAX_OBSERVATION_TERMS):
+    from .operations import exact_terms
+    from tools import connected_acquisition_v3 as article
+
+    # Membership only schedules the existing owner. It grants no reading on its own.
+    article_surfaces = {surface for row in article._READINGS if row['article_kind'] != 'none'
+                        for surface in row['input_surfaces']}
+    article_cache = {}
     terms = exact_terms(text)
     observations = []
     for term in terms[:max_terms]:
-        try:
-            value = forward({'text': term['surface']})
-        except (ResourceLimit, MemoryError) as error:
-            value = {'status': 'NEURAL_RESOURCE_LIMIT', 'reason': type(error).__name__,
-                     'authority': 'NONE'}
-        except OSError as error:
-            value = {'status': 'NEURAL_OBSERVER_UNAVAILABLE', 'reason': type(error).__name__,
-                     'authority': 'NONE'}
-        except NabtError as error:
-            if error.code == 'RESOURCE_LIMIT':
-                status = 'NEURAL_RESOURCE_LIMIT'
-            elif error.code in ('LAW_TABLE_UNAVAILABLE', 'LAW_TABLE_INTEGRITY', 'LAW_TABLE_SCHEMA'):
-                status = 'NEURAL_OBSERVER_UNAVAILABLE'
-            else:
-                status = 'DEFER_EXACT_A116_READING'
-            value = {'status': status,
-                     'reason': str(error), 'input_error': error.as_dict(), 'authority': 'NONE'}
-        except ValueError as error:
-            value = {'status': 'DEFER_EXACT_A116_READING', 'reason': str(error),
-                     'authority': 'NONE'}
-        observations.append({'occurrence': term, 'observation': value})
+        surface = term['surface']
+        direct = _recursive_observation({'text': surface})
+        row = {'occurrence': term, 'observation': direct}
+        if surface in article_surfaces and direct['status'] in (
+                'DEFER_EXACT_A116_READING', 'PROPOSED', 'MODEL_UNAVAILABLE'):
+            if surface not in article_cache:
+                article_cache[surface] = _article_observation(surface)
+            evidence, reading = article_cache[surface]
+            row['article_reading'] = evidence
+            if reading is not None:
+                row['exact_text_observation'] = direct
+                row['observation'] = reading
+        observations.append(row)
     coverage = ('COMPLETE_SOURCE_TERMS' if len(terms) <= max_terms
                 else f'FIRST_{max_terms}_TERMS_ONLY')
     return observations, coverage
