@@ -15,6 +15,18 @@ FAMILIES = {
         ("تَفَاعُل","مصدر","شريك"), ("تَفَاعَلَ","فعل","شريك"), ("مُتَفَاعِل","اسم_فاعل","شريك"))),
     "تظاهر": (("جهل",), (("تَفَاعُل","مصدر","حامل_تغير"),("تَفَاعَلَ","فعل","حامل_تغير"))),
 }
+# Labels name property concepts in the adopted sense. Their bearer remains unbound.
+QUALITY_FRAMES = {
+    ("مجرد","جذب"): ("تأثير_موجه",{"مؤثر":"جاذب","متأثر":"مجذوب"}),
+    ("مجرد","دفع"): ("تأثير_موجه",{"مؤثر":"دافع","متأثر":"مدفوع"}),
+    ("انفعال","جذب"): ("تغير_حامل",{"حامل_تغير":"منجذب"}),
+    ("انفعال","دفع"): ("تغير_حامل",{"حامل_تغير":"مندفع"}),
+    ("انفعال_مؤنث","دفع"): ("تغير_حامل",{"حامل_تغير":"مندفعة"}),
+    ("مشاركة","جذب"): ("مشاركة",{"شريك":"متجاذب"}),
+    ("مشاركة","دفع"): ("مشاركة",{"شريك":"متدافع"}),
+    ("مشاركة","قتل"): ("مشاركة",{"شريك":"متقاتل"}),
+    ("تظاهر","جهل"): ("تظاهر",{"حامل_تغير":"متجاهل"}),
+}
 INVENTORY = []
 for family,(roots,patterns) in FAMILIES.items():
     for root in roots:
@@ -39,9 +51,12 @@ def candidates(surface):
             matches = any(_compatible_form(surface,{"surface":suffix,"category":"مقطع"})
                           for suffix in (word+"ًا",word+"اً"))
         if matches:
+            family_class, labels = QUALITY_FRAMES.get((family,root),(None,{}))
             yield {"entry":"مدخل_"+root+"_"+family+"_"+category, "canonical":word,
                    "root":root,"template":template,"category":category,"family":family,
-                   "roles":["دور_"+r for r in roles]}
+                   "roles":["دور_"+r for r in roles],
+                   "quality_class":("فئة_"+family_class) if family_class else None,
+                   "quality_by_role":{"دور_"+r:"صفة_"+labels[r] for r in roles}}
 
 def shape_proposals(surface):
     """Recover an unlisted root only at the shape layer, retaining all compatible vowels."""
@@ -81,6 +96,11 @@ def compile_occurrences(atoms, text, add):
             entry = ("مرشح_قراءة",reading,option["entry"])
             add(entry,(fact,),"مطابقة_اللفظ_للمدخل")
             add(("وزن_مرشح",reading,"وزن_"+option["template"]),(entry,),"وزن_المدخل")
+            selection = ("قراءة_معينة",reading,option["entry"])
+            if option["quality_class"]:
+                add(("عائلة_الوصف",reading,option["quality_class"]),(selection,),"أسرة_الصفات_في_المدخل")
+            for role,quality in option["quality_by_role"].items():
+                add(("قابلية_وصف",reading,quality),(selection,("دور_تتيحه",reading,role)),"الوصف_المرخص_لدور_المدخل")
             for role in option["roles"]:
                 add(("دور_تتيحه",reading,role),(("قراءة_معينة",reading,option["entry"]),),"قابلية_القراءة_المعينة")
     return records

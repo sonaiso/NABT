@@ -47,6 +47,11 @@ class LineageRolesTest(unittest.TestCase):
         self.assertEqual(form["candidates"],[])
         self.assertEqual(r["answers"][0]["status"],"UNKNOWN")
 
+    def test_quality_license_is_role_specific_and_does_not_name_a_bearer(self):
+        r=evaluate("مَجْذُوب",["قراءة_أ موضع_لفظ عدد_1","قراءة_أ قرينة_قراءة مدخل_جذب_مجرد_اسم_مفعول"],
+                   ["قابلية_وصف قراءة_أ صفة_مجذوب","قابلية_وصف قراءة_أ صفة_جاذب","خاصية عين_الحديد صفة_مجذوب"])
+        self.assertEqual([a["status"] for a in r["answers"]],["SUPPORTED","UNKNOWN","UNKNOWN"])
+
     def test_multiple_coord_values_rejected(self):
         with self.assertRaises(ValueError):
             evaluate("بيت بيت",["قراءة_أ موضع_لفظ عدد_1","قراءة_أ موضع_لفظ عدد_2"],
