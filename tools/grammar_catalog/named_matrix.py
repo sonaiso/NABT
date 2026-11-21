@@ -11,6 +11,7 @@ import re
 from nabt.text_reader import parse_document
 from tools import explainable_pilot as pilot, verified_reading as ground
 from tools.licensed_inference.runtime import aggregate_evidence
+from . import usul_ledger
 from .genus_chains import ancestors
 from .operations import ROOT
 
@@ -44,6 +45,8 @@ DERIVED = {
     "أثر_على": ("حدث","عين"), "قابل": ("عين","عمل"), "ممكن_بشروطه": ("حدث","عمل"), "أثر_مروي": ("حدث","عمل"),
 }
 # The neutral sibling predicate means at least one shared parent, never full siblinghood.
+BASE.update(usul_ledger.BASE)
+DERIVED.update(usul_ledger.DERIVED)
 SORTS = BASE | DERIVED
 MEASURES = {"طول_سم":"أطول", "مساحة_مترمربع":"أوسع", "مسافة_متر":"أقرب",
             "قوة_نيوتن":"أقوى", "عمر_شهر":"أكبر_عمرا"}
@@ -174,7 +177,10 @@ def projections(atoms, queries):
             add(("سلسلة_نوع",a,b),((p,a,b),),"صعود_مباشر")
         if p in ("والد","زوج","يباين") and a==b:
             raise ValueError("Irreflexive relation")
-    rules=RULES+[("صعود_متعد","سلسلة_نوع x z",["سلسلة_نوع x y","نوع y z"]),
+    use_usul = (any(pred.lstrip("!") in usul_ledger.BASE for pred, _, _ in atoms)
+                or any(q[0] in usul_ledger.DERIVED for q in queries))
+    extra_rules = usul_ledger.RULES if use_usul else []
+    rules=RULES+extra_rules+[("صعود_متعد","سلسلة_نوع x z",["سلسلة_نوع x y","نوع y z"]),
                  ("جنس_مشترك","يشترك_بأصل x y",["سلسلة_نوع x k","سلسلة_نوع y k"])]
     parsed=[(label,h.split(),[b.split() for b in body]) for label,h,body in rules]
     for rel,comparison in MEASURES.items():
@@ -216,6 +222,8 @@ def projections(atoms, queries):
                 add(h,premises,label)
         if len(seen)==previous:
             break
+    if use_usul:
+        usul_ledger.compile_scopes(atoms,add)
     return traces
 
 def analyze(text,source_id,p):
