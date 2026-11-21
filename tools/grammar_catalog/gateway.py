@@ -57,6 +57,7 @@ def request_from_bytes(raw):
 def snapshot():
     # Reuse source identity, including the sole current compiled catalogue.
     from tools import lexical_testimony
+    from .morphology_matrix import SEALED as matrix_files
     from .text_reading import LEXICON
     value, _ = source_snapshot()
     value = deepcopy(value)
@@ -92,7 +93,7 @@ def snapshot():
         "evidence/ifadah_programs_v1/protocol_local.json") + tuple(
         path for _, _, path in lexical_testimony.SOURCES.values() if path is not None)
     testimony_inputs = {p for _, _, p in lexical_testimony.SOURCES.values() if p is not None}
-    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", LEXICON) + lexical_sources:
+    for relative in ("AGENTS.md", "Makefile", "GNUmakefile", "pyproject.toml", LEXICON) + lexical_sources + tuple(matrix_files):
         path = ROOT / relative
         if path.is_symlink() or not path.resolve().is_relative_to(ROOT):
             raise ValueError("I/O source reference escapes repository")

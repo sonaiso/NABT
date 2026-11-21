@@ -93,3 +93,14 @@ nabt-comparison-check:
 	PYTHONPATH=src:. $(PYTHON) -m tools.lexical_training.train_comparison_simulation --check
 
 check: nabt-comparison-check
+
+.PHONY: maqayis-matrix-check
+maqayis-matrix-check:
+	mkdir -p $(EVIDENCE_DIR)
+	cd formal && $(LAKE) build lexicalDenotation
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_morphology_matrix -v
+	PYTHONPATH=src:. $(PYTHON) -m tools.ntp run --request examples/io_gateway/maqayis_concept_matrix.json --output $(EVIDENCE_DIR)/maqayis-matrix.json
+	$(PYTHON) -c 'import json,sys; result=json.load(open(sys.argv[1]))["execution"]["owner_result"]["owner_result"]["morphology_matrix"]; assert result["common_indications"] == ["iltizam"], result["readings"][0]["denotation"]' $(EVIDENCE_DIR)/maqayis-matrix.json
+	PYTHONPATH=src:. $(PYTHON) -m tools.ntp verify --request examples/io_gateway/maqayis_concept_matrix.json --receipt $(EVIDENCE_DIR)/maqayis-matrix.json
+
+relational-bridge: maqayis-matrix-check

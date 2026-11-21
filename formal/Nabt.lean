@@ -47,6 +47,7 @@ import Nabt.LexicalDenotation
 import Nabt.LexicalCatalog
 import Nabt.LisanRules
 import Nabt.MaqayisDenotation
+import Nabt.MatrixDenotation
 import Nabt.ProductiveForms
 import Nabt.FourSlotClosure
 import Nabt.ImperativeParadigm

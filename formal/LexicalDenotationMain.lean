@@ -1,5 +1,6 @@
 import Nabt.LisanRules
 import Nabt.MaqayisDenotation
+import Nabt.MatrixDenotation
 import Nabt.ConceptContinuity
 import RootSenseProfile
 import ProbeJson
@@ -63,6 +64,23 @@ def dispatch (j : Json) : ProbeM Json := do
     if obj.size != 2 || (obj.get? "value").isNone then
       return ← invalid "exactly op and value required"
     let op ← str (← field j "op")
+    if op == "morphology_matrix" then
+      let v ← field j "value"
+      let keys ← liftParse v.getObj?
+      if keys.size != 4 then return ← invalid "expected reading identity, category, root and target"
+      let id ← str (← field v "id")
+      let root ← str (← field v "root")
+      let target ← strings (← field v "target")
+      let category ← str (← field v "category")
+      let classes ← liftParse Nabt.MatrixDenotation.installedClasses
+      if !Nabt.MatrixDenotation.classified classes id category then return ← invalid "unlicensed reading category"
+      let d ← liftParse Nabt.MatrixDenotation.installed
+      let [e] := d.readings.filter (fun row => row.id == id && row.root == root)
+        | return ← invalid "missing or ambiguous matrix definition"
+      return Json.mkObj [("sense", senseJson (e.sense d.source_sha256)), ("category", toJson category),
+        ("target", toJson target), ("indications", toJson ((kinds.filter
+          (fun k => Nabt.MatrixDenotation.licensed classes category d e id root k target)).map Indication.label)),
+        ("authority", toJson "CONDITIONAL_MATRIX_DEFINITION")]
     if op == "dictionary_components" then
       -- The Python adapter replays the cited bytes. This operation checks only
       -- the conditional interpretation. A supplied component list has no
