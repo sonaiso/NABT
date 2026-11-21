@@ -35,7 +35,20 @@ class Frame:
     slots: tuple
     action: str
 
+FEELER = slot("صاحب_شعور","ذي_شعور","قابل_للسرور","سعيد")
+STIMULUS = slot("سبب","مؤثر_وجداني","قابل_للإسعاد","مسعد")
 FRAMES = {
+    "كتابة": Frame("متعد",(slot("فاعل","كاتب_محتمل","قادر_على_الكتابة","كاتب"),
+                           slot("مفعول","محتوى","قابل_للكتابة","مكتوب")),"كتابة"),
+    "ولادة": Frame("إطار_ولادة",(slot("والدة","كائن_حي","قابل_للولادة","والدة"),
+                               slot("وليد","كائن_حي","قابل_لأن_يولد","مولود")),"ولادة"),
+    "تجارة": Frame("إطار_معاملة",(PARTNER,slot("متداول","مال","قابل_للتداول","متداول")),"تجارة"),
+    "كبر": Frame("لازم",(slot("حامل","نبات","قابل_للنمو","نام"),),"كبر"),
+    "نماء": Frame("لازم",(slot("حامل","نبات","قابل_للنمو","نام"),),"نماء"),
+    "اخضرار": Frame("لازم",(slot("حامل","نبات","قابل_للاخضرار","مخضر"),),"اخضرار"),
+    "سعادة": Frame("لازم",(FEELER,),"سعادة"),
+    "إسعاد": Frame("متعد_سببي",(STIMULUS,FEELER),"إسعاد"),
+    "موت": Frame("لازم",(slot("حامل","حي","قابل_للموت","ميت"),),"موت"),
     "غرس": Frame("متعد",(PLANTER,PLANTED),"غرس"),
     "بذر": Frame("متعد",(PLANTER,SEED),"بذر"),
     "حرث": Frame("متعد",(PLANTER,LAND),"حرث"),
@@ -87,10 +100,25 @@ forms("نبت","جنس",[("نَبَات","فَعَال","اسم_جنس","اسم_
 forms("نبت","إنبات",[("أَنْبَتَ","أَفْعَلَ","فعل","معلوم","سبب محل_الأثر"),
     ("إِنْبَات","إِفْعَال","مصدر","مصدر_مزيد_قياسي","سبب محل_الأثر"),
     ("مُنْبِت","مُفْعِل","اسم_فاعل","اسم","سبب")])
+for root,sense,past,pattern,roles in (
+    ("كبر","كبر","كَبُرَتْ","فَعُلَتْ","حامل"), ("نمو","نماء","نَمَتْ","فَعَتْ","حامل"),
+    ("خضر","اخضرار","اِخْضَرَّتْ","اِفْعَلَّتْ","حامل"),("سعد","سعادة","سَعِدَ","فَعِلَ","صاحب_شعور"),
+    ("سعد","إسعاد","أَسْعَدَتْ","أَفْعَلَتْ","سبب صاحب_شعور"),("موت","موت","مَاتَ","فَعَلَ","حامل")):
+    forms(root,sense,[(past,pattern,"فعل","معلوم",roles)])
+forms("سعد","سعادة",[("سَعَادَة","فَعَالَة","مصدر","مصدر_مجرد_مسموع","صاحب_شعور")])
+forms("سعد","إسعاد",[("إِسْعَاد","إِفْعَال","مصدر","مصدر_مزيد_قياسي","سبب صاحب_شعور")])
+forms("موت","موت",[("مَوْت","فَعْل","مصدر","مصدر_مجرد_مسموع","حامل")])
+forms("خضر","اخضرار",[("اِخْضِرَار","اِفْعِلَال","مصدر","مصدر_مزيد_قياسي","حامل")])
+for root,sense,word,roles in (("كتب","كتابة","كِتَابَة","فاعل مفعول"),
+                             ("ولد","ولادة","وِلَادَة","والدة وليد"),
+                             ("تجر","تجارة","تِجَارَة","طرف_معاملة متداول")):
+    forms(root,sense,[(word,"فِعَالَة","مصدر","مصدر_مجرد_مسموع",roles)])
 BY_ENTRY={form.entry:form for form in FORMS}
 ROLE_NAMES=tuple(dict.fromkeys(s.role for frame in FRAMES.values() for s in frame.slots))
-BASE={"مرجع_الأوجه":("قراءة","مرجع"),"إحالة_اسم":("قراءة","عين"),"تفسير_إضافة":("قراءة","وجه")}
-DERIVED={"جهة_الصيغة":("قراءة","جهة"),"تعدية_الأصل":("قراءة","تعدية"),
+BASE={"قرينة_مدلول":("قراءة","نوع"),"قرينة_الباء":("قراءة","وجه"),"قرينة_ترتيب":("قراءة","رتبة"),"مرجع_الأوجه":("قراءة","مرجع"),"إحالة_اسم":("قراءة","عين"),"تفسير_إضافة":("قراءة","وجه")}
+DERIVED={"مدلول_مرشح":("قراءة","نوع"),"إضافة_اسمية":("قراءة","قراءة"),
+         "زمان_مذكور":("قراءة","قراءة"),"مكان_مذكور":("قراءة","قراءة"),
+         "متعلق_بالباء":("قراءة","قراءة"),"سبب_منسوب":("قراءة","قراءة"),"جهة_الصيغة":("قراءة","جهة"),"تعدية_الأصل":("قراءة","تعدية"),
          "مدلول_الاسم":("قراءة","نوع"),"مرجع_موافق":("قراءة","عين"),
          "فاعل_مقروء":("قراءة","قراءة"),"نائب_مقروء":("قراءة","قراءة"),"مفعول_مقروء":("قراءة","قراءة"),
          "أسرة_المصدر":("قراءة","مصدر"),"حقل_معجمي":("قراءة","جذر"),
@@ -100,6 +128,8 @@ for r in ROLE_NAMES:
                     "موضع_"+r:("قراءة","قراءة"),"صالح_"+r:("قراءة","عين")})
 
 def surfaces(form):
+    if form.word=="أَسْعَدَتْ":
+        return [form.word,"أَسْعَدَتِ"]
     if form.kind.startswith("فعل"):
         return [form.word]
     bases=[form.word,"ال"+form.word]
@@ -158,24 +188,59 @@ def candidates(surface):
 NOUNS = {
     "الْفَلَّاح":"فلاح","الْمُزَارِع":"مزارع","الشَّجَرَة":"شجر","النَّبَات":"نبات",
     "الْعُشْب":"عشب","الْحَيَوَان":"حيوان","الْخَرُوف":"خروف","الْمَاء":"ماء",
-    "الْحَبّ":"بذر","الْأَرْض":"أرض","الْحَجَر":"حجر","النَّار":"نار","الطَّعَام":"مادة_غذائية"}
+    "الْحَبّ":"بذر","الْأَرْض":"أرض","الْحَجَر":"حجر","النَّار":"نار","الطَّعَام":"مادة_غذائية","الرَّجُل":"رجل",
+    "الطِّفْل":"طفل","الْهَدِيَّة":"هدية","شَجَرَة":"شجر","التِّين":"تين","الزَّيْتُون":"زيتون",
+    "الصَّيْف":"صيف","الْحَقْل":"حقل","الطَّاعُون":"مرض_طاعون"}
+AMBIGUOUS_NOUNS={"نوع_تين":("نوع_شجر_تين","نوع_ثمر_تين"),
+                 "نوع_زيتون":("نوع_شجر_زيتون","نوع_ثمر_زيتون")}
 def noun_sense(surface):
-    ending=surface[-1:]
-    if ending not in ("ُ","َ","ِ"):
-        return None
+    ending=surface[-1:] if surface[-1:] in ("ُ","َ","ِ") else ""
     normal=unicodedata.normalize("NFC",surface)
     for noun,kind in NOUNS.items():
         if compatible(normal,unicodedata.normalize("NFC",noun+ending)):
             return ending,"نوع_"+kind
     return None
 
+@dataclass(frozen=True)
+class Construction:
+    heads: tuple
+    endings: tuple
+    genitives: tuple
+    adjunct: tuple = ()
+
 def read_construction(text, words):
-    if not 2<=len(words)<=3:
-        return ()
-    if text.strip().removesuffix(".").split()!=[w["surface"] for w in words]:
-        return ()
-    nouns=[noun_sense(w["surface"]) for w in words[1:]]
-    return tuple(n[0] for n in nouns) if all(nouns) else ()
+    if not 2<=len(words)<=6 or text.strip().removesuffix(".").split()!=[w["surface"] for w in words]:
+        return None
+    tokens=[w["surface"] for w in words]
+    heads, endings, genitives=[],[],[]
+    adjunct=()
+    i=1
+    while i<len(tokens):
+        if heads and compatible(tokens[i],"فِي") and i+2==len(tokens):
+            obj=noun_sense(tokens[i+1])
+            if not obj or obj[0] not in ("","ِ") or obj[1] not in ("نوع_صيف","نوع_حقل"):
+                return None
+            adjunct=("زمان_مذكور" if obj[1]=="نوع_صيف" else "مكان_مذكور",i+1)
+            break
+        if heads and i+1==len(tokens) and compatible(tokens[i],"بِالْهَدِيَّةِ"):
+            adjunct=("متعلق_بالباء",i)
+            break
+        if heads and i+2==len(tokens) and compatible(tokens[i],"بِمَرَضِ") and compatible(tokens[i+1],"الطَّاعُونِ"):
+            adjunct=("متعلق_بالباء",i)
+            genitives.append((i,i+1))
+            break
+        obj=noun_sense(tokens[i])
+        if not obj or len(heads)==2:
+            return None
+        heads.append(i)
+        endings.append(obj[0])
+        if spelling(tokens[i])=="شجرة" and i+1<len(tokens):
+            dep=noun_sense(tokens[i+1])
+            if dep and dep[1] in AMBIGUOUS_NOUNS and dep[0] in ("","ِ"):
+                genitives.append((i,i+1))
+                i+=1
+        i+=1
+    return Construction(tuple(heads),tuple(endings),tuple(genitives),adjunct)
 
 def case_roles(form,cases):
     if not cases:
@@ -198,24 +263,32 @@ def compile_source(atoms, text, records, add):
     by_pos=defaultdict(list)
     for r in records:
         by_pos[r["ordinal"]].append(r)
-    for pred in ("إحالة_اسم","تفسير_إضافة"):
+    for pred in ("إحالة_اسم","تفسير_إضافة","قرينة_مدلول","قرينة_الباء","قرينة_ترتيب"):
         values=defaultdict(set)
         for p,r,v in atoms:
             if p==pred: values[r].add(v)
         if any(len(vals)>1 for vals in values.values()):
             raise ValueError("One bearer or interpretation per reading; retain alternatives as different readings")
     words=exact_terms(text)
-    cases=read_construction(text,words)
+    construction=read_construction(text,words)
     for record in records:
         rid=record["reading"]
         ordinal=("موضع_لفظ",rid,"عدد_"+str(record["ordinal"]))
         noun=noun_sense(record["surface"])
-        if noun:
+        if noun and noun[1] in AMBIGUOUS_NOUNS:
+            for kind in AMBIGUOUS_NOUNS[noun[1]]:
+                candidate=("مدلول_مرشح",rid,kind)
+                add(candidate,(ordinal,),"وجه_المسمى")
+                add(("مدلول_الاسم",rid,kind),(candidate,("قرينة_مدلول",rid,kind)),"تعيين_وجه_المسمى")
+        elif noun:
             add(("مدلول_الاسم",rid,noun[1]),(ordinal,),"وجه_الاسم_في_المرجع")
         unique={c["entry"] for c in record["candidates"]}
         if len(unique)==1 and unique <= BY_ENTRY.keys():
             only=next(iter(unique))
-            add(("قراءة_معينة",rid,only),(("مرجع_الأوجه",rid,"مرجع_زراعة_وغذاء"),("مرشح_قراءة",rid,only)),
+            reference = ("مرجع_زراعة_وغذاء" if BY_ENTRY[only].sense in
+                         {"غرس","بذر","حرث","تغذية","نمو","إنبات","معاملة","محصول","مكان","مهنة","بذور","أرض","جنس"}
+                         else "مرجع_الأدوار_الدلالية")
+            add(("قراءة_معينة",rid,only),(("مرجع_الأوجه",rid,reference),("مرشح_قراءة",rid,only)),
                 "تفرد_داخل_المرجع_المعين")
         for option in record["candidates"]:
             f=BY_ENTRY.get(option["entry"])
@@ -231,11 +304,38 @@ def compile_source(atoms, text, records, add):
                     if s.role in f.roles:
                         add(("جنس_شرط_"+s.role,rid,s.genus),(selected,),"قيد_جنس_الدور")
                         add(("خاصية_شرط_"+s.role,rid,s.trait),(selected,),"قيد_خاصية_الدور")
-            if record["ordinal"]!=1: continue
-            for idx,role in case_roles(f,cases).items():
+            if record["ordinal"]!=1 or not construction: continue
+            cases=construction.endings
+            guards=()
+            if "" in cases:
+                if f.use=="معلوم" and len(frame.slots)==1 and cases==("",):
+                    cases=("ُ",)
+                elif f.use=="معلوم" and len(frame.slots)==2 and len(cases)==2 and all(
+                        observed in ("",expected) for observed,expected in zip(cases,("ُ","َ"))):
+                    cases=("ُ","َ")
+                    guards=(("قرينة_ترتيب",rid,"رتبة_فاعل_ثم_مفعول"),)
+                else:
+                    continue
+            roles=case_roles(f,cases)
+            if not roles: continue
+            for left,right in construction.genitives:
+                for h in by_pos[left+1]:
+                    for d in by_pos[right+1]:
+                        add(("إضافة_اسمية",h["reading"],d["reading"]),
+                            (selected,("موضع_لفظ",h["reading"],"عدد_"+str(left+1)),
+                             ("موضع_لفظ",d["reading"],"عدد_"+str(right+1)),*guards),"إضافة_الشاهد")
+            if construction.adjunct:
+                relation,idx=construction.adjunct
+                for arg in by_pos[idx+1]:
+                    adjunct=(relation,rid,arg["reading"])
+                    add(adjunct,(selected,("موضع_لفظ",arg["reading"],"عدد_"+str(idx+1)),*guards),"تعلق_شبه_الجملة")
+                    if relation=="متعلق_بالباء" and f.sense in ("موت","سعادة"):
+                        add(("سبب_منسوب",rid,arg["reading"]),(selected,adjunct,("قرينة_الباء",rid,"وجه_سببية")),"قراءة_الباء_السببية")
+            for position,role in roles.items():
+                idx=construction.heads[position-1]
                 for arg in by_pos[idx+1]:
                     argid=arg["reading"]
-                    body=(selected,("موضع_لفظ",argid,"عدد_"+str(idx+1)))
+                    body=(selected,("موضع_لفظ",argid,"عدد_"+str(idx+1)),*guards)
                     if role=="إضافة":
                         link=("مضاف_إليه_مقروء",rid,argid)
                         add(link,body,"جر_الإضافة")
@@ -243,7 +343,7 @@ def compile_source(atoms, text, records, add):
                             add(("موضع_"+slotname,rid,argid),(selected,link,("تفسير_إضافة",rid,"وجه_"+slotname)),"قرينة_لوجه_الإضافة")
                     else:
                         grammatical = "نائب_مقروء" if f.use=="مجهول" else (
-                            "فاعل_مقروء" if cases[idx-1]=="ُ" else "مفعول_مقروء")
+                            "فاعل_مقروء" if cases[position-1]=="ُ" else "مفعول_مقروء")
                         add((grammatical,rid,argid),body,"إعراب_الشاهد")
                         add(("موضع_"+role,rid,argid),body,"وزن_وإعراب_الشاهد")
 RULES=[("تحقيق_إحالة_الاسم","مرجع_موافق n x",["إحالة_اسم n x","مدلول_الاسم n g","عضوية x g"])]

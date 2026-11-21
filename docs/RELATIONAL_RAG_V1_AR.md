@@ -325,3 +325,5 @@ PYTHONPATH=src python -m tools.grammar_catalog gateway verify --request examples
 التعليمي المحدد. تُفحص النتائج بالمحرك الأرضي الأصلي. يثبت ملف
 `integrations/usul_ledger/UsulLedger.lean` مطابقة دوال الكم المحدودة
 لعلاقاتها الإعلانية، واتجاهَي التخصيص والتقييد المناسبين، وحدّ تقويم الفاسد.
+
+يمتد هذا المسار من [دفتر المصادر](MASDAR_FRAMES_V1_AR.md) إلى [تعليل الأدوار والسببية](FOUNDATIONS_OF_EVENT_ROLES_AR.md).
