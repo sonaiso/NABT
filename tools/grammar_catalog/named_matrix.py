@@ -11,7 +11,7 @@ import re
 from nabt.text_reader import parse_document
 from tools import explainable_pilot as pilot, verified_reading as ground
 from tools.licensed_inference.runtime import aggregate_evidence
-from . import lineage_roles, role_forms, usul_ledger
+from . import lineage_roles, masdar_frames, role_forms, usul_ledger
 from .genus_chains import ancestors
 from .operations import ROOT
 
@@ -49,6 +49,8 @@ BASE.update(usul_ledger.BASE)
 DERIVED.update(usul_ledger.DERIVED)
 BASE.update(lineage_roles.BASE)
 DERIVED.update(lineage_roles.DERIVED)
+BASE.update(masdar_frames.BASE)
+DERIVED.update(masdar_frames.DERIVED)
 SORTS = BASE | DERIVED
 MEASURES = {"طول_سم":"أطول", "مساحة_مترمربع":"أوسع", "مسافة_متر":"أقرب",
             "قوة_نيوتن":"أقوى", "عمر_شهر":"أكبر_عمرا"}
@@ -182,12 +184,13 @@ def projections(atoms, queries, *, text="", form_records=None):
     use_usul = (any(pred.lstrip("!") in usul_ledger.BASE for pred, _, _ in atoms)
                 or any(q[0] in usul_ledger.DERIVED for q in queries))
     extra_rules = usul_ledger.RULES if use_usul else []
-    if any(p.lstrip("!") in lineage_roles.BASE for p,_,_ in atoms) or any(q[0] in lineage_roles.DERIVED for q in queries):
+    if any(p.lstrip("!") in (lineage_roles.BASE | masdar_frames.BASE) for p,_,_ in atoms) or any(q[0] in (lineage_roles.DERIVED | masdar_frames.DERIVED) for q in queries):
         lineage_roles.prepare(atoms,add)
         occurrences = role_forms.compile_occurrences(atoms,text,add)
+        masdar_frames.compile_source(atoms,text,occurrences,add)
         if form_records is not None:
             form_records.extend(occurrences)
-        extra_rules = extra_rules + lineage_roles.RULES
+        extra_rules = extra_rules + lineage_roles.RULES + masdar_frames.RULES
     rules=RULES+extra_rules+[("صعود_متعد","سلسلة_نوع x z",["سلسلة_نوع x y","نوع y z"]),
                  ("جنس_مشترك","يشترك_بأصل x y",["سلسلة_نوع x k","سلسلة_نوع y k"])]
     parsed=[(label,h.split(),[b.split() for b in body]) for label,h,body in rules]

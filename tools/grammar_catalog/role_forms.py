@@ -1,6 +1,7 @@
 """Pedagogical lexical frames for sound roots; candidates preserve original source indices."""
 import unicodedata
 from .operations import exact_terms
+from . import masdar_frames
 from .root_sense import _compatible_form, _profile_shapes
 
 # Each entry is an adopted sense in this reference. A template alone never grants its frame.
@@ -43,6 +44,7 @@ INVENTORY += [("مُنْدَفِعَة","دفع","مُنْفَعِلَة","اس�
               ("اِنْدَفَعَتْ","دفع","اِنْفَعَلَ","فعل_مؤنث","انفعال",["حامل_تغير"])]
 
 def candidates(surface):
+    yield from masdar_frames.candidates(surface)
     for word,root,template,category,family,roles in INVENTORY:
         nominal = category in {"مصدر","اسم_فاعل","اسم_مفعول","اسم_جامد"}
         record = {"surface":word,"category":"اسم فاعل" if nominal else "فعل"}
