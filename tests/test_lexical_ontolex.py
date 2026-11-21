@@ -37,6 +37,7 @@ class LexicalBoundary(unittest.TestCase):
                  "evidence/ntp_ifadah_v1/protocol.json", "evidence/ntp_ifadah_v1/model.json",
                  "evidence/ntl_update_memory_v1/protocol.json", "evidence/ntl_update_memory_v1/model.json",
                  "evidence/ntp_ifadah_v1/supervision.json",
+                 "tools/lexical_training/data/classical_books_domains_v1.json",
                  "evidence/ifadah_programs_v1/data.json", "evidence/ifadah_programs_v1/protocol.json",
                  "evidence/ifadah_programs_v1/protocol_local.json"]
         paths += [p for _, _, p in lexical_testimony.SOURCES.values() if p is not None]
@@ -55,7 +56,8 @@ class LexicalBoundary(unittest.TestCase):
                 self.assertNotEqual(original["files"][str(lexical_testimony.CATALOG)], changed["files"][str(lexical_testimony.CATALOG)])
                 self.assertTrue(set(paths) <= changed["files"].keys())
                 # Both the lesson protocols and the matrix deposits are mandatory.
-                for relative in ("evidence/ifadah_programs_v1/data.json",
+                for relative in ("tools/lexical_training/data/classical_books_domains_v1.json",
+                                 "evidence/ifadah_programs_v1/data.json",
                                  "evidence/ifadah_programs_v1/protocol.json",
                                  "evidence/ifadah_programs_v1/protocol_local.json",
                                  "evidence/ntp_recursive_v1/protocol.json",

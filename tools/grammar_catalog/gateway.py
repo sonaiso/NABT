@@ -82,6 +82,7 @@ def snapshot():
                        "evidence/ontological_continuity_v1/training/model.json",
                        "evidence/ontological_continuity_v1/training/train.json",
                        "evidence/cognitive_orchestration_v1/dispatch.json",
+        "tools/lexical_training/data/classical_books_domains_v1.json",
         "tools/lexical_training/data/ifadah_programs_v1.json",
         *MASHRU_MODELS,
         "tools/lexical_training/data/ntl_apprentice_model_v1.json",
