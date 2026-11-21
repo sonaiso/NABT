@@ -143,7 +143,7 @@ def validate(request):
     allowed = {"text", "source_id", "query", "limit", "lexical_text", "context", "temporal",
                "inference", "bridge", "neural_continuity", "root_sense", "question",
                "question_chain", "genus_chains", "valency_context", "report_model", "named_matrix",
-               "licensed_speech"}
+               "licensed_speech", "morphology_matrix"}
     if type(request) is not dict or "text" not in request or set(request) - allowed:
         raise ValueError("Expected source text and existing owner inputs only")
     _encoded(request, 2*1048576)
@@ -152,6 +152,9 @@ def validate(request):
     if not _text(request.get("source_id", "input"), "source_id", maximum=128).strip():
         raise ValueError("Nonempty source identity required")
     _limit(request.get("limit", 5))
+    if "morphology_matrix" in request:
+        from .morphology_matrix import validate as validate_morphology_matrix
+        validate_morphology_matrix(request["morphology_matrix"])
     if "neural_continuity" in request and type(request["neural_continuity"]) is not bool:
         raise ValueError("Optional neural continuity must be a boolean")
     _text(request.get("query", "الأجناس الخواص الفاعلية المفعولية المصدر المكان الزمان"), "query")
@@ -230,6 +233,9 @@ def analyze(request):
         "retrieval_prunes_owner_candidates":False, "world_truth_established":False,
         "empirical_causality_established":False, "new_lean_proof":False}
     from . import derived_event_roles
+    if "morphology_matrix" in p:
+        from .morphology_matrix import analyze as matrix_analysis
+        result["morphology_matrix"] = matrix_analysis(text, source_id, p["morphology_matrix"])
     derived = derived_event_roles.analyze(text, source_id)
     if derived is not None:
         result["derived_event_roles"] = derived

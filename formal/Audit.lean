@@ -1148,6 +1148,7 @@ def theoremManifest : List Name := [
   ``Nabt.QatrReading.imperative_exceptions,
   ``Nabt.QatrReading.qatr_five_verb_bridge,
   ``Nabt.LexicalDenotation.check_exact,
+  ``Nabt.MatrixDenotation.licensed_iff,
   ``Nabt.LexicalDenotation.empty_target_rejected,
   ``Nabt.LexicalDenotation.missing_definition_rejected,
   ``Nabt.LexicalDenotation.matching_inclusion_disjoint,
