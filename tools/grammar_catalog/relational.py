@@ -142,7 +142,7 @@ def search(query, limit=5):
 def validate(request):
     allowed = {"text", "source_id", "query", "limit", "lexical_text", "context", "temporal",
                "inference", "bridge", "neural_continuity", "root_sense", "question",
-               "question_chain", "genus_chains", "valency_context", "report_model",
+               "question_chain", "genus_chains", "valency_context", "report_model", "named_matrix",
                "licensed_speech"}
     if type(request) is not dict or "text" not in request or set(request) - allowed:
         raise ValueError("Expected source text and existing owner inputs only")
@@ -171,6 +171,9 @@ def validate(request):
         if (type(ctx) is not dict or set(ctx)!={"ledger"} or type(ctx["ledger"]) is not str
                 or not 0<len(ctx["ledger"].encode())<=32768):
             raise ValueError("Expected a bounded signed ground ledger")
+    if "named_matrix" in request:
+        from .named_matrix import validate as validate_matrix
+        validate_matrix(request["named_matrix"])
     if "genus_chains" in request:
         from .genus_chains import validate as validate_chains
         validate_chains(request["genus_chains"])
@@ -238,6 +241,9 @@ def analyze(request):
     event_roles = analyze_event_roles(text, source_id)
     if event_roles is not None:
         result["literal_event_roles"] = event_roles
+    if "named_matrix" in p:
+        from .named_matrix import analyze as analyze_matrix
+        result["named_matrix"] = analyze_matrix(text, source_id, p["named_matrix"])
     if "genus_chains" in p:
         from .genus_chains import analyze as analyze_chains
         result["genus_chains"] = analyze_chains(text, source_id, p["genus_chains"])
