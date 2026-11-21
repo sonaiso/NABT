@@ -20,7 +20,7 @@ ROUTES = {
     "lexical.assess": (("lexical-denotation",), ("entry", "target"), ()),
     "lexical.ontolex": (("lexical-denotation",), ("entry", "target"), ()),
     "relations.search": (RELATIONAL_FAMILIES, ("query",), ("limit",)),
-    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "valency_context", "report_model", "licensed_speech", "opencyc_slice")),
+    "relations.analyze": (("lexical-denotation", "recursive-source", "linguistic-truth") + RELATIONAL_FAMILIES, ("text",), ("source_id", "query", "limit", "lexical_text", "context", "temporal", "inference", "bridge", "neural_continuity", "root_sense", "question", "question_chain", "genus_chains", "named_matrix", "valency_context", "report_model", "licensed_speech", "opencyc_slice")),
     "operation": (("identity", "transition-law", "derivation-patterns", "person-reference", "numeric-program", "rule-learning"), (), ()),
     "grammar.search": (("rule-routing", "classical-source-rules"), ("query",), ("kind", "limit")),
     "grammar.route": (("rule-routing", "classical-transforms"), ("query", "frames"), ("budget",)),
