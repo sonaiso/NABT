@@ -20,7 +20,8 @@ concurrency:
 jobs:
   runtime:
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    # Full test discovery and the independent replays share this job budget.
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
