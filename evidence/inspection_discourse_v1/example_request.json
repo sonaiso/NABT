@@ -1,0 +1,37 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "ntp",
+  "payload": {
+    "operation": "cognitive.lesson",
+    "input": {
+      "lesson": {
+        "schema": "ntl.inspection-discourse.v1",
+        "text": "أفاد الحارس أن الصندوق مفتوح. إذا ثبت فتحه في سجل المعاينة فأنشئ مسودة، ولا ترسلها.",
+        "scene_id": "visit-7",
+        "steps": [
+          {
+            "op": "observe",
+            "id": "R1",
+            "source": "المعاينة",
+            "kind": "opening",
+            "object_id": "box-2",
+            "scene_id": "visit-7",
+            "actor": null,
+            "polarity": "affirm"
+          },
+          {
+            "op": "attempt"
+          },
+          {
+            "op": "withdraw",
+            "id": "R1"
+          }
+        ],
+        "objects": {
+          "box-2": "الصندوق",
+          "door-1": "الباب"
+        }
+      }
+    }
+  }
+}

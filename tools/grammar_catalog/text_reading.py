@@ -543,6 +543,16 @@ def analyze(text, *, question=None, answer=None, question_cycle=False, question_
                           "حدّد موضع كل جزء من التكليف في النص.", "تعيين التقرير والعدّ يتطلبان سجلات المضيف.",
                           witnesses_utf8=instruction["witnesses_utf8"], action_authority="NONE"))
 
+    from tools.lexical_training import inspection_discourse
+    inspection = inspection_discourse.read(text) if len(text.encode()) <= 2048 else None
+    if inspection and inspection["frame"]["condition"]:
+        question_result["inspection_discourse"] = inspection
+        cards.append(card("inspection_discourse", "قراءة الخبر والتعليمة",
+                          inspection_discourse.realize(inspection["frame"]),
+                          "عُيّنت أطراف الشرط والطلب من مواضعها في النص.",
+                          "يتوقف التطبيق على هوية الحامل وشاهد المعاينة.",
+                          witnesses_utf8=inspection["witnesses_utf8"], action_authority="NONE"))
+
     from . import question_answer_cycle as cycle
     generated_form = question is not None and (
         question.startswith(cycle.PREFIX) or question.startswith(("ما قيمة التعبير «", "هل تصح المساواة «")))
