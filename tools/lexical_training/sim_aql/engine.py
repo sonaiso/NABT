@@ -722,6 +722,14 @@ class Simulator:
                             result = failure(step, "BLOCK", "PREDECESSOR_IS_NOT_INFERENCE_PREMISE")
                         elif claims[rule.claim_id].consequent_id != step.claim_id:
                             result = failure(step, "BLOCK", "DECLARED_CONCLUSION_MISMATCH")
+                        elif (step.inference_mode == "FACTUAL" and not (p.assumption_ids or rule.assumption_ids)
+                              and "CONDITIONAL_ONLY" in (p.verdict, rule.verdict)):
+                            # The frozen Guardian already blocks factual use of open assumptions.
+                            # An explicitly conditional derivation can also have zero assumptions.
+                            result = _StepResult(step.claim_id, "BLOCK", "UNASSESSED",
+                                ("CONDITIONAL_PREDECESSOR_IN_FACTUAL_INFERENCE",),
+                                evidence_versions=tuple(sorted(set(p.evidence_versions + rule.evidence_versions))),
+                                used_claim_ids=tuple(sorted(set(p.used_claim_ids + rule.used_claim_ids + (step.claim_id,)))))
                         else:
                             a = g.modus_ponens(p.guardian_assessment_id, rule.guardian_assessment_id,
                                                step.inference_mode, context.as_of)
