@@ -224,3 +224,7 @@ reuses NABT and its existing A116 package. The immutable files (including
 the shared A116 sources) are checked by a single source-tree digest in
 `formal/theorems.json`. The build wrapper, discovery and export commands
 are local integration code. See [the Arabic integration note](MASHRU_PROOF_TRANSFER_AR.md).
+
+## SIM-AQL 0.2
+
+The supplied SIM-AQL protocol, registry, executable bundle and reference test results are identified in [the implementation note](SIM_AQL_V02_AR.md). The unmodified 0.5 guardian is included in the internal lesson package. NABT uses its own dispatcher and receipt verifier. The reference implementation, its scoped integration changes and the upstream evidence owners each retain their own verification boundaries.
