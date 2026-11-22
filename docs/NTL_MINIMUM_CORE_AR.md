@@ -91,3 +91,5 @@ PYTHONPATH=src:. python -m tools.evaluate_context_transfer --output /tmp/ntl-tra
 PYTHONPATH=src:. python -m tools.ntp run --request examples/io_gateway/ntl_knowledge_assessment.json --output /tmp/nabt-knowledge-receipt.json
 PYTHONPATH=src:. python -m tools.ntp verify --request examples/io_gateway/ntl_knowledge_assessment.json --receipt /tmp/nabt-knowledge-receipt.json
 ```
+
+يستطيع [درس SIM-AQL ٠٫٢](SIM_AQL_V02_AR.md) استدعاء هذا الدرس ثم إعادة فحص آخر تقويم لإصدار الدعوى المختار، مع الاحتفاظ بالمقدمات وبأثر سحب الشاهد.
