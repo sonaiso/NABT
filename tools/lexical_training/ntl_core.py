@@ -10,6 +10,7 @@ from nabt.learning.finite_guard import FeatureSchema, GuardLanguage, LearningSes
 from nabt.semantics import SemanticKernel
 from tools import evidence_lifecycle_v1 as wire, lexical_testimony
 from tools.grammar_catalog import relational_bridge, scoped_composition
+from .knowledge_assessment import bound_relation
 
 SCHEMA = "ntl.minimum-course.v2"
 RESULT = "ntl.minimum-course-result.v2"
@@ -153,9 +154,16 @@ def measurement(task):
     if rows[0]["object"] != rows[1]["object"] or rows[0]["day"] >= rows[1]["day"]:
         return outcome("UNALIGNED", references, trace)
     (a, b), (c, d) = intervals
-    if b < c:
+    # The difference is derived from two ordered observations of the same bearer.
+    # Its bounds have a new scope and are not additional sensor observations.
+    lower, upper = c - b, d - a
+    increasing = bound_relation(lower, upper, 0)
+    trace["increase_assessment"] = {"predicate": "delta_mm > 0", "bounds": [lower, upper],
+                                    "relation": increasing, "inputs": references,
+                                    "provenance_mode": "derived_from_recorded_bounds"}
+    if increasing == "SUPPORTS":
         status = "INCREASE"
-    elif d < a:
+    elif upper < 0:
         status = "DECREASE"
     elif a == b == c == d:
         status = "SAME"

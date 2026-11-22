@@ -126,11 +126,11 @@ def _lesson_sources(lesson, owner):
     texts. Multiple sources retain separate request locations even when their
     content, source IDs or local occurrence offsets happen to coincide.
     """
-    from tools.lexical_training import (pattern_lesson, report_draft, inspection_discourse, mashru_lesson, context_transfer, corpus_concepts,
+    from tools.lexical_training import (pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, mashru_lesson, context_transfer, corpus_concepts,
         ifadah_programs, ntl_core, ntl_course, ntl_curriculum,
         ntl_witness_pilot, ntl_update_memory, opencyc_inquiry, school_apprentice, teaching)
 
-    runners = (pattern_lesson, report_draft, inspection_discourse, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    runners = (pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                ntl_course, ntl_curriculum, ntl_witness_pilot, ntl_update_memory,
                opencyc_inquiry, school_apprentice)
     schemas = {runner.SCHEMA: runner.RESULT for runner in runners}
@@ -155,6 +155,9 @@ def _lesson_sources(lesson, owner):
             sources.append({'text': text, 'request_path': prefix + suffix,
                             'role': role, 'source_id': source_id})
 
+    if schema == knowledge_lesson.SCHEMA:
+        # Scope labels and source IDs in this structured lesson are not Arabic utterances.
+        return [], 'NO_REQUEST_TEXT_SOURCE'
     if schema == mashru_lesson.SCHEMA:
         if lesson['operation'] == 'read':
             add(lesson['text'], '/text', source_id=lesson['source_id'])

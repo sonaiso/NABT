@@ -65,7 +65,7 @@ ifadah-programs:
 
 .PHONY: ntl-school-check
 ntl-school-check:
-	PYTHONPATH=src:. $(PYTHON) -B -m unittest tests.test_school_apprentice tests.test_school_ib_catalog tests.test_school_jordan_catalog tests.test_apprentice_readout -v
+	PYTHONPATH=src:. $(PYTHON) -B -m unittest tests.test_school_apprentice tests.test_school_ib_catalog tests.test_school_jordan_catalog tests.test_apprentice_readout tests.test_knowledge_assessment -v
 
 io-gateway ntl-course-check: ntl-school-check
 

@@ -1,0 +1,217 @@
+{
+  "schema": "nabt.io.request.v1",
+  "route": "ntp",
+  "payload": {
+    "operation": "cognitive.lesson",
+    "input": {
+      "lesson": {
+        "schema": "ntl.knowledge-assessment.v1",
+        "occurrences": [
+          {
+            "id": "low",
+            "lower": 2,
+            "upper": 3,
+            "domain": "معاينة محلية",
+            "subject": "أ",
+            "property": "طول",
+            "unit": "مم",
+            "event_time": "t0",
+            "source": "مجس تجريبي",
+            "channel": "simulated_interval",
+            "received_at": "2026-11-22T09:00:00Z"
+          },
+          {
+            "id": "high",
+            "lower": 6,
+            "upper": 7,
+            "domain": "معاينة محلية",
+            "subject": "أ",
+            "property": "طول",
+            "unit": "مم",
+            "event_time": "t0",
+            "source": "مجس تجريبي",
+            "channel": "simulated_interval",
+            "received_at": "2026-11-22T09:00:00Z"
+          },
+          {
+            "id": "higher",
+            "lower": 8,
+            "upper": 9,
+            "domain": "معاينة محلية",
+            "subject": "أ",
+            "property": "طول",
+            "unit": "مم",
+            "event_time": "t0",
+            "source": "مجس تجريبي",
+            "channel": "simulated_interval",
+            "received_at": "2026-11-22T09:00:00Z"
+          },
+          {
+            "id": "other",
+            "lower": 7,
+            "upper": 8,
+            "domain": "معاينة محلية",
+            "subject": "ب",
+            "property": "طول",
+            "unit": "مم",
+            "event_time": "t0",
+            "source": "مجس تجريبي",
+            "channel": "simulated_interval",
+            "received_at": "2026-11-22T09:00:00Z"
+          }
+        ],
+        "information": [
+          {
+            "id": "low",
+            "occurrence": "low"
+          },
+          {
+            "id": "high",
+            "occurrence": "high"
+          },
+          {
+            "id": "higher",
+            "occurrence": "higher"
+          },
+          {
+            "id": "other",
+            "occurrence": "other"
+          }
+        ],
+        "claims": [
+          {
+            "ref": {
+              "id": "p",
+              "version": 1
+            },
+            "symbol": "P",
+            "threshold": 4,
+            "domain": "معاينة محلية",
+            "subject": "أ",
+            "property": "طول",
+            "unit": "مم",
+            "event_time": "t0"
+          },
+          {
+            "ref": {
+              "id": "q",
+              "version": 1
+            },
+            "symbol": "Q",
+            "threshold": 4,
+            "domain": "معاينة محلية",
+            "subject": "ب",
+            "property": "طول",
+            "unit": "مم",
+            "event_time": "t0"
+          }
+        ],
+        "steps": [
+          {
+            "op": "assess",
+            "at": "2026-11-22T09:00:00Z",
+            "claim": {
+              "id": "p",
+              "version": 1
+            },
+            "evidence": [
+              "high",
+              "higher"
+            ]
+          },
+          {
+            "op": "assess",
+            "at": "2026-11-22T09:00:00Z",
+            "claim": {
+              "id": "p",
+              "version": 1
+            },
+            "evidence": [
+              "low"
+            ]
+          },
+          {
+            "op": "assess",
+            "at": "2026-11-22T09:00:00Z",
+            "claim": {
+              "id": "q",
+              "version": 1
+            },
+            "evidence": [
+              "other"
+            ]
+          },
+          {
+            "op": "audit",
+            "at": "2026-11-22T09:00:00Z",
+            "if": {
+              "id": "p",
+              "version": 1
+            },
+            "then": {
+              "id": "q",
+              "version": 1
+            },
+            "premise": {
+              "id": "p",
+              "version": 1
+            },
+            "conclusion": {
+              "id": "q",
+              "version": 1
+            }
+          },
+          {
+            "op": "audit",
+            "at": "2026-11-22T09:00:00Z",
+            "if": {
+              "id": "p",
+              "version": 1
+            },
+            "then": {
+              "id": "q",
+              "version": 1
+            },
+            "premise": {
+              "id": "q",
+              "version": 1
+            },
+            "conclusion": {
+              "id": "p",
+              "version": 1
+            }
+          },
+          {
+            "op": "assess",
+            "at": "2026-11-22T09:00:00Z",
+            "claim": {
+              "id": "p",
+              "version": 1
+            },
+            "evidence": []
+          },
+          {
+            "op": "audit",
+            "at": "2026-11-22T09:00:00Z",
+            "if": {
+              "id": "p",
+              "version": 1
+            },
+            "then": {
+              "id": "q",
+              "version": 1
+            },
+            "premise": {
+              "id": "p",
+              "version": 1
+            },
+            "conclusion": {
+              "id": "q",
+              "version": 1
+            }
+          }
+        ]
+      }
+    }
+  }
+}
