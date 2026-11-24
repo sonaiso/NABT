@@ -1,0 +1,14 @@
+{
+  "schema": "nabt.v13-occurrence-transfer.protocol.v1",
+  "source_archive_sha256": "75e553d6dd2a5a05a7f8f7fc74d37d0bf21fa2fe73891a9c7a4970cc3eebf516",
+  "parent": "results/modular_17.npz",
+  "selection": "First published seed of the published modular architecture, selected before evaluating this task.",
+  "task": "Given two occurrences of one carrier differing in exactly one of vowel, shadda, tanwin or right boundary, predict whether the ordered realized units, including ancestry, differ.",
+  "labels": "Compare expected_units in the frozen source dataset; never use them or the three old output heads as input to the new head.",
+  "pairs": "Enumerate each unordered pair exactly once. Retain original carrier partitions. Mark composition if either endpoint has shadda and tanwin; train only on train carriers without composition at either endpoint.",
+  "features": "Absolute differences of the two frozen modular hidden activations (8 + 24).",
+  "optimizer": {"name": "full_batch_logistic_gradient_descent", "start": "zeros", "learning_rate": 0.25, "steps": 400, "threshold_logit": 0},
+  "controls": ["majority class on training pairs", "same classifier on fixed original random modular features, seed 17", "exact comparison of the old three predicted heads for one shared carrier"],
+  "metrics": ["raw correct/total per original split and changed field", "independent functional pair types per split", "old head and ancestry replay on 1008 rows", "all nine original checkpoints against archived predictions"],
+  "acceptance": "Preserve all original predictions. Report novel task outcomes for every split and control including ties or losses. Handled candidates have no lexical or licensing authority."
+}
