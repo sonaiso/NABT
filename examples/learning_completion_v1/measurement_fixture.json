@@ -1,0 +1,524 @@
+{
+  "reference": {
+    "schema": "acb.reference.v1",
+    "version": "authored-measurement-fixture-1",
+    "scope": "authored_measurement_fixture_not_arabic_benchmark",
+    "required_families": [
+      "fixture"
+    ],
+    "cases": [
+      {
+        "id": "p",
+        "kind": "positive",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [
+          "reading:alpha"
+        ],
+        "gold_complete": true
+      },
+      {
+        "id": "a",
+        "kind": "ambiguity",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [
+          "reading:one",
+          "reading:two"
+        ],
+        "gold_complete": true
+      },
+      {
+        "id": "n",
+        "kind": "negative",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [],
+        "gold_complete": true
+      },
+      {
+        "id": "u",
+        "kind": "needs_context",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [],
+        "gold_complete": false
+      },
+      {
+        "id": "independent",
+        "kind": "positive",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [
+          "reading:alpha"
+        ],
+        "gold_complete": true
+      },
+      {
+        "id": "reindexed",
+        "kind": "positive",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [
+          "reading:alpha"
+        ],
+        "gold_complete": true
+      },
+      {
+        "id": "scoped",
+        "kind": "positive",
+        "family": "fixture",
+        "source_ref": "examples/learning_completion_v1/README.md",
+        "gold_readings": [
+          "reading:beta"
+        ],
+        "gold_complete": true
+      }
+    ]
+  },
+  "predictions": [
+    {
+      "id": "p",
+      "status": "licensed",
+      "readings": [
+        "reading:alpha"
+      ]
+    },
+    {
+      "id": "a",
+      "status": "licensed_multiple",
+      "readings": [
+        "reading:one",
+        "reading:two"
+      ]
+    },
+    {
+      "id": "n",
+      "status": "rejected",
+      "readings": []
+    },
+    {
+      "id": "u",
+      "status": "defer",
+      "readings": []
+    },
+    {
+      "id": "independent",
+      "status": "licensed",
+      "readings": [
+        "reading:alpha"
+      ]
+    },
+    {
+      "id": "reindexed",
+      "status": "licensed",
+      "readings": [
+        "reading:alpha"
+      ]
+    },
+    {
+      "id": "scoped",
+      "status": "licensed",
+      "readings": [
+        "reading:beta"
+      ]
+    }
+  ],
+  "experiment": {
+    "schema": "nabt.learning-completion-experiment.v1",
+    "scope_id": "authored_measurement_fixture_not_arabic_benchmark",
+    "required_objective_ids": [
+      "trace.identity"
+    ],
+    "holdout_axes": [
+      "text_groups",
+      "source_groups"
+    ],
+    "independence_axes": [
+      "text_groups",
+      "source_groups"
+    ],
+    "exposure": "PUBLIC_RETROSPECTIVE",
+    "sampling": {
+      "kind": "AUTHORED",
+      "population": "مصنوعات لفحص المقيّم؛ ليست عينة عربية أو بيانات متعلم",
+      "frame_ref": "authored-fixture:frame",
+      "design_ref": "authored-fixture:design"
+    },
+    "rows": [
+      {
+        "id": "p",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس p",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "positive",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:p"
+      },
+      {
+        "id": "a",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس a",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "ambiguity",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:a"
+      },
+      {
+        "id": "n",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس n",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "negative",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:n"
+      },
+      {
+        "id": "u",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس u",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "needs_context",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:u"
+      },
+      {
+        "id": "independent",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس independent",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "positive",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:independent"
+      },
+      {
+        "id": "reindexed",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس reindexed",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "positive",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:reindexed"
+      },
+      {
+        "id": "scoped",
+        "split": "test",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس scoped",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "positive",
+        "root_groups": [
+          "fixture-root-test"
+        ],
+        "source_groups": [
+          "fixture-document-test"
+        ],
+        "template_groups": [
+          "fixture-template-test"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-test"
+        ],
+        "provenance_ref": "authored-fixture:scoped"
+      },
+      {
+        "id": "train-p",
+        "split": "train",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس train-p",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "positive",
+        "root_groups": [
+          "fixture-root-train"
+        ],
+        "source_groups": [
+          "fixture-document-train"
+        ],
+        "template_groups": [
+          "fixture-template-train"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-train"
+        ],
+        "provenance_ref": "authored-fixture:train-p"
+      },
+      {
+        "id": "train-a",
+        "split": "train",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس train-a",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "ambiguity",
+        "root_groups": [
+          "fixture-root-train"
+        ],
+        "source_groups": [
+          "fixture-document-train"
+        ],
+        "template_groups": [
+          "fixture-template-train"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-train"
+        ],
+        "provenance_ref": "authored-fixture:train-a"
+      },
+      {
+        "id": "train-n",
+        "split": "train",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس train-n",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "negative",
+        "root_groups": [
+          "fixture-root-train"
+        ],
+        "source_groups": [
+          "fixture-document-train"
+        ],
+        "template_groups": [
+          "fixture-template-train"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-train"
+        ],
+        "provenance_ref": "authored-fixture:train-n"
+      },
+      {
+        "id": "train-u",
+        "split": "train",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس train-u",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "needs_context",
+        "root_groups": [
+          "fixture-root-train"
+        ],
+        "source_groups": [
+          "fixture-document-train"
+        ],
+        "template_groups": [
+          "fixture-template-train"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-train"
+        ],
+        "provenance_ref": "authored-fixture:train-u"
+      },
+      {
+        "id": "calibration-p",
+        "split": "calibration",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس calibration-p",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "positive",
+        "root_groups": [
+          "fixture-root-calibration"
+        ],
+        "source_groups": [
+          "fixture-document-calibration"
+        ],
+        "template_groups": [
+          "fixture-template-calibration"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-calibration"
+        ],
+        "provenance_ref": "authored-fixture:calibration-p"
+      },
+      {
+        "id": "calibration-a",
+        "split": "calibration",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس calibration-a",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "ambiguity",
+        "root_groups": [
+          "fixture-root-calibration"
+        ],
+        "source_groups": [
+          "fixture-document-calibration"
+        ],
+        "template_groups": [
+          "fixture-template-calibration"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-calibration"
+        ],
+        "provenance_ref": "authored-fixture:calibration-a"
+      },
+      {
+        "id": "calibration-n",
+        "split": "calibration",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس calibration-n",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "negative",
+        "root_groups": [
+          "fixture-root-calibration"
+        ],
+        "source_groups": [
+          "fixture-document-calibration"
+        ],
+        "template_groups": [
+          "fixture-template-calibration"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-calibration"
+        ],
+        "provenance_ref": "authored-fixture:calibration-n"
+      },
+      {
+        "id": "calibration-u",
+        "split": "calibration",
+        "objective_id": "trace.identity",
+        "stage_id": "L01",
+        "text": "نص مصطنع لفحص المقياس calibration-u",
+        "question": "ما هوية القراءة المحددة في مرجع المثال؟",
+        "input_mode": "raw",
+        "kind": "needs_context",
+        "root_groups": [
+          "fixture-root-calibration"
+        ],
+        "source_groups": [
+          "fixture-document-calibration"
+        ],
+        "template_groups": [
+          "fixture-template-calibration"
+        ],
+        "lexeme_groups": [
+          "fixture-lexeme-calibration"
+        ],
+        "provenance_ref": "authored-fixture:calibration-u"
+      }
+    ],
+    "interventions": [
+      {
+        "id": "i-withdraw_last_support",
+        "before": "p",
+        "after": "u",
+        "type": "withdraw_last_support"
+      },
+      {
+        "id": "i-retain_independent_support",
+        "before": "p",
+        "after": "independent",
+        "type": "retain_independent_support"
+      },
+      {
+        "id": "i-coordinate_reprojection",
+        "before": "p",
+        "after": "reindexed",
+        "type": "coordinate_reprojection"
+      },
+      {
+        "id": "i-scope_change",
+        "before": "p",
+        "after": "scoped",
+        "type": "scope_change"
+      }
+    ]
+  },
+  "parent_predictions": null,
+  "control_predictions": null
+}

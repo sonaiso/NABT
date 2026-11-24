@@ -1,0 +1,66 @@
+name: A116 to judgment training criteria and measured gaps
+
+on:
+  push:
+    paths:
+      - 'tools/lexical_training/completion_*.py'
+      - 'tools/lexical_training/cumulative*.py'
+      - 'tools/completeness_metrics.py'
+      - 'tools/training_readiness.py'
+      - 'tools/entropy_framework/registry.json'
+      - 'evidence/learning_completion_v1/**'
+      - 'evidence/cognitive_curriculum_v1/learning_framework.json'
+      - 'examples/learning_completion_v1/**'
+      - 'tests/test_completion*.py'
+      - '.github/workflows/learning-completion-criteria.yml'
+  pull_request:
+    paths:
+      - 'tools/lexical_training/completion_*.py'
+      - 'tools/lexical_training/cumulative*.py'
+      - 'tools/completeness_metrics.py'
+      - 'tools/training_readiness.py'
+      - 'tools/entropy_framework/registry.json'
+      - 'evidence/learning_completion_v1/**'
+      - 'evidence/cognitive_curriculum_v1/learning_framework.json'
+      - 'examples/learning_completion_v1/**'
+      - 'tests/test_completion*.py'
+      - '.github/workflows/learning-completion-criteria.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-learning-completion-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  criteria:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: src:.
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Reference sets, connected splits, statistical limits and authority boundaries
+        run: make learning-completion-check
+      - name: Replay both inherited models and preserve the open completion gate
+        run: |
+          set +e
+          python -S -m tools.lexical_training.completion_criteria --baseline-v14 --require-completion --output "$RUNNER_TEMP/criteria-v14.json"
+          criteria_status=$?
+          set -e
+          test "$criteria_status" -eq 2
+          python -c 'import json,sys; from pathlib import Path; expected=json.loads(Path("evidence/learning_completion_v1/baseline_v14.json").read_text()); actual=json.loads(Path(sys.argv[1]).read_text()); assert actual == expected' "$RUNNER_TEMP/criteria-v14.json"
+      - name: Exercise the authored measurement fixture without promoting it to Arabic coverage
+        run: |
+          fixture_sha=$(cat examples/learning_completion_v1/measurement_fixture.sha256)
+          python -m tools.lexical_training.completion_criteria --benchmark examples/learning_completion_v1/measurement_fixture.json --benchmark-sha256 "$fixture_sha" --output "$RUNNER_TEMP/criteria-fixture.json"
+          python -c 'import json,sys; r=json.load(open(sys.argv[1])); assert r["licensed_completion"]["status"] == "NOT_MEASURED"; assert not r["statistical_gates_eligible_on_declared_design"]' "$RUNNER_TEMP/criteria-fixture.json"
