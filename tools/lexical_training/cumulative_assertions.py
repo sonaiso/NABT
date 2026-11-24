@@ -1,4 +1,5 @@
 """Mask scalar expectations in historical, public unit tests. No test code is executed."""
+
 import ast
 from functools import lru_cache
 
@@ -44,8 +45,13 @@ def records(blob):
                 if isinstance(stmt, (ast.Import, ast.ImportFrom)):
                     continue
                 if isinstance(stmt, ast.Assign):
-                    if any(isinstance(n, (ast.Lambda, ast.ListComp, ast.DictComp, ast.SetComp, ast.GeneratorExp))
-                           for n in ast.walk(stmt)):
+                    if any(
+                        isinstance(
+                            n,
+                            (ast.Lambda, ast.ListComp, ast.DictComp, ast.SetComp, ast.GeneratorExp),
+                        )
+                        for n in ast.walk(stmt)
+                    ):
                         break
                     context.append(stmt)
                     continue
@@ -53,8 +59,11 @@ def records(blob):
                     break
                 if isinstance(stmt.value, ast.Constant):
                     continue
-                if not (isinstance(stmt.value, ast.Call) and isinstance(stmt.value.func, ast.Attribute)
-                        and stmt.value.func.attr.startswith("assert")):
+                if not (
+                    isinstance(stmt.value, ast.Call)
+                    and isinstance(stmt.value.func, ast.Attribute)
+                    and stmt.value.func.attr.startswith("assert")
+                ):
                     break
                 pair = query(stmt.value)
                 if not pair:
@@ -66,22 +75,42 @@ def records(blob):
                 used = {n.id for n in ast.walk(expression) if isinstance(n, ast.Name)}
                 setup = []
                 for assignment in reversed(context):
-                    names = {n.id for t in assignment.targets for n in ast.walk(t) if isinstance(n, ast.Name)}
+                    names = {
+                        n.id
+                        for t in assignment.targets
+                        for n in ast.walk(t)
+                        if isinstance(n, ast.Name)
+                    }
                     if names & used:
                         setup.append(assignment)
                         used -= names
-                        used.update(n.id for n in ast.walk(assignment.value) if isinstance(n, ast.Name))
+                        used.update(
+                            n.id for n in ast.walk(assignment.value) if isinstance(n, ast.Name)
+                        )
                 sequence = [*reversed(setup), expression]
-                if any(type(n.value) is type(answer) and n.value == answer for st in sequence
-                       for n in ast.walk(st) if isinstance(n, ast.Constant)):
+                if any(
+                    type(n.value) is type(answer) and n.value == answer
+                    for st in sequence
+                    for n in ast.walk(st)
+                    if isinstance(n, ast.Constant)
+                ):
                     continue
                 text = "\n".join(ast.unparse(st) for st in sequence)
-                if len(text.encode()) > 1024 or len(text.strip()) < 5 or isinstance(expression, ast.Name) and not setup:
+                if (
+                    len(text.encode()) > 1024
+                    or len(text.strip()) < 5
+                    or isinstance(expression, ast.Name)
+                    and not setup
+                ):
                     continue
                 label = canonical(answer)
                 if type(answer) is bool:
                     task = "contract_query:boolean"
-                elif isinstance(expression, ast.Subscript) and isinstance(expression.slice, ast.Constant) and isinstance(expression.slice.value, str):
+                elif (
+                    isinstance(expression, ast.Subscript)
+                    and isinstance(expression.slice, ast.Constant)
+                    and isinstance(expression.slice.value, str)
+                ):
                     task = "contract_query:field:" + expression.slice.value
                 elif isinstance(expression, ast.Attribute):
                     task = "contract_query:field:" + expression.attr
@@ -89,8 +118,8 @@ def records(blob):
                     continue
                 # The grouping key never enters the model. Keep every version of a
                 # method together even when multiple PRs modify its setup.
-                method_id = cls.name+"."+method.name
-                rows[method_id,task,text,label] = stmt.lineno
+                method_id = cls.name + "." + method.name
+                rows[method_id, task, text, label] = stmt.lineno
     return rows
 
 
@@ -103,8 +132,14 @@ def episodes(history):
             previous, current = records(old), records(new)
             for key in sorted(current.keys() - previous.keys()):
                 method, task, text, gold = key
-                group = path+"::"+method
-                is_test = int(digest(group.encode()),16)%5 == 0
-                yield {"pr":pr, "task":task, "text":text, "gold":gold,
-                       "split":"test" if is_test else "train", "source":new+":"+group,
-                       "lane":"masked_public_contract"}
+                group = path + "::" + method
+                is_test = int(digest(group.encode()), 16) % 5 == 0
+                yield {
+                    "pr": pr,
+                    "task": task,
+                    "text": text,
+                    "gold": gold,
+                    "split": "test" if is_test else "train",
+                    "source": new + ":" + group,
+                    "lane": "masked_public_contract",
+                }

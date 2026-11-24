@@ -49,7 +49,7 @@ def build(route=None):
         from tools.lexical_training.reasoning_curriculum import matrix
         curriculum = matrix(compiled=compiled)
         rows = curriculum["matrices"] + curriculum["shared_foundation"]["rows"]
-        from tools.lexical_training import v13_occurrence, context_transfer, corpus_concepts, ifadah_programs, knowledge_lesson, sim_aql_lesson, ntl_core, ntl_course, ntl_curriculum, ntl_update_memory, school_apprentice, school_curriculum
+        from tools.lexical_training import cumulative_lesson, v13_occurrence, context_transfer, corpus_concepts, ifadah_programs, knowledge_lesson, sim_aql_lesson, ntl_core, ntl_course, ntl_curriculum, ntl_update_memory, school_apprentice, school_curriculum
         owner_modules = {m for row in rows for m in row["owner_modules"]}
         owner_paths = {"tools/lexical_training/corpus_concepts.py", "tools/lexical_training/context_transfer.py", "tools/lexical_training/teaching.py", "tools/lexical_training/grounded_passage.py",
                        "tools/source_learning_connection.py", "tools/epistemic_measurement.py",
@@ -63,6 +63,7 @@ def build(route=None):
             "ntl_framework": {"schema": ntl_curriculum.SCHEMA, "profiles": list(ntl_curriculum.DOMAINS),
                               "source": ntl_curriculum.FRAMEWORK.relative_to(root).as_posix(),
                               "framework_sha256": digest(ntl_curriculum.framework()),
+                              "cumulative_outcome_schema": cumulative_lesson.SCHEMA,
                               "v13_occurrence_schema": v13_occurrence.SCHEMA,
                               "context_transfer_schema": context_transfer.SCHEMA,
                               "corpus_concepts_schema": corpus_concepts.SCHEMA,

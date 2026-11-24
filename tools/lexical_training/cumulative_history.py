@@ -1,6 +1,6 @@
 """Recover PR-specific changed paths, tests and bounded literal behavioral questions."""
+
 import ast
-from collections import Counter
 from functools import lru_cache
 import gzip
 from hashlib import sha256
@@ -17,7 +17,9 @@ ZERO = "0" * 40
 
 
 def canonical(value):
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
+    )
 
 
 def digest(data):
@@ -71,7 +73,9 @@ def imports_at(body):
     for n in body:
         if isinstance(n, ast.Import):
             for a in n.names:
-                result[a.asname or a.name.split(".")[0]] = a.name if a.asname else a.name.split(".")[0]
+                result[a.asname or a.name.split(".")[0]] = (
+                    a.name if a.asname else a.name.split(".")[0]
+                )
         if isinstance(n, ast.ImportFrom) and n.module and not n.level:
             for a in n.names:
                 result[a.asname or a.name] = n.module + "." + a.name
@@ -86,7 +90,9 @@ def tests(blob):
     result = {}
     for cls in [n for n in module.body if isinstance(n, ast.ClassDef)]:
         for method in cls.body:
-            if not isinstance(method, (ast.FunctionDef, ast.AsyncFunctionDef)) or not method.name.startswith("test_"):
+            if not isinstance(
+                method, (ast.FunctionDef, ast.AsyncFunctionDef)
+            ) or not method.name.startswith("test_"):
                 continue
             key = cls.name + "." + method.name
             probes = []
@@ -99,7 +105,11 @@ def tests(blob):
                 # Branches, context managers and setup side effects are not closed examples.
                 if isinstance(stmt, (ast.ImportFrom, ast.Import)):
                     continue
-                if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 and isinstance(stmt.targets[0], ast.Name):
+                if (
+                    isinstance(stmt, ast.Assign)
+                    and len(stmt.targets) == 1
+                    and isinstance(stmt.targets[0], ast.Name)
+                ):
                     bindings[stmt.targets[0].id] = stmt.value
                     continue
                 if not isinstance(stmt, ast.Expr):
@@ -108,7 +118,11 @@ def tests(blob):
                 if not isinstance(call, ast.Call):
                     continue
                 fn = call.func
-                if not isinstance(fn, ast.Attribute) or not isinstance(fn.value, ast.Name) or fn.value.id != "self":
+                if (
+                    not isinstance(fn, ast.Attribute)
+                    or not isinstance(fn.value, ast.Name)
+                    or fn.value.id != "self"
+                ):
                     break
                 try:
                     if fn.attr == "assertEqual" and len(call.args) == 2:
@@ -137,7 +151,9 @@ def collect():
     for p in pulls:
         if git("merge-base", p["base"], p["head"]).decode().strip() != p["merge_base"]:
             raise ValueError(f"PR {p['number']} base changed")
-        chunks = git("diff", "--raw", "--no-renames", "--no-abbrev", "-z", p["merge_base"], p["head"]).split(b"\0")
+        chunks = git(
+            "diff", "--raw", "--no-renames", "--no-abbrev", "-z", p["merge_base"], p["head"]
+        ).split(b"\0")
         changes, touched = [], []
         before_count = len(rows)
         for meta, path_bytes in zip(chunks[:-1:2], chunks[1::2], strict=True):
@@ -154,14 +170,34 @@ def collect():
                     if after:
                         prior_rows = set(prior[1]) if prior else set()
                         for task, text, target in sorted(set(after[1]) - prior_rows):
-                            rows.append({"pr": p["number"], "task": task, "text": text, "gold": target,
-                                "blob": new, "source": path + "::" + name})
+                            rows.append(
+                                {
+                                    "pr": p["number"],
+                                    "task": task,
+                                    "text": text,
+                                    "gold": target,
+                                    "blob": new,
+                                    "source": path + "::" + name,
+                                }
+                            )
         owners, _ = path_owners([r[0] for r in changes], families)
-        report.append({"pr": p["number"], "files": len(changes), "touched_tests": touched,
-                       "registered_families": sorted({f for fs in owners.values() for f in fs}),
-                       "unmapped_paths": sum(not fs for fs in owners.values()), "new_literal_claims": len(rows)-before_count})
+        report.append(
+            {
+                "pr": p["number"],
+                "files": len(changes),
+                "touched_tests": touched,
+                "registered_families": sorted({f for fs in owners.values() for f in fs}),
+                "unmapped_paths": sum(not fs for fs in owners.values()),
+                "new_literal_claims": len(rows) - before_count,
+            }
+        )
         paths[str(p["number"])] = changes
-    return {"schema": "nabt.cumulative-history.v1", "rows": rows, "pull_requests": report, "changes": paths}
+    return {
+        "schema": "nabt.cumulative-history.v1",
+        "rows": rows,
+        "pull_requests": report,
+        "changes": paths,
+    }
 
 
 def snapshot():
@@ -170,6 +206,7 @@ def snapshot():
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
