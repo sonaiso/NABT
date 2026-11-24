@@ -126,11 +126,11 @@ def _lesson_sources(lesson, owner):
     texts. Multiple sources retain separate request locations even when their
     content, source IDs or local occurrence offsets happen to coincide.
     """
-    from tools.lexical_training import (cumulative_lesson, v13_occurrence, pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, context_transfer, corpus_concepts,
+    from tools.lexical_training import (cumulative_v14_lesson, cumulative_lesson, v13_occurrence, pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, context_transfer, corpus_concepts,
         ifadah_programs, ntl_core, ntl_course, ntl_curriculum,
         ntl_witness_pilot, ntl_update_memory, opencyc_inquiry, school_apprentice, teaching)
 
-    runners = (cumulative_lesson, v13_occurrence, pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    runners = (cumulative_v14_lesson, cumulative_lesson, v13_occurrence, pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                ntl_course, ntl_curriculum, ntl_witness_pilot, ntl_update_memory,
                opencyc_inquiry, school_apprentice)
     schemas = {runner.SCHEMA: runner.RESULT for runner in runners}
@@ -166,7 +166,7 @@ def _lesson_sources(lesson, owner):
             if reception["channel"] == "TEXT":
                 add(reception["payload"], "/source/context/reception/payload", "SOURCE", reception["id"])
         return sources, 'NO_REQUEST_TEXT_SOURCE'
-    if schema==cumulative_lesson.SCHEMA:
+    if schema in (cumulative_lesson.SCHEMA, cumulative_v14_lesson.SCHEMA):
         if owner.get("status")=="PROPOSED":
             add(lesson["text"],"/text","PROBE")
         return sources,"NO_REQUEST_TEXT_SOURCE"
