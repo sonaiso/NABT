@@ -222,6 +222,50 @@ class SimAqlTests(unittest.TestCase):
         self.assertEqual(r.decision.status, "BLOCK")
         self.assertIn("UNDISCHARGED_ASSUMPTIONS", r.decision.reasons)
 
+    def test_reviewed_inputs_respect_the_inference_mode_at_each_step(self):
+        c = conditional_context()
+        admit_p = factual_context().steps[0]
+        c = replace(c, evidence=(review("p"), *c.evidence), assumptions=())
+        for first, last, status, verdict in (
+                ("FACTUAL", "FACTUAL", "ALLOW", "SUPPORTED_BY_REGISTERED_REVIEW"),
+                ("FACTUAL", "CONDITIONAL", "ALLOW", "CONDITIONAL_ONLY"),
+                ("CONDITIONAL", "CONDITIONAL", "ALLOW", "CONDITIONAL_ONLY"),
+                ("CONDITIONAL", "FACTUAL", "BLOCK", "UNASSESSED")):
+            with self.subTest(first=first, last=last):
+                steps = (admit_p, c.steps[1], replace(c.steps[2], antecedent_step_id=admit_p.id,
+                         inference_mode=first), c.steps[3], replace(c.steps[4], inference_mode=last))
+                result = self.sim.evaluate(replace(c, steps=steps))
+                middle = next(s for s in result.stages if s.stage == "S5:derive-q")
+                self.assertEqual(middle.status, "ALLOW")
+                self.assertEqual(json.loads(middle.details)["verdict"],
+                                 "CONDITIONAL_ONLY" if first == "CONDITIONAL" else "SUPPORTED_BY_REGISTERED_REVIEW")
+                self.assertEqual(result.decision.assumptions, ())
+                self.assertEqual((result.decision.status, result.decision.verdict), (status, verdict))
+                if status == "BLOCK":
+                    self.assertIn("CONDITIONAL_PREDECESSOR_IN_FACTUAL_INFERENCE", result.decision.reasons)
+
+    def test_conditionally_derived_implication_cannot_supply_a_factual_rule(self):
+        c = conditional_context()
+        admit_p = factual_context().steps[0]
+        # Given r and r → (p → q), derive p → q in conditional mode.
+        higher_rule = Claim("r-pq", "demo", "sample-1", "r → (p → q)", "IMPLIES", "r", "pq")
+        steps = (admit_p,
+                 Step("admit-r", "ADMIT_REGISTERED_EVIDENCE", "r", "review", ("e-r",)),
+                 Step("admit-r-pq", "ADMIT_REGISTERED_EVIDENCE", higher_rule.id, "review", ("e-r-pq",)),
+                 Step("derive-pq", "MODUS_PONENS", "pq", "conditional rule",
+                      antecedent_step_id="admit-r", implication_step_id="admit-r-pq", inference_mode="CONDITIONAL"),
+                 Step("derive-q", "MODUS_PONENS", "q", "application",
+                      antecedent_step_id=admit_p.id, implication_step_id="derive-pq", inference_mode="FACTUAL"))
+        c = replace(c, claims=(*c.claims, higher_rule), question=replace(c.question, claim_id="q"),
+                    scopes=(*c.scopes, replace(c.scopes[0], claim_id=higher_rule.id)),
+                    evidence=tuple(review(k) for k in ("p", "r", higher_rule.id)), assumptions=(),
+                    steps=steps, final_step_id="derive-q")
+        result = self.sim.evaluate(c)
+        rule = next(s for s in result.stages if s.stage == "S5:derive-pq")
+        self.assertEqual((rule.status, json.loads(rule.details)["verdict"]), ("ALLOW", "CONDITIONAL_ONLY"))
+        self.assertEqual((result.decision.status, result.decision.verdict), ("BLOCK", "UNASSESSED"))
+        self.assertIn("CONDITIONAL_PREDECESSOR_IN_FACTUAL_INFERENCE", result.decision.reasons)
+
     def test_29_inv07_public_language_requires_transmitted_attestation(self):
         self.assertEqual(self.sim.evaluate(lexical_context()).decision.status, "ALLOW")
         for kind in ("AUTHORED", "STATISTICAL", "STIPULATED"):
@@ -248,12 +292,21 @@ class SimAqlTests(unittest.TestCase):
         self.assertIn("MISSING_MENTAL_NECESSITY_REVIEW", self.sim.evaluate(c).decision.reasons)
 
     def test_33_lexical_candidate_cannot_be_used_as_factual_premise(self):
-        c = conditional_context()
-        b = replace(lexical_context().bridges[0], claim_id="p")
-        steps = (Step("bridge", "LEXICAL_BRIDGE", "p", "sense link", bridge_id=b.id), c.steps[1],
-                 replace(c.steps[2], antecedent_step_id="bridge"))
-        c = replace(c, question=replace(c.question, claim_id="q"), steps=steps, final_step_id="derive-q", bridges=(b,))
-        self.assertIn("PREDECESSOR_IS_NOT_INFERENCE_PREMISE", self.sim.evaluate(c).decision.reasons)
+        c = conditional_context(mode="FACTUAL")
+        lexical = lexical_context()
+        b = lexical.bridges[0]
+        scopes = tuple(lexical.scopes[0] if scope.claim_id == "p" else scope for scope in c.scopes)
+        steps = (lexical.steps[0], c.steps[1], replace(c.steps[2], antecedent_step_id=lexical.steps[0].id))
+        c = replace(c, question=replace(c.question, claim_id="q"), scopes=scopes,
+                    steps=steps, final_step_id="derive-q", bridges=(b,), assumptions=())
+        outcome = self.sim.evaluate(c)
+        stages = {s.stage: s for s in outcome.stages}
+        bridge = stages["S5:bridge"]
+        self.assertEqual(bridge.status, "ALLOW")
+        self.assertEqual(json.loads(bridge.details)["verdict"], "PUBLIC_LEXICAL_LINK_CANDIDATE")
+        self.assertEqual(stages["S5:admit-pq"].status, "ALLOW")
+        self.assertEqual(outcome.decision.status, "BLOCK")
+        self.assertIn("PREDECESSOR_IS_NOT_INFERENCE_PREMISE", outcome.decision.reasons)
 
     def test_34_declared_opposition_suspends_final_assertion_and_preserves_both_sides(self):
         c = factual_context()
