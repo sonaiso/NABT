@@ -139,10 +139,10 @@ def _run_installed(lesson_runner, lesson):
 
 
 def run_lesson(lesson):
-    from . import (cumulative_lesson, v13_occurrence, pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
+    from . import (cumulative_v14_lesson, cumulative_lesson, v13_occurrence, pattern_lesson, report_draft, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, context_transfer, corpus_concepts, ifadah_programs, ntl_core,
                    ntl_course, ntl_curriculum, school_apprentice,
                    ntl_witness_pilot, ntl_update_memory, opencyc_inquiry)
-    for lesson_runner in (cumulative_lesson, v13_occurrence, pattern_lesson, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, ntl_curriculum, ntl_course, ntl_core, context_transfer,
+    for lesson_runner in (cumulative_v14_lesson, cumulative_lesson, v13_occurrence, pattern_lesson, inspection_discourse, knowledge_lesson, sim_aql_lesson, mashru_lesson, ntl_curriculum, ntl_course, ntl_core, context_transfer,
                           corpus_concepts, ifadah_programs, school_apprentice,
                           ntl_witness_pilot, ntl_update_memory, opencyc_inquiry):
         if type(lesson) is not dict or lesson.get("schema") != lesson_runner.SCHEMA:
@@ -261,10 +261,10 @@ def verify_lesson(report, *, expected_lesson):
     """No receipt may supply its own inputs or suppress the fresh owner run."""
     try:
         actual = run_lesson(expected_lesson)
-        from . import school_apprentice, ntl_witness_pilot, ntl_update_memory
+        from . import cumulative_v14_lesson, school_apprentice, ntl_witness_pilot, ntl_update_memory
         shared = (type(expected_lesson) is dict and expected_lesson.get("schema") in
                   (SCHEMA_V2, SCHEMA_V3, SCHEMA_V4, school_apprentice.SCHEMA, ntl_witness_pilot.SCHEMA,
-                   ntl_update_memory.SCHEMA))
+                   ntl_update_memory.SCHEMA, cumulative_v14_lesson.SCHEMA))
         matches = (wire_owner._encoded(report, MAX_RESULT_BYTES, floats=shared) ==
                    wire_owner._encoded(actual, MAX_RESULT_BYTES, floats=shared))
         return {"valid": matches and actual.get("execution_measured") is True, "replay_matches": matches,

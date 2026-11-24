@@ -104,3 +104,11 @@ maqayis-matrix-check:
 	PYTHONPATH=src:. $(PYTHON) -m tools.ntp verify --request examples/io_gateway/maqayis_concept_matrix.json --receipt $(EVIDENCE_DIR)/maqayis-matrix.json
 
 relational-bridge: maqayis-matrix-check
+
+.PHONY: cumulative-v14-check
+cumulative-v14-check:
+	PYTHONPATH=src:. OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 $(PYTHON) -m unittest tests.test_cumulative_v14_model tests.test_cumulative_v14_audit tests.test_cumulative_v14_gateway tests.test_cumulative_outcomes -v
+	PYTHONPATH=src:. $(PYTHON) -S -m tools.lexical_training.cumulative_v14_audit
+	PYTHONPATH=src:. $(PYTHON) -S -m tools.lexical_training.cumulative_v14_audit --directory evidence/cumulative_v14/control
+
+check: cumulative-v14-check

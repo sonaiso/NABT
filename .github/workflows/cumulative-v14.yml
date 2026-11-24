@@ -1,0 +1,62 @@
+name: V14 cumulative inheritance, refitting and NTP replay
+
+on:
+  push:
+    paths:
+      - 'tools/lexical_training/cumulative*.py'
+      - 'tools/lexical_training/teaching.py'
+      - 'tools/grammar_catalog/gateway*.py'
+      - 'tools/grammar_catalog/ntp.py'
+      - 'tools/entropy_framework/registry.json'
+      - 'evidence/cumulative_*/**'
+      - 'tests/test_cumulative*.py'
+      - '.github/workflows/cumulative-v14.yml'
+  pull_request:
+    paths:
+      - 'tools/lexical_training/cumulative*.py'
+      - 'tools/lexical_training/teaching.py'
+      - 'tools/grammar_catalog/gateway*.py'
+      - 'tools/grammar_catalog/ntp.py'
+      - 'tools/entropy_framework/registry.json'
+      - 'evidence/cumulative_*/**'
+      - 'tests/test_cumulative*.py'
+      - '.github/workflows/cumulative-v14.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nabt-cumulative-v14-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cumulative-v14:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: src:.
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.3.5
+      - name: Inheritance, heldout isolation, adversarial artifacts and gateway contracts
+        run: python -m unittest tests.test_cumulative_v14_model tests.test_cumulative_v14_audit tests.test_cumulative_v14_gateway tests.test_cumulative_outcomes -v
+      - name: Replay every inherited assessment row and coverage obligation without NumPy
+        run: |
+          python -S -m tools.lexical_training.cumulative_v14_audit
+          python -S -m tools.lexical_training.cumulative_v14_audit --directory evidence/cumulative_v14/control
+      - name: Refit both fixed variants and resume optimizer state exactly
+        run: python -m tools.lexical_training.cumulative_v14_reproduce --output "$RUNNER_TEMP/cumulative-v14-refit"
+      - name: Run the installed proposal through the sole NTP boundary
+        run: |
+          python -m tools.ntp run --request examples/io_gateway/ntl_cumulative_v14.json --output "$RUNNER_TEMP/v14-receipt.json"
+          python -m tools.ntp verify --request examples/io_gateway/ntl_cumulative_v14.json --receipt "$RUNNER_TEMP/v14-receipt.json"
+      - name: Check the existing reuse map
+        run: python -m tools.entropy_framework reuse --family rule-learning
