@@ -1,0 +1,1792 @@
+{
+  "schema": "nabt.learning-completion-readiness.v1",
+  "authority": "MEASUREMENT_POLICY_ONLY",
+  "contract_sha256": "703c3cda9f03b835642d52ab12311bf35551b31e94a1ee3cfef1de4fc6db0440",
+  "framework_sha256": "b53735702bbdacd8d4254e00162892933f4f83ca6a8e394d5ecbeaed963730bf",
+  "measurement_source_sha256": {
+    "tools/lexical_training/completion_criteria.py": "9159d9c93f5f2fe51e3e1f3a17979e2091d3fe5b7d2dd3586ae64090b2b85c41",
+    "tools/lexical_training/completion_statistics.py": "dbdeb905ac4e1f1ec79b657a4a5de00894a7819b6182f665c6c25a1e3214ac8c",
+    "tools/completeness_metrics.py": "b185b3c3da8d441fc3dd3bfd9549711114f824b3035c4f72f096d02b5ca13602",
+    "tools/training_readiness.py": "4b2774ad55d026230e16156fa7083f4bd4f1f9694d3fc2f46ea76a5959e9b90f"
+  },
+  "stage_count": 13,
+  "objective_count": 66,
+  "policy": {
+    "schema": "nabt.learning-completion-policy.v1",
+    "version": "2026-11-25.1",
+    "status": "PROSPECTIVE_ACCEPTANCE_POLICY_NOT_ACHIEVEMENT",
+    "basis_commit": "b3314881ba64a09d25b42be1e1e98ffd06ff94ed",
+    "authority": "MEASUREMENT_POLICY_ONLY",
+    "confidence_family_alpha": 0.05,
+    "simultaneous_statistical_claims": 7,
+    "raw_exact_lower_min": 0.95,
+    "false_accept_upper_max": 0.001,
+    "unsupported_accept_upper_max": 0.001,
+    "premature_finalization_upper_max": 0.001,
+    "retention_lower_min": 0.99,
+    "paired_gain_lower_min": 0.0,
+    "critical_errors_max": 0,
+    "finite_reference_exact_required": 1.0,
+    "train_groups_per_stage_kind_min": 20,
+    "calibration_groups_per_stage_kind_min": 5,
+    "required_kinds": [
+      "positive",
+      "ambiguity",
+      "negative",
+      "needs_context"
+    ],
+    "required_interventions": [
+      "withdraw_last_support",
+      "retain_independent_support",
+      "coordinate_reprojection",
+      "scope_change"
+    ],
+    "sampling_rule": "Confidence bounds are conditional on an independently reviewed probability sampling design and independent connected groups. Authored challenges and public retrospective data do not establish population error rates.",
+    "threshold_rule": "Numbers are prospective engineering acceptance choices, not linguistic theorems or measured V14 achievements. Version and freeze changes before opening a new assessment.",
+    "training_rule": "Group all descendants before splitting; use only train/calibration for optimization, gate selection and early stopping. Replay eligible prior tasks and retain the original full target inventory. Twenty/five groups are intake floors, not sufficiency or sample-size guarantees.",
+    "stop_rule": "A semantic certificate, reference adequacy, independent sampling attestation and external-world evidence cannot be supplied by a model status or a metric. Missing owner adapters keep licensed completion NOT_MEASURED."
+  },
+  "stages": [
+    {
+      "id": "L01",
+      "label_ar": "الأثر وهوية الوقوع وقناة الرصد",
+      "prerequisites": [],
+      "objective_ids": [
+        "trace.identity",
+        "trace.utf8",
+        "trace.ocr"
+      ],
+      "required_outputs": [
+        "مصدر محفوظ بنسخته وبصمته ووحدة عد المواضع وحدود كل وقوع ومادته الأصلية.",
+        "استعادة النص الخام من الوقوعات دون دمج تكرارين أو محو أثر التطبيع.",
+        "تعيين قناة الرصد: نص أو صورة OCR أو تسجيل صوتي، وحفظ أثرها الخام ومحاذاتها وبدائل القراءة وعدم يقينها.",
+        "تمييز نجاح نقل UTF-8 وUnicode من صحة القراءة ومن صدق ما يقوله النص؛ المقام الفارغ NOT_MEASURED."
+      ],
+      "counterexamples": [
+        "نقل مواضع UTF-16 على أنها مواضع محارف دون تحويل موثق.",
+        "إعادة استعمال شاهد من نسخة مصدر مختلفة مع بقاء الرسم متشابهًا.",
+        "إسقاط بديل OCR غير محسوم أو عرض ثقة القارئ شهادة وقوع لغوي.",
+        "احتساب كتابة معطاة اختبارًا مستقلًا للتعرف على تسجيل أو صورة لم يقرأها النظام."
+      ],
+      "owner_refs": [
+        "formal/Nabt/AlignedAcquisition.lean",
+        "formal/Nabt/UnitCarrier.lean",
+        "tools/aligned_acquisition.py",
+        "src/nabt/alphabet.py",
+        "tools/grammar_catalog/unicode_transport.py"
+      ],
+      "training_actions": [
+        "إنشاء أمثلة وقوع متكرر وتطبيع وعلامات مركبة مع محاذاة مرجعية مستقلة.",
+        "حجب الوثيقة الأصلية ومجموعة الصور أو التسجيلات ذات الأصل المشترك معًا.",
+        "تدريب قارئ OCR أو الصوت على قناة رصد معلنة؛ حفظ غياب البيانات أو المحول فجوة مقيسة لا إسقاطًا لهدف القناة.",
+        "تدريب تحديد موضع الخطأ وإعادة بناء المصدر قبل طلب أي تحليل أعلى."
+      ]
+    },
+    {
+      "id": "L02",
+      "label_ar": "الحامل والحالة والترميز العشري وA116",
+      "prerequisites": [
+        "L01"
+      ],
+      "objective_ids": [
+        "trace.spelling",
+        "base.a116",
+        "base.effects"
+      ],
+      "required_outputs": [
+        "حامل وعلامة في الأبجدية وإصدارها وموضعها، مع الفصل بين العلامة المرصودة والحركة المجهولة وبدائلها.",
+        "قيمة كاملة قابلة للفك وإسقاطات تعيد الحامل والحالة والموضع وهوية وقوع المصدر.",
+        "أثر انتقال له حالة دخول وخروج وقانون مثبت؛ العدد عنوان للبنية ولا يمنحها رتبة لغوية أعلى.",
+        "تحويل إملائي موثق يحتفظ بالمادة السابقة وشاهد التحويل والحدود المتأثرة."
+      ],
+      "counterexamples": [
+        "تحويل الحرف غير المشكول إلى سكون أو إلى حركة يقينية بلا قرينة.",
+        "اعتبار كرسي الهمزة وقوع واو أو ياء إضافيًا دون تحليل للرسم.",
+        "نقل ترتيب أبجدية آخر دون خريطة أو استنتاج أهمية دلالية من كبر العدد.",
+        "جمع عددي تبادلي يدمج ترتيبين مختلفين أو اعتبار كل خلية من 116 مرخصة في كل موضع."
+      ],
+      "owner_refs": [
+        "formal/Nabt/Cell.lean",
+        "formal/Nabt/Sequence.lean",
+        "formal/Nabt/UnitCarrier.lean",
+        "tools/aligned_acquisition.py",
+        "src/nabt/classical_hamza.py",
+        "src/nabt/alphabet.py",
+        "src/nabt/codec.py",
+        "tools/arabic_training/sign_curriculum.py",
+        "tools/arabic_training/unit_composition.py",
+        "src/nabt/machine.py",
+        "src/nabt/acquisition.py"
+      ],
+      "training_actions": [
+        "استنفاد فحوص الترميز والفك للـ116 في أطر مواضع معلنة وإضافة فحوص تكرار الوقوع.",
+        "إعادة إسقاط الترميز تحت تبديل إحداثيات محفوظ الخريطة وفحص ثبات الهوية البنيوية.",
+        "تدريب الحركة المجهولة كمجموعة مرشحين مع أمثلة مضبوطة وغير مضبوطة.",
+        "مقارنة توقع أثر الانتقال بتنفيذ القانون القائم، مع فصل توقع الشبكة عن قبول المالك."
+      ]
+    },
+    {
+      "id": "L03",
+      "label_ar": "الحدود والكمية والتحقيق الصوتي والحد الأدنى",
+      "prerequisites": [
+        "L02"
+      ],
+      "objective_ids": [
+        "base.boundaries",
+        "base.minimum",
+        "sound.quantity",
+        "sound.alignment",
+        "sound.articulation",
+        "sound.tajwid"
+      ],
+      "required_outputs": [
+        "تعيين الابتداء والوصل والفصل والوقف ومستواها الكتابي أو الصرفي أو الأدائي وسياق التطبيق.",
+        "محاذاة تحفظ الأصل عند المد والسكون والشدة والتنوين والإدغام، مع كمية صوتية مصرح بمصدرها.",
+        "تمييز تعداد قوالب المقاطع وقوالب المد من ترخيص وقوعاتها ومن التحقق الصوتي لتلك الوقوعات.",
+        "حد أدنى مكتمل بالنسبة إلى عملية ونطاق معلنين؛ تظل مقدمات كل بانية وبقاياها وحدود موارد البحث ظاهرة.",
+        "قناة صوت وتجويد موسومة بالرواية والقارئ والتسجيل ومجال الرصد؛ شواهد المخارج والصفات لها سند ورتبة مستقلة.",
+        "حالات SOURCE_ONLY وUNKNOWN وRESOURCE_LIMIT محفوظة حيث لم يكتمل شاهد التحقيق أو المحول الصوتي."
+      ],
+      "counterexamples": [
+        "وصل قطعتين لأن كل واحدة مقبولة منفردة مع تجاهل حالة دخول الثانية.",
+        "مساواة حركة طويلة بحركتين قصيرتين لمجرد اشتراك الإسقاط VV.",
+        "اعتبار تعداد 84 قالب مد إثباتًا لقبول كل قالب في كل مصدر أو رواية.",
+        "استنتاج مخرج تجريبي من ترتيب إحداثيات واحد أو اعتبار نقل تراثي تجربة صوتية منفذة.",
+        "اعتبار نفاد البحث رفضًا لغويًا أو إخفاء نقص بيانات التجويد بإسقاط هدفه."
+      ],
+      "owner_refs": [
+        "formal/Nabt/ProsodicUnits.lean",
+        "formal/Nabt/BinaryUnitDomain.lean",
+        "formal/Nabt/LicensedDerivation.lean",
+        "docs/PROGRESSIVE_UNITS.md",
+        "src/nabt/phonological_modes.py",
+        "tools/aligned_acquisition.py",
+        "tools/check_progressive_units.py",
+        "tools/recursive_bridge.py",
+        "tools/arabic_training/unit_composition.py",
+        "tools/arabic_training/sign_curriculum.py",
+        "tools/arabic_training/sign_annotations.py",
+        "src/nabt/classical_gemination.py"
+      ],
+      "training_actions": [
+        "إعداد أزواج لا يختلف كل منها إلا في حد أو حالة دخول أو كمية، وفحصها بالمالك الموجود.",
+        "توليد استنفاد محدود للترتيبات والتقطيعات ثم تصنيف القبول والمنع والتعليق بشواهد منفصلة.",
+        "تدريب محاذاة التسجيلات والتجويد ضمن قناة رصد ورواية معلنتين؛ تخصيص اختبار مستقل لقارئ أو مصدر محجوب.",
+        "تدريب طلب المقدمة الناقصة وفحص أثر سحبها، مع حفظ مسارات الدعم البديلة."
+      ]
+    },
+    {
+      "id": "L04",
+      "label_ar": "المدلول اللفظي المفرد ومسار اللفظ",
+      "prerequisites": [
+        "L02",
+        "L03"
+      ],
+      "objective_ids": [
+        "lang.carrier_roles",
+        "lang.word_kind"
+      ],
+      "required_outputs": [
+        "بنية لفظ مفرد تحفظ ترتيب أجزائه وحدوده وهويات وقوعها وشجرة بنائه قبل تثبيت تفسيره الأعلى.",
+        "مرشحو نوع الكلمة ووظائف الحوامل من جذعي وزائد ونحوي وسابقة ولاحقة، مع شاهد لكل تعيين سياقي.",
+        "مسار معلن: جذر ووزن أو جذع أو مبني وأداة أو دخيل أو علم أو جامد محفوظ أو بقية معلقة.",
+        "شاهد استعمال اللفظ منفصل عن الجواز الصوتي، وفصل المدلول اللفظي المفرد عن المدلول المعنوي النهائي."
+      ],
+      "counterexamples": [
+        "إسناد وظيفة العطف إلى كل واو مفتوحة أو الضميرية إلى كل حرف من الضمير.",
+        "الانتقال من تركيب صوتي جائز إلى كلمة مستعملة دون شاهد معجمي أو مصدر استعمال.",
+        "فرض الجذر والوزن على أداة أو اسم مبني أو علم دون فحص المسار.",
+        "تسمية شجرة استعادة المصدر تحليلًا لغويًا مكتملًا بلا شواهد بانياتها."
+      ],
+      "owner_refs": [
+        "src/nabt/word_reader.py",
+        "formal/Nabt/LicensedDerivation.lean",
+        "tools/recursive_bridge.py",
+        "src/nabt/classical_boundary_affixes.py",
+        "src/nabt/person_evidence.py",
+        "src/nabt/construction_reader.py",
+        "src/nabt/inflection_reader.py"
+      ],
+      "training_actions": [
+        "تدريب التمييز بين وقوع الحامل نفسه بوصفه أصليًا أو زائدًا أو رابطًا في سياقات مستقلة.",
+        "تكوين مجموعة مسارات موجبة وسالبة للأدوات والمبنيات والأعلام والدخيل والجامد والمشتق.",
+        "إشراف على شجرة اللفظ وأثرها وشواهدها، مع هدف مستقل لطلب التعيين عند غموض الرسم.",
+        "حجب أسر الألفاظ والقراءات المشتركة معًا وفحص اختيار المسار من النص الخام."
+      ]
+    },
+    {
+      "id": "L05",
+      "label_ar": "الصرف والأصل والوزن والتحولات والسمات",
+      "prerequisites": [
+        "L04"
+      ],
+      "objective_ids": [
+        "lang.morphological_derivation",
+        "lang.proper_name",
+        "lang.definiteness",
+        "lang.declension",
+        "lang.diptote",
+        "lang.root_pattern",
+        "lang.gender",
+        "lang.number",
+        "lang.counting",
+        "lang.masdar",
+        "lang.derived_nouns",
+        "lang.nisba_diminutive",
+        "lang.weak_transform",
+        "lang.tense_form",
+        "lang.future",
+        "lang.voice",
+        "lang.valency",
+        "lang.verb_augmentation"
+      ],
+      "required_outputs": [
+        "اشتقاق صرفي له أصل وشاهد وقالب وتحولات مرتبة وتحقيق سطحي وبقايا، مع بقاء المسارات غير الجذرية.",
+        "تحليل الجامد والمشتق والأعلام والتعريف والبناء والإعراب والممنوع من الصرف وفق شروط وقوعها.",
+        "سمات الجنس والعدد والعد والمعدود والمصدر والمشتقات والنسب والتصغير مع نطاق كل قاعدة وشواهدها.",
+        "المجرد والمزيد والإعلال والإبدال والإدغام وصيغ الزمن والمعلوم والمجهول واللزوم والتعدي، مع فصل هيئة الفعل عن زمن الحدث المرجعي.",
+        "محاذاة المصدر إلى جميع أجزاء التحقيق، بما فيها ألياف الجذر غير المتجاورة والمادة المحذوفة أو المستبدلة."
+      ],
+      "counterexamples": [
+        "استنتاج الفاعلية الحدثية من وزن فاعل أو تحويل كل اسم مكان إلى مرجع مكاني معين.",
+        "اعتبار زيادة الحرف وحدها برهان تغير التعدي أو المعنى بلا قاعدة وشاهد.",
+        "إسقاط مصدر سماعي أو جذر بديل غير محسوم لأن قالبًا منتظمًا أعطى شكلًا ممكنًا.",
+        "خلط علمية لفظ أو تذكيره النحوي بحقيقة الفرد أو جنسه البيولوجي.",
+        "إمرار جذر معتل عبر ملء مباشر للقالب مع فقد أثر التحويل أو محاذاته."
+      ],
+      "owner_refs": [
+        "tools/derivation_surface_bridge.py",
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/DERIVATION_SURFACE_V1_AR.md",
+        "src/nabt/derivation.py",
+        "src/nabt/nominal.py",
+        "tools/lexical_training/acquisition.py",
+        "tools/lexical_training/explanation.py",
+        "src/nabt/word_reader.py",
+        "src/nabt/construction_reader.py",
+        "src/nabt/inflection_reader.py",
+        "tools/arabic_training/unit_composition.py",
+        "src/nabt/classical_weak.py",
+        "src/nabt/classical_gemination.py",
+        "src/nabt/imperative_paradigm.py",
+        "src/nabt/verb_paradigm.py",
+        "src/nabt/person_evidence.py",
+        "src/nabt/discourse_reader.py"
+      ],
+      "training_actions": [
+        "التدريب على شجرة تطبيق صرفي وتحقيقها العكسي بدل الاقتصار على اسم الوزن أو وصفة الجذر.",
+        "إعداد حجب مستقل للجذر والقالب وعائلة التحويل والمصدر بحسب المهمة، مع حفظ جميع قراءات اللفظ.",
+        "موازنة أمثلة السالم والهمز والتضعيف والاعتلال والجامد والدخيل والمبني ضمن المقامات المعلنة.",
+        "تدريب كشف القاعدة غير المنطبقة وطلب شاهد السماع أو الأصل الناقص بدل إكماله بالتخمين."
+      ]
+    },
+    {
+      "id": "L06",
+      "label_ar": "المدلول اللفظي في التركيب والمراسي",
+      "prerequisites": [
+        "L04",
+        "L05"
+      ],
+      "objective_ids": [
+        "lang.semantic_parts",
+        "syntax.sentences"
+      ],
+      "required_outputs": [
+        "بنية تركيب تحفظ كل وحدة متعاقدة وهوية مرساتها ومصدرها ونوع واجهتها ومطالب الربط.",
+        "تمييز المفرد والمزجي والإضافي والإسنادي في نطاق التحليل المطلوب، مع حفظ مراحل البنية قبل معناها النهائي.",
+        "مرشحو الجملة الاسمية والفعلية وشبه الجملة بمراسي الكيان والتحول والوظيفة ومتطلبات الإتمام.",
+        "فصل شجرة المدلول اللفظي المفرد عن شجرة المدلول اللفظي المركب، وربطهما بأصولهما دون دمج هويات الوقوع."
+      ],
+      "counterexamples": [
+        "استخدام اسم نوع المرساة بدل هوية المرساة المعينة في المصدر.",
+        "اعتبار الاسم مع الفعل جملة فعلية مكتملة دائمًا دون فحص العلاقة والنطاق.",
+        "إغلاق شبه الجملة أو العلاقة الناقصة لمجرد وجود كلمات مصنفة صحيحة.",
+        "عد شجرة مصدر متجاورة بديلًا عن شجرة التطبيق التركيبي بأدوارها وشواهدها."
+      ],
+      "owner_refs": [
+        "tools/recursive_bridge.py",
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "formal/Nabt/ConstructionEvidence.lean",
+        "tools/lexical_training/acquisition.py",
+        "tools/lexical_training/explanation.py",
+        "src/nabt/construction_reader.py",
+        "tools/connected_acquisition_v3.py"
+      ],
+      "training_actions": [
+        "تدريب بناء المراسي والتعلقات من وحدات مرخصة مع فقد أو تبديل طرف واحد.",
+        "إعداد أمثلة تقابل المفرد والمزجي والإضافي والإسنادي وتطلب حدود الوحدات وأثر اختلافها.",
+        "حجب ترتيبات تركيبية جديدة مع بقاء المفردات معروفة لاختبار نقل القاعدة.",
+        "تدريب إظهار مطلب الإتمام بدل تحويل كل بنية مرشحة إلى إفادة مكتملة."
+      ]
+    },
+    {
+      "id": "L07",
+      "label_ar": "المعنى والمفهوم والأجناس والخواص والقابليات",
+      "prerequisites": [
+        "L04",
+        "L05"
+      ],
+      "objective_ids": [
+        "lang.genus_quality",
+        "lang.dictionary_designation",
+        "lang.definition_parts",
+        "mind.conception",
+        "mind.knowledge"
+      ],
+      "required_outputs": [
+        "معنى في وقوع محدد مربوط بمدخل معجمي أو اصطلاح ذي مصدر ونسخة ومجال وقرينة.",
+        "هوية مفهوم مستقلة عن رسم اللفظ، وتمييز الفرد والنوع والكل والجزء والصفة والحالة والقابلية.",
+        "علاقات أجناس وخواص ذات وجه تصنيف وقاعدة توريث معلنة، مع فصل التصور عن التصديق والحكم.",
+        "المطابقة والتضمن ومكونات التعريف بمرجعها، وحفظ قراءات كاملة مترابطة عند تعدد المعنى.",
+        "ذاكرة معلومات سابقة تحافظ على مصدر القاعدة ورتبتها وبقاياها ومجال استعمالها."
+      ],
+      "counterexamples": [
+        "توريث طول نخلة بعينها إلى كل الشجر أو مساواة عضو الشيء بنوعه.",
+        "دمج لفظين متقاربين في هوية واحدة دون معيار أو توحيد رسم مشترك بمعنى واحد.",
+        "الانتقال من قابلية الفتح إلى وقوع الفتح أو من تعريف المفهوم إلى وجود مصداق أمام النظام.",
+        "مزج بدائل الحقول من قراءات مختلفة لإنتاج قراءة لم يرخصها أي مصدر."
+      ],
+      "owner_refs": [
+        "formal/Nabt/LexicalDenotation.lean",
+        "formal/Nabt/SourceSemantics.lean",
+        "docs/RELATIONAL_RAG_V1_AR.md",
+        "tools/lexical_training/acquisition.py",
+        "tools/lexical_training/explanation.py",
+        "src/nabt/text_reader.py",
+        "tools/source_learning_connection.py"
+      ],
+      "training_actions": [
+        "بناء أمثلة موجبة وسالبة ومبهمة لتعيين المعنى مع حجب اللفظ أو المصدر أو العائلة الدلالية.",
+        "تدريب فصل علاقة النوع من الجزء والعضوية والصفة والقابلية، مع اختبار نقل كل خاصية بشروطها.",
+        "إشراف على أجزاء التعريف وقرينة الاستعمال وشاهد الربط لا على اسم المفهوم وحده.",
+        "تدريب الاسترجاع على إرجاع مرشحين ثم اختبار هويتهم ونطاقهم قبل قبولهم مقدمات."
+      ]
+    },
+    {
+      "id": "L08",
+      "label_ar": "الإحالة والمراجع الزمنية والمكانية والقياس",
+      "prerequisites": [
+        "L06",
+        "L07"
+      ],
+      "objective_ids": [
+        "lang.reference",
+        "world.space",
+        "world.time",
+        "world.measure"
+      ],
+      "required_outputs": [
+        "مرساة إحالية ومرجع معين أو مجموعة بدائل مع القرينة ونطاق البحث وهوية المرجع.",
+        "فصل زمن القول وزمن الحدث وزمن التسجيل ومرجع كل منها، وحفظ الترتيب والمدة والدقة.",
+        "مرجع مكاني ووحدة ومحور وعتبة جوار وهوية الأجسام والفترة المعنية.",
+        "قياس ذو وحدة وأداة ودقة وتحويل موثق، مع فصل وصف الفرد عن انتشار النوع."
+      ],
+      "counterexamples": [
+        "ربط هو بمرجع قريب لفظيًا مع وجود مرجع آخر صالح بلا قرينة فاصلة.",
+        "مطابقة باب المخزن بباب المختبر أو سجل الجرس الثاني بسجل الجرس الأول.",
+        "استنتاج السببية من بعد أو التجاور وحده، أو اعتبار تبديل الوحدة تغيرًا في المقدار.",
+        "نقل قيد الزمن من مقول القول إلى الإبلاغ دون تغيير موثق في شجرة النطاق."
+      ],
+      "owner_refs": [
+        "formal/Nabt/TemporalContext.lean",
+        "formal/Nabt/EpistemicMeasurement.lean",
+        "tools/lexical_training/acquisition.py",
+        "tools/lexical_training/explanation.py",
+        "tools/lexical_training/grounded_passage.py",
+        "src/nabt/discourse_adverbs.py",
+        "tools/grammar_catalog/temporal.py",
+        "tools/grammar_catalog/application.py",
+        "tools/epistemic_measurement.py"
+      ],
+      "training_actions": [
+        "تدريب أزواج تتغير فيها هوية الفرد أو الحدث أو الوقت مع بقاء الكلمات قريبة.",
+        "حجب الأفراد والمشاهد والمراجع المصدرية لضمان أن حل الإحالة لا يحفظ المثال.",
+        "تدريب القياس والتحويل ومقارنة الدقة مع مرجع حسابي مستقل.",
+        "تدريب إبقاء الإحالة معلقة عند غياب قيد الهوية ثم قياس أثر إضافته وسحبه."
+      ]
+    },
+    {
+      "id": "L09",
+      "label_ar": "الإسناد والتضمين والتقييد والعوامل والأدوار",
+      "prerequisites": [
+        "L06",
+        "L07",
+        "L08"
+      ],
+      "objective_ids": [
+        "lang.nawasikh",
+        "lang.scope_composition",
+        "syntax.relations",
+        "syntax.roles",
+        "syntax.markers",
+        "lang.awamil"
+      ],
+      "required_outputs": [
+        "شجرة إسناد وتضمين وتقييد مع رؤوسها وأطرافها ونطاق النفي والشرط والاقتباس والربط.",
+        "دور نحوي ودور مشارك في الحدث محفوظان بصورة مستقلة، مع متطلبات حمل وعلاقة لكل تعيين.",
+        "تطبيق العامل والناسخ وعلامة الإعراب الأصلية أو الفرعية مربوط بالوقوع وشاهد العمل.",
+        "تعيين متعلق الحال والتمييز والنعت والبدل والتوكيد والإضافة والمفاعيل والشرط والغاية ضمن عائلة القيد المناسبة.",
+        "مقابلة جرد العوامل المئة بالتطبيقات الفعلية في نطاق معلن، مع بقاء العوامل غير المقيسة ظاهرة."
+      ],
+      "counterexamples": [
+        "اعتبار نائب الفاعل صاحب قصد أو اعتبار القائل منفذ حدث داخل المقول.",
+        "نقل حكم من داخل اقتباس أو شرط إلى القضية الحاوية أو حذف الاستثناء من النطاق.",
+        "تعويض نقص شاهد عمل العامل بمجرد ظهور علامته السطحية.",
+        "احتساب اكتمال أسماء العوامل المئة اكتمالًا لجميع تطبيقاتها وتفاعلاتها."
+      ],
+      "owner_refs": [
+        "formal/Nabt/ConstructionEvidence.lean",
+        "formal/Nabt/MeaningPreservation.lean",
+        "docs/RELATIONAL_RAG_V1_AR.md",
+        "src/nabt/word_reader.py",
+        "src/nabt/construction_reader.py",
+        "src/nabt/inflection_reader.py",
+        "tools/recursive_bridge.py",
+        "tools/grammar_catalog/awamil.py",
+        "tools/grammar_catalog/awamil_relations.py",
+        "tools/lexical_training/awamil_agent.py"
+      ],
+      "training_actions": [
+        "إشراف على رؤوس العلاقات والأطراف والنطاقات وشواهد التعلق، مع أزواج معلوم ومجهول.",
+        "تدريب فروع العوامل والنواسخ والتوابع والمفاعيل على أمثلة قبول ومنع وتعليق مستقلة.",
+        "حجب تراكيب من عوامل وأدوار معروفة لاختبار التركيب الجديد وحفظ علاقات المصدر.",
+        "تدريب كشف أصغر قيد يغير الجواب وإعادة ربطه دون تغيير العلاقات المستقلة."
+      ]
+    },
+    {
+      "id": "L10",
+      "label_ar": "إغلاق الإفادة وقوة الخطاب ومقام القول",
+      "prerequisites": [
+        "L09"
+      ],
+      "objective_ids": [
+        "lang.mention_use",
+        "syntax.speech_force"
+      ],
+      "required_outputs": [
+        "قوة كلام معلنة: خبر أو سؤال أو طلب أو فرض أو شرط أو نقل، مع القائل والمخاطب والنطاق.",
+        "حكم على اكتمال الإفادة داخل البناء وشروطها، مع بقاء الحجة أو المرجع المطلوبين ظاهرين.",
+        "فصل القول عن المقول عنه وعن استعمال اللفظ أو ذكره، وربط كل طبقة بوقوعها.",
+        "تمييز ما تقوله العبارة وقرائن القصد وما يحتاج إلى تحقق خارجي."
+      ],
+      "counterexamples": [
+        "اعتبار افتح الباب شهادة بأن الباب فتح أو استنتاج وقوعه من هل فتح الباب.",
+        "تحويل إن فتح الباب إلى واقعة أو نسبة مضمون الخبر المنقول إلى معاينة النظام.",
+        "اعتبار اكتمال الإفادة دليل صدق خارجي أو تخمين نية خفية من صيغة واحدة.",
+        "إسقاط متكلم الجملة المضمنة أو نقل قوته إلى الجملة الحاوية."
+      ],
+      "owner_refs": [
+        "formal/Nabt/DiscourseEvidence.lean",
+        "formal/Nabt/MantuqMafhum.lean",
+        "tools/lexical_training/acquisition.py",
+        "tools/lexical_training/explanation.py",
+        "src/nabt/discourse_reader.py"
+      ],
+      "training_actions": [
+        "تدريب صيغ متقابلة لنواة واحدة مع اختلاف الخبر والطلب والسؤال والنفي والشرط.",
+        "حجب أساليب أو علاقات تضمين جديدة وقياس شجرة الإفادة كاملة.",
+        "تدريب تعيين طبقة السؤال: من قال، من فعل، ماذا طُلب، وما الذي ثبت وقوعه.",
+        "تدريب إبقاء طلب الدليل الخارجي منفصلًا عن فهم القوة والمضمون."
+      ]
+    },
+    {
+      "id": "L11",
+      "label_ar": "المنطوق والمفهوم واللزوم والانتقال الاستدلالي",
+      "prerequisites": [
+        "L07",
+        "L08",
+        "L09",
+        "L10"
+      ],
+      "objective_ids": [
+        "lang.mental_condition",
+        "mind.mantuq",
+        "mind.mafhum",
+        "mind.causality"
+      ],
+      "required_outputs": [
+        "منطوق مربوط بموضع وصيغة ونطاق مغلق، ومفهوم مشتق منه بقاعدة مجال معلنة.",
+        "مقدمات اللزوم أو الموافقة أو المخالفة أو القياس، مع الأصل والفرع والشرط والمانع والفرق القادح.",
+        "فصل السبب المنسوب لغويًا والسبب الأصولي والتأثير التجريبي، مع نوع الدليل لكل منها.",
+        "شجرة استدلال قابلة لإعادة التشغيل تحفظ مصادر المقدمات وحالتها ونطاقها وبقاياها."
+      ],
+      "counterexamples": [
+        "توليد مفهوم مخالفة بلا قاعدة تأويل أو مع قيد يحتمل بيان الغالب ولم يحسم.",
+        "استنتاج الامتناع في جميع الحالات من شرط واحد أو اعتبار شرط كافٍ شرطًا لازمًا.",
+        "ترقية مقدمة مشروطة أو مقتبسة إلى واقعة أو إعادة تقديم مقدمة متأثرة بالنقض كحقيقة نظيفة.",
+        "استنتاج تأثير سببي من تعاقب زمني أو من تشابه شكل علّة في مجال آخر."
+      ],
+      "owner_refs": [
+        "formal/Nabt/QualifiedInference.lean",
+        "formal/Nabt/SemanticInference.lean",
+        "docs/MANTUQ_SOURCE_FOLD_V1_AR.md",
+        "tools/source_learning_connection.py",
+        "tools/mantuq_inference/source_bound.py"
+      ],
+      "training_actions": [
+        "تدريب توليد خطة استدلال وأسماء مقدماتها ثم إخضاعها للمالك القائم قبل استعمالها.",
+        "تكوين أزواج تتحول فيها قرينة أو مانع واحد وتتغير معها صلاحية المفهوم.",
+        "حجب عائلات قواعد ومشاهد مع المحافظة على مصدرها وشروط انتقالها.",
+        "تدريب التمييز بين استعادة شهادة محفوظة وإعادة التحقق منها على المصدر الحالي."
+      ]
+    },
+    {
+      "id": "L12",
+      "label_ar": "الشواهد والمراجعة والشرح والاحتفاظ",
+      "prerequisites": [
+        "L11"
+      ],
+      "objective_ids": [
+        "lang.revision",
+        "mind.assessment",
+        "mind.fast"
+      ],
+      "required_outputs": [
+        "مسارات دعم ونقض مؤهلة للقضية نفسها، مع أصل الاعتماد واستقلال الشواهد وصلاحيتها.",
+        "إعادة حساب القرار عند السحب أو التعارض أو النسخ، مع حفظ المسار المستقل الصحيح.",
+        "شرح يطابق الأثر والمقدمات الفعلية ويعين السبب المؤثر والبقية دون اختلاق مبررات.",
+        "قياس الاحتفاظ والمكاسب والفقد والسرعة على الأسئلة نفسها، مع بقاء سلامة الشاهد والتغطية شروطًا مستقلة."
+      ],
+      "counterexamples": [
+        "عد شاهدين منسوخين عن أصل واحد دليلين مستقلين.",
+        "بقاء الحكم بعد سحب آخر مسار كافٍ أو سقوطه رغم بقاء دعم مستقل صحيح.",
+        "تقديم درجة عصبية أو تفسير مساهمة خصائص بديلًا عن مقدمة مفقودة.",
+        "استعمال شهادة مخبأة بعد تغير المصدر أو تحسين زمن التنفيذ بإسقاط فحص لازم.",
+        "اعتبار تعليق كل الحالات تحسنًا في السلامة مع إخفاء انهيار استدعاء الأهداف الموجبة."
+      ],
+      "owner_refs": [
+        "formal/Nabt/EvidenceLifecycleV1.lean",
+        "formal/Nabt/MeaningPreservation.lean",
+        "tools/lexical_training/cumulative_v14_audit.py",
+        "tools/source_learning_connection.py",
+        "tools/mantuq_inference/source_bound.py",
+        "tests/test_cognitive_teaching.py",
+        "tools/lexical_training/explanation.py",
+        "src/nabt/machine.py",
+        "tools/lexical_training/teaching.py"
+      ],
+      "training_actions": [
+        "تدريب على أزواج قبل السحب وبعده وعلى تعديلات مستقلة لا ينبغي أن تغير الحكم.",
+        "تدريب كشف أصل الاعتماد المشترك والدعم البديل ودورات الاستدلال غير المؤسَّسة.",
+        "إعادة إدخال مهام سابقة بتقسيمات محفوظة وإحصاء الصحيح المكتسب والمفقود لكل عائلة.",
+        "إشراف على شرح مرتبط بمعرفات الأثر، وقياس النقل والاحتفاظ قبل اعتماد مسار أسرع."
+      ]
+    },
+    {
+      "id": "L13",
+      "label_ar": "الحكم المقيد بالمجال والواقع والبحث والتطبيق",
+      "prerequisites": [
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "objective_ids": [
+        "lang.grounding",
+        "mind.methods",
+        "mind.formal",
+        "mind.empirical",
+        "mind.social",
+        "mind.neural",
+        "mind.research",
+        "mind.design"
+      ],
+      "required_outputs": [
+        "قضية وسؤال ونوع معرفة وجهة خطاب وهوية أطراف وزمان ومكان ونطاق محدد قبل حساب الحكم.",
+        "دليل مناسب للدعوى: تعريف أو برهان أو استعمال موثق أو معاينة أو تجربة أو سند مؤسسي، مع سلطة مالكه وحدوده.",
+        "قرار مؤيد أو منقوض أو متعارض أو معلق أو غير منطبق بحسب المسارات المؤهلة، مع بقاياه.",
+        "مسار كامل من الأثر إلى الحكم قابل لإعادة الاشتقاق، مع بيان كل وصلة مصدرية ولغوية ومرجعية وخارجية لم تغلق.",
+        "بحث أو تطبيق قابل لإعادة الإنتاج يميز نجاح البرنامج وصدق القضية ومشروعية الفعل، ويحفظ تقارير الإخفاق.",
+        "الاقتراح العصبي أداة تعلم وبحث؛ لا يرفع رتبته أو سلطة دليله بمجرد صحة تصنيف أو نجاح نقل رقمي."
+      ],
+      "counterexamples": [
+        "تصديق واقعة خارجية من عدد أو جذر أو معنى أو خبر منقول دون شاهد واقعة مناسب.",
+        "تعميم نجاح عينة أو مجال منتهٍ إلى جميع العربية أو جميع المعارف.",
+        "عد برهان سلامة الاستدلال تصديقًا لحساس أو مصدر أو تفويض لم يثبت.",
+        "نقل صلاحية فردية إلى مؤسسة أو تعميم عرف مجال على جميع المجالات.",
+        "تسمية نجاح اختيار برنامج تنفيذًا ناجحًا لعملياته أو ترخيصًا للفعل الخارجي."
+      ],
+      "owner_refs": [
+        "formal/Nabt/SemanticInference.lean",
+        "formal/Nabt/QualifiedInference.lean",
+        "formal/Nabt/EpistemicMeasurement.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md",
+        "tools/lexical_training/grounded_passage.py",
+        "src/nabt/rational_inquiry.py",
+        "tools/lexical_training/teaching.py",
+        "tools/check_progressive_units.py",
+        "tools/recursive_bridge.py",
+        "tools/epistemic_measurement.py",
+        "tools/arabic_training/model.py",
+        "tools/lexical_training/senses.py",
+        "tools/lexical_training/explanation.py"
+      ],
+      "training_actions": [
+        "تدريب تحديد نوع الدعوى والدليل المطلوب قبل اقتراح جوابها أو الفعل التابع لها.",
+        "تكوين حالات كاملة من النص الخام إلى الحكم مع شواهد مستقلة ومقابلات تغيّر الهوية أو المجال أو الدليل.",
+        "تدريب الفروع الرياضية والتجريبية والاجتماعية والتصميمية وفق عقد المجال ومالك قبوله.",
+        "إجراء اختبار أعمى محفوظ الأهداف، وإعادة فحص النتيجة والشهادة والتغطية كل على حدة؛ تبقى المقامات غير المقيسة NOT_MEASURED."
+      ]
+    }
+  ],
+  "full_path_obligations": [
+    {
+      "id": "sourceLicense",
+      "label_ar": "ترخيص المصدر لكل عقدة",
+      "required_evidence_ar": "فحص صلة كل عقدة بأثرها الأصلي ووقوعاتها وشواهدها الفعلية؛ لا تكفي هوية رقمية أو شجرة استعادة مصدر لإثبات التطبيق اللغوي.",
+      "owner_refs": [
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md",
+        "formal/Nabt/LicensedDerivation.lean"
+      ],
+      "stage_ids": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L05",
+        "L06",
+        "L13"
+      ]
+    },
+    {
+      "id": "hostInventory",
+      "label_ar": "اتفاق جرد الجسر والمضيف",
+      "required_evidence_ar": "مطابقة الجرد الكامل للمصدر والنسخة والوقوعات بين الجسر والمضيف، مع كشف عنصر زائد أو مفقود أو من مصدر مختلف.",
+      "owner_refs": [
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md"
+      ],
+      "stage_ids": [
+        "L01",
+        "L04",
+        "L05",
+        "L06",
+        "L13"
+      ]
+    },
+    {
+      "id": "hostLicenses",
+      "label_ar": "شهادة اشتقاق المضيف لكل عقدة",
+      "required_evidence_ar": "إعادة فحص اشتقاق المضيف ومقدمات كل ابن وكل بانية عند المالك؛ لا يعوض شاهد الأب نقص شاهد الابن.",
+      "owner_refs": [
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md",
+        "formal/Nabt/LicensedDerivation.lean"
+      ],
+      "stage_ids": [
+        "L03",
+        "L04",
+        "L05",
+        "L06",
+        "L09",
+        "L13"
+      ]
+    },
+    {
+      "id": "grammarLicense",
+      "label_ar": "شهادة قواعد الجبر اللغوي",
+      "required_evidence_ar": "فحص اشتقاق العقدة وفق قواعد الجبر العودي وواجهاتها ومقدماتها المعلنة؛ يظل SOURCE_ONLY أو grammar_certified=false مانعًا لادعاء اكتمال هذه الوصلة.",
+      "owner_refs": [
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md",
+        "formal/Nabt/RecursiveLicensedAlgebra.lean"
+      ],
+      "stage_ids": [
+        "L04",
+        "L05",
+        "L06",
+        "L09",
+        "L10",
+        "L13"
+      ]
+    },
+    {
+      "id": "realizationAligned",
+      "label_ar": "اتفاق التحقيق والوجه والمضيف",
+      "required_evidence_ar": "إثبات تطابق التحقيق الكامل للعقدة مع مضيفها وصنف واجهتها، مع حفظ المادة المحولة أو المحذوفة وألياف الجذر غير المتجاورة.",
+      "owner_refs": [
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md",
+        "tools/derivation_surface_bridge.py"
+      ],
+      "stage_ids": [
+        "L03",
+        "L04",
+        "L05",
+        "L06",
+        "L09",
+        "L13"
+      ]
+    },
+    {
+      "id": "RealizationContracts",
+      "label_ar": "عقود سلامة التحقيق",
+      "required_evidence_ar": "استيفاء عقود التحقيق المستقلة اللازمة لنقل الخاصية المطلوبة عبر certified_bridge_realization؛ وجود المبرهنة أو مرجع الملف ليس تشغيلًا لها على هذه الحالة.",
+      "owner_refs": [
+        "formal/Nabt/RecursiveSourceBridge.lean",
+        "docs/NABT_FOUNDATION_REUSE_AR.md",
+        "formal/Nabt/RecursiveLicensedAlgebra.lean"
+      ],
+      "stage_ids": [
+        "L05",
+        "L06",
+        "L09",
+        "L10",
+        "L13"
+      ]
+    },
+    {
+      "id": "verbalSignifiedSingle",
+      "label_ar": "اكتمال المدلول اللفظي المفرد",
+      "required_evidence_ar": "شجرة لفظ مفرد تحفظ مصدرها وترتيبها وحدودها ومسارها وشواهد استعمالها وبقاياها قبل تثبيت الوزن أو التحليل المعنوي؛ يلزم محول تحقق تنفيذي مسجل للنطاق وإلا تبقى الوصلة NOT_MEASURED.",
+      "owner_refs": [
+        "src/nabt/word_reader.py",
+        "formal/Nabt/LicensedDerivation.lean",
+        "docs/PROGRESSIVE_UNITS.md"
+      ],
+      "stage_ids": [
+        "L04",
+        "L05",
+        "L07",
+        "L13"
+      ]
+    },
+    {
+      "id": "verbalSignifiedComposition",
+      "label_ar": "اكتمال المدلول اللفظي في التركيب",
+      "required_evidence_ar": "شجرة تطبيق تركيبي ذات مراسٍ وهويات وحدود وأدوار ونطاقات ومقدمات فعلية؛ يفحصها مالكها مستقلًا عن درجات الشبكة وعن شجرة استعادة المصدر، وإلا تبقى الوصلة NOT_MEASURED.",
+      "owner_refs": [
+        "src/nabt/construction_reader.py",
+        "tools/recursive_bridge.py",
+        "formal/Nabt/ConstructionEvidence.lean"
+      ],
+      "stage_ids": [
+        "L06",
+        "L09",
+        "L10",
+        "L13"
+      ]
+    },
+    {
+      "id": "referenceResolution",
+      "label_ar": "ترخيص المرجع والسياق",
+      "required_evidence_ar": "شاهد تعيين أو بدائل معلنة تربط وقوع المعنى بالفرد أو الحدث في المجال والزمن والمكان المناسبين؛ لا يرفع تشابه الألفاظ أو قربها مرشحًا إلى مرجع معين.",
+      "owner_refs": [
+        "tools/lexical_training/grounded_passage.py",
+        "formal/Nabt/SourceSemantics.lean",
+        "formal/Nabt/TemporalContext.lean"
+      ],
+      "stage_ids": [
+        "L07",
+        "L08",
+        "L09",
+        "L13"
+      ]
+    },
+    {
+      "id": "externalCorrespondence",
+      "label_ar": "شهادة المطابقة الخارجية ونوع الحكم",
+      "required_evidence_ar": "اختبار مستقل ملائم لنوع القضية ومراجعها ومجالها وصلاحية مصدرها، مع فصل فهم الخبر وسلامة الاشتقاق عن صدق مقدماته والواقعة الخارجية؛ غياب الشاهد أو محوله يبقي الحكم معلقًا والتغطية غير مقيسة.",
+      "owner_refs": [
+        "formal/Nabt/SemanticInference.lean",
+        "formal/Nabt/EpistemicMeasurement.lean",
+        "formal/Nabt/QualifiedInference.lean",
+        "tools/epistemic_measurement.py"
+      ],
+      "stage_ids": [
+        "L08",
+        "L11",
+        "L12",
+        "L13"
+      ]
+    }
+  ],
+  "baseline_replay": "PASS",
+  "gates": [
+    {
+      "id": "frozen_target_inventory",
+      "status": "NOT_MEASURED",
+      "reason": "CURRICULUM_OBJECTIVES_ARE_NOT_OCCURRENCE_QUESTION_TARGETS",
+      "measurement": null
+    },
+    {
+      "id": "full_path_owner_replay",
+      "status": "NOT_MEASURED",
+      "reason": "MISSING_FULL_PATH_OWNER_ADAPTER",
+      "measurement": null
+    },
+    {
+      "id": "new_blind_assessment",
+      "status": "NOT_MEASURED",
+      "reason": "NO_NEW_SEALED_CORPUS_SUPPLIED",
+      "measurement": null
+    },
+    {
+      "id": "linguistic_reference_adequacy",
+      "status": "NOT_MEASURED",
+      "reason": "REQUIRES_SOURCE_AND_INDEPENDENT_ADJUDICATION",
+      "measurement": null
+    },
+    {
+      "id": "external_judgment_evidence",
+      "status": "NOT_MEASURED",
+      "reason": "REQUIRES_DOMAIN_SPECIFIC_WITNESSES",
+      "measurement": null
+    },
+    {
+      "id": "v14_artifact_reproduction",
+      "status": "PASS",
+      "reason": "FRESH_OWNER_REPLAY_BOTH_VARIANTS",
+      "measurement": null
+    },
+    {
+      "id": "historical_retention_point_diagnostic",
+      "status": "FAIL",
+      "reason": "DESCRIPTIVE_ONLY_NOT_BLIND_RETENTION_CERTIFICATE",
+      "measurement": {
+        "numerator": 1069,
+        "denominator": 1116,
+        "value": 0.9578853046594982
+      }
+    },
+    {
+      "id": "historical_control_comparison",
+      "status": "FAIL",
+      "reason": "DESCRIPTIVE_ONLY_NOT_ARCHITECTURAL_SUPERIORITY",
+      "measurement": {
+        "full": 1142,
+        "control": 1211
+      }
+    }
+  ],
+  "training_queue": [
+    {
+      "stage_id": "L01",
+      "objective_ids": [
+        "trace.identity",
+        "trace.utf8",
+        "trace.ocr"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "إنشاء أمثلة وقوع متكرر وتطبيع وعلامات مركبة مع محاذاة مرجعية مستقلة.",
+        "حجب الوثيقة الأصلية ومجموعة الصور أو التسجيلات ذات الأصل المشترك معًا.",
+        "تدريب قارئ OCR أو الصوت على قناة رصد معلنة؛ حفظ غياب البيانات أو المحول فجوة مقيسة لا إسقاطًا لهدف القناة.",
+        "تدريب تحديد موضع الخطأ وإعادة بناء المصدر قبل طلب أي تحليل أعلى."
+      ]
+    },
+    {
+      "stage_id": "L02",
+      "objective_ids": [
+        "trace.spelling",
+        "base.a116",
+        "base.effects"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "استنفاد فحوص الترميز والفك للـ116 في أطر مواضع معلنة وإضافة فحوص تكرار الوقوع.",
+        "إعادة إسقاط الترميز تحت تبديل إحداثيات محفوظ الخريطة وفحص ثبات الهوية البنيوية.",
+        "تدريب الحركة المجهولة كمجموعة مرشحين مع أمثلة مضبوطة وغير مضبوطة.",
+        "مقارنة توقع أثر الانتقال بتنفيذ القانون القائم، مع فصل توقع الشبكة عن قبول المالك."
+      ]
+    },
+    {
+      "stage_id": "L03",
+      "objective_ids": [
+        "base.boundaries",
+        "base.minimum",
+        "sound.quantity",
+        "sound.alignment",
+        "sound.articulation",
+        "sound.tajwid"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "إعداد أزواج لا يختلف كل منها إلا في حد أو حالة دخول أو كمية، وفحصها بالمالك الموجود.",
+        "توليد استنفاد محدود للترتيبات والتقطيعات ثم تصنيف القبول والمنع والتعليق بشواهد منفصلة.",
+        "تدريب محاذاة التسجيلات والتجويد ضمن قناة رصد ورواية معلنتين؛ تخصيص اختبار مستقل لقارئ أو مصدر محجوب.",
+        "تدريب طلب المقدمة الناقصة وفحص أثر سحبها، مع حفظ مسارات الدعم البديلة."
+      ]
+    },
+    {
+      "stage_id": "L04",
+      "objective_ids": [
+        "lang.carrier_roles",
+        "lang.word_kind"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب التمييز بين وقوع الحامل نفسه بوصفه أصليًا أو زائدًا أو رابطًا في سياقات مستقلة.",
+        "تكوين مجموعة مسارات موجبة وسالبة للأدوات والمبنيات والأعلام والدخيل والجامد والمشتق.",
+        "إشراف على شجرة اللفظ وأثرها وشواهدها، مع هدف مستقل لطلب التعيين عند غموض الرسم.",
+        "حجب أسر الألفاظ والقراءات المشتركة معًا وفحص اختيار المسار من النص الخام."
+      ]
+    },
+    {
+      "stage_id": "L05",
+      "objective_ids": [
+        "lang.morphological_derivation",
+        "lang.proper_name",
+        "lang.definiteness",
+        "lang.declension",
+        "lang.diptote",
+        "lang.root_pattern",
+        "lang.gender",
+        "lang.number",
+        "lang.counting",
+        "lang.masdar",
+        "lang.derived_nouns",
+        "lang.nisba_diminutive",
+        "lang.weak_transform",
+        "lang.tense_form",
+        "lang.future",
+        "lang.voice",
+        "lang.valency",
+        "lang.verb_augmentation"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "التدريب على شجرة تطبيق صرفي وتحقيقها العكسي بدل الاقتصار على اسم الوزن أو وصفة الجذر.",
+        "إعداد حجب مستقل للجذر والقالب وعائلة التحويل والمصدر بحسب المهمة، مع حفظ جميع قراءات اللفظ.",
+        "موازنة أمثلة السالم والهمز والتضعيف والاعتلال والجامد والدخيل والمبني ضمن المقامات المعلنة.",
+        "تدريب كشف القاعدة غير المنطبقة وطلب شاهد السماع أو الأصل الناقص بدل إكماله بالتخمين."
+      ]
+    },
+    {
+      "stage_id": "L06",
+      "objective_ids": [
+        "lang.semantic_parts",
+        "syntax.sentences"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب بناء المراسي والتعلقات من وحدات مرخصة مع فقد أو تبديل طرف واحد.",
+        "إعداد أمثلة تقابل المفرد والمزجي والإضافي والإسنادي وتطلب حدود الوحدات وأثر اختلافها.",
+        "حجب ترتيبات تركيبية جديدة مع بقاء المفردات معروفة لاختبار نقل القاعدة.",
+        "تدريب إظهار مطلب الإتمام بدل تحويل كل بنية مرشحة إلى إفادة مكتملة."
+      ]
+    },
+    {
+      "stage_id": "L07",
+      "objective_ids": [
+        "lang.genus_quality",
+        "lang.dictionary_designation",
+        "lang.definition_parts",
+        "mind.conception",
+        "mind.knowledge"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "بناء أمثلة موجبة وسالبة ومبهمة لتعيين المعنى مع حجب اللفظ أو المصدر أو العائلة الدلالية.",
+        "تدريب فصل علاقة النوع من الجزء والعضوية والصفة والقابلية، مع اختبار نقل كل خاصية بشروطها.",
+        "إشراف على أجزاء التعريف وقرينة الاستعمال وشاهد الربط لا على اسم المفهوم وحده.",
+        "تدريب الاسترجاع على إرجاع مرشحين ثم اختبار هويتهم ونطاقهم قبل قبولهم مقدمات."
+      ]
+    },
+    {
+      "stage_id": "L08",
+      "objective_ids": [
+        "lang.reference",
+        "world.space",
+        "world.time",
+        "world.measure"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب أزواج تتغير فيها هوية الفرد أو الحدث أو الوقت مع بقاء الكلمات قريبة.",
+        "حجب الأفراد والمشاهد والمراجع المصدرية لضمان أن حل الإحالة لا يحفظ المثال.",
+        "تدريب القياس والتحويل ومقارنة الدقة مع مرجع حسابي مستقل.",
+        "تدريب إبقاء الإحالة معلقة عند غياب قيد الهوية ثم قياس أثر إضافته وسحبه."
+      ]
+    },
+    {
+      "stage_id": "L09",
+      "objective_ids": [
+        "lang.nawasikh",
+        "lang.scope_composition",
+        "syntax.relations",
+        "syntax.roles",
+        "syntax.markers",
+        "lang.awamil"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "إشراف على رؤوس العلاقات والأطراف والنطاقات وشواهد التعلق، مع أزواج معلوم ومجهول.",
+        "تدريب فروع العوامل والنواسخ والتوابع والمفاعيل على أمثلة قبول ومنع وتعليق مستقلة.",
+        "حجب تراكيب من عوامل وأدوار معروفة لاختبار التركيب الجديد وحفظ علاقات المصدر.",
+        "تدريب كشف أصغر قيد يغير الجواب وإعادة ربطه دون تغيير العلاقات المستقلة."
+      ]
+    },
+    {
+      "stage_id": "L10",
+      "objective_ids": [
+        "lang.mention_use",
+        "syntax.speech_force"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب صيغ متقابلة لنواة واحدة مع اختلاف الخبر والطلب والسؤال والنفي والشرط.",
+        "حجب أساليب أو علاقات تضمين جديدة وقياس شجرة الإفادة كاملة.",
+        "تدريب تعيين طبقة السؤال: من قال، من فعل، ماذا طُلب، وما الذي ثبت وقوعه.",
+        "تدريب إبقاء طلب الدليل الخارجي منفصلًا عن فهم القوة والمضمون."
+      ]
+    },
+    {
+      "stage_id": "L11",
+      "objective_ids": [
+        "lang.mental_condition",
+        "mind.mantuq",
+        "mind.mafhum",
+        "mind.causality"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب توليد خطة استدلال وأسماء مقدماتها ثم إخضاعها للمالك القائم قبل استعمالها.",
+        "تكوين أزواج تتحول فيها قرينة أو مانع واحد وتتغير معها صلاحية المفهوم.",
+        "حجب عائلات قواعد ومشاهد مع المحافظة على مصدرها وشروط انتقالها.",
+        "تدريب التمييز بين استعادة شهادة محفوظة وإعادة التحقق منها على المصدر الحالي."
+      ]
+    },
+    {
+      "stage_id": "L12",
+      "objective_ids": [
+        "lang.revision",
+        "mind.assessment",
+        "mind.fast"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب على أزواج قبل السحب وبعده وعلى تعديلات مستقلة لا ينبغي أن تغير الحكم.",
+        "تدريب كشف أصل الاعتماد المشترك والدعم البديل ودورات الاستدلال غير المؤسَّسة.",
+        "إعادة إدخال مهام سابقة بتقسيمات محفوظة وإحصاء الصحيح المكتسب والمفقود لكل عائلة.",
+        "إشراف على شرح مرتبط بمعرفات الأثر، وقياس النقل والاحتفاظ قبل اعتماد مسار أسرع."
+      ]
+    },
+    {
+      "stage_id": "L13",
+      "objective_ids": [
+        "lang.grounding",
+        "mind.methods",
+        "mind.formal",
+        "mind.empirical",
+        "mind.social",
+        "mind.neural",
+        "mind.research",
+        "mind.design"
+      ],
+      "status": "NEEDS_SOURCE_MAPPING_AND_INDEPENDENT_GOLD",
+      "mapped_verified_cases": null,
+      "next_actions": [
+        "تدريب تحديد نوع الدعوى والدليل المطلوب قبل اقتراح جوابها أو الفعل التابع لها.",
+        "تكوين حالات كاملة من النص الخام إلى الحكم مع شواهد مستقلة ومقابلات تغيّر الهوية أو المجال أو الدليل.",
+        "تدريب الفروع الرياضية والتجريبية والاجتماعية والتصميمية وفق عقد المجال ومالك قبوله.",
+        "إجراء اختبار أعمى محفوظ الأهداف، وإعادة فحص النتيجة والشهادة والتغطية كل على حدة؛ تبقى المقامات غير المقيسة NOT_MEASURED."
+      ]
+    }
+  ],
+  "sample_planning": {
+    "alpha_per_claim": 0.0071428571428571435,
+    "zero_error_groups_one_claim_95": 2995,
+    "zero_error_groups_simultaneous_policy": 4940,
+    "assumption": "Independent Bernoulli units from a justified population sampling design; not arbitrary generated rows"
+  },
+  "v14": {
+    "full": {
+      "range": 143,
+      "total_examples": 9077,
+      "all_task_ids": 731,
+      "retained_trained_heads": 164,
+      "all_heldout": 2216,
+      "measured_rows": 1844,
+      "no_trained_head": 372,
+      "parent_correct_rows": 1177,
+      "final_correct_rows": 1205,
+      "unique_task_inputs": 1706,
+      "parent_correct_unique": 1116,
+      "final_correct_unique": 1142,
+      "lost_from_parent_unique": 47,
+      "gained_from_parent_unique": 73,
+      "measured_tasks": 90,
+      "passing_tasks": 35,
+      "improved_tasks_over_parent": 7,
+      "regressed_tasks_from_parent": 4,
+      "no_parent_correct_lost": false,
+      "prs_with_examples": 135,
+      "prs_with_measurement": 97,
+      "prs_with_passing_slice": 42,
+      "prs_meeting_necessary_coverage": 0,
+      "unmet_necessary_coverage": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
+      ],
+      "necessary_gate_passed": false,
+      "legacy_necessary_gate_passed": false,
+      "prs_meeting_strict_cumulative_coverage": 0,
+      "unmet_strict_cumulative_coverage": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
+      ],
+      "strict_cumulative_gate_passed": false,
+      "outcome_counts": {
+        "BOUNDED_SLICE_GAIN": 42,
+        "EMPTY_HISTORICAL_DIFF": 1,
+        "MEASURED_WITHOUT_BASELINE_GAIN": 55,
+        "NO_ELIGIBLE_TRAINED_HEAD": 8,
+        "NO_HOLDOUT": 30,
+        "NO_VALID_EXAMPLE": 7
+      },
+      "excluded": {
+        "conflicting": 122,
+        "duplicate": 66,
+        "overlapping_train": 61
+      },
+      "replayed_heldout_predictions": 1844,
+      "checked_all_heldout_rows": 2216,
+      "replay": "PASS"
+    },
+    "control": {
+      "range": 143,
+      "total_examples": 9077,
+      "all_task_ids": 731,
+      "retained_trained_heads": 164,
+      "all_heldout": 2216,
+      "measured_rows": 1844,
+      "no_trained_head": 372,
+      "parent_correct_rows": 1177,
+      "final_correct_rows": 1284,
+      "unique_task_inputs": 1706,
+      "parent_correct_unique": 1116,
+      "final_correct_unique": 1211,
+      "lost_from_parent_unique": 41,
+      "gained_from_parent_unique": 136,
+      "measured_tasks": 90,
+      "passing_tasks": 35,
+      "improved_tasks_over_parent": 13,
+      "regressed_tasks_from_parent": 1,
+      "no_parent_correct_lost": false,
+      "prs_with_examples": 135,
+      "prs_with_measurement": 97,
+      "prs_with_passing_slice": 48,
+      "prs_meeting_necessary_coverage": 0,
+      "unmet_necessary_coverage": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
+      ],
+      "necessary_gate_passed": false,
+      "legacy_necessary_gate_passed": false,
+      "prs_meeting_strict_cumulative_coverage": 0,
+      "unmet_strict_cumulative_coverage": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
+      ],
+      "strict_cumulative_gate_passed": false,
+      "outcome_counts": {
+        "BOUNDED_SLICE_GAIN": 48,
+        "EMPTY_HISTORICAL_DIFF": 1,
+        "MEASURED_WITHOUT_BASELINE_GAIN": 49,
+        "NO_ELIGIBLE_TRAINED_HEAD": 8,
+        "NO_HOLDOUT": 30,
+        "NO_VALID_EXAMPLE": 7
+      },
+      "excluded": {
+        "conflicting": 122,
+        "duplicate": 66,
+        "overlapping_train": 61
+      },
+      "replayed_heldout_predictions": 1844,
+      "checked_all_heldout_rows": 2216,
+      "replay": "PASS"
+    },
+    "parent_retention_point": {
+      "numerator": 1069,
+      "denominator": 1116,
+      "value": 0.9578853046594982
+    },
+    "assessment_exposure": "PUBLIC_RETROSPECTIVE",
+    "independent_cluster_intervals": "NOT_MEASURED",
+    "semantic_path_coverage": "NOT_MEASURED"
+  },
+  "licensed_completion": {
+    "id": "licensed_completion",
+    "status": "NOT_MEASURED",
+    "reason": "OPEN_TARGET_AND_OWNER_OBLIGATIONS",
+    "measurement": null
+  },
+  "evaluator_sha256": "9159d9c93f5f2fe51e3e1f3a17979e2091d3fe5b7d2dd3586ae64090b2b85c41"
+}

@@ -112,3 +112,9 @@ cumulative-v14-check:
 	PYTHONPATH=src:. $(PYTHON) -S -m tools.lexical_training.cumulative_v14_audit --directory evidence/cumulative_v14/control
 
 check: cumulative-v14-check
+
+.PHONY: learning-completion-check
+learning-completion-check:
+	PYTHONPATH=src:. $(PYTHON) -m unittest tests.test_completion_criteria tests.test_completion_statistics tests.test_completeness_metrics tests.test_training_readiness.IntakeContracts tests.test_proof_reuse -v
+
+check: learning-completion-check
