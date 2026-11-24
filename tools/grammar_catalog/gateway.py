@@ -28,8 +28,10 @@ MASHRU_MODELS = ("tools/lexical_training/data/mashru_force_v1.json",
 INSPECTION_MODEL = "tools/lexical_training/data/inspection_roles_v1.json"
 V13_MODELS = tuple("evidence/v13_occurrence_transfer_v1/" + name
                    for name in ("parent.json", "checkpoint.json", "protocol.json"))
+CUMULATIVE_INPUTS = tuple("evidence/cumulative_outcomes_v1/" + name for name in
+                          ("pulls.json", "manifest.json", "weights.json.gz", "evaluation.json"))
 OPTIONAL_NEURAL_INPUTS = frozenset((
-    *V13_MODELS, INSPECTION_MODEL, "evidence/inspection_discourse_v1/train.tsv",
+    *V13_MODELS, *CUMULATIVE_INPUTS, INSPECTION_MODEL, "evidence/inspection_discourse_v1/train.tsv",
     *MASHRU_MODELS,
     PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES,
     "evidence/ntl_update_memory_v1/model.json",
@@ -79,7 +81,7 @@ def snapshot():
         value["files"][path.relative_to(ROOT).as_posix()] = sha256(path.read_bytes()).hexdigest()
     # Retained testimonies live outside src/tools/formal. Bind their actual
     # bytes before and after execution, reusing the owner's fixed path table.
-    lexical_sources = (*V13_MODELS, INSPECTION_MODEL, "evidence/inspection_discourse_v1/train.tsv", PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES, PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
+    lexical_sources = (*V13_MODELS, *CUMULATIVE_INPUTS, INSPECTION_MODEL, "evidence/inspection_discourse_v1/train.tsv", PATTERN_MODEL, NOMINAL_STEMS, CORPUS_VERB_MODEL, VERB_RULES, VERB_HEADS, VERB_LANE, VERB_DICTIONARY, VERB_STUDIES, PASSIVE_MODEL, ROLE_ATTENTION_MODEL, OCCURRENCE_MODEL, AWAMIL_VOICE_MODEL, DICTIONARY_MODEL, DEFINITION_MODEL, str(lexical_testimony.CATALOG), "evidence/shared_cognition_v1/model.json",
                        "evidence/shared_cell_reading_v1/model.json", "evidence/shared_cell_reading_v1/train.json",
                        "evidence/contextual_alignment_v1/model.json", "evidence/contextual_alignment_v1/train.json",
                        "evidence/cognitive_graph_v1/model.json", "evidence/cognitive_graph_v1/train.json",
