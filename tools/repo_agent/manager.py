@@ -35,6 +35,21 @@ def inspect(root=ROOT):
             "semantic_authority": "NONE", "runtime_execution_performed": False}
 
 
+def path_owners(paths, families):
+    """Match actual changed paths to the installed capability map."""
+    owners, selected = {}, []
+    for relative in paths:
+        owners[relative] = []
+        for family in families:
+            formal_paths = {"formal/" + module.replace(".", "/") + ".lean" for module in family["formal_modules"]}
+            references = formal_paths | {p for key in ("runtime_paths", "checker_paths", "test_paths", "doc_paths") for p in family[key]}
+            if relative in references:
+                owners[relative].append(family["id"])
+                if family not in selected:
+                    selected.append(family)
+    return owners, selected
+
+
 def plan(task, proposal, *, root=ROOT):
     root = Path(root).resolve()
     policy.validate(task, proposal)
@@ -45,16 +60,7 @@ def plan(task, proposal, *, root=ROOT):
     protected = {p for family in inventory["families"] for p in family["checker_paths"]}
     require(not (set(paths) & protected), "PROTECTED_PATH",
             "proposals cannot replace registered acceptance checkers: " + ", ".join(sorted(set(paths) & protected)))
-    owners, selected = {}, []
-    for relative in paths:
-        owners[relative] = []
-        for family in inventory["families"]:
-            formal_paths = {"formal/" + module.replace(".", "/") + ".lean" for module in family["formal_modules"]}
-            references = formal_paths | {p for key in ("runtime_paths", "checker_paths", "test_paths", "doc_paths") for p in family[key]}
-            if relative in references:
-                owners[relative].append(family["id"])
-                if family not in selected:
-                    selected.append(family)
+    owners, selected = path_owners(paths, inventory["families"])
     return {"schema": "nabt.repo-agent.plan.v1", "policy": policy.POLICY,
             "controller_inputs": identity(), "base_commit": inventory["head"], "base_tree": inventory["tree"],
             "task_sha256": digest(canonical(task)), "proposal_sha256": digest(canonical(proposal)),
