@@ -1,0 +1,22 @@
+{
+  "schema": "nabt.cumulative-outcome-protocol.v1",
+  "range": [
+    1,
+    143
+  ],
+  "repository": "sonaiso/NABT",
+  "base_checkpoint_commit": "f6e9ece27f50575e199f0886635f17e2045692f3",
+  "history": "Three-dot diff from each pinned merge base to its own head, including nonmerged branches. Attribute new historical call/expected-scalar examples only to the PRs introducing them relative to their base. Track every changed path and touched Python tests.",
+  "training": "Stages in PR number order; no PR number, filename, test name, expected output or split enters features. A shared hidden layer and all active heads updated on retained training examples, with equal weight per task. Compare the first and final held-out performance and scores after every stage.",
+  "history_split": "SHA256 of canonical serialized arguments modulo five; bucket zero is evaluation, others training. Split independent of PR number and task. Ambiguous labels excluded. Static public test expectations are retrospective diagnostics.",
+  "sources": "Named source datasets retain their original splits; public historical probes use their own separate lane. Drop from training any text occurring in any evaluation partition across curated tasks. Parent representations may already have seen historical probes.",
+  "features": "signed character 1/2/3-grams and word features; append activations of published V13 modular parent and its trained comparison head for genuinely marked adjacent same-carrier contrasts only, and ordered representations of exactly readable words from the NTP recursive checkpoint. Preserve missing channels.",
+  "seed": 143,
+  "hash_dimensions": 256,
+  "hidden": 48,
+  "updates_per_stage": 32,
+  "learning_rate": 0.12,
+  "training_batch": "full cumulative task-balanced batch",
+  "assessment": "For each task count final held-out correct, total, balanced recall, initial prediction, majority from training; require two trained and tested labels and strict improvement in both exact count and balanced recall over both controls to count a bounded learned outcome. A full-PR claim additionally requires exhaustive declared outcome coverage; framework/CI and proof changes are separate obligations.",
+  "acceptance": "Unknown or untested outcomes block a universal claim. Do not equate tests, ancestors, scores copied from old reports, ancestry, or issuing a receipt with acquired behavior."
+}
